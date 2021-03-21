@@ -5,7 +5,7 @@
     "GroupOpenApiInfos": [
       {
         "Group": "Default",
-        "Title": ".NET通用权限后台管理",
+        "Title": "Admin.NET通用权限管理平台",
         "Description": "前后端分离架构，开箱即用，紧随前沿技术。<br/>后台.NET5平台基于Furion框架，前端基于XiaoNuo生态技术框架的vue版本。<br/><a href='https://dotnetchina.gitee.io/furion/'>Furion框架,让 .NET 开发更简单，更通用，更流行</a><br/><a href='https://gitee.com/xiaonuobase/xiaonuo-vue/'>XiaoNuo前端框架采用Vue2.x + AntDesign Vue pro1.x + Axios</a>",
         "Version": "1.0.0"
       }
