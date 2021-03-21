@@ -1,0 +1,63 @@
+{
+  "SpecificationDocumentSettings": {
+    "DocumentTitle": "Dilon",
+    "DocExpansionState": "None",
+    "GroupOpenApiInfos": [
+      {
+        "Group": "Default",
+        "Title": ".NET通用权限后台管理",
+        "Description": "前后端分离架构，开箱即用，紧随前沿技术。<br/>后台.NET5平台基于Furion框架，前端基于XiaoNuo生态技术框架的vue版本。<br/><a href='https://dotnetchina.gitee.io/furion/'>Furion框架,让 .NET 开发更简单，更通用，更流行</a><br/><a href='https://gitee.com/xiaonuobase/xiaonuo-vue/'>XiaoNuo前端框架采用Vue2.x + AntDesign Vue pro1.x + Axios</a>",
+        "Version": "1.0.0"
+      }
+    ]
+  },
+  "JWTSettings": {
+    "ValidateIssuerSigningKey": true, // 是否验证密钥，bool 类型，默认true
+    "IssuerSigningKey": "3c1cbc3f546eda35168c3aa3cb91780fbe703f0996c6d123ea96dc85c70bbc0a", // 密钥，string 类型，必须是复杂密钥，长度大于16
+    "ValidateIssuer": true, // 是否验证签发方，bool 类型，默认true
+    "ValidIssuer": "dilon", // 签发方，string 类型
+    "ValidateAudience": true, // 是否验证签收方，bool 类型，默认true
+    "ValidAudience": "dilon", // 签收方，string 类型
+    "ValidateLifetime": true, // 是否验证过期时间，bool 类型，默认true，建议true
+    "ExpiredTime": 1440, // 过期时间，long 类型，单位分钟，默认20分钟
+    "ClockSkew": 5 // 过期时间容错值，long 类型，单位秒，默认5秒
+  },
+  "Cache": {
+    "CacheType": "MemoryCache", // RedisCache
+    "RedisConnectionString": "127.0.0.1:6379,password=,defaultDatabase=2"
+  },
+  "OAuth": {
+    "Wechat": {
+      "app_id": "wx2959fdd3abc05362",
+      "app_key": "829f65b2be0652bcd50ea8cb820fd7fa",
+      "redirect_uri": "http://127.0.0.1:56868/oauth/wechatcallback",
+      "scope": "snsapi_userinfo"
+    }
+  },
+  "UploadFile": {
+    // 头像
+    "Avatar": {
+      "path": "/upload/avatar/",
+      "maxSize": 1048576,
+      "contentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif" ]
+    },
+    // 文档
+    "Document": {
+      "path": "/upload/document/",
+      "maxSize": 1048576,
+      "contentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif", "image/bmp", "text/plain", "application/pdf", "application/msword", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.presentationml.presentation" ]
+    },
+    // 商店
+    "Shop": {
+      "path": "/upload/shop/",
+      "maxSize": 1048576,
+      "contentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif" ]
+    },
+    // 默认
+    "Default": {
+      "path": "/upload/default/",
+      "maxSize": 1048576,
+      "contentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif", "image/bmp", "text/plain", "application/pdf", "application/msword", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.presentationml.presentation" ]
+    }
+  }
+}

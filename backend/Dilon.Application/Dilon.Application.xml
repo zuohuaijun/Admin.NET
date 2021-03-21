@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Dilon.Application</name>
+    </assembly>
+    <members>
+        <member name="T:Dilon.Application.TestService">
+            <summary>
+            事例
+            </summary>
+        </member>
+    </members>
+</doc>

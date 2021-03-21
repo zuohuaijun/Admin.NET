@@ -1,0 +1,118 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Dilon.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="OAuth\Wechat1\**" />
+    <EmbeddedResource Remove="OAuth\Wechat1\**" />
+    <None Remove="OAuth\Wechat1\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="OAuth\AuthorizeResult.cs" />
+    <Compile Remove="OAuth\IUserInfoModel.cs" />
+    <Compile Remove="OAuth\OAuthLoginBase.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Dilon.Core.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CSRedisCore" Version="3.6.6" />
+    <PackageReference Include="Furion" Version="1.16.0-preview-202103201910" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="1.16.0-preview-202103201910" />
+    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="1.16.0-preview-202103201910" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="1.16.0-preview-202103201910" />
+    <PackageReference Include="Quartz" Version="3.2.4" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0-preview.2.21154.6" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0-preview.2.21154.6" />
+    <PackageReference Include="UAParser" Version="3.1.46" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="applicationconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\10.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\11.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\12.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\13.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\14.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\16.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\17.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\18.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\19.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\20.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Image\9.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Font\站酷小薇LOGO体.otf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Font\站酷庆科黄油体.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Font\站酷快乐体2016修订版.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Font\站酷文艺体.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Font\站酷酷黑体.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Captcha\ClickWord\Data\Font\站酷高端黑修订151105.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

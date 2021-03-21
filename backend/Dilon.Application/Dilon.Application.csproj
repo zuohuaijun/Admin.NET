@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Dilon.Application.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Covid19Service\**" />
+    <EmbeddedResource Remove="Covid19Service\**" />
+    <None Remove="Covid19Service\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="applicationsettings.json" />
+    <None Remove="Dilon.Application.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="applicationsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dilon.Core\Dilon.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Entity\" />
+  </ItemGroup>
+
+</Project>
