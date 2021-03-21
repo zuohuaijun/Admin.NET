@@ -1,6 +1,6 @@
 <div align="center">
-    <p align="left">
-        <img src="./_web/public/logo.png" height="50" alt="logo"/>
+    <p align="center">
+        <img src="./frontend/public/logo.png" height="50" alt="logo"/>
     </p>
 </div>
 
@@ -9,14 +9,14 @@
 
 ### 🍟 概述
 
-* 基于.NET 5实现的通用权限管理平台（RBAC权限模式）。整合最新技术高效快速开发，前后端分离模式，开箱即用。
+* 基于.NET5实现的通用权限管理平台（RBAC模式）。整合最新技术高效快速开发，前后端分离模式，开箱即用。
 * 后台基于Furion框架，默认EF Core并支持自定义ORM，数据源随意切换并带多租户功能，分库读写分离、缓存、数据校验、鉴权、动态API、Grpc等众多黑科技集一身。
 前端使用AntDesign-Vue-Pro + Vue2.X开发，紧跟前沿技术，前端自带字典翻译。
 * 核心模块包括：用户、角色、职位、组织机构、菜单、字典、日志、多应用管理、文件管理、定时任务等功能。代码量少、学习简单、功能强大、轻量级、易扩展，轻松开发从现在开始！
 
 ### 🥦 框架说明
 
-* 基于.NET 5平台Furion开发框架与小诺VUE版本相结合，实时跟随基架升级而升级！
+* 基于.NET5平台Furion开发框架与小诺VUE版本相结合，实时跟随基架升级而升级！
 * 模块化架构设计，层次清晰，业务层推荐写到单独模块，框架升级不影响业务!
 * 持续集百家所长，完善与丰富本框架基础设施，为.NET生态增加一种选择！
 * 后期会推出基于此框架的相关应用场景案例，提供给大家使用！
@@ -24,26 +24,32 @@
 
 ### 🍿 在线体验
 
-体验地址：[http://www.dilon.vip/](http://www.dilon.vip/)（用户名：superAdmin，密码：123456）
+~~体验地址：[http://www.dilon.vip/]（用户名：superAdmin，密码：123456）~~
 
 ### 🍄 快速启动
 
 需要安装：VS2019（最新版）、npm或yarn（最新版）
 
-* 启动后台：打开Dilon.sln解决方案，直接运行（FF5）即可启动（数据库默认SQLite）
-* 启动前端：打开_web文件夹，进行依赖下载，运行npm install或yarn命令，再运行npm run serve或 yarn run serve
-* 浏览器访问：http://localhost:81 （默认前端端口为：81，后台端口为：5566）
+* 启动后台：打开backend/Dilon.sln解决方案，直接运行（F5）即可启动（数据库默认SQLite）
+* 启动前端：打开frontend文件夹，进行依赖下载，运行npm install或yarn命令，再运行npm run serve或 yarn run serve
+* 浏览器访问：`http://localhost:81` （默认前端端口为：81，后台端口为：5566）
 
 ### 🍎 效果图
 
 <table>
     <tr>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-62d4b535dadbfa8ff343cb290d58be43ef0.png"/></td>
-        <td><img src="https://oscimg.oschina.net/oscnet/up-98b3e79f8008b6319ce6394d80172ff02a3.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/blob/master/doc/img/1.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/blob/master/doc/img/2.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/blob/master/doc/img/3.png"/></td>
     </tr>
     <tr>
-        <td><img src="https://images.gitee.com/uploads/images/2020/1208/133142_37420daa_1980003.jpeg"/></td>
-        <td><img src="https://images.gitee.com/uploads/images/2020/1208/133250_3749a395_1980003.jpeg"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/blob/master/doc/img/4.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/blob/master/doc/img/5.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/blob/master/doc/img/6.png"/></td>
+    </tr>
+    <tr>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/blob/master/doc/img/7.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/blob/master/doc/img/8.png"/></td>
     </tr>
 </table>
 
@@ -70,7 +76,7 @@
 
 ### 🍖 更新日志
 
-更新日志 [点击查看](https://gitee.com/yuebon/YuebonNetCore/commits/master)
+更新日志 [点击查看](https://gitee.com/zuohuaijun/Admin.NET/commits/master)
 
 ### 🍻 版权说明
 
