@@ -24,7 +24,7 @@
 
 ### 🍿 在线体验
 
-~~体验地址：[http://www.dilon.vip/]（用户名：superAdmin，密码：123456）~~
+~~体验地址：[http://dilon.zicp.net:55221/](http://dilon.zicp.net:55221/)（用户名：superAdmin，密码：123456）~~    `【个人电脑临时部署，偶尔在线，可以试试看】}`
 
 ### 🍄 快速启动
 
