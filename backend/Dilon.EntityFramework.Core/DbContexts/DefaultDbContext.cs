@@ -54,7 +54,11 @@ namespace Dilon.EntityFramework.Core
             // 判断是否是演示环境
             var demoEnvFlag = App.GetService<ISysConfigService>().GetDemoEnvFlag().GetAwaiter().GetResult();
             if (demoEnvFlag)
-                throw Oops.Oh(ErrorCode.D1200);
+            {
+                var sysUser = entities.Find(u => u.Entity.GetType() == typeof(SysUser));
+                if (sysUser == null || string.IsNullOrEmpty((sysUser.Entity as SysUser).LastLoginTime.ToString())) // 排除登录
+                    throw Oops.Oh(ErrorCode.D1200);
+            }
 
             var userManager = App.GetService<IUserManager>();
             var userId = userManager?.UserId;
