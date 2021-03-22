@@ -263,25 +263,25 @@ namespace Dilon.Core
     /// </summary>
     public class NetworkInfo
     {
-        private NetworkInterface _instance;
+        private readonly NetworkInterface _instance;
         public NetworkInterface NetworkInterface => _instance;
-        private Lazy<IPInterfaceStatistics> _statistics;
-        private Lazy<IPAddress> _addressIpv4;
+        private readonly Lazy<IPInterfaceStatistics> _statistics;
+        private readonly Lazy<IPAddress> _addressIpv4;
 
         public IPAddress AddressIpv4 => _addressIpv4.Value; // IPv4 地址
-        public string Mac => _instance.GetPhysicalAddress().ToString(); // Mac地址
-        public string Id => _instance.Id; // 网络适配器的标识符
+        public string Mac => _instance?.GetPhysicalAddress().ToString(); // Mac地址
+        public string Id => _instance?.Id; // 网络适配器的标识符
         public long ReceivedLength => _statistics.Value.BytesReceived; // 网络下载总量
         public long SendLength => _statistics.Value.BytesSent; // 网络上传总量
 
         private NetworkInfo(NetworkInterface network)
         {
             _instance = network;
-            _statistics = new Lazy<IPInterfaceStatistics>(() => _instance.GetIPStatistics());
+            _statistics = new Lazy<IPInterfaceStatistics>(() => _instance?.GetIPStatistics());
             //_Ipv4Statistics = new Lazy<IPv4InterfaceStatistics>(() => _instance.GetIPv4Statistics());
             //_AddressIpv6 = new Lazy<IPAddress>(() => _instance.GetIPProperties().UnicastAddresses
             // .FirstOrDefault(x => x.IPv4Mask.ToString().Equals("0.0.0.0")).Address);
-            _addressIpv4 = new Lazy<IPAddress>(() => _instance.GetIPProperties().UnicastAddresses
+            _addressIpv4 = new Lazy<IPAddress>(() => _instance?.GetIPProperties().UnicastAddresses
             .FirstOrDefault(x => !x.IPv4Mask.ToString().Equals("0.0.0.0")).Address);
         }
 
@@ -309,7 +309,7 @@ namespace Dilon.Core
         /// <returns></returns>
         public (int Received, int Send) GetInternetSpeed(int Milliseconds)
         {
-            var newNetwork = NetworkInterface.GetAllNetworkInterfaces().FirstOrDefault(x => x.Id == this.Id).GetIPStatistics();
+            var newNetwork = NetworkInterface.GetAllNetworkInterfaces().FirstOrDefault(x => x.Id == Id).GetIPStatistics();
 
             long rec = ReceivedLength;
             long send = SendLength;
