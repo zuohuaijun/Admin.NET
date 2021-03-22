@@ -120,6 +120,9 @@
     },
     mounted() {
       this.timer = setInterval(this.refreshData, 3000)
+    },
+    beforeDestroy() {
+        clearInterval(this.timer)
     }
   }
 </script>
