@@ -7,12 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Covid19Service\**" />
-    <EmbeddedResource Remove="Covid19Service\**" />
-    <None Remove="Covid19Service\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="applicationsettings.json" />
     <None Remove="Dilon.Application.xml" />
   </ItemGroup>
