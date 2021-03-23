@@ -43,7 +43,7 @@ namespace Dilon.Core.Service
             var userRoles = await _sysUserRoleRep.Where(u => u.SysUserId == long.Parse(input.Id)).ToListAsync();
             userRoles.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
 
             input.GrantRoleIdList.ForEach(u =>
@@ -52,7 +52,7 @@ namespace Dilon.Core.Service
                 {
                     SysUserId = long.Parse(input.Id),
                     SysRoleId = u
-                }.InsertNowAsync();
+                }.InsertNow();
             });
         }
 
@@ -83,7 +83,7 @@ namespace Dilon.Core.Service
             var userRoles = await _sysUserRoleRep.Where(u => u.SysRoleId == roleId).ToListAsync();
             userRoles.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
         }
 
@@ -97,7 +97,7 @@ namespace Dilon.Core.Service
             var userRoles = await _sysUserRoleRep.Where(u => u.SysUserId == userId).ToListAsync();
             userRoles.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
         }
     }

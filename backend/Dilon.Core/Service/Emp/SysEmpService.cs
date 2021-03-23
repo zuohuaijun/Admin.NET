@@ -53,7 +53,7 @@ namespace Dilon.Core.Service
             //var emps = await _sysEmpRep.Where(u => u.Id == long.Parse(sysEmpParam.Id)).ToListAsync();
             //emps.ForEach(u =>
             //{
-            //    u.DeleteNowAsync();
+            //    u.DeleteNow();
             //});
 
             // 新增或更新员工信息

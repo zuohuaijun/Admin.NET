@@ -70,10 +70,17 @@ namespace Dilon.Core.Service
                                          .Where(!superAdmin, x => x.n.u.AdminType != (int)AdminType.SuperAdmin)
                                          .Where(!superAdmin && dataScopes.Count > 0, x => dataScopes.Contains(x.n.e.OrgId))
                                          .Select(u => u.n.u.Adapt<UserOutput>()).ToPagedListAsync(input.PageNo, input.PageSize);
-            users.Items.ToList().ForEach(async u =>
+
+            //var emps = new List<Task<EmpOutput>>();
+            //users.Items.ToList().ForEach(u =>
+            //{
+            //    emps.Add(_sysEmpService.GetEmpInfo(long.Parse(u.Id)));
+            //});
+            //await Task.WhenAll(emps);
+            foreach (var user in users.Items)
             {
-                u.SysEmpInfo = await _sysEmpService.GetEmpInfo(long.Parse(u.Id));
-            });
+                user.SysEmpInfo = await _sysEmpService.GetEmpInfo(long.Parse(user.Id));
+            }
             return XnPageResult<UserOutput>.PageResult(users);
         }
 

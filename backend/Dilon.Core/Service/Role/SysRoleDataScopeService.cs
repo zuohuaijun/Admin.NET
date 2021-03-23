@@ -30,7 +30,7 @@ namespace Dilon.Core.Service
             var dataScopes = await _sysRoleDataScopeRep.DetachedEntities.Where(u => u.SysRoleId == input.Id).ToListAsync();
             dataScopes.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
 
             input.GrantOrgIdList.ForEach(u =>
@@ -39,7 +39,7 @@ namespace Dilon.Core.Service
                 {
                     SysRoleId = input.Id,
                     SysOrgId = u
-                }.InsertNowAsync();
+                }.InsertNow();
             });
         }
 
@@ -65,7 +65,7 @@ namespace Dilon.Core.Service
             var dataScopes = await _sysRoleDataScopeRep.DetachedEntities.Where(u => orgIdList.Contains(u.SysOrgId)).ToListAsync();
             dataScopes.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
         }
 
@@ -79,7 +79,7 @@ namespace Dilon.Core.Service
             var dataScopes = await _sysRoleDataScopeRep.DetachedEntities.Where(u => u.SysRoleId == roleId).ToListAsync();
             dataScopes.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
         }
     }

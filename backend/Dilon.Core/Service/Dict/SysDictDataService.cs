@@ -157,7 +157,7 @@ namespace Dilon.Core.Service
             var dictDatas = await _sysDictDataRep.Where(u => u.TypeId == dictTypeId).ToListAsync();
             dictDatas.ForEach(u =>
             {
-                u.DeleteAsync();
+                u.Delete();
             });
         }
     }

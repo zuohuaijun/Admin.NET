@@ -260,13 +260,15 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 从数据库里面获取所有任务并初始化
         /// </summary>
-        private void InitAllJob()
+        private async Task InitAllJob()
         {
             var jobList = Db.GetRepository<SysTimer>().AsQueryable().Select(u => u.Adapt<JobInput>()).ToList();
-            jobList.ForEach(async u =>
+            var jobTasks = new List<Task<dynamic>>();
+            jobList.ForEach(u =>
             {
-                await AddScheduleJobAsync(u);
+                jobTasks.Add(AddScheduleJobAsync(u));
             });
+            await Task.WhenAll(jobTasks);
         }
 
         /// <summary>

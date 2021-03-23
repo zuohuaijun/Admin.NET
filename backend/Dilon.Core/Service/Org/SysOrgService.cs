@@ -82,9 +82,9 @@ namespace Dilon.Core.Service
                     return dataScopeList;
 
                 // 此处获取所有的上级节点，用于构造完整树
-                dataScopes.ForEach(async u =>
+                dataScopes.ForEach(u =>
                 {
-                    var sysOrg = await _sysOrgRep.DetachedEntities.FirstOrDefaultAsync(c => c.Id == u);
+                    var sysOrg = _sysOrgRep.DetachedEntities.FirstOrDefault(c => c.Id == u);
                     var parentAndChildIdListWithSelf = sysOrg.Pids.TrimEnd(',').Replace("[", "").Replace("]", "")
                                                                   .Split(",").Select(u => long.Parse(u)).ToList();
                     dataScopeList.AddRange(parentAndChildIdListWithSelf);
@@ -190,7 +190,7 @@ namespace Dilon.Core.Service
             var orgs = await _sysOrgRep.Where(u => childIdList.Contains(u.Id)).ToListAsync();
             orgs.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
 
             // 级联删除该机构及子机构对应的角色-数据范围关联信息

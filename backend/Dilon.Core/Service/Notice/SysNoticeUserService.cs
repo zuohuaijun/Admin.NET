@@ -29,7 +29,8 @@ namespace Dilon.Core.Service.Notice
         /// <returns></returns>
         public Task Add(long noticeId, List<long> noticeUserIdList, int noticeUserStatus)
         {
-            noticeUserIdList.ForEach(async u =>
+            var noticeUsers = new List<Task<SysNoticeUser>>();
+            noticeUserIdList.ForEach(u =>
             {
                 var noticeUser = new SysNoticeUser
                 {
@@ -37,7 +38,7 @@ namespace Dilon.Core.Service.Notice
                     UserId = u,
                     ReadStatus = noticeUserStatus
                 };
-                await noticeUser.InsertAsync();
+                noticeUser.Insert();
             });
             return Task.CompletedTask;
         }
@@ -52,9 +53,9 @@ namespace Dilon.Core.Service.Notice
         public async Task Update(long noticeId, List<long> noticeUserIdList, int noticeUserStatus)
         {
             var noticeUsers = await _sysNoticeUserRep.Where(u => u.NoticeId == noticeId).ToListAsync();
-            noticeUsers.ForEach(async u =>
+            noticeUsers.ForEach(u =>
             {
-                await u.DeleteAsync();
+                u.Delete();
             });
 
             await Add(noticeId, noticeUserIdList, noticeUserStatus);

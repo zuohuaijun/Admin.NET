@@ -152,7 +152,7 @@ namespace Dilon.Core.Service
             var userRoles = await _sysUserRoleRep.Where(u => u.SysRoleId == sysRole.Id).ToListAsync();
             userRoles.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
 
             //级联删除该角色对应的角色-菜单表关联信息

@@ -41,6 +41,7 @@ namespace Dilon.Core.Service
                                   .Where((jobName, u => EF.Functions.Like(u.JobName, $"%{input.JobName.Trim()}%")))
                                   .Select(u => u.Adapt<JobInput>())
                                   .ToPagedListAsync(input.PageNo, input.PageSize);
+
             timers.Items.ToList().ForEach(u =>
             {
                 u.DisplayState = jobList.Find(m => m.JobName == u.JobName)?.DisplayState;

@@ -56,7 +56,7 @@ namespace Dilon.Core.Service
             var visLogs = await _sysVisLogRep.Entities.ToListAsync();
             visLogs.ForEach(u =>
             {
-                u.DeleteAsync();
+                u.Delete();
             });
         }
     }

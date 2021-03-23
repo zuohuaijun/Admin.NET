@@ -56,7 +56,7 @@ namespace Dilon.Core.Service
             var opLogs = await _sysOpLogRep.Entities.ToListAsync();
             opLogs.ForEach(u =>
             {
-                u.DeleteAsync();
+                u.Delete();
             });
         }
     }

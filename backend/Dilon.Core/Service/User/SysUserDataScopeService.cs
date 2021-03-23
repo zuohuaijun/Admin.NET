@@ -30,7 +30,7 @@ namespace Dilon.Core.Service
             var dataScopes = await _sysUserDataScopeRep.Where(u => u.SysUserId == long.Parse(input.Id)).ToListAsync();
             dataScopes.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
 
             input.GrantOrgIdList.ForEach(u =>
@@ -39,7 +39,7 @@ namespace Dilon.Core.Service
                 {
                     SysUserId = long.Parse(input.Id),
                     SysOrgId = u
-                }.InsertNowAsync();
+                }.InsertNow();
             });
         }
 
@@ -65,7 +65,7 @@ namespace Dilon.Core.Service
             var dataScopes = await _sysUserDataScopeRep.Where(u => orgIdList.Contains(u.SysOrgId)).ToListAsync();
             dataScopes.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
         }
 
@@ -79,7 +79,7 @@ namespace Dilon.Core.Service
             var dataScopes = await _sysUserDataScopeRep.Where(u => u.SysUserId == userId).ToListAsync();
             dataScopes.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
         }
     }

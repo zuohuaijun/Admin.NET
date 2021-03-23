@@ -243,9 +243,9 @@ namespace Dilon.Core.Service
             childIdList.Add(input.Id);
 
             var menus = await _sysMenuRep.Where(u => childIdList.Contains(u.Id)).ToListAsync();
-            menus.ForEach(async u =>
+            menus.ForEach(u =>
             {
-                await u.DeleteNowAsync();
+                u.DeleteNow();
             });
 
             // 级联删除该菜单及子菜单对应的角色-菜单表信息

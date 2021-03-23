@@ -42,7 +42,7 @@ namespace Dilon.Core.Service
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => u.SysRoleId == input.Id).ToListAsync();
             roleMenus.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
 
             input.GrantMenuIdList.ForEach(u =>
@@ -51,7 +51,7 @@ namespace Dilon.Core.Service
                 {
                     SysRoleId = input.Id,
                     SysMenuId = u
-                }.InsertNowAsync();
+                }.InsertNow();
             });
         }
 
@@ -65,7 +65,7 @@ namespace Dilon.Core.Service
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => menuIdList.Contains(u.SysMenuId)).ToListAsync();
             roleMenus.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
         }
 
@@ -79,7 +79,7 @@ namespace Dilon.Core.Service
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => u.SysRoleId == roleId).ToListAsync();
             roleMenus.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
         }
     }

@@ -36,7 +36,7 @@ namespace Dilon.Core.Service
                     SysEmpId = empId,
                     SysOrgId = u.OrgId,
                     SysPosId = u.PosId
-                }.InsertNowAsync();
+                }.InsertNow();
             });
         }
 
@@ -90,7 +90,7 @@ namespace Dilon.Core.Service
             var empExtOrgPos = await _sysEmpExtOrgPosRep.Where(u => u.SysEmpId == empId).ToListAsync();
             empExtOrgPos.ForEach(u =>
             {
-                u.DeleteNowAsync();
+                u.DeleteNow();
             });
         }
     }
