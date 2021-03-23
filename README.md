@@ -25,7 +25,8 @@
 * 基于.NET5平台Furion开发框架与小诺VUE版本相结合，实时跟随基架升级而升级！
 * 持续集百家所长，完善与丰富本框架基础设施，为.NET生态增加一种选择！
 * 后期会推出基于此框架的相关应用场景案例，提供给大家使用！
-* 有问题讨论的小伙伴可加QQ：[515096995](https://wpa.qq.com/msgrd?v=3&uin=515096995&_blank)，一起学习讨论。
+* 有问题讨论的小伙伴可加群一起学习讨论。 QQ群【87333204】
+<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=pN8R-P3pJaW9ILoOXwpRGN2wdCHWtUTE&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Admin.NET" title="Admin.NET"></a>
 
 ### ⚡ 近期计划
 
