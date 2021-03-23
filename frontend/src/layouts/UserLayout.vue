@@ -22,7 +22,7 @@
           <a href="_self">条款</a>
         </div>
         <div class="copyright">
-          Copyright © 2021 <a target="_blank" href="http://www.Dilon.vip/">Dilon</a> All rights reserved. v1.3.2
+          Copyright © 2021 <a target="_blank" href="">zuohuaijun</a> All rights reserved. v1.3.2
         </div>
       </div>
     </div>
