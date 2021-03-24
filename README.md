@@ -50,6 +50,12 @@
 
 * 启动后台：打开backend/Dilon.sln解决方案，直接运行（F5）即可启动（数据库默认SQLite）
 * 启动前端：打开frontend文件夹，进行依赖下载，运行npm install或yarn命令，再运行npm run serve或 yarn run serve
+<table>
+    <tr>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/f1.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/f0.png"/></td>
+    </tr>
+</table>
 * 浏览器访问：`http://localhost:81` （默认前端端口为：81，后台端口为：5566）
 
 ### 🍎 效果图
@@ -99,14 +105,24 @@
 
 ### 👀 数据库切换
 
-#### Mysql
+【MySQL】
 
-- Dilon.EntityFramework.Core 项目安装 ``` Pomelo.EntityFrameworkCore.MySql ``` 版本号：5.0.0-alpha.2 
-- Dilon.EntityFramework.Core 的 Startup.cs 指定Mysql版本，如：```options.AddDbPool<DefaultDbContext>($"{DbProvider.MySql}@5.7.26");```
-- Dilon.EntityFramework.Core 的 DefaultDbContext.cs 中指定 DbProvider , ```[AppDbContext("DefaultConnection", DbProvider.MySql)]```
-- Dilon.EntityFramework.Core 的 dbsettings.json 配置 "DefaultConnection": "Server=127.0.0.1;port=3306;database=dilon;uid=root;pwd=root;CharSet=gbk;"
-- 程序包管理控制台选择Dilon.EntityFramework.Core 执行:```Add-Migration Init```
-- 大功告成
+1. Dilon.EntityFramework.Core 项目安装 ``` Pomelo.EntityFrameworkCore.MySql ```
+2. DefaultDbContext.cs 指定 DbProvider , ```[AppDbContext("DefaultConnection", DbProvider.MySql)]```
+3. dbsettings.json 配置 "DefaultConnection": ```"Data Source=localhost;Database=Dilon;User ID=root;Password=000000;pooling=true;port=3306;sslmode=none;CharSet=utf8;"```
+4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init``` 大功告成
+
+【SQLServer】
+
+1. Dilon.EntityFramework.Core 项目安装 ``` Microsoft.EntityFrameworkCore.SqlServer ```
+2. DefaultDbContext.cs 指定 DbProvider , ```[AppDbContext("DefaultConnection", DbProvider.SqlServer)]```
+3. dbsettings.json 配置 "DefaultConnection": ```"Server=localhost;Database=Dilon;User=sa;Password=000000;MultipleActiveResultSets=True;"```
+4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init``` 大功告成
+
+```
+提示：其他类型数据库依次类推，首先添加EF的Core版包，然后指定数据库类型，修改数据库连接字符串，执行EF命令即可。
+```
+
 
 ### 🍻 版权说明
 
