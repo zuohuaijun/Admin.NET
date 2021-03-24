@@ -1,5 +1,4 @@
-﻿using Dilon.Core;
-using Furion;
+﻿using Furion;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dilon.EntityFramework.Core
