@@ -97,6 +97,17 @@
 
 更新日志 [点击查看](https://gitee.com/zuohuaijun/Admin.NET/commits/master)
 
+### 👀 数据库切换
+
+#### Mysql
+
+- Dilon.EntityFramework.Core 项目安装 ``` Pomelo.EntityFrameworkCore.MySql ``` 版本号：5.0.0-alpha.2 
+- Dilon.EntityFramework.Core 的 Startup.cs 指定Mysql版本，如：```options.AddDbPool<DefaultDbContext>($"{DbProvider.MySql}@5.7.26");```
+- Dilon.EntityFramework.Core 的 DefaultDbContext.cs 中指定 DbProvider , ```[AppDbContext("DefaultConnection", DbProvider.MySql)]```
+- Dilon.EntityFramework.Core 的 dbsettings.json 配置 "DefaultConnection": "Server=127.0.0.1;port=3306;database=dilon;uid=root;pwd=root;CharSet=gbk;"
+- 程序包管理控制台选择Dilon.EntityFramework.Core 执行:```Add-Migration Init```
+- 大功告成
+
 ### 🍻 版权说明
 
 - 本技术框架采用 Apache License2.0 协议
