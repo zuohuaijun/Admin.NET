@@ -49,17 +49,16 @@ namespace Dilon.Core.Service
         /// <returns></returns>
         public async Task AddOrUpdate(EmpOutput2 sysEmpParam)
         {
-            //// 删除员工信息
-            //var emps = await _sysEmpRep.Where(u => u.Id == long.Parse(sysEmpParam.Id)).ToListAsync();
-            //emps.ForEach(u =>
-            //{
-            //    u.DeleteNow();
-            //});
+            // 先删除员工信息
+            var emps = await _sysEmpRep.Where(u => u.Id == long.Parse(sysEmpParam.Id)).ToListAsync();
+            emps.ForEach(u =>
+            {
+                u.DeleteNow();
+            });
 
-            // 新增或更新员工信息
+            // 再新增新员工信息
             var emp = sysEmpParam.Adapt<SysEmp>();
-            emp.Id = long.Parse(sysEmpParam.Id);
-            await _sysEmpRep.InsertOrUpdateAsync(emp);
+            await _sysEmpRep.InsertNowAsync(emp);
 
             // 更新附属机构职位信息
             await _sysEmpExtOrgPosService.AddOrUpdate(emp.Id, sysEmpParam.ExtIds);
