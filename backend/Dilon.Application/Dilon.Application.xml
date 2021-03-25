@@ -4,10 +4,236 @@
         <name>Dilon.Application</name>
     </assembly>
     <members>
-        <member name="T:Dilon.Application.TestService">
+        <member name="T:Dilon.Application.ApiGroupConsts">
             <summary>
-            事例
+            接口分组定义
             </summary>
+        </member>
+        <member name="F:Dilon.Application.ApiGroupConsts.USER_CENTER">
+            <summary>
+            用户中心
+            </summary>
+        </member>
+        <member name="F:Dilon.Application.ApiGroupConsts.SYSTEM_CENTER">
+            <summary>
+            系统中心
+            </summary>
+        </member>
+        <member name="F:Dilon.Application.ApiGroupConsts.BUSINESS_CENTER">
+            <summary>
+            业务中心
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.EntityOutputDto.Id">
+            <summary>
+            主键Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.EntityOutputDto.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.EntityOutputDto.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.EntityOutputDto.CreatedUserId">
+            <summary>
+            创建者Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.EntityOutputDto.UpdatedUserId">
+            <summary>
+            修改者Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.IEntityOutputDto.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.IEntityOutputDto.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.IEntityOutputDto.CreatedUserId">
+            <summary>
+            创建者Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.IEntityOutputDto.UpdatedUserId">
+            <summary>
+            修改者Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.IPageListInputDto.PageIndex">
+            <summary>
+            当前页面
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.IPageListInputDto.PageSize">
+            <summary>
+            每页数据行数
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.PageListInputDto.PageIndex">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.PageListInputDto.PageSize">
+            <summary>
+            页容量
+            </summary>
+        </member>
+        <member name="T:Dilon.Application.BaseService`7">
+            <summary>
+            
+            </summary>
+            <typeparam name="TKey"></typeparam>
+            <typeparam name="TEntity"></typeparam>
+            <typeparam name="TEntityOutputDto"></typeparam>
+            <typeparam name="TAddInputDto"></typeparam>
+            <typeparam name="TUpdateInputDto"></typeparam>
+            <typeparam name="TPageListInputDto"></typeparam>
+            <typeparam name="TDbContextLocator"></typeparam>
+        </member>
+        <member name="M:Dilon.Application.BaseService`7.InsterAsync(`3)">
+            <summary>
+            添加
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.BaseService`7.UpdateAsync(`4)">
+            <summary>
+            更新
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.BaseService`7.DeleteAsync(`0)">
+            <summary>
+            根据Id删除
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.BaseService`7.GetAsync(`0)">
+            <summary>
+            根据Id查询
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.BaseService`7.GetAllAsync">
+            <summary>
+            查询所有
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.BaseService`7.GetPageAsync(`5)">
+            <summary>
+            分页查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.IBaseService`7.InsterAsync(`3)">
+            <summary>
+            添加
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.IBaseService`7.UpdateAsync(`4)">
+            <summary>
+            修改
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.IBaseService`7.DeleteAsync(`0)">
+            <summary>
+            根据Id删除
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.IBaseService`7.GetAsync(`0)">
+            <summary>
+            根据Id获取
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.IBaseService`7.GetAllAsync">
+            <summary>
+            获取所有数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.IBaseService`7.GetPageAsync(`5)">
+            <summary>
+            获取分页数据
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Dilon.Application.TestAddInputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.TestAddInputDto.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.TestEntityOutputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.TestEntityOutputDto.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.TestUpdateInputDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.TestUpdateInputDto.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="T:Dilon.Application.TestAppService">
+            <summary>
+            客户公司
+            </summary>
+        </member>
+        <member name="F:Dilon.Application.TestAppService._cache">
+            <summary>
+            缓存
+            </summary>
+        </member>
+        <member name="M:Dilon.Application.TestAppService.AddCache">
+            <summary>
+            缓存添加测试
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.TestAppService.GetCache">
+            <summary>
+            缓存获取测试
+            </summary>
+            <returns></returns>
         </member>
     </members>
 </doc>

@@ -1596,6 +1596,11 @@
             一对一引用（系统角色）
             </summary>
         </member>
+        <member name="T:Dilon.Core.Test">
+            <summary>
+            测试
+            </summary>
+        </member>
         <member name="T:Dilon.Core.AdminType">
             <summary>
             账号类型
