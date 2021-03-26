@@ -20,14 +20,6 @@
 如果对您有帮助，您可以点右上角 “Star” 收藏一下 ，获取第一时间更新，谢谢！
 ```
 
-### 🥦 补充说明
-
-* 基于.NET5平台Furion开发框架与小诺VUE版本相结合，实时跟随基架升级而升级！
-* 持续集百家所长，完善与丰富本框架基础设施，为.NET生态增加一种选择！
-* 后期会推出基于此框架的相关应用场景案例，提供给大家使用！
-* 有问题讨论的小伙伴可加群一起学习讨论。 QQ群【87333204】
-<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=pN8R-P3pJaW9ILoOXwpRGN2wdCHWtUTE&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Admin.NET" title="Admin.NET"></a>
-
 ### ⚡ 近期计划
 
 - [ ] 集成代码生成器
@@ -50,13 +42,13 @@
 
 * 启动后台：打开backend/Dilon.sln解决方案，直接运行（F5）即可启动（数据库默认SQLite）
 * 启动前端：打开frontend文件夹，进行依赖下载，运行npm install或yarn命令，再运行npm run serve或 yarn run serve
+* 浏览器访问：`http://localhost:81` （默认前端端口为：81，后台端口为：5566）
 <table>
     <tr>
         <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/f1.png"/></td>
         <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/f0.png"/></td>
     </tr>
 </table>
-* 浏览器访问：`http://localhost:81` （默认前端端口为：81，后台端口为：5566）
 
 ### 🍎 效果图
 
@@ -110,31 +102,29 @@
 1. Dilon.EntityFramework.Core 项目安装 ``` Pomelo.EntityFrameworkCore.MySql ```
 2. DefaultDbContext.cs 指定 DbProvider , ```[AppDbContext("DefaultConnection", DbProvider.MySql)]```
 3. dbsettings.json 配置 "DefaultConnection": ```"Data Source=localhost;Database=Dilon;User ID=root;Password=000000;pooling=true;port=3306;sslmode=none;CharSet=utf8;"```
-4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init``` 大功告成
+4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init和update-database```
 
 【SQLServer】
 
 1. Dilon.EntityFramework.Core 项目安装 ``` Microsoft.EntityFrameworkCore.SqlServer ```
 2. DefaultDbContext.cs 指定 DbProvider , ```[AppDbContext("DefaultConnection", DbProvider.SqlServer)]```
 3. dbsettings.json 配置 "DefaultConnection": ```"Server=localhost;Database=Dilon;User=sa;Password=000000;MultipleActiveResultSets=True;"```
-4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init``` 大功告成
+4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init和update-database```
 
 ```
 提示：其他类型数据库依次类推，首先添加EF的Core版包，然后指定数据库类型，修改数据库连接字符串，执行EF命令即可。
 ```
 
+### 🥦 补充说明
 
-### 🍻 版权说明
-
-- 本技术框架采用 Apache License2.0 协议
-- 如果要为项目做出贡献，请查看 [贡献指南](https://dotnetchina.gitee.io/furion/docs/contribute)
-- 代码可用于个人项目等接私活或企业项目脚手架使用，开源版完全免费
+* 基于.NET5平台Furion开发框架与小诺VUE版本相结合，实时跟随基架升级而升级！
+* 持续集百家所长，完善与丰富本框架基础设施，为.NET生态增加一种选择！
+* 后期会推出基于此框架的相关应用场景案例，提供给大家使用！
+* 有问题讨论的小伙伴可加群一起学习讨论。 QQ群【87333204】
+<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=pN8R-P3pJaW9ILoOXwpRGN2wdCHWtUTE&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Admin.NET" title="Admin.NET"></a>
 
 ### 💐 特别鸣谢
 - 👉Furion：  [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - 👉 xiaonuo：[https://gitee.com/xiaonuobase/xiaonuo-vue](https://gitee.com/xiaonuobase/xiaonuo-vue)
 
 如果对您有帮助，您可以点 "Star" 支持一下，这样才有持续下去的动力，谢谢！
-
-
-
