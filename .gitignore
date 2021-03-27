@@ -22,3 +22,4 @@ bin-release/
 /backend/Dilon.Web.Entry/publish
 /backend/Dilon.Database.Migrations/Migrations
 /backend/Dilon.Web.Entry/Properties/PublishProfiles
+/backend/Dilon.Core/Dilon.Core.csproj.user
