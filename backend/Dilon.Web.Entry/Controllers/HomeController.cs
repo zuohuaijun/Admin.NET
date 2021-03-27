@@ -1,6 +1,7 @@
 ﻿using Dilon.Application;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace Dilon.Web.Entry.Controllers
 {
@@ -14,9 +15,9 @@ namespace Dilon.Web.Entry.Controllers
             _testService = testService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index(long id)
         {
-            ViewBag.Description = _testService.GetDescription();
+            ViewBag.Description = await _testService.GetAsync(id);
 
             return View();
         }
