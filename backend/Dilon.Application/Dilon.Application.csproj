@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Dilon.Core\Dilon.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Entity\" />
+  </ItemGroup>
+
 </Project>

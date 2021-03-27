@@ -316,7 +316,7 @@ namespace Dilon.Core.Service
                         {
                             // 子节点pids组成 = 当前菜单新pids + 当前菜单id + 子节点自己的pids后缀
                             var oldParentCodesPrefix = oldMenu.Pids + "[" + oldMenu.Id + "],";
-                            var oldParentCodesSuffix = u.Pids[oldParentCodesPrefix.Length..];
+                            var oldParentCodesSuffix = u.Pids.Substring(oldParentCodesPrefix.Length);
                             var menuParentCodes = newPids + "[" + oldMenu.Id + "]," + oldParentCodesSuffix;
                             u.Pids = menuParentCodes;
                         });
