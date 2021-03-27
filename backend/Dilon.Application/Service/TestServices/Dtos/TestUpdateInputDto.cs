@@ -1,4 +1,4 @@
-﻿using Dilon.Core;
+﻿using Dilon.Core.Service;
 using Furion.DatabaseAccessor;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dilon.Application
 {
-    public class TestUpdateInputDto : IUpdateInputDto, IValidatableObject
+    public class TestUpdateInputDto : IUpdateInput, IValidatableObject
     {
         public long Id { get; set; }
 

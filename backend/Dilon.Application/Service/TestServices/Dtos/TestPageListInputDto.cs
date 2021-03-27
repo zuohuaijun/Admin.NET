@@ -1,6 +1,8 @@
-﻿namespace Dilon.Application
+﻿using Dilon.Core.Service;
+
+namespace Dilon.Application
 {
-    public class TestPageListInputDto : PageListInputDto
+    public class TestPageListInputDto : PageListInput
     {
 
     }

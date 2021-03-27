@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace Dilon.Application
+namespace Dilon.Core.Service
 {
-    public abstract class PageListInputDto : IPageListInputDto
+    public abstract class PageListInput : IPageListInput
     {
         /// <summary>
         /// 页码

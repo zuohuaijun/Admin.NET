@@ -1,4 +1,4 @@
-﻿using Dilon.Core;
+﻿using Dilon.Core.Service;
 using Furion.DatabaseAccessor;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dilon.Application
 {
-    public class TestAddInputDto : IAddInputDto, IValidatableObject
+    public class TestAddInputDto : IAddInput, IValidatableObject
     {
         /// <summary>
         /// 名称

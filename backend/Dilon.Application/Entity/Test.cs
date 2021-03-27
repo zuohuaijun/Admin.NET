@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Dilon.Core;
 
-namespace Dilon.Core
+namespace Dilon.Application
 {
     /// <summary>
-    /// 测试
+    /// 测试实体
     /// </summary>
     public class Test: DEntityBase
     {

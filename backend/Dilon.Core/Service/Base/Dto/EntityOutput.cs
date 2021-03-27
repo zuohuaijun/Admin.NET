@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Dilon.Application
+namespace Dilon.Core.Service
 {
-    public abstract class EntityOutputDto : IEntityOutputDto
+    public abstract class EntityOutput : IEntityOutput
     {
         /// <summary>
         /// 主键Id

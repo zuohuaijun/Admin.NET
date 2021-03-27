@@ -1,6 +1,8 @@
-﻿namespace Dilon.Application
+﻿using Dilon.Core.Service;
+
+namespace Dilon.Application
 {
-    public class TestEntityOutputDto : EntityOutputDto
+    public class TestEntityOutputDto : EntityOutput
     {
         /// <summary>
         /// 名称

@@ -1,4 +1,4 @@
-﻿using Dilon.Core;
+﻿using Dilon.Core.Service;
 using Furion.DatabaseAccessor;
 
 namespace Dilon.Application

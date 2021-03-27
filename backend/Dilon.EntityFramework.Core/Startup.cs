@@ -5,7 +5,7 @@ namespace Dilon.EntityFramework.Core
 {
     public class Startup : AppStartup
     {
-        public void ConfigureServices(IServiceCollection services)
+        public static void ConfigureServices(IServiceCollection services)
         {
             services.AddDatabaseAccessor(options =>
             {

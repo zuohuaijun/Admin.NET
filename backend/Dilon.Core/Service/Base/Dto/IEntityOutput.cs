@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Dilon.Application
+namespace Dilon.Core.Service
 {
-    public interface IEntityOutputDto : IBaseId
+    public interface IEntityOutput : IEntityId
     {
         /// <summary>
         /// 创建时间

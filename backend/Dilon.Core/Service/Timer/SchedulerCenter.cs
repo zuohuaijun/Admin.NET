@@ -25,7 +25,7 @@ namespace Dilon.Core.Service
         {
             _ = StartScheduleAsync();
 
-            InitAllJob();
+            InitAllJob().GetAwaiter();
         }
 
         /// <summary>
