@@ -33,7 +33,6 @@ namespace Dilon.Core
         /// <summary>
         /// 名称
         /// </summary>
-        [Required, MaxLength(32)]
         public string Name { get; set; }
 
         /// <summary>

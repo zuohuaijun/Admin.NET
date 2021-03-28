@@ -6,7 +6,7 @@ namespace Dilon.Core.Service
     /// <summary>
     /// 菜单树（列表形式）
     /// </summary>
-    public class MenuTreeList : MenuInput
+    public class MenuTreeList : TreeMenuInput
     {
         /// <summary>
         /// 子节点
@@ -15,12 +15,12 @@ namespace Dilon.Core.Service
 
         public override long GetId()
         {
-            return long.Parse(Id);
+            return Id;
         }
 
         public override long GetPid()
         {
-            return long.Parse(Pid);
+            return Pid;
         }
 
         public override void SetChildren(IList children)

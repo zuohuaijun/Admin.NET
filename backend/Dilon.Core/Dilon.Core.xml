@@ -2649,11 +2649,6 @@
             系统应用参数
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.AppInput.Id">
-            <summary>
-            应用Id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.AppInput.Name">
             <summary>
             名称
@@ -2696,11 +2691,6 @@
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.UpdateAppInput.Id">
-            <summary>
-            应用Id
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.SetDefaultAppInput.Id">
             <summary>
             应用Id
             </summary>
@@ -3117,11 +3107,6 @@
             参数配置
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.ConfigInput.Id">
-            <summary>
-            参数Id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.ConfigInput.Name">
             <summary>
             名称
@@ -3256,11 +3241,6 @@
             字典值参数
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.DictDataInput.Id">
-            <summary>
-            字典值Id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.DictDataInput.TypeId">
             <summary>
             字典类型Id
@@ -3359,11 +3339,6 @@
         <member name="T:Dilon.Core.Service.DictTypeInput">
             <summary>
             字典类型参数
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.DictTypeInput.Id">
-            <summary>
-            字典类型Id
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.DictTypeInput.Name">
@@ -3791,11 +3766,6 @@
             上传文件参数
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.FileInput.Id">
-            <summary>
-            Id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.FileInput.FileLocation">
             <summary>
             文件存储位置（1:阿里云，2:腾讯云，3:minio，4:本地）
@@ -4200,11 +4170,6 @@
             菜单参数
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.MenuInput.Id">
-            <summary>
-            菜单Id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.MenuInput.Pid">
             <summary>
             父Id
@@ -4578,11 +4543,6 @@
             通知公告参数
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.NoticeInput.Id">
-            <summary>
-            Id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.NoticeInput.Title">
             <summary>
             标题
@@ -4799,11 +4759,6 @@
             组织机构参数
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.OrgInput.Id">
-            <summary>
-            机构Id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.OrgInput.Pid">
             <summary>
             父Id
@@ -4869,6 +4824,11 @@
             组织机构参数
             </summary>
         </member>
+        <member name="P:Dilon.Core.Service.OrgOutput.Id">
+            <summary>
+            机构Id
+            </summary>
+        </member>
         <member name="T:Dilon.Core.Service.OrgTreeNode">
             <summary>
             组织机构树
@@ -4914,7 +4874,7 @@
             组织机构服务
             </summary>
         </member>
-        <member name="M:Dilon.Core.Service.SysOrgService.QueryOrgPageList(Dilon.Core.Service.OrgInput)">
+        <member name="M:Dilon.Core.Service.SysOrgService.QueryOrgPageList(Dilon.Core.Service.PageOrgInput)">
             <summary>
             分页查询组织机构
             </summary>
@@ -5000,11 +4960,6 @@
         <member name="T:Dilon.Core.Service.PosInput">
             <summary>
             职位参数
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.PosInput.Id">
-            <summary>
-            职位Id
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.PosInput.Name">
@@ -5111,11 +5066,6 @@
         <member name="T:Dilon.Core.Service.RoleInput">
             <summary>
             角色参数
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.RoleInput.Id">
-            <summary>
-            角色Id
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.RoleInput.Name">
@@ -5360,11 +5310,6 @@
         <member name="T:Dilon.Core.Service.JobInput">
             <summary>
             任务调度参数
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobInput.Id">
-            <summary>
-            任务Id
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.JobInput.JobName">
@@ -5710,7 +5655,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.GetTimer(Dilon.Core.Service.JobInput)">
+        <member name="M:Dilon.Core.Service.SysTimerService.GetTimer(Dilon.Core.Service.QueryJobInput)">
             <summary>
             查看任务
             </summary>
@@ -5744,11 +5689,6 @@
         <member name="T:Dilon.Core.Service.UserInput">
             <summary>
             用户参数
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.UserInput.Id">
-            <summary>
-            用户Id
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.UserInput.Account">
@@ -5921,7 +5861,7 @@
             用户数据范围服务
             </summary>
         </member>
-        <member name="M:Dilon.Core.Service.SysUserDataScopeService.GrantData(Dilon.Core.Service.UserInput)">
+        <member name="M:Dilon.Core.Service.SysUserDataScopeService.GrantData(Dilon.Core.Service.UpdateUserInput)">
             <summary>
             授权用户数据
             </summary>
@@ -5961,7 +5901,7 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysUserRoleService.GrantRole(Dilon.Core.Service.UserInput)">
+        <member name="M:Dilon.Core.Service.SysUserRoleService.GrantRole(Dilon.Core.Service.UpdateUserInput)">
             <summary>
             授权用户角色
             </summary>
@@ -6023,7 +5963,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysUserService.GetUser(Dilon.Core.Service.UserInput)">
+        <member name="M:Dilon.Core.Service.SysUserService.GetUser(Dilon.Core.Service.QueryUserInput)">
             <summary>
             查看用户
             </summary>

@@ -25,7 +25,7 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public async Task GrantData(UserInput input)
+        public async Task GrantData(UpdateUserInput input)
         {
             var dataScopes = await _sysUserDataScopeRep.Where(u => u.SysUserId == long.Parse(input.Id)).ToListAsync();
             dataScopes.ForEach(u =>

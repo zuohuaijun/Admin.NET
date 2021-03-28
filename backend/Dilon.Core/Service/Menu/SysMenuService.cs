@@ -225,7 +225,7 @@ namespace Dilon.Core.Service
             CheckMenuParam(input);
 
             var menu = input.Adapt<SysMenu>();
-            menu.Pids = await CreateNewPids(long.Parse(input.Pid));
+            menu.Pids = await CreateNewPids(input.Pid);
             menu.Status = (int)CommonStatus.ENABLE;
             await menu.InsertNowAsync();
         }
@@ -263,17 +263,17 @@ namespace Dilon.Core.Service
             if (input.Id == input.Pid)
                 throw Oops.Oh(ErrorCode.D4006);
 
-            var isExist = await _sysMenuRep.DetachedEntities.AnyAsync(u => u.Code == input.Code && u.Id != long.Parse(input.Id)); // u.Name == input.Name
+            var isExist = await _sysMenuRep.DetachedEntities.AnyAsync(u => u.Code == input.Code && u.Id != input.Id); // u.Name == input.Name
             if (isExist)
                 throw Oops.Oh(ErrorCode.D4000);
 
             // 校验参数
             CheckMenuParam(input);
 
-            var oldMenu = await _sysMenuRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
+            var oldMenu = await _sysMenuRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
 
             // 生成新的pids
-            var newPids = await CreateNewPids(long.Parse(input.Pid));
+            var newPids = await CreateNewPids(input.Pid);
 
             // 是否更新子应用的标识
             var updateSubAppsFlag = false;
@@ -289,7 +289,7 @@ namespace Dilon.Core.Service
                 updateSubAppsFlag = true;
             }
             // 父节点有变化
-            if (input.Pid != oldMenu.Pid.ToString())
+            if (input.Pid != oldMenu.Pid)
                 updateSubPidsFlag = true;
 
             // 开始更新所有子节点的配置

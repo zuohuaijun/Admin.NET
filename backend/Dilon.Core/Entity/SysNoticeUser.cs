@@ -1,4 +1,6 @@
 ﻿using Furion.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,7 +10,7 @@ namespace Dilon.Core
     /// 通知公告用户表
     /// </summary>
     [Table("sys_notice_user")]
-    public class SysNoticeUser : EntityBase
+    public class SysNoticeUser : IEntity, IEntityTypeBuilder<SysNoticeUser>
     {
         /// <summary>
         /// 通知公告id
@@ -29,5 +31,10 @@ namespace Dilon.Core
         /// 状态（字典 0未读 1已读）
         /// </summary>
         public int ReadStatus { get; set; }
+
+        public void Configure(EntityTypeBuilder<SysNoticeUser> entityBuilder, DbContext dbContext, Type dbContextLocator)
+        {
+            entityBuilder.HasNoKey();
+        }
     }
 }

@@ -8,11 +8,6 @@ namespace Dilon.Core.Service
     public class PosInput
     {
         /// <summary>
-        /// 职位Id
-        /// </summary>
-        public virtual long Id { get; set; }
-
-        /// <summary>
         /// 名称
         /// </summary>
         public virtual string Name { get; set; }
@@ -78,7 +73,7 @@ namespace Dilon.Core.Service
         /// 职位Id
         /// </summary>
         [Required(ErrorMessage = "职位Id不能为空")]
-        public override long Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class QueryPosInput : DeletePosInput

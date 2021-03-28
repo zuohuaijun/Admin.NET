@@ -166,7 +166,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysUser/detail")]
-        public async Task<dynamic> GetUser([FromQuery] UserInput input)
+        public async Task<dynamic> GetUser([FromQuery] QueryUserInput input)
         {
             var user = await _sysUserRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
             var userDto = user.Adapt<UserOutput>();

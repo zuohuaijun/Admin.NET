@@ -9,6 +9,6 @@ namespace Dilon.Core.Service
         Task DeleteUserRoleListByUserId(long userId);
         Task<List<long>> GetUserRoleDataScopeIdList(long userId, long orgId);
         Task<List<long>> GetUserRoleIdList(long userId);
-        Task GrantRole(UserInput input);
+        Task GrantRole(UpdateUserInput input);
     }
 }

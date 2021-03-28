@@ -9,11 +9,6 @@ namespace Dilon.Core.Service
     public class NoticeInput : PageInputBase
     {
         /// <summary>
-        /// Id
-        /// </summary>
-        public virtual long Id { get; set; }
-
-        /// <summary>
         /// 标题
         /// </summary>
         public virtual string Title { get; set; }
@@ -87,7 +82,7 @@ namespace Dilon.Core.Service
         /// Id
         /// </summary>
         [Required(ErrorMessage = "通知公告Id不能为空")]
-        public override long Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class QueryNoticeInput : DeleteNoticeInput

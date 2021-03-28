@@ -8,15 +8,9 @@ namespace Dilon.Core.Service
     public class MenuInput : TreeNodeBase
     {
         /// <summary>
-        /// 菜单Id
-        /// </summary>
-
-        public virtual string Id { get; set; }
-
-        /// <summary>
         /// 父Id
         /// </summary>
-        public virtual string Pid { get; set; }
+        public virtual long Pid { get; set; }
 
         /// <summary>
         /// 名称
@@ -118,13 +112,13 @@ namespace Dilon.Core.Service
         /// 菜单Id
         /// </summary>
         [Required(ErrorMessage = "菜单Id不能为空")]
-        public override string Id { get; set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// 父Id
         /// </summary>DeleteMenuInput
         [Required(ErrorMessage = "父级菜单Id不能为空")]
-        public override string Pid { get; set; }
+        public override long Pid { get; set; }
     }
 
     public class QueryMenuInput : DeleteMenuInput
@@ -134,7 +128,7 @@ namespace Dilon.Core.Service
 
     public class TreeMenuInput : MenuInput
     {
-
+        public long Id { get; set; }
     }
 
     public class ChangeAppMenuInput : MenuInput

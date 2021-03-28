@@ -8,11 +8,6 @@ namespace Dilon.Core.Service
     public class AppInput : PageInputBase
     {
         /// <summary>
-        /// 应用Id
-        /// </summary>
-        public virtual long Id { get; set; }
-
-        /// <summary>
         /// 名称
         /// </summary>
         public virtual string Name { get; set; }
@@ -69,7 +64,7 @@ namespace Dilon.Core.Service
         /// 应用Id
         /// </summary>
         [Required(ErrorMessage = "应用Id不能为空")]
-        public override long Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class QueryAppInput : DeleteAppInput
@@ -77,12 +72,8 @@ namespace Dilon.Core.Service
 
     }
 
-    public class SetDefaultAppInput
+    public class SetDefaultAppInput : DeleteAppInput
     {
-        /// <summary>
-        /// 应用Id
-        /// </summary>
-        [Required(ErrorMessage = "应用Id不能为空")]
-        public long Id { get; set; }
+
     }
 }

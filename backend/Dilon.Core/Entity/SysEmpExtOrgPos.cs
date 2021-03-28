@@ -1,4 +1,7 @@
 ﻿using Furion.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -7,7 +10,7 @@ namespace Dilon.Core
     /// 员工附属机构职位表
     /// </summary>
     [Table("sys_emp_ext_org_pos")]
-    public class SysEmpExtOrgPos : EntityBase
+    public class SysEmpExtOrgPos : IEntity, IEntityTypeBuilder<SysEmpExtOrgPos>
     {
         /// <summary>
         /// 员工id
@@ -38,5 +41,10 @@ namespace Dilon.Core
         /// 一对一引用（职位）
         /// </summary>
         public SysPos SysPos { get; set; }
+
+        public void Configure(EntityTypeBuilder<SysEmpExtOrgPos> entityBuilder, DbContext dbContext, Type dbContextLocator)
+        {
+            entityBuilder.HasNoKey();
+        }
     }
 }

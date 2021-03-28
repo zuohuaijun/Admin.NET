@@ -8,11 +8,6 @@ namespace Dilon.Core.Service
     public class DictTypeInput : PageInputBase
     {
         /// <summary>
-        /// 字典类型Id
-        /// </summary>
-        public virtual long Id { get; set; }
-
-        /// <summary>
         /// 名称
         /// </summary>
         public virtual string Name { get; set; }
@@ -68,7 +63,7 @@ namespace Dilon.Core.Service
         /// Id
         /// </summary>
         [Required(ErrorMessage = "字典类型Id不能为空")]
-        public override long Id { get; set; } 
+        public long Id { get; set; }
     }
 
     public class DropDownDictTypeInput
@@ -82,6 +77,6 @@ namespace Dilon.Core.Service
 
     public class QueryDictTypeInfoInput : DeleteDictTypeInput
     {
- 
-    }  
+
+    }
 }

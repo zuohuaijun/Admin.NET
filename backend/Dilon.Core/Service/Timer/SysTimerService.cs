@@ -115,7 +115,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysTimers/detail")]
-        public async Task<dynamic> GetTimer([FromQuery] JobInput input)
+        public async Task<dynamic> GetTimer([FromQuery] QueryJobInput input)
         {
             return await _sysTimerRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
         }

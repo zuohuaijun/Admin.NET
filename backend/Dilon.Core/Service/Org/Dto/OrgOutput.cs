@@ -5,5 +5,9 @@
     /// </summary>
     public class OrgOutput : OrgInput
     {
+        /// <summary>
+        /// 机构Id
+        /// </summary>
+        public string Id { get; set; }
     }
 }

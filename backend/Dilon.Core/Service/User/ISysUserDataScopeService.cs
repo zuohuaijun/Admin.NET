@@ -8,6 +8,6 @@ namespace Dilon.Core.Service
         Task DeleteUserDataScopeListByOrgIdList(List<long> orgIdList);
         Task DeleteUserDataScopeListByUserId(long userId);
         Task<List<long>> GetUserDataScopeIdList(long userId);
-        Task GrantData(UserInput input);
+        Task GrantData(UpdateUserInput input);
     }
 }

@@ -8,11 +8,6 @@ namespace Dilon.Core.Service
     public class OrgInput : XnInputBase
     {
         /// <summary>
-        /// 机构Id
-        /// </summary>
-        public virtual string Id { get; set; }
-
-        /// <summary>
         /// 父Id
         /// </summary>
         public string Pid { get; set; }
@@ -68,13 +63,13 @@ namespace Dilon.Core.Service
         public override string Code { get; set; }
     }
 
-    public class DeleteOrgInput : OrgInput
+    public class DeleteOrgInput
     {
         /// <summary>
         /// 机构Id
         /// </summary>
         [Required(ErrorMessage = "机构Id不能为空")]
-        public override string Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class UpdateOrgInput : AddOrgInput
@@ -83,11 +78,16 @@ namespace Dilon.Core.Service
         /// 机构Id
         /// </summary>
         [Required(ErrorMessage = "机构Id不能为空")]
-        public override string Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class QueryOrgInput : DeleteOrgInput
     {
 
+    }
+
+    public class PageOrgInput : OrgInput
+    {
+        public string Id { get; set; }
     }
 }

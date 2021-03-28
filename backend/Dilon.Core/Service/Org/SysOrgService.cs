@@ -48,7 +48,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysOrg/page")]
-        public async Task<dynamic> QueryOrgPageList([FromQuery] OrgInput input)
+        public async Task<dynamic> QueryOrgPageList([FromQuery] PageOrgInput input)
         {
             var dataScopeList = GetDataScopeList(await GetUserDataScopeIdList());
 

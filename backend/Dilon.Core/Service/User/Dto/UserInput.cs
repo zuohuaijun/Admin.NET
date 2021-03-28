@@ -9,11 +9,6 @@ namespace Dilon.Core.Service
     public class UserInput : XnInputBase
     {
         /// <summary>
-        /// 用户Id
-        /// </summary>
-        public virtual string Id { get; set; }
-
-        /// <summary>
         /// 账号
         /// </summary>
         public virtual string Account { get; set; }
@@ -106,7 +101,7 @@ namespace Dilon.Core.Service
         /// 用户Id
         /// </summary>
         [Required(ErrorMessage = "用户Id不能为空")]
-        public override string Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class UpdateUserInput : UserInput
@@ -115,7 +110,7 @@ namespace Dilon.Core.Service
         /// 用户Id
         /// </summary>
         [Required(ErrorMessage = "用户Id不能为空")]
-        public override string Id { get; set; }
+        public string Id { get; set; }
     }
 
     public class QueryUserInput : DeleteUserInput

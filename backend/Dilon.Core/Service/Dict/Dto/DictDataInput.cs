@@ -9,11 +9,6 @@ namespace Dilon.Core.Service
     public class DictDataInput : PageInputBase
     {
         /// <summary>
-        /// 字典值Id
-        /// </summary>
-        public virtual long Id { get; set; }
-
-        /// <summary>
         /// 字典类型Id
         /// </summary>
         public virtual long TypeId { get; set; }
@@ -89,7 +84,7 @@ namespace Dilon.Core.Service
         /// 字典值Id
         /// </summary>
         [Required(ErrorMessage = "字典值Id不能为空"), DataValidation(ValidationTypes.Numeric)]
-        public override long Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class QueryDictDataInput : DeleteDictDataInput

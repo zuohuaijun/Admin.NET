@@ -10,11 +10,6 @@ namespace Dilon.Core.Service
     public class JobInput : PageInputBase
     {
         /// <summary>
-        /// 任务Id
-        /// </summary>
-        public virtual long Id { get; set; }
-
-        /// <summary>
         /// 任务名称
         /// </summary>
         /// <example>dilon</example>
@@ -99,10 +94,15 @@ namespace Dilon.Core.Service
         /// 任务Id
         /// </summary>
         [Required(ErrorMessage = "任务Id不能为空"), DataValidation(ValidationTypes.Numeric)]
-        public override long Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class UpdateJobInput : DeleteJobInput
+    {
+
+    }
+
+    public class QueryJobInput : DeleteJobInput
     {
 
     }

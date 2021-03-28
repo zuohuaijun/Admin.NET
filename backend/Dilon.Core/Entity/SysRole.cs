@@ -26,7 +26,6 @@ namespace Dilon.Core
         /// <summary>
         /// 名称
         /// </summary>
-        [Required, MaxLength(30)]
         public string Name { get; set; }
 
         /// <summary>

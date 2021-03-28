@@ -8,11 +8,6 @@ namespace Dilon.Core.Service
     public class RoleInput : XnInputBase
     {
         /// <summary>
-        /// 角色Id
-        /// </summary>
-        public virtual long Id { get; set; }
-
-        /// <summary>
         /// 名称
         /// </summary>
         public virtual string Name { get; set; }
@@ -68,7 +63,7 @@ namespace Dilon.Core.Service
         /// 角色Id
         /// </summary>
         [Required(ErrorMessageResourceName = "角色Id不能为空")]
-        public override long Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class QueryRoleInput : DeleteRoleInput
@@ -82,7 +77,7 @@ namespace Dilon.Core.Service
         /// 角色Id
         /// </summary>
         [Required(ErrorMessageResourceName = "角色Id不能为空")]
-        public override long Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class GrantRoleDataInput : GrantRoleMenuInput

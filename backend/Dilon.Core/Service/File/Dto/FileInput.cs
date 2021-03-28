@@ -8,11 +8,6 @@ namespace Dilon.Core.Service
     public class FileInput : PageInputBase
     {
         /// <summary>
-        /// Id
-        /// </summary>
-        public virtual string Id { get; set; }
-
-        /// <summary>
         /// 文件存储位置（1:阿里云，2:腾讯云，3:minio，4:本地）
         /// </summary>
         public int FileLocation { get; set; }

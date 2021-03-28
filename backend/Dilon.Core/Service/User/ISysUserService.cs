@@ -10,7 +10,7 @@ namespace Dilon.Core.Service
         Task ChangeUserStatus(UpdateUserInput input);
         Task DeleteUser(DeleteUserInput input);
         Task ExportUser([FromQuery] UserInput input);
-        Task<dynamic> GetUser([FromQuery] UserInput input);
+        Task<dynamic> GetUser([FromQuery] QueryUserInput input);
         Task<dynamic> GetUserById(long userId);
         Task<List<long>> GetUserDataScopeIdList();
         Task<List<long>> GetUserDataScopeIdList(long userId);
