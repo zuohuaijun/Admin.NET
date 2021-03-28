@@ -1,4 +1,4 @@
-﻿using Dilon.Core;
+using Dilon.Core;
 using Dilon.Core.Service;
 using Furion;
 using Furion.Authorization;
@@ -52,6 +52,14 @@ namespace Dilon.Web.Core
             // 路由名称
             var routeName = httpContext.Request.Path.Value.Substring(1).Replace("/", ":");
 
+            //默认路由
+            var defalutRoute = new List<string>()
+            {
+                "getLoginUser"
+            };
+
+            if (defalutRoute.Contains(routeName)) return true;
+            
             // 获取用户权限集合（按钮或API接口）
             var permissionList = await App.GetService<ISysMenuService>().GetLoginPermissionList(userManager.UserId);
 
