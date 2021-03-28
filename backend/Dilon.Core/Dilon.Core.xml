@@ -4275,47 +4275,52 @@
             应用编码
             </summary>DeleteMenuInput
         </member>
-        <member name="T:Dilon.Core.Service.MenuTreeList">
+        <member name="T:Dilon.Core.Service.MenuOutput">
             <summary>
             菜单树（列表形式）
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.MenuTreeList.Children">
+        <member name="P:Dilon.Core.Service.MenuOutput.Id">
+            <summary>
+            菜单Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.MenuOutput.Children">
             <summary>
             子节点
             </summary>
         </member>
-        <member name="T:Dilon.Core.Service.MenuTreeNode">
+        <member name="T:Dilon.Core.Service.MenuTreeOutput">
             <summary>
-            菜单树
+            菜单树---授权、新增编辑时选择
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.MenuTreeNode.Id">
+        <member name="P:Dilon.Core.Service.MenuTreeOutput.Id">
             <summary>
             主键
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.MenuTreeNode.ParentId">
+        <member name="P:Dilon.Core.Service.MenuTreeOutput.ParentId">
             <summary>
             父Id
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.MenuTreeNode.Title">
+        <member name="P:Dilon.Core.Service.MenuTreeOutput.Title">
             <summary>
             名称
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.MenuTreeNode.Value">
+        <member name="P:Dilon.Core.Service.MenuTreeOutput.Value">
             <summary>
             值
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.MenuTreeNode.Weight">
+        <member name="P:Dilon.Core.Service.MenuTreeOutput.Weight">
             <summary>
             排序，越小优先级越高
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.MenuTreeNode.Children">
+        <member name="P:Dilon.Core.Service.MenuTreeOutput.Children">
             <summary>
             子节点
             </summary>
@@ -4397,14 +4402,14 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysMenuService.GetMenuTree(Dilon.Core.Service.TreeMenuInput)">
+        <member name="M:Dilon.Core.Service.SysMenuService.GetMenuTree(Dilon.Core.Service.MenuInput)">
             <summary>
             获取系统菜单树，用于新增、编辑时选择上级节点
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysMenuService.TreeForGrant(Dilon.Core.Service.TreeMenuInput)">
+        <member name="M:Dilon.Core.Service.SysMenuService.TreeForGrant(Dilon.Core.Service.MenuInput)">
             <summary>
             获取系统菜单树，用于给角色授权时选择
             </summary>
@@ -6180,24 +6185,24 @@
             <param name="Milliseconds"></param>
             <returns></returns>
         </member>
-        <member name="T:Dilon.Core.TreeNodeBase">
+        <member name="T:Dilon.Core.ITreeNode">
             <summary>
             树基类
             </summary>
         </member>
-        <member name="M:Dilon.Core.TreeNodeBase.GetId">
+        <member name="M:Dilon.Core.ITreeNode.GetId">
             <summary>
             获取节点id
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.TreeNodeBase.GetPid">
+        <member name="M:Dilon.Core.ITreeNode.GetPid">
             <summary>
             获取节点父id
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.TreeNodeBase.SetChildren(System.Collections.IList)">
+        <member name="M:Dilon.Core.ITreeNode.SetChildren(System.Collections.IList)">
             <summary>
             设置Children
             </summary>

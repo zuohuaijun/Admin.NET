@@ -147,9 +147,9 @@ namespace Dilon.Core.Service
             var menus = await _sysMenuRep.DetachedEntities.Where((application, u => u.Application == input.Application.Trim()),
                                                                  (name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
                                                           .Where(u => u.Status == (int)CommonStatus.ENABLE).OrderBy(u => u.Sort)
-                                                          .Select(u => u.Adapt<MenuTreeList>())
+                                                          .Select(u => u.Adapt<MenuOutput>())
                                                           .ToListAsync();
-            return new TreeBuildUtil<MenuTreeList>().DoTreeBuild(menus);
+            return new TreeBuildUtil<MenuOutput>().DoTreeBuild(menus);
         }
 
         /// <summary>
@@ -347,7 +347,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysMenu/tree")]
-        public async Task<dynamic> GetMenuTree([FromQuery] TreeMenuInput input)
+        public async Task<dynamic> GetMenuTree([FromQuery] MenuInput input)
         {
             var application = !string.IsNullOrEmpty(input.Application?.Trim());
             var menus = await _sysMenuRep.DetachedEntities
@@ -355,7 +355,7 @@ namespace Dilon.Core.Service
                                          .Where(u => u.Status == (int)CommonStatus.ENABLE)
                                          .Where(u => u.Type == (int)MenuType.DIR || u.Type == (int)MenuType.MENU)
                                          .OrderBy(u => u.Sort)
-                                         .Select(u => new MenuTreeNode
+                                         .Select(u => new MenuTreeOutput
                                          {
                                              Id = u.Id,
                                              ParentId = u.Pid,
@@ -363,7 +363,7 @@ namespace Dilon.Core.Service
                                              Title = u.Name,
                                              Weight = u.Sort
                                          }).ToListAsync();
-            return new TreeBuildUtil<MenuTreeNode>().DoTreeBuild(menus);
+            return new TreeBuildUtil<MenuTreeOutput>().DoTreeBuild(menus);
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysMenu/treeForGrant")]
-        public async Task<dynamic> TreeForGrant([FromQuery] TreeMenuInput input)
+        public async Task<dynamic> TreeForGrant([FromQuery] MenuInput input)
         {
             var menuIdList = new List<long>();
             if (_userManager.SuperAdmin)
@@ -386,7 +386,7 @@ namespace Dilon.Core.Service
                                          .Where(application, u => u.Application == input.Application.Trim())
                                          .Where(u => u.Status == (int)CommonStatus.ENABLE)
                                          .Where(menuIdList.Count > 0, u => menuIdList.Contains(u.Id))
-                                         .OrderBy(u => u.Sort).Select(u => new MenuTreeNode
+                                         .OrderBy(u => u.Sort).Select(u => new MenuTreeOutput
                                          {
                                              Id = u.Id,
                                              ParentId = u.Pid,
@@ -394,7 +394,7 @@ namespace Dilon.Core.Service
                                              Title = u.Name,
                                              Weight = u.Sort
                                          }).ToListAsync();
-            return new TreeBuildUtil<MenuTreeNode>().DoTreeBuild(menus);
+            return new TreeBuildUtil<MenuTreeOutput>().DoTreeBuild(menus);
         }
 
         /// <summary>

@@ -5,7 +5,7 @@ namespace Dilon.Core.Service
     /// <summary>
     /// 菜单参数
     /// </summary>
-    public class MenuInput : TreeNodeBase
+    public class MenuInput
     {
         /// <summary>
         /// 父Id
@@ -124,11 +124,6 @@ namespace Dilon.Core.Service
     public class QueryMenuInput : DeleteMenuInput
     {
 
-    }
-
-    public class TreeMenuInput : MenuInput
-    {
-        public long Id { get; set; }
     }
 
     public class ChangeAppMenuInput : MenuInput

@@ -6,7 +6,7 @@ namespace Dilon.Core.Service
     /// <summary>
     /// 组织机构树
     /// </summary>
-    public class OrgTreeNode : TreeNodeBase
+    public class OrgTreeNode : ITreeNode
     {
         /// <summary>
         /// Id
@@ -43,17 +43,17 @@ namespace Dilon.Core.Service
         /// </summary>
         public long Pid { get; set; }
 
-        public override long GetId()
+        public long GetId()
         {
             return Id;
         }
 
-        public override long GetPid()
+        public long GetPid()
         {
             return ParentId;
         }
 
-        public override void SetChildren(IList children)
+        public void SetChildren(IList children)
         {
             Children = (List<OrgTreeNode>)children;
         }

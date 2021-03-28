@@ -4,9 +4,9 @@ using System.Collections.Generic;
 namespace Dilon.Core.Service
 {
     /// <summary>
-    /// 菜单树
+    /// 菜单树---授权、新增编辑时选择
     /// </summary>
-    public class MenuTreeNode : TreeNodeBase
+    public class MenuTreeOutput : ITreeNode
     {
         /// <summary>
         /// 主键
@@ -36,21 +36,21 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 子节点
         /// </summary>
-        public List<MenuTreeNode> Children { get; set; } = new List<MenuTreeNode>();
+        public List<MenuTreeOutput> Children { get; set; } = new List<MenuTreeOutput>();
 
-        public override long GetId()
+        public long GetId()
         {
             return Id;
         }
 
-        public override long GetPid()
+        public long GetPid()
         {
             return ParentId;
         }
 
-        public override void SetChildren(IList children)
+        public void SetChildren(IList children)
         {
-            Children = (List<MenuTreeNode>)children;
+            Children = (List<MenuTreeOutput>)children;
         }
     }
 }

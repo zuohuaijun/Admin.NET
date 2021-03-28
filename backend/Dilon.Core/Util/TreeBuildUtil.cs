@@ -6,41 +6,32 @@ namespace Dilon.Core
     /// <summary>
     /// 树基类
     /// </summary>
-    public class TreeNodeBase
+    public interface ITreeNode
     {
         /// <summary>
         /// 获取节点id
         /// </summary>
         /// <returns></returns>
-        public virtual long GetId()
-        {
-            return 0L;
-        }
+        long GetId();
 
         /// <summary>
         /// 获取节点父id
         /// </summary>
         /// <returns></returns>
-        public virtual long GetPid()
-        {
-            return 0L;
-        }
+        long GetPid();
 
         /// <summary>
         /// 设置Children
         /// </summary>
         /// <param name="children"></param>
-        public virtual void SetChildren(IList children)
-        {
-
-        }
+        void SetChildren(IList children);
     }
 
     /// <summary>
     /// 递归工具类，用于遍历有父子关系的节点，例如菜单树，字典树等等
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class TreeBuildUtil<T> where T : TreeNodeBase
+    public class TreeBuildUtil<T> where T : ITreeNode
     {
         /// <summary>
         /// 顶级节点的父节点Id(默认0)
