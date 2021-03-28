@@ -21,7 +21,7 @@ namespace Dilon.Core
         {
             return new[]
             {
-                new SysTimer{Id=1, JobName="百度api", JobGroup="默认分组", BeginTime=DateTimeOffset.Parse("2021-03-21 00:00:00+08:00"), Interval=5, TriggerType=TriggerTypeEnum.Simple, RequestUrl="https://www.baidu.com", RequestType=RequestTypeEnum.Post, IsDeleted=false },
+                new SysTimer{Id=142307070910556, JobName="百度api", JobGroup="默认分组", BeginTime=DateTimeOffset.Parse("2021-03-21 00:00:00+08:00"), Interval=5, TriggerType=TriggerTypeEnum.Simple, RequestUrl="https://www.baidu.com", RequestType=RequestTypeEnum.Post, IsDeleted=false },
             };
         }
     }

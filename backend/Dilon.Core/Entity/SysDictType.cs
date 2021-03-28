@@ -1,4 +1,5 @@
 ﻿using Furion.DatabaseAccessor;
+using Furion.Snowflake;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -15,6 +16,7 @@ namespace Dilon.Core
     {
         public SysDictType()
         {
+            Id = IDGenerator.NextId();
             CreatedTime = DateTimeOffset.Now;
             IsDeleted = false;
             Status = (int)CommonStatus.ENABLE;

@@ -17,11 +17,11 @@ namespace Dilon.Core
         {
             return new[]
             {
-                new SysEmpExtOrgPos { SysEmpId = (long)1, SysOrgId = (long)1, SysPosId = (long)1 },
-                new SysEmpExtOrgPos { SysEmpId = (long)1, SysOrgId = (long)2, SysPosId = (long)2 },
-                new SysEmpExtOrgPos { SysEmpId = (long)1, SysOrgId = (long)3, SysPosId = (long)3 },
-                new SysEmpExtOrgPos { SysEmpId = (long)1, SysOrgId = (long)4, SysPosId = (long)4 },
-                new SysEmpExtOrgPos { SysEmpId = (long)2, SysOrgId = (long)1, SysPosId = (long)1 }
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910539, SysPosId = 142307070910547 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910540, SysPosId = 142307070910548 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910541, SysPosId = 142307070910549 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910542, SysPosId = 142307070910550 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910552, SysOrgId = 142307070910539, SysPosId = 142307070910547 }
             };
         }
     }

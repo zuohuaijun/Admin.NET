@@ -20,9 +20,9 @@ namespace Dilon.Core
         {
             return new[]
             {
-                new SysEmp{Id=1, JobNum="D1001", OrgId=1, OrgName="河北省" },
-                new SysEmp{Id=2, JobNum="D1002", OrgId=1, OrgName="河北省" },
-                new SysEmp{Id=3, JobNum="D1003", OrgId=1, OrgName="河北省" }
+                new SysEmp{Id=142307070910551, JobNum="D1001", OrgId=142307070910539, OrgName="华夏集团" },
+                new SysEmp{Id=142307070910552, JobNum="D1002", OrgId=142307070910539, OrgName="华夏集团" },
+                new SysEmp{Id=142307070910553, JobNum="D1003", OrgId=142307070910539, OrgName="华夏集团" }
             };
         }
     }

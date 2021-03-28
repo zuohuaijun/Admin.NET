@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Furion.Snowflake;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,6 +13,7 @@ namespace Dilon.Core
     {
         public SysPos()
         {
+            Id = IDGenerator.NextId();
             CreatedTime = DateTimeOffset.Now;
             IsDeleted = false;
             Status = (int)CommonStatus.ENABLE;

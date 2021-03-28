@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Furion.Snowflake;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core.Entity
 {
@@ -8,6 +10,13 @@ namespace Dilon.Core.Entity
     [Table("sys_code_gen")]
     public class SysCodeGen : DEntityBase
     {
+        public SysCodeGen()
+        {
+            Id = IDGenerator.NextId();
+            CreatedTime = DateTimeOffset.Now;
+            IsDeleted = false;
+        }
+
         /// <summary>
         /// 作者姓名
         /// </summary>

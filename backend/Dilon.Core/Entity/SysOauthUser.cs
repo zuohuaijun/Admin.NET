@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using Furion.Snowflake;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
 {
@@ -8,6 +10,13 @@ namespace Dilon.Core
     [Table("sys_oauth_user")]
     public class SysOauthUser : DEntityBase
     {
+        public SysOauthUser()
+        {
+            Id = IDGenerator.NextId();
+            CreatedTime = DateTimeOffset.Now;
+            IsDeleted = false;
+        }
+
         /// <summary>
         /// 第三方平台的用户唯一id
         /// </summary>

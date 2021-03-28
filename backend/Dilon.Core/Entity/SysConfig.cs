@@ -1,6 +1,7 @@
 ﻿using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
+using Furion.Snowflake;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,6 +16,7 @@ namespace Dilon.Core
     {
         public SysConfig()
         {
+            Id = IDGenerator.NextId();
             CreatedTime = DateTimeOffset.Now;
             IsDeleted = false;
             Status = (int)CommonStatus.ENABLE;

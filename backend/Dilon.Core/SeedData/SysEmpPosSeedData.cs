@@ -20,10 +20,10 @@ namespace Dilon.Core
         {
             return new[]
             {
-                new SysEmpPos{SysEmpId=1, SysPosId=1 },
-                new SysEmpPos{SysEmpId=1, SysPosId=2 },
-                new SysEmpPos{SysEmpId=2, SysPosId=3 },
-                new SysEmpPos{SysEmpId=3, SysPosId=1 }
+                new SysEmpPos{SysEmpId=142307070910551, SysPosId=142307070910547 },
+                new SysEmpPos{SysEmpId=142307070910551, SysPosId=142307070910548 },
+                new SysEmpPos{SysEmpId=142307070910552, SysPosId=142307070910549 },
+                new SysEmpPos{SysEmpId=142307070910553, SysPosId=142307070910547 }
             };
         }
     }
