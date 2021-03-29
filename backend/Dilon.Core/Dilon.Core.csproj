@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="CSRedisCore" Version="3.6.6" />
+    <PackageReference Include="EFCore.BulkExtensions" Version="3.5.5" />
     <PackageReference Include="Furion" Version="1.16.7" />
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="1.16.7" />
     <PackageReference Include="Furion.Extras.Logging.Serilog" Version="1.16.7" />
