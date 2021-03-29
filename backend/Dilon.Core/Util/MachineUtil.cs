@@ -40,20 +40,20 @@ namespace Dilon.Core
         public static async Task<dynamic> GetMachineBaseInfo()
         {
             var assemblyName = typeof(Furion.App).Assembly.GetName();
-            var networkInfo = NetworkInfo.GetNetworkInfo();
-            var (Received, Send) = networkInfo.GetInternetSpeed(1000);
+            //var networkInfo = NetworkInfo.GetNetworkInfo();
+            //var (Received, Send) = networkInfo.GetInternetSpeed(1000);
             return new
             {
                 WanIp = await GetWanIpFromPCOnline(), // 外网IP
-                SendAndReceived = "上行" + Math.Round(networkInfo.SendLength / 1024.0 / 1024 / 1024, 2) + "GB 下行" + Math.Round(networkInfo.ReceivedLength / 1024.0 / 1024 / 1024, 2) + "GB", // 上下行流量统计
-                LanIp = networkInfo.AddressIpv4.ToString(), // 局域网IP
-                IpMac = networkInfo.Mac, // Mac地址
+                SendAndReceived = "",// "上行" + Math.Round(networkInfo.SendLength / 1024.0 / 1024 / 1024, 2) + "GB 下行" + Math.Round(networkInfo.ReceivedLength / 1024.0 / 1024 / 1024, 2) + "GB", // 上下行流量统计
+                LanIp = "",//networkInfo.AddressIpv4.ToString(), // 局域网IP
+                IpMac = "",//networkInfo.Mac, // Mac地址
                 HostName = Environment.MachineName, // HostName
                 SystemOs = RuntimeInformation.OSDescription, // 系统名称
                 OsArchitecture = Environment.OSVersion.Platform.ToString() + " " + RuntimeInformation.OSArchitecture.ToString(), // 系统架构
                 ProcessorCount = Environment.ProcessorCount.ToString() + "核", // CPU核心数
                 FrameworkDescription = RuntimeInformation.FrameworkDescription + " + " + assemblyName.Name.ToString() + assemblyName.Version.ToString(), // .NET和Furion版本
-                NetworkSpeed = "上行" + Send / 1024 + "kb/s 下行" + Received / 1024 + "kb/s" // 网络速度
+                NetworkSpeed = ""//"上行" + Send / 1024 + "kb/s 下行" + Received / 1024 + "kb/s" // 网络速度
             };
         }
 
@@ -63,25 +63,25 @@ namespace Dilon.Core
         /// <returns></returns>
         public static dynamic GetMachineNetWorkInfo()
         {
-            var networkInfo = NetworkInfo.GetNetworkInfo();
-            var (Received, Send) = networkInfo.GetInternetSpeed(1000);
-            //int Send, Received;
-            //while (true)
-            //{
-            //    var tmp = networkInfo.GetInternetSpeed(1000);
-            //    if (tmp.Send > 0 || tmp.Received > 0)
-            //    {
-            //        Send = tmp.Send;
-            //        Received = tmp.Received;
-            //        break;
-            //    }
-            //    Thread.Sleep(500);
-            //}
+            //var networkInfo = NetworkInfo.GetNetworkInfo();
+            //var (Received, Send) = networkInfo.GetInternetSpeed(1000);
+            ////int Send, Received;
+            ////while (true)
+            ////{
+            ////    var tmp = networkInfo.GetInternetSpeed(1000);
+            ////    if (tmp.Send > 0 || tmp.Received > 0)
+            ////    {
+            ////        Send = tmp.Send;
+            ////        Received = tmp.Received;
+            ////        break;
+            ////    }
+            ////    Thread.Sleep(500);
+            ////}
 
             return new
             {
-                SendAndReceived = "上行" + Math.Round(networkInfo.SendLength / 1024.0 / 1024 / 1024, 2) + "GB 下行" + Math.Round(networkInfo.ReceivedLength / 1024.0 / 1024 / 1024, 2) + "GB", // 上下行流量统计
-                NetworkSpeed = "上行" + Send / 1024 + "kb/s 下行" + Received / 1024 + "kb/s" // 网络速度
+                SendAndReceived = "",// "上行" + Math.Round(networkInfo.SendLength / 1024.0 / 1024 / 1024, 2) + "GB 下行" + Math.Round(networkInfo.ReceivedLength / 1024.0 / 1024 / 1024, 2) + "GB", // 上下行流量统计
+                NetworkSpeed = ""//"上行" + Send / 1024 + "kb/s 下行" + Received / 1024 + "kb/s" // 网络速度
             };
         }
 
