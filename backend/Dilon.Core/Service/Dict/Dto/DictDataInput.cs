@@ -1,4 +1,4 @@
-﻿using Furion.DataValidation;
+using Furion.DataValidation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dilon.Core.Service
@@ -8,6 +8,11 @@ namespace Dilon.Core.Service
     /// </summary>
     public class DictDataInput : PageInputBase
     {
+        
+        /// <summary>
+        /// 字典Id
+        /// </summary>
+        public virtual long Id { get; set; }
         /// <summary>
         /// 字典类型Id
         /// </summary>
