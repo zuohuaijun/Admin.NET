@@ -80,7 +80,7 @@ namespace Dilon.Core.Service
             if (timer == null)
                 throw Oops.Oh(ErrorCode.D1101);
 
-            await timer.DeleteNowAsync();
+            await timer.DeleteAsync();
 
             // 从调度器里删除
             await _schedulerCenter.DeleteScheduleJobAsync(input);
@@ -99,7 +99,7 @@ namespace Dilon.Core.Service
             if (isExist) throw Oops.Oh(ErrorCode.D1100);
 
             var timer = input.Adapt<SysTimer>();
-            await timer.UpdateNowAsync(ignoreNullValues: true);
+            await timer.UpdateAsync(ignoreNullValues: true);
 
             // 先从调度器里删除
             var oldTimer = await _sysTimerRep.FirstOrDefaultAsync(u => u.Id == input.Id, false);

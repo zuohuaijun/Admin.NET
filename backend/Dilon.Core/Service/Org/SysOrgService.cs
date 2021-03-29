@@ -139,7 +139,7 @@ namespace Dilon.Core.Service
 
             var sysOrg = input.Adapt<SysOrg>();
             await FillPids(sysOrg);
-            await sysOrg.InsertNowAsync();
+            await sysOrg.InsertAsync();
         }
 
         /// <summary>
@@ -166,6 +166,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysOrg/delete")]
+        [UnitOfWork]
         public async Task DeleteOrg(DeleteOrgInput input)
         {
             var sysOrg = await _sysOrgRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
@@ -190,7 +191,7 @@ namespace Dilon.Core.Service
             var orgs = await _sysOrgRep.Where(u => childIdList.Contains(u.Id)).ToListAsync();
             orgs.ForEach(u =>
             {
-                u.DeleteNow();
+                u.Delete();
             });
 
             // 级联删除该机构及子机构对应的角色-数据范围关联信息
@@ -206,6 +207,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysOrg/edit")]
+        [UnitOfWork]
         public async Task UpdateOrg(UpdateOrgInput input)
         {
             if (input.Pid != "0" && !string.IsNullOrEmpty(input.Pid))
@@ -233,7 +235,7 @@ namespace Dilon.Core.Service
 
             sysOrg = input.Adapt<SysOrg>();
             await FillPids(sysOrg);
-            await sysOrg.UpdateNowAsync(ignoreNullValues: true);
+            await sysOrg.UpdateAsync(ignoreNullValues: true);
         }
 
         /// <summary>

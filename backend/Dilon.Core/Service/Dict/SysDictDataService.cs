@@ -81,7 +81,7 @@ namespace Dilon.Core.Service
             var dictData = await _sysDictDataRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             if (dictData == null) throw Oops.Oh(ErrorCode.D3004);
 
-            await dictData.DeleteNowAsync();
+            await dictData.DeleteAsync();
         }
 
         /// <summary>

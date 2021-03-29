@@ -75,7 +75,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D6000);
 
             var pos = input.Adapt<SysPos>();
-            await pos.InsertNowAsync();
+            await pos.InsertAsync();
         }
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D6001);
 
             var pos = await _sysPosRep.FirstOrDefaultAsync(u => u.Id == input.Id);
-            await pos.DeleteNowAsync();
+            await pos.DeleteAsync();
         }
 
         /// <summary>
@@ -113,7 +113,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D6000);
 
             var pos = input.Adapt<SysPos>();
-            await pos.UpdateNowAsync(ignoreNullValues: true);
+            await pos.UpdateAsync(ignoreNullValues: true);
         }
 
         /// <summary>

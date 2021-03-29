@@ -130,7 +130,7 @@ namespace Dilon.Core.Service
 
             var role = input.Adapt<SysRole>();
             role.DataScopeType = 1; // 新角色默认全部数据范围
-            await role.InsertNowAsync();
+            await role.InsertAsync();
         }
 
         /// <summary>
@@ -139,10 +139,11 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysRole/delete")]
+        [UnitOfWork]
         public async Task DeleteRole(DeleteRoleInput input)
         {
             var sysRole = await _sysRoleRep.FirstOrDefaultAsync(u => u.Id == input.Id);
-            await sysRole.DeleteNowAsync();
+            await sysRole.DeleteAsync();
 
             //级联删除该角色对应的角色-数据范围关联信息
             await _sysRoleDataScopeService.DeleteRoleDataScopeListByRoleId(sysRole.Id);
@@ -152,7 +153,7 @@ namespace Dilon.Core.Service
             var userRoles = await _sysUserRoleRep.Where(u => u.SysRoleId == sysRole.Id).ToListAsync();
             userRoles.ForEach(u =>
             {
-                u.DeleteNow();
+                u.Delete();
             });
 
             //级联删除该角色对应的角色-菜单表关联信息
@@ -172,7 +173,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D1006);
 
             var sysRole = input.Adapt<SysRole>();
-            await sysRole.UpdateNowAsync();
+            await sysRole.UpdateAsync();
         }
 
         /// <summary>

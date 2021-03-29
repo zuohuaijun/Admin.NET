@@ -116,7 +116,7 @@ namespace Dilon.Core.Service.Notice
                 notice.PublicTime = DateTimeOffset.Now;
                 await UpdatePublicInfo(notice);
             }
-            await notice.UpdateNowAsync();
+            await notice.UpdateAsync();
 
             // 通知到的人
             var noticeUserIdList = input.NoticeUserIdList;
@@ -185,7 +185,7 @@ namespace Dilon.Core.Service.Notice
             {
                 notice.PublicTime = DateTimeOffset.Now;
             }
-            await notice.UpdateNowAsync();
+            await notice.UpdateAsync();
         }
 
         /// <summary>

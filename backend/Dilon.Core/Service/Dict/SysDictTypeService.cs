@@ -100,7 +100,7 @@ namespace Dilon.Core.Service
             var dictDatas = await _sysDictDataService.GetDictDataListByDictTypeId(input.Id); //_sysDictDataService.DeleteByTypeId(input.Id);
             if (dictDatas != null && dictDatas.Count > 0) throw Oops.Oh(ErrorCode.D3002);
 
-            await dictType.DeleteNowAsync();
+            await dictType.DeleteAsync();
         }
 
         /// <summary>

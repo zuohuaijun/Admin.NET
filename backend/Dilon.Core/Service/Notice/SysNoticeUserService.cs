@@ -32,13 +32,12 @@ namespace Dilon.Core.Service.Notice
             var noticeUsers = new List<Task<SysNoticeUser>>();
             noticeUserIdList.ForEach(u =>
             {
-                var noticeUser = new SysNoticeUser
+                new SysNoticeUser
                 {
                     NoticeId = noticeId,
                     UserId = u,
                     ReadStatus = noticeUserStatus
-                };
-                noticeUser.Insert();
+                }.Insert();
             });
             return Task.CompletedTask;
         }

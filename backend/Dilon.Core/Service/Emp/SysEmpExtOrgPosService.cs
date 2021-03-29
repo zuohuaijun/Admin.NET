@@ -24,6 +24,7 @@ namespace Dilon.Core.Service
         /// 保存或编辑附属机构相关信息
         /// </summary>
         /// <returns></returns>
+        [UnitOfWork]
         public async Task AddOrUpdate(long empId, List<EmpExtOrgPosOutput> extIdList)
         {
             // 先删除
@@ -36,7 +37,7 @@ namespace Dilon.Core.Service
                     SysEmpId = empId,
                     SysOrgId = u.OrgId,
                     SysPosId = u.PosId
-                }.InsertNow();
+                }.Insert();
             });
         }
 
@@ -90,7 +91,7 @@ namespace Dilon.Core.Service
             var empExtOrgPos = await _sysEmpExtOrgPosRep.Where(u => u.SysEmpId == empId).ToListAsync();
             empExtOrgPos.ForEach(u =>
             {
-                u.DeleteNow();
+                u.Delete();
             });
         }
     }

@@ -97,7 +97,7 @@ namespace Dilon.Core.Service
             }
 
             var app = input.Adapt<SysApp>();
-            await app.InsertNowAsync();
+            await app.InsertAsync();
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Dilon.Core.Service
             if (hasMenu)
                 throw Oops.Oh(ErrorCode.D5002);
 
-            await app.DeleteNowAsync();
+            await app.DeleteAsync();
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace Dilon.Core.Service
             }
 
             var app = input.Adapt<SysApp>();
-            await app.UpdateExcludeNowAsync(new[] { nameof(SysApp.Status) }, true);
+            await app.UpdateExcludeAsync(new[] { nameof(SysApp.Status) }, true);
         }
 
         /// <summary>

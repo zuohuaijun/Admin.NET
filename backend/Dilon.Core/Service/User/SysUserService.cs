@@ -90,6 +90,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysUser/add")]
+        [UnitOfWork]
         public async Task AddUser(AddUserInput input)
         {
             // 数据范围检查
@@ -116,6 +117,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysUser/delete")]
+        [UnitOfWork]
         public async Task DeleteUser(DeleteUserInput input)
         {
             var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
@@ -126,7 +128,7 @@ namespace Dilon.Core.Service
             CheckDataScope(input);
 
             // 直接删除用户
-            await user.DeleteNowAsync();
+            await user.DeleteAsync();
 
             // 删除员工及附属机构职位信息
             await _sysEmpService.DeleteEmpInfoByUserId(user.Id);
@@ -144,6 +146,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysUser/edit")]
+        [UnitOfWork]
         public async Task UpdateUser(UpdateUserInput input)
         {
             // 数据范围检查
@@ -154,7 +157,7 @@ namespace Dilon.Core.Service
             if (isExist) throw Oops.Oh(ErrorCode.D1003);
 
             var user = input.Adapt<SysUser>();
-            await user.UpdateExcludeNowAsync(new[] { nameof(SysUser.Password), nameof(SysUser.Status), nameof(SysUser.AdminType) }, true);
+            await user.UpdateExcludeAsync(new[] { nameof(SysUser.Password), nameof(SysUser.Status), nameof(SysUser.AdminType) }, true);
             input.SysEmpParam.Id = user.Id.ToString();
             // 更新员工及附属机构职位信息
             await _sysEmpService.AddOrUpdate(input.SysEmpParam);
@@ -229,7 +232,7 @@ namespace Dilon.Core.Service
         public async Task UpdateUserInfo(UpdateUserInput input)
         {
             var user = input.Adapt<SysUser>();
-            await user.UpdateNowAsync();
+            await user.UpdateAsync();
         }
 
         /// <summary>

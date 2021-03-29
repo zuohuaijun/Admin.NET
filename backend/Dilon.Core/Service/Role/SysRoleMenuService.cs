@@ -1,5 +1,4 @@
-﻿using EFCore.BulkExtensions;
-using Furion.DatabaseAccessor;
+﻿using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -42,18 +41,19 @@ namespace Dilon.Core.Service
         public async Task GrantMenu(GrantRoleMenuInput input)
         {
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => u.SysRoleId == input.Id).ToListAsync();
-            _sysRoleMenuRep.Context.BulkDelete(roleMenus);
+            roleMenus.ForEach(u =>
+            {
+                u.Delete();
+            });
 
-            var list = new List<SysRoleMenu>();
             input.GrantMenuIdList.ForEach(u =>
             {
-                list.Add(new SysRoleMenu
+                new SysRoleMenu
                 {
                     SysRoleId = input.Id,
                     SysMenuId = u
-                });
+                }.Insert();
             });
-            _sysRoleMenuRep.Context.BulkInsert(list);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Dilon.Core.Service
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => menuIdList.Contains(u.SysMenuId)).ToListAsync();
             roleMenus.ForEach(u =>
             {
-                u.DeleteNow();
+                u.Delete();
             });
         }
 
@@ -80,7 +80,7 @@ namespace Dilon.Core.Service
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => u.SysRoleId == roleId).ToListAsync();
             roleMenus.ForEach(u =>
             {
-                u.DeleteNow();
+                u.Delete();
             });
         }
     }

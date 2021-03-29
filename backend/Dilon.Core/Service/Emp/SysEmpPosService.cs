@@ -26,6 +26,7 @@ namespace Dilon.Core.Service
         /// <param name="empId">员工Id（用户Id）</param>
         /// <param name="posIdList">职位id集合</param>
         /// <returns></returns>
+        [UnitOfWork]
         public async Task AddOrUpdate(long empId, List<long> posIdList)
         {
             // 先删除
@@ -37,7 +38,7 @@ namespace Dilon.Core.Service
                 {
                     SysEmpId = empId,
                     SysPosId = u
-                }.InsertNow();
+                }.Insert();
             });
         }
 
@@ -77,7 +78,7 @@ namespace Dilon.Core.Service
             var empPos = await _sysEmpPosRep.Where(u => u.SysEmpId == empId).ToListAsync();
             empPos.ForEach(u =>
             {
-                u.DeleteNow();
+                u.Delete();
             });
         }
     }

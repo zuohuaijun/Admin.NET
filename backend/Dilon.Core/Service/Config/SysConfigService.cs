@@ -70,7 +70,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D9000);
 
             var config = input.Adapt<SysConfig>();
-            await config.InsertNowAsync();
+            await config.InsertAsync();
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace Dilon.Core.Service
             if (config.SysFlag == YesOrNot.Y.ToString())
                 throw Oops.Oh(ErrorCode.D9001);
 
-            await config.DeleteNowAsync();
+            await config.DeleteAsync();
         }
 
         /// <summary>
@@ -102,7 +102,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D9000);
 
             var config = input.Adapt<SysConfig>();
-            await config.UpdateNowAsync(ignoreNullValues: true);
+            await config.UpdateAsync(ignoreNullValues: true);
         }
 
         /// <summary>
