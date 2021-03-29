@@ -228,7 +228,8 @@ namespace Dilon.Core.Service
             menu.Pids = await CreateNewPids(input.Pid);
             menu.Status = (int)CommonStatus.ENABLE;
             await menu.InsertNowAsync();
-           //清除缓存
+
+            // 清除缓存
             var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
             await _sysCacheService.DelAsync(cacheKey);
         }
@@ -242,11 +243,13 @@ namespace Dilon.Core.Service
         public async Task DeleteMenu(DeleteMenuInput input)
         {
             var childIdList = await _sysMenuRep.DetachedEntities
-                .Select(u =>new { u.Id, u.Pids})
+                .Select(u => new { u.Id, u.Pids })
                 .ToListAsync();
             var newList = new List<long>();
-            foreach (var item in childIdList) {
-                if (item.Pids.IndexOf(input.Id.ToString()) > 0) {
+            foreach (var item in childIdList)
+            {
+                if (item.Pids.IndexOf(input.Id.ToString()) > 0)
+                {
 
                     newList.Add(item.Id);
                 }
@@ -259,7 +262,8 @@ namespace Dilon.Core.Service
             });
             // 级联删除该菜单及子菜单对应的角色-菜单表信息
             await _sysRoleMenuService.DeleteRoleMenuListByMenuIdList(newList);
-             //清除缓存
+
+            // 清除缓存
             var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
             await _sysCacheService.DelAsync(cacheKey);
         }
@@ -341,10 +345,7 @@ namespace Dilon.Core.Service
             oldMenu.Pids = newPids;
             await oldMenu.UpdateNowAsync(ignoreNullValues: true);
 
-            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
-            await _sysCacheService.DelAsync(cacheKey);
-
-            //清除缓存
+            // 清除缓存
             var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
             await _sysCacheService.DelAsync(cacheKey);
         }

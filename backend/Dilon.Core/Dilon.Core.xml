@@ -3306,6 +3306,11 @@
             字典值参数
             </summary>
         </member>
+        <member name="P:Dilon.Core.Service.DictDataOutput.Id">
+            <summary>
+            字典Id
+            </summary>
+        </member>
         <member name="T:Dilon.Core.Service.DictTreeOutput">
             <summary>
             字典类型与字典值构造的树
