@@ -1,4 +1,5 @@
-﻿using Furion.DependencyInjection;
+﻿using Furion;
+using Furion.DependencyInjection;
 using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Microsoft.Extensions.Caching.Memory;
@@ -44,14 +45,13 @@ namespace Dilon.Core
 
             Color[] colorArray = { Color.Black, Color.DarkBlue, Color.Green, Color.Orange, Color.Brown, Color.DarkCyan, Color.Purple };
 
-            string bgImagesDir = Path.Combine(AppContext.BaseDirectory, "Captcha/ClickWord/Data", "Image");
+            string bgImagesDir = Path.Combine(AppContext.BaseDirectory, "Data", "Image");
             string[] bgImagesFiles = Directory.GetFiles(bgImagesDir);
-
             if (bgImagesFiles == null || bgImagesFiles.Length == 0)
                 throw Oops.Oh("背景图片文件丢失");
 
             // 字体来自：https://www.zcool.com.cn/special/zcoolfonts/
-            string fontsDir = Path.Combine(AppContext.BaseDirectory, "Captcha/ClickWord/Data", "Font");
+            string fontsDir = Path.Combine(AppContext.BaseDirectory, "Data", "Font");
             string[] fontFiles = new DirectoryInfo(fontsDir)?.GetFiles()
                 ?.Where(m => m.Extension.ToLower() == ".ttf")
                 ?.Select(m => m.FullName).ToArray();
