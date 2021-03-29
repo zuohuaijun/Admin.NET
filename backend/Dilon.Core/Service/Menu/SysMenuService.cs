@@ -405,7 +405,7 @@ namespace Dilon.Core.Service
         [NonAction]
         public async Task<bool> HasMenu(string appCode)
         {
-            return await _sysMenuRep.DetachedEntities.AnyAsync(u => u.Application == appCode && u.Status != (int)CommonStatus.DELETED);
+            return await _sysMenuRep.DetachedEntities.AnyAsync(u => u.Application == appCode && u.Status != CommonStatus.DELETED);
         }
 
         /// <summary>

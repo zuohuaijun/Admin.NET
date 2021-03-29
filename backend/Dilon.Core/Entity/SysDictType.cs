@@ -14,14 +14,6 @@ namespace Dilon.Core
     [Table("sys_dict_type")]
     public class SysDictType : DEntityBase, IEntityTypeBuilder<SysDictType>
     {
-        public SysDictType()
-        {
-            Id = IDGenerator.NextId();
-            CreatedTime = DateTimeOffset.Now;
-            IsDeleted = false;
-            Status = (int)CommonStatus.ENABLE;
-        }
-
         /// <summary>
         /// 名称
         /// </summary>
@@ -45,7 +37,7 @@ namespace Dilon.Core
         /// <summary>
         /// 状态（字典 0正常 1停用 2删除）
         /// </summary>
-        public int Status { get; set; }
+        public CommonStatus Status { get; set; } = CommonStatus.ENABLE;
 
         /// <summary>
         /// 字典数据
@@ -54,7 +46,9 @@ namespace Dilon.Core
 
         public void Configure(EntityTypeBuilder<SysDictType> entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            entityBuilder.HasMany(x => x.SysDictDatas).WithOne(x => x.SysDictType).HasForeignKey(x => x.TypeId);
+            entityBuilder.HasMany(x => x.SysDictDatas)
+                .WithOne(x => x.SysDictType)
+                .HasForeignKey(x => x.TypeId);
         }
     }
 }

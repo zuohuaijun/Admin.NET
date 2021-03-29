@@ -36,7 +36,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 状态（字典 0正常 1停用 2删除）
         /// </summary>
-        public virtual int Status { get; set; }
+        public virtual CommonStatus Status { get; set; }
     }
 
     public class QueryDictDataListInput

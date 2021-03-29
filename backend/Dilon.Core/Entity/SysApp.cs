@@ -10,14 +10,6 @@ namespace Dilon.Core
     [Table("sys_app")]
     public class SysApp : DEntityBase
     {
-        public SysApp()
-        {
-            Id = IDGenerator.NextId();
-            CreatedTime = DateTimeOffset.Now;
-            IsDeleted = false;
-            Status = (int)CommonStatus.ENABLE;
-        }
-
         /// <summary>
         /// 名称
         /// </summary>
@@ -37,7 +29,7 @@ namespace Dilon.Core
         /// <summary>
         /// 状态（字典 0正常 1停用 2删除）
         /// </summary>
-        public int Status { get; set; }
+        public CommonStatus Status { get; set; } = CommonStatus.ENABLE;
 
         /// <summary>
         /// 排序

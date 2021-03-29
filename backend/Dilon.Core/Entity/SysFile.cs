@@ -10,13 +10,6 @@ namespace Dilon.Core.Entity.System
     [Table("sys_file")]
     public class SysFile : DEntityBase
     {
-        public SysFile()
-        {
-            Id = IDGenerator.NextId();
-            CreatedTime = DateTimeOffset.Now;
-            IsDeleted = false;
-        }
-
         /// <summary>
         /// 文件存储位置（1:阿里云，2:腾讯云，3:minio，4:本地）
         /// </summary>

@@ -11,13 +11,6 @@ namespace Dilon.Core
     [Table("sys_timer")]
     public class SysTimer : DEntityBase
     {
-        public SysTimer()
-        {
-            Id = IDGenerator.NextId();
-            CreatedTime = DateTimeOffset.Now;
-            IsDeleted = false;
-        }
-
         /// <summary>
         /// 任务名称
         /// </summary>

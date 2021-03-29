@@ -44,7 +44,7 @@ namespace Dilon.Core.Service
             var pos = await _sysPosRep.DetachedEntities
                                       .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")),
                                              (code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")))
-                                      .Where(u => u.Status == (int)CommonStatus.ENABLE).OrderBy(u => u.Sort)
+                                      .Where(u => u.Status == CommonStatus.ENABLE).OrderBy(u => u.Sort)
                                       .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<SysPos>.PageResult(pos);
         }
@@ -58,7 +58,7 @@ namespace Dilon.Core.Service
         {
             var code = !string.IsNullOrEmpty(input.Code?.Trim());
             return await _sysPosRep.DetachedEntities.Where(code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%"))
-                                                    .Where(u => u.Status != (int)CommonStatus.DELETED)
+                                                    .Where(u => u.Status != CommonStatus.DELETED)
                                                     .OrderBy(u => u.Sort).ToListAsync();
         }
 

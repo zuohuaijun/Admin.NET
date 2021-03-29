@@ -11,14 +11,6 @@ namespace Dilon.Core
     [Table("sys_pos")]
     public class SysPos : DEntityBase
     {
-        public SysPos()
-        {
-            Id = IDGenerator.NextId();
-            CreatedTime = DateTimeOffset.Now;
-            IsDeleted = false;
-            Status = (int)CommonStatus.ENABLE;
-        }
-
         /// <summary>
         /// 名称
         /// </summary>
@@ -42,7 +34,7 @@ namespace Dilon.Core
         /// <summary>
         /// 状态（字典 0正常 1停用 2删除）
         /// </summary>
-        public int Status { get; set; }
+        public CommonStatus Status { get; set; } = CommonStatus.ENABLE;
 
         /// <summary>
         /// 多对多（员工）

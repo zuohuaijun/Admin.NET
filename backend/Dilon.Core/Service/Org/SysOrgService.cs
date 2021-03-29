@@ -61,7 +61,7 @@ namespace Dilon.Core.Service
                                               (pId, u => EF.Functions.Like(u.Pids, $"%[{input.Pid.Trim()}]%")
                                                          || u.Id == long.Parse(input.Pid.Trim()))) // 根据父机构id查询
                                        .Where(dataScopeList.Count > 0, u => dataScopeList.Contains(u.Id)) // 非管理员范围限制
-                                       .Where(u => u.Status != (int)CommonStatus.DELETED).OrderBy(u => u.Sort)
+                                       .Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.Sort)
                                        .Select(u => u.Adapt<OrgOutput>())
                                        .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<OrgOutput>.PageResult(orgs);
@@ -107,7 +107,7 @@ namespace Dilon.Core.Service
             var orgs = await _sysOrgRep.DetachedEntities
                                        .Where(pId, u => u.Pid == long.Parse(input.Pid))
                                        .Where(dataScopeList.Count > 0, u => dataScopeList.Contains(u.Id))
-                                       .Where(u => u.Status != (int)CommonStatus.DELETED).OrderBy(u => u.Sort).ToListAsync();
+                                       .Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.Sort).ToListAsync();
             return orgs.Adapt<List<OrgOutput>>();
         }
 

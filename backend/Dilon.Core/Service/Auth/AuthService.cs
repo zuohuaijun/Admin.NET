@@ -77,7 +77,7 @@ namespace Dilon.Core.Service
             _ = user ?? throw Oops.Oh(ErrorCode.D1000);
 
             // 验证账号是否被冻结
-            if (user.Status == (int)CommonStatus.DISABLE)
+            if (user.Status == CommonStatus.DISABLE)
                 throw Oops.Oh(ErrorCode.D1017);
 
             // 生成Token令牌

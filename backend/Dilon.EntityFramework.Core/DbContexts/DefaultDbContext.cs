@@ -3,6 +3,7 @@ using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
 using Furion.FriendlyException;
+using Furion.Snowflake;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -60,8 +61,7 @@ namespace Dilon.EntityFramework.Core
                     throw Oops.Oh(ErrorCode.D1200);
             }
 
-            var userManager = App.GetService<IUserManager>();
-            var userId = userManager?.UserId;
+            var userId = App.User.FindFirst("UserId")?.Value;
 
             // 获取所有已更改的实体
             foreach (var entity in entities)
@@ -71,13 +71,17 @@ namespace Dilon.EntityFramework.Core
                     var obj = entity.Entity as DEntityBase;
                     if (entity.State == EntityState.Added)
                     {
+                        obj.Id = IDGenerator.NextId();
                         obj.CreatedTime = DateTimeOffset.Now;
-                        obj.CreatedUserId = userId;
+                        if (!string.IsNullOrEmpty(userId))
+                        {
+                            obj.CreatedUserId = long.Parse(userId);
+                        }
                     }
                     else if (entity.State == EntityState.Modified)
                     {
                         obj.UpdatedTime = DateTimeOffset.Now;
-                        obj.UpdatedUserId = userId;
+                        obj.UpdatedUserId = long.Parse(userId);
                     }
                 }
 

@@ -48,6 +48,6 @@ namespace Dilon.Core
         /// 软删除
         /// </summary>
         [JsonIgnore, FakeDelete(true)]
-        public virtual bool IsDeleted { get; set; }
+        public virtual bool IsDeleted { get; set; } = false;
     }
 }
