@@ -1,5 +1,4 @@
 ﻿using Dilon.Core.Service;
-using Furion.Snowflake;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 

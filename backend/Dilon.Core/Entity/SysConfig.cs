@@ -1,7 +1,6 @@
 ﻿using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
-using Furion.Snowflake;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -1,5 +1,4 @@
 ﻿using Furion.DatabaseAccessor;
-using Furion.Snowflake;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;

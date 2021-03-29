@@ -61,7 +61,7 @@ namespace Dilon.EntityFramework.Core
                     throw Oops.Oh(ErrorCode.D1200);
             }
 
-            var userId = App.User.FindFirst("UserId")?.Value;
+            var userId = App.User.FindFirst(ClaimConst.CLAINM_USERID)?.Value;
 
             // 获取所有已更改的实体
             foreach (var entity in entities)

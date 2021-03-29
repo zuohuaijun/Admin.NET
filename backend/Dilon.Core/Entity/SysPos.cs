@@ -1,6 +1,4 @@
-﻿using Furion.Snowflake;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
