@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -228,6 +228,9 @@ namespace Dilon.Core.Service
             menu.Pids = await CreateNewPids(input.Pid);
             menu.Status = (int)CommonStatus.ENABLE;
             await menu.InsertNowAsync();
+           //清除缓存
+            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
+            await _sysCacheService.DelAsync(cacheKey);
         }
 
         /// <summary>
@@ -238,18 +241,27 @@ namespace Dilon.Core.Service
         [HttpPost("/sysMenu/delete")]
         public async Task DeleteMenu(DeleteMenuInput input)
         {
-            var childIdList = await _sysMenuRep.DetachedEntities.Where(u => EF.Functions.Like(u.Pids, $"%[{input.Id}]%"))
-                                                                .Select(u => u.Id).ToListAsync();
-            childIdList.Add(input.Id);
+            var childIdList = await _sysMenuRep.DetachedEntities
+                .Select(u =>new { u.Id, u.Pids})
+                .ToListAsync();
+            var newList = new List<long>();
+            foreach (var item in childIdList) {
+                if (item.Pids.IndexOf(input.Id.ToString()) > 0) {
 
-            var menus = await _sysMenuRep.Where(u => childIdList.Contains(u.Id)).ToListAsync();
+                    newList.Add(item.Id);
+                }
+            }
+            newList.Add(input.Id);
+            var menus = await _sysMenuRep.Where(u => newList.Contains(u.Id)).ToListAsync();
             menus.ForEach(u =>
             {
                 u.DeleteNow();
             });
-
             // 级联删除该菜单及子菜单对应的角色-菜单表信息
-            await _sysRoleMenuService.DeleteRoleMenuListByMenuIdList(childIdList);
+            await _sysRoleMenuService.DeleteRoleMenuListByMenuIdList(newList);
+             //清除缓存
+            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
+            await _sysCacheService.DelAsync(cacheKey);
         }
 
         /// <summary>
@@ -328,6 +340,13 @@ namespace Dilon.Core.Service
             oldMenu = input.Adapt<SysMenu>();
             oldMenu.Pids = newPids;
             await oldMenu.UpdateNowAsync(ignoreNullValues: true);
+
+            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
+            await _sysCacheService.DelAsync(cacheKey);
+
+            //清除缓存
+            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
+            await _sysCacheService.DelAsync(cacheKey);
         }
 
         /// <summary>
