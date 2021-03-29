@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using EFCore.BulkExtensions;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
@@ -37,22 +38,22 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [UnitOfWork]
         public async Task GrantMenu(GrantRoleMenuInput input)
         {
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => u.SysRoleId == input.Id).ToListAsync();
-            roleMenus.ForEach(u =>
-            {
-                u.DeleteNow();
-            });
+            _sysRoleMenuRep.Context.BulkDelete(roleMenus);
 
+            var list = new List<SysRoleMenu>();
             input.GrantMenuIdList.ForEach(u =>
             {
-                new SysRoleMenu
+                list.Add(new SysRoleMenu
                 {
                     SysRoleId = input.Id,
                     SysMenuId = u
-                }.InsertNow();
+                });
             });
+            _sysRoleMenuRep.Context.BulkInsert(list);
         }
 
         /// <summary>
