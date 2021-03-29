@@ -5,6 +5,9 @@
     /// </summary>
     public class DictDataOutput : DictDataInput
     {
-
+        /// <summary>
+        /// 字典Id
+        /// </summary>
+        public virtual long Id { get; set; }
     }
 }
