@@ -26,7 +26,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 状态（字典 0正常 1停用 2删除）
         /// </summary>
-        public int Status { get; set; }
+        public CommonStatus Status { get; set; }
 
         /// <summary>
         /// 排序

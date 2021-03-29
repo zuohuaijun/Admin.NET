@@ -67,7 +67,7 @@ namespace Dilon.Core.Service
                                          .Where(!string.IsNullOrEmpty(pid), x => (x.n.e.OrgId == long.Parse(pid) ||
                                                                             x.o.Pids.Contains($"[{pid.Trim()}]")))
                                          .Where(input.SearchStatus >= 0, x => x.n.u.Status == input.SearchStatus)
-                                         .Where(!superAdmin, x => x.n.u.AdminType != (int)AdminType.SuperAdmin)
+                                         .Where(!superAdmin, x => x.n.u.AdminType != AdminType.SuperAdmin)
                                          .Where(!superAdmin && dataScopes.Count > 0, x => dataScopes.Contains(x.n.e.OrgId))
                                          .Select(u => u.n.u.Adapt<UserOutput>()).ToPagedListAsync(input.PageNo, input.PageSize);
 
@@ -119,7 +119,7 @@ namespace Dilon.Core.Service
         public async Task DeleteUser(DeleteUserInput input)
         {
             var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
-            if (user.AdminType == (int)AdminType.SuperAdmin)
+            if (user.AdminType == AdminType.SuperAdmin)
                 throw Oops.Oh(ErrorCode.D1014);
 
             // 数据范围检查
@@ -170,7 +170,10 @@ namespace Dilon.Core.Service
         {
             var user = await _sysUserRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
             var userDto = user.Adapt<UserOutput>();
-            userDto.SysEmpInfo = await _sysEmpService.GetEmpInfo(user.Id);
+            if (userDto != null)
+            {
+                userDto.SysEmpInfo = await _sysEmpService.GetEmpInfo(user.Id);
+            }
             return userDto;
         }
 
@@ -183,7 +186,7 @@ namespace Dilon.Core.Service
         public async Task ChangeUserStatus(UpdateUserInput input)
         {
             var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
-            if (user.AdminType == (int)AdminType.SuperAdmin)
+            if (user.AdminType == AdminType.SuperAdmin)
                 throw Oops.Oh(ErrorCode.D1015);
 
             if (!Enum.IsDefined(typeof(CommonStatus), input.Status))
@@ -302,8 +305,8 @@ namespace Dilon.Core.Service
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             return await _sysUserRep.DetachedEntities
                                     .Where(name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%"))
-                                    .Where(u => u.Status != (int)CommonStatus.DELETED)
-                                    .Where(u => u.AdminType != (int)AdminType.SuperAdmin)
+                                    .Where(u => u.Status != CommonStatus.DELETED)
+                                    .Where(u => u.AdminType != AdminType.SuperAdmin)
                                     .Select(u => new
                                     {
                                         u.Id,
@@ -343,7 +346,7 @@ namespace Dilon.Core.Service
         public async Task SaveAuthUserToUser(AuthUserInput authUser, UserInput sysUser)
         {
             var user = sysUser.Adapt<SysUser>();
-            user.AdminType = (int)AdminType.None; // 非管理员
+            user.AdminType = AdminType.None; // 非管理员
 
             // oauth账号与系统账号判断
             var isExist = await _sysUserRep.DetachedEntities.AnyAsync(u => u.Account == authUser.Username);

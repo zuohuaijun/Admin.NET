@@ -39,7 +39,7 @@ namespace Dilon.Core.Service
                                   .Where(u => u.TypeId == input.TypeId)
                                   .Where((code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")),
                                          (value, u => EF.Functions.Like(u.Value, $"%{input.Value.Trim()}%")))
-                                  .Where(u => u.Status != (int)CommonStatus.DELETED).OrderBy(u => u.Sort)
+                                  .Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.Sort)
                                   .Select(u => u.Adapt<DictDataOutput>())
                                   .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<DictDataOutput>.PageResult(dictDatas);
@@ -52,7 +52,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysDictData/list")]
         public async Task<dynamic> GetDictDataList([FromQuery] QueryDictDataListInput input)
         {
-            return await _sysDictDataRep.DetachedEntities.Where(u => u.TypeId == input.TypeId).Where(u => u.Status != (int)CommonStatus.DELETED).OrderBy(u => u.Sort).ToListAsync();
+            return await _sysDictDataRep.DetachedEntities.Where(u => u.TypeId == input.TypeId).Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.Sort).ToListAsync();
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Dilon.Core.Service
         public async Task<dynamic> GetDictDataListByDictTypeId(long dictTypeId)
         {
             return await _sysDictDataRep.DetachedEntities.Where(u => u.SysDictType.Id == dictTypeId)
-                                                         .Where(u => u.Status != (int)CommonStatus.DELETED).OrderBy(u => u.Sort)
+                                                         .Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.Sort)
                                                          .Select(u => new
                                                          {
                                                              u.Code,

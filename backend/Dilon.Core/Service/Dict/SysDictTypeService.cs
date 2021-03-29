@@ -42,7 +42,7 @@ namespace Dilon.Core.Service
             var dictTypes = await _sysDictTypeRep.DetachedEntities
                                   .Where((code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")),
                                          (name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
-                                  .Where(u => u.Status != (int)CommonStatus.DELETED).OrderBy(u => u.Sort)
+                                  .Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.Sort)
                                   .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<SysDictType>.PageResult(dictTypes);
         }
@@ -54,7 +54,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysDictType/list")]
         public async Task<dynamic> GetDictTypeList()
         {
-            return await _sysDictTypeRep.DetachedEntities.Where(u => u.Status != (int)CommonStatus.DELETED).ToListAsync();
+            return await _sysDictTypeRep.DetachedEntities.Where(u => u.Status != CommonStatus.DELETED).ToListAsync();
         }
 
         /// <summary>

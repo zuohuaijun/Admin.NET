@@ -61,7 +61,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 状态-正常_0、停用_1、删除_2
         /// </summary>
-        public virtual int Status { get; set; }
+        public virtual CommonStatus Status { get; set; }
 
         /// <summary>
         /// 员工信息
@@ -71,7 +71,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 搜索状态（字典 0正常 1停用 2删除）
         /// </summary>
-        public int SearchStatus { get; set; } = -1;
+        public CommonStatus SearchStatus { get; set; } = CommonStatus.ENABLE;
     }
 
     public class AddUserInput : UserInput

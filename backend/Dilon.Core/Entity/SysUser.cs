@@ -15,14 +15,6 @@ namespace Dilon.Core
     [Table("sys_user")]
     public class SysUser : DEntityBase, IEntityTypeBuilder<SysUser>
     {
-        public SysUser()
-        {
-            Id = IDGenerator.NextId();
-            CreatedTime = DateTimeOffset.Now;
-            IsDeleted = false;
-            Status = (int)CommonStatus.ENABLE;
-        }
-
         /// <summary>
         /// 账号
         /// </summary>
@@ -107,13 +99,13 @@ namespace Dilon.Core
         /// 管理员类型-超级管理员_1、非管理员_2
         /// </summary>
         [Comment("管理员类型-超级管理员_1、非管理员_2")]
-        public int AdminType { get; set; }
+        public AdminType AdminType { get; set; }
 
         /// <summary>
         /// 状态-正常_0、停用_1、删除_2
         /// </summary>
         [Comment("状态-正常_0、停用_1、删除_2")]
-        public int Status { get; set; }
+        public CommonStatus Status { get; set; } = CommonStatus.ENABLE;
 
         /// <summary>
         /// 多对多（角色）
