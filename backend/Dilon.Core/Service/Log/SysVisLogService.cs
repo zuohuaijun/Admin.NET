@@ -39,8 +39,9 @@ namespace Dilon.Core.Service
                                              .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
                                              .Where(input.VisType > 0, u => u.VisType == input.VisType)
                                              .Where(success, u => u.Success == input.Success.Trim())
-                                             .Where(searchBeginTime, u => u.VisTime >= DateTime.Parse(input.SearchBeginTime.Trim()) && 
+                                             .Where(searchBeginTime, u => u.VisTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
                                                                           u.VisTime <= DateTime.Parse(input.SearchEndTime.Trim()))
+                                             .OrderByDescending(u => u.Id)
                                              .Select(u => u.Adapt<VisLogOutput>())
                                              .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<VisLogOutput>.PageResult(visLogs);

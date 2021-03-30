@@ -41,6 +41,7 @@ namespace Dilon.Core.Service
                                            .Where(success, u => u.Success == input.Success.Trim())
                                            .Where(searchBeginTime, u => u.OpTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
                                                                    u.OpTime <= DateTime.Parse(input.SearchEndTime.Trim()))
+                                           .OrderByDescending(u => u.Id)
                                            .Select(u => u.Adapt<OpLogOutput>())
                                            .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<OpLogOutput>.PageResult(opLogs);
