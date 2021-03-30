@@ -6,6 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Captcha\Font\站酷酷黑体.ttf" />
+    <Content Remove="wwwroot\Captcha\Image\1.jpg" />
+    <Content Remove="wwwroot\Captcha\Image\2.jpg" />
+    <Content Remove="wwwroot\Captcha\Image\3.jpg" />
+    <Content Remove="wwwroot\Captcha\Image\4.jpg" />
+    <Content Remove="wwwroot\Captcha\Image\5.jpg" />
+    <Content Remove="wwwroot\Captcha\Image\6.jpg" />
+    <Content Remove="wwwroot\Captcha\Image\7.jpg" />
+    <Content Remove="wwwroot\Captcha\Image\8.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -23,7 +35,37 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\" />
+    <None Include="wwwroot\Captcha\Font\站酷酷黑体.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Captcha\Image\1.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Captcha\Image\2.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Captcha\Image\3.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Captcha\Image\4.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Captcha\Image\5.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Captcha\Image\6.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Captcha\Image\7.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="wwwroot\Captcha\Image\8.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Upload\Default\" />
   </ItemGroup>
 
 </Project>

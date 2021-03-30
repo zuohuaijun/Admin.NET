@@ -192,7 +192,7 @@ namespace Dilon.Core.Service
         /// <returns></returns>
         [HttpGet("/getCaptchaOpen")]
         [AllowAnonymous]
-        public async Task<dynamic> GetCaptchaOpen()
+        public async Task<bool> GetCaptchaOpen()
         {
             return await _sysConfigService.GetCaptchaOpenFlag();
         }

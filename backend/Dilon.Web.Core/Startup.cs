@@ -48,7 +48,7 @@ namespace Dilon.Web.Core
             // 添加状态码拦截中间件
             app.UseUnifyResultStatusCodes();
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection(); // 强制https
             app.UseStaticFiles();
 
             // Serilog请求日志中间件---必须在 UseStaticFiles 和 UseRouting 之间

@@ -1,6 +1,5 @@
 ﻿using Furion;
 using Furion.DependencyInjection;
-using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Microsoft.Extensions.Caching.Memory;
 using System;
@@ -45,20 +44,18 @@ namespace Dilon.Core
 
             Color[] colorArray = { Color.Black, Color.DarkBlue, Color.Green, Color.Orange, Color.Brown, Color.DarkCyan, Color.Purple };
 
-            var imagePath = "Data/Image";
-            string bgImagesDir = Path.Combine(AppContext.BaseDirectory, imagePath);
+            string bgImagesDir = Path.Combine(App.WebHostEnvironment.WebRootPath, "Captcha/Image");
             string[] bgImagesFiles = Directory.GetFiles(bgImagesDir);
-            if (bgImagesFiles == null || bgImagesFiles.Length == 0)
-                throw Oops.Oh("背景图片文件丢失");
+            //if (bgImagesFiles == null || bgImagesFiles.Length == 0)
+            //    throw Oops.Oh("背景图片文件丢失");
 
             // 字体来自：https://www.zcool.com.cn/special/zcoolfonts/
-            var fontPath = "Data/Font";
-            string fontsDir = Path.Combine(AppContext.BaseDirectory, fontPath);
+            string fontsDir = Path.Combine(App.WebHostEnvironment.WebRootPath, "Captcha/Font");
             string[] fontFiles = new DirectoryInfo(fontsDir)?.GetFiles()
                 ?.Where(m => m.Extension.ToLower() == ".ttf")
                 ?.Select(m => m.FullName).ToArray();
-            if (fontFiles == null || fontFiles.Length == 0)
-                throw Oops.Oh("字体文件丢失");
+            //if (fontFiles == null || fontFiles.Length == 0)
+            //    throw Oops.Oh("字体文件丢失");
 
             int imgIndex = random.Next(bgImagesFiles.Length);
             string randomImgFile = bgImagesFiles[imgIndex];

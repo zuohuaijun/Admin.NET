@@ -6,7 +6,7 @@ namespace Dilon.Core.Service
     public interface IAuthService
     {
         Task<dynamic> GetCaptcha();
-        Task<dynamic> GetCaptchaOpen();
+        Task<bool> GetCaptchaOpen();
         Task<LoginOutput> GetLoginUserAsync();
         Task<string> LoginAsync([Required] LoginInput input);
         Task LogoutAsync();
