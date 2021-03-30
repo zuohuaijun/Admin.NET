@@ -7,6 +7,16 @@
 <div align="center"><h1 align="center">Admin.NET</h1></div>
 <div align="center"><h3 align="center">前后端分离架构，开箱即用，紧随前沿技术</h3></div>
 
+<div align="center">
+
+[![star](https://gitee.com/zuohuaijun/Admin.NET/badge/star.svg?theme=dark)](https://gitee.com/zuohuaijun/Admin.NET/stargazers)
+[![fork](https://gitee.com/zuohuaijun/Admin.NET/badge/fork.svg?theme=dark)](https://gitee.com/zuohuaijun/Admin.NET/members)
+[![star](https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/stargazers)
+[![star](https://gitee.com/xiaonuobase/xiaonuo-vue/badge/star.svg?theme=gray)](https://gitee.com/xiaonuobase/xiaonuo-vue/stargazers)
+[![GitHub license](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)
+
+</div>
+
 ### 🍟 概述
 
 * 基于.NET5实现的通用权限管理平台（RBAC模式）。整合最新技术高效快速开发，前后端分离模式，开箱即用。
