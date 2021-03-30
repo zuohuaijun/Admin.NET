@@ -70,6 +70,11 @@
         <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/8.png"/></td>
         <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/9.png"/></td>
     </tr>
+    <tr>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/10.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/11.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/12.png"/></td>
+    </tr>
 </table>
 
 ### 🍖 详细功能
