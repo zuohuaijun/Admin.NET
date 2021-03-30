@@ -58,8 +58,8 @@ namespace Dilon.Core.Service
             });
 
             // 清除缓存
-            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
-            await _sysCacheService.DelAsync(cacheKey);
+            await _sysCacheService.DelByPatternAsync(CommonConst.CACHE_KEY_MENU);
+            await _sysCacheService.DelByPatternAsync(CommonConst.CACHE_KEY_PERMISSION);
         }
 
         /// <summary>

@@ -3029,6 +3029,13 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.SysCacheService.DelByPatternAsync(System.String)">
+            <summary>
+            删除某特征关键字缓存
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:Dilon.Core.Service.SysCacheService.SetAsync(System.String,System.Object)">
             <summary>
             设置缓存

@@ -32,8 +32,7 @@ namespace Dilon.Core
             if (string.IsNullOrEmpty(pattern))
                 return default;
 
-            pattern = Regex.Replace(pattern, @"\{.*\}", "*");
-
+            //pattern = Regex.Replace(pattern, @"\{.*\}", "*");
             var keys = (await RedisHelper.KeysAsync(pattern));
             if (keys != null && keys.Length > 0)
             {

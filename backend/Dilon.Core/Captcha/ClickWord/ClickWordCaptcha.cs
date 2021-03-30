@@ -1,6 +1,7 @@
 ﻿using Furion;
 using Furion.DependencyInjection;
 using Furion.JsonSerialization;
+using Furion.Snowflake;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
@@ -104,7 +105,7 @@ namespace Dilon.Core
             bitmap.Dispose();
             ms.Dispose();
             rtnResult.repData.originalImageBase64 = Convert.ToBase64String(ms.GetBuffer()); //"data:image/jpg;base64," +
-            rtnResult.repData.token = Guid.NewGuid().ToString("N");
+            rtnResult.repData.token = IDGenerator.NextId().ToString();
 
             // 缓存验证码正确位置集合
             var cacheOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));

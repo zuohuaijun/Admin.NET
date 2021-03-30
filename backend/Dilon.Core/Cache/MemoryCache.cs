@@ -45,14 +45,10 @@ namespace Dilon.Core
             if (string.IsNullOrEmpty(pattern))
                 return default;
 
-            pattern = Regex.Replace(pattern, @"\{.*\}", "(.*)");
-
-            var keys = GetAllKeys().Where(k => Regex.IsMatch(k, pattern));
-
-            if (keys != null && keys.Count() > 0)
-            {
+            //pattern = Regex.Replace(pattern, @"\{*.\}", "(.*)");
+            var keys = GetAllKeys().Where(k => k.StartsWith(pattern));
+            if (keys != null && keys.Any())
                 return await DelAsync(keys.ToArray());
-            }
 
             return default;
         }

@@ -6,6 +6,7 @@ namespace Dilon.Core.Service
     public interface ISysCacheService
     {
         Task<bool> DelAsync(string key);
+        Task<bool> DelByPatternAsync(string key);
         List<string> GetAllCacheKeys();
         Task<List<long>> GetDataScope(long userId);
         Task<List<AntDesignTreeNode>> GetMenu(long userId, string appCode);

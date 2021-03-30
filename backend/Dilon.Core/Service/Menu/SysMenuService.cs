@@ -230,8 +230,7 @@ namespace Dilon.Core.Service
             await menu.InsertAsync();
 
             // 清除缓存
-            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
-            await _sysCacheService.DelAsync(cacheKey);
+            await _sysCacheService.DelByPatternAsync(CommonConst.CACHE_KEY_MENU);
         }
 
         /// <summary>
@@ -262,8 +261,7 @@ namespace Dilon.Core.Service
             await _sysRoleMenuService.DeleteRoleMenuListByMenuIdList(newList);
 
             // 清除缓存
-            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
-            await _sysCacheService.DelAsync(cacheKey);
+            await _sysCacheService.DelByPatternAsync(CommonConst.CACHE_KEY_MENU);
         }
 
         /// <summary>
@@ -344,8 +342,7 @@ namespace Dilon.Core.Service
             await oldMenu.UpdateAsync(ignoreNullValues: true);
 
             // 清除缓存
-            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
-            await _sysCacheService.DelAsync(cacheKey);
+            await _sysCacheService.DelByPatternAsync(CommonConst.CACHE_KEY_MENU);
         }
 
         /// <summary>
