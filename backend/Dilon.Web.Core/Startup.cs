@@ -1,4 +1,4 @@
-﻿using Dilon.Core;
+using Dilon.Core;
 using Furion;
 using Furion.Snowflake;
 using Microsoft.AspNetCore.Builder;
@@ -25,7 +25,6 @@ namespace Dilon.Web.Core
             services.AddControllersWithViews()
                     .AddMvcFilter<RequestActionFilter>()
                     .AddInjectWithUnifyResult<XnRestfulResultProvider>()
-                    .AddFriendlyException() // 注册友好异常服务
                     .AddJsonOptions(options =>
                     {
                         options.JsonSerializerOptions.Converters.AddDateFormatString("yyyy-MM-dd HH:mm:ss");
