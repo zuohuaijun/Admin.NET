@@ -3821,6 +3821,11 @@
             上传文件参数
             </summary>
         </member>
+        <member name="P:Dilon.Core.Service.FileOutput.Id">
+            <summary>
+            文件Id
+            </summary>
+        </member>
         <member name="T:Dilon.Core.Service.SysFileService">
             <summary>
             文件服务

@@ -45,13 +45,15 @@ namespace Dilon.Core
 
             Color[] colorArray = { Color.Black, Color.DarkBlue, Color.Green, Color.Orange, Color.Brown, Color.DarkCyan, Color.Purple };
 
-            string bgImagesDir = Path.Combine(AppContext.BaseDirectory, "Data", "Image");
+            var imagePath = "Data/Image";
+            string bgImagesDir = Path.Combine(AppContext.BaseDirectory, imagePath);
             string[] bgImagesFiles = Directory.GetFiles(bgImagesDir);
             if (bgImagesFiles == null || bgImagesFiles.Length == 0)
                 throw Oops.Oh("背景图片文件丢失");
 
             // 字体来自：https://www.zcool.com.cn/special/zcoolfonts/
-            string fontsDir = Path.Combine(AppContext.BaseDirectory, "Data", "Font");
+            var fontPath = "Data/Font";
+            string fontsDir = Path.Combine(AppContext.BaseDirectory, fontPath);
             string[] fontFiles = new DirectoryInfo(fontsDir)?.GetFiles()
                 ?.Where(m => m.Extension.ToLower() == ".ttf")
                 ?.Select(m => m.FullName).ToArray();

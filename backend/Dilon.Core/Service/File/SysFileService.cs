@@ -1,5 +1,4 @@
 ﻿using Dilon.Core.Entity.System;
-using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
@@ -11,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -79,7 +79,7 @@ namespace Dilon.Core.Service
             {
                 await file.DeleteAsync();
 
-                var filePath = App.WebHostEnvironment.WebRootPath + file.FileBucket + file.FileObjectName;
+                var filePath = Path.Combine(AppContext.BaseDirectory, file.FileBucket, file.FileObjectName);
                 if (File.Exists(filePath))
                     File.Delete(filePath);
             }
@@ -130,7 +130,7 @@ namespace Dilon.Core.Service
         public async Task<IActionResult> DownloadFileInfo([FromQuery] QueryFileInoInput input)
         {
             var file = await GetFileInfo(input);
-            var filePath = App.WebHostEnvironment.WebRootPath + file.FileBucket + file.FileObjectName;
+            var filePath = Path.Combine(AppContext.BaseDirectory, file.FileBucket, file.FileObjectName);
             var fileName = HttpUtility.UrlEncode(file.FileOriginName, Encoding.GetEncoding("UTF-8"));
             return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName };
         }
@@ -180,11 +180,11 @@ namespace Dilon.Core.Service
             var fileSuffix = Path.GetExtension(file.FileName).ToLower(); // 文件后缀
             var finalName = fileId + fileSuffix; // 生成文件的最终名称            
 
-            var filePath = App.WebHostEnvironment.WebRootPath + pathType;
+            var filePath = Path.Combine(AppContext.BaseDirectory, pathType);
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
 
-            using (var stream = File.Create(filePath + finalName))
+            using (var stream = File.Create(Path.Combine(filePath, finalName)))
             {
                 await file.CopyToAsync(stream);
             }

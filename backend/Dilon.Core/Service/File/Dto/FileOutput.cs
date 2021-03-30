@@ -5,5 +5,9 @@
     /// </summary>
     public class FileOutput : FileInput
     {
+        /// <summary>
+        /// 文件Id
+        /// </summary>
+        public long Id { get; set; }
     }
 }

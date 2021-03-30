@@ -14,10 +14,12 @@ namespace Dilon.Core.Service
     public class SysRoleMenuService : ISysRoleMenuService, ITransient
     {
         private readonly IRepository<SysRoleMenu> _sysRoleMenuRep;  // 角色菜单表仓储   
+        private readonly ISysCacheService _sysCacheService;
 
-        public SysRoleMenuService(IRepository<SysRoleMenu> sysRoleMenuRep)
+        public SysRoleMenuService(IRepository<SysRoleMenu> sysRoleMenuRep, ISysCacheService sysCacheService)
         {
             _sysRoleMenuRep = sysRoleMenuRep;
+            _sysCacheService = sysCacheService;
         }
 
         /// <summary>
@@ -54,6 +56,10 @@ namespace Dilon.Core.Service
                     SysMenuId = u
                 }.Insert();
             });
+
+            // 清除缓存
+            var cacheKey = $"*" + CommonConst.CACHE_KEY_MENU;
+            await _sysCacheService.DelAsync(cacheKey);
         }
 
         /// <summary>
