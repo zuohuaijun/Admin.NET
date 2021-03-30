@@ -34,27 +34,27 @@ namespace Dilon.Core
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var descAtt = Attribute.GetCustomAttribute(actionDescriptor.MethodInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
-            //var sysOpLog = new SysLogOp
-            //{
-            //    Name = descAtt != null ? descAtt.Description : actionDescriptor.ActionName,
-            //    OpType = 1,
-            //    Success = isRequestSucceed ? YesOrNot.Y.ToString() : YesOrNot.N.ToString(),
-            //    //Message = isRequestSucceed ? "成功" : "失败",
-            //    Ip = httpContext.GetRemoteIpAddressToIPv4(),
-            //    Location = httpRequest.GetRequestUrlAddress(),
-            //    Browser = clent.UA.Family + clent.UA.Major,
-            //    Os = clent.OS.Family + clent.OS.Major,
-            //    Url = httpRequest.Path,
-            //    ClassName = context.Controller.ToString(),
-            //    MethodName = actionDescriptor.ActionName,
-            //    ReqMethod = httpRequest.Method,
-            //    //Param = JsonSerializerUtility.Serialize(context.ActionArguments),
-            //    //Result = JsonSerializerUtility.Serialize(actionContext.Result),
-            //    ElapsedTime = sw.ElapsedMilliseconds,
-            //    OpTime = DateTimeOffset.Now,
-            //    Account = httpContext.User?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT)
-            //};
-            //await sysOpLog.InsertAsync();
+            var sysOpLog = new SysLogOp
+            {
+                Name = descAtt != null ? descAtt.Description : actionDescriptor.ActionName,
+                OpType = 1,
+                Success = isRequestSucceed ? YesOrNot.Y.ToString() : YesOrNot.N.ToString(),
+                //Message = isRequestSucceed ? "成功" : "失败",
+                Ip = httpContext.GetRemoteIpAddressToIPv4(),
+                Location = httpRequest.GetRequestUrlAddress(),
+                Browser = clent.UA.Family + clent.UA.Major,
+                Os = clent.OS.Family + clent.OS.Major,
+                Url = httpRequest.Path,
+                ClassName = context.Controller.ToString(),
+                MethodName = actionDescriptor.ActionName,
+                ReqMethod = httpRequest.Method,
+                //Param = JsonSerializerUtility.Serialize(context.ActionArguments),
+                //Result = JsonSerializerUtility.Serialize(actionContext.Result),
+                ElapsedTime = sw.ElapsedMilliseconds,
+                OpTime = DateTimeOffset.Now,
+                Account = httpContext.User?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT)
+            };
+            await sysOpLog.InsertAsync();
         }
     }
 }
