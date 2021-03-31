@@ -9,5 +9,17 @@
             事例
             </summary>
         </member>
+        <member name="M:Dilon.Application.TestService.InitData">
+            <summary>
+            初始化数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.TestService.GetList">
+            <summary>
+            查询
+            </summary>
+            <returns></returns>
+        </member>
     </members>
 </doc>

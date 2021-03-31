@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Entity\" />
+    <PackageReference Include="Furion.Extras.DatabaseAccessor.SqlSugar" Version="1.17.2" />
   </ItemGroup>
 
 </Project>
