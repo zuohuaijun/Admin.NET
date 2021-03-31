@@ -49,7 +49,7 @@ namespace Dilon.Core.Service
         [NonAction]
         public async Task<List<RoleOutput>> GetUserRoleList(long userId)
         {
-            return await _sysRoleRep.DetachedEntities.Join(_sysUserRoleRep.AsQueryable(), u => u.Id, e => e.SysRoleId, (u, e) => new { u, e })
+            return await _sysRoleRep.DetachedEntities.Join(_sysUserRoleRep.DetachedEntities, u => u.Id, e => e.SysRoleId, (u, e) => new { u, e })
                                     .Where(x => x.e.SysUserId == userId)
                                     .Select(x => x.u.Adapt<RoleOutput>()).ToListAsync();
         }

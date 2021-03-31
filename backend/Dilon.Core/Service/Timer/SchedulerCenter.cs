@@ -262,7 +262,7 @@ namespace Dilon.Core.Service
         /// </summary>
         private async Task InitAllJob()
         {
-            var jobList = Db.GetRepository<SysTimer>().AsQueryable().Select(u => u.Adapt<JobInput>()).ToList();
+            var jobList = Db.GetRepository<SysTimer>().DetachedEntities.Select(u => u.Adapt<JobInput>()).ToList();
             var jobTasks = new List<Task<dynamic>>();
             jobList.ForEach(u =>
             {

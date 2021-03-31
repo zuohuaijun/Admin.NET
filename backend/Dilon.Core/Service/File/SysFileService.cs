@@ -64,7 +64,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysFileInfo/list")]
         public async Task<List<SysFile>> GetFileInfoList([FromQuery] FileOutput input)
         {
-            return await _sysFileInfoRep.AsQueryable().ToListAsync();
+            return await _sysFileInfoRep.DetachEntities.ToListAsync();
         }
 
         /// <summary>

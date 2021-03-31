@@ -59,8 +59,8 @@ namespace Dilon.Core.Service
             var sysOrgRep = Db.GetRepository<SysOrg>();
             var dataScopes = await GetUserDataScopeIdList(_userManager.UserId);
             var users = await _sysUserRep.DetachedEntities
-                                         .Join(sysEmpRep.AsQueryable(), u => u.Id, e => e.Id, (u, e) => new { u, e })
-                                         .Join(sysOrgRep.AsQueryable(), n => n.e.OrgId, o => o.Id, (n, o) => new { n, o })
+                                         .Join(sysEmpRep.DetachedEntities, u => u.Id, e => e.Id, (u, e) => new { u, e })
+                                         .Join(sysOrgRep.DetachedEntities, n => n.e.OrgId, o => o.Id, (n, o) => new { n, o })
                                          .Where(!string.IsNullOrEmpty(searchValue), x => (x.n.u.Account.Contains(input.SearchValue) ||
                                                                                     x.n.u.Name.Contains(input.SearchValue) ||
                                                                                     x.n.u.Phone.Contains(input.SearchValue)))
