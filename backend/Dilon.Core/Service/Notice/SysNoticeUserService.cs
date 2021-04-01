@@ -29,7 +29,6 @@ namespace Dilon.Core.Service.Notice
         /// <returns></returns>
         public Task Add(long noticeId, List<long> noticeUserIdList, int noticeUserStatus)
         {
-            var noticeUsers = new List<Task<SysNoticeUser>>();
             noticeUserIdList.ForEach(u =>
             {
                 new SysNoticeUser
@@ -37,7 +36,7 @@ namespace Dilon.Core.Service.Notice
                     NoticeId = noticeId,
                     UserId = u,
                     ReadStatus = noticeUserStatus
-                }.Insert();
+                }.InsertAsync();
             });
             return Task.CompletedTask;
         }
