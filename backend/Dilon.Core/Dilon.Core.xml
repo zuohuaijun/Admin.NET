@@ -419,51 +419,6 @@
             功能名（数据库表名称）
             </summary>
         </member>
-        <member name="T:Dilon.Core.Entity.System.SysFile">
-            <summary>
-            文件信息表
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Entity.System.SysFile.FileLocation">
-            <summary>
-            文件存储位置（1:阿里云，2:腾讯云，3:minio，4:本地）
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Entity.System.SysFile.FileBucket">
-            <summary>
-            文件仓库
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Entity.System.SysFile.FileOriginName">
-            <summary>
-            文件名称（上传时候的文件名）
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Entity.System.SysFile.FileSuffix">
-            <summary>
-            文件后缀
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Entity.System.SysFile.FileSizeKb">
-            <summary>
-            文件大小kb
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Entity.System.SysFile.FileSizeInfo">
-            <summary>
-            文件大小信息，计算后的
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Entity.System.SysFile.FileObjectName">
-            <summary>
-            存储到bucket的名称（文件唯一标识id）
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Entity.System.SysFile.FilePath">
-            <summary>
-            存储路径
-            </summary>
-        </member>
         <member name="T:Dilon.Core.SysConfig">
             <summary>
             参数配置表
@@ -690,6 +645,51 @@
         <member name="P:Dilon.Core.SysEmpPos.SysPos">
             <summary>
             一对一引用（职位）
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.SysFile">
+            <summary>
+            文件信息表
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysFile.FileLocation">
+            <summary>
+            文件存储位置（1:阿里云，2:腾讯云，3:minio，4:本地）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysFile.FileBucket">
+            <summary>
+            文件仓库
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysFile.FileOriginName">
+            <summary>
+            文件名称（上传时候的文件名）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysFile.FileSuffix">
+            <summary>
+            文件后缀
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysFile.FileSizeKb">
+            <summary>
+            文件大小kb
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysFile.FileSizeInfo">
+            <summary>
+            文件大小信息，计算后的
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysFile.FileObjectName">
+            <summary>
+            存储到bucket的名称（文件唯一标识id）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysFile.FilePath">
+            <summary>
+            存储路径
             </summary>
         </member>
         <member name="T:Dilon.Core.SysLogAudit">

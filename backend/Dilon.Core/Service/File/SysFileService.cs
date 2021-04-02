@@ -1,5 +1,4 @@
-﻿using Dilon.Core.Entity.System;
-using Furion;
+﻿using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;

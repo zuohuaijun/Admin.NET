@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Dilon.Core.Entity.System
+namespace Dilon.Core
 {
     /// <summary>
     /// 文件信息表

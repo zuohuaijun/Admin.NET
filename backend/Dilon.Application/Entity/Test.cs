@@ -1,24 +1,35 @@
 ﻿using SqlSugar;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dilon.Application
 {
-
-    [SugarTable("Test", TableDescription = "测试表")]
+    /// <summary>
+    /// SqlSugar实体
+    /// </summary>
+    [SugarTable("Test", TableDescription = "我的业务表")]
     public class Test
     {
+        /// <summary>
+        /// 雪花Id
+        /// </summary>
         [SugarColumn(IsPrimaryKey = true)]
-        public Guid Id { get; set; }
+        public long Id { get; set; }
+
+        /// <summary>
+        /// 名称
+        /// </summary>
+        [SugarColumn(ColumnDataType = "Nvarchar(32)")]
         public string Name { get; set; }
-        [SugarColumn(ColumnDataType = "Nvarchar(255)")]//自定格式的情况 length不要设置
-        public string Text { get; set; }
+
+        /// <summary>
+        /// 年龄
+        /// </summary>
+        public int Age { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
         [SugarColumn(IsNullable = true)]
-        public DateTime CreateTime { get; set; }
-
-
+        public DateTimeOffset CreateTime { get; set; }
     }
 }

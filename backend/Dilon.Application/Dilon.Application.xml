@@ -4,20 +4,39 @@
         <name>Dilon.Application</name>
     </assembly>
     <members>
+        <member name="T:Dilon.Application.Test">
+            <summary>
+            SqlSugar实体
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.Test.Id">
+            <summary>
+            雪花Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.Test.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.Test.Age">
+            <summary>
+            年龄
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.Test.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
         <member name="T:Dilon.Application.TestService">
             <summary>
-            事例
+            业务服务及集成SqlSugar用法事例
             </summary>
         </member>
-        <member name="M:Dilon.Application.TestService.InitData">
+        <member name="M:Dilon.Application.TestService.GetDescription">
             <summary>
-            初始化数据
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Application.TestService.GetList">
-            <summary>
-            查询
+            测试方法
             </summary>
             <returns></returns>
         </member>
