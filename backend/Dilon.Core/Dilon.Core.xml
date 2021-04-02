@@ -313,11 +313,6 @@
             主键Id
             </summary>
         </member>
-        <member name="P:Dilon.Core.DEntityBase.TenantId">
-            <summary>
-            租户Id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.DEntityBase.CreatedTime">
             <summary>
             创建时间
@@ -333,9 +328,19 @@
             创建者Id
             </summary>
         </member>
+        <member name="P:Dilon.Core.DEntityBase.CreatedUserName">
+            <summary>
+            创建者名称
+            </summary>
+        </member>
         <member name="P:Dilon.Core.DEntityBase.UpdatedUserId">
             <summary>
             修改者Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.DEntityBase.UpdatedUserName">
+            <summary>
+            修改者名称
             </summary>
         </member>
         <member name="P:Dilon.Core.DEntityBase.IsDeleted">

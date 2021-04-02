@@ -19,12 +19,6 @@ namespace Dilon.Core
         public virtual long Id { get; set; }
 
         /// <summary>
-        /// 租户Id
-        /// </summary>
-        [JsonIgnore]
-        public virtual Guid? TenantId { get; set; }
-
-        /// <summary>
         /// 创建时间
         /// </summary>
         public virtual DateTimeOffset? CreatedTime { get; set; }
@@ -40,9 +34,19 @@ namespace Dilon.Core
         public virtual long? CreatedUserId { get; set; }
 
         /// <summary>
+        /// 创建者名称
+        /// </summary>
+        public virtual long? CreatedUserName { get; set; }
+
+        /// <summary>
         /// 修改者Id
         /// </summary>
         public virtual long? UpdatedUserId { get; set; }
+
+        /// <summary>
+        /// 修改者名称
+        /// </summary>
+        public virtual long? UpdatedUserName { get; set; }
 
         /// <summary>
         /// 软删除

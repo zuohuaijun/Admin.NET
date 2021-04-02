@@ -25,10 +25,4 @@
     <PackageReference Include="Furion.Extras.DatabaseAccessor.SqlSugar" Version="1.17.4" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>other\System.Data.SQLite.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
 </Project>

@@ -1,5 +1,6 @@
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Data Source=./Dilon.db"
+    "DefaultConnection": "Data Source=./Dilon.db",
+    "MultiTenantConnection": "Data Source=./Dilon_SaaS.db"
   }
 }

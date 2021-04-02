@@ -13,12 +13,24 @@ using System.Linq;
 namespace Dilon.EntityFramework.Core
 {
     [AppDbContext("DefaultConnection", DbProvider.Sqlite)]
-    public class DefaultDbContext : AppDbContext<DefaultDbContext>, IModelBuilderFilter
+    public class DefaultDbContext : AppDbContext<DefaultDbContext>, IMultiTenantOnDatabase, IModelBuilderFilter
     {
         public DefaultDbContext(DbContextOptions<DefaultDbContext> options) : base(options)
         {
             // 启用实体数据更改监听
             EnabledEntityChangedListener = true;
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite(GetDatabaseConnectionString());
+
+            base.OnConfiguring(optionsBuilder);
+        }
+
+        public string GetDatabaseConnectionString()
+        {
+            return base.Tenant?.ConnectionString ?? App.Configuration["ConnectionStrings:DefaultConnection"];
         }
 
         /// <summary>
