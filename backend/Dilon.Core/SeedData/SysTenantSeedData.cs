@@ -5,27 +5,29 @@ using System.Collections.Generic;
 
 namespace Dilon.Core
 {
-    public class TenantSeedData : IEntitySeedData<Tenant, MultiTenantDbContextLocator>
+    public class SysTenantSeedData : IEntitySeedData<SysTenant, MultiTenantDbContextLocator>
     {
-        public IEnumerable<Tenant> HasData(DbContext dbContext, Type dbContextLocator)
+        public IEnumerable<SysTenant> HasData(DbContext dbContext, Type dbContextLocator)
         {
-            return new List<Tenant>
+            return new List<SysTenant>
             {
-                new Tenant
+                new SysTenant
                 {
-                    TenantId = Guid.Parse("2be54c55-a315-12d6-687c-ff711fcb0703"),
+                    Id = 142307070918780,
                     Name = "默认租户",
                     Host = "localhost:5566",
                     CreatedTime = DateTime.Parse("2021-04-03 00:00:00"),
-                    ConnectionString = "Data Source=./Dilon.db"
+                    Connection = "Data Source=./Dilon.db",
+                    Email = "zuohuaijun@163.com",
+                    Phone = "18020030720"
                 },
-                new Tenant
+                new SysTenant
                 {
-                    TenantId = Guid.Parse("011dc86b-ecad-0f34-19e8-8e9644b780a3"),
+                    Id = 142307070918781,
                     Name = "其他租户",
                     Host = "localhost:5588",
                     CreatedTime = DateTime.Parse("2021-04-03 00:00:00"),
-                    ConnectionString = "Data Source=./Dilon2.db"
+                    Connection = "Data Source=./Dilon_1.db"
                 }
             };
         }

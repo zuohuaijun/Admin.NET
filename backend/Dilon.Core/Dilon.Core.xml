@@ -1370,6 +1370,46 @@
             一对一引用（系统菜单）
             </summary>
         </member>
+        <member name="T:Dilon.Core.SysTenant">
+            <summary>
+            租户表
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTenant.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTenant.Host">
+            <summary>
+            主机
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTenant.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTenant.Phone">
+            <summary>
+            电话
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTenant.Connection">
+            <summary>
+            数据库连接
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTenant.Schema">
+            <summary>
+            架构
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTenant.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
         <member name="T:Dilon.Core.SysTimer">
             <summary>
             定时任务
@@ -1929,6 +1969,11 @@
         <member name="F:Dilon.Core.ErrorCode.D1200">
             <summary>
             演示环境禁止修改数据
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.ErrorCode.D1300">
+            <summary>
+            已存在同名或同主机租户
             </summary>
         </member>
         <member name="F:Dilon.Core.ErrorCode.xg1000">
@@ -2703,6 +2748,11 @@
         <member name="T:Dilon.Core.Service.AppOutput">
             <summary>
             系统应用参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AppOutput.Id">
+            <summary>
+            应用Id
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.AppOutput.Name">
@@ -5330,6 +5380,166 @@
         <member name="M:Dilon.Core.Service.SysRoleService.OwnData(Dilon.Core.Service.QueryRoleInput)">
             <summary>
             获取角色拥有数据Id集合
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Dilon.Core.Service.TenantInput">
+            <summary>
+            租户参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantInput.Host">
+            <summary>
+            主机
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantInput.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantInput.Phone">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantInput.Schema">
+            <summary>
+            模式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantInput.Connection">
+            <summary>
+            数据库连接
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantInput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddTenantInput.Name">
+            <summary>
+            租户名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddTenantInput.Host">
+            <summary>
+            主机名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddTenantInput.Connection">
+            <summary>
+            数据库连接
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.DeleteTenantInput.Id">
+            <summary>
+            租户Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.UpdateTenantInput.Id">
+            <summary>
+            租户Id
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.TenantOutput">
+            <summary>
+            租户参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.Id">
+            <summary>
+            租户Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.Host">
+            <summary>
+            主机
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.Phone">
+            <summary>
+            电话号码
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.Schema">
+            <summary>
+            模式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.Connection">
+            <summary>
+            数据库连接
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.SysTenantService">
+            <summary>
+            租户服务
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.QueryTenantPageList(Dilon.Core.Service.TenantInput)">
+            <summary>
+            分页查询租户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.AddTenant(Dilon.Core.Service.AddTenantInput)">
+            <summary>
+            增加租户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.DeleteTenant(Dilon.Core.Service.DeleteTenantInput)">
+            <summary>
+            删除租户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.UpdateTenant(Dilon.Core.Service.UpdateTenantInput)">
+            <summary>
+            更新租户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.GetTenant(Dilon.Core.Service.QueryTenantInput)">
+            <summary>
+            获取租户
             </summary>
             <param name="input"></param>
             <returns></returns>

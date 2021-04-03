@@ -30,7 +30,10 @@ namespace Dilon.EntityFramework.Core
 
         public string GetDatabaseConnectionString()
         {
-            return base.Tenant?.ConnectionString ?? App.Configuration["ConnectionStrings:DefaultConnection"];
+            // 当前根据主机名称获取租户信息（可自由处理，比如请求参数等）
+            var host = App.HttpContext?.Request.Host.Value;
+            var tenant = Db.GetDbContext<MultiTenantDbContextLocator>().Set<SysTenant>().FirstOrDefault(u => u.Host == host);
+            return tenant?.Connection ?? App.Configuration["ConnectionStrings:DefaultConnection"];
         }
 
         /// <summary>
@@ -73,9 +76,10 @@ namespace Dilon.EntityFramework.Core
                     throw Oops.Oh(ErrorCode.D1200);
             }
 
+            // 当前操作用户信息
             var userId = App.User.FindFirst(ClaimConst.CLAINM_USERID)?.Value;
-
-            // 获取所有已更改的实体
+            var userName = App.User.FindFirst(ClaimConst.CLAINM_ACCOUNT)?.Value;
+      
             foreach (var entity in entities)
             {
                 if (entity.Entity.GetType().IsSubclassOf(typeof(DEntityBase)))
@@ -88,12 +92,14 @@ namespace Dilon.EntityFramework.Core
                         if (!string.IsNullOrEmpty(userId))
                         {
                             obj.CreatedUserId = long.Parse(userId);
+                            obj.CreatedUserName = userName;
                         }
                     }
                     else if (entity.State == EntityState.Modified)
                     {
                         obj.UpdatedTime = DateTimeOffset.Now;
                         obj.UpdatedUserId = long.Parse(userId);
+                        obj.UpdatedUserName = userName;
                     }
                 }
 

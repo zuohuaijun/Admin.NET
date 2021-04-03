@@ -14,7 +14,7 @@ namespace Dilon.Core.Service
     /// <summary>
     /// 任务调度服务
     /// </summary>
-    [ApiDescriptionSettings(Name = "sysTimer", Order = 100)]
+    [ApiDescriptionSettings(Name = "Timer", Order = 100)]
     public class SysTimerService : ISysTimerService, IDynamicApiController, IScoped
     {
         private readonly IRepository<SysTimer> _sysTimerRep;  // 任务表仓储 

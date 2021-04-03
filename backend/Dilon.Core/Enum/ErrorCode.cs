@@ -328,6 +328,12 @@ namespace Dilon.Core
         D1200,
 
         /// <summary>
+        /// 已存在同名或同主机租户
+        /// </summary>
+        [ErrorCodeItemMetadata("已存在同名或同主机租户")]
+        D1300,
+
+        /// <summary>
         /// 已存在同名或同编码项目
         /// </summary>
         [ErrorCodeItemMetadata("已存在同名或同编码项目")]

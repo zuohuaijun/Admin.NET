@@ -10,6 +10,8 @@ namespace Dilon.EntityFramework.Core
         {
             services.AddDatabaseAccessor(options =>
             {
+                options.CustomizeMultiTenants(); // 自定义租户
+
                 options.AddDb<DefaultDbContext>();
                 options.AddDb<MultiTenantDbContext, MultiTenantDbContextLocator>();
             }, "Dilon.Database.Migrations");

@@ -36,7 +36,7 @@ namespace Dilon.Core
         /// <summary>
         /// 创建者名称
         /// </summary>
-        public virtual long? CreatedUserName { get; set; }
+        public virtual string CreatedUserName { get; set; }
 
         /// <summary>
         /// 修改者Id
@@ -46,7 +46,7 @@ namespace Dilon.Core
         /// <summary>
         /// 修改者名称
         /// </summary>
-        public virtual long? UpdatedUserName { get; set; }
+        public virtual string UpdatedUserName { get; set; }
 
         /// <summary>
         /// 软删除

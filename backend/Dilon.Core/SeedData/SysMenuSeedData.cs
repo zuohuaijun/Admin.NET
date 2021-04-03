@@ -174,6 +174,14 @@ namespace Dilon.Core
 
                 new SysMenu{Id=142307070918776, Pid=0, Pids="[0],", Name="代码生成", Code="code_gen", Type=1, Icon="thunderbolt", Router="/codeGenerate/index", Component="gen/codeGenerate/index", Application="system_tool", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
 
+                new SysMenu{Id=142307070918782, Pid=0, Pids="[0],", Name="SaaS租户", Code="sys_tenant", Type=1, Icon="switcher", Router="/tenant", Component="PageView", Application="advanced", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070918783, Pid=142307070918782, Pids="[0],[142307070918782],", Name="租户管理", Code="sys_tenant_mgr", Type=1, Router="/tenant", Component="system/tenant/index", Application="advanced", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070922821, Pid=142307070918783, Pids="[0],[142307070918782],[142307070918783],", Name="租户查询", Code="sys_tenant_mgr_page", Type=2, Permission="sysTenant:page", Application="advanced", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070922822, Pid=142307070918783, Pids="[0],[142307070918782],[142307070918783],", Name="租户详情", Code="sys_tenant_mgr_detail", Type=2, Permission="sysTenant:detail", Application="advanced", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070922823, Pid=142307070918783, Pids="[0],[142307070918782],[142307070918783],", Name="租户增加", Code="sys_tenant_mgr_add", Type=2, Permission="sysTenant:add", Application="advanced", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070922824, Pid=142307070918783, Pids="[0],[142307070918782],[142307070918783],", Name="租户删除", Code="sys_tenant_mgr_delete", Type=2, Permission="sysTenant:delete", Application="advanced", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070922825, Pid=142307070918783, Pids="[0],[142307070918782],[142307070918783],", Name="租户编辑", Code="sys_tenant_mgr_edit", Type=2, Permission="sysTenant:edit", Application="advanced", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+
             };
         }
     }
