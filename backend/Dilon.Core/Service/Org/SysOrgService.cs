@@ -218,6 +218,11 @@ namespace Dilon.Core.Service
             if (input.Id == input.Pid)
                 throw Oops.Oh(ErrorCode.D2001);
 
+            // 如果是编辑，父id不能为自己的子节点
+            var childIdListById = await GetChildIdListWithSelfById(long.Parse(input.Id));
+            if (childIdListById.Contains(long.Parse(input.Pid)))
+                throw Oops.Oh(ErrorCode.D2001);
+
             var sysOrg = await _sysOrgRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
 
             // 检测数据范围能不能操作这个机构
