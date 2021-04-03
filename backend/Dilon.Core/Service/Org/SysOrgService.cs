@@ -234,13 +234,20 @@ namespace Dilon.Core.Service
             if (isExist)
                 throw Oops.Oh(ErrorCode.D2002);
 
-            //如果名称有变化，则修改对应员工的机构相关信息
+            // 如果名称有变化，则修改对应员工的机构相关信息
             if (!sysOrg.Name.Equals(input.Name))
                 await _sysEmpService.UpdateEmpOrgInfo(sysOrg.Id, sysOrg.Name);
 
             sysOrg = input.Adapt<SysOrg>();
             await FillPids(sysOrg);
             await sysOrg.UpdateAsync(ignoreNullValues: true);
+
+            //// 将所有子的父id进行更新
+            //childIdListById.ForEach(u=> {
+            //    var child = _sysOrgRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == u.Id);
+            //    var newInput = child.Adapt<UpdateOrgInput>();
+            //    UpdateOrg(newInput).GetAwaiter();
+            //});
         }
 
         /// <summary>
