@@ -242,23 +242,17 @@ namespace Dilon.Core.Service
         [UnitOfWork]
         public async Task DeleteMenu(DeleteMenuInput input)
         {
-            var childIdList = await _sysMenuRep.DetachedEntities.Select(u => new { u.Id, u.Pids }).ToListAsync();
-            var newList = new List<long>();
-            foreach (var item in childIdList)
-            {
-                if (item.Pids.IndexOf(input.Id.ToString()) > 0)
-                {
-                    newList.Add(item.Id);
-                }
-            }
-            newList.Add(input.Id);
-            var menus = await _sysMenuRep.Where(u => newList.Contains(u.Id)).ToListAsync();
+            var childIdList = await _sysMenuRep.DetachedEntities.Where(u => u.Pids.Contains(input.Id.ToString()))
+                                                                .Select(u => u.Id).ToListAsync();
+            childIdList.Add(input.Id);
+
+            var menus = await _sysMenuRep.Where(u => childIdList.Contains(u.Id)).ToListAsync();
             menus.ForEach(u =>
             {
                 u.Delete();
             });
             // 级联删除该菜单及子菜单对应的角色-菜单表信息
-            await _sysRoleMenuService.DeleteRoleMenuListByMenuIdList(newList);
+            await _sysRoleMenuService.DeleteRoleMenuListByMenuIdList(childIdList);
 
             // 清除缓存
             await _sysCacheService.DelByPatternAsync(CommonConst.CACHE_KEY_MENU);
@@ -272,6 +266,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysMenu/edit"),]
         public async Task UpdateMenu(UpdateMenuInput input)
         {
+            // Pid和Id不能一致，一致会导致无限递归
             if (input.Id == input.Pid)
                 throw Oops.Oh(ErrorCode.D4006);
 
@@ -281,6 +276,11 @@ namespace Dilon.Core.Service
 
             // 校验参数
             CheckMenuParam(input);
+            // 如果是编辑，父id不能为自己的子节点
+            var childIdList = await _sysMenuRep.DetachedEntities.Where(u => u.Pids.Contains(input.Id.ToString()))
+                                                                .Select(u => u.Id).ToListAsync();
+            if (childIdList.Contains(input.Pid))
+                throw Oops.Oh(ErrorCode.D4006);
 
             var oldMenu = await _sysMenuRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
 
