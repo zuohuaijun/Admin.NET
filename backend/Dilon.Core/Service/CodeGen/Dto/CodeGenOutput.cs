@@ -1,13 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Dilon.Core
+﻿namespace Dilon.Core.Service
 {
     /// <summary>
-    /// 代码生成表
+    /// 代码生成参数类
     /// </summary>
-    [Table("sys_code_gen")]
-    public class SysCodeGen : DEntityBase
+    public class CodeGenOutput
     {
+        /// <summary>
+        /// 代码生成器Id
+        /// </summary>
+        public long Id { get; set; }
+
         /// <summary>
         /// 作者姓名
         /// </summary>

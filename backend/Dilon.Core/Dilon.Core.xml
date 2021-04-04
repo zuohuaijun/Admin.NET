@@ -379,49 +379,134 @@
             排序
             </summary>
         </member>
-        <member name="T:Dilon.Core.Entity.SysCodeGen">
+        <member name="T:Dilon.Core.SysCodeGen">
             <summary>
             代码生成表
             </summary>
         </member>
-        <member name="P:Dilon.Core.Entity.SysCodeGen.AuthorName">
+        <member name="P:Dilon.Core.SysCodeGen.AuthorName">
             <summary>
             作者姓名
             </summary>
         </member>
-        <member name="P:Dilon.Core.Entity.SysCodeGen.ClassName">
+        <member name="P:Dilon.Core.SysCodeGen.ClassName">
             <summary>
             类名
             </summary>
         </member>
-        <member name="P:Dilon.Core.Entity.SysCodeGen.TablePrefix">
+        <member name="P:Dilon.Core.SysCodeGen.TablePrefix">
             <summary>
             是否移除表前缀
             </summary>
         </member>
-        <member name="P:Dilon.Core.Entity.SysCodeGen.GenerateType">
+        <member name="P:Dilon.Core.SysCodeGen.GenerateType">
             <summary>
             生成方式
             </summary>
         </member>
-        <member name="P:Dilon.Core.Entity.SysCodeGen.TableName">
+        <member name="P:Dilon.Core.SysCodeGen.TableName">
             <summary>
             数据库表名
             </summary>
         </member>
-        <member name="P:Dilon.Core.Entity.SysCodeGen.PackageName">
+        <member name="P:Dilon.Core.SysCodeGen.PackageName">
             <summary>
             包名
             </summary>
         </member>
-        <member name="P:Dilon.Core.Entity.SysCodeGen.BusName">
+        <member name="P:Dilon.Core.SysCodeGen.BusName">
             <summary>
             业务名（业务代码包名称）
             </summary>
         </member>
-        <member name="P:Dilon.Core.Entity.SysCodeGen.TableComment">
+        <member name="P:Dilon.Core.SysCodeGen.TableComment">
             <summary>
             功能名（数据库表名称）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.CodeGenId">
+            <summary>
+            代码生成主表ID
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.ColumnName">
+            <summary>
+            数据库字段名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.JavaName">
+            <summary>
+            Java类字段名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.ColumnComment">
+            <summary>
+            字段描述
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.JavaType">
+            <summary>
+            Java类型
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.EffectType">
+            <summary>
+            作用类型（字典）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.DictTypeCode">
+            <summary>
+            字典code
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.WhetherRetract">
+            <summary>
+            列表是否缩进（字典）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.WhetherRequired">
+            <summary>
+            是否必填（字典）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.QueryWhether">
+            <summary>
+            是否是查询条件
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.QueryType">
+            <summary>
+            查询方式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.WhetherTable">
+            <summary>
+            列表显示
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.WhetherAddUpdate">
+            <summary>
+            增改
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.ColumnKey">
+            <summary>
+            主外键
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.ColumnKeyName">
+            <summary>
+            首字母大写名称（用于代码生成get set方法）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.DataType">
+            <summary>
+            数据库中类型（物理类型）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.WhetherCommon">
+            <summary>
+            是否是通用字段
             </summary>
         </member>
         <member name="T:Dilon.Core.SysConfig">
@@ -1976,6 +2061,11 @@
             已存在同名或同主机租户
             </summary>
         </member>
+        <member name="F:Dilon.Core.ErrorCode.D1400">
+            <summary>
+            该表代码模板已经生成过
+            </summary>
+        </member>
         <member name="F:Dilon.Core.ErrorCode.xg1000">
             <summary>
             已存在同名或同编码项目
@@ -3119,49 +3209,351 @@
             代码生成器服务
             </summary>
         </member>
-        <member name="T:Dilon.Core.Service.CodeGen.Dto.CodeGenInput">
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.QueryCodeGenPageList(Dilon.Core.Service.CodeGenInput)">
+            <summary>
+            分页查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.AddCodeGen(Dilon.Core.Service.AddCodeGenInput)">
+            <summary>
+            增加
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.DeleteCodeGen(Dilon.Core.Service.DeleteCodeGenInput)">
+            <summary>
+            删除
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.UpdateCodeGen(Dilon.Core.Service.UpdateCodeGenInput)">
+            <summary>
+            更新
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.GetCodeGen(Dilon.Core.Service.QueryCodeGenInput)">
+            <summary>
+            详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.GetTableList">
+            <summary>
+            获取数据库表集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.RunLocal(Dilon.Core.Service.CodeGenInput)">
+            <summary>
+            代码生成_本地项目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Dilon.Core.Service.Config">
+            <summary>
+            代码生成配置
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.FILE_SEP">
+            <summary>
+            路径分离（不通的机器，取不同的路径）
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.templatePath">
+            <summary>
+            存放vm模板位置
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.DB_TABLE_COM_KRY">
+            <summary>
+            主键标识
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.MODULAR_NAME">
+            <summary>
+            模块名（一般为modular，无特殊要求一般不改）
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.FLAG">
+            <summary>
+            本项目生成时是否覆盖
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.BASE_MODULAR_NAME">
+            <summary>
+            大模块名称（生成到代码中哪个模块下）
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.BASE_JAVA_PAHT">
+            <summary>
+            java文件夹
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.BASE_VUE_PAHT">
+            <summary>
+            vue文件夹
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.BASE_SQL_PAHT">
+            <summary>
+            sql文件夹
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.controllerPath">
+            <summary>
+            代码生成路径
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.Service.Config.xnCodeGenFilePath(System.String,System.String)">
+            <summary>
+            各个代码存放路径文件夹
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.Service.Config.xnCodeGenTempFile">
+            <summary>
+            模板文件
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.Config.LocalPath">
+            <summary>
+            本地项目根目录
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.Config.LocalFrontPath">
+            <summary>
+            vue前端
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.CodeGenInput">
             <summary>
             代码生成参数类
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.CodeGen.Dto.CodeGenInput.AuthorName">
+        <member name="P:Dilon.Core.Service.CodeGenInput.AuthorName">
             <summary>
             作者姓名
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.CodeGen.Dto.CodeGenInput.ClassName">
+        <member name="P:Dilon.Core.Service.CodeGenInput.ClassName">
             <summary>
             类名
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.CodeGen.Dto.CodeGenInput.TablePrefix">
+        <member name="P:Dilon.Core.Service.CodeGenInput.TablePrefix">
             <summary>
             是否移除表前缀
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.CodeGen.Dto.CodeGenInput.GenerateType">
+        <member name="P:Dilon.Core.Service.CodeGenInput.GenerateType">
             <summary>
             生成方式
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.CodeGen.Dto.CodeGenInput.TableName">
+        <member name="P:Dilon.Core.Service.CodeGenInput.TableName">
             <summary>
             数据库表名
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.CodeGen.Dto.CodeGenInput.PackageName">
+        <member name="P:Dilon.Core.Service.CodeGenInput.PackageName">
             <summary>
             包名
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.CodeGen.Dto.CodeGenInput.BusName">
+        <member name="P:Dilon.Core.Service.CodeGenInput.BusName">
             <summary>
             业务名（业务代码包名称）
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.CodeGen.Dto.CodeGenInput.TableComment">
+        <member name="P:Dilon.Core.Service.CodeGenInput.TableComment">
             <summary>
             功能名（数据库表名称）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.AuthorName">
+            <summary>
+            作者姓名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.TablePrefix">
+            <summary>
+            是否移除表前缀
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.GenerateType">
+            <summary>
+            生成方式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.TableName">
+            <summary>
+            数据库表名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.BusName">
+            <summary>
+            业务名（业务代码包名称）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.TableComment">
+            <summary>
+            功能名（数据库表名称）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.DeleteCodeGenInput.Id">
+            <summary>
+            代码生成器Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.UpdateCodeGenInput.Id">
+            <summary>
+            代码生成器Id
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.CodeGenOutput">
+            <summary>
+            代码生成参数类
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.Id">
+            <summary>
+            代码生成器Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.AuthorName">
+            <summary>
+            作者姓名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.TablePrefix">
+            <summary>
+            是否移除表前缀
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.GenerateType">
+            <summary>
+            生成方式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.TableName">
+            <summary>
+            数据库表名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.PackageName">
+            <summary>
+            包名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.BusName">
+            <summary>
+            业务名（业务代码包名称）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.TableComment">
+            <summary>
+            功能名（数据库表名称）
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.TableOutput">
+            <summary>
+            数据库表列表参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TableOutput.TableName">
+            <summary>
+            表名（字母形式的）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TableOutput.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TableOutput.UpdateTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TableOutput.TableComment">
+            <summary>
+            表名称描述（注释）（功能名）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.AuthorName">
+            <summary>
+            作者姓名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.FunctionName">
+            <summary>
+            功能名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.TablePrefix">
+            <summary>
+            是否移除表前缀
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.GenerateType">
+            <summary>
+            生成方式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.TableName">
+            <summary>
+            数据库表名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.TableNameAss">
+            <summary>
+            数据库表名（经过组装的）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.PackageName">
+            <summary>
+            代码包名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.CreateTimestring">
+            <summary>
+            生成时间（string类型的）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.ConfigList">
+            <summary>
+            数据库表中字段集合
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.ModularNane">
+            <summary>
+            模块名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.XnCodeGenOutput.BusName">
+            <summary>
+            业务名
             </summary>
         </member>
         <member name="T:Dilon.Core.Service.ConfigInput">
