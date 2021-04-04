@@ -3268,11 +3268,11 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.CodeGenConfigService.Delete(Dilon.Core.Service.CodeGenConfigDto)">
+        <member name="M:Dilon.Core.Service.CodeGenConfigService.Delete(System.Int64)">
             <summary>
             删除
             </summary>
-            <param name="input"></param>
+            <param name="codeGenId"></param>
             <returns></returns>
         </member>
         <member name="M:Dilon.Core.Service.CodeGenConfigService.Update(System.Collections.Generic.List{Dilon.Core.Service.CodeGenConfigDto})">
@@ -3338,7 +3338,13 @@
         </member>
         <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.GetTableList">
             <summary>
-            获取数据库表集合
+            获取数据库表(实体)集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.GetColumnList(Dilon.Core.Service.AddCodeGenInput)">
+            <summary>
+            获取数据表列（实体属性）集合
             </summary>
             <returns></returns>
         </member>

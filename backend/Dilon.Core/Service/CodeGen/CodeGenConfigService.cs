@@ -50,12 +50,12 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="codeGenId"></param>
         /// <returns></returns>
         [NonAction]
-        public async Task Delete(CodeGenConfigDto input)
+        public async Task Delete(long codeGenId)
         {
-            var codeGenConfigList = await _sysCodeGenConfigRep.Where(u => u.CodeGenId == input.CodeGenId).ToListAsync();
+            var codeGenConfigList = await _sysCodeGenConfigRep.Where(u => u.CodeGenId == codeGenId).ToListAsync();
             codeGenConfigList.ForEach(u =>
             {
                 u.Delete();
@@ -98,6 +98,8 @@ namespace Dilon.Core.Service
         [NonAction]
         public void AddList(List<TableColumnOuput> tableColumnOuputList, SysCodeGen codeGenerate)
         {
+            if (tableColumnOuputList == null) return;
+
             foreach (var tableColumn in tableColumnOuputList)
             {
                 var sysCodeGenerateConfig = new SysCodeGenConfig();
@@ -116,7 +118,7 @@ namespace Dilon.Core.Service
                 sysCodeGenerateConfig.ColumnName = tableColumn.ColumnName;
                 sysCodeGenerateConfig.ColumnComment = tableColumn.ColumnComment;
                 sysCodeGenerateConfig.JavaName = tableColumn.ColumnName + codeGenerate.TablePrefix;
-                sysCodeGenerateConfig.JavaType = tableColumn.DataType; // JavaSqlTool.sqlToJava(tableColumn.DataType);
+                sysCodeGenerateConfig.JavaType = tableColumn.DataType;
                 sysCodeGenerateConfig.WhetherRetract = YesOrNot.N.ToString();
 
                 sysCodeGenerateConfig.WhetherRequired = YesOrNo;

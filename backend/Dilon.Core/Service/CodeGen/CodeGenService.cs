@@ -32,10 +32,12 @@ namespace Dilon.Core.Service.CodeGen
         private static string TEMP_ENTITY_NAME = "entity";
 
         private readonly IRepository<SysCodeGen> _sysCodeGenRep;    // 代码生成器仓储
+        private readonly CodeGenConfigService _codeGenConfigService;
 
-        public CodeGenService(IRepository<SysCodeGen> sysCodeGenRep)
+        public CodeGenService(IRepository<SysCodeGen> sysCodeGenRep, CodeGenConfigService codeGenConfigService)
         {
             _sysCodeGenRep = sysCodeGenRep;
+            _codeGenConfigService = codeGenConfigService;
         }
 
         /// <summary>
@@ -66,11 +68,12 @@ namespace Dilon.Core.Service.CodeGen
                 throw Oops.Oh(ErrorCode.D1400);
 
             var codeGen = input.Adapt<SysCodeGen>();
-            await codeGen.InsertAsync();
+            var newCodeGen = await codeGen.InsertNowAsync();
 
-            //// 加入配置表中
-            //codeGenerateParam.setId(codeGenerate.getId());
-            //this.sysCodeGenerateConfigService.addList(this.getInforMationColumnsResultList(codeGenerateParam), codeGenerate);
+            // 加入配置表中
+            //var codeGenOutput = input.Adapt<CodeGenOutput>();
+            //codeGenOutput.Id = newCodeGen.Entity.Id;
+            _codeGenConfigService.AddList(GetColumnList(input), newCodeGen.Entity);
         }
 
         /// <summary>
@@ -79,17 +82,19 @@ namespace Dilon.Core.Service.CodeGen
         /// <param name="inputs"></param>
         /// <returns></returns>
         [HttpPost("/codeGenerate/delete")]
-        public void DeleteCodeGen(List<DeleteCodeGenInput> inputs)
+        public async Task DeleteCodeGen(List<DeleteCodeGenInput> inputs)
         {
             if (inputs == null || inputs.Count < 1) return;
+
+            var codeGenConfigTaskList = new List<Task>();
             inputs.ForEach(u =>
             {
                 _sysCodeGenRep.Delete(u.Id);
-            });
 
-            //// 删除配置表中
-            //codeGenerateParam.setId(codeGenerate.getId());
-            //this.sysCodeGenerateConfigService.addList(this.getInforMationColumnsResultList(codeGenerateParam), codeGenerate);
+                // 删除配置表中
+                codeGenConfigTaskList.Add(_codeGenConfigService.Delete(u.Id));
+            });
+            await Task.WhenAll(codeGenConfigTaskList);
         }
 
         /// <summary>
@@ -120,25 +125,36 @@ namespace Dilon.Core.Service.CodeGen
         }
 
         /// <summary>
-        /// 获取数据库表集合
+        /// 获取数据库表(实体)集合
         /// </summary>
         /// <returns></returns>
 
         [HttpGet("/codeGenerate/InformationList")]
         public List<TableOutput> GetTableList()
         {
-            var tableNames = new List<TableOutput>();
-
-            var entityTypes = Db.GetDbContext().Model.GetEntityTypes();
-            foreach (var entityType in entityTypes)
+            return Db.GetDbContext().Model.GetEntityTypes().Select(u => new TableOutput
             {
-                var tableOutput = new TableOutput
-                {
-                    TableName = entityType.ClrType.Name
-                };
-                tableNames.Add(tableOutput);
-            }
-            return tableNames;
+                TableName = u.Name
+            }).ToList();
+        }
+
+        /// <summary>
+        /// 获取数据表列（实体属性）集合
+        /// </summary>
+        /// <returns></returns>
+        [NonAction]
+        public List<TableColumnOuput> GetColumnList(AddCodeGenInput input)
+        {
+            var entityType = Db.GetDbContext().Model.GetEntityTypes().FirstOrDefault(u => u.ClrType.Name == input.TableName);
+            if (entityType == null) return null;
+
+            return entityType.GetProperties().Select(u => new TableColumnOuput
+            {
+                ColumnName = u.Name,
+                ColumnKey = u.IsPrimaryKey().ToString(),
+                DataType = u.GetColumnType(),
+                ColumnComment = u.GetComment()
+            }).ToList();
         }
 
         /// <summary>
@@ -153,7 +169,6 @@ namespace Dilon.Core.Service.CodeGen
             xnCodeGenParam.ConfigList = null;
             xnCodeGenParam.CreateTimestring = DateTimeOffset.Now.ToString();
         }
-
 
     }
 }
