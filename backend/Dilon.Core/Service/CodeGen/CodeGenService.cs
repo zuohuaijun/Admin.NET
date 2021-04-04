@@ -6,7 +6,6 @@ using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -77,12 +76,16 @@ namespace Dilon.Core.Service.CodeGen
         /// <summary>
         /// 删除
         /// </summary>
-        /// <param name="input"></param>
+        /// <param name="inputs"></param>
         /// <returns></returns>
         [HttpPost("/codeGenerate/delete")]
-        public async Task DeleteCodeGen(DeleteCodeGenInput input)
+        public void DeleteCodeGen(List<DeleteCodeGenInput> inputs)
         {
-            await _sysCodeGenRep.DeleteAsync(input.Id);
+            if (inputs == null || inputs.Count < 1) return;
+            inputs.ForEach(u =>
+            {
+                _sysCodeGenRep.Delete(u.Id);
+            });
 
             //// 删除配置表中
             //codeGenerateParam.setId(codeGenerate.getId());
@@ -110,7 +113,7 @@ namespace Dilon.Core.Service.CodeGen
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpGet("/sysCodeGen/detail")]
+        [HttpGet("/codeGenerate/detail")]
         public async Task<SysCodeGen> GetCodeGen([FromQuery] QueryCodeGenInput input)
         {
             return await _sysCodeGenRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
@@ -122,7 +125,7 @@ namespace Dilon.Core.Service.CodeGen
         /// <returns></returns>
 
         [HttpGet("/codeGenerate/InformationList")]
-        public static List<TableOutput> GetTableList()
+        public List<TableOutput> GetTableList()
         {
             var tableNames = new List<TableOutput>();
 
@@ -142,7 +145,7 @@ namespace Dilon.Core.Service.CodeGen
         /// 代码生成_本地项目
         /// </summary>
         /// <returns></returns>
-        [HttpGet("/codeGenerate/runLocal")]
+        [HttpPost("/codeGenerate/runLocal")]
         public void RunLocal(CodeGenInput input)
         {
             XnCodeGenOutput xnCodeGenParam = input.Adapt<XnCodeGenOutput>();
@@ -150,5 +153,7 @@ namespace Dilon.Core.Service.CodeGen
             xnCodeGenParam.ConfigList = null;
             xnCodeGenParam.CreateTimestring = DateTimeOffset.Now.ToString();
         }
+
+
     }
 }

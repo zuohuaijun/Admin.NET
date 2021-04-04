@@ -2301,6 +2301,51 @@
             已读
             </summary>
         </member>
+        <member name="T:Dilon.Core.QueryTypeEnum">
+            <summary>
+            查询类型的枚举
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.QueryTypeEnum.eq">
+            <summary>
+            等于
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.QueryTypeEnum.like">
+            <summary>
+            模糊
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.QueryTypeEnum.gt">
+            <summary>
+            大于
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.QueryTypeEnum.lt">
+            <summary>
+            小于
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.QueryTypeEnum.ne">
+            <summary>
+            不等于
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.QueryTypeEnum.ge">
+            <summary>
+            大于等于
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.QueryTypeEnum.le">
+            <summary>
+            小于等于
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.QueryTypeEnum.isNotNull">
+            <summary>
+            不为空
+            </summary>
+        </member>
         <member name="T:Dilon.Core.YesOrNot">
             <summary>
             菜单激活类型
@@ -3204,6 +3249,53 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="T:Dilon.Core.Service.CodeGenConfigService">
+            <summary>
+            代码生成详细配置服务
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGenConfigService.List(Dilon.Core.Service.CodeGenConfigDto)">
+            <summary>
+            代码生成详细配置列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGenConfigService.Add(Dilon.Core.Service.CodeGenConfigDto)">
+            <summary>
+            增加
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGenConfigService.Delete(Dilon.Core.Service.CodeGenConfigDto)">
+            <summary>
+            删除
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGenConfigService.Update(System.Collections.Generic.List{Dilon.Core.Service.CodeGenConfigDto})">
+            <summary>
+            更新
+            </summary>
+            <param name="inputList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGenConfigService.Detail(Dilon.Core.Service.CodeGenConfigDto)">
+            <summary>
+            详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGenConfigService.AddList(System.Collections.Generic.List{Dilon.Core.Service.TableColumnOuput},Dilon.Core.SysCodeGen)">
+            <summary>
+            批量增加
+            </summary>
+            <param name="tableColumnOuputList"></param>
+            <param name="codeGenerate"></param>
+        </member>
         <member name="T:Dilon.Core.Service.CodeGen.CodeGenService">
             <summary>
             代码生成器服务
@@ -3223,11 +3315,11 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.DeleteCodeGen(Dilon.Core.Service.DeleteCodeGenInput)">
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.DeleteCodeGen(System.Collections.Generic.List{Dilon.Core.Service.DeleteCodeGenInput})">
             <summary>
             删除
             </summary>
-            <param name="input"></param>
+            <param name="inputs"></param>
             <returns></returns>
         </member>
         <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.UpdateCodeGen(Dilon.Core.Service.UpdateCodeGenInput)">
@@ -3329,6 +3421,106 @@
         <member name="P:Dilon.Core.Service.Config.LocalFrontPath">
             <summary>
             vue前端
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.CodeGenConfigDto">
+            <summary>
+            代码生成详细配置参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.Id">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.CodeGenId">
+            <summary>
+            代码生成主表ID
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.ColumnName">
+            <summary>
+            数据库字段名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.JavaName">
+            <summary>
+            java类字段名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.ColumnComment">
+            <summary>
+            字段描述
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.JavaType">
+            <summary>
+            java类型
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.EffectType">
+            <summary>
+            作用类型（字典）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.DictTypeCode">
+            <summary>
+            字典code
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.WhetherRetract">
+            <summary>
+            列表是否缩进（字典）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.WhetherRequired">
+            <summary>
+            是否必填（字典）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.QueryWhether">
+            <summary>
+            是否是查询条件
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.QueryType">
+            <summary>
+            查询方式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.WhetherTable">
+            <summary>
+            列表展示
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.WhetherAddUpdate">
+            <summary>
+            增改
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.ColumnKey">
+            <summary>
+            主外键
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.ColumnKeyName">
+            <summary>
+            主外键名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.DataType">
+            <summary>
+            数据库中类型（物理类型）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.WhetherCommon">
+            <summary>
+            是否是通用字段
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfigDto.CodeGenConfigDtoList">
+            <summary>
+            代码生成配置列表
             </summary>
         </member>
         <member name="T:Dilon.Core.Service.CodeGenInput">
@@ -3469,6 +3661,31 @@
         <member name="P:Dilon.Core.Service.CodeGenOutput.TableComment">
             <summary>
             功能名（数据库表名称）
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.TableColumnOuput">
+            <summary>
+            数据库表列
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TableColumnOuput.ColumnName">
+            <summary>
+            字段名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TableColumnOuput.DataType">
+            <summary>
+            数据库中类型
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TableColumnOuput.ColumnComment">
+            <summary>
+            字段描述
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TableColumnOuput.ColumnKey">
+            <summary>
+            主外键
             </summary>
         </member>
         <member name="T:Dilon.Core.Service.TableOutput">

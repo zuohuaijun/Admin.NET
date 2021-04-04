@@ -213,6 +213,7 @@
        */
       codeGenerateDelete (record) {
         this.Loading = true
+        console.log(record.id)
         codeGenerateDelete([{ id: record.id }]).then((res) => {
           if (res.success) {
             this.$message.success('删除成功')
