@@ -116,7 +116,8 @@ namespace Dilon.Core.Service
             var loginOutput = user.Adapt<LoginOutput>();
 
             loginOutput.LastLoginTime = user.LastLoginTime = DateTimeOffset.Now;
-            loginOutput.LastLoginIp = user.LastLoginIp = httpContext.GetRemoteIpAddressToIPv4();
+            var ip = httpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
+            loginOutput.LastLoginIp = user.LastLoginIp = string.IsNullOrEmpty(user.LastLoginIp) ? httpContext.GetRemoteIpAddressToIPv4() : ip;
 
             //var ipInfo = IpTool.Search(loginOutput.LastLoginIp);
             //loginOutput.LastLoginAddress = ipInfo.Country + ipInfo.Province + ipInfo.City + "[" + ipInfo.NetworkOperator + "][" + ipInfo.Latitude + ipInfo.Longitude + "]";
