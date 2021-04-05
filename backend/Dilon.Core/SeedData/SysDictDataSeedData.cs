@@ -90,7 +90,40 @@ namespace Dilon.Core
                 new SysDictData{Id=142307070906479, TypeId=142307070910538, Value="GET", Code="1", Sort=100, Remark="GET", Status=0 },
                 new SysDictData{Id=142307070906480, TypeId=142307070910538, Value="POST", Code="2", Sort=100, Remark="POST", Status=0 },
                 new SysDictData{Id=142307070906481, TypeId=142307070910538, Value="PUT", Code="3", Sort=100, Remark="PUT", Status=0 },
-                new SysDictData{Id=142307070906482, TypeId=142307070910538, Value="DELETE", Code="4", Sort=100, Remark="DELETE", Status=0 }
+                new SysDictData{Id=142307070906482, TypeId=142307070910538, Value="DELETE", Code="4", Sort=100, Remark="DELETE", Status=0 },
+
+                new SysDictData{Id=142307070922830, TypeId=142307070922827, Value="输入框", Code="input", Sort=100, Remark="输入框", Status=0 },
+                new SysDictData{Id=142307070922831, TypeId=142307070922827, Value="时间选择", Code="datepicker", Sort=100, Remark="时间选择", Status=0 },
+                new SysDictData{Id=142307070922832, TypeId=142307070922827, Value="下拉框", Code="select", Sort=100, Remark="下拉框", Status=0 },
+                new SysDictData{Id=142307070922833, TypeId=142307070922827, Value="单选框", Code="radio", Sort=100, Remark="单选框", Status=0 },
+                new SysDictData{Id=142307070922834, TypeId=142307070922827, Value="开关", Code="switch", Sort=100, Remark="开关", Status=0 },
+                new SysDictData{Id=142307070922835, TypeId=142307070922827, Value="多选框", Code="checkbox", Sort=100, Remark="多选框", Status=0 },
+                new SysDictData{Id=142307070922836, TypeId=142307070922827, Value="数字输入框", Code="inputnumber", Sort=100, Remark="数字输入框", Status=0 },
+                new SysDictData{Id=142307070922837, TypeId=142307070922827, Value="文本域", Code="textarea", Sort=100, Remark="文本域", Status=0 },
+
+                new SysDictData{Id=142307070922838, TypeId=142307070922828, Value="等于", Code="eq", Sort=1, Remark="等于", Status=0 },
+                new SysDictData{Id=142307070922839, TypeId=142307070922828, Value="模糊", Code="like", Sort=2, Remark="模糊", Status=0 },
+                new SysDictData{Id=142307070922840, TypeId=142307070922828, Value="大于", Code="gt", Sort=3, Remark="大于", Status=0 },
+                new SysDictData{Id=142307070922841, TypeId=142307070922828, Value="小于", Code="lt", Sort=4, Remark="小于", Status=0 },
+                new SysDictData{Id=142307070922842, TypeId=142307070922828, Value="不等于", Code="ne", Sort=5, Remark="不等于", Status=0 },
+                new SysDictData{Id=142307070922843, TypeId=142307070922828, Value="大于等于", Code="ge", Sort=6, Remark="大于等于", Status=0 },
+                new SysDictData{Id=142307070922844, TypeId=142307070922828, Value="小于等于", Code="le", Sort=7, Remark="小于等于", Status=0 },
+                new SysDictData{Id=142307070922845, TypeId=142307070922828, Value="不为空", Code="isNotNull", Sort=8, Remark="不为空", Status=0 },
+
+                new SysDictData{Id=142307070922851, TypeId=142307070922829, Value="int", Code="int", Sort=100, Remark="int", Status=0 },
+                new SysDictData{Id=142307070922846, TypeId=142307070922829, Value="long", Code="long", Sort=100, Remark="long", Status=0 },
+                new SysDictData{Id=142307070922847, TypeId=142307070922829, Value="string", Code="string", Sort=100, Remark="string", Status=0 },
+                new SysDictData{Id=142307070922850, TypeId=142307070922829, Value="bool", Code="bool", Sort=100, Remark="boolean", Status=0 },
+                new SysDictData{Id=142307070922852, TypeId=142307070922829, Value="double", Code="double", Sort=100, Remark="double", Status=0 },
+                new SysDictData{Id=142307070922848, TypeId=142307070922829, Value="DateTime", Code="DateTime", Sort=100, Remark="DateTime", Status=0 },
+
+                new SysDictData{Id=142307070922854, TypeId=142307070922853, Value="int", Code="int", Sort=100, Remark="int", Status=0 },
+                new SysDictData{Id=142307070922855, TypeId=142307070922853, Value="long", Code="long", Sort=100, Remark="long", Status=0 },
+                new SysDictData{Id=142307070922856, TypeId=142307070922853, Value="string", Code="string", Sort=100, Remark="string", Status=0 },
+                new SysDictData{Id=142307070922858, TypeId=142307070922853, Value="bool", Code="bool", Sort=100, Remark="boolean", Status=0 },
+                new SysDictData{Id=142307070922859, TypeId=142307070922853, Value="double", Code="double", Sort=100, Remark="double", Status=0 },
+                new SysDictData{Id=142307070922860, TypeId=142307070922853, Value="DateTime", Code="DateTime", Sort=100, Remark="DateTime", Status=0 },
+
             };
         }
     }

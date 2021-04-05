@@ -5,8 +5,10 @@ using Furion.DynamicApiController;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -30,9 +32,10 @@ namespace Dilon.Core.Service
         /// <returns></returns>
 
         [HttpGet("/sysCodeGenerateConfig/list")]
-        public async Task<List<SysCodeGenConfig>> List(CodeGenConfigDto input)
+        public async Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input)
         {
-            return await _sysCodeGenConfigRep.DetachedEntities.Where(u => u.CodeGenId == input.CodeGenId).ToListAsync();
+            return await _sysCodeGenConfigRep.DetachedEntities.Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesOrNot.Y.ToString())
+                                                              .Select(u=>u.Adapt<CodeGenConfig>()).ToListAsync();
         }
 
         /// <summary>
@@ -41,7 +44,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [NonAction]
-        public async Task Add(CodeGenConfigDto input)
+        public async Task Add(CodeGenConfig input)
         {
             var codeGenConfig = input.Adapt<SysCodeGenConfig>();
             await codeGenConfig.InsertAsync();
@@ -68,13 +71,13 @@ namespace Dilon.Core.Service
         /// <param name="inputList"></param>
         /// <returns></returns>
         [HttpPost("/sysCodeGenerateConfig/edit")]
-        public async Task Update(List<CodeGenConfigDto> inputList)
+        public async Task Update(List<CodeGenConfig> inputList)
         {
             if (inputList == null || inputList.Count < 1) return;
             inputList.ForEach(u =>
             {
                 var codeGenConfig = u.Adapt<SysCodeGenConfig>();
-                codeGenConfig.Update(false);
+                codeGenConfig.Update(true);
             });
             await Task.CompletedTask;
         }
@@ -85,7 +88,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysCodeGenerateConfig/detail")]
-        public async Task<SysCodeGenConfig> Detail(CodeGenConfigDto input)
+        public async Task<SysCodeGenConfig> Detail(CodeGenConfig input)
         {
             return await _sysCodeGenConfigRep.FirstOrDefaultAsync(u => u.Id == input.Id);
         }
@@ -102,42 +105,102 @@ namespace Dilon.Core.Service
 
             foreach (var tableColumn in tableColumnOuputList)
             {
-                var sysCodeGenerateConfig = new SysCodeGenConfig();
+                var codeGenConfig = new SysCodeGenConfig();
 
                 var YesOrNo = YesOrNot.Y.ToString();
-                if (string.IsNullOrEmpty(tableColumn.ColumnKey) && tableColumn.ColumnKey.Equals(Config.DB_TABLE_COM_KRY))
+                if (Convert.ToBoolean(tableColumn.ColumnKey))
                 {
+                    YesOrNo = YesOrNot.N.ToString();
+                }
+                
+                if(IsCommonColumn(tableColumn.ColumnName))
+                {
+                    codeGenConfig.WhetherCommon = YesOrNot.Y.ToString();
                     YesOrNo = YesOrNot.N.ToString();
                 }
                 else
                 {
-                    sysCodeGenerateConfig.WhetherCommon = YesOrNot.N.ToString();
+                    codeGenConfig.WhetherCommon = YesOrNot.N.ToString();
                 }
 
-                sysCodeGenerateConfig.CodeGenId = codeGenerate.Id;
-                sysCodeGenerateConfig.ColumnName = tableColumn.ColumnName;
-                sysCodeGenerateConfig.ColumnComment = tableColumn.ColumnComment;
-                sysCodeGenerateConfig.JavaName = tableColumn.ColumnName + codeGenerate.TablePrefix;
-                sysCodeGenerateConfig.JavaType = tableColumn.DataType;
-                sysCodeGenerateConfig.WhetherRetract = YesOrNot.N.ToString();
+                codeGenConfig.CodeGenId = codeGenerate.Id;
+                codeGenConfig.ColumnName = tableColumn.ColumnName;
+                codeGenConfig.ColumnComment = tableColumn.ColumnComment;
+                codeGenConfig.NetType = ConvertDataType(tableColumn.DataType);
+                codeGenConfig.WhetherRetract = YesOrNot.N.ToString();
 
-                sysCodeGenerateConfig.WhetherRequired = YesOrNo;
-                sysCodeGenerateConfig.QueryWhether = YesOrNo;
-                sysCodeGenerateConfig.WhetherAddUpdate = YesOrNo;
-                sysCodeGenerateConfig.WhetherTable = YesOrNo;
+                codeGenConfig.WhetherRequired = YesOrNot.N.ToString();
+                codeGenConfig.QueryWhether = YesOrNo;
+                codeGenConfig.WhetherAddUpdate = YesOrNo;
+                codeGenConfig.WhetherTable = YesOrNo;
 
-                sysCodeGenerateConfig.ColumnKey = tableColumn.ColumnKey;
+                codeGenConfig.ColumnKey = tableColumn.ColumnKey;
 
-                // 设置get set方法使用的名称
-                var columnName = sysCodeGenerateConfig.ColumnName;
-                sysCodeGenerateConfig.ColumnKeyName = columnName.Substring(0, 1).ToUpper() + columnName.Substring(1, columnName.Length);
+                codeGenConfig.DataType = tableColumn.DataType;
+                codeGenConfig.EffectType = DataTypeToEff(codeGenConfig.NetType);
+                codeGenConfig.QueryType = QueryTypeEnum.eq.ToString();
 
-                sysCodeGenerateConfig.DataType = tableColumn.DataType;
-                sysCodeGenerateConfig.EffectType = sysCodeGenerateConfig.JavaType;
-                sysCodeGenerateConfig.QueryType = QueryTypeEnum.eq.ToString();
-
-                sysCodeGenerateConfig.InsertAsync();
+                codeGenConfig.InsertAsync();
             }
+        }
+
+        /// <summary>
+        /// 数据类型转显示类型
+        /// </summary>
+        /// <param name="dataType"></param>
+        /// <returns></returns>
+        private static string DataTypeToEff(string dataType)
+        {
+            if (string.IsNullOrEmpty(dataType)) return "";
+            return dataType switch
+            {
+                "string" => "input",
+                "int" => "inputnumber",
+                "long" => "input",
+                "float" => "input",
+                "double" => "input",
+                "decimal" => "input",
+                "bool" => "switch",
+                "Guid" => "input",
+                "DateTime" => "datepicker",
+                "DateTimeOffset" => "datepicker",
+                _ => "input",
+            };
+        }
+
+        // 转换.NET数据类型
+        [NonAction]
+        public string ConvertDataType(string dataType)
+        {
+            if (string.IsNullOrEmpty(dataType)) return "";
+            if (dataType.StartsWith("System.Nullable"))
+                dataType = new Regex(@"(?i)(?<=\[)(.*)(?=\])").Match(dataType).Value; // 中括号[]里面值 
+
+            switch (dataType)
+            {
+                case "System.Guid": return "Guid";
+                case "System.String": return "string";
+                case "System.Int32": return "int";
+                case "System.Int64": return "long";
+                case "System.Single": return "float";
+                case "System.Double": return "double";
+                case "System.Decimal": return "decimal";
+                case "System.Boolean": return "bool";
+                case "System.DateTime": return "DateTime";
+                case "System.DateTimeOffset": return "DateTimeOffset";
+                case "System.Byte": return "byte";
+                case "System.Byte[]": return "byte[]";
+                default:
+                    break;
+            }
+            return dataType;
+        }
+
+        // 是否通用字段
+        private static bool IsCommonColumn(string columnName)
+        {
+            var columnList = new List<string>() { "CreatedTime", "UpdatedTime", "CreatedUserId", "CreatedUserName", "UpdatedUserId", "UpdatedUserName", "IsDeleted"};
+            return columnList.Contains(columnName);
         }
     }
 }

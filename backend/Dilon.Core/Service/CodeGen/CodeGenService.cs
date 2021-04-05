@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service.CodeGen
@@ -19,18 +20,6 @@ namespace Dilon.Core.Service.CodeGen
     [ApiDescriptionSettings(Name = "CodeGen", Order = 100)]
     public class CodeGenService : IDynamicApiController, ITransient
     {
-        private static string TEMP_SUFFIX = ".vm"; // 模板后缀
-        private static string ENCODED = "UTF-8"; // 转换的编码
-
-        //转换模板名称所需变量
-        private static string ADD_FORM_PAGE_NAME = "addForm.vue";
-        private static string EDIT_FORM_PAGE_NAME = "editForm.vue";
-        private static string INDEX_PAGE_NAME = "index.vue";
-        private static string MANAGE_JS_NAME = "Manage.js";
-        private static string SQL_NAME = ".sql";
-        private static string JAVA_SUFFIX = ".java";
-        private static string TEMP_ENTITY_NAME = "entity";
-
         private readonly IRepository<SysCodeGen> _sysCodeGenRep;    // 代码生成器仓储
         private readonly CodeGenConfigService _codeGenConfigService;
 
@@ -71,8 +60,6 @@ namespace Dilon.Core.Service.CodeGen
             var newCodeGen = await codeGen.InsertNowAsync();
 
             // 加入配置表中
-            //var codeGenOutput = input.Adapt<CodeGenOutput>();
-            //codeGenOutput.Id = newCodeGen.Entity.Id;
             _codeGenConfigService.AddList(GetColumnList(input), newCodeGen.Entity);
         }
 
@@ -134,7 +121,7 @@ namespace Dilon.Core.Service.CodeGen
         {
             return Db.GetDbContext().Model.GetEntityTypes().Select(u => new TableOutput
             {
-                TableName = u.Name
+                TableName = u.GetDefaultTableName()
             }).ToList();
         }
 
@@ -151,8 +138,8 @@ namespace Dilon.Core.Service.CodeGen
             return entityType.GetProperties().Select(u => new TableColumnOuput
             {
                 ColumnName = u.Name,
-                ColumnKey = u.IsPrimaryKey().ToString(),
-                DataType = u.GetColumnType(),
+                ColumnKey = u.IsKey().ToString(),
+                DataType = u.PropertyInfo.PropertyType.ToString(),
                 ColumnComment = u.GetComment()
             }).ToList();
         }
@@ -165,7 +152,7 @@ namespace Dilon.Core.Service.CodeGen
         public void RunLocal(CodeGenInput input)
         {
             XnCodeGenOutput xnCodeGenParam = input.Adapt<XnCodeGenOutput>();
-            xnCodeGenParam.FunctionName = input.TableComment;
+            //xnCodeGenParam.FunctionName = input.TableComment;
             xnCodeGenParam.ConfigList = null;
             xnCodeGenParam.CreateTimestring = DateTimeOffset.Now.ToString();
         }

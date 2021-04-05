@@ -16,19 +16,14 @@ namespace Dilon.Core
         public string ColumnName { get; set; }
 
         /// <summary>
-        /// Java类字段名
-        /// </summary>
-        public string JavaName { get; set; }
-
-        /// <summary>
         /// 字段描述
         /// </summary>
         public string ColumnComment { get; set; }
 
         /// <summary>
-        /// Java类型
+        /// .NET类型
         /// </summary>
-        public string JavaType { get; set; }
+        public string NetType { get; set; }
 
         /// <summary>
         /// 作用类型（字典）
@@ -74,11 +69,6 @@ namespace Dilon.Core
         /// 主外键
         /// </summary>
         public string ColumnKey { get; set; }
-
-        /// <summary>
-        /// 首字母大写名称（用于代码生成get set方法）
-        /// </summary>
-        public string ColumnKeyName { get; set; }
 
         /// <summary>
         /// 数据库中类型（物理类型）

@@ -10,16 +10,6 @@ namespace Dilon.Core.Service
         public string AuthorName { get; set; }
 
         /// <summary>
-        /// 类名
-        /// </summary>
-        public string ClassName { get; set; }
-
-        /// <summary>
-        /// 功能名
-        /// </summary>
-        public string FunctionName { get; set; }
-
-        /// <summary>
         /// 是否移除表前缀
         /// </summary>
         public string TablePrefix { get; set; }
@@ -53,11 +43,6 @@ namespace Dilon.Core.Service
         /// 数据库表中字段集合
         /// </summary>
         public List<SysCodeGenConfig> ConfigList { get; set; }
-
-        /// <summary>
-        /// 模块名
-        /// </summary>
-        public string ModularNane { get; set; } = Config.MODULAR_NAME;
 
         /// <summary>
         /// 业务名

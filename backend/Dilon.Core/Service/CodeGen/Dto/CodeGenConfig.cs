@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace Dilon.Core.Service
+﻿namespace Dilon.Core.Service
 {
     /// <summary>
     /// 代码生成详细配置参数
     /// </summary>
-    public class CodeGenConfigDto
+    public class CodeGenConfig
     {
         /// <summary>
         /// 主键
@@ -23,19 +21,14 @@ namespace Dilon.Core.Service
         public string ColumnName { get; set; }
 
         /// <summary>
-        /// java类字段名
-        /// </summary>
-        public string JavaName { get; set; }
-
-        /// <summary>
         /// 字段描述
         /// </summary>
         public string ColumnComment { get; set; }
 
         /// <summary>
-        /// java类型
+        /// .NET类型
         /// </summary>
-        public string JavaType { get; set; }
+        public string NetType { get; set; }
 
         /// <summary>
         /// 作用类型（字典）
@@ -45,7 +38,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 字典code
         /// </summary>
-        public string DictTypeCode { get; set; }
+        public string? DictTypeCode { get; set; }
 
         /// <summary>
         /// 列表是否缩进（字典）
@@ -68,7 +61,7 @@ namespace Dilon.Core.Service
         public string QueryType { get; set; }
 
         /// <summary>
-        /// 列表展示
+        /// 列表显示
         /// </summary>
         public string WhetherTable { get; set; }
 
@@ -83,11 +76,6 @@ namespace Dilon.Core.Service
         public string ColumnKey { get; set; }
 
         /// <summary>
-        /// 主外键名称
-        /// </summary>
-        public string ColumnKeyName { get; set; }
-
-        /// <summary>
         /// 数据库中类型（物理类型）
         /// </summary>
         public string DataType { get; set; }
@@ -96,10 +84,5 @@ namespace Dilon.Core.Service
         /// 是否是通用字段
         /// </summary>
         public string WhetherCommon { get; set; }
-
-        /// <summary>
-        /// 代码生成配置列表
-        /// </summary>
-        public List<CodeGenConfigDto> CodeGenConfigDtoList { get; set; }
     }
 }

@@ -38,7 +38,11 @@ namespace Dilon.Core
                 new SysDictType{Id=142307070910535, Name="通知公告状态", Code="notice_status", Sort=100, Remark="通知公告状态", Status=0 },
                 new SysDictType{Id=142307070910536, Name="是否boolean", Code="yes_true_false", Sort=100, Remark="是否boolean", Status=0 },
                 new SysDictType{Id=142307070910537, Name="代码生成方式", Code="code_gen_create_type", Sort=100, Remark="代码生成方式", Status=0 },
-                new SysDictType{Id=142307070910538, Name="请求方式", Code="request_type", Sort=100, Remark="请求方式", Status=0 }
+                new SysDictType{Id=142307070910538, Name="请求方式", Code="request_type", Sort=100, Remark="请求方式", Status=0 },
+                new SysDictType{Id=142307070922827, Name="代码生成作用类型", Code="code_gen_effect_type", Sort=100, Remark="代码生成作用类型", Status=0 },
+                new SysDictType{Id=142307070922828, Name="代码生成查询类型", Code="code_gen_query_type", Sort=100, Remark="代码生成查询类型", Status=0 },
+                new SysDictType{Id=142307070922829, Name="代码生成.NET类型", Code="code_gen_net_type", Sort=100, Remark="代码生成.NET类型", Status=0 },
+                new SysDictType{Id=142307070922853, Name="字段类型", Code="filed_type", Sort=100, Remark="字段类型", Status=0 }
             };
         }
     }
