@@ -28,6 +28,7 @@
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="1.18.0" />
     <PackageReference Include="Furion.Extras.Logging.Serilog" Version="1.18.0" />
     <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="1.18.0" />
+    <PackageReference Include="NVelocity" Version="1.2.0" />
     <PackageReference Include="Quartz" Version="3.2.4" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />

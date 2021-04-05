@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Furion;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -6,8 +7,12 @@ using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NVelocity;
+using NVelocity.App;
+using NVelocity.Runtime;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
@@ -149,12 +154,28 @@ namespace Dilon.Core.Service.CodeGen
         /// </summary>
         /// <returns></returns>
         [HttpPost("/codeGenerate/runLocal")]
-        public void RunLocal(CodeGenInput input)
+        public async void RunLocal(SysCodeGen input)
         {
-            XnCodeGenOutput xnCodeGenParam = input.Adapt<XnCodeGenOutput>();
-            //xnCodeGenParam.FunctionName = input.TableComment;
-            xnCodeGenParam.ConfigList = null;
-            xnCodeGenParam.CreateTimestring = DateTimeOffset.Now.ToString();
+            List<CodeGenConfig> codeGenConfigList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id });
+
+            var vltEngine = new VelocityEngine();
+            vltEngine.SetProperty(RuntimeConstants.RESOURCE_LOADER, "file");
+            vltEngine.SetProperty(RuntimeConstants.INPUT_ENCODING, "utf-8");
+            vltEngine.SetProperty(RuntimeConstants.OUTPUT_ENCODING, "utf-8");
+            vltEngine.SetProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, App.WebHostEnvironment.WebRootPath + "\\Template");
+            vltEngine.Init();
+
+            VelocityContext vltContext = new VelocityContext();
+            vltContext.Put("queryWhetherList", codeGenConfigList);      
+            Template vltTemplate = vltEngine.GetTemplate("index.vue.vm");
+            StringWriter vltWriter = new StringWriter();
+            vltTemplate.Merge(vltContext, vltWriter);
+            string CodeContent = vltWriter.GetStringBuilder().ToString();
+            string CodeFilePath = "C:\\1.vue";
+
+            File.WriteAllText(CodeFilePath, CodeContent);
+
+
         }
 
     }

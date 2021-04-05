@@ -3335,7 +3335,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.RunLocal(Dilon.Core.Service.CodeGenInput)">
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.RunLocal(Dilon.Core.SysCodeGen)">
             <summary>
             代码生成_本地项目
             </summary>
