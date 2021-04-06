@@ -30,6 +30,12 @@
 如果对您有帮助，您可以点右上角 “Star” 收藏一下 ，获取第一时间更新，谢谢！
 ```
 
+### 🔊 注意事项
+
+1. 如果同时用两种类型得数据库，迁移的时候先去掉多租户实现接口【IMultiTenantOnDatabase】
+2. 
+3. 
+
 ### 🥞 更新日志
 
 更新日志 [点击查看](https://gitee.com/zuohuaijun/Admin.NET/commits/master)
