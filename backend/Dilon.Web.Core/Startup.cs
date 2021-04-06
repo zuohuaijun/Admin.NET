@@ -42,7 +42,7 @@ namespace Dilon.Web.Core
                     });
 
             //设置雪花id的workerId，同一环境下每个实例workerId都应不一样
-            var workerId = ushort.Parse(_configuration["SnowId:WorkerId"]);//读配置
+            var workerId = ushort.Parse(_configuration["SnowId:WorkerId"] ?? "1");//读配置
             IDGenerator.SetIdGenerator(new IDGeneratorOptions { WorkerId = workerId });
         }
 

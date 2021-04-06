@@ -27,7 +27,7 @@
     "RedisConnectionString": "127.0.0.1:6379,password=,defaultDatabase=2"
   },
   "SnowId": {
-    "WorkerId": "2"
+    "WorkerId": "1" //取值 0~63,默认1
   },
   "OAuth": {
     "Wechat": {
