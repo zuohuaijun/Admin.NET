@@ -33,12 +33,14 @@ namespace Dilon.EntityFramework.Core
 
         public string GetDatabaseConnectionString()
         {
+            var defaultConnection = App.Configuration["ConnectionStrings:DefaultConnection"];
+
             // 如果没有实现多租户方式，则无需查询
-            if (!typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return default;
+            if (!typeof(IPrivateMultiTenant).IsAssignableFrom(GetType())) return defaultConnection;
 
             // 判断 HttpContext 是否存在
             var httpContext = App.HttpContext;
-            if (httpContext == null) return default;
+            if (httpContext == null) return defaultConnection;
 
             // 当前根据主机名称获取租户信息（可自由处理，比如请求参数等）
             var host = httpContext.Request.Host.Value;
@@ -57,7 +59,7 @@ namespace Dilon.EntityFramework.Core
                     distributedCache.SetString(tenantCachedKey, jsonSerializerProvider.Serialize(currentTenant));
             }
             else currentTenant = jsonSerializerProvider.Deserialize<SysTenant>(cachedValue);
-            return currentTenant?.Connection ?? App.Configuration["ConnectionStrings:DefaultConnection"];
+            return currentTenant?.Connection ?? defaultConnection;
         }
 
         /// <summary>
