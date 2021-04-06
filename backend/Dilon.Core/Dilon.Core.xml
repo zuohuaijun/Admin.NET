@@ -2697,14 +2697,6 @@
             <param name="dbContextLocator"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.SysEmpExtOrgPosSeedData.HasData(Microsoft.EntityFrameworkCore.DbContext,System.Type)">
-            <summary>
-            扩展机构种子数据
-            </summary>
-            <param name="dbContext"></param>
-            <param name="dbContextLocator"></param>
-            <returns></returns>
-        </member>
         <member name="T:Dilon.Core.SysEmpPosSeedData">
             <summary>
             系统员工职位表种子数据

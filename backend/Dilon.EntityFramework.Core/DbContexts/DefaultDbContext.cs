@@ -2,7 +2,6 @@
 using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
-using Furion.DependencyInjection;
 using Furion.FriendlyException;
 using Furion.JsonSerialization;
 using Furion.Snowflake;

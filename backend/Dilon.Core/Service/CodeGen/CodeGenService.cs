@@ -4,17 +4,13 @@ using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
+using Furion.ViewEngine;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NVelocity;
-using NVelocity.App;
-using NVelocity.Runtime;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service.CodeGen
@@ -27,11 +23,13 @@ namespace Dilon.Core.Service.CodeGen
     {
         private readonly IRepository<SysCodeGen> _sysCodeGenRep;    // 代码生成器仓储
         private readonly CodeGenConfigService _codeGenConfigService;
+        private readonly IViewEngine _viewEngine;
 
-        public CodeGenService(IRepository<SysCodeGen> sysCodeGenRep, CodeGenConfigService codeGenConfigService)
+        public CodeGenService(IRepository<SysCodeGen> sysCodeGenRep, CodeGenConfigService codeGenConfigService, IViewEngine viewEngine)
         {
             _sysCodeGenRep = sysCodeGenRep;
             _codeGenConfigService = codeGenConfigService;
+            _viewEngine = viewEngine;
         }
 
         /// <summary>
@@ -156,27 +154,18 @@ namespace Dilon.Core.Service.CodeGen
         [HttpPost("/codeGenerate/runLocal")]
         public async void RunLocal(SysCodeGen input)
         {
-            List<CodeGenConfig> codeGenConfigList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id });
+            var tContent = File.ReadAllText(App.WebHostEnvironment.WebRootPath + "\\Template\\index.vue.vm");
 
-            var vltEngine = new VelocityEngine();
-            vltEngine.SetProperty(RuntimeConstants.RESOURCE_LOADER, "file");
-            vltEngine.SetProperty(RuntimeConstants.INPUT_ENCODING, "utf-8");
-            vltEngine.SetProperty(RuntimeConstants.OUTPUT_ENCODING, "utf-8");
-            vltEngine.SetProperty(RuntimeConstants.FILE_RESOURCE_LOADER_PATH, App.WebHostEnvironment.WebRootPath + "\\Template");
-            vltEngine.Init();
+            var codeGenConfigList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id });
+            var tResult = _viewEngine.RunCompile(tContent, new
+            {
+                ClassName = input.TableName, // 类名
+                QueryWhetherList = codeGenConfigList.Select(u => u.QueryWhether == YesOrNot.Y.ToString()), // 前端查询集合
+                TableField = codeGenConfigList // 字段集合
+            }); 
 
-            VelocityContext vltContext = new VelocityContext();
-            vltContext.Put("queryWhetherList", codeGenConfigList);      
-            Template vltTemplate = vltEngine.GetTemplate("index.vue.vm");
-            StringWriter vltWriter = new StringWriter();
-            vltTemplate.Merge(vltContext, vltWriter);
-            string CodeContent = vltWriter.GetStringBuilder().ToString();
-            string CodeFilePath = "C:\\1.vue";
-
-            File.WriteAllText(CodeFilePath, CodeContent);
-
+            File.WriteAllText("C:\\1.vue", tResult);
 
         }
-
     }
 }

@@ -1,6 +1,5 @@
 using Dilon.Core;
 using Furion;
-using Furion.Snowflake;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,8 +27,9 @@ namespace Dilon.Web.Core
                     .AddJsonOptions(options =>
                     {
                         options.JsonSerializerOptions.Converters.AddDateFormatString("yyyy-MM-dd HH:mm:ss");
-                        //options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; // 忽略循环引用
                     });
+
+            services.AddViewEngine();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
