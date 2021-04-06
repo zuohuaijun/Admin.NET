@@ -1,50 +1,52 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>Dilon.Core.xml</DocumentationFile>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<NoWarn>1701;1702;1591</NoWarn>
+		<DocumentationFile>Dilon.Core.xml</DocumentationFile>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="OAuth\Wechat1\**" />
-    <EmbeddedResource Remove="OAuth\Wechat1\**" />
-    <None Remove="OAuth\Wechat1\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="OAuth\Wechat1\**" />
+		<EmbeddedResource Remove="OAuth\Wechat1\**" />
+		<None Remove="OAuth\Wechat1\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Remove="OAuth\AuthorizeResult.cs" />
-    <Compile Remove="OAuth\IUserInfoModel.cs" />
-    <Compile Remove="OAuth\OAuthLoginBase.cs" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="OAuth\AuthorizeResult.cs" />
+		<Compile Remove="OAuth\IUserInfoModel.cs" />
+		<Compile Remove="OAuth\OAuthLoginBase.cs" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Dilon.Core.xml" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="applicationconfig.json" />
+		<None Remove="Dilon.Core.xml" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CSRedisCore" Version="3.6.6" />
-    <PackageReference Include="Furion" Version="1.18.0" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="1.18.0" />
-    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="1.18.0" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="1.18.0" />
-    <PackageReference Include="NVelocity" Version="1.2.0" />
-    <PackageReference Include="Quartz" Version="3.2.4" />
-    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
-    <PackageReference Include="UAParser" Version="3.1.46" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Content Include="applicationconfig.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </Content>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Service\CodeGen\Dto\TableOutput.cs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="CSRedisCore" Version="3.6.6" />
+		<PackageReference Include="Furion" Version="1.18.0" />
+		<PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="1.18.0" />
+		<PackageReference Include="Furion.Extras.Logging.Serilog" Version="1.18.0" />
+		<PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="1.18.0" />
+		<PackageReference Include="NVelocity" Version="1.2.0" />
+		<PackageReference Include="Quartz" Version="3.2.4" />
+		<PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+		<PackageReference Include="System.Text.Json" Version="6.0.0-preview.2.21154.6" />
+		<PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+		<PackageReference Include="UAParser" Version="3.1.46" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Update="applicationconfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Update="Service\CodeGen\Dto\TableOutput.cs">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Compile>
+	</ItemGroup>
 
 </Project>
