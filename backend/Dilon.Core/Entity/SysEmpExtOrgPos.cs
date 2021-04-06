@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -10,7 +11,7 @@ namespace Dilon.Core
     /// 员工附属机构职位表
     /// </summary>
     [Table("sys_emp_ext_org_pos")]
-    public class SysEmpExtOrgPos : IEntity, IEntityTypeBuilder<SysEmpExtOrgPos>
+    public class SysEmpExtOrgPos : IEntity, IEntityTypeBuilder<SysEmpExtOrgPos>, IEntitySeedData<SysEmpExtOrgPos>
     {
         /// <summary>
         /// 员工id
@@ -44,7 +45,24 @@ namespace Dilon.Core
 
         public void Configure(EntityTypeBuilder<SysEmpExtOrgPos> entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            entityBuilder.HasNoKey();
+            entityBuilder.HasKey(c => new { c.SysEmpId, c.SysOrgId, c.SysPosId });
+            //entityBuilder.HasData(new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910539, SysPosId = 142307070910547 });
+            //entityBuilder.HasData(new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910540, SysPosId = 142307070910548 });
+            //entityBuilder.HasData(new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910541, SysPosId = 142307070910549 });
+            //entityBuilder.HasData(new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910542, SysPosId = 142307070910550 });
+            //entityBuilder.HasData(new SysEmpExtOrgPos { SysEmpId = 142307070910553, SysOrgId = 142307070910542, SysPosId = 142307070910547 });
+        }
+
+        public IEnumerable<SysEmpExtOrgPos> HasData(DbContext dbContext, Type dbContextLocator)
+        {
+            return new[]
+            {
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910539, SysPosId = 142307070910547 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910540, SysPosId = 142307070910548 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910541, SysPosId = 142307070910549 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910542, SysPosId = 142307070910550 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910553, SysOrgId = 142307070910542, SysPosId = 142307070910547 }
+            };
         }
     }
 }

@@ -30,15 +30,17 @@ namespace Dilon.Core.Service
             // 先删除
             await DeleteEmpExtInfoByUserId(empId);
 
+            var tasks = new List<Task>();
             extIdList.ForEach(u =>
             {
-                new SysEmpExtOrgPos
+                tasks.Add(new SysEmpExtOrgPos
                 {
                     SysEmpId = empId,
                     SysOrgId = u.OrgId,
                     SysPosId = u.PosId
-                }.Insert();
+                }.InsertAsync());
             });
+            await Task.WhenAll(tasks);
         }
 
         /// <summary>
