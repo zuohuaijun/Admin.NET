@@ -160,7 +160,7 @@ namespace Dilon.Core.Service.CodeGen
             var tResult = _viewEngine.RunCompile(tContent, new
             {
                 ClassName = input.TableName, // 类名
-                QueryWhetherList = codeGenConfigList.Select(u => u.QueryWhether == YesOrNot.Y.ToString()), // 前端查询集合
+                QueryWhetherList = codeGenConfigList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(), // 前端查询集合
                 TableField = codeGenConfigList // 字段集合
             }); 
 
