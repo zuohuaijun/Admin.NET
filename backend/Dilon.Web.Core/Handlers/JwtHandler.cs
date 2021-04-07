@@ -53,7 +53,7 @@ namespace Dilon.Web.Core
             // 路由名称
             var routeName = httpContext.Request.Path.Value.Substring(1).Replace("/", ":");
 
-            //默认路由
+            // 默认路由(获取登录用户信息)
             var defalutRoute = new List<string>()
             {
                 "getLoginUser"
