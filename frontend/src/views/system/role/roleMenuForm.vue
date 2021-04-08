@@ -19,7 +19,6 @@
             v-model="checkedKeys"
             multiple
             checkable
-            checkStrictly
             :auto-expand-parent="autoExpandParent"
             :expanded-keys="expandedKeys"
             :tree-data="menuTreeData"
@@ -56,6 +55,7 @@
         menuTreeData: [],
         expandedKeys: [],
         checkedKeys: [],
+        halfCheckedKeys: [],
         visible: false,
         confirmLoading: false,
         formLoading: true,
@@ -102,12 +102,14 @@
         sysRoleOwnMenu({ id: record.id }).then((res) => {
           if (res.success) {
             this.checkedKeys = res.data
+            this.findAllChildren(this.menuTreeData)
           }
           this.formLoading = false
         })
       },
 
-      treeCheck (checkKeys) {
+      treeCheck (checkKeys, event) {
+        this.halfCheckedKeys = event.halfCheckedKeys
       },
       onExpand (expandedKeys) {
         this.expandedKeys = expandedKeys
@@ -125,7 +127,7 @@
         this.confirmLoading = true
         validateFields((errors, values) => {
           if (!errors) {
-            sysRoleGrantMenu({ id: this.roleEntity.id, grantMenuIdList: this.checkedKeys.checked }).then((res) => {
+            sysRoleGrantMenu({ id: this.roleEntity.id, grantMenuIdList: this.checkedKeys.concat(this.halfCheckedKeys) }).then((res) => {
               if (res.success) {
                 this.$message.success('授权成功')
                 this.confirmLoading = false
@@ -148,6 +150,19 @@
         // 清空已展开的
         this.expandedKeys = []
         this.visible = false
+      },
+      // 遍历树形然后获取到对父节点进行移除，使用子节点，而且将父节点加入到mainMenuList
+      findAllChildren(data) {
+        data.forEach((item, index) => {
+          if (item.children.length !== 0) {
+            for (let i = 0; i < this.checkedKeys.length; i++) {
+              if (item.id === this.checkedKeys[i]) {
+                this.checkedKeys.splice(i, 1)
+              }
+            }
+            this.findAllChildren(item.children)
+          }
+        })
       }
     }
   }
