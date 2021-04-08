@@ -154,11 +154,12 @@ namespace Dilon.Core.Service.CodeGen
         [HttpPost("/codeGenerate/runLocal")]
         public async void RunLocal(SysCodeGen input)
         {
-            var tContent = File.ReadAllText(App.WebHostEnvironment.WebRootPath + "\\Template\\editForm.vue.vm");
+            var tContent = File.ReadAllText(App.WebHostEnvironment.WebRootPath + "\\Template\\Manage.js.vm");
 
             var codeGenConfigList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id });
             var tResult = _viewEngine.RunCompile(tContent, new
             {
+                AuthorName = input.AuthorName,
                 BusName = input.BusName,
                 ClassName = input.TableName, // 类名
                 QueryWhetherList = codeGenConfigList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(), // 前端查询集合

@@ -207,9 +207,9 @@ if (@column.EffectType == "checkbox"){
 if (@column.WhetherAddUpdate == "Y"){
 if (@column.EffectType == "datepicker"){
         // 时间单独处理
-        if (record.@column.ColumnName != null) {
+        //if (record.@column.ColumnName != null) {
             @:this.form.getFieldDecorator('@column.ColumnName', { initialValue: moment(record.@column.ColumnName, 'YYYY-MM-DD') })
-        }
+        //}
         @:this.@(@column.ColumnName)DateString = moment(record.@column.ColumnName).format('YYYY-MM-DD')
 }
 }

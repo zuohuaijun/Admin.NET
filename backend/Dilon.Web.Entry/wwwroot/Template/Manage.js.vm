@@ -1,70 +1,65 @@
-import { axios } from '@/utils/request'
+import { axios } from '@@/utils/request'
 
 /**
- * 查询${functionName}
+ * 查询@(@Model.BusName)
  *
- * @author ${authorName}
- * @date ${createDateString}
+ * @@author @Model.AuthorName
  */
-export function ${className}Page (parameter) {
+export function @(@Model.ClassName)Page (parameter) {
   return axios({
-    url: '/${className}/page',
+    url: '/@Model.ClassName/page',
     method: 'get',
     params: parameter
   })
 }
 
 /**
- * ${functionName}列表
+ * @(@Model.BusName)列表
  *
- * @author ${authorName}
- * @date ${createDateString}
+ * @@author @Model.AuthorName
  */
-export function ${className}List (parameter) {
+export function @(@Model.ClassName)List (parameter) {
   return axios({
-    url: '/${className}/list',
+    url: '/@Model.ClassName/list',
     method: 'get',
     params: parameter
   })
 }
 
 /**
- * 添加${functionName}
+ * 添加@(@Model.BusName)
  *
- * @author ${authorName}
- * @date ${createDateString}
+ * @@author @Model.AuthorName
  */
-export function ${className}Add (parameter) {
+export function @(@Model.ClassName)Add (parameter) {
   return axios({
-    url: '/${className}/add',
+    url: '/@Model.ClassName/add',
     method: 'post',
     data: parameter
   })
 }
 
 /**
- * 编辑${functionName}
+ * 编辑@(@Model.BusName)
  *
- * @author ${authorName}
- * @date ${createDateString}
+ * @@author @Model.AuthorName
  */
-export function ${className}Edit (parameter) {
+export function @(@Model.ClassName)Edit (parameter) {
   return axios({
-    url: '/${className}/edit',
+    url: '/@Model.ClassName/edit',
     method: 'post',
     data: parameter
   })
 }
 
 /**
- * 删除${functionName}
+ * 删除@(@Model.BusName)
  *
- * @author ${authorName}
- * @date ${createDateString}
+ * @@author @Model.AuthorName
  */
-export function ${className}Delete (parameter) {
+export function @(@Model.ClassName)Delete (parameter) {
   return axios({
-    url: '/${className}/delete',
+    url: '/@Model.ClassName/delete',
     method: 'post',
     data: parameter
   })
