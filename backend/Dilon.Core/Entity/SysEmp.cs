@@ -11,12 +11,12 @@ namespace Dilon.Core
     /// 员工表
     /// </summary>
     [Table("sys_emp")]
-    [Keyless]
     public class SysEmp : IEntity, IEntityTypeBuilder<SysEmp>
     {
         /// <summary>
         /// 用户Id
         /// </summary>
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public long Id { get; set; }
 
         /// <summary>
