@@ -161,7 +161,7 @@ namespace Dilon.Core.Service.CodeGen
             {
                 AuthorName = input.AuthorName,
                 BusName = input.BusName,
-                ClassName = input.TableName, // 类名
+                ClassName = input.TableName, 
                 QueryWhetherList = codeGenConfigList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(), // 前端查询集合
                 TableField = codeGenConfigList // 字段集合
             }); 

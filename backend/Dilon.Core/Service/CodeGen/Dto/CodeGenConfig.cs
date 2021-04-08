@@ -38,7 +38,7 @@
         /// <summary>
         /// 字典code
         /// </summary>
-        public string? DictTypeCode { get; set; }
+        public string DictTypeCode { get; set; }
 
         /// <summary>
         /// 列表是否缩进（字典）

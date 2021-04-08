@@ -1,0 +1,101 @@
+﻿using Dilon.Core;
+using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor.Extensions;
+using Furion.DependencyInjection;
+using Furion.DynamicApiController;
+using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+
+namespace Dilon.Application
+{
+    /// <summary>
+    /// @(@Model.BusName)服务
+    /// </summary>
+    [ApiDescriptionSettings(Name = "@Model.ClassName", Order = 100)]
+    public class TestBusService : ITestBusService, IDynamicApiController, ITransient
+    {
+        private readonly IRepository<TestBus> _rep;
+
+        public TestBusService(IRepository<TestBus> rep)
+        {
+            _rep = rep;
+        }
+
+        /// <summary>
+        /// 分页查询@(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet("/@Model.ClassName/page")]
+        public async Task<dynamic> QueryAppPageList([FromQuery] TestBusInput input)
+        {
+            //var name = !string.IsNullOrEmpty(input.Name?.Trim());
+            //var code = !string.IsNullOrEmpty(input.Code?.Trim());
+            var apps = await _rep.DetachedEntities
+                                       //.Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")),
+                                       //       (code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")))
+                                       .ToPagedListAsync(input.PageNo, input.PageSize);
+            return XnPageResult<TestBus>.PageResult(apps);
+        }
+
+        /// <summary>
+        /// 增加@(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/@Model.ClassName/add")]
+        public async Task Add(AddTestBusInput input)
+        {
+            var app = input.Adapt<TestBus>();
+            await app.InsertAsync();
+        }
+
+        /// <summary>
+        /// 删除@(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/@Model.ClassName/delete")]
+        public async Task Delete(DeleteTestBusInput input)
+        {
+            var app = await _rep.FirstOrDefaultAsync(u => u.Id == input.Id);
+            await app.DeleteAsync();
+        }
+
+        /// <summary>
+        /// 更新@(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/@Model.ClassName/edit")]
+        public async Task Update(UpdateTestBusInput input)
+        {
+            var app = input.Adapt<TestBus>();
+            await app.UpdateAsync(true);
+        }
+
+        /// <summary>
+        /// 获取(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet("/@Model.ClassName/detail")]
+        public async Task<TestBus> Get([FromQuery] QueryeTestBusInput input)
+        {
+            return await _rep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
+        }
+
+        /// <summary>
+        /// 获取(@Model.BusName)列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet("/@Model.ClassName/list")]
+        public async Task<dynamic> List([FromQuery] TestBusInput input)
+        {
+            return await _rep.DetachedEntities.ToListAsync();
+        }
+    }
+}

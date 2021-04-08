@@ -1,0 +1,29 @@
+﻿using Dilon.Core;
+
+namespace Dilon.Application
+{
+    public class TestBusInput : PageInputBase
+    {
+
+    }
+
+    public class AddTestBusInput : TestBusInput
+    {
+
+    }
+
+    public class DeleteTestBusInput
+    {
+
+    }
+
+    public class UpdateTestBusInput : TestBusInput
+    {
+
+    }
+
+    public class QueryeTestBusInput : DeleteTestBusInput
+    {
+
+    }
+}
