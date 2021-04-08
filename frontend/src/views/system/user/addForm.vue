@@ -47,7 +47,7 @@
               <a-input
                 placeholder="请输入密码"
                 type="password"
-                v-decorator="['password', {rules: [{required: true, message: '请输入密码！'},{
+                v-decorator="['password', {rules: [{required: true, min: 5, message: '请输入至少五个字符的密码！'},{
                   validator: validateToNextPassword,
                 },]}]" />
             </a-form-item>
