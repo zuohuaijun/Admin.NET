@@ -32,7 +32,7 @@
 
 ### 🔊 注意事项
 
-1. 如果同时用两种类型的数据库，迁移的时候先去掉多租户实现接口【IMultiTenantOnDatabase】
+1. 如果同时用两种类型的数据库，迁移的时候先去掉多租户实现接口【IMultiTenantOnDatabase】和重写方法【OnConfiguring】
 2. 如果集成其他ORM，请参照各自操作使用说明。系统默认EF不会处理其他ORM实体或者表等。
 
 ### 🥞 更新日志
