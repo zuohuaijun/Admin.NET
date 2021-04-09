@@ -154,7 +154,7 @@ namespace Dilon.Core.Service.CodeGen
         [HttpPost("/codeGenerate/runLocal")]
         public async void RunLocal(SysCodeGen input)
         {
-            var tContent = File.ReadAllText(App.WebHostEnvironment.WebRootPath + "\\Template\\Manage.js.vm");
+            var tContent = File.ReadAllText(App.WebHostEnvironment.WebRootPath + "\\Template\\Service.cs.vm");
 
             var codeGenConfigList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id });
             var tResult = _viewEngine.RunCompile(tContent, new
@@ -162,6 +162,7 @@ namespace Dilon.Core.Service.CodeGen
                 AuthorName = input.AuthorName,
                 BusName = input.BusName,
                 ClassName = input.TableName, 
+                NameSpace = input.Namespace,
                 QueryWhetherList = codeGenConfigList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(), // 前端查询集合
                 TableField = codeGenConfigList // 字段集合
             }); 
