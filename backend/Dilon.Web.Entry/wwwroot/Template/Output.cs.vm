@@ -1,7 +1,20 @@
-﻿namespace Dilon.Application
+﻿namespace @Model.NameSpace
 {
-    public class TestBusOutput
+    /// <summary>
+    /// @(@Model.BusName)输出参数
+    /// </summary>
+    public class @(@Model.ClassName)Output
     {
-
+@foreach (var column in Model.TableField){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+if (@column.WhetherRequired == "Y"){
+if (@column.NetType == "string")
+        @:[Required(ErrorMessage = "@column.ColumnComment不能为空")]
+}
+        @:public @column.NetType @column.ColumnName { get; set; }
+        @:
+}
     }
 }
