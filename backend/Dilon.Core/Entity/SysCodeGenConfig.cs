@@ -2,6 +2,9 @@
 
 namespace Dilon.Core
 {
+    /// <summary>
+    /// 代码生成字段配置表
+    /// </summary>
     [Table("sys_code_gen_config")]
     public class SysCodeGenConfig : DEntityBase
     {
@@ -21,7 +24,7 @@ namespace Dilon.Core
         public string ColumnComment { get; set; }
 
         /// <summary>
-        /// .NET类型
+        /// .NET数据类型
         /// </summary>
         public string NetType { get; set; }
 

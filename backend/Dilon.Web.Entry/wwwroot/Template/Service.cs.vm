@@ -31,15 +31,15 @@ namespace @Model.NameSpace
         [HttpGet("/@Model.ClassName/page")]
         public async Task<dynamic> Page([FromQuery] @(@Model.ClassName)Input input)
         {
-			var entities = await _rep.DetachedEntities
-			@foreach (var column in Model.TableField){
-			if (@column.QueryWhether == "Y"){
-				if(@column.QueryType == "like"){
-				                   @:.Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => EF.Functions.Like(u.@(@column.ColumnName), $"%{input.@(@column.ColumnName).Trim()}%"),
-				}else
-				                   @:.Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName)),
-			}
-			}
+            var entities = await _rep.DetachedEntities
+@foreach (var column in Model.TableField){
+if (@column.QueryWhether == "Y"){
+if(@column.QueryType == "like"){
+@:                                     .Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => EF.Functions.Like(u.@(@column.ColumnName), $"%{input.@(@column.ColumnName).Trim()}%"),
+}else
+@:                                     .Where(u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName)),
+}
+}
                                      .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<@(@Model.ClassName)>.PageResult(entities);
         }
@@ -64,11 +64,11 @@ namespace @Model.NameSpace
         [HttpPost("/@Model.ClassName/delete")]
         public async Task Delete(Delete@(@Model.ClassName)Input input)
         {
-			@foreach (var column in Model.TableField){
-			if (@column.ColumnKey == "True"){
-		    @:var entity = await _rep.FirstOrDefaultAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
-			}
-			}
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey == "True"){
+            @:var entity = await _rep.FirstOrDefaultAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
+}
+}
             await entity.DeleteAsync();
         }
 
@@ -85,22 +85,22 @@ namespace @Model.NameSpace
         }
 
         /// <summary>
-        /// 获取(@Model.BusName)
+        /// 获取@(@Model.BusName)
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/@Model.ClassName/detail")]
         public async Task<@(@Model.ClassName)> Get([FromQuery] Querye@(@Model.ClassName)Input input)
         {
-			@foreach (var column in Model.TableField){
-			if (@column.ColumnKey == "True"){
-			@:return await _rep.DetachedEntities.FirstOrDefaultAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
-			}
-			}            
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey == "True"){
+            @:return await _rep.DetachedEntities.FirstOrDefaultAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
+}
+}            
         }
 
         /// <summary>
-        /// 获取(@Model.BusName)列表
+        /// 获取@(@Model.BusName)列表
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>

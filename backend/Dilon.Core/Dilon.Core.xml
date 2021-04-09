@@ -411,7 +411,12 @@
         </member>
         <member name="P:Dilon.Core.SysCodeGen.BusName">
             <summary>
-            业务名（业务代码包名称）
+            业务名
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.SysCodeGenConfig">
+            <summary>
+            代码生成字段配置表
             </summary>
         </member>
         <member name="P:Dilon.Core.SysCodeGenConfig.CodeGenId">
@@ -431,7 +436,7 @@
         </member>
         <member name="P:Dilon.Core.SysCodeGenConfig.NetType">
             <summary>
-            .NET类型
+            .NET数据类型
             </summary>
         </member>
         <member name="P:Dilon.Core.SysCodeGenConfig.EffectType">

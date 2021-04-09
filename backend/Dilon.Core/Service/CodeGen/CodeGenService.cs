@@ -154,7 +154,7 @@ namespace Dilon.Core.Service.CodeGen
         [HttpPost("/codeGenerate/runLocal")]
         public async void RunLocal(SysCodeGen input)
         {
-            var tContent = File.ReadAllText(App.WebHostEnvironment.WebRootPath + "\\Template\\Output.cs.vm");
+            var tContent = File.ReadAllText(App.WebHostEnvironment.WebRootPath + "\\Template\\IService.cs.vm");
 
             var codeGenConfigList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id });
             var tResult = _viewEngine.RunCompile(tContent, new

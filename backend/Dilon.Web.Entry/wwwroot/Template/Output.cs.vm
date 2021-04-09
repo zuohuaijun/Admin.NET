@@ -9,10 +9,6 @@
         @:/// <summary>
         @:/// @column.ColumnComment
         @:/// </summary>
-if (@column.WhetherRequired == "Y"){
-if (@column.NetType == "string")
-        @:[Required(ErrorMessage = "@column.ColumnComment不能为空")]
-}
         @:public @column.NetType @column.ColumnName { get; set; }
         @:
 }

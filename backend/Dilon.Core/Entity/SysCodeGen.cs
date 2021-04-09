@@ -34,7 +34,7 @@ namespace Dilon.Core
         public string Namespace { get; set; }
 
         /// <summary>
-        /// 业务名（业务代码包名称）
+        /// 业务名
         /// </summary>
         public string BusName { get; set; }
     }
