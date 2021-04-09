@@ -404,7 +404,7 @@
             数据库表名
             </summary>
         </member>
-        <member name="P:Dilon.Core.SysCodeGen.Namespace">
+        <member name="P:Dilon.Core.SysCodeGen.NameSpace">
             <summary>
             命名空间
             </summary>
@@ -3338,6 +3338,19 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.GetTemplatePathList">
+            <summary>
+            获取模板文件路径集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.GetTargetPathList(Dilon.Core.SysCodeGen)">
+            <summary>
+            设置生成文件路径
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.Service.CodeGenConfig">
             <summary>
             代码生成详细配置参数
@@ -3453,9 +3466,9 @@
             数据库表名
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.CodeGenInput.PackageName">
+        <member name="P:Dilon.Core.Service.CodeGenInput.NameSpace">
             <summary>
-            包名
+            命名空间
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.CodeGenInput.BusName">
@@ -3468,26 +3481,6 @@
             功能名（数据库表名称）
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.AddCodeGenInput.AuthorName">
-            <summary>
-            作者姓名
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.AddCodeGenInput.ClassName">
-            <summary>
-            类名
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.AddCodeGenInput.TablePrefix">
-            <summary>
-            是否移除表前缀
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.AddCodeGenInput.GenerateType">
-            <summary>
-            生成方式
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.AddCodeGenInput.TableName">
             <summary>
             数据库表名
@@ -3498,9 +3491,19 @@
             业务名（业务代码包名称）
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.AddCodeGenInput.TableComment">
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.NameSpace">
             <summary>
-            功能名（数据库表名称）
+            命名空间
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.AuthorName">
+            <summary>
+            作者姓名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.GenerateType">
+            <summary>
+            生成方式
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.DeleteCodeGenInput.Id">

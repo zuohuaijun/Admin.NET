@@ -31,7 +31,7 @@ namespace Dilon.Core
         /// <summary>
         /// 命名空间
         /// </summary>
-        public string Namespace { get; set; }
+        public string NameSpace { get; set; }
 
         /// <summary>
         /// 业务名

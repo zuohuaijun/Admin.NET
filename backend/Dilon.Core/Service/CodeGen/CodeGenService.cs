@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service.CodeGen
@@ -154,21 +155,78 @@ namespace Dilon.Core.Service.CodeGen
         [HttpPost("/codeGenerate/runLocal")]
         public async void RunLocal(SysCodeGen input)
         {
-            var tContent = File.ReadAllText(App.WebHostEnvironment.WebRootPath + "\\Template\\IService.cs.vm");
-
-            var codeGenConfigList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id });
-            var tResult = _viewEngine.RunCompile(tContent, new
+            var templatePathList = GetTemplatePathList();
+            var targetPathList = GetTargetPathList(input);
+            for (var i = 0; i < templatePathList.Count; i++)
             {
-                AuthorName = input.AuthorName,
-                BusName = input.BusName,
-                ClassName = input.TableName, 
-                NameSpace = input.Namespace,
-                QueryWhetherList = codeGenConfigList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(), // 前端查询集合
-                TableField = codeGenConfigList // 字段集合
-            }); 
+                var tContent = File.ReadAllText(templatePathList[i]);
 
-            File.WriteAllText("C:\\1.vue", tResult);
+                var tableFieldList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
+                var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(); // 前端查询集合
+                var tResult = _viewEngine.RunCompile(tContent, new
+                {
+                    input.AuthorName,
+                    input.BusName,
+                    input.NameSpace,
+                    ClassName = input.TableName,
+                    QueryWhetherList = queryWhetherList,
+                    TableField = tableFieldList
+                });
 
+                var dirPath = new DirectoryInfo(targetPathList[i]).Parent.FullName;
+                if (!Directory.Exists(dirPath))
+                    Directory.CreateDirectory(dirPath);
+                File.WriteAllText(targetPathList[i], tResult, Encoding.UTF8);
+            }
+        }
+
+        /// <summary>
+        /// 获取模板文件路径集合
+        /// </summary>
+        /// <returns></returns>
+        private List<string> GetTemplatePathList()
+        {
+            var templatePath = App.WebHostEnvironment.WebRootPath + @"\Template\";
+            return new List<string>() {
+                templatePath + "Service.cs.vm",
+                templatePath + "IService.cs.vm",
+                templatePath + "Input.cs.vm",
+                templatePath + "Output.cs.vm",
+                templatePath + "index.vue.vm",
+                templatePath + "addForm.vue.vm",
+                templatePath + "editForm.vue.vm",
+                templatePath + "manage.js.vm",
+            };
+        }
+
+        /// <summary>
+        /// 设置生成文件路径
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private List<string> GetTargetPathList(SysCodeGen input)
+        {
+            var backendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName + @"\Dilon.Application\Service\" + input.TableName + @"\";
+            var servicePath = backendPath + input.TableName + "Service.cs";
+            var iservicePath = backendPath + "I" + input.TableName + "Service.cs";
+            var inputPath = backendPath + @"Dto\" + input.TableName + "Input.cs";
+            var outputPath = backendPath + @"Dto\" + input.TableName + "Output.cs";
+            var frontendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName + @"\frontend\src\views\main\";
+            var indexPath = frontendPath + input.TableName + @"\index.vue";
+            var addFormPath = frontendPath + input.TableName + @"\addForm.vue";
+            var editFormPath = frontendPath + input.TableName + @"\editForm.vue";
+            var apiJsPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName + @"\frontend\src\api\modular\main\" + input.TableName + "Manage.js";
+
+            return new List<string>() {
+                servicePath,
+                iservicePath,
+                inputPath,
+                outputPath,
+                indexPath,
+                addFormPath,
+                editFormPath,
+                apiJsPath
+            };
         }
     }
 }

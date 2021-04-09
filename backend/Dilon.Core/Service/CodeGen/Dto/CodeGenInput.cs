@@ -33,9 +33,9 @@ namespace Dilon.Core.Service
         public virtual string TableName { get; set; }
 
         /// <summary>
-        /// 包名
+        /// 命名空间
         /// </summary>
-        public string PackageName { get; set; }
+        public virtual string NameSpace { get; set; }
 
         /// <summary>
         /// 业务名（业务代码包名称）
@@ -51,30 +51,6 @@ namespace Dilon.Core.Service
     public class AddCodeGenInput : CodeGenInput
     {
         /// <summary>
-        /// 作者姓名
-        /// </summary>
-        [Required(ErrorMessage = "作者姓名不能为空")]
-        public override string AuthorName { get; set; }
-
-        /// <summary>
-        /// 类名
-        /// </summary>
-        [Required(ErrorMessage = "类名不能为空")]
-        public override string ClassName { get; set; }
-
-        /// <summary>
-        /// 是否移除表前缀
-        /// </summary>
-        [Required(ErrorMessage = "是否移除表前缀不能为空")]
-        public override string TablePrefix { get; set; }
-
-        /// <summary>
-        /// 生成方式
-        /// </summary>
-        [Required(ErrorMessage = "生成方式不能为空")]
-        public override string GenerateType { get; set; }
-
-        /// <summary>
         /// 数据库表名
         /// </summary>
         [Required(ErrorMessage = "数据库表名不能为空")]
@@ -87,10 +63,40 @@ namespace Dilon.Core.Service
         public override string BusName { get; set; }
 
         /// <summary>
-        /// 功能名（数据库表名称）
+        /// 命名空间
         /// </summary>
-        [Required(ErrorMessage = "数据库表名不能为空")]
-        public override string TableComment { get; set; }
+        [Required(ErrorMessage = "命名空间不能为空")]
+        public override string NameSpace { get; set; }
+
+        /// <summary>
+        /// 作者姓名
+        /// </summary>
+        [Required(ErrorMessage = "作者姓名不能为空")]
+        public override string AuthorName { get; set; }
+
+        ///// <summary>
+        ///// 类名
+        ///// </summary>
+        //[Required(ErrorMessage = "类名不能为空")]
+        //public override string ClassName { get; set; }
+
+        ///// <summary>
+        ///// 是否移除表前缀
+        ///// </summary>
+        //[Required(ErrorMessage = "是否移除表前缀不能为空")]
+        //public override string TablePrefix { get; set; }
+
+        /// <summary>
+        /// 生成方式
+        /// </summary>
+        [Required(ErrorMessage = "生成方式不能为空")]
+        public override string GenerateType { get; set; }
+
+        ///// <summary>
+        ///// 功能名（数据库表名称）
+        ///// </summary>
+        //[Required(ErrorMessage = "数据库表名不能为空")]
+        //public override string TableComment { get; set; }
     }
 
     public class DeleteCodeGenInput

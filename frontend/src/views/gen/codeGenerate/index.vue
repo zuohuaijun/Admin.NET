@@ -35,21 +35,21 @@
           <span slot="tableName" slot-scope="text">
             <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
           </span>
-          <span slot="packageName" slot-scope="text">
-            <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
-          </span>
           <span slot="busName" slot-scope="text">
             <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
           </span>
-          <span slot="className" slot-scope="text">
+          <span slot="nameSpace" slot-scope="text">
             <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
           </span>
-          <span slot="tableComment" slot-scope="text">
+          <!--<span slot="className" slot-scope="text">
             <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
-          </span>
-          <span slot="tablePrefix" slot-scope="text">
+          </span> -->
+          <!--<span slot="tableComment" slot-scope="text">
+            <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
+          </span> -->
+          <!-- <span slot="tablePrefix" slot-scope="text">
             <ellipsis :length="10" tooltip>{{ 'yes_or_no' | dictType(text) }}</ellipsis>
-          </span>
+          </span> -->
           <span slot="generateType" slot-scope="text">
             <ellipsis :length="10" tooltip>{{ 'code_gen_create_type' | dictType(text) }}</ellipsis>
           </span>
@@ -106,34 +106,34 @@
             scopedSlots: { customRender: 'tableName' }
           },
           {
-            title: '代码包名',
-            dataIndex: 'packageName',
-            scopedSlots: { customRender: 'packageName' }
-          },
-          {
             title: '业务名',
             dataIndex: 'busName',
             scopedSlots: { customRender: 'busName' }
           },
           {
-            title: '类名',
-            dataIndex: 'className',
-            scopedSlots: { customRender: 'className' }
+            title: '命名空间',
+            dataIndex: 'nameSpace',
+            scopedSlots: { customRender: 'nameSpace' }
           },
-          {
-            title: '功能名',
-            dataIndex: 'tableComment',
-            scopedSlots: { customRender: 'tableComment' }
-          },
+          // {
+          //   title: '类名',
+          //   dataIndex: 'className',
+          //   scopedSlots: { customRender: 'className' }
+          // },
+          // {
+          //   title: '功能名',
+          //   dataIndex: 'tableComment',
+          //   scopedSlots: { customRender: 'tableComment' }
+          // },
           {
             title: '作者姓名',
             dataIndex: 'authorName'
           },
-          {
-            title: '表前缀移除',
-            dataIndex: 'tablePrefix',
-            scopedSlots: { customRender: 'tablePrefix' }
-          },
+          // {
+          //   title: '表前缀移除',
+          //   dataIndex: 'tablePrefix',
+          //   scopedSlots: { customRender: 'tablePrefix' }
+          // },
           {
             title: '生成方式',
             dataIndex: 'generateType',

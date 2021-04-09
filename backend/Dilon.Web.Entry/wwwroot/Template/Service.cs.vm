@@ -6,6 +6,7 @@ using Furion.DynamicApiController;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace @Model.NameSpace
@@ -35,9 +36,9 @@ namespace @Model.NameSpace
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
 if(@column.QueryType == "like"){
-@:                                     .Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => EF.Functions.Like(u.@(@column.ColumnName), $"%{input.@(@column.ColumnName).Trim()}%"),
+@:                                     .Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => EF.Functions.Like(u.@(@column.ColumnName), $"%{input.@(@column.ColumnName).Trim()}%")
 }else
-@:                                     .Where(u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName)),
+@:                                     .Where(u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
 }
 }
                                      .ToPagedListAsync(input.PageNo, input.PageSize);
