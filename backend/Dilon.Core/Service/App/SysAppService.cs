@@ -39,7 +39,7 @@ namespace Dilon.Core.Service
         /// <returns></returns>
         [NonAction]
         public async Task<dynamic> GetLoginApps(long userId)
-        {
+        {            
             var apps = _sysAppRep.DetachedEntities.Where(u => u.Status == (int)CommonStatus.ENABLE);
             if (!_userManager.SuperAdmin)
             {

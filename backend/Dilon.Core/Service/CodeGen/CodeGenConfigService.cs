@@ -138,7 +138,7 @@ namespace Dilon.Core.Service
 
                 codeGenConfig.DataType = tableColumn.DataType;
                 codeGenConfig.EffectType = DataTypeToEff(codeGenConfig.NetType);
-                codeGenConfig.QueryType = QueryTypeEnum.eq.ToString();
+                codeGenConfig.QueryType = "=="; // QueryTypeEnum.eq.ToString();
 
                 codeGenConfig.InsertAsync();
             }

@@ -111,7 +111,7 @@ if (@column.WhetherRequired == "Y"){
 </template>
 
 <script>
-  import { @(@Model.ClassName)Add } from '@@/api/modular/main/@Model.ClassName/@(@Model.ClassName)Manage'
+  import { @(@Model.ClassName)Add } from '@@/api/modular/main/@(@Model.ClassName)Manage'
   export default {
     data () {
       return {

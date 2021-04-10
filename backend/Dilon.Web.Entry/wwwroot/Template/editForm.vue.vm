@@ -132,7 +132,7 @@ if(@column.EffectType != "datepicker"){
 @if(DateQuery == "Y"){
   @:import moment from 'moment'
 }
-  import { @(@Model.ClassName)Edit } from '@@/api/modular/main/@Model.ClassName/@(@Model.ClassName)Manage'
+  import { @(@Model.ClassName)Edit } from '@@/api/modular/main/@(@Model.ClassName)Manage'
   export default {
     data () {
       return {

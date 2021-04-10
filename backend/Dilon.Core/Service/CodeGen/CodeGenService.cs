@@ -125,7 +125,8 @@ namespace Dilon.Core.Service.CodeGen
         {
             return Db.GetDbContext().Model.GetEntityTypes().Select(u => new TableOutput
             {
-                TableName = u.GetDefaultTableName()
+                TableName = u.GetDefaultTableName(),
+                TableComment = u.GetComment()
             }).ToList();
         }
 

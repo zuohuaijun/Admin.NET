@@ -9,10 +9,10 @@ var index = 0;
 foreach (var column in Model.QueryWhetherList){
 index++;
 if(@index == 3)
-            @:<template v-if="advanced">
+@:        <template v-if="advanced">
 if(@column.EffectType == "input" || @column.EffectType == "textarea")
 if(@index >= 3){
-              <text><a-col :md="8" :sm="24">
+<text>      <a-col :md="8" :sm="24">
                 <a-form-item label="@column.ColumnComment">
                   <a-input v-model="queryParam.@column.ColumnName" allow-clear placeholder="请输入@(@column.ColumnComment)"/>
                 </a-form-item>
@@ -102,8 +102,9 @@ if(Model.QueryWhetherList.Count > 2){
         :data="loadData"
         :alert="true"
 @foreach (var column in Model.TableField){
-if (@column.ColumnKey == "True")
+if (@column.ColumnKey == "True"){
         @::rowKey="(record) => record.@column.ColumnName"
+}		
 }
         :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
       >
@@ -157,14 +158,14 @@ if(@column.EffectType == "datepicker")
  DateQuery="Y";
 }
 }
-@if(Ellipsis == "Y")
-  @:import { STable, Ellipsis } from '/components'
-else
-  @:import { STable } from '/components'
+@if(Ellipsis == "Y"){
+  @:import { STable, Ellipsis } from '@@/components'
+}else
+  @:import { STable } from '@@/components'
 @if(DateQuery == "Y")
   @:import moment from 'moment'
 
-  import { @(@Model.ClassName)Page,  @(@Model.ClassName)Delete } from '@@/api/modular/main/@Model.ClassName/ @(@Model.ClassName)Manage'
+  import { @(@Model.ClassName)Page,  @(@Model.ClassName)Delete } from '@@/api/modular/main/@(@Model.ClassName)Manage'
   import addForm from './addForm.vue'
   import editForm from './editForm.vue'
   export default {
@@ -202,9 +203,9 @@ if(columnDataColumns != columnData) @:,
         tstyle: { 'padding-bottom': '0px', 'margin-bottom': '10px' },
         // 加载数据方法 必须为 Promise 对象
         loadData: parameter => {
-@if(DateQuery == "Y")
+@if(DateQuery == "Y"){
           @:return @(@Model.ClassName)Page(Object.assign(parameter, this.switchingDate())).then((res) => {
-@if(DateQuery != "Y")
+}else
           @:return @(@Model.ClassName)Page(Object.assign(parameter, this.queryParam)).then((res) => {
           
 		  return res.data

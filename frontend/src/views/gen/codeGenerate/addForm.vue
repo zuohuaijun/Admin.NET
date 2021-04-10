@@ -121,10 +121,10 @@
         },
         visible: false,
         tableNameData: [],
-        //tablePrefixData: [],
+        // tablePrefixData: [],
         generateTypeData: [],
         confirmLoading: false,
-        //tablePrefixValue: 'N',
+        // tablePrefixValue: 'N',
         tableNameValue: '',
         form: this.$form.createForm(this)
       }
@@ -142,7 +142,7 @@
        */
       selectedByDefault () {
         this.form.getFieldDecorator('nameSpace', { initialValue: 'Dilon.Application' })
-        //this.form.getFieldDecorator('tablePrefix', { valuePropName: 'checked', initialValue: 'N' })
+        // this.form.getFieldDecorator('tablePrefix', { valuePropName: 'checked', initialValue: 'N' })
         this.form.getFieldDecorator('generateType', { valuePropName: 'checked', initialValue: '2' })
         this.form.getFieldDecorator('authorName', { initialValue: 'Dilon' })
       },
@@ -160,7 +160,7 @@
       dataTypeItem () {
         this.tablePrefixData = this.$options.filters['dictData']('yes_or_no')
         this.generateTypeData = this.$options.filters['dictData']('code_gen_create_type')
-        this.generateTypeData.splice(0,1); // 默认去掉从压缩包下载
+        this.generateTypeData.splice(0, 1) // 默认去掉从压缩包下载
       },
       /**
        * 提交表单
@@ -190,15 +190,15 @@
         // 清空他们三个
         this.form.getFieldDecorator('className', { initialValue: '' })
         this.form.getFieldDecorator('busName', { initialValue: '' })
-        //this.form.getFieldDecorator('tableComment', { initialValue: '' })
+        // this.form.getFieldDecorator('tableComment', { initialValue: '' })
       },
       /**
        * 选择数据库列表
        */
       tableNameSele (item) {
         this.tableNameValue = item.tableName
-        //this.form.getFieldDecorator('tableComment', { initialValue: item.tableComment })
-        this.form.getFieldDecorator('busName', { initialValue: item.tableComment})
+        // this.form.getFieldDecorator('tableComment', { initialValue: item.tableComment })
+        this.form.getFieldDecorator('busName', { initialValue: item.tableComment })
         this.settingDefaultValue()
       },
       // /**
@@ -212,8 +212,9 @@
        * 设置默认值
        */
       settingDefaultValue () {
+        const tableName = this.classNameToHump()
         this.form.getFieldDecorator('className', { initialValue: tableName })
-        //this.form.getFieldDecorator('busName', { initialValue: tableName + "业务"})
+        // this.form.getFieldDecorator('busName', { initialValue: tableName + "业务"})
       },
       /**
        * 选择生成方式

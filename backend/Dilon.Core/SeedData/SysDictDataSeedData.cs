@@ -101,7 +101,7 @@ namespace Dilon.Core
                 new SysDictData{Id=142307070922836, TypeId=142307070922827, Value="数字输入框", Code="inputnumber", Sort=100, Remark="数字输入框", Status=0 },
                 new SysDictData{Id=142307070922837, TypeId=142307070922827, Value="文本域", Code="textarea", Sort=100, Remark="文本域", Status=0 },
 
-                new SysDictData{Id=142307070922838, TypeId=142307070922828, Value="等于", Code="=", Sort=1, Remark="等于", Status=0 },
+                new SysDictData{Id=142307070922838, TypeId=142307070922828, Value="等于", Code="==", Sort=1, Remark="等于", Status=0 },
                 new SysDictData{Id=142307070922839, TypeId=142307070922828, Value="模糊", Code="like", Sort=2, Remark="模糊", Status=0 },
                 new SysDictData{Id=142307070922840, TypeId=142307070922828, Value="大于", Code=">", Sort=3, Remark="大于", Status=0 },
                 new SysDictData{Id=142307070922841, TypeId=142307070922828, Value="小于", Code="<", Sort=4, Remark="小于", Status=0 },
@@ -113,9 +113,13 @@ namespace Dilon.Core
                 new SysDictData{Id=142307070922851, TypeId=142307070922829, Value="int", Code="int", Sort=100, Remark="int", Status=0 },
                 new SysDictData{Id=142307070922846, TypeId=142307070922829, Value="long", Code="long", Sort=100, Remark="long", Status=0 },
                 new SysDictData{Id=142307070922847, TypeId=142307070922829, Value="string", Code="string", Sort=100, Remark="string", Status=0 },
-                new SysDictData{Id=142307070922850, TypeId=142307070922829, Value="bool", Code="bool", Sort=100, Remark="boolean", Status=0 },
+                new SysDictData{Id=142307070922850, TypeId=142307070922829, Value="bool", Code="bool", Sort=100, Remark="bool", Status=0 },
                 new SysDictData{Id=142307070922852, TypeId=142307070922829, Value="double", Code="double", Sort=100, Remark="double", Status=0 },
                 new SysDictData{Id=142307070922848, TypeId=142307070922829, Value="DateTime", Code="DateTime", Sort=100, Remark="DateTime", Status=0 },
+                new SysDictData{Id=142307070922861, TypeId=142307070922829, Value="float", Code="float", Sort=100, Remark="float", Status=0 },
+                new SysDictData{Id=142307070922862, TypeId=142307070922829, Value="decimal", Code="decimal", Sort=100, Remark="decimal", Status=0 },
+                new SysDictData{Id=142307070922863, TypeId=142307070922829, Value="Guid", Code="Guid", Sort=100, Remark="Guid", Status=0 },
+                new SysDictData{Id=142307070922864, TypeId=142307070922829, Value="DateTimeOffset", Code="DateTimeOffset", Sort=100, Remark="DateTimeOffset", Status=0 },
 
                 new SysDictData{Id=142307070922854, TypeId=142307070922853, Value="int", Code="int", Sort=100, Remark="int", Status=0 },
                 new SysDictData{Id=142307070922855, TypeId=142307070922853, Value="long", Code="long", Sort=100, Remark="long", Status=0 },
@@ -123,7 +127,10 @@ namespace Dilon.Core
                 new SysDictData{Id=142307070922858, TypeId=142307070922853, Value="bool", Code="bool", Sort=100, Remark="boolean", Status=0 },
                 new SysDictData{Id=142307070922859, TypeId=142307070922853, Value="double", Code="double", Sort=100, Remark="double", Status=0 },
                 new SysDictData{Id=142307070922860, TypeId=142307070922853, Value="DateTime", Code="DateTime", Sort=100, Remark="DateTime", Status=0 },
-
+                new SysDictData{Id=142307070922865, TypeId=142307070922853, Value="float", Code="float", Sort=100, Remark="float", Status=0 },
+                new SysDictData{Id=142307070922866, TypeId=142307070922853, Value="decimal", Code="decimal", Sort=100, Remark="decimal", Status=0 },
+                new SysDictData{Id=142307070922867, TypeId=142307070922853, Value="Guid", Code="Guid", Sort=100, Remark="Guid", Status=0 },
+                new SysDictData{Id=142307070922868, TypeId=142307070922853, Value="DateTimeOffset", Code="DateTimeOffset", Sort=100, Remark="DateTimeOffset", Status=0 },
             };
         }
     }
