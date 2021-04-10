@@ -199,7 +199,7 @@
         this.tableNameValue = item.tableName
         // this.form.getFieldDecorator('tableComment', { initialValue: item.tableComment })
         this.form.getFieldDecorator('busName', { initialValue: item.tableComment })
-        this.settingDefaultValue()
+        // this.settingDefaultValue()
       },
       // /**
       //  * 选择是否移除前缀触发
@@ -212,8 +212,8 @@
        * 设置默认值
        */
       settingDefaultValue () {
-        const tableName = this.classNameToHump()
-        this.form.getFieldDecorator('className', { initialValue: tableName })
+        // const tableName = this.classNameToHump()
+        // this.form.getFieldDecorator('className', { initialValue: tableName })
         // this.form.getFieldDecorator('busName', { initialValue: tableName + "业务"})
       },
       /**

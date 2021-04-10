@@ -5,26 +5,16 @@
     :visible="visible"
     :confirmLoading="confirmLoading"
     @@ok="handleSubmit"
-    @@cancel="handleCancel"
-  >
+    @@cancel="handleCancel">
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
 @foreach (var column in Model.TableField){
 if (@column.ColumnKey != "True"){
 if (@column.WhetherAddUpdate == "Y"){
 if (@column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox"){
-        <text><a-form-item
-          label="@column.ColumnComment"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-        ></text>
+        @:<a-form-item label="@column.ColumnComment" :labelCol="labelCol" :wrapperCol="wrapperCol">
 }else{
-        <text><a-form-item
-          label="@column.ColumnComment"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          has-feedback
-        ></text>
+        @:<a-form-item label="@column.ColumnComment" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
 }
 if (@column.EffectType == "user"){
 if (@column.WhetherRequired == "Y"){
@@ -135,7 +125,6 @@ if (@column.EffectType == "datepicker"){
 }		
 }
 }
-
         visible: false,
         confirmLoading: false,
         form: this.$form.createForm(this)

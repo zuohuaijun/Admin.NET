@@ -29,6 +29,128 @@
             创建时间
             </summary>
         </member>
+        <member name="T:Dilon.Application.SysAppInput">
+            <summary>
+            系统应用表输入参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppInput.Active">
+            <summary>
+            是否默认激活
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppInput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.DeleteSysAppInput.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.UpdateSysAppInput.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Dilon.Application.SysAppOutput">
+            <summary>
+            系统应用表输出参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppOutput.Id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppOutput.Active">
+            <summary>
+            是否默认激活
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppOutput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppOutput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppOutput.Sort">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Dilon.Application.SysAppOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:Dilon.Application.SysAppService">
+            <summary>
+            系统应用表服务
+            </summary>
+        </member>
+        <member name="M:Dilon.Application.SysAppService.Page(Dilon.Application.SysAppInput)">
+            <summary>
+            分页查询系统应用表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.SysAppService.Add(Dilon.Application.AddSysAppInput)">
+            <summary>
+            增加系统应用表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.SysAppService.Delete(Dilon.Application.DeleteSysAppInput)">
+            <summary>
+            删除系统应用表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.SysAppService.Update(Dilon.Application.UpdateSysAppInput)">
+            <summary>
+            更新系统应用表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.SysAppService.Get(Dilon.Application.QueryeSysAppInput)">
+            <summary>
+            获取系统应用表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Application.SysAppService.List(Dilon.Application.SysAppInput)">
+            <summary>
+            获取系统应用表列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Application.TestService">
             <summary>
             业务服务及集成SqlSugar用法事例

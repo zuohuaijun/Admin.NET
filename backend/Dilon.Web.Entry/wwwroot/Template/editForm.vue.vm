@@ -5,8 +5,7 @@
     :visible="visible"
     :confirmLoading="confirmLoading"
     @@ok="handleSubmit"
-    @@cancel="handleCancel"
-  >
+    @@cancel="handleCancel">
     <a-spin :spinning="confirmLoading">
       <a-form :form="form">
 @foreach (var column in Model.TableField){
@@ -15,18 +14,9 @@ if(@column.ColumnKey == "True"){
 }else{
 if (@column.WhetherAddUpdate == "Y"){
 if (@column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox"){
-        <text><a-form-item
-          label="@column.ColumnComment"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-        ></text>
+        @:<a-form-item label="@column.ColumnComment" :labelCol="labelCol" :wrapperCol="wrapperCol">
 }else{
-        <text><a-form-item
-          label="@column.ColumnComment"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          has-feedback
-        ></text>
+        @:<a-form-item label="@column.ColumnComment" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
 }
 if (@column.EffectType == "user"){
 if (@column.WhetherRequired == "Y"){
@@ -186,20 +176,23 @@ if(@column.ColumnKey == "True"){
 }else{
 if (@column.WhetherAddUpdate == "Y"){
 if (@column.EffectType == "checkbox"){
-  editDataColumn++;
-              @:@column.ColumnName: JSON.parse(record.@column.ColumnName) 
-			  if(editDataColumn != editData) 
-			  <text>,</text>
+editDataColumn++;
+if(editDataColumn != editData) {
+			  @:@column.ColumnName: JSON.parse(record.@column.ColumnName),
+}else{
+              @:@column.ColumnName: JSON.parse(record.@column.ColumnName)
+}
 }else if (@column.EffectType != "datepicker"){
-  editDataColumn++;
-              @:@column.ColumnName: record.@column.ColumnName 
-			  if(editDataColumn != editData) 
-			  <text>,</text>
+editDataColumn++;
+if(editDataColumn != editData){
+              @:@column.ColumnName: record.@column.ColumnName,
+}else{
+              @:@column.ColumnName: record.@column.ColumnName
 }
 }
 }
 }
-
+}
             }
           )
         }, 100)
