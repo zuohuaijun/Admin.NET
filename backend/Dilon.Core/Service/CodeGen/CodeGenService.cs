@@ -169,10 +169,13 @@ namespace Dilon.Core.Service.CodeGen
                 var tContent = File.ReadAllText(templatePathList[i]);
 
                 var tableFieldList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
-                //tableFieldList.ForEach(u =>
-                //{
-                //    u.ColumnName = u.ColumnName.Substring(0, 1).ToLower() + u.ColumnName.Substring(1);
-                //});
+                if (i >= 4) // 适应前端首字母小写
+                {
+                    tableFieldList.ForEach(u =>
+                    {
+                        u.ColumnName = u.ColumnName.Substring(0, 1).ToLower() + u.ColumnName.Substring(1);
+                    });
+                }
                 var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(); // 前端查询集合
                 var tResult = _viewEngine.RunCompileFromCached(tContent, new
                 {

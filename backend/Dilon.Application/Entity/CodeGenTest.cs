@@ -35,11 +35,5 @@ namespace Dilon.Application
         /// </summary>
         [Comment("年龄")]
         public int Age { get; set; }
-
-        ///// <summary>
-        ///// 资产
-        ///// </summary>
-        //[Comment("资产")]
-        //public double Assets { get; set; }
     }
 }
