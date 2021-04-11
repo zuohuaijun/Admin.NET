@@ -35,10 +35,15 @@ namespace @Model.NameSpace
             var entities = await _rep.DetachedEntities
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
+if (@column.NetType == "string"){
 if(@column.QueryType == "like"){
-@:                                     .Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => EF.Functions.Like(u.@(@column.ColumnName), $"%{input.@(@column.ColumnName).Trim()}%")
-}else
-@:                                     .Where(u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
+@:                                     .Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => EF.Functions.Like(u.@(@column.ColumnName), $"%{input.@(@column.ColumnName).Trim()}%"))
+}else{
+@:                                     .Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
+}
+}else{
+@:                                     .Where(input.@(@column.ColumnName).ToString() != "0", u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
+}
 }
 }
                                      .ToPagedListAsync(input.PageNo, input.PageSize);

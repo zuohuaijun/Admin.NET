@@ -12,6 +12,7 @@ namespace Dilon.Core
     /// 用户表
     /// </summary>
     [Table("sys_user")]
+    [Comment("用户表")]
     public class SysUser : DEntityBase, IEntityTypeBuilder<SysUser>
     {
         /// <summary>

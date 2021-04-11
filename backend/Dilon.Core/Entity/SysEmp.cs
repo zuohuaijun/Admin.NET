@@ -11,27 +11,32 @@ namespace Dilon.Core
     /// 员工表
     /// </summary>
     [Table("sys_emp")]
+    [Comment("员工表")]
     public class SysEmp : IEntity, IEntityTypeBuilder<SysEmp>
     {
         /// <summary>
         /// 用户Id
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [Comment("用户Id")]
         public long Id { get; set; }
 
         /// <summary>
         /// 工号
         /// </summary>
+        [Comment("工号")]
         public string JobNum { get; set; }
 
         /// <summary>
         /// 机构Id
         /// </summary>
+        [Comment("机构Id")]
         public long OrgId { get; set; }
 
         /// <summary>
         /// 机构名称
         /// </summary>
+        [Comment("机构名称")]
         public string OrgName { get; set; }
 
         /// <summary>

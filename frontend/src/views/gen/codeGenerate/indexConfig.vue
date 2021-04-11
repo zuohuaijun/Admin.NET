@@ -17,11 +17,11 @@
       <template slot="columnComment" slot-scope="text, record">
         <a-input v-model="record.columnComment" />
       </template>
-      <template slot="javaType" slot-scope="text, record">
+      <!--      <template slot="javaType" slot-scope="text, record">
         <a-select style="width: 120px" v-model="record.javaType" :disabled="judgeColumns(record)">
           <a-select-option v-for="(item,index) in javaTypeData" :key="index" :value="item.code">{{ item.name }}</a-select-option>
         </a-select>
-      </template>
+      </template> -->
       <template slot="effectType" slot-scope="text, record">
         <a-select style="width: 120px" v-model="record.effectType" :disabled="judgeColumns(record)">
           <a-select-option v-for="(item,index) in effectTypeData" :key="index" :value="item.code">{{ item.name }}</a-select-option>
@@ -152,11 +152,12 @@
         this.indexConfigShow = true
         this.tableLoading = true
         const dictOption = this.$options
-        this.javaTypeData = dictOption.filters['dictData']('code_gen_java_type')
+        this.javaTypeData = dictOption.filters['dictData']('code_gen_net_type')
         this.effectTypeData = dictOption.filters['dictData']('code_gen_effect_type')
         this.dictDataAll = dictOption.filters['dictDataAll']()
         this.yesOrNoData = dictOption.filters['dictData']('yes_or_no')
         this.codeGenQueryTypeData = dictOption.filters['dictData']('code_gen_query_type')
+        console.log(this.codeGenQueryTypeData)
         const params = {
           codeGenId: data.id
         }
@@ -197,6 +198,7 @@
         // const param = {
         //   sysCodeGenerateConfigParamList: loadDatas
         // }
+        console.log(loadDatas)
         sysCodeGenerateConfigEdit(loadDatas).then((res) => {
           this.tableLoading = false
           if (res.success) {
@@ -211,11 +213,11 @@
        * 判断是否（用于是否能选择或输入等）
        */
       judgeColumns (data) {
-        if (data.columnName.indexOf('create_user') > -1 ||
-            data.columnName.indexOf('create_time') > -1 ||
-            data.columnName.indexOf('update_user') > -1 ||
-            data.columnName.indexOf('update_time') > -1 ||
-            data.columnKey === 'PRI') {
+        if (data.columnName.indexOf('createdUserName') > -1 ||
+            data.columnName.indexOf('createdTime') > -1 ||
+            data.columnName.indexOf('updatedUserName') > -1 ||
+            data.columnName.indexOf('updatedTime') > -1 ||
+            data.columnKey === 'True') {
           return true
         }
         return false

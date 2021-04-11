@@ -86,9 +86,9 @@ if (@column.whetherRequired == "Y"){
 }
 if (@column.EffectType == "datepicker"){
 if (@column.WhetherRequired == "Y"){
-          @:<a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName',{rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]" @@change="onChange@(@column.ClassName)"/>
+          @:<a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName',{rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]" @@change="onChange@(@column.ColumnName)"/>
 }else{
-          @:<a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" @@change="onChange@(@Model.ClassName)"/>
+          @:<a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" @@change="onChange@(@column.ColumnName)"/>
 }
 }
         @:</a-form-item>
@@ -183,9 +183,9 @@ if (@column.EffectType == "datepicker"){
 @foreach (var column in Model.TableField){
 if (@column.WhetherAddUpdate == "Y"){
 if (@column.EffectType == "datepicker"){
-      <text>onChange@(@column.ColumnName)(date, dateString) {
-        this.@(@column.ColumnName)DateString = dateString
-      },</text>
+      @:onChange@(@column.ColumnName)(date, dateString) {
+        @:this.@(@column.ColumnName)DateString = dateString
+      @:},
 }
 }
 }

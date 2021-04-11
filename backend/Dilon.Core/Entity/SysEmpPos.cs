@@ -1,4 +1,5 @@
 ﻿using Furion.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -7,11 +8,13 @@ namespace Dilon.Core
     /// 员工职位表
     /// </summary>
     [Table("sys_emp_pos")]
+    [Comment("员工职位表")]
     public class SysEmpPos : IEntity
     {
         /// <summary>
-        /// 员工id
+        /// 员工Id
         /// </summary>
+        [Comment("员工Id")]
         public long SysEmpId { get; set; }
 
         /// <summary>
@@ -22,6 +25,7 @@ namespace Dilon.Core
         /// <summary>
         /// 职位Id
         /// </summary>
+        [Comment("职位Id")]
         public long SysPosId { get; set; }
 
         /// <summary>

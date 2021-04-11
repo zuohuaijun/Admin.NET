@@ -1,4 +1,6 @@
-﻿namespace @Model.NameSpace
+﻿using System;
+
+namespace @Model.NameSpace
 {
     /// <summary>
     /// @(@Model.BusName)输出参数

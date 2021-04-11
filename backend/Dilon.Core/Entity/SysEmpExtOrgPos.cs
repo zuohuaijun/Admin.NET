@@ -11,11 +11,13 @@ namespace Dilon.Core
     /// 员工附属机构职位表
     /// </summary>
     [Table("sys_emp_ext_org_pos")]
+    [Comment("员工附属机构职位表")]
     public class SysEmpExtOrgPos : IEntity, IEntityTypeBuilder<SysEmpExtOrgPos>, IEntitySeedData<SysEmpExtOrgPos>
     {
         /// <summary>
-        /// 员工id
+        /// 员工Id
         /// </summary>
+        [Comment("员工Id")]
         public long SysEmpId { get; set; }
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace Dilon.Core
         /// <summary>
         /// 机构Id
         /// </summary>
+        [Comment("机构Id")]
         public long SysOrgId { get; set; }
 
         /// <summary>
@@ -36,6 +39,7 @@ namespace Dilon.Core
         /// <summary>
         /// 职位Id
         /// </summary>
+        [Comment("职位Id")]
         public long SysPosId { get; set; }
 
         /// <summary>

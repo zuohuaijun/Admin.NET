@@ -42,7 +42,7 @@ namespace Dilon.Core
                 new SysDictType{Id=142307070922827, Name="代码生成作用类型", Code="code_gen_effect_type", Sort=100, Remark="代码生成作用类型", Status=0 },
                 new SysDictType{Id=142307070922828, Name="代码生成查询类型", Code="code_gen_query_type", Sort=100, Remark="代码生成查询类型", Status=0 },
                 new SysDictType{Id=142307070922829, Name="代码生成.NET类型", Code="code_gen_net_type", Sort=100, Remark="代码生成.NET类型", Status=0 },
-                new SysDictType{Id=142307070922853, Name="字段类型", Code="filed_type", Sort=100, Remark="字段类型", Status=0 }
+                //new SysDictType{Id=142307070922853, Name="字段类型", Code="filed_type", Sort=100, Remark="字段类型", Status=0 }
             };
         }
     }

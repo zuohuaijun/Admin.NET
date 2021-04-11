@@ -64,13 +64,13 @@ if(@index >= 3){
 if(@index >= 3){
               <text><a-col :md="8" :sm="24">
                 <a-form-item label="@column.ColumnComment">
-                  <a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-model="queryParam.@column.ColumnNameDate" @@change="onChange@(@column.ColumnComment)"/>
+                  <a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-model="queryParam.@(@column.ColumnName)Date" @@change="onChange@(@column.ColumnName)"/>
                 </a-form-item>
               </a-col></text>
 }else{
             <text><a-col :md="8" :sm="24">
               <a-form-item label="@column.ColumnComment">
-                <a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-model="queryParam.@column.ColumnNameDate" @@change="onChange@(@column.ColumnComment)"/>
+                <a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-model="queryParam.@(@column.ColumnName)Date" @@change="onChange@(@column.ColumnName)"/>
               </a-form-item>
             </a-col></text>
 }
@@ -117,7 +117,7 @@ if (@column.ColumnKey == "True"){
 }
         :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
         <template class="table-operator" slot="operator" v-if="hasPerm('@Model.ClassName:add')" >
-          <a-button type="primary" v-if="hasPerm('@Model.ClassName:add')" icon="plus" @@click="$refs.addForm.add()">新增@(@Model.ClassName)</a-button>
+          <a-button type="primary" v-if="hasPerm('@Model.ClassName:add')" icon="plus" @@click="$refs.addForm.add()">新增@(@Model.BusName)</a-button>
         </template>
 @foreach (var column in Model.TableField){
 if(@column.WhetherTable == "Y"){
@@ -257,8 +257,9 @@ if(@column.DictTypeCode){
 }
     },
     methods: {
-@if(DateQuery == "Y")
+@if(DateQuery == "Y"){
       @:moment,
+}
       /**
        * 查询参数组装
        */
@@ -266,13 +267,13 @@ if(@column.DictTypeCode){
 @foreach (var column in Model.TableField){
 if(@column.QueryWhether == "Y"){
 if(@column.EffectType == "datepicker"){
-        <text>const queryParam@(@column.ColumnName) = this.queryParam.@(@column.ColumnName)Date
-        if (queryParam@(@column.ColumnName) != null) {
-            this.queryParam.@column.ColumnName = moment(queryParam@(@column.ColumnName)).format('YYYY-MM-DD')
-            if (queryParam@(@column.ColumnName).length < 1) {
-                @:delete this.queryParam.@column.ColumnName
-            }
-        }</text>
+        @:const queryParam@(@column.ColumnName) = this.queryParam.@(@column.ColumnName)Date
+        @:if (queryParam@(@column.ColumnName) != null) {
+        @:    this.queryParam.@column.ColumnName = moment(queryParam@(@column.ColumnName)).format('YYYY-MM-DD')
+        @:    if (queryParam@(@column.ColumnName).length < 1) {
+        @:        delete this.queryParam.@(@column.ColumnName)
+        @:    }
+        @:}
 }
 }
 }
@@ -297,9 +298,9 @@ if(@column.EffectType == "datepicker"){
 @foreach (var column in Model.QueryWhetherList){
 if(@column.QueryWhether == "Y"){
 if(@column.EffectType == "datepicker"){
-      <text>onChange@(@column.ColumnName)(date, dateString) {
-        this.@(@column.ColumnName)DateString = dateString
-      },</text>
+      @:onChange@(@column.ColumnName)(date, dateString) {
+      @:  this.@(@column.ColumnName)DateString = dateString
+      @:},
 }
 }
 }

@@ -1,4 +1,5 @@
 ﻿using Furion.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -8,56 +9,67 @@ namespace Dilon.Core
     /// 访问日志表
     /// </summary>
     [Table("sys_log_vis")]
+    [Comment("访问日志表")]
     public class SysLogVis : EntityBase
     {
         /// <summary>
         /// 名称
         /// </summary>
+        [Comment("名称")]
         public string Name { get; set; }
 
         /// <summary>
         /// 是否执行成功（Y-是，N-否）
         /// </summary>
+        [Comment("是否执行成功")]
         public string Success { get; set; }
 
         /// <summary>
         /// 具体消息
         /// </summary>
+        [Comment("具体消息")]
         public string Message { get; set; }
 
         /// <summary>
         /// IP
         /// </summary>
+        [Comment("IP")]
         public string Ip { get; set; }
 
         /// <summary>
         /// 地址
         /// </summary>
+        [Comment("地址")]
         public string Location { get; set; }
 
         /// <summary>
         /// 浏览器
         /// </summary>
+        [Comment("浏览器")]
         public string Browser { get; set; }
 
         /// <summary>
         /// 操作系统
         /// </summary>
+        [Comment("操作系统")]
         public string Os { get; set; }
 
         /// <summary>
         /// 访问类型（字典 1登入 2登出）
         /// </summary>
+        [Comment("访问类型")]
         public int? VisType { get; set; }
 
         /// <summary>
         /// 访问时间
         /// </summary>
+        [Comment("访问时间")]
         public DateTimeOffset VisTime { get; set; }
 
         /// <summary>
         /// 访问人
         /// </summary>
+        [Comment("访问人")]
         public string Account { get; set; }
     }
 }

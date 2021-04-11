@@ -16,7 +16,8 @@ namespace Dilon.Core.Service
     /// <summary>
     /// 代码生成详细配置服务
     /// </summary>
-    public class CodeGenConfigService : IDynamicApiController, ITransient
+    [ApiDescriptionSettings(Name = "CodeGenConfig", Order = 100)]
+    public class CodeGenConfigService : ICodeGenConfigService, IDynamicApiController, ITransient
     {
         private readonly IRepository<SysCodeGenConfig> _sysCodeGenConfigRep;    // 代码生成详细配置仓储
 
@@ -35,7 +36,7 @@ namespace Dilon.Core.Service
         public async Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input)
         {
             return await _sysCodeGenConfigRep.DetachedEntities.Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesOrNot.Y.ToString())
-                                                              .Select(u=>u.Adapt<CodeGenConfig>()).ToListAsync();
+                                                              .Select(u => u.Adapt<CodeGenConfig>()).ToListAsync();
         }
 
         /// <summary>
@@ -112,8 +113,8 @@ namespace Dilon.Core.Service
                 {
                     YesOrNo = YesOrNot.N.ToString();
                 }
-                
-                if(IsCommonColumn(tableColumn.ColumnName))
+
+                if (IsCommonColumn(tableColumn.ColumnName))
                 {
                     codeGenConfig.WhetherCommon = YesOrNot.Y.ToString();
                     YesOrNo = YesOrNot.N.ToString();
@@ -199,7 +200,7 @@ namespace Dilon.Core.Service
         // 是否通用字段
         private static bool IsCommonColumn(string columnName)
         {
-            var columnList = new List<string>() { "CreatedTime", "UpdatedTime", "CreatedUserId", "CreatedUserName", "UpdatedUserId", "UpdatedUserName", "IsDeleted"};
+            var columnList = new List<string>() { "CreatedTime", "UpdatedTime", "CreatedUserId", "CreatedUserName", "UpdatedUserId", "UpdatedUserName", "IsDeleted" };
             return columnList.Contains(columnName);
         }
     }

@@ -20,9 +20,10 @@ namespace Dilon.Core
         {
             return new[]
             {
+                new SysApp{Id=142307070922869, Name="业务应用", Code="busapp", Active="N", Status=0, Sort=100 },
                 new SysApp{Id=142307070898245, Name="系统管理", Code="system", Active="Y", Status=0, Sort=100 },
                 new SysApp{Id=142307070902341, Name="系统工具", Code="system_tool", Active="N", Status=0, Sort=100 },
-                new SysApp{Id=142307070922826, Name="高级功能", Code="advanced", Active="N", Status=0, Sort=100 }
+                new SysApp{Id=142307070922826, Name="高级功能", Code="advanced", Active="N", Status=0, Sort=100 }                
             };
         }
     }

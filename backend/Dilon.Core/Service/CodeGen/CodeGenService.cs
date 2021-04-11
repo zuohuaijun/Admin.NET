@@ -20,17 +20,23 @@ namespace Dilon.Core.Service.CodeGen
     /// 代码生成器服务
     /// </summary>
     [ApiDescriptionSettings(Name = "CodeGen", Order = 100)]
-    public class CodeGenService : IDynamicApiController, ITransient
+    public class CodeGenService : ICodeGenService, IDynamicApiController, ITransient
     {
         private readonly IRepository<SysCodeGen> _sysCodeGenRep;    // 代码生成器仓储
-        private readonly CodeGenConfigService _codeGenConfigService;
+        private readonly ICodeGenConfigService _codeGenConfigService;
         private readonly IViewEngine _viewEngine;
 
-        public CodeGenService(IRepository<SysCodeGen> sysCodeGenRep, CodeGenConfigService codeGenConfigService, IViewEngine viewEngine)
+        private readonly IRepository<SysMenu> _sysMenuRep;    // 菜单表仓储
+
+        public CodeGenService(IRepository<SysCodeGen> sysCodeGenRep,
+                              ICodeGenConfigService codeGenConfigService,
+                              IViewEngine viewEngine,
+                              IRepository<SysMenu> sysMenuRep)
         {
             _sysCodeGenRep = sysCodeGenRep;
             _codeGenConfigService = codeGenConfigService;
             _viewEngine = viewEngine;
+            _sysMenuRep = sysMenuRep;
         }
 
         /// <summary>
@@ -163,8 +169,12 @@ namespace Dilon.Core.Service.CodeGen
                 var tContent = File.ReadAllText(templatePathList[i]);
 
                 var tableFieldList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
+                //tableFieldList.ForEach(u =>
+                //{
+                //    u.ColumnName = u.ColumnName.Substring(0, 1).ToLower() + u.ColumnName.Substring(1);
+                //});
                 var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(); // 前端查询集合
-                var tResult = _viewEngine.RunCompile(tContent, new
+                var tResult = _viewEngine.RunCompileFromCached(tContent, new
                 {
                     input.AuthorName,
                     input.BusName,
@@ -179,6 +189,108 @@ namespace Dilon.Core.Service.CodeGen
                     Directory.CreateDirectory(dirPath);
                 File.WriteAllText(targetPathList[i], tResult, Encoding.UTF8);
             }
+
+            await AddMenu(input.TableName, input.BusName);
+        }
+
+        private async Task AddMenu(string className, string busName)
+        {
+            // 先删除该表已生成的菜单列表
+            var menus = await _sysMenuRep.DetachedEntities.Where(u => u.Code.StartsWith("dilon_" + className.ToLower())).ToListAsync();
+            menus.ForEach(u =>
+            {
+                u.Delete();
+            });
+
+            // 目录
+            var menuType0 = new SysMenu
+            {
+                Pid = 0,
+                Pids = "[0],",
+                Name = busName + "管理",
+                Code = "dilon_" + className.ToLower(),
+                Type = 1,
+                Icon = "robot",
+                Router = "/" + className.ToLower(),
+                Component = "PageView",
+                Application = "busapp"
+            };
+            var pid0 = _sysMenuRep.InsertNowAsync(menuType0).GetAwaiter().GetResult().Entity.Id;
+
+            // 菜单
+            var menuType1 = new SysMenu
+            {
+                Pid = pid0,
+                Pids = "[0],[" + pid0 + "],",
+                Name = busName + "管理",
+                Code = "dilon_" + className.ToLower() + "_mgr",
+                Type = 1,
+                Router = "/" + className.ToLower(),
+                Component = "main/" + className + "/index",
+                Application = "busapp",
+                OpenType = 1
+            };
+            var pid1 = _sysMenuRep.InsertNowAsync(menuType1).GetAwaiter().GetResult().Entity.Id;
+
+            // 按钮-page
+            var menuType2 = new SysMenu
+            {
+                Pid = pid1,
+                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Name = busName + "查询",
+                Code = "dilon_" + className.ToLower() + "_mgr_page",
+                Type = 2,
+                Permission = className + ":page",
+                Application = "busapp",
+            }.InsertAsync();
+
+            // 按钮-detail
+            var menuType2_1 = new SysMenu
+            {
+                Pid = pid1,
+                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Name = busName + "详情",
+                Code = "dilon_" + className.ToLower() + "_mgr_detail",
+                Type = 2,
+                Permission = className + ":detail",
+                Application = "busapp",
+            }.InsertAsync();
+
+            // 按钮-add
+            var menuType2_2 = new SysMenu
+            {
+                Pid = pid1,
+                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Name = busName + "增加",
+                Code = "dilon_" + className.ToLower() + "_mgr_add",
+                Type = 2,
+                Permission = className + ":add",
+                Application = "busapp",
+            }.InsertAsync();
+
+            // 按钮-delete
+            var menuType2_3 = new SysMenu
+            {
+                Pid = pid1,
+                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Name = busName + "删除",
+                Code = "dilon_" + className.ToLower() + "_mgr_delete",
+                Type = 2,
+                Permission = className + ":delete",
+                Application = "busapp",
+            }.InsertAsync();
+
+            // 按钮-edit
+            var menuType2_4 = new SysMenu
+            {
+                Pid = pid1,
+                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Name = busName + "编辑",
+                Code = "dilon_" + className.ToLower() + "_mgr_edit",
+                Type = 2,
+                Permission = className + ":edit",
+                Application = "busapp",
+            }.InsertAsync();
         }
 
         /// <summary>

@@ -491,7 +491,7 @@
         </member>
         <member name="P:Dilon.Core.SysCodeGenConfig.WhetherCommon">
             <summary>
-            是否是通用字段
+            是否通用字段
             </summary>
         </member>
         <member name="T:Dilon.Core.SysConfig">
@@ -669,7 +669,7 @@
         </member>
         <member name="P:Dilon.Core.SysEmpExtOrgPos.SysEmpId">
             <summary>
-            员工id
+            员工Id
             </summary>
         </member>
         <member name="P:Dilon.Core.SysEmpExtOrgPos.SysEmp">
@@ -704,7 +704,7 @@
         </member>
         <member name="P:Dilon.Core.SysEmpPos.SysEmpId">
             <summary>
-            员工id
+            员工Id
             </summary>
         </member>
         <member name="P:Dilon.Core.SysEmpPos.SysEmp">
@@ -839,7 +839,7 @@
         </member>
         <member name="P:Dilon.Core.SysLogOp.Ip">
             <summary>
-            ip
+            IP
             </summary>
         </member>
         <member name="P:Dilon.Core.SysLogOp.Location">
@@ -1124,7 +1124,7 @@
         </member>
         <member name="P:Dilon.Core.SysNoticeUser.NoticeId">
             <summary>
-            通知公告id
+            通知公告Id
             </summary>
         </member>
         <member name="P:Dilon.Core.SysNoticeUser.UserId">
@@ -1149,7 +1149,7 @@
         </member>
         <member name="P:Dilon.Core.SysOauthUser.Uuid">
             <summary>
-            第三方平台的用户唯一id
+            第三方平台的用户唯一Id
             </summary>
         </member>
         <member name="P:Dilon.Core.SysOauthUser.AccessToken">
@@ -1555,7 +1555,7 @@
         </member>
         <member name="P:Dilon.Core.SysTimer.Remark">
             <summary>
-            描述
+            备注
             </summary>
         </member>
         <member name="T:Dilon.Core.SysUser">
@@ -1693,7 +1693,7 @@
         </member>
         <member name="P:Dilon.Core.SysUserRole.SysUserId">
             <summary>
-            系统用户Id
+            用户Id
             </summary>
         </member>
         <member name="P:Dilon.Core.SysUserRole.SysUser">

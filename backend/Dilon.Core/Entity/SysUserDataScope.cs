@@ -1,4 +1,5 @@
 ﻿using Furion.DatabaseAccessor;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -7,11 +8,13 @@ namespace Dilon.Core
     /// 用户数据范围表
     /// </summary>
     [Table("sys_user_data_scope")]
+    [Comment("用户数据范围表")]
     public class SysUserDataScope : IEntity
     {
         /// <summary>
         /// 用户Id
         /// </summary>
+        [Comment("用户Id")]
         public long SysUserId { get; set; }
 
         /// <summary>
@@ -22,6 +25,7 @@ namespace Dilon.Core
         /// <summary>
         /// 机构Id
         /// </summary>
+        [Comment("机构Id")]
         public long SysOrgId { get; set; }
 
         /// <summary>
