@@ -104,8 +104,8 @@ if (@column.WhetherRequired == "Y"){
 
 <script>
 @{
-	var editData = 0;
-	var DateQuery = "N";
+    var editData = 0;
+    var DateQuery = "N";
 }
 @foreach (var column in Model.TableField){
 if (@column.WhetherAddUpdate == "Y"){
@@ -178,7 +178,7 @@ if (@column.WhetherAddUpdate == "Y"){
 if (@column.EffectType == "checkbox"){
 editDataColumn++;
 if(editDataColumn != editData) {
-			  @:@column.ColumnName: JSON.parse(record.@column.ColumnName),
+              @:@column.ColumnName: JSON.parse(record.@column.ColumnName),
 }else{
               @:@column.ColumnName: JSON.parse(record.@column.ColumnName)
 }
