@@ -19,7 +19,7 @@ namespace Dilon.Core.Service
             requestUrl = requestUrl?.IndexOf("http") == 0 ? requestUrl : "http://" + requestUrl;
             var requestParameters = context.JobDetail.JobDataMap.GetString(SchedulerDef.REQUESTPARAMETERS);
             var headersString = context.JobDetail.JobDataMap.GetString(SchedulerDef.HEADERS);
-            var headers = headersString != null ? JSON.GetJsonSerializer().Deserialize<Dictionary<string, string>>(headersString?.Trim()) : null;
+            var headers = !string.IsNullOrWhiteSpace(headersString) ? JSON.GetJsonSerializer().Deserialize<Dictionary<string, string>>(headersString.Trim()) : null;
             var requestType = (RequestTypeEnum)int.Parse(context.JobDetail.JobDataMap.GetString(SchedulerDef.REQUESTTYPE));
 
             // var response = new HttpResponseMessage();
