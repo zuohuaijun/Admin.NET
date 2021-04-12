@@ -18,6 +18,11 @@ import { Dialog } from '@/components'
 import { hasBtnPermission } from './utils/permissions' // button permission
 import { sysApplication } from './utils/applocation'
 
+// import KFormDesign from 'k-form-design'
+import KFormDesign from 'k-form-design/lib/k-form-design-mini.umd.min'
+import 'k-form-design/lib/k-form-design.css'
+Vue.use(KFormDesign)
+
 Vue.use(VueAxios)
 Vue.use(Dialog)
 Vue.prototype.hasPerm = hasBtnPermission
