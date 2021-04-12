@@ -146,17 +146,13 @@ namespace Dilon.Core.Service.CodeGen
             var entityType = Db.GetDbContext().Model.GetEntityTypes().FirstOrDefault(u => u.ClrType.Name == input.TableName);
             if (entityType == null) return null;
 
-            return entityType.GetProperties()
-                .GroupBy(p => p.DeclaringType)
-                .Reverse()
-                .SelectMany(g => g)
-                .Select(u => new TableColumnOuput
-                {
-                    ColumnName = u.Name,
-                    ColumnKey = u.IsKey().ToString(),
-                    DataType = u.PropertyInfo.PropertyType.ToString(),
-                    ColumnComment = u.GetComment()
-                }).ToList();
+            return entityType.GetProperties().Select(u => new TableColumnOuput
+            {
+                ColumnName = u.Name,
+                ColumnKey = u.IsKey().ToString(),
+                DataType = u.PropertyInfo.PropertyType.ToString(),
+                ColumnComment = u.GetComment()
+            }).ToList();
         }
 
         /// <summary>
