@@ -173,6 +173,7 @@ namespace Dilon.Core
                 new SysMenu{Id=142307070918775, Pid=142307070918766, Pids="[0],[142307070918765],[142307070918766],", Name="定时任务关闭", Code="sys_timers_mgr_stop", Type=2, Permission="sysTimers:stop", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
 
                 new SysMenu{Id=142307070918776, Pid=0, Pids="[0],", Name="代码生成", Code="code_gen", Type=1, Icon="thunderbolt", Router="/codeGenerate/index", Component="gen/codeGenerate/index", Application="system_tool", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070922870, Pid=0, Pids="[0],", Name="表单设计", Code="form_design", Type=1, Icon="robot", Router="/formDesign/index", Component="system/formDesign/index", Application="system_tool", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
 
                 new SysMenu{Id=142307070918782, Pid=0, Pids="[0],", Name="SaaS租户", Code="sys_tenant", Type=1, Icon="switcher", Router="/tenant", Component="PageView", Application="advanced", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142307070918783, Pid=142307070918782, Pids="[0],[142307070918782],", Name="租户管理", Code="sys_tenant_mgr", Type=1, Router="/tenant", Component="system/tenant/index", Application="advanced", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0 },
