@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations;
 
 namespace Dilon.Core.Service
 {
@@ -38,13 +38,13 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 名称
         /// </summary>
-        [Required(ErrorMessageResourceName = "角色名称不能为空")]
+        [Required(ErrorMessage = "角色名称不能为空")]
         public override string Name { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
-        [Required(ErrorMessageResourceName = "角色编码不能为空")]
+        [Required(ErrorMessage = "角色编码不能为空")]
         public override string Code { get; set; }
     }
 
@@ -53,7 +53,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 角色Id
         /// </summary>
-        [Required(ErrorMessageResourceName = "角色Id不能为空")]
+        [Required(ErrorMessage = "角色Id不能为空")]
         public long Id { get; set; } 
     }
 
@@ -62,7 +62,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 角色Id
         /// </summary>
-        [Required(ErrorMessageResourceName = "角色Id不能为空")]
+        [Required(ErrorMessage = "角色Id不能为空")]
         public long Id { get; set; }
     }
 
@@ -76,7 +76,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 角色Id
         /// </summary>
-        [Required(ErrorMessageResourceName = "角色Id不能为空")]
+        [Required(ErrorMessage = "角色Id不能为空")]
         public long Id { get; set; }
     }
 
