@@ -12,7 +12,7 @@
 [![star](https://gitee.com/zuohuaijun/Admin.NET/badge/star.svg?theme=dark)](https://gitee.com/zuohuaijun/Admin.NET/stargazers)
 [![fork](https://gitee.com/zuohuaijun/Admin.NET/badge/fork.svg?theme=dark)](https://gitee.com/zuohuaijun/Admin.NET/members)
 [![star](https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/stargazers)
-[![star](https://gitee.com/xiaonuobase/xiaonuo-vue/badge/star.svg?theme=gray)](https://gitee.com/xiaonuobase/xiaonuo-vue/stargazers)
+[![star](https://gitee.com/xiaonuobase/snowy/badge/star.svg?theme=gray)](https://gitee.com/xiaonuobase/xiaonuo-vue/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)
 
 </div>
@@ -42,7 +42,7 @@
 ### ⚡ 近期计划
 
 - [x] 集成多租户功能
-- [ ] 集成代码生成器
+- [x] 集成代码生成器
 - [ ] 在线用户及黑名单
 - [ ] 邮件发送
 - [ ] 短信发送
