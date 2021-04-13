@@ -3,6 +3,8 @@ using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -120,6 +122,16 @@ namespace Dilon.Core.Service
         public async Task<long> GetEmpOrgId(long empId)
         {
             return (await _sysEmpRep.FirstOrDefaultAsync(u => u.Id == empId, false)).OrgId;
+        }
+
+        /// <summary>
+        /// 获取子机构用户
+        /// </summary>
+        /// <param name="orgIds"></param>
+        /// <returns></returns>
+        public async Task<List<SysEmp>> HasOrgEmp(List<long> orgIds)
+        {
+            return await _sysEmpRep.DetachedEntities.Where(u => orgIds.Contains(u.OrgId)).ToListAsync();
         }
     }
 }
