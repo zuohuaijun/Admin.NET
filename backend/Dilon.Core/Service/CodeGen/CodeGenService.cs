@@ -170,7 +170,7 @@ namespace Dilon.Core.Service.CodeGen
         /// </summary>
         /// <returns></returns>
         [HttpPost("/codeGenerate/runLocal")]
-        public async void RunLocal(SysCodeGen input)
+        public async Task RunLocal(SysCodeGen input)
         {
             var templatePathList = GetTemplatePathList();
             var targetPathList = GetTargetPathList(input);

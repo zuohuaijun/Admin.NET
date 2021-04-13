@@ -12,7 +12,7 @@ namespace Dilon.Core.Service.CodeGen
         List<TableColumnOuput> GetColumnList(AddCodeGenInput input);
         List<TableOutput> GetTableList();
         Task<dynamic> QueryCodeGenPageList([FromQuery] CodeGenInput input);
-        void RunLocal(SysCodeGen input);
+        Task RunLocal(SysCodeGen input);
         Task UpdateCodeGen(UpdateCodeGenInput input);
     }
 }
