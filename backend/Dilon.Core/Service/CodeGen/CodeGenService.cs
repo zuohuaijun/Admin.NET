@@ -152,17 +152,17 @@ namespace Dilon.Core.Service.CodeGen
             var type = entityType.ClrType;
             if (type == null) return null;
 
+            // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
             return type.GetProperties()
-                // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
-                .Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
-                .Where(p => p != null)
-                .Select(p => new TableColumnOuput
-                {
-                    ColumnName = p.Name,
-                    ColumnKey = p.IsKey().ToString(),
-                    DataType = p.PropertyInfo.PropertyType.ToString(),
-                    ColumnComment = p.GetComment()
-                }).ToList();
+                       .Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
+                       .Where(p => p != null)
+                       .Select(p => new TableColumnOuput
+                       {
+                           ColumnName = p.Name,
+                           ColumnKey = p.IsKey().ToString(),
+                           DataType = p.PropertyInfo.PropertyType.ToString(),
+                           ColumnComment = p.GetComment()
+                       }).ToList();
         }
 
         /// <summary>
