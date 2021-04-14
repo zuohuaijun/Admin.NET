@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Dilon.Core.Entity;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -13,7 +14,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_user")]
     [Comment("用户表")]
-    public class SysUser : DEntityBase, IEntityTypeBuilder<SysUser>
+    public class SysUser : DBEntityTenant, IEntityTypeBuilder<SysUser>
     {
         /// <summary>
         /// 账号

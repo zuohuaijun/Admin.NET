@@ -1,0 +1,3 @@
+﻿Add-Migration Init -Context DefaultDbContext
+update-database -Context DefaultDbContext
+dotnet run --urls="http://*:5566"

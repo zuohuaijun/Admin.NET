@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dilon.Core.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +10,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_org")]
     [Comment("组织机构表")]
-    public class SysOrg : DEntityBase
+    public class SysOrg : DBEntityTenant
     {
         /// <summary>
         /// 父Id

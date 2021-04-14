@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Dilon.Core.Entity;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -12,7 +13,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_role")]
     [Comment("角色表")]
-    public class SysRole : DEntityBase, IEntityTypeBuilder<SysRole>
+    public class SysRole : DBEntityTenant, IEntityTypeBuilder<SysRole>
     {
         /// <summary>
         /// 名称

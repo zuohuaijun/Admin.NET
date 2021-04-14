@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Dilon.Core.Entity;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +10,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_role_menu")]
     [Comment("角色菜单表")]
-    public class SysRoleMenu : IEntity
+    public class SysRoleMenu : DBEntityTenant
     {
         /// <summary>
         /// 角色Id

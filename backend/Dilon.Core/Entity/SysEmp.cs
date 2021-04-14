@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Dilon.Core.Entity;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -12,7 +13,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_emp")]
     [Comment("员工表")]
-    public class SysEmp : IEntity, IEntityTypeBuilder<SysEmp>
+    public class SysEmp : DBEntityTenant, IEntityTypeBuilder<SysEmp>
     {
         /// <summary>
         /// 用户Id

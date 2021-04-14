@@ -273,6 +273,11 @@
             是否超级管理
             </summary>
         </member>
+        <member name="F:Dilon.Core.ClaimConst.TENANT_ID">
+            <summary>
+            是否超级管理
+            </summary>
+        </member>
         <member name="F:Dilon.Core.CommonConst.DEFAULT_PASSWORD">
             <summary>
             默认密码
@@ -301,6 +306,51 @@
         <member name="F:Dilon.Core.CommonConst.CACHE_KEY_CODE">
             <summary>
             验证码缓存
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Entity.DBEntityTenant.TenantId">
+            <summary>
+            租户id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Entity.DBEntityTenant.Id">
+            <summary>
+            主键Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Entity.DBEntityTenant.CreatedTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Entity.DBEntityTenant.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Entity.DBEntityTenant.CreatedUserId">
+            <summary>
+            创建者Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Entity.DBEntityTenant.CreatedUserName">
+            <summary>
+            创建者名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Entity.DBEntityTenant.UpdatedUserId">
+            <summary>
+            修改者Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Entity.DBEntityTenant.UpdatedUserName">
+            <summary>
+            修改者名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Entity.DBEntityTenant.IsDeleted">
+            <summary>
+            软删除
             </summary>
         </member>
         <member name="T:Dilon.Core.DEntityBase">

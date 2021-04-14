@@ -22,5 +22,10 @@
         /// </summary>
         public const string CLAINM_SUPERADMIN = "SuperAdmin";
 
+        /// <summary>
+        /// 是否超级管理
+        /// </summary>
+        public const string TENANT_ID = "TenantId";
+
     }
 }

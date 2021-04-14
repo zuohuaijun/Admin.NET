@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Dilon.Core.Entity;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +10,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_user_role")]
     [Comment("用户角色表")]
-    public class SysUserRole : IEntity
+    public class SysUserRole : DBEntityTenant
     {
         /// <summary>
         /// 用户Id

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Dilon.Core.Entity;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -9,7 +10,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_pos")]
     [Comment("职位表")]
-    public class SysPos : DEntityBase
+    public class SysPos : DBEntityTenant
     {
         /// <summary>
         /// 名称
