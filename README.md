@@ -1,6 +1,6 @@
 <div align="center">
     <p align="center">
-        <img src="./frontend/public/logo.png" height="50" alt="logo"/>
+        <img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/frontend/public/logo.png" height="50" alt="logo"/>
     </p>
 </div>
 
