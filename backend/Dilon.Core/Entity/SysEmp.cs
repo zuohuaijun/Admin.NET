@@ -15,12 +15,12 @@ namespace Dilon.Core
     [Comment("员工表")]
     public class SysEmp : DBEntityTenant, IEntityTypeBuilder<SysEmp>
     {
-        /// <summary>
-        /// 用户Id
-        /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        [Comment("用户Id")]
-        public long Id { get; set; }
+        ///// <summary>
+        ///// 用户Id
+        ///// </summary>
+        //[DatabaseGenerated(DatabaseGeneratedOption.None)]
+        //[Comment("用户Id")]
+        //public long Id { get; set; }
 
         /// <summary>
         /// 工号

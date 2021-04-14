@@ -48,12 +48,23 @@ namespace Dilon.EntityFramework.Core
                         entity.Property(nameof(Entity.TenantId)).IsModified = false;
                         break;
                 }
+
+             
             }
+
+
+
+        }
+        protected override LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = null)
+        {
+            return base.FakeDeleteQueryFilterExpression(entityBuilder, dbContext, isDeletedKey);
         }
 
         protected override LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string onTableTenantId = null)
         {
             LambdaExpression expression = base.TenantIdQueryFilterExpression(entityBuilder, dbContext, onTableTenantId);
+
+            
             return expression;
         }
 
@@ -74,12 +85,8 @@ namespace Dilon.EntityFramework.Core
             {
                 return;
             }
-            object tenantId =GetTenantId();
-            if (tenantId == null)
-            {
-                return;
-            }
-            //var expression = base.FakeDeleteQueryFilterExpression(entityBuilder, dbContext);
+            
+            var expression = base.FakeDeleteQueryFilterExpression(entityBuilder, dbContext);
             //if (expression == null) return;
 
             //entityBuilder.HasQueryFilter(expression);
@@ -91,8 +98,12 @@ namespace Dilon.EntityFramework.Core
 
         public object GetTenantId()
         {
-            var tenantId = App.User.FindFirst(ClaimConst.TENANT_ID)?.Value;
-            return tenantId;
+            if (App.User != null)
+            {
+                var tenantId = App.User.FindFirst(ClaimConst.TENANT_ID)?.Value;
+                return tenantId;
+            }
+            return null;
         }
     }
 }

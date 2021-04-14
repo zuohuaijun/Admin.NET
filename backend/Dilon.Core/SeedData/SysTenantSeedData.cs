@@ -14,20 +14,28 @@ namespace Dilon.Core
                 new SysTenant
                 {
                     Id = 142307070918780,
-                    Name = "默认租户",
-                    Host = "localhost:5566",
+                    Name = "平台开发域",
+                    Host = "",
                     CreatedTime = DateTime.Parse("2021-04-03 00:00:00"),
-                    Connection = "Data Source=./Dilon.db",
+                    Connection = "",
                     Email = "zuohuaijun@163.com",
                     Phone = "18020030720"
                 },
                 new SysTenant
                 {
                     Id = 142307070918781,
-                    Name = "其他租户",
-                    Host = "localhost:5588",
+                    Name = "公司1租户",
+                    Host = "",
                     CreatedTime = DateTime.Parse("2021-04-03 00:00:00"),
-                    Connection = "Data Source=./Dilon_1.db"
+                    Connection = ""
+                },
+                new SysTenant
+                {
+                    Id = 142307070918782,
+                    Name = "公司2租户",
+                    Host = "",
+                    CreatedTime = DateTime.Parse("2021-04-03 00:00:00"),
+                    Connection = ""
                 }
             };
         }

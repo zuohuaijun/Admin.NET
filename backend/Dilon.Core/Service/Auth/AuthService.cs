@@ -67,13 +67,13 @@ namespace Dilon.Core.Service
         /// <returns></returns>
         [HttpPost("/login")]
         [AllowAnonymous]
-        public async Task<string> LoginAsync([Required] LoginInput input)
+        public string LoginAsync([Required] LoginInput input)
         {
             // 获取加密后的密码
             var encryptPasswod = MD5Encryption.Encrypt(input.Password);
 
-            // 判断用户名和密码是否正确
-            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod));
+            // 判断用户名和密码是否正确 忽略全局过滤器
+            var user =  _sysUserRep.Where(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod),null,true).FirstOrDefault();
             _ = user ?? throw Oops.Oh(ErrorCode.D1000);
 
             // 验证账号是否被冻结

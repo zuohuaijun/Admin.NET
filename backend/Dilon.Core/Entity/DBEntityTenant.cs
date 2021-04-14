@@ -19,7 +19,7 @@ namespace Dilon.Core.Entity
         /// 主键Id
         /// </summary>
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Comment("Id主键")]
         public virtual long Id { get; set; }
 

@@ -8,7 +8,7 @@ namespace Dilon.Core.Service
         Task<dynamic> GetCaptcha();
         Task<bool> GetCaptchaOpen();
         Task<LoginOutput> GetLoginUserAsync();
-        Task<string> LoginAsync([Required] LoginInput input);
+        string LoginAsync([Required] LoginInput input);
         Task LogoutAsync();
         Task<dynamic> VerificationCode(ClickWordCaptchaInput input);
     }

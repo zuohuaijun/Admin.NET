@@ -674,11 +674,6 @@
             员工表
             </summary>
         </member>
-        <member name="P:Dilon.Core.SysEmp.Id">
-            <summary>
-            用户Id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.SysEmp.JobNum">
             <summary>
             工号
