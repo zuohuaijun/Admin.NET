@@ -26,7 +26,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 状态（字典 0草稿 1发布 2撤回 3删除）
         /// </summary>
-        public virtual int Status { get; set; }
+        public virtual NoticeStatus Status { get; set; }
 
         /// <summary>
         /// 通知到的人
@@ -58,7 +58,7 @@ namespace Dilon.Core.Service
         /// 状态（字典 0草稿 1发布 2撤回 3删除）
         /// </summary>
         [Required(ErrorMessage = "状态不能为空")]
-        public override int Status { get; set; }
+        public override NoticeStatus Status { get; set; }
 
         /// <summary>
         /// 通知到的人
@@ -96,6 +96,6 @@ namespace Dilon.Core.Service
         /// 状态（字典 0草稿 1发布 2撤回 3删除）
         /// </summary>
         [Required(ErrorMessage = "状态不能为空")]
-        public int Status { get; set; }
+        public NoticeStatus Status { get; set; }
     }
 }
