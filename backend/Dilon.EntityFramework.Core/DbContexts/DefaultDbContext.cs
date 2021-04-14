@@ -34,14 +34,15 @@ namespace Dilon.EntityFramework.Core
 
             foreach (var entity in entities)
             {
-                if (entity.Metadata.ClrType.BaseType.Name != "DBEntityTenant") {
+                if (entity.Metadata.ClrType.BaseType.Name != "DBEntityTenant")
+                {
                     continue;
                 }
                 switch (entity.State)
                 {
                     // 自动设置租户Id
                     case EntityState.Added:
-                        entity.Property(nameof(Entity.TenantId)).CurrentValue =long.Parse( GetTenantId().ToString());
+                        entity.Property(nameof(Entity.TenantId)).CurrentValue = long.Parse(GetTenantId().ToString());
                         break;
                     // 排除租户Id
                     case EntityState.Modified:
@@ -49,7 +50,7 @@ namespace Dilon.EntityFramework.Core
                         break;
                 }
 
-             
+
             }
 
 
@@ -63,8 +64,6 @@ namespace Dilon.EntityFramework.Core
         protected override LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string onTableTenantId = null)
         {
             LambdaExpression expression = base.TenantIdQueryFilterExpression(entityBuilder, dbContext, onTableTenantId);
-
-            
             return expression;
         }
 
@@ -79,18 +78,10 @@ namespace Dilon.EntityFramework.Core
         /// <param name="dbContextLocator"></param>
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            
-
-            if (entityBuilder.Metadata.ClrType.BaseType.Name != "DBEntityTenant")
+            if (entityBuilder.Metadata.ClrType.BaseType.Name == "DBEntityTenant")
             {
-                return;
+                entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
             }
-            
-            var expression = base.FakeDeleteQueryFilterExpression(entityBuilder, dbContext);
-            //if (expression == null) return;
-
-            //entityBuilder.HasQueryFilter(expression);
-            entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
 
         }
 
