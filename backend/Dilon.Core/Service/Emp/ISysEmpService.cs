@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
 {
@@ -10,5 +11,6 @@ namespace Dilon.Core.Service
         Task<long> GetEmpOrgId(long empId);
         Task<bool> HasOrgEmp(long orgId);
         Task UpdateEmpOrgInfo(long orgId, string orgName);
+        Task<List<SysEmp>> HasOrgEmp(List<long> orgIds);
     }
 }

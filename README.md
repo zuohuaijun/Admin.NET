@@ -12,7 +12,7 @@
 [![star](https://gitee.com/zuohuaijun/Admin.NET/badge/star.svg?theme=dark)](https://gitee.com/zuohuaijun/Admin.NET/stargazers)
 [![fork](https://gitee.com/zuohuaijun/Admin.NET/badge/fork.svg?theme=dark)](https://gitee.com/zuohuaijun/Admin.NET/members)
 [![star](https://gitee.com/dotnetchina/Furion/badge/star.svg?theme=gvp)](https://gitee.com/dotnetchina/Furion/stargazers)
-[![star](https://gitee.com/xiaonuobase/snowy/badge/star.svg?theme=gray)](https://gitee.com/xiaonuobase/xiaonuo-vue/stargazers)
+[![star](https://gitee.com/xiaonuobase/snowy/badge/star.svg?theme=gray)](https://gitee.com/xiaonuobase/snowy/stargazers)
 [![GitHub license](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)
 
 </div>
@@ -134,7 +134,7 @@
 1. Dilon.EntityFramework.Core 项目安装 ``` Microsoft.EntityFrameworkCore.SqlServer ```
 2. DefaultDbContext.cs 指定 DbProvider , ```[AppDbContext("DefaultConnection", DbProvider.SqlServer)]```
 3. dbsettings.json 配置 "DefaultConnection": ```"Server=localhost;Database=Dilon;User=sa;Password=000000;MultipleActiveResultSets=True;"```
-4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init和update-database```
+4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init 和 update-database```
 
 ```
 提示：其他类型数据库依次类推，首先添加EF的Core版包，然后指定数据库类型，修改数据库连接字符串，执行EF命令即可。
@@ -142,14 +142,14 @@
 
 ### 🥦 补充说明
 
-* 基于.NET 5平台Furion开发框架与小诺Vue版本相结合，实时跟随基架升级而升级！
+* 基于.NET 5平台 Furion 开发框架与小诺 Vue 版本相结合，实时跟随基架升级而升级！
 * 持续集百家所长，完善与丰富本框架基础设施，为.NET生态增加一种选择！
 * 后期会推出基于此框架的相关应用场景案例，提供给大家使用！
 * 有问题讨论的小伙伴可加群一起学习讨论。 QQ群【87333204】
 <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=pN8R-P3pJaW9ILoOXwpRGN2wdCHWtUTE&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Admin.NET" title="Admin.NET"></a>
 
 ### 💐 特别鸣谢
-- 👉Furion：  [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
-- 👉 xiaonuo：[https://gitee.com/xiaonuobase/xiaonuo-vue](https://gitee.com/xiaonuobase/xiaonuo-vue)
+- 👉 Furion：  [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
+- 👉 xiaonuo：[https://gitee.com/xiaonuobase/snowy](https://gitee.com/xiaonuobase/snowy)
 
 如果对您有帮助，您可以点 "Star" 支持一下，这样才有持续下去的动力，谢谢！

@@ -4375,6 +4375,13 @@
             <param name="empId"></param>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.SysEmpService.HasOrgEmp(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            获取子机构用户
+            </summary>
+            <param name="orgIds"></param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.Service.FileInput">
             <summary>
             上传文件参数

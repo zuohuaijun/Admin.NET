@@ -141,18 +141,28 @@ namespace Dilon.Core.Service.CodeGen
         /// </summary>
         /// <returns></returns>
         [NonAction]
-        public List<TableColumnOuput> GetColumnList(AddCodeGenInput input)
+        public List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
         {
-            var entityType = Db.GetDbContext().Model.GetEntityTypes().FirstOrDefault(u => u.ClrType.Name == input.TableName);
+            // 获取实体类型属性
+            var entityType = Db.GetDbContext().Model.GetEntityTypes()
+                .FirstOrDefault(u => u.ClrType.Name == input.TableName);
             if (entityType == null) return null;
 
-            return entityType.GetProperties().Select(u => new TableColumnOuput
-            {
-                ColumnName = u.Name,
-                ColumnKey = u.IsKey().ToString(),
-                DataType = u.PropertyInfo.PropertyType.ToString(),
-                ColumnComment = u.GetComment()
-            }).ToList();
+            // 获取原始类型属性
+            var type = entityType.ClrType;
+            if (type == null) return null;
+
+            // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
+            return type.GetProperties()
+                       .Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
+                       .Where(p => p != null)
+                       .Select(p => new TableColumnOuput
+                       {
+                           ColumnName = p.Name,
+                           ColumnKey = p.IsKey().ToString(),
+                           DataType = p.PropertyInfo.PropertyType.ToString(),
+                           ColumnComment = p.GetComment()
+                       }).ToList();
         }
 
         /// <summary>
@@ -160,7 +170,7 @@ namespace Dilon.Core.Service.CodeGen
         /// </summary>
         /// <returns></returns>
         [HttpPost("/codeGenerate/runLocal")]
-        public async void RunLocal(SysCodeGen input)
+        public async Task RunLocal(SysCodeGen input)
         {
             var templatePathList = GetTemplatePathList();
             var targetPathList = GetTargetPathList(input);

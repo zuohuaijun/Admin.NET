@@ -181,6 +181,12 @@ namespace Dilon.Core.Service
             if (hasOrgEmp)
                 throw Oops.Oh(ErrorCode.D2004);
 
+            // 该机构下面子机构若有员工，则不能删
+            var orgIds = await _sysOrgRep.DetachedEntities.Where(u => u.Pids.Contains(input.Id)).Select(u => u.Id).ToListAsync();
+            var emps = await _sysEmpService.HasOrgEmp(orgIds);
+            if (emps.Count > 0)
+                throw Oops.Oh(ErrorCode.D2004);
+
             // 该附属机构下若有员工，则不能删
             var hasExtOrgEmp = await _sysEmpExtOrgPosService.HasExtOrgEmp(sysOrg.Id);
             if (hasExtOrgEmp)
