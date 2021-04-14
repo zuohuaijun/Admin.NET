@@ -27,7 +27,7 @@ namespace Dilon.Core.Service.Notice
         /// <param name="noticeUserIdList"></param>
         /// <param name="noticeUserStatus"></param>
         /// <returns></returns>
-        public Task Add(long noticeId, List<long> noticeUserIdList, int noticeUserStatus)
+        public Task Add(long noticeId, List<long> noticeUserIdList, NoticeUserStatus noticeUserStatus)
         {
             noticeUserIdList.ForEach(u =>
             {
@@ -48,7 +48,7 @@ namespace Dilon.Core.Service.Notice
         /// <param name="noticeUserIdList"></param>
         /// <param name="noticeUserStatus"></param>
         /// <returns></returns>
-        public async Task Update(long noticeId, List<long> noticeUserIdList, int noticeUserStatus)
+        public async Task Update(long noticeId, List<long> noticeUserIdList, NoticeUserStatus noticeUserStatus)
         {
             var noticeUsers = await _sysNoticeUserRep.Where(u => u.NoticeId == noticeId).ToListAsync();
             noticeUsers.ForEach(u =>
@@ -76,7 +76,7 @@ namespace Dilon.Core.Service.Notice
         /// <param name="userId"></param>
         /// <param name="status"></param>
         /// <returns></returns>
-        public async Task Read(long noticeId, long userId, int status)
+        public async Task Read(long noticeId, long userId, NoticeUserStatus status)
         {
             var noticeUser = await _sysNoticeUserRep.FirstOrDefaultAsync(u => u.NoticeId == noticeId && u.UserId == userId);
             if (noticeUser != null)

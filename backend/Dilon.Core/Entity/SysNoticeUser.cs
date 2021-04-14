@@ -35,7 +35,7 @@ namespace Dilon.Core
         /// 状态（字典 0未读 1已读）
         /// </summary>
         [Comment("状态")]
-        public int ReadStatus { get; set; }
+        public NoticeUserStatus ReadStatus { get; set; }
 
         public void Configure(EntityTypeBuilder<SysNoticeUser> entityBuilder, DbContext dbContext, Type dbContextLocator)
         {

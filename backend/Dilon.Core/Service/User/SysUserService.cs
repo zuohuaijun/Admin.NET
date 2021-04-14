@@ -356,7 +356,7 @@ namespace Dilon.Core.Service
             user.Account = isExist ? authUser.Username + DateTime.Now.Ticks : authUser.Username;
             user.Name = user.NickName = authUser.Nickname;
             user.Email = authUser.Email;
-            user.Sex = (int)authUser.Gender;
+            user.Sex = authUser.Gender;
             await user.InsertAsync();
         }
 

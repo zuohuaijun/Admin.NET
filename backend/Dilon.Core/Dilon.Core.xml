@@ -5267,7 +5267,7 @@
             通知公告用户
             </summary>
         </member>
-        <member name="M:Dilon.Core.Service.Notice.SysNoticeUserService.Add(System.Int64,System.Collections.Generic.List{System.Int64},System.Int32)">
+        <member name="M:Dilon.Core.Service.Notice.SysNoticeUserService.Add(System.Int64,System.Collections.Generic.List{System.Int64},Dilon.Core.NoticeUserStatus)">
             <summary>
             增加
             </summary>
@@ -5276,7 +5276,7 @@
             <param name="noticeUserStatus"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.Notice.SysNoticeUserService.Update(System.Int64,System.Collections.Generic.List{System.Int64},System.Int32)">
+        <member name="M:Dilon.Core.Service.Notice.SysNoticeUserService.Update(System.Int64,System.Collections.Generic.List{System.Int64},Dilon.Core.NoticeUserStatus)">
             <summary>
             更新
             </summary>
@@ -5292,7 +5292,7 @@
             <param name="noticeId"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.Notice.SysNoticeUserService.Read(System.Int64,System.Int64,System.Int32)">
+        <member name="M:Dilon.Core.Service.Notice.SysNoticeUserService.Read(System.Int64,System.Int64,Dilon.Core.NoticeUserStatus)">
             <summary>
             设置通知公告读取状态
             </summary>
