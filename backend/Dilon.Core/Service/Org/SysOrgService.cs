@@ -21,7 +21,7 @@ namespace Dilon.Core.Service
     {
         private readonly IRepository<SysOrg> _sysOrgRep;  // 组织机构表仓储 
         private readonly IUserManager _userManager;
-
+        private readonly ISysCacheService _sysCacheService;
         private readonly ISysEmpService _sysEmpService;
         private readonly ISysEmpExtOrgPosService _sysEmpExtOrgPosService;
         private readonly ISysRoleDataScopeService _sysRoleDataScopeService;
@@ -29,6 +29,7 @@ namespace Dilon.Core.Service
 
         public SysOrgService(IRepository<SysOrg> sysOrgRep,
                              IUserManager userManager,
+                             ISysCacheService sysCacheService,
                              ISysEmpService sysEmpService,
                              ISysEmpExtOrgPosService sysEmpExtOrgPosService,
                              ISysRoleDataScopeService sysRoleDataScopeService,
@@ -36,6 +37,7 @@ namespace Dilon.Core.Service
         {
             _sysOrgRep = sysOrgRep;
             _userManager = userManager;
+            _sysCacheService = sysCacheService;
             _sysEmpService = sysEmpService;
             _sysEmpExtOrgPosService = sysEmpExtOrgPosService;
             _sysRoleDataScopeService = sysRoleDataScopeService;
@@ -91,7 +93,7 @@ namespace Dilon.Core.Service
                     dataScopeList.AddRange(parentAndChildIdListWithSelf);
                 });
             }
-             
+
             return dataScopeList;
         }
 
@@ -124,24 +126,36 @@ namespace Dilon.Core.Service
             var isExist = await _sysOrgRep.DetachedEntities.AnyAsync(u => u.Name == input.Name || u.Code == input.Code);
             if (isExist)
                 throw Oops.Oh(ErrorCode.D2002);
-
+            var dataScopes = await GetUserDataScopeIdList();
             if (!_userManager.SuperAdmin)
             {
                 // 如果新增的机构父Id不是0，则进行数据权限校验
                 if (input.Pid != "0" && !string.IsNullOrEmpty(input.Pid))
                 {
                     // 新增组织机构的父机构不在自己的数据范围内
-                    var dataScopes = await GetUserDataScopeIdList();
+                   
                     if (dataScopes.Count < 1 || !dataScopes.Contains(long.Parse(input.Pid)))
                         throw Oops.Oh(ErrorCode.D2003);
                 }
                 else
-                    throw Oops.Oh(ErrorCode.D2003);
+                    throw Oops.Oh(ErrorCode.D2006);
             }
 
             var sysOrg = input.Adapt<SysOrg>();
             await FillPids(sysOrg);
-            await sysOrg.InsertAsync();
+            var newOrg = await _sysOrgRep.InsertNowAsync(sysOrg);
+            // 当前用户不是超级管理员时，将新增的公司加到用户的数据权限
+            if (App.User.FindFirst(ClaimConst.CLAINM_SUPERADMIN)?.Value != ((int)AdminType.SuperAdmin).ToString())
+            {
+                var userId = App.User.FindFirst(ClaimConst.CLAINM_USERID)?.Value;
+                new SysUserDataScope
+                {
+                    SysUserId = long.Parse(userId),
+                    SysOrgId = newOrg.Entity.Id
+                }.Insert();
+                dataScopes.Add(newOrg.Entity.Id);
+                await _sysCacheService.SetDataScope(long.Parse(userId), dataScopes); // 缓存新结果
+            }
         }
 
         /// <summary>

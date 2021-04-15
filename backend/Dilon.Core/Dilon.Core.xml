@@ -1946,6 +1946,11 @@
             附属机构下有员工禁止删除
             </summary>
         </member>
+        <member name="F:Dilon.Core.ErrorCode.D2006">
+            <summary>
+            只能增加下级机构
+            </summary>
+        </member>
         <member name="F:Dilon.Core.ErrorCode.D3000">
             <summary>
             字典类型不存在

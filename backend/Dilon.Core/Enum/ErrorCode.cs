@@ -140,6 +140,8 @@ namespace Dilon.Core
         [ErrorCodeItemMetadata("没有权限操作机构")]
         D2003,
 
+       
+
         /// <summary>
         /// 该机构下有员工禁止删除
         /// </summary>
@@ -151,6 +153,12 @@ namespace Dilon.Core
         /// </summary>
         [ErrorCodeItemMetadata("附属机构下有员工禁止删除")]
         D2005,
+
+        /// <summary>
+        /// 只能增加下级机构
+        /// </summary>
+        [ErrorCodeItemMetadata("只能增加下级机构")]
+        D2006,
 
         /// <summary>
         /// 字典类型不存在
