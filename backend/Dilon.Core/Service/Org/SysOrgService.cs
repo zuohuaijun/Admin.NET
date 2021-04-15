@@ -133,7 +133,7 @@ namespace Dilon.Core.Service
                 if (input.Pid != "0" && !string.IsNullOrEmpty(input.Pid))
                 {
                     // 新增组织机构的父机构不在自己的数据范围内
-                   
+
                     if (dataScopes.Count < 1 || !dataScopes.Contains(long.Parse(input.Pid)))
                         throw Oops.Oh(ErrorCode.D2003);
                 }

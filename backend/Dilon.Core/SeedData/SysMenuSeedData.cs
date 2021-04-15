@@ -184,14 +184,7 @@ namespace Dilon.Core
                 new SysMenu{Id=142307070922825, Pid=142307070918783, Pids="[0],[142307070918782],[142307070918783],", Name="租户编辑", Code="sys_tenant_mgr_edit", Type=2, Permission="sysTenant:edit", Application="advanced", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
 
 
-                
-
-               
-
-
-
                 new SysMenu{Id=142000000010563, Pid=0, Pids="[0],", Name="组织架构", Code="sys_mgr", Type=0, Icon="team", Router="/sys", Component="PageView", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-        
                 new SysMenu{Id=142000000010581, Pid=142000000010563, Pids="[0],[142000000010563],", Name="机构管理", Code="sys_org_mgr", Type=1, Router="/org", Component="system/org/index", Application="system_manage", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142000000010582, Pid=142000000010581, Pids="[0],[142000000010563],[142000000010581],", Name="机构查询", Code="sys_org_mgr_page", Type=2, Permission="sysOrg:page", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142000000010583, Pid=142000000010581, Pids="[0],[142000000010563],[142000000010581],", Name="机构列表", Code="sys_org_mgr_list", Type=2, Permission="sysOrg:list", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
@@ -209,20 +202,6 @@ namespace Dilon.Core
                 new SysMenu{Id=142000000014632, Pid=142000000010589, Pids="[0],[142000000010563],[142000000010589],", Name="职位详情", Code="sys_pos_mgr_detail", Type=2, Permission="sysPos:detail", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
 
                 new SysMenu{Id=142307000914633, Pid=0, Pids="[0],", Name="权限管理", Code="auth_manager", Type=0, Icon="safety-certificate", Router="/auth", Component="PageView", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-               
-                new SysMenu{Id=142307000914651, Pid=142307000914633, Pids="[0],[142307000914633],", Name="角色管理", Code="sys_role_mgr", Type=1, Router="/role", Component="system/role/index", Application="system_manage", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0},
-                new SysMenu{Id=142307000914652, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色查询", Code="sys_role_mgr_page", Type=2, Permission="sysRole:page", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000914653, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色增加", Code="sys_role_mgr_add", Type=2, Permission="sysRole:add", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000914654, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色编辑", Code="sys_role_mgr_edit", Type=2, Permission="sysRole:edit", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000914655, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色删除", Code="sys_role_mgr_delete", Type=2, Permission="sysRole:delete", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000914656, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色详情", Code="sys_role_mgr_detail", Type=2, Permission="sysRole:detail", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000914657, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色下拉", Code="sys_role_mgr_drop_down", Type=2, Permission="sysRole:dropDown", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000914658, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色授权菜单", Code="sys_role_mgr_grant_menu", Type=2, Permission="sysRole:grantMenu", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000914659, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色拥有菜单", Code="sys_role_mgr_own_menu", Type=2, Permission="sysRole:ownMenu", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000914660, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色授权数据", Code="sys_role_mgr_grant_data", Type=2, Permission="sysRole:grantData", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000914661, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色拥有数据", Code="sys_role_mgr_own_data", Type=2, Permission="sysRole:ownData", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-                new SysMenu{Id=142307000915661, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="菜单授权树", Code="sys_menu_mgr_grant_tree", Type=2, Permission="sysMenu:treeForGrant", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-
                 new SysMenu{Id=142000000110564, Pid=142307000914633, Pids="[0],[142307000914633],", Name="用户管理", Code="sys_user_mgr", Type=1, Router="/mgr_user", Component="system/user/index", Application="system_manage", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142000000110565, Pid=142000000110564, Pids="[0],[142307000914633],[142000000110564],", Name="用户查询", Code="sys_user_mgr_page", Type=2, Permission="sysUser:page", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142000000110566, Pid=142000000110564, Pids="[0],[142307000914633],[142000000110564],", Name="用户编辑", Code="sys_user_mgr_edit", Type=2, Permission="sysUser:edit", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
@@ -242,11 +221,22 @@ namespace Dilon.Core
                 new SysMenu{Id=142000000110580, Pid=142000000110564, Pids="[0],[142307000914633],[142000000110564],", Name="用户重置密码", Code="sys_user_mgr_reset_pwd", Type=2, Permission="sysUser:resetPwd", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142000000118777, Pid=142000000110564, Pids="[0],[142307000914633],[142000000110564],", Name="用户登录信息", Code="sys_user_mgr_login", Type=2, Permission="getLoginUser", Application="system_manage", OpenType=0, Visible="N", Weight=1, Sort=100, Status=CommonStatus.DISABLE },
 
+                new SysMenu{Id=142307000914651, Pid=142307000914633, Pids="[0],[142307000914633],", Name="角色管理", Code="sys_role_mgr", Type=1, Router="/role", Component="system/role/index", Application="system_manage", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0},
+                new SysMenu{Id=142307000914652, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色查询", Code="sys_role_mgr_page", Type=2, Permission="sysRole:page", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000914653, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色增加", Code="sys_role_mgr_add", Type=2, Permission="sysRole:add", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000914654, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色编辑", Code="sys_role_mgr_edit", Type=2, Permission="sysRole:edit", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000914655, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色删除", Code="sys_role_mgr_delete", Type=2, Permission="sysRole:delete", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000914656, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色详情", Code="sys_role_mgr_detail", Type=2, Permission="sysRole:detail", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000914657, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色下拉", Code="sys_role_mgr_drop_down", Type=2, Permission="sysRole:dropDown", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000914658, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色授权菜单", Code="sys_role_mgr_grant_menu", Type=2, Permission="sysRole:grantMenu", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000914659, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色拥有菜单", Code="sys_role_mgr_own_menu", Type=2, Permission="sysRole:ownMenu", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000914660, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色授权数据", Code="sys_role_mgr_grant_data", Type=2, Permission="sysRole:grantData", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000914661, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="角色拥有数据", Code="sys_role_mgr_own_data", Type=2, Permission="sysRole:ownData", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307000915661, Pid=142307000914651, Pids="[0],[142307000914633],[142307000914651],", Name="菜单授权树", Code="sys_menu_mgr_grant_tree", Type=2, Permission="sysMenu:treeForGrant", Application="system_manage", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
 
                 new SysMenu{Id=142307070910660, Pid=0, Pids="[0],", Name="销售管理", Code="jxc_1", Type=0, Icon="home", Router="/", Component="RouteView", Application="busapp", OpenType=0, Visible="Y", Redirect="/analysis", Weight=1, Sort=1, Status=0 },
                 new SysMenu{Id=142307070910661, Pid=142307070910660, Pids="[0],[142307070910660],", Name="销售订单", Code="jxc_1_1", Type=1, Router="analysis", Component="system/dashboard/Analysis", Application="busapp", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142307070910662, Pid=142307070910660, Pids="[0],[142307070910660],", Name="销售出库", Code="jxc_1_2", Type=1, Router="workplace", Component="system/dashboard/Workplace", Application="busapp", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-
 
             };
         }

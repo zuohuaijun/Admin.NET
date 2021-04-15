@@ -17,8 +17,7 @@ namespace Dilon.Core.SeedData
         {
             return new[]
             {
-                new SysUserRole{SysUserId=142307070910554, SysRoleId=142307070910556 },
-                 
+                new SysUserRole{SysUserId=142307070910554, SysRoleId=142307070910556 }
             };
         }
     }

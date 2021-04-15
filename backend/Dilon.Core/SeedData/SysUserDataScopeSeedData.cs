@@ -17,11 +17,8 @@ namespace Dilon.Core.SeedData
         {
             return new[]
             {
-                new SysUserDataScope{SysUserId=142307070910554, SysOrgId=142307070910547 },
-
+                new SysUserDataScope{SysUserId=142307070910554, SysOrgId=142307070910547 }
             };
         }
     }
 }
-
-   

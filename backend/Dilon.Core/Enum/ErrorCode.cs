@@ -140,8 +140,6 @@ namespace Dilon.Core
         [ErrorCodeItemMetadata("没有权限操作机构")]
         D2003,
 
-       
-
         /// <summary>
         /// 该机构下有员工禁止删除
         /// </summary>
@@ -327,7 +325,6 @@ namespace Dilon.Core
         /// </summary>
         [ErrorCodeItemMetadata("任务调度不存在")]
         D1101,
-
 
         /// <summary>
         /// 演示环境禁止修改数据
