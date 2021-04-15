@@ -64,7 +64,9 @@ namespace Dilon.Core.SeedData
                 new SysRoleMenu{    SysRoleId=  142307070910556 ,SysMenuId= 142307000914653 ,TenantId=  142307070918781 },
                 new SysRoleMenu{    SysRoleId=  142307070910556 ,SysMenuId= 142307000914654 ,TenantId=  142307070918781 },
                 new SysRoleMenu{    SysRoleId=  142307070910556 ,SysMenuId= 142307000914656 ,TenantId=  142307070918781 },
-                new SysRoleMenu{    SysRoleId=  142307070910556 ,SysMenuId= 142307000914633 ,TenantId=  142307070918781 }
+                new SysRoleMenu{    SysRoleId=  142307070910556 ,SysMenuId= 142307000914633 ,TenantId=  142307070918781 },
+                new SysRoleMenu{    SysRoleId=  142307070910556 ,SysMenuId= 142307000915661 ,TenantId=  142307070918781 },
+                
 
 
             };
