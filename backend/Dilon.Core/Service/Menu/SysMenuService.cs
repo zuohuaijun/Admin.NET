@@ -390,7 +390,7 @@ namespace Dilon.Core.Service
         public async Task<dynamic> TreeForGrant([FromQuery] MenuInput input)
         {
             var menuIdList = new List<long>();
-            if (_userManager.SuperAdmin)
+            if (!_userManager.SuperAdmin)
             {
                 var roleIdList = await _sysUserRoleService.GetUserRoleIdList(_userManager.UserId);
                 menuIdList = await _sysRoleMenuService.GetRoleMenuIdList(roleIdList);
