@@ -3176,6 +3176,29 @@
             数据范围（机构）信息
             </summary>
         </member>
+        <member name="T:Dilon.Core.Service.Auth.Dto.RegistInput">
+            <summary>
+            注册输入参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.Auth.Dto.RegistInput.Email">
+            <summary>
+            用户名
+            </summary>
+            <example>superAdmin</example>
+        </member>
+        <member name="P:Dilon.Core.Service.Auth.Dto.RegistInput.CompanyName">
+            <summary>
+            公司名
+            </summary>
+            <example>superAdmin</example>
+        </member>
+        <member name="P:Dilon.Core.Service.Auth.Dto.RegistInput.Password">
+            <summary>
+            密码
+            </summary>
+            <example>123456</example>
+        </member>
         <member name="T:Dilon.Core.Service.SysCacheService">
             <summary>
             系统缓存服务
