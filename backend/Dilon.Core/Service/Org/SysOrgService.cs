@@ -87,9 +87,11 @@ namespace Dilon.Core.Service
                     var sysOrg = _sysOrgRep.DetachedEntities.FirstOrDefault(c => c.Id == u);
                     var parentAndChildIdListWithSelf = sysOrg.Pids.TrimEnd(',').Replace("[", "").Replace("]", "")
                                                                   .Split(",").Select(u => long.Parse(u)).ToList();
+                    parentAndChildIdListWithSelf.Add(sysOrg.Id);
                     dataScopeList.AddRange(parentAndChildIdListWithSelf);
                 });
             }
+             
             return dataScopeList;
         }
 

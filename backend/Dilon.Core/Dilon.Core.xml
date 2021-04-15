@@ -2817,6 +2817,30 @@
             <param name="dbContextLocator"></param>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.SeedData.SysRoleMenuSeedData.HasData(Microsoft.EntityFrameworkCore.DbContext,System.Type)">
+            <summary>
+            种子数据
+            </summary>
+            <param name="dbContext"></param>
+            <param name="dbContextLocator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.SeedData.SysUserDataScopeSeedData.HasData(Microsoft.EntityFrameworkCore.DbContext,System.Type)">
+            <summary>
+            种子数据
+            </summary>
+            <param name="dbContext"></param>
+            <param name="dbContextLocator"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.SeedData.SysUserRoleSeedData.HasData(Microsoft.EntityFrameworkCore.DbContext,System.Type)">
+            <summary>
+            种子数据
+            </summary>
+            <param name="dbContext"></param>
+            <param name="dbContextLocator"></param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.SysRoleSeedData">
             <summary>
             系统角色表种子数据
