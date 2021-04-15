@@ -2830,6 +2830,11 @@
             <param name="dbContextLocator"></param>
             <returns></returns>
         </member>
+        <member name="T:Dilon.Core.SysTenantSeedData">
+            <summary>
+            租户种子数据
+            </summary>
+        </member>
         <member name="T:Dilon.Core.SysTimerSeedData">
             <summary>
             系统任务调度表种子数据

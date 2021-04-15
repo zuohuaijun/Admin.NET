@@ -1,5 +1,4 @@
-﻿using Dilon.Core.Entity;
-using Furion.DatabaseAccessor;
+﻿using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 

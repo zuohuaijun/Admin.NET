@@ -4,12 +4,10 @@ using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
 using Furion.FriendlyException;
-using Furion.JsonSerialization;
 using Furion.Snowflake;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.Extensions.Caching.Distributed;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
@@ -23,6 +21,31 @@ namespace Dilon.EntityFramework.Core
         {
             // 启用实体数据更改监听
             EnabledEntityChangedListener = true;
+        }
+
+        /// <summary>
+        /// 获取租户Id
+        /// </summary>
+        /// <returns></returns>
+        public object GetTenantId()
+        {
+            if (App.User == null) return null;
+            return App.User.FindFirst(ClaimConst.TENANT_ID)?.Value;
+        }
+
+        /// <summary>
+        /// 配置租户Id过滤器
+        /// </summary>
+        /// <param name="modelBuilder"></param>
+        /// <param name="entityBuilder"></param>
+        /// <param name="dbContext"></param>
+        /// <param name="dbContextLocator"></param>
+        public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
+        {
+            if (entityBuilder.Metadata.ClrType.BaseType == typeof(DBEntityTenant))
+            {
+                entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
+            }
         }
 
         protected override void SavingChangesEvent(DbContextEventData eventData, InterceptionResult<int> result)
@@ -84,48 +107,32 @@ namespace Dilon.EntityFramework.Core
                             break;
                     }
                 }
-
             }
         }
-        protected override LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = null)
-        {
-            return base.FakeDeleteQueryFilterExpression(entityBuilder, dbContext, isDeletedKey);
-        }
 
+        /// <summary>
+        /// 配置租户Id过滤器
+        /// </summary>
+        /// <param name="entityBuilder"></param>
+        /// <param name="dbContext"></param>
+        /// <param name="onTableTenantId"></param>
+        /// <returns></returns>
         protected override LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string onTableTenantId = null)
         {
             LambdaExpression expression = base.TenantIdQueryFilterExpression(entityBuilder, dbContext, onTableTenantId);
             return expression;
         }
 
-
-
         /// <summary>
         /// 配置假删除过滤器
         /// </summary>
-        /// <param name="modelBuilder"></param>
         /// <param name="entityBuilder"></param>
         /// <param name="dbContext"></param>
-        /// <param name="dbContextLocator"></param>
-        public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
+        /// <param name="isDeletedKey"></param>
+        /// <returns></returns>
+        protected override LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = null)
         {
-            if (entityBuilder.Metadata.ClrType.BaseType.Name == "DBEntityTenant")
-            {
-                entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
-            }
-
-        }
-
-
-
-        public object GetTenantId()
-        {
-            if (App.User != null)
-            {
-                var tenantId = App.User.FindFirst(ClaimConst.TENANT_ID)?.Value;
-                return tenantId;
-            }
-            return null;
+            return base.FakeDeleteQueryFilterExpression(entityBuilder, dbContext, isDeletedKey);
         }
     }
 }
