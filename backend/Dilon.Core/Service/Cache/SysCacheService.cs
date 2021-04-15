@@ -105,11 +105,9 @@ namespace Dilon.Core.Service
         /// <returns></returns>
         public List<string> GetAllCacheKeys()
         {
-            const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
-            var entries = _cache.GetType().GetField("_entries", flags).GetValue(_cache);
-            if (entries.GetType().GetProperty("Keys").GetValue(entries) is not ICollection<object> cacheItems) return new List<string>();
-            return cacheItems.Where(u => !u.ToString().StartsWith("mini-profiler"))
-                             .Select(u => u.ToString()).ToList();
+            var cacheItems = _cache.GetAllKeys();
+            if (cacheItems == null) return new List<string>();
+            return cacheItems.Where(u => !u.ToString().StartsWith("mini-profiler")).Select(u => u).ToList();
         }
 
         /// <summary>

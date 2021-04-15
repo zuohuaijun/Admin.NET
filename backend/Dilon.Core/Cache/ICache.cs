@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Dilon.Core
@@ -103,5 +104,11 @@ namespace Dilon.Core
         /// <param name="expire">有效期</param>
         /// <returns></returns>
         Task<bool> SetAsync(string key, object value, TimeSpan expire);
+
+        /// <summary>
+        /// 获取所有缓存
+        /// </summary>
+        /// <returns></returns>
+        List<string> GetAllKeys();
     }
 }

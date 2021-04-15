@@ -130,6 +130,12 @@
             <param name="expire">有效期</param>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.ICache.GetAllKeys">
+            <summary>
+            获取所有缓存
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.MemoryCache">
             <summary>
             内存缓存

@@ -1,6 +1,8 @@
 ﻿using Furion.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
@@ -90,6 +92,11 @@ namespace Dilon.Core
         public Task<bool> SetAsync(string key, object value, TimeSpan expire)
         {
             return RedisHelper.SetAsync(key, value, expire);
+        }
+
+        public List<string> GetAllKeys()
+        {
+           return RedisHelper.Keys("").ToList();
         }
     }
 }

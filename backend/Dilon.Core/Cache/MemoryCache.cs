@@ -107,7 +107,7 @@ namespace Dilon.Core
             return Task.FromResult(true);
         }
 
-        private List<string> GetAllKeys()
+        public List<string> GetAllKeys()
         {
             const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
             var entries = _memoryCache.GetType().GetField("_entries", flags).GetValue(_memoryCache);
