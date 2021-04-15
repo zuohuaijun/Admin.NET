@@ -73,7 +73,7 @@ namespace Dilon.Core.Service
             var encryptPasswod = MD5Encryption.Encrypt(input.Password);
 
             // 判断用户名和密码是否正确 忽略全局过滤器
-            var user =  _sysUserRep.Where(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod),null,true).FirstOrDefault();
+            var user = _sysUserRep.Where(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod), null, true).FirstOrDefault();
             _ = user ?? throw Oops.Oh(ErrorCode.D1000);
 
             // 验证账号是否被冻结
@@ -145,7 +145,16 @@ namespace Dilon.Core.Service
             // 菜单信息
             if (loginOutput.Apps.Count > 0)
             {
-                var defaultActiveAppCode = loginOutput.Apps.FirstOrDefault(u => u.Active == YesOrNot.Y.ToString()).Code; // loginOutput.Apps[0].Code;
+                string defaultActiveAppCode = null;
+                var activeApp = loginOutput.Apps.FirstOrDefault(u => u.Active == YesOrNot.Y.ToString());
+                if (activeApp != null)
+                {
+                    defaultActiveAppCode = activeApp.Code;
+                }
+                else
+                {
+                    defaultActiveAppCode = loginOutput.Apps.FirstOrDefault().Code;
+                }                
                 loginOutput.Menus = await _sysMenuService.GetLoginMenusAntDesign(userId, defaultActiveAppCode);
             }
 
