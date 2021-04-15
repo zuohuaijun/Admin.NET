@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace Dilon.Core
 {
+    /// <summary>
+    /// 租户种子数据
+    /// </summary>
     public class SysTenantSeedData : IEntitySeedData<SysTenant, MultiTenantDbContextLocator>
     {
         public IEnumerable<SysTenant> HasData(DbContext dbContext, Type dbContextLocator)

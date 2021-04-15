@@ -1,5 +1,4 @@
-﻿using Dilon.Core.Entity;
-using Furion.DatabaseAccessor;
+﻿using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -12,7 +11,7 @@ namespace Dilon.Core
     [Comment("角色数据范围表")]
     public class SysRoleDataScope : IEntity
     {
-        
+
         /// <summary>
         /// 角色Id
         /// </summary>
