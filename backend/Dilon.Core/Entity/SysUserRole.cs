@@ -10,7 +10,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_user_role")]
     [Comment("用户角色表")]
-    public class SysUserRole : DBEntityTenant
+    public class SysUserRole : IEntity
     {
         /// <summary>
         /// 用户Id

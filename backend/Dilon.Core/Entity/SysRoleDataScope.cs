@@ -10,8 +10,9 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_role_data_scope")]
     [Comment("角色数据范围表")]
-    public class SysRoleDataScope : DBEntityTenant
+    public class SysRoleDataScope : IEntity
     {
+        
         /// <summary>
         /// 角色Id
         /// </summary>

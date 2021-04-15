@@ -8,8 +8,4 @@
     <ProjectReference Include="..\Dilon.EntityFramework.Core\Dilon.EntityFramework.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Migrations\" />
-  </ItemGroup>
-
 </Project>

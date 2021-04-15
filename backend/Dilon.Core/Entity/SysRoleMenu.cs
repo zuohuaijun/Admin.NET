@@ -10,8 +10,13 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_role_menu")]
     [Comment("角色菜单表")]
-    public class SysRoleMenu : DBEntityTenant
+    public class SysRoleMenu : IEntity
     {
+        /// <summary>
+        /// 租户id
+        /// </summary>
+        [Comment("租户id")]
+        public virtual long TenantId { get; set; }
         /// <summary>
         /// 角色Id
         /// </summary>

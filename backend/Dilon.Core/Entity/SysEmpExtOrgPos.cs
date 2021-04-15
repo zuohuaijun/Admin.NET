@@ -13,7 +13,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_emp_ext_org_pos")]
     [Comment("员工附属机构职位表")]
-    public class SysEmpExtOrgPos : DBEntityTenant, IEntityTypeBuilder<SysEmpExtOrgPos>, IEntitySeedData<SysEmpExtOrgPos>
+    public class SysEmpExtOrgPos : IEntity, IEntityTypeBuilder<SysEmpExtOrgPos>, IEntitySeedData<SysEmpExtOrgPos>
     {
         /// <summary>
         /// 员工Id
@@ -57,11 +57,11 @@ namespace Dilon.Core
         {
             return new[]
             {
-                new SysEmpExtOrgPos {Id=1, SysEmpId = 142307070910551, SysOrgId = 142307070910539, SysPosId = 142307070910547 },
-                new SysEmpExtOrgPos {Id=2,SysEmpId = 142307070910551, SysOrgId = 142307070910540, SysPosId = 142307070910548 },
-                new SysEmpExtOrgPos {Id=3, SysEmpId = 142307070910551, SysOrgId = 142307070910541, SysPosId = 142307070910549 },
-                new SysEmpExtOrgPos {Id=4, SysEmpId = 142307070910551, SysOrgId = 142307070910542, SysPosId = 142307070910550 },
-                new SysEmpExtOrgPos {Id=5, SysEmpId = 142307070910553, SysOrgId = 142307070910542, SysPosId = 142307070910547 }
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910539, SysPosId = 142307070910547 },
+                new SysEmpExtOrgPos {SysEmpId = 142307070910551, SysOrgId = 142307070910540, SysPosId = 142307070910548 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910541, SysPosId = 142307070910549 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910551, SysOrgId = 142307070910542, SysPosId = 142307070910550 },
+                new SysEmpExtOrgPos { SysEmpId = 142307070910553, SysOrgId = 142307070910542, SysPosId = 142307070910547 }
             };
         }
     }

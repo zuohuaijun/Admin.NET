@@ -10,7 +10,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_emp_pos")]
     [Comment("员工职位表")]
-    public class SysEmpPos : DBEntityTenant
+    public class SysEmpPos : IEntity
     {
         /// <summary>
         /// 员工Id

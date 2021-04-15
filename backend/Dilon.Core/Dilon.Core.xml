@@ -1465,6 +1465,11 @@
             角色菜单表
             </summary>
         </member>
+        <member name="P:Dilon.Core.SysRoleMenu.TenantId">
+            <summary>
+            租户id
+            </summary>
+        </member>
         <member name="P:Dilon.Core.SysRoleMenu.SysRoleId">
             <summary>
             角色Id

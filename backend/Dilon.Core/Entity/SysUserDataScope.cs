@@ -10,7 +10,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_user_data_scope")]
     [Comment("用户数据范围表")]
-    public class SysUserDataScope : DBEntityTenant
+    public class SysUserDataScope : IEntity
     {
         /// <summary>
         /// 用户Id
