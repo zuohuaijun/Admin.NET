@@ -34,7 +34,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 状态（字典 0未读 1已读）
         /// </summary>
-        public int ReadStatus { get; set; }
+        public NoticeUserStatus ReadStatus { get; set; }
 
         /// <summary>
         /// 阅读时间

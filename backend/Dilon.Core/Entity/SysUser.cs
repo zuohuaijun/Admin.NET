@@ -60,7 +60,7 @@ namespace Dilon.Core
         /// 性别-男_1、女_2
         /// </summary>
         [Comment("性别-男_1、女_2")]
-        public int Sex { get; set; }
+        public Gender Sex { get; set; }
 
         /// <summary>
         /// 邮箱

@@ -69,6 +69,6 @@ namespace Dilon.Core
         /// 状态（字典 0草稿 1发布 2撤回 3删除）
         /// </summary>
         [Comment("状态")]
-        public int Status { get; set; }
+        public NoticeStatus Status { get; set; }
     }
 }
