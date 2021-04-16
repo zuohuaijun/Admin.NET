@@ -21,8 +21,7 @@
               type="text"
               placeholder="账号"
               v-decorator="[
-                'account',
-                { initialValue:'superAdmin', rules: [{ required: true, message: '请输入帐户名' }], validateTrigger: 'change'}
+                'account',{ initialValue:'superAdmin', rules: [{ required: true, message: '请输入帐户名' }, { validator: handleUsernameOrEmail }], validateTrigger: 'change'}
               ]"
             >
               <a-icon slot="prefix" type="user" :style="{ color: 'rgba(0,0,0,.25)' }"/>
@@ -219,7 +218,7 @@ export default {
           }
           const loginParams = { ...values }
           delete loginParams.account
-          loginParams[!state.loginType ? 'email' : 'account'] = values.account
+          loginParams[!state.loginType ? 'account' : 'account'] = values.account
           loginParams.password = values.password
           if (this.tenantOpen) {
             loginParams.tenantCode = values.tenantCode
