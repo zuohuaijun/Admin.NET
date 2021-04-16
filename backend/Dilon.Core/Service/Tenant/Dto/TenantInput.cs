@@ -17,7 +17,6 @@ namespace Dilon.Core.Service
         /// </summary>
         public virtual string AdminName { get; set; }
 
-
         /// <summary>
         /// 主机
         /// </summary>
@@ -61,7 +60,6 @@ namespace Dilon.Core.Service
         /// </summary>
         [Required(ErrorMessage = "公司名称")]
         public override string Name { get; set; }
-
 
         /// <summary>
         /// 管理员名称

@@ -1,16 +1,13 @@
 ﻿using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Mapster;
-using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Dilon.Core.Service
 {
@@ -27,7 +24,12 @@ namespace Dilon.Core.Service
         private readonly ISysRoleMenuService _sysRoleMenuService;
         private readonly IRepository<SysEmp> _sysEmpService;
 
-        public SysTenantService(IRepository<SysTenant, MultiTenantDbContextLocator> sysTenantRep, IRepository<SysUser> sysUserService, IRepository<SysOrg> sysOrgService, IRepository<SysRole> sysRoleService, ISysRoleMenuService sysRoleMenuService, IRepository<SysEmp> sysEmpService)
+        public SysTenantService(IRepository<SysTenant, MultiTenantDbContextLocator> sysTenantRep,
+                                IRepository<SysUser> sysUserService,
+                                IRepository<SysOrg> sysOrgService,
+                                IRepository<SysRole> sysRoleService,
+                                ISysRoleMenuService sysRoleMenuService,
+                                IRepository<SysEmp> sysEmpService)
         {
             _sysTenantRep = sysTenantRep;
             _sysUserService = sysUserService;
@@ -69,7 +71,6 @@ namespace Dilon.Core.Service
             var tenant = input.Adapt<SysTenant>();
             var newTenant = _sysTenantRep.InsertNow(tenant);
             await InitNewTenant(newTenant.Entity);
-
         }
 
         /// <summary>
@@ -82,7 +83,7 @@ namespace Dilon.Core.Service
             string email = newTenant.Email;
             string companyName = newTenant.Name;
             // 初始化公司
-            SysOrg sysOrg = new SysOrg()
+            SysOrg sysOrg = new()
             {
                 TenantId = tenantId,
                 Pid = 0,
@@ -93,19 +94,19 @@ namespace Dilon.Core.Service
                 Tel = newTenant.Phone
             };
             var newOrg = _sysOrgService.InsertNow(sysOrg);
-            long orgId = newOrg.Entity.Id;
-            //初始化角色
-            SysRole sysRole = new SysRole()
+
+            // 初始化角色
+            SysRole sysRole = new()
             {
                 TenantId = tenantId,
                 Code = "1",
                 Name = "系统管理员",
-                SysOrgs = new List<SysOrg>() { newOrg.Entity },
+                SysOrgs = new List<SysOrg>() { newOrg.Entity }
             };
             var newRole = _sysRoleService.InsertNow(sysRole);
 
-            //初始化用户
-            SysUser sysUser = new SysUser()
+            // 初始化用户
+            SysUser sysUser = new()
             {
                 TenantId = tenantId,
                 Account = email,
@@ -116,29 +117,26 @@ namespace Dilon.Core.Service
                 Phone = newTenant.Phone,
                 AdminType = AdminType.None,
                 SysRoles = new List<SysRole>() { newRole.Entity },
-                SysOrgs = new List<SysOrg>() { newOrg.Entity },
-
-
+                SysOrgs = new List<SysOrg>() { newOrg.Entity }
             };
             var newUser = _sysUserService.InsertNow(sysUser);
 
-            //初始化职工
-            SysEmp sysEmp = new SysEmp()
+            // 初始化职工
+            SysEmp sysEmp = new()
             {
                 Id = newUser.Entity.Id,
                 JobNum = "1",
                 OrgId = newOrg.Entity.Id,
                 OrgName = newOrg.Entity.Name,
                 TenantId = tenantId
-
             };
-            var newSysEmp = _sysEmpService.InsertNow(sysEmp);
+            _sysEmpService.InsertNow(sysEmp);
 
-            //初始化角色权限 -此处应该根据启用的App初始。
-            GrantRoleMenuInput roleMenuInput = new GrantRoleMenuInput()
+            // 初始化角色权限——此处应该根据启用的App应用初始化
+            GrantRoleMenuInput roleMenuInput = new()
             {
                 Id = newRole.Entity.Id,
-                //应根据用户购买的应用进行查询
+                // 应根据用户购买的应用菜单进行查询
                 GrantMenuIdList = new List<long>() {
                     142000000010563,
                     142000000010581,
@@ -190,13 +188,9 @@ namespace Dilon.Core.Service
                     142307070910661,
                     142307070910662
                 }
-
             };
             await _sysRoleMenuService.GrantMenu(roleMenuInput);
         }
-
-
-
 
         /// <summary>
         /// 删除租户

@@ -26,7 +26,7 @@
 
         <a-row :gutter="24">
           <a-col :md="12" :sm="24">
-            <a-form-item label="邮箱（管理员账号）" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+            <a-form-item label="邮箱(账号)" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
               <a-input placeholder="请输入电子邮箱" v-decorator="['email']" />
             </a-form-item>
           </a-col>
@@ -52,7 +52,7 @@
           <a-col :md="24" :sm="24">
             <a-form :form="form">
               <a-form-item label="备注" :labelCol="labelCol_JG" :wrapperCol="wrapperCol_JG" has-feedback>
-                <a-input :rows="4" placeholder="请输入备注" v-decorator="['remark']"></a-input>
+                <a-textarea :rows="2" placeholder="请输入备注" v-decorator="['remark']"></a-textarea>
               </a-form-item>
             </a-form>
           </a-col>

@@ -67,9 +67,10 @@ namespace Dilon.EntityFramework.Core
                     throw Oops.Oh(ErrorCode.D1200);
             }
 
-            // 当前操作用户信息
+            // 当前操作者信息
             var userId = App.User.FindFirst(ClaimConst.CLAINM_USERID)?.Value;
             var userName = App.User.FindFirst(ClaimConst.CLAINM_ACCOUNT)?.Value;
+
             foreach (var entity in entities)
             {
                 if (entity.Entity.GetType().IsSubclassOf(typeof(DEntityBase)))
@@ -78,7 +79,6 @@ namespace Dilon.EntityFramework.Core
                     if (entity.State == EntityState.Added)
                     {
                         obj.Id = IDGenerator.NextId();
-
                         obj.CreatedTime = DateTimeOffset.Now;
                         if (!string.IsNullOrEmpty(userId))
                         {
@@ -97,22 +97,19 @@ namespace Dilon.EntityFramework.Core
                 {
                     var obj = entity.Entity as DBEntityTenant;
                     switch (entity.State)
-                    {                     
+                    {
                         // 自动设置租户Id
                         case EntityState.Added:
                             var tenantId = entity.Property(nameof(Entity.TenantId)).CurrentValue;
                             if (tenantId == null || (long)tenantId == 0)
-                            {
                                 entity.Property(nameof(Entity.TenantId)).CurrentValue = long.Parse(GetTenantId().ToString());
-                            }
+
+                            obj.Id = IDGenerator.NextId();
                             obj.CreatedTime = DateTimeOffset.Now;
                             if (!string.IsNullOrEmpty(userId))
                             {
                                 obj.CreatedUserId = long.Parse(userId);
                                 obj.CreatedUserName = userName;
-                            }
-                            if (obj.Id == 0) {
-                                obj.Id = IDGenerator.NextId();
                             }
                             break;
                         // 排除租户Id

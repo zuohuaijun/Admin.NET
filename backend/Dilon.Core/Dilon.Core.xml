@@ -314,6 +314,11 @@
             验证码缓存
             </summary>
         </member>
+        <member name="T:Dilon.Core.Entity.DBEntityTenant">
+            <summary>
+            自定义租户基类实体
+            </summary>
+        </member>
         <member name="P:Dilon.Core.Entity.DBEntityTenant.TenantId">
             <summary>
             租户id

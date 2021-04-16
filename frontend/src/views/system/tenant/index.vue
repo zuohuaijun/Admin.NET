@@ -79,18 +79,15 @@
         // 表头
         columns: [{
             title: '公司名称',
-            dataIndex: 'name',
-            fixed: 'left'
+            dataIndex: 'name'
           },
           {
             title: '管理员姓名',
-            dataIndex: 'adminName',
-            fixed: 'left'
+            dataIndex: 'adminName'
           },
           {
             title: '邮箱（管理员账号）',
-            dataIndex: 'email',
-            fixed: 'left'
+            dataIndex: 'email'
           },
           {
             title: '电话',
