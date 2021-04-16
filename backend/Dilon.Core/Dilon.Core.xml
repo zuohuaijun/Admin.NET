@@ -1503,7 +1503,12 @@
         </member>
         <member name="P:Dilon.Core.SysTenant.Name">
             <summary>
-            名称
+            公司名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTenant.AdminName">
+            <summary>
+            管理员名称
             </summary>
         </member>
         <member name="P:Dilon.Core.SysTenant.Host">
@@ -6008,7 +6013,12 @@
         </member>
         <member name="P:Dilon.Core.Service.TenantInput.Name">
             <summary>
-            名称
+            公司名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantInput.AdminName">
+            <summary>
+            管理员名称
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.TenantInput.Host">
@@ -6048,7 +6058,12 @@
         </member>
         <member name="P:Dilon.Core.Service.AddTenantInput.Name">
             <summary>
-            租户名称
+            公司名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddTenantInput.AdminName">
+            <summary>
+            管理员名称
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.AddTenantInput.Host">
@@ -6059,6 +6074,11 @@
         <member name="P:Dilon.Core.Service.AddTenantInput.Connection">
             <summary>
             数据库连接
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddTenantInput.Email">
+            <summary>
+            电子邮箱
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.DeleteTenantInput.Id">
@@ -6082,6 +6102,11 @@
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.TenantOutput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TenantOutput.AdminName">
             <summary>
             名称
             </summary>
@@ -6139,6 +6164,12 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.InitNewTenant(Dilon.Core.SysTenant)">
+            <summary>
+            新增租户时，初始化数据
+            </summary>
+            <param name="newTenant"></param>
         </member>
         <member name="M:Dilon.Core.Service.SysTenantService.DeleteTenant(Dilon.Core.Service.DeleteTenantInput)">
             <summary>

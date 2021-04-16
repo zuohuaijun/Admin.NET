@@ -12,10 +12,16 @@ namespace Dilon.Core
     public class SysTenant : DEntityBase, IEntity<MultiTenantDbContextLocator>
     {
         /// <summary>
-        /// 名称
+        /// 公司名称
         /// </summary>
-        [Comment("名称")]
+        [Comment("公司名称")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// 管理员名称
+        /// </summary>
+        [Comment("管理员名称")]
+        public string AdminName { get; set; }
 
         /// <summary>
         /// 主机

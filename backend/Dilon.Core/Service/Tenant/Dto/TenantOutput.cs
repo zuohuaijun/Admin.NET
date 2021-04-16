@@ -16,6 +16,11 @@
         public string Name { get; set; }
 
         /// <summary>
+        /// 名称
+        /// </summary>
+        public string AdminName { get; set; }
+
+        /// <summary>
         /// 主机
         /// </summary>
         public string Host { get; set; }

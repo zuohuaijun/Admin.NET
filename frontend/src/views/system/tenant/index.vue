@@ -5,13 +5,8 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="租户名称">
+              <a-form-item label="公司名称">
                 <a-input v-model="queryParam.name" allow-clear placeholder="请输入租户名称" />
-              </a-form-item>
-            </a-col>
-            <a-col :md="8" :sm="24">
-              <a-form-item label="主机名称">
-                <a-input v-model="queryParam.host" allow-clear placeholder="请输入主机名称" />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
@@ -83,33 +78,27 @@
         queryParam: {},
         // 表头
         columns: [{
-            title: '租户名称',
+            title: '公司名称',
             dataIndex: 'name',
             fixed: 'left'
           },
           {
-            title: '主机名称',
-            dataIndex: 'host',
-            sorter: (a, b) => a.name.length - b.name.length,
-            scopedSlots: {
-              customRender: 'host'
-            }
+            title: '管理员姓名',
+            dataIndex: 'adminName',
+            fixed: 'left'
           },
           {
-            title: '数据库连接',
-            dataIndex: 'connection'
-          },
-          {
-            title: '创建时间',
-            dataIndex: 'createdTime'
+            title: '邮箱（管理员账号）',
+            dataIndex: 'email',
+            fixed: 'left'
           },
           {
             title: '电话',
             dataIndex: 'phone'
           },
-          {
-            title: '邮箱',
-            dataIndex: 'email'
+           {
+            title: '创建时间',
+            dataIndex: 'createdTime'
           },
           {
             title: '备注',

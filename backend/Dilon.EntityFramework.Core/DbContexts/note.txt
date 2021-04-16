@@ -1,3 +1,8 @@
 ﻿Add-Migration Init -Context DefaultDbContext
 update-database -Context DefaultDbContext
+
+Add-Migration Init -Context MultiTenantDbContext
+update-database -Context MultiTenantDbContext
+
+
 dotnet run --urls="http://*:5566"

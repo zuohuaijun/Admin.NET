@@ -95,15 +95,20 @@ namespace Dilon.EntityFramework.Core
                 }
                 else if (entity.Entity.GetType().IsSubclassOf(typeof(DBEntityTenant)))
                 {
+                    var obj = entity.Entity as DBEntityTenant;
                     switch (entity.State)
-                    {
+                    {                     
                         // 自动设置租户Id
                         case EntityState.Added:
-                            entity.Property(nameof(Entity.TenantId)).CurrentValue = long.Parse(GetTenantId().ToString());
+                            var identityId = entity.Property(nameof(Entity.TenantId)).CurrentValue;
+                            if (identityId == null || (long)identityId == 0)
+                            {
+                                entity.Property(nameof(Entity.TenantId)).CurrentValue = long.Parse(GetTenantId().ToString());
+                            }                           
                             break;
                         // 排除租户Id
                         case EntityState.Modified:
-                            entity.Property(nameof(Entity.TenantId)).IsModified = false;
+                            entity.Property(nameof(Entity.TenantId)).IsModified = false;                          
                             break;
                     }
                 }

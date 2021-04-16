@@ -13,20 +13,20 @@
         </a-form-item>
         <a-row :gutter="24">
           <a-col :md="12" :sm="24">
-            <a-form-item label="租户名称" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-input placeholder="请输入租户名称" v-decorator="['name', {rules: [{required: true, message: '请输入租户名称！'}]}]" />
+            <a-form-item label="公司名称" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-input placeholder="公司名称" v-decorator="['name', {rules: [{required: true, message: '请输入公司名称'}]}]" />
             </a-form-item>
           </a-col>
           <a-col :md="12" :sm="24">
-            <a-form-item label="主机名称" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-input placeholder="请输入主机名称" v-decorator="['host', {rules: [{required: true, message: '请输入主机名称！'}]}]" />
+            <a-form-item label="管理员姓名" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-input placeholder="请输入管理员姓名" v-decorator="['adminname', {rules: [{required: true, message: '请输入管理员姓名'}]}]" />
             </a-form-item>
           </a-col>
         </a-row>
 
         <a-row :gutter="24">
           <a-col :md="12" :sm="24">
-            <a-form-item label="电子邮箱" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+            <a-form-item label="邮箱（管理员账号）" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
               <a-input placeholder="请输入电子邮箱" v-decorator="['email']" />
             </a-form-item>
           </a-col>
@@ -37,7 +37,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="24">
+        <!-- <a-row :gutter="24">
           <a-col :md="24" :sm="24">
             <a-form-item label="数据库连接" :labelCol="labelCol_JG" :wrapperCol="wrapperCol_JG" has-feedback>
               <a-textarea
@@ -46,7 +46,7 @@
                 v-decorator="['connection', {rules: [{required: true, message: '请输入数据库连接字符串！'}]}]"></a-textarea>
             </a-form-item>
           </a-col>
-        </a-row>
+        </a-row> -->
 
         <a-row :gutter="24">
           <a-col :md="24" :sm="24">

@@ -8,9 +8,15 @@ namespace Dilon.Core.Service
     public class TenantInput : PageInputBase
     {
         /// <summary>
-        /// 名称
+        /// 公司名称
         /// </summary>
         public virtual string Name { get; set; }
+
+        /// <summary>
+        /// 管理员名称
+        /// </summary>
+        public virtual string AdminName { get; set; }
+
 
         /// <summary>
         /// 主机
@@ -20,7 +26,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 电子邮箱
         /// </summary>
-        public string Email { get; set; }
+        public virtual string Email { get; set; }
 
         /// <summary>
         /// 电话号码
@@ -51,22 +57,33 @@ namespace Dilon.Core.Service
     public class AddTenantInput : TenantInput
     {
         /// <summary>
-        /// 租户名称
+        /// 公司名称
         /// </summary>
-        [Required(ErrorMessage = "租户名称不能为空")]
+        [Required(ErrorMessage = "公司名称")]
         public override string Name { get; set; }
+
+
+        /// <summary>
+        /// 管理员名称
+        /// </summary>
+        [Required(ErrorMessage = "管理员名称")]
+        public override string AdminName { get; set; }
 
         /// <summary>
         /// 主机名称
         /// </summary>
-        [Required(ErrorMessage = "主机名称不能为空")]
         public override string Host { get; set; }
 
         /// <summary>
         /// 数据库连接
         /// </summary>
-        [Required(ErrorMessage = "数据库连接不能为空")]
         public override string Connection { get; set; }
+
+        /// <summary>
+        /// 电子邮箱
+        /// </summary>
+        [Required(ErrorMessage = "电子邮箱")]
+        public override string Email { get; set; }
     }
 
     public class DeleteTenantInput
