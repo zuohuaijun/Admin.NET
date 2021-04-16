@@ -51,8 +51,8 @@
         </a-form-item>
         <a-divider />
         <a-form-item class="subForm-item">
-          <a-button type="primary" class="subButton" @click="handleSubmit('1')">发布</a-button>
-          <a-button type="danger" class="subButton" @click="handleSubmit('0')">存为草稿</a-button>
+          <a-button type="primary" class="subButton" @click="handleSubmit(1)">发布</a-button>
+          <a-button type="danger" class="subButton" @click="handleSubmit(0)">存为草稿</a-button>
           <a-button class="subButton" @click="handleCancel">取消</a-button>
         </a-form-item>
       </a-form>
