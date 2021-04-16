@@ -100,15 +100,27 @@ namespace Dilon.EntityFramework.Core
                     {                     
                         // 自动设置租户Id
                         case EntityState.Added:
-                            var identityId = entity.Property(nameof(Entity.TenantId)).CurrentValue;
-                            if (identityId == null || (long)identityId == 0)
+                            var tenantId = entity.Property(nameof(Entity.TenantId)).CurrentValue;
+                            if (tenantId == null || (long)tenantId == 0)
                             {
                                 entity.Property(nameof(Entity.TenantId)).CurrentValue = long.Parse(GetTenantId().ToString());
-                            }                           
+                            }
+                            obj.CreatedTime = DateTimeOffset.Now;
+                            if (!string.IsNullOrEmpty(userId))
+                            {
+                                obj.CreatedUserId = long.Parse(userId);
+                                obj.CreatedUserName = userName;
+                            }
+                            if (obj.Id == 0) {
+                                obj.Id = IDGenerator.NextId();
+                            }
                             break;
                         // 排除租户Id
                         case EntityState.Modified:
-                            entity.Property(nameof(Entity.TenantId)).IsModified = false;                          
+                            entity.Property(nameof(Entity.TenantId)).IsModified = false;
+                            obj.UpdatedTime = DateTimeOffset.Now;
+                            obj.UpdatedUserId = long.Parse(userId);
+                            obj.UpdatedUserName = userName;
                             break;
                     }
                 }

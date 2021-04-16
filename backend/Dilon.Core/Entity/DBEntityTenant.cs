@@ -13,7 +13,7 @@ namespace Dilon.Core.Entity
         /// 租户id
         /// </summary>
         [Comment("租户id")]
-        public virtual long TenantId { get; set; }
+        public virtual long? TenantId { get; set; }
 
         /// <summary>
         /// 主键Id
