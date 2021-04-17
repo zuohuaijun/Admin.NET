@@ -10,8 +10,10 @@
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="请求方式">
-                <a-input v-model="queryParam.reqMethod" allow-clear placeholder="请求方式"/>
+              <a-form-item label="操作类型">
+                <a-select v-model="queryParam.opType" allow-clear placeholder="请选择操作类型" >
+                  <a-select-option v-for="(item,index) in opTypeDict" :key="index" :value="item.code" >{{ item.value }}</a-select-option>
+                </a-select>
               </a-form-item>
             </a-col>
             <template v-if="advanced">
@@ -92,7 +94,7 @@
   import { STable, Ellipsis, XCard } from '@/components'
   import { sysOpLogPage, sysOpLogDelete } from '@/api/modular/system/logManage'
   import detailsOplog from './details'
-  import { sysEnumDataList } from '@/api/modular/system/enumManage'
+  import { sysDictTypeDropDown } from '@/api/modular/system/dictManage'
   import moment from 'moment'
   export default {
     components: {
@@ -109,9 +111,14 @@
         // 表头
         columns: [
           {
-            title: '请求方式',
-            dataIndex: 'reqMethod',
-            scopedSlots: { customRender: 'reqMethod' }
+            title: '日志名称',
+            dataIndex: 'name',
+            scopedSlots: { customRender: 'name' }
+          },
+          {
+            title: '操作类型',
+            dataIndex: 'opType',
+            scopedSlots: { customRender: 'opType' }
           },
           {
             title: '执行结果',
@@ -134,11 +141,6 @@
           },
           {
             title: '操作人',
-            dataIndex: 'name',
-            scopedSlots: { customRender: 'name' }
-          },
-          {
-            title: '操作人帐号',
             dataIndex: 'account'
           },
           {
@@ -162,7 +164,7 @@
       }
     },
     created () {
-      this.sysEnumDataList()
+      this.sysDictTypeDropDown()
     },
     methods: {
       moment,
@@ -198,10 +200,13 @@
         return obj
       },
       /**
-       * 获取枚举数据
+       * 获取字典数据
        */
-      sysEnumDataList () {
-        sysEnumDataList({ enumName: 'YesOrNot' }).then((res) => {
+      sysDictTypeDropDown () {
+        sysDictTypeDropDown({ code: 'op_type' }).then((res) => {
+          this.opTypeDict = res.data
+        })
+        sysDictTypeDropDown({ code: 'yes_or_no' }).then((res) => {
           this.successDict = res.data
         })
       },

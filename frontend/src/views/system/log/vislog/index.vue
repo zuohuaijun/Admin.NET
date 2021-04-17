@@ -91,7 +91,7 @@
   import { STable, Ellipsis, XCard } from '@/components'
   import { sysVisLogPage, sysVisLogDelete } from '@/api/modular/system/logManage'
   import detailsVislog from './details'
-  import { sysDictTypeDropDown } from '@/api/modular/system/dictManage'
+  import { sysEnumDataList } from '@/api/modular/system/enumManage'
   import moment from 'moment'
   export default {
     components: {
@@ -163,7 +163,7 @@
      * 相当于html的onload方法，进来初始化
      */
     created () {
-      this.sysDictTypeDropDown()
+      this.sysEnumDataList()
     },
     methods: {
       moment,
@@ -182,13 +182,13 @@
         }
       },
       /**
-       * 获取字典数据
+       * 获取枚举数据
        */
-      sysDictTypeDropDown () {
-        sysDictTypeDropDown({ code: 'vis_type' }).then((res) => {
+      sysEnumDataList () {
+        sysEnumDataList({ enumName: 'LoginType' }).then((res) => {
           this.visTypeDict = res.data
         })
-        sysDictTypeDropDown({ code: 'yes_or_no' }).then((res) => {
+        sysEnumDataList({ enumName: 'YesOrNot' }).then((res) => {
           this.successDict = res.data
         })
       },

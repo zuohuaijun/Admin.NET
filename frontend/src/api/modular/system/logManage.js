@@ -29,6 +29,20 @@ export function sysOpLogPage (parameter) {
 }
 
 /**
+ * 查询异常日志
+ *
+ * @author yubaoshan
+ * @date 2020/5/19 11:57
+ */
+export function sysExLogPage (parameter) {
+  return axios({
+    url: '/sysExLog/page',
+    method: 'get',
+    params: parameter
+  })
+}
+
+/**
  * 清空访问日志
  *
  * @author yubaoshan
@@ -51,6 +65,20 @@ export function sysVisLogDelete (parameter) {
 export function sysOpLogDelete (parameter) {
   return axios({
     url: '/sysOpLog/delete',
+    method: 'post',
+    data: parameter
+  })
+}
+
+/**
+ * 清空异常日志
+ *
+ * @author yubaoshan
+ * @date 2020/6/23 23:09
+ */
+ export function sysExLogDelete (parameter) {
+  return axios({
+    url: '/sysExLog/delete',
     method: 'post',
     data: parameter
   })
