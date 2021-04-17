@@ -130,6 +130,9 @@ namespace Dilon.Core
                 new SysMenu{Id=142307070918736, Pid=142307070918732, Pids="[0],[142307070918732],", Name="操作日志", Code="sys_log_mgr_op_log", Type=1, Router="/oplog", Component="system/log/oplog/index", Application="system", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0},
                 new SysMenu{Id=142307070918737, Pid=142307070918736, Pids="[0],[142307070918732],[142307070918736],", Name="操作日志查询", Code="sys_log_mgr_op_log_page", Type=2, Permission="sysOpLog:page", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142307070918738, Pid=142307070918736, Pids="[0],[142307070918732],[142307070918736],", Name="操作日志清空", Code="sys_log_mgr_op_log_delete", Type=2, Permission="sysOpLog:delete", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070911739, Pid=142307070918732, Pids="[0],[142307070918732],", Name="异常日志", Code="sys_log_mgr_ex_log", Type=1, Router="/exlog", Component="system/log/exlog/index", Application="system", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0},
+                new SysMenu{Id=142307070911740, Pid=142307070911739, Pids="[0],[142307070918732],[142307070911739],", Name="异常日志查询", Code="sys_log_mgr_ex_log_page", Type=2, Permission="sysExLog:page", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070911741, Pid=142307070911739, Pids="[0],[142307070918732],[142307070911739],", Name="异常日志清空", Code="sys_log_mgr_ex_log_delete", Type=2, Permission="sysExLog:delete", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
 
                 new SysMenu{Id=142307070918739, Pid=0, Pids="[0],", Name="系统监控", Code="sys_monitor_mgr", Type=0, Icon="deployment-unit", Router="/monitor", Component="PageView", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142307070918740, Pid=142307070918739, Pids="[0],[142307070918739],", Name="服务监控", Code="sys_monitor_mgr_machine_monitor", Type=1, Router="/machine", Component="system/machine/index", Application="system", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0 },
@@ -237,7 +240,6 @@ namespace Dilon.Core
                 new SysMenu{Id=142307070910660, Pid=0, Pids="[0],", Name="销售管理", Code="jxc_1", Type=0, Icon="home", Router="/", Component="RouteView", Application="busapp", OpenType=0, Visible="Y", Redirect="/analysis", Weight=1, Sort=1, Status=0 },
                 new SysMenu{Id=142307070910661, Pid=142307070910660, Pids="[0],[142307070910660],", Name="销售订单", Code="jxc_1_1", Type=1, Router="analysis", Component="system/dashboard/Analysis", Application="busapp", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142307070910662, Pid=142307070910660, Pids="[0],[142307070910660],", Name="销售出库", Code="jxc_1_2", Type=1, Router="workplace", Component="system/dashboard/Workplace", Application="busapp", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
-
             };
         }
     }

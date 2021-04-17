@@ -2939,6 +2939,23 @@
             请求日志拦截
             </summary>
         </member>
+        <member name="T:Dilon.Core.SimpleLogHostedService">
+            <summary>
+            后台日志写入服务
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.SimpleLogHostedService.DoWork">
+            <summary>
+            工作线程
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.SimpleLogHostedService.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            任务开始
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.UserManager">
             <summary>
             用户管理
