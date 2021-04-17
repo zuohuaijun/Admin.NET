@@ -73,7 +73,35 @@ namespace Dilon.EntityFramework.Core
 
             foreach (var entity in entities)
             {
-                if (entity.Entity.GetType().IsSubclassOf(typeof(DEntityBase)))
+                if (entity.Entity.GetType().IsSubclassOf(typeof(DBEntityTenant)))
+                {
+                    var obj = entity.Entity as DBEntityTenant;
+                    switch (entity.State)
+                    {
+                        // 自动设置租户Id
+                        case EntityState.Added:
+                            var tenantId = entity.Property(nameof(Entity.TenantId)).CurrentValue;
+                            if (tenantId == null || (long)tenantId == 0)
+                                entity.Property(nameof(Entity.TenantId)).CurrentValue = long.Parse(GetTenantId().ToString());
+
+                            obj.Id = obj.Id == 0 ? IDGenerator.NextId() : obj.Id;
+                            obj.CreatedTime = DateTimeOffset.Now;
+                            if (!string.IsNullOrEmpty(userId))
+                            {
+                                obj.CreatedUserId = long.Parse(userId);
+                                obj.CreatedUserName = userName;
+                            }
+                            break;
+                        // 排除租户Id
+                        case EntityState.Modified:
+                            entity.Property(nameof(Entity.TenantId)).IsModified = false;
+                            obj.UpdatedTime = DateTimeOffset.Now;
+                            obj.UpdatedUserId = long.Parse(userId);
+                            obj.UpdatedUserName = userName;
+                            break;
+                    }
+                }
+                else if (entity.Entity.GetType().IsSubclassOf(typeof(DEntityBase)))
                 {
                     var obj = entity.Entity as DEntityBase;
                     if (entity.State == EntityState.Added)
@@ -93,48 +121,7 @@ namespace Dilon.EntityFramework.Core
                         obj.UpdatedUserName = userName;
                     }
                 }
-                else if (entity.Entity.GetType().IsSubclassOf(typeof(DBEntityTenant)))
-                {
-                    var obj = entity.Entity as DBEntityTenant;
-                    switch (entity.State)
-                    {
-                        // 自动设置租户Id
-                        case EntityState.Added:
-                            var tenantId = entity.Property(nameof(Entity.TenantId)).CurrentValue;
-                            if (tenantId == null || (long)tenantId == 0)
-                                entity.Property(nameof(Entity.TenantId)).CurrentValue = long.Parse(GetTenantId().ToString());
-
-                            obj.Id = IDGenerator.NextId();
-                            obj.CreatedTime = DateTimeOffset.Now;
-                            if (!string.IsNullOrEmpty(userId))
-                            {
-                                obj.CreatedUserId = long.Parse(userId);
-                                obj.CreatedUserName = userName;
-                            }
-                            break;
-                        // 排除租户Id
-                        case EntityState.Modified:
-                            entity.Property(nameof(Entity.TenantId)).IsModified = false;
-                            obj.UpdatedTime = DateTimeOffset.Now;
-                            obj.UpdatedUserId = long.Parse(userId);
-                            obj.UpdatedUserName = userName;
-                            break;
-                    }
-                }
             }
-        }
-
-        /// <summary>
-        /// 配置租户Id过滤器
-        /// </summary>
-        /// <param name="entityBuilder"></param>
-        /// <param name="dbContext"></param>
-        /// <param name="onTableTenantId"></param>
-        /// <returns></returns>
-        protected override LambdaExpression TenantIdQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string onTableTenantId = null)
-        {
-            LambdaExpression expression = base.TenantIdQueryFilterExpression(entityBuilder, dbContext, onTableTenantId);
-            return expression;
         }
 
         /// <summary>
