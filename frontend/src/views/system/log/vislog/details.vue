@@ -1,3 +1,11 @@
+<!--
+ * @Author: your name
+ * @Date: 2021-04-17 17:45:44
+ * @LastEditTime: 2021-04-17 18:04:27
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \frontend\src\views\system\log\vislog\details.vue
+-->
 <template>
   <a-modal
     title="日志详情"

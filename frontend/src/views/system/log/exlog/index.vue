@@ -5,24 +5,25 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="日志名称">
-                <a-input v-model="queryParam.name" allow-clear placeholder="请输入日志名称"/>
+              <a-form-item label="类名">
+                <a-input v-model="queryParam.className" allow-clear placeholder="请输入类名" />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
-              <a-form-item label="操作类型">
-                <a-select v-model="queryParam.opType" allow-clear placeholder="请选择操作类型" >
-                  <a-select-option v-for="(item,index) in opTypeDict" :key="index" :value="item.code" >{{ item.value }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col>
+                <a-form-item label="方法名">
+                  <a-input v-model="queryParam.methodName" allow-clear placeholder="请输入方法名" />
+                </a-form-item>
+              </a-col>
             <template v-if="advanced">
               <a-col :md="8" :sm="24">
-                <a-form-item label="是否成功">
-                  <a-select v-model="queryParam.success" placeholder="请选择是否成功" >
-                    <a-select-option v-for="(item,index) in successDict" :key="index" :value="item.code" >{{ item.value }}</a-select-option>
-                  </a-select>
+                <a-form-item label="异常信息">
+                  <a-input v-model="queryParam.exceptionMsg" allow-clear placeholder="请输入异常信息关键字" />
                 </a-form-item>
+              </a-col>
+              <a-col :md="8" :sm="24">
+              <a-form-item label="姓名">
+                <a-input v-model="queryParam.name" allow-clear placeholder="请输入操作人姓名"/>
+              </a-form-item>
               </a-col>
               <a-col :md="10" :sm="24">
                 <a-form-item label="操作时间">
@@ -60,48 +61,47 @@
         :rowKey="(record) => record.id"
         :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
       >
-        <template slot="operator" v-if="hasPerm('sysOpLog:delete')">
-          <a-popconfirm @confirm="() => sysOpLogDelete()" placement="top" title="确认清空日志？">
+        <template slot="operator" v-if="hasPerm('sysExLog:delete')">
+          <a-popconfirm @confirm="() => sysExLogDelete()" placement="top" title="确认清空日志？">
             <a-button >清空日志</a-button>
           </a-popconfirm>
         </template>
-        <span slot="opType" slot-scope="text">
-          {{ opTypeFilter(text) }}
-        </span>
-        <span slot="success" slot-scope="text">
-          {{ successFilter(text) }}
-        </span>
         <span slot="name" slot-scope="text">
           <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
         </span>
-        <span slot="url" slot-scope="text">
+        <span slot="methodName" slot-scope="text">
           <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
         </span>
-        <span slot="opTime" slot-scope="text">
+        <span slot="exceptionName" slot-scope="text">
+          <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
+        </span>
+        <span slot="exceptionMsg" slot-scope="text">
+          <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
+        </span>
+        <span slot="exceptionTime" slot-scope="text">
           <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
         </span>
         <span slot="action" slot-scope="text, record">
           <span slot="action" >
-            <a @click="$refs.detailsOplog.details(record)">查看详情</a>
+            <a @click="$refs.detailsExlog.details(record)">查看详情</a>
           </span>
         </span>
       </s-table>
-      <details-oplog ref="detailsOplog"/>
+      <details-exlog ref="detailsExlog"/>
     </a-card>
   </div>
 </template>
 <script>
   import { STable, Ellipsis, XCard } from '@/components'
-  import { sysOpLogPage, sysOpLogDelete } from '@/api/modular/system/logManage'
-  import detailsOplog from './details'
-  import { sysDictTypeDropDown } from '@/api/modular/system/dictManage'
+  import { sysExLogPage, sysExLogDelete } from '@/api/modular/system/logManage'
+  import detailsExlog from './details'
   import moment from 'moment'
   export default {
     components: {
       XCard,
       STable,
       Ellipsis,
-      detailsOplog
+      detailsExlog
     },
     data () {
       return {
@@ -111,37 +111,33 @@
         // 表头
         columns: [
           {
-            title: '日志名称',
-            dataIndex: 'name',
-            scopedSlots: { customRender: 'name' }
+            title: '类名',
+            dataIndex: 'className',
+            scopedSlots: { customRender: 'className' }
           },
           {
-            title: '操作类型',
-            dataIndex: 'opType',
-            scopedSlots: { customRender: 'opType' }
+            title: '方法名',
+            dataIndex: 'methodName',
+            scopedSlots: { customRender: 'methodName' }
           },
           {
-            title: '执行结果',
-            dataIndex: 'success',
-            scopedSlots: { customRender: 'success' }
+            title: '异常名称',
+            dataIndex: 'exceptionName',
+            scopedSlots: { customRender: 'exceptionName' }
           },
           {
-            title: 'ip',
-            dataIndex: 'ip'
+            title: '异常信息',
+            dataIndex: 'exceptionMsg',
+            scopedSlots: { customRender: 'exceptionMsg' }
           },
           {
-            title: '请求地址',
-            dataIndex: 'url',
-            scopedSlots: { customRender: 'url' }
-          },
-          {
-            title: '操作时间',
-            dataIndex: 'opTime',
-            scopedSlots: { customRender: 'opTime' }
+            title: '异常时间',
+            dataIndex: 'exceptionTime',
+            scopedSlots: { customRender: 'exceptionTime' }
           },
           {
             title: '操作人',
-            dataIndex: 'account'
+            dataIndex: 'name'
           },
           {
             title: '详情',
@@ -152,36 +148,19 @@
         ],
         // 加载数据方法 必须为 Promise 对象
         loadData: parameter => {
-          return sysOpLogPage(Object.assign(parameter, this.switchingDate())).then((res) => {
+          return sysExLogPage(Object.assign(parameter, this.switchingDate())).then((res) => {
             return res.data
           })
         },
         selectedRowKeys: [],
         selectedRows: [],
-        defaultExpandedKeys: [],
-        opTypeDict: [],
-        successDict: []
+        defaultExpandedKeys: []
       }
     },
     created () {
-      this.sysDictTypeDropDown()
     },
     methods: {
       moment,
-      opTypeFilter (opType) {
-        // eslint-disable-next-line eqeqeq
-        const values = this.opTypeDict.filter(item => item.code == opType)
-        if (values.length > 0) {
-          return values[0].value
-        }
-      },
-      successFilter (success) {
-        // eslint-disable-next-line eqeqeq
-        const values = this.successDict.filter(item => item.code == success)
-        if (values.length > 0) {
-          return values[0].value
-        }
-      },
       /**
        * 查询参数组装
        */
@@ -200,21 +179,10 @@
         return obj
       },
       /**
-       * 获取字典数据
-       */
-      sysDictTypeDropDown () {
-        sysDictTypeDropDown({ code: 'op_type' }).then((res) => {
-          this.opTypeDict = res.data
-        })
-        sysDictTypeDropDown({ code: 'yes_or_no' }).then((res) => {
-          this.successDict = res.data
-        })
-      },
-      /**
        * 清空日志
        */
-      sysOpLogDelete () {
-        sysOpLogDelete().then((res) => {
+      sysExLogDelete () {
+        sysExLogDelete().then((res) => {
           if (res.success) {
             this.$message.success('清空成功')
             this.$refs.table.refresh(true)

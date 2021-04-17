@@ -1,3 +1,11 @@
+/*
+ * @Author: your name
+ * @Date: 2021-04-17 17:45:37
+ * @LastEditTime: 2021-04-17 18:03:59
+ * @LastEditors: your name
+ * @Description: In User Settings Edit
+ * @FilePath: \frontend\src\api\modular\system\logManage.js
+ */
 import { axios } from '@/utils/request'
 
 /**
