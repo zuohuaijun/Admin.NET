@@ -86,7 +86,7 @@
             dataIndex: 'adminName'
           },
           {
-            title: '邮箱（管理员账号）',
+            title: '邮箱(账号)',
             dataIndex: 'email'
           },
           {
