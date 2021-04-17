@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  nginx:
+    build:
+      context: ../
+      dockerfile: ./docker/nginx/Dockerfile
+    image: admin_net_web:1.2
+    ports:
+      - 81:80
+    restart: "always"
+    volumes:
+      - node_modules:/build/node_modules:rw
+    # network_mode: host #宿主网络，与宿主机共享网络，安全性不佳，本地开发使用，淦，不支持windows，仅支持Linux
+volumes:
+  node_modules:
