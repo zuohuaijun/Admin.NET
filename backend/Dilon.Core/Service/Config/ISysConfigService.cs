@@ -14,5 +14,6 @@ namespace Dilon.Core.Service
         Task<bool> GetDemoEnvFlag();
         Task<bool> GetCaptchaOpenFlag();
         Task UpdateConfigCache(string code, object value);
+        Task<(int interval, int quantity)> GetLogWritingConfiguration();
     }
 }

@@ -22,7 +22,7 @@ namespace Dilon.Core
         /// 是否执行成功（Y-是，N-否）
         /// </summary>
         [Comment("是否执行成功")]
-        public string Success { get; set; }
+        public YesOrNot Success { get; set; }
 
         /// <summary>
         /// 具体消息
@@ -55,10 +55,10 @@ namespace Dilon.Core
         public string Os { get; set; }
 
         /// <summary>
-        /// 访问类型（字典 1登入 2登出）
+        /// 访问类型
         /// </summary>
         [Comment("访问类型")]
-        public int? VisType { get; set; }
+        public LoginType VisType { get; set; }
 
         /// <summary>
         /// 访问时间

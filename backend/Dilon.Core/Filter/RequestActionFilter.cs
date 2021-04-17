@@ -7,6 +7,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Furion;
+using Furion.JsonSerialization;
 using UAParser;
 
 namespace Dilon.Core
@@ -29,32 +31,32 @@ namespace Dilon.Core
 
             // 判断是否请求成功（没有异常就是请求成功）
             var isRequestSucceed = actionContext.Exception == null;
-
-            var clent = Parser.GetDefault().Parse(httpContext.Request.Headers["User-Agent"]);
+            var clientInfo = httpContext.Request.Headers.ContainsKey("User-Agent") ? 
+                Parser.GetDefault().Parse(httpContext.Request.Headers["User-Agent"]) : null;
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             var descAtt = Attribute.GetCustomAttribute(actionDescriptor.MethodInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
-            var sysOpLog = new SysLogOp
+            // 日志写入简单队列
+            var _logOpQueue = App.GetService<IConcurrentQueue<SysLogOp>>();
+            _logOpQueue.Add(new SysLogOp
             {
-                Name = descAtt != null ? descAtt.Description : actionDescriptor.ActionName,
-                OpType = 1,
-                Success = isRequestSucceed ? YesOrNot.Y.ToString() : YesOrNot.N.ToString(),
+                Name = httpContext.User?.FindFirstValue(ClaimConst.CLAINM_NAME),
+                Success = isRequestSucceed ? YesOrNot.Y : YesOrNot.N,
                 //Message = isRequestSucceed ? "成功" : "失败",
                 Ip = httpContext.GetRemoteIpAddressToIPv4(),
                 Location = httpRequest.GetRequestUrlAddress(),
-                Browser = clent.UA.Family + clent.UA.Major,
-                Os = clent.OS.Family + clent.OS.Major,
+                Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
+                Os = clientInfo?.OS.Family + clientInfo?.OS.Major,
                 Url = httpRequest.Path,
                 ClassName = context.Controller.ToString(),
                 MethodName = actionDescriptor.ActionName,
                 ReqMethod = httpRequest.Method,
-                //Param = JsonSerializerUtility.Serialize(context.ActionArguments),
-                //Result = JsonSerializerUtility.Serialize(actionContext.Result),
+                Param = JSON.Serialize(context.ActionArguments),
+                Result = JSON.Serialize(actionContext.Result),
                 ElapsedTime = sw.ElapsedMilliseconds,
                 OpTime = DateTimeOffset.Now,
                 Account = httpContext.User?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT)
-            };
-            await sysOpLog.InsertAsync();
+            });
         }
     }
 }

@@ -58,6 +58,6 @@ namespace Dilon.Core
         /// 操作方式：新增、更新、删除
         /// </summary>
         [Comment("操作方式")]
-        public string Operate { get; set; }
+        public DataOpType Operate { get; set; }
     }
 }
