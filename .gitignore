@@ -18,9 +18,11 @@ bin-release/
 # information for Eclipse / Flash Builder.
 /backend/Dilon.Web.Entry/Logs
 /backend/.vs
+/backend/.idea
 /backend/Dilon.Web.Entry/publish
 /backend/Dilon.Database.Migrations/Migrations
 /backend/Dilon.Web.Entry/Properties/PublishProfiles
 /backend/Dilon.Core/Dilon.Core.csproj.user
 /backend/Dilon.Web.Entry/Dilon.Web.Entry.csproj.user
 /.vs
+/.idea
