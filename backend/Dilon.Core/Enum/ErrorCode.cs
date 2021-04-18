@@ -345,6 +345,30 @@ namespace Dilon.Core
         D1400,
 
         /// <summary>
+        /// 该类型不存在
+        /// </summary>
+        [ErrorCodeItemMetadata("该类型不存在")]
+        D1501,
+
+        /// <summary>
+        /// 该字段不存在
+        /// </summary>
+        [ErrorCodeItemMetadata("该字段不存在")]
+        D1502,
+
+        /// <summary>
+        /// 该类型不是枚举类型
+        /// </summary>
+        [ErrorCodeItemMetadata("该类型不是枚举类型")]
+        D1503,
+
+        /// <summary>
+        /// 该实体不存在
+        /// </summary>
+        [ErrorCodeItemMetadata("该实体不存在")]
+        D1504,
+
+        /// <summary>
         /// 已存在同名或同编码项目
         /// </summary>
         [ErrorCodeItemMetadata("已存在同名或同编码项目")]

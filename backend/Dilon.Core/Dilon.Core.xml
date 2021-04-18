@@ -828,6 +828,61 @@
             操作方式：新增、更新、删除
             </summary>
         </member>
+        <member name="T:Dilon.Core.SysLogEx">
+            <summary>
+            异常日志
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.Account">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.MethodName">
+            <summary>
+            方法名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.ExceptionName">
+            <summary>
+            异常名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.ExceptionMsg">
+            <summary>
+            异常信息
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.ExceptionSource">
+            <summary>
+            异常源
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.StackTrace">
+            <summary>
+            堆栈信息
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.ParamsObj">
+            <summary>
+            参数对象
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysLogEx.ExceptionTime">
+            <summary>
+            异常时间
+            </summary>
+        </member>
         <member name="T:Dilon.Core.SysLogOp">
             <summary>
             操作日志表
@@ -836,11 +891,6 @@
         <member name="P:Dilon.Core.SysLogOp.Name">
             <summary>
             名称
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.SysLogOp.OpType">
-            <summary>
-            操作类型（0其他 1增加 2删除 3编辑）（见LogAnnotionOpTypeEnum）
             </summary>
         </member>
         <member name="P:Dilon.Core.SysLogOp.Success">
@@ -960,7 +1010,7 @@
         </member>
         <member name="P:Dilon.Core.SysLogVis.VisType">
             <summary>
-            访问类型（字典 1登入 2登出）
+            访问类型
             </summary>
         </member>
         <member name="P:Dilon.Core.SysLogVis.VisTime">
@@ -1772,6 +1822,81 @@
             删除
             </summary>
         </member>
+        <member name="T:Dilon.Core.DataOpType">
+            <summary>
+            数据操作类型
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.OTHER">
+            <summary>
+            其它
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.ADD">
+            <summary>
+            增加
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.DELETE">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.EDIT">
+            <summary>
+            编辑
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.UPDATE">
+            <summary>
+            更新
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.QUERY">
+            <summary>
+            查询
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.DETAIL">
+            <summary>
+            详情
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.TREE">
+            <summary>
+            树
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.IMPORT">
+            <summary>
+            导入
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.EXPORT">
+            <summary>
+            导出
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.GRANT">
+            <summary>
+            授权
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.FORCE">
+            <summary>
+            强退
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.CLEAN">
+            <summary>
+            清空
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.DataOpType.CHANGE_STATUS">
+            <summary>
+            修改状态
+            </summary>
+        </member>
         <member name="F:Dilon.Core.DataScopeType.ALL">
             <summary>
             全部数据
@@ -2082,6 +2207,26 @@
             该表代码模板已经生成过
             </summary>
         </member>
+        <member name="F:Dilon.Core.ErrorCode.D1501">
+            <summary>
+            该类型不存在
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.ErrorCode.D1502">
+            <summary>
+            该字段不存在
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.ErrorCode.D1503">
+            <summary>
+            该类型不是枚举类型
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.ErrorCode.D1504">
+            <summary>
+            该实体不存在
+            </summary>
+        </member>
         <member name="F:Dilon.Core.ErrorCode.xg1000">
             <summary>
             已存在同名或同编码项目
@@ -2142,79 +2287,241 @@
             未知
             </summary>
         </member>
-        <member name="T:Dilon.Core.LogOpType">
+        <member name="T:Dilon.Core.HttpStatusCode">
             <summary>
-            日志操作类型
+            HTTP状态码
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.OTHER">
+        <member name="F:Dilon.Core.HttpStatusCode.Continue">
             <summary>
-            其它
+            客户端可能继续其请求
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.ADD">
+        <member name="F:Dilon.Core.HttpStatusCode.SwitchingProtocols">
             <summary>
-            增加
+            正在更改协议版本或协议
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.DELETE">
+        <member name="F:Dilon.Core.HttpStatusCode.OK">
             <summary>
-            删除
+            请求成功，且请求的信息包含在响应中
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.EDIT">
+        <member name="F:Dilon.Core.HttpStatusCode.Created">
             <summary>
-            编辑
+            请求导致在响应被发送前创建新资源
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.UPDATE">
+        <member name="F:Dilon.Core.HttpStatusCode.Accepted">
             <summary>
-            更新
+            请求已被接受做进一步处理
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.QUERY">
+        <member name="F:Dilon.Core.HttpStatusCode.NonAuthoritativeInformation">
             <summary>
-            查询
+            返回的元信息来自缓存副本而不是原始服务器，因此可能不正确
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.DETAIL">
+        <member name="F:Dilon.Core.HttpStatusCode.NoContent">
             <summary>
-            详情
+            已成功处理请求并且响应已被设定为无内容
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.TREE">
+        <member name="F:Dilon.Core.HttpStatusCode.ResetContent">
             <summary>
-            树
+            客户端应重置（或重新加载）当前资源
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.IMPORT">
+        <member name="F:Dilon.Core.HttpStatusCode.PartialContent">
             <summary>
-            导入
+            响应是包括字节范围的 GET请求所请求的部分响应
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.EXPORT">
+        <member name="F:Dilon.Core.HttpStatusCode.MultipleChoices">
             <summary>
-            导出
+            请求的信息有多种表示形式，默认操作是将此状态视为重定向
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.GRANT">
+        <member name="F:Dilon.Core.HttpStatusCode.MovedPermanently">
             <summary>
-            授权
+            请求的信息已移到 Location头中指定的 URI 处
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.FORCE">
+        <member name="F:Dilon.Core.HttpStatusCode.Found">
             <summary>
-            强退
+            请求的信息位于 Location 头中指定的 URI 处
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.CLEAN">
+        <member name="F:Dilon.Core.HttpStatusCode.SeeOther">
             <summary>
-            清空
+            将客户端自动重定向到 Location 头中指定的 URI
             </summary>
         </member>
-        <member name="F:Dilon.Core.LogOpType.CHANGE_STATUS">
+        <member name="F:Dilon.Core.HttpStatusCode.NotModified">
             <summary>
-            修改状态
+            客户端的缓存副本是最新的
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.UseProxy">
+            <summary>
+            请求应使用位于 Location 头中指定的 URI 的代理服务器
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.BadRequest">
+            <summary>
+            服务器未能识别请求
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.Unauthorized">
+            <summary>
+            请求的资源要求身份验证
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.PaymentRequired">
+            <summary>
+            需要付费
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.Forbidden">
+            <summary>
+            服务器拒绝满足请求
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.NotFound">
+            <summary>
+            请求的资源不在服务器上
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.MethodNotAllowed">
+            <summary>
+            请求的资源上不允许请求方法（POST或 GET）
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.NotAcceptable">
+            <summary>
+            客户端已用 Accept 头指示将不接受资源的任何可用表示形式
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.ProxyAuthenticationRequired">
+            <summary>
+            请求的代理要求身份验证
+            Proxy-authenticate 头包含如何执行身份验证的详细信息
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.RequestTimeout">
+            <summary>
+            客户端没有在服务器期望请求的时间内发送请求
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.Conflict">
+            <summary>
+            由于服务器上的冲突而未能执行请求
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.Gone">
+            <summary>
+            请求的资源不再可用
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.LengthRequired">
+            <summary>
+            缺少必需的 Content-length
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.PreconditionFailed">
+            <summary>
+            为此请求设置的条件失败，且无法执行此请求
+            条件是用条件请求标头（如 If-Match、If-None-Match 或 If-Unmodified-Since）设置的。
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.RequestEntityTooLarge">
+            <summary>
+            请求太大，服务器无法处理
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.RequestUriTooLong">
+            <summary>
+            URI 太长
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.UnsupportedMediaType">
+            <summary>
+            请求是不支持的类型
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.RequestedRangeNotSatisfiable">
+            <summary>
+            无法返回从资源请求的数据范围，因为范围的开头在资源的开头之前，或因为范围的结尾在资源的结尾之后
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.ExpectationFailed">
+            <summary>
+            服务器未能符合 Expect头中给定的预期值
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.UpgradeRequired">
+            <summary>
+            服务器拒绝处理客户端使用当前协议发送的请求，但是可以接受其使用升级后的协议发送的请求
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.InternalServerError">
+            <summary>
+            服务器上发生了一般错误
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.NotImplemented">
+            <summary>
+            服务器不支持请求的函数
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.BadGateway">
+            <summary>
+            中间代理服务器从另一代理或原始服务器接收到错误响应
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.ServiceUnavailable">
+            <summary>
+            服务器暂时不可用，通常是由于过多加载或维护
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.GatewayTimeout">
+            <summary>
+            中间代理服务器在等待来自另一个代理或原始服务器的响应时已超时
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.HttpStatusCode.HttpVersionNotSupported">
+            <summary>
+            服务器不支持请求的HTTP 版本。
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.LoginType">
+            <summary>
+            登陆类型
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.LoginType.LOGIN">
+            <summary>
+            登陆
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.LoginType.LOGOUT">
+            <summary>
+            登出
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.LoginType.REGISTER">
+            <summary>
+            注册
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.LoginType.CHANGEPASSWORD">
+            <summary>
+            改密
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.LoginType.AUTHORIZEDLOGIN">
+            <summary>
+            三方授权登陆
             </summary>
         </member>
         <member name="T:Dilon.Core.MenuOpenType">
@@ -2403,6 +2710,56 @@
             </summary>
             <param name="dict"></param>
         </member>
+        <member name="T:Dilon.Core.EnumExtensions">
+            <summary>
+            枚举扩展方法
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.EnumExtensions.GetEnumDictionary(System.Type)">
+            <summary>
+            获取枚举对象Key与名称的字典（缓存）
+            </summary>
+            <param name="enumType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.EnumExtensions.GetEnumDictionaryItems(System.Type)">
+            <summary>
+            获取枚举对象Key与名称的字典
+            </summary>
+            <param name="enumType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.EnumExtensions.GetEnumDescDictionary(System.Type)">
+            <summary>
+            获取枚举类型key与描述的字典（缓存）
+            </summary>
+            <param name="enumType"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Dilon.Core.EnumExtensions.GetEnumDescDictionaryItems(System.Type)">
+            <summary>
+            获取枚举类型key与描述的字典（没有描述则获取name）
+            </summary>
+            <param name="enumType"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
+        </member>
+        <member name="M:Dilon.Core.EnumExtensions.TryToGetEnumType(System.Reflection.Assembly,System.String)">
+            <summary>
+            从程序集中查找指定枚举类型
+            </summary>
+            <param name="assembly"></param>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.EnumExtensions.LoadEnumTypeDict(System.Reflection.Assembly)">
+            <summary>
+            从程序集中加载所有枚举类型
+            </summary>
+            <param name="assembly"></param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.XnInputBase">
             <summary>
             通用输入扩展参数（带权限）
@@ -2541,6 +2898,23 @@
             <summary>
             请求日志拦截
             </summary>
+        </member>
+        <member name="T:Dilon.Core.SimpleLogHostedService">
+            <summary>
+            后台日志写入服务
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.SimpleLogHostedService.DoWork">
+            <summary>
+            工作线程
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.SimpleLogHostedService.StartAsync(System.Threading.CancellationToken)">
+            <summary>
+            任务开始
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="T:Dilon.Core.UserManager">
             <summary>
@@ -3878,6 +4252,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.SysConfigService.GetLogWritingConfiguration">
+            <summary>
+            获取日志写入间隔和数量
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.Service.DictDataInput">
             <summary>
             字典值参数
@@ -4415,6 +4795,55 @@
             <param name="orgIds"></param>
             <returns></returns>
         </member>
+        <member name="P:Dilon.Core.Service.QueryEnumDataListInput.EnumName">
+            <summary>
+            枚举类型名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.QueryEnumDataListByFiledInput.EntityName">
+            <summary>
+            实体名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.QueryEnumDataListByFiledInput.FieldName">
+            <summary>
+            字段名称
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.EnumDataOutput">
+            <summary>
+            枚举返回参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.EnumDataOutput.Code">
+            <summary>
+            字典Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.EnumDataOutput.Value">
+            <summary>
+            字典值
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.SysEnumDataService">
+            <summary>
+            枚举值服务
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.Service.SysEnumDataService.GetEnumDataList(Dilon.Core.Service.QueryEnumDataListInput)">
+            <summary>
+            通过枚举类型获取枚举值集合
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysEnumDataService.GetEnumDataListByField(Dilon.Core.Service.QueryEnumDataListByFiledInput)">
+            <summary>
+            通过实体字段类型获取相关集合（目前仅支持枚举类型）
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.Service.FileInput">
             <summary>
             上传文件参数
@@ -4558,6 +4987,51 @@
             <param name="pathType"></param>
             <returns></returns>
         </member>
+        <member name="T:Dilon.Core.Service.ExLogInput">
+            <summary>
+            异常日志参数
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.ExLogInput.Account">
+            <summary>
+            操作人
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.ExLogInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.ExLogInput.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.ExLogInput.MethodName">
+            <summary>
+            方法名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.ExLogInput.ExceptionName">
+            <summary>
+            异常名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.ExLogInput.ExceptionMsg">
+            <summary>
+            异常信息
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.ExLogInput.ExceptionTime">
+            <summary>
+            异常时间
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.ExLogOutput">
+            <summary>
+            异常日志参数
+            </summary>
+        </member>
         <member name="T:Dilon.Core.Service.OpLogInput">
             <summary>
             请求日志参数
@@ -4566,11 +5040,6 @@
         <member name="P:Dilon.Core.Service.OpLogInput.Name">
             <summary>
             名称
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.OpLogInput.OpType">
-            <summary>
-            操作类型（0其他 1增加 2删除 3编辑）（见LogAnnotionOpTypeEnum）
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.OpLogInput.Success">
@@ -4695,7 +5164,7 @@
         </member>
         <member name="P:Dilon.Core.Service.VisLogInput.VisType">
             <summary>
-            访问类型（字典 1登入 2登出）
+            访问类型
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.VisLogInput.VisTime">
@@ -4712,6 +5181,24 @@
             <summary>
             访问日志参数
             </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.SysExLogService">
+            <summary>
+            异常日志服务
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.Service.SysExLogService.QueryExLogPageList(Dilon.Core.Service.ExLogInput)">
+            <summary>
+            分页查询异常日志
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysExLogService.ClearExLog">
+            <summary>
+            清空异常日志
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Dilon.Core.Service.SysOpLogService">
             <summary>
@@ -6932,6 +7419,36 @@
             <param name="userParam"></param>
             <returns></returns>
         </member>
+        <member name="T:Dilon.Core.SimpleQueue`1">
+            <summary>
+            简单泛型队列
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Add(`0)">
+            <summary>
+            新增
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Try(`0@)">
+            <summary>
+            取出
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Count">
+            <summary>
+            总数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Clear">
+            <summary>
+            清理
+            </summary>
+        </member>
         <member name="T:Dilon.Core.MachineUtil">
             <summary>
             获取服务器信息
@@ -7028,6 +7545,19 @@
             获取当前网卡的网络速度
             </summary>
             <param name="Milliseconds"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Dilon.Core.ReflectionUtil">
+            <summary>
+            反射工具
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.ReflectionUtil.GetDescriptionValue``1(System.Reflection.FieldInfo)">
+            <summary>
+            获取字段特性
+            </summary>
+            <param name="field"></param>
+            <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
         <member name="T:Dilon.Core.ITreeNode">

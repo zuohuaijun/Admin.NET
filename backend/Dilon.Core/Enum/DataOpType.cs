@@ -1,9 +1,9 @@
 ﻿namespace Dilon.Core
 {
     /// <summary>
-    /// 日志操作类型
+    /// 数据操作类型
     /// </summary>
-    public enum LogOpType
+    public enum DataOpType
     {
         /// <summary>
         /// 其它

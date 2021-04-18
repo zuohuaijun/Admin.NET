@@ -40,7 +40,7 @@ namespace Dilon.Core.Service
             var configs = await _sysConfigRep.DetachedEntities
                                              .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")),
                                                     (code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")),
-                                                    (groupCode, u => u.GroupCode == input.GroupCode.Trim()))
+                                                    (groupCode, u => EF.Functions.Like(u.Code, $"%{input.GroupCode.Trim()}%")))
                                              .Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.GroupCode)
                                              .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<SysConfig>.PageResult(configs);
@@ -132,7 +132,7 @@ namespace Dilon.Core.Service
             }
             return value;
         }
-        
+
         /// <summary>
         /// 更新配置缓存
         /// </summary>
@@ -163,6 +163,21 @@ namespace Dilon.Core.Service
         {
             var value = await GetConfigCache("DILON_CAPTCHA_OPEN");
             return bool.Parse(value);
+        }
+
+        /// <summary>
+        /// 获取日志写入间隔和数量
+        /// </summary>
+        /// <returns></returns>
+        public async Task<(int interval, int quantity)> GetLogWritingConfiguration()
+        {
+            // 获取间隔
+            var interval = await GetConfigCache("DILON_LOG_WRITE_INTERVAL") ?? 5000;
+
+            // 获取数量
+            var quantity = await GetConfigCache("DILON_NUMBER_OF_SINGLE_LOG_WRITES") ?? 100;
+
+            return (int.Parse(interval), int.Parse(quantity));
         }
     }
 }
