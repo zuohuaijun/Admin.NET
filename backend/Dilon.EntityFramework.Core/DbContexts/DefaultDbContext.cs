@@ -45,7 +45,7 @@ namespace Dilon.EntityFramework.Core
         /// <param name="dbContextLocator"></param>
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            if (entityBuilder.Metadata.ClrType.BaseType == typeof(DBEntityTenant))
+            if (entityBuilder.Metadata.ClrType.BaseType == typeof(DBEntityTenant).BaseType)
                 entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
         }
 
