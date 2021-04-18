@@ -358,6 +358,16 @@ namespace Dilon.Core.Service
         }
 
         /// <summary>
+        /// 获取所有的机构组织Id集合
+        /// </summary>
+        /// <returns></returns>
+        [NonAction]
+        public async Task<List<long>> GetAllDataScopeIdList()
+        {
+            return await _sysOrgRep.DetachedEntities.Select(u => u.Id).ToListAsync();
+        }
+
+        /// <summary>
         /// 获取用户数据范围（机构Id集合）
         /// </summary>
         /// <returns></returns>

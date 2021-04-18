@@ -50,7 +50,7 @@ namespace Dilon.Core
                 MethodName = actionDescriptor.ActionName,
                 ReqMethod = httpRequest.Method,
                 Param = JSON.Serialize(context.ActionArguments.Count < 1 ? "" : context.ActionArguments),
-                Result = JSON.Serialize(actionContext.Result),
+                //Result = JSON.Serialize(actionContext.Result), // 序列化异常，比如验证码
                 ElapsedTime = sw.ElapsedMilliseconds,
                 OpTime = DateTimeOffset.Now,
                 Account = httpContext.User?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT)

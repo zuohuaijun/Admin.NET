@@ -50,12 +50,22 @@ namespace Dilon.Core.Service
             var permissions = await _sysCacheService.GetPermission(userId); // 先从缓存里面读取
             if (permissions == null || permissions.Count < 1)
             {
-                var roleIdList = await _sysUserRoleService.GetUserRoleIdList(userId);
-                var menuIdList = await _sysRoleMenuService.GetRoleMenuIdList(roleIdList);
-                permissions = await _sysMenuRep.DetachedEntities.Where(u => menuIdList.Contains(u.Id))
-                                                                .Where(u => u.Type == (int)MenuType.BTN)
-                                                                .Where(u => u.Status == (int)CommonStatus.ENABLE)
-                                                                .Select(u => u.Permission).ToListAsync();
+                if (!_userManager.SuperAdmin)
+                {
+                    var roleIdList = await _sysUserRoleService.GetUserRoleIdList(userId);
+                    var menuIdList = await _sysRoleMenuService.GetRoleMenuIdList(roleIdList);
+                    permissions = await _sysMenuRep.DetachedEntities.Where(u => menuIdList.Contains(u.Id))
+                                                                    .Where(u => u.Type == (int)MenuType.BTN)
+                                                                    .Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                                                    .Select(u => u.Permission).ToListAsync();
+                }
+                else
+                {
+                    permissions = await _sysMenuRep.DetachedEntities
+                                                   .Where(u => u.Type == (int)MenuType.BTN)
+                                                   .Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                                   .Select(u => u.Permission).ToListAsync();
+                }
                 await _sysCacheService.SetPermission(userId, permissions); // 缓存结果
             }
             return permissions;
@@ -74,7 +84,7 @@ namespace Dilon.Core.Service
             if (antDesignTreeNodes == null || antDesignTreeNodes.Count < 1)
             {
                 var sysMenuList = new List<SysMenu>();
-                // 管理员则展示所有系统权重菜单，不能展示业务权重菜单
+                // 管理员则展示所有系统菜单
                 if (_userManager.SuperAdmin)
                 {
                     sysMenuList = await _sysMenuRep.DetachedEntities
