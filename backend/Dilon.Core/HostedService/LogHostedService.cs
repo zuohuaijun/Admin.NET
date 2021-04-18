@@ -1,27 +1,29 @@
-﻿using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
-using Dilon.Core.Service;
+﻿using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
 using Microsoft.Extensions.Hosting;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Dilon.Core
 {
     /// <summary>
     /// 后台日志写入服务
     /// </summary>
-    public class SimpleLogHostedService : IHostedService
+    public class LogHostedService : IHostedService
     {
         private readonly IConcurrentQueue<SysLogEx> _logExQueue;
         private readonly IConcurrentQueue<SysLogOp> _logOpQueue;
         private readonly IConcurrentQueue<SysLogVis> _logVisQueue;
-        private readonly ISysConfigService _sysConfigService;
+
         private readonly IRepository<SysLogEx> _sysLogExRepository;
         private readonly IRepository<SysLogOp> _sysLogOpRepository;
         private readonly IRepository<SysLogVis> _sysLogVisRepository;
 
-        public SimpleLogHostedService(
+        private readonly ISysConfigService _sysConfigService;
+
+        public LogHostedService(
             IConcurrentQueue<SysLogEx> logExQueue,
             IConcurrentQueue<SysLogOp> logOpQueue,
             IConcurrentQueue<SysLogVis> logVisQueue)
@@ -48,7 +50,7 @@ namespace Dilon.Core
             {
                 // 取系统配置，获得轮训间隔和单次写入容量
                 (int interval, int quantity) = await _sysConfigService.GetLogWritingConfiguration();
-                
+
                 // 后台队列中产生了日志，取出写入暂存器
                 int logExCount = _logExQueue.Count();
                 if (logExCount > 0)

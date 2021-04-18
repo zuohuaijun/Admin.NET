@@ -1,6 +1,5 @@
 ﻿using Furion;
 using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -24,8 +23,9 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "Auth", Order = 160)]
     public class AuthService : IAuthService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysUser> _sysUserRep;     // 用户表仓储
         private readonly IHttpContextAccessor _httpContextAccessor;
+
+        private readonly IRepository<SysUser> _sysUserRep;     // 用户表仓储
         private readonly IUserManager _userManager; // 用户管理
 
         private readonly ISysUserService _sysUserService; // 系统用户服务
@@ -35,6 +35,7 @@ namespace Dilon.Core.Service
         private readonly ISysAppService _sysAppService;   // 系统应用服务
         private readonly IClickWordCaptcha _captchaHandle;// 验证码服务
         private readonly ISysConfigService _sysConfigService; // 验证码服务
+
         private readonly IConcurrentQueue<SysLogVis> _logVisQueue; // 登录日志队列
 
         public AuthService(IRepository<SysUser> sysUserRep,
@@ -157,7 +158,7 @@ namespace Dilon.Core.Service
                 else
                 {
                     defaultActiveAppCode = loginOutput.Apps.FirstOrDefault().Code;
-                }                
+                }
                 loginOutput.Menus = await _sysMenuService.GetLoginMenusAntDesign(userId, defaultActiveAppCode);
             }
 

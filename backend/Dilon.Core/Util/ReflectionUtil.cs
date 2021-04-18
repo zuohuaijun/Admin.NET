@@ -20,7 +20,7 @@ namespace Dilon.Core
             object[] customAttributes = field.GetCustomAttributes(typeof(T), false);
 
             // 如果没有数据返回null
-            return customAttributes.Length > 0 ? (T) customAttributes[0] : null;
+            return customAttributes.Length > 0 ? (T)customAttributes[0] : null;
         }
     }
 }

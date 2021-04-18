@@ -11,7 +11,7 @@ namespace Dilon.Core
             services.AddSingleton<IConcurrentQueue<SysLogEx>, SimpleQueue<SysLogEx>>();
             services.AddSingleton<IConcurrentQueue<SysLogOp>, SimpleQueue<SysLogOp>>();
             services.AddSingleton<IConcurrentQueue<SysLogVis>, SimpleQueue<SysLogVis>>();
-            services.AddHostedService<SimpleLogHostedService>();
+            services.AddHostedService<LogHostedService>();
         }
     }
 }

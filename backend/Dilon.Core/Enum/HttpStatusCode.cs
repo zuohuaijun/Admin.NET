@@ -202,7 +202,7 @@ namespace Dilon.Core
         RequestedRangeNotSatisfiable = 416,
 
         /// <summary>
-        /// 服务器未能符合 Expect头中给定的预期值
+        /// 服务器未能符合Expect头中给定的预期值
         /// </summary>
         [Description("服务器与Expect头不匹配")]
         ExpectationFailed = 417,
@@ -244,9 +244,9 @@ namespace Dilon.Core
         GatewayTimeout = 504,
 
         /// <summary>
-        /// 服务器不支持请求的HTTP 版本。
+        /// 服务器不支持请求的HTTP版本
         /// </summary>
         [Description("HTTP版本不支持")]
-        HttpVersionNotSupported = 505,
+        HttpVersionNotSupported = 505
     }
 }

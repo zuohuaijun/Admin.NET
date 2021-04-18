@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor.Extensions;
+﻿using Furion;
+using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -7,8 +8,6 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Furion;
-using Furion.JsonSerialization;
 using UAParser;
 
 namespace Dilon.Core
@@ -31,10 +30,10 @@ namespace Dilon.Core
 
             // 判断是否请求成功（没有异常就是请求成功）
             var isRequestSucceed = actionContext.Exception == null;
-            var clientInfo = httpContext.Request.Headers.ContainsKey("User-Agent") ? 
+            var clientInfo = httpContext.Request.Headers.ContainsKey("User-Agent") ?
                 Parser.GetDefault().Parse(httpContext.Request.Headers["User-Agent"]) : null;
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            var descAtt = Attribute.GetCustomAttribute(actionDescriptor.MethodInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
+            // _ = Attribute.GetCustomAttribute(actionDescriptor.MethodInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
             // 日志写入简单队列
             var _logOpQueue = App.GetService<IConcurrentQueue<SysLogOp>>();

@@ -1,11 +1,11 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using Furion;
+﻿using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
 {
@@ -21,22 +21,21 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysEnumData/list")]
-        public async Task<dynamic> GetEnumDataList([FromQuery] QueryEnumDataListInput input)
+        public async Task<dynamic> GetEnumDataList([FromQuery] EnumDataInput input)
         {
             // 查找枚举
             var enumType = App.EffectiveTypes.FirstOrDefault(t => t.IsEnum && t.Name == input.EnumName);
             if (enumType == null)
                 throw Oops.Oh(ErrorCode.D1502).StatusCode(405);
 
-            // 获取枚举的key和描述
+            // 获取枚举的Key和描述
             return await Task.Run(() =>
-                EnumExtensions.GetEnumDescDictionary(enumType)
-                    .Select(x =>
-                        new EnumDataOutput
-                        {
-                            Code = x.Key.ToString(),
-                            Value = x.Value
-                        }));
+                   EnumExtensions.GetEnumDescDictionary(enumType)
+                   .Select(x => new EnumDataOutput
+                   {
+                       Code = x.Key.ToString(),
+                       Value = x.Value
+                   }));
         }
 
         /// <summary>
@@ -45,11 +44,10 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysEnumData/listByFiled")]
-        public async Task<dynamic> GetEnumDataListByField([FromQuery] QueryEnumDataListByFiledInput input)
+        public async Task<dynamic> GetEnumDataListByField([FromQuery] QueryEnumDataInput input)
         {
             // 获取实体类型属性
-            var entityType = Db.GetDbContext().Model.GetEntityTypes()
-                .FirstOrDefault(u => u.ClrType.Name == input.EntityName);
+            var entityType = Db.GetDbContext().Model.GetEntityTypes().FirstOrDefault(u => u.ClrType.Name == input.EntityName);
             if (entityType == null) throw Oops.Oh(ErrorCode.D1504);
 
             // 获取字段类型
@@ -57,15 +55,14 @@ namespace Dilon.Core.Service
             if (fieldType is not { IsEnum: true })
                 throw Oops.Oh(ErrorCode.D1503);
 
-            // 获取枚举的key和描述
+            // 获取枚举的Key和描述
             return await Task.Run(() =>
-                EnumExtensions.GetEnumDescDictionary(fieldType)
-                    .Select(x =>
-                        new EnumDataOutput
-                        {
-                            Code = x.Key.ToString(),
-                            Value = x.Value
-                        }));
+                   EnumExtensions.GetEnumDescDictionary(fieldType)
+                   .Select(x => new EnumDataOutput
+                   {
+                       Code = x.Key.ToString(),
+                       Value = x.Value
+                   }));
         }
     }
 }

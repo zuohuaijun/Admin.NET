@@ -9,7 +9,7 @@ using Furion.FriendlyException;
 namespace Dilon.Core
 {
     /// <summary>
-    /// 枚举扩展方法
+    /// 枚举扩展
     /// </summary>
     public static class EnumExtensions
     {

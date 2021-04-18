@@ -144,8 +144,7 @@ namespace Dilon.Core.Service.CodeGen
         public List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
         {
             // 获取实体类型属性
-            var entityType = Db.GetDbContext().Model.GetEntityTypes()
-                .FirstOrDefault(u => u.ClrType.Name == input.TableName);
+            var entityType = Db.GetDbContext().Model.GetEntityTypes().FirstOrDefault(u => u.ClrType.Name == input.TableName);
             if (entityType == null) return null;
 
             // 获取原始类型属性

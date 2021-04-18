@@ -1,11 +1,11 @@
-﻿using System;
-using System.Security.Claims;
+﻿using Furion;
 using Furion.DependencyInjection;
 using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
+using System;
+using System.Security.Claims;
 using System.Threading.Tasks;
-using Furion;
 
 namespace Dilon.Core
 {
@@ -16,14 +16,12 @@ namespace Dilon.Core
     {
         public Task OnExceptionAsync(ExceptionContext context)
         {
-            //context.Exception.ToString().LogError("错误");
-            
             // 取异常日志服务
             var _logExQueue = App.GetService<IConcurrentQueue<SysLogEx>>();
-            
+
             // 取用户上下文
             var userContext = App.User;
-            
+
             // 写入简单队列
             _logExQueue.Add(new SysLogEx
             {
