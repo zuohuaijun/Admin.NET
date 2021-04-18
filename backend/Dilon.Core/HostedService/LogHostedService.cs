@@ -1,4 +1,4 @@
-﻿using Dilon.Core.Service;
+using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
 using Microsoft.Extensions.Hosting;
@@ -86,7 +86,7 @@ namespace Dilon.Core
                 if (sysLogExs.Count > quantity)
                 {
                     await _sysLogExRepository.InsertNowAsync(sysLogExs);
-                    sysLogOps.Clear();
+                    sysLogExs.Clear();
                 }
 
                 if (sysLogOps.Count > quantity)
@@ -98,7 +98,7 @@ namespace Dilon.Core
                 if (sysLogViss.Count > quantity)
                 {
                     await _sysLogVisRepository.InsertNowAsync(sysLogViss);
-                    sysLogOps.Clear();
+                    sysLogViss.Clear();
                 }
 
                 // 执行间隔
