@@ -211,7 +211,7 @@ namespace Dilon.Core
                 return res;
             }
 
-            var userVCodePos = JSON.GetJsonSerializer().Deserialize<List<PointPosModel>>(input.PointJson);
+            var userVCodePos = JSON.Deserialize<List<PointPosModel>>(input.PointJson);
             if (userVCodePos == null || userVCodePos.Count < rightVCodePos.Count)
             {
                 res.repCode = "6111";

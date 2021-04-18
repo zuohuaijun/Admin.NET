@@ -1,7 +1,7 @@
 {
   "ConnectionStrings": {
     "DefaultConnection": "Data Source=./Dilon.db",
-    "PgSqlConnection": "HOST=127.0.0.1;PORT=5432;DATABASE=dilon;PASSWORD=postgres;USER ID=postgres;",
-    "MultiTenantConnection": "Data Source=./Dilon_SaaS.db"
+    "MultiTenantConnection": "Data Source=./Dilon_SaaS.db",
+    "PgSqlConnection": "HOST=127.0.0.1;PORT=5432;DATABASE=dilon;PASSWORD=123qwe;USER ID=postgres;",
   }
 }

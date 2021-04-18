@@ -37,7 +37,7 @@ namespace Dilon.Core
 
         public SysUser User
         {
-            get => _sysUserRep.Find(UserId);
+            get => _sysUserRep.FirstOrDefault(u => u.Id == UserId);
         }
 
         public UserManager(IRepository<SysUser> sysUserRep,

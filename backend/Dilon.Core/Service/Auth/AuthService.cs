@@ -89,7 +89,7 @@ namespace Dilon.Core.Service
             var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
             {
                 { ClaimConst.CLAINM_USERID, user.Id },
-                 { ClaimConst.TENANT_ID, user.TenantId },
+                { ClaimConst.TENANT_ID, user.TenantId },
                 { ClaimConst.CLAINM_ACCOUNT, user.Account },
                 { ClaimConst.CLAINM_NAME, user.Name },
                 { ClaimConst.CLAINM_SUPERADMIN, user.AdminType },
@@ -149,16 +149,8 @@ namespace Dilon.Core.Service
             // 菜单信息
             if (loginOutput.Apps.Count > 0)
             {
-                string defaultActiveAppCode = null;
                 var activeApp = loginOutput.Apps.FirstOrDefault(u => u.Active == YesOrNot.Y.ToString());
-                if (activeApp != null)
-                {
-                    defaultActiveAppCode = activeApp.Code;
-                }
-                else
-                {
-                    defaultActiveAppCode = loginOutput.Apps.FirstOrDefault().Code;
-                }
+                var defaultActiveAppCode = activeApp != null ? activeApp.Code : loginOutput.Apps.FirstOrDefault().Code;
                 loginOutput.Menus = await _sysMenuService.GetLoginMenusAntDesign(userId, defaultActiveAppCode);
             }
 
