@@ -84,7 +84,7 @@ namespace Dilon.Core
                 {
                     // (int, int) percentPos = ToPercentPos((width, height), (_x, _y));
                     // 添加正确答案 位置数据
-                    if (random.Next(0, 2).Equals(1) || (code_length - i).Equals(rightCodeLength - rtnResult.repData.point.Count))
+                    if (random.Next(0, 3).Equals(1) || (code_length - i).Equals(rightCodeLength - rtnResult.repData.point.Count))
                     {
                         rtnResult.repData.point.Add(new PointPosModel()
                         {

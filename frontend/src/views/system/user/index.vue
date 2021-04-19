@@ -49,8 +49,10 @@
           :alert="true"
           :rowKey="(record) => record.id"
           :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
-          <template slot="operator" v-if="hasPerm('sysUser:add')">
+          <template slot="operator">
             <a-button type="primary" v-if="hasPerm('sysUser:add')" icon="plus" @click="$refs.addForm.add()">新增用户</a-button>
+            <a-button type="primary" v-if="hasPerm('sysUser:import')" icon="up-circle" @click="">导入</a-button>
+            <a-button type="primary" v-if="hasPerm('sysUser:export')" icon="down-circle" @click="sysUserExport()">导出</a-button>
           </template>
           <span slot="sex" slot-scope="text">
             {{ sexFilter(text) }}
@@ -115,7 +117,8 @@
     getUserPage,
     sysUserDelete,
     sysUserChangeStatus,
-    sysUserResetPwd
+    sysUserResetPwd,
+    sysUserExport
   } from '@/api/modular/system/userManage'
   import {
     sysDictTypeDropDown
@@ -300,6 +303,35 @@
         }).catch((err) => {
           this.$message.error('删除错误：' + err.message)
         })
+      },
+      // 导出用户
+      sysUserExport(e) {
+        this.cardLoading = true
+        sysUserExport().then((res) => {
+          this.cardLoading = false
+          this.downloadfile(res)
+        // eslint-disable-next-line handle-callback-err
+        }).catch((err) => {
+          this.cardLoading = false
+          this.$message.error('下载错误：获取文件流错误')
+        })
+      },
+      downloadfile (res) {
+        var blob = new Blob([res.data], { type: 'application/octet-stream;charset=UTF-8' })
+        var contentDisposition = res.headers['content-disposition']
+        var patt = new RegExp('filename=([^;]+\\.[^\\.;]+);*')
+        var result = patt.exec(contentDisposition)
+        var filename = result[1]
+        var downloadElement = document.createElement('a')
+        var href = window.URL.createObjectURL(blob) // 创建下载的链接
+        var reg = /^["](.*)["]$/g
+        downloadElement.style.display = 'none'
+        downloadElement.href = href
+        downloadElement.download = decodeURI(filename.replace(reg, '$1')) // 下载后文件名
+        document.body.appendChild(downloadElement)
+        downloadElement.click() // 点击下载
+        document.body.removeChild(downloadElement) // 下载完成移除元素
+        window.URL.revokeObjectURL(href)
       },
       /**
        * 点击左侧机构树查询列表

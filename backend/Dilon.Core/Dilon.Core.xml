@@ -7227,7 +7227,7 @@
         </member>
         <member name="M:Dilon.Core.Service.SysUserService.ExportUser(Dilon.Core.Service.UserInput)">
             <summary>
-            用户导出(未实现)
+            用户导出
             </summary>
             <param name="input"></param>
             <returns></returns>
