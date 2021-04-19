@@ -14,6 +14,7 @@ namespace Dilon.Core.Service
         Task<dynamic> GetOrgTree([FromQuery] OrgInput input);
         Task<dynamic> QueryOrgPageList([FromQuery] PageOrgInput input);
         Task UpdateOrg(UpdateOrgInput input);
+        Task<List<long>> GetAllDataScopeIdList();
         Task<List<long>> GetUserDataScopeIdList();
     }
 }

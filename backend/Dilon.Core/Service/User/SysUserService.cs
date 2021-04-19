@@ -27,13 +27,15 @@ namespace Dilon.Core.Service
         private readonly ISysEmpService _sysEmpService;
         private readonly ISysUserDataScopeService _sysUserDataScopeService;
         private readonly ISysUserRoleService _sysUserRoleService;
+        private readonly ISysOrgService _sysOrgService;
 
         public SysUserService(IRepository<SysUser> sysUserRep,
                               IUserManager userManager,
                               ISysCacheService sysCacheService,
                               ISysEmpService sysEmpService,
                               ISysUserDataScopeService sysUserDataScopeService,
-                              ISysUserRoleService sysUserRoleService)
+                              ISysUserRoleService sysUserRoleService,
+                              ISysOrgService sysOrgService)
         {
             _sysUserRep = sysUserRep;
             _userManager = userManager;
@@ -41,6 +43,7 @@ namespace Dilon.Core.Service
             _sysEmpService = sysEmpService;
             _sysUserDataScopeService = sysUserDataScopeService;
             _sysUserRoleService = sysUserRoleService;
+            _sysOrgService = sysOrgService;
         }
 
         /// <summary>
@@ -371,16 +374,19 @@ namespace Dilon.Core.Service
             var dataScopes = await _sysCacheService.GetDataScope(userId); // 先从缓存里面读取
             if (dataScopes == null || dataScopes.Count < 1)
             {
-                var orgId = await _sysEmpService.GetEmpOrgId(userId);
-
-                // 获取该用户对应的数据范围集合
-                var userDataScopeIdListForUser = await _sysUserDataScopeService.GetUserDataScopeIdList(userId);
-
-                // 获取该用户的角色对应的数据范围集合
-                var userDataScopeIdListForRole = await _sysUserRoleService.GetUserRoleDataScopeIdList(userId, orgId);
-
-                dataScopes = userDataScopeIdListForUser.Concat(userDataScopeIdListForRole).Distinct().ToList(); // 并集
-
+                if (!_userManager.SuperAdmin)
+                {
+                    var orgId = await _sysEmpService.GetEmpOrgId(userId);
+                    // 获取该用户对应的数据范围集合
+                    var userDataScopeIdListForUser = await _sysUserDataScopeService.GetUserDataScopeIdList(userId);
+                    // 获取该用户的角色对应的数据范围集合
+                    var userDataScopeIdListForRole = await _sysUserRoleService.GetUserRoleDataScopeIdList(userId, orgId);
+                    dataScopes = userDataScopeIdListForUser.Concat(userDataScopeIdListForRole).Distinct().ToList(); // 并集
+                }
+                else
+                {
+                    dataScopes = await _sysOrgService.GetAllDataScopeIdList();
+                }
                 await _sysCacheService.SetDataScope(userId, dataScopes); // 缓存结果
             }
             return dataScopes;
