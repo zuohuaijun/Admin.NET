@@ -1,6 +1,6 @@
 ﻿using Dilon.Core.Service;
+using Furion.TaskScheduler;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -20,24 +20,11 @@ namespace Dilon.Core
         public string JobName { get; set; }
 
         /// <summary>
-        /// 任务分组
+        /// 执行间隔时间（单位秒）
         /// </summary>
-        /// <example>dilon</example>
-        [Comment("任务分组")]
-        public string JobGroup { get; set; }
-
-        /// <summary>
-        /// 开始时间
-        /// </summary>
-        [Comment("开始时间")]
-        public DateTimeOffset BeginTime { get; set; } = DateTimeOffset.Now;
-
-        /// <summary>
-        /// 结束时间
-        /// </summary>
-        /// <example>null</example>
-        [Comment("结束时间")]
-        public DateTimeOffset? EndTime { get; set; }
+        /// <example>5</example>
+        [Comment("间隔时间")]
+        public int? Interval { get; set; } = 5;
 
         /// <summary>
         /// Cron表达式
@@ -47,24 +34,16 @@ namespace Dilon.Core
         public string Cron { get; set; }
 
         /// <summary>
-        /// 执行次数（默认无限循环）
+        /// 定时器类型
         /// </summary>
-        /// <example>10</example>
+        [Comment("定时器类型")]
+        public SpareTimeTypes TimerType { get; set; } = SpareTimeTypes.Interval;
+
+        /// <summary>
+        /// 执行次数
+        /// </summary>
         [Comment("执行次数")]
         public int? RunNumber { get; set; }
-
-        /// <summary>
-        /// 执行间隔时间，单位秒（如果有Cron，则IntervalSecond失效）
-        /// </summary>
-        /// <example>5</example>
-        [Comment("执行间隔时间")]
-        public int? Interval { get; set; } = 5;
-
-        /// <summary>
-        /// 触发器类型
-        /// </summary>
-        [Comment("触发器类型")]
-        public TriggerTypeEnum TriggerType { get; set; } = TriggerTypeEnum.Simple;
 
         /// <summary>
         /// 请求url

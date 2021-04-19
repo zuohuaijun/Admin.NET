@@ -22,8 +22,8 @@
             </a-form-item>
           </a-col>
           <a-col :md="12" :sm="24">
-            <a-form-item label="任务分组" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-input placeholder="请输入任务分组" disabled v-decorator="['jobGroup', {rules: [{required: true, message: '请输入任务分组！'}]}]" />
+            <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-input placeholder="请输入备注" v-decorator="['remark']" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -47,28 +47,15 @@
 
         <a-row :gutter="24">
           <a-col :md="12" :sm="24">
-            <a-form-item label="开始时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-date-picker placeholder="请选择开始时间" @change="onChangeBeginTime" style="width: 100%" showTime v-decorator="['beginTime']" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="12" :sm="24">
-            <a-form-item label="结束时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-date-picker placeholder="请选择结束时间" @change="onChangeEndTime" style="width: 100%" showTime v-decorator="['endTime']" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-
-        <a-row :gutter="24">
-          <a-col :md="12" :sm="24">
-            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="触发器类型">
-              <a-select style="width: 100%" placeholder="请选择触发器类型" @change="onChangeTriggerType" v-decorator="['triggerType', {rules: [{ required: true, message: '请选择触发器类型！' }]}]">
-                <a-select-option :value="1">Simple</a-select-option>
-                <a-select-option :value="2">Cron</a-select-option>
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="定时器类型">
+              <a-select style="width: 100%" placeholder="请选择定时器类型" @change="onChangeTimerType" v-decorator="['timerType', {rules: [{ required: true, message: '请选择定时器类型！' }]}]">
+                <a-select-option :value="0">Interval</a-select-option>
+                <a-select-option :value="1">Cron</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :md="12" :sm="24">
-            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="执行间隔" has-feedback v-if="VisibleTriggerType">
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="执行间隔" has-feedback v-if="VisibleTimerType">
               <a-input-number
                 placeholder="请输入执行间隔"
                 style="width: 100%"
@@ -100,16 +87,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="24">
-          <a-col :md="24" :sm="24">
-            <a-form-item label="备注" :labelCol="labelCol_JG" :wrapperCol="wrapperCol_JG" has-feedback>
-              <a-textarea :rows="1" placeholder="请输入备注" v-decorator="['remark']"></a-textarea>
-            </a-form-item>
-          </a-col>
-        </a-row>
-
       </a-form>
-
     </a-spin>
   </a-modal>
 </template>
@@ -121,7 +99,6 @@
   import {
     sysDictTypeDropDown
   } from '@/api/modular/system/dictManage'
-  import moment from 'moment'
 
   export default {
     data() {
@@ -160,10 +137,7 @@
         },
         visible: false,
         confirmLoading: false,
-        beginTimeString: [],
-        endTimeString: [],
-        timeFormat: 'YYYY-MM-DD HH:mm:ss',
-        VisibleTriggerType: true,
+        VisibleTimerType: true,
         requestTypeDictTypeDropDown: [],
         formLoading: false,
         form: this.$form.createForm(this)
@@ -177,18 +151,15 @@
         this.sysDictTypeDropDown()
 
         // eslint-disable-next-line eqeqeq
-        this.VisibleTriggerType = record.triggerType == 1
+        this.VisibleTimerType = record.timerType == 0
 
         setTimeout(() => {
           this.form.setFieldsValue({
             id: record.id,
             jobName: record.jobName,
-            jobGroup: record.jobGroup,
             requestUrl: record.requestUrl,
             requestType: record.requestType,
-            // beginTime: record.beginTime,
-            // endTime: record.endTime,
-            triggerType: record.triggerType,
+            timerType: record.timerType,
             cron: record.cron,
             interval: record.interval,
             headers: record.headers,
@@ -196,19 +167,6 @@
             remark: record.remark
           })
         }, 100)
-        // 时间单独处理
-        if (record.beginTime != null) {
-          this.form.getFieldDecorator('beginTime', {
-            initialValue: moment(record.beginTime, this.timeFormat)
-          })
-        }
-        this.beginTimeString = moment(record.beginTime).format(this.timeFormat)
-        if (record.endTime != null) {
-          this.form.getFieldDecorator('endTime', {
-            initialValue: moment(record.endTime, this.timeFormat)
-          })
-        }
-        this.endTimeString = moment(record.endTime).format(this.timeFormat)
       },
 
       sysDictTypeDropDown() {
@@ -220,23 +178,8 @@
         this.formLoading = false
       },
 
-      onChangeTriggerType(e) {
-        this.VisibleTriggerType = e === 1
-      },
-
-      onChangeBeginTime(date, dateString) {
-        if (date == null) {
-          this.beginTimeString = []
-        } else {
-          this.beginTimeString = moment(date).format(this.timeFormat)
-        }
-      },
-      onChangeEndTime(date, dateString) {
-        if (date == null) {
-          this.endTimeString = []
-        } else {
-          this.endTimeString = moment(date).format(this.timeFormat)
-        }
+      onChangeTimerType(e) {
+        this.VisibleTimerType = e === 0
       },
 
       handleSubmit() {
@@ -248,16 +191,6 @@
         this.confirmLoading = true
         validateFields((errors, values) => {
           if (!errors) {
-            // eslint-disable-next-line eqeqeq
-            if (this.beginTimeString == 'Invalid date') {
-              this.beginTimeString = null
-            }
-            // eslint-disable-next-line eqeqeq
-            if (this.endTimeString == 'Invalid date') {
-              this.endTimeString = null
-            }
-            values.beginTime = this.beginTimeString
-            values.endTime = this.endTimeString
             sysTimersEdit(values).then((res) => {
               if (res.success) {
                 this.$message.success('编辑成功')

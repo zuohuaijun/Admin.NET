@@ -1567,22 +1567,11 @@
             </summary>
             <example>dilon</example>
         </member>
-        <member name="P:Dilon.Core.SysTimer.JobGroup">
+        <member name="P:Dilon.Core.SysTimer.Interval">
             <summary>
-            任务分组
+            执行间隔时间（单位秒）
             </summary>
-            <example>dilon</example>
-        </member>
-        <member name="P:Dilon.Core.SysTimer.BeginTime">
-            <summary>
-            开始时间
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.SysTimer.EndTime">
-            <summary>
-            结束时间
-            </summary>
-            <example>null</example>
+            <example>5</example>
         </member>
         <member name="P:Dilon.Core.SysTimer.Cron">
             <summary>
@@ -1590,21 +1579,14 @@
             </summary>
             <example></example>
         </member>
+        <member name="P:Dilon.Core.SysTimer.TimerType">
+            <summary>
+            定时器类型
+            </summary>
+        </member>
         <member name="P:Dilon.Core.SysTimer.RunNumber">
             <summary>
-            执行次数（默认无限循环）
-            </summary>
-            <example>10</example>
-        </member>
-        <member name="P:Dilon.Core.SysTimer.Interval">
-            <summary>
-            执行间隔时间，单位秒（如果有Cron，则IntervalSecond失效）
-            </summary>
-            <example>5</example>
-        </member>
-        <member name="P:Dilon.Core.SysTimer.TriggerType">
-            <summary>
-            触发器类型
+            执行次数
             </summary>
         </member>
         <member name="P:Dilon.Core.SysTimer.RequestUrl">
@@ -2667,6 +2649,36 @@
         <member name="F:Dilon.Core.QueryTypeEnum.isNotNull">
             <summary>
             不为空
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.RequestTypeEnum">
+            <summary>
+            http请求类型
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.RequestTypeEnum.None">
+            <summary>
+            无
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.RequestTypeEnum.Get">
+            <summary>
+            GET请求
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.RequestTypeEnum.Post">
+            <summary>
+            POST请求
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.RequestTypeEnum.Put">
+            <summary>
+            PUT请求
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.RequestTypeEnum.Delete">
+            <summary>
+            DELETE请求
             </summary>
         </member>
         <member name="T:Dilon.Core.YesOrNot">
@@ -6107,6 +6119,12 @@
             <param name="orgId"></param>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.SysOrgService.GetAllDataScopeIdList">
+            <summary>
+            获取所有的机构组织Id集合
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Dilon.Core.Service.SysOrgService.GetUserDataScopeIdList">
             <summary>
             获取用户数据范围（机构Id集合）
@@ -6658,46 +6676,26 @@
             <summary>
             任务名称
             </summary>
-            <example>dilon</example>
         </member>
-        <member name="P:Dilon.Core.Service.JobInput.JobGroup">
+        <member name="P:Dilon.Core.Service.JobInput.Interval">
             <summary>
-            任务分组
+            执行间隔时间（单位秒）
             </summary>
-            <example>dilon</example>
-        </member>
-        <member name="P:Dilon.Core.Service.JobInput.BeginTime">
-            <summary>
-            开始时间
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobInput.EndTime">
-            <summary>
-            结束时间
-            </summary>
-            <example>null</example>
+            <example>5</example>
         </member>
         <member name="P:Dilon.Core.Service.JobInput.Cron">
             <summary>
             Cron表达式
             </summary>
-            <example></example>
+        </member>
+        <member name="P:Dilon.Core.Service.JobInput.TimerType">
+            <summary>
+            定时器类型
+            </summary>
         </member>
         <member name="P:Dilon.Core.Service.JobInput.RunNumber">
             <summary>
-            执行次数（默认无限循环）
-            </summary>
-            <example>10</example>
-        </member>
-        <member name="P:Dilon.Core.Service.JobInput.Interval">
-            <summary>
-            执行间隔时间，单位秒（如果有Cron，则IntervalSecond失效）
-            </summary>
-            <example>5</example>
-        </member>
-        <member name="P:Dilon.Core.Service.JobInput.TriggerType">
-            <summary>
-            触发器类型
+            执行次数
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.JobInput.RequestUrl">
@@ -6720,16 +6718,10 @@
             <summary>
             请求类型
             </summary>
-            <example>2</example>
         </member>
         <member name="P:Dilon.Core.Service.JobInput.Remark">
             <summary>
-            描述
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobInput.DisplayState">
-            <summary>
-            任务状态
+            备注
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.DeleteJobInput.Id">
@@ -6742,226 +6734,71 @@
             任务信息---任务详情
             </summary>
         </member>
+        <member name="P:Dilon.Core.Service.JobOutput.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
         <member name="P:Dilon.Core.Service.JobOutput.JobName">
             <summary>
             任务名称
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.JobOutput.JobGroup">
-            <summary>
-            任务组名
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.NextFireTime">
-            <summary>
-            下次执行时间
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.PreviousFireTime">
-            <summary>
-            上次执行时间
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.BeginTime">
-            <summary>
-            开始时间
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.EndTime">
-            <summary>
-            结束时间
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.LastErrMsg">
-            <summary>
-            上次执行的异常信息
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.TriggerState">
-            <summary>
-            任务状态
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.Remark">
-            <summary>
-            描述
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.DisplayState">
-            <summary>
-            显示状态
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.JobOutput.Interval">
             <summary>
-            时间间隔
+            执行间隔时间（单位秒）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.JobOutput.Cron">
+            <summary>
+            Cron表达式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.JobOutput.TimerType">
+            <summary>
+            定时器类型
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.JobOutput.RunNumber">
+            <summary>
+            执行次数
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.JobOutput.RequestUrl">
             <summary>
-            请求地址
+            请求url
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.JobOutput.RequestParameters">
+            <summary>
+            请求参数（Post，Put请求用）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.JobOutput.Headers">
+            <summary>
+            Headers(可以包含如：Authorization授权认证)
+            格式：{"Authorization":"userpassword.."}
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.JobOutput.RequestType">
             <summary>
             请求类型
             </summary>
+            <example>2</example>
         </member>
-        <member name="P:Dilon.Core.Service.JobOutput.RunNumber">
+        <member name="P:Dilon.Core.Service.JobOutput.Remark">
             <summary>
-            已经执行的次数
+            备注
             </summary>
         </member>
-        <member name="T:Dilon.Core.Service.SchedulerCenter">
+        <member name="P:Dilon.Core.Service.JobOutput.TimerStatus">
             <summary>
-            任务调度中心
+            定时器状态
             </summary>
         </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.StartScheduleAsync">
+        <member name="P:Dilon.Core.Service.JobOutput.Exception">
             <summary>
-            开启调度器
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.StopScheduleAsync">
-            <summary>
-            停止调度器
-            </summary>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.AddScheduleJobAsync(Dilon.Core.Service.JobInput)">
-            <summary>
-            添加一个工作任务
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.StopScheduleJobAsync(Dilon.Core.Service.JobInput)">
-            <summary>
-            暂停任务
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.DeleteScheduleJobAsync(Dilon.Core.Service.DeleteJobInput)">
-            <summary>
-            删除任务
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.ResumeJobAsync(Dilon.Core.Service.JobInput)">
-            <summary>
-            恢复运行暂停的任务
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.QueryJobAsync(Dilon.Core.Service.JobInput)">
-            <summary>
-            查询任务
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.TriggerJobAsync(Dilon.Core.Service.JobInput)">
-            <summary>
-            立即执行
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.GetJobLogsAsync(Dilon.Core.Service.JobInput)">
-            <summary>
-            获取任务日志
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.GetRunNumberAsync(Dilon.Core.Service.JobInput)">
-            <summary>
-            获取任务运行次数
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.GetJobList">
-            <summary>
-            获取所有任务详情
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.InitAllJob">
-            <summary>
-            从数据库里面获取所有任务并初始化
-            </summary>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.CreateSimpleTrigger(Dilon.Core.Service.JobInput)">
-            <summary>
-            创建类型Simple的触发器
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SchedulerCenter.CreateCronTrigger(Dilon.Core.Service.JobInput)">
-            <summary>
-            创建类型Cron的触发器
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Dilon.Core.Service.SchedulerDef">
-            <summary>
-            任务调度相关常量
-            </summary>
-        </member>
-        <member name="F:Dilon.Core.Service.SchedulerDef.REQUESTURL">
-            <summary>
-            请求url RequestUrl
-            </summary>
-        </member>
-        <member name="F:Dilon.Core.Service.SchedulerDef.REQUESTPARAMETERS">
-            <summary>
-            请求参数 RequestParameters
-            </summary>
-        </member>
-        <member name="F:Dilon.Core.Service.SchedulerDef.HEADERS">
-            <summary>
-            Headers（可以包含：Authorization授权认证）
-            </summary>
-        </member>
-        <member name="F:Dilon.Core.Service.SchedulerDef.REQUESTTYPE">
-            <summary>
-            请求类型 RequestType
-            </summary>
-        </member>
-        <member name="F:Dilon.Core.Service.SchedulerDef.LOGLIST">
-            <summary>
-            日志 LogList
-            </summary>
-        </member>
-        <member name="F:Dilon.Core.Service.SchedulerDef.EXCEPTION">
-            <summary>
-            异常 Exception
-            </summary>
-        </member>
-        <member name="F:Dilon.Core.Service.SchedulerDef.RUNNUMBER">
-            <summary>
-            执行次数
-            </summary>
-        </member>
-        <member name="F:Dilon.Core.Service.SchedulerDef.ENDAT">
-            <summary>
-            任务结束时间
-            </summary>
-        </member>
-        <member name="T:Dilon.Core.Service.RequestTypeEnum">
-            <summary>
-            http请求类型
-            </summary>
-        </member>
-        <member name="T:Dilon.Core.Service.TriggerTypeEnum">
-            <summary>
-            触发器类型
+            异常信息
             </summary>
         </member>
         <member name="T:Dilon.Core.Service.SysTimerService">
@@ -6969,28 +6806,28 @@
             任务调度服务
             </summary>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.GetJobPageList(Dilon.Core.Service.JobInput)">
+        <member name="M:Dilon.Core.Service.SysTimerService.GetTimerPageList(Dilon.Core.Service.JobInput)">
             <summary>
             分页获取任务列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.AddJob(Dilon.Core.Service.JobInput)">
+        <member name="M:Dilon.Core.Service.SysTimerService.AddTimer(Dilon.Core.Service.JobInput)">
             <summary>
             增加任务
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.DeleteJob(Dilon.Core.Service.DeleteJobInput)">
+        <member name="M:Dilon.Core.Service.SysTimerService.DeleteTimer(Dilon.Core.Service.DeleteJobInput)">
             <summary>
             删除任务
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.UpdateJob(Dilon.Core.Service.UpdateJobInput)">
+        <member name="M:Dilon.Core.Service.SysTimerService.UpdateTimber(Dilon.Core.Service.UpdateJobInput)">
             <summary>
             修改任务
             </summary>
@@ -7004,19 +6841,25 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.StopScheduleJobAsync(Dilon.Core.Service.JobInput)">
+        <member name="M:Dilon.Core.Service.SysTimerService.StopTimerJob(Dilon.Core.Service.JobInput)">
             <summary>
             停止任务
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.TriggerJobAsync(Dilon.Core.Service.JobInput)">
+        <member name="M:Dilon.Core.Service.SysTimerService.StartTimerJob(Dilon.Core.Service.JobInput)">
             <summary>
             启动任务
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTimerService.AddTimerJob(Dilon.Core.Service.JobInput)">
+            <summary>
+            新增定时任务
+            </summary>
+            <param name="input"></param>
         </member>
         <member name="T:Dilon.Core.Service.AuthToken">
             <summary>

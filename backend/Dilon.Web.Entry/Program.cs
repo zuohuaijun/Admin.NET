@@ -15,8 +15,8 @@ namespace Dilon.Web.Entry
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.Inject()
-                              .UseStartup<Startup>();
-                })
-                .UseSerilogDefault();
+                              .UseStartup<Startup>()
+                              .UseSerilogDefault();
+                });                
     }
 }
