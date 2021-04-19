@@ -88,12 +88,15 @@ namespace Dilon.Core
                 {
                     // (int, int) percentPos = ToPercentPos((width, height), (_x, _y));
                     // 添加正确答案 位置数据
-                    rtnResult.repData.point.Add(new PointPosModel()
+                    if (random.Next(0, 2).Equals(1) || (code_length - i).Equals(rightCodeLength - rtnResult.repData.point.Count))
                     {
-                        X = _x, //percentPos.Item1,
-                        Y = _y  //percentPos.Item2,
-                    });
-                    words.Add(word);
+                        rtnResult.repData.point.Add(new PointPosModel()
+                        {
+                            X = _x, //percentPos.Item1,
+                            Y = _y  //percentPos.Item2,
+                        });
+                        words.Add(word);
+                    }
                 }
                 g.DrawString(word, f, b, _x, _y);
             }
