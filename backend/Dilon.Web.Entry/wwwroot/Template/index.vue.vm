@@ -201,7 +201,7 @@ columnDataColumns++;
             @:align: 'center',
 if(@column.WhetherRetract == "Y" || @column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox"){
             @:dataIndex: '@column.ColumnName',
-            @:scopedSlots: { customRender: '@(@column.ColumnName)scopedSlots' },
+            @:scopedSlots: { customRender: '@(@column.ColumnName)scopedSlots' }},
 }else{
             @:dataIndex: '@column.ColumnName'
 if(columnDataColumns != columnData){
