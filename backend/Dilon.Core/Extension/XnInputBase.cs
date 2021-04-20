@@ -66,6 +66,6 @@ namespace Dilon.Core
         /// <summary>
         /// 降序排序(不要问我为什么是descend不是desc，前端约定参数就是这样)
         /// </summary>
-        public string DescStr = "descend";
+        public virtual string DescStr { get; set; } = "descend";
     }
 }

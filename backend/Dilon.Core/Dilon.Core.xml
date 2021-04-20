@@ -2772,6 +2772,19 @@
             <param name="assembly"></param>
             <returns></returns>
         </member>
+        <member name="T:Dilon.Core.PageInputOrder">
+            <summary>
+            通用输入帮助类
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.PageInputOrder.OrderBuilder(Dilon.Core.PageInputBase,System.Boolean)">
+            <summary>
+            排序方式(默认降序)
+            </summary>
+            <param name="pageInput"></param>
+            <param name="descSort">是否降序</param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.XnInputBase">
             <summary>
             通用输入扩展参数（带权限）
@@ -2820,6 +2833,21 @@
         <member name="P:Dilon.Core.PageInputBase.SearchEndTime">
             <summary>
             搜索结束时间
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.PageInputBase.SortField">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.PageInputBase.SortOrder">
+            <summary>
+            排序方法,默认升序,否则降序(配合antd前端,约定参数为 Ascend,Dscend)
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.PageInputBase.DescStr">
+            <summary>
+            降序排序(不要问我为什么是descend不是desc，前端约定参数就是这样)
             </summary>
         </member>
         <member name="T:Dilon.Core.XnPageResult`1">

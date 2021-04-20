@@ -41,7 +41,7 @@ namespace Dilon.Core.Service
                 .Where(success, u => u.Success == input.Success)
                 .Where(searchBeginTime, u => u.OpTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
                                              u.OpTime <= DateTime.Parse(input.SearchEndTime.Trim()))
-                .OrderBy(PageInputHelp.OrderBuilder(input))//封装了任意字段排序示例
+                .OrderBy(PageInputOrder.OrderBuilder(input)) // 封装了任意字段排序示例
                 .Select(u => u.Adapt<OpLogOutput>())
                 .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<OpLogOutput>.PageResult(opLogs);

@@ -157,7 +157,6 @@
         this.dictDataAll = dictOption.filters['dictDataAll']()
         this.yesOrNoData = dictOption.filters['dictData']('yes_or_no')
         this.codeGenQueryTypeData = dictOption.filters['dictData']('code_gen_query_type')
-        console.log(this.codeGenQueryTypeData)
         const params = {
           codeGenId: data.id
         }
