@@ -26,3 +26,5 @@ bin-release/
 /backend/Dilon.Web.Entry/Dilon.Web.Entry.csproj.user
 /.vs
 /.idea
+/frontend/.vs/slnx.sqlite
+/frontend/.vs/frontend/config/applicationhost.config
