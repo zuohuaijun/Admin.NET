@@ -35,7 +35,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 执行次数
         /// </summary>
-        public int? RunNumber { get; set; }
+        public long? RunNumber { get; set; }
 
         /// <summary>
         /// 请求url

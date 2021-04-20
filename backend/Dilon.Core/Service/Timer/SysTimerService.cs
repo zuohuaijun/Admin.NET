@@ -50,7 +50,7 @@ namespace Dilon.Core.Service
                 if (timer != null)
                 {
                     u.TimerStatus = timer.Status;
-                    //u.RunNumber = timer.Tally;
+                    u.RunNumber = timer.Tally;
                     u.Exception = ""; // JSON.Serialize(timer.Exception);
                 }
             });
