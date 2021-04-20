@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -40,7 +41,7 @@ namespace Dilon.Core.Service
                 .Where(success, u => u.Success == input.Success)
                 .Where(searchBeginTime, u => u.OpTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
                                              u.OpTime <= DateTime.Parse(input.SearchEndTime.Trim()))
-                .OrderByDescending(u => u.Id)
+                .OrderBy(PageInputHelp.OrderBuilder(input))//封装了任意字段排序示例
                 .Select(u => u.Adapt<OpLogOutput>())
                 .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<OpLogOutput>.PageResult(opLogs);
