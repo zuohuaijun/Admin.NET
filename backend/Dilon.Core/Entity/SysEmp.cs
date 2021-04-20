@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -19,6 +20,7 @@ namespace Dilon.Core
         /// 工号
         /// </summary>
         [Comment("工号")]
+        [MaxLength(30)]
         public string JobNum { get; set; }
 
         /// <summary>
@@ -31,6 +33,7 @@ namespace Dilon.Core
         /// 机构名称
         /// </summary>
         [Comment("机构名称")]
+        [MaxLength(50)]
         public string OrgName { get; set; }
 
         /// <summary>

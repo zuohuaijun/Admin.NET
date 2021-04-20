@@ -27,7 +27,7 @@ namespace Dilon.Core
         /// 密码（采用MD5加密）
         /// </summary>
         [Comment("密码")]
-        [Required]
+        [Required, MaxLength(20)]
         public string Password { get; set; }
 
         /// <summary>
@@ -66,28 +66,28 @@ namespace Dilon.Core
         /// 邮箱
         /// </summary>
         [Comment("邮箱")]
-        [MaxLength(30)]
+        [MaxLength(20)]
         public string Email { get; set; }
 
         /// <summary>
         /// 手机
         /// </summary>
         [Comment("手机")]
-        [MaxLength(30)]
+        [MaxLength(20)]
         public string Phone { get; set; }
 
         /// <summary>
         /// 电话
         /// </summary>
         [Comment("电话")]
-        [MaxLength(30)]
+        [MaxLength(20)]
         public string Tel { get; set; }
 
         /// <summary>
         /// 最后登录IP
         /// </summary>
         [Comment("最后登录IP")]
-        [MaxLength(30)]
+        [MaxLength(20)]
         public string LastLoginIp { get; set; }
 
         /// <summary>

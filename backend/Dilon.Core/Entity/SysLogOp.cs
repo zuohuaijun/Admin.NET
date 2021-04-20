@@ -1,6 +1,7 @@
 ﻿using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -16,6 +17,7 @@ namespace Dilon.Core
         /// 名称
         /// </summary>
         [Comment("名称")]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         /// <summary>
@@ -34,48 +36,56 @@ namespace Dilon.Core
         /// IP
         /// </summary>
         [Comment("IP")]
+        [MaxLength(20)]
         public string Ip { get; set; }
 
         /// <summary>
         /// 地址
         /// </summary>
         [Comment("地址")]
+        [MaxLength(100)]
         public string Location { get; set; }
 
         /// <summary>
         /// 浏览器
         /// </summary>
         [Comment("浏览器")]
+        [MaxLength(100)]
         public string Browser { get; set; }
 
         /// <summary>
         /// 操作系统
         /// </summary>
         [Comment("操作系统")]
+        [MaxLength(100)]
         public string Os { get; set; }
 
         /// <summary>
         /// 请求地址
         /// </summary>
         [Comment("请求地址")]
+        [MaxLength(100)]
         public string Url { get; set; }
 
         /// <summary>
         /// 类名称
         /// </summary>
         [Comment("类名称")]
+        [MaxLength(100)]
         public string ClassName { get; set; }
 
         /// <summary>
         /// 方法名称
         /// </summary>
         [Comment("方法名称")]
+        [MaxLength(100)]
         public string MethodName { get; set; }
 
         /// <summary>
         /// 请求方式（GET POST PUT DELETE)
         /// </summary>
         [Comment("请求方式")]
+        [MaxLength(10)]
         public string ReqMethod { get; set; }
 
         /// <summary>
@@ -106,6 +116,7 @@ namespace Dilon.Core
         /// 操作人
         /// </summary>
         [Comment("操作人")]
+        [MaxLength(20)]
         public string Account { get; set; }
     }
 }

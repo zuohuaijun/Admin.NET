@@ -1,6 +1,6 @@
-﻿using Dilon.Core.Service;
-using Furion.TaskScheduler;
+﻿using Furion.TaskScheduler;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -17,6 +17,7 @@ namespace Dilon.Core
         /// </summary>
         /// <example>dilon</example>
         [Comment("任务名称")]
+        [Required, MaxLength(20)]
         public string JobName { get; set; }
 
         /// <summary>
@@ -31,6 +32,7 @@ namespace Dilon.Core
         /// </summary>
         /// <example></example>
         [Comment("Cron表达式")]
+        [MaxLength(20)]
         public string Cron { get; set; }
 
         /// <summary>
@@ -49,6 +51,7 @@ namespace Dilon.Core
         /// 请求url
         /// </summary>
         [Comment("请求url")]
+        [MaxLength(200)]
         public string RequestUrl { get; set; }
 
         /// <summary>
@@ -75,6 +78,7 @@ namespace Dilon.Core
         /// 备注
         /// </summary>
         [Comment("备注")]
+        [MaxLength(100)]
         public string Remark { get; set; }
     }
 }

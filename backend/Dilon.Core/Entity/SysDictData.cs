@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -20,12 +21,14 @@ namespace Dilon.Core
         /// 值
         /// </summary>
         [Comment("值")]
+        [MaxLength(100)]
         public string Value { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
         [Comment("编码")]
+        [MaxLength(50)]
         public string Code { get; set; }
 
         /// <summary>
@@ -38,6 +41,7 @@ namespace Dilon.Core
         /// 备注
         /// </summary>
         [Comment("备注")]
+        [MaxLength(100)]
         public string Remark { get; set; }
 
         /// <summary>

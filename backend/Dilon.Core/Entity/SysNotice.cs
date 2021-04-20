@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -15,12 +16,14 @@ namespace Dilon.Core
         /// 标题
         /// </summary>
         [Comment("标题")]
+        [Required, MaxLength(20)]
         public string Title { get; set; }
 
         /// <summary>
         /// 内容
         /// </summary>
         [Comment("内容")]
+        [Required]
         public string Content { get; set; }
 
         /// <summary>
@@ -39,6 +42,7 @@ namespace Dilon.Core
         /// 发布人姓名
         /// </summary>
         [Comment("发布人姓名")]
+        [MaxLength(20)]
         public string PublicUserName { get; set; }
 
         /// <summary>
@@ -51,6 +55,7 @@ namespace Dilon.Core
         /// 发布机构名称
         /// </summary>
         [Comment("发布机构名称")]
+        [MaxLength(50)]
         public string PublicOrgName { get; set; }
 
         /// <summary>

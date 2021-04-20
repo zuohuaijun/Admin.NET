@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -19,12 +20,14 @@ namespace Dilon.Core
         /// 名称
         /// </summary>
         [Comment("名称")]
+        [Required, MaxLength(20)]
         public string Name { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
         [Comment("编码")]
+        [Required, MaxLength(50)]
         public string Code { get; set; }
 
         /// <summary>
@@ -43,6 +46,7 @@ namespace Dilon.Core
         /// 备注
         /// </summary>
         [Comment("备注")]
+        [MaxLength(100)]
         public string Remark { get; set; }
 
         /// <summary>

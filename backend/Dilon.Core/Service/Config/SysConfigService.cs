@@ -175,7 +175,7 @@ namespace Dilon.Core.Service
             var interval = await GetConfigCache("DILON_LOG_WRITE_INTERVAL") ?? 5000;
 
             // 获取数量
-            var quantity = await GetConfigCache("DILON_NUMBER_OF_SINGLE_LOG_WRITES") ?? 100;
+            var quantity = await GetConfigCache("DILON_NUMBER_OF_SINGLE_LOG_WRITES") ?? 20;
 
             return (int.Parse(interval), int.Parse(quantity));
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -27,12 +28,14 @@ namespace Dilon.Core
         /// 名称
         /// </summary>
         [Comment("名称")]
+        [Required, MaxLength(20)]
         public string Name { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
         [Comment("编码")]
+        [Required, MaxLength(50)]
         public string Code { get; set; }
 
         /// <summary>
@@ -45,30 +48,35 @@ namespace Dilon.Core
         /// 图标
         /// </summary>
         [Comment("图标")]
+        [MaxLength(20)]
         public string Icon { get; set; }
 
         /// <summary>
         /// 路由地址
         /// </summary>
         [Comment("路由地址")]
+        [MaxLength(100)]
         public string Router { get; set; }
 
         /// <summary>
         /// 组件地址
         /// </summary>
         [Comment("组件地址")]
+        [MaxLength(100)]
         public string Component { get; set; }
 
         /// <summary>
         /// 权限标识
         /// </summary>
         [Comment("权限标识")]
+        [MaxLength(100)]
         public string Permission { get; set; }
 
         /// <summary>
         /// 应用分类（应用编码）
         /// </summary>
         [Comment("应用分类")]
+        [MaxLength(50)]
         public string Application { get; set; }
 
         /// <summary>
@@ -81,18 +89,21 @@ namespace Dilon.Core
         /// 是否可见（Y-是，N-否）
         /// </summary>
         [Comment("是否可见")]
+        [MaxLength(5)]
         public string Visible { get; set; } = "Y";
 
         /// <summary>
         /// 内链地址
         /// </summary>
         [Comment("内链地址")]
+        [MaxLength(100)]
         public string Link { get; set; }
 
         /// <summary>
         /// 重定向地址
         /// </summary>
         [Comment("重定向地址")]
+        [MaxLength(100)]
         public string Redirect { get; set; }
 
         /// <summary>
@@ -111,6 +122,7 @@ namespace Dilon.Core
         /// 备注
         /// </summary>
         [Comment("备注")]
+        [MaxLength(100)]
         public string Remark { get; set; }
 
         /// <summary>

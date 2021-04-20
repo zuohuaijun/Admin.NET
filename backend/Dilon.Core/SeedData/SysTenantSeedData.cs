@@ -18,6 +18,7 @@ namespace Dilon.Core
                 {
                     Id = 142307070918780,
                     Name = "平台开发域",
+                    AdminName = "SuperAdmin",
                     Host = "",
                     CreatedTime = DateTime.Parse("2021-04-03 00:00:00"),
                     Connection = "",
@@ -28,6 +29,7 @@ namespace Dilon.Core
                 {
                     Id = 142307070918781,
                     Name = "公司1租户",
+                    AdminName = "Admin1",
                     Host = "",
                     CreatedTime = DateTime.Parse("2021-04-03 00:00:00"),
                     Connection = ""
@@ -36,6 +38,7 @@ namespace Dilon.Core
                 {
                     Id = 142307070918782,
                     Name = "公司2租户",
+                    AdminName = "Admin2",
                     Host = "",
                     CreatedTime = DateTime.Parse("2021-04-03 00:00:00"),
                     Connection = ""
