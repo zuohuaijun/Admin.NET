@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Furion.TaskScheduler;
 using UAParser;
 
 namespace Dilon.Core.Service
@@ -36,7 +37,7 @@ namespace Dilon.Core.Service
         private readonly IClickWordCaptcha _captchaHandle;// 验证码服务
         private readonly ISysConfigService _sysConfigService; // 验证码服务
 
-        private readonly IConcurrentQueue<SysLogVis> _logVisQueue; // 登录日志队列
+        private readonly SimpleQueue<SysLogVis> _logVisQueue; // 登录日志队列
 
         public AuthService(IRepository<SysUser> sysUserRep,
                            IHttpContextAccessor httpContextAccessor,
@@ -48,7 +49,7 @@ namespace Dilon.Core.Service
                            ISysAppService sysAppService,
                            IClickWordCaptcha captchaHandle,
                            ISysConfigService sysConfigService,
-                           IConcurrentQueue<SysLogVis> logVisQueue)
+                           SimpleQueue<SysLogVis> logVisQueue)
         {
             _sysUserRep = sysUserRep;
             _httpContextAccessor = httpContextAccessor;
@@ -154,18 +155,22 @@ namespace Dilon.Core.Service
                 loginOutput.Menus = await _sysMenuService.GetLoginMenusAntDesign(userId, defaultActiveAppCode);
             }
 
-            // 增加登录日志
-            _logVisQueue.Add(new SysLogVis
+            // 丢给后台任务，直接返回
+            SpareTime.DoIt(() =>
             {
-                Name = loginOutput.Name,
-                Success = YesOrNot.Y,
-                Message = "登录成功",
-                Ip = loginOutput.LastLoginIp,
-                Browser = loginOutput.LastLoginBrowser,
-                Os = loginOutput.LastLoginOs,
-                VisType = LoginType.LOGIN,
-                VisTime = loginOutput.LastLoginTime,
-                Account = loginOutput.Account
+                // 增加登录日志
+                _logVisQueue.Add(new SysLogVis
+                {
+                    Name = loginOutput.Name,
+                    Success = YesOrNot.Y,
+                    Message = "登录成功",
+                    Ip = loginOutput.LastLoginIp,
+                    Browser = loginOutput.LastLoginBrowser,
+                    Os = loginOutput.LastLoginOs,
+                    VisType = LoginType.LOGIN,
+                    VisTime = loginOutput.LastLoginTime,
+                    Account = loginOutput.Account
+                });
             });
 
             return loginOutput;
@@ -182,15 +187,18 @@ namespace Dilon.Core.Service
             _httpContextAccessor.SignoutToSwagger();
             //_httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid token";
 
-            // 增加退出日志
-            _logVisQueue.Add(new SysLogVis
+            SpareTime.DoIt(() =>
             {
-                Name = user.Name,
-                Success = YesOrNot.Y,
-                Message = "退出成功",
-                VisType = LoginType.LOGOUT,
-                VisTime = DateTimeOffset.Now,
-                Account = user.Account
+                // 增加退出日志
+                _logVisQueue.Add(new SysLogVis
+                {
+                    Name = user.Name,
+                    Success = YesOrNot.Y,
+                    Message = "退出成功",
+                    VisType = LoginType.LOGOUT,
+                    VisTime = DateTimeOffset.Now,
+                    Account = user.Account
+                });
             });
 
             await Task.CompletedTask;
