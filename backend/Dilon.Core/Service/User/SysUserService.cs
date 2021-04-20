@@ -4,7 +4,9 @@ using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
+using Furion.Snowflake;
 using Mapster;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniExcelLibs;
@@ -339,6 +341,30 @@ namespace Dilon.Core.Service
             {
                 FileDownloadName = "user.xlsx"
             });
+        }
+
+        /// <summary>
+        /// 用户导入
+        /// </summary>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        [HttpPost("/sysUser/import")]
+        public async Task ImportUser(IFormFile file)
+        {
+            var path = Path.Combine(Path.GetTempPath(), $"{IDGenerator.NextId()}.xlsx");
+            using (var stream = File.Create(path))
+            {
+                await file.CopyToAsync(stream);
+            }
+
+            var rows = MiniExcel.Query(path); // 解析
+            foreach (var row in rows)
+            {
+                var a = row.A;
+                var b = row.B;
+                // 入库等操作
+
+            }
         }
 
         /// <summary>
