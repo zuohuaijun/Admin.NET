@@ -6861,6 +6861,13 @@
             </summary>
             <param name="input"></param>
         </member>
+        <member name="M:Dilon.Core.Service.SysTimerService.InitTimerJob(Dilon.Core.Service.JobInput)">
+            <summary>
+            初始化定时任务
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.Service.AuthToken">
             <summary>
             AuthToken参数

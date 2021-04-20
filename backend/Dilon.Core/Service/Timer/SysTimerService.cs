@@ -50,6 +50,7 @@ namespace Dilon.Core.Service
                 if (timer != null)
                 {
                     u.TimerStatus = timer.Status;
+                    //u.RunNumber = timer.Tally;
                     u.Exception = ""; // JSON.Serialize(timer.Exception);
                 }
             });
@@ -160,34 +161,50 @@ namespace Dilon.Core.Service
         [NonAction]
         public void AddTimerJob(JobInput input)
         {
-            var timerType = input.TimerType == SpareTimeTypes.Interval ? (input.Interval * 1000).ToString() : input.Cron;
-            SpareTime.Do(timerType, async (timer, count) =>
+            if (input.TimerType == SpareTimeTypes.Interval)
             {
-                //if (timer.Exception.Any())
-                //    throw Oops.Oh(timer.Exception.Values.LastOrDefault()?.Message);
-
-                var requestUrl = input.RequestUrl.Trim();
-                requestUrl = requestUrl?.IndexOf("http") == 0 ? requestUrl : "http://" + requestUrl;
-                var requestParameters = input.RequestParameters;
-                var headersString = input.Headers;
-                var headers = string.IsNullOrEmpty(headersString) ? null : JSON.Deserialize<Dictionary<string, string>>(headersString);
-                var requestType = input.RequestType;
-                switch (requestType)
+                SpareTime.Do(input.Interval * 1000, async (timer, count) =>
                 {
-                    case RequestTypeEnum.Get:
-                        await requestUrl.SetHeaders(headers).GetAsync();
-                        break;
-                    case RequestTypeEnum.Post:
-                        await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PostAsync();
-                        break;
-                    case RequestTypeEnum.Put:
-                        await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PutAsync();
-                        break;
-                    case RequestTypeEnum.Delete:
-                        await requestUrl.SetHeaders(headers).DeleteAsync();
-                        break;
-                }
-            }, input.JobName, input.Remark, startNow: true);
+                    await InitTimerJob(input);
+                }, input.JobName, input.Remark, startNow: true);
+            }
+            else if (!string.IsNullOrEmpty(input.Cron))
+            {
+                SpareTime.Do(input.Cron, async (timer, count) =>
+                {
+                    await InitTimerJob(input);
+                }, input.JobName, input.Remark, startNow: true);
+            }
+        }
+
+        /// <summary>
+        /// 初始化定时任务
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        private async Task InitTimerJob(JobInput input)
+        {
+            var requestUrl = input.RequestUrl.Trim();
+            requestUrl = requestUrl?.IndexOf("http") == 0 ? requestUrl : "http://" + requestUrl;
+            var requestParameters = input.RequestParameters;
+            var headersString = input.Headers;
+            var headers = string.IsNullOrEmpty(headersString) ? null : JSON.Deserialize<Dictionary<string, string>>(headersString);
+            var requestType = input.RequestType;
+            switch (requestType)
+            {
+                case RequestTypeEnum.Get:
+                    await requestUrl.SetHeaders(headers).GetAsync();
+                    break;
+                case RequestTypeEnum.Post:
+                    await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PostAsync();
+                    break;
+                case RequestTypeEnum.Put:
+                    await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PutAsync();
+                    break;
+                case RequestTypeEnum.Delete:
+                    await requestUrl.SetHeaders(headers).DeleteAsync();
+                    break;
+            }
         }
     }
 }
