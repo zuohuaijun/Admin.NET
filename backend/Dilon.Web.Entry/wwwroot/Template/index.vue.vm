@@ -201,14 +201,14 @@ columnDataColumns++;
             @:align: 'center',
 if(@column.WhetherRetract == "Y" || @column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox"){
             @:dataIndex: '@column.ColumnName',
-            @:scopedSlots: { customRender: '@(@column.ColumnName)scopedSlots' }},
+            @:scopedSlots: { customRender: '@(@column.ColumnName)scopedSlots' }
 }else{
             @:dataIndex: '@column.ColumnName'
+}
 if(columnDataColumns != columnData){
           @:},
 }else{
           @:}
-}
 }
 }
 }
@@ -227,8 +227,8 @@ if(columnDataColumns != columnData){
 @foreach (var column in Model.TableField){
 if(@column.QueryWhether == "Y"){
 if(@column.EffectType == "select" || @column.EffectType == "radio"){
-if(@column.DictTypeCode)
-        @:@(@column.ClassName)Data: [],
+if(@column.DictTypeCode != "")
+@:        @(@column.ColumnName)Data: [],
 }
 }
 }
@@ -248,9 +248,9 @@ if(@column.DictTypeCode)
 @foreach (var column in Model.TableField){
 if(@column.QueryWhether == "Y"){
 if(@column.EffectType == "select" || @column.EffectType == "radio"){
-if(@column.DictTypeCode){
-      <text>const @(@column.ClassName)Option = this.$options
-      this.@(@column.ClassName)Data = @(@column.ClassName)Option.filters['dictData']('@column.DictTypeCode')</text>
+if(@column.DictTypeCode != ""){
+      @:const @(@column.ColumnName)Option = this.$options
+      @:this.@(@column.ColumnName)Data = @(@column.ColumnName)Option.filters['dictData']('@column.DictTypeCode')
 }
 }
 }
