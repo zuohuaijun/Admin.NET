@@ -160,5 +160,7 @@
 - 👉 xiaonuo：[https://gitee.com/xiaonuobase/snowy](https://gitee.com/xiaonuobase/snowy)
 - 👉 k-form-design：[https://gitee.com/kcz66/k-form-design](https://gitee.com/kcz66/k-form-design)
 - 👉 MiniExcel：[https://gitee.com/dotnetchina/MiniExcel](https://gitee.com/dotnetchina/MiniExcel)
+- 👉 SqlSugar：[https://gitee.com/dotnetchina/SqlSugar](https://gitee.com/dotnetchina/SqlSugar)
 
-如果对您有帮助，您可以点 "Star" 支持一下，这样才有持续下去的动力，谢谢！
+
+如果对您有帮助，您可以点 "Star" 支持一下，这样才有持续下去的动力，谢谢！！！
