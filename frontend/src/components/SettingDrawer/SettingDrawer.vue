@@ -7,7 +7,7 @@
       :closable="false"
       :visible="visible"
       :drawer-style="{ position: 'absolute' }"
-      style="position: absolute"
+      style="z-index: 999"
     >
       <div class="setting-drawer-index-content">
 
