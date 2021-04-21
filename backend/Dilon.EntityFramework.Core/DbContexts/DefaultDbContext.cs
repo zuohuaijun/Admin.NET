@@ -1,4 +1,4 @@
-﻿using Dilon.Core;
+using Dilon.Core;
 using Dilon.Core.Entity;
 using Dilon.Core.Service;
 using Furion;
@@ -45,7 +45,7 @@ namespace Dilon.EntityFramework.Core
         /// <param name="dbContextLocator"></param>
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            if (entityBuilder.Metadata.ClrType.BaseType == typeof(DBEntityTenant).BaseType)
+            if (entityBuilder.Metadata.ClrType.BaseType.Name == typeof(DBEntityTenant).Name)
                 entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
         }
 
