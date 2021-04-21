@@ -1628,7 +1628,7 @@
         </member>
         <member name="P:Dilon.Core.SysUser.Password">
             <summary>
-            密码（采用MD5加密）
+            密码（默认MD5加密）
             </summary>
         </member>
         <member name="P:Dilon.Core.SysUser.NickName">

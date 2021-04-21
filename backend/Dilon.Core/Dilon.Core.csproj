@@ -24,10 +24,10 @@
 
   <ItemGroup>
     <PackageReference Include="CSRedisCore" Version="3.6.6" />
-    <PackageReference Include="Furion" Version="2.0.7" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.0.7" />
-    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.0.7" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.0.7" />
+    <PackageReference Include="Furion" Version="2.0.10" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.0.10" />
+    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.0.10" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.0.10" />
     <PackageReference Include="MiniExcel" Version="0.13.2" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />
