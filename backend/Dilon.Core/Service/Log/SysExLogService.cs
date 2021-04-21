@@ -58,10 +58,7 @@ namespace Dilon.Core.Service
         public async Task ClearExLog()
         {
             var opLogs = await _sysExLogRep.Entities.ToListAsync();
-            opLogs.ForEach(u =>
-            {
-                u.Delete();
-            });
+            opLogs.ForEach(u => { u.Delete(); });
         }
     }
 }

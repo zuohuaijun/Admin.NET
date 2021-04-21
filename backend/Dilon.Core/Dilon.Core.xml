@@ -645,6 +645,11 @@
             员工表
             </summary>
         </member>
+        <member name="P:Dilon.Core.SysEmp.Id">
+            <summary>
+            用户Id
+            </summary>
+        </member>
         <member name="P:Dilon.Core.SysEmp.JobNum">
             <summary>
             工号
@@ -1486,11 +1491,6 @@
             角色菜单表
             </summary>
         </member>
-        <member name="P:Dilon.Core.SysRoleMenu.TenantId">
-            <summary>
-            租户id
-            </summary>
-        </member>
         <member name="P:Dilon.Core.SysRoleMenu.SysRoleId">
             <summary>
             角色Id
@@ -1779,9 +1779,14 @@
             超级管理员
             </summary>
         </member>
+        <member name="F:Dilon.Core.AdminType.Admin">
+            <summary>
+            管理员
+            </summary>
+        </member>
         <member name="F:Dilon.Core.AdminType.None">
             <summary>
-            非管理员
+            普通账号
             </summary>
         </member>
         <member name="T:Dilon.Core.CommonStatus">

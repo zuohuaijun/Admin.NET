@@ -82,7 +82,7 @@ namespace Dilon.Core.Service
             long tenantId = newTenant.Id;
             string email = newTenant.Email;
             string companyName = newTenant.Name;
-            // 初始化公司
+            // 初始化公司（组织结构）
             SysOrg sysOrg = new()
             {
                 TenantId = tenantId,
@@ -93,7 +93,7 @@ namespace Dilon.Core.Service
                 Contacts = newTenant.AdminName,
                 Tel = newTenant.Phone
             };
-            var newOrg = _sysOrgService.InsertNow(sysOrg);
+            var newOrg = await _sysOrgService.InsertNowAsync(sysOrg);
 
             // 初始化角色
             SysRole sysRole = new()
@@ -103,7 +103,7 @@ namespace Dilon.Core.Service
                 Name = "系统管理员",
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
             };
-            var newRole = _sysRoleService.InsertNow(sysRole);
+            var newRole = await _sysRoleService.InsertNowAsync(sysRole);
 
             // 初始化用户
             SysUser sysUser = new()
@@ -119,7 +119,7 @@ namespace Dilon.Core.Service
                 SysRoles = new List<SysRole>() { newRole.Entity },
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
             };
-            var newUser = _sysUserService.InsertNow(sysUser);
+            var newUser = await _sysUserService.InsertNowAsync(sysUser);
 
             // 初始化职工
             SysEmp sysEmp = new()
@@ -127,69 +127,9 @@ namespace Dilon.Core.Service
                 Id = newUser.Entity.Id,
                 JobNum = "1",
                 OrgId = newOrg.Entity.Id,
-                OrgName = newOrg.Entity.Name,
-                TenantId = tenantId
+                OrgName = newOrg.Entity.Name
             };
-            _sysEmpService.InsertNow(sysEmp);
-
-            // 初始化角色权限——此处应该根据启用的App应用初始化
-            GrantRoleMenuInput roleMenuInput = new()
-            {
-                Id = newRole.Entity.Id,
-                // 应根据用户购买的应用菜单进行查询
-                GrantMenuIdList = new List<long>() {
-                    142000000010563,
-                    142000000010581,
-                    142000000010582,
-                    142000000010583,
-                    142000000010584,
-                    142000000010585,
-                    142000000010586,
-                    142000000010587,
-                    142000000010588,
-                    142000000010589,
-                    142000000010590,
-                    142000000010591,
-                    142000000014629,
-                    142000000014630,
-                    142000000014631,
-                    142000000014632,
-                    142000000110564,
-                    142000000110565,
-                    142000000110566,
-                    142000000110567,
-                    142000000110568,
-                    142000000110569,
-                    142000000110570,
-                    142000000110571,
-                    142000000110572,
-                    142000000110573,
-                    142000000110574,
-                    142000000110575,
-                    142000000110576,
-                    142000000110577,
-                    142000000110578,
-                    142000000110579,
-                    142000000110580,
-                    142307000914633,
-                    142307000914651,
-                    142307000914652,
-                    142307000914653,
-                    142307000914654,
-                    142307000914655,
-                    142307000914656,
-                    142307000914657,
-                    142307000914658,
-                    142307000914659,
-                    142307000914660,
-                    142307000914661,
-                    142307000915661,
-                    142307070910660,
-                    142307070910661,
-                    142307070910662
-                }
-            };
-            await _sysRoleMenuService.GrantMenu(roleMenuInput);
+            await _sysEmpService.InsertNowAsync(sysEmp);
         }
 
         /// <summary>

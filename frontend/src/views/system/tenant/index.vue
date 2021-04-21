@@ -36,14 +36,29 @@
         </span>
         <span slot="action" slot-scope="text, record">
           <a v-if="hasPerm('sysTenant:edit')" @click="$refs.editForm.edit(record)">编辑</a>
-          <a-divider type="vertical" v-if="hasPerm('sysTenant:edit') & hasPerm('sysTenant:delete')" />
-          <a-popconfirm
-            v-if="hasPerm('sysTenant:delete')"
-            placement="topRight"
-            title="确认删除？"
-            @confirm="() => sysTenantDelete(record)">
-            <a>删除</a>
-          </a-popconfirm>
+          <a-divider type="vertical" v-if="hasPerm('sysTenant:edit')" />
+          <a-dropdown
+            v-if="hasPerm('sysTenant:grantMenu') || hasPerm('sysTenant:delete')">
+            <a class="ant-dropdown-link">
+              更多
+              <a-icon type="down" />
+            </a>
+            <a-menu slot="overlay">
+              <a-menu-item v-if="hasPerm('sysTenant:grantMenu')">
+                <a @click="$refs.userRoleForm.userRole(record)">授权菜单</a>
+              </a-menu-item>
+              <a-menu-item v-if="hasPerm('sysTenant:resetPwd')">
+                <a-popconfirm placement="topRight" title="确认重置密码？" @confirm="() => resetPwd(record)">
+                  <a>重置密码</a>
+                </a-popconfirm>
+              </a-menu-item>
+              <a-menu-item v-if="hasPerm('sysTenant:delete')">
+                <a-popconfirm placement="topRight" title="确认删除？" @confirm="() => sysTenantDelete(record)">
+                  <a>删除</a>
+                </a-popconfirm>
+              </a-menu-item>
+            </a-menu>
+          </a-dropdown>
         </span>
       </s-table>
       <add-form ref="addForm" @ok="handleOk" />
@@ -82,12 +97,12 @@
             dataIndex: 'name'
           },
           {
-            title: '管理员姓名',
-            dataIndex: 'adminName'
+            title: '账号(邮箱)',
+            dataIndex: 'email'
           },
           {
-            title: '邮箱(账号)',
-            dataIndex: 'email'
+            title: '姓名',
+            dataIndex: 'adminName'
           },
           {
             title: '电话',

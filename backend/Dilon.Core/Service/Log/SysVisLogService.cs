@@ -36,14 +36,14 @@ namespace Dilon.Core.Service
             var success = !string.IsNullOrEmpty(input.Success.ToString());
             var searchBeginTime = !string.IsNullOrEmpty(input.SearchBeginTime?.Trim());
             var visLogs = await _sysVisLogRep.DetachedEntities
-                .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
-                .Where(input.VisType > 0, u => u.VisType == input.VisType)
-                .Where(success, u => u.Success == input.Success)
-                .Where(searchBeginTime, u => u.VisTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
-                                             u.VisTime <= DateTime.Parse(input.SearchEndTime.Trim()))
-                .OrderByDescending(u => u.Id)
-                .Select(u => u.Adapt<VisLogOutput>())
-                .ToPagedListAsync(input.PageNo, input.PageSize);
+                                             .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
+                                             .Where(input.VisType > 0, u => u.VisType == input.VisType)
+                                             .Where(success, u => u.Success == input.Success)
+                                             .Where(searchBeginTime, u => u.VisTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
+                                                                     u.VisTime <= DateTime.Parse(input.SearchEndTime.Trim()))
+                                             .OrderByDescending(u => u.Id)
+                                             .Select(u => u.Adapt<VisLogOutput>())
+                                             .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<VisLogOutput>.PageResult(visLogs);
         }
 
@@ -55,10 +55,7 @@ namespace Dilon.Core.Service
         public async Task ClearVisLog()
         {
             var visLogs = await _sysVisLogRep.Entities.ToListAsync();
-            visLogs.ForEach(u =>
-            {
-                u.Delete();
-            });
+            visLogs.ForEach(u => { u.Delete(); });
         }
     }
 }
