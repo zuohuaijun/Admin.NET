@@ -1,4 +1,5 @@
 ﻿using Furion;
+using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -14,16 +15,13 @@ namespace Dilon.Core
     /// </summary>
     public class LogExceptionHandler : IGlobalExceptionHandler, ISingleton
     {
-        public Task OnExceptionAsync(ExceptionContext context)
+        public async Task OnExceptionAsync(ExceptionContext context)
         {
-            // 取异常日志服务
-            var _logExQueue = App.GetService<IConcurrentQueue<SysLogEx>>();
-
             // 取用户上下文
             var userContext = App.User;
 
-            // 写入简单队列
-            _logExQueue.Add(new SysLogEx
+            // 异常日志入库
+            await new SysLogEx
             {
                 Account = userContext?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT),
                 Name = userContext?.FindFirstValue(ClaimConst.CLAINM_NAME),
@@ -35,12 +33,10 @@ namespace Dilon.Core
                 StackTrace = context.Exception.StackTrace,
                 ParamsObj = context.Exception.TargetSite.GetParameters().ToString(),
                 ExceptionTime = DateTimeOffset.Now
-            });
+            }.InsertAsync();
 
-            // 写日志
+            // 异常日志写文件
             Log.Error(context.Exception.ToString());
-
-            return Task.CompletedTask;
         }
     }
 }

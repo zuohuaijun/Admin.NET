@@ -1,5 +1,6 @@
 ﻿using Furion;
 using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -36,8 +37,6 @@ namespace Dilon.Core.Service
         private readonly IClickWordCaptcha _captchaHandle;// 验证码服务
         private readonly ISysConfigService _sysConfigService; // 验证码服务
 
-        private readonly IConcurrentQueue<SysLogVis> _logVisQueue; // 登录日志队列
-
         public AuthService(IRepository<SysUser> sysUserRep,
                            IHttpContextAccessor httpContextAccessor,
                            IUserManager userManager,
@@ -47,8 +46,7 @@ namespace Dilon.Core.Service
                            ISysMenuService sysMenuService,
                            ISysAppService sysAppService,
                            IClickWordCaptcha captchaHandle,
-                           ISysConfigService sysConfigService,
-                           IConcurrentQueue<SysLogVis> logVisQueue)
+                           ISysConfigService sysConfigService)
         {
             _sysUserRep = sysUserRep;
             _httpContextAccessor = httpContextAccessor;
@@ -60,7 +58,6 @@ namespace Dilon.Core.Service
             _sysAppService = sysAppService;
             _captchaHandle = captchaHandle;
             _sysConfigService = sysConfigService;
-            _logVisQueue = logVisQueue;
         }
 
         /// <summary>
@@ -154,8 +151,8 @@ namespace Dilon.Core.Service
                 loginOutput.Menus = await _sysMenuService.GetLoginMenusAntDesign(userId, defaultActiveAppCode);
             }
 
-            // 增加登录日志
-            _logVisQueue.Add(new SysLogVis
+            // 登录日志入库
+            await new SysLogVis
             {
                 Name = loginOutput.Name,
                 Success = YesOrNot.Y,
@@ -166,7 +163,7 @@ namespace Dilon.Core.Service
                 VisType = LoginType.LOGIN,
                 VisTime = loginOutput.LastLoginTime,
                 Account = loginOutput.Account
-            });
+            }.InsertAsync();
 
             return loginOutput;
         }
@@ -183,7 +180,7 @@ namespace Dilon.Core.Service
             //_httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid token";
 
             // 增加退出日志
-            _logVisQueue.Add(new SysLogVis
+            await new SysLogVis
             {
                 Name = user.Name,
                 Success = YesOrNot.Y,
@@ -191,7 +188,7 @@ namespace Dilon.Core.Service
                 VisType = LoginType.LOGOUT,
                 VisTime = DateTimeOffset.Now,
                 Account = user.Account
-            });
+            }.InsertAsync();
 
             await Task.CompletedTask;
         }

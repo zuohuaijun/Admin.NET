@@ -53,8 +53,6 @@ namespace Dilon.Core
                 new SysConfig{Id=142307070902372, Name="Oauth码云登录ClientSecret", Code="DILON_OAUTH_GITEE_CLIENT_SECRET", Value="你的clientSecret",SysFlag="Y", Remark="Oauth码云登录ClientSecret", Status=0, GroupCode="OAUTH"},
                 new SysConfig{Id=142307070902373, Name="Oauth码云登录回调地址", Code="DILON_OAUTH_GITEE_REDIRECT_URI", Value="http://127.0.0.1:5566/oauth/callback/gitee",SysFlag="Y", Remark="Oauth码云登录回调地址", Status=0, GroupCode="OAUTH"},
                 new SysConfig{Id=142307070902374, Name="演示环境", Code="DILON_DEMO_ENV_FLAG", Value="false",SysFlag="Y", Remark="演示环境的开关,true-打开，false-关闭，如果演示环境开启，则只能读数据不能写数据", Status=0, GroupCode="DEFAULT"},
-                new SysConfig{Id=142307070902375, Name="日志写入的时间间隔", Code="DILON_LOG_WRITE_INTERVAL", Value="5000",SysFlag="Y", Remark="单位为毫秒，默认每5秒读取一次日志任务队列到待写入列表", Status=0, GroupCode="DEFAULT"},
-                new SysConfig{Id=142307070902376, Name="日志单次写入数量", Code="DILON_NUMBER_OF_SINGLE_LOG_WRITES", Value="20",SysFlag="Y", Remark="定义待写入列表的阀值，默认为20条，即列表数据大于100条时才会向数据库做一次批量写入操作", Status=0, GroupCode="DEFAULT"},
             };
         }
     }
