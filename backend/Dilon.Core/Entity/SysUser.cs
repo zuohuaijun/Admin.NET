@@ -1,4 +1,4 @@
-﻿using Dilon.Core.Entity;
+using Dilon.Core.Entity;
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -27,7 +27,7 @@ namespace Dilon.Core
         /// 密码（采用MD5加密）
         /// </summary>
         [Comment("密码")]
-        [Required, MaxLength(20)]
+        [Required, MaxLength(32)]
         public string Password { get; set; }
 
         /// <summary>
