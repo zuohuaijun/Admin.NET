@@ -1,4 +1,5 @@
 ﻿using Furion.DataValidation;
+using Furion.TaskScheduler;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -12,48 +13,28 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 任务名称
         /// </summary>
-        /// <example>dilon</example>
         public string JobName { get; set; }
 
         /// <summary>
-        /// 任务分组
+        /// 执行间隔时间（单位秒）
         /// </summary>
-        /// <example>dilon</example>
-        public string JobGroup { get; set; }
-
-        /// <summary>
-        /// 开始时间
-        /// </summary>
-        public DateTimeOffset BeginTime { get; set; } = DateTimeOffset.Now;
-
-        /// <summary>
-        /// 结束时间
-        /// </summary>
-        /// <example>null</example>
-        public DateTimeOffset? EndTime { get; set; }
+        /// <example>5</example>
+        public int Interval { get; set; }
 
         /// <summary>
         /// Cron表达式
         /// </summary>
-        /// <example></example>
         public string Cron { get; set; }
 
         /// <summary>
-        /// 执行次数（默认无限循环）
+        /// 定时器类型
         /// </summary>
-        /// <example>10</example>
+        public SpareTimeTypes TimerType { get; set; }
+
+        /// <summary>
+        /// 执行次数
+        /// </summary>
         public int? RunNumber { get; set; }
-
-        /// <summary>
-        /// 执行间隔时间，单位秒（如果有Cron，则IntervalSecond失效）
-        /// </summary>
-        /// <example>5</example>
-        public int? Interval { get; set; }
-
-        /// <summary>
-        /// 触发器类型
-        /// </summary>
-        public TriggerTypeEnum TriggerType { get; set; } = TriggerTypeEnum.Simple;
 
         /// <summary>
         /// 请求url
@@ -74,18 +55,12 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 请求类型
         /// </summary>
-        /// <example>2</example>
-        public RequestTypeEnum RequestType { get; set; } = RequestTypeEnum.Post;
+        public RequestTypeEnum RequestType { get; set; }
 
         /// <summary>
-        /// 描述
+        /// 备注
         /// </summary>
         public string Remark { get; set; }
-
-        /// <summary>
-        /// 任务状态
-        /// </summary>
-        public string DisplayState { get; set; }
     }
 
     public class DeleteJobInput : JobInput

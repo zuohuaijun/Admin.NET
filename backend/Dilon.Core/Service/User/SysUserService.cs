@@ -7,8 +7,10 @@ using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using MiniExcelLibs;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -321,14 +323,22 @@ namespace Dilon.Core.Service
         }
 
         /// <summary>
-        /// 用户导出(未实现)
+        /// 用户导出
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysUser/export")]
-        public async Task ExportUser([FromQuery] UserInput input)
+        public async Task<IActionResult> ExportUser([FromQuery] UserInput input)
         {
-            await Task.CompletedTask;
+            var users = _sysUserRep.DetachedEntities.AsQueryable();
+
+            var memoryStream = new MemoryStream();
+            memoryStream.SaveAs(users);
+            memoryStream.Seek(0, SeekOrigin.Begin);
+            return await Task.FromResult(new FileStreamResult(memoryStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+            {
+                FileDownloadName = "user.xlsx"
+            });
         }
 
         /// <summary>

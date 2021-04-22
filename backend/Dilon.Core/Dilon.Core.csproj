@@ -28,7 +28,7 @@
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.0.6" />
     <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.0.6" />
     <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.0.6" />
-    <PackageReference Include="Quartz" Version="3.3.2" />
+    <PackageReference Include="MiniExcel" Version="0.13.1" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
     <PackageReference Include="UAParser" Version="3.1.46" />

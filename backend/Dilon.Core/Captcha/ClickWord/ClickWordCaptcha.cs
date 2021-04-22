@@ -47,16 +47,12 @@ namespace Dilon.Core
 
             string bgImagesDir = Path.Combine(App.WebHostEnvironment.WebRootPath, "Captcha/Image");
             string[] bgImagesFiles = Directory.GetFiles(bgImagesDir);
-            //if (bgImagesFiles == null || bgImagesFiles.Length == 0)
-            //    throw Oops.Oh("背景图片文件丢失");
 
             // 字体来自：https://www.zcool.com.cn/special/zcoolfonts/
             string fontsDir = Path.Combine(App.WebHostEnvironment.WebRootPath, "Captcha/Font");
             string[] fontFiles = new DirectoryInfo(fontsDir)?.GetFiles()
                 ?.Where(m => m.Extension.ToLower() == ".ttf")
                 ?.Select(m => m.FullName).ToArray();
-            //if (fontFiles == null || fontFiles.Length == 0)
-            //    throw Oops.Oh("字体文件丢失");
 
             int imgIndex = random.Next(bgImagesFiles.Length);
             string randomImgFile = bgImagesFiles[imgIndex];
@@ -88,12 +84,15 @@ namespace Dilon.Core
                 {
                     // (int, int) percentPos = ToPercentPos((width, height), (_x, _y));
                     // 添加正确答案 位置数据
-                    rtnResult.repData.point.Add(new PointPosModel()
+                    if (random.Next(0, 3).Equals(1) || (code_length - i).Equals(rightCodeLength - rtnResult.repData.point.Count))
                     {
-                        X = _x, //percentPos.Item1,
-                        Y = _y  //percentPos.Item2,
-                    });
-                    words.Add(word);
+                        rtnResult.repData.point.Add(new PointPosModel()
+                        {
+                            X = _x, //percentPos.Item1,
+                            Y = _y  //percentPos.Item2,
+                        });
+                        words.Add(word);
+                    }
                 }
                 g.DrawString(word, f, b, _x, _y);
             }

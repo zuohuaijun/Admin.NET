@@ -15,8 +15,8 @@
             </a-form-item>
           </a-col>
           <a-col :md="12" :sm="24">
-            <a-form-item label="任务分组" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-input placeholder="请输入任务分组" disabled v-decorator="['jobGroup', {rules: [{required: true, message: '请输入任务分组！'}]}]" />
+            <a-form-item label="备注" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+              <a-input placeholder="请输入备注" v-decorator="['remark']" />
             </a-form-item>
           </a-col>
         </a-row>
@@ -40,32 +40,15 @@
 
         <a-row :gutter="24">
           <a-col :md="12" :sm="24">
-            <a-form-item label="开始时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-date-picker placeholder="请选择开始时间" @change="onChangeBeginTime" style="width: 100%" showTime v-decorator="['beginTime']" />
-            </a-form-item>
-          </a-col>
-          <a-col :md="12" :sm="24">
-            <a-form-item label="结束时间" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-date-picker placeholder="请选择结束时间" @change="onChangeEndTime" style="width: 100%" showTime v-decorator="['endTime']" />
-            </a-form-item>
-          </a-col>
-        </a-row>
-
-        <a-row :gutter="24">
-          <a-col :md="12" :sm="24">
-            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="触发器类型">
-              <a-select style="width: 100%" placeholder="请选择触发器类型" @change="onChangeTriggerType" v-decorator="['triggerType', {rules: [{ required: true, message: '请选择触发器类型！' }]}]">
-                <a-select-option :value="1">Simple</a-select-option>
-                <a-select-option :value="2">Cron</a-select-option>
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="定时器类型">
+              <a-select style="width: 100%" placeholder="请选择定时器类型" @change="onChangeTimerType" v-decorator="['timerType', {rules: [{ required: true, message: '请选择定时器类型！' }]}]">
+                <a-select-option :value="0">Interval</a-select-option>
+                <a-select-option :value="1">Cron</a-select-option>
               </a-select>
             </a-form-item>
           </a-col>
           <a-col :md="12" :sm="24">
-            <!--<a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="执行次数">
-            <a-input-number placeholder="请输入执行次数" style="width: 100%" v-decorator="['runTimes', { initialValue: 0 }]"
-              :min="0" />
-          </a-form-item> -->
-            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="执行间隔" has-feedback v-if="VisibleTriggerType">
+            <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="执行间隔" has-feedback v-if="VisibleTimerType">
               <a-input-number
                 placeholder="请输入执行间隔"
                 style="width: 100%"
@@ -97,16 +80,7 @@
           </a-col>
         </a-row>
 
-        <a-row :gutter="24">
-          <a-col :md="24" :sm="24">
-            <a-form-item label="备注" :labelCol="labelCol_JG" :wrapperCol="wrapperCol_JG" has-feedback>
-              <a-textarea :rows="1" placeholder="请输入备注" v-decorator="['remark']"></a-textarea>
-            </a-form-item>
-          </a-col>
-        </a-row>
-
       </a-form>
-
     </a-spin>
   </a-modal>
 </template>
@@ -118,7 +92,6 @@
   import {
     sysDictTypeDropDown
   } from '@/api/modular/system/dictManage'
-  import moment from 'moment'
   export default {
     data() {
       return {
@@ -156,10 +129,7 @@
         },
         visible: false,
         confirmLoading: false,
-        beginTimeString: [],
-        endTimeString: [],
-        timeFormat: 'YYYY-MM-DD HH:mm:ss',
-        VisibleTriggerType: true,
+        VisibleTimerType: true,
         requestTypeDictTypeDropDown: [],
         formLoading: false,
         form: this.$form.createForm(this)
@@ -173,22 +143,11 @@
         this.formLoading = false
         this.sysDictTypeDropDown()
 
-        var beginTime = new Date()
-        if (beginTime != null) {
-          this.form.getFieldDecorator('beginTime', {
-            initialValue: moment(beginTime, this.timeFormat)
-          })
-        }
-        this.beginTimeString = moment(beginTime).format(this.timeFormat)
-
         this.form.getFieldDecorator('requestType', {
           initialValue: 2
         })
-        this.form.getFieldDecorator('triggerType', {
-          initialValue: 1
-        })
-        this.form.getFieldDecorator('jobGroup', {
-          initialValue: '默认分组'
+        this.form.getFieldDecorator('timerType', {
+          initialValue: 0
         })
       },
 
@@ -200,24 +159,10 @@
         })
       },
 
-      onChangeTriggerType(e) {
-        this.VisibleTriggerType = e === 1
+      onChangeTimerType(e) {
+        this.VisibleTimerType = e === 0
       },
 
-      onChangeBeginTime(date, dateString) {
-        if (date == null) {
-          this.beginTimeString = []
-        } else {
-          this.beginTimeString = moment(date).format(this.timeFormat)
-        }
-      },
-      onChangeEndTime(date, dateString) {
-        if (date == null) {
-          this.endTimeString = []
-        } else {
-          this.endTimeString = moment(date).format(this.timeFormat)
-        }
-      },
       handleSubmit() {
         const {
           form: {
@@ -227,12 +172,6 @@
         this.confirmLoading = true
         validateFields((errors, values) => {
           if (!errors) {
-            if (this.beginTimeString.length > 0) {
-              values.beginTime = this.beginTimeString
-            }
-            if (this.endTimeString.length > 0) {
-              values.endTime = this.endTimeString
-            }
             sysTimersAdd(values).then((res) => {
               if (res.success) {
                 this.$message.success('新增成功')

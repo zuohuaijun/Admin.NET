@@ -9,13 +9,6 @@
                 <a-input v-model="queryParam.timerName" allow-clear placeholder="请输入任务名称" />
               </a-form-item>
             </a-col>
-            <!--            <a-col :md="8" :sm="24">
-              <a-form-item label="任务状态">
-                <a-select v-model="queryParam.jobStatus" placeholder="请选择状态" >
-                  <a-select-option v-for="(item,index) in jobStatusDictTypeDropDown" :key="index" :value="item.code" >{{ item.value }}</a-select-option>
-                </a-select>
-              </a-form-item>
-            </a-col> -->
             <a-col :md="8" :sm="24">
               <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
               <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
@@ -33,7 +26,8 @@
         :rowKey="(record) => record.id"
         :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
         <template slot="operator" v-if="hasPerm('sysTimers:add')">
-          <a-button @click="$refs.addForm.add()" icon="plus" type="primary" v-if="hasPerm('sysTimers:add')">新增定时任务</a-button>
+          <a-button @click="$refs.addForm.add()" icon="plus" type="primary" v-if="hasPerm('sysTimers:add')">新增定时任务
+          </a-button>
         </template>
         <span slot="actionClass" slot-scope="text">
           <ellipsis :length="10" tooltip>{{ text }}</ellipsis>
@@ -45,19 +39,26 @@
           {{ requestTypeFilter(requestType) }}
         </span>
         <span slot="jobStatus" slot-scope="text,record" v-if="hasPerm('sysTimers:start') || hasPerm('sysTimers:stop')">
-          <a-popconfirm placement="top" :title="text==='正常' || text!='暂停'? '确定停止该任务？':'确定启动该任务？'" @confirm="() => editjobStatusStatus(text,record)">
-            <a-badge :status="text==='正常'? 'processing':'default'" />
+          <a-popconfirm
+            placement="top"
+            :title="text===0? '确定停止该任务？':'确定启动该任务？'"
+            @confirm="() => editjobStatusStatus(text,record)">
+            <a-badge :status="text===0? 'processing':'default'" />
             <a>{{ jobStatusFilter(text) }}</a>
           </a-popconfirm>
         </span>
         <span slot="jobStatus" v-else>
-          <a-badge :status="text==='正常'? 'processing':'default'" />
+          <a-badge :status="text===0? 'processing':'default'" />
           {{ jobStatusFilter(text) }}
         </span>
         <span slot="action" slot-scope="text, record">
           <a v-if="hasPerm('sysTimers:edit')" @click="$refs.editForm.edit(record)">编辑</a>
           <a-divider type="vertical" v-if="hasPerm('sysTimers:edit') & hasPerm('sysTimers:delete')" />
-          <a-popconfirm v-if="hasPerm('sysTimers:delete')" placement="topRight" title="确认删除？" @confirm="() => sysTimersDelete(record)">
+          <a-popconfirm
+            v-if="hasPerm('sysTimers:delete')"
+            placement="topRight"
+            title="确认删除？"
+            @confirm="() => sysTimersDelete(record)">
             <a>删除</a>
           </a-popconfirm>
         </span>
@@ -114,10 +115,6 @@
             }
           },
           {
-            title: '开始时间',
-            dataIndex: 'beginTime'
-          },
-          {
             title: '执行间隔',
             dataIndex: 'interval'
           },
@@ -127,7 +124,7 @@
           },
           {
             title: '状态',
-            dataIndex: 'displayState',
+            dataIndex: 'timerStatus',
             scopedSlots: {
               customRender: 'jobStatus'
             }
@@ -140,6 +137,7 @@
         // 加载数据方法 必须为 Promise 对象
         loadData: parameter => {
           return sysTimersPage(Object.assign(parameter, this.queryParam)).then((res) => {
+            console.log(res.data)
             return res.data
           })
         },
@@ -180,18 +178,25 @@
         }
       },
       jobStatusFilter(jobStatus) {
-        return jobStatus
+        if (jobStatus === 0) {
+          return '运行中'
+        } else if (jobStatus === 1) {
+          return '已停止'
+        } else if (jobStatus === 2) {
+          return '执行失败'
+        } else if (jobStatus === 3) {
+          return '已取消'
+        }
       },
       /**
        * 启动停止
        */
       editjobStatusStatus(code, record) {
         // eslint-disable-next-line eqeqeq
-        if (code == '正常' || code != '暂停') {
+        if (code === 0) {
           sysTimersStop({
             id: record.id,
-            jobName: record.jobName,
-            jobGroup: record.jobGroup
+            jobName: record.jobName
           }).then(res => {
             if (res.success) {
               this.$message.success('停止成功')
@@ -201,12 +206,8 @@
             }
           })
           // eslint-disable-next-line eqeqeq
-        } else if (code == '暂停') {
-          sysTimersStart({
-            id: record.id,
-            jobName: record.jobName,
-            jobGroup: record.jobGroup
-          }).then(res => {
+        } else if (code != 0) {
+          sysTimersStart(record).then(res => {
             if (res.success) {
               this.$message.success('启动成功')
               this.$refs.table.refresh()

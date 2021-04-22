@@ -182,7 +182,7 @@ namespace Dilon.Core.Service.CodeGen
                 {
                     tableFieldList.ForEach(u =>
                     {
-                        u.ColumnName = u.ColumnName.Substring(0, 1).ToLower() + u.ColumnName.Substring(1);
+                        u.ColumnName = u.ColumnName.Substring(0, 1).ToLower() + u.ColumnName[1..];
                     });
                 }
                 var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(); // 前端查询集合

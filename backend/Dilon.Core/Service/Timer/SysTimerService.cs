@@ -3,9 +3,13 @@ using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
+using Furion.JsonSerialization;
+using Furion.RemoteRequest.Extensions;
+using Furion.TaskScheduler;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -18,12 +22,10 @@ namespace Dilon.Core.Service
     public class SysTimerService : ISysTimerService, IDynamicApiController, IScoped
     {
         private readonly IRepository<SysTimer> _sysTimerRep;  // 任务表仓储 
-        private readonly SchedulerCenter _schedulerCenter;
 
-        public SysTimerService(IRepository<SysTimer> sysTimerRep, SchedulerCenter schedulerCenter)
+        public SysTimerService(IRepository<SysTimer> sysTimerRep)
         {
             _sysTimerRep = sysTimerRep;
-            _schedulerCenter = schedulerCenter;
         }
 
         /// <summary>
@@ -32,21 +34,26 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysTimers/page")]
-        public async Task<dynamic> GetJobPageList([FromQuery] JobInput input)
+        public async Task<dynamic> GetTimerPageList([FromQuery] JobInput input)
         {
-            var jobList = await _schedulerCenter.GetJobList();
+            var workers = SpareTime.GetWorkers().ToList();
 
             var jobName = !string.IsNullOrEmpty(input.JobName?.Trim());
             var timers = await _sysTimerRep.DetachedEntities
                                   .Where((jobName, u => EF.Functions.Like(u.JobName, $"%{input.JobName.Trim()}%")))
-                                  .Select(u => u.Adapt<JobInput>())
+                                  .Select(u => u.Adapt<JobOutput>())
                                   .ToPagedListAsync(input.PageNo, input.PageSize);
 
             timers.Items.ToList().ForEach(u =>
             {
-                u.DisplayState = jobList.Find(m => m.JobName == u.JobName)?.DisplayState;
+                var timer = workers.FirstOrDefault(m => m.WorkerName == u.JobName);
+                if (timer != null)
+                {
+                    u.TimerStatus = timer.Status;
+                    u.Exception = ""; // JSON.Serialize(timer.Exception);
+                }
             });
-            return XnPageResult<JobInput>.PageResult(timers);
+            return XnPageResult<JobOutput>.PageResult(timers);
         }
 
         /// <summary>
@@ -55,7 +62,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysTimers/add")]
-        public async Task AddJob(JobInput input)
+        public async Task AddTimer(JobInput input)
         {
             var isExist = await _sysTimerRep.AnyAsync(u => u.JobName == input.JobName, false);
             if (isExist)
@@ -64,8 +71,8 @@ namespace Dilon.Core.Service
             var timer = input.Adapt<SysTimer>();
             await _sysTimerRep.InsertAsync(timer);
 
-            // 添加到调度
-            await _schedulerCenter.AddScheduleJobAsync(input);
+            // 添加到任务调度里
+            AddTimerJob(input);
         }
 
         /// <summary>
@@ -74,7 +81,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysTimers/delete")]
-        public async Task DeleteJob(DeleteJobInput input)
+        public async Task DeleteTimer(DeleteJobInput input)
         {
             var timer = await _sysTimerRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             if (timer == null)
@@ -82,8 +89,8 @@ namespace Dilon.Core.Service
 
             await timer.DeleteAsync();
 
-            // 从调度器里删除
-            await _schedulerCenter.DeleteScheduleJobAsync(input);
+            // 从调度器里取消
+            SpareTime.Cancel(timer.JobName);
         }
 
         /// <summary>
@@ -92,21 +99,21 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysTimers/edit")]
-        public async Task UpdateJob(UpdateJobInput input)
+        public async Task UpdateTimber(UpdateJobInput input)
         {
             // 排除自己并且判断与其他是否相同
             var isExist = await _sysTimerRep.AnyAsync(u => u.JobName == input.JobName && u.Id != input.Id, false);
             if (isExist) throw Oops.Oh(ErrorCode.D1100);
 
+            // 先从调度器里取消
+            var oldTimer = await _sysTimerRep.FirstOrDefaultAsync(u => u.Id == input.Id, false);
+            SpareTime.Cancel(oldTimer.JobName);
+
             var timer = input.Adapt<SysTimer>();
             await timer.UpdateAsync(ignoreNullValues: true);
 
-            // 先从调度器里删除
-            var oldTimer = await _sysTimerRep.FirstOrDefaultAsync(u => u.Id == input.Id, false);
-            await _schedulerCenter.DeleteScheduleJobAsync(oldTimer.Adapt<DeleteJobInput>());
-
-            // 再加到调度里
-            await _schedulerCenter.AddScheduleJobAsync(timer.Adapt<JobInput>());
+            // 再添加到任务调度里
+            AddTimerJob(input);
         }
 
         /// <summary>
@@ -126,9 +133,9 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysTimers/stop")]
-        public async Task StopScheduleJobAsync(JobInput input)
+        public void StopTimerJob(JobInput input)
         {
-            await _schedulerCenter.StopScheduleJobAsync(input);
+            SpareTime.Stop(input.JobName);
         }
 
         /// <summary>
@@ -137,9 +144,50 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysTimers/start")]
-        public async Task TriggerJobAsync(JobInput input)
+        public void StartTimerJob(JobInput input)
         {
-            await _schedulerCenter.TriggerJobAsync(input);
+            var timer = SpareTime.GetWorkers().ToList().Find(u => u.WorkerName == input.JobName);
+            if (timer == null)
+                AddTimerJob(input);
+            else
+                SpareTime.Start(input.JobName);
+        }
+
+        /// <summary>
+        /// 新增定时任务
+        /// </summary>
+        /// <param name="input"></param>
+        [NonAction]
+        public void AddTimerJob(JobInput input)
+        {
+            var timerType = input.TimerType == SpareTimeTypes.Interval ? (input.Interval * 1000).ToString() : input.Cron;
+            SpareTime.Do(timerType, async (timer, count) =>
+            {
+                //if (timer.Exception.Any())
+                //    throw Oops.Oh(timer.Exception.Values.LastOrDefault()?.Message);
+
+                var requestUrl = input.RequestUrl.Trim();
+                requestUrl = requestUrl?.IndexOf("http") == 0 ? requestUrl : "http://" + requestUrl;
+                var requestParameters = input.RequestParameters;
+                var headersString = input.Headers;
+                var headers = string.IsNullOrEmpty(headersString) ? null : JSON.Deserialize<Dictionary<string, string>>(headersString);
+                var requestType = input.RequestType;
+                switch (requestType)
+                {
+                    case RequestTypeEnum.Get:
+                        await requestUrl.SetHeaders(headers).GetAsync();
+                        break;
+                    case RequestTypeEnum.Post:
+                        await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PostAsync();
+                        break;
+                    case RequestTypeEnum.Put:
+                        await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PutAsync();
+                        break;
+                    case RequestTypeEnum.Delete:
+                        await requestUrl.SetHeaders(headers).DeleteAsync();
+                        break;
+                }
+            }, input.JobName, input.Remark, startNow: true);
         }
     }
 }
