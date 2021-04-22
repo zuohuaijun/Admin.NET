@@ -1,7 +1,6 @@
 using Furion;
 using Furion.DependencyInjection;
 using Furion.JsonSerialization;
-using Furion.Snowflake;
 using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using Yitter.IdGenerator;
 
 namespace Dilon.Core
 {
@@ -104,7 +104,7 @@ namespace Dilon.Core
             bitmap.Dispose();
             ms.Dispose();
             rtnResult.repData.originalImageBase64 = Convert.ToBase64String(ms.GetBuffer()); //"data:image/jpg;base64," +
-            rtnResult.repData.token = IDGenerator.NextId().ToString();
+            rtnResult.repData.token = YitIdHelper.NextId().ToString();
 
             // 缓存验证码正确位置集合
             var cacheOptions = new MemoryCacheEntryOptions().SetSlidingExpiration(TimeSpan.FromSeconds(30));

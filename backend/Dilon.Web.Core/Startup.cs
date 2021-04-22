@@ -1,12 +1,12 @@
 using Dilon.Core;
 using Furion;
-using Furion.Snowflake;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Text.Json;
+using Yitter.IdGenerator;
 
 namespace Dilon.Web.Core
 {
@@ -36,7 +36,7 @@ namespace Dilon.Web.Core
 
             // 设置雪花id的workerId，确保每个实例workerId都应不同
             var workerId = ushort.Parse(App.Configuration["SnowId:WorkerId"] ?? "1");
-            IDGenerator.SetIdGenerator(new IDGeneratorOptions { WorkerId = workerId });
+            YitIdHelper.SetIdGenerator(new IdGeneratorOptions { WorkerId = workerId });
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

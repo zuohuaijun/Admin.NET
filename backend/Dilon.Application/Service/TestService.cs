@@ -1,7 +1,6 @@
 ﻿using Dilon.Core;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
-using Furion.Snowflake;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SqlSugar;
