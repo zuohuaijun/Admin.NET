@@ -5,16 +5,10 @@
     :visible="visible"
     :confirmLoading="confirmLoading"
     @ok="handleSubmit"
-    @cancel="handleCancel"
-  >
+    @cancel="handleCancel">
     <a-spin :spinning="formLoading">
       <a-form :form="form">
-
-        <a-form-item
-          label="菜单权限"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol">
-
+        <a-form-item label="菜单权限" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-tree
             v-model="checkedKeys"
             multiple
@@ -26,31 +20,44 @@
             :replaceFields="replaceFields"
             @expand="onExpand"
             @select="onSelect"
-            @check="treeCheck"
-          />
-          </a-tree></a-form-item>
-
+            @check="treeCheck" />
+          </a-tree>
+        </a-form-item>
       </a-form>
-
     </a-spin>
   </a-modal>
 </template>
 
 <script>
-  import { SysMenuTreeForGrant } from '@/api/modular/system/menuManage'
-  import { sysRoleOwnMenu, sysRoleGrantMenu } from '@/api/modular/system/roleManage'
+  import {
+    SysMenuTreeForGrant
+  } from '@/api/modular/system/menuManage'
+  import {
+    sysRoleOwnMenu,
+    sysRoleGrantMenu
+  } from '@/api/modular/system/roleManage'
 
   export default {
-    data () {
+    data() {
       return {
         labelCol: {
-          style: { 'padding-right': '20px' },
-          xs: { span: 24 },
-          sm: { span: 5 }
+          style: {
+            'padding-right': '20px'
+          },
+          xs: {
+            span: 24
+          },
+          sm: {
+            span: 5
+          }
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 15 }
+          xs: {
+            span: 24
+          },
+          sm: {
+            span: 15
+          }
         },
         menuTreeData: [],
         expandedKeys: [],
@@ -72,7 +79,7 @@
 
     methods: {
       // 初始化方法
-      roleMenu (record) {
+      roleMenu(record) {
         this.formLoading = true
         this.roleEntity = record
         this.visible = true
@@ -83,23 +90,25 @@
       /**
        * 获取菜单列表
        */
-      getMenuTree () {
+      getMenuTree() {
         SysMenuTreeForGrant().then((res) => {
-           if (res.success) {
-             this.menuTreeData = res.data
-             // 默认展开目录级
-             this.menuTreeData.forEach(item => {
-               this.expandedKeys.push(item.id)
-             })
-           }
+          if (res.success) {
+            this.menuTreeData = res.data
+            // 默认展开目录级
+            this.menuTreeData.forEach(item => {
+              this.expandedKeys.push(item.id)
+            })
+          }
         })
       },
 
       /**
        * 此角色已有菜单权限
        */
-      expandedMenuKeys (record) {
-        sysRoleOwnMenu({ id: record.id }).then((res) => {
+      expandedMenuKeys(record) {
+        sysRoleOwnMenu({
+          id: record.id
+        }).then((res) => {
           if (res.success) {
             this.checkedKeys = res.data
             this.findAllChildren(this.menuTreeData)
@@ -108,26 +117,33 @@
         })
       },
 
-      treeCheck (checkKeys, event) {
+      treeCheck(checkKeys, event) {
         this.halfCheckedKeys = event.halfCheckedKeys
       },
-      onExpand (expandedKeys) {
+      onExpand(expandedKeys) {
         this.expandedKeys = expandedKeys
         this.autoExpandParent = false
       },
-      onCheck (checkedKeys) {
+      onCheck(checkedKeys) {
         this.checkedKeys = checkedKeys
       },
-      onSelect (selectedKeys, info) {
+      onSelect(selectedKeys, info) {
         this.selectedKeys = selectedKeys
       },
 
-      handleSubmit () {
-        const { form: { validateFields } } = this
+      handleSubmit() {
+        const {
+          form: {
+            validateFields
+          }
+        } = this
         this.confirmLoading = true
         validateFields((errors, values) => {
           if (!errors) {
-            sysRoleGrantMenu({ id: this.roleEntity.id, grantMenuIdList: this.checkedKeys.concat(this.halfCheckedKeys) }).then((res) => {
+            sysRoleGrantMenu({
+              id: this.roleEntity.id,
+              grantMenuIdList: this.checkedKeys.concat(this.halfCheckedKeys)
+            }).then((res) => {
               if (res.success) {
                 this.$message.success('授权成功')
                 this.confirmLoading = false
@@ -144,7 +160,7 @@
           }
         })
       },
-      handleCancel () {
+      handleCancel() {
         // 清空已选择的
         this.checkedKeys = []
         // 清空已展开的

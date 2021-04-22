@@ -6684,6 +6684,34 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.GrantMenu(Dilon.Core.Service.GrantRoleMenuInput)">
+            <summary>
+            授权租户管理员角色菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.OwnMenu(Dilon.Core.Service.QueryTenantInput)">
+            <summary>
+            获取租户管理员角色拥有菜单Id集合
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.ResetUserPwd(Dilon.Core.Service.QueryTenantInput)">
+            <summary>
+            重置租户管理员密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTenantService.GetTenantAdminUser(System.Int64)">
+            <summary>
+            获取租户管理员用户
+            </summary>
+            <param name="tenantId"></param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.Service.JobInput">
             <summary>
             任务调度参数

@@ -45,7 +45,7 @@
             </a>
             <a-menu slot="overlay">
               <a-menu-item v-if="hasPerm('sysTenant:grantMenu')">
-                <a @click="$refs.userRoleForm.userRole(record)">授权菜单</a>
+                <a @click="$refs.tenantMenuForm.tenantMenu(record)">授权菜单</a>
               </a-menu-item>
               <a-menu-item v-if="hasPerm('sysTenant:resetPwd')">
                 <a-popconfirm placement="topRight" title="确认重置密码？" @confirm="() => resetPwd(record)">
@@ -63,6 +63,7 @@
       </s-table>
       <add-form ref="addForm" @ok="handleOk" />
       <edit-form ref="editForm" @ok="handleOk" />
+      <tenant-menu-form ref="tenantMenuForm" @ok="handleOk"/>
     </a-card>
   </div>
 </template>
@@ -74,10 +75,12 @@
   } from '@/components'
   import {
     sysTenantPage,
-    sysTenantDelete
+    sysTenantDelete,
+    sysTenantResetPwd
   } from '@/api/modular/system/tenantManage'
   import addForm from './addForm'
   import editForm from './editForm'
+  import tenantMenuForm from './tenantMenuForm'
 
   export default {
     components: {
@@ -85,7 +88,8 @@
       STable,
       Ellipsis,
       addForm,
-      editForm
+      editForm,
+      tenantMenuForm
     },
     data() {
       return {
@@ -166,6 +170,21 @@
       onSelectChange(selectedRowKeys, selectedRows) {
         this.selectedRowKeys = selectedRowKeys
         this.selectedRows = selectedRows
+      },
+      /**
+       * 重置密码
+       */
+      resetPwd(record) {
+        sysTenantResetPwd({
+          id: record.id
+        }).then(res => {
+          if (res.success) {
+            this.$message.success('重置成功')
+            // this.$refs.table.refresh()
+          } else {
+            this.$message.error('重置失败：' + res.message)
+          }
+        })
       }
     }
   }

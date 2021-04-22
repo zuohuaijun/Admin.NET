@@ -52,3 +52,45 @@ export function sysTenantEdit(parameter) {
     data: parameter
   })
 }
+
+/**
+ * 拥有菜单
+ *
+ * @author zuohuaijun
+ * @date 2021/04/22 10:30
+ */
+export function sysTenantOwnMenu (parameter) {
+  return axios({
+    url: '/sysTenant/ownMenu',
+    method: 'get',
+    params: parameter
+  })
+}
+
+/**
+ * 授权菜单
+ *
+ * @author zuohuaijun
+ * @date 2021/04/22 10:30
+ */
+export function sysTenantGrantMenu (parameter) {
+  return axios({
+    url: '/sysTenant/grantMenu',
+    method: 'post',
+    data: parameter
+  })
+}
+
+/**
+ * 重置密码
+ *
+ * @author zuohuaijun
+ * @date 2021/04/22 11:00
+ */
+export function sysTenantResetPwd (parameter) {
+  return axios({
+    url: '/sysTenant/resetPwd',
+    method: 'post',
+    data: parameter
+  })
+}

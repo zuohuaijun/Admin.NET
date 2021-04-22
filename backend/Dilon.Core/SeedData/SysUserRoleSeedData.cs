@@ -17,6 +17,7 @@ namespace Dilon.Core.SeedData
         {
             return new[]
             {
+                // 租户管理员默认管理员角色
                 new SysUserRole{SysUserId=142307070910554, SysRoleId=142307070910556 }
             };
         }

@@ -1,4 +1,5 @@
 ﻿using Furion.DatabaseAccessor;
+using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
@@ -18,25 +19,29 @@ namespace Dilon.Core.Service
     public class SysTenantService : ISysTenantService, IDynamicApiController, ITransient
     {
         private readonly IRepository<SysTenant, MultiTenantDbContextLocator> _sysTenantRep;    // 租户表仓储
-        private readonly IRepository<SysUser> _sysUserService; // 系统用户服务
-        private readonly IRepository<SysOrg> _sysOrgService;
-        private readonly IRepository<SysRole> _sysRoleService;
+        private readonly IRepository<SysUser> _sysUserRep; 
+        private readonly IRepository<SysOrg> _sysOrgRep;
+        private readonly IRepository<SysRole> _sysRoleRep;
+        private readonly IRepository<SysEmp> _sysEmpRep;
+
         private readonly ISysRoleMenuService _sysRoleMenuService;
-        private readonly IRepository<SysEmp> _sysEmpService;
+        private readonly ISysUserRoleService _sysUserRoleService;
 
         public SysTenantService(IRepository<SysTenant, MultiTenantDbContextLocator> sysTenantRep,
                                 IRepository<SysUser> sysUserService,
                                 IRepository<SysOrg> sysOrgService,
                                 IRepository<SysRole> sysRoleService,
+                                IRepository<SysEmp> sysEmpService,
                                 ISysRoleMenuService sysRoleMenuService,
-                                IRepository<SysEmp> sysEmpService)
+                                ISysUserRoleService sysUserRoleService)
         {
             _sysTenantRep = sysTenantRep;
-            _sysUserService = sysUserService;
-            _sysOrgService = sysOrgService;
-            _sysRoleService = sysRoleService;
+            _sysUserRep = sysUserService;
+            _sysOrgRep = sysOrgService;
+            _sysRoleRep = sysRoleService;
+            _sysEmpRep = sysEmpService;
             _sysRoleMenuService = sysRoleMenuService;
-            _sysEmpService = sysEmpService;
+            _sysUserRoleService = sysUserRoleService;
         }
 
         /// <summary>
@@ -93,7 +98,7 @@ namespace Dilon.Core.Service
                 Contacts = newTenant.AdminName,
                 Tel = newTenant.Phone
             };
-            var newOrg = await _sysOrgService.InsertNowAsync(sysOrg);
+            var newOrg = await _sysOrgRep.InsertNowAsync(sysOrg);
 
             // 初始化角色
             SysRole sysRole = new()
@@ -103,7 +108,7 @@ namespace Dilon.Core.Service
                 Name = "系统管理员",
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
             };
-            var newRole = await _sysRoleService.InsertNowAsync(sysRole);
+            var newRole = await _sysRoleRep.InsertNowAsync(sysRole);
 
             // 初始化用户
             SysUser sysUser = new()
@@ -119,7 +124,7 @@ namespace Dilon.Core.Service
                 SysRoles = new List<SysRole>() { newRole.Entity },
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
             };
-            var newUser = await _sysUserService.InsertNowAsync(sysUser);
+            var newUser = await _sysUserRep.InsertNowAsync(sysUser);
 
             // 初始化职工
             SysEmp sysEmp = new()
@@ -129,7 +134,7 @@ namespace Dilon.Core.Service
                 OrgId = newOrg.Entity.Id,
                 OrgName = newOrg.Entity.Name
             };
-            await _sysEmpService.InsertNowAsync(sysEmp);
+            await _sysEmpRep.InsertNowAsync(sysEmp);
         }
 
         /// <summary>
@@ -169,6 +174,57 @@ namespace Dilon.Core.Service
         public async Task<SysTenant> GetTenant([FromQuery] QueryTenantInput input)
         {
             return await _sysTenantRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
+        }
+
+        /// <summary>
+        /// 授权租户管理员角色菜单
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/sysTenant/grantMenu")]
+        public async Task GrantMenu(GrantRoleMenuInput input)
+        {
+            var tenantAdminUser = await GetTenantAdminUser(input.Id);
+            var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
+            input.Id = roleIds[0]; // 重置租户管理员角色Id
+            await _sysRoleMenuService.GrantMenu(input);
+        }
+
+        /// <summary>
+        /// 获取租户管理员角色拥有菜单Id集合
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet("/sysTenant/ownMenu")]
+        public async Task<List<long>> OwnMenu([FromQuery] QueryTenantInput input)
+        {
+            var tenantAdminUser = await GetTenantAdminUser(input.Id);
+            var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
+            var tenantAdminRoleId = roleIds[0]; // 租户管理员角色Id
+            return await _sysRoleMenuService.GetRoleMenuIdList(new List<long> { tenantAdminRoleId });
+        }
+
+        /// <summary>
+        /// 重置租户管理员密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/sysTenant/resetPwd")]
+        public async Task ResetUserPwd(QueryTenantInput input)
+        {
+            var tenantAdminUser = await GetTenantAdminUser(input.Id);
+            tenantAdminUser.Password = MD5Encryption.Encrypt(CommonConst.DEFAULT_PASSWORD);
+        }
+
+        /// <summary>
+        /// 获取租户管理员用户
+        /// </summary>
+        /// <param name="tenantId"></param>
+        /// <returns></returns>
+        private async Task<SysUser> GetTenantAdminUser(long tenantId)
+        {
+            return await _sysUserRep.Where(u => u.TenantId == tenantId, false, true)
+                                        .Where(u => u.AdminType == AdminType.Admin).FirstOrDefaultAsync();
         }
     }
 }
