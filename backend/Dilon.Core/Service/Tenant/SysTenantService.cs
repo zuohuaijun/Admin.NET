@@ -1,4 +1,5 @@
 ﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -88,7 +89,7 @@ namespace Dilon.Core.Service
             string email = newTenant.Email;
             string companyName = newTenant.Name;
             // 初始化公司（组织结构）
-            SysOrg sysOrg = new()
+            var newOrg = await new SysOrg
             {
                 TenantId = tenantId,
                 Pid = 0,
@@ -97,21 +98,19 @@ namespace Dilon.Core.Service
                 Code = "1",
                 Contacts = newTenant.AdminName,
                 Tel = newTenant.Phone
-            };
-            var newOrg = _sysOrgRep.InsertNow(sysOrg);
+            }.InsertAsync();
 
             // 初始化角色
-            SysRole sysRole = new()
+            var newRole = await new SysRole
             {
                 TenantId = tenantId,
                 Code = "1",
                 Name = "系统管理员",
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
-            };
-            var newRole = _sysRoleRep.InsertNow(sysRole);
+            }.InsertAsync();
 
-            // 初始化用户
-            SysUser sysUser = new()
+            // 初始化租户管理员
+            var newUser = await new SysUser
             {
                 TenantId = tenantId,
                 Account = email,
@@ -123,18 +122,16 @@ namespace Dilon.Core.Service
                 AdminType = AdminType.Admin,
                 SysRoles = new List<SysRole>() { newRole.Entity },
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
-            };
-            var newUser = _sysUserRep.InsertNow(sysUser);
+            }.InsertAsync();
 
             // 初始化职工
-            SysEmp sysEmp = new()
+            new SysEmp
             {
                 Id = newUser.Entity.Id,
                 JobNum = "1",
                 OrgId = newOrg.Entity.Id,
                 OrgName = newOrg.Entity.Name
-            };
-            _sysEmpRep.InsertNow(sysEmp);
+            }.InsertNow();
         }
 
         /// <summary>
