@@ -127,7 +127,7 @@ namespace Dilon.Core.Service
         [UnitOfWork]
         public async Task DeleteUser(DeleteUserInput input)
         {
-            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
+            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             if (user.AdminType == AdminType.SuperAdmin)
                 throw Oops.Oh(ErrorCode.D1014);
 
@@ -160,7 +160,7 @@ namespace Dilon.Core.Service
             CheckDataScope(input);
 
             // 排除自己并且判断与其他是否相同
-            var isExist = await _sysUserRep.AnyAsync(u => u.Account == input.Account && u.Id != long.Parse(input.Id), false);
+            var isExist = await _sysUserRep.AnyAsync(u => u.Account == input.Account && u.Id != input.Id, false);
             if (isExist) throw Oops.Oh(ErrorCode.D1003);
 
             var user = input.Adapt<SysUser>();
@@ -178,7 +178,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysUser/detail")]
         public async Task<dynamic> GetUser([FromQuery] QueryUserInput input)
         {
-            var user = await _sysUserRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
+            var user = await _sysUserRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
             var userDto = user.Adapt<UserOutput>();
             if (userDto != null)
             {
@@ -195,7 +195,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysUser/changeStatus")]
         public async Task ChangeUserStatus(UpdateUserInput input)
         {
-            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
+            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             if (user.AdminType == AdminType.SuperAdmin)
                 throw Oops.Oh(ErrorCode.D1015);
 
@@ -250,7 +250,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysUser/updatePwd")]
         public async Task UpdateUserPwd(ChangePasswordUserInput input)
         {
-            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
+            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             if (MD5Encryption.Encrypt(input.Password) != user.Password)
                 throw Oops.Oh(ErrorCode.D1004);
             user.Password = MD5Encryption.Encrypt(input.NewPassword);
@@ -264,7 +264,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysUser/ownRole")]
         public async Task<dynamic> GetUserOwnRole([FromQuery] QueryUserInput input)
         {
-            return await _sysUserRoleService.GetUserRoleIdList(long.Parse(input.Id));
+            return await _sysUserRoleService.GetUserRoleIdList(input.Id);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysUser/ownData")]
         public async Task<dynamic> GetUserOwnData([FromQuery] QueryUserInput input)
         {
-            return await _sysUserDataScopeService.GetUserDataScopeIdList(long.Parse(input.Id));
+            return await _sysUserDataScopeService.GetUserDataScopeIdList(input.Id);
         }
 
         /// <summary>
@@ -286,7 +286,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysUser/resetPwd")]
         public async Task ResetUserPwd(QueryUserInput input)
         {
-            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
+            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             user.Password = MD5Encryption.Encrypt(CommonConst.DEFAULT_PASSWORD);
         }
 
@@ -298,7 +298,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysUser/updateAvatar")]
         public async Task UpdateAvatar(UpdateUserInput input)
         {
-            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == long.Parse(input.Id));
+            var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             // 调用文件上传
             //sysFileInfoService.assertFile(input.Avatar);
             user.Avatar = input.Avatar;

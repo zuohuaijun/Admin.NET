@@ -1,4 +1,6 @@
-import { axios } from '@/utils/request'
+import {
+  axios
+} from '@/utils/request'
 
 /**
  * 获取用户列表
@@ -6,7 +8,7 @@ import { axios } from '@/utils/request'
  * @author yubaoshan
  * @date 2020/4/26 12:08
  */
-export function getUserPage (parameter) {
+export function getUserPage(parameter) {
   return axios({
     url: '/sysUser/page',
     method: 'get',
@@ -20,7 +22,7 @@ export function getUserPage (parameter) {
  * @author yubaoshan
  * @date 2020/5/5 02:08
  */
-export function sysUserAdd (parameter) {
+export function sysUserAdd(parameter) {
   return axios({
     url: '/sysUser/add',
     method: 'post',
@@ -34,7 +36,7 @@ export function sysUserAdd (parameter) {
  * @author yubaoshan
  * @date 2020/5/5 02:08
  */
-export function sysUserEdit (parameter) {
+export function sysUserEdit(parameter) {
   return axios({
     url: '/sysUser/edit',
     method: 'post',
@@ -48,7 +50,7 @@ export function sysUserEdit (parameter) {
  * @author yubaoshan
  * @date 2020/5/5 19:55
  */
-export function sysUserDetail (parameter) {
+export function sysUserDetail(parameter) {
   return axios({
     url: '/sysUser/detail',
     method: 'get',
@@ -62,7 +64,7 @@ export function sysUserDetail (parameter) {
  * @author yubaoshan
  * @date 2020/5/7 19:31
  */
-export function sysUserDelete (parameter) {
+export function sysUserDelete(parameter) {
   return axios({
     url: '/sysUser/delete',
     method: 'post',
@@ -76,7 +78,7 @@ export function sysUserDelete (parameter) {
  * @author yubaoshan
  * @date 2020/6/3 11:58
  */
-export function sysUserOwnRole (parameter) {
+export function sysUserOwnRole(parameter) {
   return axios({
     url: '/sysUser/ownRole',
     method: 'get',
@@ -90,7 +92,7 @@ export function sysUserOwnRole (parameter) {
  * @author yubaoshan
  * @date 2020/5/26 23:59
  */
-export function sysUserGrantRole (parameter) {
+export function sysUserGrantRole(parameter) {
   return axios({
     url: '/sysUser/grantRole',
     method: 'post',
@@ -104,7 +106,7 @@ export function sysUserGrantRole (parameter) {
  * @author yubaoshan
  * @date 2020/6/2 23:14
  */
-export function sysUserOwnData (parameter) {
+export function sysUserOwnData(parameter) {
   return axios({
     url: '/sysUser/ownData',
     method: 'get',
@@ -118,7 +120,7 @@ export function sysUserOwnData (parameter) {
  * @author yubaoshan
  * @date 2020/6/2 23:15
  */
-export function sysUserGrantData (parameter) {
+export function sysUserGrantData(parameter) {
   return axios({
     url: '/sysUser/grantData',
     method: 'post',
@@ -132,7 +134,7 @@ export function sysUserGrantData (parameter) {
  * @author yubaoshan
  * @date 2020/6/23 21:36
  */
-export function sysUserChangeStatus (parameter) {
+export function sysUserChangeStatus(parameter) {
   return axios({
     url: '/sysUser/changeStatus',
     method: 'post',
@@ -146,7 +148,7 @@ export function sysUserChangeStatus (parameter) {
  * @author yubaoshan
  * @date 2020/6/23 22:04
  */
-export function sysUserResetPwd (parameter) {
+export function sysUserResetPwd(parameter) {
   return axios({
     url: '/sysUser/resetPwd',
     method: 'post',
@@ -160,7 +162,7 @@ export function sysUserResetPwd (parameter) {
  * @author yubaoshan
  * @date 2020/6/25 00:25
  */
-export function sysUserUpdatePwd (parameter) {
+export function sysUserUpdatePwd(parameter) {
   return axios({
     url: '/sysUser/updatePwd',
     method: 'post',
@@ -174,7 +176,7 @@ export function sysUserUpdatePwd (parameter) {
  * @author yubaoshan
  * @date 2020/6/25 00:25
  */
-export function sysUserSelector (parameter) {
+export function sysUserSelector(parameter) {
   return axios({
     url: '/sysUser/selector',
     method: 'get',
@@ -188,7 +190,7 @@ export function sysUserSelector (parameter) {
  * @author yubaoshan
  * @date 2020/9/20 2:21
  */
-export function sysUserUpdateAvatar (parameter) {
+export function sysUserUpdateAvatar(parameter) {
   return axios({
     url: '/sysUser/updateAvatar',
     method: 'post',
@@ -202,7 +204,7 @@ export function sysUserUpdateAvatar (parameter) {
  * @author yubaoshan
  * @date 2020/9/20 03:12
  */
-export function sysUserUpdateInfo (parameter) {
+export function sysUserUpdateInfo(parameter) {
   return axios({
     url: '/sysUser/updateInfo',
     method: 'post',
@@ -216,7 +218,7 @@ export function sysUserUpdateInfo (parameter) {
  * @author zuohuaijun
  * @date 2021/4/20 01:00
  */
-export function sysUserExport (parameter) {
+export function sysUserExport(parameter) {
   return axios({
     url: '/sysUser/export',
     method: 'get',
@@ -231,7 +233,7 @@ export function sysUserExport (parameter) {
  * @author zuohuaijun
  * @date 2021/4/20 01:00
  */
-export function sysUserImport (parameter) {
+export function sysUserImport(parameter) {
   return axios({
     url: '/sysUser/import',
     method: 'post',

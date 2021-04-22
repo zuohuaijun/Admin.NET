@@ -18,7 +18,7 @@
             label="性别"
           >
             <a-radio-group v-decorator="['sex',{rules: [{ required: true, message: '请选择性别！' }]}]" >
-              <a-radio v-for="(item,index) in sexData" :key="index" :value="item.code">{{ item.name }}</a-radio>
+              <a-radio v-for="(item,index) in sexData" :key=index :value="item.code">{{ item.name }}</a-radio>
             </a-radio-group>
           </a-form-item>
           <a-form-item
@@ -29,11 +29,10 @@
           <a-form-item
             label="电话"
           >
-            <a-input placeholder="请输入电话" v-decorator="['tel', {rules: [{required: true, message: '请输入电话！'}]}]"/>
+            <a-input placeholder="请输入电话" v-decorator="['tel']"/>
           </a-form-item>
           <a-form-item
             label="电子邮件"
-            :required="false"
           >
             <a-input placeholder="请输入电子邮件地址" v-decorator="['email', {type: 'email',message: '请输入正确的邮箱号',rules: [{required: true, message: '请输入正确的邮箱号！'}]}]"/>
           </a-form-item>
@@ -113,7 +112,7 @@ export default {
           {
             birthday: moment(this.userInfo.birthday, 'YYYY-MM-DD'),
             nickName: this.userInfo.nickName,
-            sex: this.userInfo.sex.toString(),
+            sex: this.userInfo.sex,
             email: this.userInfo.email,
             phone: this.userInfo.phone,
             tel: this.userInfo.tel

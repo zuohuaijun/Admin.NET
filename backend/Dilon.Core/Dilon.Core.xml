@@ -7027,6 +7027,11 @@
             用户Id
             </summary>
         </member>
+        <member name="P:Dilon.Core.Service.ChangePasswordUserInput.Id">
+            <summary>
+            用户Id
+            </summary>
+        </member>
         <member name="P:Dilon.Core.Service.ChangePasswordUserInput.Password">
             <summary>
             密码
@@ -7035,6 +7040,11 @@
         <member name="P:Dilon.Core.Service.ChangePasswordUserInput.NewPassword">
             <summary>
             新密码
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.ChangePasswordUserInput.Confirm">
+            <summary>
+            确认密码
             </summary>
         </member>
         <member name="T:Dilon.Core.Service.UserOutput">

@@ -101,7 +101,7 @@ namespace Dilon.Core.Service
         /// 用户Id
         /// </summary>
         [Required(ErrorMessage = "用户Id不能为空")]
-        public string Id { get; set; }
+        public long Id { get; set; }
     }
 
     public class UpdateUserInput : UserInput
@@ -110,27 +110,39 @@ namespace Dilon.Core.Service
         /// 用户Id
         /// </summary>
         [Required(ErrorMessage = "用户Id不能为空")]
-        public string Id { get; set; }
+        public long Id { get; set; }
     }
 
-    public class QueryUserInput : DeleteUserInput
+    public class QueryUserInput : UpdateUserInput
     {
 
     }
 
-    public class ChangePasswordUserInput : UpdateUserInput
+    public class ChangePasswordUserInput
     {
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        [Required(ErrorMessage = "用户Id不能为空")]
+        public long Id { get; set; }
+
         /// <summary>
         /// 密码
         /// </summary>
         [Required(ErrorMessage = "旧密码不能为空")]
-        public override string Password { get; set; }
+        public string Password { get; set; }
 
         /// <summary>
         /// 新密码
         /// </summary>
-        [Required(ErrorMessage = "新密码不能为空"), Compare(nameof(Password), ErrorMessage = "新旧密码不能一致")]
+        [Required(ErrorMessage = "新密码不能为空")]
         [StringLength(32, MinimumLength = 5, ErrorMessage = "密码需要大于5个字符")]
         public string NewPassword { get; set; }
+
+        /// <summary>
+        /// 确认密码
+        /// </summary>
+        [Required(ErrorMessage = "确认密码不能为空"), Compare(nameof(NewPassword), ErrorMessage = "两次密码不一致")]
+        public string Confirm { get; set; }
     }
 }

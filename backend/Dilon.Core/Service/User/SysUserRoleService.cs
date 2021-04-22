@@ -41,7 +41,7 @@ namespace Dilon.Core.Service
         [UnitOfWork]
         public async Task GrantRole(UpdateUserInput input)
         {
-            var userRoles = await _sysUserRoleRep.Where(u => u.SysUserId == long.Parse(input.Id)).ToListAsync();
+            var userRoles = await _sysUserRoleRep.Where(u => u.SysUserId == input.Id).ToListAsync();
             userRoles.ForEach(u =>
             {
                 u.Delete();
@@ -51,7 +51,7 @@ namespace Dilon.Core.Service
             {
                 new SysUserRole
                 {
-                    SysUserId = long.Parse(input.Id),
+                    SysUserId = input.Id,
                     SysRoleId = u
                 }.Insert();
             });
