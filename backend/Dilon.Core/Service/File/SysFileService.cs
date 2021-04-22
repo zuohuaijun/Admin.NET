@@ -4,7 +4,6 @@ using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
-using Furion.Snowflake;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,6 +16,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Yitter.IdGenerator;
 
 namespace Dilon.Core.Service
 {
@@ -173,7 +173,7 @@ namespace Dilon.Core.Service
         /// <returns></returns>
         private static async Task UploadFile(IFormFile file, string pathType)
         {
-            var fileId = IDGenerator.NextId();
+            var fileId = YitIdHelper.NextId();
 
             var fileSizeKb = (long)(file.Length / 1024.0); // 文件大小KB
             var originalFilename = file.FileName; // 文件原始名称

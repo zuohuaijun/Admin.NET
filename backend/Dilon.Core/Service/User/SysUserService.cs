@@ -4,7 +4,6 @@ using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
-using Furion.Snowflake;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Yitter.IdGenerator;
 
 namespace Dilon.Core.Service
 {
@@ -351,7 +351,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysUser/import")]
         public async Task ImportUser(IFormFile file)
         {
-            var path = Path.Combine(Path.GetTempPath(), $"{IDGenerator.NextId()}.xlsx");
+            var path = Path.Combine(Path.GetTempPath(), $"{YitIdHelper.NextId()}.xlsx");
             using (var stream = File.Create(path))
             {
                 await file.CopyToAsync(stream);

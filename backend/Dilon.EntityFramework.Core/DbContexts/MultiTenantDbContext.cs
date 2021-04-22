@@ -3,11 +3,11 @@ using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
 using Furion.FriendlyException;
-using Furion.Snowflake;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using System;
 using System.Linq;
+using Yitter.IdGenerator;
 
 namespace Dilon.EntityFramework.Core
 {
@@ -46,7 +46,7 @@ namespace Dilon.EntityFramework.Core
                     var obj = entity.Entity as DEntityBase;
                     if (entity.State == EntityState.Added)
                     {
-                        obj.Id = IDGenerator.NextId();
+                        obj.Id = YitIdHelper.NextId();
                         obj.CreatedTime = DateTimeOffset.Now;
                         if (!string.IsNullOrEmpty(userId))
                         {
