@@ -118,7 +118,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysFileInfo/upload")]
         public async Task UploadFileDefault(IFormFile file)
         {
-            await UploadFile(file, _configuration["UploadFile:Default:path"]);
+            await UploadFile(file, _configuration["UploadFile:Aliyun:path"], (int)FileLocation.ALIYUN);
         }
 
         /// <summary>
@@ -193,6 +193,59 @@ namespace Dilon.Core.Service
             {
                 Id = fileId,
                 FileLocation = (int)FileLocation.LOCAL,
+                FileBucket = pathType,
+                FileObjectName = finalName,
+                FileOriginName = originalFilename,
+                FileSuffix = fileSuffix.TrimStart('.'),
+                FileSizeKb = fileSizeKb
+            };
+            await sysFileInfo.InsertAsync();
+        }
+
+
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="file">文件</param>
+        /// <param name="pathType">存储路径</param>
+        /// <param name="fileLocation">文件存储位置</param>
+        /// <returns></returns>
+        private static async Task UploadFile(IFormFile file, string pathType,int fileLocation)
+        {
+            var fileId = IDGenerator.NextId();
+
+            var fileSizeKb = (long)(file.Length / 1024.0); // 文件大小KB
+            var originalFilename = file.FileName; // 文件原始名称
+            var fileSuffix = Path.GetExtension(file.FileName).ToLower(); // 文件后缀
+            var finalName = fileId + fileSuffix; // 生成文件的最终名称            
+
+            //阿里云OSS
+            if (fileLocation == (int)FileLocation.ALIYUN)
+            {
+                var filePath = pathType + finalName;
+                OSSClientHelper.deletefileCode(filePath);
+
+                var stream = file.OpenReadStream();
+                var result = OSSClientHelper.PushMedia(stream, filePath);
+            }
+            //本地存储
+            else if (fileLocation == (int)FileLocation.LOCAL) 
+            {
+                var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, pathType);
+                if (!Directory.Exists(filePath))
+                    Directory.CreateDirectory(filePath);
+
+                using (var stream = File.Create(Path.Combine(filePath, finalName)))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+
+
+            var sysFileInfo = new SysFile
+            {
+                Id = fileId,
+                FileLocation = fileLocation,
                 FileBucket = pathType,
                 FileObjectName = finalName,
                 FileOriginName = originalFilename,
