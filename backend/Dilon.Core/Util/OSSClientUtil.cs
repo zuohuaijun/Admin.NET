@@ -1,66 +1,51 @@
 ﻿using Aliyun.OSS;
 using Aliyun.OSS.Common;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Dilon.Core
 {
     /// <summary>
-    /// 阿里云oss文件上传工具类  by--jck
+    /// 阿里云oss文件上传工具类
     /// </summary>
-    public class OSSClientHelper
+    public class OSSClientUtil
     {
-
-        public static string accessKeyId = "accessKeyId";
-        public static string accessKeySecret = "accessKeySecret";
+        private static string _accessKeyId = "accessKeyId";
+        private static string _accessKeySecret = "accessKeySecret";
         //const string endpoint = "oss-cn-huhehaote-internal.aliyuncs.com";
-        private static string internalEndpoint = "internalEndpoint"; //内网传输连接
-        const string endpoint = "oss-cn-beijing.aliyuncs.com"; //"oss-cn-beijing.aliyuncs.com";// "oss-cn-huhehaote-internal.aliyuncs.com";//"oss-cn-huhehaote.aliyuncs.com" ;
-        public static string bucketName = "bucketName";
+        private static string _internalEndpoint = "internalEndpoint"; //内网传输连接
+        private const string _endpoint = "oss-cn-beijing.aliyuncs.com"; //"oss-cn-beijing.aliyuncs.com";// "oss-cn-huhehaote-internal.aliyuncs.com";//"oss-cn-huhehaote.aliyuncs.com" ;
+        private static string _bucketName = "bucketName";
 
         public static OssClient GetClient()
         {
-
-            return new OssClient(endpoint, accessKeyId, accessKeySecret);
+            return new OssClient(_endpoint, _accessKeyId, _accessKeySecret);
         }
+
         public static OssClient GetClient_CND()
         {
-
             var conf = new ClientConfiguration();
             conf.IsCname = true;
-            return new OssClient("cdnmedia.aliyuncs.com", accessKeyId, accessKeySecret, conf);
-        }
-        public static OssClient GetClient_internal()
-        {
-            return new OssClient(internalEndpoint, accessKeyId, accessKeySecret);
+            return new OssClient("cdnmedia.aliyuncs.com", _accessKeyId, _accessKeySecret, conf);
         }
 
-        #region 文件上传OSS，走阿里云内网传输
+        public static OssClient GetClient_internal()
+        {
+            return new OssClient(_internalEndpoint, _accessKeyId, _accessKeySecret);
+        }
+
         /// <summary>
-        /// 上传本地文件
+        /// 上传本地文件(走阿里云内网传输)
         /// </summary>
         /// <param name="objectName"></param>
-        /// <param name="bucket"></param>
-        /// <param name="contentType"></param>
         /// <param name="localFilename"></param>
         /// <returns></returns>
         public static bool PushMedia_internal(string objectName, string localFilename)
         {
-            try
-            {
-                var client = GetClient_internal();
-                return client.PutObject(bucketName, objectName, localFilename).HttpStatusCode == System.Net.HttpStatusCode.OK;
-            }
-            catch (Exception ex)
-            { }
-            return false;
+            var client = GetClient_internal();
+            return client.PutObject(_bucketName, objectName, localFilename).HttpStatusCode == System.Net.HttpStatusCode.OK;
         }
-        #endregion
 
         /// <summary>
         /// 上传一个图片
@@ -69,32 +54,17 @@ namespace Dilon.Core
         /// <param name="fileName">文件名,例如:Emplyoee/dzzBack.jpg</param>
         public static bool PushImg(string base64Code, string fileName)
         {
-            try
-            {
-                var client = GetClient();
-                MemoryStream stream = new MemoryStream(Convert.FromBase64String(base64Code));
-                return client.PutObject(bucketName, fileName, stream).HttpStatusCode == System.Net.HttpStatusCode.OK;
-            }
-            catch (Exception ex)
-            { }
-            return false;
+            var client = GetClient();
+            MemoryStream stream = new MemoryStream(Convert.FromBase64String(base64Code));
+            return client.PutObject(_bucketName, fileName, stream).HttpStatusCode == System.Net.HttpStatusCode.OK;
         }
+
         public static bool PushMedia(Stream stream, string fileName)
         {
-
-            try
-            {
-                var client = GetClient();
-                //MemoryStream stream = new MemoryStream(Convert.FromBase64String(base64Code));
-                //var metadata = new ObjectMetadata();
-                //metadata.ContentType = TypeTo(contentType);
-
-                return client.PutObject(bucketName, fileName, stream).HttpStatusCode == System.Net.HttpStatusCode.OK;
-            }
-            catch (Exception ex)
-            { }
-            return false;
+            var client = GetClient();
+            return client.PutObject(_bucketName, fileName, stream).HttpStatusCode == System.Net.HttpStatusCode.OK;
         }
+
         /// <summary>
         /// 上传本地文件
         /// </summary>
@@ -104,53 +74,35 @@ namespace Dilon.Core
         /// <returns></returns>
         public static int PushMedia(string objectName, string localFilename)
         {
-
-            if (System.IO.File.Exists(localFilename))
+            if (!File.Exists(localFilename)) return 1;            
+            if (DoesObjectExist(objectName)) return 2; // 存在文件
+            try
             {
-                //存在文件
-                if (!DoesObjectExist(objectName))
+                var client = GetClient();
+                //MemoryStream stream = new MemoryStream(Convert.FromBase64String(base64Code));
+                //var metadata = new ObjectMetadata();
+                //metadata.ContentType = TypeTo(contentType);
+
+                if (localFilename.Contains("http"))
                 {
-
-                    try
-                    {
-                        var client = GetClient();
-                        //MemoryStream stream = new MemoryStream(Convert.FromBase64String(base64Code));
-                        //var metadata = new ObjectMetadata();
-                        //metadata.ContentType = TypeTo(contentType);
-
-                        if (localFilename.Contains("http"))
-                        {
-                            var webClient = new WebClient { Credentials = CredentialCache.DefaultCredentials };
-                            var stream = webClient.DownloadData(localFilename);
-                            MemoryStream ms = new MemoryStream(stream);
-                            var c = client.PutObject(bucketName, objectName, ms);
-
-                            if (c.HttpStatusCode == System.Net.HttpStatusCode.OK) { return 4; } else { return 3; }
-
-
-                        }
-                        else
-                        {
-                            var c = client.PutObject(bucketName, objectName, localFilename);
-
-                            if (c.HttpStatusCode == System.Net.HttpStatusCode.OK) { return 4; } else { return 3; }
-
-                        }
-                    }
-                    catch (Exception ex)
-                    { return 3; }
+                    var webClient = new WebClient { Credentials = CredentialCache.DefaultCredentials };
+                    var stream = webClient.DownloadData(localFilename);
+                    MemoryStream ms = new MemoryStream(stream);
+                    var c = client.PutObject(_bucketName, objectName, ms);
+                    if (c.HttpStatusCode == System.Net.HttpStatusCode.OK) { return 4; } else { return 3; }
                 }
                 else
                 {
-                    return 2;
+                    var c = client.PutObject(_bucketName, objectName, localFilename);
+                    if (c.HttpStatusCode == System.Net.HttpStatusCode.OK) { return 4; } else { return 3; }
                 }
-
             }
-            else
+            catch (Exception ex)
             {
-                return 1;
+                return 3;
             }
         }
+
         /// <summary>
         /// 上传一个图片
         /// </summary>
@@ -158,19 +110,13 @@ namespace Dilon.Core
         /// <param name="fileName">文件名,例如:Emplyoee/dzzBack.jpg</param>
         public static bool PushImg(byte[] filebyte, string fileName, out string md5)
         {
-            md5 = string.Empty;
-            try
-            {
-                var client = GetClient();
-                MemoryStream stream = new MemoryStream(filebyte, 0, filebyte.Length);
-                var result = client.PutObject(bucketName, fileName, stream);
-                md5 = result.ResponseMetadata["Content-MD5"];
-                return result.HttpStatusCode == System.Net.HttpStatusCode.OK;
-            }
-            catch (Exception)
-            { }
-            return false;
+            var client = GetClient();
+            MemoryStream stream = new MemoryStream(filebyte, 0, filebyte.Length);
+            var result = client.PutObject(_bucketName, fileName, stream);
+            md5 = result.ResponseMetadata["Content-MD5"];
+            return result.HttpStatusCode == System.Net.HttpStatusCode.OK;
         }
+
         /// <summary>
         /// 获取鉴权后的URL,URL有效日期默认一小时
         /// </summary>
@@ -180,13 +126,12 @@ namespace Dilon.Core
         {
             var client = GetClient();
             var key = fileName;
-            var req = new GeneratePresignedUriRequest(bucketName, key, SignHttpMethod.Get)
+            var req = new GeneratePresignedUriRequest(_bucketName, key, SignHttpMethod.Get)
             {
                 Expiration = DateTime.Now.AddHours(1)
             };
             return client.GeneratePresignedUri(req).ToString();
         }
-
 
         /// <summary>
         /// 获取鉴权后的URL
@@ -198,7 +143,7 @@ namespace Dilon.Core
         {
             var client = GetClient();
             var key = fileName;
-            var req = new GeneratePresignedUriRequest(bucketName, key, SignHttpMethod.Get)
+            var req = new GeneratePresignedUriRequest(_bucketName, key, SignHttpMethod.Get)
             {
                 Expiration = expiration
             };
@@ -223,57 +168,47 @@ namespace Dilon.Core
                 return buffur;
             }
         }
+
         /// <summary>
         /// 删除文件
         /// </summary>
         /// <param name="fileCode">文件id</param>
         /// <returns>文件url</returns>
-        public static bool deletefileCode(string fileCode)
+        public static bool DeletefileCode(string fileCode)
         {
             if (string.IsNullOrEmpty(fileCode))
-            {
                 return true;
-            }
+
             //检查fileCode磁盘中是否存在此文件
             if (File.Exists(fileCode))
             {
                 File.Delete(fileCode);
                 return true;
             }
-            try
-            {
-                var client = GetClient();
-                client.DeleteObject(bucketName, fileCode);
-                return true;
-            }
-            catch (Exception)
-            {
-            }
-            return false;
+            var client = GetClient();
+            client.DeleteObject(_bucketName, fileCode);
+            return true;
         }
 
         /// <summary>
         /// 删除文件夹
         /// </summary>
-        /// <param name="fileCode">文件id</param>
+        /// <param name="prefix">文件id</param>
         /// <returns>文件url</returns>
         public static bool DeleteFolder(string prefix)
         {
             if (string.IsNullOrEmpty(prefix))
-            {
                 return true;
-            }
-            var client = GetClient();
 
-            var listObjectsRequest = new ListObjectsRequest(bucketName);
+            var client = GetClient();
+            var listObjectsRequest = new ListObjectsRequest(_bucketName);
             listObjectsRequest.Prefix = prefix;
             var result = client.ListObjects(listObjectsRequest);
 
             foreach (var summary in result.ObjectSummaries)
             {
-                client.DeleteObject(bucketName, summary.Key);
+                client.DeleteObject(_bucketName, summary.Key);
             }
-
             return false;
         }
 
@@ -284,18 +219,12 @@ namespace Dilon.Core
         /// <returns></returns>
         public static bool DoesObjectExist(string fileName)
         {
-            try
-            {
-                var client = GetClient();
-                // 判断文件是否存在。
-                var exist = client.DoesObjectExist(bucketName, fileName);
-                return exist;
-            }
-            catch (Exception ex)
-            {
-                return false;
-            }
+            var client = GetClient();
+            // 判断文件是否存在。
+            var exist = client.DoesObjectExist(_bucketName, fileName);
+            return exist;
         }
+
         /// <summary>
         /// 类型转换
         /// </summary>
@@ -316,9 +245,9 @@ namespace Dilon.Core
             }
             return type;
         }
-        public static OssObject downLoad(String fileName)
-        {
 
+        public static OssObject DownLoad(String fileName)
+        {
             //var client = GetClient();
             //DateTime expiration = new DateTime().AddHours(1);
             //GeneratePresignedUriRequest request = new GeneratePresignedUriRequest(bucketName, fileName, SignHttpMethod.Get);
@@ -333,18 +262,11 @@ namespace Dilon.Core
 
             var client = GetClient();
             var key = fileName;
-            var req = new GeneratePresignedUriRequest(bucketName, key, SignHttpMethod.Get)
+            var req = new GeneratePresignedUriRequest(_bucketName, key, SignHttpMethod.Get)
             {
                 Expiration = DateTime.Now.AddHours(1)
             };
-
-            return client.GetObject(bucketName, key);
-
+            return client.GetObject(_bucketName, key);
         }
-
-        #region 阿里云CDN API刷新缓存
-
-        #endregion
-
     }
 }

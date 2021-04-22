@@ -40,7 +40,7 @@
   "UploadFile": {
     // 阿里云OSS配置
     "Aliyun": {
-      "path": "Jck/Test",
+      "path": "Dilon/Upload",
       "maxSize": 1048576,
       "contentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif", "image/bmp", "text/plain", "application/pdf", "application/msword", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.presentationml.presentation" ]
     },

@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -210,9 +209,9 @@ namespace Dilon.Core.Service
         /// <param name="pathType">存储路径</param>
         /// <param name="fileLocation">文件存储位置</param>
         /// <returns></returns>
-        private static async Task UploadFile(IFormFile file, string pathType,int fileLocation)
+        private static async Task UploadFile(IFormFile file, string pathType, int fileLocation)
         {
-            var fileId = IDGenerator.NextId();
+            var fileId = YitIdHelper.NextId();
 
             var fileSizeKb = (long)(file.Length / 1024.0); // 文件大小KB
             var originalFilename = file.FileName; // 文件原始名称
@@ -223,13 +222,13 @@ namespace Dilon.Core.Service
             if (fileLocation == (int)FileLocation.ALIYUN)
             {
                 var filePath = pathType + finalName;
-                OSSClientHelper.deletefileCode(filePath);
+                OSSClientUtil.DeletefileCode(filePath);
 
                 var stream = file.OpenReadStream();
-                var result = OSSClientHelper.PushMedia(stream, filePath);
+                var result = OSSClientUtil.PushMedia(stream, filePath);
             }
             //本地存储
-            else if (fileLocation == (int)FileLocation.LOCAL) 
+            else if (fileLocation == (int)FileLocation.LOCAL)
             {
                 var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, pathType);
                 if (!Directory.Exists(filePath))
@@ -240,7 +239,6 @@ namespace Dilon.Core.Service
                     await file.CopyToAsync(stream);
                 }
             }
-
 
             var sysFileInfo = new SysFile
             {

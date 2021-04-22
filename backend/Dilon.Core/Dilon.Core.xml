@@ -5021,6 +5021,15 @@
             <param name="pathType"></param>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.SysFileService.UploadFile(Microsoft.AspNetCore.Http.IFormFile,System.String,System.Int32)">
+            <summary>
+            上传文件
+            </summary>
+            <param name="file">文件</param>
+            <param name="pathType">存储路径</param>
+            <param name="fileLocation">文件存储位置</param>
+            <returns></returns>
+        </member>
         <member name="T:Dilon.Core.Service.ExLogInput">
             <summary>
             异常日志参数
@@ -7422,6 +7431,91 @@
             获取当前网卡的网络速度
             </summary>
             <param name="Milliseconds"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Dilon.Core.OSSClientUtil">
+            <summary>
+            阿里云oss文件上传工具类
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.PushMedia_internal(System.String,System.String)">
+            <summary>
+            上传本地文件(走阿里云内网传输)
+            </summary>
+            <param name="objectName"></param>
+            <param name="localFilename"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.PushImg(System.String,System.String)">
+            <summary>
+            上传一个图片
+            </summary>
+            <param name="base64Code">图片经过base64加密后的结果</param>
+            <param name="fileName">文件名,例如:Emplyoee/dzzBack.jpg</param>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.PushMedia(System.String,System.String)">
+            <summary>
+            上传本地文件
+            </summary>
+            <param name="objectName"></param>
+            <param name="localFilename"></param>
+            返回参数说明  1.本地文件不存在  2.文件oss上已存在  3.上传失败  4.上传成功
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.PushImg(System.Byte[],System.String,System.String@)">
+            <summary>
+            上传一个图片
+            </summary>
+            <param name="filebyte">图片字节 </param>
+            <param name="fileName">文件名,例如:Emplyoee/dzzBack.jpg</param>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.GetImg(System.String)">
+            <summary>
+            获取鉴权后的URL,URL有效日期默认一小时
+            </summary>
+            <param name="fileName">文件名,例如:Emplyoee/dzzBack.jpg</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.GetImg(System.String,System.DateTime)">
+            <summary>
+            获取鉴权后的URL
+            </summary>
+            <param name="fileName">文件名,例如:Emplyoee/dzzBack.jpg</param>
+            <param name="expiration">URL有效日期,例如:DateTime.Now.AddHours(1) </param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.AuthGetFileData(System.String)">
+            <summary>
+            将文件转换成byte[] 数组
+            </summary>
+            <param name="fileUrl">文件路径文件名称</param>
+            <returns>byte[]</returns>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.DeletefileCode(System.String)">
+            <summary>
+            删除文件
+            </summary>
+            <param name="fileCode">文件id</param>
+            <returns>文件url</returns>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.DeleteFolder(System.String)">
+            <summary>
+            删除文件夹
+            </summary>
+            <param name="prefix">文件id</param>
+            <returns>文件url</returns>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.DoesObjectExist(System.String)">
+            <summary>
+            判断文件是否存在
+            </summary>
+            <param name="fileName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.OSSClientUtil.TypeTo(System.String)">
+            <summary>
+            类型转换
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Dilon.Core.ReflectionUtil">
