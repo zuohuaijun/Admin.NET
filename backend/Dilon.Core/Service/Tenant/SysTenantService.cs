@@ -19,7 +19,7 @@ namespace Dilon.Core.Service
     public class SysTenantService : ISysTenantService, IDynamicApiController, ITransient
     {
         private readonly IRepository<SysTenant, MultiTenantDbContextLocator> _sysTenantRep;    // 租户表仓储
-        private readonly IRepository<SysUser> _sysUserRep; 
+        private readonly IRepository<SysUser> _sysUserRep;
         private readonly IRepository<SysOrg> _sysOrgRep;
         private readonly IRepository<SysRole> _sysRoleRep;
         private readonly IRepository<SysEmp> _sysEmpRep;
@@ -98,7 +98,7 @@ namespace Dilon.Core.Service
                 Contacts = newTenant.AdminName,
                 Tel = newTenant.Phone
             };
-            var newOrg = await _sysOrgRep.InsertNowAsync(sysOrg);
+            var newOrg = _sysOrgRep.InsertNow(sysOrg);
 
             // 初始化角色
             SysRole sysRole = new()
@@ -108,7 +108,7 @@ namespace Dilon.Core.Service
                 Name = "系统管理员",
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
             };
-            var newRole = await _sysRoleRep.InsertNowAsync(sysRole);
+            var newRole = _sysRoleRep.InsertNow(sysRole);
 
             // 初始化用户
             SysUser sysUser = new()
@@ -120,11 +120,11 @@ namespace Dilon.Core.Service
                 NickName = newTenant.AdminName,
                 Email = newTenant.Email,
                 Phone = newTenant.Phone,
-                AdminType = AdminType.None,
+                AdminType = AdminType.Admin,
                 SysRoles = new List<SysRole>() { newRole.Entity },
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
             };
-            var newUser = await _sysUserRep.InsertNowAsync(sysUser);
+            var newUser = _sysUserRep.InsertNow(sysUser);
 
             // 初始化职工
             SysEmp sysEmp = new()
@@ -134,7 +134,7 @@ namespace Dilon.Core.Service
                 OrgId = newOrg.Entity.Id,
                 OrgName = newOrg.Entity.Name
             };
-            await _sysEmpRep.InsertNowAsync(sysEmp);
+            _sysEmpRep.InsertNow(sysEmp);
         }
 
         /// <summary>
