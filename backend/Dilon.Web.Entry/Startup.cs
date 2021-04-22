@@ -1,3 +1,4 @@
+using Furion;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -5,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dilon.Web.Entry
 {
+    [AppStartup(10)]
     public class Startup
     {
         public Startup(IConfiguration configuration)

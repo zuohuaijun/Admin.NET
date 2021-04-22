@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dilon.Core
 {
-    [AppStartup(90)]
+    [AppStartup(7)]
     public class Startup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)

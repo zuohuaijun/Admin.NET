@@ -10,7 +10,7 @@ using System.Text.Json;
 
 namespace Dilon.Web.Core
 {
-    [AppStartup(100)]
+    [AppStartup(9)]
     public class Startup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)

@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Dilon.EntityFramework.Core
 {
-    [AppStartup(95)]
+    [AppStartup(8)]
     public class Startup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)
