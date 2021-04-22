@@ -41,7 +41,7 @@ namespace Dilon.Core
             Bitmap bitmap = null;
             Graphics g = null;
             MemoryStream ms = null;
-            Random random = new Random();
+            Random random = new();
 
             Color[] colorArray = { Color.Black, Color.DarkBlue, Color.Green, Color.Orange, Color.Brown, Color.DarkCyan, Color.Purple };
 
@@ -63,7 +63,7 @@ namespace Dilon.Core
             g = Graphics.FromImage(bitmap);
             Color[] penColor = { Color.Red, Color.Green, Color.Blue };
             int code_length = code.Length;
-            List<string> words = new List<string>();
+            var words = new List<string>();
             for (int i = 0; i < code_length; i++)
             {
                 int colorIndex = random.Next(colorArray.Length);
@@ -72,7 +72,7 @@ namespace Dilon.Core
                 Brush b = new SolidBrush(colorArray[colorIndex]);
                 int _y = random.Next(height);
                 if (_y > (height - 30))
-                    _y = _y - 60;
+                    _y -= 60;
 
                 int _x = width / (i + 1);
                 if ((width - _x) < 50)
@@ -140,8 +140,7 @@ namespace Dilon.Core
         {
             var pfc = new System.Drawing.Text.PrivateFontCollection();
             pfc.AddFontFile(path);// 字体文件路径
-            Font myFont = new Font(pfc.Families[0], size, fontStyle);
-            return myFont;
+            return new Font(pfc.Families[0], size, fontStyle);
         }
 
         /// <summary>
@@ -180,14 +179,14 @@ namespace Dilon.Core
                 '菲', '寒', '伊', '亚', '宜', '可', '姬', '舒', '影', '荔', '枝', '丽', '阳', '妮', '宝', '贝', '初', '程', '梵', '罡', '恒', '鸿',
                 '桦', '骅', '剑', '娇', '纪', '宽', '苛', '灵', '玛', '媚', '琪', '晴', '容', '睿', '烁', '堂', '唯', '威', '韦', '雯', '苇', '萱',
                 '阅', '彦', '宇', '雨', '洋', '忠', '宗', '曼', '紫', '逸', '贤', '蝶', '菡', '绿', '蓝', '儿', '翠', '烟' };
-            Random rand = new Random();
-            HashSet<char> hs = new HashSet<char>();
-            bool randomBool = true;
+            var rand = new Random();
+            var hs = new HashSet<char>();
+            var randomBool = true;
             while (randomBool)
             {
                 if (hs.Count == number)
                     break;
-                int rand_number = rand.Next(str_char_arrary.Length);
+                var rand_number = rand.Next(str_char_arrary.Length);
                 hs.Add(str_char_arrary[rand_number]);
             }
             return string.Join("", hs);

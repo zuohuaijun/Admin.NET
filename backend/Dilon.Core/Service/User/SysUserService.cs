@@ -357,14 +357,14 @@ namespace Dilon.Core.Service
                 await file.CopyToAsync(stream);
             }
 
-            var rows = MiniExcel.Query(path); // 解析
-            foreach (var row in rows)
-            {
-                var a = row.A;
-                var b = row.B;
-                // 入库等操作
+            //var rows = MiniExcel.Query(path); // 解析
+            //foreach (var row in rows)
+            //{
+            //    var a = row.A;
+            //    var b = row.B;
+            //    // 入库等操作
 
-            }
+            //}
         }
 
         /// <summary>

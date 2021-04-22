@@ -7468,6 +7468,7 @@
             </summary>
             <param name="filebyte">图片字节 </param>
             <param name="fileName">文件名,例如:Emplyoee/dzzBack.jpg</param>
+            <param name="md5"></param>
         </member>
         <member name="M:Dilon.Core.OSSClientUtil.GetImg(System.String)">
             <summary>

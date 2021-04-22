@@ -225,7 +225,7 @@ namespace Dilon.Core.Service
                 OSSClientUtil.DeletefileCode(filePath);
 
                 var stream = file.OpenReadStream();
-                var result = OSSClientUtil.PushMedia(stream, filePath);
+                OSSClientUtil.PushMedia(stream, filePath);
             }
             //本地存储
             else if (fileLocation == (int)FileLocation.LOCAL)

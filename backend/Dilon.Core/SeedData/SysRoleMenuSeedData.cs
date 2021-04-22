@@ -66,7 +66,8 @@ namespace Dilon.Core.SeedData
                 new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070914661 },
                 new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070910560 },
                 new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070910561 },
-                new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070910562 }
+                new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070910562 },
+                new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070914648 }  // 菜单授权树
             };
         }
     }

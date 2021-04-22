@@ -173,6 +173,7 @@ namespace Dilon.Core.Service
         public async Task GrantMenu(GrantRoleMenuInput input)
         {
             var tenantAdminUser = await GetTenantAdminUser(input.Id);
+            if (tenantAdminUser == null) return;
             var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
             input.Id = roleIds[0]; // 重置租户管理员角色Id
             await _sysRoleMenuService.GrantMenu(input);
@@ -187,6 +188,7 @@ namespace Dilon.Core.Service
         public async Task<List<long>> OwnMenu([FromQuery] QueryTenantInput input)
         {
             var tenantAdminUser = await GetTenantAdminUser(input.Id);
+            if (tenantAdminUser == null) return new List<long>();
             var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
             var tenantAdminRoleId = roleIds[0]; // 租户管理员角色Id
             return await _sysRoleMenuService.GetRoleMenuIdList(new List<long> { tenantAdminRoleId });

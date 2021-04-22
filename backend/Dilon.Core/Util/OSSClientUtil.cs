@@ -11,12 +11,12 @@ namespace Dilon.Core
     /// </summary>
     public class OSSClientUtil
     {
-        private static string _accessKeyId = "accessKeyId";
-        private static string _accessKeySecret = "accessKeySecret";
+        private static readonly string _accessKeyId = "accessKeyId";
+        private static readonly string _accessKeySecret = "accessKeySecret";
         //const string endpoint = "oss-cn-huhehaote-internal.aliyuncs.com";
-        private static string _internalEndpoint = "internalEndpoint"; //内网传输连接
+        private static readonly string _internalEndpoint = "internalEndpoint"; //内网传输连接
         private const string _endpoint = "oss-cn-beijing.aliyuncs.com"; //"oss-cn-beijing.aliyuncs.com";// "oss-cn-huhehaote-internal.aliyuncs.com";//"oss-cn-huhehaote.aliyuncs.com" ;
-        private static string _bucketName = "bucketName";
+        private static readonly string _bucketName = "bucketName";
 
         public static OssClient GetClient()
         {
@@ -25,8 +25,10 @@ namespace Dilon.Core
 
         public static OssClient GetClient_CND()
         {
-            var conf = new ClientConfiguration();
-            conf.IsCname = true;
+            var conf = new ClientConfiguration
+            {
+                IsCname = true
+            };
             return new OssClient("cdnmedia.aliyuncs.com", _accessKeyId, _accessKeySecret, conf);
         }
 
@@ -55,7 +57,7 @@ namespace Dilon.Core
         public static bool PushImg(string base64Code, string fileName)
         {
             var client = GetClient();
-            MemoryStream stream = new MemoryStream(Convert.FromBase64String(base64Code));
+            var stream = new MemoryStream(Convert.FromBase64String(base64Code));
             return client.PutObject(_bucketName, fileName, stream).HttpStatusCode == System.Net.HttpStatusCode.OK;
         }
 
@@ -87,7 +89,7 @@ namespace Dilon.Core
                 {
                     var webClient = new WebClient { Credentials = CredentialCache.DefaultCredentials };
                     var stream = webClient.DownloadData(localFilename);
-                    MemoryStream ms = new MemoryStream(stream);
+                    var ms = new MemoryStream(stream);
                     var c = client.PutObject(_bucketName, objectName, ms);
                     if (c.HttpStatusCode == System.Net.HttpStatusCode.OK) { return 4; } else { return 3; }
                 }
@@ -97,7 +99,7 @@ namespace Dilon.Core
                     if (c.HttpStatusCode == System.Net.HttpStatusCode.OK) { return 4; } else { return 3; }
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 return 3;
             }
@@ -108,10 +110,11 @@ namespace Dilon.Core
         /// </summary>
         /// <param name="filebyte">图片字节 </param>
         /// <param name="fileName">文件名,例如:Emplyoee/dzzBack.jpg</param>
+        /// <param name="md5"></param>
         public static bool PushImg(byte[] filebyte, string fileName, out string md5)
         {
             var client = GetClient();
-            MemoryStream stream = new MemoryStream(filebyte, 0, filebyte.Length);
+            var stream = new MemoryStream(filebyte, 0, filebyte.Length);
             var result = client.PutObject(_bucketName, fileName, stream);
             md5 = result.ResponseMetadata["Content-MD5"];
             return result.HttpStatusCode == System.Net.HttpStatusCode.OK;
@@ -155,9 +158,9 @@ namespace Dilon.Core
         /// </summary>
         /// <param name="fileUrl">文件路径文件名称</param>
         /// <returns>byte[]</returns>
-        protected byte[] AuthGetFileData(string fileUrl)
+        private byte[] AuthGetFileData(string fileUrl)
         {
-            using (FileStream fs = new FileStream(fileUrl, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+            using (var fs = new FileStream(fileUrl, FileMode.OpenOrCreate, FileAccess.ReadWrite))
             {
                 byte[] buffur = new byte[fs.Length];
                 using (BinaryWriter bw = new BinaryWriter(fs))
@@ -231,18 +234,12 @@ namespace Dilon.Core
         /// <returns></returns>
         public static string TypeTo(string type)
         {
-            switch (type)
+            type = type switch
             {
-                case "mp4":
-                    type = "video/mp4";
-                    break;
-                case "mp3":
-                    type = "audio/mp3";
-                    break;
-                default:
-                    type = "image/" + type;
-                    break;
-            }
+                "mp4" => "video/mp4",
+                "mp3" => "audio/mp3",
+                _ => "image/" + type,
+            };
             return type;
         }
 
@@ -262,7 +259,7 @@ namespace Dilon.Core
 
             var client = GetClient();
             var key = fileName;
-            var req = new GeneratePresignedUriRequest(_bucketName, key, SignHttpMethod.Get)
+            _ = new GeneratePresignedUriRequest(_bucketName, key, SignHttpMethod.Get)
             {
                 Expiration = DateTime.Now.AddHours(1)
             };
