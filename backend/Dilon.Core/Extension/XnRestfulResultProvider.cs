@@ -43,8 +43,9 @@ namespace Dilon.Core
         /// </summary>
         /// <param name="context"></param>
         /// <param name="statusCode"></param>
+        /// <param name="options"></param>
         /// <returns></returns>
-        public async Task OnResponseStatusCodes(HttpContext context, int statusCode)
+        public async Task OnResponseStatusCodes(HttpContext context, int statusCode, UnifyResultStatusCodesOptions options = null)
         {
             switch (statusCode)
             {
