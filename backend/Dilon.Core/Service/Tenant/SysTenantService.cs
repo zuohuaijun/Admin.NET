@@ -89,7 +89,7 @@ namespace Dilon.Core.Service
                 Code = "1",
                 Contacts = newTenant.AdminName,
                 Tel = newTenant.Phone
-            }.InsertAsync();
+            }.InsertNowAsync();
 
             // 初始化角色
             var newRole = await new SysRole
@@ -98,7 +98,7 @@ namespace Dilon.Core.Service
                 Code = "1",
                 Name = "系统管理员",
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
-            }.InsertAsync();
+            }.InsertNowAsync();
 
             // 初始化租户管理员
             var newUser = await new SysUser
@@ -113,7 +113,7 @@ namespace Dilon.Core.Service
                 AdminType = AdminType.Admin,
                 SysRoles = new List<SysRole>() { newRole.Entity },
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
-            }.InsertAsync();
+            }.InsertNowAsync();
 
             // 初始化职工
             new SysEmp
