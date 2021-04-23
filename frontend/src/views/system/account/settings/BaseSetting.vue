@@ -18,7 +18,7 @@
             label="性别"
           >
             <a-radio-group v-decorator="['sex',{rules: [{ required: true, message: '请选择性别！' }]}]" >
-              <a-radio v-for="(item,index) in sexData" :key=index :value="item.code">{{ item.name }}</a-radio>
+              <a-radio v-for="(item,index) in sexData" :key="index" :value="item.code">{{ item.name }}</a-radio>
             </a-radio-group>
           </a-form-item>
           <a-form-item
@@ -65,6 +65,7 @@
   import { mapGetters } from 'vuex'
   import moment from 'moment'
   import { sysUserUpdateInfo } from '@/api/modular/system/userManage'
+  import { sysFileInfoPreview } from '@/api/modular/system/fileManage'
 // mapActions
 export default {
   components: {
@@ -119,7 +120,12 @@ export default {
           }
         )
         this.birthdayString = moment(this.userInfo.birthday).format('YYYY-MM-DD')
-        this.option.img = process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + this.userInfo.avatar
+        sysFileInfoPreview({ id: this.userInfo.avatar }).then((res) => {
+          this.option.img = window.URL.createObjectURL(new Blob([res]))
+        }).catch((err) => {
+          this.$message.error('预览错误：' + err.message)
+        })
+        // this.option.img = process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + this.userInfo.avatar
         this.getSexData()
       }, 100)
     },

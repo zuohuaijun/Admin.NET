@@ -112,6 +112,8 @@ namespace Dilon.Core.Service
         public async Task<LoginOutput> GetLoginUserAsync()
         {
             var user = _userManager.User;
+            if (user == null)
+                throw Oops.Oh(ErrorCode.D1011);
             var userId = user.Id;
 
             var httpContext = App.GetService<IHttpContextAccessor>().HttpContext;

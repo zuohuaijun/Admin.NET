@@ -99,3 +99,17 @@ export function sysFileInfoDelete (parameter) {
     data: parameter
   })
 }
+
+/**
+ * 上传头像
+ *
+ * @author zuohuaijun
+ * @date 2021/4/23 00:20
+ */
+export function sysFileInfoUploadAvatar (parameter) {
+  return axios({
+    url: '/sysFileInfo/uploadAvatar',
+    method: 'post',
+    data: parameter
+  })
+}

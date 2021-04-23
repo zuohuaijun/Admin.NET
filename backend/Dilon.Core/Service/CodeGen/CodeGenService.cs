@@ -225,7 +225,7 @@ namespace Dilon.Core.Service.CodeGen
                 Icon = "robot",
                 Router = "/" + className.ToLower(),
                 Component = "PageView",
-                Application = "busapp"
+                Application = "busiapp"
             };
             var pid0 = _sysMenuRep.InsertNowAsync(menuType0).GetAwaiter().GetResult().Entity.Id;
 
@@ -239,7 +239,7 @@ namespace Dilon.Core.Service.CodeGen
                 Type = 1,
                 Router = "/" + className.ToLower(),
                 Component = "main/" + className + "/index",
-                Application = "busapp",
+                Application = "busiapp",
                 OpenType = 1
             };
             var pid1 = _sysMenuRep.InsertNowAsync(menuType1).GetAwaiter().GetResult().Entity.Id;
@@ -253,7 +253,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_page",
                 Type = 2,
                 Permission = className + ":page",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
 
             // 按钮-detail
@@ -265,7 +265,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_detail",
                 Type = 2,
                 Permission = className + ":detail",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
 
             // 按钮-add
@@ -277,7 +277,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_add",
                 Type = 2,
                 Permission = className + ":add",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
 
             // 按钮-delete
@@ -289,7 +289,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_delete",
                 Type = 2,
                 Permission = className + ":delete",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
 
             // 按钮-edit
@@ -301,7 +301,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_edit",
                 Type = 2,
                 Permission = className + ":edit",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
         }
 

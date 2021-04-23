@@ -145,4 +145,19 @@ namespace Dilon.Core.Service
         [Required(ErrorMessage = "确认密码不能为空"), Compare(nameof(NewPassword), ErrorMessage = "两次密码不一致")]
         public string Confirm { get; set; }
     }
+
+    public class UploadAvatarInput
+    {
+        /// <summary>
+        /// 用户Id
+        /// </summary>
+        [Required(ErrorMessage = "用户Id不能为空")]
+        public long Id { get; set; }
+
+        /// <summary>
+        /// 头像文件路径标识
+        /// </summary>
+        [Required(ErrorMessage = "头像文件路径标识不能为空")]
+        public long Avatar { get; set; }
+    }
 }

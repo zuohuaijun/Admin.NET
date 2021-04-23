@@ -291,17 +291,15 @@ namespace Dilon.Core.Service
         }
 
         /// <summary>
-        /// 修改用户头像(未实现)
+        /// 修改用户头像
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysUser/updateAvatar")]
-        public async Task UpdateAvatar(UpdateUserInput input)
+        public async Task UpdateAvatar(UploadAvatarInput input)
         {
             var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == input.Id);
-            // 调用文件上传
-            //sysFileInfoService.assertFile(input.Avatar);
-            user.Avatar = input.Avatar;
+            user.Avatar = input.Avatar.ToString();
         }
 
         /// <summary>

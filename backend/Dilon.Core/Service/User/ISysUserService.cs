@@ -24,7 +24,7 @@ namespace Dilon.Core.Service
         Task<dynamic> QueryUserPageList([FromQuery] UserInput input);
         Task ResetUserPwd(QueryUserInput input);
         Task SaveAuthUserToUser(AuthUserInput authUser, UserInput sysUser);
-        Task UpdateAvatar(UpdateUserInput input);
+        Task UpdateAvatar(UploadAvatarInput input);
         Task UpdateUser(UpdateUserInput input);
         Task UpdateUserInfo(UpdateUserInput input);
         Task UpdateUserPwd(ChangePasswordUserInput input);

@@ -13,7 +13,7 @@ namespace Dilon.Core.Service
         Task<List<SysFile>> GetFileInfoList([FromQuery] FileOutput input);
         Task<IActionResult> PreviewFileInfo([FromQuery] QueryFileInoInput input);
         Task<dynamic> QueryFileInfoPageList([FromQuery] FileInput input);
-        Task UploadFileAvatar(IFormFile file);
+        Task<long> UploadFileAvatar(IFormFile file);
         Task UploadFileDefault(IFormFile file);
         Task UploadFileDocument(IFormFile file);
         Task UploadFileShop(IFormFile file);

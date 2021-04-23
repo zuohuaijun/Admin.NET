@@ -35,20 +35,21 @@ namespace Dilon.Core
         /// 文件后缀
         /// </summary>
         [Comment("文件后缀")]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string FileSuffix { get; set; }
 
         /// <summary>
         /// 文件大小kb
         /// </summary>
         [Comment("文件大小kb")]
-        public long FileSizeKb { get; set; }
+        [MaxLength(10)]
+        public string FileSizeKb { get; set; }
 
         /// <summary>
         /// 文件大小信息，计算后的
         /// </summary>
         [Comment("文件大小信息")]
-        [MaxLength(100)]
+        [MaxLength(50)]
         public string FileSizeInfo { get; set; }
 
         /// <summary>

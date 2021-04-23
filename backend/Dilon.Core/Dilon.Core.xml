@@ -5021,7 +5021,7 @@
             <param name="pathType"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysFileService.UploadFile(Microsoft.AspNetCore.Http.IFormFile,System.String,System.Int32)">
+        <member name="M:Dilon.Core.Service.SysFileService.UploadFile(Microsoft.AspNetCore.Http.IFormFile,System.String,Dilon.Core.FileLocation)">
             <summary>
             上传文件
             </summary>
@@ -7047,6 +7047,16 @@
             确认密码
             </summary>
         </member>
+        <member name="P:Dilon.Core.Service.UploadAvatarInput.Id">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.UploadAvatarInput.Avatar">
+            <summary>
+            头像文件路径标识
+            </summary>
+        </member>
         <member name="T:Dilon.Core.Service.UserOutput">
             <summary>
             用户参数
@@ -7282,9 +7292,9 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysUserService.UpdateAvatar(Dilon.Core.Service.UpdateUserInput)">
+        <member name="M:Dilon.Core.Service.SysUserService.UpdateAvatar(Dilon.Core.Service.UploadAvatarInput)">
             <summary>
-            修改用户头像(未实现)
+            修改用户头像
             </summary>
             <param name="input"></param>
             <returns></returns>

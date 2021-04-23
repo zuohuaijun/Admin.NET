@@ -3,6 +3,7 @@ import { login, getLoginUser, logout } from '@/api/modular/system/loginManage'
 import { sysDictTypeTree } from '@/api/modular/system/dictManage'
 import { sysMenuChange } from '@/api/modular/system/menuManage'
 import { ACCESS_TOKEN, ALL_APPS_MENU, DICT_TYPE_TREE_DATA } from '@/store/mutation-types'
+import { sysFileInfoPreview } from '@/api/modular/system/fileManage'
 
 import { welcome } from '@/utils/util'
 import store from '../index'
@@ -78,7 +79,12 @@ const user = {
             commit('SET_INFO', data)
             commit('SET_NAME', { name: data.name, welcome: welcome() })
             if (data.avatar != null) {
-              commit('SET_AVATAR', process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + data.avatar)
+              sysFileInfoPreview({ id: data.avatar }).then((res) => {
+                commit('SET_AVATAR', window.URL.createObjectURL(new Blob([res])))
+              }).catch((err) => {
+                this.$message.error('预览错误：' + err.message)
+              })
+              // commit('SET_AVATAR', process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + data.avatar)
             }
             resolve(data)
           } else {
