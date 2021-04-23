@@ -20,14 +20,11 @@ namespace Dilon.Core
             // 丢给后台任务后直接返回
             SpareTime.DoIt(() =>
             {
-                // 取异常日志服务
-                var _logExQueue = App.GetService<SimpleQueue<SysLogEx>>();
-
                 // 取用户上下文
                 var userContext = App.User;
 
                 // 写入简单队列
-                _logExQueue.Add(new SysLogEx
+                SimpleQueue<SysLogEx>.Add(new SysLogEx
                 {
                     Account = userContext?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT),
                     Name = userContext?.FindFirstValue(ClaimConst.CLAINM_NAME),

@@ -37,8 +37,6 @@ namespace Dilon.Core.Service
         private readonly IClickWordCaptcha _captchaHandle;// 验证码服务
         private readonly ISysConfigService _sysConfigService; // 验证码服务
 
-        private readonly SimpleQueue<SysLogVis> _logVisQueue; // 登录日志队列
-
         public AuthService(IRepository<SysUser> sysUserRep,
                            IHttpContextAccessor httpContextAccessor,
                            IUserManager userManager,
@@ -48,8 +46,7 @@ namespace Dilon.Core.Service
                            ISysMenuService sysMenuService,
                            ISysAppService sysAppService,
                            IClickWordCaptcha captchaHandle,
-                           ISysConfigService sysConfigService,
-                           SimpleQueue<SysLogVis> logVisQueue)
+                           ISysConfigService sysConfigService)
         {
             _sysUserRep = sysUserRep;
             _httpContextAccessor = httpContextAccessor;
@@ -61,7 +58,6 @@ namespace Dilon.Core.Service
             _sysAppService = sysAppService;
             _captchaHandle = captchaHandle;
             _sysConfigService = sysConfigService;
-            _logVisQueue = logVisQueue;
         }
 
         /// <summary>
@@ -159,7 +155,7 @@ namespace Dilon.Core.Service
             SpareTime.DoIt(() =>
             {
                 // 增加登录日志
-                _logVisQueue.Add(new SysLogVis
+                SimpleQueue<SysLogVis>.Add(new SysLogVis
                 {
                     Name = loginOutput.Name,
                     Success = YesOrNot.Y,
@@ -190,7 +186,7 @@ namespace Dilon.Core.Service
             SpareTime.DoIt(() =>
             {
                 // 增加退出日志
-                _logVisQueue.Add(new SysLogVis
+                SimpleQueue<SysLogVis>.Add(new SysLogVis
                 {
                     Name = user.Name,
                     Success = YesOrNot.Y,

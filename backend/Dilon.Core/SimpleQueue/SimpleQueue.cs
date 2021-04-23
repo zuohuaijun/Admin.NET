@@ -1,16 +1,16 @@
 ﻿using System.Collections.Concurrent;
+using Furion.DatabaseAccessor;
 
 namespace Dilon.Core
 {
     /// <summary>
     /// 简单泛型队列
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class SimpleQueue<T> : IConcurrentQueue<T>
+    public static class SimpleQueue<T> where T : EntityBase
     {
         private static ConcurrentQueue<T> _simpleQueue;
 
-        public SimpleQueue()
+        static SimpleQueue()
         {
             _simpleQueue = new ConcurrentQueue<T>();
         }
@@ -19,7 +19,7 @@ namespace Dilon.Core
         /// 新增
         /// </summary>
         /// <param name="obj"></param>
-        public void Add(T obj)
+        public static void Add(T obj)
         {
             _simpleQueue.Enqueue(obj);
         }
@@ -29,7 +29,7 @@ namespace Dilon.Core
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public bool Try(out T obj)
+        public static bool Try(out T obj)
         {
             return _simpleQueue.TryDequeue(out obj);
         }
@@ -38,7 +38,7 @@ namespace Dilon.Core
         /// 总数
         /// </summary>
         /// <returns></returns>
-        public int Count()
+        public static int Count()
         {
             return _simpleQueue.Count;
         }
@@ -46,7 +46,7 @@ namespace Dilon.Core
         /// <summary>
         /// 清理
         /// </summary>
-        public void Clear()
+        public static void Clear()
         {
             _simpleQueue.Clear();
         }
