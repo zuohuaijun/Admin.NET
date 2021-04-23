@@ -1,6 +1,7 @@
 ﻿using Dilon.Core.Entity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -28,24 +29,28 @@ namespace Dilon.Core
         /// 名称
         /// </summary>
         [Comment("名称")]
+        [Required, MaxLength(30)]
         public string Name { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
         [Comment("编码")]
+        [Required, MaxLength(50)]
         public string Code { get; set; }
 
         /// <summary>
         /// 联系人
         /// </summary>
         [Comment("联系人")]
+        [MaxLength(20)]
         public string Contacts { get; set; }
 
         /// <summary>
         /// 电话
         /// </summary>
         [Comment("电话")]
+        [MaxLength(20)]
         public string Tel { get; set; }
 
         /// <summary>
@@ -58,6 +63,7 @@ namespace Dilon.Core
         /// 备注
         /// </summary>
         [Comment("备注")]
+        [MaxLength(100)]
         public string Remark { get; set; }
 
         /// <summary>

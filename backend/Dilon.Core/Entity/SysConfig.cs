@@ -3,6 +3,7 @@ using Furion;
 using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -18,30 +19,35 @@ namespace Dilon.Core
         /// 名称
         /// </summary>
         [Comment("名称")]
+        [Required, MaxLength(50)]
         public string Name { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
         [Comment("编码")]
+        [Required, MaxLength(50)]
         public string Code { get; set; }
 
         /// <summary>
         /// 属性值
         /// </summary>
         [Comment("属性值")]
+        [MaxLength(50)]
         public string Value { get; set; }
 
         /// <summary>
         /// 是否是系统参数（Y-是，N-否）
         /// </summary>
         [Comment("是否是系统参数")]
+        [MaxLength(5)]
         public string SysFlag { get; set; }
 
         /// <summary>
         /// 备注
         /// </summary>
         [Comment("备注")]
+        [MaxLength(100)]
         public string Remark { get; set; }
 
         /// <summary>
@@ -54,6 +60,7 @@ namespace Dilon.Core
         /// 常量所属分类的编码，来自于“常量的分类”字典
         /// </summary>
         [Comment("常量所属分类的编码")]
+        [MaxLength(50)]
         public string GroupCode { get; set; }
 
         /// <summary>

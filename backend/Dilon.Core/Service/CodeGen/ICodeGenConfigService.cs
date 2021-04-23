@@ -8,7 +8,6 @@ namespace Dilon.Core.Service
     {
         Task Add(CodeGenConfig input);
         void AddList(List<TableColumnOuput> tableColumnOuputList, SysCodeGen codeGenerate);
-        string ConvertDataType(string dataType);
         Task Delete(long codeGenId);
         Task<SysCodeGenConfig> Detail(CodeGenConfig input);
         Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input);

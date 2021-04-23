@@ -4,36 +4,23 @@
     :visible="visible_updPwd"
     :confirm-loading="confirmLoading"
     @ok="handleOkUpdPwd"
-    @cancel="handleCancel"
-  >
+    @cancel="handleCancel">
     <a-form :form="formUpdPwd">
-      <a-form-item
-        label="原密码"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        has-feedback
-      >
-        <a-input placeholder="请输入原密码" type="password" v-decorator="['password', {rules: [{required: true, message: '请输入原密码！'}]}]" />
+      <a-form-item label="原密码" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+        <a-input
+          placeholder="请输入原密码"
+          type="password"
+          v-decorator="['password', {rules: [{required: true, message: '请输入原密码！'}]}]" />
       </a-form-item>
-      <a-form-item
-        label="新密码"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        has-feedback
-      >
+      <a-form-item label="新密码" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
         <a-input
           placeholder="请输入新密码"
           type="password"
-          v-decorator="['newPassword', {rules: [{required: true, message: '请输入新密码！'},{
+          v-decorator="['newPassword', {rules: [{required: true, min: 5, message: '请输入至少五个字符的账号！'},{
             validator: validateToNextPassword,
           },]}]" />
       </a-form-item>
-      <a-form-item
-        label="重复新密码"
-        :labelCol="labelCol"
-        :wrapperCol="wrapperCol"
-        has-feedback
-      >
+      <a-form-item label="重复新密码" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
         <a-input
           placeholder="请再次输入新密码"
           type="password"
@@ -48,17 +35,27 @@
 </template>
 
 <script>
-  import { sysUserUpdatePwd } from '@/api/modular/system/userManage'
+  import {
+    sysUserUpdatePwd
+  } from '@/api/modular/system/userManage'
   export default {
-    data () {
+    data() {
       return {
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 5 }
+          xs: {
+            span: 24
+          },
+          sm: {
+            span: 5
+          }
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 16 }
+          xs: {
+            span: 24
+          },
+          sm: {
+            span: 16
+          }
         },
         confirmLoading: false,
         visible_updPwd: false,
@@ -67,12 +64,16 @@
       }
     },
     methods: {
-      open (id) {
+      open(id) {
         this.userId = id
         this.visible_updPwd = true
       },
-      handleOkUpdPwd () {
-        const { formUpdPwd: { validateFields } } = this
+      handleOkUpdPwd() {
+        const {
+          formUpdPwd: {
+            validateFields
+          }
+        } = this
         validateFields((errors, values) => {
           if (!errors) {
             this.confirmLoading = true
@@ -84,17 +85,17 @@
               } else {
                 this.$message.error('修改失败：' + res.message)
               }
-            // eslint-disable-next-line handle-callback-err
+              // eslint-disable-next-line handle-callback-err
             }).finally((err) => {
               this.confirmLoading = false
             })
           }
         })
       },
-      handleCancel () {
+      handleCancel() {
         this.visible_updPwd = false
       },
-      compareToFirstPassword (rule, value, callback) {
+      compareToFirstPassword(rule, value, callback) {
         const formUpdPwd = this.formUpdPwd
         if (value && value !== formUpdPwd.getFieldValue('newPassword')) {
           // eslint-disable-next-line standard/no-callback-literal
@@ -103,10 +104,12 @@
           callback()
         }
       },
-      validateToNextPassword (rule, value, callback) {
+      validateToNextPassword(rule, value, callback) {
         const formUpdPwd = this.formUpdPwd
         if (value && this.confirmDirty) {
-          formUpdPwd.validateFields(['confirm'], { force: true })
+          formUpdPwd.validateFields(['confirm'], {
+            force: true
+          })
         }
         callback()
       }

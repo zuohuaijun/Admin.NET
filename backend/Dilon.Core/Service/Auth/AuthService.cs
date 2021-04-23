@@ -1,5 +1,6 @@
 ﻿using Furion;
 using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -58,6 +59,7 @@ namespace Dilon.Core.Service
             _sysAppService = sysAppService;
             _captchaHandle = captchaHandle;
             _sysConfigService = sysConfigService;
+            _logVisQueue = logVisQueue;
         }
 
         /// <summary>
@@ -112,6 +114,8 @@ namespace Dilon.Core.Service
         public async Task<LoginOutput> GetLoginUserAsync()
         {
             var user = _userManager.User;
+            if (user == null)
+                throw Oops.Oh(ErrorCode.D1011);
             var userId = user.Id;
 
             var httpContext = App.GetService<IHttpContextAccessor>().HttpContext;

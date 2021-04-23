@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Linq.Dynamic.Core;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -36,13 +37,13 @@ namespace Dilon.Core.Service
             var success = !string.IsNullOrEmpty(input.Success.ToString());
             var searchBeginTime = !string.IsNullOrEmpty(input.SearchBeginTime?.Trim());
             var opLogs = await _sysOpLogRep.DetachedEntities
-                .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
-                .Where(success, u => u.Success == input.Success)
-                .Where(searchBeginTime, u => u.OpTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
-                                             u.OpTime <= DateTime.Parse(input.SearchEndTime.Trim()))
-                .OrderByDescending(u => u.Id)
-                .Select(u => u.Adapt<OpLogOutput>())
-                .ToPagedListAsync(input.PageNo, input.PageSize);
+                                           .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
+                                           .Where(success, u => u.Success == input.Success)
+                                           .Where(searchBeginTime, u => u.OpTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
+                                                                   u.OpTime <= DateTime.Parse(input.SearchEndTime.Trim()))
+                                           .OrderBy(PageInputOrder.OrderBuilder(input)) // 封装了任意字段排序示例
+                                           .Select(u => u.Adapt<OpLogOutput>())
+                                           .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<OpLogOutput>.PageResult(opLogs);
         }
 

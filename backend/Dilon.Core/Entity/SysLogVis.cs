@@ -1,6 +1,7 @@
 ﻿using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -16,6 +17,7 @@ namespace Dilon.Core
         /// 名称
         /// </summary>
         [Comment("名称")]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         /// <summary>
@@ -34,24 +36,28 @@ namespace Dilon.Core
         /// IP
         /// </summary>
         [Comment("IP")]
+        [MaxLength(20)]
         public string Ip { get; set; }
 
         /// <summary>
         /// 地址
         /// </summary>
         [Comment("地址")]
+        [MaxLength(100)]
         public string Location { get; set; }
 
         /// <summary>
         /// 浏览器
         /// </summary>
         [Comment("浏览器")]
+        [MaxLength(100)]
         public string Browser { get; set; }
 
         /// <summary>
         /// 操作系统
         /// </summary>
         [Comment("操作系统")]
+        [MaxLength(100)]
         public string Os { get; set; }
 
         /// <summary>
@@ -70,6 +76,7 @@ namespace Dilon.Core
         /// 访问人
         /// </summary>
         [Comment("访问人")]
+        [MaxLength(20)]
         public string Account { get; set; }
     }
 }

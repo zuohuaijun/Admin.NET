@@ -6,7 +6,7 @@
     public class CodeGenConfig
     {
         /// <summary>
-        /// 主键
+        /// 主键Id
         /// </summary>
         public long Id { get; set; }
 
@@ -19,6 +19,13 @@
         /// 数据库字段名
         /// </summary>
         public string ColumnName { get; set; }
+
+        /// <summary>
+        /// 数据库字段名(首字母小写)
+        /// </summary>
+        public string LowerColumnName => string.IsNullOrWhiteSpace(ColumnName)
+                                      ? null
+                                      : ColumnName.Substring(0, 1).ToLower() + ColumnName[1..];
 
         /// <summary>
         /// 字段描述
@@ -34,6 +41,35 @@
         /// 作用类型（字典）
         /// </summary>
         public string EffectType { get; set; }
+
+        /// <summary>
+        /// 外键实体名称
+        /// </summary>
+        public string FkEntityName { get; set; }
+
+        /// <summary>
+        /// 外键实体名称(首字母小写)
+        /// </summary>
+        public string LowerFkEntityName => string.IsNullOrWhiteSpace(FkEntityName)
+                                        ? null
+                                        : FkEntityName.Substring(0, 1).ToLower() + FkEntityName[1..];
+
+        /// <summary>
+        /// 外键显示字段
+        /// </summary>
+        public string FkColumnName { get; set; }
+
+        /// <summary>
+        /// 外键显示字段(首字母小写)
+        /// </summary>
+        public string LowerFkColumnName => string.IsNullOrWhiteSpace(FkColumnName)
+                                        ? null
+                                        : (FkColumnName.Substring(0, 1).ToLower() + FkColumnName[1..]);
+
+        /// <summary>
+        /// 外键显示字段.NET类型
+        /// </summary>
+        public string FkColumnNetType { get; set; }
 
         /// <summary>
         /// 字典code

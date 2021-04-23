@@ -1,6 +1,6 @@
 <template>
   <a-modal
-    title="授权菜单"
+    title="租户授权菜单"
     :width="600"
     :visible="visible"
     :confirmLoading="confirmLoading"
@@ -33,9 +33,9 @@
     SysMenuTreeForGrant
   } from '@/api/modular/system/menuManage'
   import {
-    sysRoleOwnMenu,
-    sysRoleGrantMenu
-  } from '@/api/modular/system/roleManage'
+    sysTenantOwnMenu,
+    sysTenantGrantMenu
+  } from '@/api/modular/system/tenantManage'
 
   export default {
     data() {
@@ -69,7 +69,7 @@
         autoExpandParent: true,
         selectedKeys: [],
         subValues: [],
-        roleEntity: [],
+        tenantEntity: [],
         replaceFields: {
           key: 'id'
         },
@@ -79,9 +79,9 @@
 
     methods: {
       // 初始化方法
-      roleMenu(record) {
+      tenantMenu(record) {
         this.formLoading = true
-        this.roleEntity = record
+        this.tenantEntity = record
         this.visible = true
         this.getMenuTree()
         this.expandedMenuKeys(record)
@@ -103,10 +103,10 @@
       },
 
       /**
-       * 此角色已有菜单权限
+       * 此租户已有菜单权限
        */
       expandedMenuKeys(record) {
-        sysRoleOwnMenu({
+        sysTenantOwnMenu({
           id: record.id
         }).then((res) => {
           if (res.success) {
@@ -140,8 +140,8 @@
         this.confirmLoading = true
         validateFields((errors, values) => {
           if (!errors) {
-            sysRoleGrantMenu({
-              id: this.roleEntity.id,
+            sysTenantGrantMenu({
+              id: this.tenantEntity.id,
               grantMenuIdList: this.checkedKeys.concat(this.halfCheckedKeys)
             }).then((res) => {
               if (res.success) {
@@ -167,6 +167,7 @@
         this.expandedKeys = []
         this.visible = false
       },
+
       // 遍历树形然后获取到对父节点进行移除，使用子节点，而且将父节点加入到mainMenuList
       findAllChildren(data) {
         data.forEach((item, index) => {

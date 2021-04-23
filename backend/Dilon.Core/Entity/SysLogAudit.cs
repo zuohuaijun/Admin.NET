@@ -1,6 +1,7 @@
 ﻿using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -16,12 +17,14 @@ namespace Dilon.Core
         /// 表名
         /// </summary>
         [Comment("表名")]
+        [MaxLength(50)]
         public string TableName { get; set; }
 
         /// <summary>
         /// 列名
         /// </summary>
         [Comment("列名")]
+        [MaxLength(50)]
         public string ColumnName { get; set; }
 
         /// <summary>
@@ -52,6 +55,7 @@ namespace Dilon.Core
         /// 操作人名称
         /// </summary>
         [Comment("操作人名称")]
+        [MaxLength(20)]
         public string UserName { get; set; }
 
         /// <summary>

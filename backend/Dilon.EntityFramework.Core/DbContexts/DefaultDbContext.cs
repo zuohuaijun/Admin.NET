@@ -1,16 +1,16 @@
-﻿using Dilon.Core;
+using Dilon.Core;
 using Dilon.Core.Entity;
 using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
 using Furion.FriendlyException;
-using Furion.Snowflake;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using Yitter.IdGenerator;
 
 namespace Dilon.EntityFramework.Core
 {
@@ -45,7 +45,7 @@ namespace Dilon.EntityFramework.Core
         /// <param name="dbContextLocator"></param>
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            if (entityBuilder.Metadata.ClrType.BaseType == typeof(DBEntityTenant).BaseType)
+            if (entityBuilder.Metadata.ClrType.BaseType.Name == typeof(DBEntityTenant).Name)
                 entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
         }
 
@@ -85,7 +85,7 @@ namespace Dilon.EntityFramework.Core
                             if (tenantId == null || (long)tenantId == 0)
                                 entity.Property(nameof(Entity.TenantId)).CurrentValue = long.Parse(GetTenantId().ToString());
 
-                            obj.Id = obj.Id == 0 ? IDGenerator.NextId() : obj.Id;
+                            obj.Id = obj.Id == 0 ? YitIdHelper.NextId() : obj.Id;
                             obj.CreatedTime = DateTimeOffset.Now;
                             if (!string.IsNullOrEmpty(userId))
                             {
@@ -107,7 +107,7 @@ namespace Dilon.EntityFramework.Core
                     var obj = entity.Entity as DEntityBase;
                     if (entity.State == EntityState.Added)
                     {
-                        obj.Id = IDGenerator.NextId();
+                        obj.Id = YitIdHelper.NextId();
                         obj.CreatedTime = DateTimeOffset.Now;
                         if (!string.IsNullOrEmpty(userId))
                         {
@@ -132,7 +132,7 @@ namespace Dilon.EntityFramework.Core
         /// <param name="dbContext"></param>
         /// <param name="isDeletedKey"></param>
         /// <returns></returns>
-        protected override LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = null)
+        protected LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = null)
         {
             return base.FakeDeleteQueryFilterExpression(entityBuilder, dbContext, isDeletedKey);
         }

@@ -29,11 +29,10 @@
           <a-form-item
             label="电话"
           >
-            <a-input placeholder="请输入电话" v-decorator="['tel', {rules: [{required: true, message: '请输入电话！'}]}]"/>
+            <a-input placeholder="请输入电话" v-decorator="['tel']"/>
           </a-form-item>
           <a-form-item
             label="电子邮件"
-            :required="false"
           >
             <a-input placeholder="请输入电子邮件地址" v-decorator="['email', {type: 'email',message: '请输入正确的邮箱号',rules: [{required: true, message: '请输入正确的邮箱号！'}]}]"/>
           </a-form-item>
@@ -66,6 +65,7 @@
   import { mapGetters } from 'vuex'
   import moment from 'moment'
   import { sysUserUpdateInfo } from '@/api/modular/system/userManage'
+  import { sysFileInfoPreview } from '@/api/modular/system/fileManage'
 // mapActions
 export default {
   components: {
@@ -113,14 +113,19 @@ export default {
           {
             birthday: moment(this.userInfo.birthday, 'YYYY-MM-DD'),
             nickName: this.userInfo.nickName,
-            sex: this.userInfo.sex.toString(),
+            sex: this.userInfo.sex,
             email: this.userInfo.email,
             phone: this.userInfo.phone,
             tel: this.userInfo.tel
           }
         )
         this.birthdayString = moment(this.userInfo.birthday).format('YYYY-MM-DD')
-        this.option.img = process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + this.userInfo.avatar
+        sysFileInfoPreview({ id: this.userInfo.avatar }).then((res) => {
+          this.option.img = window.URL.createObjectURL(new Blob([res]))
+        }).catch((err) => {
+          this.$message.error('预览错误：' + err.message)
+        })
+        // this.option.img = process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + this.userInfo.avatar
         this.getSexData()
       }, 100)
     },

@@ -14,9 +14,15 @@ namespace Dilon.Core
         SuperAdmin = 1,
 
         /// <summary>
-        /// 非管理员
+        /// 管理员
         /// </summary>
-        [Description("非管理员")]
-        None = 2
+        [Description("管理员")]
+        Admin = 2,
+
+        /// <summary>
+        /// 普通账号
+        /// </summary>
+        [Description("普通账号")]
+        None = 3
     }
 }

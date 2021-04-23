@@ -12,11 +12,6 @@ namespace Dilon.Core
     public class SysRoleMenu : IEntity
     {
         /// <summary>
-        /// 租户id
-        /// </summary>
-        [Comment("租户id")]
-        public virtual long TenantId { get; set; }
-        /// <summary>
         /// 角色Id
         /// </summary>
         [Comment("角色Id")]

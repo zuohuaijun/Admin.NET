@@ -11,7 +11,6 @@ namespace Dilon.Core
     [Comment("角色数据范围表")]
     public class SysRoleDataScope : IEntity
     {
-
         /// <summary>
         /// 角色Id
         /// </summary>

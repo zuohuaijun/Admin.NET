@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -14,12 +15,14 @@ namespace Dilon.Core
         /// 名称
         /// </summary>
         [Comment("名称")]
+        [Required, MaxLength(20)]
         public string Name { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
         [Comment("编码")]
+        [Required, MaxLength(50)]
         public string Code { get; set; }
 
         /// <summary>
@@ -27,6 +30,7 @@ namespace Dilon.Core
         /// 用户登录后默认展示此系统菜单
         /// </summary>
         [Comment("是否默认激活")]
+        [MaxLength(5)]
         public string Active { get; set; }
 
         /// <summary>

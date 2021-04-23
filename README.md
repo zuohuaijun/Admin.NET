@@ -21,7 +21,7 @@
 
 * 基于.NET 5实现的通用权限管理平台（RBAC模式）。整合最新技术高效快速开发，前后端分离模式，开箱即用。
 * 前端基于小诺Vue（antd）框架，整体RBAC基础数据结构+API接口风格采用小诺vue版本模式。
-* 后台基于Furion框架，多租户、分库读写分离、缓存、数据校验、鉴权、动态API、gRPC等众多黑科技集一身。
+* 后台基于Furion框架，EFCore、多租户、分库读写分离、缓存、数据校验、鉴权、动态API、gRPC等众多黑科技集一身。
 * 模块化架构设计，层次清晰，业务层推荐写到单独模块，框架升级不影响业务!
 * 核心模块包括：用户、角色、职位、组织机构、菜单、字典、日志、多应用管理、文件管理、定时任务等功能。
 * 代码量少、通俗易懂、功能强大、易扩展，轻松开发从现在开始！
@@ -30,10 +30,13 @@
 如果对您有帮助，您可以点右上角 “Star” 收藏一下 ，获取第一时间更新，谢谢！
 ```
 
-### 🔊 注意事项
+### 😎 衍生版本
 
-1. 如果同时用两种类型的数据库，迁移的时候先去掉多租户实现接口【IMultiTenantOnDatabase】和重写方法【OnConfiguring】
-2. 如果集成其他ORM，请参照各自操作使用说明。系统默认EF不会处理其他ORM实体或者表等。
+【Admin.NET】隆重推出SqlSugar版本
+
+- 👉 SqlSugar版本：[https://gitee.com/zhengguojing/admin-net-sqlsugar](https://gitee.com/zhengguojing/admin-net-sqlsugar)
+
+`如果集成其他ORM，请参照各自操作使用说明。系统默认EFCore不会处理其他ORM实体等，请自行处理。`
 
 ### 🥞 更新日志
 
@@ -43,6 +46,7 @@
 
 - [x] 集成多租户功能
 - [x] 集成代码生成器
+- [x] 集成导入导出
 - [ ] 在线用户及黑名单
 - [ ] 邮件发送
 - [ ] 短信发送
@@ -154,5 +158,9 @@
 ### 💐 特别鸣谢
 - 👉 Furion：  [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - 👉 xiaonuo：[https://gitee.com/xiaonuobase/snowy](https://gitee.com/xiaonuobase/snowy)
+- 👉 k-form-design：[https://gitee.com/kcz66/k-form-design](https://gitee.com/kcz66/k-form-design)
+- 👉 MiniExcel：[https://gitee.com/dotnetchina/MiniExcel](https://gitee.com/dotnetchina/MiniExcel)
+- 👉 SqlSugar：[https://gitee.com/dotnetchina/SqlSugar](https://gitee.com/dotnetchina/SqlSugar)
 
-如果对您有帮助，您可以点 "Star" 支持一下，这样才有持续下去的动力，谢谢！
+
+如果对您有帮助，您可以点 "Star" 支持一下，这样才有持续下去的动力，谢谢！！！

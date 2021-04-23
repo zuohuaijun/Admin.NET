@@ -1,4 +1,6 @@
 ﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor.Extensions;
+using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
@@ -18,25 +20,20 @@ namespace Dilon.Core.Service
     public class SysTenantService : ISysTenantService, IDynamicApiController, ITransient
     {
         private readonly IRepository<SysTenant, MultiTenantDbContextLocator> _sysTenantRep;    // 租户表仓储
-        private readonly IRepository<SysUser> _sysUserService; // 系统用户服务
-        private readonly IRepository<SysOrg> _sysOrgService;
-        private readonly IRepository<SysRole> _sysRoleService;
+        private readonly IRepository<SysUser> _sysUserRep;
+
         private readonly ISysRoleMenuService _sysRoleMenuService;
-        private readonly IRepository<SysEmp> _sysEmpService;
+        private readonly ISysUserRoleService _sysUserRoleService;
 
         public SysTenantService(IRepository<SysTenant, MultiTenantDbContextLocator> sysTenantRep,
                                 IRepository<SysUser> sysUserService,
-                                IRepository<SysOrg> sysOrgService,
-                                IRepository<SysRole> sysRoleService,
                                 ISysRoleMenuService sysRoleMenuService,
-                                IRepository<SysEmp> sysEmpService)
+                                ISysUserRoleService sysUserRoleService)
         {
             _sysTenantRep = sysTenantRep;
-            _sysUserService = sysUserService;
-            _sysOrgService = sysOrgService;
-            _sysRoleService = sysRoleService;
+            _sysUserRep = sysUserService;
             _sysRoleMenuService = sysRoleMenuService;
-            _sysEmpService = sysEmpService;
+            _sysUserRoleService = sysUserRoleService;
         }
 
         /// <summary>
@@ -82,8 +79,8 @@ namespace Dilon.Core.Service
             long tenantId = newTenant.Id;
             string email = newTenant.Email;
             string companyName = newTenant.Name;
-            // 初始化公司
-            SysOrg sysOrg = new()
+            // 初始化公司（组织结构）
+            var newOrg = await new SysOrg
             {
                 TenantId = tenantId,
                 Pid = 0,
@@ -92,21 +89,19 @@ namespace Dilon.Core.Service
                 Code = "1",
                 Contacts = newTenant.AdminName,
                 Tel = newTenant.Phone
-            };
-            var newOrg = _sysOrgService.InsertNow(sysOrg);
+            }.InsertNowAsync();
 
             // 初始化角色
-            SysRole sysRole = new()
+            var newRole = await new SysRole
             {
                 TenantId = tenantId,
                 Code = "1",
                 Name = "系统管理员",
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
-            };
-            var newRole = _sysRoleService.InsertNow(sysRole);
+            }.InsertNowAsync();
 
-            // 初始化用户
-            SysUser sysUser = new()
+            // 初始化租户管理员
+            var newUser = await new SysUser
             {
                 TenantId = tenantId,
                 Account = email,
@@ -115,81 +110,19 @@ namespace Dilon.Core.Service
                 NickName = newTenant.AdminName,
                 Email = newTenant.Email,
                 Phone = newTenant.Phone,
-                AdminType = AdminType.None,
+                AdminType = AdminType.Admin,
                 SysRoles = new List<SysRole>() { newRole.Entity },
                 SysOrgs = new List<SysOrg>() { newOrg.Entity }
-            };
-            var newUser = _sysUserService.InsertNow(sysUser);
+            }.InsertNowAsync();
 
             // 初始化职工
-            SysEmp sysEmp = new()
+            new SysEmp
             {
                 Id = newUser.Entity.Id,
                 JobNum = "1",
                 OrgId = newOrg.Entity.Id,
-                OrgName = newOrg.Entity.Name,
-                TenantId = tenantId
-            };
-            _sysEmpService.InsertNow(sysEmp);
-
-            // 初始化角色权限——此处应该根据启用的App应用初始化
-            GrantRoleMenuInput roleMenuInput = new()
-            {
-                Id = newRole.Entity.Id,
-                // 应根据用户购买的应用菜单进行查询
-                GrantMenuIdList = new List<long>() {
-                    142000000010563,
-                    142000000010581,
-                    142000000010582,
-                    142000000010583,
-                    142000000010584,
-                    142000000010585,
-                    142000000010586,
-                    142000000010587,
-                    142000000010588,
-                    142000000010589,
-                    142000000010590,
-                    142000000010591,
-                    142000000014629,
-                    142000000014630,
-                    142000000014631,
-                    142000000014632,
-                    142000000110564,
-                    142000000110565,
-                    142000000110566,
-                    142000000110567,
-                    142000000110568,
-                    142000000110569,
-                    142000000110570,
-                    142000000110571,
-                    142000000110572,
-                    142000000110573,
-                    142000000110574,
-                    142000000110575,
-                    142000000110576,
-                    142000000110577,
-                    142000000110578,
-                    142000000110579,
-                    142000000110580,
-                    142307000914633,
-                    142307000914651,
-                    142307000914652,
-                    142307000914653,
-                    142307000914654,
-                    142307000914655,
-                    142307000914656,
-                    142307000914657,
-                    142307000914658,
-                    142307000914659,
-                    142307000914660,
-                    142307000914661,
-                    142307000915661,
-                    142307070910660,
-                    142307070910661,
-                    142307070910662
-                }
-            };
-            await _sysRoleMenuService.GrantMenu(roleMenuInput);
+                OrgName = newOrg.Entity.Name
+            }.InsertNow();
         }
 
         /// <summary>
@@ -229,6 +162,59 @@ namespace Dilon.Core.Service
         public async Task<SysTenant> GetTenant([FromQuery] QueryTenantInput input)
         {
             return await _sysTenantRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
+        }
+
+        /// <summary>
+        /// 授权租户管理员角色菜单
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/sysTenant/grantMenu")]
+        public async Task GrantMenu(GrantRoleMenuInput input)
+        {
+            var tenantAdminUser = await GetTenantAdminUser(input.Id);
+            if (tenantAdminUser == null) return;
+            var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
+            input.Id = roleIds[0]; // 重置租户管理员角色Id
+            await _sysRoleMenuService.GrantMenu(input);
+        }
+
+        /// <summary>
+        /// 获取租户管理员角色拥有菜单Id集合
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet("/sysTenant/ownMenu")]
+        public async Task<List<long>> OwnMenu([FromQuery] QueryTenantInput input)
+        {
+            var tenantAdminUser = await GetTenantAdminUser(input.Id);
+            if (tenantAdminUser == null) return new List<long>();
+            var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
+            var tenantAdminRoleId = roleIds[0]; // 租户管理员角色Id
+            return await _sysRoleMenuService.GetRoleMenuIdList(new List<long> { tenantAdminRoleId });
+        }
+
+        /// <summary>
+        /// 重置租户管理员密码
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/sysTenant/resetPwd")]
+        public async Task ResetUserPwd(QueryTenantInput input)
+        {
+            var tenantAdminUser = await GetTenantAdminUser(input.Id);
+            tenantAdminUser.Password = MD5Encryption.Encrypt(CommonConst.DEFAULT_PASSWORD);
+        }
+
+        /// <summary>
+        /// 获取租户管理员用户
+        /// </summary>
+        /// <param name="tenantId"></param>
+        /// <returns></returns>
+        private async Task<SysUser> GetTenantAdminUser(long tenantId)
+        {
+            return await _sysUserRep.Where(u => u.TenantId == tenantId, false, true)
+                                        .Where(u => u.AdminType == AdminType.Admin).FirstOrDefaultAsync();
         }
     }
 }

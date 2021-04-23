@@ -6,7 +6,7 @@
     <members>
         <member name="T:Dilon.Application.CodeGenTest">
             <summary>
-            代码生成实体测试（EF）
+            代码生成实体事例（EF）
             </summary>
         </member>
         <member name="P:Dilon.Application.CodeGenTest.Name">
@@ -64,6 +64,26 @@
             测试方法
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:Dilon.Core.CodeGenTestChild">
+            <summary>
+            代码生成事例子表
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.CodeGenTestChild.CodeGenId">
+            <summary>
+            主表外键
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.CodeGenTestChild.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.CodeGenTestChild.Name">
+            <summary>
+            名称
+            </summary>
         </member>
     </members>
 </doc>

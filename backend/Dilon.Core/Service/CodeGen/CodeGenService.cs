@@ -22,11 +22,11 @@ namespace Dilon.Core.Service.CodeGen
     [ApiDescriptionSettings(Name = "CodeGen", Order = 100)]
     public class CodeGenService : ICodeGenService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysCodeGen> _sysCodeGenRep;    // 代码生成器仓储
+        private readonly IRepository<SysCodeGen> _sysCodeGenRep; // 代码生成器仓储
         private readonly ICodeGenConfigService _codeGenConfigService;
         private readonly IViewEngine _viewEngine;
 
-        private readonly IRepository<SysMenu> _sysMenuRep;    // 菜单表仓储
+        private readonly IRepository<SysMenu> _sysMenuRep; // 菜单表仓储
 
         public CodeGenService(IRepository<SysCodeGen> sysCodeGenRep,
                               ICodeGenConfigService codeGenConfigService,
@@ -125,7 +125,6 @@ namespace Dilon.Core.Service.CodeGen
         /// 获取数据库表(实体)集合
         /// </summary>
         /// <returns></returns>
-
         [HttpGet("/codeGenerate/InformationList")]
         public List<TableOutput> GetTableList()
         {
@@ -137,14 +136,14 @@ namespace Dilon.Core.Service.CodeGen
         }
 
         /// <summary>
-        /// 获取数据表列（实体属性）集合
+        /// 根据表名获取列
         /// </summary>
         /// <returns></returns>
-        [NonAction]
-        public List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
+        [HttpGet("/codeGenerate/ColumnList/{tableName}")]
+        public List<TableColumnOuput> GetColumnListByTableName(string tableName)
         {
             // 获取实体类型属性
-            var entityType = Db.GetDbContext().Model.GetEntityTypes().FirstOrDefault(u => u.ClrType.Name == input.TableName);
+            var entityType = Db.GetDbContext().Model.GetEntityTypes().FirstOrDefault(u => u.ClrType.Name == tableName);
             if (entityType == null) return null;
 
             // 获取原始类型属性
@@ -152,10 +151,36 @@ namespace Dilon.Core.Service.CodeGen
             if (type == null) return null;
 
             // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
-            return type.GetProperties()
-                       .Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
-                       .Where(p => p != null)
-                       .Select(p => new TableColumnOuput
+            return type.GetProperties().Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
+                       .Where(p => p != null).Select(p => new TableColumnOuput
+                       {
+                           ColumnName = p.Name,
+                           ColumnKey = p.IsKey().ToString(),
+                           DataType = p.PropertyInfo.PropertyType.ToString(),
+                           NetType = CodeGenUtil.ConvertDataType(p.PropertyInfo.PropertyType.ToString()),
+                           ColumnComment = p.GetComment()
+                       }).ToList();
+        }
+
+        /// <summary>
+        /// 获取数据表列（实体属性）集合
+        /// </summary>
+        /// <returns></returns>
+        [NonAction]
+        public List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
+        {
+            // 获取实体类型属性
+            var entityType = Db.GetDbContext().Model.GetEntityTypes()
+                .FirstOrDefault(u => u.ClrType.Name == input.TableName);
+            if (entityType == null) return null;
+
+            // 获取原始类型属性
+            var type = entityType.ClrType;
+            if (type == null) return null;
+
+            // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
+            return type.GetProperties().Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
+                       .Where(p => p != null).Select(p => new TableColumnOuput
                        {
                            ColumnName = p.Name,
                            ColumnKey = p.IsKey().ToString(),
@@ -178,13 +203,14 @@ namespace Dilon.Core.Service.CodeGen
                 var tContent = File.ReadAllText(templatePathList[i]);
 
                 var tableFieldList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
-                if (i >= 4) // 适应前端首字母小写
+                if (i >= 5) // 适应前端首字母小写
                 {
                     tableFieldList.ForEach(u =>
                     {
                         u.ColumnName = u.ColumnName.Substring(0, 1).ToLower() + u.ColumnName[1..];
                     });
                 }
+
                 var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(); // 前端查询集合
                 var tResult = _viewEngine.RunCompileFromCached(tContent, new
                 {
@@ -209,10 +235,7 @@ namespace Dilon.Core.Service.CodeGen
         {
             // 先删除该表已生成的菜单列表
             var menus = await _sysMenuRep.DetachedEntities.Where(u => u.Code.StartsWith("dilon_" + className.ToLower())).ToListAsync();
-            menus.ForEach(u =>
-            {
-                u.Delete();
-            });
+            menus.ForEach(u => { u.Delete(); });
 
             // 目录
             var menuType0 = new SysMenu
@@ -225,7 +248,7 @@ namespace Dilon.Core.Service.CodeGen
                 Icon = "robot",
                 Router = "/" + className.ToLower(),
                 Component = "PageView",
-                Application = "busapp"
+                Application = "busiapp"
             };
             var pid0 = _sysMenuRep.InsertNowAsync(menuType0).GetAwaiter().GetResult().Entity.Id;
 
@@ -239,7 +262,7 @@ namespace Dilon.Core.Service.CodeGen
                 Type = 1,
                 Router = "/" + className.ToLower(),
                 Component = "main/" + className + "/index",
-                Application = "busapp",
+                Application = "busiapp",
                 OpenType = 1
             };
             var pid1 = _sysMenuRep.InsertNowAsync(menuType1).GetAwaiter().GetResult().Entity.Id;
@@ -253,7 +276,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_page",
                 Type = 2,
                 Permission = className + ":page",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
 
             // 按钮-detail
@@ -265,7 +288,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_detail",
                 Type = 2,
                 Permission = className + ":detail",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
 
             // 按钮-add
@@ -277,7 +300,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_add",
                 Type = 2,
                 Permission = className + ":add",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
 
             // 按钮-delete
@@ -289,7 +312,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_delete",
                 Type = 2,
                 Permission = className + ":delete",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
 
             // 按钮-edit
@@ -301,7 +324,7 @@ namespace Dilon.Core.Service.CodeGen
                 Code = "dilon_" + className.ToLower() + "_mgr_edit",
                 Type = 2,
                 Permission = className + ":edit",
-                Application = "busapp",
+                Application = "busiapp",
             }.InsertAsync();
         }
 
@@ -312,11 +335,13 @@ namespace Dilon.Core.Service.CodeGen
         private List<string> GetTemplatePathList()
         {
             var templatePath = App.WebHostEnvironment.WebRootPath + @"\Template\";
-            return new List<string>() {
+            return new List<string>()
+            {
                 templatePath + "Service.cs.vm",
                 templatePath + "IService.cs.vm",
                 templatePath + "Input.cs.vm",
                 templatePath + "Output.cs.vm",
+                templatePath + "Dto.cs.vm",
                 templatePath + "index.vue.vm",
                 templatePath + "addForm.vue.vm",
                 templatePath + "editForm.vue.vm",
@@ -336,17 +361,20 @@ namespace Dilon.Core.Service.CodeGen
             var iservicePath = backendPath + "I" + input.TableName + "Service.cs";
             var inputPath = backendPath + @"Dto\" + input.TableName + "Input.cs";
             var outputPath = backendPath + @"Dto\" + input.TableName + "Output.cs";
+            var viewPath = backendPath + @"Dto\" + input.TableName + "Dto.cs";
             var frontendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName + @"\frontend\src\views\main\";
             var indexPath = frontendPath + input.TableName + @"\index.vue";
             var addFormPath = frontendPath + input.TableName + @"\addForm.vue";
             var editFormPath = frontendPath + input.TableName + @"\editForm.vue";
             var apiJsPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName + @"\frontend\src\api\modular\main\" + input.TableName + "Manage.js";
 
-            return new List<string>() {
+            return new List<string>()
+            {
                 servicePath,
                 iservicePath,
                 inputPath,
                 outputPath,
+                viewPath,
                 indexPath,
                 addFormPath,
                 editFormPath,

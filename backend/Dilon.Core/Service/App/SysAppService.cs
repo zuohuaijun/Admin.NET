@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -131,7 +131,7 @@ namespace Dilon.Core.Service
 
             if (input.Active == YesOrNot.Y.ToString())
             {
-                isExist = await _sysAppRep.DetachedEntities.AnyAsync(u => u.Active == input.Active);
+                isExist = await _sysAppRep.DetachedEntities.AnyAsync(u => u.Active == input.Active && u.Id != input.Id);
                 if (isExist)
                     throw Oops.Oh(ErrorCode.D5001);
             }

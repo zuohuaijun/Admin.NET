@@ -130,6 +130,10 @@
             }
           },
           {
+            title: '执行次数',
+            dataIndex: 'runNumber'
+          },
+          {
             title: '备注',
             dataIndex: 'remark'
           }
@@ -137,7 +141,6 @@
         // 加载数据方法 必须为 Promise 对象
         loadData: parameter => {
           return sysTimersPage(Object.assign(parameter, this.queryParam)).then((res) => {
-            console.log(res.data)
             return res.data
           })
         },

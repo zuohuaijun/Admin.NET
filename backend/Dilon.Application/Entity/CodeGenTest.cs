@@ -6,10 +6,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace Dilon.Application
 {
     /// <summary>
-    /// 代码生成实体测试（EF）
+    /// 代码生成实体事例（EF）
     /// </summary>
     [Table("code_gen_test")]
-    [Comment("代码生成业务")]
+    [Comment("代码生成事例")]
     public class CodeGenTest : DEntityBase
     {
         /// <summary>

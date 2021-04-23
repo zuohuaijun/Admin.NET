@@ -26,3 +26,5 @@ bin-release/
 /backend/Dilon.Web.Entry/Dilon.Web.Entry.csproj.user
 /.vs
 /.idea
+/backend/Dilon.Web.Entry/templates
+/backend/Dilon.Web.Entry/wwwroot/Upload

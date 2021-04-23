@@ -55,7 +55,7 @@
 
 </template>
 <script>
-  import { sysFileInfoUpload } from '@/api/modular/system/fileManage'
+  import { sysFileInfoUploadAvatar } from '@/api/modular/system/fileManage'
   import { sysUserUpdateAvatar } from '@/api/modular/system/userManage'
 
   export default {
@@ -125,7 +125,7 @@
           )
           const formData = new FormData()
           formData.append('file', files)
-          sysFileInfoUpload(formData).then((res) => {
+          sysFileInfoUploadAvatar(formData).then((res) => {
             if (res.success) {
               this.updateAvatar(res.data)
               this.$emit('ok', res.data)

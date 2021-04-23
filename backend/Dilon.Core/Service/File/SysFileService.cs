@@ -4,13 +4,11 @@ using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
-using Furion.Snowflake;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -79,7 +77,7 @@ namespace Dilon.Core.Service
             {
                 await file.DeleteAsync();
 
-                var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FileBucket, file.FileObjectName);
+                var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FilePath, file.FileObjectName);
                 if (File.Exists(filePath))
                     File.Delete(filePath);
             }
@@ -118,7 +116,8 @@ namespace Dilon.Core.Service
         [HttpPost("/sysFileInfo/upload")]
         public async Task UploadFileDefault(IFormFile file)
         {
-            await UploadFile(file, _configuration["UploadFile:Default:path"]);
+            // 可以读取系统配置来决定将文件存储到什么地方
+            await UploadFile(file, _configuration["UploadFile:Default:path"], FileLocation.LOCAL);
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace Dilon.Core.Service
         public async Task<IActionResult> DownloadFileInfo([FromQuery] QueryFileInoInput input)
         {
             var file = await GetFileInfo(input);
-            var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FileBucket, file.FileObjectName);
+            var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FilePath, file.FileObjectName);
             var fileName = HttpUtility.UrlEncode(file.FileOriginName, Encoding.GetEncoding("UTF-8"));
             return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName };
         }
@@ -140,9 +139,10 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        public async Task UploadFileAvatar(IFormFile file)
+        [HttpPost("/sysFileInfo/uploadAvatar")]
+        public async Task<long> UploadFileAvatar(IFormFile file)
         {
-            await UploadFile(file, _configuration["UploadFile:Avatar:path"]);
+            return await UploadFile(file, _configuration["UploadFile:Avatar:path"]);
         }
 
         /// <summary>
@@ -171,35 +171,84 @@ namespace Dilon.Core.Service
         /// <param name="file"></param>
         /// <param name="pathType"></param>
         /// <returns></returns>
-        private static async Task UploadFile(IFormFile file, string pathType)
+        private static async Task<long> UploadFile(IFormFile file, string pathType)
         {
-            var fileId = IDGenerator.NextId();
-
-            var fileSizeKb = (long)(file.Length / 1024.0); // 文件大小KB
-            var originalFilename = file.FileName; // 文件原始名称
-            var fileSuffix = Path.GetExtension(file.FileName).ToLower(); // 文件后缀
-            var finalName = fileId + fileSuffix; // 生成文件的最终名称            
-
             var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, pathType);
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
 
+            var fileSizeKb = (long)(file.Length / 1024.0); // 文件大小KB
+            var originalFilename = file.FileName; // 文件原始名称
+            var fileSuffix = Path.GetExtension(file.FileName).ToLower(); // 文件后缀  
+
+            // 先存库获取Id
+            var newFile = await new SysFile
+            {
+                FileLocation = (int)FileLocation.LOCAL,
+                FileBucket = FileLocation.LOCAL.ToString(),
+                //FileObjectName = finalName,
+                FileOriginName = originalFilename,
+                FileSuffix = fileSuffix.TrimStart('.'),
+                FileSizeKb = fileSizeKb.ToString(),
+                FilePath = pathType
+            }.InsertNowAsync();
+
+            var finalName = newFile.Entity.Id + fileSuffix; // 生成文件的最终名称            
             using (var stream = File.Create(Path.Combine(filePath, finalName)))
             {
                 await file.CopyToAsync(stream);
             }
 
-            var sysFileInfo = new SysFile
+            newFile.Entity.FileObjectName = finalName;
+            return newFile.Entity.Id; // 返回文件唯一标识
+        }
+
+        /// <summary>
+        /// 上传文件
+        /// </summary>
+        /// <param name="file">文件</param>
+        /// <param name="pathType">存储路径</param>
+        /// <param name="fileLocation">文件存储位置</param>
+        /// <returns></returns>
+        private static async Task<long> UploadFile(IFormFile file, string pathType, FileLocation fileLocation)
+        {
+            var fileSizeKb = (long)(file.Length / 1024.0); // 文件大小KB
+            var originalFilename = file.FileName; // 文件原始名称
+            var fileSuffix = Path.GetExtension(file.FileName).ToLower(); // 文件后缀
+
+            // 先存库获取Id
+            var newFile = await new SysFile
             {
-                Id = fileId,
                 FileLocation = (int)FileLocation.LOCAL,
-                FileBucket = pathType,
-                FileObjectName = finalName,
+                FileBucket = FileLocation.LOCAL.ToString(),
+                //FileObjectName = finalName,
                 FileOriginName = originalFilename,
                 FileSuffix = fileSuffix.TrimStart('.'),
-                FileSizeKb = fileSizeKb
-            };
-            await sysFileInfo.InsertAsync();
+                FileSizeKb = fileSizeKb.ToString(),
+                FilePath = pathType
+            }.InsertNowAsync();
+
+            var finalName = newFile.Entity.Id + fileSuffix; // 生成文件的最终名称   
+            if (fileLocation == FileLocation.LOCAL) // 本地存储
+            {
+                var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, pathType);
+                if (!Directory.Exists(filePath))
+                    Directory.CreateDirectory(filePath);
+                using (var stream = File.Create(Path.Combine(filePath, finalName)))
+                {
+                    await file.CopyToAsync(stream);
+                }
+            }
+            else if (fileLocation == FileLocation.ALIYUN) // 阿里云OSS
+            {
+                var filePath = pathType + finalName;
+                OSSClientUtil.DeletefileCode(filePath);
+
+                var stream = file.OpenReadStream();
+                OSSClientUtil.PushMedia(stream, filePath);
+            }
+            newFile.Entity.FileObjectName = finalName;
+            return newFile.Entity.Id; // 返回文件唯一标识
         }
     }
 }

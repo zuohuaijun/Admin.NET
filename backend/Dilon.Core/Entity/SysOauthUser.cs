@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -14,6 +15,7 @@ namespace Dilon.Core
         /// 第三方平台的用户唯一Id
         /// </summary>
         [Comment("UUID")]
+        [MaxLength(50)]
         public string Uuid { get; set; }
 
         /// <summary>
@@ -26,6 +28,7 @@ namespace Dilon.Core
         /// 昵称
         /// </summary>
         [Comment("昵称")]
+        [MaxLength(20)]
         public string NickName { get; set; }
 
         /// <summary>
@@ -38,24 +41,28 @@ namespace Dilon.Core
         /// 性别
         /// </summary>
         [Comment("性别")]
+        [MaxLength(5)]
         public string Gender { get; set; }
 
         /// <summary>
         /// 电话
         /// </summary>
         [Comment("电话")]
+        [MaxLength(20)]
         public string Phone { get; set; }
 
         /// <summary>
         /// 邮箱
         /// </summary>
         [Comment("邮箱")]
+        [MaxLength(20)]
         public string Email { get; set; }
 
         /// <summary>
         /// 位置
         /// </summary>
         [Comment("位置")]
+        [MaxLength(50)]
         public string Location { get; set; }
 
         /// <summary>
@@ -68,18 +75,21 @@ namespace Dilon.Core
         /// 所在公司
         /// </summary>
         [Comment("所在公司")]
+        [MaxLength(50)]
         public string Company { get; set; }
 
         /// <summary>
         /// 用户来源
         /// </summary>
         [Comment("用户来源")]
+        [MaxLength(20)]
         public string Source { get; set; }
 
         /// <summary>
         /// 用户备注（各平台中的用户个人介绍）
         /// </summary>
         [Comment("备注")]
+        [MaxLength(100)]
         public string Remark { get; set; }
     }
 }

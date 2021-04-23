@@ -29,7 +29,8 @@
               <a-col :md="8" :sm="24">
                 <a-form-item label="状态">
                   <a-select v-model="queryParam.searchStatus" allow-clear placeholder="请选择状态" default-value="0">
-                    <a-select-option v-for="(item,index) in statusDictTypeDropDown" :key="index" :value="item.code">{{ item.value }}</a-select-option>
+                    <a-select-option v-for="(item,index) in statusDictTypeDropDown" :key="index" :value="item.code">
+                      {{ item.value }}</a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -50,15 +51,27 @@
           :rowKey="(record) => record.id"
           :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
           <template slot="operator">
-            <a-button type="primary" v-if="hasPerm('sysUser:add')" icon="plus" @click="$refs.addForm.add()">新增用户</a-button>
-            <a-button type="primary" v-if="hasPerm('sysUser:import')" icon="up-circle" @click="">导入</a-button>
-            <a-button type="primary" v-if="hasPerm('sysUser:export')" icon="down-circle" @click="sysUserExport()">导出</a-button>
+            <a-button type="primary" v-if="hasPerm('sysUser:add')" icon="plus" @click="$refs.addForm.add()">新增用户
+            </a-button>
+            <a-upload
+              :customRequest="customRequest"
+              :multiple="true"
+              :showUploadList="false"
+              name="file"
+              v-if="hasPerm('sysUser:import')">
+              <a-button icon="up-circle">导入</a-button>
+            </a-upload>
+            <a-button v-if="hasPerm('sysUser:export')" icon="down-circle" @click="sysUserExport()">导出
+            </a-button>
           </template>
           <span slot="sex" slot-scope="text">
             {{ sexFilter(text) }}
           </span>
           <span slot="status" slot-scope="text,record" v-if="hasPerm('sysUser:changeStatus')">
-            <a-popconfirm placement="top" :title="text===0? '确定停用该用户？':'确定启用该用户？'" @confirm="() => editUserStatus(text,record)">
+            <a-popconfirm
+              placement="top"
+              :title="text===0? '确定停用该用户？':'确定启用该用户？'"
+              @confirm="() => editUserStatus(text,record)">
               <a>{{ statusFilter(text) }}</a>
             </a-popconfirm>
           </span>
@@ -68,7 +81,8 @@
           <span slot="action" slot-scope="text, record">
             <a v-if="hasPerm('sysUser:edit')" @click="$refs.editForm.edit(record)">编辑</a>
             <a-divider type="vertical" v-if="hasPerm('sysUser:edit')" />
-            <a-dropdown v-if="hasPerm('sysUser:resetPwd') || hasPerm('sysUser:grantRole') || hasPerm('sysUser:grantData') || hasPerm('sysUser:delete')">
+            <a-dropdown
+              v-if="hasPerm('sysUser:resetPwd') || hasPerm('sysUser:grantRole') || hasPerm('sysUser:grantData') || hasPerm('sysUser:delete')">
               <a class="ant-dropdown-link">
                 更多
                 <a-icon type="down" />
@@ -118,7 +132,8 @@
     sysUserDelete,
     sysUserChangeStatus,
     sysUserResetPwd,
-    sysUserExport
+    sysUserExport,
+    sysUserImport
   } from '@/api/modular/system/userManage'
   import {
     sysDictTypeDropDown
@@ -304,20 +319,22 @@
           this.$message.error('删除错误：' + err.message)
         })
       },
-      // 导出用户
+      // 导出用户文件
       sysUserExport(e) {
         this.cardLoading = true
         sysUserExport().then((res) => {
           this.cardLoading = false
           this.downloadfile(res)
-        // eslint-disable-next-line handle-callback-err
+          // eslint-disable-next-line handle-callback-err
         }).catch((err) => {
           this.cardLoading = false
           this.$message.error('下载错误：获取文件流错误')
         })
       },
-      downloadfile (res) {
-        var blob = new Blob([res.data], { type: 'application/octet-stream;charset=UTF-8' })
+      downloadfile(res) {
+        var blob = new Blob([res.data], {
+          type: 'application/octet-stream;charset=UTF-8'
+        })
         var contentDisposition = res.headers['content-disposition']
         var patt = new RegExp('filename=([^;]+\\.[^\\.;]+);*')
         var result = patt.exec(contentDisposition)
@@ -332,6 +349,21 @@
         downloadElement.click() // 点击下载
         document.body.removeChild(downloadElement) // 下载完成移除元素
         window.URL.revokeObjectURL(href)
+      },
+      /**
+       * 上传用户文件
+       */
+      customRequest(data) {
+        const formData = new FormData()
+        formData.append('file', data.file)
+        sysUserImport(formData).then((res) => {
+          if (res.success) {
+            this.$message.success('上传成功')
+            this.$refs.table.refresh()
+          } else {
+            this.$message.error('上传失败：' + res.message)
+          }
+        })
       },
       /**
        * 点击左侧机构树查询列表

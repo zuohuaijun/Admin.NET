@@ -64,3 +64,18 @@ export function @(@Model.ClassName)Delete (parameter) {
     data: parameter
   })
 }
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+@:
+@:/**
+@:* 获取@(@column.FkEntityName)列表
+@:* @@author @Model.AuthorName
+@:*/
+@:export function @(@Model.ClassName)Fk@(@column.FkEntityName)List() {
+@:  return axios({
+@:    url: '/@Model.ClassName/fk@(@column.FkEntityName)',
+@:    method: 'get'
+@:  })
+@:}
+}
+}

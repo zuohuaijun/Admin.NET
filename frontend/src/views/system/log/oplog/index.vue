@@ -121,44 +121,51 @@
             title: '请求方式',
             dataIndex: 'reqMethod',
             scopedSlots: {
-              customRender: 'reqMethod'
+              customRender: 'reqMethod',
+              sorter: true
             }
           },
           {
             title: '执行结果',
             dataIndex: 'success',
             scopedSlots: {
-              customRender: 'success'
+              customRender: 'success',
+              sorter: true
             }
           },
           {
             title: 'ip',
-            dataIndex: 'ip'
+            dataIndex: 'ip',
+            sorter: true
           },
           {
             title: '请求地址',
             dataIndex: 'url',
             scopedSlots: {
-              customRender: 'url'
+              customRender: 'url',
+              sorter: true
             }
           },
           {
             title: '操作时间',
             dataIndex: 'opTime',
             scopedSlots: {
-              customRender: 'opTime'
+              customRender: 'opTime',
+              sorter: true
             }
           },
           {
             title: '操作人',
             dataIndex: 'name',
             scopedSlots: {
-              customRender: 'name'
+              customRender: 'name',
+              sorter: true
             }
           },
           {
             title: '操作人帐号',
-            dataIndex: 'account'
+            dataIndex: 'account',
+            sorter: true
           },
           {
             title: '详情',

@@ -17,24 +17,28 @@ namespace Dilon.Core
         /// 操作人
         /// </summary>
         [Comment("操作人")]
+        [MaxLength(20)]
         public string Account { get; set; }
 
         /// <summary>
         /// 名称
         /// </summary>
         [Comment("名称")]
+        [MaxLength(100)]
         public string Name { get; set; }
 
         /// <summary>
         /// 类名
         /// </summary>
         [Comment("类名")]
+        [MaxLength(100)]
         public string ClassName { get; set; }
 
         /// <summary>
         /// 方法名
         /// </summary>
         [Comment("方法名")]
+        [MaxLength(100)]
         public string MethodName { get; set; }
 
         /// <summary>
