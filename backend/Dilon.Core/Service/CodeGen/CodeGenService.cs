@@ -1,4 +1,3 @@
-using System;
 using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
@@ -30,9 +29,9 @@ namespace Dilon.Core.Service.CodeGen
         private readonly IRepository<SysMenu> _sysMenuRep; // 菜单表仓储
 
         public CodeGenService(IRepository<SysCodeGen> sysCodeGenRep,
-            ICodeGenConfigService codeGenConfigService,
-            IViewEngine viewEngine,
-            IRepository<SysMenu> sysMenuRep)
+                              ICodeGenConfigService codeGenConfigService,
+                              IViewEngine viewEngine,
+                              IRepository<SysMenu> sysMenuRep)
         {
             _sysCodeGenRep = sysCodeGenRep;
             _codeGenConfigService = codeGenConfigService;
@@ -50,8 +49,8 @@ namespace Dilon.Core.Service.CodeGen
         {
             var tableName = !string.IsNullOrEmpty(input.TableName?.Trim());
             var codeGens = await _sysCodeGenRep.DetachedEntities
-                .Where((tableName, u => EF.Functions.Like(u.TableName, $"%{input.TableName.Trim()}%")))
-                .ToPagedListAsync(input.PageNo, input.PageSize);
+                                               .Where((tableName, u => EF.Functions.Like(u.TableName, $"%{input.TableName.Trim()}%")))
+                                               .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<SysCodeGen>.PageResult(codeGens);
         }
 
@@ -103,8 +102,7 @@ namespace Dilon.Core.Service.CodeGen
         [HttpPost("/codeGenerate/edit")]
         public async Task UpdateCodeGen(UpdateCodeGenInput input)
         {
-            var isExist =
-                await _sysCodeGenRep.DetachedEntities.AnyAsync(u => u.TableName == input.TableName && u.Id != input.Id);
+            var isExist = await _sysCodeGenRep.DetachedEntities.AnyAsync(u => u.TableName == input.TableName && u.Id != input.Id);
             if (isExist)
                 throw Oops.Oh(ErrorCode.D1400);
 
@@ -153,17 +151,15 @@ namespace Dilon.Core.Service.CodeGen
             if (type == null) return null;
 
             // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
-            return type.GetProperties()
-                .Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
-                .Where(p => p != null)
-                .Select(p => new TableColumnOuput
-                {
-                    ColumnName = p.Name,
-                    ColumnKey = p.IsKey().ToString(),
-                    DataType = p.PropertyInfo.PropertyType.ToString(),
-                    NetType = GenCodeUtil.ConvertDataType(p.PropertyInfo.PropertyType.ToString()),
-                    ColumnComment = p.GetComment()
-                }).ToList();
+            return type.GetProperties().Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
+                       .Where(p => p != null).Select(p => new TableColumnOuput
+                       {
+                           ColumnName = p.Name,
+                           ColumnKey = p.IsKey().ToString(),
+                           DataType = p.PropertyInfo.PropertyType.ToString(),
+                           NetType = CodeGenUtil.ConvertDataType(p.PropertyInfo.PropertyType.ToString()),
+                           ColumnComment = p.GetComment()
+                       }).ToList();
         }
 
         /// <summary>
@@ -183,16 +179,14 @@ namespace Dilon.Core.Service.CodeGen
             if (type == null) return null;
 
             // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
-            return type.GetProperties()
-                .Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
-                .Where(p => p != null)
-                .Select(p => new TableColumnOuput
-                {
-                    ColumnName = p.Name,
-                    ColumnKey = p.IsKey().ToString(),
-                    DataType = p.PropertyInfo.PropertyType.ToString(),
-                    ColumnComment = p.GetComment()
-                }).ToList();
+            return type.GetProperties().Select(propertyInfo => entityType.FindProperty(propertyInfo.Name))
+                       .Where(p => p != null).Select(p => new TableColumnOuput
+                       {
+                           ColumnName = p.Name,
+                           ColumnKey = p.IsKey().ToString(),
+                           DataType = p.PropertyInfo.PropertyType.ToString(),
+                           ColumnComment = p.GetComment()
+                       }).ToList();
         }
 
         /// <summary>
@@ -208,8 +202,7 @@ namespace Dilon.Core.Service.CodeGen
             {
                 var tContent = File.ReadAllText(templatePathList[i]);
 
-                var tableFieldList =
-                    await _codeGenConfigService.List(new CodeGenConfig() {CodeGenId = input.Id}); // 字段集合
+                var tableFieldList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
                 if (i >= 5) // 适应前端首字母小写
                 {
                     tableFieldList.ForEach(u =>
@@ -218,8 +211,7 @@ namespace Dilon.Core.Service.CodeGen
                     });
                 }
 
-                var queryWhetherList =
-                    tableFieldList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(); // 前端查询集合
+                var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesOrNot.Y.ToString()).ToList(); // 前端查询集合
                 var tResult = _viewEngine.RunCompileFromCached(tContent, new
                 {
                     input.AuthorName,
@@ -242,8 +234,7 @@ namespace Dilon.Core.Service.CodeGen
         private async Task AddMenu(string className, string busName)
         {
             // 先删除该表已生成的菜单列表
-            var menus = await _sysMenuRep.DetachedEntities.Where(u => u.Code.StartsWith("dilon_" + className.ToLower()))
-                .ToListAsync();
+            var menus = await _sysMenuRep.DetachedEntities.Where(u => u.Code.StartsWith("dilon_" + className.ToLower())).ToListAsync();
             menus.ForEach(u => { u.Delete(); });
 
             // 目录
@@ -365,20 +356,17 @@ namespace Dilon.Core.Service.CodeGen
         /// <returns></returns>
         private List<string> GetTargetPathList(SysCodeGen input)
         {
-            var backendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName +
-                              @"\Dilon.Application\Service\" + input.TableName + @"\";
+            var backendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName + @"\Dilon.Application\Service\" + input.TableName + @"\";
             var servicePath = backendPath + input.TableName + "Service.cs";
             var iservicePath = backendPath + "I" + input.TableName + "Service.cs";
             var inputPath = backendPath + @"Dto\" + input.TableName + "Input.cs";
             var outputPath = backendPath + @"Dto\" + input.TableName + "Output.cs";
             var viewPath = backendPath + @"Dto\" + input.TableName + "Dto.cs";
-            var frontendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName +
-                               @"\frontend\src\views\main\";
+            var frontendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName + @"\frontend\src\views\main\";
             var indexPath = frontendPath + input.TableName + @"\index.vue";
             var addFormPath = frontendPath + input.TableName + @"\addForm.vue";
             var editFormPath = frontendPath + input.TableName + @"\editForm.vue";
-            var apiJsPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName +
-                            @"\frontend\src\api\modular\main\" + input.TableName + "Manage.js";
+            var apiJsPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName + @"\frontend\src\api\modular\main\" + input.TableName + "Manage.js";
 
             return new List<string>()
             {

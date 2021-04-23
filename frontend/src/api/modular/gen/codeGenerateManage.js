@@ -79,7 +79,7 @@ export function codeGenerateInformationList (parameter) {
 /**
  * 根据表名获取列
  *
- * @export
+ * @author wynnyo 20210423
  * @param {*} tableName 表名
  * @return {*}
  */

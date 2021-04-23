@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -34,9 +33,9 @@ namespace Dilon.Core.Service
         [HttpGet("/sysCodeGenerateConfig/list")]
         public async Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input)
         {
-            return await _sysCodeGenConfigRep.DetachedEntities.Where(u =>
-                    u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesOrNot.Y.ToString())
-                .Select(u => u.Adapt<CodeGenConfig>()).ToListAsync();
+            return await _sysCodeGenConfigRep.DetachedEntities
+                                             .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesOrNot.Y.ToString())
+                                             .Select(u => u.Adapt<CodeGenConfig>()).ToListAsync();
         }
 
         /// <summary>
@@ -111,7 +110,7 @@ namespace Dilon.Core.Service
                     YesOrNo = YesOrNot.N.ToString();
                 }
 
-                if (IsCommonColumn(tableColumn.ColumnName))
+                if (CodeGenUtil.IsCommonColumn(tableColumn.ColumnName))
                 {
                     codeGenConfig.WhetherCommon = YesOrNot.Y.ToString();
                     YesOrNo = YesOrNot.N.ToString();
@@ -124,7 +123,7 @@ namespace Dilon.Core.Service
                 codeGenConfig.CodeGenId = codeGenerate.Id;
                 codeGenConfig.ColumnName = tableColumn.ColumnName;
                 codeGenConfig.ColumnComment = tableColumn.ColumnComment;
-                codeGenConfig.NetType = GenCodeUtil.ConvertDataType(tableColumn.DataType);
+                codeGenConfig.NetType = CodeGenUtil.ConvertDataType(tableColumn.DataType);
                 codeGenConfig.WhetherRetract = YesOrNot.N.ToString();
 
                 codeGenConfig.WhetherRequired = YesOrNot.N.ToString();
@@ -135,47 +134,11 @@ namespace Dilon.Core.Service
                 codeGenConfig.ColumnKey = tableColumn.ColumnKey;
 
                 codeGenConfig.DataType = tableColumn.DataType;
-                codeGenConfig.EffectType = DataTypeToEff(codeGenConfig.NetType);
+                codeGenConfig.EffectType = CodeGenUtil.DataTypeToEff(codeGenConfig.NetType);
                 codeGenConfig.QueryType = "=="; // QueryTypeEnum.eq.ToString();
 
                 codeGenConfig.InsertAsync();
             }
-        }
-
-        /// <summary>
-        /// 数据类型转显示类型
-        /// </summary>
-        /// <param name="dataType"></param>
-        /// <returns></returns>
-        private static string DataTypeToEff(string dataType)
-        {
-            if (string.IsNullOrEmpty(dataType)) return "";
-            return dataType switch
-            {
-                "string" => "input",
-                "int" => "inputnumber",
-                "long" => "input",
-                "float" => "input",
-                "double" => "input",
-                "decimal" => "input",
-                "bool" => "switch",
-                "Guid" => "input",
-                "DateTime" => "datepicker",
-                "DateTimeOffset" => "datepicker",
-                _ => "input",
-            };
-        }
-
-
-        // 是否通用字段
-        private static bool IsCommonColumn(string columnName)
-        {
-            var columnList = new List<string>()
-            {
-                "CreatedTime", "UpdatedTime", "CreatedUserId", "CreatedUserName", "UpdatedUserId", "UpdatedUserName",
-                "IsDeleted"
-            };
-            return columnList.Contains(columnName);
         }
     }
 }

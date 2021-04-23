@@ -465,6 +465,21 @@
             作用类型（字典）
             </summary>
         </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.FkEntityName">
+            <summary>
+            外键实体名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.FkColumnName">
+            <summary>
+            外键显示字段
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGenConfig.FkColumnNetType">
+            <summary>
+            外键显示字段.NET类型
+            </summary>
+        </member>
         <member name="P:Dilon.Core.SysCodeGenConfig.DictTypeCode">
             <summary>
             字典code
@@ -502,7 +517,7 @@
         </member>
         <member name="P:Dilon.Core.SysCodeGenConfig.ColumnKey">
             <summary>
-            主外键
+            主键
             </summary>
         </member>
         <member name="P:Dilon.Core.SysCodeGenConfig.DataType">
@@ -3759,13 +3774,6 @@
             <param name="tableColumnOuputList"></param>
             <param name="codeGenerate"></param>
         </member>
-        <member name="M:Dilon.Core.Service.CodeGenConfigService.DataTypeToEff(System.String)">
-            <summary>
-            数据类型转显示类型
-            </summary>
-            <param name="dataType"></param>
-            <returns></returns>
-        </member>
         <member name="T:Dilon.Core.Service.CodeGen.CodeGenService">
             <summary>
             代码生成器服务
@@ -3812,6 +3820,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.GetColumnListByTableName(System.String)">
+            <summary>
+            根据表名获取列
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Dilon.Core.Service.CodeGen.CodeGenService.GetColumnList(Dilon.Core.Service.AddCodeGenInput)">
             <summary>
             获取数据表列（实体属性）集合
@@ -3844,7 +3858,7 @@
         </member>
         <member name="P:Dilon.Core.Service.CodeGenConfig.Id">
             <summary>
-            主键
+            主键Id
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.CodeGenConfig.CodeGenId">
@@ -3855,6 +3869,11 @@
         <member name="P:Dilon.Core.Service.CodeGenConfig.ColumnName">
             <summary>
             数据库字段名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfig.LowerColumnName">
+            <summary>
+            数据库字段名(首字母小写)
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.CodeGenConfig.ColumnComment">
@@ -3870,6 +3889,31 @@
         <member name="P:Dilon.Core.Service.CodeGenConfig.EffectType">
             <summary>
             作用类型（字典）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfig.FkEntityName">
+            <summary>
+            外键实体名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfig.LowerFkEntityName">
+            <summary>
+            外键实体名称(首字母小写)
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfig.FkColumnName">
+            <summary>
+            外键显示字段
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfig.LowerFkColumnName">
+            <summary>
+            外键显示字段(首字母小写)
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenConfig.FkColumnNetType">
+            <summary>
+            外键显示字段.NET类型
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.CodeGenConfig.DictTypeCode">
@@ -4065,6 +4109,11 @@
         <member name="P:Dilon.Core.Service.TableColumnOuput.DataType">
             <summary>
             数据库中类型
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TableColumnOuput.NetType">
+            <summary>
+            .NET字段类型
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.TableColumnOuput.ColumnComment">
@@ -7353,6 +7402,18 @@
             检查普通用户数据范围
             </summary>
             <param name="userParam"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Dilon.Core.CodeGenUtil">
+            <summary>
+            代码生成帮助类
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.CodeGenUtil.DataTypeToEff(System.String)">
+            <summary>
+            数据类型转显示类型
+            </summary>
+            <param name="dataType"></param>
             <returns></returns>
         </member>
         <member name="T:Dilon.Core.MachineUtil">

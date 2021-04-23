@@ -1,6 +1,4 @@
-﻿using StackExchange.Profiling.Internal;
-
-namespace Dilon.Core.Service
+﻿namespace Dilon.Core.Service
 {
     /// <summary>
     /// 代码生成详细配置参数
@@ -8,7 +6,7 @@ namespace Dilon.Core.Service
     public class CodeGenConfig
     {
         /// <summary>
-        /// 主键
+        /// 主键Id
         /// </summary>
         public long Id { get; set; }
 
@@ -26,9 +24,8 @@ namespace Dilon.Core.Service
         /// 数据库字段名(首字母小写)
         /// </summary>
         public string LowerColumnName => string.IsNullOrWhiteSpace(ColumnName)
-            ? null
-            : ColumnName.Substring(0, 1).ToLower() + ColumnName[1..];
-
+                                      ? null
+                                      : ColumnName.Substring(0, 1).ToLower() + ColumnName[1..];
 
         /// <summary>
         /// 字段描述
@@ -54,8 +51,8 @@ namespace Dilon.Core.Service
         /// 外键实体名称(首字母小写)
         /// </summary>
         public string LowerFkEntityName => string.IsNullOrWhiteSpace(FkEntityName)
-            ? null
-            : FkEntityName.Substring(0, 1).ToLower() + FkEntityName[1..];
+                                        ? null
+                                        : FkEntityName.Substring(0, 1).ToLower() + FkEntityName[1..];
 
         /// <summary>
         /// 外键显示字段
@@ -66,8 +63,8 @@ namespace Dilon.Core.Service
         /// 外键显示字段(首字母小写)
         /// </summary>
         public string LowerFkColumnName => string.IsNullOrWhiteSpace(FkColumnName)
-            ? null
-            : (FkColumnName.Substring(0, 1).ToLower() + FkColumnName[1..]);
+                                        ? null
+                                        : (FkColumnName.Substring(0, 1).ToLower() + FkColumnName[1..]);
 
         /// <summary>
         /// 外键显示字段.NET类型

@@ -6,15 +6,15 @@ using Microsoft.EntityFrameworkCore;
 namespace Dilon.Core
 {
     /// <summary>
-    /// 代码生成测试子表
+    /// 代码生成事例子表
     /// </summary>
     [Table("code_gen_test_child")]
-    [Comment("代码生成测试子表")]
+    [Comment("代码生成事例子表")]
     public class CodeGenTestChild : DEntityBase
     {
         [ForeignKey("CodeGenId")]
         public virtual CodeGenTest CodeGen { get; set; }
-        
+
         /// <summary>
         /// 主表外键
         /// </summary>
