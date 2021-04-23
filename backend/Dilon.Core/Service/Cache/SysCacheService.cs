@@ -5,7 +5,6 @@ using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -115,6 +114,18 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
+        [NonAction]
+        public bool Del(string key)
+        {
+            _cache.Del(key);
+            return true;
+        }
+
+        /// <summary>
+        /// 删除指定关键字缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public Task<bool> DelAsync(string key)
         {
             _cache.DelAsync(key);
@@ -130,6 +141,18 @@ namespace Dilon.Core.Service
         {
             _cache.DelByPatternAsync(key);
             return Task.FromResult(true);
+        }
+        
+        /// <summary>
+        /// 设置缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        [NonAction]
+        public bool Set(string key, object value)
+        {
+            return _cache.Set(key, value);
         }
 
         /// <summary>
@@ -148,6 +171,17 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
+        [NonAction]
+        public string Get(string key)
+        {
+            return _cache.Get(key);
+        }
+
+        /// <summary>
+        /// 获取缓存
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public async Task<string> GetAsync(string key)
         {
             return await _cache.GetAsync(key);
@@ -159,9 +193,42 @@ namespace Dilon.Core.Service
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
         /// <returns></returns>
+        [NonAction]
+        public T Get<T>(string key)
+        {
+            return _cache.Get<T>(key);
+        }
+
+        /// <summary>
+        /// 获取缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public Task<T> GetAsync<T>(string key)
         {
             return _cache.GetAsync<T>(key);
+        }
+
+        /// <summary>
+        /// 检查给定 key 是否存在
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns></returns>
+        [NonAction]
+        public bool Exists(string key)
+        {
+            return _cache.Exists(key);
+        }
+
+        /// <summary>
+        /// 检查给定 key 是否存在
+        /// </summary>
+        /// <param name="key">键</param>
+        /// <returns></returns>
+        public Task<bool> ExistsAsync(string key)
+        {
+            return _cache.ExistsAsync(key);
         }
     }
 }
