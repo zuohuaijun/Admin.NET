@@ -164,20 +164,5 @@ namespace Dilon.Core.Service
             var value = await GetConfigCache("DILON_CAPTCHA_OPEN");
             return bool.Parse(value);
         }
-
-        /// <summary>
-        /// 获取日志写入间隔和数量
-        /// </summary>
-        /// <returns></returns>
-        public async Task<(int interval, int quantity)> GetLogWritingConfiguration()
-        {
-            // 获取间隔
-            var interval = await GetConfigCache("DILON_LOG_WRITE_INTERVAL") ?? 5000;
-
-            // 获取数量
-            var quantity = await GetConfigCache("DILON_NUMBER_OF_SINGLE_LOG_WRITES") ?? 100;
-
-            return (int.Parse(interval), int.Parse(quantity));
-        }
     }
 }
