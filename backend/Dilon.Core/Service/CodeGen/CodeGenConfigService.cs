@@ -19,7 +19,7 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "CodeGenConfig", Order = 100)]
     public class CodeGenConfigService : ICodeGenConfigService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysCodeGenConfig> _sysCodeGenConfigRep;    // 代码生成详细配置仓储
+        private readonly IRepository<SysCodeGenConfig> _sysCodeGenConfigRep; // 代码生成详细配置仓储
 
         public CodeGenConfigService(IRepository<SysCodeGenConfig> sysCodeGenConfigRep)
         {
@@ -31,12 +31,12 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-
         [HttpGet("/sysCodeGenerateConfig/list")]
         public async Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input)
         {
-            return await _sysCodeGenConfigRep.DetachedEntities.Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesOrNot.Y.ToString())
-                                                              .Select(u => u.Adapt<CodeGenConfig>()).ToListAsync();
+            return await _sysCodeGenConfigRep.DetachedEntities.Where(u =>
+                    u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesOrNot.Y.ToString())
+                .Select(u => u.Adapt<CodeGenConfig>()).ToListAsync();
         }
 
         /// <summary>
@@ -60,10 +60,7 @@ namespace Dilon.Core.Service
         public async Task Delete(long codeGenId)
         {
             var codeGenConfigList = await _sysCodeGenConfigRep.Where(u => u.CodeGenId == codeGenId).ToListAsync();
-            codeGenConfigList.ForEach(u =>
-            {
-                u.Delete();
-            });
+            codeGenConfigList.ForEach(u => { u.Delete(); });
         }
 
         /// <summary>
@@ -127,7 +124,7 @@ namespace Dilon.Core.Service
                 codeGenConfig.CodeGenId = codeGenerate.Id;
                 codeGenConfig.ColumnName = tableColumn.ColumnName;
                 codeGenConfig.ColumnComment = tableColumn.ColumnComment;
-                codeGenConfig.NetType = ConvertDataType(tableColumn.DataType);
+                codeGenConfig.NetType = GenCodeUtil.ConvertDataType(tableColumn.DataType);
                 codeGenConfig.WhetherRetract = YesOrNot.N.ToString();
 
                 codeGenConfig.WhetherRequired = YesOrNot.N.ToString();
@@ -169,38 +166,15 @@ namespace Dilon.Core.Service
             };
         }
 
-        // 转换.NET数据类型
-        [NonAction]
-        public string ConvertDataType(string dataType)
-        {
-            if (string.IsNullOrEmpty(dataType)) return "";
-            if (dataType.StartsWith("System.Nullable"))
-                dataType = new Regex(@"(?i)(?<=\[)(.*)(?=\])").Match(dataType).Value; // 中括号[]里面值 
-
-            switch (dataType)
-            {
-                case "System.Guid": return "Guid";
-                case "System.String": return "string";
-                case "System.Int32": return "int";
-                case "System.Int64": return "long";
-                case "System.Single": return "float";
-                case "System.Double": return "double";
-                case "System.Decimal": return "decimal";
-                case "System.Boolean": return "bool";
-                case "System.DateTime": return "DateTime";
-                case "System.DateTimeOffset": return "DateTimeOffset";
-                case "System.Byte": return "byte";
-                case "System.Byte[]": return "byte[]";
-                default:
-                    break;
-            }
-            return dataType;
-        }
 
         // 是否通用字段
         private static bool IsCommonColumn(string columnName)
         {
-            var columnList = new List<string>() { "CreatedTime", "UpdatedTime", "CreatedUserId", "CreatedUserName", "UpdatedUserId", "UpdatedUserName", "IsDeleted" };
+            var columnList = new List<string>()
+            {
+                "CreatedTime", "UpdatedTime", "CreatedUserId", "CreatedUserName", "UpdatedUserId", "UpdatedUserName",
+                "IsDeleted"
+            };
             return columnList.Contains(columnName);
         }
     }

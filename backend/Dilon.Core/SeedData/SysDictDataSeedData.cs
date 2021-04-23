@@ -92,6 +92,8 @@ namespace Dilon.Core
                 new SysDictData{Id=142307070906481, TypeId=142307070910538, Value="PUT", Code="3", Sort=100, Remark="PUT", Status=0 },
                 new SysDictData{Id=142307070906482, TypeId=142307070910538, Value="DELETE", Code="4", Sort=100, Remark="DELETE", Status=0 },
 
+
+                new SysDictData{Id=142307070922829, TypeId=142307070922827, Value="外键", Code="fk", Sort=100, Remark="外键", Status=0 },
                 new SysDictData{Id=142307070922830, TypeId=142307070922827, Value="输入框", Code="input", Sort=100, Remark="输入框", Status=0 },
                 new SysDictData{Id=142307070922831, TypeId=142307070922827, Value="时间选择", Code="datepicker", Sort=100, Remark="时间选择", Status=0 },
                 new SysDictData{Id=142307070922832, TypeId=142307070922827, Value="下拉框", Code="select", Sort=100, Remark="下拉框", Status=0 },

@@ -86,11 +86,29 @@ if (@column.WhetherRequired == "Y"){
           @:</a-checkbox-group>
 }
 }
+if (@column.EffectType == "switch"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-switch v-decorator="['@column.ColumnName',{rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }], valuePropName: 'checked'}]" />
+}else{
+          @:<a-switch v-decorator="['@column.ColumnName', { valuePropName: 'checked' }]" />
+}
+}
 if (@column.EffectType == "datepicker"){
 if (@column.WhetherRequired == "Y"){
           @:<a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName',{rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]" @@change="onChange@(@column.ColumnName)"/>
 }else{
           @:<a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" @@change="onChange@(@column.ColumnName)"/>
+}
+}
+if (@column.EffectType == "fk"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-select style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName', {rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]">
+            @:<a-select-option v-for="(item,index) in  @(@column.FkEntityName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
+          @:</a-select>
+}else{
+          @:<a-select style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName']">
+            @:<a-select-option v-for="(item,index) in @(@column.FkEntityName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
+          @:</a-select>
 }
 }
         @:</a-form-item>
@@ -122,7 +140,14 @@ if(@column.EffectType != "datepicker"){
 @if(DateQuery == "Y"){
   @:import moment from 'moment'
 }
-  import { @(@Model.ClassName)Edit } from '@@/api/modular/main/@(@Model.ClassName)Manage'
+  import {
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+    @:@(@Model.ClassName)Fk@(@column.FkEntityName)List,
+}
+}
+    @(@Model.ClassName)Edit
+  } from '@@/api/modular/main/@(@Model.ClassName)Manage'
   export default {
     data () {
       return {
@@ -146,12 +171,26 @@ if (@column.EffectType == "datepicker"){
 }
 }
 }
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+        @:@(@column.FkEntityName)Data: [],
+}
+}
         visible: false,
         confirmLoading: false,
         form: this.$form.createForm(this)
       }
     },
     methods: {
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+      @:@(@Model.ClassName)Fk@(@column.FkEntityName)List() {
+          @:@(@Model.ClassName)Fk@(@column.FkEntityName)List().then(res => {
+            @:this.@(@column.FkEntityName)Data = res.data
+          @:})
+      @:},
+}
+}
 @if(DateQuery == "Y"){
       @:moment,
 }
@@ -206,6 +245,11 @@ if (@column.EffectType == "datepicker"){
         //}
         @:this.@(@column.ColumnName)DateString = moment(record.@column.ColumnName).format('YYYY-MM-DD')
 }
+}
+}
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+      @:this.@(@Model.ClassName)Fk@(@column.FkEntityName)List()
 }
 }
       },

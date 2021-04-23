@@ -77,6 +77,20 @@ export function codeGenerateInformationList (parameter) {
 }
 
 /**
+ * 根据表名获取列
+ *
+ * @export
+ * @param {*} tableName 表名
+ * @return {*}
+ */
+export function codeGenerateColumnList (tableName) {
+  return axios({
+    url: `/codeGenerate/ColumnList/${tableName}`,
+    method: 'get'
+  })
+}
+
+/**
  * 本地生成
  *
  * @author yubaoshan
