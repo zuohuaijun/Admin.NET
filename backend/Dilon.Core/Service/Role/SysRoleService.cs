@@ -6,6 +6,7 @@ using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,13 +26,15 @@ namespace Dilon.Core.Service
         private readonly ISysRoleDataScopeService _sysRoleDataScopeService;
         private readonly ISysOrgService _sysOrgService;
         private readonly ISysRoleMenuService _sysRoleMenuService;
+        private readonly ISysCacheService _sysCacheService;
 
         public SysRoleService(IRepository<SysRole> sysRoleRep,
                               IRepository<SysUserRole> sysUserRoleRep,
                               IUserManager userManager,
                               ISysRoleDataScopeService sysRoleDataScopeService,
                               ISysOrgService sysOrgService,
-                              ISysRoleMenuService sysRoleMenuService)
+                              ISysRoleMenuService sysRoleMenuService,
+                              ISysCacheService sysCacheService)
         {
             _sysRoleRep = sysRoleRep;
             _sysUserRoleRep = sysUserRoleRep;
@@ -39,6 +42,7 @@ namespace Dilon.Core.Service
             _sysRoleDataScopeService = sysRoleDataScopeService;
             _sysOrgService = sysOrgService;
             _sysRoleMenuService = sysRoleMenuService;
+            _sysCacheService = sysCacheService;
         }
 
         /// <summary>
@@ -129,7 +133,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D1006);
 
             var role = input.Adapt<SysRole>();
-            role.DataScopeType = 1; // 新角色默认全部数据范围
+            role.DataScopeType = DataScopeType.ALL; // 新角色默认全部数据范围
             await role.InsertAsync();
         }
 
@@ -199,13 +203,16 @@ namespace Dilon.Core.Service
         }
 
         /// <summary>
-        /// 授权角色数据
+        /// 授权角色数据范围
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysRole/grantData")]
         public async Task GrantData(GrantRoleDataInput input)
         {
+            // 清除所有用户数据范围缓存
+            await _sysCacheService.DelAsync(CommonConst.CACHE_KEY_DATASCOPE);
+
             var role = await _sysRoleRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             var dataScopeType = input.DataScopeType;
             if (!_userManager.SuperAdmin)
@@ -228,7 +235,7 @@ namespace Dilon.Core.Service
                     }
                 }
             }
-            role.DataScopeType = dataScopeType;
+            role.DataScopeType = (DataScopeType)dataScopeType;
             await _sysRoleDataScopeService.GrantDataScope(input);
         }
 
@@ -250,10 +257,10 @@ namespace Dilon.Core.Service
                 var roles = await _sysRoleRep.DetachedEntities.Where(u => roleIdList.Contains(u.Id)).ToListAsync();
                 roles.ForEach(u =>
                 {
-                    if (u.DataScopeType == (int)DataScopeType.DEFINE)
+                    if (u.DataScopeType == DataScopeType.DEFINE)
                         customDataScopeRoleIdList.Add(u.Id);
-                    else if (u.DataScopeType <= strongerDataScopeType)
-                        strongerDataScopeType = u.DataScopeType;
+                    else if ((int)u.DataScopeType <= strongerDataScopeType)
+                        strongerDataScopeType = (int)u.DataScopeType;
                 });
             }
 

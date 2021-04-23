@@ -40,7 +40,7 @@ namespace Dilon.Core
         /// 数据范围类型（字典 1全部数据 2本部门及以下数据 3本部门数据 4仅本人数据 5自定义数据）
         /// </summary>
         [Comment("数据范围类型")]
-        public int DataScopeType { get; set; }
+        public DataScopeType DataScopeType { get; set; }
 
         /// <summary>
         /// 备注

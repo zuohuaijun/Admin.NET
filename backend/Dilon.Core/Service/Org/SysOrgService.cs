@@ -342,7 +342,7 @@ namespace Dilon.Core.Service
             // 如果是范围类型是全部数据，则获取当前所有的组织架构Id
             if (dataScopeType == (int)DataScopeType.ALL)
             {
-                orgIdList = await _sysOrgRep.DetachedEntities.Where(u => u.Status != (int)CommonStatus.ENABLE).Select(u => u.Id).ToListAsync();
+                orgIdList = await _sysOrgRep.DetachedEntities.Where(u => u.Status == (int)CommonStatus.ENABLE).Select(u => u.Id).ToListAsync();
             }
             // 如果范围类型是本部门及以下部门，则查询本节点和子节点集合，包含本节点
             else if (dataScopeType == (int)DataScopeType.DEPT_WITH_CHILD)
