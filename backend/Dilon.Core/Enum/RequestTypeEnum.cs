@@ -6,9 +6,9 @@
     public enum RequestTypeEnum
     {
         /// <summary>
-        /// 无
+        /// 执行内部方法
         /// </summary>
-        None = 0,
+        Run = 0,
 
         /// <summary>
         /// GET请求

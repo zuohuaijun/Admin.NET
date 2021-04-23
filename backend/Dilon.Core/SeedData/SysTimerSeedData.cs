@@ -22,7 +22,12 @@ namespace Dilon.Core
         {
             return new[]
             {
-                new SysTimer{Id=142307070910556, JobName="百度api", Interval=5, TimerType=SpareTimeTypes.Interval, RequestUrl="https://www.baidu.com", RequestType=RequestTypeEnum.Post, IsDeleted=false },
+                new SysTimer
+                {
+                    Id = 142307070910556, JobName = "百度api", DoOnce = false, StartNow = false, Interval = 5,
+                    TimerType = SpareTimeTypes.Interval, ExecuteType = SpareTimeExecuteTypes.Serial,
+                    RequestUrl = "https://www.baidu.com", RequestType = RequestTypeEnum.Post, IsDeleted = false
+                },
             };
         }
     }
