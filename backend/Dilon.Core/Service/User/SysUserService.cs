@@ -239,7 +239,7 @@ namespace Dilon.Core.Service
         public async Task UpdateUserInfo(UpdateUserInput input)
         {
             var user = input.Adapt<SysUser>();
-            await user.UpdateAsync();
+            await user.UpdateExcludeAsync(new[] { nameof(SysUser.AdminType) });
         }
 
         /// <summary>

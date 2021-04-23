@@ -125,6 +125,7 @@
           )
           const formData = new FormData()
           formData.append('file', files)
+          console.log(formData)
           sysFileInfoUpload(formData).then((res) => {
             if (res.success) {
               this.updateAvatar(res.data)
