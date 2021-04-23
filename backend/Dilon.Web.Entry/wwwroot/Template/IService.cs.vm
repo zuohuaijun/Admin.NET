@@ -12,5 +12,10 @@ namespace @Model.NameSpace
         Task<dynamic> List([FromQuery] @(@Model.ClassName)Input input);
         Task<dynamic> Page([FromQuery] @(@Model.ClassName)Input input);
         Task Update(Update@(@Model.ClassName)Input input);
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+        @:Task<dynamic> Fk@(@column.FkEntityName)List();
+}
+}
     }
 }

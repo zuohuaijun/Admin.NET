@@ -44,6 +44,27 @@ namespace Dilon.Core
         [Comment("作用类型")]
         [MaxLength(50)]
         public string EffectType { get; set; }
+        
+        /// <summary>
+        /// 外键实体名称
+        /// </summary>
+        [Comment("外键实体名称")]
+        [MaxLength(50)]
+        public string FkEntityName { get; set; }
+        
+        /// <summary>
+        /// 外键显示字段
+        /// </summary>
+        [Comment("外键显示字段")]
+        [MaxLength(50)]
+        public string FkColumnName { get; set; }
+        
+        /// <summary>
+        /// 外键显示字段.NET类型
+        /// </summary>
+        [Comment("外键显示字段.NET类型")]
+        [MaxLength(50)]
+        public string FkColumnNetType { get; set; }
 
         /// <summary>
         /// 字典code
