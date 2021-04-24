@@ -47,6 +47,42 @@
         <a-row :gutter="24">
           <a-col :md="12" :sm="24">
             <a-form-item
+              :labelCol="labelCol"
+              :wrapperCol="wrapperCol"
+              label="菜单分类"
+              has-feedback
+            >
+              <a-select style="width: 100%" placeholder="请选择应用分类" v-decorator="['menuApplication', {rules: [{ required: true, message: '请选择应用分类！' }]}]" >
+                <a-select-option v-for="(item,index) in appData" :key="index" :value="item.code" @click="changeApplication(item.code)">{{ item.name }}</a-select-option>
+              </a-select>
+            </a-form-item>
+          </a-col>
+          <a-col :md="12" :sm="24">
+            <div>
+              <a-form-item
+                :labelCol="labelCol"
+                :wrapperCol="wrapperCol"
+                label="父级菜单"
+                has-feedback
+              >
+                <a-tree-select
+                  v-decorator="['menuPid', {rules: [{ required: true, message: '请选择父级菜单！' }]}]"
+                  style="width: 100%"
+                  :dropdownStyle="{ maxHeight: '300px', overflow: 'auto' }"
+                  :treeData="menuTreeData"
+                  placeholder="请选择父级菜单"
+                  treeDefaultExpandAll
+                >
+                  <span slot="title" slot-scope="{ id }">{{ id }}
+                  </span>
+                </a-tree-select>
+              </a-form-item>
+            </div>
+          </a-col>
+        </a-row>
+        <a-row :gutter="24">
+          <a-col :md="12" :sm="24">
+            <a-form-item
               label="命名空间"
               :labelCol="labelCol"
               :wrapperCol="wrapperCol"
@@ -107,6 +143,8 @@
 </template>
 
 <script>
+  import { getAppList } from '@/api/modular/system/appManage'
+  import { getMenuTree } from '@/api/modular/system/menuManage'
   import { codeGenerateInformationList, codeGenerateAdd } from '@/api/modular/gen/codeGenerateManage'
   export default {
     data () {
@@ -120,6 +158,8 @@
           sm: { span: 15 }
         },
         visible: false,
+        appData: [],
+        menuTreeData: [],
         tableNameData: [],
         // tablePrefixData: [],
         generateTypeData: [],
@@ -136,6 +176,9 @@
         this.codeGenerateInformationList()
         this.dataTypeItem()
         this.selectedByDefault()
+
+        // 获取系统应用列表
+        this.getSysApplist()
       },
       /**
        * 默认选中项
@@ -145,6 +188,10 @@
         // this.form.getFieldDecorator('tablePrefix', { valuePropName: 'checked', initialValue: 'N' })
         this.form.getFieldDecorator('generateType', { valuePropName: 'checked', initialValue: '2' })
         this.form.getFieldDecorator('authorName', { initialValue: 'Dilon' })
+
+        // 初始化菜单默认选择
+        this.form.getFieldDecorator('menuApplication', { initialValue: 'busiapp' })
+        this.changeApplication('busiapp')
       },
       /**
        * 获得所有数据库的表
@@ -152,6 +199,18 @@
       codeGenerateInformationList () {
         codeGenerateInformationList().then((res) => {
           this.tableNameData = res.data
+        })
+      },
+      /**
+       * 获得菜单所属应用
+       */
+      getSysApplist () {
+        return getAppList().then((res) => {
+          if (res.success) {
+            this.appData = res.data
+          } else {
+            this.$message.warning(res.message)
+          }
         })
       },
       /**
@@ -200,6 +259,26 @@
         // this.form.getFieldDecorator('tableComment', { initialValue: item.tableComment })
         this.form.getFieldDecorator('busName', { initialValue: item.tableComment })
         // this.settingDefaultValue()
+      },
+      /**
+       * 菜单所属应用change事件
+       */
+      changeApplication (value) {
+        getMenuTree({ 'application': value }).then((res) => {
+          if (res.success) {
+            this.menuTreeData = [{
+              'id': '-1',
+              'parentId': '0',
+              'title': '顶级',
+              'value': '0',
+              'pid': '0',
+              'children': res.data
+            }]
+            this.form.getFieldDecorator('menuPid', { initialValue: '0' })
+          } else {
+            this.$message.warning(res.message)
+          }
+        })
       },
       // /**
       //  * 选择是否移除前缀触发
