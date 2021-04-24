@@ -156,7 +156,12 @@ export default {
       this.sexData = this.$options.filters['dictData']('sex')
     },
     setavatar (url) {
-      this.option.img = process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + url
+      sysFileInfoPreview({ id: url }).then((res) => {
+        this.option.img = window.URL.createObjectURL(new Blob([res]))
+      }).catch((err) => {
+        this.$message.error('预览错误：' + err.message)
+      })
+      // this.option.img = process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + url
       store.dispatch('GetInfo').then(() => {})
     }
   }
