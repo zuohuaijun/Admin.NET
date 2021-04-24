@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <NoWarn>1701;1702;1591</NoWarn>
     <DocumentationFile>Dilon.Core.xml</DocumentationFile>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <Authors>左怀军/zuohuaijun</Authors>
     <Company>Dilon Co.,Ltd.</Company>
     <Product>Admin.NET</Product>
@@ -16,7 +16,9 @@
     <PackageIcon>logo.png</PackageIcon>
     <RepositoryUrl>https://gitee.com/zuohuaijun/Admin.NET</RepositoryUrl>
     <RepositoryType>Gitee</RepositoryType>
-    <PackageId>Dilon.Core</PackageId>
+    <PackageId>Furion.Extras.Admin.NET</PackageId>
+    <AssemblyName>Furion.Extras.Admin.NET</AssemblyName>
+    <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

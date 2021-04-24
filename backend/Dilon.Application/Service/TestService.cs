@@ -1,18 +1,13 @@
-﻿using Dilon.Core;
-using Furion.DependencyInjection;
+﻿using Furion.DependencyInjection;
 using Furion.DynamicApiController;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SqlSugar;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace Dilon.Application
 {
     /// <summary>
     /// 业务服务及集成SqlSugar用法事例
     /// </summary>
+    [ApiDescriptionSettings("自己的业务", Name = "Test", Order = 100)]
     public class TestService : ITestService, IDynamicApiController, ITransient
     {
         //private readonly ISqlSugarRepository<Test> _testRep;
