@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -160,6 +160,7 @@ namespace Dilon.Core
                 new SysMenu{Id=142307070918762, Pid=142307070918757, Pids="[0],[142307070918756],[142307070918757],", Name="文件上传", Code="sys_file_mgr_sys_file_upload", Type=2, Permission="sysFileInfo:upload", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142307070918763, Pid=142307070918757, Pids="[0],[142307070918756],[142307070918757],", Name="文件下载", Code="sys_file_mgr_sys_file_download", Type=2, Permission="sysFileInfo:download", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142307070918764, Pid=142307070918757, Pids="[0],[142307070918756],[142307070918757],", Name="图片预览", Code="sys_file_mgr_sys_file_preview", Type=2, Permission="sysFileInfo:preview", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
+                new SysMenu{Id=142307070922871, Pid=142307070918757, Pids="[0],[142307070918756],[142307070918757],", Name="头像上传", Code="sys_file_mgr_sys_file_uploadAvatar", Type=2, Permission="sysFileInfo:uploadAvatar", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
 
                 new SysMenu{Id=142307070918765, Pid=0, Pids="[0],", Name="定时任务", Code="sys_timers", Type=0, Icon="dashboard", Router="/timers", Component="PageView", Application="system", OpenType=0, Visible="Y", Weight=1, Sort=100, Status=0 },
                 new SysMenu{Id=142307070918766, Pid=142307070918765, Pids="[0],[142307070918765],", Name="任务管理", Code="sys_timers_mgr", Type=1, Router="/timers", Component="system/timers/index", Application="system", OpenType=1, Visible="Y", Weight=1, Sort=100, Status=0 },
