@@ -1,5 +1,4 @@
-﻿using Dilon.Core.Service;
-using Furion.DatabaseAccessor;
+﻿using Furion.DatabaseAccessor;
 using Furion.TaskScheduler;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -22,7 +21,33 @@ namespace Dilon.Core
         {
             return new[]
             {
-                new SysTimer{Id=142307070910556, JobName="百度api", Interval=5, TimerType=SpareTimeTypes.Interval, RequestUrl="https://www.baidu.com", RequestType=RequestTypeEnum.Post, IsDeleted=false },
+                new SysTimer
+                {
+                    Id = 142307070910556, JobName = "百度api", DoOnce = false, StartNow = false, Interval = 5,
+                    TimerType = SpareTimeTypes.Interval, ExecuteType = SpareTimeExecuteTypes.Serial,
+                    RequestUrl = "https://www.baidu.com", RequestType = RequestTypeEnum.Post, IsDeleted = false
+                },
+                new SysTimer
+                {
+                    Id = 142307070910557, JobName = "LogExWritingService", DoOnce = false, StartNow = true, Interval = 10,
+                    TimerType = SpareTimeTypes.Interval, ExecuteType = SpareTimeExecuteTypes.Serial,
+                    RequestUrl = "LogJobWorker/DoLogEx", RequestType = RequestTypeEnum.Run, IsDeleted = false,
+                    Remark = "后台批量写异常日志，配置项参数：{\"quantity\": 2}，不填默认为2"
+                },
+                new SysTimer
+                {
+                    Id = 142307070910558, JobName = "LogOpWritingService", DoOnce = false, StartNow = true, Interval = 5,
+                    TimerType = SpareTimeTypes.Interval, ExecuteType = SpareTimeExecuteTypes.Serial,
+                    RequestUrl = "LogJobWorker/DoLogOp", RequestType = RequestTypeEnum.Run, IsDeleted = false,
+                    Remark = "后台批量写操作日志，配置项参数：{\"quantity\": 2}，不填默认为2"
+                },
+                new SysTimer
+                {
+                    Id = 142307070910559, JobName = "LogVisWritingService", DoOnce = false, StartNow = true, Interval = 8,
+                    TimerType = SpareTimeTypes.Interval, ExecuteType = SpareTimeExecuteTypes.Serial,
+                    RequestUrl = "LogJobWorker/DoLogVis", RequestType = RequestTypeEnum.Run, IsDeleted = false,
+                    Remark = "后台批量写访问日志，配置项参数：{\"quantity\": 2}，不填默认为2"
+                },
             };
         }
     }

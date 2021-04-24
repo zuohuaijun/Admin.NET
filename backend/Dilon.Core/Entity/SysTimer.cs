@@ -21,6 +21,24 @@ namespace Dilon.Core
         public string JobName { get; set; }
 
         /// <summary>
+        /// 只执行一次
+        /// </summary>
+        [Comment("只执行一次")]
+        public bool DoOnce { get; set; } = false;
+
+        /// <summary>
+        /// 立即执行（默认等待启动）
+        /// </summary>
+        [Comment("立即执行")]
+        public bool StartNow { get; set; } = false;
+        
+        /// <summary>
+        /// 执行类型(并行，列队)
+        /// </summary>
+        [Comment("执行类型")]
+        public SpareTimeExecuteTypes ExecuteType { get; set; } = SpareTimeExecuteTypes.Parallel;
+
+        /// <summary>
         /// 执行间隔时间（单位秒）
         /// </summary>
         /// <example>5</example>
@@ -40,12 +58,6 @@ namespace Dilon.Core
         /// </summary>
         [Comment("定时器类型")]
         public SpareTimeTypes TimerType { get; set; } = SpareTimeTypes.Interval;
-
-        /// <summary>
-        /// 执行次数
-        /// </summary>
-        [Comment("执行次数")]
-        public int? RunNumber { get; set; }
 
         /// <summary>
         /// 请求url

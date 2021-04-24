@@ -10,6 +10,7 @@ using Yitter.IdGenerator;
 
 namespace Dilon.Web.Core
 {
+    [AppStartup(9)]
     public class Startup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)

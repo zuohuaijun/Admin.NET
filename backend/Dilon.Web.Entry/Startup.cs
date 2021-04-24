@@ -17,6 +17,8 @@ namespace Dilon.Web.Entry
         public void ConfigureServices(IServiceCollection services)
         {
             // 代码迁移至 Dilon.Web.Core/Startup.cs
+            // 放在最后加载自启动任务
+            services.AddJobStarter();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

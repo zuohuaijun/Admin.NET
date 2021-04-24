@@ -13,5 +13,6 @@ namespace Dilon.Core.Service
         void StartTimerJob(JobInput input);
         void StopTimerJob(JobInput input);
         Task UpdateTimber(UpdateJobInput input);
+        void StartTimerJobs();
     }
 }

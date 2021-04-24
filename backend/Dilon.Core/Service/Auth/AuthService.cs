@@ -1,10 +1,10 @@
 ﻿using Furion;
 using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
+using Furion.TaskScheduler;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -153,19 +153,23 @@ namespace Dilon.Core.Service
                 loginOutput.Menus = await _sysMenuService.GetLoginMenusAntDesign(userId, defaultActiveAppCode);
             }
 
-            // 登录日志入库
-            await new SysLogVis
+            // 丢给后台任务，直接返回
+            SpareTime.DoIt(() =>
             {
-                Name = loginOutput.Name,
-                Success = YesOrNot.Y,
-                Message = "登录成功",
-                Ip = loginOutput.LastLoginIp,
-                Browser = loginOutput.LastLoginBrowser,
-                Os = loginOutput.LastLoginOs,
-                VisType = LoginType.LOGIN,
-                VisTime = loginOutput.LastLoginTime,
-                Account = loginOutput.Account
-            }.InsertAsync();
+                // 增加登录日志
+                SimpleQueue<SysLogVis>.Add(new SysLogVis
+                {
+                    Name = loginOutput.Name,
+                    Success = YesOrNot.Y,
+                    Message = "登录成功",
+                    Ip = loginOutput.LastLoginIp,
+                    Browser = loginOutput.LastLoginBrowser,
+                    Os = loginOutput.LastLoginOs,
+                    VisType = LoginType.LOGIN,
+                    VisTime = loginOutput.LastLoginTime,
+                    Account = loginOutput.Account
+                });
+            });
 
             return loginOutput;
         }
@@ -181,16 +185,19 @@ namespace Dilon.Core.Service
             _httpContextAccessor.SignoutToSwagger();
             //_httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid token";
 
-            // 增加退出日志
-            await new SysLogVis
+            SpareTime.DoIt(() =>
             {
-                Name = user.Name,
-                Success = YesOrNot.Y,
-                Message = "退出成功",
-                VisType = LoginType.LOGOUT,
-                VisTime = DateTimeOffset.Now,
-                Account = user.Account
-            }.InsertAsync();
+                // 增加退出日志
+                SimpleQueue<SysLogVis>.Add(new SysLogVis
+                {
+                    Name = user.Name,
+                    Success = YesOrNot.Y,
+                    Message = "退出成功",
+                    VisType = LoginType.LOGOUT,
+                    VisTime = DateTimeOffset.Now,
+                    Account = user.Account
+                });
+            });
 
             await Task.CompletedTask;
         }

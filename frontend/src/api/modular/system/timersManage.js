@@ -125,3 +125,16 @@ export function sysTimersStop (parameter) {
     data: parameter
   })
 }
+
+/**
+ * 获取所有本地任务
+ *
+ * @author yubaoshan
+ * @date 2020/7/3 03:23
+ */
+export function sysTimersGetLocalJobs () {
+  return axios({
+    url: '/sysTimers/getLocalJobs',
+    method: 'get'
+  })
+}

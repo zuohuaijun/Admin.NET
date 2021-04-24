@@ -1592,6 +1592,21 @@
             </summary>
             <example>dilon</example>
         </member>
+        <member name="P:Dilon.Core.SysTimer.DoOnce">
+            <summary>
+            只执行一次
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTimer.StartNow">
+            <summary>
+            立即执行（默认等待启动）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysTimer.ExecuteType">
+            <summary>
+            执行类型(并行，列队)
+            </summary>
+        </member>
         <member name="P:Dilon.Core.SysTimer.Interval">
             <summary>
             执行间隔时间（单位秒）
@@ -1607,11 +1622,6 @@
         <member name="P:Dilon.Core.SysTimer.TimerType">
             <summary>
             定时器类型
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.SysTimer.RunNumber">
-            <summary>
-            执行次数
             </summary>
         </member>
         <member name="P:Dilon.Core.SysTimer.RequestUrl">
@@ -2691,9 +2701,9 @@
             http请求类型
             </summary>
         </member>
-        <member name="F:Dilon.Core.RequestTypeEnum.None">
+        <member name="F:Dilon.Core.RequestTypeEnum.Run">
             <summary>
-            无
+            执行内部方法
             </summary>
         </member>
         <member name="F:Dilon.Core.RequestTypeEnum.Get">
@@ -2974,6 +2984,70 @@
             <summary>
             请求日志拦截
             </summary>
+        </member>
+        <member name="T:Dilon.Core.Job.LogJobWorker">
+            <summary>
+            日志定时任务类
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoDeleteLogEx(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            定期删除异常日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoDeleteLogOp(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            定期删除操作日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoDeleteLogVis(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            定期删除访问日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoLogEx(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            后台批量写错误日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoLogOp(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            后台批量写操作日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoLogVis(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            后台批量写访问日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoWork``1(Furion.TaskScheduler.SpareTimer,System.Int64,System.String,System.Collections.Generic.List{``0})">
+            <summary>
+            写日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+            <param name="cacheKey"></param>
+            <param name="logs"></param>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoDeleteWork``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            根据条件删除日志
+            </summary>
+            <param name="expression"></param>
+            <typeparam name="T"></typeparam>
         </member>
         <member name="T:Dilon.Core.UserManager">
             <summary>
@@ -3705,6 +3779,13 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.SysCacheService.Del(System.String)">
+            <summary>
+            删除指定关键字缓存
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:Dilon.Core.Service.SysCacheService.DelAsync(System.String)">
             <summary>
             删除指定关键字缓存
@@ -3719,12 +3800,27 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.SysCacheService.Set(System.String,System.Object)">
+            <summary>
+            设置缓存
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
         <member name="M:Dilon.Core.Service.SysCacheService.SetAsync(System.String,System.Object)">
             <summary>
             设置缓存
             </summary>
             <param name="key"></param>
             <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysCacheService.Get(System.String)">
+            <summary>
+            获取缓存
+            </summary>
+            <param name="key"></param>
             <returns></returns>
         </member>
         <member name="M:Dilon.Core.Service.SysCacheService.GetAsync(System.String)">
@@ -3734,12 +3830,34 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="M:Dilon.Core.Service.SysCacheService.Get``1(System.String)">
+            <summary>
+            获取缓存
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="M:Dilon.Core.Service.SysCacheService.GetAsync``1(System.String)">
             <summary>
             获取缓存
             </summary>
             <typeparam name="T"></typeparam>
             <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysCacheService.Exists(System.String)">
+            <summary>
+            检查给定 key 是否存在
+            </summary>
+            <param name="key">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysCacheService.ExistsAsync(System.String)">
+            <summary>
+            检查给定 key 是否存在
+            </summary>
+            <param name="key">键</param>
             <returns></returns>
         </member>
         <member name="T:Dilon.Core.Service.CodeGenConfigService">
@@ -4372,12 +4490,6 @@
         <member name="M:Dilon.Core.Service.SysConfigService.GetCaptchaOpenFlag">
             <summary>
             获取验证码开关标识
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Dilon.Core.Service.SysConfigService.GetLogWritingConfiguration">
-            <summary>
-            获取日志写入间隔和数量
             </summary>
             <returns></returns>
         </member>
@@ -6825,6 +6937,21 @@
             任务名称
             </summary>
         </member>
+        <member name="P:Dilon.Core.Service.JobInput.DoOnce">
+            <summary>
+            只执行一次
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.JobInput.StartNow">
+            <summary>
+            立即执行（默认等待启动）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.JobInput.ExecuteType">
+            <summary>
+            执行类型(并行，列队)
+            </summary>
+        </member>
         <member name="P:Dilon.Core.Service.JobInput.Interval">
             <summary>
             执行间隔时间（单位秒）
@@ -6839,11 +6966,6 @@
         <member name="P:Dilon.Core.Service.JobInput.TimerType">
             <summary>
             定时器类型
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobInput.RunNumber">
-            <summary>
-            执行次数
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.JobInput.RequestUrl">
@@ -6887,56 +7009,9 @@
             Id
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.JobOutput.JobName">
-            <summary>
-            任务名称
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.Interval">
-            <summary>
-            执行间隔时间（单位秒）
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.Cron">
-            <summary>
-            Cron表达式
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.TimerType">
-            <summary>
-            定时器类型
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.JobOutput.RunNumber">
             <summary>
-            执行次数
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.RequestUrl">
-            <summary>
-            请求url
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.RequestParameters">
-            <summary>
-            请求参数（Post，Put请求用）
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.Headers">
-            <summary>
-            Headers(可以包含如：Authorization授权认证)
-            格式：{"Authorization":"userpassword.."}
-            </summary>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.RequestType">
-            <summary>
-            请求类型
-            </summary>
-            <example>2</example>
-        </member>
-        <member name="P:Dilon.Core.Service.JobOutput.Remark">
-            <summary>
-            备注
+            已执行次数
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.JobOutput.TimerStatus">
@@ -6949,6 +7024,77 @@
             异常信息
             </summary>
         </member>
+        <member name="T:Dilon.Core.Service.LocalJobOutput">
+            <summary>
+            本地任务信息
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.JobName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.DoOnce">
+            <summary>
+            只执行一次
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.StartNow">
+            <summary>
+            立即执行（默认等待启动）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.ExecuteType">
+            <summary>
+            执行类型(并行，列队)
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.Interval">
+            <summary>
+            执行间隔时间（单位秒）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.Cron">
+            <summary>
+            Cron表达式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.TimerType">
+            <summary>
+            定时器类型
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.RequestUrl">
+            <summary>
+            请求url
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.RequestType">
+            <summary>
+            请求类型
+            </summary>
+            <example>2</example>
+        </member>
+        <member name="P:Dilon.Core.Service.LocalJobOutput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Dilon.Core.Service.TaskMethodInfo">
+            <summary>
+            任务方法信息
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TaskMethodInfo.MethodName">
+            <summary>
+            方法名
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.TaskMethodInfo.DeclaringType">
+            <summary>
+            方法所属类的Type对象
+            </summary>
+        </member>
         <member name="T:Dilon.Core.Service.SysTimerService">
             <summary>
             任务调度服务
@@ -6959,6 +7105,12 @@
             分页获取任务列表
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTimerService.GetLocalJobs">
+            <summary>
+            获取所有本地任务
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Dilon.Core.Service.SysTimerService.AddTimer(Dilon.Core.Service.JobInput)">
@@ -7009,11 +7161,15 @@
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.InitTimerJob(Dilon.Core.Service.JobInput)">
+        <member name="M:Dilon.Core.Service.SysTimerService.StartTimerJobs">
             <summary>
-            初始化定时任务
+            启动自启动任务
             </summary>
-            <param name="input"></param>
+        </member>
+        <member name="M:Dilon.Core.Service.SysTimerService.GetTaskMethods">
+            <summary>
+            获取所有本地任务方法
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Dilon.Core.Service.AuthToken">
@@ -7449,6 +7605,35 @@
             <param name="userParam"></param>
             <returns></returns>
         </member>
+        <member name="T:Dilon.Core.SimpleQueue`1">
+            <summary>
+            简单泛型队列
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Add(`0)">
+            <summary>
+            新增
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Try(`0@)">
+            <summary>
+            取出
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Count">
+            <summary>
+            总数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Clear">
+            <summary>
+            清理
+            </summary>
+        </member>
         <member name="T:Dilon.Core.CodeGenUtil">
             <summary>
             代码生成帮助类
@@ -7706,6 +7891,11 @@
             <param name="totalNodes"></param>
             <param name="node"></param>
             <param name="childNodeLists"></param>
+        </member>
+        <member name="T:Microsoft.Extensions.DependencyInjection.JobStarterServiceCollectionExtensions">
+            <summary>
+            任务自启动
+            </summary>
         </member>
     </members>
 </doc>

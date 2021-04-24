@@ -1,11 +1,12 @@
-﻿using Furion.TaskScheduler;
+﻿using System;
+using Furion.TaskScheduler;
 
 namespace Dilon.Core.Service
 {
     /// <summary>
     /// 任务信息---任务详情
     /// </summary>
-    public class JobOutput
+    public class JobOutput : LocalJobOutput
     {
         /// <summary>
         /// Id
@@ -13,9 +14,46 @@ namespace Dilon.Core.Service
         public long Id { get; set; }
 
         /// <summary>
+        /// 已执行次数
+        /// </summary>
+        public long? RunNumber { get; set; }
+
+
+        /// <summary>
+        /// 定时器状态
+        /// </summary>
+        public SpareTimeStatus TimerStatus { get; set; } = SpareTimeStatus.Stopped;
+
+        /// <summary>
+        /// 异常信息
+        /// </summary>
+        public string Exception { get; set; }
+    }
+    
+    /// <summary>
+    /// 本地任务信息
+    /// </summary>
+    public class LocalJobOutput
+    {
+        /// <summary>
         /// 任务名称
         /// </summary>
         public string JobName { get; set; }
+
+        /// <summary>
+        /// 只执行一次
+        /// </summary>
+        public bool DoOnce { get; set; } = false;
+
+        /// <summary>
+        /// 立即执行（默认等待启动）
+        /// </summary>
+        public bool StartNow { get; set; } = false;
+        
+        /// <summary>
+        /// 执行类型(并行，列队)
+        /// </summary>
+        public SpareTimeExecuteTypes ExecuteType { get; set; }
 
         /// <summary>
         /// 执行间隔时间（单位秒）
@@ -33,25 +71,9 @@ namespace Dilon.Core.Service
         public SpareTimeTypes TimerType { get; set; }
 
         /// <summary>
-        /// 执行次数
-        /// </summary>
-        public long? RunNumber { get; set; }
-
-        /// <summary>
         /// 请求url
         /// </summary>
         public string RequestUrl { get; set; }
-
-        /// <summary>
-        /// 请求参数（Post，Put请求用）
-        /// </summary>
-        public string RequestParameters { get; set; }
-
-        /// <summary>
-        /// Headers(可以包含如：Authorization授权认证)
-        /// 格式：{"Authorization":"userpassword.."}
-        /// </summary>
-        public string Headers { get; set; }
 
         /// <summary>
         /// 请求类型
@@ -63,15 +85,21 @@ namespace Dilon.Core.Service
         /// 备注
         /// </summary>
         public string Remark { get; set; }
+    }
 
+    /// <summary>
+    /// 任务方法信息
+    /// </summary>
+    public class TaskMethodInfo : LocalJobOutput
+    {
         /// <summary>
-        /// 定时器状态
+        /// 方法名
         /// </summary>
-        public SpareTimeStatus TimerStatus { get; set; } = SpareTimeStatus.Stopped;
-
+        public string MethodName { get; set; }
+        
         /// <summary>
-        /// 异常信息
+        /// 方法所属类的Type对象
         /// </summary>
-        public string Exception { get; set; }
+        public Type DeclaringType { get; set; }
     }
 }
