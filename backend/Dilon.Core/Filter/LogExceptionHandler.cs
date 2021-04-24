@@ -1,5 +1,4 @@
 ﻿using Furion;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -16,7 +15,7 @@ namespace Dilon.Core
     /// </summary>
     public class LogExceptionHandler : IGlobalExceptionHandler, ISingleton
     {
-        public async Task OnExceptionAsync(ExceptionContext context)
+        public Task OnExceptionAsync(ExceptionContext context)
         {
             // 丢给后台任务后直接返回
             SpareTime.DoIt(() =>

@@ -1,4 +1,5 @@
 ﻿using System;
+using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
@@ -14,7 +15,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using Furion;
 
 namespace Dilon.Core.Service
 {

@@ -1,10 +1,10 @@
 ﻿using Furion;
 using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
+using Furion.TaskScheduler;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +14,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using Furion.TaskScheduler;
 using UAParser;
 
 namespace Dilon.Core.Service
@@ -59,7 +58,6 @@ namespace Dilon.Core.Service
             _sysAppService = sysAppService;
             _captchaHandle = captchaHandle;
             _sysConfigService = sysConfigService;
-            _logVisQueue = logVisQueue;
         }
 
         /// <summary>

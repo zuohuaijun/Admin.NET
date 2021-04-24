@@ -14,6 +14,12 @@ namespace Dilon.Core.Service
         public long Id { get; set; }
 
         /// <summary>
+        /// 已执行次数
+        /// </summary>
+        public long? RunNumber { get; set; }
+
+
+        /// <summary>
         /// 定时器状态
         /// </summary>
         public SpareTimeStatus TimerStatus { get; set; } = SpareTimeStatus.Stopped;
