@@ -52,14 +52,14 @@ namespace Dilon.Core
         [Comment("业务名")]
         [MaxLength(100)]
         public string BusName { get; set; }
-        
+
         /// <summary>
         /// 菜单应用分类（应用编码）
         /// </summary>
         [Comment("菜单应用分类")]
         [MaxLength(50)]
         public string MenuApplication { get; set; }
-        
+
         /// <summary>
         /// 菜单编码
         /// </summary>

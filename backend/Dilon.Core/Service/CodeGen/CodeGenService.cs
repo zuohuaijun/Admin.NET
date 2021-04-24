@@ -235,10 +235,10 @@ namespace Dilon.Core.Service.CodeGen
         {
             // 定义菜单编码前缀
             var codePrefix = "dilon_" + className.ToLower();
-            
+
             // 先删除该表已生成的菜单列表
             var menus = await _sysMenuRep.DetachedEntities
-                .Where(u => u.Code == codePrefix || u.Code.StartsWith(codePrefix + "_")).ToListAsync();
+                                         .Where(u => u.Code == codePrefix || u.Code.StartsWith(codePrefix + "_")).ToListAsync();
             menus.ForEach(u => { u.Delete(); });
 
             // 如果 pid 为 0 说明为顶级菜单, 需要创建顶级目录
@@ -260,9 +260,9 @@ namespace Dilon.Core.Service.CodeGen
                 pid = _sysMenuRep.InsertNowAsync(menuType0).GetAwaiter().GetResult().Entity.Id;
             }
             // 由于后续菜单会有修改, 需要判断下 pid 是否存在, 不存在报错
-            else if(!await _sysMenuRep.DetachedEntities.AnyAsync(e => e.Id == pid))
+            else if (!await _sysMenuRep.DetachedEntities.AnyAsync(e => e.Id == pid))
                 throw Oops.Oh(ErrorCode.D1505);
-            
+
             // 菜单
             var menuType1 = new SysMenu
             {
