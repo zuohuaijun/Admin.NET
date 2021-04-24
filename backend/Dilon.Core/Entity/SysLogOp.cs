@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -43,7 +43,7 @@ namespace Dilon.Core
         /// 地址
         /// </summary>
         [Comment("地址")]
-        [MaxLength(100)]
+        [MaxLength(500)]
         public string Location { get; set; }
 
         /// <summary>

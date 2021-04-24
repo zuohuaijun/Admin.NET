@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -67,7 +67,8 @@ namespace Dilon.Core.SeedData
                 new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070910560 },
                 new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070910561 },
                 new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070910562 },
-                new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070914648 }  // 菜单授权树
+                new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070914648 }, // 菜单授权树
+                new SysRoleMenu{ SysRoleId=142307070910556, SysMenuId=142307070922874 }  // 头像上传
             };
         }
     }

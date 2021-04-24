@@ -4,12 +4,29 @@
     <TargetFramework>net5.0</TargetFramework>
     <NoWarn>1701;1702;1591</NoWarn>
     <DocumentationFile>Dilon.Core.xml</DocumentationFile>
+    <Version>1.0.2</Version>
+    <Authors>左怀军/zuohuaijun</Authors>
+    <Company>Dilon Co.,Ltd.</Company>
+    <Product>Admin.NET</Product>
+    <Description>基于Furion框架实现的通用权限管理平台应用层框架。前后端分离，开箱即用。代码简洁、上手简单、易扩展，轻松开发从现在开始！
+仓库地址：https://gitee.com/zuohuaijun/Admin.NET，包括前后端完整源码。</Description>
+    <Copyright>© 2021 Admin.NET, Dilon Co.,Ltd.</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://gitee.com/zuohuaijun/Admin.NET</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <RepositoryUrl>https://gitee.com/zuohuaijun/Admin.NET</RepositoryUrl>
+    <RepositoryType>Gitee</RepositoryType>
+    <PackageId>Dilon.Core</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="OAuth\Wechat1\**" />
     <EmbeddedResource Remove="OAuth\Wechat1\**" />
     <None Remove="OAuth\Wechat1\**" />
+    <None Include="logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -25,10 +42,10 @@
   <ItemGroup>
     <PackageReference Include="Aliyun.OSS.SDK.NetCore" Version="2.13.0" />
     <PackageReference Include="CSRedisCore" Version="3.6.6" />
-    <PackageReference Include="Furion" Version="2.0.12" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.0.12" />
-    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.0.12" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.0.12" />
+    <PackageReference Include="Furion" Version="2.1.5" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.1.5" />
+    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.1.5" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.1.5" />
     <PackageReference Include="MiniExcel" Version="0.13.3" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />

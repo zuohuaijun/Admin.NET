@@ -435,6 +435,16 @@
             业务名
             </summary>
         </member>
+        <member name="P:Dilon.Core.SysCodeGen.MenuApplication">
+            <summary>
+            菜单应用分类（应用编码）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.SysCodeGen.MenuPid">
+            <summary>
+            菜单编码
+            </summary>
+        </member>
         <member name="T:Dilon.Core.SysCodeGenConfig">
             <summary>
             代码生成字段配置表
@@ -2237,6 +2247,11 @@
         <member name="F:Dilon.Core.ErrorCode.D1504">
             <summary>
             该实体不存在
+            </summary>
+        </member>
+        <member name="F:Dilon.Core.ErrorCode.D1505">
+            <summary>
+            父菜单不存在
             </summary>
         </member>
         <member name="F:Dilon.Core.ErrorCode.xg1000">
@@ -4129,6 +4144,16 @@
             功能名（数据库表名称）
             </summary>
         </member>
+        <member name="P:Dilon.Core.Service.CodeGenInput.MenuApplication">
+            <summary>
+            菜单应用分类（应用编码）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenInput.MenuPid">
+            <summary>
+            菜单父级
+            </summary>
+        </member>
         <member name="P:Dilon.Core.Service.AddCodeGenInput.TableName">
             <summary>
             数据库表名
@@ -4152,6 +4177,16 @@
         <member name="P:Dilon.Core.Service.AddCodeGenInput.GenerateType">
             <summary>
             生成方式
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.MenuApplication">
+            <summary>
+            菜单应用分类（应用编码）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.AddCodeGenInput.MenuPid">
+            <summary>
+            菜单父级
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.DeleteCodeGenInput.Id">
@@ -4212,6 +4247,16 @@
         <member name="P:Dilon.Core.Service.CodeGenOutput.TableComment">
             <summary>
             功能名（数据库表名称）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.MenuApplication">
+            <summary>
+            菜单应用分类（应用编码）
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.CodeGenOutput.MenuPid">
+            <summary>
+            菜单父级
             </summary>
         </member>
         <member name="T:Dilon.Core.Service.TableColumnOuput">

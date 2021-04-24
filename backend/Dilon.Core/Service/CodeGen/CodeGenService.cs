@@ -228,41 +228,52 @@ namespace Dilon.Core.Service.CodeGen
                 File.WriteAllText(targetPathList[i], tResult, Encoding.UTF8);
             }
 
-            await AddMenu(input.TableName, input.BusName);
+            await AddMenu(input.TableName, input.BusName, input.MenuApplication, input.MenuPid);
         }
 
-        private async Task AddMenu(string className, string busName)
+        private async Task AddMenu(string className, string busName, string application, long pid)
         {
+            // 定义菜单编码前缀
+            var codePrefix = "dilon_" + className.ToLower();
+
             // 先删除该表已生成的菜单列表
-            var menus = await _sysMenuRep.DetachedEntities.Where(u => u.Code.StartsWith("dilon_" + className.ToLower())).ToListAsync();
+            var menus = await _sysMenuRep.DetachedEntities
+                                         .Where(u => u.Code == codePrefix || u.Code.StartsWith(codePrefix + "_")).ToListAsync();
             menus.ForEach(u => { u.Delete(); });
 
-            // 目录
-            var menuType0 = new SysMenu
+            // 如果 pid 为 0 说明为顶级菜单, 需要创建顶级目录
+            if (pid == 0)
             {
-                Pid = 0,
-                Pids = "[0],",
-                Name = busName + "管理",
-                Code = "dilon_" + className.ToLower(),
-                Type = 1,
-                Icon = "robot",
-                Router = "/" + className.ToLower(),
-                Component = "PageView",
-                Application = "busiapp"
-            };
-            var pid0 = _sysMenuRep.InsertNowAsync(menuType0).GetAwaiter().GetResult().Entity.Id;
+                // 目录
+                var menuType0 = new SysMenu
+                {
+                    Pid = 0,
+                    Pids = "[0],",
+                    Name = busName + "管理",
+                    Code = codePrefix,
+                    Type = 1,
+                    Icon = "robot",
+                    Router = "/" + className.ToLower(),
+                    Component = "PageView",
+                    Application = application
+                };
+                pid = _sysMenuRep.InsertNowAsync(menuType0).GetAwaiter().GetResult().Entity.Id;
+            }
+            // 由于后续菜单会有修改, 需要判断下 pid 是否存在, 不存在报错
+            else if (!await _sysMenuRep.DetachedEntities.AnyAsync(e => e.Id == pid))
+                throw Oops.Oh(ErrorCode.D1505);
 
             // 菜单
             var menuType1 = new SysMenu
             {
-                Pid = pid0,
-                Pids = "[0],[" + pid0 + "],",
+                Pid = pid,
+                Pids = "[0],[" + pid + "],",
                 Name = busName + "管理",
-                Code = "dilon_" + className.ToLower() + "_mgr",
+                Code = codePrefix + "_mgr",
                 Type = 1,
                 Router = "/" + className.ToLower(),
                 Component = "main/" + className + "/index",
-                Application = "busiapp",
+                Application = application,
                 OpenType = 1
             };
             var pid1 = _sysMenuRep.InsertNowAsync(menuType1).GetAwaiter().GetResult().Entity.Id;
@@ -271,60 +282,60 @@ namespace Dilon.Core.Service.CodeGen
             var menuType2 = new SysMenu
             {
                 Pid = pid1,
-                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "查询",
-                Code = "dilon_" + className.ToLower() + "_mgr_page",
+                Code = codePrefix + "_mgr_page",
                 Type = 2,
                 Permission = className + ":page",
-                Application = "busiapp",
+                Application = application,
             }.InsertAsync();
 
             // 按钮-detail
             var menuType2_1 = new SysMenu
             {
                 Pid = pid1,
-                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "详情",
-                Code = "dilon_" + className.ToLower() + "_mgr_detail",
+                Code = codePrefix + "_mgr_detail",
                 Type = 2,
                 Permission = className + ":detail",
-                Application = "busiapp",
+                Application = application,
             }.InsertAsync();
 
             // 按钮-add
             var menuType2_2 = new SysMenu
             {
                 Pid = pid1,
-                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "增加",
-                Code = "dilon_" + className.ToLower() + "_mgr_add",
+                Code = codePrefix + "_mgr_add",
                 Type = 2,
                 Permission = className + ":add",
-                Application = "busiapp",
+                Application = application,
             }.InsertAsync();
 
             // 按钮-delete
             var menuType2_3 = new SysMenu
             {
                 Pid = pid1,
-                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "删除",
-                Code = "dilon_" + className.ToLower() + "_mgr_delete",
+                Code = codePrefix + "_mgr_delete",
                 Type = 2,
                 Permission = className + ":delete",
-                Application = "busiapp",
+                Application = application,
             }.InsertAsync();
 
             // 按钮-edit
             var menuType2_4 = new SysMenu
             {
                 Pid = pid1,
-                Pids = "[0],[" + pid0 + "],[" + pid1 + "],",
+                Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "编辑",
-                Code = "dilon_" + className.ToLower() + "_mgr_edit",
+                Code = codePrefix + "_mgr_edit",
                 Type = 2,
                 Permission = className + ":edit",
-                Application = "busiapp",
+                Application = application,
             }.InsertAsync();
         }
 

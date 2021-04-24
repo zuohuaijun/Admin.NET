@@ -211,7 +211,7 @@ namespace Dilon.Core.Service
         public async Task GrantData(GrantRoleDataInput input)
         {
             // 清除所有用户数据范围缓存
-            await _sysCacheService.DelAsync(CommonConst.CACHE_KEY_DATASCOPE);
+            await _sysCacheService.DelByPatternAsync(CommonConst.CACHE_KEY_DATASCOPE);
 
             var role = await _sysRoleRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             var dataScopeType = input.DataScopeType;
