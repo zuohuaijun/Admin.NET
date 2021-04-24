@@ -49,5 +49,15 @@
         /// 功能名（数据库表名称）
         /// </summary>
         public string TableComment { get; set; }
+        
+        /// <summary>
+        /// 菜单应用分类（应用编码）
+        /// </summary>
+        public string MenuApplication { get; set; }
+        
+        /// <summary>
+        /// 菜单父级
+        /// </summary>
+        public long MenuPid { get; set; }
     }
 }

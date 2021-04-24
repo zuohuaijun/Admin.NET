@@ -367,6 +367,12 @@ namespace Dilon.Core
         /// </summary>
         [ErrorCodeItemMetadata("该实体不存在")]
         D1504,
+        
+        /// <summary>
+        /// 父菜单不存在
+        /// </summary>
+        [ErrorCodeItemMetadata("父菜单不存在")]
+        D1505,
 
         /// <summary>
         /// 已存在同名或同编码项目
