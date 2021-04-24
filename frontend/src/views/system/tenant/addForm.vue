@@ -16,7 +16,7 @@
           </a-col>
           <a-col :md="12" :sm="24">
             <a-form-item label="管理员姓名" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
-              <a-input placeholder="请输入管理员姓名" v-decorator="['adminname', {rules: [{required: true, message: '请输入管理员姓名'}]}]" />
+              <a-input placeholder="请输入管理员姓名" v-decorator="['adminName', {rules: [{required: true, message: '请输入管理员姓名'}]}]" />
             </a-form-item>
           </a-col>
         </a-row>
