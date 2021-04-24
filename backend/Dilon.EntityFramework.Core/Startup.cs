@@ -1,14 +1,11 @@
 ﻿using Furion;
 using Furion.DatabaseAccessor;
-using Furion.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dilon.EntityFramework.Core
 {
-    [AppStartup(8)]
     public class Startup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)

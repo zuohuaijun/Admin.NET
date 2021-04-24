@@ -12,7 +12,7 @@ namespace Dilon.Core.Service
     /// <summary>
     /// 枚举值服务
     /// </summary>
-    [ApiDescriptionSettings(Name = "EnumData")]
+    [ApiDescriptionSettings(Name = "EnumData", Order = 100)]
     public class SysEnumDataService : ISysEnumDataService, IDynamicApiController, ITransient
     {
         /// <summary>

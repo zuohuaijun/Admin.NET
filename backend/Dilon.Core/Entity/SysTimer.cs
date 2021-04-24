@@ -31,9 +31,9 @@ namespace Dilon.Core
         /// </summary>
         [Comment("立即执行")]
         public bool StartNow { get; set; } = false;
-        
+
         /// <summary>
-        /// 执行类型(并行，列队)
+        /// 执行类型(并行、列队)
         /// </summary>
         [Comment("执行类型")]
         public SpareTimeExecuteTypes ExecuteType { get; set; } = SpareTimeExecuteTypes.Parallel;

@@ -1604,7 +1604,7 @@
         </member>
         <member name="P:Dilon.Core.SysTimer.ExecuteType">
             <summary>
-            执行类型(并行，列队)
+            执行类型(并行、列队)
             </summary>
         </member>
         <member name="P:Dilon.Core.SysTimer.Interval">
@@ -6949,7 +6949,7 @@
         </member>
         <member name="P:Dilon.Core.Service.JobInput.ExecuteType">
             <summary>
-            执行类型(并行，列队)
+            执行类型(并行、列队)
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.JobInput.Interval">
@@ -7046,7 +7046,7 @@
         </member>
         <member name="P:Dilon.Core.Service.LocalJobOutput.ExecuteType">
             <summary>
-            执行类型(并行，列队)
+            执行类型(并行、列队)
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.LocalJobOutput.Interval">
@@ -7107,7 +7107,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.GetLocalJobs">
+        <member name="M:Dilon.Core.Service.SysTimerService.GetLocalJobList">
             <summary>
             获取所有本地任务
             </summary>
@@ -7161,14 +7161,14 @@
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Dilon.Core.Service.SysTimerService.StartTimerJobs">
+        <member name="M:Dilon.Core.Service.SysTimerService.StartTimerJob">
             <summary>
             启动自启动任务
             </summary>
         </member>
         <member name="M:Dilon.Core.Service.SysTimerService.GetTaskMethods">
             <summary>
-            获取所有本地任务方法
+            获取所有本地任务
             </summary>
             <returns></returns>
         </member>
@@ -7891,11 +7891,6 @@
             <param name="totalNodes"></param>
             <param name="node"></param>
             <param name="childNodeLists"></param>
-        </member>
-        <member name="T:Microsoft.Extensions.DependencyInjection.JobStarterServiceCollectionExtensions">
-            <summary>
-            任务自启动
-            </summary>
         </member>
     </members>
 </doc>

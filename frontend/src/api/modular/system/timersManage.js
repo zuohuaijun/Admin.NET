@@ -1,4 +1,6 @@
-import { axios } from '@/utils/request'
+import {
+  axios
+} from '@/utils/request'
 
 /**
  * 分页查询定时任务
@@ -6,7 +8,7 @@ import { axios } from '@/utils/request'
  * @author yubaoshan
  * @date 2020/7/3 03:13
  */
-export function sysTimersPage (parameter) {
+export function sysTimersPage(parameter) {
   return axios({
     url: '/sysTimers/page',
     method: 'get',
@@ -20,7 +22,7 @@ export function sysTimersPage (parameter) {
  * @author yubaoshan
  * @date 2020/7/3 03:23
  */
-export function sysTimersList (parameter) {
+export function sysTimersList(parameter) {
   return axios({
     url: '/sysTimers/list',
     method: 'get',
@@ -34,7 +36,7 @@ export function sysTimersList (parameter) {
  * @author yubaoshan
  * @date 2020/7/3 03:23
  */
-export function sysTimersDetail (parameter) {
+export function sysTimersDetail(parameter) {
   return axios({
     url: '/sysTimers/detail',
     method: 'get',
@@ -48,7 +50,7 @@ export function sysTimersDetail (parameter) {
  * @author yubaoshan
  * @date 2020/7/3 03:23
  */
-export function sysTimersAdd (parameter) {
+export function sysTimersAdd(parameter) {
   return axios({
     url: '/sysTimers/add',
     method: 'post',
@@ -62,7 +64,7 @@ export function sysTimersAdd (parameter) {
  * @author yubaoshan
  * @date 2020/7/3 03:23
  */
-export function sysTimersDelete (parameter) {
+export function sysTimersDelete(parameter) {
   return axios({
     url: '/sysTimers/delete',
     method: 'post',
@@ -76,7 +78,7 @@ export function sysTimersDelete (parameter) {
  * @author yubaoshan
  * @date 2020/7/3 03:23
  */
-export function sysTimersEdit (parameter) {
+export function sysTimersEdit(parameter) {
   return axios({
     url: '/sysTimers/edit',
     method: 'post',
@@ -90,7 +92,7 @@ export function sysTimersEdit (parameter) {
  * @author yubaoshan
  * @date 2020/7/3 03:23
  */
-export function sysTimersGetActionClasses (parameter) {
+export function sysTimersGetActionClasses(parameter) {
   return axios({
     url: '/sysTimers/getActionClasses',
     method: 'post',
@@ -104,7 +106,7 @@ export function sysTimersGetActionClasses (parameter) {
  * @author yubaoshan
  * @date 2020/7/3 03:23
  */
-export function sysTimersStart (parameter) {
+export function sysTimersStart(parameter) {
   return axios({
     url: '/sysTimers/start',
     method: 'post',
@@ -118,7 +120,7 @@ export function sysTimersStart (parameter) {
  * @author yubaoshan
  * @date 2020/7/3 03:23
  */
-export function sysTimersStop (parameter) {
+export function sysTimersStop(parameter) {
   return axios({
     url: '/sysTimers/stop',
     method: 'post',
@@ -129,12 +131,13 @@ export function sysTimersStop (parameter) {
 /**
  * 获取所有本地任务
  *
- * @author yubaoshan
- * @date 2020/7/3 03:23
+ * @author zuohuaijun
+ * @date 2021/04/24 23:10
  */
-export function sysTimersGetLocalJobs () {
+export function sysTimersLocalJobList(parameter) {
   return axios({
-    url: '/sysTimers/getLocalJobs',
-    method: 'get'
+    url: '/sysTimers/localJobList',
+    method: 'get',
+    data: parameter
   })
 }

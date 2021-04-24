@@ -1,4 +1,5 @@
 using Dilon.Core;
+using Dilon.Core.Service;
 using Furion;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -10,7 +11,6 @@ using Yitter.IdGenerator;
 
 namespace Dilon.Web.Core
 {
-    [AppStartup(9)]
     public class Startup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)
@@ -38,6 +38,9 @@ namespace Dilon.Web.Core
             // 设置雪花id的workerId，确保每个实例workerId都应不同
             var workerId = ushort.Parse(App.Configuration["SnowId:WorkerId"] ?? "1");
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions { WorkerId = workerId });
+
+            // 开启自启动定时任务
+            //App.GetService<ISysTimerService>().StartTimerJob();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

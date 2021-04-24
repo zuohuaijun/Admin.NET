@@ -1,12 +1,12 @@
 ﻿using Furion;
 using Furion.DependencyInjection;
 using Furion.FriendlyException;
+using Furion.TaskScheduler;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Furion.TaskScheduler;
 
 namespace Dilon.Core
 {
@@ -17,10 +17,9 @@ namespace Dilon.Core
     {
         public Task OnExceptionAsync(ExceptionContext context)
         {
-            // 丢给后台任务后直接返回
-            SpareTime.DoIt(() =>
-            {
-                // 取用户上下文
+            //// 执行后台任务
+            //SpareTime.DoIt(() =>
+            //{
                 var userContext = App.User;
 
                 // 写入简单队列
@@ -38,9 +37,9 @@ namespace Dilon.Core
                     ExceptionTime = DateTimeOffset.Now
                 });
 
-                // 写日志
+                // 写日志文件
                 Log.Error(context.Exception.ToString());
-            });
+            //});
 
             return Task.CompletedTask;
         }

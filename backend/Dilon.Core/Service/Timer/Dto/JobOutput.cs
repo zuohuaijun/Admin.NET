@@ -1,5 +1,5 @@
-﻿using System;
-using Furion.TaskScheduler;
+﻿using Furion.TaskScheduler;
+using System;
 
 namespace Dilon.Core.Service
 {
@@ -29,7 +29,7 @@ namespace Dilon.Core.Service
         /// </summary>
         public string Exception { get; set; }
     }
-    
+
     /// <summary>
     /// 本地任务信息
     /// </summary>
@@ -49,9 +49,9 @@ namespace Dilon.Core.Service
         /// 立即执行（默认等待启动）
         /// </summary>
         public bool StartNow { get; set; } = false;
-        
+
         /// <summary>
-        /// 执行类型(并行，列队)
+        /// 执行类型(并行、列队)
         /// </summary>
         public SpareTimeExecuteTypes ExecuteType { get; set; }
 
@@ -96,7 +96,7 @@ namespace Dilon.Core.Service
         /// 方法名
         /// </summary>
         public string MethodName { get; set; }
-        
+
         /// <summary>
         /// 方法所属类的Type对象
         /// </summary>

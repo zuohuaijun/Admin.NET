@@ -1,5 +1,5 @@
-﻿using System.Collections.Concurrent;
-using Furion.DatabaseAccessor;
+﻿using Furion.DatabaseAccessor;
+using System.Collections.Concurrent;
 
 namespace Dilon.Core
 {

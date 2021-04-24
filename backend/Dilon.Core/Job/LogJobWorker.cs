@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using Dilon.Core.Service;
+﻿using Dilon.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
 using Furion.TaskScheduler;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace Dilon.Core.Job
 {
@@ -20,14 +20,14 @@ namespace Dilon.Core.Job
         private readonly List<SysLogEx> _sysLogExs = new();
         private readonly List<SysLogOp> _sysLogOps = new();
         private readonly List<SysLogVis> _sysLogViss = new();
-        
+
         /// <summary>
         /// 定期删除异常日志
         /// </summary>
         /// <param name="timer"></param>
         /// <param name="count"></param>
-        [SpareTime("@midnight", "LogExDeletionService", Description = "后台定期删除异常日志，配置项参数：{\"daysAgo\": 30}，不填默认为30", 
-            DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
+        [SpareTime("@midnight", "LogExDeletionService", Description = "后台定期删除异常日志，配置项参数：{\"daysAgo\": 30}，不填默认为30",
+                   DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
         public void DoDeleteLogEx(SpareTimer timer, long count)
         {
             // 判断是否有异常
@@ -35,12 +35,12 @@ namespace Dilon.Core.Job
             {
                 // todo: 增加任务运行日志
             }
-            
+
             // 默认值
             var daysAgo = 15;
-            
+
             var sysCache = App.GetRequiredService<ISysCacheService>();
-                
+
             // 获取写数据库容量阀值，新增定时任务时会将配置项写入缓存
             if (sysCache != null)
             {
@@ -54,18 +54,18 @@ namespace Dilon.Core.Job
 
             // 生成查询表达式
             Expression<Func<SysLogEx, bool>> expression = ex => ex.ExceptionTime < DateTimeOffset.Now.AddDays(-daysAgo);
-            
+
             // 执行删除
             DoDeleteWork(expression);
         }
-        
+
         /// <summary>
         /// 定期删除操作日志
         /// </summary>
         /// <param name="timer"></param>
         /// <param name="count"></param>
-        [SpareTime("@midnight", "LogOpDeletionService", Description = "后台定期删除操作日志，配置项参数：{\"daysAgo\": 7}，不填默认为7", 
-            DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
+        [SpareTime("@midnight", "LogOpDeletionService", Description = "后台定期删除操作日志，配置项参数：{\"daysAgo\": 7}，不填默认为7",
+                   DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
         public void DoDeleteLogOp(SpareTimer timer, long count)
         {
             // 判断是否有异常
@@ -73,12 +73,12 @@ namespace Dilon.Core.Job
             {
                 // todo: 增加任务运行日志
             }
-            
+
             // 默认值
             var daysAgo = 7;
-            
+
             var sysCache = App.GetRequiredService<ISysCacheService>();
-                
+
             // 获取写数据库容量阀值，新增定时任务时会将配置项写入缓存
             if (sysCache != null)
             {
@@ -92,18 +92,18 @@ namespace Dilon.Core.Job
 
             // 生成查询表达式
             Expression<Func<SysLogOp, bool>> expression = ex => ex.OpTime < DateTimeOffset.Now.AddDays(-daysAgo);
-            
+
             // 执行删除
             DoDeleteWork(expression);
         }
-        
+
         /// <summary>
         /// 定期删除访问日志
         /// </summary>
         /// <param name="timer"></param>
         /// <param name="count"></param>
-        [SpareTime("@midnight", "LogVisDeletionService", Description = "后台定期删除访问日志，配置项参数：{\"daysAgo\": 15}，不填默认为15", 
-            DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
+        [SpareTime("@midnight", "LogVisDeletionService", Description = "后台定期删除访问日志，配置项参数：{\"daysAgo\": 15}，不填默认为15",
+                   DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
         public void DoDeleteLogVis(SpareTimer timer, long count)
         {
             // 判断是否有异常
@@ -111,12 +111,12 @@ namespace Dilon.Core.Job
             {
                 // todo: 增加任务运行日志
             }
-            
+
             // 默认值
             var daysAgo = 15;
-            
+
             var sysCache = App.GetRequiredService<ISysCacheService>();
-                
+
             // 获取写数据库容量阀值，新增定时任务时会将配置项写入缓存
             if (sysCache != null)
             {
@@ -130,7 +130,7 @@ namespace Dilon.Core.Job
 
             // 生成查询表达式
             Expression<Func<SysLogVis, bool>> expression = ex => ex.VisTime < DateTimeOffset.Now.AddDays(-daysAgo);
-            
+
             // 执行删除
             DoDeleteWork(expression);
         }
@@ -140,8 +140,8 @@ namespace Dilon.Core.Job
         /// </summary>
         /// <param name="timer"></param>
         /// <param name="count"></param>
-        [SpareTime(10000, "LogExWritingService", Description = "后台批量写错误日志，配置项参数：{\"quantity\": 2}，不填默认为2", 
-            DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
+        [SpareTime(10000, "LogExWritingService", Description = "后台批量写错误日志，配置项参数：{\"quantity\": 2}，不填默认为2",
+                   DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
         public void DoLogEx(SpareTimer timer, long count)
         {
             DoWork(timer, count, "LogExWritingService_Parameters", _sysLogExs);
@@ -152,8 +152,8 @@ namespace Dilon.Core.Job
         /// </summary>
         /// <param name="timer"></param>
         /// <param name="count"></param>
-        [SpareTime(5000, "LogOpWritingService", Description = "后台批量写操作日志，配置项参数：{\"quantity\": 2}，不填默认为2", 
-            DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
+        [SpareTime(5000, "LogOpWritingService", Description = "后台批量写操作日志，配置项参数：{\"quantity\": 2}，不填默认为2",
+                   DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
         public void DoLogOp(SpareTimer timer, long count)
         {
             DoWork(timer, count, "LogOpWritingService_Parameters", _sysLogOps);
@@ -165,7 +165,7 @@ namespace Dilon.Core.Job
         /// <param name="timer"></param>
         /// <param name="count"></param>
         [SpareTime(8000, "LogVisWritingService", Description = "后台批量写访问日志，配置项参数：{\"quantity\": 2}，不填默认为2",
-            DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
+                   DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
         public void DoLogVis(SpareTimer timer, long count)
         {
             DoWork(timer, count, "LogVisWritingService_Parameters", _sysLogViss);
@@ -195,7 +195,7 @@ namespace Dilon.Core.Job
 
                 // 默认值
                 var quantity = 2;
-                
+
                 // 获取写数据库容量阀值，新增定时任务时会将配置项写入缓存
                 if (sysCache != null)
                 {
@@ -226,13 +226,13 @@ namespace Dilon.Core.Job
                 }
             });
         }
-        
+
         /// <summary>
         /// 根据条件删除日志
         /// </summary>
         /// <param name="expression"></param>
         /// <typeparam name="T"></typeparam>
-        private void DoDeleteWork<T>(Expression<Func<T,bool>> expression) where T : EntityBase, new()
+        private void DoDeleteWork<T>(Expression<Func<T, bool>> expression) where T : EntityBase, new()
         {
             Scoped.Create((_, scope) =>
             {

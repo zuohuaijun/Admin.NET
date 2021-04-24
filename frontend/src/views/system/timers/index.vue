@@ -119,11 +119,11 @@
             dataIndex: 'requestParameters'
           },
           {
-            title: '执行间隔',
+            title: '间隔',
             dataIndex: 'interval'
           },
           {
-            title: 'Cron表达式',
+            title: 'Cron',
             dataIndex: 'cron'
           },
           {
@@ -134,12 +134,13 @@
             }
           },
           {
-            title: '已执行次数',
+            title: '执行次数',
             dataIndex: 'runNumber'
           },
           {
             title: '备注',
-            dataIndex: 'remark'
+            dataIndex: 'remark',
+            width: 100
           }
         ],
         // 加载数据方法 必须为 Promise 对象

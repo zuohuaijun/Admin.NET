@@ -153,10 +153,9 @@ namespace Dilon.Core.Service
                 loginOutput.Menus = await _sysMenuService.GetLoginMenusAntDesign(userId, defaultActiveAppCode);
             }
 
-            // 丢给后台任务，直接返回
-            SpareTime.DoIt(() =>
-            {
-                // 增加登录日志
+            // 后台任务写登录日志
+            //SpareTime.DoIt(() =>
+            //{
                 SimpleQueue<SysLogVis>.Add(new SysLogVis
                 {
                     Name = loginOutput.Name,
@@ -169,7 +168,7 @@ namespace Dilon.Core.Service
                     VisTime = loginOutput.LastLoginTime,
                     Account = loginOutput.Account
                 });
-            });
+            //});
 
             return loginOutput;
         }
@@ -185,9 +184,9 @@ namespace Dilon.Core.Service
             _httpContextAccessor.SignoutToSwagger();
             //_httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid token";
 
-            SpareTime.DoIt(() =>
-            {
-                // 增加退出日志
+            // 后台任务写退出日志
+            //SpareTime.DoIt(() =>
+            //{
                 SimpleQueue<SysLogVis>.Add(new SysLogVis
                 {
                     Name = user.Name,
@@ -197,7 +196,7 @@ namespace Dilon.Core.Service
                     VisTime = DateTimeOffset.Now,
                     Account = user.Account
                 });
-            });
+            //});
 
             await Task.CompletedTask;
         }
