@@ -134,7 +134,7 @@
             }
           },
           {
-            title: 'ip',
+            title: 'IP',
             dataIndex: 'ip',
             sorter: true
           },

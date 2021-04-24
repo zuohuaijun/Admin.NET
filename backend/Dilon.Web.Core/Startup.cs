@@ -40,7 +40,7 @@ namespace Dilon.Web.Core
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions { WorkerId = workerId });
 
             // 开启自启动定时任务
-            //App.GetService<ISysTimerService>().StartTimerJob();
+            App.GetService<ISysTimerService>().StartTimerJob();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -143,7 +143,7 @@
             }
           },
           {
-            title: 'ip',
+            title: 'IP',
             dataIndex: 'ip'
           },
           {
@@ -151,14 +151,14 @@
             dataIndex: 'browser'
           },
           {
-            title: '访问时间',
+            title: '时间',
             dataIndex: 'visTime',
             scopedSlots: {
               customRender: 'visTime'
             }
           },
           {
-            title: '访问人',
+            title: '访问者',
             dataIndex: 'account'
           },
           {

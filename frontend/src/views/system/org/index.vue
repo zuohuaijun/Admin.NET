@@ -1,6 +1,6 @@
 <template>
   <a-row :gutter="24" >
-    <a-col :md="5" :sm="24" >
+    <a-col :md="5" :sm="24" style="padding: 0 0 0 0;">
       <a-card :bordered="false" :loading="treeLoading">
         <div v-if="this.orgTree!='' ">
           <a-tree
