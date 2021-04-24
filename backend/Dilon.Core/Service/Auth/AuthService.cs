@@ -225,7 +225,7 @@ namespace Dilon.Core.Service
         public async Task<dynamic> GetCaptcha()
         {
             // 图片大小要与前端保持一致（坐标范围）
-            return await Task.FromResult(_captchaHandle.CreateCaptchaImage(_captchaHandle.RandomCode(6), 310, 155));
+            return await Task.FromResult(_captchaHandle.CreateCaptchaImage(_captchaHandle.RandomCode(4), 310, 155));
         }
 
         /// <summary>

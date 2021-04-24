@@ -140,7 +140,6 @@
       sysRoleOwnData (record) {
         sysRoleOwnData({ id: record.id }).then((res) => {
           if (res.success) {
-            console.log(JSON.stringify(res.data))
             this.checkedKeys = res.data
           }
           this.formLoading = false

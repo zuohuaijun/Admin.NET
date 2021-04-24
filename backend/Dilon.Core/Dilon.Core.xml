@@ -6575,7 +6575,7 @@
         </member>
         <member name="M:Dilon.Core.Service.SysRoleService.GrantData(Dilon.Core.Service.GrantRoleDataInput)">
             <summary>
-            授权角色数据
+            授权角色数据范围
             </summary>
             <param name="input"></param>
             <returns></returns>
