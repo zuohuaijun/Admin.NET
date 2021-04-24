@@ -1614,11 +1614,6 @@
             定时器类型
             </summary>
         </member>
-        <member name="P:Dilon.Core.SysTimer.RunNumber">
-            <summary>
-            执行次数
-            </summary>
-        </member>
         <member name="P:Dilon.Core.SysTimer.RequestUrl">
             <summary>
             请求url
@@ -2974,6 +2969,70 @@
             <summary>
             请求日志拦截
             </summary>
+        </member>
+        <member name="T:Dilon.Core.Job.LogJobWorker">
+            <summary>
+            日志定时任务类
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoDeleteLogEx(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            定期删除异常日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoDeleteLogOp(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            定期删除操作日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoDeleteLogVis(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            定期删除访问日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoLogEx(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            后台批量写错误日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoLogOp(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            后台批量写操作日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoLogVis(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            后台批量写访问日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoWork``1(Furion.TaskScheduler.SpareTimer,System.Int64,System.String,System.Collections.Generic.List{``0})">
+            <summary>
+            写日志
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+            <param name="cacheKey"></param>
+            <param name="logs"></param>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Dilon.Core.Job.LogJobWorker.DoDeleteWork``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+            <summary>
+            根据条件删除日志
+            </summary>
+            <param name="expression"></param>
+            <typeparam name="T"></typeparam>
         </member>
         <member name="T:Dilon.Core.UserManager">
             <summary>
@@ -6864,11 +6923,6 @@
             定时器类型
             </summary>
         </member>
-        <member name="P:Dilon.Core.Service.JobInput.RunNumber">
-            <summary>
-            执行次数
-            </summary>
-        </member>
         <member name="P:Dilon.Core.Service.JobInput.RequestUrl">
             <summary>
             请求url
@@ -6908,6 +6962,11 @@
         <member name="P:Dilon.Core.Service.JobOutput.Id">
             <summary>
             Id
+            </summary>
+        </member>
+        <member name="P:Dilon.Core.Service.JobOutput.RunNumber">
+            <summary>
+            已执行次数
             </summary>
         </member>
         <member name="P:Dilon.Core.Service.JobOutput.TimerStatus">
@@ -7500,6 +7559,35 @@
             </summary>
             <param name="userParam"></param>
             <returns></returns>
+        </member>
+        <member name="T:Dilon.Core.SimpleQueue`1">
+            <summary>
+            简单泛型队列
+            </summary>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Add(`0)">
+            <summary>
+            新增
+            </summary>
+            <param name="obj"></param>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Try(`0@)">
+            <summary>
+            取出
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Count">
+            <summary>
+            总数
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Dilon.Core.SimpleQueue`1.Clear">
+            <summary>
+            清理
+            </summary>
         </member>
         <member name="T:Dilon.Core.CodeGenUtil">
             <summary>

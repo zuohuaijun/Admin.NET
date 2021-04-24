@@ -8,7 +8,7 @@
         /// <summary>
         /// 字典Id
         /// </summary>
-        public string Code { get; set; }
+        public int Code { get; set; }
 
         /// <summary>
         /// 字典值
