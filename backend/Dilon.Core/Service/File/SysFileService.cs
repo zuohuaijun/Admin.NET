@@ -150,6 +150,7 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
+        [HttpPost("/sysFileInfo/uploadDocument")]
         public async Task UploadFileDocument(IFormFile file)
         {
             await UploadFile(file, _configuration["UploadFile:Document:path"]);
@@ -160,6 +161,7 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
+        [HttpPost("/sysFileInfo/uploadShop")]
         public async Task UploadFileShop(IFormFile file)
         {
             await UploadFile(file, _configuration["UploadFile:Shop:path"]);
