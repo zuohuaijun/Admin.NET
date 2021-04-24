@@ -11836,10 +11836,10 @@ webpack-sources@^1.1.0, webpack-sources@^1.4.0, webpack-sources@^1.4.1, webpack-
     source-list-map "^2.0.0"
     source-map "~0.6.1"
 
-webpack-theme-color-replacer@^1.2.17:
-  version "1.3.19"
-  resolved "https://registry.npm.taobao.org/webpack-theme-color-replacer/download/webpack-theme-color-replacer-1.3.19.tgz#0603c7fae8ed67105c6edb3012d29c137566bcdc"
-  integrity sha1-BgPH+ujtZxBcbtswEtKcE3VmvNw=
+webpack-theme-color-replacer@1.3.18:
+  version "1.3.18"
+  resolved "https://registry.nlark.com/webpack-theme-color-replacer/download/webpack-theme-color-replacer-1.3.18.tgz#98b70eab698e40b06ea3c56a3db8590f7ccef847"
+  integrity sha1-mLcOq2mOQLBuo8VqPbhZD3zO+Ec=
   dependencies:
     webpack-sources "*"
 
