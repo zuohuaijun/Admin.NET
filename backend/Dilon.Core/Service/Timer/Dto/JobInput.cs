@@ -48,11 +48,6 @@ namespace Dilon.Core.Service
         public SpareTimeTypes TimerType { get; set; }
 
         /// <summary>
-        /// 执行次数
-        /// </summary>
-        public int? RunNumber { get; set; }
-
-        /// <summary>
         /// 请求url
         /// </summary>
         public string RequestUrl { get; set; }

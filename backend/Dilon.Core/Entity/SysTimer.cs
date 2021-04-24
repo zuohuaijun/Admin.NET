@@ -60,12 +60,6 @@ namespace Dilon.Core
         public SpareTimeTypes TimerType { get; set; } = SpareTimeTypes.Interval;
 
         /// <summary>
-        /// 执行次数
-        /// </summary>
-        [Comment("执行次数")]
-        public int? RunNumber { get; set; }
-
-        /// <summary>
         /// 请求url
         /// </summary>
         [Comment("请求url")]
