@@ -28,3 +28,12 @@ bin-release/
 /.idea
 /backend/Dilon.Web.Entry/templates
 /backend/Dilon.Web.Entry/wwwroot/Upload
+
+# db 文件忽略
+/**/*.db
+
+# xml 文件忽略
+/**/*.xml
+
+# lock 文件忽略
+/**/*.lock
