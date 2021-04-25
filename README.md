@@ -75,6 +75,22 @@
     </tr>
 </table>
 
+### 📖 帮助文档
+
+👉后台文档：
+* Furion后台框架文档 [https://dotnetchina.gitee.io/furion/docs/source](https://dotnetchina.gitee.io/furion/docs/source)
+
+👉前端文档：
+* 小诺前端业务文档 [https://doc.xiaonuo.vip/snowy_vue/bizs/](https://doc.xiaonuo.vip/snowy_vue/bizs/)
+```
+* Ant Design Pro of Vue 使用文档 [https://pro.antdv.com/docs/getting-started](https://pro.antdv.com/docs/getting-started)
+* Ant Design of Vue 组件文档 [https://www.antdv.com/docs/vue/getting-started-cn/](https://www.antdv.com/docs/vue/getting-started-cn/)
+* Vue 开发文档 [https://cn.vuejs.org/v2/guide/](https://cn.vuejs.org/v2/guide/)
+```
+
+😎通读以上文档，您就可以玩转本项目了（其实您已经是高手了）。项目使用上的问题，文档中基本都可以找到答案。
+
+
 ### 🍎 效果图
 
 <table>
@@ -131,7 +147,7 @@
 
 【MySQL】
 
-1. Dilon.EntityFramework.Core 项目安装 ``` Pomelo.EntityFrameworkCore.MySql ```
+1. Dilon.EntityFramework.Core 项目安装 ``` Pomelo.EntityFrameworkCore.MySql，Nuget 需勾选预览版且安装 .Alpha.2 版本 (支持 MySql 5.x +)  MySql.EntityFrameworkCore：支持 (MySql 8.x +) ```
 2. DefaultDbContext.cs 指定 DbProvider , ```[AppDbContext("DefaultConnection", DbProvider.MySql)]```
 3. dbsettings.json 配置 "DefaultConnection": ```"Data Source=localhost;Database=Dilon;User ID=root;Password=000000;pooling=true;port=3306;sslmode=none;CharSet=utf8;"```
 4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init和update-database```
