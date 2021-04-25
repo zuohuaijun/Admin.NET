@@ -30,7 +30,7 @@ bin-release/
 /backend/Dilon.Web.Entry/wwwroot/Upload
 
 # db 文件忽略
-/**/*.db
+# /**/*.db
 
 # xml 文件忽略
 /**/*.xml
