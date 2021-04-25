@@ -41,14 +41,14 @@ namespace Dilon.Web.Core
             var workerId = ushort.Parse(App.Configuration["SnowId:WorkerId"] ?? "1");
             YitIdHelper.SetIdGenerator(new IdGeneratorOptions { WorkerId = workerId });
 
-            // 不阻塞项目启动的情况下延时5秒启动定时任务
-            SpareTime.DoIt(()=>
-            {
-                Scoped.Create((_, scope) => {
-                    var scopeServiceProvider = scope.ServiceProvider;
-                    App.GetService<ISysTimerService>(scopeServiceProvider).StartTimerJob();
-                });
-            }, 5000);
+            //// 不阻塞项目启动的情况下延时5秒启动定时任务
+            //SpareTime.DoIt(()=>
+            //{
+            //    Scoped.Create((_, scope) => {
+            //        var scopeServiceProvider = scope.ServiceProvider;
+            //        App.GetService<ISysTimerService>(scopeServiceProvider).StartTimerJob();
+            //    });
+            //}, 5000);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
