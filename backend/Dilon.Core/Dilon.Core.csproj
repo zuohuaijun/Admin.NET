@@ -3,7 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>Dilon.Core.xml</DocumentationFile>
+    <DocumentationFile>Furion.Extras.Admin.NET.xml</DocumentationFile>
     <Version>1.0.3</Version>
     <Authors>左怀军/zuohuaijun</Authors>
     <Company>Dilon Co.,Ltd.</Company>
