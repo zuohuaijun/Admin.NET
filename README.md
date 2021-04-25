@@ -75,6 +75,24 @@
     </tr>
 </table>
 
+### 📖 帮助文档
+
+后台文档：
+* 基于Furion [https://dotnetchina.gitee.io/furion/docs/source](https://dotnetchina.gitee.io/furion/docs/source)
+前端文档：
+```
+小诺 Vue 是基于 Ant Design Pro of Vue 的前端开发平台
+Ant Design Pro of Vue 是基于 Ant Design of Vue 的完整前端脚手架
+Ant Design of Vue 是基于 Vue 的前端组件库
+😂😂😂
+```
+* 小诺 Vue 业务模块文档 [https://doc.xiaonuo.vip/snowy_vue/bizs/](https://doc.xiaonuo.vip/snowy_vue/bizs/)
+* Ant Design Pro of Vue 使用文档 [https://pro.antdv.com/docs/getting-started](https://pro.antdv.com/docs/getting-started)
+* Ant Design of Vue 组件文档 [https://www.antdv.com/docs/vue/getting-started-cn/](https://www.antdv.com/docs/vue/getting-started-cn/)
+* Vue 开发文档 [https://cn.vuejs.org/v2/guide/](https://cn.vuejs.org/v2/guide/)
+
+😄通读以上文档，你基本可以玩转本项目了。项目使用上的问题，文档中基本都可以找到答案。
+
 ### 🍎 效果图
 
 <table>
