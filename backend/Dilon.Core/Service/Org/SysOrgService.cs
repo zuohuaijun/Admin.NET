@@ -313,7 +313,7 @@ namespace Dilon.Core.Service
                 dataScopeList = GetDataScopeList(dataScopes);
             }
             var orgs = await _sysOrgRep.DetachedEntities.Where(dataScopeList.Count > 0, u => dataScopeList.Contains(u.Id))
-                                                        .Where(u => u.Status == (int)CommonStatus.ENABLE).OrderBy(u => u.Sort)
+                                                        .Where(u => u.Status == CommonStatus.ENABLE).OrderBy(u => u.Sort)
                                                         .Select(u => new OrgTreeNode
                                                         {
                                                             Id = u.Id,
@@ -342,7 +342,7 @@ namespace Dilon.Core.Service
             // 如果是范围类型是全部数据，则获取当前所有的组织架构Id
             if (dataScopeType == (int)DataScopeType.ALL)
             {
-                orgIdList = await _sysOrgRep.DetachedEntities.Where(u => u.Status == (int)CommonStatus.ENABLE).Select(u => u.Id).ToListAsync();
+                orgIdList = await _sysOrgRep.DetachedEntities.Where(u => u.Status == CommonStatus.ENABLE).Select(u => u.Id).ToListAsync();
             }
             // 如果范围类型是本部门及以下部门，则查询本节点和子节点集合，包含本节点
             else if (dataScopeType == (int)DataScopeType.DEPT_WITH_CHILD)

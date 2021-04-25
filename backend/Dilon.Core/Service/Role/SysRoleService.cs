@@ -71,7 +71,7 @@ namespace Dilon.Core.Service
             var roles = await _sysRoleRep.DetachedEntities
                                          .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")),
                                                 (code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")))
-                                         .Where(u => u.Status == (int)CommonStatus.ENABLE).OrderBy(u => u.Sort)
+                                         .Where(u => u.Status == CommonStatus.ENABLE).OrderBy(u => u.Sort)
                                          .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<SysRole>.PageResult(roles);
         }
@@ -89,7 +89,7 @@ namespace Dilon.Core.Service
             return await _sysRoleRep.DetachedEntities
                                     .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")),
                                            (code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")))
-                                    .Where(u => u.Status == (int)CommonStatus.ENABLE).OrderBy(u => u.Sort)
+                                    .Where(u => u.Status == CommonStatus.ENABLE).OrderBy(u => u.Sort)
                                     .Select(u => new
                                     {
                                         u.Id,
@@ -111,7 +111,7 @@ namespace Dilon.Core.Service
 
             return await _sysRoleRep.DetachedEntities
                                     .Where(roles.Count > 0, u => roles.Contains(u.Id))
-                                    .Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                    .Where(u => u.Status == CommonStatus.ENABLE)
                                     .Select(u => new
                                     {
                                         u.Id,

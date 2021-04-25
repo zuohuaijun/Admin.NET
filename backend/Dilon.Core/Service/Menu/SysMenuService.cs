@@ -55,15 +55,15 @@ namespace Dilon.Core.Service
                     var roleIdList = await _sysUserRoleService.GetUserRoleIdList(userId);
                     var menuIdList = await _sysRoleMenuService.GetRoleMenuIdList(roleIdList);
                     permissions = await _sysMenuRep.DetachedEntities.Where(u => menuIdList.Contains(u.Id))
-                                                                    .Where(u => u.Type == (int)MenuType.BTN)
-                                                                    .Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                                                    .Where(u => u.Type == MenuType.BTN)
+                                                                    .Where(u => u.Status == CommonStatus.ENABLE)
                                                                     .Select(u => u.Permission).ToListAsync();
                 }
                 else
                 {
                     permissions = await _sysMenuRep.DetachedEntities
-                                                   .Where(u => u.Type == (int)MenuType.BTN)
-                                                   .Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                                   .Where(u => u.Type == MenuType.BTN)
+                                                   .Where(u => u.Status == CommonStatus.ENABLE)
                                                    .Select(u => u.Permission).ToListAsync();
                 }
                 await _sysCacheService.SetPermission(userId, permissions); // 缓存结果
@@ -88,9 +88,9 @@ namespace Dilon.Core.Service
                 if (_userManager.SuperAdmin)
                 {
                     sysMenuList = await _sysMenuRep.DetachedEntities
-                                                   .Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                                   .Where(u => u.Status == CommonStatus.ENABLE)
                                                    .Where(u => u.Application == appCode)
-                                                   .Where(u => u.Type != (int)MenuType.BTN)
+                                                   .Where(u => u.Type != MenuType.BTN)
                                                    //.Where(u => u.Weight != (int)MenuWeight.DEFAULT_WEIGHT)
                                                    .OrderBy(u => u.Sort).ToListAsync();
                 }
@@ -101,9 +101,9 @@ namespace Dilon.Core.Service
                     var menuIdList = await _sysRoleMenuService.GetRoleMenuIdList(roleIdList);
                     sysMenuList = await _sysMenuRep.DetachedEntities
                                                    .Where(u => menuIdList.Contains(u.Id))
-                                                   .Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                                   .Where(u => u.Status == CommonStatus.ENABLE)
                                                    .Where(u => u.Application == appCode)
-                                                   .Where(u => u.Type != (int)MenuType.BTN)
+                                                   .Where(u => u.Type != MenuType.BTN)
                                                    .OrderBy(u => u.Sort).ToListAsync();
                 }
                 // 转换成登录菜单
@@ -113,15 +113,15 @@ namespace Dilon.Core.Service
                     Pid = u.Pid,
                     Name = u.Code,
                     Component = u.Component,
-                    Redirect = u.OpenType == (int)MenuOpenType.OUTER ? u.Link : u.Redirect,
-                    Path = u.OpenType == (int)MenuOpenType.OUTER ? u.Link : u.Router,
+                    Redirect = u.OpenType == MenuOpenType.OUTER ? u.Link : u.Redirect,
+                    Path = u.OpenType == MenuOpenType.OUTER ? u.Link : u.Router,
                     Meta = new Meta
                     {
                         Title = u.Name,
                         Icon = u.Icon,
                         Show = u.Visible == YesOrNot.Y.ToString(),
                         Link = u.Link,
-                        Target = u.OpenType == (int)MenuOpenType.OUTER ? "_blank" : ""
+                        Target = u.OpenType == MenuOpenType.OUTER ? "_blank" : ""
                     }
                 }).ToList();
                 await _sysCacheService.SetMenu(userId, appCode, antDesignTreeNodes); // 缓存结果
@@ -140,7 +140,7 @@ namespace Dilon.Core.Service
             var roleIdList = await _sysUserRoleService.GetUserRoleIdList(userId);
             var menuIdList = await _sysRoleMenuService.GetRoleMenuIdList(roleIdList);
             return await _sysMenuRep.DetachedEntities.Where(u => menuIdList.Contains(u.Id))
-                                                     .Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                                     .Where(u => u.Status == CommonStatus.ENABLE)
                                                      .Select(u => u.Application).ToListAsync();
         }
 
@@ -156,7 +156,7 @@ namespace Dilon.Core.Service
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var menus = await _sysMenuRep.DetachedEntities.Where((application, u => u.Application == input.Application.Trim()),
                                                                  (name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
-                                                          .Where(u => u.Status == (int)CommonStatus.ENABLE).OrderBy(u => u.Sort)
+                                                          .Where(u => u.Status == CommonStatus.ENABLE).OrderBy(u => u.Sort)
                                                           .Select(u => u.Adapt<MenuOutput>())
                                                           .ToListAsync();
             return new TreeBuildUtil<MenuOutput>().DoTreeBuild(menus);
@@ -202,7 +202,7 @@ namespace Dilon.Core.Service
             {
                 if (string.IsNullOrEmpty(router))
                     throw Oops.Oh(ErrorCode.D4001);
-                if (string.IsNullOrEmpty(openType))
+                if (string.IsNullOrEmpty(openType.ToString()))
                     throw Oops.Oh(ErrorCode.D4002);
             }
             else if (type.Equals((int)MenuType.BTN))
@@ -236,7 +236,7 @@ namespace Dilon.Core.Service
 
             var menu = input.Adapt<SysMenu>();
             menu.Pids = await CreateNewPids(input.Pid);
-            menu.Status = (int)CommonStatus.ENABLE;
+            menu.Status = CommonStatus.ENABLE;
             await menu.InsertAsync();
 
             // 清除缓存
@@ -377,8 +377,8 @@ namespace Dilon.Core.Service
             var application = !string.IsNullOrEmpty(input.Application?.Trim());
             var menus = await _sysMenuRep.DetachedEntities
                                          .Where(application, u => u.Application == input.Application.Trim())
-                                         .Where(u => u.Status == (int)CommonStatus.ENABLE)
-                                         .Where(u => u.Type == (int)MenuType.DIR || u.Type == (int)MenuType.MENU)
+                                         .Where(u => u.Status == CommonStatus.ENABLE)
+                                         .Where(u => u.Type == MenuType.DIR || u.Type == MenuType.MENU)
                                          .OrderBy(u => u.Sort)
                                          .Select(u => new MenuTreeOutput
                                          {
@@ -386,7 +386,7 @@ namespace Dilon.Core.Service
                                              ParentId = u.Pid,
                                              Value = u.Id.ToString(),
                                              Title = u.Name,
-                                             Weight = u.Sort
+                                             Weight = u.Weight
                                          }).ToListAsync();
             return new TreeBuildUtil<MenuTreeOutput>().DoTreeBuild(menus);
         }
@@ -409,7 +409,7 @@ namespace Dilon.Core.Service
             var application = !string.IsNullOrEmpty(input.Application?.Trim());
             var menus = await _sysMenuRep.DetachedEntities
                                          .Where(application, u => u.Application == input.Application.Trim())
-                                         .Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                         .Where(u => u.Status == CommonStatus.ENABLE)
                                          .Where(menuIdList.Count > 0, u => menuIdList.Contains(u.Id))
                                          .OrderBy(u => u.Sort).Select(u => new MenuTreeOutput
                                          {
@@ -417,7 +417,7 @@ namespace Dilon.Core.Service
                                              ParentId = u.Pid,
                                              Value = u.Id.ToString(),
                                              Title = u.Name,
-                                             Weight = u.Sort
+                                             Weight = u.Weight
                                          }).ToListAsync();
             return new TreeBuildUtil<MenuTreeOutput>().DoTreeBuild(menus);
         }

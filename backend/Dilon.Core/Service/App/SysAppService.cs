@@ -40,7 +40,7 @@ namespace Dilon.Core.Service
         [NonAction]
         public async Task<dynamic> GetLoginApps(long userId)
         {
-            var apps = _sysAppRep.DetachedEntities.Where(u => u.Status == (int)CommonStatus.ENABLE);
+            var apps = _sysAppRep.DetachedEntities.Where(u => u.Status == CommonStatus.ENABLE);
             if (!_userManager.SuperAdmin)
             {
                 var appCodeList = await _sysMenuService.GetUserMenuAppCodeList(userId);
@@ -72,7 +72,7 @@ namespace Dilon.Core.Service
             var apps = await _sysAppRep.DetachedEntities
                                        .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")),
                                               (code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")))
-                                       //.Where(u => u.Status == (int)CommonStatus.ENABLE)
+                                       //.Where(u => u.Status == CommonStatus.ENABLE)
                                        .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<SysApp>.PageResult(apps);
         }
@@ -159,7 +159,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysApp/list")]
         public async Task<dynamic> GetAppList([FromQuery] AppInput input)
         {
-            return await _sysAppRep.DetachedEntities.Where(u => u.Status == (int)CommonStatus.ENABLE).ToListAsync();
+            return await _sysAppRep.DetachedEntities.Where(u => u.Status == CommonStatus.ENABLE).ToListAsync();
         }
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysApp/setAsDefault")]
         public async Task SetAsDefault(SetDefaultAppInput input)
         {
-            var apps = await _sysAppRep.Where(u => u.Status == (int)CommonStatus.ENABLE).ToListAsync();
+            var apps = await _sysAppRep.Where(u => u.Status == CommonStatus.ENABLE).ToListAsync();
             apps.ForEach(u =>
             {
                 u.Active = YesOrNot.N.ToString();

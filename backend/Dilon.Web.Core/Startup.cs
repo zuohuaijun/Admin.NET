@@ -1,8 +1,6 @@
 using Dilon.Core;
 using Dilon.Core.Service;
 using Furion;
-using Furion.DependencyInjection;
-using Furion.TaskScheduler;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,19 +34,6 @@ namespace Dilon.Web.Core
                     });
 
             services.AddViewEngine();
-
-            // 设置雪花id的workerId，确保每个实例workerId都应不同
-            var workerId = ushort.Parse(App.Configuration["SnowId:WorkerId"] ?? "1");
-            YitIdHelper.SetIdGenerator(new IdGeneratorOptions { WorkerId = workerId });
-
-            //// 不阻塞项目启动的情况下延时5秒启动定时任务
-            //SpareTime.DoIt(()=>
-            //{
-            //    Scoped.Create((_, scope) => {
-            //        var scopeServiceProvider = scope.ServiceProvider;
-            //        App.GetService<ISysTimerService>(scopeServiceProvider).StartTimerJob();
-            //    });
-            //}, 5000);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -87,6 +72,13 @@ namespace Dilon.Web.Core
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
+
+            // 设置雪花id的workerId，确保每个实例workerId都应不同
+            var workerId = ushort.Parse(App.Configuration["SnowId:WorkerId"] ?? "1");
+            YitIdHelper.SetIdGenerator(new IdGeneratorOptions { WorkerId = workerId });
+
+            // 开启自启动定时任务
+            App.GetService<ISysTimerService>().StartTimerJob();
         }
     }
 }

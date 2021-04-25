@@ -25,7 +25,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 菜单类型（字典 0目录 1菜单 2按钮）
         /// </summary>
-        public virtual string Type { get; set; }
+        public virtual MenuType Type { get; set; }
 
         /// <summary>
         /// 图标
@@ -55,7 +55,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 打开方式（字典 0无 1组件 2内链 3外链）
         /// </summary>
-        public virtual string OpenType { get; set; }
+        public virtual MenuOpenType OpenType { get; set; }
 
         /// <summary>
         /// 是否可见（Y-是，N-否）
@@ -75,7 +75,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 权重（字典 1系统权重 2业务权重）
         /// </summary>
-        public string Weight { get; set; }
+        public MenuWeight Weight { get; set; }
 
         /// <summary>
         /// 排序
@@ -94,7 +94,7 @@ namespace Dilon.Core.Service
         /// 菜单类型（字典 0目录 1菜单 2按钮）
         /// </summary>
         [Required(ErrorMessage = "菜单类型不能为空")]
-        public override string Type { get; set; }
+        public override MenuType Type { get; set; }
     }
 
     public class DeleteMenuInput

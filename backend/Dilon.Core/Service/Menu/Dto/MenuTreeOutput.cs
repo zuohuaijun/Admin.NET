@@ -31,7 +31,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 排序，越小优先级越高
         /// </summary>
-        public int Weight { get; set; }
+        public MenuWeight Weight { get; set; }
 
         /// <summary>
         /// 子节点

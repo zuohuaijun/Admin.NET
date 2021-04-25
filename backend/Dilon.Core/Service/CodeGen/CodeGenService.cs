@@ -251,7 +251,7 @@ namespace Dilon.Core.Service.CodeGen
                     Pids = "[0],",
                     Name = busName + "管理",
                     Code = codePrefix,
-                    Type = 1,
+                    Type = MenuType.DIR,
                     Icon = "robot",
                     Router = "/" + className.ToLower(),
                     Component = "PageView",
@@ -270,11 +270,11 @@ namespace Dilon.Core.Service.CodeGen
                 Pids = "[0],[" + pid + "],",
                 Name = busName + "管理",
                 Code = codePrefix + "_mgr",
-                Type = 1,
+                Type = MenuType.MENU,
                 Router = "/" + className.ToLower(),
                 Component = "main/" + className + "/index",
                 Application = application,
-                OpenType = 1
+                OpenType = MenuOpenType.COMPONENT
             };
             var pid1 = _sysMenuRep.InsertNowAsync(menuType1).GetAwaiter().GetResult().Entity.Id;
 
@@ -285,7 +285,7 @@ namespace Dilon.Core.Service.CodeGen
                 Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "查询",
                 Code = codePrefix + "_mgr_page",
-                Type = 2,
+                Type = MenuType.BTN,
                 Permission = className + ":page",
                 Application = application,
             }.InsertAsync();
@@ -297,7 +297,7 @@ namespace Dilon.Core.Service.CodeGen
                 Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "详情",
                 Code = codePrefix + "_mgr_detail",
-                Type = 2,
+                Type = MenuType.BTN,
                 Permission = className + ":detail",
                 Application = application,
             }.InsertAsync();
@@ -309,7 +309,7 @@ namespace Dilon.Core.Service.CodeGen
                 Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "增加",
                 Code = codePrefix + "_mgr_add",
-                Type = 2,
+                Type = MenuType.BTN,
                 Permission = className + ":add",
                 Application = application,
             }.InsertAsync();
@@ -321,7 +321,7 @@ namespace Dilon.Core.Service.CodeGen
                 Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "删除",
                 Code = codePrefix + "_mgr_delete",
-                Type = 2,
+                Type = MenuType.BTN,
                 Permission = className + ":delete",
                 Application = application,
             }.InsertAsync();
@@ -333,7 +333,7 @@ namespace Dilon.Core.Service.CodeGen
                 Pids = "[0],[" + pid + "],[" + pid1 + "],",
                 Name = busName + "编辑",
                 Code = codePrefix + "_mgr_edit",
-                Type = 2,
+                Type = MenuType.BTN,
                 Permission = className + ":edit",
                 Application = application,
             }.InsertAsync();

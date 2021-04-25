@@ -42,7 +42,7 @@ namespace Dilon.Core
         /// 菜单类型（字典 0目录 1菜单 2按钮）
         /// </summary>
         [Comment("菜单类型")]
-        public int Type { get; set; }
+        public MenuType Type { get; set; }
 
         /// <summary>
         /// 图标
@@ -83,7 +83,7 @@ namespace Dilon.Core
         /// 打开方式（字典 0无 1组件 2内链 3外链）
         /// </summary>
         [Comment("打开方式")]
-        public int OpenType { get; set; } = 0;
+        public MenuOpenType OpenType { get; set; } = MenuOpenType.NONE;
 
         /// <summary>
         /// 是否可见（Y-是，N-否）
@@ -110,7 +110,7 @@ namespace Dilon.Core
         /// 权重（字典 1系统权重 2业务权重）
         /// </summary>
         [Comment("权重")]
-        public int Weight { get; set; } = 2;
+        public MenuWeight Weight { get; set; } = MenuWeight.DEFAULT_WEIGHT;
 
         /// <summary>
         /// 排序
