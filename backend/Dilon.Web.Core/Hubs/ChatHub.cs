@@ -19,10 +19,6 @@ namespace Dilon.Web.Core.Hubs
         {
             // 获得 token
             string token = App.HttpContext.Request.Query["access_token"];
-            var headers = App.HttpContext.Request.Headers;
-            var clientInfo = headers.ContainsKey("User-Agent")
-                ? UAParser.Parser.GetDefault().Parse(headers["User-Agent"])
-                : null;
             // 解析 token
             var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
             var userId = Convert.ToInt64(claims.FirstOrDefault(e => e.Type == ClaimConst.CLAINM_USERID)?.Value);
@@ -36,9 +32,7 @@ namespace Dilon.Web.Core.Hubs
                 {
                     ConnectionId = Context.ConnectionId,
                     UserId = userId,
-                    LastConnectionTime = DateTime.Now,
-                    Ip = App.HttpContext.GetRemoteIpAddressToIPv4(),
-                    Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
+                    LastTime = DateTime.Now
                 });
             }
         }
