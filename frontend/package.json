@@ -12,6 +12,7 @@
   "dependencies": {
     "@antv/data-set": "^0.10.2",
     "@jiaminghi/data-view": "^2.10.0",
+    "@microsoft/signalr": "^5.0.5",
     "ant-design-vue": "1.7.4",
     "axios": "^0.19.0",
     "babel-polyfill": "^6.26.0",

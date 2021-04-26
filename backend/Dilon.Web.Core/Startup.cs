@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Text.Json;
+using Dilon.Web.Core.Hubs;
 using Yitter.IdGenerator;
 
 namespace Dilon.Web.Core
@@ -34,6 +35,8 @@ namespace Dilon.Web.Core
                     });
 
             services.AddViewEngine();
+
+            services.AddSignalR();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -68,6 +71,7 @@ namespace Dilon.Web.Core
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ChatHub>("/hubs/chathub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

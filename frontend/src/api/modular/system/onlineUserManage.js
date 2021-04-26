@@ -6,7 +6,7 @@ import { axios } from '@/utils/request'
  * @author yubaoshan
  * @date 2020/6/8 11:11
  */
-export function sysOnlineUserList (parameter) {
+export function sysOnlineUserList(parameter) {
   return axios({
     url: '/sysOnlineUser/list',
     method: 'get',
@@ -20,7 +20,7 @@ export function sysOnlineUserList (parameter) {
  * @author yubaoshan
  * @date 2020/6/8 11:11
  */
-export function sysOnlineUserForceExist (parameter) {
+export function sysOnlineUserForceExist(parameter) {
   return axios({
     url: '/sysOnlineUser/forceExist',
     method: 'post',
