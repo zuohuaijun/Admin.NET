@@ -34,6 +34,7 @@ namespace Dilon.Web.Core
                     });
 
             services.AddViewEngine();
+            services.AddSimpleEventBus();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
