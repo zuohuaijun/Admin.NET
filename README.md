@@ -38,6 +38,14 @@
 
 `如果集成其他ORM，请参照各自操作使用说明。系统默认EFCore不会处理其他ORM实体等，请自行处理。`
 
+### 👑 多租户简介
+
+框架目前采用基于共享数据库TenantId的方式实现，后期可无缝迁移转换到基于多库或者Schema模式。
+
+1. 平台超管对租户进行增删改查操作，对各租户进行权限（菜单）的分配，租户管理员密码默认123456
+2. 租户管理员根据平台分配的权限再对本租户内用户进一步权限划分
+3. 针对新开发的业务功能，平台超管可以针对性分配给各租户（比如某租户购买后才有此功能菜单等） 
+
 ### 🥞 更新日志
 
 更新日志 [点击查看](https://gitee.com/zuohuaijun/Admin.NET/commits/master)
@@ -66,7 +74,7 @@
 需要安装：VS2019（最新版）、npm或yarn（最新版）
 
 * 启动后台：打开backend/Dilon.sln解决方案，直接运行（F5）即可启动（数据库默认SQLite）
-* 启动前端：打开frontend文件夹，进行依赖下载，运行npm install或yarn命令，再运行npm run serve或 yarn run serve
+* 启动前端：VSCode或HBuilder，打开frontend文件夹，进行依赖下载，运行npm install或yarn命令，再运行npm run serve或 yarn run serve
 * 浏览器访问：`http://localhost:81` （默认前端端口为：81，后台端口为：5566）
 <table>
     <tr>
@@ -74,6 +82,17 @@
         <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/f0.png"/></td>
     </tr>
 </table>
+
+### 🏀 分层说明
+```
+├─Dilon.Application             ->业务应用层，在此写您具体业务代码🌻
+├─Dilon.Core                    ->框架核心层，后期准备做成NuGet包直接引用即可
+├─Dilon.Database.Migrations     ->架构维护层，主要存放迁移中间文件
+├─Dilon.EntityFramework.Core    ->EF Core配置层，主要配置数据库及相关
+├─Dilon.Web.Core                ->Web核心层，主要是服务注册及鉴权
+├─Dilon.Web.Entry               ->Web入口层/启动层，可任意更换
+注：建议自己的业务代码直接写在【Dilon.Application】层里面，包括实体与服务等，或者单独新建个业务应用工程，进行模块化开发。其他层尽量不要管😛，可随框架升级而升级。
+```
 
 ### 📖 帮助文档
 
@@ -142,7 +161,9 @@
 18. 短信发送、短信发送功能，可使用阿里云sms，腾讯云sms，支持拓展。
 
 
-### 👀 数据库切换
+### 💪 数据库操作
+
+本框架ORM默认采用EF Core开发，加上拓展比如SqlSugar，理论上兼容并支持所有类型数据库。😜
 
 【MySQL】
 
@@ -159,7 +180,7 @@
 4. 打开程序包管理器控制台，默认项目Dilon.Database.Migrations 执行命令:```Add-Migration Init 和 update-database```
 
 ```
-提示：其他类型数据库依次类推，首先添加EF的Core版包，然后指定数据库类型，修改数据库连接字符串，执行EF命令即可。
+提示：其他类型数据库依次类推，首先添加EF的Core版包，然后指定数据库类型，修改数据库连接字符串，执行EF迁移命令即可。
 ```
 
 ### 🥦 补充说明
