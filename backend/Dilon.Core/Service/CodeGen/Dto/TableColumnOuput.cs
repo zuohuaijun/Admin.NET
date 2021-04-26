@@ -14,7 +14,7 @@
         /// 数据库中类型
         /// </summary>
         public string DataType { get; set; }
-        
+
         /// <summary>
         /// .NET字段类型
         /// </summary>

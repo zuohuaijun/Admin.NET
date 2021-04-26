@@ -123,7 +123,6 @@ namespace Dilon.Core.Service
 
     public class QueryMenuInput : DeleteMenuInput
     {
-
     }
 
     public class ChangeAppMenuInput : MenuInput

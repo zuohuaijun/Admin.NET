@@ -78,6 +78,5 @@ namespace Dilon.Core.Service
 
     public class QueryConfigInput : DeleteConfigInput
     {
-
     }
 }

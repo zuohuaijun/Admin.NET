@@ -15,7 +15,6 @@ namespace Dilon.Core.Service
     {
         public MachineService()
         {
-
         }
 
         /// <summary>

@@ -17,6 +17,6 @@ namespace Dilon.Web.Entry
                     webBuilder.Inject()
                               .UseStartup<Startup>()
                               .UseSerilogDefault();
-                });                
+                });
     }
 }

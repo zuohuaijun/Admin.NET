@@ -64,7 +64,6 @@ namespace Dilon.Core
             });
         }
 
-
         /// <summary>
         /// 验证失败返回值
         /// </summary>
@@ -72,7 +71,7 @@ namespace Dilon.Core
         /// <param name="modelStates"></param>
         /// <param name="validationResults"></param>
         /// <param name="validateFailedMessage"></param>
-        /// <returns></returns>    
+        /// <returns></returns>
         public IActionResult OnValidateFailed(ActionExecutingContext context, ModelStateDictionary modelStates, IEnumerable<ValidateFailedModel> validationResults, string validateFailedMessage)
         {
             return new JsonResult(new XnRestfulResult<object>

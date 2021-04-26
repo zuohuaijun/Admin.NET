@@ -24,7 +24,7 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "File", Order = 100)]
     public class SysFileService : ISysFileService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysFile> _sysFileInfoRep;  // 文件信息表仓储 
+        private readonly IRepository<SysFile> _sysFileInfoRep;  // 文件信息表仓储
 
         private readonly IConfiguration _configuration;
 
@@ -181,7 +181,7 @@ namespace Dilon.Core.Service
 
             var fileSizeKb = (long)(file.Length / 1024.0); // 文件大小KB
             var originalFilename = file.FileName; // 文件原始名称
-            var fileSuffix = Path.GetExtension(file.FileName).ToLower(); // 文件后缀  
+            var fileSuffix = Path.GetExtension(file.FileName).ToLower(); // 文件后缀
 
             // 先存库获取Id
             var newFile = await new SysFile
@@ -195,7 +195,7 @@ namespace Dilon.Core.Service
                 FilePath = pathType
             }.InsertNowAsync();
 
-            var finalName = newFile.Entity.Id + fileSuffix; // 生成文件的最终名称            
+            var finalName = newFile.Entity.Id + fileSuffix; // 生成文件的最终名称
             using (var stream = File.Create(Path.Combine(filePath, finalName)))
             {
                 await file.CopyToAsync(stream);
@@ -230,7 +230,7 @@ namespace Dilon.Core.Service
                 FilePath = pathType
             }.InsertNowAsync();
 
-            var finalName = newFile.Entity.Id + fileSuffix; // 生成文件的最终名称   
+            var finalName = newFile.Entity.Id + fileSuffix; // 生成文件的最终名称
             if (fileLocation == FileLocation.LOCAL) // 本地存储
             {
                 var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, pathType);

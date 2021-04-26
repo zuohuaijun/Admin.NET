@@ -121,7 +121,6 @@ namespace Dilon.Core
                 new SysDictData{Id=142307070922862, TypeId=142307070922829, Value="decimal", Code="decimal", Sort=100, Remark="decimal", Status=0 },
                 new SysDictData{Id=142307070922863, TypeId=142307070922829, Value="Guid", Code="Guid", Sort=100, Remark="Guid", Status=0 },
                 new SysDictData{Id=142307070922864, TypeId=142307070922829, Value="DateTimeOffset", Code="DateTimeOffset", Sort=100, Remark="DateTimeOffset", Status=0 },
-
             };
         }
     }

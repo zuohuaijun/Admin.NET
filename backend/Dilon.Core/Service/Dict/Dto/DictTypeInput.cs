@@ -77,6 +77,5 @@ namespace Dilon.Core.Service
 
     public class QueryDictTypeInfoInput : DeleteDictTypeInput
     {
-
     }
 }

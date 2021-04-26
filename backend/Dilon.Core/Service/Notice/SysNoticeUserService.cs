@@ -14,7 +14,7 @@ namespace Dilon.Core.Service.Notice
     /// </summary>
     public class SysNoticeUserService : ISysNoticeUserService, ITransient
     {
-        private readonly IRepository<SysNoticeUser> _sysNoticeUserRep;  // 通知公告用户表仓储 
+        private readonly IRepository<SysNoticeUser> _sysNoticeUserRep;  // 通知公告用户表仓储
 
         public SysNoticeUserService(IRepository<SysNoticeUser> sysNoticeUserRep)
         {

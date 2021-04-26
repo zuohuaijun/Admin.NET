@@ -13,8 +13,10 @@ namespace Dilon.Core
     {
         private static readonly string _accessKeyId = "accessKeyId";
         private static readonly string _accessKeySecret = "accessKeySecret";
+
         //const string endpoint = "oss-cn-huhehaote-internal.aliyuncs.com";
         private static readonly string _internalEndpoint = "internalEndpoint"; //内网传输连接
+
         private const string _endpoint = "oss-cn-beijing.aliyuncs.com"; //"oss-cn-beijing.aliyuncs.com";// "oss-cn-huhehaote-internal.aliyuncs.com";//"oss-cn-huhehaote.aliyuncs.com" ;
         private static readonly string _bucketName = "bucketName";
 
@@ -76,7 +78,7 @@ namespace Dilon.Core
         /// <returns></returns>
         public static int PushMedia(string objectName, string localFilename)
         {
-            if (!File.Exists(localFilename)) return 1;            
+            if (!File.Exists(localFilename)) return 1;
             if (DoesObjectExist(objectName)) return 2; // 存在文件
             try
             {
@@ -99,7 +101,7 @@ namespace Dilon.Core
                     if (c.HttpStatusCode == System.Net.HttpStatusCode.OK) { return 4; } else { return 3; }
                 }
             }
-            catch 
+            catch
             {
                 return 3;
             }

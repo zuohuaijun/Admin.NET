@@ -54,7 +54,7 @@ namespace Dilon.Core.Service
         /// 角色Id
         /// </summary>
         [Required(ErrorMessage = "角色Id不能为空")]
-        public long Id { get; set; } 
+        public long Id { get; set; }
     }
 
     public class UpdateRoleInput : AddRoleInput
@@ -68,7 +68,6 @@ namespace Dilon.Core.Service
 
     public class QueryRoleInput : DeleteRoleInput
     {
-
     }
 
     public class GrantRoleMenuInput : RoleInput
@@ -82,6 +81,5 @@ namespace Dilon.Core.Service
 
     public class GrantRoleDataInput : GrantRoleMenuInput
     {
-
     }
 }

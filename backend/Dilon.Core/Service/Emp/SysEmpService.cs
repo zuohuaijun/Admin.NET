@@ -14,7 +14,7 @@ namespace Dilon.Core.Service
     /// </summary>
     public class SysEmpService : ISysEmpService, ITransient
     {
-        private readonly IRepository<SysEmp> _sysEmpRep;  // 员工表仓储  
+        private readonly IRepository<SysEmp> _sysEmpRep;  // 员工表仓储
 
         private readonly ISysEmpExtOrgPosService _sysEmpExtOrgPosService;
         private readonly ISysEmpPosService _sysEmpPosService;

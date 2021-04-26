@@ -13,7 +13,7 @@ namespace Dilon.Core.Service
     /// </summary>
     public class SysEmpExtOrgPosService : ISysEmpExtOrgPosService, ITransient
     {
-        private readonly IRepository<SysEmpExtOrgPos> _sysEmpExtOrgPosRep;  // 附属机构表仓储 
+        private readonly IRepository<SysEmpExtOrgPos> _sysEmpExtOrgPosRep;  // 附属机构表仓储
 
         public SysEmpExtOrgPosService(IRepository<SysEmpExtOrgPos> sysEmpExtOrgPosRep)
         {

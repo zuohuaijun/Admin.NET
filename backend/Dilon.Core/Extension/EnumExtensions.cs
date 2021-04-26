@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Furion.FriendlyException;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
-using Furion.FriendlyException;
 
 namespace Dilon.Core
 {
@@ -21,7 +21,6 @@ namespace Dilon.Core
 
         // 枚举类型缓存
         private static ConcurrentDictionary<string, Type> _enumTypeDict = null;
-
 
         /// <summary>
         /// 获取枚举对象Key与名称的字典（缓存）

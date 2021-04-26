@@ -19,7 +19,7 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "Org", Order = 148)]
     public class SysOrgService : ISysOrgService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysOrg> _sysOrgRep;  // 组织机构表仓储 
+        private readonly IRepository<SysOrg> _sysOrgRep;  // 组织机构表仓储
         private readonly IUserManager _userManager;
         private readonly ISysCacheService _sysCacheService;
         private readonly ISysEmpService _sysEmpService;
@@ -298,7 +298,7 @@ namespace Dilon.Core.Service
         }
 
         /// <summary>
-        /// 获取组织机构树       
+        /// 获取组织机构树
         /// </summary>
         /// <returns></returns>
         [HttpGet("/sysOrg/tree")]

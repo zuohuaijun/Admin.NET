@@ -69,11 +69,9 @@ namespace Dilon.Core.Service
 
     public class QueryAppInput : DeleteAppInput
     {
-
     }
 
     public class SetDefaultAppInput : DeleteAppInput
     {
-
     }
 }

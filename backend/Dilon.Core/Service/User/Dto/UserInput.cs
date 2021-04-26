@@ -115,7 +115,6 @@ namespace Dilon.Core.Service
 
     public class QueryUserInput : UpdateUserInput
     {
-
     }
 
     public class ChangePasswordUserInput

@@ -141,6 +141,5 @@ namespace Dilon.Core.Service
 
     public class QueryCodeGenInput : DeleteCodeGenInput
     {
-
     }
 }

@@ -24,7 +24,7 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "User", Order = 150)]
     public class SysUserService : ISysUserService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysUser> _sysUserRep;  // 用户表仓储 
+        private readonly IRepository<SysUser> _sysUserRep;  // 用户表仓储
         private readonly IUserManager _userManager;
 
         private readonly ISysCacheService _sysCacheService;
@@ -92,7 +92,7 @@ namespace Dilon.Core.Service
         }
 
         /// <summary>
-        /// 增加用户       
+        /// 增加用户
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -372,7 +372,7 @@ namespace Dilon.Core.Service
         /// 根据用户Id获取用户
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns></returns>       
+        /// <returns></returns>
         [NonAction]
         public async Task<dynamic> GetUserById(long userId)
         {
@@ -404,7 +404,7 @@ namespace Dilon.Core.Service
         /// 获取用户数据范围（机构Id集合）并缓存
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns></returns>       
+        /// <returns></returns>
         [NonAction]
         public async Task<List<long>> GetUserDataScopeIdList(long userId)
         {

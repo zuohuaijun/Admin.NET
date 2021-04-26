@@ -13,7 +13,7 @@ namespace Dilon.Core.Service
     /// </summary>
     public class SysUserRoleService : ISysUserRoleService, ITransient
     {
-        private readonly IRepository<SysUserRole> _sysUserRoleRep;  // 用户权限表仓储 
+        private readonly IRepository<SysUserRole> _sysUserRoleRep;  // 用户权限表仓储
 
         private readonly ISysRoleService _sysRoleService;
 

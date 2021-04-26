@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Mapster;
+﻿using Mapster;
+using System.Collections.Generic;
 
 namespace Dilon.Core
 {

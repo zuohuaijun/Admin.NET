@@ -11,7 +11,7 @@ namespace Dilon.Core
     /// </summary>
     public class UserManager : IUserManager, IScoped
     {
-        private readonly IRepository<SysUser> _sysUserRep; // 用户表仓储   
+        private readonly IRepository<SysUser> _sysUserRep; // 用户表仓储
         private readonly IRepository<SysEmp> _sysEmpRep;   // 员工表
         private readonly IHttpContextAccessor _httpContextAccessor;
 

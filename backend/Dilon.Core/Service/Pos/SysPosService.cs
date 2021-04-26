@@ -17,7 +17,7 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "Pos", Order = 147)]
     public class SysPosService : ISysPosService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysPos> _sysPosRep;  // 职位表仓储   
+        private readonly IRepository<SysPos> _sysPosRep;  // 职位表仓储
 
         private readonly ISysEmpPosService _sysEmpPosService;
         private readonly ISysEmpExtOrgPosService _sysEmpExtOrgPosService;

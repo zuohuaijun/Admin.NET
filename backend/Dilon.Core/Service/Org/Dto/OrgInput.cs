@@ -83,7 +83,6 @@ namespace Dilon.Core.Service
 
     public class QueryOrgInput : DeleteOrgInput
     {
-
     }
 
     public class PageOrgInput : OrgInput

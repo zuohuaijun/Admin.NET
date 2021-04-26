@@ -7,7 +7,7 @@ namespace Dilon.Core.Service.Auth.Dto
     /// 注册输入参数
     /// </summary>
     [SkipScan]
-   public class RegistInput
+    public class RegistInput
     {
         /// <summary>
         /// 用户名

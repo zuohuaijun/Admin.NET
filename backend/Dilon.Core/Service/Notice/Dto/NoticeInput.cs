@@ -87,7 +87,6 @@ namespace Dilon.Core.Service
 
     public class QueryNoticeInput : DeleteNoticeInput
     {
-
     }
 
     public class ChangeStatusNoticeInput : DeleteNoticeInput

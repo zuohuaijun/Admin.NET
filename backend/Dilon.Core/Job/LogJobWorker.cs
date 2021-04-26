@@ -18,6 +18,7 @@ namespace Dilon.Core.Job
     {
         // 日志暂存器，待写入
         private readonly List<SysLogEx> _sysLogExs = new();
+
         private readonly List<SysLogOp> _sysLogOps = new();
         private readonly List<SysLogVis> _sysLogViss = new();
 

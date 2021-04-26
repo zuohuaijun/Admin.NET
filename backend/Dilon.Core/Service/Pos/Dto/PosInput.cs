@@ -48,7 +48,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 名称
         /// </summary>
-        [Required(ErrorMessage ="职位名称不能为空")]
+        [Required(ErrorMessage = "职位名称不能为空")]
         public override string Name { get; set; }
 
         /// <summary>
@@ -78,6 +78,5 @@ namespace Dilon.Core.Service
 
     public class QueryPosInput : DeletePosInput
     {
-
     }
 }

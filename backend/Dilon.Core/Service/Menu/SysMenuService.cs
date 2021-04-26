@@ -19,7 +19,7 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "Menu", Order = 146)]
     public class SysMenuService : ISysMenuService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysMenu> _sysMenuRep;  // 菜单表仓储  
+        private readonly IRepository<SysMenu> _sysMenuRep;  // 菜单表仓储
 
         private readonly IUserManager _userManager;
         private readonly ISysCacheService _sysCacheService;
@@ -163,7 +163,7 @@ namespace Dilon.Core.Service
         }
 
         /// <summary>
-        /// 创建Pids格式 
+        /// 创建Pids格式
         /// 如果pid是0顶级节点，pids就是 [0];
         /// 如果pid不是顶级节点，pids就是 pid菜单的 pids + [pid] + ,
         /// </summary>
@@ -215,7 +215,7 @@ namespace Dilon.Core.Service
                 //permission = ":" + permission;
                 //var urlSet = resourceCache.getAllResources();
                 //if (!urlSet.Contains(permission.Replace(":","/")))
-                //    throw Oops.Oh(ErrorCode.meu1005);                
+                //    throw Oops.Oh(ErrorCode.meu1005);
             }
         }
 

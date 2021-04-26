@@ -18,7 +18,7 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "DictData", Order = 100)]
     public class SysDictDataService : ISysDictDataService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysDictData> _sysDictDataRep;  // 字典类型表仓储 
+        private readonly IRepository<SysDictData> _sysDictDataRep;  // 字典类型表仓储
 
         public SysDictDataService(IRepository<SysDictData> sysDictDataRep)
         {

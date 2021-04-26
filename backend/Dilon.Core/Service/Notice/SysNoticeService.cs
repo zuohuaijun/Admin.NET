@@ -19,8 +19,8 @@ namespace Dilon.Core.Service.Notice
     [ApiDescriptionSettings(Name = "Notice", Order = 100)]
     public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysNotice> _sysNoticeRep;  // 通知公告表仓储 
-        private readonly IRepository<SysNoticeUser> _sysNoticeUserRep;  // 通知公告用户表仓储 
+        private readonly IRepository<SysNotice> _sysNoticeRep;  // 通知公告表仓储
+        private readonly IRepository<SysNoticeUser> _sysNoticeUserRep;  // 通知公告用户表仓储
 
         private readonly IUserManager _userManager;
 
@@ -47,7 +47,7 @@ namespace Dilon.Core.Service.Notice
         {
             var searchValue = !string.IsNullOrEmpty(input.SearchValue?.Trim());
             var notices = await _sysNoticeRep.DetachedEntities
-                                             .Where(searchValue, u => EF.Functions.Like(u.Title, $"%{input.SearchValue.Trim()}%") || 
+                                             .Where(searchValue, u => EF.Functions.Like(u.Title, $"%{input.SearchValue.Trim()}%") ||
                                                                       EF.Functions.Like(u.Content, $"%{input.SearchValue.Trim()}%"))
                                              .Where(input.Type > 0, u => u.Type == input.Type)
                                              .Where(u => u.Status != NoticeStatus.DELETED)

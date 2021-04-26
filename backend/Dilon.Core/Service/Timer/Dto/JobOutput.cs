@@ -18,7 +18,6 @@ namespace Dilon.Core.Service
         /// </summary>
         public long? RunNumber { get; set; }
 
-
         /// <summary>
         /// 定时器状态
         /// </summary>

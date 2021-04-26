@@ -11,6 +11,7 @@ namespace Dilon.Core
         long UserId { get; }
 
         Task<SysUser> CheckUserAsync(long userId, bool tracking = true);
+
         Task<SysEmp> GetUserEmpInfo(long userId);
     }
 }

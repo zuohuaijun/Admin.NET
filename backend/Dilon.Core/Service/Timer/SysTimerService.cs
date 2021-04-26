@@ -24,7 +24,7 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "Timer", Order = 100)]
     public class SysTimerService : ISysTimerService, IDynamicApiController, IScoped
     {
-        private readonly IRepository<SysTimer> _sysTimerRep;  // 任务表仓储 
+        private readonly IRepository<SysTimer> _sysTimerRep;  // 任务表仓储
         private readonly ISysCacheService _cache;
 
         public SysTimerService(IRepository<SysTimer> sysTimerRep, ISysCacheService cache)
@@ -216,12 +216,15 @@ namespace Dilon.Core.Service
                                 case RequestTypeEnum.Get:
                                     await requestUrl.SetHeaders(headers).GetAsync();
                                     break;
+
                                 case RequestTypeEnum.Post:
                                     await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PostAsync();
                                     break;
+
                                 case RequestTypeEnum.Put:
                                     await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PutAsync();
                                     break;
+
                                 case RequestTypeEnum.Delete:
                                     await requestUrl.SetHeaders(headers).DeleteAsync();
                                     break;
@@ -257,6 +260,7 @@ namespace Dilon.Core.Service
                     else
                         SpareTime.Do(input.Interval * 1000, action, input.JobName, input.Remark, input.StartNow, executeType: input.ExecuteType);
                     break;
+
                 case SpareTimeTypes.Cron:
                     SpareTime.Do(input.Cron, action, input.JobName, input.Remark, input.StartNow, executeType: input.ExecuteType);
                     break;

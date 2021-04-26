@@ -222,7 +222,7 @@ namespace Dilon.Core
             {
                 var xOffset = userVCodePos[i].X - rightVCodePos[i].X;
                 var yOffset = userVCodePos[i].Y - rightVCodePos[i].Y;
-                xOffset = Math.Abs(xOffset); // x轴偏移量                
+                xOffset = Math.Abs(xOffset); // x轴偏移量
                 yOffset = Math.Abs(yOffset); // y轴偏移量
                 // 只要有一个点的任意一个轴偏移量大于allowOffset，则验证不通过
                 if (xOffset > allowOffset || yOffset > allowOffset)

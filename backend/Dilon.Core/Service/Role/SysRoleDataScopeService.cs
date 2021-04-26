@@ -13,7 +13,7 @@ namespace Dilon.Core.Service
     /// </summary>
     public class SysRoleDataScopeService : ISysRoleDataScopeService, ITransient
     {
-        private readonly IRepository<SysRoleDataScope> _sysRoleDataScopeRep;  // 角色数据范围表仓储  
+        private readonly IRepository<SysRoleDataScope> _sysRoleDataScopeRep;  // 角色数据范围表仓储
 
         public SysRoleDataScopeService(IRepository<SysRoleDataScope> sysRoleDataScopeRep)
         {

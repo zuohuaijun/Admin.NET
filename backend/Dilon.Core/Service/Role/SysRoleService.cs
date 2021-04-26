@@ -6,7 +6,6 @@ using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,8 +18,8 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "Role", Order = 149)]
     public class SysRoleService : ISysRoleService, IDynamicApiController, ITransient
     {
-        private readonly IRepository<SysRole> _sysRoleRep;  // 角色表仓储 
-        private readonly IRepository<SysUserRole> _sysUserRoleRep;  // 用户角色表仓储 
+        private readonly IRepository<SysRole> _sysRoleRep;  // 角色表仓储
+        private readonly IRepository<SysUserRole> _sysUserRoleRep;  // 用户角色表仓储
 
         private readonly IUserManager _userManager;
         private readonly ISysRoleDataScopeService _sysRoleDataScopeService;

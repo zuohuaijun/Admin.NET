@@ -16,7 +16,6 @@ namespace Dilon.EntityFramework.Core
     {
         public MultiTenantDbContext(DbContextOptions<MultiTenantDbContext> options) : base(options)
         {
-
         }
 
         protected override void SavingChangesEvent(DbContextEventData eventData, InterceptionResult<int> result)

@@ -1,7 +1,5 @@
 ﻿using Furion;
 using Microsoft.Extensions.DependencyInjection;
-using SqlSugar;
-using System.Linq;
 
 namespace Dilon.Application
 {
@@ -18,7 +16,7 @@ namespace Dilon.Application
             //},
             //db =>
             //{
-            //    // db.DbMaintenance.CreateDatabase(); 
+            //    // db.DbMaintenance.CreateDatabase();
             //    // db.CodeFirst.SetStringDefaultLength(200).InitTables(typeof(Test));
 
             //    db.Aop.OnLogExecuting = (sql, pars) =>

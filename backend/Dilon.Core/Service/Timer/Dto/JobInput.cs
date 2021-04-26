@@ -84,11 +84,9 @@ namespace Dilon.Core.Service
 
     public class UpdateJobInput : DeleteJobInput
     {
-
     }
 
     public class QueryJobInput : DeleteJobInput
     {
-
     }
 }

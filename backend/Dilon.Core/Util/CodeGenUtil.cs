@@ -12,7 +12,7 @@ namespace Dilon.Core
         {
             if (string.IsNullOrEmpty(dataType)) return "";
             if (dataType.StartsWith("System.Nullable"))
-                dataType = new Regex(@"(?i)(?<=\[)(.*)(?=\])").Match(dataType).Value; // 中括号[]里面值 
+                dataType = new Regex(@"(?i)(?<=\[)(.*)(?=\])").Match(dataType).Value; // 中括号[]里面值
 
             switch (dataType)
             {

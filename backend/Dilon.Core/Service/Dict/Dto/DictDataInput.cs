@@ -89,6 +89,5 @@ namespace Dilon.Core.Service
 
     public class QueryDictDataInput : DeleteDictDataInput
     {
-
     }
 }

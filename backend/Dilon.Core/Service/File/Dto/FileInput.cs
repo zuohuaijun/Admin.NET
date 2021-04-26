@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Dilon.Core.Service
 {
@@ -60,6 +59,5 @@ namespace Dilon.Core.Service
 
     public class QueryFileInoInput : DeleteFileInfoInput
     {
-
     }
 }

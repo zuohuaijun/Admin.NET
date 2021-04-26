@@ -259,7 +259,7 @@ namespace Dilon.Core
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public class NetworkInfo
     {

@@ -13,7 +13,7 @@ namespace Dilon.Core.Service
     /// </summary>
     public class SysRoleMenuService : ISysRoleMenuService, ITransient
     {
-        private readonly IRepository<SysRoleMenu> _sysRoleMenuRep;  // 角色菜单表仓储   
+        private readonly IRepository<SysRoleMenu> _sysRoleMenuRep;  // 角色菜单表仓储
         private readonly ISysCacheService _sysCacheService;
 
         public SysRoleMenuService(IRepository<SysRoleMenu> sysRoleMenuRep, ISysCacheService sysCacheService)

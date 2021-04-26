@@ -1,7 +1,6 @@
 ﻿using Furion.DependencyInjection;
 using Microsoft.Extensions.Caching.Memory;
 using System;
-using System.ComponentModel.DataAnnotations;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -12,7 +11,7 @@ namespace Dilon.Core
     /// <summary>
     /// 常规验证码
     /// </summary>
-    public class GeneralCaptcha : IGeneralCaptcha, ITransient 
+    public class GeneralCaptcha : IGeneralCaptcha, ITransient
     {
         private readonly IMemoryCache _memoryCache;
 
@@ -34,10 +33,10 @@ namespace Dilon.Core
         private string GenerateRandom(int length)
         {
             var chars = new StringBuilder();
-            // 验证码的字符集，去掉了一些容易混淆的字符 
+            // 验证码的字符集，去掉了一些容易混淆的字符
             char[] character = { '2', '3', '4', '5', '6', '8', '9', 'a', 'b', 'd', 'e', 'f', 'h', 'k', 'm', 'n', 'r', 'x', 'y', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'W', 'X', 'Y' };
             Random rnd = new Random();
-            // 生成验证码字符串 
+            // 生成验证码字符串
             for (int i = 0; i < length; i++)
             {
                 chars.Append(character[rnd.Next(character.Length)]);
@@ -51,9 +50,9 @@ namespace Dilon.Core
             int codeH = 36;
             int fontSize = 22;
 
-            // 颜色列表，用于验证码、噪线、噪点 
+            // 颜色列表，用于验证码、噪线、噪点
             Color[] color = { Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Brown, Color.Brown, Color.DarkBlue };
-            // 字体列表，用于验证码 
+            // 字体列表，用于验证码
             string[] fonts = new[] { "Times New Roman", "Verdana", "Arial", "Gungsuh", "Impact" };
 
             var code = GenerateRandom(length); // 随机字符串集合
@@ -64,7 +63,7 @@ namespace Dilon.Core
             {
                 g.Clear(Color.White);
                 Random rnd = new Random();
-                // 画噪线 
+                // 画噪线
                 for (int i = 0; i < 1; i++)
                 {
                     int x1 = rnd.Next(codeW);
@@ -75,7 +74,7 @@ namespace Dilon.Core
                     g.DrawLine(new Pen(clr), x1, y1, x2, y2);
                 }
 
-                // 画验证码字符串                 
+                // 画验证码字符串
                 string fnt;
                 Font ft;
                 for (int i = 0; i < code.Length; i++)
@@ -125,6 +124,4 @@ namespace Dilon.Core
             return res;
         }
     }
-
-
 }

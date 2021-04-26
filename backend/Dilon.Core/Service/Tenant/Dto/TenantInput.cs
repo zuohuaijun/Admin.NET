@@ -104,6 +104,5 @@ namespace Dilon.Core.Service
 
     public class QueryTenantInput : DeleteTenantInput
     {
-
     }
 }
