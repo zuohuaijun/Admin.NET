@@ -166,7 +166,7 @@
        * 修改状态
        */
       editNoticeStatus (code, record) {
-        sysNoticeChangeStatus({ id: record.id, status: code.toString() }).then(res => {
+        sysNoticeChangeStatus({ id: record.id, status: code }).then(res => {
           if (res.success) {
             this.$message.success('操作成功')
             this.$refs.table.refresh()

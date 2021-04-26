@@ -193,7 +193,7 @@ namespace Dilon.Core
                 new SysMenu{Id=142307070910561, Pid=142307070910560, Pids="[0],[142307070910560],", Name="分析页", Code="system_index_dashboard", Type=MenuType.MENU, Router="analysis", Component="system/dashboard/Analysis", Application="busiapp", OpenType=MenuOpenType.NONE, Visible="Y", Weight=MenuWeight.DEFAULT_WEIGHT, Sort=100, Status=CommonStatus.ENABLE },
                 new SysMenu{Id=142307070910562, Pid=142307070910560, Pids="[0],[142307070910560],", Name="工作台", Code="system_index_workplace", Type=MenuType.MENU, Router="workplace", Component="system/dashboard/Workplace", Application="busiapp", OpenType=MenuOpenType.NONE, Visible="Y", Weight=MenuWeight.DEFAULT_WEIGHT, Sort=100, Status=CommonStatus.ENABLE },
 
-                new SysMenu{Id=142307070922877, Pid=0, Pids="[0],", Name="大屏监控", Code="main_screen_monitor", Type=MenuType.MENU, Icon="desktop", Router="/monitor", Redirect="main/screenMonitor/index", Application="busiapp", OpenType=MenuOpenType.OUTER, Visible="Y", Weight=MenuWeight.DEFAULT_WEIGHT, Sort=100, Status=CommonStatus.ENABLE },
+                new SysMenu{Id=142307070922877, Pid=0, Pids="[0],", Name="大屏监控", Code="main_screen_monitor", Type=MenuType.MENU, Icon="desktop", Router="/monitor", Link="main/screenMonitor/index", Application="busiapp", OpenType=MenuOpenType.OUTER, Visible="Y", Weight=MenuWeight.DEFAULT_WEIGHT, Sort=100, Status=CommonStatus.ENABLE },
 
                 new SysMenu{Id=142307070922878, Pid=0, Pids="[0],", Name="地理信息", Code="main_map", Type=MenuType.MENU, Icon="global", Router="/map", Component="main/map/index", Application="busiapp", OpenType=MenuOpenType.NONE, Visible="Y", Weight=MenuWeight.DEFAULT_WEIGHT, Sort=100, Status=CommonStatus.ENABLE }
             };

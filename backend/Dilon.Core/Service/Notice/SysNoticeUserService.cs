@@ -4,6 +4,7 @@ using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service.Notice
@@ -27,18 +28,15 @@ namespace Dilon.Core.Service.Notice
         /// <param name="noticeUserIdList"></param>
         /// <param name="noticeUserStatus"></param>
         /// <returns></returns>
-        public Task Add(long noticeId, List<long> noticeUserIdList, NoticeUserStatus noticeUserStatus)
+        public async Task Add(long noticeId, List<long> noticeUserIdList, NoticeUserStatus noticeUserStatus)
         {
-            noticeUserIdList.ForEach(u =>
+            var noticeUserList = noticeUserIdList.Select(u => new SysNoticeUser
             {
-                new SysNoticeUser
-                {
-                    NoticeId = noticeId,
-                    UserId = u,
-                    ReadStatus = noticeUserStatus
-                }.InsertAsync();
+                NoticeId = noticeId,
+                UserId = u,
+                ReadStatus = noticeUserStatus
             });
-            return Task.CompletedTask;
+            await _sysNoticeUserRep.InsertAsync(noticeUserList);
         }
 
         /// <summary>

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Dilon.Core
@@ -39,7 +40,7 @@ namespace Dilon.Core
 
         public void Configure(EntityTypeBuilder<SysNoticeUser> entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            entityBuilder.HasNoKey();
+            entityBuilder.HasKey(c => new { c.NoticeId, c.UserId });
         }
     }
 }
