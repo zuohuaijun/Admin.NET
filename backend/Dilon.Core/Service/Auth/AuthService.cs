@@ -3,6 +3,7 @@ using Furion.DatabaseAccessor;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
+using Furion.EventBus;
 using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
@@ -152,10 +153,7 @@ namespace Dilon.Core.Service
                 loginOutput.Menus = await _sysMenuService.GetLoginMenusAntDesign(userId, defaultActiveAppCode);
             }
 
-            // 后台任务写登录日志
-            //SpareTime.DoIt(() =>
-            //{
-            SimpleQueue<SysLogVis>.Add(new SysLogVis
+            MessageCenter.Send("create:vislog", new SysLogVis
             {
                 Name = loginOutput.Name,
                 Success = YesOrNot.Y,
@@ -167,8 +165,6 @@ namespace Dilon.Core.Service
                 VisTime = loginOutput.LastLoginTime,
                 Account = loginOutput.Account
             });
-            //});
-
             return loginOutput;
         }
 
@@ -183,10 +179,7 @@ namespace Dilon.Core.Service
             _httpContextAccessor.SignoutToSwagger();
             //_httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid token";
 
-            // 后台任务写退出日志
-            //SpareTime.DoIt(() =>
-            //{
-            SimpleQueue<SysLogVis>.Add(new SysLogVis
+            MessageCenter.Send("create:vislog", new SysLogVis
             {
                 Name = user.Name,
                 Success = YesOrNot.Y,
@@ -195,7 +188,6 @@ namespace Dilon.Core.Service
                 VisTime = DateTimeOffset.Now,
                 Account = user.Account
             });
-            //});
 
             await Task.CompletedTask;
         }

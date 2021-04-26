@@ -1,5 +1,6 @@
 ﻿using Furion;
 using Furion.DependencyInjection;
+using Furion.EventBus;
 using Furion.FriendlyException;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Serilog;
@@ -16,13 +17,8 @@ namespace Dilon.Core
     {
         public Task OnExceptionAsync(ExceptionContext context)
         {
-            //// 执行后台任务
-            //SpareTime.DoIt(() =>
-            //{
             var userContext = App.User;
-
-            // 写入简单队列
-            SimpleQueue<SysLogEx>.Add(new SysLogEx
+            MessageCenter.Send("create:exlog", new SysLogEx
             {
                 Account = userContext?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT),
                 Name = userContext?.FindFirstValue(ClaimConst.CLAINM_NAME),
@@ -38,7 +34,6 @@ namespace Dilon.Core
 
             // 写日志文件
             Log.Error(context.Exception.ToString());
-            //});
 
             return Task.CompletedTask;
         }

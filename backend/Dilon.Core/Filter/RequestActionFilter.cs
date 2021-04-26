@@ -1,4 +1,5 @@
-﻿using Furion.JsonSerialization;
+﻿using Furion.EventBus;
+using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -34,10 +35,7 @@ namespace Dilon.Core
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
             // _ = Attribute.GetCustomAttribute(actionDescriptor.MethodInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
-            // 执行后台任务及写入简单队列
-            //SpareTime.DoIt(() =>
-            //{
-            SimpleQueue<SysLogOp>.Add(new SysLogOp
+            MessageCenter.Send("create:oplog", new SysLogOp
             {
                 Name = httpContext.User?.FindFirstValue(ClaimConst.CLAINM_NAME),
                 Success = isRequestSucceed ? YesOrNot.Y : YesOrNot.N,
@@ -55,7 +53,6 @@ namespace Dilon.Core
                 OpTime = DateTimeOffset.Now,
                 Account = httpContext.User?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT)
             });
-            //});
         }
     }
 }
