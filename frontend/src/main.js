@@ -14,6 +14,7 @@ import './core/lazy_use'
 import './permission' // permission control
 import './utils/filter' // global filter
 import './components/global.less'
+import socket from './utils/socket'
 import { Dialog } from '@/components'
 import { hasBtnPermission } from './utils/permissions' // button permission
 import { sysApplication } from './utils/applocation'
@@ -33,6 +34,8 @@ Vue.use(Dialog)
 Vue.prototype.hasPerm = hasBtnPermission
 Vue.prototype.applocation = sysApplication
 Vue.config.productionTip = false
+
+Vue.use(socket)
 
 new Vue({
   router,

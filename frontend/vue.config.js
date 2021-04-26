@@ -2,7 +2,7 @@ const path = require('path')
 const webpack = require('webpack')
 const createThemeColorReplacerPlugin = require('./config/plugin.config')
 
-function resolve (dir) {
+function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
@@ -92,6 +92,11 @@ const vueConfig = {
         pathRewrite: {
           '^/api': '' // 需要rewrite的,
         }
+      },
+      '/hubs': {
+        target: process.env.VUE_APP_SOCKET_BASE_URL,
+        ws: true,
+        changeOrigin: true
       }
     }
   },
