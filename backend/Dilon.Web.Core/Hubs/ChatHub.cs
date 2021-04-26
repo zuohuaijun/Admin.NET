@@ -1,39 +1,41 @@
-﻿using System;
+﻿using Dilon.Core;
+using Furion;
+using Furion.DatabaseAccessor.Extensions;
+using Furion.DataEncryption;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Dilon.Core;
-using Furion;
-using Furion.DataEncryption;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Dilon.Web.Core.Hubs
 {
+    /// <summary>
+    /// 聊天集线器
+    /// </summary>
     public class ChatHub : Hub
     {
         public IMemoryCache Cache { get; set; } = App.GetService<IMemoryCache>();
 
         public override async Task OnConnectedAsync()
         {
-            // 获得 token
-            string token = App.HttpContext.Request.Query["access_token"];
-            // 解析 token
+            var token = App.HttpContext.Request.Query["access_token"];
             var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
             var userId = Convert.ToInt64(claims.FirstOrDefault(e => e.Type == ClaimConst.CLAINM_USERID)?.Value);
 
-
-            var users = await Cache.GetOrCreateAsync("online_users", async entry => { return new List<OnlineUser>(); });
-
+            var users = await Cache.GetOrCreateAsync("online_users", async entry =>
+            {
+                return new List<OnlineUser>();
+            });
             if (!string.IsNullOrEmpty(Context.ConnectionId) && userId != 0)
             {
-                users.Add(new OnlineUser()
+                new OnlineUser()
                 {
                     ConnectionId = Context.ConnectionId,
                     UserId = userId,
                     LastTime = DateTime.Now
-                });
+                }.Insert();
             }
         }
 

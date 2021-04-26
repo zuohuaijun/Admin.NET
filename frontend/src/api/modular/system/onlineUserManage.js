@@ -1,4 +1,6 @@
-import { axios } from '@/utils/request'
+import {
+  axios
+} from '@/utils/request'
 
 /**
  * 在线用户列表
