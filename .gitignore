@@ -37,3 +37,5 @@ bin-release/
 
 # lock 文件忽略
 /**/*.lock
+
+/outputs/
