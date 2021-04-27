@@ -93,6 +93,11 @@
 2. Ant Design of Vue 组件文档 [https://www.antdv.com/docs/vue/getting-started-cn/](https://www.antdv.com/docs/vue/getting-started-cn/)
 3. Vue 开发文档 [https://cn.vuejs.org/v2/guide/](https://cn.vuejs.org/v2/guide/)
 
+👉快捷部署到 linux 文档：
+
+- [Admin.NET 快捷部署到 linux 方案 | Wynnyo Blog](http://wynnyo.com/archives/publish-linux)
+- [本地 md文件](./build/readme.md)
+
 😎通读以上文档，您就可以玩转本项目了（其实您已经是高手了）。项目使用上的问题，文档中基本都可以找到答案。
 
 
