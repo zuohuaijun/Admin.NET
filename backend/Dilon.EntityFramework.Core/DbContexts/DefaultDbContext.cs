@@ -55,10 +55,11 @@ namespace Dilon.EntityFramework.Core
             var dbContext = eventData.Context;
             // 获取所有更改，删除，新增的实体，但排除审计实体（避免死循环）
             var entities = dbContext.ChangeTracker.Entries()
-                                    .Where(u => u.Entity.GetType() != typeof(SysLogAudit) && u.Entity.GetType() != typeof(SysLogOp) && u.Entity.GetType() != typeof(SysLogVis) &&
-                                          (u.State == EntityState.Modified || u.State == EntityState.Deleted || u.State == EntityState.Added))
-                                    .ToList();
+                  .Where(u => u.Entity.GetType() != typeof(SysLogAudit) && u.Entity.GetType() != typeof(SysLogOp) &&
+                              u.Entity.GetType() != typeof(SysLogVis) && u.Entity.GetType() != typeof(SysLogEx) &&
+                        (u.State == EntityState.Modified || u.State == EntityState.Deleted || u.State == EntityState.Added)).ToList();
             if (entities == null || entities.Count < 1) return;
+
             // 判断是否是演示环境
             var demoEnvFlag = App.GetService<ISysConfigService>().GetDemoEnvFlag().GetAwaiter().GetResult();
             if (demoEnvFlag)
