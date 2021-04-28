@@ -98,6 +98,10 @@
 - [Admin.NET 快捷部署到 linux 方案 | Wynnyo Blog](http://wynnyo.com/archives/publish-linux)
 - [本地 md文件](./build/readme.md)
 
+👉代码生成器使用教程：
+
+- [本地 md文件](./doc/代码生成器使用.md)
+
 😎通读以上文档，您就可以玩转本项目了（其实您已经是高手了）。项目使用上的问题，文档中基本都可以找到答案。
 
 
