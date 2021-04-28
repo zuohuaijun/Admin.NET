@@ -58,11 +58,44 @@
           doubleClickZoom: true,
           attributionControl: false // 移除右下角leaflet标识
         })
-        this.baseLayer = L.tileLayer(
-          'http://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
-            subdomains: '1234'
-          })
-        this.map.addLayer(this.baseLayer)
+        var mapLayers = {
+          '高德/卫星': L.layerGroup([
+            L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}', {
+              maxZoom: 20,
+              maxNativeZoom: 18,
+              minZoom: 3,
+              attribution: '高德地图 AutoNavi.com',
+              subdomains: '1234'
+            }),
+            L.tileLayer('https://webst0{s}.is.autonavi.com/appmaptile?style=8&x={x}&y={y}&z={z}', {
+              maxZoom: 20,
+              maxNativeZoom: 18,
+              minZoom: 3,
+              attribution: '高德地图 AutoNavi.com',
+              subdomains: '1234',
+              opacity: 0.5
+            })
+          ]).addTo(this.map),
+          '高德/街道': L.tileLayer(
+            'https://webrd0{s}.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}', {
+              maxZoom: 20,
+              maxNativeZoom: 18,
+              minZoom: 3,
+              attribution: '高德地图 AutoNavi.com',
+              subdomains: '1234'
+            }),
+          '智图/街道': L.tileLayer(
+            'https://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}', {
+              maxZoom: 20,
+              maxNativeZoom: 16,
+              minZoom: 3,
+              attribution: '智图 GeoQ.cn'
+            })
+        }
+        L.control.layers(mapLayers, {}, {
+          position: 'topright',
+          collapsed: true
+        }).addTo(this.map)
       },
       initMapPm() {
         this.map.pm.addControls({
@@ -136,7 +169,8 @@
     position: fixed;
   }
 
-  // .ant-layout-content{
-  //   margin: 0;
-  // }
+  .leaflet-right .leaflet-control {
+    position: fixed;
+    right: -5px;
+  }
 </style>
