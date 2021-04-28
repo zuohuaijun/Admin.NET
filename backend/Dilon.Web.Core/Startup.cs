@@ -35,8 +35,8 @@ namespace Dilon.Web.Core
             services.AddSignalR();
             services.AddSimpleEventBus();
 
-            ////default minio
-            ////添加默认对象储存配置信息
+            //// default minio
+            //// 添加默认对象储存配置信息
             //services.AddOSSService(option =>
             //{
             //    option.Provider = OSSProvider.Minio;
@@ -47,8 +47,8 @@ namespace Dilon.Web.Core
             //    option.IsEnableCache = true;
             //});
 
-            //aliyun oss
-            //添加名称为‘aliyunoss’的OSS对象储存配置信息
+            // aliyun oss
+            // 添加名称为‘aliyunoss’的OSS对象储存配置信息
             services.AddOSSService("aliyunoss", option =>
             {
                 option.Provider = OSSProvider.Aliyun;
@@ -58,8 +58,8 @@ namespace Dilon.Web.Core
                 option.IsEnableCache = true;
             });
 
-            ////qcloud oss
-            ////从配置文件中加载节点为‘OSSProvider’的配置信息
+            //// qcloud oss
+            //// 从配置文件中加载节点为‘OSSProvider’的配置信息
             //services.AddOSSService("QCloud", "OSSProvider");
         }
 
