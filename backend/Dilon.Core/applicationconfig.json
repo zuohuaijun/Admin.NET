@@ -68,5 +68,13 @@
       "maxSize": 1048576,
       "contentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif", "image/bmp", "text/plain", "application/pdf", "application/msword", "application/vnd.ms-excel", "application/vnd.openxmlformats-officedocument.presentationml.presentation" ]
     }
+  },
+  "OSSProvider": {
+    "Provider": "QCloud",
+    "Endpoint": "AppId",
+    "Region": "ap-chengdu",
+    "AccessKey": "A****************************z",
+    "SecretKey": "g6I***************la",
+    "IsEnableCache": true
   }
 }

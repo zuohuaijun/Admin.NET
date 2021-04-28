@@ -4,11 +4,13 @@ using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
+using Furion.RemoteRequest.Extensions;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using OnceMi.AspNetCore.OSS;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,10 +30,17 @@ namespace Dilon.Core.Service
 
         private readonly IConfiguration _configuration;
 
-        public SysFileService(IRepository<SysFile> sysFileInfoRep, IConfiguration configuration)
+        private readonly IOSSServiceFactory _oSSServiceFactory;
+
+        private readonly string bucketName = "bucketName";
+
+        public SysFileService(IRepository<SysFile> sysFileInfoRep,
+            IConfiguration configuration,
+            IOSSServiceFactory oSSServiceFactory)
         {
             _sysFileInfoRep = sysFileInfoRep;
             _configuration = configuration;
+            _oSSServiceFactory = oSSServiceFactory;
         }
 
         /// <summary>
@@ -77,9 +86,26 @@ namespace Dilon.Core.Service
             {
                 await file.DeleteAsync();
 
-                var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FilePath, file.FileObjectName);
-                if (File.Exists(filePath))
-                    File.Delete(filePath);
+                switch (file.FileLocation)
+                {
+                    case (int)FileLocation.MINIO:
+                        await _oSSServiceFactory.Create().RemoveObjectAsync(bucketName, Path.Combine(file.FileBucket, file.FileObjectName));
+                        break;
+
+                    case (int)FileLocation.ALIYUN:
+                        await _oSSServiceFactory.Create("Aliyun").RemoveObjectAsync(bucketName, Path.Combine(file.FileBucket, file.FileObjectName));
+                        break;
+
+                    case (int)FileLocation.TENCENT:
+                        await _oSSServiceFactory.Create("QCloud").RemoveObjectAsync(bucketName, Path.Combine(file.FileBucket, file.FileObjectName));
+                        break;
+
+                    default:
+                        var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FilePath, file.FileObjectName);
+                        if (File.Exists(filePath))
+                            File.Delete(filePath);
+                        break;
+                }
             }
         }
 
@@ -131,7 +157,25 @@ namespace Dilon.Core.Service
             var file = await GetFileInfo(input);
             var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FilePath, file.FileObjectName);
             var fileName = HttpUtility.UrlEncode(file.FileOriginName, Encoding.GetEncoding("UTF-8"));
-            return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName };
+
+            switch (file.FileLocation)
+            {
+                case (int)FileLocation.ALIYUN:
+                    var stream1 = await (await _oSSServiceFactory.Create("Aliyun").PresignedGetObjectAsync(bucketName, filePath, 5)).GetAsStreamAsync();
+                    return new FileStreamResult(stream1, "application/octet-stream") { FileDownloadName = fileName };
+
+                case (int)FileLocation.TENCENT:
+                    var stream2 = await (await _oSSServiceFactory.Create("QCloud").PresignedGetObjectAsync(bucketName, filePath, 5)).GetAsStreamAsync();
+                    return new FileStreamResult(stream2, "application/octet-stream") { FileDownloadName = fileName };
+
+                case (int)FileLocation.MINIO:
+                    var stream3 = await (await _oSSServiceFactory.Create().PresignedGetObjectAsync(file.FileBucket, filePath, 5)).GetAsStreamAsync();
+                    return new FileStreamResult(stream3, "application/octet-stream") { FileDownloadName = fileName };
+
+                default:
+                    var path = Path.Combine(App.WebHostEnvironment.WebRootPath, filePath);
+                    return new FileStreamResult(new FileStream(path, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName };
+            }
         }
 
         /// <summary>
@@ -212,7 +256,7 @@ namespace Dilon.Core.Service
         /// <param name="pathType">存储路径</param>
         /// <param name="fileLocation">文件存储位置</param>
         /// <returns></returns>
-        private static async Task<long> UploadFile(IFormFile file, string pathType, FileLocation fileLocation)
+        private async Task<long> UploadFile(IFormFile file, string pathType, FileLocation fileLocation)
         {
             var fileSizeKb = (long)(file.Length / 1024.0); // 文件大小KB
             var originalFilename = file.FileName; // 文件原始名称
@@ -231,23 +275,35 @@ namespace Dilon.Core.Service
             }.InsertNowAsync();
 
             var finalName = newFile.Entity.Id + fileSuffix; // 生成文件的最终名称
-            if (fileLocation == FileLocation.LOCAL) // 本地存储
+            switch (fileLocation)
             {
-                var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, pathType);
-                if (!Directory.Exists(filePath))
-                    Directory.CreateDirectory(filePath);
-                using (var stream = File.Create(Path.Combine(filePath, finalName)))
-                {
-                    await file.CopyToAsync(stream);
-                }
-            }
-            else if (fileLocation == FileLocation.ALIYUN) // 阿里云OSS
-            {
-                var filePath = pathType + finalName;
-                OSSClientUtil.DeletefileCode(filePath);
+                case FileLocation.ALIYUN:
+                    var filePath = Path.Combine(pathType, finalName);
+                    var stream = file.OpenReadStream();
+                    await _oSSServiceFactory.Create("aliyun").PutObjectAsync(bucketName, filePath, stream);
+                    break;
 
-                var stream = file.OpenReadStream();
-                OSSClientUtil.PushMedia(stream, filePath);
+                case FileLocation.TENCENT:
+                    var filePath1 = Path.Combine(pathType, finalName);
+                    var stream1 = file.OpenReadStream();
+                    await _oSSServiceFactory.Create("qcloud").PutObjectAsync(bucketName, filePath1, stream1);
+                    break;
+
+                case FileLocation.MINIO:
+                    var filePath2 = Path.Combine(pathType, finalName);
+                    var stream2 = file.OpenReadStream();
+                    await _oSSServiceFactory.Create().PutObjectAsync(bucketName, filePath2, stream2);
+                    break;
+
+                default:
+                    var filePath4 = Path.Combine(App.WebHostEnvironment.WebRootPath, pathType);
+                    if (!Directory.Exists(filePath4))
+                        Directory.CreateDirectory(filePath4);
+                    using (var stream4 = File.Create(Path.Combine(filePath4, finalName)))
+                    {
+                        await file.CopyToAsync(stream4);
+                    }
+                    break;
             }
             newFile.Entity.FileObjectName = finalName;
             return newFile.Entity.Id; // 返回文件唯一标识

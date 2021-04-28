@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using OnceMi.AspNetCore.OSS;
 using Serilog;
 using System.Text.Json;
 using Yitter.IdGenerator;
@@ -29,9 +30,37 @@ namespace Dilon.Web.Core
                         options.JsonSerializerOptions.Converters.AddDateFormatString("yyyy-MM-dd HH:mm:ss");
                         //options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; // 忽略循环引用 仅.NET 6支持
                     });
+            services.AddRemoteRequest();
             services.AddViewEngine();
             services.AddSignalR();
             services.AddSimpleEventBus();
+
+            ////default minio
+            ////添加默认对象储存配置信息
+            //services.AddOSSService(option =>
+            //{
+            //    option.Provider = OSSProvider.Minio;
+            //    option.Endpoint = "oss.oncemi.com:9000";
+            //    option.AccessKey = "Q*************9";
+            //    option.SecretKey = "A**************************Q";
+            //    option.IsEnableHttps = true;
+            //    option.IsEnableCache = true;
+            //});
+
+            //aliyun oss
+            //添加名称为‘aliyunoss’的OSS对象储存配置信息
+            services.AddOSSService("aliyunoss", option =>
+            {
+                option.Provider = OSSProvider.Aliyun;
+                option.Endpoint = "oss-cn-hangzhou.aliyuncs.com";
+                option.AccessKey = "L*******************U";
+                option.SecretKey = "5*******************************T";
+                option.IsEnableCache = true;
+            });
+
+            ////qcloud oss
+            ////从配置文件中加载节点为‘OSSProvider’的配置信息
+            //services.AddOSSService("QCloud", "OSSProvider");
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
