@@ -3,6 +3,7 @@ using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Dilon.Core.Service
     /// 枚举值服务
     /// </summary>
     [ApiDescriptionSettings(Name = "EnumData", Order = 100)]
+    [AllowAnonymous]
     public class SysEnumDataService : ISysEnumDataService, IDynamicApiController, ITransient
     {
         /// <summary>

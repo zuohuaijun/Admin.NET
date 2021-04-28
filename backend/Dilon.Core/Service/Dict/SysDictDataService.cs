@@ -4,6 +4,7 @@ using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -16,6 +17,7 @@ namespace Dilon.Core.Service
     /// 字典值服务
     /// </summary>
     [ApiDescriptionSettings(Name = "DictData", Order = 100)]
+    [AllowAnonymous]
     public class SysDictDataService : ISysDictDataService, IDynamicApiController, ITransient
     {
         private readonly IRepository<SysDictData> _sysDictDataRep;  // 字典类型表仓储

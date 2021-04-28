@@ -18,6 +18,7 @@ namespace Dilon.Core.Service
     /// 字典类型服务
     /// </summary>
     [ApiDescriptionSettings(Name = "DictType", Order = 100)]
+    [AllowAnonymous]
     public class SysDictTypeService : ISysDictTypeService, IDynamicApiController, ITransient
     {
         private readonly IRepository<SysDictType> _sysDictTypeRep;  // 字典类型表仓储
