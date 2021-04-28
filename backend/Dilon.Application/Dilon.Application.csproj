@@ -21,8 +21,4 @@
     <ProjectReference Include="..\Dilon.Core\Dilon.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Furion.Extras.DatabaseAccessor.SqlSugar" Version="2.0.11" />
-  </ItemGroup>
-
 </Project>

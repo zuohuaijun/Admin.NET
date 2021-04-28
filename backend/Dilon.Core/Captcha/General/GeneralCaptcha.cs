@@ -30,12 +30,12 @@ namespace Dilon.Core
             return Convert.ToBase64String(Draw(length));
         }
 
-        private string GenerateRandom(int length)
+        private static string GenerateRandom(int length)
         {
             var chars = new StringBuilder();
             // 验证码的字符集，去掉了一些容易混淆的字符
             char[] character = { '2', '3', '4', '5', '6', '8', '9', 'a', 'b', 'd', 'e', 'f', 'h', 'k', 'm', 'n', 'r', 'x', 'y', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'L', 'M', 'N', 'P', 'R', 'S', 'T', 'W', 'X', 'Y' };
-            Random rnd = new Random();
+            Random rnd = new();
             // 生成验证码字符串
             for (int i = 0; i < length; i++)
             {

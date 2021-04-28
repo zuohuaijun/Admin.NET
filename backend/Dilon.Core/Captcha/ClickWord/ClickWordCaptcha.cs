@@ -120,7 +120,7 @@ namespace Dilon.Core
         /// <param name="widthAndHeight">图片宽高</param>
         /// <param name="xAndy">相对于图片的绝对尺寸</param>
         /// <returns>(int:xPercent, int:yPercent)</returns>
-        private (int, int) ToPercentPos((int, int) widthAndHeight, (int, int) xAndy)
+        private static (int, int) ToPercentPos((int, int) widthAndHeight, (int, int) xAndy)
         {
             (int, int) rtnResult = (0, 0);
             // 注意: int / int = int (小数部分会被截断)
@@ -136,7 +136,7 @@ namespace Dilon.Core
         /// <param name="path">字体文件路径,包含字体文件名和后缀名</param>
         /// <param name="size">大小</param>
         /// <param name="fontStyle">字形(常规/粗体/斜体/粗斜体)</param>
-        private Font LoadFont(string path, int size, FontStyle fontStyle)
+        private static Font LoadFont(string path, int size, FontStyle fontStyle)
         {
             var pfc = new System.Drawing.Text.PrivateFontCollection();
             pfc.AddFontFile(path);// 字体文件路径
