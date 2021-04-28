@@ -49,6 +49,7 @@
     <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.1.10" />
     <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.1.10" />
     <PackageReference Include="MiniExcel" Version="0.13.4" />
+    <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />
     <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
