@@ -38,21 +38,6 @@
             ],
             [
               '<span style="color:#37a2da;">运城市张阿姨8老人在XXX养老社区购买了xxx服务<span style="font-size:5px;">2019-07-02 17:25:00</span></span>'
-            ],
-            [
-              '<span style="color:#37a2da;">运城市张阿姨8老人在XXX养老社区购买了xxx服务<span style="font-size:5px;">2019-07-02 17:25:00</span></span>'
-            ],
-            [
-              '<span style="color:#37a2da;">运城市张阿姨8老人在XXX养老社区购买了xxx服务<span style="font-size:5px;">2019-07-02 17:25:00</span></span>'
-            ],
-            [
-              '<span style="color:#37a2da;">运城市张阿姨8老人在XXX养老社区购买了xxx服务<span style="font-size:5px;">2019-07-02 17:25:00</span></span>'
-            ],
-            [
-              '<span style="color:#37a2da;">运城市张阿姨8老人在XXX养老社区购买了xxx服务<span style="font-size:5px;">2019-07-02 17:25:00</span></span>'
-            ],
-            [
-              '<span style="color:#37a2da;">运城市张阿姨8老人在XXX养老社区购买了xxx服务<span style="font-size:5px;">2019-07-02 17:25:00</span></span>'
             ]
           ],
           // index: true,

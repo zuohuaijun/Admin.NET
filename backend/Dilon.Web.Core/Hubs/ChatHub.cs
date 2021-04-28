@@ -30,12 +30,12 @@ namespace Dilon.Web.Core.Hubs
             });
             if (!string.IsNullOrEmpty(Context.ConnectionId) && userId != 0)
             {
-                new OnlineUser()
+                users.Add(new OnlineUser()
                 {
                     ConnectionId = Context.ConnectionId,
                     UserId = userId,
                     LastTime = DateTime.Now
-                }.Insert();
+                });
             }
         }
 

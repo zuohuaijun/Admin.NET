@@ -26,15 +26,15 @@ import 'ant-design-vue/dist/antd.less'
 
 import dataV from '@jiaminghi/data-view'
 
+Vue.use(KFormDesign)
+Vue.use(dataV)
+Vue.use(socket)
+
 Vue.use(VueAxios)
 Vue.use(Dialog)
 Vue.prototype.hasPerm = hasBtnPermission
 Vue.prototype.applocation = sysApplication
 Vue.config.productionTip = false
-
-Vue.use(KFormDesign)
-Vue.use(dataV)
-Vue.use(socket)
 
 new Vue({
   router,
