@@ -1,4 +1,4 @@
-﻿namespace Dilon.Core
+namespace Dilon.Core
 {
     public class ClaimConst
     {
@@ -23,7 +23,7 @@
         public const string CLAINM_SUPERADMIN = "SuperAdmin";
 
         /// <summary>
-        /// 是否超级管理
+        /// 租户Id
         /// </summary>
         public const string TENANT_ID = "TenantId";
     }
