@@ -20,7 +20,6 @@ namespace Dilon.Web.Core
             services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
             services.AddCorsAccessor();
             services.AddRemoteRequest();
-            services.AddConfigurableOptions<CacheOptions>();
             services.AddControllersWithViews()
                     .AddMvcFilter<RequestActionFilter>()
                     .AddInjectWithUnifyResult<XnRestfulResultProvider>()
@@ -34,6 +33,15 @@ namespace Dilon.Web.Core
             services.AddViewEngine();
             services.AddSignalR();
             services.AddSimpleEventBus();
+
+            if (App.Configuration["Cache:CacheType"] == "RedisCache")
+            {
+                services.AddStackExchangeRedisCache(options =>
+                {
+                    options.Configuration = App.Configuration["Cache:RedisConnectionString"]; // redis连接配置
+                    options.InstanceName = App.Configuration["Cache:InstanceName"]; // 键名前缀
+                });
+            }
 
             //// default minio
             //// 添加默认对象储存配置信息

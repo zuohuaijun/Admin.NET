@@ -123,12 +123,12 @@ namespace Dilon.Core.Service
         /// <returns></returns>
         private async Task<dynamic> GetConfigCache(string code)
         {
-            var value = await _sysCacheService.GetAsync(code);
+            var value = await _sysCacheService.GetStringAsync(code);
             if (string.IsNullOrEmpty(value))
             {
                 var config = await _sysConfigRep.DetachedEntities.FirstOrDefaultAsync(u => u.Code == code);
                 value = config != null ? config.Value : "";
-                await _sysCacheService.SetAsync(code, value);
+                await _sysCacheService.SetStringAsync(code, value);
             }
             return value;
         }

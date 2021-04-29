@@ -1,10 +1,11 @@
 ﻿using Furion.DependencyInjection;
 using Furion.DynamicApiController;
+using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System;
+using Microsoft.Extensions.Caching.Distributed;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -15,13 +16,11 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "Cache", Order = 100)]
     public class SysCacheService : ISysCacheService, IDynamicApiController, ISingleton
     {
-        private readonly ICache _cache;
-        private readonly CacheOptions _cacheOptions;
+        private readonly IDistributedCache _cache;
 
-        public SysCacheService(IOptions<CacheOptions> cacheOptions, Func<string, ISingleton, object> resolveNamed)
+        public SysCacheService(IDistributedCache cache)
         {
-            _cacheOptions = cacheOptions.Value;
-            _cache = resolveNamed(_cacheOptions.CacheType.ToString(), default) as ICache;
+            _cache = cache;
         }
 
         /// <summary>
@@ -29,10 +28,12 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
+        [NonAction]
         public async Task<List<long>> GetDataScope(long userId)
         {
             var cacheKey = CommonConst.CACHE_KEY_DATASCOPE + $"{userId}";
-            return await _cache.GetAsync<List<long>>(cacheKey);
+            var res = await _cache.GetStringAsync(cacheKey);
+            return string.IsNullOrWhiteSpace(res) ? null : JSON.Deserialize<List<long>>(res);
         }
 
         /// <summary>
@@ -45,7 +46,9 @@ namespace Dilon.Core.Service
         public async Task SetDataScope(long userId, List<long> dataScopes)
         {
             var cacheKey = CommonConst.CACHE_KEY_DATASCOPE + $"{userId}";
-            await _cache.SetAsync(cacheKey, dataScopes);
+            await _cache.SetStringAsync(cacheKey, JSON.Serialize(dataScopes));
+
+            await AddCacheKey(cacheKey);
         }
 
         /// <summary>
@@ -54,10 +57,12 @@ namespace Dilon.Core.Service
         /// <param name="userId"></param>
         /// <param name="appCode"></param>
         /// <returns></returns>
+        [NonAction]
         public async Task<List<AntDesignTreeNode>> GetMenu(long userId, string appCode)
         {
             var cacheKey = CommonConst.CACHE_KEY_MENU + $"{userId}-{appCode}";
-            return await _cache.GetAsync<List<AntDesignTreeNode>>(cacheKey);
+            var res = await _cache.GetStringAsync(cacheKey);
+            return string.IsNullOrWhiteSpace(res) ? null : JSON.Deserialize<List<AntDesignTreeNode>>(res);
         }
 
         /// <summary>
@@ -71,7 +76,9 @@ namespace Dilon.Core.Service
         public async Task SetMenu(long userId, string appCode, List<AntDesignTreeNode> menus)
         {
             var cacheKey = CommonConst.CACHE_KEY_MENU + $"{userId}-{appCode}";
-            await _cache.SetAsync(cacheKey, menus);
+            await _cache.SetStringAsync(cacheKey, JSON.Serialize(menus));
+
+            await AddCacheKey(cacheKey);
         }
 
         /// <summary>
@@ -79,10 +86,12 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
+        [NonAction]
         public async Task<List<string>> GetPermission(long userId)
         {
             var cacheKey = CommonConst.CACHE_KEY_PERMISSION + $"{userId}";
-            return await _cache.GetAsync<List<string>>(cacheKey);
+            var res = await _cache.GetStringAsync(cacheKey);
+            return string.IsNullOrWhiteSpace(res) ? null : JSON.Deserialize<List<string>>(res);
         }
 
         /// <summary>
@@ -95,18 +104,20 @@ namespace Dilon.Core.Service
         public async Task SetPermission(long userId, List<string> permissions)
         {
             var cacheKey = CommonConst.CACHE_KEY_PERMISSION + $"{userId}";
-            await _cache.SetAsync(cacheKey, permissions);
+            await _cache.SetStringAsync(cacheKey, JSON.Serialize(permissions));
+
+            await AddCacheKey(cacheKey);
         }
 
         /// <summary>
         /// 获取所有缓存关键字
         /// </summary>
         /// <returns></returns>
-        public List<string> GetAllCacheKeys()
+        [HttpGet("sysCache/keyList")]
+        public async Task<List<string>> GetAllCacheKeys()
         {
-            var cacheItems = _cache.GetAllKeys();
-            if (cacheItems == null) return new List<string>();
-            return cacheItems.Where(u => !u.ToString().StartsWith("mini-profiler")).Select(u => u).ToList();
+            var res = await _cache.GetStringAsync(CommonConst.CACHE_KEY_ALL);
+            return string.IsNullOrWhiteSpace(res) ? null : JSON.Deserialize<List<string>>(res);
         }
 
         /// <summary>
@@ -114,22 +125,12 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        [NonAction]
-        public bool Del(string key)
+        [HttpGet("sysCache/remove")]
+        public async Task RemoveAsync(string key)
         {
-            _cache.Del(key);
-            return true;
-        }
+            await _cache.RemoveAsync(key);
 
-        /// <summary>
-        /// 删除指定关键字缓存
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public Task<bool> DelAsync(string key)
-        {
-            _cache.DelAsync(key);
-            return Task.FromResult(true);
+            await DelCacheKey(key);
         }
 
         /// <summary>
@@ -137,98 +138,112 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        public Task<bool> DelByPatternAsync(string key)
+        [NonAction]
+        public async Task DelByPatternAsync(string key)
         {
-            _cache.DelByPatternAsync(key);
-            return Task.FromResult(true);
+            var allkeys = await GetAllCacheKeys();
+            var delAllkeys = allkeys.Where(u => u.Contains(key)).ToList();
+
+            // 删除相应的缓存
+            delAllkeys.ForEach(u =>
+            {
+                _cache.Remove(u);
+            });
+
+            // 更新所有缓存键
+            allkeys = allkeys.Where(u => !u.Contains(key)).ToList();
+            await _cache.SetStringAsync(CommonConst.CACHE_KEY_ALL, JSON.Serialize(allkeys));
         }
 
         /// <summary>
         /// 设置缓存
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="cacheKey"></param>
         /// <param name="value"></param>
         /// <returns></returns>
         [NonAction]
-        public bool Set(string key, object value)
+        public async Task SetAsync(string cacheKey, object value)
         {
-            return _cache.Set(key, value);
+            await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JSON.Serialize(value)));
+
+            await AddCacheKey(cacheKey);
         }
 
         /// <summary>
         /// 设置缓存
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="cacheKey"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public async Task<bool> SetAsync(string key, object value)
-        {
-            return await _cache.SetAsync(key, value);
-        }
-
-        /// <summary>
-        /// 获取缓存
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
         [NonAction]
-        public string Get(string key)
+        public async Task SetStringAsync(string cacheKey, string value)
         {
-            return _cache.Get(key);
+            await _cache.SetStringAsync(cacheKey, value);
+
+            await AddCacheKey(cacheKey);
         }
 
         /// <summary>
         /// 获取缓存
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="cacheKey"></param>
         /// <returns></returns>
-        public async Task<string> GetAsync(string key)
+        [HttpGet("sysCache/detail")]
+        public async Task<string> GetStringAsync(string cacheKey)
         {
-            return await _cache.GetAsync(key);
+            return await _cache.GetStringAsync(cacheKey);
         }
 
         /// <summary>
         /// 获取缓存
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
+        /// <param name="cacheKey"></param>
         /// <returns></returns>
         [NonAction]
-        public T Get<T>(string key)
+        public async Task<T> GetAsync<T>(string cacheKey)
         {
-            return _cache.Get<T>(key);
-        }
-
-        /// <summary>
-        /// 获取缓存
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public Task<T> GetAsync<T>(string key)
-        {
-            return _cache.GetAsync<T>(key);
+            var res = await _cache.GetAsync(cacheKey);
+            return res == null ? default : JSON.Deserialize<T>(Encoding.UTF8.GetString(res));
         }
 
         /// <summary>
         /// 检查给定 key 是否存在
         /// </summary>
-        /// <param name="key">键</param>
+        /// <param name="cacheKey">键</param>
         /// <returns></returns>
         [NonAction]
-        public bool Exists(string key)
+        public bool Exists(string cacheKey)
         {
-            return _cache.Exists(key);
+            return _cache.Equals(cacheKey);
         }
 
         /// <summary>
-        /// 检查给定 key 是否存在
+        /// 增加缓存Key
         /// </summary>
-        /// <param name="key">键</param>
+        /// <param name="cacheKey"></param>
         /// <returns></returns>
-        public Task<bool> ExistsAsync(string key)
+        [NonAction]
+        public async Task AddCacheKey(string cacheKey)
         {
-            return _cache.ExistsAsync(key);
+            var res = await _cache.GetStringAsync(CommonConst.CACHE_KEY_ALL);
+            var allkeys = string.IsNullOrWhiteSpace(res) ? new List<string>() : JSON.Deserialize<List<string>>(res);
+            allkeys.Add(cacheKey);
+            await _cache.SetStringAsync(CommonConst.CACHE_KEY_ALL, JSON.Serialize(allkeys));
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cacheKey"></param>
+        /// <returns></returns>
+        [NonAction]
+        public async Task DelCacheKey(string cacheKey)
+        {
+            var res = await _cache.GetStringAsync(CommonConst.CACHE_KEY_ALL);
+            var allkeys = string.IsNullOrWhiteSpace(res) ? new List<string>() : JSON.Deserialize<List<string>>(res);
+            allkeys.Remove(cacheKey);
+            await _cache.SetStringAsync(CommonConst.CACHE_KEY_ALL, JSON.Serialize(allkeys));
         }
     }
 }

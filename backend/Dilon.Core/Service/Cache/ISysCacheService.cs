@@ -5,40 +5,21 @@ namespace Dilon.Core.Service
 {
     public interface ISysCacheService
     {
-        bool Del(string key);
-
-        Task<bool> DelAsync(string key);
-
-        Task<bool> DelByPatternAsync(string key);
-
-        List<string> GetAllCacheKeys();
-
+        Task AddCacheKey(string cacheKey);
+        Task DelByPatternAsync(string key);
+        Task DelCacheKey(string cacheKey);
+        bool Exists(string cacheKey);
+        Task<List<string>> GetAllCacheKeys();
+        Task<T> GetAsync<T>(string cacheKey);
         Task<List<long>> GetDataScope(long userId);
-
         Task<List<AntDesignTreeNode>> GetMenu(long userId, string appCode);
-
         Task<List<string>> GetPermission(long userId);
-
+        Task<string> GetStringAsync(string cacheKey);
+        Task RemoveAsync(string key);
+        Task SetAsync(string cacheKey, object value);
         Task SetDataScope(long userId, List<long> dataScopes);
-
         Task SetMenu(long userId, string appCode, List<AntDesignTreeNode> menus);
-
         Task SetPermission(long userId, List<string> permissions);
-
-        bool Set(string key, object value);
-
-        Task<bool> SetAsync(string key, object value);
-
-        string Get(string key);
-
-        Task<string> GetAsync(string key);
-
-        T Get<T>(string key);
-
-        Task<T> GetAsync<T>(string key);
-
-        bool Exists(string key);
-
-        Task<bool> ExistsAsync(string key);
+        Task SetStringAsync(string cacheKey, string value);
     }
 }

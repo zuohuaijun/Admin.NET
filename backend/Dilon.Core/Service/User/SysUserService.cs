@@ -226,7 +226,7 @@ namespace Dilon.Core.Service
         public async Task GrantUserData(UpdateUserInput input)
         {
             // 清除缓存
-            await _sysCacheService.DelAsync(CommonConst.CACHE_KEY_DATASCOPE + $"{input.Id}");
+            await _sysCacheService.RemoveAsync(CommonConst.CACHE_KEY_DATASCOPE + $"{input.Id}");
 
             // 数据范围检查
             CheckDataScope(input);

@@ -46,7 +46,8 @@
     <PackageReference Include="Furion" Version="2.2.0" />
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.2.0" />
     <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.2.0" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.1.12" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
     <PackageReference Include="MiniExcel" Version="0.13.4" />
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.0.2" />
     <PackageReference Include="System.Drawing.Common" Version="5.0.2" />

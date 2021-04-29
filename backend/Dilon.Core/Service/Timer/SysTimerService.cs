@@ -188,7 +188,7 @@ namespace Dilon.Core.Service
                 case RequestTypeEnum.Run:
                     {
                         // 查询符合条件的任务方法
-                        var taskMethod = GetTaskMethods().Result.FirstOrDefault(m => m.RequestUrl == input.RequestUrl);
+                        var taskMethod = GetTaskMethods()?.Result.FirstOrDefault(m => m.RequestUrl == input.RequestUrl);
                         if (taskMethod == null) break;
 
                         // 创建任务对象
@@ -234,8 +234,7 @@ namespace Dilon.Core.Service
                     }
             }
 
-            if (action == null)
-                throw Oops.Oh($"定时任务委托创建失败！JobName:{input.JobName}");
+            if (action == null) return;
 
             // 缓存任务配置参数，以供任务运行时读取
             if (input.RequestType == RequestTypeEnum.Run)
@@ -246,9 +245,9 @@ namespace Dilon.Core.Service
 
                 // 如果没有任务配置却又存在缓存，则删除缓存
                 if (requestParametersIsNull && jobParameters)
-                    _cache.Del(jobParametersName);
+                    _cache.RemoveAsync(jobParametersName);
                 else if (!requestParametersIsNull)
-                    _cache.Set(jobParametersName, JSON.Deserialize<Dictionary<string, string>>(input.RequestParameters));
+                    _cache.SetAsync(jobParametersName, JSON.Deserialize<Dictionary<string, string>>(input.RequestParameters));
             }
 
             // 创建定时任务
@@ -285,7 +284,7 @@ namespace Dilon.Core.Service
         public async Task<IEnumerable<TaskMethodInfo>> GetTaskMethods()
         {
             // 有缓存就返回缓存
-            var taskMethods = await _cache.GetAsync<IEnumerable<TaskMethodInfo>>("TaskMethodInfos");
+            var taskMethods = await _cache.GetAsync<IEnumerable<TaskMethodInfo>>(CommonConst.CACHE_KEY_TIMER_JOB);
             if (taskMethods != null) return taskMethods;
 
             // 获取所有本地任务方法，必须有spareTimeAttribute特性
@@ -317,7 +316,7 @@ namespace Dilon.Core.Service
                     };
                 }));
 
-            await _cache.SetAsync("TaskMethodInfos", taskMethods);
+            await _cache.SetAsync(CommonConst.CACHE_KEY_TIMER_JOB, taskMethods);
             return taskMethods;
         }
     }

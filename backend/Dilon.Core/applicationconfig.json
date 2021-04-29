@@ -24,7 +24,8 @@
   },
   "Cache": {
     "CacheType": "MemoryCache", // RedisCache
-    "RedisConnectionString": "127.0.0.1:6379,password=,defaultDatabase=2"
+    "RedisConnectionString": "127.0.0.1:6379,password=,defaultDatabase=2",
+    "InstanceName": "dilon_"
   },
   "SnowId": {
     "WorkerId": "1" // 取值范围0~63,默认1
