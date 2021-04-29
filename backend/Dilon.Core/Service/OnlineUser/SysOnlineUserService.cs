@@ -4,6 +4,8 @@ using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -14,27 +16,25 @@ namespace Dilon.Core.Service
     [ApiDescriptionSettings(Name = "OnlineUser", Order = 100)]
     public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController, ITransient
     {
-        private readonly IMemoryCache _memoryCache;
+        private readonly ISysCacheService _sysCacheService;
         private readonly IRepository<SysUser> _sysUerrep;  // 用户表仓储 
 
-        public SysOnlineUserService(IMemoryCache memoryCache, IRepository<SysUser> sysUerrep)
+        public SysOnlineUserService(ISysCacheService sysCacheService, IRepository<SysUser> sysUerrep)
         {
-            _memoryCache = memoryCache;
+            _sysCacheService = sysCacheService;
             _sysUerrep = sysUerrep;
         }
 
         /// <summary>
-        /// 
+        /// 获取在线用户信息
         /// </summary>
         /// <returns></returns>
         [HttpGet("/sysOnlineUser/list")]
         public async Task<dynamic> List()
         {
-            var users = await _memoryCache.GetOrCreateAsync("online_users", async _ =>
-            {
-                return await _sysUerrep.AsQueryable().ToListAsync();
-            });
-            return users;
+            var onlineUsers = await _sysCacheService.GetAsync<List<OnlineUser>>(CommonConst.CACHE_KEY_ONLINE_USER);
+            var ids = onlineUsers.Select(u => u.UserId);
+            return await _sysUerrep.Where(u => ids.Contains(u.Id)).ToListAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Furion;
+﻿using Dilon.Core.Service;
+using Furion;
 using Furion.DataEncryption;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
@@ -14,7 +15,12 @@ namespace Dilon.Core.Hubs
     /// </summary>
     public class ChatHub : Hub
     {
-        public IMemoryCache Cache { get; set; } = App.GetService<IMemoryCache>();
+        private readonly ISysCacheService _cache;
+
+        public ChatHub(ISysCacheService cache)
+        {
+            _cache = cache;
+        }
 
         /// <summary>
         /// 连接
@@ -22,23 +28,19 @@ namespace Dilon.Core.Hubs
         /// <returns></returns>
         public override async Task OnConnectedAsync()
         {
-            var token = App.HttpContext.Request.Query["access_token"];
+            var token = Context.GetHttpContext().Request.Query["access_token"];
             var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
-            var userId = Convert.ToInt64(claims.FirstOrDefault(e => e.Type == ClaimConst.CLAINM_USERID)?.Value);
-
-            var users = await Cache.GetOrCreateAsync("online_users", async entry =>
+            var userId = claims.FirstOrDefault(e => e.Type == ClaimConst.CLAINM_USERID)?.Value;
+            var onlineUsers = await _cache.GetAsync<List<OnlineUser>>(CommonConst.CACHE_KEY_ONLINE_USER);
+            if (onlineUsers == null)
+                onlineUsers = new List<OnlineUser>();
+            onlineUsers.Add(new OnlineUser()
             {
-                return new List<OnlineUser>();
+                ConnectionId = Context.ConnectionId,
+                UserId = long.Parse(userId),
+                LastTime = DateTime.Now
             });
-            if (!string.IsNullOrEmpty(Context.ConnectionId) && userId != 0)
-            {
-                users.Add(new OnlineUser()
-                {
-                    ConnectionId = Context.ConnectionId,
-                    UserId = userId,
-                    LastTime = DateTime.Now
-                });
-            }
+            await _cache.SetAsync(CommonConst.CACHE_KEY_ONLINE_USER, onlineUsers);
         }
 
         /// <summary>
@@ -50,13 +52,17 @@ namespace Dilon.Core.Hubs
         {
             if (!string.IsNullOrEmpty(Context.ConnectionId))
             {
-                var users = await Cache.GetOrCreateAsync("online_users",
-                    async entry => { return new List<OnlineUser>(); });
-
-                var user = users.FirstOrDefault(e => e.ConnectionId == Context.ConnectionId);
-
-                if (user != null)
-                    users.Remove(user);
+                var onlineUsers = await _cache.GetAsync<List<OnlineUser>>(CommonConst.CACHE_KEY_ONLINE_USER);
+                if (onlineUsers == null) return;
+                onlineUsers.ForEach(u =>
+                {
+                    if (u.ConnectionId == Context.ConnectionId)
+                    {
+                        onlineUsers.Remove(u);
+                        return;
+                    }
+                });
+                await _cache.SetAsync(CommonConst.CACHE_KEY_ONLINE_USER, onlineUsers);
             }
         }
     }

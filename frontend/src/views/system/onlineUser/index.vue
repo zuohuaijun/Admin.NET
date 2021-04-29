@@ -40,7 +40,7 @@
         // 表头
         columns: [{
             title: '用户Id',
-            dataIndex: 'userId'
+            dataIndex: 'id'
           },
           {
             title: '账号',
@@ -51,31 +51,24 @@
             dataIndex: 'nickName'
           },
           {
-            title: '最后登录IP',
+            title: '登录IP',
             dataIndex: 'lastLoginIp'
           },
           {
-            title: '最后登录时间',
-            dataIndex: 'lastTime'
-          },
-          {
-            title: '最后登录地址',
-            dataIndex: 'lastLoginAddress',
-            scopedSlots: {
-              customRender: 'lastLoginAddress'
-            }
-          },
-          {
-            title: '最后登录浏览器',
-            dataIndex: 'lastLoginBrowser',
-            scopedSlots: {
-              customRender: 'lastLoginBrowser'
-            }
-          },
-          {
-            title: '最后登录所用系统',
-            dataIndex: 'lastLoginOs'
+            title: '登录时间',
+            dataIndex: 'lastLoginTime'
           }
+          // {
+          //   title: '浏览器',
+          //   dataIndex: 'lastLoginBrowser',
+          //   scopedSlots: {
+          //     customRender: 'lastLoginBrowser'
+          //   }
+          // },
+          // {
+          //   title: '操作系统',
+          //   dataIndex: 'lastLoginOs'
+          // }
         ],
         loading: true,
         loadData: [],

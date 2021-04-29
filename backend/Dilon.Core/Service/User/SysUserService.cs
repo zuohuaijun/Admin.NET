@@ -103,7 +103,7 @@ namespace Dilon.Core.Service
             // 数据范围检查
             CheckDataScope(input);
 
-            var isExist = await _sysUserRep.AnyAsync(u => u.Account == input.Account, false);
+            var isExist = await _sysUserRep.AnyAsync(u => u.Account == input.Account, false, true);
             if (isExist) throw Oops.Oh(ErrorCode.D1003);
 
             var user = input.Adapt<SysUser>();

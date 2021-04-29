@@ -74,7 +74,7 @@ namespace Dilon.Core.Service
             var encryptPasswod = MD5Encryption.Encrypt(input.Password);
 
             // 判断用户名和密码是否正确 忽略全局过滤器
-            var user = _sysUserRep.Where(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod), null, true).FirstOrDefault();
+            var user = _sysUserRep.Where(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod), false, true).FirstOrDefault();
             _ = user ?? throw Oops.Oh(ErrorCode.D1000);
 
             // 验证账号是否被冻结
