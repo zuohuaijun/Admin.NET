@@ -108,7 +108,7 @@
           proxy_pass http://81.70.44.26:8001;
       }
   	
-  	location /huts/ {
+  	location /hubs/ {
           proxy_pass ws://81.70.44.26:8001;
       }
   	
