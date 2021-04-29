@@ -6,7 +6,6 @@ using Furion.DatabaseAccessor;
 using Furion.FriendlyException;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Linq;
@@ -46,12 +45,8 @@ namespace Dilon.EntityFramework.Core
         /// <param name="dbContextLocator"></param>
         public void OnCreating(ModelBuilder modelBuilder, EntityTypeBuilder entityBuilder, DbContext dbContext, Type dbContextLocator)
         {
-            // 配置租户Id以及假删除过滤器
-            LambdaExpression expression = TenantIdAndFakeDeleteQueryFilterExpression(entityBuilder, dbContext);
-            if (expression != null)
-            {
-                entityBuilder.HasQueryFilter(expression);
-            }
+            if (entityBuilder.Metadata.ClrType.BaseType.Name == typeof(DBEntityTenant).Name)
+                entityBuilder.HasQueryFilter(TenantIdQueryFilterExpression(entityBuilder, dbContext));
         }
 
         protected override void SavingChangesEvent(DbContextEventData eventData, InterceptionResult<int> result)
@@ -141,56 +136,6 @@ namespace Dilon.EntityFramework.Core
         protected LambdaExpression FakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string isDeletedKey = null)
         {
             return base.FakeDeleteQueryFilterExpression(entityBuilder, dbContext, isDeletedKey);
-        }
-
-        /// <summary>
-        /// 租户Id以及假删除过滤器
-        /// </summary>
-        /// <param name="entityBuilder"></param>
-        /// <param name="dbContext"></param>
-        /// <param name="isDeletedKey"></param>
-        /// <param name="filterValue"></param>
-        /// <returns></returns>
-        protected LambdaExpression TenantIdAndFakeDeleteQueryFilterExpression(EntityTypeBuilder entityBuilder, DbContext dbContext, string onTableTenantId = null, string isDeletedKey = null, object filterValue = null)
-        {
-            onTableTenantId ??= "TenantId";
-            isDeletedKey ??= "IsDeleted";
-            IMutableEntityType metadata = entityBuilder.Metadata;
-            if (metadata.FindProperty(onTableTenantId) == null || metadata.FindProperty(isDeletedKey) == null)
-            {
-                return null;
-            }
-
-            Expression finialExpression = Expression.Constant(true);
-            ParameterExpression parameterExpression = Expression.Parameter(metadata.ClrType, "u");
-
-            // 租户过滤器
-            if (entityBuilder.Metadata.ClrType.BaseType.Name == typeof(DBEntityTenant).Name)
-            {
-                if (metadata.FindProperty(onTableTenantId) != null)
-                {
-                    ConstantExpression constantExpression = Expression.Constant(onTableTenantId);
-                    MethodCallExpression right = Expression.Call(Expression.Constant(dbContext), dbContext.GetType().GetMethod("GetTenantId"));
-                    finialExpression = Expression.AndAlso(finialExpression, Expression.Equal(Expression.Call(typeof(EF), "Property", new Type[1]
-                    {
-                        typeof(object)
-                    }, parameterExpression, constantExpression), right));
-                }
-            }
-
-            // 假删除过滤器
-            if (metadata.FindProperty(isDeletedKey) != null)
-            {
-                ConstantExpression constantExpression = Expression.Constant(isDeletedKey);
-                ConstantExpression right = Expression.Constant(filterValue ?? false);
-                var fakeDeleteQueryExpression = Expression.Equal(Expression.Call(typeof(EF), "Property", new Type[1]
-                {
-                    typeof(bool)
-                }, parameterExpression, constantExpression), right);
-                finialExpression = Expression.AndAlso(finialExpression, fakeDeleteQueryExpression);
-            }
-
-            return Expression.Lambda(finialExpression, parameterExpression);
         }
     }
 }
