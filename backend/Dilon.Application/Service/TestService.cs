@@ -1,6 +1,10 @@
-﻿using Furion.DependencyInjection;
+﻿using System.Threading.Tasks;
+using Dilon.Core.Hubs;
+using Furion.DependencyInjection;
 using Furion.DynamicApiController;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Dilon.Application
 {
@@ -13,8 +17,11 @@ namespace Dilon.Application
         //private readonly ISqlSugarRepository<Test> _testRep;
         //private readonly SqlSugarClient _db; // SqlSugar对象
 
-        public TestService(/*ISqlSugarRepository<Test> sqlSugarRep*/)
+        private readonly IHubContext<ChatHub> _chatHub;
+
+        public TestService(IHubContext<ChatHub> chatHub /*ISqlSugarRepository<Test> sqlSugarRep*/)
         {
+            _chatHub = chatHub;
             //_testRep = sqlSugarRep;
             //_db = (SqlSugarClient)_testRep.Context;
         }
@@ -66,5 +73,14 @@ namespace Dilon.Application
         //{
         //    return await _db.Queryable<SysUser>().ToListAsync();
         //}
+        
+        /// <summary>
+        /// 发送消息到客户端
+        /// </summary>
+        [AllowAnonymous]
+        public async Task SendMessage()
+        {
+            await _chatHub.Clients.All.SendAsync("ReceiveMessage", "这是一条针对所有客户端的消息");
+        }
     }
 }

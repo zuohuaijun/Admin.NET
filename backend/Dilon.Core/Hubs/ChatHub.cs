@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Dilon.Web.Core.Hubs
+namespace Dilon.Core.Hubs
 {
     /// <summary>
     /// 聊天集线器
@@ -51,16 +51,6 @@ namespace Dilon.Web.Core.Hubs
                 if (user != null)
                     users.Remove(user);
             }
-        }
-
-        public async Task SendMessageToAll(string message)
-        {
-            await Clients.All.SendAsync("ReceiveMessage", message);
-        }
-
-        public async Task SendMessageToCurrent(string message)
-        {
-            await Clients.Caller.SendAsync("ReceiveMessage", message);
         }
     }
 }
