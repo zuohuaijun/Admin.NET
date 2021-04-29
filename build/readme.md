@@ -105,11 +105,16 @@
   
       location /api/ {
       	rewrite ^/api/(.*)$ /$1 break;
-          proxy_pass http://81.70.44.26:8001;
+          proxy_pass http://127.0.0.1:5000;
       }
   	
   	location /hubs/ {
-          proxy_pass ws://81.70.44.26:8001;
+          proxy_pass http://127.0.0.1:5000;
+          proxy_http_version 1.1;
+          proxy_set_header   Upgrade $http_upgrade;
+          proxy_set_header   Connection keep-alive;
+          proxy_set_header   Host $host;
+          proxy_cache_bypass $http_upgrade;
       }
   	
       error_page  404              /404.html;
@@ -120,7 +125,7 @@
       }
   }
   ```
-
+  
 - `nginx -s reload`
 
 ### 执行脚本打包到服务器

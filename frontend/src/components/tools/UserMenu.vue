@@ -111,12 +111,8 @@
     computed: {
       ...mapGetters(['token', 'nickname', 'avatar', 'userInfo'])
     },
-
-    mounted() {
-      this.$socket.init(this.token)
-    },
-    beforeDestroy() {
-      this.$socket.stop()
+    async mounted() {
+      await this.$socket.authenticate(this.token)
     },
     methods: {
       ...mapActions(['Logout', 'MenuChange']),
@@ -170,6 +166,11 @@
       handleCancel() {
         this.form1.resetFields()
         this.visible = false
+      }
+    },
+    sockets: {
+      ReceiveMessage(data) {
+        console.log(data)
       }
     }
   }

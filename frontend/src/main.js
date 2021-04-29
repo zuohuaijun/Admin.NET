@@ -28,7 +28,7 @@ import dataV from '@jiaminghi/data-view'
 
 Vue.use(KFormDesign)
 Vue.use(dataV)
-Vue.use(socket)
+Vue.use(socket, '/hubs/chatHub')
 
 Vue.use(VueAxios)
 Vue.use(Dialog)
