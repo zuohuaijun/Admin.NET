@@ -38,7 +38,7 @@
 
   - 执行完成后, 会在 Dilon.Database.Migrations  项目下生成对应的文件
 
-    ![image-20210429102344986](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429102344986.png)
+    ![image-20210429102344986](http://images.wynnyo.com/Markdown/image-20210429102344986.png?x-oss-process=style/wynnyo-style)
 
   - 这个文件以后是要在这个分支下维护的, 所以我们使用 `git add .` 把他加入到git中
 
@@ -57,15 +57,15 @@
 
   - 这时我们用 `git status -s` 查看下当前操作文件
 
-    ![image-20210429104619672](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429104619672.png)
+    ![image-20210429104619672](http://images.wynnyo.com/Markdown/image-20210429104619672.png?x-oss-process=style/wynnyo-style)
 
   - 然后 commit, `git commit -m '初始化我的分支'`
 
-    ![image-20210429105228967](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429105228967.png)
+    ![image-20210429105228967](http://images.wynnyo.com/Markdown/image-20210429105228967.png?x-oss-process=style/wynnyo-style)
 
   - 最后 push, `git push origin test`
 
-    ![image-20210429105800853](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429105800853.png)
+    ![image-20210429105800853](http://images.wynnyo.com/Markdown/image-20210429105800853.png?x-oss-process=style/wynnyo-style)
 
   - 到这里我们新的分支便完成了, 我们以后可以愉快的玩耍了
 
@@ -121,7 +121,7 @@
   git branch -a
   ```
 
-  ![image-20210429112622432](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429112622432.png)
+  ![image-20210429112622432](http://images.wynnyo.com/Markdown/image-20210429112622432.png?x-oss-process=style/wynnyo-style)
 
 - 在当前分支下, 拉去 upstream 修改, 并推送到自己的 master 分支上
 
@@ -130,7 +130,7 @@
   git push origin master
   ```
 
-  ![image-20210429113257461](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429113257461.png)
+  ![image-20210429113257461](http://images.wynnyo.com/Markdown/image-20210429113257461.png?x-oss-process=style/wynnyo-style)
 
 - 合并 master 分支到 test分支
 
@@ -140,7 +140,7 @@
   git merge master
   ```
 
-  ![image-20210429114232845](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429114232845.png)
+  ![image-20210429114232845](http://images.wynnyo.com/Markdown/image-20210429114232845.png?x-oss-process=style/wynnyo-style)
 
   注: **在合并的时候可能会有冲突, 这个最好用ide合并**(基本每次都有, 以为master 那边没忽略 db)
 
@@ -148,7 +148,7 @@
 
   借助ide解决冲突
 
-  ![image-20210429114309378](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429114309378.png)
+  ![image-20210429114309378](http://images.wynnyo.com/Markdown/image-20210429114309378.png?x-oss-process=style/wynnyo-style)
 
 - 合并完冲突后, 一半数据会有一些变化, 这时, 我们需要做的是更新我们自己的 Db, 如果可以确定没有改 db相关的可以忽略
 
@@ -177,9 +177,9 @@
 
 - 打开自己fork 项目, 点击 Pull Request 按钮
 
-  ![image-20210429120115979](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429120115979.png)
+  ![image-20210429120115979](http://images.wynnyo.com/Markdown/image-20210429120115979.png?x-oss-process=style/wynnyo-style)
 
-  ![image-20210429120426121](C:\Users\wynnyo\AppData\Roaming\Typora\typora-user-images\image-20210429120426121.png)
+  ![image-20210429120426121](http://images.wynnyo.com/Markdown/image-20210429120426121.png?x-oss-process=style/wynnyo-style)
 
 - 点击创建等待审批即可
 - 这时你的 test 分支最好需要等待审批过了再合并你的 master 分支
