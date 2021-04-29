@@ -21,7 +21,7 @@
               <span>切换应用</span>
             </a>
           </a-menu-item>
-          <!--          <a-menu-item key="0">
+          <!--<a-menu-item key="0">
             <router-link :to="{ name: 'center' }">
               <a-icon type="user"/>
               <span>个人中心</span>
@@ -111,6 +111,7 @@
     computed: {
       ...mapGetters(['token', 'nickname', 'avatar', 'userInfo'])
     },
+    // 设置signalr令牌
     async mounted() {
       await this.$socket.authenticate(this.token)
     },
@@ -168,9 +169,15 @@
         this.visible = false
       }
     },
+    // signalr接收的信息
     sockets: {
       ReceiveMessage(data) {
-        console.log(data)
+        this.$notification.info({
+          message: '系统消息',
+          description: data,
+          placement: 'bottomRight',
+          duration: null
+        })
       }
     }
   }

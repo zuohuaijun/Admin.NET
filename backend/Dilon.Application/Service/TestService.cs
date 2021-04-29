@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using Dilon.Core.Hubs;
+﻿using Dilon.Core.Hubs;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Threading.Tasks;
 
 namespace Dilon.Application
 {

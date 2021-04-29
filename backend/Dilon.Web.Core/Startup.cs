@@ -1,4 +1,5 @@
 using Dilon.Core;
+using Dilon.Core.Hubs;
 using Dilon.Core.Service;
 using Furion;
 using Microsoft.AspNetCore.Builder;
@@ -8,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using OnceMi.AspNetCore.OSS;
 using Serilog;
 using System.Text.Json;
-using Dilon.Core.Hubs;
 using Yitter.IdGenerator;
 
 namespace Dilon.Web.Core

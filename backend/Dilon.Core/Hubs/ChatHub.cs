@@ -1,6 +1,4 @@
-﻿using Dilon.Core;
-using Furion;
-using Furion.DatabaseAccessor.Extensions;
+﻿using Furion;
 using Furion.DataEncryption;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
@@ -18,6 +16,10 @@ namespace Dilon.Core.Hubs
     {
         public IMemoryCache Cache { get; set; } = App.GetService<IMemoryCache>();
 
+        /// <summary>
+        /// 连接
+        /// </summary>
+        /// <returns></returns>
         public override async Task OnConnectedAsync()
         {
             var token = App.HttpContext.Request.Query["access_token"];
@@ -39,6 +41,11 @@ namespace Dilon.Core.Hubs
             }
         }
 
+        /// <summary>
+        /// 断开
+        /// </summary>
+        /// <param name="exception"></param>
+        /// <returns></returns>
         public override async Task OnDisconnectedAsync(Exception exception)
         {
             if (!string.IsNullOrEmpty(Context.ConnectionId))
