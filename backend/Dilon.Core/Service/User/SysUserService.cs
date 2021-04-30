@@ -103,7 +103,7 @@ namespace Dilon.Core.Service
             // 数据范围检查
             CheckDataScope(input);
 
-            var isExist = await _sysUserRep.AnyAsync(u => u.Account == input.Account, false, true);
+            var isExist = await _sysUserRep.AnyAsync(u => u.Account == input.Account && !u.IsDeleted, false, true);
             if (isExist) throw Oops.Oh(ErrorCode.D1003);
 
             var user = input.Adapt<SysUser>();
@@ -128,6 +128,9 @@ namespace Dilon.Core.Service
         public async Task DeleteUser(DeleteUserInput input)
         {
             var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == input.Id);
+            if (user == null)
+                throw Oops.Oh(ErrorCode.D1002);
+
             if (user.AdminType == AdminType.SuperAdmin)
                 throw Oops.Oh(ErrorCode.D1014);
 
