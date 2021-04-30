@@ -66,6 +66,15 @@ namespace Dilon.Core.Service
         public long Id { get; set; }
     }
 
+    public class ChangeStateDictTypeInput : DictTypeInput
+    {
+        /// <summary>
+        /// Id
+        /// </summary>
+        [Required(ErrorMessage = "字典类型Id不能为空")]
+        public long Id { get; set; }
+    }
+
     public class DropDownDictTypeInput
     {
         /// <summary>

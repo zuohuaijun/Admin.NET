@@ -42,8 +42,10 @@
         <template slot="operator" v-if="hasPerm('sysDictData:add')" >
           <a-button @click="$refs.addForm.add(typeId)" icon="plus" type="primary" v-if="hasPerm('sysDictData:add')">新增数据</a-button>
         </template>
-        <span slot="status" slot-scope="text">
-          {{ statusFilter(text) }}
+        <span slot="status" slot-scope="text,record">
+          <a-popconfirm placement="top" :title="text===0? '确定停用该字典？':'确定启用该字典？'" @confirm="() => editSysDictDataStatus(text,record)">
+            <a>{{ statusFilter(text) }}</a>
+          </a-popconfirm>
         </span>
         <span slot="action" slot-scope="text, record">
           <a v-if="hasPerm('sysDictData:edit')" @click="$refs.editForm.edit(record)">编辑</a>
@@ -60,7 +62,7 @@
 </template>
 <script>
   import { STable, XCard } from '@/components'
-  import { sysDictDataPage, sysDictDataDelete } from '@/api/modular/system/dictDataManage'
+  import { sysDictDataPage, sysDictDataDelete, sysDictDataChangeStatus } from '@/api/modular/system/dictDataManage'
   import { sysDictTypeDropDown } from '@/api/modular/system/dictManage'
   import addForm from './addForm'
   import editForm from './editForm'
@@ -157,6 +159,28 @@
       handleCancel () {
         this.queryParam = {}
         this.visible = false
+      },
+      editSysDictDataStatus(code, record) {
+        // eslint-disable-next-line no-unused-vars
+        const status = 0
+        // eslint-disable-next-line eqeqeq
+        if (code == 0) {
+          this.status = 1
+          // eslint-disable-next-line eqeqeq
+        } else if (code == 1) {
+          this.status = 0
+        }
+        sysDictDataChangeStatus({
+          id: record.id,
+          status: this.status
+        }).then(res => {
+          if (res.success) {
+            this.$message.success('操作成功')
+            this.$refs.table.refresh()
+          } else {
+            this.$message.error('操作失败：' + res.message)
+          }
+        })
       },
       sysDictDataDelete (record) {
         sysDictDataDelete(record).then((res) => {

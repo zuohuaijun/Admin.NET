@@ -122,7 +122,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysDictData/changeStatus")]
-        public async Task ChangeDictDataStatus(UpdateDictDataInput input)
+        public async Task ChangeDictDataStatus(ChageStateDictDataInput input)
         {
             var dictData = await _sysDictDataRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             if (dictData == null) throw Oops.Oh(ErrorCode.D3004);

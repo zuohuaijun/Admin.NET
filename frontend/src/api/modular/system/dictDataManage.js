@@ -55,3 +55,17 @@ export function sysDictDataDelete (parameter) {
     data: parameter
   })
 }
+
+/**
+ * 修改系统字典状态
+ *
+ * @author xusn
+ * @date 2021-04-30 11:00:16
+ */
+ export function sysDictDataChangeStatus(parameter) {
+  return axios({
+    url: '/sysDictData/changeStatus',
+    method: 'post',
+    data: parameter
+  })
+}

@@ -36,8 +36,10 @@
         <template slot="operator" v-if="hasPerm('sysDictType:add')">
           <a-button @click="$refs.addForm.add()" icon="plus" type="primary" v-if="hasPerm('sysDictType:add')">新增类型</a-button>
         </template>
-        <span slot="status" slot-scope="text">
-          {{ statusFilter(text) }}
+        <span slot="status" slot-scope="text,record">
+          <a-popconfirm placement="top" :title="text===0? '确定停用该字典？':'确定启用该字典？'" @confirm="() => editSysDictTypeStatus(text,record)">
+            <a>{{ statusFilter(text) }}</a>
+          </a-popconfirm>
         </span>
         <span slot="action" slot-scope="text, record">
           <a @click="$refs.dataIndex.index(record)">字典</a>
@@ -67,7 +69,7 @@
 </template>
 <script>
   import { STable, XCard } from '@/components'
-  import { sysDictTypePage, sysDictTypeDelete, sysDictTypeDropDown } from '@/api/modular/system/dictManage'
+  import { sysDictTypePage, sysDictTypeDelete, sysDictTypeDropDown, sysDictTypeChangeStatus } from '@/api/modular/system/dictManage'
   import addForm from './addForm'
   import editForm from './editForm'
   import dataIndex from './dictdata/index'
@@ -143,6 +145,28 @@
       sysDictTypeDropDown () {
         sysDictTypeDropDown({ code: 'common_status' }).then((res) => {
           this.statusDict = res.data
+        })
+      },
+      editSysDictTypeStatus(code, record) {
+        // eslint-disable-next-line no-unused-vars
+        const status = 0
+        // eslint-disable-next-line eqeqeq
+        if (code == 0) {
+          this.status = 1
+          // eslint-disable-next-line eqeqeq
+        } else if (code == 1) {
+          this.status = 0
+        }
+        sysDictTypeChangeStatus({
+          id: record.id,
+          status: this.status
+        }).then(res => {
+          if (res.success) {
+            this.$message.success('操作成功')
+            this.$refs.table.refresh()
+          } else {
+            this.$message.error('操作失败：' + res.message)
+          }
         })
       },
       sysDictTypeDelete (record) {
