@@ -87,6 +87,15 @@ namespace Dilon.Core.Service
         public long Id { get; set; }
     }
 
+    public class ChageStateDictDataInput : DictDataInput
+    {
+        /// <summary>
+        /// 字典值Id
+        /// </summary>
+        [Required(ErrorMessage = "字典值Id不能为空"), DataValidation(ValidationTypes.Numeric)]
+        public long Id { get; set; }
+    }
+
     public class QueryDictDataInput : DeleteDictDataInput
     {
     }

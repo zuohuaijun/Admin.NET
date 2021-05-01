@@ -1,4 +1,6 @@
-import { axios } from '@/utils/request'
+import {
+  axios
+} from '@/utils/request'
 
 /**
  * 查询系统字典值
@@ -6,7 +8,7 @@ import { axios } from '@/utils/request'
  * @author yubaoshan
  * @date 2020/5/17 02:24
  */
-export function sysDictDataPage (parameter) {
+export function sysDictDataPage(parameter) {
   return axios({
     url: '/sysDictData/page',
     method: 'get',
@@ -20,7 +22,7 @@ export function sysDictDataPage (parameter) {
  * @author yubaoshan
  * @date 2020/5/17 02:24
  */
-export function sysDictDataAdd (parameter) {
+export function sysDictDataAdd(parameter) {
   return axios({
     url: '/sysDictData/add',
     method: 'post',
@@ -34,7 +36,7 @@ export function sysDictDataAdd (parameter) {
  * @author yubaoshan
  * @date 2020/5/17 02:25
  */
-export function sysDictDataEdit (parameter) {
+export function sysDictDataEdit(parameter) {
   return axios({
     url: '/sysDictData/edit',
     method: 'post',
@@ -48,9 +50,23 @@ export function sysDictDataEdit (parameter) {
  * @author yubaoshan
  * @date 2020/5/17 02:25
  */
-export function sysDictDataDelete (parameter) {
+export function sysDictDataDelete(parameter) {
   return axios({
     url: '/sysDictData/delete',
+    method: 'post',
+    data: parameter
+  })
+}
+
+/**
+ * 修改系统字典状态
+ *
+ * @author xusn
+ * @date 2021-04-30 11:00:16
+ */
+export function sysDictDataChangeStatus(parameter) {
+  return axios({
+    url: '/sysDictData/changeStatus',
     method: 'post',
     data: parameter
   })

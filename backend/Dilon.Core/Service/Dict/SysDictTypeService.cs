@@ -140,7 +140,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysDictType/changeStatus")]
-        public async Task ChangeDictTypeStatus(UpdateDictTypeInput input)
+        public async Task ChangeDictTypeStatus(ChangeStateDictTypeInput input)
         {
             var dictType = await _sysDictTypeRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             if (dictType == null) throw Oops.Oh(ErrorCode.D3000);
