@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Dilon.Core.Entity;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
@@ -135,6 +136,13 @@ namespace Dilon.Core.Service
         {
             var tenant = await _sysTenantRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             await _sysTenantRep.DeleteAsync(tenant);
+
+            var entities = Db.GetDbContext().Model.GetEntityTypes().Where(u => u.ClrType.BaseType.Name == typeof(DBEntityTenant).Name).ToList();
+            //entities.ForEach(u =>
+            //{
+            //    var a = u.GetType();
+            //    var rep = Db.GetRepository<typeof(u.ClrType.BaseType.Name)>();
+            //});
         }
 
         /// <summary>

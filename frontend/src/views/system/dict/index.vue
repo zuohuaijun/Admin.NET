@@ -5,17 +5,19 @@
         <a-form layout="inline">
           <a-row :gutter="48">
             <a-col :md="8" :sm="24">
-              <a-form-item label="类型名称" >
-                <a-input v-model="queryParam.name" allow-clear placeholder="请输入类型名称"/>
+              <a-form-item label="类型名称">
+                <a-input v-model="queryParam.name" allow-clear placeholder="请输入类型名称" />
               </a-form-item>
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item label="唯一编码" v-if="hasPerm('sysDictType:page')">
-                <a-input v-model="queryParam.code" allow-clear placeholder="请输入唯一编码"/>
+                <a-input v-model="queryParam.code" allow-clear placeholder="请输入唯一编码" />
               </a-form-item>
             </a-col>
             <a-col :md="!advanced && 8 || 24" :sm="24">
-              <span class="table-page-search-submitButtons" :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
+              <span
+                class="table-page-search-submitButtons"
+                :style="advanced && { float: 'right', overflow: 'hidden' } || {} ">
                 <a-button type="primary" @click="$refs.table.refresh(true)">查询</a-button>
                 <a-button style="margin-left: 8px" @click="() => queryParam = {}">重置</a-button>
               </span>
@@ -31,22 +33,26 @@
         :data="loadData"
         :alert="false"
         :rowKey="(record) => record.code"
-        :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }"
-      >
+        :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
         <template slot="operator" v-if="hasPerm('sysDictType:add')">
-          <a-button @click="$refs.addForm.add()" icon="plus" type="primary" v-if="hasPerm('sysDictType:add')">新增类型</a-button>
+          <a-button @click="$refs.addForm.add()" icon="plus" type="primary" v-if="hasPerm('sysDictType:add')">新增类型
+          </a-button>
         </template>
         <span slot="status" slot-scope="text,record">
-          <a-popconfirm placement="top" :title="text===0? '确定停用该字典？':'确定启用该字典？'" @confirm="() => editSysDictTypeStatus(text,record)">
+          <a-popconfirm
+            placement="top"
+            :title="text===0? '确定停用该字典？':'确定启用该字典？'"
+            @confirm="() => editSysDictTypeStatus(text,record)">
             <a>{{ statusFilter(text) }}</a>
           </a-popconfirm>
         </span>
         <span slot="action" slot-scope="text, record">
           <a @click="$refs.dataIndex.index(record)">字典</a>
-          <a-divider type="vertical" v-if="hasPerm('sysDictType:edit') || hasPerm('sysDictType:delete')"/>
+          <a-divider type="vertical" v-if="hasPerm('sysDictType:edit') || hasPerm('sysDictType:delete')" />
           <a-dropdown v-if="hasPerm('sysDictType:edit') || hasPerm('sysDictType:delete')">
             <a class="ant-dropdown-link">
-              更多 <a-icon type="down" />
+              更多
+              <a-icon type="down" />
             </a>
             <a-menu slot="overlay">
               <a-menu-item v-if="hasPerm('sysDictType:edit')">
@@ -68,8 +74,16 @@
   </div>
 </template>
 <script>
-  import { STable, XCard } from '@/components'
-  import { sysDictTypePage, sysDictTypeDelete, sysDictTypeDropDown, sysDictTypeChangeStatus } from '@/api/modular/system/dictManage'
+  import {
+    STable,
+    XCard
+  } from '@/components'
+  import {
+    sysDictTypePage,
+    sysDictTypeDelete,
+    sysDictTypeDropDown,
+    sysDictTypeChangeStatus
+  } from '@/api/modular/system/dictManage'
   import addForm from './addForm'
   import editForm from './editForm'
   import dataIndex from './dictdata/index'
@@ -81,15 +95,14 @@
       editForm,
       dataIndex
     },
-    data () {
+    data() {
       return {
         // 高级搜索 展开/关闭
         advanced: false,
         // 查询参数
         queryParam: {},
         // 表头
-        columns: [
-          {
+        columns: [{
             title: '类型名称',
             dataIndex: 'name'
           },
@@ -109,12 +122,16 @@
           {
             title: '状态',
             dataIndex: 'status',
-            scopedSlots: { customRender: 'status' }
+            scopedSlots: {
+              customRender: 'status'
+            }
           }, {
             title: '操作',
             width: '150px',
             dataIndex: 'action',
-            scopedSlots: { customRender: 'action' }
+            scopedSlots: {
+              customRender: 'action'
+            }
           }
         ],
         // 加载数据方法 必须为 Promise 对象
@@ -128,11 +145,11 @@
         statusDict: []
       }
     },
-    created () {
+    created() {
       this.sysDictTypeDropDown()
     },
     methods: {
-      statusFilter (status) {
+      statusFilter(status) {
         // eslint-disable-next-line eqeqeq
         const values = this.statusDict.filter(item => item.code == status)
         if (values.length > 0) {
@@ -142,8 +159,10 @@
       /**
        * 获取字典数据
        */
-      sysDictTypeDropDown () {
-        sysDictTypeDropDown({ code: 'common_status' }).then((res) => {
+      sysDictTypeDropDown() {
+        sysDictTypeDropDown({
+          code: 'common_status'
+        }).then((res) => {
           this.statusDict = res.data
         })
       },
@@ -169,7 +188,7 @@
           }
         })
       },
-      sysDictTypeDelete (record) {
+      sysDictTypeDelete(record) {
         sysDictTypeDelete(record).then((res) => {
           if (res.success) {
             this.$message.success('删除成功')
@@ -181,13 +200,13 @@
           this.$message.error('删除错误：' + err.message)
         })
       },
-      toggleAdvanced () {
+      toggleAdvanced() {
         this.advanced = !this.advanced
       },
-      handleOk () {
+      handleOk() {
         this.$refs.table.refresh()
       },
-      onSelectChange (selectedRowKeys, selectedRows) {
+      onSelectChange(selectedRowKeys, selectedRows) {
         this.selectedRowKeys = selectedRowKeys
         this.selectedRows = selectedRows
       }
@@ -198,6 +217,7 @@
   .table-operator {
     margin-bottom: 18px;
   }
+
   button {
     margin-right: 8px;
   }
