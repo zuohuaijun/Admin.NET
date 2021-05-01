@@ -8,7 +8,7 @@ namespace Dilon.Core.Service
     {
         Task AddDictType(AddDictTypeInput input);
 
-        Task ChangeDictTypeStatus(UpdateDictTypeInput input);
+        Task ChangeDictTypeStatus(ChangeStateDictTypeInput input);
 
         Task DeleteDictType(DeleteDictTypeInput input);
 

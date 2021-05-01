@@ -7,7 +7,7 @@ namespace Dilon.Core.Service
     {
         Task AddDictData(AddDictDataInput input);
 
-        Task ChangeDictDataStatus(UpdateDictDataInput input);
+        Task ChangeDictDataStatus(ChageStateDictDataInput input);
 
         Task DeleteByTypeId(long dictTypeId);
 

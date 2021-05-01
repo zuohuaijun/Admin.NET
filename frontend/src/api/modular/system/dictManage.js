@@ -1,4 +1,6 @@
-import { axios } from '@/utils/request'
+import {
+  axios
+} from '@/utils/request'
 
 /**
  * 分页查询系统字典类型
@@ -6,7 +8,7 @@ import { axios } from '@/utils/request'
  * @author yubaoshan
  * @date 2020/5/17 01:46
  */
-export function sysDictTypePage (parameter) {
+export function sysDictTypePage(parameter) {
   return axios({
     url: '/sysDictType/page',
     method: 'get',
@@ -20,7 +22,7 @@ export function sysDictTypePage (parameter) {
  * @author yubaoshan
  * @date 2020/5/17 01:46
  */
-export function sysDictTypeAdd (parameter) {
+export function sysDictTypeAdd(parameter) {
   return axios({
     url: '/sysDictType/add',
     method: 'post',
@@ -34,7 +36,7 @@ export function sysDictTypeAdd (parameter) {
  * @author yubaoshan
  * @date 2020/5/17 01:50
  */
-export function sysDictTypeEdit (parameter) {
+export function sysDictTypeEdit(parameter) {
   return axios({
     url: '/sysDictType/edit',
     method: 'post',
@@ -48,7 +50,7 @@ export function sysDictTypeEdit (parameter) {
  * @author yubaoshan
  * @date 2020/5/17 01:50
  */
-export function sysDictTypeDelete (parameter) {
+export function sysDictTypeDelete(parameter) {
   return axios({
     url: '/sysDictType/delete',
     method: 'post',
@@ -62,7 +64,7 @@ export function sysDictTypeDelete (parameter) {
  * @author yubaoshan
  * @date 2020/6/10 00:10
  */
-export function sysDictTypeDropDown (parameter) {
+export function sysDictTypeDropDown(parameter) {
   return axios({
     url: '/sysDictType/dropDown',
     method: 'get',
@@ -76,10 +78,24 @@ export function sysDictTypeDropDown (parameter) {
  * @author yubaoshan
  * @date 2020/6/10 00:10
  */
-export function sysDictTypeTree (parameter) {
+export function sysDictTypeTree(parameter) {
   return axios({
     url: '/sysDictType/tree',
     method: 'get',
     params: parameter
+  })
+}
+
+/**
+ * 修改系统字典状态
+ *
+ * @author xusn
+ * @date 2021-04-30 11:00:16
+ */
+export function sysDictTypeChangeStatus(parameter) {
+  return axios({
+    url: '/sysDictType/changeStatus',
+    method: 'post',
+    data: parameter
   })
 }
