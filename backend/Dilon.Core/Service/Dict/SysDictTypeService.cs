@@ -1,6 +1,4 @@
-﻿using Furion;
-using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
+﻿using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
@@ -24,12 +22,15 @@ namespace Dilon.Core.Service
     {
         private readonly IRepository<SysDictType> _sysDictTypeRep;  // 字典类型表仓储
         private readonly ISysDictDataService _sysDictDataService;
+        private readonly IUserManager _userManager;
 
         public SysDictTypeService(ISysDictDataService sysDictDataService,
-                                  IRepository<SysDictType> sysDictTypeRep)
+                                  IRepository<SysDictType> sysDictTypeRep,
+                                  IUserManager userManager)
         {
             _sysDictDataService = sysDictDataService;
             _sysDictTypeRep = sysDictTypeRep;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -39,9 +40,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysDictType/page")]
         public async Task<dynamic> QueryDictTypePageList([FromQuery] DictTypeInput input)
         {
-            bool supperAdmin = false;
-            var userManager = App.GetService<IUserManager>();
-            if (userManager.SuperAdmin) { supperAdmin = true; }
+            bool supperAdmin = _userManager.SuperAdmin;
             var code = !string.IsNullOrEmpty(input.Code?.Trim());
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var dictTypes = await _sysDictTypeRep.DetachedEntities
@@ -108,9 +107,8 @@ namespace Dilon.Core.Service
             }
             else
             {
-                var userManager = App.GetService<IUserManager>();
-                dictType.UpdatedUserId = userManager.UserId;
-                dictType.UpdatedUserName = userManager.Name;
+                dictType.UpdatedUserId = _userManager.UserId;
+                dictType.UpdatedUserName = _userManager.Name;
                 dictType.UpdatedTime = DateTime.Now;
                 dictType.Status = CommonStatus.DELETED;
                 dictType.IsDeleted = true;
@@ -161,9 +159,8 @@ namespace Dilon.Core.Service
 
             if (!Enum.IsDefined(typeof(CommonStatus), input.Status))
                 throw Oops.Oh(ErrorCode.D3005);
-            var userManager = App.GetService<IUserManager>();
-            dictType.UpdatedUserId = userManager.UserId;
-            dictType.UpdatedUserName = userManager.Name;
+            dictType.UpdatedUserId = _userManager.UserId;
+            dictType.UpdatedUserName = _userManager.Name;
             dictType.UpdatedTime = DateTime.Now;
             dictType.Status = input.Status;
             dictType.IsDeleted = false;
