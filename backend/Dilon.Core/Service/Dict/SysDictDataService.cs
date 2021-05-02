@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Furion;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -35,13 +36,16 @@ namespace Dilon.Core.Service
         [HttpGet("/sysDictData/page")]
         public async Task<dynamic> QueryDictDataPageList([FromQuery] DictDataInput input)
         {
+            bool supperAdmin = false;
+            var userManager = App.GetService<IUserManager>();
+            if (userManager.SuperAdmin) { supperAdmin = true; }
             var code = !string.IsNullOrEmpty(input.Code?.Trim());
             var value = !string.IsNullOrEmpty(input.Value?.Trim());
             var dictDatas = await _sysDictDataRep.DetachedEntities
                                   .Where(u => u.TypeId == input.TypeId)
                                   .Where((code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")),
                                          (value, u => EF.Functions.Like(u.Value, $"%{input.Value.Trim()}%")))
-                                  .Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.Sort)
+                                  .Where(u => (u.Status != CommonStatus.DELETED && !supperAdmin) || (u.Status <= CommonStatus.DELETED && supperAdmin)).OrderBy(u => u.Sort)
                                   .Select(u => u.Adapt<DictDataOutput>())
                                   .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<DictDataOutput>.PageResult(dictDatas);
@@ -82,8 +86,20 @@ namespace Dilon.Core.Service
         {
             var dictData = await _sysDictDataRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             if (dictData == null) throw Oops.Oh(ErrorCode.D3004);
-
-            await dictData.DeleteAsync();
+            if (dictData.Status == CommonStatus.DELETED)
+            {
+                await _sysDictDataRep.DeleteAsync();
+            }
+            else
+            {
+                var userManager = App.GetService<IUserManager>();
+                dictData.UpdatedUserId = userManager.UserId;
+                dictData.UpdatedUserName = userManager.Name;
+                dictData.UpdatedTime = DateTime.Now;
+                dictData.Status = CommonStatus.DELETED;
+                dictData.IsDeleted = true;
+                await _sysDictDataRep.UpdateAsync(dictData);
+            }
         }
 
         /// <summary>
@@ -129,7 +145,13 @@ namespace Dilon.Core.Service
 
             if (!Enum.IsDefined(typeof(CommonStatus), input.Status))
                 throw Oops.Oh(ErrorCode.D3005);
+            var userManager = App.GetService<IUserManager>();
+            dictData.UpdatedUserId = userManager.UserId;
+            dictData.UpdatedUserName = userManager.Name;
+            dictData.UpdatedTime = DateTime.Now;
             dictData.Status = input.Status;
+            dictData.IsDeleted = false;
+            await _sysDictDataRep.UpdateAsync(dictData);
         }
 
         /// <summary>
