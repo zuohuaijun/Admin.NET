@@ -1,4 +1,5 @@
-﻿using Furion.DatabaseAccessor;
+﻿using Furion;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -160,7 +161,13 @@ namespace Dilon.Core.Service
 
             if (!Enum.IsDefined(typeof(CommonStatus), input.Status))
                 throw Oops.Oh(ErrorCode.D3005);
+            var userManager = App.GetService<IUserManager>();
+            dictType.UpdatedUserId = userManager.UserId;
+            dictType.UpdatedUserName = userManager.Name;
+            dictType.UpdatedTime = DateTime.Now;
             dictType.Status = input.Status;
+            dictType.IsDeleted = false;
+            await _sysDictTypeRep.UpdateAsync(dictType);
         }
 
         /// <summary>
