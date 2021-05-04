@@ -35,8 +35,8 @@ namespace Dilon.Core.Service
         private readonly string bucketName = "bucketName";
 
         public SysFileService(IRepository<SysFile> sysFileInfoRep,
-            IConfiguration configuration,
-            IOSSServiceFactory oSSServiceFactory)
+                              IConfiguration configuration,
+                              IOSSServiceFactory oSSServiceFactory)
         {
             _sysFileInfoRep = sysFileInfoRep;
             _configuration = configuration;
