@@ -54,7 +54,7 @@
   import { emailSendEmail, emailSendEmailHtml } from '@/api/modular/system/emailManage'
   import { AntdEditor } from '@/components'
   // eslint-disable-next-line no-unused-vars
-  import { sysFileInfoUpload, sysFileInfoDownload } from '@/api/modular/system/fileManage'
+  import { sysFileInfoUpload, sysFileInfoDownload, sysFileInfoPreview } from '@/api/modular/system/fileManage'
   export default {
     components: {
       AntdEditor
@@ -96,7 +96,13 @@
         })
         sysFileInfoUpload(formData).then((res) => {
           if (res.success) {
-            insert(process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + res.data)
+              sysFileInfoPreview({
+                id: res.data
+              }).then((ress) => {
+                insert(window.URL.createObjectURL(new Blob([ress])))
+              }).catch((ress) => {
+                this.$message.error('上传预览错误：' + ress.message)
+              })
           } else {
             this.$message.error('编辑器上传图片失败：' + res.message)
           }

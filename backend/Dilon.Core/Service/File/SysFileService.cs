@@ -140,10 +140,10 @@ namespace Dilon.Core.Service
         /// <param name="file"></param>
         /// <returns></returns>
         [HttpPost("/sysFileInfo/upload")]
-        public async Task UploadFileDefault(IFormFile file)
+        public async Task<long> UploadFileDefault(IFormFile file)
         {
             // 可以读取系统配置来决定将文件存储到什么地方
-            await UploadFile(file, _configuration["UploadFile:Default:path"], FileLocation.LOCAL);
+            return await UploadFile(file, _configuration["UploadFile:Default:path"], FileLocation.LOCAL);
         }
 
         /// <summary>

@@ -62,7 +62,7 @@
 <script>
   import { sysNoticeAdd } from '@/api/modular/system/noticeManage'
   import { sysDictTypeDropDown } from '@/api/modular/system/dictManage'
-  import { sysFileInfoUpload } from '@/api/modular/system/fileManage'
+  import { sysFileInfoUpload, sysFileInfoPreview } from '@/api/modular/system/fileManage'
   import { AntdEditor } from '@/components'
   import { sysUserSelector } from '@/api/modular/system/userManage'
   export default {
@@ -120,7 +120,13 @@
         })
         sysFileInfoUpload(formData).then((res) => {
           if (res.success) {
-            insert(process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + res.data)
+             sysFileInfoPreview({
+                id: res.data
+              }).then((ress) => {
+                insert(window.URL.createObjectURL(new Blob([ress])))
+              }).catch((ress) => {
+                this.$message.error('上传预览错误：' + ress.message)
+              })
           } else {
             this.$message.error('编辑器上传图片失败：' + res.message)
           }
