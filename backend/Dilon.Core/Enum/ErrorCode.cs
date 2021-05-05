@@ -333,7 +333,7 @@ namespace Dilon.Core
         D1200,
 
         /// <summary>
-        /// 已存在同名或同主机租户
+        /// 已存在同名或同管理员或同主机租户
         /// </summary>
         [ErrorCodeItemMetadata("已存在同名或同主机租户")]
         D1300,

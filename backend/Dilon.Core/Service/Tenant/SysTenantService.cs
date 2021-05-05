@@ -62,7 +62,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysTenant/add")]
         public async Task AddTenant(AddTenantInput input)
         {
-            var isExist = await _sysTenantRep.DetachedEntities.AnyAsync(u => u.Name == input.Name);
+            var isExist = await _sysTenantRep.DetachedEntities.AnyAsync(u => u.Name == input.Name || u.Email == input.Email);
             if (isExist)
                 throw Oops.Oh(ErrorCode.D1300);
 
@@ -153,7 +153,7 @@ namespace Dilon.Core.Service
         [HttpPost("/sysTenant/edit")]
         public async Task UpdateTenant(UpdateTenantInput input)
         {
-            var isExist = await _sysTenantRep.DetachedEntities.AnyAsync(u => (u.Name == input.Name || u.Host == input.Host) && u.Id != input.Id);
+            var isExist = await _sysTenantRep.DetachedEntities.AnyAsync(u => (u.Name == input.Name || u.Email == input.Email) && u.Id != input.Id);
             if (isExist)
                 throw Oops.Oh(ErrorCode.D1300);
 
