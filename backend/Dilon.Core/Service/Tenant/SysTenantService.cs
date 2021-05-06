@@ -6,12 +6,14 @@ using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
+using Furion.LinqBuilder;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -139,15 +141,29 @@ namespace Dilon.Core.Service
             var tenant = await _sysTenantRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             await _sysTenantRep.DeleteAsync(tenant);
 
-            var entities = Db.GetDbContext().Model.GetEntityTypes().Where(u => u.ClrType.BaseType.Name == typeof(DBEntityTenant).Name).ToList();
-            entities.ForEach(u =>
-            {
-                dynamic rep = App.GetService(typeof(IRepository<,>).MakeGenericType(u.ClrType, typeof(MasterDbContextLocator))); // as IPrivateRepository<DBEntityTenant>;
-                //var dtList = rep.DetachedEntities.Where(u => u.TenantId == input.Id).ToListAsync();
-                ////dtList.Foreach(u => {
-                ////    u.Delete();
-                ////});
-            });
+            var users = await Db.GetRepository<SysUser>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            users.ForEach(u => { u.Delete(); });
+
+            var roles = await Db.GetRepository<SysRole>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            roles.ForEach(u => { u.Delete(); });
+
+            var orgs = await Db.GetRepository<SysOrg>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            orgs.ForEach(u => { u.Delete(); });
+
+            var pos = await Db.GetRepository<SysPos>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            pos.ForEach(u => { u.Delete(); });
+
+            //var entities = Db.GetDbContext().Model.GetEntityTypes().Where(u => u.ClrType.BaseType.Name == typeof(DBEntityTenant).Name).ToList();
+            //entities.ForEach(u =>
+            //{
+            //    // dynamic entity = Activator.CreateInstance(u.ClrType);
+            //    dynamic rep = App.GetService(typeof(IRepository<,>).MakeGenericType(u.ClrType, typeof(MasterDbContextLocator)));// as IPrivateRepository<User>;
+            //    //var dtList = rep.DetachedEntities.Where(e => e.TenantId == input.Id).ToList();
+            //    //dtList.ForEach(u =>
+            //    //{
+            //    //    u.Delete();
+            //    //});
+            //});
         }
 
 
