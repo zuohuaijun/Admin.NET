@@ -104,17 +104,12 @@ namespace Dilon.Core.Service
 
             if (dictType.Status == CommonStatus.DELETED)
             {
-                await _sysDictTypeRep.DeleteAsync();
+                await dictType.DeleteAsync();
             }
             else
             {
-                var userManager = App.GetService<IUserManager>();
-                dictType.UpdatedUserId = userManager.UserId;
-                dictType.UpdatedUserName = userManager.Name;
-                dictType.UpdatedTime = DateTime.Now;
                 dictType.Status = CommonStatus.DELETED;
                 dictType.IsDeleted = true;
-                await _sysDictTypeRep.UpdateAsync(dictType);
             }
         }
 
@@ -161,13 +156,8 @@ namespace Dilon.Core.Service
 
             if (!Enum.IsDefined(typeof(CommonStatus), input.Status))
                 throw Oops.Oh(ErrorCode.D3005);
-            var userManager = App.GetService<IUserManager>();
-            dictType.UpdatedUserId = userManager.UserId;
-            dictType.UpdatedUserName = userManager.Name;
-            dictType.UpdatedTime = DateTime.Now;
             dictType.Status = input.Status;
             dictType.IsDeleted = false;
-            await _sysDictTypeRep.UpdateAsync(dictType);
         }
 
         /// <summary>
