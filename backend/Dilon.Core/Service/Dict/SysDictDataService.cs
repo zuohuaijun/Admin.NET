@@ -1,5 +1,4 @@
-﻿using Furion;
-using Furion.DatabaseAccessor;
+﻿using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -22,10 +21,12 @@ namespace Dilon.Core.Service
     public class SysDictDataService : ISysDictDataService, IDynamicApiController, ITransient
     {
         private readonly IRepository<SysDictData> _sysDictDataRep;  // 字典类型表仓储
+        private readonly IUserManager _userManager;
 
-        public SysDictDataService(IRepository<SysDictData> sysDictDataRep)
+        public SysDictDataService(IRepository<SysDictData> sysDictDataRep, IUserManager userManager)
         {
             _sysDictDataRep = sysDictDataRep;
+            _userManager = userManager;
         }
 
         /// <summary>
@@ -36,9 +37,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysDictData/page")]
         public async Task<dynamic> QueryDictDataPageList([FromQuery] DictDataInput input)
         {
-            bool supperAdmin = false;
-            var userManager = App.GetService<IUserManager>();
-            if (userManager.SuperAdmin) { supperAdmin = true; }
+            bool supperAdmin = _userManager.SuperAdmin;
             var code = !string.IsNullOrEmpty(input.Code?.Trim());
             var value = !string.IsNullOrEmpty(input.Value?.Trim());
             var dictDatas = await _sysDictDataRep.DetachedEntities

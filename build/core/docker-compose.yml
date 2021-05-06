@@ -1,0 +1,12 @@
+version: '3.7'
+
+services:
+      
+  dilon.core:
+    image: dilon.core
+    container_name: dilon.core_container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5566:80"

@@ -1,41 +1,24 @@
 <template>
-  <a-modal
-    title="新增通知公告"
-    :width="1000"
-    :footer="null"
-    :visible="visible"
-    @cancel="handleCancel"
-  >
+  <a-modal title="新增通知公告" :width="1000" :footer="null" :visible="visible" @cancel="handleCancel">
     <a-spin :spinning="formLoading">
       <a-form :form="form">
-        <a-form-item
-          label="标题"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-        >
+        <a-form-item label="标题" :labelCol="labelCol" :wrapperCol="wrapperCol">
           <a-input placeholder="请输入标题" v-decorator="['title', {rules: [{required: true, message: '请输入标题！'}]}]" />
         </a-form-item>
-        <a-form-item
-          label="类型"
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-        >
-          <a-radio-group v-decorator="['type',{rules: [{ required: true, message: '请选择类型！' }]}]" >
-            <a-radio-button v-for="(item,index) in typeDictTypeDropDown" :key="index" :value="item.code">{{ item.value }}</a-radio-button>
+        <a-form-item label="类型" :labelCol="labelCol" :wrapperCol="wrapperCol">
+          <a-radio-group v-decorator="['type',{rules: [{ required: true, message: '请选择类型！' }]}]">
+            <a-radio-button v-for="(item,index) in typeDictTypeDropDown" :key="index" :value="item.code">
+              {{ item.value }}</a-radio-button>
           </a-radio-group>
         </a-form-item>
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="内容"
-        >
-          <antd-editor :uploadConfig="editorUploadConfig" v-model="editorContent" @onchange="changeEditor" @oninit="getEditor" />
+        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="内容">
+          <antd-editor
+            :uploadConfig="editorUploadConfig"
+            v-model="editorContent"
+            @onchange="changeEditor"
+            @oninit="getEditor" />
         </a-form-item>
-        <a-form-item
-          :labelCol="labelCol"
-          :wrapperCol="wrapperCol"
-          label="通知到的人"
-        >
+        <a-form-item :labelCol="labelCol" :wrapperCol="wrapperCol" label="通知到的人">
           <a-transfer
             :data-source="mockData"
             show-search
@@ -46,8 +29,7 @@
             :filter-option="filterOption"
             :target-keys="targetKeys"
             :render="item => item.title"
-            @change="handleChange"
-          />
+            @change="handleChange" />
         </a-form-item>
         <a-divider />
         <a-form-item class="subForm-item">
@@ -60,25 +42,44 @@
   </a-modal>
 </template>
 <script>
-  import { sysNoticeAdd } from '@/api/modular/system/noticeManage'
-  import { sysDictTypeDropDown } from '@/api/modular/system/dictManage'
-  import { sysFileInfoUpload } from '@/api/modular/system/fileManage'
-  import { AntdEditor } from '@/components'
-  import { sysUserSelector } from '@/api/modular/system/userManage'
+  import {
+    sysNoticeAdd
+  } from '@/api/modular/system/noticeManage'
+  import {
+    sysDictTypeDropDown
+  } from '@/api/modular/system/dictManage'
+  import {
+    sysFileInfoUpload,
+    sysFileInfoPreview
+  } from '@/api/modular/system/fileManage'
+  import {
+    AntdEditor
+  } from '@/components'
+  import {
+    sysUserSelector
+  } from '@/api/modular/system/userManage'
   export default {
     name: 'AddForm',
     components: {
       AntdEditor
     },
-    data () {
+    data() {
       return {
         labelCol: {
-          xs: { span: 24 },
-          sm: { span: 3 }
+          xs: {
+            span: 24
+          },
+          sm: {
+            span: 3
+          }
         },
         wrapperCol: {
-          xs: { span: 24 },
-          sm: { span: 18 }
+          xs: {
+            span: 24
+          },
+          sm: {
+            span: 18
+          }
         },
         visible: false,
         confirmLoading: false,
@@ -97,30 +98,38 @@
     },
     methods: {
       // 初始化方法
-      add () {
+      add() {
         this.visible = true
-        this.sysDictTypeDropDown()// 先注释
+        this.sysDictTypeDropDown() // 先注释
         this.getMock()
       },
       /**
        * 获取字典数据
        */
-      sysDictTypeDropDown () {
-        sysDictTypeDropDown({ code: 'notice_type' }).then((res) => {
+      sysDictTypeDropDown() {
+        sysDictTypeDropDown({
+          code: 'notice_type'
+        }).then((res) => {
           this.typeDictTypeDropDown = res.data
         })
       },
       /**
        * 编辑器回调上传及回传图片url
        */
-      editorUploadImage (files, insert) {
+      editorUploadImage(files, insert) {
         const formData = new FormData()
         files.forEach(file => {
           formData.append('file', file)
         })
         sysFileInfoUpload(formData).then((res) => {
           if (res.success) {
-            insert(process.env.VUE_APP_API_BASE_URL + '/sysFileInfo/preview?id=' + res.data)
+            sysFileInfoPreview({
+              id: res.data
+            }).then((ress) => {
+              insert(window.URL.createObjectURL(new Blob([ress])))
+            }).catch((ress) => {
+              this.$message.error('上传预览错误：' + ress.message)
+            })
           } else {
             this.$message.error('编辑器上传图片失败：' + res.message)
           }
@@ -128,17 +137,17 @@
           this.$message.error('预览错误：' + err.message)
         })
       },
-      getEditor (editor) {
+      getEditor(editor) {
         this.editor = editor
       },
-      changeEditor (html, ele) {
+      changeEditor(html, ele) {
         this.editorContent = html
         this.editorContentText = ele.text()
       },
       /**
        * 穿梭框
        */
-      getMock () {
+      getMock() {
         const targetKeys = []
         const mockData = []
         sysUserSelector().then((res) => {
@@ -155,14 +164,18 @@
         this.mockData = mockData
         this.targetKeys = targetKeys
       },
-      filterOption (inputValue, option) {
+      filterOption(inputValue, option) {
         return option.description.indexOf(inputValue) > -1
       },
-      handleChange (targetKeys, direction, moveKeys) {
+      handleChange(targetKeys, direction, moveKeys) {
         this.targetKeys = targetKeys
       },
-      handleSubmit (types) {
-        const { form: { validateFields } } = this
+      handleSubmit(types) {
+        const {
+          form: {
+            validateFields
+          }
+        } = this
         // eslint-disable-next-line eqeqeq
         if (this.editorContent == '') {
           this.$message.error('请填写内容')
@@ -172,27 +185,27 @@
           this.$message.error('请选择通知到的人')
           return
         }
-         validateFields((errors, values) => {
-            if (!errors) {
-              this.formLoading = true
-              values.content = this.editorContent
-              values.status = types
-              values.noticeUserIdList = this.targetKeys
-              sysNoticeAdd(values).then((res) => {
-                if (res.success) {
-                  this.$message.success('新增成功')
-                  this.$emit('ok', values)
-                  this.handleCancel()
-                } else {
-                  this.$message.error('新增失败：' + res.message)
-                }
-              }).finally((res) => {
-                this.formLoading = false
-              })
-            }
-          })
+        validateFields((errors, values) => {
+          if (!errors) {
+            this.formLoading = true
+            values.content = this.editorContent
+            values.status = types
+            values.noticeUserIdList = this.targetKeys
+            sysNoticeAdd(values).then((res) => {
+              if (res.success) {
+                this.$message.success('新增成功')
+                this.$emit('ok', values)
+                this.handleCancel()
+              } else {
+                this.$message.error('新增失败：' + res.message)
+              }
+            }).finally((res) => {
+              this.formLoading = false
+            })
+          }
+        })
       },
-      handleCancel () {
+      handleCancel() {
         this.editor.txt.clear()
         this.targetKeys = []
         this.editorContent = ''
@@ -204,10 +217,11 @@
   }
 </script>
 <style>
-  .subButton{
+  .subButton {
     float: right;
   }
-  .subForm-item{
+
+  .subForm-item {
     margin-bottom: 0px;
   }
 </style>

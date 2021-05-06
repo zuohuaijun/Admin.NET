@@ -21,7 +21,7 @@ namespace Dilon.Core.Service
 
         Task<long> UploadFileAvatar(IFormFile file);
 
-        Task UploadFileDefault(IFormFile file);
+        Task<long> UploadFileDefault(IFormFile file);
 
         Task UploadFileDocument(IFormFile file);
 
