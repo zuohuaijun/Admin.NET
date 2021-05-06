@@ -111,7 +111,7 @@ namespace Dilon.EntityFramework.Core
                     var obj = entity.Entity as DEntityBase;
                     if (entity.State == EntityState.Added)
                     {
-                        obj.Id = YitIdHelper.NextId();
+                        obj.Id = obj.Id == 0 ? YitIdHelper.NextId() : obj.Id;
                         obj.CreatedTime = DateTimeOffset.Now;
                         if (!string.IsNullOrEmpty(userId))
                         {
