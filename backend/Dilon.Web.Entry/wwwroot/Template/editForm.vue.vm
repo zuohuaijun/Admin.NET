@@ -59,7 +59,7 @@ if (@column.WhetherRequired == "Y"){
             @:<a-select-option v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
           @:</a-select>
 }else{
-          @:<a-select style="width: 100%" placeholder="请选择@(@column.ColumnComment)">
+          @:<a-select style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName', {rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]">
             @:<a-select-option v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
           @:</a-select>
 }
