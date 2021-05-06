@@ -1,4 +1,5 @@
 ﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
@@ -103,16 +104,12 @@ namespace Dilon.Core.Service
 
             if (dictType.Status == CommonStatus.DELETED)
             {
-                await _sysDictTypeRep.DeleteAsync();
+                await dictType.DeleteAsync();
             }
             else
             {
-                dictType.UpdatedUserId = _userManager.UserId;
-                dictType.UpdatedUserName = _userManager.Name;
-                dictType.UpdatedTime = DateTime.Now;
                 dictType.Status = CommonStatus.DELETED;
                 dictType.IsDeleted = true;
-                await _sysDictTypeRep.UpdateAsync(dictType);
             }
         }
 
@@ -159,12 +156,9 @@ namespace Dilon.Core.Service
 
             if (!Enum.IsDefined(typeof(CommonStatus), input.Status))
                 throw Oops.Oh(ErrorCode.D3005);
-            dictType.UpdatedUserId = _userManager.UserId;
-            dictType.UpdatedUserName = _userManager.Name;
-            dictType.UpdatedTime = DateTime.Now;
+
             dictType.Status = input.Status;
             dictType.IsDeleted = false;
-            await _sysDictTypeRep.UpdateAsync(dictType);
         }
 
         /// <summary>
