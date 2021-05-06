@@ -10,7 +10,7 @@ namespace Dilon.Core
     /// </summary>
     [Table("sys_tenant")]
     [Comment("租户表")]
-    public class SysTenant : DEntityBase, IEntity<MultiTenantDbContextLocator>
+    public class SysTenant : DEntityBase<long, MultiTenantDbContextLocator>
     {
         /// <summary>
         /// 公司名称

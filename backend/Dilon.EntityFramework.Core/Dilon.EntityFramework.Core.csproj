@@ -5,7 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="dbsettings.json" />
     <None Remove="sqlsettings.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="dbsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -14,12 +21,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dilon.Core\Dilon.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="dbsettings.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
