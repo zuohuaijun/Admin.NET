@@ -43,10 +43,10 @@
 
   <ItemGroup>
     <PackageReference Include="CSRedisCore" Version="3.6.6" />
-    <PackageReference Include="Furion" Version="2.2.5" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.2.5" />
-    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.2.5" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.2.5" />
+    <PackageReference Include="Furion" Version="2.3.0" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.3.0" />
+    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.3.0" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
     <PackageReference Include="MiniExcel" Version="0.13.5" />
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.0.2" />

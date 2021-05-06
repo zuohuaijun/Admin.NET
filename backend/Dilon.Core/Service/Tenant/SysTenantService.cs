@@ -1,4 +1,5 @@
 ﻿using Dilon.Core.Entity;
+using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
@@ -8,6 +9,7 @@ using Furion.FriendlyException;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -138,12 +140,16 @@ namespace Dilon.Core.Service
             await _sysTenantRep.DeleteAsync(tenant);
 
             var entities = Db.GetDbContext().Model.GetEntityTypes().Where(u => u.ClrType.BaseType.Name == typeof(DBEntityTenant).Name).ToList();
-            //entities.ForEach(u =>
-            //{
-            //    var a = u.GetType();
-            //    var rep = Db.GetRepository<typeof(u.ClrType.BaseType.Name)>();
-            //});
+            entities.ForEach(u =>
+            {
+                dynamic rep = App.GetService(typeof(IRepository<,>).MakeGenericType(u.ClrType, typeof(MasterDbContextLocator))); // as IPrivateRepository<DBEntityTenant>;
+                //var dtList = rep.DetachedEntities.Where(u => u.TenantId == input.Id).ToListAsync();
+                ////dtList.Foreach(u => {
+                ////    u.Delete();
+                ////});
+            });
         }
+
 
         /// <summary>
         /// 更新租户

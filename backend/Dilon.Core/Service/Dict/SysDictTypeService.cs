@@ -1,4 +1,5 @@
 ﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;

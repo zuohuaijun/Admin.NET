@@ -139,6 +139,7 @@ namespace Dilon.Core.Service
 
             if (!Enum.IsDefined(typeof(CommonStatus), input.Status))
                 throw Oops.Oh(ErrorCode.D3005);
+
             dictData.Status = input.Status;
             dictData.IsDeleted = false;
         }
