@@ -116,7 +116,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D1011);
             var userId = user.Id;
 
-            var httpContext = App.GetService<IHttpContextAccessor>().HttpContext;
+            var httpContext = _httpContextAccessor.HttpContext;
             var loginOutput = user.Adapt<LoginOutput>();
 
             loginOutput.LastLoginTime = user.LastLoginTime = DateTimeOffset.Now;
@@ -175,18 +175,17 @@ namespace Dilon.Core.Service
         [HttpGet("/logout")]
         public async Task LogoutAsync()
         {
-            var user = _userManager.User;
             _httpContextAccessor.SignoutToSwagger();
             //_httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid token";
 
             MessageCenter.Send("create:vislog", new SysLogVis
             {
-                Name = user.Name,
+                Name = _userManager.Name,
                 Success = YesOrNot.Y,
                 Message = "退出成功",
                 VisType = LoginType.LOGOUT,
                 VisTime = DateTimeOffset.Now,
-                Account = user.Account
+                Account = _userManager.Account
             });
 
             await Task.CompletedTask;
