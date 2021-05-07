@@ -54,14 +54,16 @@ namespace Dilon.Core.Hubs
             {
                 var onlineUsers = await _cache.GetAsync<List<OnlineUser>>(CommonConst.CACHE_KEY_ONLINE_USER);
                 if (onlineUsers == null) return;
-                onlineUsers.ForEach(u =>
+
+                for (int i = 0; i < onlineUsers.Count; i++)
                 {
-                    if (u.ConnectionId == Context.ConnectionId)
+                    if (onlineUsers[i].ConnectionId == Context.ConnectionId)
                     {
-                        onlineUsers.Remove(u);
+                        onlineUsers.RemoveAt(i);
                         return;
                     }
-                });
+                }
+
                 await _cache.SetAsync(CommonConst.CACHE_KEY_ONLINE_USER, onlineUsers);
             }
         }
