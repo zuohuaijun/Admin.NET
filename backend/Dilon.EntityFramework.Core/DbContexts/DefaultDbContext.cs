@@ -34,7 +34,7 @@ namespace Dilon.EntityFramework.Core
         public object GetTenantId()
         {
             if (App.User == null) return null;
-            return App.User.FindFirst(ClaimConst.TENANT_ID)?.Value;
+            return Convert.ToInt64( App.User.FindFirst(ClaimConst.TENANT_ID)?.Value);
         }
 
         /// <summary>
