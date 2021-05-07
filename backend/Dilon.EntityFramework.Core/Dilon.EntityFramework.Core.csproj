@@ -18,6 +18,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="5.0.5" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.5.1" />
+    <PackageReference Include="Zack.EFCore.Batch.Sqlite" Version="1.2.6" />
   </ItemGroup>
 
   <ItemGroup>
