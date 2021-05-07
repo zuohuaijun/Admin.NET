@@ -15,7 +15,7 @@ using Yitter.IdGenerator;
 
 namespace Dilon.EntityFramework.Core
 {
-    [AppDbContext("PgSqlConnection", DbProvider.Npgsql)]
+    [AppDbContext("DefaultConnection", DbProvider.Sqlite)]
     public class DefaultDbContext : AppDbContext<DefaultDbContext>, IMultiTenantOnTable, IModelBuilderFilter
     {
         public DefaultDbContext(DbContextOptions<DefaultDbContext> options) : base(options)
