@@ -47,6 +47,7 @@ import { mapActions, mapGetters } from 'vuex'
 import { ALL_APPS_MENU } from '@/store/mutation-types'
 import Vue from 'vue'
 import { message } from 'ant-design-vue/es'
+import Enumerable from 'linq'
 
 export default {
   name: 'GlobalHeader',
@@ -59,7 +60,9 @@ export default {
     ...mapGetters(['userInfo'])
   },
   created () {
-    this.defApp.push(Vue.ls.get(ALL_APPS_MENU)[0].code)
+    // this.defApp.push(Vue.ls.get(ALL_APPS_MENU)[0].code)
+    var defautSelected = Enumerable.from(Vue.ls.get(ALL_APPS_MENU)).firstOrDefault(x => x.active === 'Y')
+    this.defApp.push(defautSelected.code)
   },
   mixins: [mixin],
   props: {
