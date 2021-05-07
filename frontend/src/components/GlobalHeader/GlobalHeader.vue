@@ -8,7 +8,7 @@
         <div v-if="mode === 'sidemenu'" class="header">
 
           <a-menu
-            style="height: 55px"
+            style="height: 55px; border-bottom: 0px;"
             mode="horizontal"
             :default-selected-keys="this.defApp"
           >
