@@ -13,7 +13,7 @@
             :default-selected-keys="this.defApp"
           >
             <a-icon v-if="device==='mobile'" class="trigger" :type="collapsed ? 'menu-fold' : 'menu-unfold'" @click="toggle"/>
-            <a-icon v-else class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggle"/>
+            <a-icon v-else class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="toggle" style="padding-left: 20px; padding-right: 20px;"/>
 
             <a-menu-item v-for="(item) in userInfo.apps" :key="item.code" style="top:0px; line-height: 55px; padding-left: 10px; padding-right: 10px" @click="switchApp(item.code)">
               {{ item.name }}
