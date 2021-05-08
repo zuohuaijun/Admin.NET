@@ -84,7 +84,7 @@ namespace Dilon.Core.Service
         public string Name { get; set; }
     }
 
-    public class CreateUserInput : IXnInputBase
+    public class CreateUserInput
     {
         /// <summary>
         /// 账号
@@ -145,15 +145,6 @@ namespace Dilon.Core.Service
         /// 员工信息
         /// </summary>
         public EmpOutput2 SysEmpParam { get; set; } = new EmpOutput2();
-
-        /// <summary>
-        /// 搜索状态（字典 0正常 1停用 2删除）
-        /// </summary>
-        public CommonStatus SearchStatus { get; set; } = CommonStatus.ENABLE;
-
-        public List<long> GrantMenuIdList { get; set; }
-        public List<long> GrantRoleIdList { get; set; }
-        public List<long> GrantOrgIdList { get; set; }
     }
 
     public class AddUserInput
@@ -225,11 +216,6 @@ namespace Dilon.Core.Service
         /// 员工信息
         /// </summary>
         public EmpOutput2 SysEmpParam { get; set; } = new EmpOutput2();
-
-        /// <summary>
-        /// 搜索状态（字典 0正常 1停用 2删除）
-        /// </summary>
-        public CommonStatus SearchStatus { get; set; } = CommonStatus.ENABLE;
     }
 
     public class CheckUserDataInput

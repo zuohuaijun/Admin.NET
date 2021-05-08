@@ -445,7 +445,7 @@
                 this.$emit('ok', values)
                 this.handleCancel()
               } else {
-                this.$message.error('新增失败：' + res.message)
+                this.$message.error('新增失败：' + JSON.stringify(res.message))
               }
             }).finally((res) => {
               this.confirmLoading = false

@@ -101,7 +101,7 @@
                  this.$emit('ok', this.recordEntity)
                  this.handleCancel()
                } else {
-                 this.$message.error('授权失败：' + res.message)
+                 this.$message.error('授权失败：' + JSON.stringify(res.message))
                }
              }).finally((res) => {
                this.confirmLoading = false

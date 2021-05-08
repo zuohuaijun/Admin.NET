@@ -277,7 +277,7 @@ if (@column.EffectType == "datepicker"){
                 this.$emit('ok', values)
                 this.handleCancel()
               } else {
-                this.$message.error('编辑失败')//  + res.message
+                this.$message.error('编辑失败：' + JSON.stringify(res.message))
               }
             }).finally((res) => {
               this.confirmLoading = false
