@@ -39,7 +39,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [UnitOfWork]
-        public async Task GrantRole(UpdateUserInput input)
+        public async Task GrantRole(UpdateUserRoleDataInput input)
         {
             var userRoles = await _sysUserRoleRep.Where(u => u.SysUserId == input.Id).ToListAsync();
             userRoles.ForEach(u =>

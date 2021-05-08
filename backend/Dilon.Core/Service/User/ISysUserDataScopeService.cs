@@ -11,6 +11,6 @@ namespace Dilon.Core.Service
 
         Task<List<long>> GetUserDataScopeIdList(long userId);
 
-        Task GrantData(UpdateUserInput input);
+        Task GrantData(UpdateUserRoleDataInput input);
     }
 }

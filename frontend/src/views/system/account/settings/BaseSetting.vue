@@ -150,7 +150,7 @@
                 this.$message.success('个人信息更新成功')
                 store.dispatch('GetInfo').then(() => {})
               } else {
-                this.$message.error(res.message)
+                this.$message.error(JSON.stringify(res.message))
               }
             })
           }

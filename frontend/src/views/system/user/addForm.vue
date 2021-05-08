@@ -121,7 +121,7 @@
               :wrapperCol="wrapperCol"
               has-feedback
             >
-              <a-input placeholder="请输入邮箱" v-decorator="['email']" />
+              <a-input placeholder="请输入邮箱" v-decorator="['email',{rules: [{ required: true, message: '请输入电子邮箱！' }]}]" />
             </a-form-item>
           </a-form>
         </a-col>

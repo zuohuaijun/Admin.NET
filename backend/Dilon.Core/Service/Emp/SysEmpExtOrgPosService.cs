@@ -30,17 +30,13 @@ namespace Dilon.Core.Service
             // 先删除
             await DeleteEmpExtInfoByUserId(empId);
 
-            var tasks = new List<Task>();
-            extIdList.ForEach(u =>
+            var extOrgpos = extIdList.Select(u => new SysEmpExtOrgPos
             {
-                tasks.Add(new SysEmpExtOrgPos
-                {
-                    SysEmpId = empId,
-                    SysOrgId = u.OrgId,
-                    SysPosId = u.PosId
-                }.InsertAsync());
-            });
-            await Task.WhenAll(tasks);
+                SysEmpId = empId,
+                SysOrgId = u.OrgId,
+                SysPosId = u.PosId
+            }).ToList();
+            await _sysEmpExtOrgPosRep.InsertAsync(extOrgpos);
         }
 
         /// <summary>
@@ -91,10 +87,7 @@ namespace Dilon.Core.Service
         public async Task DeleteEmpExtInfoByUserId(long empId)
         {
             var empExtOrgPos = await _sysEmpExtOrgPosRep.Where(u => u.SysEmpId == empId).ToListAsync();
-            empExtOrgPos.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysEmpExtOrgPosRep.DeleteAsync(empExtOrgPos);
         }
     }
 }

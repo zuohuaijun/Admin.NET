@@ -195,7 +195,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysUser/changeStatus")]
-        public async Task ChangeUserStatus(UpdateUserInput input)
+        public async Task ChangeUserStatus(UpdateUserStatusInput input)
         {
             var user = await _sysUserRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             if (user.AdminType == AdminType.SuperAdmin)
@@ -212,7 +212,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysUser/grantRole")]
-        public async Task GrantUserRole(UpdateUserInput input)
+        public async Task GrantUserRole(UpdateUserRoleDataInput input)
         {
             // 数据范围检查
             CheckDataScope(input.SysEmpParam.OrgId);
@@ -225,7 +225,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysUser/grantData")]
-        public async Task GrantUserData(UpdateUserInput input)
+        public async Task GrantUserData(UpdateUserRoleDataInput input)
         {
             // 清除缓存
             await _sysCacheService.RemoveAsync(CommonConst.CACHE_KEY_DATASCOPE + $"{input.Id}");
@@ -241,7 +241,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysUser/updateInfo")]
-        public async Task UpdateUserInfo(UpdateUserInput input)
+        public async Task UpdateUserInfo(UpdateUserBaseInfoInput input)
         {
             var user = input.Adapt<SysUser>();
             await user.UpdateExcludeAsync(new[] { nameof(SysUser.AdminType) });

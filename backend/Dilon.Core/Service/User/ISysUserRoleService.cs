@@ -13,6 +13,6 @@ namespace Dilon.Core.Service
 
         Task<List<long>> GetUserRoleIdList(long userId);
 
-        Task GrantRole(UpdateUserInput input);
+        Task GrantRole(UpdateUserRoleDataInput input);
     }
 }
