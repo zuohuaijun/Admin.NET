@@ -5,22 +5,22 @@ namespace Dilon.Core
     /// <summary>
     /// 通用输入扩展参数（带权限）
     /// </summary>
-    public class XnInputBase : PageInputBase
+    public interface IXnInputBase
     {
         /// <summary>
         /// 授权菜单
         /// </summary>
-        public List<long> GrantMenuIdList { get; set; } = new List<long>();
+        public List<long> GrantMenuIdList { get; set; }
 
         /// <summary>
         /// 授权角色
         /// </summary>
-        public virtual List<long> GrantRoleIdList { get; set; } = new List<long>();
+        public List<long> GrantRoleIdList { get; set; }
 
         /// <summary>
         /// 授权数据
         /// </summary>
-        public virtual List<long> GrantOrgIdList { get; set; } = new List<long>();
+        public List<long> GrantOrgIdList { get; set; }
     }
 
     /// <summary>

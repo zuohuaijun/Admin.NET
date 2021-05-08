@@ -35,7 +35,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysDictData/page")]
-        public async Task<dynamic> QueryDictDataPageList([FromQuery] DictDataInput input)
+        public async Task<dynamic> QueryDictDataPageList([FromQuery] DictDataPageInput input)
         {
             bool supperAdmin = _userManager.SuperAdmin;
             var code = !string.IsNullOrEmpty(input.Code?.Trim());

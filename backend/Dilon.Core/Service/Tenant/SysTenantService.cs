@@ -47,7 +47,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysTenant/page")]
-        public async Task<dynamic> QueryTenantPageList([FromQuery] TenantInput input)
+        public async Task<dynamic> QueryTenantPageList([FromQuery] TenantPageInput input)
         {
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var host = !string.IsNullOrEmpty(input.Host?.Trim());

@@ -49,7 +49,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysFileInfo/page")]
-        public async Task<dynamic> QueryFileInfoPageList([FromQuery] FileInput input)
+        public async Task<dynamic> QueryFileInfoPageList([FromQuery] FilePageInput input)
         {
             var fileBucket = !string.IsNullOrEmpty(input.FileBucket?.Trim());
             var fileOriginName = !string.IsNullOrEmpty(input.FileOriginName?.Trim());

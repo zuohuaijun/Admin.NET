@@ -50,7 +50,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysOrg/page")]
-        public async Task<dynamic> QueryOrgPageList([FromQuery] PageOrgInput input)
+        public async Task<dynamic> QueryOrgPageList([FromQuery] OrgPageInput input)
         {
             var dataScopeList = GetDataScopeList(await GetUserDataScopeIdList());
 
@@ -103,7 +103,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysOrg/list")]
-        public async Task<List<OrgOutput>> GetOrgList([FromQuery] OrgInput input)
+        public async Task<List<OrgOutput>> GetOrgList([FromQuery] OrgListInput input)
         {
             var dataScopeList = GetDataScopeList(await GetUserDataScopeIdList());
 
@@ -121,7 +121,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysOrg/add")]
-        public async Task AddOrg(AddOrgInput input)
+        public async Task AddOrg(OrgAddInput input)
         {
             var isExist = await _sysOrgRep.DetachedEntities.AnyAsync(u => u.Name == input.Name || u.Code == input.Code);
             if (isExist)
@@ -302,7 +302,7 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <returns></returns>
         [HttpGet("/sysOrg/tree")]
-        public async Task<dynamic> GetOrgTree([FromQuery] OrgInput input)
+        public async Task<dynamic> GetOrgTree()
         {
             var dataScopeList = new List<long>();
             if (!_userManager.SuperAdmin)

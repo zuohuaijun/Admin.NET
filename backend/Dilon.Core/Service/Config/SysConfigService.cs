@@ -32,7 +32,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysConfig/page")]
-        public async Task<dynamic> QueryConfigPageList([FromQuery] ConfigInput input)
+        public async Task<dynamic> QueryConfigPageList([FromQuery] ConfigPageInput input)
         {
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var code = !string.IsNullOrEmpty(input.Code?.Trim());
@@ -52,7 +52,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysConfig/list")]
-        public async Task<dynamic> GetConfigList([FromQuery] ConfigInput input)
+        public async Task<dynamic> GetConfigList()
         {
             return await _sysConfigRep.DetachedEntities.Where(u => u.Status != CommonStatus.DELETED).ToListAsync();
         }

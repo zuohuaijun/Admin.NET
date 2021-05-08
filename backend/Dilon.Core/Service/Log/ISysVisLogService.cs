@@ -7,6 +7,6 @@ namespace Dilon.Core.Service
     {
         Task ClearVisLog();
 
-        Task<dynamic> QueryVisLogPageList([FromQuery] VisLogInput input);
+        Task<dynamic> QueryVisLogPageList([FromQuery] VisLogPageInput input);
     }
 }

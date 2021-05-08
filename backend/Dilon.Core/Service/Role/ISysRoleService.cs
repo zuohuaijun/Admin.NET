@@ -30,7 +30,7 @@ namespace Dilon.Core.Service
 
         Task<List<long>> OwnMenu([FromQuery] QueryRoleInput input);
 
-        Task<dynamic> QueryRolePageList([FromQuery] RoleInput input);
+        Task<dynamic> QueryRolePageList([FromQuery] RolePageInput input);
 
         Task UpdateRole(UpdateRoleInput input);
     }

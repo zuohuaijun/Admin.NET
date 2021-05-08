@@ -43,7 +43,7 @@ namespace Dilon.Core.Service.Notice
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysNotice/page")]
-        public async Task<dynamic> QueryNoticePageList([FromQuery] NoticeInput input)
+        public async Task<dynamic> QueryNoticePageList([FromQuery] NoticePageInput input)
         {
             var searchValue = !string.IsNullOrEmpty(input.SearchValue?.Trim());
             var notices = await _sysNoticeRep.DetachedEntities
@@ -194,7 +194,7 @@ namespace Dilon.Core.Service.Notice
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysNotice/received")]
-        public async Task<dynamic> ReceivedNoticePageList([FromQuery] NoticeInput input)
+        public async Task<dynamic> ReceivedNoticePageList([FromQuery] NoticePageInput input)
         {
             var searchValue = !string.IsNullOrEmpty(input.SearchValue?.Trim());
             var notices = await _sysNoticeRep.DetachedEntities.Join(_sysNoticeUserRep.DetachedEntities, u => u.Id, e => e.NoticeId, (u, e) => new { u, e })

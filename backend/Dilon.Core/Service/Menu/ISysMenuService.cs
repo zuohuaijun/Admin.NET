@@ -18,15 +18,15 @@ namespace Dilon.Core.Service
 
         Task<dynamic> GetMenu(QueryMenuInput input);
 
-        Task<dynamic> GetMenuList([FromQuery] MenuInput input);
+        Task<dynamic> GetMenuList([FromQuery] GetMenuListInput input);
 
-        Task<dynamic> GetMenuTree([FromQuery] MenuInput input);
+        Task<dynamic> GetMenuTree([FromQuery] GetMenuTreeInput input);
 
         Task<List<string>> GetUserMenuAppCodeList(long userId);
 
         Task<bool> HasMenu(string appCode);
 
-        Task<dynamic> TreeForGrant([FromQuery] MenuInput input);
+        Task<dynamic> TreeForGrant([FromQuery] TreeForGrantInput input);
 
         Task UpdateMenu(UpdateMenuInput input);
     }

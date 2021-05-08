@@ -13,11 +13,11 @@ namespace Dilon.Core.Service
 
         Task DeleteUser(DeleteUserInput input);
 
-        Task<IActionResult> ExportUser([FromQuery] UserInput input);
+        Task<IActionResult> ExportUser();
 
         Task ImportUser(IFormFile file);
 
-        Task<dynamic> GetUser([FromQuery] QueryUserInput input);
+        Task<dynamic> GetUser(long id);
 
         Task<dynamic> GetUserById(long userId);
 
@@ -29,17 +29,17 @@ namespace Dilon.Core.Service
 
         Task<dynamic> GetUserOwnRole([FromQuery] QueryUserInput input);
 
-        Task<dynamic> GetUserSelector([FromQuery] UserInput input);
+        Task<dynamic> GetUserSelector([FromQuery] UserSelectorInput input);
 
         Task GrantUserData(UpdateUserInput input);
 
         Task GrantUserRole(UpdateUserInput input);
 
-        Task<dynamic> QueryUserPageList([FromQuery] UserInput input);
+        Task<dynamic> QueryUserPageList([FromQuery] UserPageInput input);
 
         Task ResetUserPwd(QueryUserInput input);
 
-        Task SaveAuthUserToUser(AuthUserInput authUser, UserInput sysUser);
+        Task SaveAuthUserToUser(AuthUserInput authUser, CreateUserInput sysUser);
 
         Task UpdateAvatar(UploadAvatarInput input);
 

@@ -5,19 +5,19 @@ namespace Dilon.Core.Service
 {
     public interface ISysTimerService
     {
-        Task AddTimer(JobInput input);
+        Task AddTimer(AddJobInput input);
 
-        void AddTimerJob(JobInput input);
+        void AddTimerJob(AddJobInput input);
 
         Task DeleteTimer(DeleteJobInput input);
 
         Task<dynamic> GetTimer([FromQuery] QueryJobInput input);
 
-        Task<dynamic> GetTimerPageList([FromQuery] JobInput input);
+        Task<dynamic> GetTimerPageList([FromQuery] JobPageInput input);
 
-        void StartTimerJob(JobInput input);
+        void StartTimerJob(AddJobInput input);
 
-        void StopTimerJob(JobInput input);
+        void StopTimerJob(StopJobInput input);
 
         Task UpdateTimber(UpdateJobInput input);
 

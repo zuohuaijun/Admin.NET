@@ -7,20 +7,20 @@ namespace Dilon.Core.Service
     {
         Task AddApp(AddAppInput input);
 
-        Task DeleteApp(DeleteAppInput input);
+        Task DeleteApp(BaseId input);
 
         Task<SysApp> GetApp([FromQuery] QueryAppInput input);
 
-        Task<dynamic> GetAppList([FromQuery] AppInput input);
+        Task<dynamic> GetAppList();
 
         Task<dynamic> GetLoginApps(long userId);
 
-        Task<dynamic> QueryAppPageList([FromQuery] AppInput input);
+        Task<dynamic> QueryAppPageList([FromQuery] AppPageInput input);
 
         Task SetAsDefault(SetDefaultAppInput input);
 
         Task UpdateApp(UpdateAppInput input);
 
-        Task ChangeUserAppStatus(UpdateAppInput input);
+        Task ChangeUserAppStatus(ChangeUserAppStatusInput input);
     }
 }

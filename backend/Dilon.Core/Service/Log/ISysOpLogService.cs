@@ -7,6 +7,6 @@ namespace Dilon.Core.Service
     {
         Task ClearOpLog();
 
-        Task<dynamic> QueryOpLogPageList([FromQuery] OpLogInput input);
+        Task<dynamic> QueryOpLogPageList([FromQuery] OpLogPageInput input);
     }
 }

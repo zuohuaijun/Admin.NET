@@ -45,7 +45,7 @@ namespace Dilon.Core.Service.CodeGen
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/codeGenerate/page")]
-        public async Task<dynamic> QueryCodeGenPageList([FromQuery] CodeGenInput input)
+        public async Task<dynamic> QueryCodeGenPageList([FromQuery] CodeGenPageInput input)
         {
             var tableName = !string.IsNullOrEmpty(input.TableName?.Trim());
             var codeGens = await _sysCodeGenRep.DetachedEntities

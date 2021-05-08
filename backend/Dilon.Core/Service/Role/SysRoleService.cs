@@ -63,7 +63,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysRole/page")]
-        public async Task<dynamic> QueryRolePageList([FromQuery] RoleInput input)
+        public async Task<dynamic> QueryRolePageList([FromQuery] RolePageInput input)
         {
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var code = !string.IsNullOrEmpty(input.Code?.Trim());

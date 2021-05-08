@@ -20,7 +20,7 @@ namespace Dilon.Core.Service
 
         Task<dynamic> GetDictTypeList();
 
-        Task<dynamic> QueryDictTypePageList([FromQuery] DictTypeInput input);
+        Task<dynamic> QueryDictTypePageList([FromQuery] DictTypePageInput input);
 
         Task UpdateDictType(UpdateDictTypeInput input);
     }
