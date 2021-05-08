@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Mapster;
@@ -54,10 +54,7 @@ namespace Dilon.Core.Service
         {
             // 先删除员工信息
             var emps = await _sysEmpRep.Where(u => u.Id == long.Parse(sysEmpParam.Id)).ToListAsync();
-            emps.ForEach(u =>
-            {
-                u.DeleteNow();
-            });
+            await _sysEmpRep.DeleteAsync(emps);
 
             // 再新增新员工信息
             var emp = sysEmpParam.Adapt<SysEmp>();

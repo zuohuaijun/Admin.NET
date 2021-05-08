@@ -27,6 +27,7 @@
     "k-form-design": "^3.7.3",
     "leaflet": "^1.7.1",
     "leaflet.pm": "^2.2.0",
+    "linq": "^3.2.3",
     "lodash.clonedeep": "^4.5.0",
     "lodash.get": "^4.4.2",
     "lodash.pick": "^4.4.0",

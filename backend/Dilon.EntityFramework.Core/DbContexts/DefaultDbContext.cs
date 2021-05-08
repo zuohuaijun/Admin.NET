@@ -34,7 +34,7 @@ namespace Dilon.EntityFramework.Core
         public object GetTenantId()
         {
             if (App.User == null) return null;
-            return App.User.FindFirst(ClaimConst.TENANT_ID)?.Value;
+            return Convert.ToInt64( App.User.FindFirst(ClaimConst.TENANT_ID)?.Value);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Dilon.EntityFramework.Core
                     var obj = entity.Entity as DEntityBase;
                     if (entity.State == EntityState.Added)
                     {
-                        obj.Id = YitIdHelper.NextId();
+                        obj.Id = obj.Id == 0 ? YitIdHelper.NextId() : obj.Id;
                         obj.CreatedTime = DateTimeOffset.Now;
                         if (!string.IsNullOrEmpty(userId))
                         {

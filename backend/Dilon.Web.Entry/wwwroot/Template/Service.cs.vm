@@ -1,4 +1,4 @@
-﻿using Dilon.Core;
+using Dilon.Core;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
@@ -54,11 +54,13 @@ if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnN
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
 if (@column.NetType == "string"){
-if(@column.QueryType == "like"){
+if (@column.QueryType == "like"){
                                      @:.Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => EF.Functions.Like(u.@(@column.ColumnName), $"%{input.@(@column.ColumnName).Trim()}%"))
 }else{
                                      @:.Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
 }
+}else{
+                                     @:.Where(u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
 }
 }
 }

@@ -87,16 +87,12 @@ namespace Dilon.Core.Service
             if (dictData == null) throw Oops.Oh(ErrorCode.D3004);
             if (dictData.Status == CommonStatus.DELETED)
             {
-                await _sysDictDataRep.DeleteAsync();
+                await dictData.DeleteAsync();
             }
             else
             {
-                dictData.UpdatedUserId = _userManager.UserId;
-                dictData.UpdatedUserName = _userManager.Name;
-                dictData.UpdatedTime = DateTime.Now;
                 dictData.Status = CommonStatus.DELETED;
                 dictData.IsDeleted = true;
-                await _sysDictDataRep.UpdateAsync(dictData);
             }
         }
 
@@ -146,7 +142,6 @@ namespace Dilon.Core.Service
 
             dictData.Status = input.Status;
             dictData.IsDeleted = false;
-            await _sysDictDataRep.UpdateAsync(dictData);
         }
 
         /// <summary>

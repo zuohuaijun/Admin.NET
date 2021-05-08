@@ -1,15 +1,19 @@
 ﻿using Dilon.Core.Entity;
+using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
+using Furion.LinqBuilder;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Dilon.Core.Service
@@ -137,13 +141,55 @@ namespace Dilon.Core.Service
             var tenant = await _sysTenantRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             await _sysTenantRep.DeleteAsync(tenant);
 
-            var entities = Db.GetDbContext().Model.GetEntityTypes().Where(u => u.ClrType.BaseType.Name == typeof(DBEntityTenant).Name).ToList();
+            // 删除与租户相关的表数据
+            var users = await Db.GetRepository<SysUser>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            users.ForEach(u => { u.Delete(); });
+
+            var userIds = users.Select(u => u.Id).ToList();
+            var userRoles = await Db.GetRepository<SysUserRole>().Where(u => userIds.Contains(u.SysUserId), false).ToListAsync();
+            userRoles.ForEach(u => { u.Delete(); });
+
+            var userDataScopes = await Db.GetRepository<SysUserDataScope>().Where(u => userIds.Contains(u.SysUserId), false).ToListAsync();
+            userDataScopes.ForEach(u => { u.Delete(); });
+
+            var emps = await Db.GetRepository<SysEmp>().Where(u => userIds.Contains(u.Id), false).ToListAsync();
+            emps.ForEach(u => { u.Delete(); });
+
+            var emppos = await Db.GetRepository<SysEmpPos>().Where(u => userIds.Contains(u.SysEmpId), false).ToListAsync();
+            emppos.ForEach(u => { u.Delete(); });
+
+            var empexts = await Db.GetRepository<SysEmpExtOrgPos>().Where(u => userIds.Contains(u.SysEmpId), false).ToListAsync();
+            empexts.ForEach(u => { u.Delete(); });
+
+            var roles = await Db.GetRepository<SysRole>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            roles.ForEach(u => { u.Delete(); });
+
+            var roleIds = roles.Select(u => u.Id).ToList();
+            var roleMenus = await Db.GetRepository<SysRoleMenu>().Where(u => roleIds.Contains(u.SysRoleId), false).ToListAsync();
+            roleMenus.ForEach(u => { u.Delete(); });
+
+            var roleDataScopes = await Db.GetRepository<SysRoleDataScope>().Where(u => roleIds.Contains(u.SysRoleId), false).ToListAsync();
+            roleDataScopes.ForEach(u => { u.Delete(); });
+
+            var orgs = await Db.GetRepository<SysOrg>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            orgs.ForEach(u => { u.Delete(); });
+
+            var pos = await Db.GetRepository<SysPos>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            pos.ForEach(u => { u.Delete(); });
+
+            //var entities = Db.GetDbContext().Model.GetEntityTypes().Where(u => u.ClrType.BaseType.Name == typeof(DBEntityTenant).Name).ToList();
             //entities.ForEach(u =>
             //{
-            //    var a = u.GetType();
-            //    var rep = Db.GetRepository<typeof(u.ClrType.BaseType.Name)>();
+            //    // dynamic entity = Activator.CreateInstance(u.ClrType);
+            //    dynamic rep = App.GetService(typeof(IRepository<,>).MakeGenericType(u.ClrType, typeof(MasterDbContextLocator)));// as IPrivateRepository<User>;
+            //    //var dtList = rep.DetachedEntities.Where(e => e.TenantId == input.Id).ToList();
+            //    //dtList.ForEach(u =>
+            //    //{
+            //    //    u.Delete();
+            //    //});
             //});
         }
+
 
         /// <summary>
         /// 更新租户

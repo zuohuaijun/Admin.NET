@@ -73,6 +73,7 @@ namespace Dilon.Core.Service
                                        .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")),
                                               (code, u => EF.Functions.Like(u.Code, $"%{input.Code.Trim()}%")))
                                        //.Where(u => u.Status == CommonStatus.ENABLE)
+                                       .OrderBy(u => u.Sort)
                                        .ToPagedListAsync(input.PageNo, input.PageSize);
             return XnPageResult<SysApp>.PageResult(apps);
         }
@@ -158,7 +159,7 @@ namespace Dilon.Core.Service
         [HttpGet("/sysApp/list")]
         public async Task<dynamic> GetAppList()
         {
-            return await _sysAppRep.DetachedEntities.Where(u => u.Status == CommonStatus.ENABLE).ToListAsync();
+            return await _sysAppRep.DetachedEntities.Where(u => u.Status == CommonStatus.ENABLE).OrderBy(u => u.Sort).ToListAsync();
         }
 
         /// <summary>

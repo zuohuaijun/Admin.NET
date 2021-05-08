@@ -11,12 +11,12 @@ import './mock'
 
 import bootstrap from './core/bootstrap'
 import './core/lazy_use'
-import './permission' // permission control
-import './utils/filter' // global filter
+import './permission'
+import './utils/filter'
 import './components/global.less'
 import socket from './utils/socket'
 import { Dialog } from '@/components'
-import { hasBtnPermission } from './utils/permissions' // button permission
+import { hasBtnPermission } from './utils/permissions'
 import { sysApplication } from './utils/applocation'
 
 import KFormDesign from 'k-form-design'

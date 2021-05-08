@@ -10,7 +10,30 @@ namespace Dilon.Core
     /// <summary>
     /// 自定义实体基类
     /// </summary>
-    public abstract class DEntityBase : IEntity
+    public abstract class DEntityBase : DEntityBase<long, MasterDbContextLocator>
+    {
+
+    }
+
+    public abstract class DEntityBase<TKey> : DEntityBase<TKey, MasterDbContextLocator>
+    {
+
+    }
+
+    public abstract class DEntityBase<TKey, TDbContextLocator1> : PrivateDEntityBase<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+    {
+
+    }
+
+    public abstract class DEntityBase<TKey, TDbContextLocator1, TDbContextLocator2> : PrivateDEntityBase<TKey>
+        where TDbContextLocator1 : class, IDbContextLocator
+        where TDbContextLocator2 : class, IDbContextLocator
+    {
+
+    }
+
+    public abstract class PrivateDEntityBase<TKey> : IPrivateEntity
     {
         /// <summary>
         /// 主键Id
@@ -18,7 +41,7 @@ namespace Dilon.Core
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         [Comment("Id主键")]
-        public virtual long Id { get; set; }
+        public virtual TKey Id { get; set; }
 
         /// <summary>
         /// 创建时间
