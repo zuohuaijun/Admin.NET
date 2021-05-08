@@ -76,14 +76,9 @@ namespace Dilon.Core.Service
                                          .Where(input.SearchStatus >= 0, x => x.n.u.Status == input.SearchStatus)
                                          .Where(!superAdmin, x => x.n.u.AdminType != AdminType.SuperAdmin)
                                          .Where(!superAdmin && dataScopes.Count > 0, x => dataScopes.Contains(x.n.e.OrgId))
-                                         .Select(u => u.n.u.Adapt<UserOutput>()).ToPagedListAsync(input.PageNo, input.PageSize);
+                                         .Select(u => u.n.u.Adapt<UserOutput>())
+                                         .ToPagedListAsync(input.PageNo, input.PageSize);
 
-            //var emps = new List<Task<EmpOutput>>();
-            //users.Items.ToList().ForEach(u =>
-            //{
-            //    emps.Add(_sysEmpService.GetEmpInfo(long.Parse(u.Id)));
-            //});
-            //await Task.WhenAll(emps);
             foreach (var user in users.Items)
             {
                 user.SysEmpInfo = await _sysEmpService.GetEmpInfo(long.Parse(user.Id));

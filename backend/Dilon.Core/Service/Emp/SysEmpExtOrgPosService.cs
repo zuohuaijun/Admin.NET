@@ -1,5 +1,4 @@
 ﻿using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -30,13 +29,13 @@ namespace Dilon.Core.Service
             // 先删除
             await DeleteEmpExtInfoByUserId(empId);
 
-            var extOrgpos = extIdList.Select(u => new SysEmpExtOrgPos
+            var extOrgPos = extIdList.Select(u => new SysEmpExtOrgPos
             {
                 SysEmpId = empId,
                 SysOrgId = u.OrgId,
                 SysPosId = u.PosId
             }).ToList();
-            await _sysEmpExtOrgPosRep.InsertAsync(extOrgpos);
+            await _sysEmpExtOrgPosRep.InsertAsync(extOrgPos);
         }
 
         /// <summary>

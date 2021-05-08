@@ -257,10 +257,8 @@ namespace Dilon.Core.Service
             childIdList.Add(input.Id);
 
             var menus = await _sysMenuRep.Where(u => childIdList.Contains(u.Id)).ToListAsync();
-            menus.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysMenuRep.DeleteAsync(menus);
+
             // 级联删除该菜单及子菜单对应的角色-菜单表信息
             await _sysRoleMenuService.DeleteRoleMenuListByMenuIdList(childIdList);
 

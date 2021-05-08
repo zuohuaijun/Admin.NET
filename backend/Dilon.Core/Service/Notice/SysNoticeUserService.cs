@@ -49,10 +49,7 @@ namespace Dilon.Core.Service.Notice
         public async Task Update(long noticeId, List<long> noticeUserIdList, NoticeUserStatus noticeUserStatus)
         {
             var noticeUsers = await _sysNoticeUserRep.Where(u => u.NoticeId == noticeId).ToListAsync();
-            noticeUsers.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysNoticeUserRep.DeleteAsync(noticeUsers);
 
             await Add(noticeId, noticeUserIdList, noticeUserStatus);
         }

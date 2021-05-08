@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Dilon.Core.Service
+﻿namespace Dilon.Core.Service
 {
     /// <summary>
     /// 请求日志参数

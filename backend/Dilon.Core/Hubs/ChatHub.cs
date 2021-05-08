@@ -1,8 +1,6 @@
 ﻿using Dilon.Core.Service;
-using Furion;
 using Furion.DataEncryption;
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;

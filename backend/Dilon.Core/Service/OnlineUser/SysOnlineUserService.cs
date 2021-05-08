@@ -3,7 +3,6 @@ using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -17,7 +16,7 @@ namespace Dilon.Core.Service
     public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController, ITransient
     {
         private readonly ISysCacheService _sysCacheService;
-        private readonly IRepository<SysUser> _sysUerrep;  // 用户表仓储 
+        private readonly IRepository<SysUser> _sysUerrep;  // 用户表仓储
 
         public SysOnlineUserService(ISysCacheService sysCacheService, IRepository<SysUser> sysUerrep)
         {

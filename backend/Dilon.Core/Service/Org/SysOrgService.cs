@@ -211,10 +211,7 @@ namespace Dilon.Core.Service
             // 级联删除子节点
             var childIdList = await GetChildIdListWithSelfById(sysOrg.Id);
             var orgs = await _sysOrgRep.Where(u => childIdList.Contains(u.Id)).ToListAsync();
-            orgs.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysOrgRep.DeleteAsync(orgs);
 
             // 级联删除该机构及子机构对应的角色-数据范围关联信息
             await _sysRoleDataScopeService.DeleteRoleDataScopeListByOrgIdList(childIdList);

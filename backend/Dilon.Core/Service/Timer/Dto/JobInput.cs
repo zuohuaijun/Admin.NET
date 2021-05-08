@@ -1,5 +1,4 @@
-﻿using Furion.DataValidation;
-using Furion.TaskScheduler;
+﻿using Furion.TaskScheduler;
 using System.ComponentModel.DataAnnotations;
 
 namespace Dilon.Core.Service

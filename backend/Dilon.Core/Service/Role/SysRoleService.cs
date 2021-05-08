@@ -154,10 +154,7 @@ namespace Dilon.Core.Service
             ////级联删除该角色对应的用户-角色表关联信息
             //await _sysUserRoleService.DeleteUserRoleListByRoleId(sysRole.Id); // 避免循环引用，故用下面逻辑
             var userRoles = await _sysUserRoleRep.Where(u => u.SysRoleId == sysRole.Id).ToListAsync();
-            userRoles.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysUserRoleRep.DeleteAsync(userRoles);
 
             //级联删除该角色对应的角色-菜单表关联信息
             await _sysRoleMenuService.DeleteRoleMenuListByRoleId(sysRole.Id);

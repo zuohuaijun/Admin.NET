@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Dilon.Core.Service
 {
@@ -11,7 +10,7 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 父Id
         /// </summary>
-        public string Pid { get; set; }        
+        public string Pid { get; set; }
     }
 
     public class OrgAddInput

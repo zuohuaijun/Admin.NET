@@ -325,10 +325,8 @@ namespace Dilon.Core.Service
         public CommonStatus Status { get; set; }
     }
 
-
     public class QueryUserInput : BaseId
     {
- 
     }
 
     public class ChangePasswordUserInput : BaseId

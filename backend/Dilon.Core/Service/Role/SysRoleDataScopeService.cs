@@ -1,5 +1,4 @@
 ﻿using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -29,19 +28,14 @@ namespace Dilon.Core.Service
         public async Task GrantDataScope(GrantRoleDataInput input)
         {
             var dataScopes = await _sysRoleDataScopeRep.DetachedEntities.Where(u => u.SysRoleId == input.Id).ToListAsync();
-            dataScopes.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysRoleDataScopeRep.DeleteAsync(dataScopes);
 
-            input.GrantOrgIdList.ForEach(u =>
+            var roleDataScopes = input.GrantOrgIdList.Select(u => new SysRoleDataScope
             {
-                new SysRoleDataScope
-                {
-                    SysRoleId = input.Id,
-                    SysOrgId = u
-                }.Insert();
-            });
+                SysRoleId = input.Id,
+                SysOrgId = u
+            }).ToList();
+            await _sysRoleDataScopeRep.InsertAsync(roleDataScopes);
         }
 
         /// <summary>
@@ -64,10 +58,7 @@ namespace Dilon.Core.Service
         public async Task DeleteRoleDataScopeListByOrgIdList(List<long> orgIdList)
         {
             var dataScopes = await _sysRoleDataScopeRep.DetachedEntities.Where(u => orgIdList.Contains(u.SysOrgId)).ToListAsync();
-            dataScopes.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysRoleDataScopeRep.DeleteAsync(dataScopes);
         }
 
         /// <summary>
@@ -78,10 +69,7 @@ namespace Dilon.Core.Service
         public async Task DeleteRoleDataScopeListByRoleId(long roleId)
         {
             var dataScopes = await _sysRoleDataScopeRep.DetachedEntities.Where(u => u.SysRoleId == roleId).ToListAsync();
-            dataScopes.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysRoleDataScopeRep.DeleteAsync(dataScopes);
         }
     }
 }

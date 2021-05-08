@@ -138,6 +138,7 @@ namespace Dilon.Core.Service
         /// 备注
         /// </summary>
         public string Remark { get; set; }
+
         public List<long> GrantMenuIdList { get; set; }
         public List<long> GrantRoleIdList { get; set; }
         public List<long> GrantOrgIdList { get; set; }

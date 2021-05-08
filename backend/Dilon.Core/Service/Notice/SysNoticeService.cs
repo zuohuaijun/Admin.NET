@@ -199,7 +199,7 @@ namespace Dilon.Core.Service.Notice
             var searchValue = !string.IsNullOrEmpty(input.SearchValue?.Trim());
             var notices = await _sysNoticeRep.DetachedEntities.Join(_sysNoticeUserRep.DetachedEntities, u => u.Id, e => e.NoticeId, (u, e) => new { u, e })
                                              .Where(u => u.e.UserId == _userManager.UserId)
-                                             .Where(searchValue, u => EF.Functions.Like(u.u.Title, $"%{input.SearchValue.Trim()}%") || 
+                                             .Where(searchValue, u => EF.Functions.Like(u.u.Title, $"%{input.SearchValue.Trim()}%") ||
                                                                       EF.Functions.Like(u.u.Content, $"%{input.SearchValue.Trim()}%"))
                                              .Where(input.Type > 0, u => u.u.Type == input.Type)
                                              .Where(u => u.u.Status != NoticeStatus.DELETED)

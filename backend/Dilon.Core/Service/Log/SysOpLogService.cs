@@ -1,5 +1,4 @@
 ﻿using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Mapster;
@@ -55,7 +54,7 @@ namespace Dilon.Core.Service
         public async Task ClearOpLog()
         {
             var opLogs = await _sysOpLogRep.Entities.ToListAsync();
-            opLogs.ForEach(u => { u.Delete(); });
+            await _sysOpLogRep.DeleteAsync(opLogs);
         }
     }
 }

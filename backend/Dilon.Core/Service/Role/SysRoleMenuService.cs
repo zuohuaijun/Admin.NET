@@ -1,5 +1,4 @@
 ﻿using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -43,19 +42,14 @@ namespace Dilon.Core.Service
         public async Task GrantMenu(GrantRoleMenuInput input)
         {
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => u.SysRoleId == input.Id).ToListAsync();
-            roleMenus.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysRoleMenuRep.DeleteAsync(roleMenus);
 
-            input.GrantMenuIdList.ForEach(u =>
+            var menus = input.GrantMenuIdList.Select(u => new SysRoleMenu
             {
-                new SysRoleMenu
-                {
-                    SysRoleId = input.Id,
-                    SysMenuId = u
-                }.Insert();
-            });
+                SysRoleId = input.Id,
+                SysMenuId = u
+            }).ToList();
+            await _sysRoleMenuRep.InsertAsync(menus);
 
             // 清除缓存
             await _sysCacheService.DelByPatternAsync(CommonConst.CACHE_KEY_MENU);
@@ -70,10 +64,7 @@ namespace Dilon.Core.Service
         public async Task DeleteRoleMenuListByMenuIdList(List<long> menuIdList)
         {
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => menuIdList.Contains(u.SysMenuId)).ToListAsync();
-            roleMenus.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysRoleMenuRep.DeleteAsync(roleMenus);
         }
 
         /// <summary>
@@ -84,10 +75,7 @@ namespace Dilon.Core.Service
         public async Task DeleteRoleMenuListByRoleId(long roleId)
         {
             var roleMenus = await _sysRoleMenuRep.DetachedEntities.Where(u => u.SysRoleId == roleId).ToListAsync();
-            roleMenus.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysRoleMenuRep.DeleteAsync(roleMenus);
         }
     }
 }

@@ -48,9 +48,9 @@ namespace Dilon.Core
             int codeH = 36;
             int fontSize = 22;
 
-            // 颜色列表，用于验证码、噪线、噪点 
+            // 颜色列表，用于验证码、噪线、噪点
             Color[] color = { Color.Black, Color.Red, Color.Blue, Color.Green, Color.Orange, Color.Brown, Color.Brown, Color.DarkBlue };
-            // 字体列表，用于验证码 
+            // 字体列表，用于验证码
             string[] fonts = new[] { "Times New Roman", "Verdana", "Arial", "Gungsuh", "Impact" };
 
             using (Bitmap bmp = new Bitmap(codeW, codeH))
@@ -59,7 +59,7 @@ namespace Dilon.Core
             {
                 g.Clear(Color.White);
                 Random rnd = new Random();
-                // 画噪线 
+                // 画噪线
                 for (int i = 0; i < 1; i++)
                 {
                     int x1 = rnd.Next(codeW);
@@ -70,7 +70,7 @@ namespace Dilon.Core
                     g.DrawLine(new Pen(clr), x1, y1, x2, y2);
                 }
 
-                // 画验证码字符串                 
+                // 画验证码字符串
                 string fnt;
                 Font ft;
                 for (int i = 0; i < code.Length; i++)

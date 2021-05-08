@@ -12,7 +12,6 @@ namespace Dilon.Core
     {
         public LogSubscribeHandler()
         {
-
         }
 
         [SubscribeMessage("create:oplog")]

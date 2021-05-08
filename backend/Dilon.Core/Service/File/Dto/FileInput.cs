@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Dilon.Core.Service
+﻿namespace Dilon.Core.Service
 {
     /// <summary>
     /// 上传文件参数

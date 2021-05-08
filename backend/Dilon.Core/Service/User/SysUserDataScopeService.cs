@@ -1,5 +1,4 @@
 ﻿using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -29,19 +28,14 @@ namespace Dilon.Core.Service
         public async Task GrantData(UpdateUserRoleDataInput input)
         {
             var dataScopes = await _sysUserDataScopeRep.Where(u => u.SysUserId == input.Id).ToListAsync();
-            dataScopes.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysUserDataScopeRep.DeleteAsync(dataScopes);
 
-            input.GrantOrgIdList.ForEach(u =>
+            var userDataScopes = input.GrantOrgIdList.Select(u => new SysUserDataScope
             {
-                new SysUserDataScope
-                {
-                    SysUserId = input.Id,
-                    SysOrgId = u
-                }.Insert();
-            });
+                SysUserId = input.Id,
+                SysOrgId = u
+            }).ToList();
+            await _sysUserDataScopeRep.InsertAsync(userDataScopes);
         }
 
         /// <summary>
@@ -64,10 +58,7 @@ namespace Dilon.Core.Service
         public async Task DeleteUserDataScopeListByOrgIdList(List<long> orgIdList)
         {
             var dataScopes = await _sysUserDataScopeRep.Where(u => orgIdList.Contains(u.SysOrgId)).ToListAsync();
-            dataScopes.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysUserDataScopeRep.DeleteAsync(dataScopes);
         }
 
         /// <summary>
@@ -78,10 +69,7 @@ namespace Dilon.Core.Service
         public async Task DeleteUserDataScopeListByUserId(long userId)
         {
             var dataScopes = await _sysUserDataScopeRep.Where(u => u.SysUserId == userId).ToListAsync();
-            dataScopes.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysUserDataScopeRep.DeleteAsync(dataScopes);
         }
     }
 }

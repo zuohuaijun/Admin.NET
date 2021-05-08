@@ -169,10 +169,7 @@ namespace Dilon.Core.Service
         public async Task DeleteByTypeId(long dictTypeId)
         {
             var dictDatas = await _sysDictDataRep.Where(u => u.TypeId == dictTypeId).ToListAsync();
-            dictDatas.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysDictDataRep.DeleteAsync(dictDatas);
         }
     }
 }

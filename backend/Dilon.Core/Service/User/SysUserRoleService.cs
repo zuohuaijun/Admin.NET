@@ -1,5 +1,4 @@
 ﻿using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -42,19 +41,14 @@ namespace Dilon.Core.Service
         public async Task GrantRole(UpdateUserRoleDataInput input)
         {
             var userRoles = await _sysUserRoleRep.Where(u => u.SysUserId == input.Id).ToListAsync();
-            userRoles.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysUserRoleRep.DeleteAsync(userRoles);
 
-            input.GrantRoleIdList.ForEach(u =>
+            var roles = input.GrantRoleIdList.Select(u => new SysUserRole
             {
-                new SysUserRole
-                {
-                    SysUserId = input.Id,
-                    SysRoleId = u
-                }.Insert();
-            });
+                SysUserId = input.Id,
+                SysRoleId = u
+            }).ToList();
+            await _sysUserRoleRep.InsertAsync(roles);
         }
 
         /// <summary>
@@ -82,10 +76,7 @@ namespace Dilon.Core.Service
         public async Task DeleteUserRoleListByRoleId(long roleId)
         {
             var userRoles = await _sysUserRoleRep.Where(u => u.SysRoleId == roleId).ToListAsync();
-            userRoles.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysUserRoleRep.DeleteAsync(userRoles);
         }
 
         /// <summary>
@@ -96,10 +87,7 @@ namespace Dilon.Core.Service
         public async Task DeleteUserRoleListByUserId(long userId)
         {
             var userRoles = await _sysUserRoleRep.Where(u => u.SysUserId == userId).ToListAsync();
-            userRoles.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysUserRoleRep.DeleteAsync(userRoles);
         }
     }
 }

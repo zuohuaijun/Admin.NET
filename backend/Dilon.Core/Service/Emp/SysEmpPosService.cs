@@ -1,5 +1,4 @@
 ﻿using Furion.DatabaseAccessor;
-using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -32,14 +31,12 @@ namespace Dilon.Core.Service
             // 先删除
             await DeleteEmpPosInfoByUserId(empId);
 
-            posIdList.ForEach(u =>
+            var empPos = posIdList.Select(u => new SysEmpPos
             {
-                new SysEmpPos
-                {
-                    SysEmpId = empId,
-                    SysPosId = u
-                }.Insert();
-            });
+                SysEmpId = empId,
+                SysPosId = u
+            }).ToList();
+            await _sysEmpPosRep.InsertAsync(empPos);
         }
 
         /// <summary>
@@ -76,10 +73,7 @@ namespace Dilon.Core.Service
         public async Task DeleteEmpPosInfoByUserId(long empId)
         {
             var empPos = await _sysEmpPosRep.Where(u => u.SysEmpId == empId).ToListAsync();
-            empPos.ForEach(u =>
-            {
-                u.Delete();
-            });
+            await _sysEmpPosRep.DeleteAsync(empPos);
         }
     }
 }

@@ -28,7 +28,7 @@ namespace Dilon.Core.Service
         public MenuOpenType OpenType { get; set; }
     }
 
-    public  class TreeForGrantInput
+    public class TreeForGrantInput
     {
         /// <summary>
         /// 应用分类（应用编码）

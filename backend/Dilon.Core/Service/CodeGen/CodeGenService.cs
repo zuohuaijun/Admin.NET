@@ -237,9 +237,8 @@ namespace Dilon.Core.Service.CodeGen
             var codePrefix = "dilon_" + className.ToLower();
 
             // 先删除该表已生成的菜单列表
-            var menus = await _sysMenuRep.DetachedEntities
-                                         .Where(u => u.Code == codePrefix || u.Code.StartsWith(codePrefix + "_")).ToListAsync();
-            menus.ForEach(u => { u.Delete(); });
+            var menus = await _sysMenuRep.DetachedEntities.Where(u => u.Code == codePrefix || u.Code.StartsWith(codePrefix + "_")).ToListAsync();
+            await _sysMenuRep.DeleteAsync(menus);
 
             // 如果 pid 为 0 说明为顶级菜单, 需要创建顶级目录
             if (pid == 0)

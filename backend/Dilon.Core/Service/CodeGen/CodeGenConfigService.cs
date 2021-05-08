@@ -59,7 +59,7 @@ namespace Dilon.Core.Service
         public async Task Delete(long codeGenId)
         {
             var codeGenConfigList = await _sysCodeGenConfigRep.Where(u => u.CodeGenId == codeGenId).ToListAsync();
-            codeGenConfigList.ForEach(u => { u.Delete(); });
+            await _sysCodeGenConfigRep.DeleteAsync(codeGenConfigList);
         }
 
         /// <summary>

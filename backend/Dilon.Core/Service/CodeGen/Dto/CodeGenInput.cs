@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Dilon.Core.Service
 {
@@ -7,7 +6,7 @@ namespace Dilon.Core.Service
     /// 代码生成参数类
     /// </summary>
     public class CodeGenPageInput : PageInputBase
-    {        
+    {
         /// <summary>
         /// 数据库表名
         /// </summary>
