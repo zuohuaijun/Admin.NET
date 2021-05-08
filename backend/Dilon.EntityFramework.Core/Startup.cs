@@ -2,6 +2,7 @@
 using Furion.DatabaseAccessor;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Dilon.EntityFramework.Core
@@ -14,7 +15,10 @@ namespace Dilon.EntityFramework.Core
             {
                 options.CustomizeMultiTenants(); // 自定义租户
 
-                options.AddDb<DefaultDbContext>();
+                options.AddDb<DefaultDbContext>(providerName: default, optionBuilder: opt =>
+                {
+                    opt.UseBatchEF_Sqlite();
+                });
                 options.AddDb<MultiTenantDbContext, MultiTenantDbContextLocator>();
             }, "Dilon.Database.Migrations");
         }
