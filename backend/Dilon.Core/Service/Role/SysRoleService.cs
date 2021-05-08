@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -229,7 +229,9 @@ namespace Dilon.Core.Service
                     {
                         if (dataScopes.Count < 1)
                             throw Oops.Oh(ErrorCode.D1016);
-                        else if (!dataScopes.All(u => grantOrgIdList.Any(c => c == u)))
+                        //else if (!dataScopes.All(u => grantOrgIdList.Any(c => c == u)))
+                        //    throw Oops.Oh(ErrorCode.D1016);
+                        else if (!grantOrgIdList.All(u => dataScopes.Any(c => c == u)))
                             throw Oops.Oh(ErrorCode.D1016);
                     }
                 }
