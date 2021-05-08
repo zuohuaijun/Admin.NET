@@ -202,6 +202,16 @@
 * 有问题讨论的小伙伴可加群一起学习讨论。 QQ群【87333204】
 <a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=pN8R-P3pJaW9ILoOXwpRGN2wdCHWtUTE&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Admin.NET" title="Admin.NET"></a>
 
+## 🍻 贡献代码
+
+`Admin.NET` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。
+
+感谢每一位贡献代码的朋友。
+
+[![Giteye chart](https://chart.giteye.net/gitee/zuohuaijun/Admin.NET/JRFF5WLM.png)](https://giteye.net/chart/JRFF5WLM)
+
+**感谢 [TLog 作者](https://gitee.com/bryan31) 提供的贡献者实时头像。**
+
 ### 💐 特别鸣谢
 - 👉 Furion：  [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - 👉 xiaonuo：[https://gitee.com/xiaonuobase/snowy](https://gitee.com/xiaonuobase/snowy)
