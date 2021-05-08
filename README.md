@@ -1,10 +1,5 @@
-<div align="center">
-    <p align="center">
-        <img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/frontend/public/logo.png" height="50" alt="logo"/>
-    </p>
-</div>
 
-<div align="center"><h1 align="center">Admin.NET</h1></div>
+<div align="center"><h1 align="center">Admin.NET</a></h1></div>
 <div align="center"><h3 align="center">前后端分离架构，开箱即用，紧随前沿技术</h3></div>
 
 <div align="center">
@@ -20,7 +15,7 @@
 ### 🍟 概述
 
 * 基于.NET 5实现的通用权限管理平台（RBAC模式）。整合最新技术高效快速开发，前后端分离模式，开箱即用。
-* 后台基于Furion框架，前端基于小诺Vue Antd框架。EFCore、多租户、分库读写分离、缓存、数据校验、鉴权、动态API、gRPC等众多黑科技集一身。
+* 后台基于Furion框架，前端基于小诺Antd Vue框架。集EFCore、多租户、分库读写分离、缓存、数据校验、鉴权、动态API、gRPC等众多黑科技于一身。
 * 模块化架构设计，层次清晰，业务层推荐写到单独模块，框架升级不影响业务!
 * 核心模块包括：用户、角色、职位、组织机构、菜单、字典、日志、多应用管理、文件管理、定时任务等功能。
 * 代码量少、上手简单、功能强大、易扩展，轻松开发从现在开始！
@@ -192,7 +187,7 @@
 - [x] 集成多租户功能
 - [x] 集成代码生成器
 - [x] 集成导入导出
-- [ ] 在线用户及黑名单
+- [x] 在线用户及黑名单
 - [ ] 邮件发送
 - [ ] 短信发送
 - [ ] 集成微信开发
