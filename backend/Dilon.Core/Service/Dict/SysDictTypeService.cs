@@ -38,7 +38,7 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <returns></returns>
         [HttpGet("/sysDictType/page")]
-        public async Task<dynamic> QueryDictTypePageList([FromQuery] DictTypeInput input)
+        public async Task<dynamic> QueryDictTypePageList([FromQuery] DictTypePageInput input)
         {
             bool supperAdmin = _userManager.SuperAdmin;
             var code = !string.IsNullOrEmpty(input.Code?.Trim());
@@ -159,9 +159,7 @@ namespace Dilon.Core.Service
 
             if (!Enum.IsDefined(typeof(CommonStatus), input.Status))
                 throw Oops.Oh(ErrorCode.D3005);
-            dictType.UpdatedUserId = _userManager.UserId;
-            dictType.UpdatedUserName = _userManager.Name;
-            dictType.UpdatedTime = DateTime.Now;
+
             dictType.Status = input.Status;
             dictType.IsDeleted = false;
             await _sysDictTypeRep.UpdateAsync(dictType);

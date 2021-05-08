@@ -150,7 +150,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysMenu/list")]
-        public async Task<dynamic> GetMenuList([FromQuery] MenuInput input)
+        public async Task<dynamic> GetMenuList([FromQuery] GetMenuListInput input)
         {
             var application = !string.IsNullOrEmpty(input.Application?.Trim());
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
@@ -232,7 +232,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D4000);
 
             // 校验参数
-            CheckMenuParam(input);
+            CheckMenuParam(input.Adapt<MenuInput>());
 
             var menu = input.Adapt<SysMenu>();
             menu.Pids = await CreateNewPids(input.Pid);
@@ -285,7 +285,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D4000);
 
             // 校验参数
-            CheckMenuParam(input);
+            CheckMenuParam(input.Adapt<MenuInput>());
             // 如果是编辑，父id不能为自己的子节点
             var childIdList = await _sysMenuRep.DetachedEntities.Where(u => u.Pids.Contains(input.Id.ToString()))
                                                                 .Select(u => u.Id).ToListAsync();
@@ -372,7 +372,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysMenu/tree")]
-        public async Task<dynamic> GetMenuTree([FromQuery] MenuInput input)
+        public async Task<dynamic> GetMenuTree([FromQuery] GetMenuTreeInput input)
         {
             var application = !string.IsNullOrEmpty(input.Application?.Trim());
             var menus = await _sysMenuRep.DetachedEntities
@@ -397,7 +397,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysMenu/treeForGrant")]
-        public async Task<dynamic> TreeForGrant([FromQuery] MenuInput input)
+        public async Task<dynamic> TreeForGrant([FromQuery] TreeForGrantInput input)
         {
             var menuIdList = new List<long>();
             if (!_userManager.SuperAdmin)

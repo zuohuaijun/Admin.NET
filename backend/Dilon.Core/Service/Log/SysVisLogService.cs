@@ -30,7 +30,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysVisLog/page")]
-        public async Task<dynamic> QueryVisLogPageList([FromQuery] VisLogInput input)
+        public async Task<dynamic> QueryVisLogPageList([FromQuery] VisLogPageInput input)
         {
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var success = !string.IsNullOrEmpty(input.Success.ToString());

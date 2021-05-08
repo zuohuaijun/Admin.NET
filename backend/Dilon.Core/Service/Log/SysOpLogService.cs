@@ -31,7 +31,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysOpLog/page")]
-        public async Task<dynamic> QueryOpLogPageList([FromQuery] OpLogInput input)
+        public async Task<dynamic> QueryOpLogPageList([FromQuery] OpLogPageInput input)
         {
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var success = !string.IsNullOrEmpty(input.Success.ToString());

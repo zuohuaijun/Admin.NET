@@ -7,6 +7,6 @@ namespace Dilon.Core.Service
     {
         Task ClearExLog();
 
-        Task<dynamic> QueryExLogPageList([FromQuery] ExLogInput input);
+        Task<dynamic> QueryExLogPageList([FromQuery] ExLogPageInput input);
     }
 }

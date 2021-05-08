@@ -65,7 +65,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysApp/page")]
-        public async Task<dynamic> QueryAppPageList([FromQuery] AppInput input)
+        public async Task<dynamic> QueryAppPageList([FromQuery] AppPageInput input)
         {
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var code = !string.IsNullOrEmpty(input.Code?.Trim());
@@ -106,7 +106,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysApp/delete")]
-        public async Task DeleteApp(DeleteAppInput input)
+        public async Task DeleteApp(BaseId input)
         {
             var app = await _sysAppRep.FirstOrDefaultAsync(u => u.Id == input.Id);
             // 该应用下是否有状态为正常的菜单
@@ -154,10 +154,9 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 获取系统应用列表
         /// </summary>
-        /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysApp/list")]
-        public async Task<dynamic> GetAppList([FromQuery] AppInput input)
+        public async Task<dynamic> GetAppList()
         {
             return await _sysAppRep.DetachedEntities.Where(u => u.Status == CommonStatus.ENABLE).ToListAsync();
         }
@@ -186,7 +185,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysApp/changeStatus")]
-        public async Task ChangeUserAppStatus(UpdateAppInput input)
+        public async Task ChangeUserAppStatus(ChangeUserAppStatusInput input)
         {
             if (!Enum.IsDefined(typeof(CommonStatus), input.Status))
                 throw Oops.Oh(ErrorCode.D3005);

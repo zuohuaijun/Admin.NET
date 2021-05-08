@@ -13,9 +13,9 @@ namespace Dilon.Core.Service.Notice
 
         Task<NoticeDetailOutput> GetNotice([FromQuery] QueryNoticeInput input);
 
-        Task<dynamic> QueryNoticePageList([FromQuery] NoticeInput input);
+        Task<dynamic> QueryNoticePageList([FromQuery] NoticePageInput input);
 
-        Task<dynamic> ReceivedNoticePageList([FromQuery] NoticeInput input);
+        Task<dynamic> ReceivedNoticePageList([FromQuery] NoticePageInput input);
 
         Task UpdateNotice(UpdateNoticeInput input);
     }

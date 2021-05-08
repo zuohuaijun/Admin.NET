@@ -6,7 +6,7 @@ namespace Dilon.Core.Service
 {
     public interface ISysOrgService
     {
-        Task AddOrg(AddOrgInput input);
+        Task AddOrg(OrgAddInput input);
 
         Task DeleteOrg(DeleteOrgInput input);
 
@@ -14,11 +14,11 @@ namespace Dilon.Core.Service
 
         Task<SysOrg> GetOrg([FromQuery] QueryOrgInput input);
 
-        Task<List<OrgOutput>> GetOrgList([FromQuery] OrgInput input);
+        Task<List<OrgOutput>> GetOrgList([FromQuery] OrgListInput input);
 
-        Task<dynamic> GetOrgTree([FromQuery] OrgInput input);
+        Task<dynamic> GetOrgTree();
 
-        Task<dynamic> QueryOrgPageList([FromQuery] PageOrgInput input);
+        Task<dynamic> QueryOrgPageList([FromQuery] OrgPageInput input);
 
         Task UpdateOrg(UpdateOrgInput input);
 

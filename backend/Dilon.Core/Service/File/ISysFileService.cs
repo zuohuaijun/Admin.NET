@@ -17,7 +17,7 @@ namespace Dilon.Core.Service
 
         Task<IActionResult> PreviewFileInfo([FromQuery] QueryFileInoInput input);
 
-        Task<dynamic> QueryFileInfoPageList([FromQuery] FileInput input);
+        Task<dynamic> QueryFileInfoPageList([FromQuery] FilePageInput input);
 
         Task<long> UploadFileAvatar(IFormFile file);
 

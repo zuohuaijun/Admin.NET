@@ -43,40 +43,77 @@ namespace Dilon.Core.Service
         public int PageSize { get; set; } = 20;
     }
 
-    public class AddPosInput : PosInput
+    public class AddPosInput
     {
         /// <summary>
         /// 名称
         /// </summary>
         [Required(ErrorMessage = "职位名称不能为空")]
-        public override string Name { get; set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
         [Required(ErrorMessage = "职位编码不能为空")]
-        public override string Code { get; set; }
+        public string Code { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public int Sort { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 状态（字典 0正常 1停用 2删除）
+        /// </summary>
+        public int Status { get; set; }
     }
 
-    public class DeletePosInput
+    public class DeletePosInput : BaseId
+    {
+    }
+
+    public class UpdatePosInput
     {
         /// <summary>
         /// 职位Id
         /// </summary>
         [Required(ErrorMessage = "职位Id不能为空")]
         public long Id { get; set; }
-    }
 
-    public class UpdatePosInput : AddPosInput
-    {
         /// <summary>
-        /// 职位Id
+        /// 名称
         /// </summary>
-        [Required(ErrorMessage = "职位Id不能为空")]
-        public long Id { get; set; }
+        [Required(ErrorMessage = "职位名称不能为空")]
+        public string Name { get; set; }
+
+        /// <summary>
+        /// 编码
+        /// </summary>
+        [Required(ErrorMessage = "职位编码不能为空")]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public int Sort { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 状态（字典 0正常 1停用 2删除）
+        /// </summary>
+        public int Status { get; set; }
     }
 
-    public class QueryPosInput : DeletePosInput
+    public class QueryPosInput : BaseId
     {
     }
 }

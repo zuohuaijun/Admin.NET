@@ -6,37 +6,22 @@ namespace Dilon.Core.Service
     /// <summary>
     /// 字典值参数
     /// </summary>
-    public class DictDataInput : PageInputBase
+    public class DictDataPageInput : PageInputBase
     {
         /// <summary>
         /// 字典类型Id
         /// </summary>
-        public virtual long TypeId { get; set; }
+        public long TypeId { get; set; }
 
         /// <summary>
         /// 值
         /// </summary>
-        public virtual string Value { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
-        public virtual string Code { get; set; }
-
-        /// <summary>
-        /// 排序
-        /// </summary>
-        public virtual int Sort { get; set; }
-
-        /// <summary>
-        /// 备注
-        /// </summary>
-        public virtual string Remark { get; set; }
-
-        /// <summary>
-        /// 状态（字典 0正常 1停用 2删除）
-        /// </summary>
-        public virtual CommonStatus Status { get; set; }
+        public string Code { get; set; }
     }
 
     public class QueryDictDataListInput
@@ -48,55 +33,97 @@ namespace Dilon.Core.Service
         public long TypeId { get; set; }
     }
 
-    public class AddDictDataInput : DictDataInput
+    public class AddDictDataInput
     {
         /// <summary>
         /// 字典类型Id
         /// </summary>
         [Required(ErrorMessage = "字典类型Id不能为空"), DataValidation(ValidationTypes.Numeric)]
-        public override long TypeId { get; set; }
+        public long TypeId { get; set; }
 
         /// <summary>
         /// 值
         /// </summary>
         [Required(ErrorMessage = "字典值不能为空")]
-        public override string Value { get; set; }
+        public string Value { get; set; }
 
         /// <summary>
         /// 编码
         /// </summary>
         [Required(ErrorMessage = "字典值编码不能为空")]
-        public override string Code { get; set; }
+        public string Code { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public int Sort { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 状态（字典 0正常 1停用 2删除）
+        /// </summary>
+        public CommonStatus Status { get; set; }
     }
 
-    public class DeleteDictDataInput
+    public class DeleteDictDataInput : BaseId
+    {
+    }
+
+    public class UpdateDictDataInput
     {
         /// <summary>
         /// 字典值Id
         /// </summary>
         [Required(ErrorMessage = "字典值Id不能为空"), DataValidation(ValidationTypes.Numeric)]
         public long Id { get; set; }
+
+        /// <summary>
+        /// 字典类型Id
+        /// </summary>
+        [Required(ErrorMessage = "字典类型Id不能为空"), DataValidation(ValidationTypes.Numeric)]
+        public long TypeId { get; set; }
+
+        /// <summary>
+        /// 值
+        /// </summary>
+        [Required(ErrorMessage = "字典值不能为空")]
+        public string Value { get; set; }
+
+        /// <summary>
+        /// 编码
+        /// </summary>
+        [Required(ErrorMessage = "字典值编码不能为空")]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// 排序
+        /// </summary>
+        public int Sort { get; set; }
+
+        /// <summary>
+        /// 备注
+        /// </summary>
+        public string Remark { get; set; }
+
+        /// <summary>
+        /// 状态（字典 0正常 1停用 2删除）
+        /// </summary>
+        public CommonStatus Status { get; set; }
     }
 
-    public class UpdateDictDataInput : AddDictDataInput
+    public class ChageStateDictDataInput : BaseId
     {
         /// <summary>
-        /// 字典值Id
+        /// 状态（字典 0正常 1停用 2删除）
         /// </summary>
-        [Required(ErrorMessage = "字典值Id不能为空"), DataValidation(ValidationTypes.Numeric)]
-        public long Id { get; set; }
+        public CommonStatus Status { get; set; }
     }
 
-    public class ChageStateDictDataInput : DictDataInput
-    {
-        /// <summary>
-        /// 字典值Id
-        /// </summary>
-        [Required(ErrorMessage = "字典值Id不能为空"), DataValidation(ValidationTypes.Numeric)]
-        public long Id { get; set; }
-    }
-
-    public class QueryDictDataInput : DeleteDictDataInput
+    public class QueryDictDataInput : BaseId
     {
     }
 }

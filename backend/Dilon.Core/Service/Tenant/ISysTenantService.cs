@@ -18,7 +18,7 @@ namespace Dilon.Core.Service
 
         Task<List<long>> OwnMenu([FromQuery] QueryTenantInput input);
 
-        Task<dynamic> QueryTenantPageList([FromQuery] TenantInput input);
+        Task<dynamic> QueryTenantPageList([FromQuery] TenantPageInput input);
 
         Task ResetUserPwd(QueryTenantInput input);
 

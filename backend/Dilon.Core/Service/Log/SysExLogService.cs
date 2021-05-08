@@ -30,7 +30,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysExLog/page")]
-        public async Task<dynamic> QueryExLogPageList([FromQuery] ExLogInput input)
+        public async Task<dynamic> QueryExLogPageList([FromQuery] ExLogPageInput input)
         {
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var className = !string.IsNullOrEmpty(input.ClassName?.Trim());

@@ -16,7 +16,7 @@ namespace Dilon.Core.Service.CodeGen
 
         List<TableOutput> GetTableList();
 
-        Task<dynamic> QueryCodeGenPageList([FromQuery] CodeGenInput input);
+        Task<dynamic> QueryCodeGenPageList([FromQuery] CodeGenPageInput input);
 
         Task RunLocal(SysCodeGen input);
 

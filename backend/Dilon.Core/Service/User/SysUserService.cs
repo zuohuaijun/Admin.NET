@@ -56,7 +56,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysUser/page")]
-        public async Task<dynamic> QueryUserPageList([FromQuery] UserInput input)
+        public async Task<dynamic> QueryUserPageList([FromQuery] UserPageInput input)
         {
             var superAdmin = _userManager.SuperAdmin;
             var searchValue = input.SearchValue;
@@ -101,7 +101,7 @@ namespace Dilon.Core.Service
         public async Task AddUser(AddUserInput input)
         {
             // 数据范围检查
-            CheckDataScope(input);
+            CheckDataScope(input.SysEmpParam.OrgId);
 
             var isExist = await _sysUserRep.AnyAsync(u => u.Account == input.Account && !u.IsDeleted, false, true);
             if (isExist) throw Oops.Oh(ErrorCode.D1003);
@@ -135,7 +135,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D1014);
 
             // 数据范围检查
-            CheckDataScope(input);
+            CheckDataScope(input.SysEmpParam.OrgId);
 
             // 直接删除用户
             await user.DeleteAsync();
@@ -160,7 +160,7 @@ namespace Dilon.Core.Service
         public async Task UpdateUser(UpdateUserInput input)
         {
             // 数据范围检查
-            CheckDataScope(input);
+            CheckDataScope(input.SysEmpParam.OrgId);
 
             // 排除自己并且判断与其他是否相同
             var isExist = await _sysUserRep.AnyAsync(u => u.Account == input.Account && u.Id != input.Id, false);
@@ -176,12 +176,11 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 查看用户
         /// </summary>
-        /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysUser/detail")]
-        public async Task<dynamic> GetUser([FromQuery] QueryUserInput input)
+        public async Task<dynamic> GetUser(long id)
         {
-            var user = await _sysUserRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
+            var user = await _sysUserRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == id);
             var userDto = user.Adapt<UserOutput>();
             if (userDto != null)
             {
@@ -216,7 +215,7 @@ namespace Dilon.Core.Service
         public async Task GrantUserRole(UpdateUserInput input)
         {
             // 数据范围检查
-            CheckDataScope(input);
+            CheckDataScope(input.SysEmpParam.OrgId);
             await _sysUserRoleService.GrantRole(input);
         }
 
@@ -232,7 +231,7 @@ namespace Dilon.Core.Service
             await _sysCacheService.RemoveAsync(CommonConst.CACHE_KEY_DATASCOPE + $"{input.Id}");
 
             // 数据范围检查
-            CheckDataScope(input);
+            CheckDataScope(input.SysEmpParam.OrgId);
             await _sysUserDataScopeService.GrantData(input);
         }
 
@@ -314,7 +313,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysUser/selector")]
-        public async Task<dynamic> GetUserSelector([FromQuery] UserInput input)
+        public async Task<dynamic> GetUserSelector([FromQuery] UserSelectorInput input)
         {
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             return await _sysUserRep.DetachedEntities
@@ -334,7 +333,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysUser/export")]
-        public async Task<IActionResult> ExportUser([FromQuery] UserInput input)
+        public async Task<IActionResult> ExportUser()
         {
             var users = _sysUserRep.DetachedEntities.AsQueryable();
 
@@ -389,7 +388,7 @@ namespace Dilon.Core.Service
         /// <param name="sysUser"></param>
         /// <returns></returns>
         [NonAction]
-        public async Task SaveAuthUserToUser(AuthUserInput authUser, UserInput sysUser)
+        public async Task SaveAuthUserToUser(AuthUserInput authUser, CreateUserInput sysUser)
         {
             var user = sysUser.Adapt<SysUser>();
             user.AdminType = AdminType.None; // 非管理员
@@ -446,16 +445,17 @@ namespace Dilon.Core.Service
 
         /// <summary>
         /// 检查普通用户数据范围
+        /// 当有用户有多个组织时，在登录时选择一个组织，所以组织id（orgId）从前端传过来
         /// </summary>
-        /// <param name="userParam"></param>
+        /// <param name="orgId"></param>
         /// <returns></returns>
-        private async void CheckDataScope(UserInput userParam)
+        private async void CheckDataScope(string orgId)
         {
             // 如果当前用户不是超级管理员，则进行数据范围校验
             if (!_userManager.SuperAdmin)
             {
                 var dataScopes = await GetUserDataScopeIdList(_userManager.UserId);
-                if (dataScopes == null || (userParam.SysEmpParam.OrgId != null && !dataScopes.Contains(long.Parse(userParam.SysEmpParam.OrgId))))
+                if (dataScopes == null || (orgId != null && !dataScopes.Any(u => u == long.Parse(orgId))))
                     throw Oops.Oh(ErrorCode.D1013);
             }
         }

@@ -11,9 +11,9 @@ namespace Dilon.Core.Service
 
         Task<SysConfig> GetConfig([FromQuery] QueryConfigInput input);
 
-        Task<dynamic> GetConfigList([FromQuery] ConfigInput input);
+        Task<dynamic> GetConfigList();
 
-        Task<dynamic> QueryConfigPageList([FromQuery] ConfigInput input);
+        Task<dynamic> QueryConfigPageList([FromQuery] ConfigPageInput input);
 
         Task UpdateConfig(UpdateConfigInput input);
 

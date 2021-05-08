@@ -39,7 +39,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysTimers/page")]
-        public async Task<dynamic> GetTimerPageList([FromQuery] JobInput input)
+        public async Task<dynamic> GetTimerPageList([FromQuery] JobPageInput input)
         {
             var workers = SpareTime.GetWorkers().ToList();
 
@@ -69,10 +69,7 @@ namespace Dilon.Core.Service
         public async Task<dynamic> GetLocalJobList()
         {
             // 获取本地所有任务方法
-            var LocalJobs = await GetTaskMethods();
-
-            // TaskMethodInfo继承自LocalJobOutput，直接强转为LocalJobOutput再返回
-            return LocalJobs.Select(t => (LocalJobOutput)t);
+            return await GetTaskMethods();
         }
 
         /// <summary>
@@ -81,7 +78,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysTimers/add")]
-        public async Task AddTimer(JobInput input)
+        public async Task AddTimer(AddJobInput input)
         {
             var isExist = await _sysTimerRep.AnyAsync(u => u.JobName == input.JobName, false);
             if (isExist)
@@ -130,9 +127,9 @@ namespace Dilon.Core.Service
 
             var timer = input.Adapt<SysTimer>();
             await timer.UpdateAsync(ignoreNullValues: true);
-
+            var addJobInput = input.Adapt<AddJobInput>();
             // 再添加到任务调度里
-            AddTimerJob(input);
+            AddTimerJob(addJobInput);
         }
 
         /// <summary>
@@ -152,7 +149,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysTimers/stop")]
-        public void StopTimerJob(JobInput input)
+        public void StopTimerJob(StopJobInput input)
         {
             SpareTime.Stop(input.JobName);
         }
@@ -163,7 +160,7 @@ namespace Dilon.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost("/sysTimers/start")]
-        public void StartTimerJob(JobInput input)
+        public void StartTimerJob(AddJobInput input)
         {
             var timer = SpareTime.GetWorkers().ToList().Find(u => u.WorkerName == input.JobName);
             if (timer == null)
@@ -178,7 +175,7 @@ namespace Dilon.Core.Service
         /// </summary>
         /// <param name="input"></param>
         [NonAction]
-        public void AddTimerJob(JobInput input)
+        public void AddTimerJob(AddJobInput input)
         {
             Action<SpareTimer, long> action = null;
 
@@ -272,7 +269,7 @@ namespace Dilon.Core.Service
         [NonAction]
         public void StartTimerJob()
         {
-            var sysTimerList = _sysTimerRep.DetachedEntities.Where(t => t.StartNow).Select(u => u.Adapt<JobInput>()).ToList();
+            var sysTimerList = _sysTimerRep.DetachedEntities.Where(t => t.StartNow).Select(u => u.Adapt<AddJobInput>()).ToList();
             sysTimerList.ForEach(AddTimerJob);
         }
 
