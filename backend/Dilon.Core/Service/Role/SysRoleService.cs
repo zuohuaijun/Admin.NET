@@ -176,7 +176,7 @@ namespace Dilon.Core.Service
                 throw Oops.Oh(ErrorCode.D1006);
 
             var sysRole = input.Adapt<SysRole>();
-            await sysRole.UpdateAsync();
+            await sysRole.UpdateExcludeAsync(new[] { nameof(SysRole.DataScopeType) }, true);
         }
 
         /// <summary>
