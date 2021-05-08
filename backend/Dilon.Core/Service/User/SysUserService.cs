@@ -330,7 +330,6 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 用户导出
         /// </summary>
-        /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysUser/export")]
         public async Task<IActionResult> ExportUser()

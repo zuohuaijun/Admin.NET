@@ -49,7 +49,6 @@ namespace Dilon.Core.Service
         /// <summary>
         /// 获取系统参数配置列表
         /// </summary>
-        /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysConfig/list")]
         public async Task<dynamic> GetConfigList()

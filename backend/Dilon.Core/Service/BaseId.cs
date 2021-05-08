@@ -3,10 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Dilon.Core.Service
 {
+    /// <summary>
+    /// 主键Id映射DTO
+    /// </summary>
     public class BaseId
     {
         /// <summary>
-        /// 应用Id
+        /// 主键Id
         /// </summary>
         [Required(ErrorMessage = "Id不能为空")]
         [DataValidation(ValidationTypes.Numeric)]
