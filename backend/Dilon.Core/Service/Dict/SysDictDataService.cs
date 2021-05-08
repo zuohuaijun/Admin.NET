@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -153,7 +153,7 @@ namespace Dilon.Core.Service
         public async Task<dynamic> GetDictDataListByDictTypeId(long dictTypeId)
         {
             return await _sysDictDataRep.DetachedEntities.Where(u => u.SysDictType.Id == dictTypeId)
-                                                         .Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.Sort)
+                                                         .Where(u => u.Status == CommonStatus.ENABLE).OrderBy(u => u.Sort)
                                                          .Select(u => new
                                                          {
                                                              u.Code,
