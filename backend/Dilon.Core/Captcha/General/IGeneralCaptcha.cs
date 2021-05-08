@@ -1,9 +1,8 @@
-﻿namespace Dilon.Core
+namespace Dilon.Core
 {
     public interface IGeneralCaptcha
     {
         dynamic CheckCode(GeneralCaptchaInput input);
-
-        string CreateCaptchaImage(int length = 4);
+        dynamic CreateCaptchaImage(int length = 4);
     }
 }
