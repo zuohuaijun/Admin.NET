@@ -182,6 +182,15 @@
 提示：其他类型数据库依次类推，首先添加EF的Core版包，然后指定数据库类型，修改数据库连接字符串，执行EF迁移命令即可。
 ```
 
+【EF批量操作】
+
+使用 Zack.EFCore.Batch [https://hub.fastgit.org/yangzhongke/Zack.EFCore.Batch](https://hub.fastgit.org/yangzhongke/Zack.EFCore.Batch) 安装对应包即可
+1. MSSQL：Zack.EFCore.Batch.MSSQL
+2. MySql：Zack.EFCore.Batch.MySQL.Pomelo
+3. Npgsql：Zack.EFCore.Batch.Npgsql
+4. Oracle：Zack.EFCore.Batch.Oracle
+5. Sqlite：Zack.EFCore.Batch.Sqlite
+
 ### ⚡ 近期计划
 
 - [x] 集成多租户功能
@@ -206,11 +215,10 @@
 
 `Admin.NET` 遵循 `Apache-2.0` 开源协议，欢迎大家提交 `PR` 或 `Issue`。
 
-感谢每一位贡献代码的朋友。
+感谢每一位贡献代码的朋友。**感谢 [TLog 作者](https://gitee.com/bryan31) 提供的贡献者实时头像。**
 
 [![Giteye chart](https://chart.giteye.net/gitee/zuohuaijun/Admin.NET/JRFF5WLM.png)](https://giteye.net/chart/JRFF5WLM)
 
-**感谢 [TLog 作者](https://gitee.com/bryan31) 提供的贡献者实时头像。**
 
 ### 💐 特别鸣谢
 - 👉 Furion：  [https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
