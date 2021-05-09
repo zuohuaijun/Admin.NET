@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Admin.NET.Application.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="applicationsettings.json" />
+    <None Remove="Admin.NET.Application.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="applicationsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Admin.NET.Core\Admin.NET.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="System\Services\" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Admin.NET.Web.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Admin.NET.Web.Core.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Admin.NET.Application\Admin.NET.Application.csproj" />
+    <ProjectReference Include="..\Admin.NET.Database.Migrations\Admin.NET.Database.Migrations.csproj" />
+  </ItemGroup>
+
+</Project>

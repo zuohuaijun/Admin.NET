@@ -1,0 +1,53 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Furion.Extras.Admin.NET.xml</DocumentationFile>
+    <AssemblyName>Furion.Extras.Admin.NET</AssemblyName>
+    <Company>Dilon Co.,Ltd.</Company>
+    <Version>1.0.7</Version>
+    <Authors>左怀军/zuohuaijun</Authors>
+    <Product>Admin.NET</Product>
+    <Description>基于Furion框架实现的通用权限管理平台应用层框架。前后端分离，开箱即用。
+仓库地址：https://gitee.com/zuohuaijun/Admin.NET，包括前后端完整源码。</Description>
+    <Copyright>© 2021 Admin.NET, Dilon Co.,Ltd.</Copyright>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageProjectUrl>https://gitee.com/zuohuaijun/Admin.NET</PackageProjectUrl>
+    <PackageIcon>logo.png</PackageIcon>
+    <RepositoryUrl>https://gitee.com/zuohuaijun/Admin.NET</RepositoryUrl>
+    <RepositoryType>Gitee</RepositoryType>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Admin.NET.Core.xml" />
+    <None Remove="applicationconfig.json" />
+    <None Remove="Furion.Extras.Admin.NET.xml" />
+    <Content Include="applicationconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Furion.Extras.Admin.NET.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="logo.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Furion" Version="2.3.7" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.3.7" />
+    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.3.7" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.3.7" />
+    <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
+    <PackageReference Include="MiniExcel" Version="0.14.1" />
+    <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.0.3" />
+    <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.9" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="5.0.0" />
+    <PackageReference Include="UAParser" Version="3.1.46" />
+    <PackageReference Include="Yitter.IdGenerator" Version="1.0.12" />
+  </ItemGroup>
+
+</Project>
