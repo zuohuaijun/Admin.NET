@@ -52,7 +52,7 @@ dotnet new --install Furion.Admin.NET.Template.App
 3、使用脚手架（生成之后推荐将所有的 nuget 包更新到最新版本）
 dotnet new Admin.NET -n 你的项目名称
 
-其实安装之后可以在VS里面进行可视化操作
+其实安装之后可以直接在VS里面进行可视化及创建工程
 ```
 
 ### 😎 衍生版本
