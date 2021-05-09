@@ -11,7 +11,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion.Extras.Admin.NET" Version="1.0.6" />
+    <PackageReference Include="Furion.Extras.Admin.NET" Version="1.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="C:\Users\Administrator\.nuget\packages\furion.extras.admin.net\1.0.7\contentFiles\any\net5.0\applicationconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\Administrator\.nuget\packages\furion.extras.admin.net\1.0.7\contentFiles\any\net5.0\Furion.Extras.Admin.NET.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
