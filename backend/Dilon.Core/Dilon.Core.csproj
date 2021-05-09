@@ -4,7 +4,7 @@
     <TargetFramework>net5.0</TargetFramework>
     <NoWarn>1701;1702;1591</NoWarn>
     <DocumentationFile>Furion.Extras.Admin.NET.xml</DocumentationFile>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Authors>左怀军/zuohuaijun</Authors>
     <Company>Dilon Co.,Ltd.</Company>
     <Product>Admin.NET</Product>
@@ -38,7 +38,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="applicationconfig.json" />
     <None Remove="Dilon.Core.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="applicationconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
@@ -60,12 +67,6 @@
     <Compile Update="Service\CodeGen\Dto\TableOutput.cs">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Compile>
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="applicationconfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
   <ItemGroup>

@@ -56,7 +56,6 @@ namespace Dilon.Core.Service
         [HttpPost("/sysExLog/delete")]
         public async Task ClearExLog()
         {
-            // await _sysExLogRep.Context.DeleteRangeAsync();
             var exLogs = await _sysExLogRep.Entities.ToListAsync();
             await _sysExLogRep.DeleteAsync(exLogs);
         }

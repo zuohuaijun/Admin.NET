@@ -1,0 +1,305 @@
+﻿<template>
+  <a-modal
+    title="编辑@(@Model.BusName)"
+    :width="900"
+    :visible="visible"
+    :confirmLoading="confirmLoading"
+    @@ok="handleSubmit"
+    @@cancel="handleCancel">
+    <a-spin :spinning="confirmLoading">
+      <a-form :form="form">
+@foreach (var column in Model.TableField){
+if(@column.ColumnKey == "True"){
+        @:<a-form-item v-show="false"><a-input v-decorator="['@column.ColumnName']" /></a-form-item>
+}else{
+if (@column.WhetherAddUpdate == "Y"){
+if (@column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox"){
+        @:<a-form-item label="@column.ColumnComment" :labelCol="labelCol" :wrapperCol="wrapperCol">
+}else{
+        @:<a-form-item label="@column.ColumnComment" :labelCol="labelCol" :wrapperCol="wrapperCol" has-feedback>
+}
+if (@column.EffectType == "user"){
+if (@column.WhetherRequired == "Y"){
+          @:<user-select placeholder="请输入@(@column.ColumnComment)" v-decorator="['@column.ColumnName', {rules: [{required: true, message: '请输入@(@column.ColumnComment)！'}]}]" />
+}else{
+          @:<user-select placeholder="请输入@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" />
+}
+}
+if (@column.EffectType == "depart"){
+if (@column.WhetherRequired == "Y"){
+          @:<depart-select placeholder="请输入@(@column.ColumnComment)" v-decorator="['@column.ColumnName', {rules: [{required: true, message: '请输入@(@column.ColumnComment)！'}]}]" />
+}else{
+          @:<depart-select placeholder="请输入@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" />
+}
+}
+if (@column.EffectType == "input"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-input placeholder="请输入@(@column.ColumnComment)" v-decorator="['@column.ColumnName', {rules: [{required: true, message: '请输入@(@column.ColumnComment)！'}]}]" />
+}else{
+          @:<a-input placeholder="请输入@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" />
+}
+}
+if (@column.EffectType == "textarea"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-textarea placeholder="请输入@(@column.ColumnComment)" v-decorator="['@column.ColumnName', {rules: [{required: true, message: '请输入@(@column.ColumnComment)！'}]}]" :auto-size="{ minRows: 3, maxRows: 6 }"/>
+}else{
+          @:<a-textarea placeholder="请输入@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" :auto-size="{ minRows: 3, maxRows: 6 }"/>
+}
+}
+if (@column.EffectType == "inputnumber"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-input-number placeholder="请输入@(@column.ColumnComment)" style="width: 100%" v-decorator="['@column.ColumnName', {rules: [{required: true, message: '请输入@(@column.ColumnComment)！'}]}]" />
+}else{
+          @:<a-input-number placeholder="请输入@(@column.ColumnComment)" style="width: 100%" v-decorator="['@column.ColumnName']" />
+}
+}
+if (@column.EffectType == "select"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-select style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName', {rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]">
+            @:<a-select-option v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
+          @:</a-select>
+}else{
+          @:<a-select style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName', {rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]">
+            @:<a-select-option v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
+          @:</a-select>
+}
+}
+if (@column.EffectType == "radio"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-radio-group placeholder="请选择@(@column.ColumnComment)}" v-decorator="['@column.ColumnName',{rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]" >
+            @:<a-radio v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-radio>
+          @:</a-radio-group>
+}else{
+          @:<a-radio-group placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" >
+            @:<a-radio v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-radio>
+          @:</a-radio-group>
+}
+}
+if (@column.EffectType == "checkbox"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-checkbox-group placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName',{rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]" >
+            @:<a-checkbox v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-checkbox>
+          @:</a-checkbox-group>
+}else{
+          @:<a-checkbox-group placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" >
+            @:<a-checkbox v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-checkbox>
+          @:</a-checkbox-group>
+}
+}
+if (@column.EffectType == "switch"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-switch v-decorator="['@column.ColumnName',{rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }], valuePropName: 'checked'}]" />
+}else{
+          @:<a-switch v-decorator="['@column.ColumnName', { valuePropName: 'checked' }]" />
+}
+}
+if (@column.EffectType == "datepicker"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName',{rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]" @@change="onChange@(@column.ColumnName)"/>
+}else{
+          @:<a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName']" @@change="onChange@(@column.ColumnName)"/>
+}
+}
+if (@column.EffectType == "fk"){
+if (@column.WhetherRequired == "Y"){
+          @:<a-select style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName', {rules: [{ required: true, message: '请选择@(@column.ColumnComment)！' }]}]">
+            @:<a-select-option v-for="(item,index) in  @(@column.FkEntityName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
+          @:</a-select>
+}else{
+          @:<a-select style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-decorator="['@column.ColumnName']">
+            @:<a-select-option v-for="(item,index) in @(@column.FkEntityName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
+          @:</a-select>
+}
+}
+        @:</a-form-item>
+}
+}
+}
+      </a-form>
+    </a-spin>
+  </a-modal>
+</template>
+
+<script>
+@{
+    var editData = 0;
+    var DateQuery = "N";
+}
+@foreach (var column in Model.TableField){
+if (@column.WhetherAddUpdate == "Y"){
+if (@column.EffectType == "datepicker"){
+  DateQuery="Y";
+}
+if(@column.ColumnKey != "True"){
+if(@column.EffectType != "datepicker"){
+  editData++;
+}
+}
+}
+}
+@if(DateQuery == "Y"){
+  @:import moment from 'moment'
+}
+  import {
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+    @:@(@Model.ClassName)Fk@(@column.FkEntityName)List,
+}
+}
+    @(@Model.ClassName)Edit
+  } from '@@/api/modular/main/@(@Model.ClassName)Manage'
+  export default {
+    data () {
+      return {
+        labelCol: {
+          xs: { span: 24 },
+          sm: { span: 5 }
+        },
+        wrapperCol: {
+          xs: { span: 24 },
+          sm: { span: 15 }
+        },
+@foreach (var column in Model.TableField){
+if (@column.WhetherAddUpdate == "Y"){
+if (@column.DictTypeCode != ""){
+if (@column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox"){
+        @:@(@column.ColumnName)Data: [],
+}
+}
+if (@column.EffectType == "datepicker"){
+        @:@(@column.ColumnName)DateString: '',
+}
+}
+}
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+        @:@(@column.FkEntityName)Data: [],
+}
+}
+        visible: false,
+        confirmLoading: false,
+        form: this.$form.createForm(this)
+      }
+    },
+    methods: {
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+      @:@(@Model.ClassName)Fk@(@column.FkEntityName)List() {
+          @:@(@Model.ClassName)Fk@(@column.FkEntityName)List().then(res => {
+            @:this.@(@column.FkEntityName)Data = res.data
+          @:})
+      @:},
+}
+}
+@if(DateQuery == "Y"){
+      @:moment,
+}
+      // 初始化方法
+      edit (record) {
+        this.visible = true
+@foreach (var column in Model.TableField){
+if (@column.DictTypeCode != ""){
+if (@column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox"){
+        @:const @(@column.ColumnName)Option = this.$options
+        @:this.@(@column.ColumnName)Data = @(@column.ColumnName)Option.filters['dictData']('@column.DictTypeCode')
+}
+}
+}
+        setTimeout(() => {
+          this.form.setFieldsValue(
+            {
+@{var editDataColumn = 0;}
+@foreach (var column in Model.TableField){
+if(@column.ColumnKey == "True"){
+              @:@column.ColumnName: record.@column.ColumnName,
+}
+}
+@foreach (var column in Model.TableField){
+if (@column.WhetherAddUpdate == "Y"){
+if (@column.EffectType == "checkbox"){
+editDataColumn++;
+if(editDataColumn != editData) {
+              @:@column.ColumnName: JSON.parse(record.@column.ColumnName),
+}else{
+              @:@column.ColumnName: JSON.parse(record.@column.ColumnName)
+}
+}else if (@column.EffectType != "datepicker"){
+editDataColumn++;
+if(editDataColumn != editData){
+              @:@column.ColumnName: record.@column.ColumnName,
+}else{
+              @:@column.ColumnName: record.@column.ColumnName
+}
+}
+}
+}
+            }
+          )
+        }, 100)
+@foreach (var column in Model.TableField){
+if (@column.WhetherAddUpdate == "Y"){
+if (@column.EffectType == "datepicker"){
+        // 时间单独处理
+        //if (record.@column.ColumnName != null) {
+        @:this.form.getFieldDecorator('@column.ColumnName', { initialValue: moment(record.@column.ColumnName, 'YYYY-MM-DD') })
+        //}
+        @:this.@(@column.ColumnName)DateString = moment(record.@column.ColumnName).format('YYYY-MM-DD')
+}
+}
+}
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+      @:this.@(@Model.ClassName)Fk@(@column.FkEntityName)List()
+}
+}
+      },
+      handleSubmit () {
+        const { form: { validateFields } } = this
+        this.confirmLoading = true
+        validateFields((errors, values) => {
+          if (!errors) {
+            for (const key in values) {
+              if (typeof (values[key]) === 'object') {
+                values[key] = JSON.stringify(values[key])
+              }
+            }
+@foreach (var column in Model.TableField){
+if (@column.WhetherAddUpdate == "Y"){
+if (@column.EffectType == "datepicker"){
+            @:values.@column.ColumnName = this.@(@column.ColumnName)DateString
+}
+}
+}
+            @(@Model.ClassName)Edit(values).then((res) => {
+              if (res.success) {
+                this.$message.success('编辑成功')
+                this.confirmLoading = false
+                this.$emit('ok', values)
+                this.handleCancel()
+              } else {
+                this.$message.error('编辑失败：' + JSON.stringify(res.message))
+              }
+            }).finally((res) => {
+              this.confirmLoading = false
+            })
+          } else {
+            this.confirmLoading = false
+          }
+        })
+      },
+@foreach (var column in Model.TableField){
+if (@column.WhetherAddUpdate == "Y"){
+if (@column.EffectType == "datepicker"){
+      @:onChange@(@column.ColumnName)(date, dateString) {
+        @:this.@(@column.ColumnName)DateString = dateString
+      @:},
+}
+}
+}
+      handleCancel () {
+        this.form.resetFields()
+        this.visible = false
+      }
+    }
+  }
+</script>

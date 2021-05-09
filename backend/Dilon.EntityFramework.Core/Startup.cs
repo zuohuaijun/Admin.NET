@@ -17,7 +17,7 @@ namespace Dilon.EntityFramework.Core
 
                 options.AddDb<DefaultDbContext>(providerName: default, optionBuilder: opt =>
                 {
-                    opt.UseBatchEF_Sqlite();
+                    opt.UseBatchEF_Sqlite(); // EF批量组件
                 });
                 options.AddDb<MultiTenantDbContext, MultiTenantDbContextLocator>();
             }, "Dilon.Database.Migrations");

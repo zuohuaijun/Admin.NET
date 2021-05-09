@@ -1,0 +1,18 @@
+﻿using System;
+
+namespace @Model.NameSpace
+{
+    /// <summary>
+    /// @(@Model.BusName)输出参数
+    /// </summary>
+    public class @(@Model.ClassName)Output
+    {
+@foreach (var column in Model.TableField){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:public @column.NetType @column.ColumnName { get; set; }
+        @:
+}
+    }
+}

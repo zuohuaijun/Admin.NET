@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "左怀军/zuohuaijun",
+  "classifications": [
+    "Furion",
+    "Mvc",
+    "WebApi",
+    "Api",
+    "App",
+    "RESTful",
+    "Swagger",
+	"Admin.NET"
+  ],
+  "name": "Furion Admin.NET",
+  "identity": "Admin.NET.Template.App",
+  "shortName": "Admin.NET",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "sourceName": "Admin.NETApp",
+  "preferNameDirectory": true
+}

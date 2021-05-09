@@ -1,0 +1,7 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=./Admin.NETApp.db",
+    "MultiTenantConnection": "Data Source=./Admin.NETApp_SaaS.db",
+    "PgSqlConnection": "HOST=127.0.0.1;PORT=5432;DATABASE=Admin.NETApp;PASSWORD=123qwe;USER ID=postgres;"
+  }
+}
