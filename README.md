@@ -41,14 +41,17 @@
 |       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Admin.NET.Template.App/)        | Furion.Admin.NET.Template.App    |              [![nuget](https://img.shields.io/nuget/v/Furion.Admin.NET.Template.App.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Admin.NET.Template.App/)              | Admin.NET 框架模板     |
 
 ```
-1、打开 CMD 或 Powershell 执行模板安装命令：
+打开 CMD 或 Powershell 执行dotnet命令
+
+1、安装脚手架
 dotnet new --install Furion.Admin.NET.Template.App
 
-2、更新脚手架更新
+2、更新脚手架
 dotnet new --install Furion.Admin.NET.Template.App
 
 3、使用脚手架（生成之后推荐将所有的 nuget 包更新到最新版本）
 dotnet new Admin.NET -n 你的项目名称
+
 其实安装之后可以在VS里面进行可视化操作
 ```
 
