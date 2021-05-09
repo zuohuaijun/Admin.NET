@@ -12,7 +12,7 @@
 	"Admin.NET"
   ],
   "name": "Furion Admin.NET",
-  "identity": "Admin.NET.Template.App",
+  "identity": "Furion.Admin.NET.Template.App",
   "shortName": "Admin.NET",
   "tags": {
     "language": "C#",

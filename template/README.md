@@ -15,3 +15,10 @@ dotnet new -u D:\CODEWORK\Admin.NET\Admin.NET\template\Admin.NETTemplate
 dotnet new Admin.NET -n My.Project
 
 
+
+// 生成Nupkg包
+nuget pack D:\CODEWORK\Admin.NET\Admin.NET\template\Admin.NETTemplate\Admin.NET.Template.App.nuspec
+
+
+
+
