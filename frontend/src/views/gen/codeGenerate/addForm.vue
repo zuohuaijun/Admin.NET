@@ -188,7 +188,7 @@
        */
       selectedByDefault() {
         this.form.getFieldDecorator('nameSpace', {
-          initialValue: 'Dilon.Application'
+          initialValue: 'Admin.NET.Application'
         })
         // this.form.getFieldDecorator('tablePrefix', { valuePropName: 'checked', initialValue: 'N' })
         this.form.getFieldDecorator('generateType', {
@@ -329,7 +329,7 @@
         //   this.packageNameShow = true
         // } else {
         //   this.packageNameShow = false
-        //   this.form.setFieldsValue({ nameSpace: 'Dilon.Application' })
+        //   this.form.setFieldsValue({ nameSpace: 'Admin.NET.Application' })
         // }
       }
     }
