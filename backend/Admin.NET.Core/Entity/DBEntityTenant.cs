@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Admin.NET.Core.Entity
+namespace Admin.NET.Core
 {
     /// <summary>
     /// 自定义租户基类实体

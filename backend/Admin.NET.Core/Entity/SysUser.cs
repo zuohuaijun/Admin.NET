@@ -1,5 +1,4 @@
-﻿using Admin.NET.Core.Entity;
-using Furion.DatabaseAccessor;
+﻿using Furion.DatabaseAccessor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
