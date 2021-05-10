@@ -196,7 +196,7 @@
           initialValue: '2'
         })
         this.form.getFieldDecorator('authorName', {
-          initialValue: 'Dilon'
+          initialValue: 'zuohuaijun'
         })
 
         // 初始化菜单默认选择
