@@ -1,4 +1,4 @@
-﻿using Furion;
+using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
@@ -60,7 +60,7 @@ namespace Admin.NET.Core.Service
             var orgs = await _sysOrgRep.DetachedEntities
                                        .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")), // 根据机构名称模糊查询
                                               (id, u => u.Id == long.Parse(input.Id.Trim())), // 根据机构id查询
-                                              (pId, u => EF.Functions.Like(u.Pids, $"%[{input.Pid.Trim()}]%")
+                                              (pId, u => EF.Functions.Like(u.Pids, $"%{input.Pid.Trim()}%")
                                                          || u.Id == long.Parse(input.Pid.Trim()))) // 根据父机构id查询
                                        .Where(dataScopeList.Count > 0, u => dataScopeList.Contains(u.Id)) // 非管理员范围限制
                                        .Where(u => u.Status != CommonStatus.DELETED).OrderBy(u => u.Sort)
