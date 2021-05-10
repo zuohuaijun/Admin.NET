@@ -1,4 +1,4 @@
-﻿using Furion;
+using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
@@ -366,7 +366,7 @@ namespace Admin.NET.Core.Service.CodeGen
         /// <returns></returns>
         private List<string> GetTargetPathList(SysCodeGen input)
         {
-            var backendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName + @"\Dilon.Application\Service\" + input.TableName + @"\";
+            var backendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName + @"\Admin.NET.Application\Service\" + input.TableName + @"\";
             var servicePath = backendPath + input.TableName + "Service.cs";
             var iservicePath = backendPath + "I" + input.TableName + "Service.cs";
             var inputPath = backendPath + @"Dto\" + input.TableName + "Input.cs";
