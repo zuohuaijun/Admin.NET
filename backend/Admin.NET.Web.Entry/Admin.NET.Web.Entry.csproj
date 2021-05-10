@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+    <UserSecretsId>57d48f83-ab08-4ead-b238-744c8c8340e9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

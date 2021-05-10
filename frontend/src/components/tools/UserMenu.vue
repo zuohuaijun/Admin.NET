@@ -7,6 +7,10 @@
         </span>
       </a>-->
 
+      <span class="action" @click="toggleFullscreen">
+        <a-icon type="fullscreen-exit" v-if="isFullscreen" />
+        <a-icon type="fullscreen" v-else />
+      </span>
       <notice-icon class="action" />
 
       <a-dropdown>
@@ -58,6 +62,7 @@
 </template>
 
 <script>
+  import screenfull from 'screenfull'
   import NoticeIcon from '@/components/NoticeIcon'
   import {
     mapActions,
@@ -74,7 +79,8 @@
   export default {
     name: 'UserMenu',
     components: {
-      NoticeIcon
+      NoticeIcon,
+      screenfull
     },
     props: {
       mode: {
@@ -104,7 +110,8 @@
         visible: false,
         confirmLoading: false,
         form1: this.$form.createForm(this),
-        defApp: []
+        defApp: [],
+        isFullscreen: false
       }
     },
 
@@ -167,6 +174,19 @@
       handleCancel() {
         this.form1.resetFields()
         this.visible = false
+      },
+      /* 全屏切换 */
+      toggleFullscreen() {
+        if (!screenfull.isEnabled) {
+          message.error('您的浏览器不支持全屏模式')
+          return
+        }
+        screenfull.toggle()
+        if (screenfull.isFullscreen) {
+          this.isFullscreen = false
+        } else {
+          this.isFullscreen = true
+        }
       }
     },
     // signalr接收的信息
