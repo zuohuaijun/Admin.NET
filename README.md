@@ -221,6 +221,10 @@ dotnet new Admin.NET -n 你的项目名称
 4. Oracle：Zack.EFCore.Batch.Oracle
 5. Sqlite：Zack.EFCore.Batch.Sqlite
 
+```
+提示：记得修改Admin.NET.EntityFramework.Core层里面Startup注册服务类型 opt.UseBatchEF_Sqlite()， 改成相应得库类型。
+```
+
 ### ⚡ 近期计划
 
 - [x] 集成多租户功能
