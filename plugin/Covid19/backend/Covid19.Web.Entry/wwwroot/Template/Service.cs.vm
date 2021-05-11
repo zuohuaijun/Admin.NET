@@ -1,0 +1,166 @@
+﻿using Covid19.Core;
+using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor.Extensions;
+using Furion.DependencyInjection;
+using Furion.DynamicApiController;
+using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace @Model.NameSpace
+{
+    /// <summary>
+    /// @(@Model.BusName)服务
+    /// </summary>
+    [ApiDescriptionSettings(Name = "@Model.ClassName", Order = 100)]
+    public class @(@Model.ClassName)Service : I@(@Model.ClassName)Service, IDynamicApiController, ITransient
+    {
+        private readonly IRepository<@(@Model.ClassName)> _rep;
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+        @:private readonly IRepository<@(@column.FkEntityName)> _@(@column.LowerFkEntityName)Rep;
+}
+}
+
+        public @(@Model.ClassName)Service(
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+            @:IRepository<@(@column.FkEntityName)> @(@column.LowerFkEntityName)Rep,
+}
+}
+            IRepository<@(@Model.ClassName)> rep
+        )
+        {
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+            @:_@(@column.LowerFkEntityName)Rep = @(@column.LowerFkEntityName)Rep;
+}
+}
+            _rep = rep;
+        }
+
+        /// <summary>
+        /// 分页查询@(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet("/@Model.ClassName/page")]
+        public async Task<dynamic> Page([FromQuery] @(@Model.ClassName)Input input)
+        {
+            var entities = await _rep.DetachedEntities
+@foreach (var column in Model.TableField){
+if (@column.QueryWhether == "Y"){
+if (@column.NetType == "string"){
+if (@column.QueryType == "like"){
+                                     @:.Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => EF.Functions.Like(u.@(@column.ColumnName), $"%{input.@(@column.ColumnName).Trim()}%"))
+}else{
+                                     @:.Where(!string.IsNullOrEmpty(input.@column.ColumnName), u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
+}
+}else{
+                                     @:.Where(u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
+}
+}
+}
+                                     .ToPagedListAsync(input.PageNo, input.PageSize);
+            var result = XnPageResult<@(@Model.ClassName)>.PageResult<@(@Model.ClassName)Dto>(entities);
+            await DtoMapper(result.Rows);
+            return result;
+        }
+
+        /// <summary>
+        /// 增加@(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/@Model.ClassName/add")]
+        public async Task Add(Add@(@Model.ClassName)Input input)
+        {
+            var entity = input.Adapt<@(@Model.ClassName)>();
+            await entity.InsertAsync();
+        }
+
+        /// <summary>
+        /// 删除@(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/@Model.ClassName/delete")]
+        public async Task Delete(Delete@(@Model.ClassName)Input input)
+        {
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey == "True"){
+            @:var entity = await _rep.FirstOrDefaultAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
+}
+}
+            await entity.DeleteAsync();
+        }
+
+        /// <summary>
+        /// 更新@(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpPost("/@Model.ClassName/edit")]
+        public async Task Update(Update@(@Model.ClassName)Input input)
+        {
+            var entity = input.Adapt<@(@Model.ClassName)>();
+            await entity.UpdateAsync(true);
+        }
+
+        /// <summary>
+        /// 获取@(@Model.BusName)
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet("/@Model.ClassName/detail")]
+        public async Task<@(@Model.ClassName)> Get([FromQuery] Querye@(@Model.ClassName)Input input)
+        {
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey == "True"){
+            @:return await _rep.DetachedEntities.FirstOrDefaultAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
+}
+}            
+        }
+
+        /// <summary>
+        /// 获取@(@Model.BusName)列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        [HttpGet("/@Model.ClassName/list")]
+        public async Task<dynamic> List([FromQuery] @(@Model.ClassName)Input input)
+        {
+            return await _rep.DetachedEntities.ToListAsync();
+        }    
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+        @:
+        @:/// <summary>
+        @:/// 获取@(@column.FkEntityName)列表
+        @:/// </summary>
+        @:/// <returns></returns>
+        @:[HttpGet("/@Model.ClassName/fk@(@column.FkEntityName)")]
+        @:public async Task<dynamic> Fk@(@column.FkEntityName)List()
+        @:{
+            @:var list = await _@(@column.LowerFkEntityName)Rep.DetachedEntities.ToListAsync();
+            @:return list.Select(e => new {Code = e.Id, Name = e.@(@column.FkColumnName)});
+        @:}
+}
+}
+
+        private async Task DtoMapper(ICollection<@(@Model.ClassName)Dto> rows)
+        {
+            foreach (var item in rows)
+            {
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+                @:item.@(@column.FkEntityName)@(@column.FkColumnName) = (await _@(@column.LowerFkEntityName)Rep.FirstOrDefaultAsync(e => e.Id == item.@(@column.ColumnName)))?.@column.FkColumnName;
+}
+}
+            }
+        }
+    }
+}

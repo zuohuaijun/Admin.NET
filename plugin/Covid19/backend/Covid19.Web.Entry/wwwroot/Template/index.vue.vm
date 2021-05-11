@@ -1,0 +1,330 @@
+﻿<template>
+  <div>
+    <a-card :bordered="false" :bodyStyle="tstyle">
+@{var index = 0;}
+@if(Model.QueryWhetherList.Count > 0){
+      <text>
+      <div class="table-page-search-wrapper" v-if="hasPerm('@Model.ClassName:page')">
+        <a-form layout="inline">
+          <a-row :gutter="48"></text>      
+foreach (var column in Model.QueryWhetherList){
+index++;
+if(@index == 3){
+      <text><template v-if="advanced"></text>
+}
+if(@column.EffectType == "input" || @column.EffectType == "textarea"){
+if(@index >= 3){
+              <text>
+              <a-col :md="8" :sm="24">
+                <a-form-item label="@column.ColumnComment">
+                  <a-input v-model="queryParam.@column.ColumnName" allow-clear placeholder="请输入@(@column.ColumnComment)"/>
+                </a-form-item>
+              </a-col></text>
+}else{
+            <text>
+            <a-col :md="8" :sm="24">
+              <a-form-item label="@column.ColumnComment">
+                <a-input v-model="queryParam.@column.ColumnName" allow-clear placeholder="请输入@(@column.ColumnComment)"/>
+              </a-form-item>
+            </a-col></text>
+}
+}else if(@column.EffectType == "inputnumber"){
+if(@index >= 3){
+              <text><a-col :md="8" :sm="24">
+                <a-form-item label="@column.ColumnComment">
+                  <a-input-number v-model="queryParam.@column.ColumnName" style="width: 100%" allow-clear placeholder="请输入@(@column.ColumnComment)"/>
+                </a-form-item>
+              </a-col></text>
+}else{
+            <text><a-col :md="8" :sm="24">
+              <a-form-item label="@column.ColumnComment">
+                <a-input-number v-model="queryParam.@column.ColumnName" style="width: 100%" allow-clear placeholder="请输入@(@column.ColumnComment)"/>
+              </a-form-item>
+            </a-col></text>
+}
+}else if(@column.EffectType == "select" || @column.EffectType == "radio"){
+if(@index >= 3){
+              <text><a-col :md="8" :sm="24">
+                <a-form-item label="@column.ColumnComment">
+                  <a-select style="width: 100%" v-model="queryParam.@column.ColumnName" placeholder="请选择@(@column.ColumnComment)">
+                    <a-select-option v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
+                  </a-select>
+                </a-form-item>
+              </a-col></text>
+}else{
+            <text><a-col :md="8" :sm="24">
+              <a-form-item label="@column.ColumnComment">
+                <a-select style="width: 100%" v-model="queryParam.@column.ColumnName" placeholder="请选择@(@column.ColumnComment)">
+                  <a-select-option v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
+                </a-select>
+              </a-form-item>
+            </a-col></text>
+}
+}else if(@column.EffectType == "datepicker"){
+if(@index >= 3){
+              <text><a-col :md="8" :sm="24">
+                <a-form-item label="@column.ColumnComment">
+                  <a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-model="queryParam.@(@column.ColumnName)Date" @@change="onChange@(@column.ColumnName)"/>
+                </a-form-item>
+              </a-col></text>
+}else{
+            <text><a-col :md="8" :sm="24">
+              <a-form-item label="@column.ColumnComment">
+                <a-date-picker style="width: 100%" placeholder="请选择@(@column.ColumnComment)" v-model="queryParam.@(@column.ColumnName)Date" @@change="onChange@(@column.ColumnName)"/>
+              </a-form-item>
+            </a-col></text>
+}
+}
+}
+if(Model.QueryWhetherList.Count > 2){
+            </template>
+}if(Model.QueryWhetherList.Count > 2){
+            <text>
+            <a-col :md="8" :sm="24" >
+              <span class="table-page-search-submitButtons">
+                <a-button type="primary" @@click="$refs.table.refresh(true)" >查询</a-button>
+                <a-button style="margin-left: 8px" @@click="() => queryParam = {}">重置</a-button>
+                <a @@click="toggleAdvanced" style="margin-left: 8px"> {{ advanced ? '收起' : '展开' }}
+                  <a-icon :type="advanced ? 'up' : 'down'"/>
+                </a>
+              </span>
+            </a-col></text>
+}else{
+            <text><a-col :md="8" :sm="24">
+              <span class="table-page-search-submitButtons">
+                <a-button type="primary" @@click="$refs.table.refresh(true)">查询</a-button>
+                <a-button style="margin-left: 8px" @@click="() => queryParam = {}">重置</a-button>
+              </span>
+            </a-col></text>
+}
+<text>
+</text>
+          </a-row>
+        </a-form>
+      </div>
+}
+    </a-card>
+    <a-card :bordered="false">
+      <s-table
+        ref="table"
+        :columns="columns"
+        :data="loadData"
+        :alert="true"
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey == "True"){
+        @::rowKey="(record) => record.@column.ColumnName"
+}
+}
+        :rowSelection="{ selectedRowKeys: selectedRowKeys, onChange: onSelectChange }">
+        <template class="table-operator" slot="operator" v-if="hasPerm('@Model.ClassName:add')" >
+          <a-button type="primary" v-if="hasPerm('@Model.ClassName:add')" icon="plus" @@click="$refs.addForm.add()">新增@(@Model.BusName)</a-button>
+        </template>
+@foreach (var column in Model.TableField){
+if(@column.WhetherTable == "Y"){
+if(@column.WhetherRetract == "Y" || @column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox"){
+        @:<span slot="@(@column.ColumnName)scopedSlots" slot-scope="text">
+if(@column.WhetherRetract == "Y" && (@column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox")){
+          @:<ellipsis :length="10" tooltip>{{ '@column.DictTypeCode' | dictType(text) }}</ellipsis>
+}else if(@column.WhetherRetract == "Y"){
+          @:<ellipsis :length="10" tooltip>{{ text }}</ellipsis>
+}else if(@column.EffectType == "checkbox"){
+          @:<a-tag v-for="textData in JSON.parse(text)" :key="textData.code" color="green">{{ 'sex' | dictType(textData) }}</a-tag>
+}else{
+          @:{{ '@column.DictTypeCode' | dictType(text) }}
+}
+        @:</span>
+}
+}
+}
+        <span slot="action" slot-scope="text, record">
+          <a v-if="hasPerm('@Model.ClassName:edit')" @@click="$refs.editForm.edit(record)">编辑</a>
+          <a-divider type="vertical" v-if="hasPerm('@Model.ClassName:edit') & hasPerm('@Model.ClassName:delete')"/>
+          <a-popconfirm v-if="hasPerm('@Model.ClassName:delete')" placement="topRight" title="确认删除？" @@confirm="() => @(@Model.ClassName)Delete(record)">
+            <a>删除</a>
+          </a-popconfirm>
+        </span>
+      </s-table>
+      <add-form ref="addForm" @@ok="handleOk" />
+      <edit-form ref="editForm" @@ok="handleOk" />
+    </a-card>
+  </div>
+</template>
+<script>
+@{
+    var columnData = 0;
+    var Ellipsis = "N";
+    var DateQuery = "N";
+}
+@foreach (var column in Model.TableField){
+if(@column.WhetherTable == "Y"){
+if(@column.WhetherRetract == "Y")
+Ellipsis="Y";
+columnData++;
+}
+if(@column.QueryWhether == "Y"){
+if(@column.EffectType == "datepicker")
+ DateQuery="Y";
+}
+}
+@if(Ellipsis == "Y"){
+  @:import { STable, Ellipsis } from '@@/components'
+}else{
+  @:import { STable } from '@@/components'
+}
+@if(DateQuery == "Y"){
+  @:import moment from 'moment'
+}
+  import { @(@Model.ClassName)Page, @(@Model.ClassName)Delete } from '@@/api/modular/main/@(@Model.ClassName)Manage'
+  import addForm from './addForm.vue'
+  import editForm from './editForm.vue'
+  export default {
+    components: {
+@if(Ellipsis == "Y")
+      @:Ellipsis,
+      STable,
+      addForm,
+      editForm
+    },
+    data () {
+      return {
+@if(Model.QueryWhetherList.Count > 2){
+        @:advanced: false, // 高级搜索 展开/关闭
+}
+        queryParam: {},
+        columns: [
+@{var columnDataColumns = 0;}
+@foreach (var column in Model.TableField){
+if (@column.WhetherTable == "Y"){
+columnDataColumns++;
+          @:{
+            @:title: '@column.ColumnComment',
+            @:align: 'center',
+if(@column.EffectType == "switch"){
+            @:customRender: (vlaue) => (vlaue ? <a-tag color="green">True</a-tag> : <a-tag color="volcano">False</a-tag>),
+}
+if(@column.EffectType == "fk"){
+            @:customRender: (vlaue, record) => record.@(@column.LowerFkEntityName)@(@column.FkColumnName),
+}
+if(@column.WhetherRetract == "Y" || @column.EffectType == "select" || @column.EffectType == "radio" || @column.EffectType == "checkbox"){
+            @:dataIndex: '@column.ColumnName',
+            @:scopedSlots: { customRender: '@(@column.ColumnName)scopedSlots' }
+}else{
+            @:dataIndex: '@column.ColumnName'
+}
+if(columnDataColumns != columnData){
+          @:},
+}else{
+          @:}
+}
+}
+}
+        ],
+        tstyle: { 'padding-bottom': '0px', 'margin-bottom': '10px' },
+        // 加载数据方法 必须为 Promise 对象
+        loadData: parameter => {
+@if(DateQuery == "Y"){
+          @:return @(@Model.ClassName)Page(Object.assign(parameter, this.switchingDate())).then((res) => {
+}else{
+          @:return @(@Model.ClassName)Page(Object.assign(parameter, this.queryParam)).then((res) => {
+}
+            return res.data
+          })
+        },
+@foreach (var column in Model.TableField){
+if(@column.QueryWhether == "Y"){
+if(@column.EffectType == "select" || @column.EffectType == "radio"){
+if(@column.DictTypeCode != "")
+@:        @(@column.ColumnName)Data: [],
+}
+}
+}
+        selectedRowKeys: [],
+        selectedRows: []
+      }
+    },
+    created () {
+      if (this.hasPerm('@Model.ClassName:edit') || this.hasPerm('@Model.ClassName:delete')) {
+        this.columns.push({
+          title: '操作',
+          width: '150px',
+          dataIndex: 'action',
+          scopedSlots: { customRender: 'action' }
+        })
+      }
+@foreach (var column in Model.TableField){
+if(@column.QueryWhether == "Y"){
+if(@column.EffectType == "select" || @column.EffectType == "radio"){
+if(@column.DictTypeCode != ""){
+      @:const @(@column.ColumnName)Option = this.$options
+      @:this.@(@column.ColumnName)Data = @(@column.ColumnName)Option.filters['dictData']('@column.DictTypeCode')
+}
+}
+}
+}
+    },
+    methods: {
+@if(DateQuery == "Y"){
+      @:moment,
+}
+      /**
+       * 查询参数组装
+       */
+      switchingDate () {
+@foreach (var column in Model.TableField){
+if(@column.QueryWhether == "Y"){
+if(@column.EffectType == "datepicker"){
+        @:const queryParam@(@column.ColumnName) = this.queryParam.@(@column.ColumnName)Date
+        @:if (queryParam@(@column.ColumnName) != null) {
+        @:    this.queryParam.@column.ColumnName = moment(queryParam@(@column.ColumnName)).format('YYYY-MM-DD')
+        @:    if (queryParam@(@column.ColumnName).length < 1) {
+        @:        delete this.queryParam.@(@column.ColumnName)
+        @:    }
+        @:}
+}
+}
+}
+        const obj = JSON.parse(JSON.stringify(this.queryParam))
+        return obj
+      },
+      @(@Model.ClassName)Delete (record) {
+        @(@Model.ClassName)Delete(record).then((res) => {
+          if (res.success) {
+            this.$message.success('删除成功')
+            this.$refs.table.refresh()
+          } else {
+            this.$message.error('删除失败') // + res.message
+          }
+        })
+      },
+@if(Model.QueryWhetherList.Count > 2){
+      @:toggleAdvanced () {
+        @:this.advanced = !this.advanced
+      @:},
+}
+@foreach (var column in Model.QueryWhetherList){
+if(@column.QueryWhether == "Y"){
+if(@column.EffectType == "datepicker"){
+      @:onChange@(@column.ColumnName)(date, dateString) {
+      @:  this.@(@column.ColumnName)DateString = dateString
+      @:},
+}
+}
+}
+      handleOk () {
+        this.$refs.table.refresh()
+      },
+      onSelectChange (selectedRowKeys, selectedRows) {
+        this.selectedRowKeys = selectedRowKeys
+        this.selectedRows = selectedRows
+      }
+    }
+  }
+</script>
+<style lang="less">
+  .table-operator {
+    margin-bottom: 18px;
+  }
+  button {
+    margin-right: 8px;
+  }
+</style>

@@ -1,0 +1,11 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Covid19.EntityFramework.Core\Covid19.EntityFramework.Core.csproj" />
+  </ItemGroup>
+
+</Project>

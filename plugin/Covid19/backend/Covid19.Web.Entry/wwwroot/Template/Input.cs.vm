@@ -1,0 +1,69 @@
+﻿using Covid19.Core;
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace @Model.NameSpace
+{
+    /// <summary>
+    /// @(@Model.BusName)输入参数
+    /// </summary>
+    public class @(@Model.ClassName)Input : PageInputBase
+    {
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey != "True"){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:public virtual @column.NetType @column.ColumnName { get; set; }
+        @:
+}
+}
+    }
+
+    public class Add@(@Model.ClassName)Input : @(@Model.ClassName)Input
+    {
+@foreach (var column in Model.TableField){
+if (@column.WhetherRequired == "Y"){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:[Required(ErrorMessage = "@(@column.ColumnComment)不能为空")]
+        @:public override @column.NetType @column.ColumnName { get; set; }
+        @:
+}
+}
+    }
+
+    public class Delete@(@Model.ClassName)Input
+    {
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey == "True"){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:[Required(ErrorMessage = "@(@column.ColumnComment)不能为空")]
+        @:public @column.NetType @column.ColumnName { get; set; }
+        @:
+}
+}
+    }
+
+    public class Update@(@Model.ClassName)Input : @(@Model.ClassName)Input
+    {
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey == "True"){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:[Required(ErrorMessage = "@(@column.ColumnComment)不能为空")]
+        @:public @column.NetType @column.ColumnName { get; set; }
+        @:
+}
+}
+    }
+
+    public class Querye@(@Model.ClassName)Input : Delete@(@Model.ClassName)Input
+    {
+
+    }
+}

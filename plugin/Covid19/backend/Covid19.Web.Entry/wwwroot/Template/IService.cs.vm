@@ -1,0 +1,21 @@
+﻿using Covid19.Core;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
+
+namespace @Model.NameSpace
+{
+    public interface I@(@Model.ClassName)Service
+    {
+        Task Add(Add@(@Model.ClassName)Input input);
+        Task Delete(Delete@(@Model.ClassName)Input input);
+        Task<@(@Model.ClassName)> Get([FromQuery] Querye@(@Model.ClassName)Input input);
+        Task<dynamic> List([FromQuery] @(@Model.ClassName)Input input);
+        Task<dynamic> Page([FromQuery] @(@Model.ClassName)Input input);
+        Task Update(Update@(@Model.ClassName)Input input);
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnName != ""){
+        @:Task<dynamic> Fk@(@column.FkEntityName)List();
+}
+}
+    }
+}

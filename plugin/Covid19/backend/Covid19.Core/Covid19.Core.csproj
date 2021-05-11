@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <NoWarn>1701;1702;1591</NoWarn>
+    <DocumentationFile>Covid19.Core.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Covid19.Core.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Furion.Extras.Admin.NET" Version="1.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="C:\Users\Administrator\.nuget\packages\furion.extras.admin.net\1.0.7\contentFiles\any\net5.0\applicationconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="C:\Users\Administrator\.nuget\packages\furion.extras.admin.net\1.0.7\contentFiles\any\net5.0\Furion.Extras.Admin.NET.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

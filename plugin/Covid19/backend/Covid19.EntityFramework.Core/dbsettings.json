@@ -1,0 +1,7 @@
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Data Source=./Covid19.db",
+    "MultiTenantConnection": "Data Source=./Covid19_SaaS.db",
+    "PgSqlConnection": "HOST=127.0.0.1;PORT=5432;DATABASE=Covid19;PASSWORD=123qwe;USER ID=postgres;"
+  }
+}
