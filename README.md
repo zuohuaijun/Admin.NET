@@ -1,4 +1,4 @@
-
+<script src="https://assets.gitee.com/webpacks/project_animation-d3270c762ea6fed9d2c1.bundle.js"></script> 
 <div align="center"><h1 align="center">Admin.NET</a></h1></div>
 <div align="center"><h3 align="center">前后端分离架构，开箱即用，紧随前沿技术</h3></div>
 
@@ -26,9 +26,9 @@
 
 ## 🍁 框架拓展包
 
-|                                                                 包类型                                                                             | 名称                             |                                                                                 版本                                                                                                        | 描述                   |
+|                                                                 包类型                                                                             | 名称                              |                                                                                 版本                                                                                                     | 描述                   |
 | :------------------------------------------------------------------------------------------------------------------------------------------------: | -------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | ---------------------- |
-|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)              | Furion.Extras.Admin.NET          |              [![nuget](https://img.shields.io/nuget/v/Furion.Admin.NET.Template.App.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)                          | Admin.NET 核心包       |
+|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)              | Furion.Extras.Admin.NET          |              [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Admin.NET.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)                          | Admin.NET 核心包       |
 
 ```
 可自行按照 Furion 框架脚手架初始化工程，然后引用此包即可，其他层配置见源代码。
@@ -36,7 +36,7 @@
 
 ## 🍀 框架脚手架
 
-|                                                                 模板类型                                                                           | 名称                             |                                                                                 版本                                                                                                      | 描述                   |
+|                                                                 模板类型                                                                           | 名称                              |                                                                                 版本                                                                                                     | 描述                   |
 | :------------------------------------------------------------------------------------------------------------------------------------------------: | -------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | ---------------------- |
 |       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Admin.NET.Template.App/)        | Furion.Admin.NET.Template.App    |              [![nuget](https://img.shields.io/nuget/v/Furion.Admin.NET.Template.App.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Admin.NET.Template.App/)              | Admin.NET 框架模板     |
 
