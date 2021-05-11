@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DataEncryption;
 using Furion.DependencyInjection;
@@ -138,7 +138,7 @@ namespace Admin.NET.Core.Service
             await _sysTenantRep.DeleteAsync(tenant);
 
             // 删除与租户相关的表数据
-            var users = await Db.GetRepository<SysUser>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            var users = await Db.GetRepository<SysUser>().Where(u => u.TenantId == input.Id, false, true).ToListAsync();
             users.ForEach(u => { u.Delete(); });
 
             var userIds = users.Select(u => u.Id).ToList();
@@ -157,7 +157,7 @@ namespace Admin.NET.Core.Service
             var empexts = await Db.GetRepository<SysEmpExtOrgPos>().Where(u => userIds.Contains(u.SysEmpId), false).ToListAsync();
             empexts.ForEach(u => { u.Delete(); });
 
-            var roles = await Db.GetRepository<SysRole>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            var roles = await Db.GetRepository<SysRole>().Where(u => u.TenantId == input.Id, false,true).ToListAsync();
             roles.ForEach(u => { u.Delete(); });
 
             var roleIds = roles.Select(u => u.Id).ToList();
@@ -167,10 +167,10 @@ namespace Admin.NET.Core.Service
             var roleDataScopes = await Db.GetRepository<SysRoleDataScope>().Where(u => roleIds.Contains(u.SysRoleId), false).ToListAsync();
             roleDataScopes.ForEach(u => { u.Delete(); });
 
-            var orgs = await Db.GetRepository<SysOrg>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            var orgs = await Db.GetRepository<SysOrg>().Where(u => u.TenantId == input.Id, false, true).ToListAsync();
             orgs.ForEach(u => { u.Delete(); });
 
-            var pos = await Db.GetRepository<SysPos>().Where(u => u.TenantId == input.Id, false).ToListAsync();
+            var pos = await Db.GetRepository<SysPos>().Where(u => u.TenantId == input.Id, false, true).ToListAsync();
             pos.ForEach(u => { u.Delete(); });
 
             //var entities = Db.GetDbContext().Model.GetEntityTypes().Where(u => u.ClrType.BaseType.Name == typeof(DBEntityTenant).Name).ToList();
