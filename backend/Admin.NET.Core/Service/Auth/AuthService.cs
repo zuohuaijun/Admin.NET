@@ -119,8 +119,7 @@ namespace Admin.NET.Core.Service
             var loginOutput = user.Adapt<LoginOutput>();
 
             loginOutput.LastLoginTime = user.LastLoginTime = DateTimeOffset.Now;
-            var ip = httpContext.Request.Headers["X-Real-IP"].FirstOrDefault();
-            loginOutput.LastLoginIp = user.LastLoginIp = string.IsNullOrEmpty(user.LastLoginIp) ? httpContext.GetRemoteIpAddressToIPv4() : ip;
+            loginOutput.LastLoginIp = user.LastLoginIp = httpContext.GetRemoteIpAddressToIPv4();
 
             //var ipInfo = IpTool.Search(loginOutput.LastLoginIp);
             //loginOutput.LastLoginAddress = ipInfo.Country + ipInfo.Province + ipInfo.City + "[" + ipInfo.NetworkOperator + "][" + ipInfo.Latitude + ipInfo.Longitude + "]";

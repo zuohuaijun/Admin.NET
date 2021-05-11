@@ -4,6 +4,7 @@ using Admin.NET.Core.Service;
 using Furion;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using OnceMi.AspNetCore.OSS;
@@ -82,6 +83,12 @@ namespace Admin.NET.Web.Core
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
+            //  NGINX 反向代理获取真实IP
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             // 添加状态码拦截中间件
             app.UseUnifyResultStatusCodes();
