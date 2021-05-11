@@ -228,8 +228,6 @@ GIT完成后默认为SqlLite数据库，使用其他数据库可通过基于EF C
     Add-Migration v1.0.1 -Context MultiTenantDbContext
     update-database v1.0.1 -Context MultiTenantDbContext
 
-
-
 【EF批量操作】
 
 使用 Zack.EFCore.Batch [https://hub.fastgit.org/yangzhongke/Zack.EFCore.Batch](https://hub.fastgit.org/yangzhongke/Zack.EFCore.Batch) 安装对应包即可
