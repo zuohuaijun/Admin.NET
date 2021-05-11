@@ -1,4 +1,4 @@
-﻿using Admin.NET.Core;
+using Admin.NET.Core;
 using Admin.NET.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
@@ -40,9 +40,9 @@ namespace Admin.NET.EntityFramework.Core
 
             foreach (var entity in entities)
             {
-                if (entity.Entity.GetType().IsSubclassOf(typeof(DEntityBase)))
+               if (entity.Entity.GetType().IsSubclassOf(typeof(DEntityBase<long, MultiTenantDbContextLocator>)))
                 {
-                    var obj = entity.Entity as DEntityBase;
+                    var obj = entity.Entity as DEntityBase<long, MultiTenantDbContextLocator>;
                     if (entity.State == EntityState.Added)
                     {
                         obj.Id = YitIdHelper.NextId();
