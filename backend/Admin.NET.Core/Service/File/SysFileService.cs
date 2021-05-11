@@ -1,4 +1,4 @@
-﻿using Furion;
+using Furion;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
@@ -89,15 +89,15 @@ namespace Admin.NET.Core.Service
                 switch (file.FileLocation)
                 {
                     case (int)FileLocation.MINIO:
-                        await _oSSServiceFactory.Create().RemoveObjectAsync(bucketName, Path.Combine(file.FileBucket, file.FileObjectName));
+                        await _oSSServiceFactory.Create().RemoveObjectAsync(file.FileBucket, string.Concat(file.FilePath, "/", file.FileObjectName));
                         break;
 
                     case (int)FileLocation.ALIYUN:
-                        await _oSSServiceFactory.Create("Aliyun").RemoveObjectAsync(bucketName, Path.Combine(file.FileBucket, file.FileObjectName));
+                        await _oSSServiceFactory.Create("Aliyun").RemoveObjectAsync(file.FileBucket, string.Concat(file.FilePath, "/", file.FileObjectName));
                         break;
 
                     case (int)FileLocation.TENCENT:
-                        await _oSSServiceFactory.Create("QCloud").RemoveObjectAsync(bucketName, Path.Combine(file.FileBucket, file.FileObjectName));
+                        await _oSSServiceFactory.Create("QCloud").RemoveObjectAsync(file.FileBucket, string.Concat(file.FilePath, "/", file.FileObjectName));
                         break;
 
                     default:
@@ -155,25 +155,28 @@ namespace Admin.NET.Core.Service
         public async Task<IActionResult> DownloadFileInfo([FromQuery] QueryFileInoInput input)
         {
             var file = await GetFileInfo(input);
-            var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FilePath, file.FileObjectName);
             var fileName = HttpUtility.UrlEncode(file.FileOriginName, Encoding.GetEncoding("UTF-8"));
 
             switch (file.FileLocation)
             {
                 case (int)FileLocation.ALIYUN:
+                    var filePath = string.Concat(file.FilePath, "/", file.FileObjectName);
                     var stream1 = await (await _oSSServiceFactory.Create("Aliyun").PresignedGetObjectAsync(bucketName, filePath, 5)).GetAsStreamAsync();
                     return new FileStreamResult(stream1, "application/octet-stream") { FileDownloadName = fileName };
 
                 case (int)FileLocation.TENCENT:
-                    var stream2 = await (await _oSSServiceFactory.Create("QCloud").PresignedGetObjectAsync(bucketName, filePath, 5)).GetAsStreamAsync();
+                    var filePath1 = string.Concat(file.FilePath, "/", file.FileObjectName);
+                    var stream2 = await (await _oSSServiceFactory.Create("QCloud").PresignedGetObjectAsync(bucketName, filePath1, 5)).GetAsStreamAsync();
                     return new FileStreamResult(stream2, "application/octet-stream") { FileDownloadName = fileName };
 
                 case (int)FileLocation.MINIO:
-                    var stream3 = await (await _oSSServiceFactory.Create().PresignedGetObjectAsync(file.FileBucket, filePath, 5)).GetAsStreamAsync();
+                    var filePath2 = string.Concat(file.FilePath, "/", file.FileObjectName);
+                    var stream3 = await (await _oSSServiceFactory.Create().PresignedGetObjectAsync(file.FileBucket, filePath2, 5)).GetAsStreamAsync();
                     return new FileStreamResult(stream3, "application/octet-stream") { FileDownloadName = fileName };
 
                 default:
-                    var path = Path.Combine(App.WebHostEnvironment.WebRootPath, filePath);
+                    var filePath4 = Path.Combine(file.FilePath, file.FileObjectName);
+                    var path = Path.Combine(App.WebHostEnvironment.WebRootPath, filePath4);
                     return new FileStreamResult(new FileStream(path, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName };
             }
         }
@@ -265,8 +268,8 @@ namespace Admin.NET.Core.Service
             // 先存库获取Id
             var newFile = await new SysFile
             {
-                FileLocation = (int)FileLocation.LOCAL,
-                FileBucket = FileLocation.LOCAL.ToString(),
+                FileLocation = (int)fileLocation,
+                FileBucket = bucketName,
                 //FileObjectName = finalName,
                 FileOriginName = originalFilename,
                 FileSuffix = fileSuffix.TrimStart('.'),
@@ -278,19 +281,19 @@ namespace Admin.NET.Core.Service
             switch (fileLocation)
             {
                 case FileLocation.ALIYUN:
-                    var filePath = Path.Combine(pathType, finalName);
+                    var filePath = string.Concat(pathType, "/", finalName);
                     var stream = file.OpenReadStream();
                     await _oSSServiceFactory.Create("aliyun").PutObjectAsync(bucketName, filePath, stream);
                     break;
 
                 case FileLocation.TENCENT:
-                    var filePath1 = Path.Combine(pathType, finalName);
+                    var filePath1 = string.Concat(pathType, "/", finalName);
                     var stream1 = file.OpenReadStream();
                     await _oSSServiceFactory.Create("qcloud").PutObjectAsync(bucketName, filePath1, stream1);
                     break;
 
                 case FileLocation.MINIO:
-                    var filePath2 = Path.Combine(pathType, finalName);
+                    var filePath2 = string.Concat(pathType, "/", finalName);
                     var stream2 = file.OpenReadStream();
                     await _oSSServiceFactory.Create().PutObjectAsync(bucketName, filePath2, stream2);
                     break;
