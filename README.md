@@ -1,4 +1,3 @@
-<script src="https://assets.gitee.com/webpacks/project_animation-d3270c762ea6fed9d2c1.bundle.js"></script> 
 <div align="center"><h1 align="center">Admin.NET</a></h1></div>
 <div align="center"><h3 align="center">前后端分离架构，开箱即用，紧随前沿技术</h3></div>
 
