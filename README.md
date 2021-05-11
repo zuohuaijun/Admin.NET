@@ -1,4 +1,3 @@
-
 <div align="center"><h1 align="center">Admin.NET</a></h1></div>
 <div align="center"><h3 align="center">前后端分离架构，开箱即用，紧随前沿技术</h3></div>
 
@@ -26,9 +25,9 @@
 
 ## 🍁 框架拓展包
 
-|                                                                 包类型                                                                             | 名称                             |                                                                                 版本                                                                                                        | 描述                   |
+|                                                                 包类型                                                                             | 名称                              |                                                                                 版本                                                                                                     | 描述                   |
 | :------------------------------------------------------------------------------------------------------------------------------------------------: | -------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | ---------------------- |
-|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)              | Furion.Extras.Admin.NET          |              [![nuget](https://img.shields.io/nuget/v/Furion.Admin.NET.Template.App.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)                          | Admin.NET 核心包       |
+|       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)              | Furion.Extras.Admin.NET          |              [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Admin.NET.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)                          | Admin.NET 核心包       |
 
 ```
 可自行按照 Furion 框架脚手架初始化工程，然后引用此包即可，其他层配置见源代码。
@@ -36,7 +35,7 @@
 
 ## 🍀 框架脚手架
 
-|                                                                 模板类型                                                                           | 名称                             |                                                                                 版本                                                                                                      | 描述                   |
+|                                                                 模板类型                                                                           | 名称                              |                                                                                 版本                                                                                                     | 描述                   |
 | :------------------------------------------------------------------------------------------------------------------------------------------------: | -------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: | ---------------------- |
 |       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Admin.NET.Template.App/)        | Furion.Admin.NET.Template.App    |              [![nuget](https://img.shields.io/nuget/v/Furion.Admin.NET.Template.App.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Admin.NET.Template.App/)              | Admin.NET 框架模板     |
 
@@ -221,6 +220,10 @@ dotnet new Admin.NET -n 你的项目名称
 3. Npgsql：Zack.EFCore.Batch.Npgsql
 4. Oracle：Zack.EFCore.Batch.Oracle
 5. Sqlite：Zack.EFCore.Batch.Sqlite
+
+```
+提示：记得修改Admin.NET.EntityFramework.Core层里面Startup注册服务类型 opt.UseBatchEF_Sqlite()， 改成相应得库类型。
+```
 
 ### ⚡ 近期计划
 
