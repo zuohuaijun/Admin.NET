@@ -51,7 +51,7 @@ namespace Admin.NET.Web.Core
             if (userManager.SuperAdmin) return true;
 
             // 路由名称
-            var routeName = httpContext.Request.Path.Value.Substring(1).Replace("/", ":");
+            var routeName = httpContext.Request.Path.Value[1..].Replace("/", ":");
 
             // 默认路由(获取登录用户信息)
             var defalutRoute = new List<string>()
