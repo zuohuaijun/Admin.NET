@@ -211,6 +211,24 @@ dotnet new Admin.NET -n 你的项目名称
 ```
 提示：其他类型数据库依次类推，首先添加EF的Core版包，然后指定数据库类型，修改数据库连接字符串，执行EF迁移命令即可。
 ```
+【数据库初始化操作】
+GIT完成后默认为SqlLite数据库，使用其他数据库可通过基于EF Core的CodeFirst初始化,添加好拓展包，创建好空数据库，设置好数据库信息和后，即可通过此操作可进行数据库初始化操作。
+1. 启动项目设置为 XXXX.Web.Entry
+2. 程序包管理控制台默认项目设置为 XXXX.Database.Migrations
+3. 依次输入并回车执行
+    Add-Migration v1.0.0 -Context DefaultDbContext
+    update-database v1.0.0 -Context DefaultDbContext 
+    Add-Migration v1.0.0 -Context MultiTenantDbContext
+    update-database v1.0.0 -Context MultiTenantDbContext
+
+即可完成初始数据部署。后期添加/修改自己业务的数据类后通过更新版本号来更新数据库即可。
+操作实例：
+    Add-Migration v1.0.1 -Context DefaultDbContext
+    update-database v1.0.1 -Context DefaultDbContext 
+    Add-Migration v1.0.1 -Context MultiTenantDbContext
+    update-database v1.0.1 -Context MultiTenantDbContext
+
+
 
 【EF批量操作】
 
