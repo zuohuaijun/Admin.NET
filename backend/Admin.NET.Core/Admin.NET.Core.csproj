@@ -40,6 +40,7 @@
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.3.9" />
     <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.3.9" />
     <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.3.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.6" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
     <PackageReference Include="MiniExcel" Version="0.14.3" />
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.0.3" />

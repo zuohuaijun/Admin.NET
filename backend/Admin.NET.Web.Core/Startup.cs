@@ -24,11 +24,11 @@ namespace Admin.NET.Web.Core
             services.AddControllersWithViews()
                     .AddMvcFilter<RequestActionFilter>()
                     .AddInjectWithUnifyResult<XnRestfulResultProvider>()
-                    .AddJsonOptions(options =>
+                    .AddNewtonsoftJson(options =>
                     {
                         //options.JsonSerializerOptions.DefaultBufferSize = 10_0000;//返回较大数据数据序列化时会截断，原因：默认缓冲区大小（以字节为单位）为16384。
-                        options.JsonSerializerOptions.Converters.AddDateFormatString("yyyy-MM-dd HH:mm:ss");
-                        //options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; // 忽略循环引用 仅.NET 6支持
+                        options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                        //options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;// 忽略循环引用 仅.NET 6支持
                     });
             services.AddRemoteRequest();
             services.AddViewEngine();
