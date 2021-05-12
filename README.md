@@ -64,6 +64,20 @@ dotnet new Admin.NET -n 你的项目名称
 
 `仓库内 plugin 文件内为本框架模块/插件开发事例，供参考。`
 
+### 🎭 插件市场
+
+`欢迎大家勇于参与开源，贡献自己的应用插件，.NET正在迅速崛起，你我都是历史的见证人🤞🤞🤞`
+
+【核酸采集系统】
+
+<table>
+    <tr>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/covid19-1.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/covid19-2.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/covid19-3.png"/></td>
+    </tr>
+</table>
+
 ### 😎 衍生版本
 
 【Admin.NET】隆重推出SqlSugar版本
