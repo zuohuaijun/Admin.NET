@@ -16,14 +16,14 @@
       <template slot="columnComment" slot-scope="text, record">
         <a-input v-model="record.columnComment" />
       </template>
-      <!--      <template slot="javaType" slot-scope="text, record">
+      <!--<template slot="javaType" slot-scope="text, record">
         <a-select style="width: 120px" v-model="record.javaType" :disabled="judgeColumns(record)">
           <a-select-option v-for="(item,index) in javaTypeData" :key="index" :value="item.code">{{ item.name }}</a-select-option>
         </a-select>
       </template> -->
       <template slot="effectType" slot-scope="text, record">
         <a-select
-          style="width: 120px"
+          style="width: 100%"
           v-model="record.effectType"
           :disabled="judgeColumns(record)"
           @change="effectTypeChange(record, $event)">
@@ -34,7 +34,7 @@
       </template>
       <template slot="dictTypeCode" slot-scope="text, record">
         <a-select
-          style="width: 120px"
+          style="width: 100%"
           v-model="record.dictTypeCode"
           :disabled="
             record.effectType !== 'radio' && record.effectType !== 'select' && record.effectType !== 'checkbox'
@@ -46,6 +46,9 @@
       </template>
       <template slot="whetherTable" slot-scope="text, record">
         <a-checkbox v-model="record.whetherTable" />
+      </template>
+      <template slot="whetherOrderBy" slot-scope="text, record">
+        <a-checkbox v-model="record.whetherOrderBy" />
       </template>
       <template slot="whetherRetract" slot-scope="text, record">
         <a-checkbox v-model="record.whetherRetract" />
@@ -115,6 +118,7 @@
           },
           {
             title: '字典',
+            width: '200px',
             dataIndex: 'dictTypeCode',
             scopedSlots: {
               customRender: 'dictTypeCode'
@@ -126,6 +130,14 @@
             dataIndex: 'whetherTable',
             scopedSlots: {
               customRender: 'whetherTable'
+            }
+          },
+          {
+            title: '排序',
+            align: 'center',
+            dataIndex: 'whetherOrderBy',
+            scopedSlots: {
+              customRender: 'whetherOrderBy'
             }
           },
           // {

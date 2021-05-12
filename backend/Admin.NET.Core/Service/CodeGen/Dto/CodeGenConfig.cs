@@ -102,6 +102,11 @@
         public string WhetherTable { get; set; }
 
         /// <summary>
+        /// 列表排序显示
+        /// </summary>
+        public string WhetherOrderBy { get; set; }
+
+        /// <summary>
         /// 增改
         /// </summary>
         public string WhetherAddUpdate { get; set; }

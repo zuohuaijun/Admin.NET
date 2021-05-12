@@ -55,7 +55,7 @@ namespace Admin.NET.Core.Service
                 {
                     u.TimerStatus = timer.Status;
                     u.RunNumber = timer.Tally;
-                    u.Exception = ""; // JSON.Serialize(timer.Exception);
+                    u.Exception = JSON.Serialize(timer.Exception);
                 }
             });
             return XnPageResult<JobOutput>.PageResult(timers);
