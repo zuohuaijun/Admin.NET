@@ -144,6 +144,10 @@ dotnet new Admin.NET -n 你的项目名称
 2. Ant Design of Vue 组件文档 [https://www.antdv.com/docs/vue/getting-started-cn/](https://www.antdv.com/docs/vue/getting-started-cn/)
 3. Vue 开发文档 [https://cn.vuejs.org/v2/guide/](https://cn.vuejs.org/v2/guide/)
 
+👉快捷部署到 IIS 文档：
+
+- [本地 md文件](./doc/快捷部署到IIS方案.md)
+
 👉快捷部署到 linux 文档：
 
 - [Admin.NET 快捷部署到 linux 方案 | Wynnyo Blog](http://wynnyo.com/archives/publish-linux)
