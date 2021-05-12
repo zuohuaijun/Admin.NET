@@ -130,6 +130,7 @@ namespace Admin.NET.Core.Service
                 codeGenConfig.QueryWhether = YesOrNo;
                 codeGenConfig.WhetherAddUpdate = YesOrNo;
                 codeGenConfig.WhetherTable = YesOrNo;
+                codeGenConfig.WhetherOrderBy = YesOrNo;
 
                 codeGenConfig.ColumnKey = tableColumn.ColumnKey;
 

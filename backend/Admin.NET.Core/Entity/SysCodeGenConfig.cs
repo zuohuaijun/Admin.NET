@@ -109,6 +109,13 @@ namespace Admin.NET.Core
         public string WhetherTable { get; set; }
 
         /// <summary>
+        /// 列表是否排序
+        /// </summary>
+        [Comment("列表是否排序")]
+        [MaxLength(5)]
+        public string WhetherOrderBy { get; set; }
+
+        /// <summary>
         /// 增改
         /// </summary>
         [Comment("增改")]
