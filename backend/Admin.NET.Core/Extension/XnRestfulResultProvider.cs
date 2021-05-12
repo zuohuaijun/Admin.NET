@@ -1,4 +1,5 @@
-﻿using Furion.DataValidation;
+﻿using Furion;
+using Furion.DataValidation;
 using Furion.DependencyInjection;
 using Furion.UnifyResult;
 using Microsoft.AspNetCore.Http;
@@ -106,10 +107,10 @@ namespace Admin.NET.Core
                         Code = StatusCodes.Status401Unauthorized,
                         Success = false,
                         Data = null,
-                        Message = "401 未经授权",
+                        Message = "401 未经授权，请登录",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    });
+                    }, App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                     break;
                 // 处理 403 状态码
                 case StatusCodes.Status403Forbidden:
@@ -118,10 +119,10 @@ namespace Admin.NET.Core
                         Code = StatusCodes.Status403Forbidden,
                         Success = false,
                         Data = null,
-                        Message = "403 禁止访问",
+                        Message = "403 禁止访问，没有权限",
                         Extras = UnifyContext.Take(),
                         Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
-                    });
+                    }, App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                     break;
 
                 default:
