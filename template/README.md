@@ -17,7 +17,7 @@ dotnet new Admin.NET -n My.Project
 
 
 // 生成Nupkg包
-nuget pack D:\CODEWORK\Admin.NET\Admin.NET\template\Admin.NETTemplate\Admin.NET.Template.App.nuspec
+nuget pack D:\CODEWORK\Admin.NET\Admin.NET\template\Admin.NETTemplate\Furion.Admin.NET.Template.App.nuspec
 
 
 

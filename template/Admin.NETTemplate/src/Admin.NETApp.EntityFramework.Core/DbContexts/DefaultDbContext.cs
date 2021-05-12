@@ -1,5 +1,4 @@
 ﻿using Admin.NET.Core;
-using Admin.NET.Core.Entity;
 using Admin.NET.Core.Service;
 using Furion;
 using Furion.DatabaseAccessor;
