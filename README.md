@@ -20,7 +20,7 @@
 * 代码量少、上手简单、功能强大、易扩展，轻松开发从现在开始！
 
 ```
-如果对您有帮助，点右上角 💘Star💘支持加关注，开发不迷路 ，感谢！
+如果对您有帮助，点击右上角⭐Star⭐关注 ，感谢支持开源！
 ```
 
 ### 🍁 框架拓展包
@@ -30,7 +30,7 @@
 |       [![nuget](https://shields.io/badge/-Nuget-yellow?cacheSeconds=604800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)              | Furion.Extras.Admin.NET          |              [![nuget](https://img.shields.io/nuget/v/Furion.Extras.Admin.NET.svg?cacheSeconds=10800)](https://www.nuget.org/packages/Furion.Extras.Admin.NET/)                          | Admin.NET 核心包       |
 
 ```
-可自行按照 Furion 框架脚手架初始化工程，然后引用此包即可，其他层配置见源代码。
+可自行按照 Furion 框架脚手架初始化工程，然后引用此包即可，其他层配置见源代码。🔊此包会紧跟Furion版本更新而更新。
 ```
 
 ### 🍀 框架脚手架
@@ -66,7 +66,7 @@ dotnet new Admin.NET -n 你的项目名称
 
 ### 🎭 插件市场
 
-`欢迎大家勇于参与开源，贡献自己的应用插件，.NET正在迅速崛起，你我都是历史的见证人🤞🤞🤞`
+`欢迎大家勇于参与开源，贡献自己的应用插件，你我都可以做到，.NET正在迅速崛起，我们都是历史的见证人💪`
 
 【核酸采集系统】
 
@@ -77,6 +77,8 @@ dotnet new Admin.NET -n 你的项目名称
         <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/master/doc/img/covid19-3.png"/></td>
     </tr>
 </table>
+
+【工作流】
 
 ### 😎 衍生版本
 
@@ -122,7 +124,7 @@ dotnet new Admin.NET -n 你的项目名称
 
 ### 🏀 分层说明
 ```
-├─Admin.NET.Application             ->业务应用层，在此写您具体业务代码🌻🌻🌻
+├─Admin.NET.Application             ->业务应用层，在此写您具体业务代码是🌻🌻🌻
 ├─Admin.NET.Core                    ->框架核心层，后期准备做成NuGet包直接引用即可
 ├─Admin.NET.Database.Migrations     ->架构维护层，主要存放迁移中间文件
 ├─Admin.NET.EntityFramework.Core    ->EF Core配置层，主要配置数据库及相关
@@ -143,10 +145,6 @@ dotnet new Admin.NET -n 你的项目名称
 1. Ant Design Pro of Vue 使用文档 [https://pro.antdv.com/docs/getting-started](https://pro.antdv.com/docs/getting-started)
 2. Ant Design of Vue 组件文档 [https://www.antdv.com/docs/vue/getting-started-cn/](https://www.antdv.com/docs/vue/getting-started-cn/)
 3. Vue 开发文档 [https://cn.vuejs.org/v2/guide/](https://cn.vuejs.org/v2/guide/)
-
-👉快捷部署到 IIS 文档：
-
-- [本地 md文件](./doc/快捷部署到IIS方案.md)
 
 👉快捷部署到 linux 文档：
 
@@ -246,18 +244,19 @@ GIT完成后默认为SqlLite数据库，使用其他数据库可通过基于EF C
 1. 启动项目设置为 XXXX.Web.Entry
 2. 程序包管理控制台默认项目设置为 XXXX.Database.Migrations
 3. 依次输入并回车执行
+```
     Add-Migration v1.0.0 -Context DefaultDbContext
     update-database v1.0.0 -Context DefaultDbContext 
     Add-Migration v1.0.0 -Context MultiTenantDbContext
     update-database v1.0.0 -Context MultiTenantDbContext
-
-即可完成初始数据部署。后期添加/修改自己业务的数据类后通过更新版本号来更新数据库即可。
-操作实例：
+```
+至此完成初始数据部署。后期添加/修改自己业务的数据类后通过更新版本号来更新数据库即可。
+```
     Add-Migration v1.0.1 -Context DefaultDbContext
     update-database v1.0.1 -Context DefaultDbContext 
     Add-Migration v1.0.1 -Context MultiTenantDbContext
     update-database v1.0.1 -Context MultiTenantDbContext
-
+```
 【EF批量操作】
 
 使用 Zack.EFCore.Batch [https://hub.fastgit.org/yangzhongke/Zack.EFCore.Batch](https://hub.fastgit.org/yangzhongke/Zack.EFCore.Batch) 安装对应包即可
@@ -288,8 +287,7 @@ GIT完成后默认为SqlLite数据库，使用其他数据库可通过基于EF C
 * 基于.NET 5平台 Furion 开发框架与小诺Antd Vue版本相结合，实时跟随基架升级而升级！
 * 持续集百家所长，完善与丰富本框架基础设施，为.NET生态增加一种选择！
 * 后期会推出基于此框架的相关应用场景案例，提供给大家使用！
-* 有问题讨论的小伙伴可加群一起学习讨论。 QQ群【87333204】
-<a target="_blank" href="https://qm.qq.com/cgi-bin/qm/qr?k=pN8R-P3pJaW9ILoOXwpRGN2wdCHWtUTE&jump_from=webapi"><img border="0" src="//pub.idqqimg.com/wpa/images/group.png" alt="Admin.NET" title="Admin.NET"></a>
+* 有问题讨论的小伙伴可加群一起学习讨论。 QQ群1【87333204】 QQ群2【252381476】
 
 ### 🍻 贡献代码
 
