@@ -31,7 +31,6 @@ namespace Admin.NET.Application
                 var end = DateTime.Now;
                 Console.WriteLine(end.ToString("yyyy-MM-dd HH:mm:ss") + ":任务结束-----------");
                 Console.WriteLine($"SQL执行了：{count} 次,耗时：{(end - start).TotalMilliseconds}ms");
-
             });
         }
     }

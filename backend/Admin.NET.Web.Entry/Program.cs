@@ -12,7 +12,6 @@ namespace Admin.NET.Web.Entry
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseWindowsService() //支持 windows 系统服务 
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.Inject()
