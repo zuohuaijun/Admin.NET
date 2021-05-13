@@ -199,6 +199,9 @@ columnDataColumns++;
           @:{
             @:title: '@column.ColumnComment',
             @:align: 'center',
+if (@column.WhetherOrderBy == "Y"){
+@:sorter: true,
+}			
 if(@column.EffectType == "switch"){
             @:customRender: (vlaue) => (vlaue ? <a-tag color="green">True</a-tag> : <a-tag color="volcano">False</a-tag>),
 }

@@ -16,7 +16,7 @@
       <template slot="columnComment" slot-scope="text, record">
         <a-input v-model="record.columnComment" />
       </template>
-      <!--<template slot="javaType" slot-scope="text, record">
+      <!--      <template slot="javaType" slot-scope="text, record">
         <a-select style="width: 120px" v-model="record.javaType" :disabled="judgeColumns(record)">
           <a-select-option v-for="(item,index) in javaTypeData" :key="index" :value="item.code">{{ item.name }}</a-select-option>
         </a-select>
