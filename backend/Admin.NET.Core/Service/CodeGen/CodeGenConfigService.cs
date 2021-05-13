@@ -12,7 +12,9 @@ using System.Threading.Tasks;
 
 namespace Admin.NET.Core.Service
 {
-    /// <summary> 代码生成详细配置服务 </summary>
+    /// <summary>
+    /// 代码生成详细配置服务
+    /// </summary>
     [ApiDescriptionSettings(Name = "CodeGenConfig", Order = 100)]
     public class CodeGenConfigService : ICodeGenConfigService, IDynamicApiController, ITransient
     {
@@ -23,9 +25,11 @@ namespace Admin.NET.Core.Service
             _sysCodeGenConfigRep = sysCodeGenConfigRep;
         }
 
-        /// <summary> 代码生成详细配置列表 </summary>
-        /// <param name="input"> </param>
-        /// <returns> </returns>
+        /// <summary>
+        /// 代码生成详细配置列表
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpGet("/sysCodeGenerateConfig/list")]
         public async Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input)
         {
@@ -34,9 +38,11 @@ namespace Admin.NET.Core.Service
                                              .Select(u => u.Adapt<CodeGenConfig>()).ToListAsync();
         }
 
-        /// <summary> 增加 </summary>
-        /// <param name="input"> </param>
-        /// <returns> </returns>
+        /// <summary>
+        /// 增加
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [NonAction]
         public async Task Add(CodeGenConfig input)
         {
@@ -44,9 +50,11 @@ namespace Admin.NET.Core.Service
             await codeGenConfig.InsertAsync();
         }
 
-        /// <summary> 删除 </summary>
-        /// <param name="codeGenId"> </param>
-        /// <returns> </returns>
+        /// <summary>
+        /// 删除
+        /// </summary>
+        /// <param name="codeGenId"></param>
+        /// <returns></returns>
         [NonAction]
         public async Task Delete(long codeGenId)
         {
@@ -54,9 +62,11 @@ namespace Admin.NET.Core.Service
             await _sysCodeGenConfigRep.DeleteAsync(codeGenConfigList);
         }
 
-        /// <summary> 更新 </summary>
-        /// <param name="inputList"> </param>
-        /// <returns> </returns>
+        /// <summary>
+        /// 更新
+        /// </summary>
+        /// <param name="inputList"></param>
+        /// <returns></returns>
         [HttpPost("/sysCodeGenerateConfig/edit")]
         public async Task Update(List<CodeGenConfig> inputList)
         {
@@ -69,18 +79,22 @@ namespace Admin.NET.Core.Service
             await Task.CompletedTask;
         }
 
-        /// <summary> 详情 </summary>
-        /// <param name="input"> </param>
-        /// <returns> </returns>
+        /// <summary>
+        /// 详情
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         [HttpGet("/sysCodeGenerateConfig/detail")]
         public async Task<SysCodeGenConfig> Detail(CodeGenConfig input)
         {
             return await _sysCodeGenConfigRep.FirstOrDefaultAsync(u => u.Id == input.Id);
         }
 
-        /// <summary> 批量增加 </summary>
-        /// <param name="tableColumnOuputList"> </param>
-        /// <param name="codeGenerate"> </param>
+        /// <summary>
+        /// 批量增加
+        /// </summary>
+        /// <param name="tableColumnOuputList"></param>
+        /// <param name="codeGenerate"></param>
         [NonAction]
         public void AddList(List<TableColumnOuput> tableColumnOuputList, SysCodeGen codeGenerate)
         {
@@ -113,7 +127,6 @@ namespace Admin.NET.Core.Service
                 codeGenConfig.WhetherRetract = YesOrNot.N.ToString();
 
                 codeGenConfig.WhetherRequired = YesOrNot.N.ToString();
-
                 codeGenConfig.QueryWhether = YesOrNo;
                 codeGenConfig.WhetherAddUpdate = YesOrNo;
                 codeGenConfig.WhetherTable = YesOrNo;
