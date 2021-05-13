@@ -6,7 +6,6 @@ namespace Admin.NET.Core.Service.Auth.Dto
     /// <summary>
     /// 注册输入参数
     /// </summary>
-    [SkipScan]
     public class RegistInput
     {
         /// <summary>

@@ -6,7 +6,6 @@ namespace Admin.NET.Core
     /// <summary>
     /// 点击验证码输入参数
     /// </summary>
-    [SkipScan]
     public class ClickWordCaptchaInput
     {
         /// <summary>

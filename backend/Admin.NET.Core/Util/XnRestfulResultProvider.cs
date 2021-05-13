@@ -15,7 +15,7 @@ namespace Admin.NET.Core
     /// <summary>
     /// 规范化RESTful风格返回值
     /// </summary>
-    [SkipScan, UnifyModel(typeof(XnRestfulResult<>))]
+    [UnifyModel(typeof(XnRestfulResult<>))]
     public class XnRestfulResultProvider : IUnifyResultProvider
     {
         /// <summary>
@@ -135,7 +135,6 @@ namespace Admin.NET.Core
     /// RESTful风格---XIAONUO返回格式
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    [SkipScan]
     public class XnRestfulResult<T>
     {
         /// <summary>

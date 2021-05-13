@@ -225,7 +225,7 @@ export default {
           }
           Login(loginParams)
             .then((res) => this.loginSuccess(res))
-            .catch(err => this.requestFailed(err))
+            .catch(err => this.requestFailed(JSON.stringify(err)))
             .finally(() => {
               state.loginBtn = false
             })
@@ -242,7 +242,7 @@ export default {
     verifySuccess(params) {
       this.loginParams.code = params.captchaVerification
       this.Login(this.loginParams).then((res) => this.loginSuccess(res))
-        .catch(err => this.requestFailed(err))
+        .catch(err => this.requestFailed(JSON.stringify(err)))
         .finally(() => {
           this.state.loginBtn = false
         })

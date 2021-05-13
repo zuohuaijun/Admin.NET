@@ -7,7 +7,6 @@ namespace Admin.NET.Core.Service
     /// <summary>
     /// 用户登录输出参数
     /// </summary>
-    [SkipScan]
     public class LoginOutput
     {
         /// <summary>

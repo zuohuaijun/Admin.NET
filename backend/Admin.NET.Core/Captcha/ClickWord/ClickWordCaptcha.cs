@@ -68,7 +68,7 @@ namespace Admin.NET.Core
             {
                 int colorIndex = random.Next(colorArray.Length);
                 int fontIndex = random.Next(fontFiles.Length);
-                Font f = LoadFont(fontFiles[fontIndex], 15, FontStyle.Regular);
+                Font f = LoadFont(fontFiles[fontIndex], 18, FontStyle.Regular);
                 Brush b = new SolidBrush(colorArray[colorIndex]);
                 int _y = random.Next(height);
                 if (_y > (height - 30))

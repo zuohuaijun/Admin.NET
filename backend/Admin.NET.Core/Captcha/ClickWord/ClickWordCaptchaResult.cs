@@ -6,7 +6,6 @@ namespace Admin.NET.Core
     /// <summary>
     /// 验证码输出参数
     /// </summary>
-    [SkipScan]
     public class ClickWordCaptchaResult
     {
         public string repCode { get; set; } = "0000";
@@ -16,7 +15,6 @@ namespace Admin.NET.Core
         public bool success { get; set; } = true;
     }
 
-    [SkipScan]
     public class RepData
     {
         public string captchaId { get; set; }
@@ -35,10 +33,5 @@ namespace Admin.NET.Core
         public string token { get; set; }
         public bool result { get; set; }
         public string captchaVerification { get; set; }
-    }
-
-    [SkipScan]
-    public class WordList
-    {
     }
 }

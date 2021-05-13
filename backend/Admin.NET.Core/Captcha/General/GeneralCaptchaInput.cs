@@ -6,7 +6,6 @@ namespace Admin.NET.Core
     /// <summary>
     /// 常规验证码输入
     /// </summary>
-    [SkipScan]
     public class GeneralCaptchaInput
     {
         /// <summary>

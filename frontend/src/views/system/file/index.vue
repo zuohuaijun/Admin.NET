@@ -222,10 +222,10 @@
             this.$message.success('删除成功')
             this.$refs.table.refresh()
           } else {
-            this.$message.error('删除失败：' + JSON.parse(res.message))
+            this.$message.error('删除失败：' + res.message)
           }
         }).catch((err) => {
-          this.$message.error('删除错误：' + JSON.parse(res.message))
+          this.$message.error('删除错误：' + err.message)
         })
       },
       toggleAdvanced () {
