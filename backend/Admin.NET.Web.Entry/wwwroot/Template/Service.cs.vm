@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Linq.Dynamic.Core;
 
 namespace @Model.NameSpace
 {
@@ -64,6 +65,7 @@ if (@column.QueryType == "like"){
 }
 }
 }
+                                     .OrderBy(PageInputOrder.OrderBuilder<@(@Model.ClassName)Input>(input))
                                      .ToPagedListAsync(input.PageNo, input.PageSize);
             var result = XnPageResult<@(@Model.ClassName)>.PageResult<@(@Model.ClassName)Dto>(entities);
             await DtoMapper(result.Rows);
