@@ -35,9 +35,11 @@ namespace Admin.NET.Core.Service
             var name = !string.IsNullOrEmpty(input.Name?.Trim());
             var success = !string.IsNullOrEmpty(input.Success.ToString());
             var searchBeginTime = !string.IsNullOrEmpty(input.SearchBeginTime?.Trim());
+            var ReqMethod = !string.IsNullOrEmpty(input.ReqMethod?.Trim());
             var opLogs = await _sysOpLogRep.DetachedEntities
                                            .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
                                            .Where(success, u => u.Success == input.Success)
+                                           .Where(ReqMethod, u => u.ReqMethod == input.ReqMethod)
                                            .Where(searchBeginTime, u => u.OpTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
                                                                    u.OpTime <= DateTime.Parse(input.SearchEndTime.Trim()))
                                            .OrderBy(PageInputOrder.OrderBuilder(input)) // 封装了任意字段排序示例
