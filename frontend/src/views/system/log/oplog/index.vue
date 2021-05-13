@@ -11,7 +11,10 @@
             </a-col>
             <a-col :md="8" :sm="24">
               <a-form-item label="请求方式">
-                <a-input v-model="queryParam.reqMethod" allow-clear placeholder="请求方式" />
+                <a-select v-model="queryParam.reqMethod" allowClear placeholder="请选择请求方式">
+                  <a-select-option v-for="(item, index) in reqMethodDict" :key="index" :value="item.value">
+                    {{ item.value }}</a-select-option>
+                </a-select>
               </a-form-item>
             </a-col>
             <template v-if="advanced">
@@ -186,7 +189,8 @@
         selectedRows: [],
         defaultExpandedKeys: [],
         opTypeDict: [],
-        successDict: []
+        successDict: [],
+        reqMethodDict: [] // 请求方式
       }
     },
     created() {
@@ -233,6 +237,11 @@
           enumName: 'YesOrNot'
         }).then((res) => {
           this.successDict = res.data
+        });
+        sysEnumDataList({
+          enumName: 'HttpMethod'
+        }).then((res) => {
+          this.reqMethodDict = res.data
         })
       },
       /**
