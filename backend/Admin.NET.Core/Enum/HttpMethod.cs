@@ -59,6 +59,6 @@ namespace Admin.NET.Core
         /// OPTIONS
         /// </summary>
         [Description("OPTIONS")]
-        OPTIONS = 8,
+        OPTIONS = 8
     }
 }

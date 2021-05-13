@@ -13,7 +13,8 @@
               <a-form-item label="请求方式">
                 <a-select v-model="queryParam.reqMethod" allowClear placeholder="请选择请求方式">
                   <a-select-option v-for="(item, index) in reqMethodDict" :key="index" :value="item.value">
-                    {{ item.value }}</a-select-option>
+                    {{ item.value }}
+                  </a-select-option>
                 </a-select>
               </a-form-item>
             </a-col>
@@ -22,7 +23,8 @@
                 <a-form-item label="是否成功">
                   <a-select v-model="queryParam.success" placeholder="请选择是否成功">
                     <a-select-option v-for="(item,index) in successDict" :key="index" :value="item.code">
-                      {{ item.value }}</a-select-option>
+                      {{ item.value }}
+                    </a-select-option>
                   </a-select>
                 </a-form-item>
               </a-col>
@@ -237,7 +239,7 @@
           enumName: 'YesOrNot'
         }).then((res) => {
           this.successDict = res.data
-        });
+        })
         sysEnumDataList({
           enumName: 'HttpMethod'
         }).then((res) => {
