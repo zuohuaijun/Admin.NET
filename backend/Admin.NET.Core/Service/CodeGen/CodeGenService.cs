@@ -16,9 +16,7 @@ using System.Threading.Tasks;
 
 namespace Admin.NET.Core.Service.CodeGen
 {
-    /// <summary>
-    /// 代码生成器服务
-    /// </summary>
+    /// <summary> 代码生成器服务 </summary>
     [ApiDescriptionSettings(Name = "CodeGen", Order = 100)]
     public class CodeGenService : ICodeGenService, IDynamicApiController, ITransient
     {
@@ -39,11 +37,9 @@ namespace Admin.NET.Core.Service.CodeGen
             _sysMenuRep = sysMenuRep;
         }
 
-        /// <summary>
-        /// 分页查询
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <summary> 分页查询 </summary>
+        /// <param name="input"> </param>
+        /// <returns> </returns>
         [HttpGet("/codeGenerate/page")]
         public async Task<dynamic> QueryCodeGenPageList([FromQuery] CodeGenPageInput input)
         {
@@ -54,11 +50,9 @@ namespace Admin.NET.Core.Service.CodeGen
             return XnPageResult<SysCodeGen>.PageResult(codeGens);
         }
 
-        /// <summary>
-        /// 增加
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <summary> 增加 </summary>
+        /// <param name="input"> </param>
+        /// <returns> </returns>
         [HttpPost("/codeGenerate/add")]
         public async Task AddCodeGen(AddCodeGenInput input)
         {
@@ -73,11 +67,9 @@ namespace Admin.NET.Core.Service.CodeGen
             _codeGenConfigService.AddList(GetColumnList(input), newCodeGen.Entity);
         }
 
-        /// <summary>
-        /// 删除
-        /// </summary>
-        /// <param name="inputs"></param>
-        /// <returns></returns>
+        /// <summary> 删除 </summary>
+        /// <param name="inputs"> </param>
+        /// <returns> </returns>
         [HttpPost("/codeGenerate/delete")]
         public async Task DeleteCodeGen(List<DeleteCodeGenInput> inputs)
         {
@@ -94,11 +86,9 @@ namespace Admin.NET.Core.Service.CodeGen
             await Task.WhenAll(codeGenConfigTaskList);
         }
 
-        /// <summary>
-        /// 更新
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <summary> 更新 </summary>
+        /// <param name="input"> </param>
+        /// <returns> </returns>
         [HttpPost("/codeGenerate/edit")]
         public async Task UpdateCodeGen(UpdateCodeGenInput input)
         {
@@ -110,21 +100,17 @@ namespace Admin.NET.Core.Service.CodeGen
             await codeGen.UpdateAsync();
         }
 
-        /// <summary>
-        /// 详情
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <summary> 详情 </summary>
+        /// <param name="input"> </param>
+        /// <returns> </returns>
         [HttpGet("/codeGenerate/detail")]
         public async Task<SysCodeGen> GetCodeGen([FromQuery] QueryCodeGenInput input)
         {
             return await _sysCodeGenRep.DetachedEntities.FirstOrDefaultAsync(u => u.Id == input.Id);
         }
 
-        /// <summary>
-        /// 获取数据库表(实体)集合
-        /// </summary>
-        /// <returns></returns>
+        /// <summary> 获取数据库表(实体)集合 </summary>
+        /// <returns> </returns>
         [HttpGet("/codeGenerate/InformationList")]
         public List<TableOutput> GetTableList()
         {
@@ -135,10 +121,8 @@ namespace Admin.NET.Core.Service.CodeGen
             }).ToList();
         }
 
-        /// <summary>
-        /// 根据表名获取列
-        /// </summary>
-        /// <returns></returns>
+        /// <summary> 根据表名获取列 </summary>
+        /// <returns> </returns>
         [HttpGet("/codeGenerate/ColumnList/{tableName}")]
         public List<TableColumnOuput> GetColumnListByTableName(string tableName)
         {
@@ -162,10 +146,8 @@ namespace Admin.NET.Core.Service.CodeGen
                        }).ToList();
         }
 
-        /// <summary>
-        /// 获取数据表列（实体属性）集合
-        /// </summary>
-        /// <returns></returns>
+        /// <summary> 获取数据表列（实体属性）集合 </summary>
+        /// <returns> </returns>
         [NonAction]
         public List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
         {
@@ -189,10 +171,8 @@ namespace Admin.NET.Core.Service.CodeGen
                        }).ToList();
         }
 
-        /// <summary>
-        /// 代码生成_本地项目
-        /// </summary>
-        /// <returns></returns>
+        /// <summary> 代码生成_本地项目 </summary>
+        /// <returns> </returns>
         [HttpPost("/codeGenerate/runLocal")]
         public async Task RunLocal(SysCodeGen input)
         {
@@ -219,7 +199,8 @@ namespace Admin.NET.Core.Service.CodeGen
                     input.NameSpace,
                     ClassName = input.TableName,
                     QueryWhetherList = queryWhetherList,
-                    TableField = tableFieldList
+                    TableField = tableFieldList,
+                    ProName = input.ProName
                 });
 
                 var dirPath = new DirectoryInfo(targetPathList[i]).Parent.FullName;
@@ -338,10 +319,8 @@ namespace Admin.NET.Core.Service.CodeGen
             }.InsertAsync();
         }
 
-        /// <summary>
-        /// 获取模板文件路径集合
-        /// </summary>
-        /// <returns></returns>
+        /// <summary> 获取模板文件路径集合 </summary>
+        /// <returns> </returns>
         private List<string> GetTemplatePathList()
         {
             var templatePath = App.WebHostEnvironment.WebRootPath + @"\Template\";
@@ -359,14 +338,12 @@ namespace Admin.NET.Core.Service.CodeGen
             };
         }
 
-        /// <summary>
-        /// 设置生成文件路径
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
+        /// <summary> 设置生成文件路径 </summary>
+        /// <param name="input"> </param>
+        /// <returns> </returns>
         private List<string> GetTargetPathList(SysCodeGen input)
         {
-            var backendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName + @"\Admin.NET.Application\Service\" + input.TableName + @"\";
+            var backendPath = new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName + @"\" + input.NameSpace + @"\Service\" + input.TableName + @"\";
             var servicePath = backendPath + input.TableName + "Service.cs";
             var iservicePath = backendPath + "I" + input.TableName + "Service.cs";
             var inputPath = backendPath + @"Dto\" + input.TableName + "Input.cs";
