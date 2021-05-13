@@ -196,7 +196,7 @@
         // eslint-disable-next-line handle-callback-err
         }).catch((err) => {
           this.cardLoading = false
-          this.$message.error('下载错误：获取文件流错误')
+          this.$message.error('下载错误：获取文件流错误' + err)
         })
       },
       downloadfile (res) {
@@ -222,10 +222,10 @@
             this.$message.success('删除成功')
             this.$refs.table.refresh()
           } else {
-            this.$message.error('删除失败：' + res.message)
+            this.$message.error('删除失败：' + JSON.parse(res.message))
           }
         }).catch((err) => {
-          this.$message.error('删除错误：' + err.message)
+          this.$message.error('删除错误：' + JSON.parse(res.message))
         })
       },
       toggleAdvanced () {

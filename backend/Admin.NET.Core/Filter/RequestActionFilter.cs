@@ -1,6 +1,7 @@
 ﻿using Furion.EventBus;
 using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
@@ -33,7 +34,6 @@ namespace Admin.NET.Core
                 ? Parser.GetDefault().Parse(headers["User-Agent"])
                 : null;
             var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
-            // _ = Attribute.GetCustomAttribute(actionDescriptor.MethodInfo, typeof(DescriptionAttribute)) as DescriptionAttribute;
 
             MessageCenter.Send("create:oplog", new SysLogOp
             {
@@ -48,7 +48,7 @@ namespace Admin.NET.Core
                 MethodName = actionDescriptor?.ActionName,
                 ReqMethod = httpRequest.Method,
                 Param = JSON.Serialize(context.ActionArguments.Count < 1 ? "" : context.ActionArguments),
-                Result = JSON.Serialize(actionContext.Result), // 序列化异常，比如验证码
+                Result = actionContext.Result.GetType() == typeof(JsonResult) ? JSON.Serialize(actionContext.Result) : "",
                 ElapsedTime = sw.ElapsedMilliseconds,
                 OpTime = DateTimeOffset.Now,
                 Account = httpContext.User?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT)
