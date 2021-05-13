@@ -11,7 +11,7 @@ namespace Admin.NET.Core
     /// <summary>
     /// 枚举扩展
     /// </summary>
-    public static class EnumExtensions
+    public static class EnumUtil
     {
         // 枚举显示字典缓存
         private static readonly ConcurrentDictionary<Type, Dictionary<int, string>> EnumDisplayValueDict = new();

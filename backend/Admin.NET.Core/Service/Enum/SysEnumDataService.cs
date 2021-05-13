@@ -32,7 +32,7 @@ namespace Admin.NET.Core.Service
 
             // 获取枚举的Key和描述
             return await Task.Run(() =>
-                   EnumExtensions.GetEnumDescDictionary(enumType)
+                   EnumUtil.GetEnumDescDictionary(enumType)
                    .Select(x => new EnumDataOutput
                    {
                        Code = x.Key,
@@ -59,7 +59,7 @@ namespace Admin.NET.Core.Service
 
             // 获取枚举的Key和描述
             return await Task.Run(() =>
-                   EnumExtensions.GetEnumDescDictionary(fieldType)
+                   EnumUtil.GetEnumDescDictionary(fieldType)
                    .Select(x => new EnumDataOutput
                    {
                        Code = x.Key,

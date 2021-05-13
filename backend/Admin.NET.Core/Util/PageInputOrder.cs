@@ -7,7 +7,7 @@ namespace Admin.NET.Core
     /// <summary>
     /// 列表通用排序
     /// </summary>
-    public class PageInputOrder
+    public static class PageInputOrder
     {
         /// <summary> 
         /// 排序方式(默认降序)
