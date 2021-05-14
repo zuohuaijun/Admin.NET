@@ -1,4 +1,4 @@
-﻿using @(@Model.ProName).Core;
+using @(@Model.ProName).Core;
 using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
@@ -16,7 +16,7 @@ namespace @Model.NameSpace
     /// <summary>
     /// @(@Model.BusName)服务
     /// </summary>
-    [ApiDescriptionSettings(Name = "@Model.ClassName", Order = 100)]
+    [ApiDescriptionSettings("自己的业务",Name = "@Model.ClassName", Order = 100)]
     public class @(@Model.ClassName)Service : I@(@Model.ClassName)Service, IDynamicApiController, ITransient
     {
         private readonly IRepository<@(@Model.ClassName)> _rep;
