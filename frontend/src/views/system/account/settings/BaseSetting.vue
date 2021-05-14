@@ -112,7 +112,7 @@
           this.form.setFieldsValue({
             birthday: moment(this.userInfo.birthday, 'YYYY-MM-DD'),
             nickName: this.userInfo.nickName,
-            sex: this.userInfo.sex,
+            sex: this.userInfo.sex.toString(),
             email: this.userInfo.email,
             phone: this.userInfo.phone,
             tel: this.userInfo.tel
