@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Service
+namespace Admin.NET.Core.Service
 {
     /// <summary>
     /// 租户参数
@@ -53,6 +53,6 @@
         /// <summary>
         /// 创建时间
         /// </summary>
-        public string CreatedTime { get; set; }
+        public DateTimeOffset CreatedTime { get; set; }
     }
 }
