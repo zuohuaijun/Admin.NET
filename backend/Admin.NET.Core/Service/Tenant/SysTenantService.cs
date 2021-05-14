@@ -253,6 +253,7 @@ namespace Admin.NET.Core.Service
         {
             var tenantAdminUser = await GetTenantAdminUser(input.Id);
             tenantAdminUser.Password = MD5Encryption.Encrypt(CommonConst.DEFAULT_PASSWORD);
+            await _sysUserRep.UpdateAsync(tenantAdminUser, true);
         }
 
         /// <summary>
