@@ -65,7 +65,7 @@ namespace Admin.NET.Core
         /// 邮箱
         /// </summary>
         [Comment("邮箱")]
-        [MaxLength(20)]
+        [MaxLength(50)]
         public string Email { get; set; }
 
         /// <summary>
