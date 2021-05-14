@@ -57,9 +57,9 @@ dotnet new Admin.NET -n 你的项目名称
 ### 🐱‍🚀 模块/插件化开发
 
 * 按照 Furion 框架脚手架或者本框架脚手架初始化工程。
-* 创建自己业务的 Dll 库工程，引用 Furion.Extras.Admin.NET 包，编写自己的业务代码包括实体、服务等。
-* 在 XXX.Web.Entry 层里面的 appsettings.json 配置此插件 Dll 的路径。
-* 框架实体和自己业务实体可以同时做数据迁移，耦合度最低。也可以自行分系统库、业务库等。
+* 创建自己业务的 Dll 插件库工程，引用 Furion.Extras.Admin.NET 包，编写自己的业务代码包括实体、服务等。
+* 在 XXX.Web.Entry 层里面的 appsettings.json 配置此插件 Dll 的路径。[配置文档说明](https://dotnetchina.gitee.io/furion/docs/module-dev)
+* 此时框架和自己业务实体可以同时做数据迁移，耦合度最低。也可以自行将数据库分系统库、业务库等。
 * 将自己业务前端代码包括view和api文件复制到前端工程相应目录即可。
 
 `仓库内 plugin 文件内为本框架模块/插件开发事例，供参考。`
