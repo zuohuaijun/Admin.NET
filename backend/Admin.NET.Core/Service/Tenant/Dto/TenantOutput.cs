@@ -1,3 +1,5 @@
+using System;
+
 namespace Admin.NET.Core.Service
 {
     /// <summary>

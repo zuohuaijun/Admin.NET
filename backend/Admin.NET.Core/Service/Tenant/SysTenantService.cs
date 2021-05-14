@@ -157,7 +157,7 @@ namespace Admin.NET.Core.Service
             var empexts = await Db.GetRepository<SysEmpExtOrgPos>().Where(u => userIds.Contains(u.SysEmpId), false).ToListAsync();
             empexts.ForEach(u => { u.Delete(); });
 
-            var roles = await Db.GetRepository<SysRole>().Where(u => u.TenantId == input.Id, false,true).ToListAsync();
+            var roles = await Db.GetRepository<SysRole>().Where(u => u.TenantId == input.Id, false, true).ToListAsync();
             roles.ForEach(u => { u.Delete(); });
 
             var roleIds = roles.Select(u => u.Id).ToList();
@@ -253,7 +253,7 @@ namespace Admin.NET.Core.Service
         {
             var tenantAdminUser = await GetTenantAdminUser(input.Id);
             tenantAdminUser.Password = MD5Encryption.Encrypt(CommonConst.DEFAULT_PASSWORD);
-            await _sysUserRep.UpdateAsync(tenantAdminUser, true);
+            await _sysUserRep.UpdateIncludeAsync(tenantAdminUser, new[] { nameof(SysUser.Password) });
         }
 
         /// <summary>
@@ -264,7 +264,7 @@ namespace Admin.NET.Core.Service
         private async Task<SysUser> GetTenantAdminUser(long tenantId)
         {
             return await _sysUserRep.Where(u => u.TenantId == tenantId, false, true)
-                                        .Where(u => u.AdminType == AdminType.Admin).FirstOrDefaultAsync();
+                                    .Where(u => u.AdminType == AdminType.Admin).FirstOrDefaultAsync();
         }
     }
 }
