@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Mapster;
@@ -36,7 +36,7 @@ namespace Admin.NET.Core.Service
             var searchBeginTime = !string.IsNullOrEmpty(input.SearchBeginTime?.Trim());
             var visLogs = await _sysVisLogRep.DetachedEntities
                                              .Where((name, u => EF.Functions.Like(u.Name, $"%{input.Name.Trim()}%")))
-                                             .Where(input.VisType > 0, u => u.VisType == input.VisType)
+                                             .Where(input.VisType >= 0, u => u.VisType == input.VisType)
                                              .Where(success, u => u.Success == input.Success)
                                              .Where(searchBeginTime, u => u.VisTime >= DateTime.Parse(input.SearchBeginTime.Trim()) &&
                                                                      u.VisTime <= DateTime.Parse(input.SearchEndTime.Trim()))
