@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -300,6 +300,14 @@ namespace Admin.NET.Core.Service
 
         [Required(ErrorMessage = "电子邮箱不能为空")]
         public string Email { get; set; }
+
+        [Required(ErrorMessage = "性别不能为空")]
+        public int Sex { get; set; }
+       
+        [Required(ErrorMessage = "生日不能为空")]
+        public DateTime? Birthday { get; set; }
+
+        public string Tel { get; set; }
     }
 
     /// <summary>
