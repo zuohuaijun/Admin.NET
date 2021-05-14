@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div>
     <a-card :bordered="false" :bodyStyle="tstyle">
 @{var index = 0;}
@@ -46,7 +46,7 @@ if(@index >= 3){
 if(@index >= 3){
               <text><a-col :md="8" :sm="24">
                 <a-form-item label="@column.ColumnComment">
-                  <a-select style="width: 100%" v-model="queryParam.@column.ColumnName" placeholder="请选择@(@column.ColumnComment)">
+                  <a-select :allowClear="true" style="width: 100%" v-model="queryParam.@column.ColumnName" placeholder="请选择@(@column.ColumnComment)">
                     <a-select-option v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
                   </a-select>
                 </a-form-item>
@@ -54,7 +54,7 @@ if(@index >= 3){
 }else{
             <text><a-col :md="8" :sm="24">
               <a-form-item label="@column.ColumnComment">
-                <a-select style="width: 100%" v-model="queryParam.@column.ColumnName" placeholder="请选择@(@column.ColumnComment)">
+                <a-select :allowClear="true" style="width: 100%" v-model="queryParam.@column.ColumnName" placeholder="请选择@(@column.ColumnComment)">
                   <a-select-option v-for="(item,index) in @(@column.ColumnName)Data" :key="index" :value="item.code">{{ item.name }}</a-select-option>
                 </a-select>
               </a-form-item>
