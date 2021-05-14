@@ -1,4 +1,4 @@
-﻿using Furion.EventBus;
+using Furion.EventBus;
 using Furion.JsonSerialization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -48,7 +48,7 @@ namespace Admin.NET.Core
                 MethodName = actionDescriptor?.ActionName,
                 ReqMethod = httpRequest.Method,
                 Param = JSON.Serialize(context.ActionArguments.Count < 1 ? "" : context.ActionArguments),
-                Result = actionContext.Result.GetType() == typeof(JsonResult) ? JSON.Serialize(actionContext.Result) : "",
+                Result = actionContext.Result?.GetType() == typeof(JsonResult) ? JSON.Serialize(actionContext.Result) : "",
                 ElapsedTime = sw.ElapsedMilliseconds,
                 OpTime = DateTimeOffset.Now,
                 Account = httpContext.User?.FindFirstValue(ClaimConst.CLAINM_ACCOUNT)
