@@ -80,6 +80,7 @@ class SocketConnection extends EventEmitter {
     this.listened.push(method)
 
     this.one('onstart', () => {
+        this.listened.forEach((method) => {
       this.socket.on(method, (data) => {
         if (this.options.log) {
           console.log({
@@ -90,6 +91,7 @@ class SocketConnection extends EventEmitter {
         }
 
         this.emit(method, data)
+      })
       })
     })
   }
