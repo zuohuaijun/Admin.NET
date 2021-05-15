@@ -216,6 +216,13 @@
                 item[key] = false
               }
             }
+            //租户id列  功能默认全部不勾选
+            if (item.columnName == 'TenantId') {
+              item.whetherTable = false
+              item.whetherOrderBy = false
+              item.whetherAddUpdate = false
+              item.queryWhether = false
+            }
           })
           this.tableLoading = false
         })
