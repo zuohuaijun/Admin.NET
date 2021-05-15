@@ -319,8 +319,12 @@ namespace Admin.NET.Core.Service
                                                             Value = u.Id.ToString(),
                                                             Weight = u.Sort
                                                         }).ToListAsync();
-
-            return new TreeBuildUtil<OrgTreeNode>().DoTreeBuild(orgs);
+            var root = new OrgTreeNode()
+            {
+                ParentId = 0L
+            };
+            new TreeBuildUtil<OrgTreeNode>().Build(orgs, root);
+            return root.Children;
         }
 
         /// <summary>

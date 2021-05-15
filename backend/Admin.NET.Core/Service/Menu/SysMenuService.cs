@@ -159,7 +159,12 @@ namespace Admin.NET.Core.Service
                                                           .Where(u => u.Status == CommonStatus.ENABLE).OrderBy(u => u.Sort)
                                                           .Select(u => u.Adapt<MenuOutput>())
                                                           .ToListAsync();
-            return new TreeBuildUtil<MenuOutput>().DoTreeBuild(menus);
+            var root = new MenuOutput()
+            {
+                Pid = 0L
+            };
+            new TreeBuildUtil<MenuOutput>().Build(menus, root);
+            return root.Children;
         }
 
         /// <summary>
@@ -386,7 +391,12 @@ namespace Admin.NET.Core.Service
                                              Title = u.Name,
                                              Weight = u.Weight
                                          }).ToListAsync();
-            return new TreeBuildUtil<MenuTreeOutput>().DoTreeBuild(menus);
+            var root = new MenuTreeOutput()
+            {
+                ParentId = 0L
+            };
+            new TreeBuildUtil<MenuTreeOutput>().Build(menus, root);
+            return root.Children;
         }
 
         /// <summary>
@@ -417,7 +427,12 @@ namespace Admin.NET.Core.Service
                                              Title = u.Name,
                                              Weight = u.Weight
                                          }).ToListAsync();
-            return new TreeBuildUtil<MenuTreeOutput>().DoTreeBuild(menus);
+            var root = new MenuTreeOutput()
+            {
+                ParentId = 0L
+            };
+            new TreeBuildUtil<MenuTreeOutput>().Build(menus, root);
+            return root.Children;
         }
 
         /// <summary>

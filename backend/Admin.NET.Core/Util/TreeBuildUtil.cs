@@ -33,27 +33,27 @@ namespace Admin.NET.Core
     /// <typeparam name="T"></typeparam>
     public class TreeBuildUtil<T> where T : ITreeNode
     {
-        /// <summary>
-        /// 顶级节点的父节点Id(默认0)
-        /// </summary>
-        private readonly long _rootParentId = 0L;
 
         /// <summary>
         /// 构造树节点
         /// </summary>
         /// <param name="nodes"></param>
+        /// <param name="root">传入的空的根节点</param>
         /// <returns></returns>
-        public List<T> DoTreeBuild(List<T> nodes)
+        public T Build(List<T> nodes,T root)
         {
-            nodes.ForEach(u => BuildChildNodes(nodes, u, new List<T>()));
+            BuildChildNodes(nodes, root);
+            return root;
 
-            var results = new List<T>();
-            nodes.ForEach(u =>
-            {
-                if (_rootParentId == u.GetPid())
-                    results.Add(u);
-            });
-            return results;
+            // 原逻辑中，ForEach太低效了
+            //nodes.ForEach(u => BuildChildNodes(nodes, u, new List<T>()));
+            //var results = new List<T>();
+            //nodes.ForEach(u =>
+            //{
+            //    if (_rootParentId == u.GetPid())
+            //        results.Add(u);
+            //});
+            //return results;
         }
 
         /// <summary>
@@ -61,8 +61,7 @@ namespace Admin.NET.Core
         /// </summary>
         /// <param name="totalNodes"></param>
         /// <param name="node"></param>
-        /// <param name="childNodeLists"></param>
-        private void BuildChildNodes(List<T> totalNodes, T node, List<T> childNodeLists)
+        private void BuildChildNodes(List<T> totalNodes, T node)
         {
             var nodeSubLists = new List<T>();
             totalNodes.ForEach(u =>
@@ -70,9 +69,8 @@ namespace Admin.NET.Core
                 if (u.GetPid().Equals(node.GetId()))
                     nodeSubLists.Add(u);
             });
-            nodeSubLists.ForEach(u => BuildChildNodes(totalNodes, u, new List<T>()));
-            childNodeLists.AddRange(nodeSubLists);
-            node.SetChildren(childNodeLists);
+            nodeSubLists.ForEach(u => BuildChildNodes(totalNodes, u));
+            node.SetChildren(nodeSubLists);
         }
     }
 }
