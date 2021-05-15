@@ -216,8 +216,8 @@
                 item[key] = false
               }
             }
-            //租户id列  功能默认全部不勾选
-            if (item.columnName == 'TenantId') {
+            // 租户id列默认全部不勾选
+            if (item.columnName === 'tenantId') {
               item.whetherTable = false
               item.whetherOrderBy = false
               item.whetherAddUpdate = false
