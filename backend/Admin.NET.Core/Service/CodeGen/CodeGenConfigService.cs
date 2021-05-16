@@ -85,7 +85,7 @@ namespace Admin.NET.Core.Service
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpGet("/sysCodeGenerateConfig/detail")]
-        public async Task<SysCodeGenConfig> Detail(CodeGenConfig input)
+        public async Task<SysCodeGenConfig> Detail([FromQuery] CodeGenConfig input)
         {
             return await _sysCodeGenConfigRep.FirstOrDefaultAsync(u => u.Id == input.Id);
         }

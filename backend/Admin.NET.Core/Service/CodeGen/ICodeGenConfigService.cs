@@ -12,7 +12,7 @@ namespace Admin.NET.Core.Service
 
         Task Delete(long codeGenId);
 
-        Task<SysCodeGenConfig> Detail(CodeGenConfig input);
+        Task<SysCodeGenConfig> Detail([FromQuery] CodeGenConfig input);
 
         Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input);
 
