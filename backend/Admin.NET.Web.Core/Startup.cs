@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
 using Serilog;
 using Yitter.IdGenerator;
@@ -26,8 +27,14 @@ namespace Admin.NET.Web.Core
                     .AddInjectWithUnifyResult<XnRestfulResultProvider>()
                     .AddNewtonsoftJson(options =>
                     {
+                        // 首字母小写(驼峰样式)
+                        options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                        // 时间格式化
                         options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                        // 忽略循环引用
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                        // 忽略空值
+                        options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     });
             services.AddRemoteRequest();
             services.AddViewEngine();

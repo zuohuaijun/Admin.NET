@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Admin.NET.Core.Service
@@ -11,7 +11,7 @@ namespace Admin.NET.Core.Service
 
         Task<LoginOutput> GetLoginUserAsync();
 
-        string LoginAsync([Required] LoginInput input);
+        string LoginAsync([FromBody] LoginInput input);
 
         Task LogoutAsync();
 

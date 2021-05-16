@@ -67,6 +67,7 @@ namespace Admin.NET.Core.Service
         /// <returns></returns>
         [HttpPost("/login")]
         [AllowAnonymous]
+        // [Consumes("application/json")]
         public string LoginAsync([Required] LoginInput input)
         {
             // 获取加密后的密码
