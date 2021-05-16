@@ -1,4 +1,4 @@
-﻿using Furion.DatabaseAccessor;
+using Furion.DatabaseAccessor;
 using Furion.DatabaseAccessor.Extensions;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -92,7 +92,7 @@ namespace Admin.NET.Core.Service
                                                    .Where(u => u.Application == appCode)
                                                    .Where(u => u.Type != MenuType.BTN)
                                                    //.Where(u => u.Weight != (int)MenuWeight.DEFAULT_WEIGHT)
-                                                   .OrderBy(u => u.Sort).ToListAsync();
+                                                   .OrderBy(u => u.Sort).ThenBy(u => u.Id).ToListAsync();
                 }
                 else
                 {
@@ -104,7 +104,7 @@ namespace Admin.NET.Core.Service
                                                    .Where(u => u.Status == CommonStatus.ENABLE)
                                                    .Where(u => u.Application == appCode)
                                                    .Where(u => u.Type != MenuType.BTN)
-                                                   .OrderBy(u => u.Sort).ToListAsync();
+                                                   .OrderBy(u => u.Sort).ThenBy(u => u.Id).ToListAsync();
                 }
                 // 转换成登录菜单
                 antDesignTreeNodes = sysMenuList.Select(u => new AntDesignTreeNode
