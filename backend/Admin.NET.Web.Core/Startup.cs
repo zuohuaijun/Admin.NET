@@ -36,7 +36,6 @@ namespace Admin.NET.Web.Core
                         // 忽略空值
                         options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     });
-            services.AddRemoteRequest();
             services.AddViewEngine();
             services.AddSignalR();
             services.AddSimpleEventBus();
