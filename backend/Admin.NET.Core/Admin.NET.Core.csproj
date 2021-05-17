@@ -6,7 +6,7 @@
     <DocumentationFile>Furion.Extras.Admin.NET.xml</DocumentationFile>
     <AssemblyName>Furion.Extras.Admin.NET</AssemblyName>
     <Company>Dilon Co.,Ltd.</Company>
-    <Version>1.0.14</Version>
+    <Version>1.0.15</Version>
     <Authors>左怀军/zuohuaijun</Authors>
     <Product>Admin.NET</Product>
     <Description>基于Furion框架实现的通用权限管理平台应用层框架。前后端分离，开箱即用。
@@ -36,10 +36,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Furion" Version="2.5.1" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.5.1" />
-    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.5.1" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.5.1" />
+    <PackageReference Include="Furion" Version="2.6.0" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="2.6.0" />
+    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="2.6.0" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="2.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.6" />
     <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="5.0.1" />
     <PackageReference Include="MiniExcel" Version="0.14.6" />
