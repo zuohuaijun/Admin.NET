@@ -1,0 +1,66 @@
+【1】npm、pnpm包管理器
+1、配置淘宝镜像地址
+npm config set registry https://registry.npm.taobao.org/
+2、查看配置镜像地址
+npm get registry
+3、恢复默认镜像地址（删除会恢复默认镜像）
+npm config delete registry
+
+【2】Vben相关命令
+1、安装 Node.js
+node -v
+2、安装npm和pnpm
+npm install -g pnpm
+pnpm -v
+3、安装Vben依赖
+yarn
+4、运行
+pnpm serve
+5、打包
+pnpm build
+
+
+
+为了方便前端框架随着主框架升级而升级 尽量保持原框架侵入最少
+/////////////////////////////Vben框架修改//////////////////////////
+1、页面文件
+admin\src\views\sys\admin
+2、接口文件
+packages\service\modules\api
+
+
+1、修改登录页面中文描述
+src\locales\lang\zh-CN\sys.ts
+2、权限模式设置（改成后台模式）
+src\settings\projectSetting.ts
+3、前端标题和地址设置
+.env + .env.development + .env.production
+4、HTTP码标识设置
+src\enums\httpEnum.ts
+5、修改Token前缀（Bearer）
+src\utils\http\axios\index.ts
+6、上传接口修改
+src/api/sys/model/uploadModel.ts
+7、上传组件修改
+src/components/Upload/src/BasicUpload.vue	
+src/components/Upload/src/UploadModal.vue	
+src/components/Upload/src/UploadPreviewModal.vue	
+src/components/Upload/src/props.ts	
+8、全局组件注册修改
+src/components/registerGlobComp.ts
+9、隐藏顶部消息通知、中英文切换、
+src\layouts\default\header\index.vue
+10、隐藏顶部用户下面的文档菜单
+src\layouts\default\header\components\user-dropdown\index.vue
+11、Tree组件添加滚动条
+src\components\Tree\src\Tree.vue
+
+/////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+

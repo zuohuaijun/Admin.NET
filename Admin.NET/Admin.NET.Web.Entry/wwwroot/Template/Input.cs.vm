@@ -1,0 +1,80 @@
+﻿using System;
+using Admin.NET.Core;
+using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
+
+namespace @Model.NameSpace
+{
+    /// <summary>
+    /// @(@Model.BusName)输入参数
+    /// </summary>
+    public class @(@Model.ClassName)Input : BasePageInput
+    {
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey != "True"){
+
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:public virtual @column.NetType @column.ColumnName { get; set; }
+        @:
+
+if(@column.NetType == "DateTime"  && @column.QueryType == "~"){
+   
+       @:/// <summary>
+       @: /// @(@column.ColumnComment)范围
+       @: /// </summary>
+       @: public List<DateTime?> @(@column.ColumnName)Range { get; set; } 
+
+}
+}
+}
+    }
+
+    public class Add@(@Model.ClassName)Input : @(@Model.ClassName)Input
+    {
+@foreach (var column in Model.TableField){
+if (@column.WhetherRequired == "Y"){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:[Required(ErrorMessage = "@(@column.ColumnComment)不能为空")]
+        @:public override @column.NetType @column.ColumnName { get; set; }
+        @:
+}
+}
+    }
+
+    public class Delete@(@Model.ClassName)Input : BaseIdInput
+    {
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey == "True"){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:[Required(ErrorMessage = "@(@column.ColumnComment)不能为空")]
+        @:public @column.NetType @column.ColumnName { get; set; }
+        @:
+}
+}
+    }
+
+    public class Update@(@Model.ClassName)Input : @(@Model.ClassName)Input
+    {
+@foreach (var column in Model.TableField){
+if (@column.ColumnKey == "True"){
+        @:/// <summary>
+        @:/// @column.ColumnComment
+        @:/// </summary>
+        @:[Required(ErrorMessage = "@(@column.ColumnComment)不能为空")]
+        @:public @column.NetType @column.ColumnName { get; set; }
+        @:
+}
+}
+    }
+
+    public class Querye@(@Model.ClassName)Input : Delete@(@Model.ClassName)Input
+    {
+
+    }
+}

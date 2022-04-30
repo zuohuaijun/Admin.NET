@@ -1,0 +1,47 @@
+【1】npm、pnpm包管理器
+1、配置淘宝镜像地址
+npm config set registry https://registry.npm.taobao.org/
+2、查看配置镜像地址
+npm get registry
+3、恢复默认镜像地址（删除会恢复默认镜像）
+npm config delete registry
+
+【2】Vben相关命令
+1、安装 Node.js
+node -v
+2、安装npm和pnpm
+npm install -g pnpm
+pnpm -v
+3、安装Vben依赖
+pnpm install   如果gifsicle报错则执行pnpm install --ignore-scripts
+4、运行
+pnpm run -C admin dev
+
+
+
+为了方便前端框架随着主框架升级而升级 尽量保持原框架侵入最少
+/////////////////////////////Vben框架修改//////////////////////////
+1、页面文件
+admin\src\views\sys\admin
+2、接口文件
+packages\service\modules\api
+
+1、修改中文显示
+packages/locale/src/lang/zh-CN/sys.ts
+2、权限模式设置
+packages/setting/src/project.ts
+3、前端标题和地址设置
+admin/.env.development
+4、状态码标识设置
+packages/tokens/src/enums/httpEnum.ts
+5、修改Token前缀
+packages/service/request/index.ts
+6、
+
+
+/////////////////////////////////////////////////////////////////////
+
+
+
+
+

@@ -1,0 +1,61 @@
+﻿using SqlSugar;
+using Admin.NET.Core;
+using Admin.NET.Core.Service;
+using System.Collections.Generic;
+using System;
+namespace @Model.NameSpace
+{
+    /// <summary>
+    /// @(@Model.BusName)输出参数
+    /// </summary>
+    public class @(@Model.ClassName)Output
+    {
+@foreach (var column in Model.TableField){
+       @:/// <summary>
+       @:/// @column.ColumnComment
+       @:/// </summary>
+if(column.EffectType == "fk")
+{
+       @:public @column.NetType @column.ColumnName { get; set; }
+
+       @:public @(@column.ColumnName)Fk@(@column.FkEntityName)Output Fk@(@column.ColumnName) { get; set; }
+}else if(column.EffectType == "Upload"){
+        @:public @column.NetType @column.ColumnName { get; set; }
+        @:public MapperSysFileOutput @(@column.ColumnName)Attachment { get; set; }
+}else{
+       @:public @column.NetType @column.ColumnName { get; set; }
+}
+    @:
+}
+    }
+@foreach (var column in Model.TableField){
+if (@column.EffectType == "fk"){
+    @:[SugarTable("@(@column.FkTableName)")]
+    @:[NotTable]
+    @:public class @(@column.ColumnName)Fk@(@column.FkEntityName)Output: EntityBaseId
+    @:{
+        @:public @column.FkColumnNetType @column.FkColumnName { get; set; }
+    @:}
+}
+}
+
+@foreach (var column in Model.TableField){
+if (@column.EffectType == "ApiTreeSelect"){
+    @:[SugarTable("@(@column.FkTableName)")]
+    @:[NotTable]
+    @:public class @(@column.FkEntityName)TreeOutput: EntityBaseId
+    @:{
+        @:[SugarColumn(ColumnName = "@(@column.DisplayColumn)")]
+        @:public @(@Model.GetColumnNetType(@column.FkTableName,@column.DisplayColumn)) Label { get; set; }
+
+        @:[SugarColumn(ColumnName = "@(@column.ValueColumn)", IsPrimaryKey = true, IsIdentity = false)]
+        @:public @(@Model.GetColumnNetType(@column.FkTableName,@column.ValueColumn))  Value { get; set; }
+
+        @:public @(@Model.GetColumnNetType(@column.FkTableName,@column.PidColumn)) @column.PidColumn { get; set; }
+        @:[SugarColumn(IsIgnore = true)]
+        @:public List<@(@column.FkEntityName)TreeOutput> Children { get; set; }
+    @:}
+}
+}
+
+}

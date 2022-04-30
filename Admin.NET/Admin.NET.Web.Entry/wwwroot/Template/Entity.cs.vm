@@ -1,0 +1,43 @@
+﻿using System;
+using SqlSugar;
+using System.ComponentModel;
+using Admin.NET.Core;
+namespace Admin.NET.Application.Entity
+{
+     /// <summary>
+     /// @(@Model.Description)
+     /// </summary>
+      [SugarTable("@(@Model.TableName)")]
+      [Description("@(@Model.Description)")]
+      public class @(@Model.EntityName) @Model.BaseClassName
+      {
+@foreach (var column in Model.TableField){
+if(@Model.BaseClassName=="" && @column.IsPrimarykey){
+          @:/// <summary>
+          @:/// @column.ColumnDescription
+          @:/// </summary>
+          @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
+          @:public @column.DataType @column.DbColumnName { get; set; }
+}
+else if(@Model.BaseClassName=="" && !@column.IsPrimarykey){
+          @:/// <summary>
+          @:/// @column.ColumnDescription
+          @:/// </summary>
+          @:public @column.DataType @column.DbColumnName { get; set; }
+}
+else if(@Model.BaseClassName!="" && @column.IsPrimarykey && @column.DbColumnName.ToLower()!="id"){
+          @:/// <summary>
+          @:/// @column.ColumnDescription
+          @:/// </summary>
+          @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
+          @:public @column.DataType @column.DbColumnName { get; set; }
+}
+else if(@Model.BaseClassName!="" && !@column.IsPrimarykey && @column.DbColumnName.ToLower()!="id"){
+          @:/// <summary>
+          @:/// @column.ColumnDescription
+          @:/// </summary>
+          @:public @column.DataType @column.DbColumnName { get; set; }
+}
+}
+}	
+}

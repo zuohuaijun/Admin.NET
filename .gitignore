@@ -1,0 +1,29 @@
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+/App/DilonPay/unpackage
+/App/MedicalWaste/unpackage
+/Admin.NET/Admin.NET.Web.Entry/publish
+/Admin.NET/Admin.NET.Web.Entry/logs
+/Admin.NET/.vs
+/Vben2/yarn.lock
+/Vben2/dist
+/Vben2/node_modules
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/Upload
+/App/MedicalPay/unpackage
+/Admin.NET/packages

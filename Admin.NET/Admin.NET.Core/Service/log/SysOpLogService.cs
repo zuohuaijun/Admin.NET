@@ -1,0 +1,45 @@
+﻿using Furion.DependencyInjection;
+using Furion.DynamicApiController;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Admin.NET.Core.Service
+{
+    /// <summary>
+    /// 系统操作日志服务
+    /// </summary>
+    [ApiDescriptionSettings(Name = "系统操作日志", Order = 179)]
+    public class SysOpLogService : IDynamicApiController, ITransient
+    {
+        private readonly SqlSugarRepository<SysLogOp> _sysOpLogRep;
+
+        public SysOpLogService(SqlSugarRepository<SysLogOp> sysOpLogRep)
+        {
+            _sysOpLogRep = sysOpLogRep;
+        }
+
+        /// <summary>
+        /// 获取操作日志分页列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("/sysOpLog/pageList")]
+        public async Task<List<SysLogOp>> GetOpLogList([FromQuery] LogInput input)
+        {
+            return await _sysOpLogRep.AsQueryable()
+                .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
+                            u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
+                .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc).ToListAsync();
+        }
+
+        /// <summary>
+        /// 清空操作日志
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost("/sysOpLog/clear")]
+        public async Task<bool> ClearOpLog()
+        {
+            return await _sysOpLogRep.DeleteAsync(u => u.Id > 0);
+        }
+    }
+}

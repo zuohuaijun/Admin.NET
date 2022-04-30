@@ -1,0 +1,6009 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Admin.NET.Core</name>
+    </assembly>
+    <members>
+        <member name="T:Admin.NET.Core.NotLogAttribute">
+            <summary>
+            禁用日志
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.NotTableAttribute">
+            <summary>
+            非实体表继承该特性
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SqlSugarEntityAttribute">
+            <summary>
+            SqlSugar实体配置特性
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarEntityAttribute.DbConfigId">
+            <summary>
+            数据库上下文标识
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarEntityAttribute.Order">
+            <summary>
+            实体顺序
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarEntityAttribute.#ctor">
+            <summary>
+            默认配置
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarEntityAttribute.#ctor(System.Int32)">
+            <summary>
+            配置实体排序
+            </summary>
+            <param name="order"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarEntityAttribute.#ctor(System.Int32,System.String)">
+            <summary>
+            配置数据库标识和实体排序
+            </summary>
+            <param name="order"></param>
+            <param name="dbConfigId"></param>
+        </member>
+        <member name="T:Admin.NET.Core.SqlSugarUnitOfWorkAttribute">
+            <summary>
+            SqlSugar 工作单元配置特性
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.#ctor">
+            <summary>
+            构造函数
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.#ctor(System.Data.IsolationLevel)">
+            <summary>
+            构造函数
+            </summary>
+            <remarks>
+            <para>支持传入事务隔离级别 <see cref="P:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.IsolationLevel"/> 参数值</para>
+            </remarks>
+            <param name="isolationLevel">事务隔离级别</param>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.IsolationLevel">
+            <summary>
+            事务隔离级别
+            </summary>
+            <remarks>
+            <para>默认：<see cref="F:System.Data.IsolationLevel.ReadCommitted"/>，参见：<see cref="P:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.IsolationLevel"/></para>
+            <para>说明：当事务A更新某条数据的时候，不容许其他事务来更新该数据，但可以进行读取操作</para>
+            </remarks>
+        </member>
+        <member name="M:Admin.NET.Core.CSRedisSetup.AddCSRedisSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            CSRedis初始化
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:Admin.NET.Core.CacheConst">
+            <summary>
+            缓存相关常量
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyUser">
+            <summary>
+            用户缓存
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyMenu">
+            <summary>
+            菜单缓存
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyPermission">
+            <summary>
+            权限缓存
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyOrgIdList">
+            <summary>
+            机构Id集合缓存
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyVerCode">
+            <summary>
+            验证码缓存
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyAll">
+            <summary>
+            所有缓存关键字集合
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyTimer">
+            <summary>
+            定时任务缓存
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyOnlineUser">
+            <summary>
+            在线用户缓存
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ClaimConst">
+            <summary>
+            Claim相关常量
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.UserName">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.SuperAdmin">
+            <summary>
+            是否超级管理
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.TenantId">
+            <summary>
+            租户Id
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.OrgId">
+            <summary>
+            组织机构Id
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.OrgName">
+            <summary>
+            组织机构名称
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.OpenId">
+            <summary>
+            微信标识OpenId
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.CommonConst">
+            <summary>
+            通用常量
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysPassword">
+            <summary>
+            默认密码
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysAdminRoleCode">
+            <summary>
+            系统管理员角色编码
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysDemoEnv">
+            <summary>
+            演示环境开关配置
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysCaptchaFlag">
+            <summary>
+            验证码开关配置
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.EntityAssemblyName">
+            <summary>
+            实体所在程序集-代码生成
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SqlSugarConst">
+            <summary>
+            SqlSugar相关常量
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SqlSugarConst.ConfigId">
+            <summary>
+            默认数据库标识
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SqlSugarConst.PrimaryKey">
+            <summary>
+            默认表主键
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.EntityBaseId">
+            <summary>
+            框架实体基类Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EntityBaseId.Id">
+            <summary>
+            雪花Id
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.EntityBase">
+            <summary>
+            框架实体基类
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EntityBase.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EntityBase.UpdateTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EntityBase.CreateUserId">
+            <summary>
+            创建者Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EntityBase.UpdateUserId">
+            <summary>
+            修改者Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EntityBase.IsDelete">
+            <summary>
+            软删除
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.DataEntityBase">
+            <summary>
+            业务数据实体基类(数据权限)
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DataEntityBase.CreateOrgId">
+            <summary>
+            创建者部门Id
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.EntityTenant">
+            <summary>
+            租户基类实体
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EntityTenant.TenantId">
+            <summary>
+            租户Id
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysCodeGen">
+            <summary>
+            代码生成表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.AuthorName">
+            <summary>
+            作者姓名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.TablePrefix">
+            <summary>
+            是否移除表前缀
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.GenerateType">
+            <summary>
+            生成方式
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.TableName">
+            <summary>
+            数据库表名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.NameSpace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.BusName">
+            <summary>
+            业务名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.MenuPid">
+            <summary>
+            菜单编码
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysCodeGenConfig">
+            <summary>
+            代码生成字段配置表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.CodeGenId">
+            <summary>
+            代码生成主表ID
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.ColumnName">
+            <summary>
+            数据库字段名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.ColumnComment">
+            <summary>
+            字段描述
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.NetType">
+            <summary>
+            .NET数据类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.EffectType">
+            <summary>
+            作用类型（字典）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.FkEntityName">
+            <summary>
+            外键实体名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.FkTableName">
+            <summary>
+            外键表名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.FkColumnName">
+            <summary>
+            外键显示字段
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.FkColumnNetType">
+            <summary>
+            外键显示字段.NET类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.DictTypeCode">
+            <summary>
+            字典code
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.WhetherRetract">
+            <summary>
+            列表是否缩进（字典）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.WhetherRequired">
+            <summary>
+            是否必填（字典）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.QueryWhether">
+            <summary>
+            是否是查询条件
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.QueryType">
+            <summary>
+            查询方式
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.WhetherTable">
+            <summary>
+            列表显示
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.WhetherAddUpdate">
+            <summary>
+            增改
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.ColumnKey">
+            <summary>
+            主键
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.DataType">
+            <summary>
+            数据库中类型（物理类型）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.WhetherCommon">
+            <summary>
+            是否通用字段
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.DisplayColumn">
+            <summary>
+            显示文本字段
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.ValueColumn">
+            <summary>
+            选中值字段
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGenConfig.PidColumn">
+            <summary>
+            父级字段
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysConfig">
+            <summary>
+            系统参数配置表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysConfig.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysConfig.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysConfig.Value">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysConfig.SysFlag">
+            <summary>
+            是否是系统参数（Y-是，N-否）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysConfig.GroupCode">
+            <summary>
+            常量所属分类的编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysConfig.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysConfig.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysDictData">
+            <summary>
+            系统字典值表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictData.DictTypeId">
+            <summary>
+            字典类型Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictData.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictData.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictData.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictData.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictData.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysDictType">
+            <summary>
+            系统字典类型表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictType.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictType.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictType.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictType.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysDictType.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysFile">
+            <summary>
+            系统文件表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysFile.BucketName">
+            <summary>
+            仓储名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysFile.FileName">
+            <summary>
+            文件名称（上传时名称）
+            </summary>文件名称
+        </member>
+        <member name="P:Admin.NET.Core.SysFile.Suffix">
+            <summary>
+            文件后缀
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysFile.FilePath">
+            <summary>
+            存储路径
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysFile.SizeKb">
+            <summary>
+            文件大小KB
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysFile.SizeInfo">
+            <summary>
+            文件大小信息-计算后的
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysLogAudit">
+            <summary>
+            系统审计日志表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogAudit.TableName">
+            <summary>
+            表名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogAudit.ColumnName">
+            <summary>
+            列名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogAudit.NewValue">
+            <summary>
+            新值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogAudit.OldValue">
+            <summary>
+            旧值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogAudit.Operate">
+            <summary>
+            操作方式（新增、更新、删除）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogAudit.AuditTime">
+            <summary>
+            审计时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogAudit.UserName">
+            <summary>
+            账号名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogAudit.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysLogEx">
+            <summary>
+            系统异常日志表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.MethodName">
+            <summary>
+            方法名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.ExceptionName">
+            <summary>
+            异常名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.ExceptionMsg">
+            <summary>
+            异常信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.ExceptionSource">
+            <summary>
+            异常源
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.StackTrace">
+            <summary>
+            堆栈信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.ParamsObj">
+            <summary>
+            参数对象
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.UserName">
+            <summary>
+            账号名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysLogOp">
+            <summary>
+            系统操作日志表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Success">
+            <summary>
+            是否执行成功（Y-是，N-否）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Message">
+            <summary>
+            具体消息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Ip">
+            <summary>
+            IP地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Location">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Browser">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Os">
+            <summary>
+            操作系统
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Url">
+            <summary>
+            请求地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.ClassName">
+            <summary>
+            类名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.MethodName">
+            <summary>
+            方法名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.ReqMethod">
+            <summary>
+            请求方式（GET POST PUT DELETE)
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Param">
+            <summary>
+            请求参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Result">
+            <summary>
+            返回结果
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.ElapsedTime">
+            <summary>
+            耗时（毫秒）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.UserName">
+            <summary>
+            账号名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysLogVis">
+            <summary>
+            系统访问日志表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.Success">
+            <summary>
+            是否执行成功（Y-是，N-否）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.Message">
+            <summary>
+            具体消息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.Ip">
+            <summary>
+            IP地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.Location">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.Browser">
+            <summary>
+            浏览器
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.Os">
+            <summary>
+            操作系统
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.VisType">
+            <summary>
+            访问类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.UserName">
+            <summary>
+            账号名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysMenu">
+            <summary>
+            系统菜单表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Pid">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Type">
+            <summary>
+            菜单类型（1目录 2菜单 3按钮）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Path">
+            <summary>
+            路由地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Component">
+            <summary>
+            组件路径
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Permission">
+            <summary>
+            权限标识
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Redirect">
+            <summary>
+            重定向
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.FrameSrc">
+            <summary>
+            内嵌地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.HideMenu">
+            <summary>
+            隐藏菜单
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.IgnoreKeepAlive">
+            <summary>
+            忽略缓存
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.CurrentActiveMenu">
+            <summary>
+            当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.OrderNo">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Children">
+            <summary>
+            菜单子项
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysOrg">
+            <summary>
+            系统机构表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysOrg.Pid">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysOrg.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysOrg.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysOrg.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysOrg.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysOrg.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysOrg.Children">
+            <summary>
+            机构子项
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysPos">
+            <summary>
+            系统职位表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysPos.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysPos.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysPos.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysPos.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysPos.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysRole">
+            <summary>
+            系统角色表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRole.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRole.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRole.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRole.DataScope">
+            <summary>
+            数据范围（1全部数据 2本部门及以下数据 3本部门数据 4仅本人数据 5自定义数据）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRole.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRole.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysRoleMenu">
+            <summary>
+            系统角色菜单表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRoleMenu.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRoleMenu.MenuId">
+            <summary>
+            菜单Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRoleMenu.SysMenu">
+            <summary>
+            菜单
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysRoleOrg">
+            <summary>
+            系统角色机构表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRoleOrg.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRoleOrg.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRoleOrg.SysOrg">
+            <summary>
+            机构
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysTenant">
+            <summary>
+            系统租户表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.Name">
+            <summary>
+            公司名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.AdminName">
+            <summary>
+            管理员名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.Host">
+            <summary>
+            主机
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.Phone">
+            <summary>
+            电话
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.Connection">
+            <summary>
+            数据库连接
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.Schema">
+            <summary>
+            架构
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysTimer">
+            <summary>
+            定时任务
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.TimerName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.DoOnce">
+            <summary>
+            是否只执行一次
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.StartNow">
+            <summary>
+            是否立即执行
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.ExecuteType">
+            <summary>
+            执行类型(串行并行)
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.Interval">
+            <summary>
+            执行间隔（单位秒）
+            </summary>
+            <example>5</example>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.Cron">
+            <summary>
+            Cron表达式
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.TimerType">
+            <summary>
+            定时器类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.RequestUrl">
+            <summary>
+            请求url
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.RequestType">
+            <summary>
+            请求类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.RequestPara">
+            <summary>
+            请求参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.Headers">
+            <summary>
+            Headers参数 比如{"Authorization":"userpassword"}
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTimer.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysUser">
+            <summary>
+            系统用户表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.UserName">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Password">
+            <summary>
+            密码（默认MD5加密）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Birthday">
+            <summary>
+            出生日期
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Sex">
+            <summary>
+            性别-男_1、女_2
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Phone">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.IdCard">
+            <summary>
+            身份证号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Signature">
+            <summary>
+            个性签名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Introduction">
+            <summary>
+            个人简介
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.UserType">
+            <summary>
+            账号类型-超级管理员_1、管理员_2、普通_3
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.SysOrg">
+            <summary>
+            机构
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.PosId">
+            <summary>
+            职位Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.SysPos">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.JobNum">
+            <summary>
+            工号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.JobStatus">
+            <summary>
+            岗位状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysUserExtOrgPos">
+            <summary>
+            系统用户附属机构职位表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserExtOrgPos.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserExtOrgPos.SysUser">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserExtOrgPos.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserExtOrgPos.SysOrg">
+            <summary>
+            机构
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserExtOrgPos.PosId">
+            <summary>
+            职位Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserExtOrgPos.SysPos">
+            <summary>
+            职位
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysUserOrg">
+            <summary>
+            系统用户机构表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserOrg.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserOrg.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserOrg.SysOrg">
+            <summary>
+            机构
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysUserRole">
+            <summary>
+            系统用户角色表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserRole.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserRole.RoleId">
+            <summary>
+            角色Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserRole.SysRole">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.WechatPay">
+            <summary>
+            微信支付表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.MerchantId">
+            <summary>
+            微信商户号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.OutTradeNumber">
+            <summary>
+            商户订单号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.TransactionId">
+            <summary>
+            支付订单号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.TradeType">
+            <summary>
+            交易类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.TradeState">
+            <summary>
+            交易状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.TradeStateDescription">
+            <summary>
+            交易状态描述
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.BankType">
+            <summary>
+            付款银行类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.Total">
+            <summary>
+            订单总金额
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.PayerTotal">
+            <summary>
+            用户支付金额
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.SuccessTime">
+            <summary>
+            支付完成时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.Description">
+            <summary>
+            商品描述
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.Scene">
+            <summary>
+            场景信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.Attachment">
+            <summary>
+            附加数据
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.GoodsTag">
+            <summary>
+            优惠标记
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.OpenId">
+            <summary>
+            微信OpenId标识
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.WechatUser">
+            <summary>
+            关联微信用户
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.WechatUser">
+            <summary>
+            微信用户表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.UserId">
+            <summary>
+            关联系统用户Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.SysPos">
+            <summary>
+            关联系统用户
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.Type">
+            <summary>
+            第三方登录类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.SessionKey">
+            <summary>
+            缓存key
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.UnionId">
+            <summary>
+            UnionId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.Mobile">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.Language">
+            <summary>
+            语言
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.City">
+            <summary>
+            城市
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.Province">
+            <summary>
+            省
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.Country">
+            <summary>
+            国家
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.AccessToken">
+            <summary>
+            AccessToken
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.RefreshToken">
+            <summary>
+            RefreshToken
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatUser.ExpiresIn">
+            <summary>
+            ExpiresIn
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.CacheTypeEnum">
+            <summary>
+            缓存类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheTypeEnum.MemoryCache">
+            <summary>
+            内存缓存
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheTypeEnum.RedisCache">
+            <summary>
+            Redis缓存
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.DataOpTypeEnum">
+            <summary>
+            数据操作类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Other">
+            <summary>
+            其它
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Add">
+            <summary>
+            增加
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Delete">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Edit">
+            <summary>
+            编辑
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Update">
+            <summary>
+            更新
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Query">
+            <summary>
+            查询
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Detail">
+            <summary>
+            详情
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Tree">
+            <summary>
+            树
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Import">
+            <summary>
+            导入
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Export">
+            <summary>
+            导出
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Grant">
+            <summary>
+            授权
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Force">
+            <summary>
+            强退
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataOpTypeEnum.Clean">
+            <summary>
+            清空
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.DataScopeEnum">
+            <summary>
+            角色数据范围枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataScopeEnum.All">
+            <summary>
+            全部数据
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataScopeEnum.Dept_with_child">
+            <summary>
+            本部门及以下数据
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataScopeEnum.Dept">
+            <summary>
+            本部门数据
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataScopeEnum.Self">
+            <summary>
+            仅本人数据
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.DataScopeEnum.Define">
+            <summary>
+            自定义数据
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ErrorCodeEnum">
+            <summary>
+            系统错误码
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1000">
+            <summary>
+            用户名或密码不正确
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1001">
+            <summary>
+            非法操作！禁止删除自己
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1002">
+            <summary>
+            记录不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1003">
+            <summary>
+            账号已存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1004">
+            <summary>
+            旧密码不匹配
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1005">
+            <summary>
+            测试数据禁止更改admin密码
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1006">
+            <summary>
+            数据已存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1007">
+            <summary>
+            数据不存在或含有关联引用，禁止删除
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1008">
+            <summary>
+            禁止为管理员分配角色
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1009">
+            <summary>
+            重复数据或记录含有不存在数据
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1010">
+            <summary>
+            禁止为超级管理员角色分配权限
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1011">
+            <summary>
+            非法数据
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1012">
+            <summary>
+            Id不能为空
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1013">
+            <summary>
+            所属机构不在自己的数据范围内
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1014">
+            <summary>
+            禁止删除超级管理员
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1015">
+            <summary>
+            禁止修改超级管理员状态
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1016">
+            <summary>
+            没有权限
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1017">
+            <summary>
+            账号已冻结
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1018">
+            <summary>
+            禁止删除管理员
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1019">
+            <summary>
+            禁止删除系统管理员角色(sys_manager_role)
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1020">
+            <summary>
+            禁止修改系统管理员角色(sys_manager_role)
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1021">
+            <summary>
+            禁止为系统管理员角色(sys_manager_role)分配权限
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1022">
+            <summary>
+            禁止为超级管理员分配角色
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1023">
+            <summary>
+            禁止删除默认租户
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D2000">
+            <summary>
+            父机构不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D2001">
+            <summary>
+            当前机构Id不能与父机构Id相同
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D2002">
+            <summary>
+            已有相同组织机构,编码或名称相同
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D2003">
+            <summary>
+            没有权限操作机构
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D2004">
+            <summary>
+            该机构下有用户禁止删除
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D2005">
+            <summary>
+            附属机构下有用户禁止删除
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D2006">
+            <summary>
+            只能增加下级机构
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D3000">
+            <summary>
+            字典类型不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D3001">
+            <summary>
+            字典类型已存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D3002">
+            <summary>
+            字典类型下面有字典值禁止删除
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D3003">
+            <summary>
+            字典值已存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D3004">
+            <summary>
+            字典值不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D3005">
+            <summary>
+            字典状态错误
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D4000">
+            <summary>
+            菜单已存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D4001">
+            <summary>
+            路由地址为空
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D4002">
+            <summary>
+            打开方式为空
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D4003">
+            <summary>
+            权限标识格式为空
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D4004">
+            <summary>
+            权限标识格式错误
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D4005">
+            <summary>
+            权限不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D4006">
+            <summary>
+            父级菜单不能为当前节点，请重新选择父级菜单
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D4007">
+            <summary>
+            不能移动根节点
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D5000">
+            <summary>
+            已存在同名或同编码应用
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D5001">
+            <summary>
+            默认激活系统只能有一个
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D5002">
+            <summary>
+            该应用下有菜单禁止删除
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D5003">
+            <summary>
+            已存在同名或同编码应用
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D6000">
+            <summary>
+            已存在同名或同编码职位
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D6001">
+            <summary>
+            该职位下有用户禁止删除
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D7000">
+            <summary>
+            通知公告状态错误
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D7001">
+            <summary>
+            通知公告删除失败
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D7002">
+            <summary>
+            通知公告编辑失败
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D7003">
+            <summary>
+            通知公告操作失败，非发布者不能进行操作
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D8000">
+            <summary>
+            文件不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D8001">
+            <summary>
+            不允许的文件类型
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D8002">
+            <summary>
+            文件超过允许大小
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D9000">
+            <summary>
+            已存在同名或同编码参数配置
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D9001">
+            <summary>
+            禁止删除系统参数
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1100">
+            <summary>
+            已存在同名任务调度
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1101">
+            <summary>
+            任务调度不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1200">
+            <summary>
+            演示环境禁止修改数据
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1300">
+            <summary>
+            已存在同名或同管理员或同主机租户
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1400">
+            <summary>
+            该表代码模板已经生成过
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1501">
+            <summary>
+            该类型不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1502">
+            <summary>
+            该字段不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1503">
+            <summary>
+            该类型不是枚举类型
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1504">
+            <summary>
+            该实体不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1505">
+            <summary>
+            父菜单不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.xg1000">
+            <summary>
+            已存在同名或同编码项目
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.xg1001">
+            <summary>
+            已存在相同证件号码人员
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.xg1002">
+            <summary>
+            检测数据不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.db1000">
+            <summary>
+            请添加数据列
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.db1001">
+            <summary>
+            数据表不存在
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.GenderEnum">
+            <summary>
+            性别枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.GenderEnum.Male">
+            <summary>
+            男
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.GenderEnum.Female">
+            <summary>
+            女
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.JobStatusEnum">
+            <summary>
+            岗位状态枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.JobStatusEnum.On">
+            <summary>
+            在职
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.JobStatusEnum.Off">
+            <summary>
+            离职
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.JobStatusEnum.Leave">
+            <summary>
+            请假
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.LoginTypeEnum">
+            <summary>
+            登录类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.LoginTypeEnum.Login">
+            <summary>
+            登录
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.LoginTypeEnum.Logout">
+            <summary>
+            退出
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.LoginTypeEnum.Register">
+            <summary>
+            注册
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.LoginTypeEnum.Change_password">
+            <summary>
+            改密
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.LoginTypeEnum.Authorized_login">
+            <summary>
+            三方授权登陆
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.MenuTypeEnum">
+            <summary>
+            系统菜单类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.MenuTypeEnum.Dir">
+            <summary>
+            目录
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.MenuTypeEnum.Menu">
+            <summary>
+            菜单
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.MenuTypeEnum.Btn">
+            <summary>
+            按钮
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.OrgTypeEnum">
+            <summary>
+            机构类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.OrgTypeEnum.Brand">
+            <summary>
+            品牌
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.OrgTypeEnum.Head">
+            <summary>
+            总店(加盟/直营)
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.OrgTypeEnum.Direct">
+            <summary>
+            直营店
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.OrgTypeEnum.Franchised">
+            <summary>
+            加盟店
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.RequestTypeEnum">
+            <summary>
+            HTTP请求类型
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RequestTypeEnum.Run">
+            <summary>
+            执行内部方法
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RequestTypeEnum.Get">
+            <summary>
+            GET
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RequestTypeEnum.Post">
+            <summary>
+            POST
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RequestTypeEnum.Put">
+            <summary>
+            PUT
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RequestTypeEnum.Delete">
+            <summary>
+            DELETE
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.RoleTypeEnum">
+            <summary>
+            角色类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RoleTypeEnum.Group">
+            <summary>
+            集团角色
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RoleTypeEnum.Join">
+            <summary>
+            加盟商角色
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RoleTypeEnum.Store">
+            <summary>
+            门店角色
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.StatusEnum">
+            <summary>
+            通用状态枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.StatusEnum.Enable">
+            <summary>
+            启用
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.StatusEnum.Disable">
+            <summary>
+            停用
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.UserTypeEnum">
+            <summary>
+            账号类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.UserTypeEnum.Admin">
+            <summary>
+            管理员
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.UserTypeEnum.None">
+            <summary>
+            普通账号
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.UserTypeEnum.SuperAdmin">
+            <summary>
+            超级管理员
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.WeChatReturnCodeEnum">
+            <summary>
+            微信开发返回码
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.不合法的凭证类型">
+            <summary>
+            <para>公众号：不合法的凭证类型</para>
+            <para>小程序：暂无生成权限</para>
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.不合法的APPID">
+            <summary>
+            <para>微信：不合法的APPID</para>
+            <para>小程序：生成权限被封禁</para>
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.输入参数有误">
+            <summary>
+            <para>公众号：输入参数有误</para>
+            <para>小程序：参数expire_time填写错误</para>
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.用户拒绝接受消息">
+            <summary>[小程序订阅消息]用户拒绝接受消息，如果用户之前曾经订阅过，则表示用户取消了订阅关系</summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.模板参数不准确">
+            <summary>[小程序订阅消息]模板参数不准确，可能为空或者不满足规则，errmsg会提示具体是哪个字段出错</summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.客服帐号名长度超过限制">
+            <summary>
+            客服帐号名长度超过限制(仅允许10个英文字符，不包括@及@后的公众号的微信号)(invalid kf_acount length)
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.客服帐号名包含非法字符">
+            <summary>
+            客服帐号名包含非法字符(仅允许英文+数字)(illegal character in kf_account)
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.客服帐号个数超过限制">
+            <summary>客服帐号个数超过限制(10个客服账号)(kf_account count exceeded)</summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.签名错误">
+            <summary>
+            小程序为“签名错误”。对应公众号： 87009, “errmsg” : “reply is not exists” //该回复不存在
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.WeChatUserTypeEnum">
+            <summary>
+            微信用户类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.微信公众号">
+            <summary>
+            微信公众号
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.微信小程序">
+            <summary>
+            微信小程序
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.支付宝小程序">
+            <summary>
+            支付宝小程序
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.微信APP快捷登陆">
+            <summary>
+            微信APP快捷登陆
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.QQ在APP中快捷登陆">
+            <summary>
+            QQ在APP中快捷登陆
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.头条系小程序">
+            <summary>
+            头条系小程序
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.YesNoEnum">
+            <summary>
+            是否枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.YesNoEnum.Y">
+            <summary>
+            是
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.YesNoEnum.N">
+            <summary>
+            否
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.LogEventSubscriber">
+            <summary>
+            日志事件订阅
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.LogEventSubscriber.CreateOpLog(Furion.EventBus.EventHandlerExecutingContext)">
+            <summary>
+            增加操作日志
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.LogEventSubscriber.CreateExLog(Furion.EventBus.EventHandlerExecutingContext)">
+            <summary>
+            增加异常日志
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.LogEventSubscriber.CreateVisLog(Furion.EventBus.EventHandlerExecutingContext)">
+            <summary>
+            增加访问日志
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.LogoExtension">
+            <summary>
+            logo显示
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ObjectExtension">
+            <summary>
+            对象拓展类
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.HasImplementedRawGeneric(System.Type,System.Type)">
+            <summary>
+            判断类型是否实现某个泛型
+            </summary>
+            <param name="type">类型</param>
+            <param name="generic">泛型类型</param>
+            <returns>bool</returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ToQueryString(System.Collections.Generic.Dictionary{System.String,System.String},System.Boolean)">
+            <summary>
+            将字典转化为QueryString格式
+            </summary>
+            <param name="dict"></param>
+            <param name="urlEncode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.UrlEncode(System.String)">
+            <summary>
+            将字符串URL编码
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ToDataTable``1(System.Collections.Generic.List{``0})">
+            <summary>
+            List转DataTable
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="list"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.IsIgnoreColumn(System.Reflection.PropertyInfo)">
+            <summary>
+            排除SqlSugar忽略的列
+            </summary>
+            <param name="pi"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.LogExceptionHandler">
+            <summary>
+            全局异常处理
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.RequestActionFilter">
+            <summary>
+            请求操作拦截
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SqlSugarUnitOfWorkFilter">
+            <summary>
+            SqlSugar工作单元拦截器
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SqlSugarUnitOfWorkFilter.FilterOrder">
+            <summary>
+            过滤器排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarUnitOfWorkFilter.Order">
+            <summary>
+            排序属性
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SqlSugarUnitOfWorkFilter._sqlSugarClient">
+            <summary>
+            SqlSugar 对象
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWorkFilter.#ctor(SqlSugar.ISqlSugarClient)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="sqlSugarClient"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWorkFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)">
+             <summary>
+            
+             </summary>
+             <param name="context"></param>
+             <param name="next"></param>
+             <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.CacheOptions">
+            <summary>
+            缓存配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CacheOptions.CacheType">
+            <summary>
+            缓存类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CacheOptions.RedisConnectionString">
+            <summary>
+            Redis连接
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CacheOptions.InstanceName">
+            <summary>
+            键值前缀
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ConnectionStringsOptions">
+            <summary>
+            数据库链接配置
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ConnectionStringsOptions.DefaultConfigId">
+            <summary>
+            默认数据库编号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ConnectionStringsOptions.DefaultDbType">
+            <summary>
+            默认数据库类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ConnectionStringsOptions.DefaultConnection">
+            <summary>
+            默认数据库连接字符串
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ConnectionStringsOptions.InitTable">
+            <summary>
+            初始化表和数据
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ConnectionStringsOptions.DbConfigs">
+            <summary>
+            业务库集合
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.DbConfig">
+            <summary>
+            数据库参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DbConfig.DbConfigId">
+            <summary>
+            数据库编号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DbConfig.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DbConfig.DbConnection">
+            <summary>
+            数据库连接字符串
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DbConfig.InitTable">
+            <summary>
+            初始化表和数据
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.OSSProviderOptions">
+            <summary>
+            对象存储配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.OSSProviderOptions.IsEnable">
+            <summary>
+            是否启用OSS存储
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.PayCallBackOptions">
+            <summary>
+            支付回调配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.PayCallBackOptions.WechatPayUrl">
+            <summary>
+            微信支付回调
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.PayCallBackOptions.WechatRefundUrl">
+            <summary>
+            微信退款回调
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.PayCallBackOptions.AlipayUrl">
+            <summary>
+            支付宝支付回调
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.PayCallBackOptions.AlipayRefundUrl">
+            <summary>
+            支付宝退款回调
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.RefreshTokenOptions">
+            <summary>
+            刷新Token配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.RefreshTokenOptions.ExpiredTime">
+            <summary>
+            令牌过期时间(分钟) 默认2天
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SnowIdOptions">
+            <summary>
+            雪花Id配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SnowIdOptions.WorkerId">
+            <summary>
+            机器码
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.UploadOptions">
+            <summary>
+            文件上传配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.UploadOptions.Path">
+            <summary>
+            路径
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.UploadOptions.MaxSize">
+            <summary>
+            大小
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.UploadOptions.ContentType">
+            <summary>
+            上传格式
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.WechatOptions">
+            <summary>
+            微信相关配置选项
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.WechatPayOptions">
+            <summary>
+            微信支付配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPayOptions.AppId">
+            <summary>
+            微信公众平台AppId、开放平台AppId、小程序AppId、企业微信CorpId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantId">
+             <summary>
+            商户平台的商户号
+             </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantV3Secret">
+            <summary>
+            商户平台的APIv3密钥
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantCertificateSerialNumber">
+            <summary>
+            商户平台的证书序列号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantCertificatePrivateKey">
+            <summary>
+            商户平台的API证书私钥(apiclient_key.pem文件内容)
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPayOptions.RsaPublicKey">
+            <summary>
+            RSA公钥 仅调用"企业付款到银行卡API"时使用
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysConfigSeedData">
+            <summary>
+            系统配置表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysConfigSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SeedData.SysDictDataSeedData">
+            <summary>
+            系统字典值表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SeedData.SysDictDataSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SeedData.SysDictTypeSeedData">
+            <summary>
+            系统字典类型表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SeedData.SysDictTypeSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysEmpExtOrgPosSeedData">
+            <summary>
+            系统用户附属机构职位表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysEmpExtOrgPosSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysMenuSeedData">
+            <summary>
+            系统菜单表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysMenuSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysOrgSeedData">
+            <summary>
+            系统机构表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysOrgSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysPosSeedData">
+            <summary>
+            系统职位表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysPosSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysRoleMenuSeedData">
+            <summary>
+            系统角色菜单表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysRoleMenuSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysRoleSeedData">
+            <summary>
+            系统角色表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysRoleSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysUserOrgSeedData">
+            <summary>
+            系统用户机构表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysUserOrgSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysUserRoleSeedData">
+            <summary>
+            系统用户角色表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysUserRoleSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysUserSeedData">
+            <summary>
+            系统用户表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysUserSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.AuthService">
+            <summary>
+            系统登录授权服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.AuthService.Login(Admin.NET.Core.Service.LoginInput)">
+            <summary>
+            登录系统
+            </summary>
+            <param name="input"></param>
+            <remarks>用户名/密码：admin/123456</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.AuthService.GetUserInfo">
+            <summary>
+            获取用户信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.AuthService.RefreshToken(System.String)">
+            <summary>
+            获取刷新Token
+            </summary>
+            <param name="accessToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.AuthService.Logout">
+            <summary>
+            退出系统
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.LoginInput">
+            <summary>
+            用户登录参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginInput.UserName">
+            <summary>
+            用户名
+            </summary>
+            <example>admin</example>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginInput.Password">
+            <summary>
+            密码
+            </summary>
+            <example>123456</example>
+        </member>
+        <member name="T:Admin.NET.Core.Service.LoginOutput">
+            <summary>
+            用户登录结果
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginOutput.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginOutput.Token">
+            <summary>
+            令牌Token
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginOutput.RoleInfo">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.LoginUserInfoOutput">
+            <summary>
+            用户登录信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Username">
+            <summary>
+            账号名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Desc">
+            <summary>
+            个人简介
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Roles">
+            <summary>
+            角色集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginRole.RoleName">
+            <summary>
+            角色名称
+            </summary>
+            <example>admin</example>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginRole.Value">
+            <summary>
+            角色编码
+            </summary>
+            <example>123456</example>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysCacheService">
+            <summary>
+            系统缓存服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetAllCacheKeys">
+            <summary>
+            获取所有缓存列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.SetAsync(System.String,System.Object)">
+            <summary>
+            增加对象缓存
+            </summary>
+            <param name="cacheKey"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.SetStringAsync(System.String,System.String)">
+            <summary>
+            增加字符串缓存
+            </summary>
+            <param name="cacheKey"></param>
+            <param name="value"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetStringAsync(System.String)">
+            <summary>
+            获取缓存
+            </summary>
+            <param name="cacheKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.RemoveAsync(System.String)">
+            <summary>
+            删除缓存
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.DelByPatternAsync(System.String)">
+            <summary>
+            删除某特征关键字缓存
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetAsync``1(System.String)">
+            <summary>
+            获取缓存
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="cacheKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.Exists(System.String)">
+            <summary>
+            检查给定 key 是否存在
+            </summary>
+            <param name="cacheKey">键</param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.AddCacheKey(System.String)">
+            <summary>
+            增加缓存Key
+            </summary>
+            <param name="cacheKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.DelCacheKey(System.String)">
+            <summary>
+            删除缓存
+            </summary>
+            <param name="cacheKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetOrgIdList(System.Int64)">
+            <summary>
+            获取机构Id集合
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.SetOrgIdList(System.Int64,System.Collections.Generic.List{System.Int64})">
+            <summary>
+            缓存机构Id集合
+            </summary>
+            <param name="userId"></param>
+            <param name="orgIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetPermission(System.Int64)">
+            <summary>
+            获取权限缓存（按钮）
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.SetPermission(System.Int64,System.Collections.Generic.List{System.String})">
+            <summary>
+            缓存权限
+            </summary>
+            <param name="userId"></param>
+            <param name="permissions"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.CodeGenConfigService">
+            <summary>
+            代码生成详细配置服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.List(Admin.NET.Core.Service.CodeGenConfig)">
+            <summary>
+            代码生成详细配置列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.Add(Admin.NET.Core.Service.CodeGenConfig)">
+            <summary>
+            增加
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.Delete(System.Int64)">
+            <summary>
+            删除
+            </summary>
+            <param name="codeGenId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.Update(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
+            <summary>
+            更新
+            </summary>
+            <param name="inputList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.Detail(Admin.NET.Core.Service.CodeGenConfig)">
+            <summary>
+            详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.AddList(System.Collections.Generic.List{Admin.NET.Core.Service.TableColumnOuput},Admin.NET.Core.SysCodeGen)">
+            <summary>
+            批量增加
+            </summary>
+            <param name="tableColumnOuputList"></param>
+            <param name="codeGenerate"></param>
+        </member>
+        <member name="T:Admin.NET.Core.Service.CodeGen.CodeGenService">
+            <summary>
+            代码生成器服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.QueryCodeGenPageList(Admin.NET.Core.Service.CodeGenInput)">
+            <summary>
+            分页查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.AddCodeGen(Admin.NET.Core.Service.AddCodeGenInput)">
+            <summary>
+            增加
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.DeleteCodeGen(System.Collections.Generic.List{Admin.NET.Core.Service.DeleteCodeGenInput})">
+            <summary>
+            删除
+            </summary>
+            <param name="inputs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.UpdateCodeGen(Admin.NET.Core.Service.UpdateCodeGenInput)">
+            <summary>
+            更新
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetCodeGen(Admin.NET.Core.Service.QueryCodeGenInput)">
+            <summary>
+            详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetTableList">
+            <summary>
+            获取数据库表(实体)集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetColumnListByTableName(System.String)">
+            <summary>
+            根据表名获取列
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetColumnList(Admin.NET.Core.Service.AddCodeGenInput)">
+            <summary>
+            获取数据表列（实体属性）集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.RunLocal(Admin.NET.Core.SysCodeGen)">
+            <summary>
+            代码生成_本地项目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetJoinTableStr(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
+            <summary>
+            获取连表的实体名和别名
+            </summary>
+            <param name="configs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetTemplatePathList">
+            <summary>
+            获取模板文件路径集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetTargetPathList(Admin.NET.Core.SysCodeGen)">
+            <summary>
+            设置生成文件路径
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.CodeGenConfig">
+            <summary>
+            代码生成详细配置参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.Id">
+            <summary>
+            主键Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.CodeGenId">
+            <summary>
+            代码生成主表ID
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.ColumnName">
+            <summary>
+            数据库字段名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.LowerColumnName">
+            <summary>
+            数据库字段名(首字母小写)
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.ColumnComment">
+            <summary>
+            字段描述
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.NetType">
+            <summary>
+            .NET类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.EffectType">
+            <summary>
+            作用类型（字典）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.FkEntityName">
+            <summary>
+            外键实体名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.FkTableName">
+            <summary>
+            外键表名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.LowerFkEntityName">
+            <summary>
+            外键实体名称(首字母小写)
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.FkColumnName">
+            <summary>
+            外键显示字段
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.LowerFkColumnName">
+            <summary>
+            外键显示字段(首字母小写)
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.FkColumnNetType">
+            <summary>
+            外键显示字段.NET类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.DictTypeCode">
+            <summary>
+            字典code
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.WhetherRetract">
+            <summary>
+            列表是否缩进（字典）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.WhetherRequired">
+            <summary>
+            是否必填（字典）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.QueryWhether">
+            <summary>
+            是否是查询条件
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.QueryType">
+            <summary>
+            查询方式
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.WhetherTable">
+            <summary>
+            列表显示
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.WhetherAddUpdate">
+            <summary>
+            增改
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.ColumnKey">
+            <summary>
+            主外键
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.DataType">
+            <summary>
+            数据库中类型（物理类型）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.WhetherCommon">
+            <summary>
+            是否是通用字段
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.TableNickName">
+            <summary>
+            表的别名 Table as XXX
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.DisplayColumn">
+            <summary>
+            显示文本字段
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.ValueColumn">
+            <summary>
+            选中值字段
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenConfig.PidColumn">
+            <summary>
+            父级字段
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.CodeGenInput">
+            <summary>
+            代码生成参数类
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.AuthorName">
+            <summary>
+            作者姓名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.TablePrefix">
+            <summary>
+            是否移除表前缀
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.GenerateType">
+            <summary>
+            生成方式
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.TableName">
+            <summary>
+            数据库表名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.NameSpace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.BusName">
+            <summary>
+            业务名（业务代码包名称）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.TableComment">
+            <summary>
+            功能名（数据库表名称）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.MenuApplication">
+            <summary>
+            菜单应用分类（应用编码）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.MenuPid">
+            <summary>
+            菜单父级
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddCodeGenInput.TableName">
+            <summary>
+            数据库表名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddCodeGenInput.BusName">
+            <summary>
+            业务名（业务代码包名称）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddCodeGenInput.NameSpace">
+            <summary>
+            命名空间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddCodeGenInput.AuthorName">
+            <summary>
+            作者姓名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddCodeGenInput.GenerateType">
+            <summary>
+            生成方式
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddCodeGenInput.MenuPid">
+            <summary>
+            菜单父级
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.DeleteCodeGenInput.Id">
+            <summary>
+            代码生成器Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateCodeGenInput.Id">
+            <summary>
+            代码生成器Id
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.CodeGenOutput">
+            <summary>
+            代码生成参数类
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.Id">
+            <summary>
+            代码生成器Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.AuthorName">
+            <summary>
+            作者姓名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.ClassName">
+            <summary>
+            类名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.TablePrefix">
+            <summary>
+            是否移除表前缀
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.GenerateType">
+            <summary>
+            生成方式
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.TableName">
+            <summary>
+            数据库表名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.PackageName">
+            <summary>
+            包名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.BusName">
+            <summary>
+            业务名（业务代码包名称）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.TableComment">
+            <summary>
+            功能名（数据库表名称）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.MenuApplication">
+            <summary>
+            菜单应用分类（应用编码）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenOutput.MenuPid">
+            <summary>
+            菜单父级
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.TableColumnOuput">
+            <summary>
+            数据库表列
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableColumnOuput.ColumnName">
+            <summary>
+            字段名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableColumnOuput.DataType">
+            <summary>
+            数据库中类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableColumnOuput.NetType">
+            <summary>
+            .NET字段类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableColumnOuput.ColumnComment">
+            <summary>
+            字段描述
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableColumnOuput.ColumnKey">
+            <summary>
+            主外键
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.TableOutput">
+            <summary>
+            数据库表列表参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableOutput.TableName">
+            <summary>
+            表名（字母形式的）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableOutput.EntityName">
+            <summary>
+            实体名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableOutput.CreateTime">
+            <summary>
+            创建时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableOutput.UpdateTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableOutput.TableComment">
+            <summary>
+            表名称描述（注释）（功能名）
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CommonService.GetEntityInfos">
+            <summary>
+            获取库表信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CommonService.GetHost">
+            <summary>
+            获取Host
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CommonService.GetFileUrl(Admin.NET.Core.SysFile)">
+            <summary>
+            获取文件URL
+            </summary>
+            <param name="sysFile"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.PageConfigInput">
+            <summary>
+            参数配置分页
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageConfigInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageConfigInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddConfigInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddConfigInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddConfigInput.Value">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddConfigInput.SysFlag">
+            <summary>
+            是否是系统参数（Y-是，N-否）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddConfigInput.GroupCode">
+            <summary>
+            常量所属分类的编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddConfigInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddConfigInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddConfigInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Value">
+            <summary>
+            属性值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.SysFlag">
+            <summary>
+            是否是系统参数（Y-是，N-否）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.GroupCode">
+            <summary>
+            常量所属分类的编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysConfigService">
+            <summary>
+            系统参数配置服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfigPageList(Admin.NET.Core.Service.PageConfigInput)">
+            <summary>
+            获取参数配置分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfigList">
+            <summary>
+            获取参数配置列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.AddConfig(Admin.NET.Core.Service.AddConfigInput)">
+            <summary>
+            增加参数配置
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.UpdateConfig(Admin.NET.Core.Service.UpdateConfigInput)">
+            <summary>
+            更新参数配置
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfig(Admin.NET.Core.Service.ConfigInput)">
+            <summary>
+            获取参数配置详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.DeleteConfig(Admin.NET.Core.Service.DeleteConfigInput)">
+            <summary>
+            删除参数配置
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfigCache(System.String)">
+            <summary>
+            获取参数配置缓存
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetDemoEnvFlag">
+            <summary>
+            获取演示环境开关配置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetCaptchaOpenFlag">
+            <summary>
+            获取验证码开关配置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.DataBaseManager">
+            <summary>
+            数据库管理服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.ColumnAdd(Admin.NET.Core.Service.DbColumnInfoInput)">
+            <summary>
+            添加列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.ColumnDelete(Admin.NET.Core.Service.DbColumnInfoOutput)">
+            <summary>
+            删除列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.ColumnEdit(Admin.NET.Core.Service.EditColumnInput)">
+            <summary>
+            编辑列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetColumnInfosByTableName(System.String)">
+            <summary>
+            获取表字段
+            </summary>
+            <param name="tableName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetTableInfoList">
+            <summary>
+            获取所有表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.TableAdd(Admin.NET.Core.Service.DbTableInfoInput)">
+            <summary>
+            新增表
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.TableDelete(SqlSugar.DbTableInfo)">
+            <summary>
+            删除表
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.TableEdit(Admin.NET.Core.Service.EditTableInput)">
+            <summary>
+            编辑表
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.CreateEntity(Admin.NET.Core.Service.CreateEntityInput)">
+            <summary>
+            创建实体
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetTemplatePath">
+            <summary>
+            获取模板文件路径集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetTargetPath(Admin.NET.Core.Service.CreateEntityInput)">
+            <summary>
+            设置生成文件路径
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CreateEntityInput.TableName">
+             <summary>
+            
+             </summary>
+             <example>student</example>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CreateEntityInput.EntityName">
+             <summary>
+            
+             </summary>
+             <example>Student</example>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CreateEntityInput.BaseClassName">
+             <summary>
+            
+             </summary>
+             <example>AutoIncrementEntity</example>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CreateEntityInput.Position">
+             <summary>
+            
+             </summary>
+             <example>Magic.Application</example>
+        </member>
+        <member name="P:Admin.NET.Core.Service.GetDataDictDataInput.DictTypeId">
+            <summary>
+            字典类型Id
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.PageDictDataInput">
+            <summary>
+            字典值分页
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageDictDataInput.DictTypeId">
+            <summary>
+            字典类型Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageDictDataInput.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageDictDataInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictDataInput.DictTypeId">
+            <summary>
+            字典类型Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.DictTypeId">
+            <summary>
+            字典类型Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Value">
+            <summary>
+            值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.ChageStatusDictDataInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.PageDictTypeInput">
+            <summary>
+            字典类型分页
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageDictTypeInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageDictTypeInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.GetDataDictTypeInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.ChangeStatusDictTypeInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysDictDataService">
+            <summary>
+            系统字典值服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataPageList(Admin.NET.Core.Service.PageDictDataInput)">
+            <summary>
+            获取字典值分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataList(Admin.NET.Core.Service.GetDataDictDataInput)">
+            <summary>
+            获取字典值列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.AddDictData(Admin.NET.Core.Service.AddDictDataInput)">
+            <summary>
+            增加字典值
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.UpdateDictData(Admin.NET.Core.Service.UpdateDictDataInput)">
+            <summary>
+            更新字典值
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictData(Admin.NET.Core.Service.DictDataInput)">
+            <summary>
+            获取字典值详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.DeleteDictData(Admin.NET.Core.Service.DeleteDictDataInput)">
+            <summary>
+            删除字典值
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.ChangeDictDataStatus(Admin.NET.Core.Service.ChageStatusDictDataInput)">
+            <summary>
+            修改字典值状态
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataListByDictTypeId(System.Int64)">
+            <summary>
+            根据字典类型Id获取字典值集合
+            </summary>
+            <param name="dictTypeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataDropdown(System.String)">
+            <summary>
+            根据字典唯一编码获取下拉框集合
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysDictTypeService">
+            <summary>
+            系统字典类型服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictTypePageList(Admin.NET.Core.Service.PageDictTypeInput)">
+            <summary>
+            获取字典类型分页列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictTypeList">
+            <summary>
+            获取字典类型列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictTypeDataList(Admin.NET.Core.Service.GetDataDictTypeInput)">
+            <summary>
+            获取字典类型-值列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.AddDictType(Admin.NET.Core.Service.AddDictTypeInput)">
+            <summary>
+            添加字典类型
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.UpdateDictType(Admin.NET.Core.Service.UpdateDictTypeInput)">
+            <summary>
+            更新字典类型
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictType(Admin.NET.Core.Service.DictTypeInput)">
+            <summary>
+            获取字典类型详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.DeleteDictType(Admin.NET.Core.Service.DeleteDictTypeInput)">
+            <summary>
+            删除字典类型
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.ChangeDictTypeStatus(Admin.NET.Core.Service.ChangeStatusDictTypeInput)">
+            <summary>
+            修改字典类型状态
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageFileInput.FileName">
+            <summary>
+            原始名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageFileInput.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageFileInput.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.FileOutput.Id">
+            <summary>
+            文件ID
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.FileOutput.Name">
+            <summary>
+            文件名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.FileOutput.Url">
+            <summary>
+            文件URL
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.FileOutput.SizeKb">
+            <summary>
+            文件大小
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.FileOutput.Suffix">
+            <summary>
+            文件后缀
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MapperSysFileOutput.Id">
+            <summary>
+            雪花Id
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysFileService">
+            <summary>
+            文件服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.QueryFilePageList(Admin.NET.Core.Service.PageFileInput)">
+            <summary>
+            获取文件分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.GetFileList">
+            <summary>
+            获取文件列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.UploadFile(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传文件
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.DownloadFile(Admin.NET.Core.Service.FileInput)">
+            <summary>
+            下载文件(文件流)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.DeleteFile(Admin.NET.Core.Service.DeleteFileInput)">
+            <summary>
+            删除文件
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.GetFile(Admin.NET.Core.Service.FileInput)">
+            <summary>
+            获取文件
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.HandleUploadFile(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传文件
+            </summary>
+            <param name="file">文件</param>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LogInput.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LogInput.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysExLogService">
+            <summary>
+            系统异常日志服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysExLogService.GetExLogList(Admin.NET.Core.Service.LogInput)">
+            <summary>
+            获取异常日志分页列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysExLogService.ClearExLog">
+            <summary>
+            清空异常日志
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysOpLogService">
+            <summary>
+            系统操作日志服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOpLogService.GetOpLogList(Admin.NET.Core.Service.LogInput)">
+            <summary>
+            获取操作日志分页列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOpLogService.ClearOpLog">
+            <summary>
+            清空操作日志
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysVisLogService">
+            <summary>
+            系统访问日志服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysVisLogService.GetVisLogList(Admin.NET.Core.Service.LogInput)">
+            <summary>
+            获取访问日志分页列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysVisLogService.ClearVisLog">
+            <summary>
+            清空访问日志
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Pid">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Type">
+            <summary>
+            菜单类型（1目录 2菜单 3按钮）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Path">
+            <summary>
+            路由地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Component">
+            <summary>
+            组件路径
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Permission">
+            <summary>
+            权限标识
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Redirect">
+            <summary>
+            跳转地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.FrameSrc">
+            <summary>
+            内嵌地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.OrderNo">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.HideMenu">
+            <summary>
+            是否显示
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.IgnoreKeepAlive">
+            <summary>
+            是否忽略KeepAlive缓存
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.CurrentActiveMenu">
+            <summary>
+            当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddMenuInput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.MenuOutput">
+            <summary>
+            系统菜单返回结果
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Pid">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Type">
+            <summary>
+            菜单类型（0目录 1菜单 2按钮）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Path">
+            <summary>
+            路由地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Component">
+            <summary>
+            组件路径
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Permission">
+            <summary>
+            权限标识
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Redirect">
+            <summary>
+            重定向
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Disabled">
+            <summary>
+            是否可用
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Meta">
+            <summary>
+            菜单Meta
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Children">
+            <summary>
+            菜单子项
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysMenuMeta">
+            <summary>
+            菜单Meta配置
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.Icon">
+            <summary>
+            图标
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.FrameSrc">
+            <summary>
+            内嵌地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.OrderNo">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.HideMenu">
+            <summary>
+            是否显示
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.IgnoreKeepAlive">
+            <summary>
+            是否忽略KeepAlive缓存
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.CurrentActiveMenu">
+            <summary>
+            当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysMenuMapper">
+            <summary>
+            配置菜单对象映射
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysMenuService">
+            <summary>
+            系统菜单服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetLoginMenuTree">
+            <summary>
+            获取登录菜单树
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetMenuList(Admin.NET.Core.Service.MenuInput)">
+            <summary>
+            获取菜单列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.AddMenu(Admin.NET.Core.Service.AddMenuInput)">
+            <summary>
+            增加菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.UpdateMenu(Admin.NET.Core.Service.UpdateMenuInput)">
+            <summary>
+            更新菜单
+            </summary>upda
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.DeleteMenu(Admin.NET.Core.Service.DeleteMenuInput)">
+            <summary>
+            删除菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.CheckMenuParam(Admin.NET.Core.Service.MenuInput)">
+            <summary>
+            增加和编辑时检查菜单数据
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetPermCodeList">
+            <summary>
+            获取按钮权限列表(登录)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetMenuIdList">
+            <summary>
+            获取当前用户菜单Id集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.OrgInput.Pid">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.OrgInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.OrgInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.OrgInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.OrgInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.OrgInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddOrgInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysOrgService">
+            <summary>
+            系统机构服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.GetOrgList(Admin.NET.Core.Service.OrgInput)">
+            <summary>
+            获取机构列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.AddOrg(Admin.NET.Core.Service.AddOrgInput)">
+            <summary>
+            增加机构
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.UpdateOrg(Admin.NET.Core.Service.UpdateOrgInput)">
+            <summary>
+            更新机构
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.DeleteOrg(Admin.NET.Core.Service.DeleteOrgInput)">
+            <summary>
+            删除机构
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.GetUserOrgIdList">
+            <summary>
+            根据用户Id获取机构Id集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.GetUserRoleOrgIdList(System.Int64)">
+            <summary>
+            获取用户角色机构Id集合
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.GetUserOrgIdList(System.Collections.Generic.List{Admin.NET.Core.SysRole})">
+            <summary>
+            根据角色Id集合获取机构Id集合
+            </summary>
+            <param name="roleList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.GetOrgIdListByDataScope(System.Int32)">
+            <summary>
+            根据数据范围获取机构Id集合
+            </summary>
+            <param name="dataScope"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.GetChildIdListWithSelfById(System.Int64)">
+            <summary>
+            根据节点Id获取子节点Id集合(包含自己)
+            </summary>
+            <param name="pid"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PosInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PosInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PosInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PosInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PosInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddPosInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysPosService">
+            <summary>
+            系统职位服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysPosService.GetPosList(Admin.NET.Core.Service.PosInput)">
+            <summary>
+            获取职位列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysPosService.AddPos(Admin.NET.Core.Service.AddPosInput)">
+            <summary>
+            增加职位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysPosService.UpdatePos(Admin.NET.Core.Service.UpdatePosInput)">
+            <summary>
+            更新职位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysPosService.DeletePos(Admin.NET.Core.Service.DeletePosInput)">
+            <summary>
+            删除职位
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleInput.DataScope">
+            <summary>
+            数据范围类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRoleInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRoleInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRoleInput.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRoleInput.DataScope">
+            <summary>
+            数据范围类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRoleInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRoleInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddRoleInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.RoleMenuInput">
+            <summary>
+            授权角色菜单
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleMenuInput.MenuIdList">
+            <summary>
+            菜单Id集合
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.RoleOrgInput">
+            <summary>
+            授权角色机构
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleOrgInput.DataScope">
+            <summary>
+            数据范围
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleOrgInput.OrgIdList">
+            <summary>
+            机构Id集合
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.RoleOutput">
+            <summary>
+            角色列表输出参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleOutput.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleOutput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleOutput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysRoleMenuService">
+            <summary>
+            系统角色菜单服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.GetRoleMenuIdList(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            根据角色Id集合获取菜单Id集合
+            </summary>
+            <param name="roleIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.GetRoleMenu(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            根据角色Id集合获取菜单树
+            </summary>
+            <param name="roleIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.GrantRoleMenu(Admin.NET.Core.Service.RoleMenuInput)">
+            <summary>
+            授权角色菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.DeleteRoleMenuByMenuIdList(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            根据菜单Id集合删除角色菜单
+            </summary>
+            <param name="menuIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.DeleteRoleMenuByRoleId(System.Int64)">
+            <summary>
+            根据角色Id删除角色菜单
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysRoleOrgService">
+            <summary>
+            系统角色机构服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleOrgService.GrantRoleOrg(Admin.NET.Core.Service.RoleOrgInput)">
+            <summary>
+            授权角色机构
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleOrgService.GetRoleOrgIdList(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            根据角色Id集合获取角色机构Id集合
+            </summary>
+            <param name="roleIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleOrgService.DeleteRoleOrgByOrgIdList(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            根据机构Id集合删除角色机构
+            </summary>
+            <param name="orgIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleOrgService.DeleteRoleOrgByRoleId(System.Int64)">
+            <summary>
+            根据角色Id删除角色机构
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysRoleService">
+            <summary>
+            系统角色服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRolePageList(Admin.NET.Core.Service.PageRoleInput)">
+            <summary>
+            获取角色分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleList">
+            <summary>
+            获取角色列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.AddRole(Admin.NET.Core.Service.AddRoleInput)">
+            <summary>
+            增加角色
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.UpdateRole(Admin.NET.Core.Service.UpdateRoleInput)">
+            <summary>
+            更新角色
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.DeleteRole(Admin.NET.Core.Service.DeleteRoleInput)">
+            <summary>
+            删除角色
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GrantRoleMenu(Admin.NET.Core.Service.RoleMenuInput)">
+            <summary>
+            授权角色菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GrantRoleDataScope(Admin.NET.Core.Service.RoleOrgInput)">
+            <summary>
+            授权角色数据范围
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleOwnMenu(Admin.NET.Core.Service.RoleInput)">
+            <summary>
+            根据角色Id获取菜单树(前端区分父子节点)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleOwnOrg(Admin.NET.Core.Service.RoleInput)">
+            <summary>
+            根据角色Id获取机构Id集合
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.SetRoleStatus(Admin.NET.Core.Service.RoleInput)">
+            <summary>
+            设置角色状态
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.ServerService">
+            <summary>
+            服务器监控服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.ServerService.GetServerBaseInfo">
+            <summary>
+            服务器基本配置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.ServerService.GetServerUseInfo">
+            <summary>
+            服务器使用资源
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.ServerService.GetServerNetWorkInfo">
+            <summary>
+            服务器网络信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.TenantInput">
+            <summary>
+            租户管理输入参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.Name">
+            <summary>
+            公司名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.AdminName">
+            <summary>
+            管理员名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.Host">
+            <summary>
+            主机
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.Phone">
+            <summary>
+            电话
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.Connection">
+            <summary>
+            数据库连接
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.Schema">
+            <summary>
+            架构
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddTenantInput.Name">
+            <summary>
+            公司名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddTenantInput.AdminName">
+            <summary>
+            管理员名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.DeleteTenantInput.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateTenantInput.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateTenantInput.Name">
+            <summary>
+            公司名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdateTenantInput.AdminName">
+            <summary>
+            管理员名称
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysTenantService">
+            <summary>
+            租户管理服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantPageList(Admin.NET.Core.Service.TenantInput)">
+            <summary>
+            获取租户分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.AddTenant(Admin.NET.Core.Service.AddTenantInput)">
+            <summary>
+            增加租户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.InitNewTenant(Admin.NET.Core.SysTenant)">
+            <summary>
+            初始化新增租户数据
+            </summary>
+            <param name="newTenant"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.DeleteTenant(Admin.NET.Core.Service.DeleteTenantInput)">
+            <summary>
+            删除租户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.UpdateTenant(Admin.NET.Core.Service.UpdateTenantInput)">
+            <summary>
+            更新租户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenant(Admin.NET.Core.Service.QueryeTenantInput)">
+            <summary>
+            获取租户详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantList(Admin.NET.Core.Service.TenantInput)">
+            <summary>
+            获取租户列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GrantMenu(Admin.NET.Core.Service.RoleMenuInput)">
+            <summary>
+            授权租户管理员角色菜单
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenu(Admin.NET.Core.Service.QueryeTenantInput)">
+            <summary>
+            获取租户管理员角色拥有菜单Id集合
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.ResetTenantPwd(Admin.NET.Core.Service.QueryeTenantInput)">
+            <summary>
+            重置租户管理员密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantAdminUser(System.Int64)">
+            <summary>
+            获取租户管理员用户
+            </summary>
+            <param name="tenantId"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageTimerInput.TimerName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddTimerInput.TimerName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SetTimerStatusInput.TimerName">
+            <summary>
+            任务名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SetTimerStatusInput.Status">
+            <summary>
+            任务状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.TimerMethod">
+            <summary>
+            定时任务方法
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TimerMethod.MethodName">
+            <summary>
+            方法名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TimerMethod.DeclaringType">
+            <summary>
+            所属类
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TimerOutput.Tally">
+            <summary>
+            执行次数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TimerOutput.Status">
+            <summary>
+            任务状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TimerOutput.Exception">
+            <summary>
+            异常信息
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysTimerService">
+            <summary>
+            定时任务服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTimerService.GetTimerPageList(Admin.NET.Core.Service.PageTimerInput)">
+            <summary>
+            获取任务分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTimerService.AddTimer(Admin.NET.Core.Service.AddTimerInput)">
+            <summary>
+            增加任务
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTimerService.DeleteTimer(Admin.NET.Core.Service.DeleteTimerInput)">
+            <summary>
+            删除任务
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTimerService.UpdateTimber(Admin.NET.Core.Service.UpdateTimerInput)">
+            <summary>
+            更新任务
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTimerService.SetStatusTimer(Admin.NET.Core.Service.SetTimerStatusInput)">
+            <summary>
+            设置任务状态
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTimerService.CreateTimer(Admin.NET.Core.SysTimer)">
+            <summary>
+            创建定时任务
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTimerService.GetTimerMethodList">
+            <summary>
+            获取所有定时任务方法列表（贴spareTime特性）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTimerService.StartTimer">
+            <summary>
+            启动自启动任务
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.OrgCode">
+            <summary>
+            机构编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.OrgName">
+            <summary>
+            机构名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.PosId">
+            <summary>
+            职位Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.PosCode">
+            <summary>
+            职位编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.PosName">
+            <summary>
+            职位名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.UserName">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Password">
+            <summary>
+            密码（默认MD5加密）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Avatar">
+            <summary>
+            头像
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Birthday">
+            <summary>
+            出生日期
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Sex">
+            <summary>
+            性别
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Phone">
+            <summary>
+            手机号码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.IdCard">
+            <summary>
+            身份证号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Signature">
+            <summary>
+            个性签名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Introduction">
+            <summary>
+            个人简介
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.UserType">
+            <summary>
+            账号类型-超级管理员_1、管理员_2、普通_3
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.PosId">
+            <summary>
+            职位Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.JobNum">
+            <summary>
+            工号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserInput.JobStatus">
+            <summary>
+            岗位状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageUserInput.UserName">
+            <summary>
+            账号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageUserInput.Phone">
+            <summary>
+            手机号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageUserInput.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddUserInput.UserName">
+            <summary>
+            账号名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddUserInput.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.DeleteUserInput.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdatePwdUserInput.OldPassword">
+            <summary>
+            原始密码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UpdatePwdUserInput.NewPassword">
+            <summary>
+            新密码
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.UserOrgInput">
+            <summary>
+            授权用户机构
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserOrgInput.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserOrgInput.OrgIdList">
+            <summary>
+            机构Id列表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserOutput.OrgName">
+            <summary>
+            机构名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserOutput.PosName">
+            <summary>
+            职位名称
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.UserRoleInput">
+            <summary>
+            授权用户角色
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserRoleInput.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserRoleInput.RoleIdList">
+            <summary>
+            角色Id列表
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysUserExtOrgPosService">
+            <summary>
+            系统用户附属机构职位服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.AddOrUpdate(System.Int64,System.Collections.Generic.List{Admin.NET.Core.Service.UserExtOrgPosOutput})">
+            <summary>
+            保存或编辑附属机构信息
+            </summary>
+            <param name="userId"></param>
+            <param name="extIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.GetEmpExtOrgPosList(System.Int64)">
+            <summary>
+            根据用户Id获取附属机构和职位信息
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.HasExtOrgEmp(System.Int64)">
+            <summary>
+            根据附属机构Id判断是否有用户
+            </summary>
+            <param name="orgId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.HasExtPosEmp(System.Int64)">
+            <summary>
+            根据附属职位Id判断是否有用户
+            </summary>
+            <param name="posId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.DeleteEmpExtByUserId(System.Int64)">
+            <summary>
+            根据用户Id删除用户附属
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysUserOrgService">
+            <summary>
+            系统用户机构服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserOrgService.GrantUserOrg(Admin.NET.Core.Service.UserOrgInput)">
+            <summary>
+            授权用户所属机构
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserOrgService.GetUserOrgIdList(System.Int64)">
+            <summary>
+            根据用户Id获取机构Id集合
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserOrgService.DeleteUserOrgByOrgIdList(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            根据机构Id集合删除用户机构
+            </summary>
+            <param name="orgIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserOrgService.DeleteUserOrgByUserId(System.Int64)">
+            <summary>
+            根据用户Id删除用户机构
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserOrgService.AddUserOrg(Admin.NET.Core.SysUserOrg)">
+            <summary>
+            增加用户机构
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysUserRoleService">
+            <summary>
+            系统用户角色服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserRoleService.GrantUserRole(Admin.NET.Core.Service.UserRoleInput)">
+            <summary>
+            授权用户角色
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserRoleService.DeleteUserRoleByRoleId(System.Int64)">
+            <summary>
+            根据角色Id删除用户角色
+            </summary>
+            <param name="roleId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserRoleService.DeleteUserRoleByUserId(System.Int64)">
+            <summary>
+            根据用户Id删除用户角色
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserRoleService.GetUserRoleList(System.Int64)">
+            <summary>
+            根据用户Id获取角色集合
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserRoleService.GetUserRoleIdList(System.Int64)">
+            <summary>
+            根据用户Id获取角色Id集合
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysUserService">
+            <summary>
+            系统用户服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserPageList(Admin.NET.Core.Service.PageUserInput)">
+            <summary>
+            获取用户分页列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.AddUser(Admin.NET.Core.Service.AddUserInput)">
+            <summary>
+            增加用户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateUser(Admin.NET.Core.Service.UpdateUserInput)">
+            <summary>
+            更新用户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.DeleteUser(Admin.NET.Core.Service.DeleteUserInput)">
+            <summary>
+            删除用户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUser(System.Int64)">
+            <summary>
+            查看用户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.SetUserStatus(Admin.NET.Core.Service.UserInput)">
+            <summary>
+            设置用户状态
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.GrantUserRole(Admin.NET.Core.Service.UserRoleInput)">
+            <summary>
+            授权用户角色
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.GrantUserOrg(Admin.NET.Core.Service.UserOrgInput)">
+            <summary>
+            授权用户机构
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateUserPwd(Admin.NET.Core.Service.UpdatePwdUserInput)">
+            <summary>
+            修改用户密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.ResetUserPwd(Admin.NET.Core.Service.ResetPwdUserInput)">
+            <summary>
+            重置用户密码
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOwnRole(Admin.NET.Core.Service.UserInput)">
+            <summary>
+            获取用户拥有角色
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOwnOrg(Admin.NET.Core.Service.UserInput)">
+            <summary>
+            获取用户拥有机构
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOrgIdList">
+            <summary>
+            获取当前用户机构列表权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.CheckDataScope(System.Int64)">
+            <summary>
+            检查用户数据范围
+            当有多个机构时，在登录时选择一个组织，所以组织Id/OrgId从前端传过来
+            </summary>
+            <param name="orgId"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.GenAuthUrlInput.RedirectUrl">
+            <summary>
+            RedirectUrl
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.GenAuthUrlInput.Scope">
+            <summary>
+            Scope
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatOAuth2Input.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatUserLogin.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SignatureInput.Url">
+            <summary>
+            Url
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.Total">
+            <summary>
+            订单金额
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.Description">
+            <summary>
+            商品描述
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatPayParaInput.PrepayId">
+            <summary>
+            订单Id
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.WeChatApiHttpClient">
+            <summary>
+            微信API客户端
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatApiHttpClient.CreateWechatClient">
+            <summary>
+            微信公众号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatApiHttpClient.CreateWxOpenClient">
+            <summary>
+            微信小程序
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.WeChatPayService">
+            <summary>
+            微信支付服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreateTenpayClient">
+            <summary>
+            初始化微信支付客户端
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.GenerateParametersForJsapiPay(Admin.NET.Core.Service.WechatPayParaInput)">
+            <summary>
+            生成JSAPI调起支付所需参数
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreatePayTransaction(Admin.NET.Core.Service.WechatPayTransactionInput)">
+            <summary>
+            微信支付统一下单获取Id
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.GetWeChatPayInfo(System.String)">
+            <summary>
+            获取支付订单详情
+            </summary>
+            <param name="tradeId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.WeChatPayCallBack">
+            <summary>
+            微信支付成功回调(商户平台发来的通知内容)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.WechatService">
+            <summary>
+            微信公众号服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WechatService.GenAuthUrl(Admin.NET.Core.Service.GenAuthUrlInput)">
+            <summary>
+            生成网页授权Url
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WechatService.LoginOAuth2(Admin.NET.Core.Service.WechatOAuth2Input)">
+            <summary>
+            授权登录(Code换取OpenId)
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WechatService.WechatUserLogin(Admin.NET.Core.Service.WechatUserLogin)">
+            <summary>
+            微信用户登录
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WechatService.GenConfigPara(Admin.NET.Core.Service.SignatureInput)">
+            <summary>
+            获取配置签名参数(wx.config)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.UserManager">
+            <summary>
+            用户管理
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.UserManager.CheckUserAsync(System.Int64)">
+            <summary>
+            获取用户信息
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ISqlSugarEntitySeedData`1.HasData">
+            <summary>
+            配置种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SqlSugarPagedList`1">
+            <summary>
+            分页泛型集合
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarPagedList`1.Page">
+            <summary>
+            页码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarPagedList`1.PageSize">
+            <summary>
+            页容量
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarPagedList`1.Total">
+            <summary>
+            总条数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarPagedList`1.TotalPages">
+            <summary>
+            总页数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarPagedList`1.Items">
+            <summary>
+            当前页集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarPagedList`1.HasPrevPage">
+            <summary>
+            是否有上一页
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SqlSugarPagedList`1.HasNextPage">
+            <summary>
+            是否有下一页
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SqlSugarPagedExtensions">
+            <summary>
+            分页拓展类
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarPagedExtensions.ToPagedList``1(SqlSugar.ISugarQueryable{``0},System.Int32,System.Int32)">
+            <summary>
+            分页拓展
+            </summary>
+            <param name="entity"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarPagedExtensions.ToPagedListAsync``1(SqlSugar.ISugarQueryable{``0},System.Int32,System.Int32)">
+            <summary>
+            分页拓展
+            </summary>
+            <param name="entity"></param>
+            <param name="pageIndex"></param>
+            <param name="pageSize"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SqlSugarRepository`1">
+            <summary>
+            SqlSugar仓储类
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.AddSqlSugarSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Sqlsugar上下文初始化
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.SqlSugarScope,Admin.NET.Core.ConnectionStringsOptions)">
+            <summary>
+            初始化数据库结构
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.GetSqlSugarEntityOrder(System.Type)">
+            <summary>
+            获取实体排序
+            </summary>
+            <param name="type">排序类型</param>
+            <returns>int</returns>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDataEntityFilter(SqlSugar.SqlSugarProvider)">
+            <summary>
+            配置业务数据表过滤器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetTenantEntityFilter(SqlSugar.SqlSugarProvider)">
+            <summary>
+            配置租户过滤器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.DealConnectionStr(Admin.NET.Core.ConnectionStringsOptions@)">
+            <summary>
+            处理本地库根目录路径
+            </summary>
+            <param name="dbOptions"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.IsDemoEnv">
+            <summary>
+            判断是否演示环境
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.AdminResultProvider">
+            <summary>
+            全局规范化结果
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.AdminResultProvider.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext,Furion.UnifyResult.Internal.ExceptionMetadata)">
+            <summary>
+            异常返回值
+            </summary>
+            <param name="context"></param>
+            <param name="metadata"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.AdminResultProvider.OnSucceeded(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,System.Object)">
+            <summary>
+            成功返回值
+            </summary>
+            <param name="context"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.AdminResultProvider.OnValidateFailed(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Furion.DataValidation.ValidationMetadata)">
+            <summary>
+            验证失败返回值
+            </summary>
+            <param name="context"></param>
+            <param name="metadata"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.AdminResultProvider.OnResponseStatusCodes(Microsoft.AspNetCore.Http.HttpContext,System.Int32,Furion.UnifyResult.UnifyResultSettingsOptions)">
+            <summary>
+            特定状态码返回值
+            </summary>
+            <param name="context"></param>
+            <param name="statusCode"></param>
+            <param name="unifyResultSettings"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.AdminResultProvider.RESTfulResult(System.Int32,System.Boolean,System.Object,System.Object)">
+            <summary>
+            返回 RESTful 风格结果集
+            </summary>
+            <param name="statusCode"></param>
+            <param name="succeeded"></param>
+            <param name="data"></param>
+            <param name="errors"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.AdminResult`1">
+            <summary>
+            全局返回结果
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="P:Admin.NET.Core.AdminResult`1.Code">
+            <summary>
+            状态码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.AdminResult`1.Type">
+            <summary>
+            类型success、warning、error
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.AdminResult`1.Message">
+            <summary>
+            错误信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.AdminResult`1.Result">
+            <summary>
+            数据
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.AdminResult`1.Extras">
+            <summary>
+            附加数据
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.AdminResult`1.Timestamp">
+            <summary>
+            时间戳
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.BaseIdInput">
+            <summary>
+            主键Id输入参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.BaseIdInput.Id">
+            <summary>
+            主键Id
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.BasePageInput">
+            <summary>
+            全局分页查询输入参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.BasePageInput.Page">
+            <summary>
+            当前页码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.BasePageInput.PageSize">
+            <summary>
+            页码容量
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Util.CodeGenUtil">
+            <summary>
+            代码生成帮助类
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Util.CodeGenUtil.DataTypeToEff(System.String)">
+            <summary>
+            数据类型转显示类型
+            </summary>
+            <param name="dataType"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.CommonUtil">
+            <summary>
+            通用工具类
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.CommonUtil.GetTodayTimeList(System.DateTime)">
+            <summary>
+            获取今天日期范围00:00:00 - 23:59:59
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.CommonUtil.GetRootPathFileText(System.String)">
+            <summary>
+            获取项目根目录文件内容
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.ServerUtil">
+            <summary>
+            服务器信息
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.ServerUtil.GetServerBaseInfo">
+            <summary>
+            服务器基本配置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ServerUtil.GetServerUseInfo">
+            <summary>
+            服务器使用资源
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ServerUtil.GetServerNetWorkInfo">
+            <summary>
+            服务器网络信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ServerUtil.GetRamInfo">
+            <summary>
+            内存信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ServerUtil.GetCpuRate">
+            <summary>
+            CPU信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ServerUtil.GetRunTime">
+            <summary>
+            系统运行时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ServerUtil.IsUnix">
+            <summary>
+            是否Linux
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ServerUtil.FormatTime(System.Int64)">
+            <summary>
+            毫秒转天时分秒
+            </summary>
+            <param name="ms"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ServerUtil.GetWanIpFromPCOnline">
+            <summary>
+            获取外网IP和位置
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.ShellUtil">
+            <summary>
+            系统Shell命令
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.ShellUtil.Bash(System.String)">
+            <summary>
+            Bash命令
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ShellUtil.Cmd(System.String,System.String)">
+            <summary>
+            cmd命令
+            </summary>
+            <param name="fileName"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

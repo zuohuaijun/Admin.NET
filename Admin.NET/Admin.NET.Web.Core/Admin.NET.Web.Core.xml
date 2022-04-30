@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Admin.NET.Web.Core</name>
+    </assembly>
+    <members>
+        <member name="M:Admin.NET.Web.Core.JwtHandler.HandleAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext)">
+            <summary>
+            自动刷新Token
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Web.Core.JwtHandler.CheckAuthorzieAsync(Microsoft.AspNetCore.Http.DefaultHttpContext)">
+            <summary>
+            检查权限
+            </summary>
+            <param name="httpContext"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

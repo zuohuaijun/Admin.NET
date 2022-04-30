@@ -1,0 +1,135 @@
+import { h } from 'vue';
+import { BasicColumn, FormSchema } from '/@@/components/Table';
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "Upload"){
+@:import { uploadFile } from '/@@/api/sys/admin';
+}else if(@column.EffectType == "fk"){
+@:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.ClassName)';
+}else if(@column.EffectType == "Select"){
+@:import { getDictDataDropdown } from '/@@/api/sys/admin';
+}else if(@column.EffectType == "ApiTreeSelect"){
+@:import { get@(@column.FkEntityName)Tree } from '/@@/api/main/@(@Model.ClassName)';
+}else if(@column.EffectType == "Switch"){
+@:import { Switch } from 'ant-design-vue';
+}
+}
+export const columns: BasicColumn[] = [
+  @foreach (var column in Model.TableField){
+  if(@column.WhetherTable == "Y"){
+  @:{
+    @:title: '@column.ColumnComment',
+    @:dataIndex: '@column.LowerColumnName',
+if(@column.EffectType == "Upload"){
+    @:slots: { customRender: '@(@column.LowerColumnName)' },
+}else if(@column.EffectType == "fk"){
+    @:customRender: ({ record }) => {
+      @:return record.fk@(@column.ColumnName).@(@column.LowerFkColumnName);
+    @:},
+}else if(@column.EffectType == "Switch"){
+    @:customRender: ({ record }) => {
+      @:return h(@(@column.EffectType), { checked: record.@(@column.LowerColumnName) });
+    @:},
+}
+  @:},
+    }
+
+  }
+];
+
+export const searchFormSchema: FormSchema[] = [
+@foreach (var column in Model.QueryWhetherList){  
+  @:{
+    @:field: '@column.LowerColumnName',
+    @:label: '@column.ColumnComment',
+    @:colProps: { span: 8 },
+if(@column.EffectType == "fk"){
+    @:component: 'ApiSelect',
+    @:componentProps: {
+      @:api: get@(@column.FkEntityName)Dropdown,
+      @:labelField: 'label',
+      @:valueField: 'value',
+    @:},
+}else if(@column.EffectType == "Select"){
+    @:component: 'ApiSelect',
+    @:componentProps: {
+      @:api: getDictDataDropdown,
+      @:params: '@(@column.DictTypeCode)',
+      @:fieldNames: {
+        @:label: 'label',
+        @:value: 'value',
+      @:},
+    @:},
+}else if(@column.EffectType == "ApiTreeSelect"){
+    @:component: '@(@column.EffectType)',
+    @:componentProps: {
+      @:api: get@(@column.FkEntityName)Tree,
+    @:},
+}
+else if(@column.NetType == "DateTime" && @column.QueryType == "~"){
+    @:component: 'RangePicker',
+    @:componentProps: {
+    @:  valueFormat:"YYYY-MM-DD"
+    @:},
+}
+else{
+    @:component: 'Input',
+}
+
+  @:},
+}
+];
+
+export const formSchema: FormSchema[] = [
+  @foreach (var column in Model.TableField){
+  @:{
+    @:label: '@column.ColumnComment',
+    @:field: '@column.LowerColumnName',
+if(@column.EffectType == "fk"){
+    @:component: 'ApiSelect',
+    @:componentProps: {
+      @:api: get@(@column.FkEntityName)Dropdown,
+      @:labelField: 'label',
+      @:valueField: 'value',
+    @:},
+}else if(@column.EffectType == "Select"){
+    @:component: 'ApiSelect',
+    @:componentProps: {
+      @:api: getDictDataDropdown,
+      @:params: '@(@column.DictTypeCode)',
+      @:fieldNames: {
+        @:label: 'label',
+        @:value: 'value',
+      @:},
+    @:},
+}else if(@column.EffectType == "ApiTreeSelect"){
+    @:component: '@(@column.EffectType)',
+    @:componentProps: {
+      @:api: get@(@column.FkEntityName)Tree,
+    @:},
+}else if(@column.EffectType == "Switch"){
+    @:component: '@(@column.EffectType)',
+    @:componentProps: {
+      @:checkedChildren: '是',
+      @:unCheckedChildren: '否',
+    @:},
+}else{
+    @:component: '@column.EffectType',
+}
+    if(@column.WhetherRequired == "Y"){
+    @:required: true,
+    }else{
+    @:required: false,
+    }
+    if(@column.EffectType == "Upload"){
+    @:componentProps: {
+      @:maxNumber: 1,
+      @:api: uploadFile,
+    @:},
+    }
+  if(@column.LowerColumnName == "id"){
+    @:show: false,
+  }
+  @:},
+
+  }
+];
