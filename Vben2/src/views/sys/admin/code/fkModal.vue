@@ -4,7 +4,7 @@
   </BasicModal>
 </template>
 <script lang="ts">
-  import { defineComponent, ref, computed, unref } from 'vue';
+  import { defineComponent } from 'vue';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { fkFormSchema } from './codeGenerate.data';
@@ -14,7 +14,7 @@
     emits: ['success'],
     setup(_, { emit }) {
       var row: any = {};
-      const [registerForm, { resetFields, validate, updateSchema }] = useForm({
+      const [registerForm, { resetFields, validate }] = useForm({
         labelWidth: 100,
         schemas: fkFormSchema,
         showActionButtonGroup: false,
@@ -27,6 +27,7 @@
         row = data.data;
         setModalProps({ confirmLoading: false });
       });
+
       async function handleSubmit() {
         const values = await validate();
         row.fkTableName = values.tableName;
@@ -37,6 +38,7 @@
         setModalProps({ confirmLoading: false });
         closeModal();
       }
+
       return { registerModal, registerForm, handleSubmit };
     },
   });

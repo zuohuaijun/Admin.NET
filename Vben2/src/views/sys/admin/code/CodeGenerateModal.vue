@@ -16,6 +16,7 @@
   import { codeFormSchema } from './codeGenerate.data';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { addGenerate, updateGenerate } from '/@/api/sys/admin';
+
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['success', 'register'],

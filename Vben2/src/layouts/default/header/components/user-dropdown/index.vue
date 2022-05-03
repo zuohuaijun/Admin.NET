@@ -11,12 +11,12 @@
 
     <template #overlay>
       <Menu @click="handleMenuClick">
-        <MenuItem
+        <!-- <MenuItem
           key="doc"
           :text="t('layout.header.dropdownItemDoc')"
           icon="ion:document-text-outline"
           v-if="getShowDoc"
-        />
+        /> -->
         <MenuDivider v-if="getShowDoc" />
         <MenuItem
           v-if="getUseLockPage"

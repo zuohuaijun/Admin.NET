@@ -1,11 +1,11 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <OrgTree class="w-1/4 xl:w-1/5" @select="handleSelect" />
+    <OrgTree class="w-1/4 xl:w-1/5" style="overflow: auto" @select="handleSelect" />
     <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate" :disabled="!hasPermission('sysUser:add')"
-          >新增账号</a-button
-        >
+        <a-button type="primary" @click="handleCreate" :disabled="!hasPermission('sysUser:add')">
+          新增账号
+        </a-button>
       </template>
       <template #avatar="{ record }">
         <Avatar :size="60" :src="record.avatar" />
@@ -109,8 +109,9 @@
         useSearchForm: true,
         showTableSetting: true,
         bordered: true,
+        canResize: true,
         actionColumn: {
-          width: 160,
+          width: 140,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },

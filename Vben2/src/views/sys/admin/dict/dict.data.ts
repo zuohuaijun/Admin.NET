@@ -33,6 +33,7 @@ export const columns: BasicColumn[] = [
     },
   },
 ];
+
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
@@ -47,6 +48,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 8 },
   },
 ];
+
 export const formSchema: FormSchema[] = [
   {
     field: 'id',

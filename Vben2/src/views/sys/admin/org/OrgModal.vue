@@ -30,7 +30,7 @@
         setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
 
-        const treeData = await getOrgList({id:data.parentId || 0});
+        const treeData = await getOrgList({ id: data.parentId || 0 });
         updateSchema({
           field: 'pid',
           componentProps: { treeData },
@@ -41,23 +41,17 @@
           setFieldsValue({
             ...data.record,
           });
+        } else {
+          setFieldsValue({ pid: data.parentId });
         }
-        else
-        {
-          setFieldsValue(
-            { pid: data.parentId,}
-          );
-        }
-
       });
 
       const getTitle = computed(() => (!unref(isUpdate) ? '新增机构' : '编辑机构'));
 
       async function handleSubmit() {
-
         try {
           const values = await validate();
-          setModalProps({confirmLoading: true});
+          setModalProps({ confirmLoading: true });
 
           if (unref(isUpdate)) {
             values.id = rowId;
@@ -69,10 +63,10 @@
           closeModal();
           emit('success', {
             isUpdate: unref(isUpdate),
-            values: {...values, id: rowId},
+            values: { ...values, id: rowId },
           });
         } finally {
-          setModalProps({confirmLoading: false});
+          setModalProps({ confirmLoading: false });
         }
       }
 

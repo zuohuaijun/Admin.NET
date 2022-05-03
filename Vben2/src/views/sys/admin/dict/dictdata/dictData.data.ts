@@ -1,6 +1,7 @@
 import { BasicColumn, FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
+
 export const columns: BasicColumn[] = [
   {
     title: '字典值',
@@ -32,6 +33,7 @@ export const columns: BasicColumn[] = [
     },
   },
 ];
+
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'code',
@@ -46,6 +48,7 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 8 },
   },
 ];
+
 export const formSchema: FormSchema[] = [
   {
     field: 'id',

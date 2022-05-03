@@ -14,14 +14,13 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { columnFormSchema } from './database.data';
-  import { useMessage } from '/@/hooks/web/useMessage';
   import { addColumn, updateColumn } from '/@/api/sys/admin';
+
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);
-      const { createMessage } = useMessage();
       const [registerForm, { resetFields, setFieldsValue, updateSchema, validate }] = useForm({
         labelWidth: 120,
         schemas: columnFormSchema,
@@ -72,7 +71,9 @@
           });
         }
       });
+
       const getTitle = computed(() => (!unref(isUpdate) ? '新增列' : '编辑列'));
+
       async function handleSubmit() {
         try {
           const values = await validate();
@@ -88,6 +89,7 @@
           setModalProps({ confirmLoading: false });
         }
       }
+
       return {
         getTitle,
         registerModal,

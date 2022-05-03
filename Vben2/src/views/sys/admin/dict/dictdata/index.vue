@@ -41,6 +41,7 @@
   import DictDataModal from './DictDataModal.vue';
   import { BasicModal, useModalInner, useModal } from '/@/components/Modal';
   import { getDictDataList, deleteDictData } from '/@/api/sys/admin';
+
   export default defineComponent({
     name: 'DcitDataModal',
     components: { BasicModal, BasicTable, TableAction, DictDataModal },
@@ -81,12 +82,14 @@
         typeId.value = data.typeId;
         reload();
       });
+
       function handleCreate() {
         openModal(true, {
           typeId: typeId.value,
           isUpdate: false,
         });
       }
+
       function handleEdit(record: Recordable) {
         openModal(true, {
           record,
@@ -94,13 +97,16 @@
           isUpdate: true,
         });
       }
+
       async function handleDelete(record: Recordable) {
         await deleteDictData(record.id);
         reload();
       }
+
       function handleSuccess() {
         reload();
       }
+
       return {
         registerTable,
         registerDictModal,

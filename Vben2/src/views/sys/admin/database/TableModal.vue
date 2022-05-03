@@ -58,6 +58,7 @@
     TableAction,
   } from '/@/components/Table';
   import { addTable, updateTable } from '/@/api/sys/admin';
+
   export default defineComponent({
     name: 'TableModal',
     components: { BasicModal, BasicForm, BasicTable, TableAction },
@@ -88,7 +89,9 @@
           });
         }
       });
+
       const getTitle = computed(() => (!unref(isUpdate) ? '新增表' : '编辑表'));
+
       var colIndex = 0;
       const [registerEditColumn, { getDataSource }] = useTable({
         columns: editColumn,
@@ -103,6 +106,7 @@
           slots: { customRender: 'action' },
         },
       });
+
       function addPrimaryColumn() {
         const data = getDataSource();
         const addRow: EditRecordRow = {
@@ -121,6 +125,7 @@
         data.push(addRow);
         colIndex++;
       }
+
       function addColumn() {
         const data = getDataSource();
         const addRow: EditRecordRow = {
@@ -139,6 +144,7 @@
         data.push(addRow);
         colIndex++;
       }
+
       function addTenantColumn() {
         const data = getDataSource();
         const addRow: EditRecordRow = {
@@ -157,6 +163,7 @@
         data.push(addRow);
         colIndex++;
       }
+
       function addBaseColumn() {
         const fileds = [
           {
@@ -186,6 +193,7 @@
             isNullable: 0,
           },
         ];
+
         const data = getDataSource();
         fileds.forEach((m: any) => {
           data.push({
@@ -204,6 +212,7 @@
           colIndex++;
         });
       }
+
       function createActions(record: EditRecordRow, column: BasicColumn): ActionItem[] {
         return [
           {
@@ -224,6 +233,7 @@
           },
         ];
       }
+
       function handleColDelete(record: EditRecordRow) {
         if (record.isNew) {
           const data = getDataSource();
@@ -231,6 +241,7 @@
           data.splice(index, 1);
         }
       }
+
       function handleColTop(record: EditRecordRow) {
         if (record.isNew) {
           const data = getDataSource();
@@ -239,6 +250,7 @@
           return data1;
         }
       }
+
       function handleColDown(record: EditRecordRow) {
         if (record.isNew) {
           const data = getDataSource();
@@ -246,12 +258,14 @@
           return ChangeExForArray(index, index + 1, data);
         }
       }
+
       function ChangeExForArray(index1, index2, array: EditRecordRow) {
         let temp = array[index1];
         array[index1] = array[index2];
         array[index2] = temp;
         return array;
       }
+
       async function handleSubmit() {
         try {
           const values = await validate();

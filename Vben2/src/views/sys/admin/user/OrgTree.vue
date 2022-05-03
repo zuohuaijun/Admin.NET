@@ -6,7 +6,7 @@
       search
       :clickRowToExpand="true"
       :treeData="treeData"
-      :fieldNames="{ key: 'id', title: 'name'}"
+      :fieldNames="{ key: 'id', title: 'name' }"
       @select="handleSelect"
       ref="treeAction"
     />
@@ -27,26 +27,24 @@
       const treeData = ref<TreeItem[]>([]);
       const treeAction = ref<Nullable<TreeActionType>>(null);
 
-      const  appendNodeByKey =(parentKey: string, values) =>{
+      const appendNodeByKey = (parentKey: string, values) => {
         unref(treeAction).insertNodeByKey({
           parentKey: parentKey,
-          node:values,
+          node: values,
           // 往后插入
           push: 'push',
           // 往前插入
           // push:'unshift'
         });
-      }
+      };
 
-      const  updateNodeByKey=(key: string,values)=>{
-        unref(treeAction).updateNodeByKey(key,
-          values,
-        );
-      }
+      const updateNodeByKey = (key: string, values) => {
+        unref(treeAction).updateNodeByKey(key, values);
+      };
 
-      const deleteNodeByKey=(key: string)=> {
+      const deleteNodeByKey = (key: string) => {
         unref(treeAction).deleteNodeByKey(key);
-      }
+      };
 
       async function fetch() {
         treeData.value = (await getOrgList()) as unknown as TreeItem[];
@@ -55,15 +53,22 @@
         });
       }
 
-      function handleSelect(keys,obj) {
+      function handleSelect(keys, obj) {
         emit('select', keys[0], obj.selectedNodes[0]);
       }
 
       onMounted(() => {
         fetch();
-       });
-      return { treeData, handleSelect, treeAction,
-        appendNodeByKey,updateNodeByKey,deleteNodeByKey,fetch};
+      });
+      return {
+        treeData,
+        handleSelect,
+        treeAction,
+        appendNodeByKey,
+        updateNodeByKey,
+        deleteNodeByKey,
+        fetch,
+      };
     },
   });
 </script>

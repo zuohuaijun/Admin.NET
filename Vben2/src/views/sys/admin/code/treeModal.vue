@@ -14,7 +14,7 @@
     emits: ['success'],
     setup(_, { emit }) {
       var row: any = {};
-      const [registerForm, { resetFields, validate, updateSchema }] = useForm({
+      const [registerForm, { resetFields, validate }] = useForm({
         labelWidth: 100,
         schemas: treeFormSchema,
         showActionButtonGroup: false,
@@ -27,6 +27,7 @@
         row = data.data;
         setModalProps({ confirmLoading: false });
       });
+
       async function handleSubmit() {
         const values = await validate();
         row.fkTableName = values.tableName;
@@ -38,6 +39,7 @@
         setModalProps({ confirmLoading: false });
         closeModal();
       }
+
       return { registerModal, registerForm, handleSubmit };
     },
   });

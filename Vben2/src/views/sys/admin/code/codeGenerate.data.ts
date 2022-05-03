@@ -1,6 +1,7 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { getMenuList, getDictDataDropdown, getTableList, getColumnList } from '/@/api/sys/admin';
+
 const apiTableList = async (param: any) => {
   const result = await getTableList(param);
   return result;
@@ -21,6 +22,7 @@ const apiDictTypeDropDown = async () => {
   const result = await getDictDataDropdown('code_gen_create_type');
   return result;
 };
+
 export const codeShowColumns: BasicColumn[] = [
   {
     title: '表名称',
@@ -44,6 +46,7 @@ export const codeShowColumns: BasicColumn[] = [
     slots: { customRender: 'generateType' },
   },
 ];
+
 export const codeFormSchema: FormSchema[] = [
   {
     field: 'id',
@@ -112,6 +115,7 @@ export const codeFormSchema: FormSchema[] = [
     required: true,
   },
 ];
+
 // 表头
 export const columns = [
   {
@@ -195,6 +199,7 @@ export const columns = [
     },
   },
 ];
+
 export const fkFormSchema: FormSchema[] = [
   {
     field: 'tableName',

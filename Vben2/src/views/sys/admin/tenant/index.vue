@@ -91,7 +91,7 @@
         showTableSetting: true,
         bordered: true,
         actionColumn: {
-          width: 160,
+          width: 140,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },

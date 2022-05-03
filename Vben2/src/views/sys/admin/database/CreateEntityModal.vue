@@ -9,6 +9,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { createEntityFormSchema } from './database.data';
   import { createEntity } from '/@/api/sys/admin';
+
   export default defineComponent({
     components: { BasicModal, BasicForm },
     emits: ['success', 'register'],
@@ -26,6 +27,7 @@
           tableName: data.tableName,
         });
       });
+
       async function handleSubmit() {
         try {
           const values = await validate();
@@ -37,6 +39,7 @@
           setModalProps({ confirmLoading: false });
         }
       }
+
       return {
         registerModal,
         registerForm,

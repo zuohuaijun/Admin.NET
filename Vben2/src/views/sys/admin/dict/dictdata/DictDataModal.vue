@@ -9,6 +9,7 @@
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { formSchema } from './dictData.data';
   import { addDictData, updateDictData } from '/@/api/sys/admin';
+
   export default defineComponent({
     name: 'DcitModal',
     components: { BasicModal, BasicForm },
@@ -38,6 +39,7 @@
       });
 
       const getTitle = computed(() => (!unref(isUpdate) ? '新增字典值' : '字典类值编辑'));
+
       async function handleSubmit() {
         try {
           const values = await validate();
@@ -53,6 +55,7 @@
           setModalProps({ confirmLoading: false });
         }
       }
+
       return { registerModal, registerForm, getTitle, handleSubmit };
     },
   });

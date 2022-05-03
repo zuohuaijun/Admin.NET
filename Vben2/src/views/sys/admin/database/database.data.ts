@@ -113,6 +113,7 @@ export const tableFormSchema: FormSchema[] = [
     colProps: { span: 18 },
   },
 ];
+
 export const columnFormSchema: FormSchema[] = [
   {
     field: 'tableName',
@@ -201,6 +202,7 @@ export const columnFormSchema: FormSchema[] = [
     required: false,
   },
 ];
+
 export const createEntityFormSchema: FormSchema[] = [
   {
     field: 'tableName',
@@ -292,6 +294,7 @@ export const columnShowColumns: BasicColumn[] = [
     dataIndex: 'dataType',
   },
 ];
+
 export const editColumn: BasicColumn[] = [
   {
     dataIndex: 'dbColumnName',
