@@ -123,9 +123,13 @@ namespace Admin.NET.Core
                             }
                         };
 
-                        // 配置业务数据过滤器
-                        SetDataEntityFilter(dbProvider);
-                        // 配置租户过滤器
+                        // 配置实体假删除过滤器
+                        SetDeletedEntityFilter(dbProvider);
+                        // 配置实体机构过滤器
+                        SetOrgEntityFilter(dbProvider);
+                        // 配置自定义实体过滤器
+                        SetCustomEntityFilter(dbProvider);
+                        // 配置租户实体过滤器
                         SetTenantEntityFilter(dbProvider);
                     });
                 });
@@ -207,9 +211,26 @@ namespace Admin.NET.Core
         }
 
         /// <summary>
-        /// 配置业务数据表过滤器
+        /// 配置实体假删除过滤器
         /// </summary>
-        public static async void SetDataEntityFilter(SqlSugarProvider db)
+        public static void SetDeletedEntityFilter(SqlSugarProvider db)
+        {
+            // 获取所有继承基类数据表集合
+            var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+                && u.BaseType == typeof(EntityBase));
+            if (!entityTypes.Any()) return;
+
+            foreach (var entityType in entityTypes)
+            {
+                Expression<Func<DataEntityBase, bool>> dynamicExpression = u => u.IsDelete == false;
+                db.QueryFilter.Add(new TableFilterItem<object>(entityType, dynamicExpression));
+            }
+        }
+
+        /// <summary>
+        /// 配置实体机构过滤器
+        /// </summary>
+        public static async void SetOrgEntityFilter(SqlSugarProvider db)
         {
             // 获取业务数据表集合
             var dataEntityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
@@ -225,17 +246,34 @@ namespace Admin.NET.Core
 
             foreach (var dataEntityType in dataEntityTypes)
             {
-                foreach (var orgId in orgIds)
-                {
-                    Expression<Func<DataEntityBase, bool>> dynamicExpression = u => u.CreateOrgId == orgId;
-                    Expression exp = dynamicExpression;
-                    db.QueryFilter.Add(new TableFilterItem<object>(dataEntityType, exp)); // 设置表过滤器 
-                }
+                Expression<Func<DataEntityBase, bool>> dynamicExpression = u => orgIds.Contains((long)u.CreateOrgId);
+                db.QueryFilter.Add(new TableFilterItem<object>(dataEntityType, dynamicExpression));
             }
         }
 
         /// <summary>
-        /// 配置租户过滤器
+        /// 配置自定义实体过滤器
+        /// </summary>
+        public static void SetCustomEntityFilter(SqlSugarProvider db)
+        {
+            // 获取继承自定义实体过滤器接口的类集合
+            var entityFilterTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+                && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(IEntityFilter))));
+            if (!entityFilterTypes.Any()) return;
+
+            foreach (var entityFilter in entityFilterTypes)
+            {
+                var instance = Activator.CreateInstance(entityFilter);
+                var entityFilterMethod = entityFilter.GetMethod("AddEntityFilter");
+                var entityFilters = ((IList)entityFilterMethod?.Invoke(instance, null))?.Cast<object>();
+                if (entityFilters == null) continue;
+                foreach (TableFilterItem<object> filter in entityFilters)
+                    db.QueryFilter.Add(filter);
+            }
+        }
+
+        /// <summary>
+        /// 配置租户实体过滤器
         /// </summary>
         public static void SetTenantEntityFilter(SqlSugarProvider db)
         {
@@ -250,8 +288,7 @@ namespace Admin.NET.Core
             foreach (var dataEntityType in dataEntityTypes)
             {
                 Expression<Func<EntityTenant, bool>> dynamicExpression = u => u.TenantId == long.Parse(tenantId);
-                Expression exp = dynamicExpression;
-                db.QueryFilter.Add(new TableFilterItem<object>(dataEntityType, exp)); // 设置表过滤器 
+                db.QueryFilter.Add(new TableFilterItem<object>(dataEntityType, dynamicExpression));
             }
         }
 

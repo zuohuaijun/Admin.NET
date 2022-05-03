@@ -1,4 +1,5 @@
-﻿using Admin.NET.Application.Entity;
+﻿using Admin.NET.Application.Const;
+using Admin.NET.Application.Entity;
 using Admin.NET.Core;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
@@ -11,7 +12,7 @@ namespace Admin.NET.Application.Serice
     /// <summary>
     /// 自己业务服务
     /// </summary>
-    [ApiDescriptionSettings("自己业务", Name = "自己业务", Order = 200)]
+    [ApiDescriptionSettings(TestConst.GroupName, Name = "XXX模块", Order = 200)]
     public class TestService : IDynamicApiController, ITransient
     {
         private readonly SqlSugarRepository<Test> _testRep;

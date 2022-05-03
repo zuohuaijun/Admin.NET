@@ -2,11 +2,15 @@
 
 namespace Admin.NET.Core
 {
+    /// <summary>
+    /// 实体种子数据接口
+    /// </summary>
+    /// <typeparam name="TEntity"></typeparam>
     public interface ISqlSugarEntitySeedData<TEntity>
         where TEntity : class, new()
     {
         /// <summary>
-        /// 配置种子数据
+        /// 种子数据
         /// </summary>
         /// <returns></returns>
         IEnumerable<TEntity> HasData();

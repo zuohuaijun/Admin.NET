@@ -122,6 +122,7 @@ namespace Admin.NET.Core
         /// 机构
         /// </summary>
         [SugarColumn(IsIgnore = true)]
+        [Navigate(NavigateType.OneToOne, nameof(OrgId))]
         public SysOrg SysOrg { get; set; }
 
         /// <summary>
@@ -134,6 +135,7 @@ namespace Admin.NET.Core
         /// 职位
         /// </summary>
         [SugarColumn(IsIgnore = true)]
+        [Navigate(NavigateType.OneToMany, nameof(PosId))]
         public SysPos SysPos { get; set; }
 
         /// <summary>

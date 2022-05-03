@@ -5,7 +5,7 @@ using System.Data;
 namespace Admin.NET.Core
 {
     /// <summary>
-    /// SqlSugar 工作单元配置特性
+    /// SqlSugar工作单元配置特性
     /// </summary>
     [SuppressSniffer, AttributeUsage(AttributeTargets.Method, Inherited = true)]
     public class SqlSugarUnitOfWorkAttribute : Attribute

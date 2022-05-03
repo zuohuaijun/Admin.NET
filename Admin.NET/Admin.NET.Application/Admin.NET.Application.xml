@@ -4,6 +4,11 @@
         <name>Admin.NET.Application</name>
     </assembly>
     <members>
+        <member name="F:Admin.NET.Application.Const.TestConst.GroupName">
+            <summary>
+            API分组名称
+            </summary>
+        </member>
         <member name="F:Admin.NET.Application.Const.TestConst.ConfigId">
             <summary>
             自己业务数据库标识
@@ -27,6 +32,11 @@
         <member name="P:Admin.NET.Application.Entity.Test.BirthDate">
             <summary>
             出生日期
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Application.Filter.DataEntityFilter">
+            <summary>
+            自定义业务实体过滤器(XXX数据)
             </summary>
         </member>
         <member name="T:Admin.NET.Application.SeedData.TestSeedData">

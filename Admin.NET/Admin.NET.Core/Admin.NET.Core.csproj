@@ -26,7 +26,7 @@
     <PackageReference Include="Magicodes.IE.Excel" Version="2.6.4" />
     <PackageReference Include="MySql.Data" Version="8.0.29" />
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.4" />
-    <PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" Version="2.12.0" />
+    <PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" Version="2.13.0" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.TenpayV3" Version="2.7.0" />
     <PackageReference Include="SqlSugarCore" Version="5.0.7.7-preview03" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.18" />

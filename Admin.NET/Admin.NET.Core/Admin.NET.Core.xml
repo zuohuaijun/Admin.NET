@@ -6,12 +6,12 @@
     <members>
         <member name="T:Admin.NET.Core.NotLogAttribute">
             <summary>
-            禁用日志
+            禁用日志特性
             </summary>
         </member>
         <member name="T:Admin.NET.Core.NotTableAttribute">
             <summary>
-            非实体表继承该特性
+            非实体表特性
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SqlSugarEntityAttribute">
@@ -49,7 +49,7 @@
         </member>
         <member name="T:Admin.NET.Core.SqlSugarUnitOfWorkAttribute">
             <summary>
-            SqlSugar 工作单元配置特性
+            SqlSugar工作单元配置特性
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.#ctor">
@@ -2686,6 +2686,17 @@
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SysRoleSeedData.HasData">
+            <summary>
+            种子数据
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.SysTenantSeedData">
+            <summary>
+            系统租户表种子数据
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SysTenantSeedData.HasData">
             <summary>
             种子数据
             </summary>
@@ -5669,9 +5680,26 @@
             <param name="userId"></param>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.IEntityFilter">
+            <summary>
+            自定义实体过滤器接口
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.IEntityFilter.AddEntityFilter">
+            <summary>
+            实体过滤器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.ISqlSugarEntitySeedData`1">
+            <summary>
+            实体种子数据接口
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
         <member name="M:Admin.NET.Core.ISqlSugarEntitySeedData`1.HasData">
             <summary>
-            配置种子数据
+            种子数据
             </summary>
             <returns></returns>
         </member>
@@ -5764,14 +5792,24 @@
             <param name="type">排序类型</param>
             <returns>int</returns>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDataEntityFilter(SqlSugar.SqlSugarProvider)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDeletedEntityFilter(SqlSugar.SqlSugarProvider)">
             <summary>
-            配置业务数据表过滤器
+            配置实体假删除过滤器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetOrgEntityFilter(SqlSugar.SqlSugarProvider)">
+            <summary>
+            配置实体机构过滤器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetCustomEntityFilter(SqlSugar.SqlSugarProvider)">
+            <summary>
+            配置自定义实体过滤器
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.SetTenantEntityFilter(SqlSugar.SqlSugarProvider)">
             <summary>
-            配置租户过滤器
+            配置租户实体过滤器
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.DealConnectionStr(Admin.NET.Core.ConnectionStringsOptions@)">
