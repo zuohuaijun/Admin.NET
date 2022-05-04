@@ -12,15 +12,13 @@ namespace Admin.NET.UnitTest
         /// <summary>
         /// 测试用户
         /// </summary>
-        public static string TestUserName { get; set; }= "admin";
+        public static string TestUserName { get; set; } = "admin";
 
         private SysUser user;
 
         private long userId;
 
-
         private readonly SqlSugarRepository<SysUser> _sysUserRep;
-
 
         public TestUserManager(SqlSugarRepository<SysUser> sysUserRep)
         {
@@ -74,6 +72,6 @@ namespace Admin.NET.UnitTest
                 }
             }
             return user ?? throw Oops.Oh(ErrorCodeEnum.D1002);
-        }        
+        }
     }
 }

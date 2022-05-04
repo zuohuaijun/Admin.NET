@@ -9,6 +9,5 @@ namespace Admin.NET.Core
     [SuppressSniffer, AttributeUsage(AttributeTargets.Class | AttributeTargets.Method | AttributeTargets.Property)]
     public class NotLogAttribute : Attribute
     {
-
     }
 }

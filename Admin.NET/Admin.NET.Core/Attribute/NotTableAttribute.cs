@@ -9,6 +9,5 @@ namespace Admin.NET.Core
     [SuppressSniffer, AttributeUsage(AttributeTargets.Class)]
     public class NotTableAttribute : Attribute
     {
-
     }
 }

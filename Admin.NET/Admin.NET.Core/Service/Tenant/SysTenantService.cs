@@ -26,7 +26,7 @@ namespace Admin.NET.Core.Service
         private readonly SqlSugarRepository<SysRoleMenu> _sysRoleMenuRep;
         private readonly SqlSugarRepository<SysUserRole> _userRoleRep;
         private readonly SysUserRoleService _sysUserRoleService;
-        private readonly SysRoleMenuService _sysRoleMenuService;        
+        private readonly SysRoleMenuService _sysRoleMenuService;
 
         public SysTenantService(SqlSugarRepository<SysTenant> tenantRep,
             SqlSugarRepository<SysOrg> orgRep,
@@ -48,7 +48,7 @@ namespace Admin.NET.Core.Service
             _sysRoleMenuRep = sysRoleMenuRep;
             _userRoleRep = userRoleRep;
             _sysUserRoleService = sysUserRoleService;
-            _sysRoleMenuService = sysRoleMenuService;            
+            _sysRoleMenuService = sysRoleMenuService;
         }
 
         /// <summary>
@@ -94,9 +94,9 @@ namespace Admin.NET.Core.Service
             var newOrg = new SysOrg
             {
                 TenantId = tenantId,
-                Pid = 0,                
+                Pid = 0,
                 Name = companyName,
-                Code = companyName                
+                Code = companyName
             };
             await _orgRep.InsertAsync(newOrg);
 
@@ -106,7 +106,7 @@ namespace Admin.NET.Core.Service
                 TenantId = tenantId,
                 Code = "sys_manager_role",
                 Name = "系统管理员",
-                DataScope = DataScopeEnum.All                
+                DataScope = DataScopeEnum.All
             };
             await _roleRep.InsertAsync(newRole);
 
@@ -162,23 +162,22 @@ namespace Admin.NET.Core.Service
         {
             var entity = await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
             await _tenantRep.DeleteAsync(entity);
-            var users = await _userRep.AsQueryable().Filter(null,true).Where(u => u.TenantId == input.Id).ToListAsync();
+            var users = await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
             // 超级管理员所在租户为默认租户
             if (users.Any(u => u.UserType == UserTypeEnum.SuperAdmin))
                 throw Oops.Oh(ErrorCodeEnum.D1023);
 
             // 删除与租户相关的表数据
             var userIds = users.Select(u => u.Id).ToList();
-            await _userRep.AsDeleteable().Where(u=> userIds.Contains(u.Id)).ExecuteCommandAsync();
-            
-            await _userRoleRep.AsDeleteable().Where(u=> userIds.Contains(u.UserId)).ExecuteCommandAsync();
+            await _userRep.AsDeleteable().Where(u => userIds.Contains(u.Id)).ExecuteCommandAsync();
 
-            await _roleRep.AsDeleteable().Where(u => u.TenantId==input.Id).ExecuteCommandAsync();
+            await _userRoleRep.AsDeleteable().Where(u => userIds.Contains(u.UserId)).ExecuteCommandAsync();
+
+            await _roleRep.AsDeleteable().Where(u => u.TenantId == input.Id).ExecuteCommandAsync();
 
             await _sysUserExtOrgPosRep.AsDeleteable().Where(u => userIds.Contains(u.UserId)).ExecuteCommandAsync();
 
-
-            var roles = await _roleRep.AsQueryable().Filter(null,true).Where(u => u.TenantId==input.Id).ToListAsync();
+            var roles = await _roleRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
             await _roleRep.AsDeleteable().Where(u => u.TenantId == input.Id).ExecuteCommandAsync();
 
             var roleIds = roles.Select(u => u.Id).ToList();
@@ -278,7 +277,7 @@ namespace Admin.NET.Core.Service
         /// <returns></returns>
         private async Task<SysUser> GetTenantAdminUser(long tenantId)
         {
-            return await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == tenantId && u.UserType == UserTypeEnum.Admin).FirstAsync();                                   
+            return await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == tenantId && u.UserType == UserTypeEnum.Admin).FirstAsync();
         }
     }
 }

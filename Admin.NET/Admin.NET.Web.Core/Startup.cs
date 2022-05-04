@@ -17,7 +17,7 @@ namespace Admin.NET.Web.Core
     public class Startup : AppStartup
     {
         public void ConfigureServices(IServiceCollection services)
-        {   
+        {
             services.AddConfigurableOptions<ConnectionStringsOptions>();
             services.AddConfigurableOptions<RefreshTokenOptions>();
             services.AddConfigurableOptions<SnowIdOptions>();
@@ -55,7 +55,7 @@ namespace Admin.NET.Web.Core
                 builder.AddSubscriber<LogEventSubscriber>();
             });
 
-            // 注册OSS对象存储            
+            // 注册OSS对象存储
             services.AddOSSService(option =>
             {
                 var ossOptions = App.GetOptions<OSSProviderOptions>();

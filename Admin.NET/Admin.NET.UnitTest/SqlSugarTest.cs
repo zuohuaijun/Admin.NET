@@ -13,19 +13,20 @@ namespace Admin.NET.UnitTest
         {
             testService = App.GetService<TestService>();
         }
+
         [Fact]
         public async void Test1()
         {
-            var page= await testService.GetTestList();
+            var page = await testService.GetTestList();
             Assert.True(page.Count > 0);
         }
 
         [Fact]
         public async void Test2()
         {
-            var userManager= App.GetService<IUserManager>();
+            var userManager = App.GetService<IUserManager>();
             var user = await userManager.CheckUserAsync(0);
-            Assert.NotNull(user );
+            Assert.NotNull(user);
         }
     }
 }

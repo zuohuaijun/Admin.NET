@@ -11,7 +11,6 @@ namespace Admin.NET.Core.Service
 
         public CustomViewEngine()
         {
-
         }
 
         public CustomViewEngine(SqlSugarRepository<SysCodeGen> sysCodeGenRep)
@@ -30,7 +29,7 @@ namespace Admin.NET.Core.Service
         public string LowerClassName
         {
             get
-            {                
+            {
                 return ClassName[..1].ToLower() + ClassName[1..]; // 首字母小写
             }
         }
@@ -43,7 +42,6 @@ namespace Admin.NET.Core.Service
 
         public bool IsUpload { get; set; }
         private List<TableColumnOuput> ColumnList { get; set; }
-
 
         public string GetColumnNetType(object tbName, object colName)
         {

@@ -158,7 +158,7 @@ namespace Admin.NET.Core.Service
         /// <returns></returns>
         private async Task<SysFile> HandleUploadFile(IFormFile file)
         {
-            if(file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
+            if (file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
 
             string path = _uploadOptions.Path;
 

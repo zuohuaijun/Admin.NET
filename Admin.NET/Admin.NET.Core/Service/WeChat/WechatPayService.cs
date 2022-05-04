@@ -147,7 +147,7 @@ namespace Admin.NET.Core.Service
                 wechatPay.BankType = callbackResource.BankType; // 付款银行类型
                 wechatPay.Total = callbackResource.Amount.Total; // 订单总金额
                 wechatPay.PayerTotal = callbackResource.Amount.PayerTotal; // 用户支付金额
-                wechatPay.SuccessTime = callbackResource.SuccessTime; // 支付完成时间                
+                wechatPay.SuccessTime = callbackResource.SuccessTime; // 支付完成时间
 
                 await _wechatPayUserRep.AsUpdateable(wechatPay).IgnoreColumns(true).ExecuteCommandAsync();
             }
