@@ -23,13 +23,15 @@ namespace Admin.NET.Core.Service
         private readonly SysOrgService _sysOrgService;
         private readonly SysUserOrgService _sysUserOrgService;
         private readonly SysUserRoleService _sysUserRoleService;
+        private readonly SysUserExtOrgPosService _sysUserExtOrgPosService;
 
         public SysUserService(SqlSugarRepository<SysUser> sysUserRep,
             IUserManager userManager,
             ISysCacheService sysCacheService,
             SysOrgService sysOrgService,
             SysUserOrgService sysUserOrgService,
-            SysUserRoleService sysUserRoleService)
+            SysUserRoleService sysUserRoleService,
+            SysUserExtOrgPosService sysUserExtOrgPosService)
         {
             _sysUserRep = sysUserRep;
             _userManager = userManager;
@@ -37,6 +39,7 @@ namespace Admin.NET.Core.Service
             _sysUserOrgService = sysUserOrgService;
             _sysUserRoleService = sysUserRoleService;
             _sysCacheService = sysCacheService;
+            _sysUserExtOrgPosService = sysUserExtOrgPosService;
         }
 
         /// <summary>
@@ -115,8 +118,8 @@ namespace Admin.NET.Core.Service
 
             await _sysUserRep.DeleteAsync(user);
 
-            //// 删除用户及附属机构职位信息
-            //await _sysEmpService.DeleteEmpInfoByUserId(input.Id);
+            //// 删除用户-附属机构职位信息
+            await _sysUserExtOrgPosService.DeleteEmpExtByUserId(input.Id);
 
             //删除用户-角色关联信息
             await _sysUserRoleService.DeleteUserRoleByUserId(input.Id);
