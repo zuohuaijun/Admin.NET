@@ -86,6 +86,7 @@ namespace Admin.NET.Core.Service
                 Url = _commonService.GetFileUrl(sysFile),
                 SizeKb = sysFile.SizeKb,
                 Suffix = sysFile.Suffix,
+                FilePath = sysFile.FilePath,
             };
         }
 
@@ -157,6 +158,8 @@ namespace Admin.NET.Core.Service
         /// <returns></returns>
         private async Task<SysFile> HandleUploadFile(IFormFile file)
         {
+            if(file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
+
             string path = _uploadOptions.Path;
 
             if (!_uploadOptions.ContentType.Contains(file.ContentType))

@@ -20,3 +20,31 @@ export function uploadApi(
     params,
   );
 }
+
+// 系统默认文件上传接口
+export function uploadFileApi(
+  params: UploadFileParams,
+  onUploadProgress: (progressEvent: ProgressEvent) => void,
+) {
+  return defHttp.uploadFile<UploadApiResult>(
+    {
+      url: uploadUrl + '/sysFile/upload',
+      onUploadProgress,
+    },
+    params,
+  );
+}
+
+// 上传登记数据文件接口
+export function uploadFileApi_sign(
+  params: UploadFileParams,
+  onUploadProgress: (progressEvent: ProgressEvent) => void,
+) {
+  return defHttp.uploadFile<UploadApiResult>(
+    {
+      url: uploadUrl + '/personSign/import',
+      onUploadProgress,
+    },
+    params,
+  );
+}

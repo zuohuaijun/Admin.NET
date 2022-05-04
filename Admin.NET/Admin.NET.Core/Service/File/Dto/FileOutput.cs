@@ -5,30 +5,40 @@ namespace Admin.NET.Core.Service
     public class FileOutput
     {
         /// <summary>
-        /// 文件ID
+        /// Id
         /// </summary>
         public long Id { get; set; }
 
         /// <summary>
-        /// 文件名称
+        /// 名称
         /// </summary>
         public string Name
-        { get { return this.Id + this.Suffix; } }
+        {
+            get
+            {
+                return this.Id + this.Suffix;
+            }
+        }
 
         /// <summary>
-        /// 文件URL
+        /// URL
         /// </summary>
         public string Url { get; set; }
 
         /// <summary>
-        /// 文件大小
+        /// 大小
         /// </summary>
         public string SizeKb { get; set; }
 
         /// <summary>
-        /// 文件后缀
+        /// 后缀
         /// </summary>
         public string Suffix { get; set; }
+
+        /// <summary>
+        /// 路径
+        /// </summary>
+        public string FilePath { get; set; }
     }
 
     [SugarTable("sys_file")]

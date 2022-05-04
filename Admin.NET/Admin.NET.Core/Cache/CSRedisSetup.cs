@@ -24,9 +24,7 @@ namespace Admin.NET.Core
                     var redisStr = $"{cacheOptions.RedisConnectionString},prefix={cacheOptions.InstanceName}";
 
                     var redis = new CSRedisClient(redisStr);
-                    services.AddSingleton(redis);
                     RedisHelper.Initialization(redis);
-
                     return new CSRedisCache(redis);
                 }
                 else // 默认使用内存

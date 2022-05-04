@@ -56,7 +56,7 @@
     setup() {
       const { hasPermission } = usePermission();
       const { createMessage } = useMessage();
-      const [registerTable, { deleteTableDataRecord }] = useTable({
+      const [registerTable, { reload, deleteTableDataRecord }] = useTable({
         title: '文件列表',
         api: getFilePageList,
         columns,
@@ -95,7 +95,6 @@
       }
 
       async function handleDelete(record: Recordable) {
-        console.log(record);
         await deleteFile(record.id);
         deleteTableDataRecord(record.id);
       }
@@ -105,6 +104,7 @@
         handleDownload,
         handleDelete,
         handleChange: (fileList) => {
+          reload();
           createMessage.info(`已上传文件${JSON.stringify(fileList)}`);
         },
         uploadFile,

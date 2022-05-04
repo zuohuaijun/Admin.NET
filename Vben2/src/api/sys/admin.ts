@@ -232,24 +232,8 @@ export const clearExLog = () => defHttp.post({ url: Api.ClearExLog });
 export const getFilePageList = (params?: any) =>
   defHttp.get<any>({ url: Api.FilePageList, params });
 // 上传文件
-import { UploadApiResult } from './model/uploadModel';
-import { UploadFileParams } from '/#/axios';
-import { useGlobSetting } from '/@/hooks/setting';
-const { uploadUrl = '' } = useGlobSetting();
-
-export function uploadFile(
-  params: UploadFileParams,
-  onUploadProgress: (progressEvent: ProgressEvent) => void,
-) {
-  return defHttp.uploadFile<UploadApiResult>(
-    {
-      url: uploadUrl + Api.UploadFile,
-      onUploadProgress,
-    },
-    params,
-  );
-}
-
+import { uploadFileApi } from '/@/api/sys/upload';
+export const uploadFile = uploadFileApi;
 // 下载文件
 export const downloadFile = (id: number) => defHttp.post({ url: Api.DownloadFile, params: { id } });
 // 删除文件

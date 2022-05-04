@@ -4027,27 +4027,32 @@
         </member>
         <member name="P:Admin.NET.Core.Service.FileOutput.Id">
             <summary>
-            文件ID
+            Id
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.FileOutput.Name">
             <summary>
-            文件名称
+            名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.FileOutput.Url">
             <summary>
-            文件URL
+            URL
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.FileOutput.SizeKb">
             <summary>
-            文件大小
+            大小
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.FileOutput.Suffix">
             <summary>
-            文件后缀
+            后缀
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.FileOutput.FilePath">
+            <summary>
+            路径
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.MapperSysFileOutput.Id">
