@@ -24,12 +24,13 @@ namespace Admin.NET.Core.Service
         /// </summary>
         /// <returns></returns>
         [HttpGet("/sysOpLog/pageList")]
-        public async Task<List<SysLogOp>> GetOpLogList([FromQuery] LogInput input)
+        public async Task<SqlSugarPagedList<SysLogOp>> GetOpLogList([FromQuery] PageLogInput input)
         {
             return await _sysOpLogRep.AsQueryable()
                 .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                             u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
-                .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc).ToListAsync();
+                .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc)
+                .ToPagedListAsync(input.Page, input.PageSize);
         }
 
         /// <summary>

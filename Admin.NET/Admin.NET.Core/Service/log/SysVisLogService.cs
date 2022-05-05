@@ -24,12 +24,13 @@ namespace Admin.NET.Core.Service
         /// </summary>
         /// <returns></returns>
         [HttpGet("/sysVisLog/pageList")]
-        public async Task<List<SysLogVis>> GetVisLogList([FromQuery] LogInput input)
+        public async Task<SqlSugarPagedList<SysLogVis>> GetVisLogList([FromQuery] PageLogInput input)
         {
             return await _sysVisLogRep.AsQueryable()
                 .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                             u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
-                .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc).ToListAsync();
+                .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc)
+                .ToPagedListAsync(input.Page, input.PageSize);
         }
 
         /// <summary>

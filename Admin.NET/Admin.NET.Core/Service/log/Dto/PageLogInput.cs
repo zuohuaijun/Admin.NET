@@ -2,7 +2,7 @@
 
 namespace Admin.NET.Core.Service
 {
-    public class LogInput
+    public class PageLogInput : BasePageInput
     {
         /// <summary>
         /// 开始时间

@@ -133,7 +133,7 @@ namespace Admin.NET.Core.Service
                 }
                 else
                 {
-                    var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FilePath, input.Id.ToString());
+                    var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, file.FilePath, input.Id.ToString() + file.Suffix);
                     if (File.Exists(filePath))
                         File.Delete(filePath);
                 }
