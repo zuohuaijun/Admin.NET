@@ -16,6 +16,11 @@
         /// 商品描述
         /// </summary>
         public string Description { get; set; }
+
+        /// <summary>
+        /// 附加数据
+        /// </summary>
+        public string Attachment { get; set; }
     }
 
     public class WechatPayParaInput

@@ -77,6 +77,7 @@ namespace Admin.NET.Core.Service
                 OutTradeNumber = DateTimeOffset.Now.ToString("yyyyMMddHHmmssfff") + (new Random()).Next(100, 1000), // YitIdHelper.NextId(), // 订单号
                 AppId = _wechatPayOptions.AppId,
                 Description = input.Description,
+                Attachment = input.Attachment,
                 ExpireTime = DateTimeOffset.Now.AddMinutes(10),
                 NotifyUrl = _payCallBackOptions.WechatPayUrl,
                 Amount = new CreatePayTransactionJsapiRequest.Types.Amount() { Total = input.Total },
@@ -92,6 +93,7 @@ namespace Admin.NET.Core.Service
                 MerchantId = _wechatPayOptions.MerchantId,
                 OutTradeNumber = request.OutTradeNumber,
                 Description = input.Description,
+                Attachment = input.Attachment,
                 Total = input.Total,
                 OpenId = input.OpenId
             };
