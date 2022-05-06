@@ -19,7 +19,7 @@ namespace Admin.NET.Core
         /// <summary>
         /// 具体消息
         /// </summary>
-        [SugarColumn(ColumnDescription = "具体消息")]
+        [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = "text")]
         public string Message { get; set; }
 
         /// <summary>
@@ -81,13 +81,13 @@ namespace Admin.NET.Core
         /// <summary>
         /// 请求参数
         /// </summary>
-        [SugarColumn(ColumnDescription = "请求参数")]
+        [SugarColumn(ColumnDescription = "请求参数", ColumnDataType = "text")]
         public string Param { get; set; }
 
         /// <summary>
         /// 返回结果
         /// </summary>
-        [SugarColumn(ColumnDescription = "返回结果")]
+        [SugarColumn(ColumnDescription = "返回结果", ColumnDataType = "text")]
         public string Result { get; set; }
 
         /// <summary>

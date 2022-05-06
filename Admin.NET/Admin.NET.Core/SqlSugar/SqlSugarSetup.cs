@@ -1,6 +1,5 @@
 ﻿using Admin.NET.Core.Service;
 using Furion;
-using Furion.FriendlyException;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
@@ -313,15 +312,6 @@ namespace Admin.NET.Core
         {
             var file = Path.GetFileName(dbConnection.Replace("DataSource=", ""));
             return $"DataSource={Environment.CurrentDirectory.Replace(@"\bin\Debug", "")}\\{file}";
-        }
-
-        /// <summary>
-        /// 判断是否演示环境
-        /// </summary>
-        /// <returns></returns>
-        private static bool IsDemoEnv()
-        {
-            return App.GetService<SysConfigService>().GetDemoEnvFlag().GetAwaiter().GetResult() ? throw Oops.Oh(ErrorCodeEnum.D1200) : false;
         }
     }
 }

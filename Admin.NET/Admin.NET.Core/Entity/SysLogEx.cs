@@ -27,31 +27,31 @@ namespace Admin.NET.Core
         /// <summary>
         /// 异常名称
         /// </summary>
-        [SugarColumn(ColumnDescription = "异常名称")]
+        [SugarColumn(ColumnDescription = "异常名称", ColumnDataType = "text")]
         public string ExceptionName { get; set; }
 
         /// <summary>
         /// 异常信息
         /// </summary>
-        [SugarColumn(ColumnDescription = "异常信息")]
+        [SugarColumn(ColumnDescription = "异常信息", ColumnDataType = "text")]
         public string ExceptionMsg { get; set; }
 
         /// <summary>
         /// 异常源
         /// </summary>
-        [SugarColumn(ColumnDescription = "异常源")]
+        [SugarColumn(ColumnDescription = "异常源", ColumnDataType = "text")]
         public string ExceptionSource { get; set; }
 
         /// <summary>
         /// 堆栈信息
         /// </summary>
-        [SugarColumn(ColumnDescription = "堆栈信息")]
+        [SugarColumn(ColumnDescription = "堆栈信息", ColumnDataType = "text")]
         public string StackTrace { get; set; }
 
         /// <summary>
         /// 参数对象
         /// </summary>
-        [SugarColumn(ColumnDescription = "参数对象")]
+        [SugarColumn(ColumnDescription = "参数对象", ColumnDataType = "text")]
         public string ParamsObj { get; set; }
 
         /// <summary>

@@ -26,6 +26,11 @@
         public const string SysCaptchaFlag = "SysCaptchaFlag";
 
         /// <summary>
+        /// 开启操作日志配置
+        /// </summary>
+        public const string SysOpLogFlag = "SysOpLog";
+
+        /// <summary>
         /// 实体所在程序集-代码生成
         /// </summary>
         public static string[] EntityAssemblyName = new string[] { "Admin.NET.Core", "Admin.NET.Application" };

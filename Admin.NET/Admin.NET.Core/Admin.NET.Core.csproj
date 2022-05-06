@@ -28,7 +28,7 @@
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.4" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" Version="2.13.0" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.TenpayV3" Version="2.7.0" />
-    <PackageReference Include="SqlSugarCore" Version="5.0.7.8-preview01" />
+    <PackageReference Include="SqlSugarCore" Version="5.0.7.8-preview02" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.18" />
     <PackageReference Include="UAParser" Version="3.1.47" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.12" />

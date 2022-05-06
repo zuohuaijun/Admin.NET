@@ -19,7 +19,7 @@ namespace Admin.NET.Core
         /// <summary>
         /// 具体消息
         /// </summary>
-        [SugarColumn(ColumnDescription = "具体消息")]
+        [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = "text")]
         public string Message { get; set; }
 
         /// <summary>

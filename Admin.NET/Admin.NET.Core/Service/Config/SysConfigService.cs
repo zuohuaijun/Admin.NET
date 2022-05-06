@@ -115,7 +115,7 @@ namespace Admin.NET.Core.Service
         /// </summary>
         /// <param name="code"></param>
         /// <returns></returns>
-        private async Task<string> GetConfigCache(string code)
+        public async Task<string> GetConfigCache(string code)
         {
             var value = await _sysCacheService.GetStringAsync(code);
             if (string.IsNullOrEmpty(value))
@@ -125,39 +125,6 @@ namespace Admin.NET.Core.Service
                 await _sysCacheService.SetStringAsync(code, value);
             }
             return value;
-        }
-
-        ///// <summary>
-        ///// 更新参数配置缓存
-        ///// </summary>
-        ///// <param name="code"></param>
-        ///// <param name="value"></param>
-        ///// <returns></returns>
-        //private async Task UpdateConfigCache(string code, string value)
-        //{
-        //    await _sysCacheService.SetStringAsync(code, value);
-        //}
-
-        /// <summary>
-        /// 获取演示环境开关配置
-        /// </summary>
-        /// <returns></returns>
-        [NonAction]
-        public async Task<bool> GetDemoEnvFlag()
-        {
-            var value = await GetConfigCache(CommonConst.SysDemoEnv);
-            return bool.Parse(value);
-        }
-
-        /// <summary>
-        /// 获取验证码开关配置
-        /// </summary>
-        /// <returns></returns>
-        [NonAction]
-        public async Task<bool> GetCaptchaOpenFlag()
-        {
-            var value = await GetConfigCache(CommonConst.SysCaptchaFlag);
-            return bool.Parse(value);
         }
     }
 }

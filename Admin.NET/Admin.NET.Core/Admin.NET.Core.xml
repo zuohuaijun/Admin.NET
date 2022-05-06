@@ -196,6 +196,11 @@
             验证码开关配置
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysOpLogFlag">
+            <summary>
+            开启操作日志配置
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.CommonConst.EntityAssemblyName">
             <summary>
             实体所在程序集-代码生成
@@ -3610,18 +3615,6 @@
             <param name="code"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.GetDemoEnvFlag">
-            <summary>
-            获取演示环境开关配置
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.GetCaptchaOpenFlag">
-            <summary>
-            获取验证码开关配置
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:Admin.NET.Core.Service.DataBaseManager">
             <summary>
             数据库管理服务
@@ -5827,12 +5820,6 @@
             处理本地库根目录路径
             </summary>
             <param name="dbOptions"></param>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.IsDemoEnv">
-            <summary>
-            判断是否演示环境
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.AdminResultProvider">
             <summary>
