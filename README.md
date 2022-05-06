@@ -10,6 +10,14 @@
 2.  前端运行步骤：1、yarn安装依赖 2、pnpm serve运行 3、pnpm build打包
 
 
+#### 🍎 大本营
+1.  QQ群：[87333204](https://jq.qq.com/?_wv=1027&k=1t8iqf0G)
+2.  微信号：zuohuaijun
+
+
+### 💘 支持开源
+![感谢您的支持](https://gitee.com/jianweie/images/raw/master/coreshop/images/PayeeCode.jpg "PayeeCode.png")
+
 #### 开发教程 💐 特别鸣谢
 - 👉 Furion：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - 👉 Vben：[https://vvbin.cn/doc-next/](https://vvbin.cn/doc-next/)
