@@ -15,15 +15,12 @@
 2.  微信号：zuohuaijun
 
 
-### 💘 支持开源
-![感谢您的支持](https://gitee.com/jianweie/images/raw/master/coreshop/images/PayeeCode.jpg "PayeeCode.png")
-
 #### 开发教程 💐 特别鸣谢
 - 👉 Furion：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - 👉 Vben：[https://vvbin.cn/doc-next/](https://vvbin.cn/doc-next/)
 - 👉 SqlSugar：[https://gitee.com/dotnetchina/SqlSugar](https://gitee.com/dotnetchina/SqlSugar)
 - 👉 CSRedis：[https://github.com/ctstone/csredis](https://github.com/ctstone/csredis)
-- 👉 MiniExcel：[https://gitee.com/dotnetchina/MiniExcel](https://gitee.com/dotnetchina/MiniExcel)
+- 👉 Magicodes.IE：[https://gitee.com/magicodes/Magicodes.IE](https://gitee.com/magicodes/Magicodes.IE)
 - 👉 SKIT：[https://gitee.com/fudiwei/DotNetCore.SKIT.FlurlHttpClient.Wechat](https://gitee.com/fudiwei/DotNetCore.SKIT.FlurlHttpClient.Wechat)
 - 👉 IdGenerator：[https://github.com/yitter/idgenerator](https://github.com/yitter/idgenerator)
 - 👉 UAParser：[https://github.com/ua-parser/uap-csharp/](https://github.com/ua-parser/uap-csharp/)
