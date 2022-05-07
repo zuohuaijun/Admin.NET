@@ -29,7 +29,7 @@ namespace Admin.NET.Core
         {
             // 是否开启操作日志
             var value = await App.GetService<SysConfigService>().GetConfigCache(CommonConst.SysOpLogFlag);
-            if (!bool.Parse(value)) return;
+            if (string.IsNullOrWhiteSpace(value) || !bool.Parse(value)) return;
 
             var httpContext = context.HttpContext;
             var httpRequest = httpContext.Request;
