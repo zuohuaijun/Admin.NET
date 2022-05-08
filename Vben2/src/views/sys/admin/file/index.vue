@@ -46,6 +46,7 @@
   import { useMessage } from '/@/hooks/web/useMessage';
   import { downloadByUrl } from '/@/utils/file/download';
   import { usePermission } from '/@/hooks/web/usePermission';
+  import { useGlobSetting } from '/@/hooks/setting';
 
   import { columns, searchFormSchema } from './file.data';
   import { getFilePageList, uploadFile, deleteFile } from '/@/api/sys/admin';
@@ -56,6 +57,7 @@
     setup() {
       const { hasPermission } = usePermission();
       const { createMessage } = useMessage();
+      const { uploadUrl = '' } = useGlobSetting();
       const [registerTable, { reload, deleteTableDataRecord }] = useTable({
         title: '文件列表',
         api: getFilePageList,
@@ -84,13 +86,7 @@
       });
 
       async function handleDownload(record: Recordable) {
-        const filePath =
-          import.meta.env.VITE_GLOB_UPLOAD_URL +
-          '/' +
-          record.filePath +
-          '/' +
-          record.id +
-          record.suffix;
+        const filePath = uploadUrl + '/' + record.filePath + '/' + record.id + record.suffix;
         downloadByUrl({ url: filePath });
       }
 
