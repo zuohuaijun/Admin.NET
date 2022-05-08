@@ -2,7 +2,9 @@ import { BasicColumn, TableImg } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
+import { useGlobSetting } from '/@/hooks/setting';
 
+const { uploadUrl = '' } = useGlobSetting();
 export const columns: BasicColumn[] = [
   {
     title: '仓储名称',
@@ -32,13 +34,7 @@ export const columns: BasicColumn[] = [
         record.suffix.indexOf('jpg') > 0 ||
         record.suffix.indexOf('bmp') > 0
       ) {
-        const filePath =
-          import.meta.env.VITE_GLOB_UPLOAD_URL +
-          '/' +
-          record.filePath +
-          '/' +
-          record.id +
-          record.suffix;
+        const filePath = uploadUrl + '/' + record.filePath + '/' + record.id + record.suffix;
         return h(TableImg, {
           size: 60,
           simpleShow: true,
