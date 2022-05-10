@@ -1,4 +1,7 @@
-﻿namespace Admin.NET.Core
+﻿using SqlSugar;
+using System.Collections.Generic;
+
+namespace Admin.NET.Core
 {
     /// <summary>
     /// SqlSugar相关常量
@@ -14,5 +17,16 @@
         /// 默认表主键
         /// </summary>
         public const string PrimaryKey = "Id";
+    }
+
+    /// <summary>
+    /// SqlSugar数据库链接集合(多库代码生成用)
+    /// </summary>
+    public class SqlSugarDb
+    {
+        /// <summary>
+        /// SqlSugar数据库链接集合
+        /// </summary>
+        public static List<ConnectionConfig> connectionConfigs = new List<ConnectionConfig>();
     }
 }

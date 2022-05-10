@@ -23,6 +23,26 @@ namespace Admin.NET.Core.Service
         public virtual string TablePrefix { get; set; }
 
         /// <summary>
+        /// 库定位器名
+        /// </summary>
+        public virtual string DbConfigId { get; set; }
+
+        /// <summary>
+        /// 数据库名(保留字段)
+        /// </summary>
+        public virtual string DbName { get; set; }
+
+        /// <summary>
+        /// 数据库类型
+        /// </summary>
+        public virtual string DbType { get; set; }
+
+        /// <summary>
+        /// 数据库链接
+        /// </summary>
+        public virtual string ConnectionString { get; set; }
+
+        /// <summary>
         /// 生成方式
         /// </summary>
         public virtual string GenerateType { get; set; }

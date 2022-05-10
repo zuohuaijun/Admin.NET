@@ -30,7 +30,8 @@ namespace Admin.NET.Core
                 var dbOptions = App.GetOptions<ConnectionStringsOptions>();
                 DealConnectionStr(ref dbOptions); // 处理本地库根目录路径
 
-                var connectionConfigs = new List<ConnectionConfig>();
+                // var connectionConfigs = new List<ConnectionConfig>();
+                var connectionConfigs = SqlSugarDb.connectionConfigs; //方便多库生成
                 var configureExternalServices = new ConfigureExternalServices
                 {
                     EntityService = (type, column) => // 修改列可空

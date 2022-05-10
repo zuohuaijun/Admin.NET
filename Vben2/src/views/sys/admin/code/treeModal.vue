@@ -16,10 +16,11 @@
       var row: any = {};
       const [registerForm, { resetFields, validate }] = useForm({
         labelWidth: 100,
+        baseColProps: { span: 12 },
         schemas: treeFormSchema,
         showActionButtonGroup: false,
         actionColOptions: {
-          span: 23,
+          span: 24,
         },
       });
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {

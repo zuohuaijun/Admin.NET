@@ -221,6 +221,16 @@
             默认表主键
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.SqlSugarDb">
+            <summary>
+            SqlSugar数据库链接集合(多库代码生成用)
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SqlSugarDb.connectionConfigs">
+            <summary>
+            SqlSugar数据库链接集合
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.EntityBaseId">
             <summary>
             框架实体基类Id
@@ -299,6 +309,26 @@
         <member name="P:Admin.NET.Core.SysCodeGen.GenerateType">
             <summary>
             生成方式
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.DbConfigId">
+            <summary>
+            库定位器名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.DbName">
+            <summary>
+            数据库名(保留字段)
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysCodeGen.ConnectionString">
+            <summary>
+            数据库链接
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysCodeGen.TableName">
@@ -3049,13 +3079,19 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetTableList">
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetDatabaseList">
+            <summary>
+            获取数据库库集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetTableList(System.String)">
             <summary>
             获取数据库表(实体)集合
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetColumnListByTableName(System.String)">
+        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetColumnListByTableName(System.String,System.String)">
             <summary>
             根据表名获取列
             </summary>
@@ -3253,6 +3289,26 @@
             是否移除表前缀
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.DbConfigId">
+            <summary>
+            库定位器名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.DbName">
+            <summary>
+            数据库名(保留字段)
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.ConnectionString">
+            <summary>
+            数据库链接
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.CodeGenInput.GenerateType">
             <summary>
             生成方式
@@ -3388,6 +3444,31 @@
             菜单父级
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.CustomViewEngine.DbConfigId">
+            <summary>
+            库定位器
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.DatabaseOutput">
+            <summary>
+            多库代码生成库列表输出
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.DatabaseOutput.DbConfigId">
+            <summary>
+            库定位器名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.DatabaseOutput.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.DatabaseOutput.ConnectionString">
+            <summary>
+            数据库连接字符串
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.TableColumnOuput">
             <summary>
             数据库表列
@@ -3421,6 +3502,11 @@
         <member name="T:Admin.NET.Core.Service.TableOutput">
             <summary>
             数据库表列表参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TableOutput.DbConfigId">
+            <summary>
+            库定位器名
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.TableOutput.TableName">

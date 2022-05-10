@@ -122,18 +122,49 @@ namespace Admin.NET.Core.Service.CodeGen
         }
 
         /// <summary>
+        /// 获取数据库库集合
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("codeGenerate/DatabaseList")]
+        public async Task<List<DatabaseOutput>> GetDatabaseList()
+        {
+            List<ConnectionConfig> list = SqlSugarDb.connectionConfigs;
+            var result = new List<DatabaseOutput>();
+            foreach (var item in list)
+            {
+                result.Add(new DatabaseOutput()
+                {
+                    DbConfigId = item.ConfigId,
+                    DbType = item.DbType.ToString(),
+                    ConnectionString = item.ConnectionString,
+                });
+            }
+            return await Task.FromResult(result);
+        }
+
+
+        /// <summary>
         /// 获取数据库表(实体)集合
         /// </summary>
         /// <returns></returns>
-        [HttpGet("/codeGenerate/InformationList")]
-        public async Task<List<TableOutput>> GetTableList()
+        [HttpGet("/codeGenerate/InformationList/{dbConfigId}")]
+        public async Task<List<TableOutput>> GetTableList(string dbConfigId = SqlSugarConst.ConfigId)
         {
+            //切库,多库代码生成用
+            if (dbConfigId != SqlSugarConst.ConfigId)
+                _sysCodeGenRep.Context.AsTenant().ChangeDatabase(dbConfigId);
+
+            List<DbTableInfo> dbTableInfos = _sysCodeGenRep.Context.DbMaintenance.GetTableInfoList(false);//这里不能走缓存,否则切库不起作用
+            List<string> dbTableNames = dbTableInfos.Select(x => x.Name).ToList();
+
             IEnumerable<EntityInfo> entityInfos = await _commonService.GetEntityInfos();
+            entityInfos = entityInfos.Where(x => dbTableNames.Contains(x.DbTableName));
             var result = new List<TableOutput>();
             foreach (var item in entityInfos)
             {
                 result.Add(new TableOutput()
                 {
+                    DbConfigId = dbConfigId,
                     EntityName = item.EntityName,
                     TableName = item.DbTableName,
                     TableComment = item.TableDescription
@@ -146,9 +177,13 @@ namespace Admin.NET.Core.Service.CodeGen
         /// 根据表名获取列
         /// </summary>
         /// <returns></returns>
-        [HttpGet("/codeGenerate/ColumnList/{tableName}")]
-        public List<TableColumnOuput> GetColumnListByTableName(string tableName)
+        [HttpGet("/codeGenerate/ColumnList/{dbConfigId}/{tableName}")]
+        public List<TableColumnOuput> GetColumnListByTableName(string tableName, string dbConfigId = SqlSugarConst.ConfigId)
         {
+            //切库,多库代码生成用
+            if (dbConfigId != SqlSugarConst.ConfigId)
+                _sysCodeGenRep.Context.AsTenant().ChangeDatabase(dbConfigId);
+
             // 获取实体类型属性
             var entityType = _sysCodeGenRep.Context.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);
             if (entityType == null) return null;
@@ -171,6 +206,10 @@ namespace Admin.NET.Core.Service.CodeGen
         [NonAction]
         public List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
         {
+            //切库,多库代码生成用
+            if (!string.IsNullOrEmpty(input.DbConfigId) && input.DbConfigId != SqlSugarConst.ConfigId)
+                _sysCodeGenRep.Context.AsTenant().ChangeDatabase(input.DbConfigId);
+
             var entityType = _commonService.GetEntityInfos().Result.FirstOrDefault(m => m.EntityName == input.TableName);
             if (entityType == null)
                 return null;
@@ -205,6 +244,7 @@ namespace Admin.NET.Core.Service.CodeGen
 
                 var data = new CustomViewEngine(_sysCodeGenRep)
                 {
+                    DbConfigId = input.DbConfigId,
                     AuthorName = input.AuthorName,
                     BusName = input.BusName,
                     NameSpace = input.NameSpace,

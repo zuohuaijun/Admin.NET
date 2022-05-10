@@ -1,29 +1,55 @@
 import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
-import { getMenuList, getDictDataDropdown, getTableList, getColumnList } from '/@/api/sys/admin';
+import {
+  getMenuList,
+  getDictDataDropdown,
+  getDatabaseList,
+  getTableList,
+  getColumnList,
+} from '/@/api/sys/admin';
 
-const apiTableList = async (param: any) => {
-  const result = await getTableList(param);
+const apiDatabaseList = async (param: any) => {
+  const result = await getDatabaseList(param);
   return result;
+};
+let currentCongidId = '';
+let tableList: any[] = [];
+const apiTableList = async (param: any) => {
+  //const result = await getTableList(param);
+  //return result;
+  if (tableList.length === 0 || currentCongidId !== param) {
+    //console.log(param);
+    const result = await getTableList(param);
+    tableList = result;
+  } else {
+  }
+  currentCongidId = param;
+  return tableList;
 };
 let currentTable = '';
 let columnList: any[] = [];
 const apiColumnList = async (param: any) => {
-  if (typeof param !== 'string') return [];
-  if (columnList.length === 0 || currentTable !== param) {
-    const result = await getColumnList(param);
+  //if (typeof param !== 'string') return [];
+  if (columnList.length === 0 || currentTable !== param.e) {
+    //console.log('param:' + param);
+    const result = await getColumnList(param.dbConfigId, param.e);
     columnList = result;
   } else {
   }
-  currentTable = param;
+  currentTable = param.e;
   return columnList;
 };
+
 const apiDictTypeDropDown = async () => {
   const result = await getDictDataDropdown('code_gen_create_type');
   return result;
 };
 
 export const codeShowColumns: BasicColumn[] = [
+  {
+    title: '库定位器',
+    dataIndex: 'dbConfigId',
+  },
   {
     title: '表名称',
     dataIndex: 'tableName',
@@ -55,16 +81,86 @@ export const codeFormSchema: FormSchema[] = [
     show: false,
   },
   {
+    field: 'dbConfigId',
+    label: '库定位器',
+    component: 'ApiSelect',
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        api: apiDatabaseList,
+        fieldNames: {
+          label: 'dbConfigId',
+          value: 'dbConfigId',
+        },
+        onChange: (e: any, option: any) => {
+          formModel.tableName = undefined;
+          formModel.dbType = option.dbType;
+          formModel.connectionString = option.connectionString;
+          const { updateSchema } = formActionType;
+          updateSchema([
+            {
+              field: 'dbType',
+              componentProps: {
+                // api: apiTableList,
+                // immediate: false,
+                // params: e,
+                //fieldNames: {
+                //  label: 'dbType',
+                //  value: 'dbType',
+                //},
+              },
+            },
+            {
+              field: 'connectionString',
+              componentProps: {
+                // api: apiTableList,
+                // immediate: false,
+                // params: e,
+                //fieldNames: {
+                //  label: 'connectionString',
+                //  value: 'connectionString',
+                //},
+              },
+            },
+            {
+              field: 'tableName',
+              componentProps: {
+                api: apiTableList,
+                immediate: false,
+                params: e,
+                fieldNames: {
+                  label: 'tableName',
+                  value: 'entityName',
+                },
+              },
+            },
+          ]);
+        },
+      };
+    },
+  },
+  {
+    field: 'dbType',
+    label: '数据库类型',
+    component: 'Input',
+    dynamicDisabled: true,
+  },
+  {
+    field: 'connectionString',
+    label: '链接串',
+    component: 'InputTextArea',
+    dynamicDisabled: true,
+  },
+  {
     field: 'tableName',
     label: '生成表',
     component: 'ApiSelect',
-    componentProps: {
-      api: apiTableList,
-      fieldNames: {
-        label: 'tableName',
-        value: 'entityName',
-      },
-    },
+    // componentProps: {
+    //   api: apiTableList,
+    //   fieldNames: {
+    //     label: 'tableName',
+    //     value: 'entityName',
+    //   },
+    // },
   },
   {
     field: 'busName',
@@ -200,40 +296,108 @@ export const columns = [
   },
 ];
 
+//外键
 export const fkFormSchema: FormSchema[] = [
+  {
+    field: 'dbConfigId',
+    label: '库定位器',
+    component: 'ApiSelect',
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        api: apiDatabaseList,
+        fieldNames: {
+          label: 'dbConfigId',
+          value: 'dbConfigId',
+        },
+        onChange: (e: any, option: any) => {
+          formModel.tableName = option.tableName;
+          formModel.dbType = option.dbType;
+          formModel.connectionString = option.connectionString;
+          const { updateSchema } = formActionType;
+          const dbConfigId = e;
+          console.log('dbchange' + dbConfigId);
+          updateSchema([
+            {
+              field: 'tableName',
+              label: '数据库表',
+              component: 'ApiSelect',
+              componentProps: ({ formModel, formActionType }) => {
+                return {
+                  api: apiTableList,
+                  immediate: false,
+                  params: e,
+                  fieldNames: {
+                    label: 'tableName',
+                    value: 'tableName',
+                  },
+                  onChange: (e: any, option: any) => {
+                    formModel.columnName = undefined;
+                    formModel.entityName = option.entityName;
+                    const { updateSchema } = formActionType;
+                    console.log('tableNamechange' + dbConfigId);
+                    updateSchema({
+                      field: 'columnName',
+                      componentProps: {
+                        api: apiColumnList,
+                        immediate: false,
+                        fieldNames: {
+                          label: 'columnName',
+                          value: 'columnName',
+                        },
+                        params: { dbConfigId, e },
+                        onChange: (e: any, option: any) => {
+                          console.log(e + 'columnNamechange' + dbConfigId);
+                          formModel.columnNetType = option.netType;
+                        },
+                      },
+                    });
+                  },
+                };
+              },
+            },
+          ]);
+        },
+      };
+    },
+  },
+  // {
+  //   field: 'tableName',
+  //   label: '数据库表',
+  //   component: 'ApiSelect',
+  //   componentProps: ({ formModel, formActionType }) => {
+  //     return {
+  //       api: apiTableList,
+  //       fieldNames: {
+  //         label: 'tableName',
+  //         value: 'tableName',
+  //       },
+  //       onChange: (e: any, option: any) => {
+  //         formModel.columnName = undefined;
+  //         formModel.entityName = option.entityName;
+  //         const { updateSchema } = formActionType;
+  //         updateSchema({
+  //           field: 'columnName',
+  //           componentProps: {
+  //             api: apiColumnList,
+  //             immediate: false,
+  //             fieldNames: {
+  //               label: 'columnName',
+  //               value: 'columnName',
+  //             },
+  //             params: e,
+  //             onChange: (e: any, option: any) => {
+  //               formModel.columnNetType = option.netType;
+  //             },
+  //           },
+  //         });
+  //       },
+  //     };
+  //   },
+  // },
   {
     field: 'tableName',
     label: '数据库表',
     component: 'ApiSelect',
-    componentProps: ({ formModel, formActionType }) => {
-      return {
-        api: apiTableList,
-        fieldNames: {
-          label: 'tableName',
-          value: 'tableName',
-        },
-        onChange: (e: any, option: any) => {
-          formModel.columnName = undefined;
-          formModel.entityName = option.entityName;
-          const { updateSchema } = formActionType;
-          updateSchema({
-            field: 'columnName',
-            componentProps: {
-              api: apiColumnList,
-              immediate: false,
-              fieldNames: {
-                label: 'columnName',
-                value: 'columnName',
-              },
-              params: e,
-              onChange: (e: any, option: any) => {
-                formModel.columnNetType = option.netType;
-              },
-            },
-          });
-        },
-      };
-    },
   },
   {
     field: 'columnName',
@@ -254,63 +418,151 @@ export const fkFormSchema: FormSchema[] = [
   },
 ];
 
+//树形
 export const treeFormSchema: FormSchema[] = [
   {
-    field: 'tableName',
-    label: '数据库表',
+    field: 'dbConfigId',
+    label: '库定位器',
     component: 'ApiSelect',
     componentProps: ({ formModel, formActionType }) => {
       return {
-        api: apiTableList,
+        api: apiDatabaseList,
         fieldNames: {
-          label: 'tableName',
-          value: 'tableName',
+          label: 'dbConfigId',
+          value: 'dbConfigId',
         },
         onChange: (e: any, option: any) => {
-          formModel.columnName = undefined;
-          formModel.entityName = option.entityName;
+          formModel.tableName = undefined;
+          formModel.dbType = option.dbType;
+          formModel.connectionString = option.connectionString;
           const { updateSchema } = formActionType;
+          const dbConfigId = e;
           updateSchema([
             {
-              field: 'displayColumn',
-              componentProps: {
-                api: apiColumnList,
-                immediate: false,
-                params: e,
-                fieldNames: {
-                  label: 'columnName',
-                  value: 'columnName',
-                },
-              },
-            },
-            {
-              field: 'valueColumn',
-              componentProps: {
-                api: apiColumnList,
-                immediate: false,
-                params: e,
-                fieldNames: {
-                  label: 'columnName',
-                  value: 'columnName',
-                },
-              },
-            },
-            {
-              field: 'pidColumn',
-              componentProps: {
-                api: apiColumnList,
-                immediate: false,
-                params: e,
-                fieldNames: {
-                  label: 'columnName',
-                  value: 'columnName',
-                },
+              field: 'tableName',
+              label: '数据库表',
+              component: 'ApiSelect',
+              componentProps: ({ formModel, formActionType }) => {
+                return {
+                  api: apiTableList,
+                  immediate: false,
+                  params: e,
+                  fieldNames: {
+                    label: 'tableName',
+                    value: 'tableName',
+                  },
+                  onChange: (e: any, option: any) => {
+                    formModel.columnName = undefined;
+                    formModel.entityName = option.entityName;
+                    const { updateSchema } = formActionType;
+                    updateSchema([
+                      {
+                        field: 'displayColumn',
+                        componentProps: {
+                          api: apiColumnList,
+                          immediate: false,
+                          params: { dbConfigId, e },
+                          fieldNames: {
+                            label: 'columnName',
+                            value: 'columnName',
+                          },
+                        },
+                      },
+                      {
+                        field: 'valueColumn',
+                        componentProps: {
+                          api: apiColumnList,
+                          immediate: false,
+                          params: { dbConfigId, e },
+                          fieldNames: {
+                            label: 'columnName',
+                            value: 'columnName',
+                          },
+                        },
+                      },
+                      {
+                        field: 'pidColumn',
+                        componentProps: {
+                          api: apiColumnList,
+                          immediate: false,
+                          params: { dbConfigId, e },
+                          fieldNames: {
+                            label: 'columnName',
+                            value: 'columnName',
+                          },
+                        },
+                      },
+                    ]);
+                  },
+                };
               },
             },
           ]);
         },
       };
     },
+  },
+  // {
+  //   field: 'tableName',
+  //   label: '数据库表',
+  //   component: 'ApiSelect',
+  //   componentProps: ({ formModel, formActionType }) => {
+  //     return {
+  //       api: apiTableList,
+  //       fieldNames: {
+  //         label: 'tableName',
+  //         value: 'tableName',
+  //       },
+  //       onChange: (e: any, option: any) => {
+  //         formModel.columnName = undefined;
+  //         formModel.entityName = option.entityName;
+  //         const { updateSchema } = formActionType;
+  //         updateSchema([
+  //           {
+  //             field: 'displayColumn',
+  //             componentProps: {
+  //               api: apiColumnList,
+  //               immediate: false,
+  //               params: e,
+  //               fieldNames: {
+  //                 label: 'columnName',
+  //                 value: 'columnName',
+  //               },
+  //             },
+  //           },
+  //           {
+  //             field: 'valueColumn',
+  //             componentProps: {
+  //               api: apiColumnList,
+  //               immediate: false,
+  //               params: e,
+  //               fieldNames: {
+  //                 label: 'columnName',
+  //                 value: 'columnName',
+  //               },
+  //             },
+  //           },
+  //           {
+  //             field: 'pidColumn',
+  //             componentProps: {
+  //               api: apiColumnList,
+  //               immediate: false,
+  //               params: e,
+  //               fieldNames: {
+  //                 label: 'columnName',
+  //                 value: 'columnName',
+  //               },
+  //             },
+  //           },
+  //         ]);
+  //       },
+  //     };
+  //   },
+  // },
+  {
+    field: 'tableName',
+    label: '数据库表',
+    component: 'ApiSelect',
   },
   {
     field: 'displayColumn',

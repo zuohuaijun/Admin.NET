@@ -131,6 +131,8 @@ namespace Admin.NET.Core.Service
                 codeGenConfig.QueryType = "=="; // QueryTypeEnum.eq.ToString();
                 codeGenConfigs.Add(codeGenConfig);
             }
+            //多库代码生成,这里要切回主库
+            _sysCodeGenConfigRep.Context.AsTenant().ChangeDatabase(SqlSugarConst.ConfigId);
             _sysCodeGenConfigRep.Context.Insertable(codeGenConfigs).ExecuteCommand();
         }
     }

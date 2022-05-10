@@ -18,6 +18,11 @@ namespace Admin.NET.Core.Service
             _sysCodeGenRep = sysCodeGenRep;
         }
 
+        /// <summary>
+        /// 库定位器
+        /// </summary>
+        public string DbConfigId { get; set; } = SqlSugarConst.ConfigId;
+
         public string AuthorName { get; set; }
 
         public string BusName { get; set; }
@@ -47,11 +52,17 @@ namespace Admin.NET.Core.Service
         {
             ColumnList = GetColumnListByTableName(tbName.ToString());
             var col = ColumnList.Where(c => c.ColumnName == colName.ToString()).FirstOrDefault();
+            //多库代码生成切库调用后切换回原库
+            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(SqlSugarConst.ConfigId);
             return col.NetType;
         }
 
         public List<TableColumnOuput> GetColumnListByTableName(string tableName)
         {
+            //多库代码生成切换库
+            if (DbConfigId != SqlSugarConst.ConfigId)
+                _sysCodeGenRep.Context.AsTenant().ChangeDatabase(DbConfigId);
+
             // 获取实体类型属性
             var entityType = _sysCodeGenRep.Context.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);
             if (entityType == null) return null;

@@ -8,6 +8,7 @@ enum Api {
   UserPageList = '/sysUser/pageList',
   AddUser = '/sysUser/add',
   DeleteUser = '/sysUser/delete',
+  GetDatabaseList = '/codeGenerate/DatabaseList',
   UpdateUser = '/sysUser/update',
   SetUserStatus = '/sysUser/setStatus',
   GrantUserRole = '/sysUser/grantRole',
@@ -366,13 +367,17 @@ export function deleGenerate(params: any) {
     params,
   });
 }
+// 获取数据库(上下文定位器)集合
+export function getDatabaseList(params?: any) {
+  return defHttp.get<any>({ url: Api.GetDatabaseList, params });
+}
 // 获取数据库表(实体)集合
-export function getTableList(params?: any) {
-  return defHttp.get<any>({ url: Api.GetTableList, params });
+export function getTableList(dbConfigId: string) {
+  return defHttp.get<any>({ url: Api.GetTableList + '/' + dbConfigId });
 }
 // 根据表名获取列
-export function getColumnList(tableName: string) {
-  return defHttp.get<any>({ url: Api.GetColumnList + '/' + tableName });
+export function getColumnList(dbConfigId: string, tableName: string) {
+  return defHttp.get<any>({ url: Api.GetColumnList + '/' + dbConfigId + '/' + tableName });
 }
 // 本地生成
 export function generateRunLocal(params: any) {
