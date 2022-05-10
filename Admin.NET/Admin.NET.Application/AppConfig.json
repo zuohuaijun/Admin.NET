@@ -2,15 +2,15 @@
   "ConnectionStrings": {
     "DefaultConnection": "DataSource=C:\\db\\Admin.NET.db",
     "DefaultDbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
-    "InitTable": true // 是否生成库表和种子数据
-    //"DbConfigs": [
-    //  {
-    //    "DbConfigId": "Test",
-    //    "DbType": "Sqlite",
-    //    "DbConnection": "DataSource=C:\\db\\Test.db"
-    //  }
-    //]
-  },
+    "InitTable": true, // 是否生成库表和种子数据
+    "DbConfigs": [
+      {
+        "DbConfigId": "Test",
+        "DbType": "Sqlite",
+        "DbConnection": "DataSource=C:\\db\\Test.db"
+      }
+    ]
+},
   "Wechat": {
     //公众号
     "WechatAppId": "",

@@ -32,6 +32,34 @@ namespace Admin.NET.Core
         public string GenerateType { get; set; }
 
         /// <summary>
+        /// 库定位器名
+        /// </summary>
+        [MaxLength(50)]
+        [SugarColumn(ColumnDescription = "库定位器名")]
+        public string DbConfigId { get; set; }
+
+        /// <summary>
+        /// 数据库名(保留字段)
+        /// </summary>
+        [MaxLength(50)]
+        [SugarColumn(ColumnDescription = "数据库库名")]
+        public string DbName { get; set; }
+
+        /// <summary>
+        /// 数据库类型
+        /// </summary>
+        [MaxLength(50)]
+        [SugarColumn(ColumnDescription = "数据库类型")]
+        public string DbType { get; set; }
+
+        /// <summary>
+        /// 数据库链接
+        /// </summary>
+        [MaxLength(200)]
+        [SugarColumn(ColumnDescription = "数据库链接")]
+        public string ConnectionString { get; set; }
+
+        /// <summary>
         /// 数据库表名
         /// </summary>
         [MaxLength(100)]

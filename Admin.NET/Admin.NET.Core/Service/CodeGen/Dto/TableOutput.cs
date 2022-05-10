@@ -6,6 +6,11 @@
     public class TableOutput
     {
         /// <summary>
+        /// 库定位器名
+        /// </summary>
+        public string DbConfigId { get; set; }
+
+        /// <summary>
         /// 表名（字母形式的）
         /// </summary>
         public string TableName { get; set; }
