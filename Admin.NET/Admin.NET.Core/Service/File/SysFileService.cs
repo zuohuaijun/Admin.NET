@@ -8,10 +8,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using OnceMi.AspNetCore.OSS;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
+using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -160,7 +163,14 @@ namespace Admin.NET.Core.Service
         {
             if (file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
 
-            string path = _uploadOptions.Path;
+            var path = _uploadOptions.Path;
+            Regex reg = new Regex(@"(\{.+?})");
+            var match = reg.Matches(path);
+            match.ToList().ForEach(a =>
+            {
+                var str = DateTime.Now.ToString(a.ToString().Substring(1, a.Length - 2));
+                path = path.Replace(a.ToString(), str);
+            });
 
             if (!_uploadOptions.ContentType.Contains(file.ContentType))
                 throw Oops.Oh(ErrorCodeEnum.D8001);

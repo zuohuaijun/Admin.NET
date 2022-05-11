@@ -39,7 +39,7 @@
     "WorkerId": 5 // 取值范围0~63,默认1
   },
   "Upload": {
-    "Path": "Upload",
+    "Path": "upload/{yyyy}/{MM}/{dd}", //文件上传目录
     "MaxSize": 1048576,
     "ContentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif", "image/bmp", "text/plain", "application/pdf", "application/msword", "application/vnd.ms-excel", "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ]
   },
