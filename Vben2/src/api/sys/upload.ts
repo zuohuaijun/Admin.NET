@@ -3,7 +3,7 @@ import { defHttp } from '/@/utils/http/axios';
 import { UploadFileParams } from '/#/axios';
 import { useGlobSetting } from '/@/hooks/setting';
 
-const { uploadUrl = '' } = useGlobSetting();
+const { apiUrl = '' } = useGlobSetting();
 
 /**
  * @description: Upload interface
@@ -14,7 +14,7 @@ export function uploadApi(
 ) {
   return defHttp.uploadFile<UploadApiResult>(
     {
-      url: uploadUrl,
+      url: apiUrl,
       onUploadProgress,
     },
     params,
@@ -28,7 +28,7 @@ export function uploadFileApi(
 ) {
   return defHttp.uploadFile<UploadApiResult>(
     {
-      url: uploadUrl + '/sysFile/upload',
+      url: apiUrl + '/sysFile/upload',
       onUploadProgress,
     },
     params,
@@ -42,7 +42,7 @@ export function uploadFileApi_sign(
 ) {
   return defHttp.uploadFile<UploadApiResult>(
     {
-      url: uploadUrl + '/personSign/import',
+      url: apiUrl + '/personSign/import',
       onUploadProgress,
     },
     params,
