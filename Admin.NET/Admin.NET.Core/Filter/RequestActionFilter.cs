@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System.Diagnostics;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using UAParser;
@@ -27,6 +28,12 @@ namespace Admin.NET.Core
 
         public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
         {
+            //判断是否需有禁用操作日志属性
+            if (context.ActionDescriptor.EndpointMetadata.Any(m => m.GetType() == typeof(NotLogAttribute)))
+            {
+                await next();
+                return;
+            }
             var sw = new Stopwatch();
             sw.Start();
             var actionContext = await next();

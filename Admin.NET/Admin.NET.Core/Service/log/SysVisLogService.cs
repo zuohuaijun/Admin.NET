@@ -24,6 +24,7 @@ namespace Admin.NET.Core.Service
         /// </summary>
         /// <returns></returns>
         [HttpGet("/sysVisLog/pageList")]
+        [NotLog]
         public async Task<SqlSugarPagedList<SysLogVis>> GetVisLogList([FromQuery] PageLogInput input)
         {
             return await _sysVisLogRep.AsQueryable()

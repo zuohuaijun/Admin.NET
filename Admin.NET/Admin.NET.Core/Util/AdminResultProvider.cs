@@ -93,7 +93,7 @@ namespace Admin.NET.Core
             return new AdminResult<object>
             {
                 Code = statusCode,
-                Message = JSON.Serialize(errors),
+                Message = errors,
                 Result = data,
                 Type = succeeded ? "success" : "error",
                 Extras = UnifyContext.Take(),
@@ -121,7 +121,7 @@ namespace Admin.NET.Core
         /// <summary>
         /// 错误信息
         /// </summary>
-        public string Message { get; set; }
+        public object Message { get; set; }
 
         /// <summary>
         /// 数据

@@ -77,15 +77,22 @@ namespace Admin.NET.Core
                         // 打印SQL语句
                         dbProvider.Aop.OnLogExecuting = (sql, pars) =>
                         {
-                            if (sql.StartsWith("SELECT"))
-                                Console.ForegroundColor = ConsoleColor.Green;
-                            if (sql.StartsWith("UPDATE") || sql.StartsWith("INSERT"))
-                                Console.ForegroundColor = ConsoleColor.White;
-                            if (sql.StartsWith("DELETE"))
-                                Console.ForegroundColor = ConsoleColor.Blue;
+                            //if (sql.StartsWith("SELECT"))
+                            //    Console.ForegroundColor = ConsoleColor.Green;
+                            //if (sql.StartsWith("UPDATE") || sql.StartsWith("INSERT"))
+                            //    Console.ForegroundColor = ConsoleColor.White;
+                            //if (sql.StartsWith("DELETE"))
+                            //    Console.ForegroundColor = ConsoleColor.Blue;
 
-                            Console.WriteLine(sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+                            //Console.WriteLine(sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
                             App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+                        };
+                        dbProvider.Aop.OnError = (ex) =>
+                        {
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
+                            Console.WriteLine($"{ex.Message}{Environment.NewLine}{ex.Sql}{Environment.NewLine}{pars}{Environment.NewLine}");
+                            App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
                         };
 
                         // 数据审计
