@@ -2320,6 +2320,34 @@
             logo显示
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.NewtonsoftJsonSerializerProvider">
+            <summary>
+            自定义序列化提供器Newtonsoft
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.NewtonsoftJsonSerializerProvider.Serialize(System.Object,System.Object)">
+            <summary>        
+            序列化对象        
+            </summary>        
+            <param name="value"></param>        
+            <param name="jsonSerializerOptions"></param>        
+            <returns></returns>        
+        </member>
+        <member name="M:Admin.NET.Core.NewtonsoftJsonSerializerProvider.Deserialize``1(System.String,System.Object)">
+            <summary>        
+            反序列化字符串        
+            </summary>        
+            <typeparam name="T"></typeparam>        
+            <param name="json"></param>        
+            <param name="jsonSerializerOptions"></param>        
+            <returns></returns>        
+        </member>
+        <member name="M:Admin.NET.Core.NewtonsoftJsonSerializerProvider.GetSerializerOptions">
+            <summary>        
+            返回读取全局配置的 JSON 选项        
+            </summary>        
+            <returns></returns>        
+        </member>
         <member name="T:Admin.NET.Core.ObjectExtension">
             <summary>
             对象拓展类

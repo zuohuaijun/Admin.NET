@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
 using Serilog;
 using System.Text.Encodings.Web;
@@ -38,16 +40,18 @@ namespace Admin.NET.Web.Core
             services.AddTaskScheduler();
 
             services.AddControllersWithViews()
-                .AddMvcFilter<RequestActionFilter>()
-                .AddJsonOptions(options =>
-                {
-                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase; // 响应驼峰命名
-                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true; // 忽略大小写
-                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; // 忽略循环引用
-                    options.JsonSerializerOptions.Converters.AddDateFormatString("yyyy-MM-dd HH:mm:ss"); // 时间格式化
-                    options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All); // 中文编码
-                })
-                .AddInjectWithUnifyResult<AdminResultProvider>();
+               .AddMvcFilter<RequestActionFilter>()
+               .AddNewtonsoftJson(options =>
+               {
+                    // 首字母小写(驼峰样式)
+                   options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    // 时间格式化
+                   options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                    // 忽略循环引用
+                   options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    // 忽略空值
+                    // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+               }).AddInjectWithUnifyResult<AdminResultProvider>();
 
             // 注册日志事件订阅者(支持自定义消息队列组件)
             services.AddEventBus(builder =>
