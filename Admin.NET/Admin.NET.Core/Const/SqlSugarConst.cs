@@ -17,16 +17,10 @@ namespace Admin.NET.Core
         /// 默认表主键
         /// </summary>
         public const string PrimaryKey = "Id";
-    }
 
-    /// <summary>
-    /// SqlSugar数据库链接集合(多库代码生成用)
-    /// </summary>
-    public class SqlSugarDb
-    {
         /// <summary>
-        /// SqlSugar数据库链接集合
+        /// SqlSugar数据库链接集合(多库代码生成用)
         /// </summary>
-        public static List<ConnectionConfig> connectionConfigs = new List<ConnectionConfig>();
+        public static List<ConnectionConfig> ConnectionConfigs = new List<ConnectionConfig>();
     }
 }

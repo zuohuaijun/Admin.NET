@@ -10,7 +10,7 @@
         "DbConnection": "DataSource=C:\\db\\Test.db"
       }
     ]
-},
+  },
   "Wechat": {
     //公众号
     "WechatAppId": "",

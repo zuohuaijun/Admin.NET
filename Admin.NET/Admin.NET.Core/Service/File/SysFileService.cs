@@ -163,7 +163,7 @@ namespace Admin.NET.Core.Service
         {
             if (file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
 
-            var path = _uploadOptions.Path;
+            string path = _uploadOptions.Path;
             Regex reg = new Regex(@"(\{.+?})");
             var match = reg.Matches(path);
             match.ToList().ForEach(a =>

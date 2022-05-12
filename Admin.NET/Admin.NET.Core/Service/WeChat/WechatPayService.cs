@@ -78,6 +78,7 @@ namespace Admin.NET.Core.Service
                 AppId = _wechatPayOptions.AppId,
                 Description = input.Description,
                 Attachment = input.Attachment,
+                GoodsTag = input.GoodsTag,
                 ExpireTime = DateTimeOffset.Now.AddMinutes(10),
                 NotifyUrl = _payCallBackOptions.WechatPayUrl,
                 Amount = new CreatePayTransactionJsapiRequest.Types.Amount() { Total = input.Total },
@@ -94,6 +95,7 @@ namespace Admin.NET.Core.Service
                 OutTradeNumber = request.OutTradeNumber,
                 Description = input.Description,
                 Attachment = input.Attachment,
+                GoodsTag = input.GoodsTag,
                 Total = input.Total,
                 OpenId = input.OpenId
             };

@@ -128,9 +128,8 @@ namespace Admin.NET.Core.Service.CodeGen
         [HttpGet("codeGenerate/DatabaseList")]
         public async Task<List<DatabaseOutput>> GetDatabaseList()
         {
-            List<ConnectionConfig> list = SqlSugarDb.connectionConfigs;
             var result = new List<DatabaseOutput>();
-            foreach (var item in list)
+            foreach (var item in SqlSugarConst.ConnectionConfigs)
             {
                 result.Add(new DatabaseOutput()
                 {
@@ -141,7 +140,6 @@ namespace Admin.NET.Core.Service.CodeGen
             }
             return await Task.FromResult(result);
         }
-
 
         /// <summary>
         /// 获取数据库表(实体)集合

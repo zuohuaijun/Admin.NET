@@ -1,11 +1,7 @@
 ﻿using Admin.NET.Application.Const;
 using Admin.NET.Core;
 using SqlSugar;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Admin.NET.Application.Entity
 {
@@ -20,10 +16,12 @@ namespace Admin.NET.Application.Entity
         /// 名称
         /// </summary>
         public string Name { get; set; }
+
         /// <summary>
         /// 父级
         /// </summary>
         public long ParentId { get; set; }//父级字段
+
         /// <summary>
         /// Child
         /// </summary>

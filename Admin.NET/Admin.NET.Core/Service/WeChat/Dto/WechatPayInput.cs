@@ -21,6 +21,11 @@
         /// 附加数据
         /// </summary>
         public string Attachment { get; set; }
+
+        /// <summary>
+        /// 优惠标记
+        /// </summary>
+        public string GoodsTag { get; set; }
     }
 
     public class WechatPayParaInput

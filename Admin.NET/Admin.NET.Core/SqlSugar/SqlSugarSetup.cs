@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
@@ -30,8 +29,7 @@ namespace Admin.NET.Core
                 var dbOptions = App.GetOptions<ConnectionStringsOptions>();
                 DealConnectionStr(ref dbOptions); // 处理本地库根目录路径
 
-                // var connectionConfigs = new List<ConnectionConfig>();
-                var connectionConfigs = SqlSugarDb.connectionConfigs; //方便多库生成
+                var connectionConfigs = SqlSugarConst.ConnectionConfigs; // 方便多库生成
                 var configureExternalServices = new ConfigureExternalServices
                 {
                     EntityService = (type, column) => // 修改列可空
@@ -77,14 +75,13 @@ namespace Admin.NET.Core
                         // 打印SQL语句
                         dbProvider.Aop.OnLogExecuting = (sql, pars) =>
                         {
-                            //if (sql.StartsWith("SELECT"))
-                            //    Console.ForegroundColor = ConsoleColor.Green;
-                            //if (sql.StartsWith("UPDATE") || sql.StartsWith("INSERT"))
-                            //    Console.ForegroundColor = ConsoleColor.White;
-                            //if (sql.StartsWith("DELETE"))
-                            //    Console.ForegroundColor = ConsoleColor.Blue;
-
-                            //Console.WriteLine(sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+                            if (sql.StartsWith("SELECT"))
+                                Console.ForegroundColor = ConsoleColor.Green;
+                            if (sql.StartsWith("UPDATE") || sql.StartsWith("INSERT"))
+                                Console.ForegroundColor = ConsoleColor.White;
+                            if (sql.StartsWith("DELETE"))
+                                Console.ForegroundColor = ConsoleColor.Blue;
+                            Console.WriteLine(sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
                             App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
                         };
                         dbProvider.Aop.OnError = (ex) =>
@@ -125,8 +122,8 @@ namespace Admin.NET.Core
                             {
                                 if (entityInfo.PropertyName == "UpdateTime")
                                     entityInfo.SetValue(DateTime.Now);
-                                if (entityInfo.PropertyName == "UpdateUserId" && App.User != null)
-                                    entityInfo.SetValue(App.User.FindFirst(ClaimConst.UserId)?.Value);
+                                if (entityInfo.PropertyName == "UpdateUserId")
+                                    entityInfo.SetValue(App.User?.FindFirst(ClaimConst.UserId)?.Value);
                             }
                         };
 
@@ -165,7 +162,7 @@ namespace Admin.NET.Core
             // 获取所有实体表
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
             && u.IsDefined(typeof(SqlSugarEntityAttribute), false))
-            .OrderByDescending(u => GetSqlSugarEntityOrder(u));
+            .OrderByDescending(u => u.GetSqlSugarEntityOrder());
             if (!entityTypes.Any()) return;
             // 初始化库表结构
             foreach (var entityType in entityTypes)
@@ -205,16 +202,6 @@ namespace Admin.NET.Core
                     storage.AsInsertable.ExecuteCommand();
                 }
             }
-        }
-
-        /// <summary>
-        /// 获取实体排序
-        /// </summary>
-        /// <param name="type">排序类型</param>
-        /// <returns>int</returns>
-        private static int GetSqlSugarEntityOrder(Type type)
-        {
-            return !type.IsDefined(typeof(SqlSugarEntityAttribute), true) ? 0 : type.GetCustomAttribute<SqlSugarEntityAttribute>(true).Order;
         }
 
         /// <summary>
