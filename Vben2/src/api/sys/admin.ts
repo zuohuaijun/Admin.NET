@@ -422,5 +422,5 @@ export const tenantOwnMenuList = (id: number) =>
   defHttp.get<any>({ url: Api.TenantOwnMenuList, params: { id } });
 //重置租户密码
 export function resetTenantPwd(params?: any) {
-  return defHttp.post<any>({ url: Api.ResetTenantPwd, params });
+  return defHttp.post<any>({ url: Api.ResetTenantPwd, params: { id } });
 }
