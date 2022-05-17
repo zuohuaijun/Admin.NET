@@ -11,10 +11,12 @@ namespace Admin.NET.Core.Service
     public class SysRoleMenuService : ITransient
     {
         private readonly SqlSugarRepository<SysRoleMenu> _sysRoleMenuRep;
+        private readonly ISysCacheService _sysCacheService;
 
-        public SysRoleMenuService(SqlSugarRepository<SysRoleMenu> sysRoleMenuRep)
+        public SysRoleMenuService(SqlSugarRepository<SysRoleMenu> sysRoleMenuRep, ISysCacheService sysCacheService)
         {
             _sysRoleMenuRep = sysRoleMenuRep;
+            _sysCacheService = sysCacheService;
         }
 
         /// <summary>
@@ -60,6 +62,10 @@ namespace Admin.NET.Core.Service
                 MenuId = u
             }).ToList();
             await _sysRoleMenuRep.InsertRangeAsync(menus);
+
+            // 清除缓存
+            await _sysCacheService.DelByPatternAsync(CacheConst.KeyMenu);
+            await _sysCacheService.DelByPatternAsync(CacheConst.KeyPermission);
         }
 
         /// <summary>
