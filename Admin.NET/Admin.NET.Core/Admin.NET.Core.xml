@@ -1357,6 +1357,7 @@
             微信商户号
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "P:Admin.NET.Core.WechatPay.AppId" -->
         <member name="P:Admin.NET.Core.WechatPay.OutTradeNumber">
             <summary>
             商户订单号
@@ -1402,6 +1403,11 @@
             支付完成时间
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.WechatPay.ExpireTime">
+            <summary>
+            交易结束时间
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.WechatPay.Description">
             <summary>
             商品描述
@@ -1422,6 +1428,16 @@
             优惠标记
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.WechatPay.Settlement">
+            <summary>
+            结算信息。
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.NotifyUrl">
+            <summary>
+            回调通知地址
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.WechatPay.Remark">
             <summary>
             备注
@@ -1435,6 +1451,21 @@
         <member name="P:Admin.NET.Core.WechatPay.WechatUser">
             <summary>
             关联微信用户
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.SubMerchantId">
+            <summary>
+            子商户号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.SubAppId">
+            <summary>
+            子商户AppId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatPay.SubOpenId">
+            <summary>
+            子商户唯一标识
             </summary>
         </member>
         <member name="T:Admin.NET.Core.WechatUser">
@@ -4505,6 +4536,17 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetAllPermCodeList">
+            <summary>
+            获取所有按钮权限集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.DeleteMenuCache">
+            <summary>
+            清除菜单和按钮缓存
+            </summary>
+        </member>
         <member name="M:Admin.NET.Core.Service.SysMenuService.GetMenuIdList">
             <summary>
             获取当前用户菜单Id集合
@@ -5737,7 +5779,12 @@
         </member>
         <member name="M:Admin.NET.Core.Service.WeChatPayService.CreatePayTransaction(Admin.NET.Core.Service.WechatPayTransactionInput)">
             <summary>
-            微信支付统一下单获取Id
+            微信支付统一下单获取Id(商户直连)
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreatePayPartnerTransaction(Admin.NET.Core.Service.WechatPayTransactionInput)">
+            <summary>
+            微信支付统一下单获取Id(服务商模式)
             </summary>
         </member>
         <member name="M:Admin.NET.Core.Service.WeChatPayService.GetWeChatPayInfo(System.String)">
@@ -5749,7 +5796,13 @@
         </member>
         <member name="M:Admin.NET.Core.Service.WeChatPayService.WeChatPayCallBack">
             <summary>
-            微信支付成功回调(商户平台发来的通知内容)
+            微信支付成功回调(商户直连)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.WeChatPayPartnerCallBack">
+            <summary>
+            微信支付成功回调(服务商模式)
             </summary>
             <returns></returns>
         </member>

@@ -49,24 +49,19 @@ namespace Admin.NET.Web.Core
         private static async Task<bool> CheckAuthorzieAsync(DefaultHttpContext httpContext)
         {
             // 管理员跳过判断
-            if (App.User.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString()) return true;
+            if (App.User.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString())
+                return true;
 
             // 路由名称
-            var routeName = "";
+            var routeName = httpContext.Request.Path.Value[1..].Replace("/", ":");
             if (httpContext.Request.Path.StartsWithSegments("/api"))
-            {
                 routeName = httpContext.Request.Path.Value[5..].Replace("/", ":");
-            }
-            else
-            {
-                routeName = httpContext.Request.Path.Value[1..].Replace("/", ":");
-            }
 
-            // 默认路由(获取登录用户信息)
+            // 默认路由
             var defalutRoute = new List<string>()
             {
-                "getLoginUser",     //登录
-                "sysMenu:change"    //切换顶部菜单
+                "getLoginUser",     // 系统登录接口
+                "sysMenu:change"    // 菜单切换接口
             };
 
             if (defalutRoute.Contains(routeName)) return true;
@@ -75,8 +70,7 @@ namespace Admin.NET.Web.Core
             var permissionList = await App.GetService<SysMenuService>().GetPermCodeList();
             var allPermissionList = await App.GetService<SysMenuService>().GetAllPermCodeList();
 
-            // 检查授权
-            // 菜单中没有配置按钮权限，则不限制
+            // 检查授权（菜单中没有配置按钮权限，则不限制）            
             return permissionList.Exists(p => p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase))
                 || allPermissionList.TrueForAll(p => !p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase));
         }

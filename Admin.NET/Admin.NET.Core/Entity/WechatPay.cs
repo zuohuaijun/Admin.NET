@@ -17,6 +17,10 @@ namespace Admin.NET.Core
         public string MerchantId { get; set; }
 
         /// <summary>
+        /// 服务商AppId
+        public string AppId { get; set; }
+
+        /// <summary>
         /// 商户订单号
         /// </summary>
         [SugarColumn(ColumnDescription = "商户订单号")]
@@ -71,6 +75,12 @@ namespace Admin.NET.Core
         public DateTimeOffset? SuccessTime { get; set; }
 
         /// <summary>
+        /// 交易结束时间
+        /// </summary>
+        [SugarColumn(ColumnDescription = "交易结束时间")]
+        public DateTimeOffset? ExpireTime { get; set; }
+
+        /// <summary>
         /// 商品描述
         /// </summary>
         [SugarColumn(ColumnDescription = "商品描述")]
@@ -95,6 +105,16 @@ namespace Admin.NET.Core
         public string GoodsTag { get; set; }
 
         /// <summary>
+        /// 结算信息。
+        /// </summary>
+        public string Settlement { get; set; }
+
+        /// <summary>
+        /// 回调通知地址
+        /// </summary>
+        public string NotifyUrl { get; set; }
+
+        /// <summary>
         /// 备注
         /// </summary>
         [SugarColumn(ColumnDescription = "备注")]
@@ -111,5 +131,23 @@ namespace Admin.NET.Core
         /// </summary>
         [SugarColumn(IsIgnore = true)]
         public WechatUser WechatUser { get; set; }
+
+        /// <summary>
+        /// 子商户号
+        /// </summary>
+        public string SubMerchantId { get; set; }
+
+        /// <summary>
+        /// 子商户AppId
+        /// </summary>
+        [Newtonsoft.Json.JsonProperty("sub_appid")]
+        [System.Text.Json.Serialization.JsonPropertyName("sub_appid")]
+        public string SubAppId { get; set; }
+
+        /// <summary>
+        /// 子商户唯一标识
+        /// </summary>
+        [SugarColumn(ColumnDescription = "子商户唯一标识")]
+        public string SubOpenId { get; set; }
     }
 }

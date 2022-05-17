@@ -27,3 +27,4 @@ bin-release/
 /Admin.NET/Admin.NET.Web.Entry/wwwroot/Upload
 /App/MedicalPay/unpackage
 /Admin.NET/packages
+/Admin.NET/Admin.NET.Web.Entry/Properties/PublishProfiles/FolderProfile.pubxml.user

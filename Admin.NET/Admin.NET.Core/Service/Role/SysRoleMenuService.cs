@@ -13,7 +13,8 @@ namespace Admin.NET.Core.Service
         private readonly SqlSugarRepository<SysRoleMenu> _sysRoleMenuRep;
         private readonly ISysCacheService _sysCacheService;
 
-        public SysRoleMenuService(SqlSugarRepository<SysRoleMenu> sysRoleMenuRep, ISysCacheService sysCacheService)
+        public SysRoleMenuService(SqlSugarRepository<SysRoleMenu> sysRoleMenuRep,
+            ISysCacheService sysCacheService)
         {
             _sysRoleMenuRep = sysRoleMenuRep;
             _sysCacheService = sysCacheService;

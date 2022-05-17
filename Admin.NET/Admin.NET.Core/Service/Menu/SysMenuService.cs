@@ -25,8 +25,7 @@ namespace Admin.NET.Core.Service
             IUserManager userManager,
             SysRoleMenuService sysRoleMenuService,
             SysUserRoleService sysUserRoleService,
-            ISysCacheService sysCacheService
-            )
+            ISysCacheService sysCacheService)
         {
             _sysMenuRep = sysMenuRep;
             _userManager = userManager;
@@ -104,8 +103,7 @@ namespace Admin.NET.Core.Service
             await _sysMenuRep.InsertAsync(menu);
 
             // 清除缓存
-            await _sysCacheService.DelByPatternAsync(CacheConst.KeyMenu);
-            await _sysCacheService.DelByPatternAsync(CacheConst.KeyPermission);
+            DeleteMenuCache();
         }
 
         /// <summary>
@@ -127,8 +125,7 @@ namespace Admin.NET.Core.Service
             await _sysMenuRep.AsUpdateable(menu).IgnoreColumns(true).ExecuteCommandAsync();
 
             // 清除缓存
-            await _sysCacheService.DelByPatternAsync(CacheConst.KeyMenu);
-            await _sysCacheService.DelByPatternAsync(CacheConst.KeyPermission);
+            DeleteMenuCache();
         }
 
         /// <summary>
@@ -149,8 +146,7 @@ namespace Admin.NET.Core.Service
             await _sysRoleMenuService.DeleteRoleMenuByMenuIdList(menuIdList);
 
             // 清除缓存
-            await _sysCacheService.DelByPatternAsync(CacheConst.KeyMenu);
-            await _sysCacheService.DelByPatternAsync(CacheConst.KeyPermission);
+            DeleteMenuCache();
         }
 
         /// <summary>
@@ -190,14 +186,14 @@ namespace Admin.NET.Core.Service
             {
                 if (_userManager.SuperAdmin)
                 {
-                    permissions= await _sysMenuRep.AsQueryable()
+                    permissions = await _sysMenuRep.AsQueryable()
                         .Where(u => u.Type == MenuTypeEnum.Btn)
                         .Select(u => u.Permission).ToListAsync();
                 }
                 else
                 {
                     var menuIdList = await GetMenuIdList();
-                    permissions= await _sysMenuRep.AsQueryable()
+                    permissions = await _sysMenuRep.AsQueryable()
                         .Where(u => u.Type == MenuTypeEnum.Btn)
                         .Where(u => menuIdList.Contains(u.Id))
                         .Select(u => u.Permission).ToListAsync();
@@ -207,6 +203,10 @@ namespace Admin.NET.Core.Service
             return permissions;
         }
 
+        /// <summary>
+        /// 获取所有按钮权限集合
+        /// </summary>
+        /// <returns></returns>
         [NonAction]
         public async Task<List<string>> GetAllPermCodeList()
         {
@@ -219,6 +219,15 @@ namespace Admin.NET.Core.Service
                 await _sysCacheService.SetPermission(0, permissions); // 缓存结果
             }
             return permissions;
+        }
+
+        /// <summary>
+        /// 清除菜单和按钮缓存
+        /// </summary>
+        private async void DeleteMenuCache()
+        {
+            await _sysCacheService.DelByPatternAsync(CacheConst.KeyMenu);
+            await _sysCacheService.DelByPatternAsync(CacheConst.KeyPermission);
         }
 
         /// <summary>
