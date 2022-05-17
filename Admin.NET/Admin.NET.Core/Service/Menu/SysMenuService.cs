@@ -166,7 +166,7 @@ namespace Admin.NET.Core.Service
         /// </summary>
         /// <returns></returns>
         [HttpGet("getPermCode")]
-        public async Task<dynamic> GetPermCodeList()
+        public async Task<List<string>> GetPermCodeList()
         {
             if (_userManager.SuperAdmin)
             {
@@ -182,6 +182,14 @@ namespace Admin.NET.Core.Service
                     .Where(u => menuIdList.Contains(u.Id))
                     .Select(u => u.Permission).ToListAsync();
             }
+        }
+
+        [NonAction]
+        public async Task<List<string>> GetAllPermCodeList()
+        {
+            return await _sysMenuRep.AsQueryable()
+                    .Where(u => u.Type == MenuTypeEnum.Btn)
+                    .Select(u => u.Permission).ToListAsync();
         }
 
         /// <summary>

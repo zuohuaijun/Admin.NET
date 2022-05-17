@@ -1,9 +1,11 @@
 ﻿using Admin.NET.Core;
+using Admin.NET.Core.Service;
 using Furion;
 using Furion.Authorization;
 using Furion.DataEncryption;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Admin.NET.Web.Core
@@ -46,14 +48,37 @@ namespace Admin.NET.Web.Core
         /// <returns></returns>
         private static async Task<bool> CheckAuthorzieAsync(DefaultHttpContext httpContext)
         {
-            //// 管理员跳过判断
-            //var userManager = App.GetService<UserManager>();
-            //if (userManager.SuperAdmin) return true;
+            // 管理员跳过判断
+            if (App.User.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString()) return true;
 
-            //// 路由名称
-            //var routeName = httpContext.Request.Path.Value[1..].Replace("/", ":");
+            // 路由名称
+            var routeName = "";
+            if (httpContext.Request.Path.StartsWithSegments("/api"))
+            {
+                routeName = httpContext.Request.Path.Value[5..].Replace("/", ":");
+            }
+            else
+            {
+                routeName = httpContext.Request.Path.Value[1..].Replace("/", ":");
+            }
 
-            return await Task.FromResult(true);
+            // 默认路由(获取登录用户信息)
+            var defalutRoute = new List<string>()
+            {
+                "getLoginUser",     //登录
+                "sysMenu:change"    //切换顶部菜单
+            };
+
+            if (defalutRoute.Contains(routeName)) return true;
+
+            // 获取用户权限集合（按钮或API接口）
+            var permissionList = await App.GetService<SysMenuService>().GetPermCodeList();
+            var allPermissionList = await App.GetService<SysMenuService>().GetAllPermCodeList();
+
+            // 检查授权
+            // 菜单中没有配置按钮权限，则不限制
+            return permissionList.Exists(p => p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase))
+                || allPermissionList.TrueForAll(p => !p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase));
         }
     }
 }
