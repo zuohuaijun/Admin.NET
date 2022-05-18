@@ -1,4 +1,4 @@
-﻿using Admin.NET.Core.Service;
+using Admin.NET.Core.Service;
 using Furion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -306,7 +306,7 @@ namespace Admin.NET.Core
         private static string UpdateDbPath(string dbConnection)
         {
             var file = Path.GetFileName(dbConnection.Replace("DataSource=", ""));
-            return $"DataSource={Environment.CurrentDirectory.Replace(@"\bin\Debug", "")}\\{file}";
+            return $"DataSource={Environment.CurrentDirectory.Replace(@"\bin\Debug", "")}/{file}";
         }
     }
 }
