@@ -13,6 +13,7 @@ enum Api {
   SetUserStatus = '/sysUser/setStatus',
   GrantUserRole = '/sysUser/grantRole',
   GrantUserOrg = '/sysUser/grantOrg',
+  ChangeUserPwd = '/sysUser/changeUserPwd',
   ResetUserPwd = '/sysUser/resetPwd',
   UserOwnRoleList = '/sysUser/ownRole',
   UserOwnOrgList = '/sysUser/ownOrg',
@@ -152,6 +153,8 @@ export const grantUserRole = (params: any) => defHttp.post({ url: Api.GrantUserR
 export const grantUserOrg = (params: any) => defHttp.post({ url: Api.GrantUserOrg, params });
 // 重置账号密码
 export const resetUserPwd = (id: number) => defHttp.post({ url: Api.ResetUserPwd, params: { id } });
+// 修改账号密码
+export const changeUserPwd = (params: any) => defHttp.post({ url: Api.ChangeUserPwd, params });
 
 ////////// 角色管理接口 //////////
 // 获取角色分页列表
@@ -421,6 +424,6 @@ export function grantTenantMenu(params?: any) {
 export const tenantOwnMenuList = (id: number) =>
   defHttp.get<any>({ url: Api.TenantOwnMenuList, params: { id } });
 //重置租户密码
-export function resetTenantPwd(params?: any) {
+export function resetTenantPwd(id: number) {
   return defHttp.post<any>({ url: Api.ResetTenantPwd, params: { id } });
 }

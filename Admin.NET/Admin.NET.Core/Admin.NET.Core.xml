@@ -1357,7 +1357,11 @@
             微信商户号
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:Admin.NET.Core.WechatPay.AppId" -->
+        <member name="P:Admin.NET.Core.WechatPay.AppId">
+            <summary>
+            服务商AppId
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.WechatPay.OutTradeNumber">
             <summary>
             商户订单号
@@ -5415,12 +5419,12 @@
             机构Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.UpdatePwdUserInput.OldPassword">
+        <member name="P:Admin.NET.Core.Service.ChangePwdInput.PasswordOld">
             <summary>
-            原始密码
+            当前密码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.UpdatePwdUserInput.NewPassword">
+        <member name="P:Admin.NET.Core.Service.ChangePwdInput.PasswordNew">
             <summary>
             新密码
             </summary>
@@ -5645,7 +5649,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateUserPwd(Admin.NET.Core.Service.UpdatePwdUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.ChangeUserPwd(Admin.NET.Core.Service.ChangePwdInput)">
             <summary>
             修改用户密码
             </summary>

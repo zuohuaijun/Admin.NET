@@ -53,6 +53,7 @@ namespace Admin.NET.Core
                 new SysMenu{ Id=252885263003772, Pid=252885263003770, Title="职位编辑", Permission="sysPos:update", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
                 new SysMenu{ Id=252885263003773, Pid=252885263003770, Title="职位增加", Permission="sysPos:add", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
                 new SysMenu{ Id=252885263003774, Pid=252885263003770, Title="职位删除", Permission="sysPos:delete", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
+                new SysMenu{ Id=252885263003775, Pid=252885263003720, Title="修改密码", Path="password", Name="PasswordManagement", Component="/sys/admin/password/index",Icon="ant-design:eye-outlined", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
 
                 new SysMenu{ Id=252885263003780, Pid=0, Title="平台管理", Path="/platform", Name="platform", Component="LAYOUT", Redirect="", Icon="ant-design:ant-design-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=200 },
                 new SysMenu{ Id=252885263003790, Pid=252885263003780, Title="租户管理", Path="tenant", Name="TenantManagement", Component="/sys/admin/tenant/index", Icon="ant-design:cluster-outlined", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },

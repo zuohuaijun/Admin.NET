@@ -196,13 +196,13 @@ namespace Admin.NET.Core.Service
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        [HttpPost("/sysUser/updatePwd")]
-        public async Task<int> UpdateUserPwd(UpdatePwdUserInput input)
+        [HttpPost("/sysUser/changeUserPwd")]
+        public async Task<int> ChangeUserPwd(ChangePwdInput input)
         {
-            var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
-            if (MD5Encryption.Encrypt(input.OldPassword) != user.Password)
+            var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
+            if (MD5Encryption.Encrypt(input.PasswordOld) != user.Password)
                 throw Oops.Oh(ErrorCodeEnum.D1004);
-            user.Password = MD5Encryption.Encrypt(input.NewPassword);
+            user.Password = MD5Encryption.Encrypt(input.PasswordNew);
             return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
         }
 

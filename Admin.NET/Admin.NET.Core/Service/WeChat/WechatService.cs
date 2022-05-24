@@ -101,7 +101,7 @@ namespace Admin.NET.Core.Service
                 wxUser.Avatar,
                 accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
                 {
-                    { ClaimConst.UserId, wxUser.Id },                    
+                    { ClaimConst.UserId, wxUser.Id },
                     { ClaimConst.OpenId, wxUser.OpenId },
                     { ClaimConst.RealName, wxUser.NickName },
                 })

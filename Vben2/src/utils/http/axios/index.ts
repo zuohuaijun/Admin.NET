@@ -153,7 +153,7 @@ const transform: AxiosTransform = {
    * @description: 响应拦截器处理
    */
   responseInterceptors: (res: AxiosResponse<any>) => {
-    checkStatus(res.data.code, res.data.message);
+    // checkStatus(res.data.code, res.data.message);
     return res;
   },
 

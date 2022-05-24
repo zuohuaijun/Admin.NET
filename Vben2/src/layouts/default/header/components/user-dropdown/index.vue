@@ -17,6 +17,7 @@
           icon="ion:document-text-outline"
           v-if="getShowDoc"
         /> -->
+        <MenuItem key="password" :text="t('修改密码')" icon="ant-design:eye-outlined" />
         <MenuDivider v-if="getShowDoc" />
         <MenuItem
           v-if="getUseLockPage"
@@ -51,10 +52,11 @@
   import headerImg from '/@/assets/images/header.jpg';
   import { propTypes } from '/@/utils/propTypes';
   import { openWindow } from '/@/utils';
+  import { useGo } from '/@/hooks/web/usePage';
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
 
-  type MenuEvent = 'logout' | 'doc' | 'lock';
+  type MenuEvent = 'logout' | 'doc' | 'lock' | 'password';
 
   export default defineComponent({
     name: 'UserDropdown',
@@ -69,6 +71,7 @@
       theme: propTypes.oneOf(['dark', 'light']),
     },
     setup() {
+      const go = useGo();
       const { prefixCls } = useDesign('header-user-dropdown');
       const { t } = useI18n();
       const { getShowDoc, getUseLockPage } = useHeaderSetting();
@@ -95,6 +98,11 @@
         openWindow(DOC_URL);
       }
 
+      // 修改密码
+      function openPassword() {
+        go('/sys/password');
+      }
+
       function handleMenuClick(e: { key: MenuEvent }) {
         switch (e.key) {
           case 'logout':
@@ -105,6 +113,9 @@
             break;
           case 'lock':
             handleLock();
+            break;
+          case 'password':
+            openPassword();
             break;
         }
       }

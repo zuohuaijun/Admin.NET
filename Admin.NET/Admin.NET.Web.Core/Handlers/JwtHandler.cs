@@ -70,7 +70,7 @@ namespace Admin.NET.Web.Core
             var permissionList = await App.GetService<SysMenuService>().GetPermCodeList();
             var allPermissionList = await App.GetService<SysMenuService>().GetAllPermCodeList();
 
-            // 检查授权（菜单中没有配置按钮权限，则不限制）            
+            // 检查授权（菜单中没有配置按钮权限，则不限制）
             return permissionList.Exists(p => p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase))
                 || allPermissionList.TrueForAll(p => !p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase));
         }

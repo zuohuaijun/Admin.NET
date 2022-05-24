@@ -7,7 +7,7 @@ namespace Admin.NET.UnitTest
 {
     public class SqlSugarTest
     {
-        private TestService testService;
+        private readonly TestService testService;
 
         public SqlSugarTest()
         {

@@ -7,7 +7,8 @@
       {
         "DbConfigId": "Test",
         "DbType": "Sqlite",
-        "DbConnection": "DataSource=C:\\db\\Test.db"
+        "DbConnection": "DataSource=C:\\db\\Test.db",
+        "InitTable": true
       }
     ]
   },

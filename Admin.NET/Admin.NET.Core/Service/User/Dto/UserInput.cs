@@ -157,19 +157,19 @@ namespace Admin.NET.Core.Service
     {
     }
 
-    public class UpdatePwdUserInput : BaseIdInput
+    public class ChangePwdInput
     {
         /// <summary>
-        /// 原始密码
+        /// 当前密码
         /// </summary>
-        [Required(ErrorMessage = "原始密码不能为空")]
-        public string OldPassword { get; set; }
+        [Required(ErrorMessage = "当前密码不能为空")]
+        public string PasswordOld { get; set; }
 
         /// <summary>
         /// 新密码
         /// </summary>
         [Required(ErrorMessage = "原始密码不能为空")]
-        [StringLength(50, MinimumLength = 5, ErrorMessage = "密码需要大于5个字符")]
-        public string NewPassword { get; set; }
+        [StringLength(20, MinimumLength = 5, ErrorMessage = "密码需要大于5个字符")]
+        public string PasswordNew { get; set; }
     }
 }

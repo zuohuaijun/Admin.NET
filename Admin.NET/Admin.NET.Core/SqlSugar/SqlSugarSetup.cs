@@ -1,4 +1,4 @@
-using Admin.NET.Core.Service;
+﻿using Admin.NET.Core.Service;
 using Furion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

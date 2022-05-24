@@ -18,6 +18,7 @@ namespace Admin.NET.Core
 
         /// <summary>
         /// 服务商AppId
+        /// </summary>
         public string AppId { get; set; }
 
         /// <summary>

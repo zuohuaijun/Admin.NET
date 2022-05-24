@@ -18,17 +18,17 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Caching.CSRedis" Version="3.6.90" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="3.2.2" />
-    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="3.2.2" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="3.2.2" />
-    <PackageReference Include="Furion.Pure" Version="3.2.2" />
+    <PackageReference Include="Caching.CSRedis" Version="3.8.1" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="3.3.0" />
+    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="3.3.0" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="3.3.0" />
+    <PackageReference Include="Furion.Pure" Version="3.3.0" />
     <PackageReference Include="Magicodes.IE.Excel" Version="2.6.4" />
     <PackageReference Include="MySql.Data" Version="8.0.29" />
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.5" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" Version="2.14.0" />
-    <PackageReference Include="SKIT.FlurlHttpClient.Wechat.TenpayV3" Version="2.8.0" />
-    <PackageReference Include="SqlSugarCore" Version="5.0.8.1" />
+    <PackageReference Include="SKIT.FlurlHttpClient.Wechat.TenpayV3" Version="2.9.0" />
+    <PackageReference Include="SqlSugarCore" Version="5.0.8.3" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.18" />
     <PackageReference Include="UAParser" Version="3.1.47" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.12" />
