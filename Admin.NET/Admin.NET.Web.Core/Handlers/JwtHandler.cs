@@ -48,7 +48,11 @@ namespace Admin.NET.Web.Core
         /// <returns></returns>
         private static async Task<bool> CheckAuthorzieAsync(DefaultHttpContext httpContext)
         {
-            // 管理员跳过判断
+            // 三方授权模式
+            if (App.User.FindFirst(ClaimConst.RunMode)?.Value == ((int)RunModeEnum.OpenID).ToString())
+                return true;
+
+            // 管理员判断
             if (App.User.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString())
                 return true;
 

@@ -168,7 +168,17 @@
         </member>
         <member name="F:Admin.NET.Core.ClaimConst.OpenId">
             <summary>
-            微信标识OpenId
+            微信OpenId
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.RunMode">
+            <summary>
+            运行模式（账号和三方授权）
             </summary>
         </member>
         <member name="T:Admin.NET.Core.CommonConst">
@@ -2235,6 +2245,21 @@
         <member name="F:Admin.NET.Core.RoleTypeEnum.Store">
             <summary>
             门店角色
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.RunModeEnum">
+            <summary>
+            运行模式枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RunModeEnum.Account">
+            <summary>
+            账号模式
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.RunModeEnum.OpenID">
+            <summary>
+            三方授权
             </summary>
         </member>
         <member name="T:Admin.NET.Core.StatusEnum">
@@ -5744,6 +5769,26 @@
         <member name="P:Admin.NET.Core.Service.WechatPayParaInput.PrepayId">
             <summary>
             订单Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatPayOutput.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatPayOutput.Total">
+            <summary>
+            订单金额
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatPayOutput.Attachment">
+            <summary>
+            附加数据
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WechatPayOutput.GoodsTag">
+            <summary>
+            优惠标记
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.WeChatApiHttpClient">

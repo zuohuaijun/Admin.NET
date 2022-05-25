@@ -92,18 +92,16 @@ namespace Admin.NET.Core.Service
         {
             var wxUser = await _wechatUserRep.GetFirstAsync(p => p.OpenId == input.OpenId);
             if (wxUser == null)
-                throw Oops.Oh("微信用户不存在");
+                throw Oops.Oh("微信登录");
             return new
             {
-                wxUser.Id,
-                wxUser.OpenId,
-                wxUser.NickName,
                 wxUser.Avatar,
                 accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
                 {
                     { ClaimConst.UserId, wxUser.Id },
                     { ClaimConst.OpenId, wxUser.OpenId },
-                    { ClaimConst.RealName, wxUser.NickName },
+                    { ClaimConst.NickName, wxUser.NickName },
+                    { ClaimConst.RunMode, RunModeEnum.OpenID },
                 })
             };
         }

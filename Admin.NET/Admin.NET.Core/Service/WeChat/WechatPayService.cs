@@ -25,7 +25,7 @@ namespace Admin.NET.Core.Service
         private readonly SqlSugarRepository<WechatPay> _wechatPayUserRep;
 
         private readonly WechatPayOptions _wechatPayOptions;
-        private readonly WechatTenpayClient _wechatTenpayClient;
+        public readonly WechatTenpayClient WechatTenpayClient;
         private readonly PayCallBackOptions _payCallBackOptions;
 
         public WeChatPayService(SqlSugarRepository<WechatPay> wechatPayUserRep,
@@ -34,7 +34,7 @@ namespace Admin.NET.Core.Service
         {
             _wechatPayUserRep = wechatPayUserRep;
             _wechatPayOptions = wechatPayOptions.Value;
-            _wechatTenpayClient = CreateTenpayClient();
+            WechatTenpayClient = CreateTenpayClient();
             _payCallBackOptions = payCallBackOptions.Value;
         }
 
@@ -63,7 +63,7 @@ namespace Admin.NET.Core.Service
         [HttpPost("/weChatPay/genPayPara")]
         public dynamic GenerateParametersForJsapiPay(WechatPayParaInput input)
         {
-            return _wechatTenpayClient.GenerateParametersForJsapiPayRequest(_wechatPayOptions.AppId, input.PrepayId);
+            return WechatTenpayClient.GenerateParametersForJsapiPayRequest(_wechatPayOptions.AppId, input.PrepayId);
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Admin.NET.Core.Service
                 Amount = new CreatePayTransactionJsapiRequest.Types.Amount() { Total = input.Total },
                 Payer = new CreatePayTransactionJsapiRequest.Types.Payer() { OpenId = input.OpenId }
             };
-            var response = await _wechatTenpayClient.ExecuteCreatePayTransactionJsapiAsync(request);
+            var response = await WechatTenpayClient.ExecuteCreatePayTransactionJsapiAsync(request);
             if (!response.IsSuccessful())
                 throw Oops.Oh(response.ErrorMessage);
 
@@ -129,7 +129,7 @@ namespace Admin.NET.Core.Service
                 Amount = new CreatePayPartnerTransactionJsapiRequest.Types.Amount() { Total = input.Total },
                 Payer = new CreatePayPartnerTransactionJsapiRequest.Types.Payer() { OpenId = input.OpenId }
             };
-            var response = await _wechatTenpayClient.ExecuteCreatePayPartnerTransactionJsapiAsync(request);
+            var response = await WechatTenpayClient.ExecuteCreatePayPartnerTransactionJsapiAsync(request);
             if (!response.IsSuccessful())
                 throw Oops.Oh(response.ErrorMessage);
 
@@ -173,22 +173,22 @@ namespace Admin.NET.Core.Service
         /// <returns></returns>
         [HttpPost("/notify/weChatPay/payCallBack")]
         [AllowAnonymous]
-        public async Task WeChatPayCallBack()
+        public async Task<WechatPayOutput> WeChatPayCallBack()
         {
             using var ms = new MemoryStream();
             await App.HttpContext.Request.Body.CopyToAsync(ms);
             var b = ms.ToArray();
             var callbackJson = Encoding.UTF8.GetString(b);
 
-            var callbackModel = _wechatTenpayClient.DeserializeEvent(callbackJson);
+            var callbackModel = WechatTenpayClient.DeserializeEvent(callbackJson);
             if ("TRANSACTION.SUCCESS".Equals(callbackModel.EventType))
             {
-                var callbackResource = _wechatTenpayClient.DecryptEventResource<TransactionResource>(callbackModel);
+                var callbackResource = WechatTenpayClient.DecryptEventResource<TransactionResource>(callbackModel);
 
                 // 修改订单支付状态
                 var wechatPay = await _wechatPayUserRep.GetFirstAsync(u => u.OutTradeNumber == callbackResource.OutTradeNumber
                     && u.MerchantId == callbackResource.MerchantId);
-                if (wechatPay == null) return;
+                if (wechatPay == null) return null;
                 //wechatPay.OpenId = callbackResource.Payer.OpenId; // 支付者标识
                 //wechatPay.MerchantId = callbackResource.MerchantId; // 微信商户号
                 //wechatPay.OutTradeNumber = callbackResource.OutTradeNumber; // 商户订单号
@@ -202,7 +202,16 @@ namespace Admin.NET.Core.Service
                 wechatPay.SuccessTime = callbackResource.SuccessTime; // 支付完成时间
 
                 await _wechatPayUserRep.AsUpdateable(wechatPay).IgnoreColumns(true).ExecuteCommandAsync();
+
+                return new WechatPayOutput()
+                {
+                    Total = wechatPay.Total,
+                    Attachment = wechatPay.Attachment,
+                    GoodsTag = wechatPay.GoodsTag
+                };
             }
+
+            return null;
         }
 
         /// <summary>
@@ -218,10 +227,10 @@ namespace Admin.NET.Core.Service
             var b = ms.ToArray();
             var callbackJson = Encoding.UTF8.GetString(b);
 
-            var callbackModel = _wechatTenpayClient.DeserializeEvent(callbackJson);
+            var callbackModel = WechatTenpayClient.DeserializeEvent(callbackJson);
             if ("TRANSACTION.SUCCESS".Equals(callbackModel.EventType))
             {
-                var callbackResource = _wechatTenpayClient.DecryptEventResource<PartnerTransactionResource>(callbackModel);
+                var callbackResource = WechatTenpayClient.DecryptEventResource<PartnerTransactionResource>(callbackModel);
 
                 // 修改订单支付状态
                 var wechatPay = await _wechatPayUserRep.GetFirstAsync(u => u.OutTradeNumber == callbackResource.OutTradeNumber

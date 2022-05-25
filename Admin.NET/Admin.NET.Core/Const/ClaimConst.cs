@@ -41,8 +41,18 @@
         public const string OrgName = "OrgName";
 
         /// <summary>
-        /// 微信标识OpenId
+        /// 微信OpenId
         /// </summary>
         public const string OpenId = "OpenId";
+
+        /// <summary>
+        /// 昵称
+        /// </summary>
+        public const string NickName = "NickName";
+
+        /// <summary>
+        /// 运行模式（账号和三方授权）
+        /// </summary>
+        public const string RunMode = "RunMode";
     }
 }
