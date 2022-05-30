@@ -2475,6 +2475,14 @@
             <param name="pi"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Extension.RepositoryExtension.FakeDelete``1(SqlSugar.IUpdateable{``0})">
+            <summary>
+            实体假删除 _rep.Context.Updateable(entity).FakeDelete().ExecuteCommandAsync();
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="updateable"></param>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.LogExceptionHandler">
             <summary>
             全局异常处理

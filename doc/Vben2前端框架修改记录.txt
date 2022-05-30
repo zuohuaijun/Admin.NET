@@ -54,6 +54,13 @@ src\layouts\default\header\index.vue
 src\layouts\default\header\components\user-dropdown\index.vue
 11、Tree组件添加滚动条
 src\components\Tree\src\Tree.vue
+12、改成中文
+Vben2/index.html	
+13、去掉时间戳
+\src\utils\http\axios
+14、解决表格设置不加载列名选项的问题
+/src/components/Table/src/components/settings/ColumnSetting.vue 
+
 
 /////////////////////////////////////////////////////////////////////
 

@@ -12,12 +12,12 @@ namespace Admin.NET.Core
     {
         public SqlSugarRepository(ISqlSugarClient context = null) : base(context) // 默认值等于null不能少
         {
-            base.Context = App.GetService<ISqlSugarClient>(); // 用手动获取方式支持切换仓储
+            base.Context = App.GetService<ISqlSugarClient>(); // 切换仓储
 
-            // 数据库上下文根据实体切换,业务分库(使用环境例如微服务)
+            // 数据库上下文根据实体切换-业务分库(例如微服务环境)
             var entityType = typeof(T);
 
-            //审计日志,获取系统配置需要切库
+            // 审计日志切换数据库
             if (entityType == typeof(SysLogAudit) || entityType == typeof(SysLogEx) || entityType == typeof(SysLogOp) || entityType == typeof(SysLogVis) || entityType == typeof(SysConfig))
             {
                 Context = Context.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId);
@@ -38,7 +38,6 @@ namespace Admin.NET.Core
                     Context.AsTenant().ChangeDatabase(tenantAttribute.configId);
                 }
             }
-            
         }
     }
 }
