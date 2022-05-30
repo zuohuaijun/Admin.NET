@@ -17,19 +17,28 @@ namespace Admin.NET.Core
             // 数据库上下文根据实体切换,业务分库(使用环境例如微服务)
             var entityType = typeof(T);
 
-            // 切换框架数据库
-            if (entityType.IsDefined(typeof(SqlSugarEntityAttribute), false))
+            //审计日志,获取系统配置需要切库
+            if (entityType == typeof(SysLogAudit) || entityType == typeof(SysLogEx) || entityType == typeof(SysLogOp) || entityType == typeof(SysLogVis) || entityType == typeof(SysConfig))
             {
-                var tenantAttribute = entityType.GetCustomAttribute<SqlSugarEntityAttribute>()!;
-                Context.AsTenant().ChangeDatabase(tenantAttribute.DbConfigId);
+                Context = Context.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId);
             }
+            else
+            {
+                // 切换框架数据库
+                if (entityType.IsDefined(typeof(SqlSugarEntityAttribute), false))
+                {
+                    var tenantAttribute = entityType.GetCustomAttribute<SqlSugarEntityAttribute>()!;
+                    Context.AsTenant().ChangeDatabase(tenantAttribute.DbConfigId);
+                }
 
-            // 切换租户数据库
-            if (entityType.IsDefined(typeof(TenantAttribute), false))
-            {
-                var tenantAttribute = entityType.GetCustomAttribute<TenantAttribute>(false)!;
-                Context.AsTenant().ChangeDatabase(tenantAttribute.configId);
+                // 切换租户数据库
+                if (entityType.IsDefined(typeof(TenantAttribute), false))
+                {
+                    var tenantAttribute = entityType.GetCustomAttribute<TenantAttribute>(false)!;
+                    Context.AsTenant().ChangeDatabase(tenantAttribute.configId);
+                }
             }
+            
         }
     }
 }
