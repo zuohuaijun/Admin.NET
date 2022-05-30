@@ -1,26 +1,19 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <DataResourceTree
+    <DistrictTree
       class="w-1/4 xl:w-1/5"
       style="overflow: auto"
       @select="handleSelect"
-      ref="DataResourceTreeChild"
+      ref="DistrictTreeChild"
     />
     <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button
           type="primary"
-          @click="handleCreatebrother"
-          :disabled="!hasPermission('sysDataResource:add')"
+          @click="handleCreate"
+          :disabled="!hasPermission('sysDistrict:add')"
         >
-          添加同级资源
-        </a-button>
-        <a-button
-          type="primary"
-          @click="handleCreatechild()"
-          :disabled="!hasPermission('sysDataResource:add')"
-        >
-          添加下级资源
+          新增区域
         </a-button>
       </template>
       <template #action="{ record }">
@@ -29,14 +22,14 @@
             {
               icon: 'clarity:note-edit-line',
               label: '编辑',
-              disabled: !hasPermission('sysDataResource:update'),
+              disabled: !hasPermission('sysDistrict:update'),
               onClick: handleEdit.bind(null, record),
             },
             {
               icon: 'ant-design:delete-outlined',
               label: '删除',
               color: 'error',
-              ifShow: hasPermission('sysDataResource:delete'),
+              ifShow: hasPermission('sysDistrict:delete'),
               popConfirm: {
                 title: '是否确认删除',
                 confirm: handleDelete.bind(null, record),
@@ -46,7 +39,7 @@
         />
       </template>
     </BasicTable>
-    <DataResourceModal @register="registerModal" @success="handleSuccess" />
+    <DistrictModal @register="registerModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts">
@@ -56,24 +49,24 @@
   import { usePermission } from '/@/hooks/web/usePermission';
 
   import { PageWrapper } from '/@/components/Page';
-  import DataResourceTree from './DataResourceTree.vue';
+  import DistrictTree from './DistrictTree.vue';
 
-  import DataResourceModal from './DataResourceModal.vue';
+  import DistrictModal from './DistrictModal.vue';
 
-  import { columns, searchFormSchema } from './dataResource.data';
-  import { getDataResourceList, deleteDataResource } from '/@/api/sys/admin';
+  import { columns, searchFormSchema } from './district.data';
+  import { getDistrictList, deleteDistrict } from '/@/api/sys/admin';
 
   export default defineComponent({
-    name: 'DataResourceManagement',
-    components: { BasicTable, DataResourceModal, TableAction, PageWrapper, DataResourceTree },
+    name: 'DistrictManagement',
+    components: { BasicTable, DistrictModal, TableAction, PageWrapper, DistrictTree },
     setup() {
       const { hasPermission } = usePermission();
-      const DataResourceTreeChild = ref(null);
+      const OrgTreeChild = ref(null);
       const [registerModal, { openModal }] = useModal();
       const searchInfo = reactive<Recordable>({});
       const [registerTable, { reload, updateTableDataRecord }] = useTable({
-        title: '数据资源列表',
-        api: getDataResourceList,
+        title: '区域列表',
+        api: getDistrictList,
         columns,
         formConfig: {
           labelWidth: 120,
@@ -88,16 +81,15 @@
         showIndexColumn: false,
         canResize: true,
         actionColumn: {
-          width: 150,
+          width: 170,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },
-          fixed: undefined,
         },
       });
 
       function getTree() {
-        const tree = unref(DataResourceTreeChild);
+        const tree = unref(OrgTreeChild);
         if (!tree) {
           throw new Error('Tree is null!');
         }
@@ -109,7 +101,7 @@
       }
 
       function updateNodeByKey(key, values) {
-        getTree().updateNodeByKey(key, values); // 子组件里的方法
+        getTree().updateNodeByKey(key, values);
       }
 
       function deleteNodeByKey(key) {
@@ -118,21 +110,8 @@
 
       function handleCreate() {
         openModal(true, {
+          searchInfo,
           isUpdate: false,
-        });
-      }
-
-      function handleCreatechild() {
-        openModal(true, {
-          isUpdate: false,
-          parentId: searchInfo.Id,
-        });
-      }
-
-      function handleCreatebrother() {
-        openModal(true, {
-          isUpdate: false,
-          parentId: searchInfo.pId,
         });
       }
 
@@ -144,15 +123,20 @@
       }
 
       async function handleDelete(record: Recordable) {
-        await deleteDataResource(record.id);
+        await deleteDistrict(record.id);
         deleteNodeByKey(record.id);
         searchInfo.Id = record.pid;
         reload();
       }
 
       function handleSelect(orgId: number, obj) {
-        searchInfo.Id = orgId;
-        searchInfo.pId = obj.pid ? obj.pid : 0;
+        if (obj == undefined) {
+          searchInfo.Id = 0;
+          searchInfo.pId = 0;
+        } else {
+          searchInfo.Id = orgId;
+          searchInfo.pId = obj.pid ? obj.pid : 0;
+        }
         reload();
       }
 
@@ -171,14 +155,12 @@
         registerTable,
         registerModal,
         searchInfo,
-        DataResourceTreeChild,
+        OrgTreeChild,
         handleSelect,
         updateNodeByKey,
         appendNodeByKey,
         deleteNodeByKey,
         handleCreate,
-        handleCreatebrother,
-        handleCreatechild,
         handleEdit,
         handleDelete,
         handleSuccess,

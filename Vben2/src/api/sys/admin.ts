@@ -125,11 +125,11 @@ enum Api {
   TenantOwnMenuList = '/sysTenant/ownMenu',
   ResetTenantPwd = '/sysTenant/resetPwd',
 
-  // 数据资源接口
-  DataResourceList = '/sysDataResource/list',
-  AddDataResource = '/sysDataResource/add',
-  DeleteDataResource = '/sysDataResource/delete',
-  UpdateDataResource = '/sysDataResource/update',
+  // 行政区域接口
+  DistrictList = '/sysDistrict/list',
+  AddDistrict = '/sysDistrict/add',
+  DeleteDistrict = '/sysDistrict/delete',
+  UpdateDistrict = '/sysDistrict/update',
 }
 
 ////////// 账号管理接口 //////////
@@ -434,15 +434,14 @@ export function resetTenantPwd(id: number) {
   return defHttp.post<any>({ url: Api.ResetTenantPwd, params: { id } });
 }
 
-////////// 数据资源管理接口 //////////
-// 获取数据资源列表
-export const getDataResourceList = (params?: any) =>
-  defHttp.get<any>({ url: Api.DataResourceList, params });
-// 增加数据资源
-export const addDataResource = (params: any) => defHttp.post({ url: Api.AddDataResource, params });
-// 删除数据资源
-export const deleteDataResource = (id: number) =>
-  defHttp.post({ url: Api.DeleteDataResource, params: { id } });
-// 更新数据资源
-export const updateDataResource = (params: any) =>
-  defHttp.post({ url: Api.UpdateDataResource, params });
+////////// 行政区域管理接口 //////////
+// 获取行政区域列表
+export const getDistrictList = (params?: any) =>
+  defHttp.get<any>({ url: Api.DistrictList, params });
+// 增加行政区域
+export const addDistrict = (params: any) => defHttp.post({ url: Api.AddDistrict, params });
+// 删除行政区域
+export const deleteDistrict = (id: number) =>
+  defHttp.post({ url: Api.DeleteDistrict, params: { id } });
+// 更新行政区域
+export const updateDistrict = (params: any) => defHttp.post({ url: Api.UpdateDistrict, params });

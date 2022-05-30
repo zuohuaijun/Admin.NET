@@ -441,9 +441,9 @@ namespace Admin.NET.Core
         D1601,
 
         /// <summary>
-        /// 已有相同数据资源,编码或名称相同
+        /// 已有相同行政区域,编码或名称相同
         /// </summary>
-        [ErrorCodeItemMetadata("已有相同数据资源,编码或名称相同")]
+        [ErrorCodeItemMetadata("已有相同编码或名称行政区域")]
         D1602,
 
         /// <summary>

@@ -1,11 +1,3 @@
-<!--
- * @Author: kenny 362270511@qq.com
- * @Date: 2022-05-30 11:36:19
- * @LastEditors: kenny 362270511@qq.com
- * @LastEditTime: 2022-05-30 16:00:49
- * @FilePath: \frontend\src\views\sys\admin\dataResource\org\DataResourceModal.vue
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
--->
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
     <BasicForm @register="registerForm" />
@@ -16,11 +8,11 @@
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { BasicForm, useForm } from '/@/components/Form/index';
 
-  import { formSchema } from './dataResource.data';
-  import { getDataResourceList, addDataResource, updateDataResource } from '/@/api/sys/admin';
+  import { formSchema } from './district.data';
+  import { getDistrictList, addDistrict, updateDistrict } from '/@/api/sys/admin';
 
   export default defineComponent({
-    name: 'DataResourceModal',
+    name: 'DistrictModal',
     components: { BasicModal, BasicForm },
     emits: ['success', 'register'],
     setup(_, { emit }) {
@@ -38,17 +30,7 @@
         setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
 
-        const treeData = await getDataResourceList({ id: data.parentId || 0 });
-        debugger;
-        if (!data.parentId) {
-          treeData.push({
-            id: 0,
-            name: '根节点',
-            pid: 0,
-            remark: '根节点',
-            children: [],
-          });
-        }
+        const treeData = await getDistrictList({ id: data.record?.pid || 0 });
         updateSchema({
           field: 'pid',
           componentProps: { treeData },
@@ -60,11 +42,11 @@
             ...data.record,
           });
         } else {
-          setFieldsValue({ pid: data.parentId });
+          setFieldsValue({ pid: data.searchInfo.pId }); // 以当前选择父节点新增
         }
       });
 
-      const getTitle = computed(() => (!unref(isUpdate) ? '新增数据资源' : '编辑数据资源'));
+      const getTitle = computed(() => (!unref(isUpdate) ? '新增区域' : '编辑区域'));
 
       async function handleSubmit() {
         try {
@@ -73,9 +55,9 @@
 
           if (unref(isUpdate)) {
             values.id = rowId;
-            await updateDataResource(values);
+            await addDistrict(values);
           } else {
-            rowId = await addDataResource(values);
+            rowId = await updateDistrict(values);
           }
 
           closeModal();

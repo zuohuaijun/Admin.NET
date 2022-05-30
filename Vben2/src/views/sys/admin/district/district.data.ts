@@ -5,22 +5,18 @@ import { Tag } from 'ant-design-vue';
 
 export const columns: BasicColumn[] = [
   {
-    title: '资源名称',
+    title: '名称',
     dataIndex: 'name',
     width: 200,
     align: 'left',
   },
   {
-    title: '资源值',
+    title: '值',
     dataIndex: 'value',
-    width: 200,
-    align: 'left',
   },
   {
     title: '编码',
     dataIndex: 'code',
-    width: 200,
-    align: 'left',
   },
   {
     title: '状态',
@@ -53,28 +49,28 @@ export const columns: BasicColumn[] = [
 export const searchFormSchema: FormSchema[] = [
   {
     field: 'name',
-    label: '资源名称',
+    label: '名称',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
     field: 'value',
-    label: '资源值',
+    label: '值',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
     field: 'code',
-    label: '资源编码',
+    label: '编码',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
 ];
 
 export const formSchema: FormSchema[] = [
   {
     field: 'pid',
-    label: '上级资源',
+    label: '上级',
     component: 'TreeSelect',
     defaultValue: 0,
     componentProps: {
@@ -90,14 +86,14 @@ export const formSchema: FormSchema[] = [
   },
   {
     field: 'name',
-    label: '资源名称',
+    label: '名称',
     component: 'Input',
     required: true,
     colProps: { span: 24 },
   },
   {
     field: 'value',
-    label: '资源值',
+    label: '值',
     component: 'Input',
     required: true,
     colProps: { span: 24 },

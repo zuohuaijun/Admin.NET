@@ -30,7 +30,7 @@
         setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
 
-        const treeData = await getOrgList({ id: data.record.pid || 0 });
+        const treeData = await getOrgList({ id: data.record?.pid || 0 });
         updateSchema({
           field: 'pid',
           componentProps: { treeData },
