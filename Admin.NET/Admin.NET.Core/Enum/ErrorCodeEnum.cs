@@ -429,6 +429,24 @@ namespace Admin.NET.Core
         D1505,
 
         /// <summary>
+        /// 父资源不存在
+        /// </summary>
+        [ErrorCodeItemMetadata("父资源不存在")]
+        D1600,
+
+        /// <summary>
+        /// 当前资源Id不能与父资源Id相同
+        /// </summary>
+        [ErrorCodeItemMetadata("当前资源Id不能与父资源Id相同")]
+        D1601,
+
+        /// <summary>
+        /// 已有相同数据资源,编码或名称相同
+        /// </summary>
+        [ErrorCodeItemMetadata("已有相同数据资源,编码或名称相同")]
+        D1602,
+
+        /// <summary>
         /// 已存在同名或同编码项目
         /// </summary>
         [ErrorCodeItemMetadata("已存在同名或同编码项目")]
