@@ -184,7 +184,9 @@
       watchEffect(() => {
         const columns = table.getColumns();
         if (columns.length && !state.isInit) {
-          init();
+          setTimeout(() => {
+            init();
+          }, 0);
         }
       });
 
