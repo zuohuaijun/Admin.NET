@@ -30,7 +30,7 @@
         setModalProps({ confirmLoading: false });
         isUpdate.value = !!data?.isUpdate;
 
-        const treeData = await getOrgList({ id: data.parentId || 0 });
+        const treeData = await getOrgList({ id: data.record.pid || 0 });
         updateSchema({
           field: 'pid',
           componentProps: { treeData },
@@ -42,7 +42,7 @@
             ...data.record,
           });
         } else {
-          setFieldsValue({ pid: data.parentId });
+          setFieldsValue({ pid: data.searchInfo.pId }); // 以当前选择父节点新增
         }
       });
 

@@ -47,16 +47,7 @@ namespace Admin.NET.Core.Service
         [HttpGet("/sysOrg/list")]
         public async Task<List<SysOrg>> GetOrgList([FromQuery] OrgInput input)
         {
-            var orgIdList = new List<long>();
-
-            if (input.Id > 0)
-            {
-                orgIdList = await GetChildIdListWithSelfById(input.Id);
-            }
-            else
-            {
-                orgIdList = await GetUserOrgIdList();
-            }
+            var orgIdList = input.Id > 0 ? await GetChildIdListWithSelfById(input.Id) : await GetUserOrgIdList();
 
             var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.Order)
                 .WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id)); // 非超级管理员限制
@@ -96,23 +87,8 @@ namespace Admin.NET.Core.Service
                 else
                     throw Oops.Oh(ErrorCodeEnum.D2006);
             }
-
-            // 生成编码Code和排序(每级2位编码)
-            var sysOrg = await _sysOrgRep.GetFirstAsync(u => u.Pid == input.Pid);
-            var newCode = "";
-            if (sysOrg != null)
-            {
-                newCode = sysOrg.Code[0..^2] + string.Format("{0:d2}", int.Parse(sysOrg.Code[^2..]) + 1);
-            }
-            else
-            {
-                sysOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Pid);
-                newCode = sysOrg.Code + "01";
-            }
-            var newOrg = input.Adapt<SysOrg>();
-            newOrg.Code = newCode;
-            newOrg.Order = int.Parse(newCode[^2..]);
-            newOrg = await _sysOrgRep.AsInsertable(newOrg).ExecuteReturnEntityAsync();
+            var sysOrg = input.Adapt<SysOrg>();
+            var newOrg = await _sysOrgRep.AsInsertable(sysOrg).ExecuteReturnEntityAsync();
 
             // 非超级管理员时，将新机构加到用户数据范围内
             if (!_userManager.SuperAdmin)

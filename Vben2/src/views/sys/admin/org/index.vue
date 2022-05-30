@@ -8,19 +8,8 @@
     />
     <BasicTable @register="registerTable" class="w-3/4 xl:w-4/5" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button
-          type="primary"
-          @click="handleCreatebrother"
-          :disabled="!hasPermission('sysOrg:add')"
-        >
-          添加同级单位
-        </a-button>
-        <a-button
-          type="primary"
-          @click="handleCreatechild()"
-          :disabled="!hasPermission('sysOrg:add')"
-        >
-          添加下级单位
+        <a-button type="primary" @click="handleCreate" :disabled="!hasPermission('sysOrg:add')">
+          新增机构
         </a-button>
       </template>
       <template #action="{ record }">
@@ -88,11 +77,10 @@
         showIndexColumn: false,
         canResize: true,
         actionColumn: {
-          width: 150,
+          width: 170,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },
-          fixed: undefined,
         },
       });
 
@@ -109,7 +97,7 @@
       }
 
       function updateNodeByKey(key, values) {
-        getTree().updateNodeByKey(key, values); // 子组件里的方法
+        getTree().updateNodeByKey(key, values);
       }
 
       function deleteNodeByKey(key) {
@@ -118,21 +106,8 @@
 
       function handleCreate() {
         openModal(true, {
+          searchInfo,
           isUpdate: false,
-        });
-      }
-
-      function handleCreatechild() {
-        openModal(true, {
-          isUpdate: false,
-          parentId: searchInfo.Id,
-        });
-      }
-
-      function handleCreatebrother() {
-        openModal(true, {
-          isUpdate: false,
-          parentId: searchInfo.pId,
         });
       }
 
@@ -151,8 +126,13 @@
       }
 
       function handleSelect(orgId: number, obj) {
-        searchInfo.Id = orgId;
-        searchInfo.pId = obj.pid ? obj.pid : 0;
+        if (obj == undefined) {
+          searchInfo.Id = 0;
+          searchInfo.pId = 0;
+        } else {
+          searchInfo.Id = orgId;
+          searchInfo.pId = obj.pid ? obj.pid : 0;
+        }
         reload();
       }
 
@@ -177,8 +157,6 @@
         appendNodeByKey,
         deleteNodeByKey,
         handleCreate,
-        handleCreatebrother,
-        handleCreatechild,
         handleEdit,
         handleDelete,
         handleSuccess,

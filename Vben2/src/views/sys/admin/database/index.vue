@@ -43,11 +43,13 @@
           <TableAction
             :actions="[
               {
-                label: '编辑',
+                icon: 'clarity:note-edit-line',
+                label: '',
                 onClick: handleColumnEdit.bind(null, record),
               },
               {
-                label: '删除',
+                icon: 'ant-design:delete-outlined',
+                label: '',
                 popConfirm: {
                   confirm: handleColumnDelete.bind(null, record),
                   title: '确认删除？',

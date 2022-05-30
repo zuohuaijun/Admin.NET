@@ -54,7 +54,8 @@
       }
 
       function handleSelect(keys, obj) {
-        emit('select', keys[0], obj.selectedNodes[0]);
+        if (obj == undefined) return;
+        else emit('select', keys[0], obj.selectedNodes[0]);
       }
 
       onMounted(() => {

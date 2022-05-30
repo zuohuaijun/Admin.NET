@@ -13,8 +13,6 @@ export const columns: BasicColumn[] = [
   {
     title: '编码',
     dataIndex: 'code',
-    width: 200,
-    align: 'left',
   },
   {
     title: '状态',

@@ -66,7 +66,7 @@
         showIndexColumn: false,
         canResize: true,
         actionColumn: {
-          width: 150,
+          width: 170,
           title: '操作',
           dataIndex: 'action',
           slots: { customRender: 'action' },
