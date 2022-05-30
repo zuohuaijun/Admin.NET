@@ -99,6 +99,12 @@ namespace Admin.NET.Core
                 new SysMenu{ Id=252885263003881, Pid=252885263003880, Title="缓存查询", Permission="cache:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
                 new SysMenu{ Id=252885263003882, Pid=252885263003880, Title="缓存删除", Permission="cache:delete", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
 
+                new SysMenu{ Id=252885263003890, Pid=252885263003780, Title="数据资源管理", Path="dataResource", Name="DataResourceManagement", Component="/sys/admin/dataResource/index", Icon="ant-design:funnel-plot-filled", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-05-30 00:00:00"), OrderNo=100 },
+                new SysMenu{ Id=252885263003891, Pid=252885263003890, Title="数据资源查询", Permission="sysDataResource:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-05-30 00:00:00"), OrderNo=100 },
+                new SysMenu{ Id=252885263003892, Pid=252885263003890, Title="数据资源编辑", Permission="sysDataResource:update", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-05-30 00:00:00"), OrderNo=100 },
+                new SysMenu{ Id=252885263003893, Pid=252885263003890, Title="数据资源增加", Permission="sysDataResource:add", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-05-30 00:00:00"), OrderNo=100 },
+                new SysMenu{ Id=252885263003894, Pid=252885263003890, Title="数据资源删除", Permission="sysDataResource:delete", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-05-30 00:00:00"), OrderNo=100 },
+
                 new SysMenu{ Id=252885263003900, Pid=0, Title="日志管理", Path="/log", Name="log", Component="LAYOUT", Redirect="", Icon="ant-design:carry-out-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=300 },
                 new SysMenu{ Id=252885263003910, Pid=252885263003900, Title="访问日志", Path="vislog", Name="VislogManagement", Component="/sys/admin/log/vislog/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
                 new SysMenu{ Id=252885263003911, Pid=252885263003910, Title="日志查询", Permission="sysVislog:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
