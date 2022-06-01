@@ -80,8 +80,9 @@ namespace @Model.NameSpace
             @:} 
         }
     }
-}         
-                return await query.ToPagedListAsync(input.Page, input.PageSize);
+}
+            query = query.OrderBuilder(input);
+            return await query.ToPagedListAsync(input.Page, input.PageSize);
         }
 
         /// <summary>
