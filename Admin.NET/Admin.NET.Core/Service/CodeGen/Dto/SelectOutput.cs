@@ -1,9 +1,8 @@
-﻿namespace Admin.NET.Core.Service
-{
-    public class SelectOutput
-    {
-        public object Code { get; set; }
+﻿namespace Admin.NET.Core.Service;
 
-        public string Name { get; set; }
-    }
+public class SelectOutput
+{
+    public object Code { get; set; }
+
+    public string Name { get; set; }
 }

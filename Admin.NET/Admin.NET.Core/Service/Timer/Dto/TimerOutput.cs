@@ -1,6 +1,4 @@
-﻿using Furion.TaskScheduler;
-
-namespace Admin.NET.Core.Service
+﻿namespace Admin.NET.Core.Service
 {
     [NotTable]
     public class TimerOutput : SysTimer

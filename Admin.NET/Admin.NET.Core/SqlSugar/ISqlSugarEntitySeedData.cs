@@ -1,18 +1,15 @@
-﻿using System.Collections.Generic;
+﻿namespace Admin.NET.Core;
 
-namespace Admin.NET.Core
+/// <summary>
+/// 实体种子数据接口
+/// </summary>
+/// <typeparam name="TEntity"></typeparam>
+public interface ISqlSugarEntitySeedData<TEntity>
+    where TEntity : class, new()
 {
     /// <summary>
-    /// 实体种子数据接口
+    /// 种子数据
     /// </summary>
-    /// <typeparam name="TEntity"></typeparam>
-    public interface ISqlSugarEntitySeedData<TEntity>
-        where TEntity : class, new()
-    {
-        /// <summary>
-        /// 种子数据
-        /// </summary>
-        /// <returns></returns>
-        IEnumerable<TEntity> HasData();
-    }
+    /// <returns></returns>
+    IEnumerable<TEntity> HasData();
 }

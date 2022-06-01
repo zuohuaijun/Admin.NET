@@ -1,7 +1,4 @@
-﻿using Furion.TaskScheduler;
-using System.ComponentModel.DataAnnotations;
-
-namespace Admin.NET.Core.Service
+﻿namespace Admin.NET.Core.Service
 {
     public class PageTimerInput : BasePageInput
     {

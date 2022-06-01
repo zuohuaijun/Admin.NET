@@ -1,22 +1,19 @@
-﻿using System.ComponentModel;
+﻿namespace Admin.NET.Core;
 
-namespace Admin.NET.Core
+/// <summary>
+/// 缓存类型枚举
+/// </summary>
+public enum CacheTypeEnum
 {
     /// <summary>
-    /// 缓存类型枚举
+    /// 内存缓存
     /// </summary>
-    public enum CacheTypeEnum
-    {
-        /// <summary>
-        /// 内存缓存
-        /// </summary>
-        [Description("内存缓存")]
-        MemoryCache,
+    [Description("内存缓存")]
+    MemoryCache,
 
-        /// <summary>
-        /// Redis缓存
-        /// </summary>
-        [Description("Redis缓存")]
-        RedisCache
-    }
+    /// <summary>
+    /// Redis缓存
+    /// </summary>
+    [Description("Redis缓存")]
+    RedisCache
 }

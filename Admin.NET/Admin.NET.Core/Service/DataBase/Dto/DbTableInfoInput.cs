@@ -1,13 +1,10 @@
-﻿using System.Collections.Generic;
+﻿namespace Admin.NET.Core.Service;
 
-namespace Admin.NET.Core.Service
+public class DbTableInfoInput
 {
-    public class DbTableInfoInput
-    {
-        public string Name { get; set; }
+    public string Name { get; set; }
 
-        public string Description { get; set; }
+    public string Description { get; set; }
 
-        public List<DbColumnInfoInput> DbColumnInfoList { get; set; }
-    }
+    public List<DbColumnInfoInput> DbColumnInfoList { get; set; }
 }

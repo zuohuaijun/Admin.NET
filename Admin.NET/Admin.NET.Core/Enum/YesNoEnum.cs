@@ -1,22 +1,19 @@
-﻿using System.ComponentModel;
+﻿namespace Admin.NET.Core;
 
-namespace Admin.NET.Core
+/// <summary>
+/// 是否枚举
+/// </summary>
+public enum YesNoEnum
 {
     /// <summary>
-    /// 是否枚举
+    /// 是
     /// </summary>
-    public enum YesNoEnum
-    {
-        /// <summary>
-        /// 是
-        /// </summary>
-        [Description("是")]
-        Y = 1,
+    [Description("是")]
+    Y = 1,
 
-        /// <summary>
-        /// 否
-        /// </summary>
-        [Description("否")]
-        N = 2
-    }
+    /// <summary>
+    /// 否
+    /// </summary>
+    [Description("否")]
+    N = 2
 }

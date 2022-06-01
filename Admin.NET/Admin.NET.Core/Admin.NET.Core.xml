@@ -518,37 +518,37 @@
         </member>
         <member name="P:Admin.NET.Core.SysDataResource.Pid">
              <summary>
-             父节点Id 
+             父节点Id
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysDataResource.Name">
              <summary>
-             名称 
+             名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysDataResource.Value">
              <summary>
-             值 
+             值
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysDataResource.Code">
              <summary>
-             节点编码 
+             节点编码
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysDataResource.Order">
              <summary>
-             排序 
+             排序
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysDataResource.Remark">
              <summary>
-             备注 
+             备注
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysDataResource.Status">
              <summary>
-             状态：是否启用 
+             状态
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysDataResource.Children">
@@ -2535,13 +2535,23 @@
             <param name="pi"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Extension.RepositoryExtension.FakeDelete``1(SqlSugar.IUpdateable{``0})">
+        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDelete``1(SqlSugar.IUpdateable{``0})">
             <summary>
             实体假删除 _rep.Context.Updateable(entity).FakeDelete().ExecuteCommandAsync();
             </summary>
             <typeparam name="T"></typeparam>
             <param name="updateable"></param>
             <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.OrderBuilder``1(SqlSugar.ISugarQueryable{``0},Admin.NET.Core.BasePageInput,System.String,System.Boolean)">
+            <summary>
+            排序方式(默认降序)
+            </summary>
+            <param name="queryable"></param>
+            <param name="pageInput"> </param>
+            <param name="defualtSortField"> 默认排序字段 </param>
+            <param name="descSort"> 是否降序 </param>
+            <returns> </returns>
         </member>
         <member name="T:Admin.NET.Core.LogExceptionHandler">
             <summary>
@@ -2788,34 +2798,34 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.SeedData.SysDataResourceSeedData">
+        <member name="T:Admin.NET.Core.SysDataResourceSeedData">
             <summary>
             系统数据资源种子数据
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.SeedData.SysDataResourceSeedData.HasData">
+        <member name="M:Admin.NET.Core.SysDataResourceSeedData.HasData">
             <summary>
             种子数据
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.SeedData.SysDictDataSeedData">
+        <member name="T:Admin.NET.Core.SysDictDataSeedData">
             <summary>
             系统字典值表种子数据
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.SeedData.SysDictDataSeedData.HasData">
+        <member name="M:Admin.NET.Core.SysDictDataSeedData.HasData">
             <summary>
             种子数据
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.SeedData.SysDictTypeSeedData">
+        <member name="T:Admin.NET.Core.SysDictTypeSeedData">
             <summary>
             系统字典类型表种子数据
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.SeedData.SysDictTypeSeedData.HasData">
+        <member name="M:Admin.NET.Core.SysDictTypeSeedData.HasData">
             <summary>
             种子数据
             </summary>
@@ -3200,90 +3210,90 @@
             <param name="tableColumnOuputList"></param>
             <param name="codeGenerate"></param>
         </member>
-        <member name="T:Admin.NET.Core.Service.CodeGen.CodeGenService">
+        <member name="T:Admin.NET.Core.Service.CodeGenService">
             <summary>
             代码生成器服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.QueryCodeGenPageList(Admin.NET.Core.Service.CodeGenInput)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.QueryCodeGenPageList(Admin.NET.Core.Service.CodeGenInput)">
             <summary>
             分页查询
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.AddCodeGen(Admin.NET.Core.Service.AddCodeGenInput)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.AddCodeGen(Admin.NET.Core.Service.AddCodeGenInput)">
             <summary>
             增加
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.DeleteCodeGen(System.Collections.Generic.List{Admin.NET.Core.Service.DeleteCodeGenInput})">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.DeleteCodeGen(System.Collections.Generic.List{Admin.NET.Core.Service.DeleteCodeGenInput})">
             <summary>
             删除
             </summary>
             <param name="inputs"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.UpdateCodeGen(Admin.NET.Core.Service.UpdateCodeGenInput)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.UpdateCodeGen(Admin.NET.Core.Service.UpdateCodeGenInput)">
             <summary>
             更新
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetCodeGen(Admin.NET.Core.Service.QueryCodeGenInput)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.GetCodeGen(Admin.NET.Core.Service.QueryCodeGenInput)">
             <summary>
             详情
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetDatabaseList">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.GetDatabaseList">
             <summary>
             获取数据库库集合
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetTableList(System.String)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.GetTableList(System.String)">
             <summary>
             获取数据库表(实体)集合
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetColumnListByTableName(System.String,System.String)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.GetColumnListByTableName(System.String,System.String)">
             <summary>
             根据表名获取列
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetColumnList(Admin.NET.Core.Service.AddCodeGenInput)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.GetColumnList(Admin.NET.Core.Service.AddCodeGenInput)">
             <summary>
             获取数据表列（实体属性）集合
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.RunLocal(Admin.NET.Core.SysCodeGen)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.RunLocal(Admin.NET.Core.SysCodeGen)">
             <summary>
             代码生成_本地项目
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetJoinTableStr(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.GetJoinTableStr(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
             <summary>
             获取连表的实体名和别名
             </summary>
             <param name="configs"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetTemplatePathList">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.GetTemplatePathList">
             <summary>
             获取模板文件路径集合
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGen.CodeGenService.GetTargetPathList(Admin.NET.Core.SysCodeGen)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.GetTargetPathList(Admin.NET.Core.SysCodeGen)">
             <summary>
             设置生成文件路径
             </summary>
@@ -3959,79 +3969,79 @@
              </summary>
              <example>Magic.Application</example>
         </member>
-        <member name="P:Admin.NET.Core.Service.DataResources.Dto.DataResourceInput.Pid">
+        <member name="P:Admin.NET.Core.Service.DataResourceInput.Pid">
             <summary>
             父Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.DataResources.Dto.DataResourceInput.Name">
+        <member name="P:Admin.NET.Core.Service.DataResourceInput.Name">
             <summary>
             名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.DataResources.Dto.DataResourceInput.Value">
+        <member name="P:Admin.NET.Core.Service.DataResourceInput.Value">
              <summary>
-             值 
+             值
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.DataResources.Dto.DataResourceInput.Code">
+        <member name="P:Admin.NET.Core.Service.DataResourceInput.Code">
             <summary>
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.DataResources.Dto.DataResourceInput.Order">
+        <member name="P:Admin.NET.Core.Service.DataResourceInput.Order">
             <summary>
             排序
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.DataResources.Dto.DataResourceInput.Remark">
+        <member name="P:Admin.NET.Core.Service.DataResourceInput.Remark">
             <summary>
             备注
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.DataResources.Dto.DataResourceInput.Status">
+        <member name="P:Admin.NET.Core.Service.DataResourceInput.Status">
             <summary>
             状态
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.DataResources.Dto.AddDataResourceInput.Name">
+        <member name="P:Admin.NET.Core.Service.AddDataResourceInput.Name">
             <summary>
             名称
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.DataResource.SysDataResourceService">
+        <member name="T:Admin.NET.Core.Service.SysDataResourceService">
             <summary>
             系统数据资源服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataResource.SysDataResourceService.GetDataResourceList(Admin.NET.Core.Service.DataResources.Dto.DataResourceInput)">
+        <member name="M:Admin.NET.Core.Service.SysDataResourceService.GetDataResourceList(Admin.NET.Core.Service.DataResourceInput)">
             <summary>
             获取数据资源列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataResource.SysDataResourceService.AddDataResource(Admin.NET.Core.Service.DataResources.Dto.AddDataResourceInput)">
+        <member name="M:Admin.NET.Core.Service.SysDataResourceService.AddDataResource(Admin.NET.Core.Service.AddDataResourceInput)">
             <summary>
             增加数据资源
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataResource.SysDataResourceService.UpdateDataResource(Admin.NET.Core.Service.DataResources.Dto.UpdateDataResourceInput)">
+        <member name="M:Admin.NET.Core.Service.SysDataResourceService.UpdateDataResource(Admin.NET.Core.Service.UpdateDataResourceInput)">
             <summary>
             更新数据资源
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataResource.SysDataResourceService.DeleteDataResource(Admin.NET.Core.Service.DataResources.Dto.DeleteDataResourceInput)">
+        <member name="M:Admin.NET.Core.Service.SysDataResourceService.DeleteDataResource(Admin.NET.Core.Service.DeleteDataResourceInput)">
             <summary>
             删除数据资源
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataResource.SysDataResourceService.GetChildIdListWithSelfById(System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysDataResourceService.GetChildIdListWithSelfById(System.Int64)">
             <summary>
             根据节点Id获取子节点Id集合(包含自己)
             </summary>
@@ -4944,11 +4954,6 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.PageRoleInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.PageRoleInput.DataScope">
             <summary>
             数据范围类型
@@ -5305,11 +5310,10 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantList(Admin.NET.Core.Service.TenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantList">
             <summary>
             获取租户列表
             </summary>
-            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.GrantMenu(Admin.NET.Core.Service.RoleMenuInput)">
@@ -6294,6 +6298,21 @@
         <member name="P:Admin.NET.Core.BasePageInput.PageSize">
             <summary>
             页码容量
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.BasePageInput.Field">
+            <summary>
+            排序字段
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.BasePageInput.Order">
+            <summary>
+            排序方向
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.BasePageInput.DescStr">
+            <summary>
+            降序排序
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Util.CodeGenUtil">

@@ -1,81 +1,75 @@
-﻿using Furion.DependencyInjection;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿namespace Admin.NET.Core.Service;
 
-namespace Admin.NET.Core.Service
+/// <summary>
+/// 系统用户角色服务
+/// </summary>
+public class SysUserRoleService : ITransient
 {
-    /// <summary>
-    /// 系统用户角色服务
-    /// </summary>
-    public class SysUserRoleService : ITransient
+    private readonly SqlSugarRepository<SysUserRole> _sysUserRoleRep;
+
+    public SysUserRoleService(SqlSugarRepository<SysUserRole> sysUserRoleRep)
     {
-        private readonly SqlSugarRepository<SysUserRole> _sysUserRoleRep;
+        _sysUserRoleRep = sysUserRoleRep;
+    }
 
-        public SysUserRoleService(SqlSugarRepository<SysUserRole> sysUserRoleRep)
+    /// <summary>
+    /// 授权用户角色
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [SqlSugarUnitOfWork]
+    public async Task GrantUserRole(UserRoleInput input)
+    {
+        await _sysUserRoleRep.DeleteAsync(u => u.UserId == input.Id);
+        var roles = input.RoleIdList.Select(u => new SysUserRole
         {
-            _sysUserRoleRep = sysUserRoleRep;
-        }
+            UserId = input.Id,
+            RoleId = u
+        }).ToList();
+        await _sysUserRoleRep.InsertRangeAsync(roles);
+    }
 
-        /// <summary>
-        /// 授权用户角色
-        /// </summary>
-        /// <param name="input"></param>
-        /// <returns></returns>
-        [SqlSugarUnitOfWork]
-        public async Task GrantUserRole(UserRoleInput input)
-        {
-            await _sysUserRoleRep.DeleteAsync(u => u.UserId == input.Id);
-            var roles = input.RoleIdList.Select(u => new SysUserRole
-            {
-                UserId = input.Id,
-                RoleId = u
-            }).ToList();
-            await _sysUserRoleRep.InsertRangeAsync(roles);
-        }
+    /// <summary>
+    /// 根据角色Id删除用户角色
+    /// </summary>
+    /// <param name="roleId"></param>
+    /// <returns></returns>
+    public async Task DeleteUserRoleByRoleId(long roleId)
+    {
+        await _sysUserRoleRep.DeleteAsync(u => u.RoleId == roleId);
+    }
 
-        /// <summary>
-        /// 根据角色Id删除用户角色
-        /// </summary>
-        /// <param name="roleId"></param>
-        /// <returns></returns>
-        public async Task DeleteUserRoleByRoleId(long roleId)
-        {
-            await _sysUserRoleRep.DeleteAsync(u => u.RoleId == roleId);
-        }
+    /// <summary>
+    /// 根据用户Id删除用户角色
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public async Task DeleteUserRoleByUserId(long userId)
+    {
+        await _sysUserRoleRep.DeleteAsync(u => u.UserId == userId);
+    }
 
-        /// <summary>
-        /// 根据用户Id删除用户角色
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task DeleteUserRoleByUserId(long userId)
-        {
-            await _sysUserRoleRep.DeleteAsync(u => u.UserId == userId);
-        }
+    /// <summary>
+    /// 根据用户Id获取角色集合
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public async Task<List<SysRole>> GetUserRoleList(long userId)
+    {
+        var sysUserRoleList = await _sysUserRoleRep.AsQueryable()
+            .Mapper(u => u.SysRole, u => u.RoleId)
+            .Where(u => u.UserId == userId).ToListAsync();
+        return sysUserRoleList.Select(u => u.SysRole).ToList();
+    }
 
-        /// <summary>
-        /// 根据用户Id获取角色集合
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<List<SysRole>> GetUserRoleList(long userId)
-        {
-            var sysUserRoleList = await _sysUserRoleRep.AsQueryable()
-                .Mapper(u => u.SysRole, u => u.RoleId)
-                .Where(u => u.UserId == userId).ToListAsync();
-            return sysUserRoleList.Select(u => u.SysRole).ToList();
-        }
-
-        /// <summary>
-        /// 根据用户Id获取角色Id集合
-        /// </summary>
-        /// <param name="userId"></param>
-        /// <returns></returns>
-        public async Task<List<long>> GetUserRoleIdList(long userId)
-        {
-            return await _sysUserRoleRep.AsQueryable()
-                .Where(u => u.UserId == userId).Select(u => u.RoleId).ToListAsync();
-        }
+    /// <summary>
+    /// 根据用户Id获取角色Id集合
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    public async Task<List<long>> GetUserRoleIdList(long userId)
+    {
+        return await _sysUserRoleRep.AsQueryable()
+            .Where(u => u.UserId == userId).Select(u => u.RoleId).ToListAsync();
     }
 }

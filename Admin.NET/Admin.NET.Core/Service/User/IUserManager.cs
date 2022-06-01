@@ -1,21 +1,18 @@
-﻿using System.Threading.Tasks;
+﻿namespace Admin.NET.Core;
 
-namespace Admin.NET.Core
+public interface IUserManager
 {
-    public interface IUserManager
-    {
-        long UserId { get; }
+    long UserId { get; }
 
-        string UserName { get; }
+    string UserName { get; }
 
-        string RealName { get; }
+    string RealName { get; }
 
-        bool SuperAdmin { get; }
+    bool SuperAdmin { get; }
 
-        string OpenId { get; }
+    string OpenId { get; }
 
-        SysUser User { get; }
+    SysUser User { get; }
 
-        Task<SysUser> CheckUserAsync(long userId);
-    }
+    Task<SysUser> CheckUserAsync(long userId);
 }

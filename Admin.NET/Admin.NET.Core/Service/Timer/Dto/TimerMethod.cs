@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Admin.NET.Core.Service
+﻿namespace Admin.NET.Core.Service
 {
     /// <summary>
     /// 定时任务方法

@@ -1,36 +1,32 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿namespace Admin.NET.Core.Service;
 
-namespace Admin.NET.Core.Service
+public interface ISysCacheService
 {
-    public interface ISysCacheService
-    {
-        Task AddCacheKey(string cacheKey);
+    Task AddCacheKey(string cacheKey);
 
-        Task DelByPatternAsync(string key);
+    Task DelByPatternAsync(string key);
 
-        Task DelCacheKey(string cacheKey);
+    Task DelCacheKey(string cacheKey);
 
-        bool Exists(string cacheKey);
+    bool Exists(string cacheKey);
 
-        Task<List<string>> GetAllCacheKeys();
+    Task<List<string>> GetAllCacheKeys();
 
-        Task<T> GetAsync<T>(string cacheKey);
+    Task<T> GetAsync<T>(string cacheKey);
 
-        Task<string> GetStringAsync(string cacheKey);
+    Task<string> GetStringAsync(string cacheKey);
 
-        Task RemoveAsync(string key);
+    Task RemoveAsync(string key);
 
-        Task SetAsync(string cacheKey, object value);
+    Task SetAsync(string cacheKey, object value);
 
-        Task SetStringAsync(string cacheKey, string value);
+    Task SetStringAsync(string cacheKey, string value);
 
-        Task<List<long>> GetOrgIdList(long userId);
+    Task<List<long>> GetOrgIdList(long userId);
 
-        Task SetOrgIdList(long userId, List<long> orgIdList);
+    Task SetOrgIdList(long userId, List<long> orgIdList);
 
-        Task<List<string>> GetPermission(long userId);
+    Task<List<string>> GetPermission(long userId);
 
-        Task SetPermission(long userId, List<string> permissions);
-    }
+    Task SetPermission(long userId, List<string> permissions);
 }
