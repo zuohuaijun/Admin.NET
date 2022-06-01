@@ -10,6 +10,7 @@ using Admin.NET.Core;
 using Admin.NET.Core.Service;
 using System;
 using @(@Model.NameSpace).Entity;
+using Admin.NET.Core.Extension;
 
 namespace @Model.NameSpace
 {
