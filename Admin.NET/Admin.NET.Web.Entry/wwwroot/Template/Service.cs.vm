@@ -1,4 +1,4 @@
-﻿using Furion.DependencyInjection;
+using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
@@ -111,7 +111,8 @@ if (@column.ColumnKey == "True"){
             @:var entity = await _rep.GetFirstAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
 }
 }
-            await _rep.DeleteAsync(entity);
+            await _rep.Context.Updateable(entity).FakeDelete().ExecuteCommandAsync();   //假删除
+            //await _rep.DeleteAsync(entity);   //真删除
         }
 
         /// <summary>
