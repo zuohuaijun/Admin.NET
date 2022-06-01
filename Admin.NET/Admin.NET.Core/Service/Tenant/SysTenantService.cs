@@ -160,7 +160,6 @@ namespace Admin.NET.Core.Service
         [HttpPost("/sysTenant/delete")]
         public async Task DeleteTenant(DeleteTenantInput input)
         {
-
             var users = await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
             // 超级管理员所在租户为默认租户
             if (users.Any(u => u.UserType == UserTypeEnum.SuperAdmin))
