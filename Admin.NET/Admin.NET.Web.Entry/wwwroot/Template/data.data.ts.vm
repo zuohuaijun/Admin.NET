@@ -18,7 +18,8 @@ export const columns: BasicColumn[] = [
   if(@column.WhetherTable == "Y"){
   @:{
     @:title: '@column.ColumnComment',
-    @:dataIndex: '@column.LowerColumnName',
+    @:dataIndex: '@column.LowerColumnName',    
+    @:sorter: true,
 if(@column.EffectType == "Upload"){
     @:slots: { customRender: '@(@column.LowerColumnName)' },
 }else if(@column.EffectType == "fk"){
@@ -129,6 +130,7 @@ if(@column.EffectType == "fk"){
   if(@column.LowerColumnName == "id"){
     @:show: false,
   }
+    @:colProps: { span: 12 },
   @:},
 
   }
