@@ -1,9 +1,7 @@
-﻿using System;
+﻿using SqlSugar;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using Admin.NET.Core;
-using SqlSugar;
+
 namespace Admin.NET.Core
 {
     /// <summary>

@@ -621,51 +621,6 @@
             状态
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.SysDistrict">
-             <summary>
-             系统行政区域表
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDistrict.Pid">
-             <summary>
-             父节点Id 
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDistrict.Name">
-             <summary>
-             名称 
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDistrict.Value">
-             <summary>
-             值 
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDistrict.Code">
-             <summary>
-             节点编码 
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDistrict.Order">
-             <summary>
-             排序 
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDistrict.Remark">
-             <summary>
-             备注 
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDistrict.Status">
-             <summary>
-             状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDistrict.Children">
-            <summary>
-            数据资源子项
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.SysFile">
             <summary>
             系统文件表
@@ -2164,7 +2119,7 @@
         </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.D1602">
             <summary>
-            已有相同行政区域,编码或名称相同
+            已有相同编码或名称
             </summary>
         </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.xg1000">
@@ -2835,7 +2790,7 @@
         </member>
         <member name="T:Admin.NET.Core.SeedData.SysDataResourceSeedData">
             <summary>
-            系统行政区域种子数据
+            系统数据资源种子数据
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SeedData.SysDataResourceSeedData.HasData">
@@ -4372,85 +4327,6 @@
             修改字典类型状态
             </summary>
             <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DistrictInput.Pid">
-            <summary>
-            父Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DistrictInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DistrictInput.Value">
-             <summary>
-             值 
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DistrictInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DistrictInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DistrictInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DistrictInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDistrictInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.Service.SysDistrictService">
-            <summary>
-            系统行政区域服务
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDistrictService.GetDistrictList(Admin.NET.Core.Service.DistrictInput)">
-            <summary>
-            获取行政区域列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDistrictService.AddDistrict(Admin.NET.Core.Service.AddDistrictInput)">
-            <summary>
-            增加行政区域
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDistrictService.UpdateDistrict(Admin.NET.Core.Service.UpdateDistrictInput)">
-            <summary>
-            更新行政区域
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDistrictService.DeleteDistrict(Admin.NET.Core.Service.DeleteDistrictInput)">
-            <summary>
-            删除行政区域
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDistrictService.GetChildIdListWithSelfById(System.Int64)">
-            <summary>
-            根据节点Id获取子节点Id集合(包含自己)
-            </summary>
-            <param name="pid"></param>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.PageFileInput.FileName">

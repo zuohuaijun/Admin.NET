@@ -125,12 +125,6 @@ enum Api {
   TenantOwnMenuList = '/sysTenant/ownMenu',
   ResetTenantPwd = '/sysTenant/resetPwd',
 
-  // 行政区域接口
-  DistrictList = '/sysDistrict/list',
-  AddDistrict = '/sysDistrict/add',
-  DeleteDistrict = '/sysDistrict/delete',
-  UpdateDistrict = '/sysDistrict/update',
-
   // 数据资源接口
   DataResourceList = '/sysDataResource/list',
   AddDataResource = '/sysDataResource/add',
@@ -306,10 +300,9 @@ export const updateDictType = (params: any) => defHttp.post({ url: Api.UpdateDic
 // 获取字典类型分页列表
 export const getDictDataList = (params?: any) =>
   defHttp.get<any>({ url: Api.GetDictDataPageList, params });
-//从字典中值，下拉框控件使用
-export function getDictDataDropdown(params: any) {
-  return defHttp.get<any>({ url: Api.GetDictDataDropdown + '/' + params });
-}
+// 从字典中值，下拉框控件使用
+export const getDictDataDropdown = (params: any) =>
+  defHttp.get<any>({ url: Api.GetDictDataDropdown + '/' + params });
 // 增加典类型
 export const addDictData = (params: any) => defHttp.post({ url: Api.AddDictData, params });
 // 删除字典类型
@@ -320,137 +313,94 @@ export const updateDictData = (params: any) => defHttp.post({ url: Api.UpdateDic
 
 //////////数据库管理接口 //////////
 // 获取表字段
-export function getColumnInfoList(params?) {
-  return defHttp.get<any>({ url: Api.GetColumnInfoList, params });
-}
+export const getColumnInfoList = (params?) =>
+  defHttp.get<any>({ url: Api.GetColumnInfoList, params });
 // 获取所有表
-export function getTableInfoList(params?) {
-  return defHttp.get<any>({ url: Api.GetTableInfoList, params });
-}
+export const getTableInfoList = (params?) =>
+  defHttp.get<any>({ url: Api.GetTableInfoList, params });
 // 添加表
-export function addTable(params: any) {
-  return defHttp.post<any>({ url: Api.AddTable, params });
-}
+export const addTable = (params: any) => defHttp.post<any>({ url: Api.AddTable, params });
 // 修改表
-export function updateTable(params: any) {
-  return defHttp.post<any>({ url: Api.UpdateTable, params });
-}
+export const updateTable = (params: any) => defHttp.post<any>({ url: Api.UpdateTable, params });
 // 删除表
-export function deleteTable(params: any) {
-  return defHttp.post<any>({ url: Api.DeleTetable, params });
-}
+export const deleteTable = (params: any) => defHttp.post<any>({ url: Api.DeleTetable, params });
 // 添加字段
-export function addColumn(params: any) {
-  return defHttp.post<any>({ url: Api.AddColumn, params });
-}
+export const addColumn = (params: any) => defHttp.post<any>({ url: Api.AddColumn, params });
 // 修改字段
-export function updateColumn(params: any) {
-  return defHttp.post<any>({ url: Api.UpdateColumn, params });
-}
+export const updateColumn = (params: any) => defHttp.post<any>({ url: Api.UpdateColumn, params });
 // 删除字段
-export function deleteColumn(params: any) {
-  return defHttp.post<any>({ url: Api.DeleteColumn, params });
-}
+export const deleteColumn = (params: any) => defHttp.post<any>({ url: Api.DeleteColumn, params });
 // 生成实体
-export function createEntity(params: any) {
-  return defHttp.post<any>({ url: Api.CreateEntity, params });
-}
+export const createEntity = (params: any) => defHttp.post<any>({ url: Api.CreateEntity, params });
 
 ////////// 代码生成接口 //////////
 // 分页查询代码生成
-export function getGeneratePage(params?: any) {
-  return defHttp.get<any>({ url: Api.GetGeneratePage, params });
-}
+export const getGeneratePage = (params?: any) =>
+  defHttp.get<any>({ url: Api.GetGeneratePage, params });
 // 增加代码生成
-export function addGenerate(params: any) {
-  return defHttp.post<any>({
+export const addGenerate = (params: any) =>
+  defHttp.post<any>({
     url: Api.AddGenerate,
     params,
   });
-}
 // 修改代码生成
-export function updateGenerate(params: any) {
-  return defHttp.post<any>({
+export const updateGenerate = (params: any) =>
+  defHttp.post<any>({
     url: Api.UpdateGenerate,
     params,
   });
-}
 // 删除代码生成
-export function deleGenerate(params: any) {
-  return defHttp.post<any>({
+export const deleGenerate = (params: any) =>
+  defHttp.post<any>({
     url: Api.DeleGenerate,
     params,
   });
-}
 // 获取数据库(上下文定位器)集合
-export function getDatabaseList(params?: any) {
-  return defHttp.get<any>({ url: Api.GetDatabaseList, params });
-}
+export const getDatabaseList = (params?: any) =>
+  defHttp.get<any>({ url: Api.GetDatabaseList, params });
 // 获取数据库表(实体)集合
-export function getTableList(dbConfigId: string) {
-  return defHttp.get<any>({ url: Api.GetTableList + '/' + dbConfigId });
-}
+export const getTableList = (dbConfigId: string) =>
+  defHttp.get<any>({ url: Api.GetTableList + '/' + dbConfigId });
 // 根据表名获取列
-export function getColumnList(dbConfigId: string, tableName: string) {
-  return defHttp.get<any>({ url: Api.GetColumnList + '/' + dbConfigId + '/' + tableName });
-}
+export const getColumnList = (dbConfigId: string, tableName: string) =>
+  defHttp.get<any>({ url: Api.GetColumnList + '/' + dbConfigId + '/' + tableName });
 // 本地生成
-export function generateRunLocal(params: any) {
-  return defHttp.post<any>({
+export const generateRunLocal = (params: any) =>
+  defHttp.post<any>({
     url: Api.GenerateRunLocal,
     params,
   });
-}
+
 // 代码生成详细配置列表
-export function getGenerateConfigList(params?: any) {
-  return defHttp.get<any>({ url: Api.GetGenerateConfigList, params });
-}
+export const getGenerateConfigList = (params?: any) =>
+  defHttp.get<any>({ url: Api.GetGenerateConfigList, params });
+
 // 编辑代码生成详细配置
-export function updateGenerateConfig(params: any) {
-  return defHttp.post<any>({
+export const updateGenerateConfig = (params: any) =>
+  defHttp.post<any>({
     url: Api.UpdateGenerateConfig,
     params,
   });
-}
 
 ////////// 租户管理接口 //////////
 //分页查询租户
-export function getTenantPageList(params?: any) {
-  return defHttp.get<any>({ url: Api.GetTenantPage, params });
-}
+export const getTenantPageList = (params?: any) =>
+  defHttp.get<any>({ url: Api.GetTenantPage, params });
 //增加租户
-export function addTenant(params: any) {
-  return defHttp.post<any>({ url: Api.AddTenant, params });
-}
+export const addTenant = (params: any) => defHttp.post<any>({ url: Api.AddTenant, params });
 //删除租户
 export const deleteTenant = (id: number) => defHttp.post({ url: Api.DeleteTenant, params: { id } });
 //编辑租户
-export function updateTenant(params: any) {
-  return defHttp.post<any>({ url: Api.UpdateTenant, params });
-}
+export const updateTenant = (params: any) => defHttp.post<any>({ url: Api.UpdateTenant, params });
 //授权租户菜单
-export function grantTenantMenu(params?: any) {
-  return defHttp.post<any>({ url: Api.GrantTenantMenu, params });
-}
+export const grantTenantMenu = (params?: any) =>
+  defHttp.post<any>({ url: Api.GrantTenantMenu, params });
 // 获取租户菜单
 export const tenantOwnMenuList = (id: number) =>
   defHttp.get<any>({ url: Api.TenantOwnMenuList, params: { id } });
 //重置租户密码
-export function resetTenantPwd(id: number) {
-  return defHttp.post<any>({ url: Api.ResetTenantPwd, params: { id } });
-}
-
-////////// 行政区域管理接口 //////////
-// 获取行政区域列表
-export const getDistrictList = (params?: any) =>
-  defHttp.get<any>({ url: Api.DistrictList, params });
-// 增加行政区域
-export const addDistrict = (params: any) => defHttp.post({ url: Api.AddDistrict, params });
-// 删除行政区域
-export const deleteDistrict = (id: number) =>
-  defHttp.post({ url: Api.DeleteDistrict, params: { id } });
-// 更新行政区域
-export const updateDistrict = (params: any) => defHttp.post({ url: Api.UpdateDistrict, params });
+export const resetTenantPwd = (id: number) =>
+  defHttp.post<any>({ url: Api.ResetTenantPwd, params: { id } });
 
 ////////// 数据资源管理接口 //////////
 // 获取数据资源列表

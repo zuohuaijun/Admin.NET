@@ -17,12 +17,10 @@ namespace Admin.NET.Core.Service.DataResource
     public class SysDataResourceService : IDynamicApiController, ITransient
     {
         private readonly SqlSugarRepository<SysDataResource> _sysDataResourceRep;
-        private readonly ISysCacheService _sysCacheService;
 
-        public SysDataResourceService(SqlSugarRepository<SysDataResource> sysDataResourceRep, ISysCacheService sysCacheService)
+        public SysDataResourceService(SqlSugarRepository<SysDataResource> sysDataResourceRep)
         {
             _sysDataResourceRep = sysDataResourceRep;
-            _sysCacheService = sysCacheService;
         }
 
         /// <summary>
@@ -32,13 +30,7 @@ namespace Admin.NET.Core.Service.DataResource
         [HttpGet("/sysDataResource/list")]
         public async Task<List<SysDataResource>> GetDataResourceList([FromQuery] DataResourceInput input)
         {
-            var idList = new List<long>();
-
-            if (input.Id > 0)
-            {
-                idList = await GetChildIdListWithSelfById(input.Id);
-            }
-
+            var idList = input.Id > 0 ? await GetChildIdListWithSelfById(input.Id) : new List<long>();
 
             var iSugarQueryable = _sysDataResourceRep.AsQueryable().OrderBy(u => u.Order)
                 .WhereIF(idList.Count > 0, u => idList.Contains(u.Id)); // 非超级管理员限制
@@ -68,8 +60,8 @@ namespace Admin.NET.Core.Service.DataResource
 
             var newCode = "";
             // 生成编码Code和排序(每级2位编码)
-            SysDataResource sysDataResource = await _sysDataResourceRep.AsQueryable().OrderByDescending(o => o.Code)
-                    .FirstAsync(u => u.Pid == input.Pid);
+            var sysDataResource = await _sysDataResourceRep.AsQueryable().OrderByDescending(o => o.Code)
+                .FirstAsync(u => u.Pid == input.Pid);
 
             if (sysDataResource != null)
             {
@@ -124,7 +116,6 @@ namespace Admin.NET.Core.Service.DataResource
             if (childIdList.Contains(input.Pid))
                 throw Oops.Oh(ErrorCodeEnum.D1601);
 
-
             var dataResource = input.Adapt<SysDataResource>();
             await _sysDataResourceRep.AsUpdateable(dataResource).IgnoreColumns(true).ExecuteCommandAsync();
         }
@@ -152,8 +143,7 @@ namespace Admin.NET.Core.Service.DataResource
         /// </summary>
         /// <param name="pid"></param>
         /// <returns></returns>
-        [NonAction]
-        public async Task<List<long>> GetChildIdListWithSelfById(long pid)
+        private async Task<List<long>> GetChildIdListWithSelfById(long pid)
         {
             var treeList = await _sysDataResourceRep.AsQueryable().ToChildListAsync(u => u.Pid, pid);
             return treeList.Select(u => u.Id).ToList();
