@@ -1,4 +1,4 @@
-﻿using Furion.DataEncryption;
+using Furion.DataEncryption;
 using Furion.DependencyInjection;
 using Furion.DynamicApiController;
 using Furion.FriendlyException;
@@ -160,12 +160,13 @@ namespace Admin.NET.Core.Service
         [HttpPost("/sysTenant/delete")]
         public async Task DeleteTenant(DeleteTenantInput input)
         {
-            var entity = await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
-            await _tenantRep.DeleteAsync(entity);
+
             var users = await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
             // 超级管理员所在租户为默认租户
             if (users.Any(u => u.UserType == UserTypeEnum.SuperAdmin))
-                throw Oops.Oh(ErrorCodeEnum.D1023);
+                throw Oops.Oh(ErrorCodeEnum.D1023);                
+            var entity = await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
+            await _tenantRep.DeleteAsync(entity);
 
             // 删除与租户相关的表数据
             var userIds = users.Select(u => u.Id).ToList();
