@@ -10,7 +10,6 @@ using Admin.NET.Core;
 using Admin.NET.Core.Service;
 using System;
 using @(@Model.NameSpace).Entity;
-using Admin.NET.Core.Extension;
 
 namespace @Model.NameSpace
 {
@@ -95,7 +94,7 @@ namespace @Model.NameSpace
         public async Task Add(Add@(@Model.ClassName)Input input)
         {
             var entity = input.Adapt<@(@Model.ClassName)>();
-            await _rep.InsertAsync(entity);
+            await _rep.InsertWithDiffLogAsync(entity);
         }
 
         /// <summary>
@@ -111,8 +110,7 @@ if (@column.ColumnKey == "True"){
             @:var entity = await _rep.GetFirstAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
 }
 }
-            await _rep.Context.Updateable(entity).FakeDelete().ExecuteCommandAsync();   //假删除
-            //await _rep.DeleteAsync(entity);   //真删除
+            await _rep.FakeDeleteAsync(entity);   //假删除
         }
 
         /// <summary>
@@ -124,7 +122,7 @@ if (@column.ColumnKey == "True"){
         public async Task Update(Update@(@Model.ClassName)Input input)
         {
             var entity = input.Adapt<@(@Model.ClassName)>();
-            await _rep.Context.Updateable(entity).IgnoreColumns(ignoreAllNullColumns: true).ExecuteCommandAsync();
+            await _rep.UpdateWithDiffLogAsync(entity);
         }
 
         /// <summary>

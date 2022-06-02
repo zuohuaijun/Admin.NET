@@ -3,18 +3,37 @@
 public static class RepositoryExtension
 {
     /// <summary>
-    /// 实体假删除 _rep.Context.Updateable(entity).FakeDelete().ExecuteCommandAsync();
+    /// 实体假删除 _rep.FakeDelete(entity)
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="updateable"></param>
+    /// <param name="repository"></param>
+    /// <param name="entity"></param>
     /// <returns></returns>
-    public static IUpdateable<T> FakeDelete<T>(this IUpdateable<T> updateable) where T : EntityBase, new()
+    public static int FakeDelete<T>(this ISugarRepository repository, T entity) where T : EntityBase, new()
     {
-        return updateable.ReSetValue(x => { x.IsDelete = true; })
+        return repository.Context.Updateable(entity).ReSetValue(x => { x.IsDelete = true; })
             .IgnoreColumns(ignoreAllNullColumns: true)
             .EnableDiffLogEvent()   // 记录差异日志
-            .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId });  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
+            .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
+            .ExecuteCommand();
     }
+
+    /// <summary>
+    /// 实体假删除异步 _rep.FakeDeleteAsync(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="repository"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static Task<int> FakeDeleteAsync<T>(this ISugarRepository repository, T entity) where T : EntityBase, new()
+    {
+        return repository.Context.Updateable(entity).ReSetValue(x => { x.IsDelete = true; })
+            .IgnoreColumns(ignoreAllNullColumns: true)
+            .EnableDiffLogEvent()   // 记录差异日志
+            .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
+            .ExecuteCommandAsync();
+    }
+
 
     /// <summary>
     /// 排序方式(默认降序)
@@ -42,5 +61,65 @@ public static class RepositoryExtension
             orderStr = $"{nowPagerInput.Field} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}";
         }
         return queryable.OrderByIF(!string.IsNullOrWhiteSpace(orderStr), orderStr);
+    }
+
+    /// <summary>
+    /// 更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="repository"></param>
+    /// <param name="entity"></param>
+    /// <param name="ignoreAllNullColumns"></param>
+    /// <returns></returns>
+    public static int UpdateWithDiffLog<T>(this ISugarRepository repository, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
+    {
+        return repository.Context.Updateable(entity)
+            .IgnoreColumns(ignoreAllNullColumns: ignoreAllNullColumns)
+            .EnableDiffLogEvent()
+            .ExecuteCommand();
+    }
+
+    /// <summary>
+    /// 更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="repository"></param>
+    /// <param name="entity"></param>
+    /// <param name="ignoreAllNullColumns"></param>
+    /// <returns></returns>
+    public static Task<int> UpdateWithDiffLogAsync<T>(this ISugarRepository repository, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
+    {
+        return repository.Context.Updateable(entity)
+            .IgnoreColumns(ignoreAllNullColumns: ignoreAllNullColumns)
+            .EnableDiffLogEvent()
+            .ExecuteCommandAsync();
+    }
+
+    /// <summary>
+    /// 新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="repository"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static int InsertWithDiffLog<T>(this ISugarRepository repository, T entity) where T : EntityBase, new()
+    {
+        return repository.Context.Insertable(entity)
+            .EnableDiffLogEvent()
+            .ExecuteCommand();
+    }
+
+    /// <summary>
+    /// 新增实体并记录差异日志 _rep.InsertWithDiffLogAsync(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="repository"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static Task<int> InsertWithDiffLogAsync<T>(this ISugarRepository repository, T entity) where T : EntityBase, new()
+    {
+        return repository.Context.Insertable(entity)
+            .EnableDiffLogEvent()
+            .ExecuteCommandAsync();
     }
 }

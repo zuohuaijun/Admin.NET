@@ -27,6 +27,11 @@ public class ConnectionStringsOptions : IConfigurableOptions
     public bool InitTable { get; set; }
 
     /// <summary>
+    /// 禁用数据库表差异日志
+    /// </summary>
+    public bool DisableDiffLog { get; set; }
+    
+    /// <summary>
     /// 业务库集合
     /// </summary>
     public List<DbConfig> DbConfigs { get; set; } = new List<DbConfig>();

@@ -11,11 +11,12 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
     /// <returns></returns>
     public IEnumerable<SysMenu> HasData()
     {
+        //return null;
         return new[]
         {
-            new SysMenu{ Id=252885263003710, Pid=0, Title="数据面板", Path="/dashboard", Name="Dashboard", Component="LAYOUT", Redirect="/dashboard/analysis", Icon="ant-design:home-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysMenu{ Id=252885263003711, Pid=252885263003710, Title="分析页", Path="analysis", Name="Analysis", Component="/dashboard/analysis/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysMenu{ Id=252885263003712, Pid=252885263003710, Title="工作台", Path="workbench", Name="Workbench", Component="/dashboard/workbench/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+                new SysMenu{ Id=252885263003710, Pid=0, Title="数据面板", Path="/dashboard", Name="Dashboard", Component="LAYOUT", Redirect="/dashboard/analysis", Icon="ant-design:home-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+                new SysMenu{ Id=252885263003711, Pid=252885263003710, Title="分析页", Path="analysis", Name="Analysis", Component="/dashboard/analysis/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+                new SysMenu{ Id=252885263003712, Pid=252885263003710, Title="工作台", Path="workbench", Name="Workbench", Component="/dashboard/workbench/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
             new SysMenu{ Id=252885263003720, Pid=0, Title="系统管理", Path="/sys", Name="sys", Component="LAYOUT", Redirect="", Icon="ant-design:setting-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=252885263003730, Pid=252885263003720, Title="账号管理", Path="user", Name="UserManagement", Component="/sys/admin/user/index", Icon="ant-design:user-outlined", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
@@ -112,7 +113,10 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
             new SysMenu{ Id=252885263003930, Pid=252885263003900, Title="异常日志", Path="exlog", Name="ExlogManagement", Component="/sys/admin/log/exlog/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=252885263003931, Pid=252885263003930, Title="日志查询", Permission="sysExlog:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=252885263003932, Pid=252885263003930, Title="日志清空", Permission="sysExlog:clear", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
-
+            new SysMenu{ Id=252885263003935, Pid=252885263003900, Title="差异日志", Path="difflog", Name="DifflogManagement", Component="/sys/admin/log/difflog/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
+            new SysMenu{ Id=252885263003936, Pid=252885263003935, Title="日志查询", Permission="sysDifflog:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
+            new SysMenu{ Id=252885263003937, Pid=252885263003935, Title="日志清空", Permission="sysDifflog:clear", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
+                        
             new SysMenu{ Id=252885263003940, Pid=0, Title="文件管理", Path="/file", Name="file", Component="LAYOUT", Redirect="", Icon="ant-design:file-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=400 },
             new SysMenu{ Id=252885263003950, Pid=252885263003940, Title="文件管理", Path="file", Name="FileManagement", Component="/sys/admin/file/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=252885263003951, Pid=252885263003950, Title="文件查询", Permission="sysFile:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },

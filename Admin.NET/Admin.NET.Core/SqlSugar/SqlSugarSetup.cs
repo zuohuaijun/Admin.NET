@@ -69,14 +69,19 @@ public static class SqlSugarSetup
                             Console.ForegroundColor = ConsoleColor.White;
                         if (sql.StartsWith("DELETE"))
                             Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine(sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+                        Console.WriteLine("\r\n" + "=========执行SQL============" + "\r\n" + UtilMethods.GetSqlString(DbType.MySql, sql, pars) + "\r\n");
+                        //Console.WriteLine(sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)) + "\r\n" + "========================" + "\r\n");
                         App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+
+
+
                     };
                     dbProvider.Aop.OnError = (ex) =>
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
-                        Console.WriteLine($"{ex.Message}{Environment.NewLine}{ex.Sql}{Environment.NewLine}{pars}{Environment.NewLine}");
+                        Console.WriteLine("\r\n" + "=========SQL错误============" + "\r\n" + UtilMethods.GetSqlString(DbType.MySql, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
+                        //Console.WriteLine($"{ex.Message}{Environment.NewLine}{ex.Sql}{Environment.NewLine}{pars}{Environment.NewLine}");
                         App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
                     };
 
@@ -113,6 +118,31 @@ public static class SqlSugarSetup
                             if (entityInfo.PropertyName == "UpdateUserId")
                                 entityInfo.SetValue(App.User?.FindFirst(ClaimConst.UserId)?.Value);
                         }
+                    };
+
+                    dbProvider.Aop.OnDiffLogEvent = async it =>
+                    {
+                        if (dbOptions.DisableDiffLog) return;
+
+                        var logProvider = db.GetConnectionScope(SqlSugarConst.ConfigId);
+                        var log = new SysLogDiff
+                        {
+
+                            //操作后记录   包含： 字段描述 列名 值  表名 表描述
+                            AfterData = Newtonsoft.Json.JsonConvert.SerializeObject(it.AfterData),
+                            //操作前记录  包含： 字段描述 列名 值 表名 表描述
+                            BeforeData = Newtonsoft.Json.JsonConvert.SerializeObject(it.BeforeData),
+                            //传进来的对象
+                            BusinessData = Newtonsoft.Json.JsonConvert.SerializeObject(it.BusinessData),
+                            //enum insert 、update and delete  
+                            DiffType = it.DiffType.ToString(),
+                            Sql = UtilMethods.GetSqlString(DbType.MySql, it.Sql, it.Parameters),
+                            Parameters = Newtonsoft.Json.JsonConvert.SerializeObject(it.Parameters),
+                            Duration = it.Time == null ? 0 : (long)it.Time.Value.TotalMilliseconds
+                        };
+                        await logProvider.Insertable(log).ExecuteCommandAsync();
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"***差异日志开始***{Environment.NewLine}{Newtonsoft.Json.JsonConvert.SerializeObject(log)}{Environment.NewLine}***差异日志结束***");
                     };
 
                     // 配置实体假删除过滤器
