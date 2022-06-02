@@ -55,6 +55,8 @@ enum Api {
   ClearOpLog = '/sysOpLog/clear',
   ExlogPageList = '/sysExLog/pageList',
   ClearExLog = '/sysExLog/clear',
+  DifflogPageList = '/sysDiffLog/pageList',
+  ClearDiffLog = '/sysDiffLog/clear',
 
   // 文件接口
   FilePageList = '/sysFile/pageList',
@@ -236,6 +238,12 @@ export const getExLogPageList = (params?: any) =>
   defHttp.get<any>({ url: Api.ExlogPageList, params });
 //清空异常日志
 export const clearExLog = () => defHttp.post({ url: Api.ClearExLog });
+
+// 获取差异日志分页列表
+export const getDiffLogPageList = (params?: any) =>
+  defHttp.get<any>({ url: Api.DifflogPageList, params });
+//清空差异日志
+export const clearDiffLog = () => defHttp.post({ url: Api.ClearDiffLog });
 
 ////////// 文件管理接口 //////////
 // 获取文件分页列表
