@@ -1,4 +1,6 @@
-﻿namespace Admin.NET.Core;
+﻿using Serilog;
+
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 全局异常处理

@@ -25,7 +25,6 @@ global using Microsoft.Extensions.Caching.Distributed;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Options;
-global using Serilog;
 global using SKIT.FlurlHttpClient;
 global using SKIT.FlurlHttpClient.Wechat.Api;
 global using SKIT.FlurlHttpClient.Wechat.Api.Models;

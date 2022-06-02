@@ -52,12 +52,12 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpGet("/sysRole/list")]
     public async Task<List<RoleOutput>> GetRoleList()
     {
-        // 若非超级管理员则只取拥有角色Id集合
-        var roleIdList = _userManager.SuperAdmin ? new List<long>() :
-            await _sysUserRoleService.GetUserRoleIdList(_userManager.UserId);
+        //// 若非超级管理员则只取拥有角色Id集合
+        //var roleIdList = _userManager.SuperAdmin ? new List<long>() :
+        //    await _sysUserRoleService.GetUserRoleIdList(_userManager.UserId);
 
         return await _sysRoleRep.AsQueryable()
-            .WhereIF(roleIdList.Count > 0, u => roleIdList.Contains(u.Id))
+            //.WhereIF(roleIdList.Count > 0, u => roleIdList.Contains(u.Id))
             .OrderBy(u => u.Order).Select<RoleOutput>().ToListAsync();
     }
 
@@ -130,6 +130,10 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpPost("/sysRole/grantMenu")]
     public async Task GrantRoleMenu(RoleMenuInput input)
     {
+        var role = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
+        if (!_userManager.SuperAdmin && role.Code == CommonConst.SysAdminRoleCode)
+            throw Oops.Oh(ErrorCodeEnum.D1021);
+
         await _sysRoleMenuService.GrantRoleMenu(input);
     }
 

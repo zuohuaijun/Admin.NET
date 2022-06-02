@@ -61,7 +61,7 @@
                 InitOwnOrgData(e);
               },
             },
-            //colProps: { span: 8 },
+            colProps: { span: 24 },
             required: true,
           },
           {

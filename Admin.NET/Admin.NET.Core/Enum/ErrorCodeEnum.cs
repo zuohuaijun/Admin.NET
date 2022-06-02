@@ -121,21 +121,21 @@ public enum ErrorCodeEnum
     D1018,
 
     /// <summary>
-    /// 禁止删除系统管理员角色(sys_manager_role)
+    /// 禁止删除系统管理员角色
     /// </summary>
-    [ErrorCodeItemMetadata("禁止删除系统管理员角色(sys_manager_role)")]
+    [ErrorCodeItemMetadata("禁止删除系统管理员角色")]
     D1019,
 
     /// <summary>
-    /// 禁止修改系统管理员角色(sys_manager_role)
+    /// 禁止修改系统管理员角色
     /// </summary>
-    [ErrorCodeItemMetadata("禁止修改系统管理员角色(sys_manager_role)")]
+    [ErrorCodeItemMetadata("禁止修改系统管理员角色")]
     D1020,
 
     /// <summary>
-    /// 禁止为系统管理员角色(sys_manager_role)分配权限
+    /// 禁止为系统管理员角色分配权限
     /// </summary>
-    [ErrorCodeItemMetadata("禁止为系统管理员角色(sys_manager_role)分配权限")]
+    [ErrorCodeItemMetadata("禁止为系统管理员角色分配权限")]
     D1021,
 
     /// <summary>

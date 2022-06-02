@@ -118,6 +118,8 @@ export const formSchema: FormSchema[] = [
     label: '角色编码',
     component: 'Input',
     colProps: { span: 24 },
+    //ifShow: ({ values }) => values.code != 'sys_admin_role',
+    dynamicDisabled: ({ values }) => values.code == 'sys_admin_role',
   },
   {
     field: 'status',

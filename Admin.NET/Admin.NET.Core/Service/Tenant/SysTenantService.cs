@@ -93,7 +93,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         var newRole = new SysRole
         {
             TenantId = tenantId,
-            Code = "sys_manager_role",
+            Code = CommonConst.SysAdminRoleCode,
             Name = "系统管理员",
             DataScope = DataScopeEnum.All
         };

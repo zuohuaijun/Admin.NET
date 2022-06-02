@@ -13,22 +13,22 @@ public class CommonConst
     /// <summary>
     /// 系统管理员角色编码
     /// </summary>
-    public const string SysAdminRoleCode = "SysAdminRoleCode";
+    public const string SysAdminRoleCode = "sys_admin_role";
 
     /// <summary>
     /// 演示环境开关配置
     /// </summary>
-    public const string SysDemoEnv = "SysDemoEnv";
+    public const string SysDemoEnv = "sys_demo_env";
 
     /// <summary>
     /// 验证码开关配置
     /// </summary>
-    public const string SysCaptchaFlag = "SysCaptchaFlag";
+    public const string SysCaptchaFlag = "sys_captcha_flag";
 
     /// <summary>
     /// 开启操作日志配置
     /// </summary>
-    public const string SysOpLogFlag = "SysOpLog";
+    public const string SysOpLogFlag = "sys_op_log";
 
     /// <summary>
     /// 实体所在程序集-代码生成
