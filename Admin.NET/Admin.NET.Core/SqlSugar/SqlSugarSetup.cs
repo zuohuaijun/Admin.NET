@@ -72,9 +72,6 @@ public static class SqlSugarSetup
                         Console.WriteLine("\r\n" + "=========执行SQL============" + "\r\n" + UtilMethods.GetSqlString(DbType.MySql, sql, pars) + "\r\n");
                         //Console.WriteLine(sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)) + "\r\n" + "========================" + "\r\n");
                         App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
-
-
-
                     };
                     dbProvider.Aop.OnError = (ex) =>
                     {
@@ -120,29 +117,27 @@ public static class SqlSugarSetup
                         }
                     };
 
-                    dbProvider.Aop.OnDiffLogEvent = async it =>
+                    dbProvider.Aop.OnDiffLogEvent = async u =>
                     {
-                        if (dbOptions.DisableDiffLog) return;
+                        if (!dbOptions.EnableDiffLog) return;
 
-                        var logProvider = db.GetConnectionScope(SqlSugarConst.ConfigId);
-                        var log = new SysLogDiff
+                        var LogDiff = new SysLogDiff
                         {
-
-                            //操作后记录   包含： 字段描述 列名 值  表名 表描述
-                            AfterData = Newtonsoft.Json.JsonConvert.SerializeObject(it.AfterData),
-                            //操作前记录  包含： 字段描述 列名 值 表名 表描述
-                            BeforeData = Newtonsoft.Json.JsonConvert.SerializeObject(it.BeforeData),
-                            //传进来的对象
-                            BusinessData = Newtonsoft.Json.JsonConvert.SerializeObject(it.BusinessData),
-                            //enum insert 、update and delete  
-                            DiffType = it.DiffType.ToString(),
-                            Sql = UtilMethods.GetSqlString(DbType.MySql, it.Sql, it.Parameters),
-                            Parameters = Newtonsoft.Json.JsonConvert.SerializeObject(it.Parameters),
-                            Duration = it.Time == null ? 0 : (long)it.Time.Value.TotalMilliseconds
+                            // 操作后记录（字段描述 列名 值  表名 表描述）
+                            AfterData = Newtonsoft.Json.JsonConvert.SerializeObject(u.AfterData),
+                            // 操作前记录（字段描述 列名 值 表名 表描述）
+                            BeforeData = Newtonsoft.Json.JsonConvert.SerializeObject(u.BeforeData),
+                            // 传进来的对象
+                            BusinessData = Newtonsoft.Json.JsonConvert.SerializeObject(u.BusinessData),
+                            // enum（insert、update、delete） 
+                            DiffType = u.DiffType.ToString(),
+                            Sql = UtilMethods.GetSqlString(DbType.MySql, u.Sql, u.Parameters),
+                            Parameters = Newtonsoft.Json.JsonConvert.SerializeObject(u.Parameters),
+                            Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
                         };
-                        await logProvider.Insertable(log).ExecuteCommandAsync();
+                        await dbProvider.Insertable(LogDiff).ExecuteCommandAsync();
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"***差异日志开始***{Environment.NewLine}{Newtonsoft.Json.JsonConvert.SerializeObject(log)}{Environment.NewLine}***差异日志结束***");
+                        Console.WriteLine($"***差异日志开始***{ Environment.NewLine }{ Newtonsoft.Json.JsonConvert.SerializeObject(LogDiff) }{ Environment.NewLine }***差异日志结束***");
                     };
 
                     // 配置实体假删除过滤器
@@ -157,8 +152,10 @@ public static class SqlSugarSetup
             });
 
             // 初始化数据库结构及种子数据
-            if (dbOptions.InitTable)
+            if (dbOptions.EnableInitTable)
                 InitDataBase(sqlSugar, dbOptions);
+            if (dbOptions.EnableSeedData)
+                InitSeedData(sqlSugar);
             return sqlSugar;
         });
         services.AddScoped(typeof(SqlSugarRepository<>)); // 注册仓储
@@ -169,9 +166,9 @@ public static class SqlSugarSetup
     /// </summary>
     public static void InitDataBase(SqlSugarScope db, ConnectionStringsOptions dbOptions)
     {
-        // 创建系统默认数据库
+        // 创建默认数据库
         db.DbMaintenance.CreateDatabase();
-        // 创建其他业务数据库
+        // 创建业务数据库
         dbOptions.DbConfigs.ForEach(config =>
         {
             db.GetConnection(config.DbConfigId).DbMaintenance.CreateDatabase();
@@ -189,7 +186,13 @@ public static class SqlSugarSetup
             db.ChangeDatabase(dbConfigId);
             db.CodeFirst.InitTables(entityType);
         }
+    }
 
+    /// <summary>
+    /// 初始化种子数据
+    /// </summary>
+    public static void InitSeedData(SqlSugarScope db)
+    {
         // 获取所有实体种子数据
         var seedDataTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
             && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(ISqlSugarEntitySeedData<>))));

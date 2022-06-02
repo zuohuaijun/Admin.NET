@@ -6,7 +6,7 @@
 public class ConnectionStringsOptions : IConfigurableOptions
 {
     /// <summary>
-    /// 默认数据库编号
+    /// 默认数据库标识
     /// </summary>
     public string DefaultConfigId { get; set; } = SqlSugarConst.ConfigId;
 
@@ -22,15 +22,20 @@ public class ConnectionStringsOptions : IConfigurableOptions
     public string DefaultConnection { get; set; }
 
     /// <summary>
-    /// 初始化表和数据
+    /// 启用初始化库表
     /// </summary>
-    public bool InitTable { get; set; }
+    public bool EnableInitTable { get; set; }
 
     /// <summary>
-    /// 禁用数据库表差异日志
+    /// 启用种子数据
     /// </summary>
-    public bool DisableDiffLog { get; set; }
-    
+    public bool EnableSeedData { get; set; }
+
+    /// <summary>
+    /// 启用库表差异日志
+    /// </summary>
+    public bool EnableDiffLog { get; set; }
+
     /// <summary>
     /// 业务库集合
     /// </summary>
@@ -58,7 +63,12 @@ public class DbConfig
     public string DbConnection { get; set; }
 
     /// <summary>
-    /// 初始化表和数据
+    /// 启用初始化库表
     /// </summary>
-    public bool InitTable { get; set; }
+    public bool EnableInitTable { get; set; }
+
+    /// <summary>
+    /// 启用种子数据
+    /// </summary>
+    public bool EnableSeedData { get; set; }
 }

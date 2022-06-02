@@ -224,25 +224,25 @@ export const updatePos = (params: any) => defHttp.post({ url: Api.UpdatePos, par
 // 获取访问日志分页列表
 export const getVisLogPageList = (params?: any) =>
   defHttp.get<any>({ url: Api.VislogPageList, params });
-//清空访问日志
+// 清空访问日志
 export const clearVisLog = () => defHttp.post({ url: Api.ClearVisLog });
 
 // 获取操作日志分页列表
 export const getOpLogPageList = (params?: any) =>
   defHttp.get<any>({ url: Api.OplogPageList, params });
-//清空操作日志
+// 清空操作日志
 export const clearOpLog = () => defHttp.post({ url: Api.ClearOpLog });
 
 // 获取异常日志分页列表
 export const getExLogPageList = (params?: any) =>
   defHttp.get<any>({ url: Api.ExlogPageList, params });
-//清空异常日志
+// 清空异常日志
 export const clearExLog = () => defHttp.post({ url: Api.ClearExLog });
 
 // 获取差异日志分页列表
 export const getDiffLogPageList = (params?: any) =>
   defHttp.get<any>({ url: Api.DifflogPageList, params });
-//清空差异日志
+// 清空差异日志
 export const clearDiffLog = () => defHttp.post({ url: Api.ClearDiffLog });
 
 ////////// 文件管理接口 //////////
@@ -391,22 +391,22 @@ export const updateGenerateConfig = (params: any) =>
   });
 
 ////////// 租户管理接口 //////////
-//分页查询租户
+// 分页查询租户
 export const getTenantPageList = (params?: any) =>
   defHttp.get<any>({ url: Api.GetTenantPage, params });
-//增加租户
+// 增加租户
 export const addTenant = (params: any) => defHttp.post<any>({ url: Api.AddTenant, params });
-//删除租户
+// 删除租户
 export const deleteTenant = (id: number) => defHttp.post({ url: Api.DeleteTenant, params: { id } });
-//编辑租户
+// 编辑租户
 export const updateTenant = (params: any) => defHttp.post<any>({ url: Api.UpdateTenant, params });
-//授权租户菜单
+// 授权租户菜单
 export const grantTenantMenu = (params?: any) =>
   defHttp.post<any>({ url: Api.GrantTenantMenu, params });
 // 获取租户菜单
 export const tenantOwnMenuList = (id: number) =>
   defHttp.get<any>({ url: Api.TenantOwnMenuList, params: { id } });
-//重置租户密码
+// 重置租户密码
 export const resetTenantPwd = (id: number) =>
   defHttp.post<any>({ url: Api.ResetTenantPwd, params: { id } });
 

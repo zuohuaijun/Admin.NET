@@ -1,21 +1,22 @@
 ﻿{
   "ConnectionStrings": {
-    "DefaultConnection": "server=116i.cn;Database=mooc_db;Uid=root;Pwd=zhaofei242@;pooling=true;port=3306;sslMode=None;CharSet=utf8;Convert Zero Datetime=True;AllowLoadLocalInfile=true",
-    "DefaultDbType": "MySql", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
-    "InitTable": true, // 是否生成库表和种子数据
-    "DisableDiffLog": false, // 禁用数据库表差异日志
+    "DefaultConnection": "DataSource=C:\\db\\Admin.NET.db",
+    "DefaultDbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
+    "EnableInitTable": true, // 启用初始化库表
+    "EnableSeedData": true, // 启用种子数据
+    "EnableDiffLog": false, // 启用库表差异日志
     "DbConfigs": [
       {
-        "DbConfigId": "mooc_data_db",
-        "DbType": "MySql",
-        "DbConnection": "server=116i.cn;Database=mooc_data_db;Uid=root;Pwd=zhaofei242@;pooling=true;port=3306;sslMode=None;CharSet=utf8;Convert Zero Datetime=True;AllowLoadLocalInfile=true",
-        "InitTable": true
+        "DbConfigId": "Test",
+        "DbType": "Sqlite",
+        "DbConnection": "DataSource=C:\\db\\Test.db",
+        "EnableInitTable": true
       },
       {
-        "DbConfigId": "mooc_log_db",
-        "DbType": "MySql",
-        "DbConnection": "server=116i.cn;Database=mooc_log_db;Uid=root;Pwd=zhaofei242@;pooling=true;port=3306;sslMode=None;CharSet=utf8;Convert Zero Datetime=True;AllowLoadLocalInfile=true",
-        "InitTable": false
+        "DbConfigId": "Test1",
+        "DbType": "Sqlite",
+        "DbConnection": "DataSource=C:\\db\\Test1.db",
+        "EnableInitTable": false
       }
     ]
   },

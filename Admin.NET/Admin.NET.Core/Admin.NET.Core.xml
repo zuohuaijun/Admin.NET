@@ -701,6 +701,46 @@
             真实姓名
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.SysLogDiff">
+            <summary>
+            系统差异日志表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogDiff.BeforeData">
+            <summary>
+            操作前记录
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogDiff.AfterData">
+            <summary>
+            操作后记录
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogDiff.Sql">
+            <summary>
+            Sql
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogDiff.Parameters">
+            <summary>
+            参数  手动传入的参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogDiff.BusinessData">
+            <summary>
+            业务对象  
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogDiff.DiffType">
+            <summary>
+            差异操作
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogDiff.Duration">
+            <summary>
+            耗时
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysLogEx">
             <summary>
             系统异常日志表
@@ -2535,12 +2575,22 @@
             <param name="pi"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDelete``1(SqlSugar.IUpdateable{``0})">
+        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDelete``1(SqlSugar.ISugarRepository,``0)">
             <summary>
-            实体假删除 _rep.Context.Updateable(entity).FakeDelete().ExecuteCommandAsync();
+            实体假删除 _rep.FakeDelete(entity)
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="updateable"></param>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            实体假删除异步 _rep.FakeDeleteAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.RepositoryExtension.OrderBuilder``1(SqlSugar.ISugarQueryable{``0},Admin.NET.Core.BasePageInput,System.String,System.Boolean)">
@@ -2552,6 +2602,44 @@
             <param name="defualtSortField"> 默认排序字段 </param>
             <param name="descSort"> 是否降序 </param>
             <returns> </returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLog``1(SqlSugar.ISugarRepository,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLog``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLogAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.LogExceptionHandler">
             <summary>
@@ -2624,7 +2712,7 @@
         </member>
         <member name="P:Admin.NET.Core.ConnectionStringsOptions.DefaultConfigId">
             <summary>
-            默认数据库编号
+            默认数据库标识
             </summary>
         </member>
         <member name="P:Admin.NET.Core.ConnectionStringsOptions.DefaultDbType">
@@ -2637,9 +2725,19 @@
             默认数据库连接字符串
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ConnectionStringsOptions.InitTable">
+        <member name="P:Admin.NET.Core.ConnectionStringsOptions.EnableInitTable">
             <summary>
-            初始化表和数据
+            启用初始化库表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ConnectionStringsOptions.EnableSeedData">
+            <summary>
+            启用种子数据
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ConnectionStringsOptions.EnableDiffLog">
+            <summary>
+            启用库表差异日志
             </summary>
         </member>
         <member name="P:Admin.NET.Core.ConnectionStringsOptions.DbConfigs">
@@ -2667,9 +2765,14 @@
             数据库连接字符串
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.DbConfig.InitTable">
+        <member name="P:Admin.NET.Core.DbConfig.EnableInitTable">
             <summary>
-            初始化表和数据
+            启用初始化库表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DbConfig.EnableSeedData">
+            <summary>
+            启用种子数据
             </summary>
         </member>
         <member name="T:Admin.NET.Core.OSSProviderOptions">
@@ -4452,6 +4555,23 @@
             结束时间
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.Service.SysDiffLogService">
+            <summary>
+            差异日志服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDiffLogService.GetDiffLogList(Admin.NET.Core.Service.PageLogInput)">
+            <summary>
+            获取差异日志分页列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDiffLogService.ClearVisLog">
+            <summary>
+            清空差异日志
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.Service.SysExLogService">
             <summary>
             系统异常日志服务
@@ -6163,6 +6283,11 @@
         <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.SqlSugarScope,Admin.NET.Core.ConnectionStringsOptions)">
             <summary>
             初始化数据库结构
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitSeedData(SqlSugar.SqlSugarScope)">
+            <summary>
+            初始化种子数据
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.SetDeletedEntityFilter(SqlSugar.SqlSugarProvider)">
