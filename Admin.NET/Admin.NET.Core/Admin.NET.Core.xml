@@ -728,7 +728,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysLogDiff.BusinessData">
             <summary>
-            业务对象  
+            业务对象
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogDiff.DiffType">
