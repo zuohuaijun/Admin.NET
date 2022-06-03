@@ -116,7 +116,7 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
             new SysMenu{ Id=252885263003935, Pid=252885263003900, Title="差异日志", Path="difflog", Name="DifflogManagement", Component="/sys/admin/log/difflog/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=252885263003936, Pid=252885263003935, Title="日志查询", Permission="sysDifflog:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=252885263003937, Pid=252885263003935, Title="日志清空", Permission="sysDifflog:clear", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
-                        
+
             new SysMenu{ Id=252885263003940, Pid=0, Title="文件管理", Path="/file", Name="file", Component="LAYOUT", Redirect="", Icon="ant-design:file-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=400 },
             new SysMenu{ Id=252885263003950, Pid=252885263003940, Title="文件管理", Path="file", Name="FileManagement", Component="/sys/admin/file/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=252885263003951, Pid=252885263003950, Title="文件查询", Permission="sysFile:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },

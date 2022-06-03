@@ -117,19 +117,20 @@ public static class SqlSugarSetup
                         }
                     };
 
+                    // 差异日志
                     dbProvider.Aop.OnDiffLogEvent = async u =>
                     {
                         if (!dbOptions.EnableDiffLog) return;
 
                         var LogDiff = new SysLogDiff
                         {
-                            // 操作后记录（字段描述 列名 值  表名 表描述）
+                            // 操作后记录（字段描述、列名、值、表名、表描述）
                             AfterData = Newtonsoft.Json.JsonConvert.SerializeObject(u.AfterData),
-                            // 操作前记录（字段描述 列名 值 表名 表描述）
+                            // 操作前记录（字段描述、列名、值、表名、表描述）
                             BeforeData = Newtonsoft.Json.JsonConvert.SerializeObject(u.BeforeData),
                             // 传进来的对象
                             BusinessData = Newtonsoft.Json.JsonConvert.SerializeObject(u.BusinessData),
-                            // enum（insert、update、delete） 
+                            // enum（insert、update、delete）
                             DiffType = u.DiffType.ToString(),
                             Sql = UtilMethods.GetSqlString(DbType.MySql, u.Sql, u.Parameters),
                             Parameters = Newtonsoft.Json.JsonConvert.SerializeObject(u.Parameters),
@@ -176,8 +177,8 @@ public static class SqlSugarSetup
 
         // 获取所有实体表
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-        && u.IsDefined(typeof(SqlSugarEntityAttribute), false))
-        .OrderByDescending(u => u.GetSqlSugarEntityOrder());
+            && u.IsDefined(typeof(SqlSugarEntityAttribute), false))
+            .OrderByDescending(u => u.GetSqlSugarEntityOrder());
         if (!entityTypes.Any()) return;
         // 初始化库表结构
         foreach (var entityType in entityTypes)

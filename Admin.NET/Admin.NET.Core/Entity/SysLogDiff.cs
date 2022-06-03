@@ -32,7 +32,7 @@ public class SysLogDiff : EntityBase
     public string Parameters { get; set; }
 
     /// <summary>
-    /// 业务对象  
+    /// 业务对象
     /// </summary>
     [SugarColumn(ColumnDescription = "业务对象", ColumnDataType = "text")]
     public string BusinessData { get; set; }
