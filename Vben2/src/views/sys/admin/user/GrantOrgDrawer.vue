@@ -39,6 +39,7 @@
     setup(_, { emit }) {
       const treeData = ref<TreeItem[]>([]);
       let rowId: number;
+      let orgId: number;
       const ownOrgData = ref<number[]>([]);
       const treeAction = ref<Nullable<TreeActionType>>(null);
 
@@ -66,6 +67,7 @@
           });
         }
         rowId = data.record.id;
+        orgId = data.record.orgId;
         setFieldsValue({
           ...data.record,
         });
@@ -80,6 +82,7 @@
           setDrawerProps({ confirmLoading: true });
 
           values.id = rowId;
+          values.orgId = orgId;
           await grantUserOrg(values);
 
           closeDrawer();
