@@ -11,13 +11,13 @@
         "DbType": "Sqlite",
         "DbConnection": "DataSource=C:\\db\\Test.db",
         "EnableInitTable": true
-      },
-      {
-        "DbConfigId": "Test1",
-        "DbType": "Sqlite",
-        "DbConnection": "DataSource=C:\\db\\Test1.db",
-        "EnableInitTable": false
       }
+      //{
+      //  "DbConfigId": "Test1",
+      //  "DbType": "Sqlite",
+      //  "DbConnection": "DataSource=C:\\db\\Test1.db",
+      //  "EnableInitTable": false
+      //}
     ]
   },
   "Wechat": {
