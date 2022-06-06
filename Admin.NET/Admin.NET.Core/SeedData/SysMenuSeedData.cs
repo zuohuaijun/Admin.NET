@@ -11,12 +11,11 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
     /// <returns></returns>
     public IEnumerable<SysMenu> HasData()
     {
-        //return null;
         return new[]
         {
-                new SysMenu{ Id=252885263003710, Pid=0, Title="数据面板", Path="/dashboard", Name="Dashboard", Component="LAYOUT", Redirect="/dashboard/analysis", Icon="ant-design:home-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-                new SysMenu{ Id=252885263003711, Pid=252885263003710, Title="分析页", Path="analysis", Name="Analysis", Component="/dashboard/analysis/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-                new SysMenu{ Id=252885263003712, Pid=252885263003710, Title="工作台", Path="workbench", Name="Workbench", Component="/dashboard/workbench/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysMenu{ Id=252885263003710, Pid=0, Title="数据面板", Path="/dashboard", Name="Dashboard", Component="LAYOUT", Redirect="/dashboard/analysis", Icon="ant-design:home-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysMenu{ Id=252885263003711, Pid=252885263003710, Title="分析页", Path="analysis", Name="Analysis", Component="/dashboard/analysis/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysMenu{ Id=252885263003712, Pid=252885263003710, Title="工作台", Path="workbench", Name="Workbench", Component="/dashboard/workbench/index", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
             new SysMenu{ Id=252885263003720, Pid=0, Title="系统管理", Path="/sys", Name="sys", Component="LAYOUT", Redirect="", Icon="ant-design:setting-outlined", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=252885263003730, Pid=252885263003720, Title="账号管理", Path="user", Name="UserManagement", Component="/sys/admin/user/index", Icon="ant-design:user-outlined", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },

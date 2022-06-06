@@ -3,21 +3,13 @@
     "DefaultConnection": "DataSource=C:\\db\\Admin.NET.db",
     "DefaultDbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
     "EnableInitTable": true, // 启用初始化库表
-    "EnableSeedData": true, // 启用种子数据
     "EnableDiffLog": false, // 启用库表差异日志
     "DbConfigs": [
       {
         "DbConfigId": "Test",
         "DbType": "Sqlite",
-        "DbConnection": "DataSource=C:\\db\\Test.db",
-        "EnableInitTable": true
+        "DbConnection": "DataSource=C:\\db\\Test.db"
       }
-      //{
-      //  "DbConfigId": "Test1",
-      //  "DbType": "Sqlite",
-      //  "DbConnection": "DataSource=C:\\db\\Test1.db",
-      //  "EnableInitTable": false
-      //}
     ]
   },
   "Wechat": {

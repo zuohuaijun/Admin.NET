@@ -27,11 +27,6 @@ public class ConnectionStringsOptions : IConfigurableOptions
     public bool EnableInitTable { get; set; }
 
     /// <summary>
-    /// 启用种子数据
-    /// </summary>
-    public bool EnableSeedData { get; set; }
-
-    /// <summary>
     /// 启用库表差异日志
     /// </summary>
     public bool EnableDiffLog { get; set; }
@@ -66,9 +61,4 @@ public class DbConfig
     /// 启用初始化库表
     /// </summary>
     public bool EnableInitTable { get; set; }
-
-    /// <summary>
-    /// 启用种子数据
-    /// </summary>
-    public bool EnableSeedData { get; set; }
 }

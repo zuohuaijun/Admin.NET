@@ -155,8 +155,6 @@ public static class SqlSugarSetup
             // 初始化数据库结构及种子数据
             if (dbOptions.EnableInitTable)
                 InitDataBase(sqlSugar, dbOptions);
-            if (dbOptions.EnableSeedData)
-                InitSeedData(sqlSugar);
             return sqlSugar;
         });
         services.AddScoped(typeof(SqlSugarRepository<>)); // 注册仓储
@@ -187,13 +185,7 @@ public static class SqlSugarSetup
             db.ChangeDatabase(dbConfigId);
             db.CodeFirst.InitTables(entityType);
         }
-    }
 
-    /// <summary>
-    /// 初始化种子数据
-    /// </summary>
-    public static void InitSeedData(SqlSugarScope db)
-    {
         // 获取所有实体种子数据
         var seedDataTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
             && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(ISqlSugarEntitySeedData<>))));
@@ -215,13 +207,13 @@ public static class SqlSugarSetup
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
                 var storage = db.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
-                storage.AsInsertable.ExecuteCommand();
+                storage.AsInsertable.IgnoreColumns(true).ExecuteCommand();
                 storage.AsUpdateable.ExecuteCommand();
             }
             else //没有主键或者不是预定义的主键(没主键有重复的可能)
             {
                 var storage = db.Storageable(seedDataTable).ToStorage();
-                storage.AsInsertable.ExecuteCommand();
+                storage.AsInsertable.IgnoreColumns(true).ExecuteCommand();
             }
         }
     }
@@ -272,6 +264,10 @@ public static class SqlSugarSetup
     /// </summary>
     public static void SetCustomEntityFilter(SqlSugarProvider db)
     {
+        // 排除超管过滤
+        if (App.User?.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString())
+            return;
+
         // 获取继承自定义实体过滤器接口的类集合
         var entityFilterTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
             && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(IEntityFilter))));
