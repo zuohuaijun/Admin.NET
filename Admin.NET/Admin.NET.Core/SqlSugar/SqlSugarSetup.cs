@@ -207,13 +207,13 @@ public static class SqlSugarSetup
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
                 var storage = db.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
-                storage.AsInsertable.IgnoreColumns(true).ExecuteCommand();
+                storage.AsInsertable.ExecuteCommand();
                 storage.AsUpdateable.ExecuteCommand();
             }
             else //没有主键或者不是预定义的主键(没主键有重复的可能)
             {
                 var storage = db.Storageable(seedDataTable).ToStorage();
-                storage.AsInsertable.IgnoreColumns(true).ExecuteCommand();
+                storage.AsInsertable.ExecuteCommand();
             }
         }
     }

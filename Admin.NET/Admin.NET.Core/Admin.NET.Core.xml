@@ -2730,11 +2730,6 @@
             启用初始化库表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ConnectionStringsOptions.EnableSeedData">
-            <summary>
-            启用种子数据
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.ConnectionStringsOptions.EnableDiffLog">
             <summary>
             启用库表差异日志
@@ -2768,11 +2763,6 @@
         <member name="P:Admin.NET.Core.DbConfig.EnableInitTable">
             <summary>
             启用初始化库表
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.DbConfig.EnableSeedData">
-            <summary>
-            启用种子数据
             </summary>
         </member>
         <member name="T:Admin.NET.Core.OSSProviderOptions">
@@ -6283,11 +6273,6 @@
         <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.SqlSugarScope,Admin.NET.Core.ConnectionStringsOptions)">
             <summary>
             初始化数据库结构
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.InitSeedData(SqlSugar.SqlSugarScope)">
-            <summary>
-            初始化种子数据
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.SetDeletedEntityFilter(SqlSugar.SqlSugarProvider)">
