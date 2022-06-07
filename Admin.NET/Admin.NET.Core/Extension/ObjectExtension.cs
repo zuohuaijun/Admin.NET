@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 对象拓展类
@@ -102,6 +102,27 @@ public static class ObjectExtension
             }
         }
         return result;
+    }
+    
+    /// <summary>
+    /// 对象序列化成json字符串
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public static string ToJson(this object obj)
+    {
+        return JSON.GetJsonSerializer().Serialize(obj);
+    }
+    
+    /// <summary>
+    /// json字符串反序列化成对象
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="json"></param>
+    /// <returns></returns>
+    public static T ToObject<T>(this string json)
+    {
+        return JSON.GetJsonSerializer().Deserialize<T>(json);
     }
 
     /// <summary>
