@@ -1,21 +1,24 @@
-﻿namespace Admin.NET.Core.Util;
+﻿using DbType = SqlSugar.DbType;
+
+namespace Admin.NET.Core.Util;
 
 /// <summary>
 /// 代码生成帮助类
 /// </summary>
 public static class CodeGenUtil
 {
-    //根据数据库类型来处理对应的数据字段类型
-    public static string ConvertDataType(string dataType, string DbType)
+    // 根据数据库类型来处理对应的数据字段类型
+    public static string ConvertDataType(string dataType)
     {
-        switch (DbType)
+        var dbTypeStr = App.GetOptions<ConnectionStringsOptions>().DefaultDbType;
+        var dbType = (DbType)Convert.ToInt32(Enum.Parse(typeof(DbType), dbTypeStr));
+        return dbType switch
         {
-            case "PostgreSQL":
-                return ConvertDataType_PostgreSQL(dataType);
-            default:
-                return ConvertDataType(dataType);
-        }
+            DbType.PostgreSQL => ConvertDataType_PostgreSQL(dataType),
+            _ => ConvertDataType_Default(dataType),
+        };
     }
+
     //PostgreSQL数据类型对应的字段类型
     public static string ConvertDataType_PostgreSQL(string dataType)
     {
@@ -24,18 +27,23 @@ public static class CodeGenUtil
             case "int2":
             case "smallint":
                 return "Int16";
+
             case "int4":
             case "integer":
                 return "int";
+
             case "int8":
             case "bigint":
                 return "long";
+
             case "float4":
             case "real":
                 return "float";
+
             case "float8":
             case "double precision":
                 return "double";
+
             case "numeric":
             case "decimal":
             case "path":
@@ -46,11 +54,13 @@ public static class CodeGenUtil
             case "macaddr":
             case "money":
                 return "decimal";
+
             case "boolean":
             case "bool":
             case "box":
             case "bytea":
                 return "bool";
+
             case "varchar":
             case "character varying":
             case "geometry":
@@ -66,8 +76,10 @@ public static class CodeGenUtil
             case "xml":
             case "json":
                 return "string";
+
             case "uuid":
                 return "Guid";
+
             case "timestamp":
             case "timestamp with time zone":
             case "timestamptz":
@@ -78,74 +90,41 @@ public static class CodeGenUtil
             case "timetz":
             case "time without time zone":
                 return "DateTime";
+
             case "bit":
             case "bit varying":
                 return "byte[]";
+
             case "varbit":
                 return "byte";
+
             case "public.geometry":
             case "inet":
                 return "object";
+
             default:
                 return "object";
         }
     }
 
-    public static string ConvertDataType(string dataType)
+    public static string ConvertDataType_Default(string dataType)
     {
-        switch (dataType)
+        return dataType switch
         {
-            case "text":
-            case "varchar":
-            case "char":
-            case "nvarchar":
-            case "nchar":
-            case "timestamp":
-                return "string";
-
-            case "int":
-                return "int";
-
-            case "smallint":
-                return "Int16";
-
-            case "tinyint":
-                return "byte";
-
-            case "bigint":
-            case "integer": // sqlite数据库
-                return "long";
-
-            case "bit":
-                return "bool";
-
-            case "money":
-            case "smallmoney":
-            case "numeric":
-            case "decimal":
-                return "decimal";
-
-            case "real":
-                return "Single";
-
-            case "datetime":
-            case "smalldatetime":
-                return "DateTime";
-
-            case "float":
-                return "double";
-
-            case "image":
-            case "binary":
-            case "varbinary":
-                return "byte[]";
-
-            case "uniqueidentifier":
-                return "Guid";
-
-            default:
-                return "object";
-        }
+            "text" or "varchar" or "char" or "nvarchar" or "nchar" or "timestamp" => "string",
+            "int" => "int",
+            "smallint" => "Int16",
+            "tinyint" => "byte",
+            "bigint" or "integer" => "long",
+            "bit" => "bool",
+            "money" or "smallmoney" or "numeric" or "decimal" => "decimal",
+            "real" => "Single",
+            "datetime" or "smalldatetime" => "DateTime",
+            "float" => "double",
+            "image" or "binary" or "varbinary" => "byte[]",
+            "uniqueidentifier" => "Guid",
+            _ => "object",
+        };
     }
 
     /// <summary>

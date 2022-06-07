@@ -177,7 +177,7 @@ public class CodeGenService : IDynamicApiController, ITransient
             ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
             DataType = u.DataType.ToString(),
-            NetType = CodeGenUtil.ConvertDataType(u.DataType.ToString(), App.GetOptions<ConnectionStringsOptions>().DefaultDbType),
+            NetType = CodeGenUtil.ConvertDataType(u.DataType.ToString()),
             ColumnComment = u.ColumnDescription
         }).ToList();
     }

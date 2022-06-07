@@ -193,7 +193,7 @@ public class DataBaseManager : IDynamicApiController, ITransient
         }
         dbColumnInfos.ForEach(m =>
         {
-            m.DataType = CodeGenUtil.ConvertDataType(m.DataType, App.GetOptions<ConnectionStringsOptions>().DefaultDbType);
+            m.DataType = CodeGenUtil.ConvertDataType(m.DataType);
         });
         var tContent = File.ReadAllText(templatePath);
         var tResult = _viewEngine.RunCompileFromCached(tContent, new
