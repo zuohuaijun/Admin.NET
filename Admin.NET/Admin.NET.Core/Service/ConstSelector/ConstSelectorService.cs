@@ -3,11 +3,11 @@
 /// <summary>
 /// 常量下拉框服务
 /// </summary>
-[ApiDescriptionSettings(Name = "常量下拉框服务", Order = 193)]
+[ApiDescriptionSettings(Name = "常量下拉框", Order = 189)]
 public class ConstSelectorService : IDynamicApiController, ITransient
 {
-
     private readonly IDistributedCache _cache;
+
     public ConstSelectorService(IDistributedCache cache)
     {
         _cache = cache;
@@ -72,13 +72,12 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     private async Task<List<Type>> GetAllTypesAsync()
     {
         return await Task.Run(() =>
-      {
-          var typeList = AppDomain.CurrentDomain.GetAssemblies()
-         .SelectMany(x => x.GetTypes())
-         .Where(x => x.CustomAttributes.Any(y => y.AttributeType == typeof(EnumSelectorAttribute)))
-         .ToList();
-          return typeList;
-      });
+        {
+            var typeList = AppDomain.CurrentDomain.GetAssemblies()
+                .SelectMany(x => x.GetTypes())
+                .Where(x => x.CustomAttributes.Any(y => y.AttributeType == typeof(ConstSelectorAttribute)))
+                .ToList();
+            return typeList;
+        });
     }
 }
-

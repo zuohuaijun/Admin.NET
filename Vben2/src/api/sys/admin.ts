@@ -133,7 +133,7 @@ enum Api {
   DeleteDataResource = '/sysDataResource/delete',
   UpdateDataResource = '/sysDataResource/update',
 
-  //常量下拉框接口
+  // 常量下拉框接口
   AllConstSelector = '/constSelector/allConstSelector',
   ConstSelector = '/constSelector/constSelector',
 }

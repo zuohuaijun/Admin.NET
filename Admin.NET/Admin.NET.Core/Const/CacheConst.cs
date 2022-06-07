@@ -48,5 +48,5 @@ public class CacheConst
     /// <summary>
     /// 常量下拉框
     /// </summary>
-    public const string KeyConstSelector = "const_selector:";
+    public const string KeyConstSelector = "selector:";
 }

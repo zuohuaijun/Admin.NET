@@ -1,13 +1,14 @@
 ﻿namespace Admin.NET.Core;
 
 /// <summary>
-/// 枚举下拉框
+/// 常量下拉框特性
 /// </summary>
-public class EnumSelectorAttribute : Attribute
+public class ConstSelectorAttribute : Attribute
 {
-    public EnumSelectorAttribute(string name)
+    public string Name { get; set; }
+
+    public ConstSelectorAttribute(string name)
     {
         Name = name;
     }
-    public string Name { get; set; }
 }

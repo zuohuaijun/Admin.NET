@@ -3,9 +3,9 @@ using OnceMi.AspNetCore.OSS;
 namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 文件服务
+/// 系统文件服务
 /// </summary>
-[ApiDescriptionSettings(Name = "文件服务", Order = 194)]
+[ApiDescriptionSettings(Name = "文件管理", Order = 194)]
 public class SysFileService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysFile> _sysFileRep;

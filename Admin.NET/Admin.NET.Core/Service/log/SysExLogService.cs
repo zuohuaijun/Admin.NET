@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统异常日志服务
 /// </summary>
-[ApiDescriptionSettings(Name = "系统异常日志", Order = 178)]
+[ApiDescriptionSettings(Name = "异常日志", Order = 178)]
 public class SysExLogService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysLogEx> _sysExLogRep;

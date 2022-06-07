@@ -4,6 +4,11 @@
         <name>Admin.NET.Core</name>
     </assembly>
     <members>
+        <member name="T:Admin.NET.Core.ConstSelectorAttribute">
+            <summary>
+            常量下拉框特性
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.NotLogAttribute">
             <summary>
             禁用日志特性
@@ -126,6 +131,11 @@
             在线用户缓存
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyConstSelector">
+            <summary>
+            常量下拉框
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.ClaimConst">
             <summary>
             Claim相关常量
@@ -209,6 +219,31 @@
         <member name="F:Admin.NET.Core.CommonConst.SysOpLogFlag">
             <summary>
             开启操作日志配置
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.OrderStatus">
+            <summary>
+            示例-类型下拉框
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SyncStatusEnum">
+            <summary>
+            示例-枚举下拉框
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SyncStatusEnum.未同步">
+            <summary>
+            未同步
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SyncStatusEnum.同步成功">
+            <summary>
+            同步成功
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SyncStatusEnum.同步失败">
+            <summary>
+            同步失败
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SqlSugarConst">
@@ -3985,6 +4020,45 @@
             <param name="code"></param>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.Service.ConstSelectorService">
+            <summary>
+            常量下拉框服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.ConstSelectorService.GetAllConstSelector">
+            <summary>
+            获取所有常量下拉框列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.ConstSelectorService.GetConstSelector(System.String)">
+            <summary>
+            根据类名获取下拉框数据
+            </summary>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.ConstSelectorService.GetAllTypesAsync">
+            <summary>
+            获取所有常量
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SelectorDto.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SelectorDto.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SelectorDto.Data">
+            <summary>
+            扩展字段
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.DataBaseManager">
             <summary>
             数据库管理服务
@@ -4504,7 +4578,7 @@
         </member>
         <member name="T:Admin.NET.Core.Service.SysFileService">
             <summary>
-            文件服务
+            系统文件服务
             </summary>
         </member>
         <member name="M:Admin.NET.Core.Service.SysFileService.QueryFilePageList(Admin.NET.Core.Service.PageFileInput)">
