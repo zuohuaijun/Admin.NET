@@ -107,7 +107,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
             codeGenConfig.CodeGenId = codeGenerate.Id;
             codeGenConfig.ColumnName = tableColumn.ColumnName;
             codeGenConfig.ColumnComment = tableColumn.ColumnComment;
-            codeGenConfig.NetType = CodeGenUtil.ConvertDataType(tableColumn.DataType);
+            codeGenConfig.NetType = CodeGenUtil.ConvertDataType(tableColumn.DataType, App.GetOptions<ConnectionStringsOptions>().DefaultDbType);
             codeGenConfig.WhetherRetract = YesNoEnum.N.ToString();
 
             codeGenConfig.WhetherRequired = YesNoEnum.N.ToString();
