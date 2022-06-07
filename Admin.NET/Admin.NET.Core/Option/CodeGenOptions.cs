@@ -1,14 +1,12 @@
-﻿
-namespace Admin.NET.Core
+﻿namespace Admin.NET.Core;
+
+/// <summary>
+/// 代码生成配置选项
+/// </summary>
+public class CodeGenOptions : IConfigurableOptions
 {
     /// <summary>
-    /// 代码生成配置选项
+    /// 数据库实体程序集名称集合
     /// </summary>
-    public class CodeGenOptions : IConfigurableOptions
-    {
-        /// <summary>
-        /// 数据库实体程序集名称集合
-        /// </summary>
-        public List<string> EntityAssemblyNames { get; set; }
-    }
+    public List<string> EntityAssemblyNames { get; set; }
 }

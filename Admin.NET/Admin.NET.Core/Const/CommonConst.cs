@@ -29,5 +29,4 @@ public class CommonConst
     /// 开启操作日志配置
     /// </summary>
     public const string SysOpLogFlag = "sys_op_log";
-
 }

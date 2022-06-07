@@ -211,11 +211,6 @@
             开启操作日志配置
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CommonConst.EntityAssemblyName">
-            <summary>
-            实体所在程序集-代码生成
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.SqlSugarConst">
             <summary>
             SqlSugar相关常量
@@ -2568,6 +2563,21 @@
             <param name="list"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ToJson(System.Object)">
+            <summary>
+            对象序列化成Json字符串
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ToObject``1(System.String)">
+            <summary>
+            Json字符串反序列化成对象
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.ObjectExtension.IsIgnoreColumn(System.Reflection.PropertyInfo)">
             <summary>
             排除SqlSugar忽略的列
@@ -2703,6 +2713,16 @@
         <member name="P:Admin.NET.Core.CacheOptions.InstanceName">
             <summary>
             键值前缀
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.CodeGenOptions">
+            <summary>
+            代码生成配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CodeGenOptions.EntityAssemblyNames">
+            <summary>
+            数据库实体程序集名称集合
             </summary>
         </member>
         <member name="T:Admin.NET.Core.ConnectionStringsOptions">

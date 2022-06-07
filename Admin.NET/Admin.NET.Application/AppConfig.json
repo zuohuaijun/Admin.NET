@@ -12,13 +12,17 @@
       }
     ]
   },
+  // 代码生成配置项-程序集名称集合
+  "CodeGen": {
+    "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application" ]
+  },
   "Wechat": {
-    //公众号
+    // 公众号
     "WechatAppId": "",
     "WechatAppSecret": "",
     "EncodingAESKey": "",
     "Token": "",
-    //小程序
+    // 小程序
     "WxOpenAppId": "",
     "WxOpenAppSecret": "",
     "WxOpenToken": "",
@@ -32,13 +36,9 @@
     "MerchantCertificatePrivateKey": "\\WxPayCert\\apiclient_key.pem" // 商户平台的API证书私钥(apiclient_key.pem文件内容)
   },
   "PayCallBack": {
-    "WechatPayUrl": "/notify/weChatPay/unifiedorder", //微信支付回调
-    "WechatRefundUrl": "/notify/weChatPay/refund", //微信退款回调
-    "AlipayUrl": "", //支付宝支付回调
-    "AlipayRefundUrl": "" //支付宝退款回调
-  },
-  //生成代码配置项
-  "CodeGen": {
-    "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application" ] //数据库实体程序集名称集合
+    "WechatPayUrl": "/notify/weChatPay/unifiedorder", // 微信支付回调
+    "WechatRefundUrl": "/notify/weChatPay/refund", // 微信退款回调
+    "AlipayUrl": "", // 支付宝支付回调
+    "AlipayRefundUrl": "" // 支付宝退款回调
   }
 }

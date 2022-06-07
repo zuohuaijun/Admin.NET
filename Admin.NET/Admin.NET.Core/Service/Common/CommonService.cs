@@ -5,7 +5,8 @@ public class CommonService : ICommonService, IScoped
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly CodeGenOptions _codeGenOptions;
 
-    public CommonService(IHttpContextAccessor httpContextAccessor, IOptions<CodeGenOptions> codeGenOptions)
+    public CommonService(IHttpContextAccessor httpContextAccessor,
+        IOptions<CodeGenOptions> codeGenOptions)
     {
         _httpContextAccessor = httpContextAccessor;
         _codeGenOptions = codeGenOptions.Value;
