@@ -30,8 +30,4 @@ public class CommonConst
     /// </summary>
     public const string SysOpLogFlag = "sys_op_log";
 
-    /// <summary>
-    /// 实体所在程序集-代码生成
-    /// </summary>
-    public static string[] EntityAssemblyName = new string[] { "Admin.NET.Core", "Admin.NET.Application" };
 }

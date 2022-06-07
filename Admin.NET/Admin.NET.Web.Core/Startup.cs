@@ -27,6 +27,7 @@ namespace Admin.NET.Web.Core
             services.AddConfigurableOptions<WechatOptions>();
             services.AddConfigurableOptions<WechatPayOptions>();
             services.AddConfigurableOptions<PayCallBackOptions>();
+            services.AddConfigurableOptions<CodeGenOptions>();
 
             services.AddSqlSugarSetup(App.Configuration);
 

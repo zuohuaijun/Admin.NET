@@ -36,5 +36,9 @@
     "WechatRefundUrl": "/notify/weChatPay/refund", //微信退款回调
     "AlipayUrl": "", //支付宝支付回调
     "AlipayRefundUrl": "" //支付宝退款回调
+  },
+  //生成代码配置项
+  "CodeGen": {
+    "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application" ] //数据库实体程序集名称集合
   }
 }

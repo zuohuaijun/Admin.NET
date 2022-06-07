@@ -3,10 +3,12 @@
 public class CommonService : ICommonService, IScoped
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly CodeGenOptions _codeGenOptions;
 
-    public CommonService(IHttpContextAccessor httpContextAccessor)
+    public CommonService(IHttpContextAccessor httpContextAccessor, IOptions<CodeGenOptions> codeGenOptions)
     {
         _httpContextAccessor = httpContextAccessor;
+        _codeGenOptions = codeGenOptions.Value;
     }
 
     /// <summary>
@@ -20,10 +22,13 @@ public class CommonService : ICommonService, IScoped
         var type = typeof(SugarTable);
         var type1 = typeof(NotTableAttribute);
         var types = new List<Type>();
-        foreach (var assemblyName in CommonConst.EntityAssemblyName)
+        if (_codeGenOptions.EntityAssemblyNames != null)
         {
-            Assembly asm = Assembly.Load(assemblyName);
-            types.AddRange(asm.GetExportedTypes().ToList());
+            foreach (var assemblyName in _codeGenOptions.EntityAssemblyNames)
+            {
+                Assembly asm = Assembly.Load(assemblyName);
+                types.AddRange(asm.GetExportedTypes().ToList());
+            }
         }
         Func<Attribute[], bool> IsMyAttribute = o =>
         {
