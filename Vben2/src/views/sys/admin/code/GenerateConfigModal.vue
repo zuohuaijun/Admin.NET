@@ -40,7 +40,8 @@
           :disabled="
             record.effectType !== 'Radio' &&
             record.effectType !== 'Select' &&
-            record.effectType !== 'Checkbox'
+            record.effectType !== 'Checkbox' &&
+            record.effectType !== 'ConstSelector'
           "
         />
       </template>
@@ -88,6 +89,7 @@
     updateGenerateConfig,
     getDictTypeList,
     getDictDataDropdown,
+    getAllConstSelector,
   } from '/@/api/sys/admin';
 
   export default defineComponent({
@@ -98,6 +100,8 @@
       const effectTypeData = ref<any[]>();
       const dictDataAll = ref<any[]>();
       const codeGenQueryTypeData = ref<any[]>();
+      const dictTypeList = ref<any[]>();
+      const allConstSelector = ref<any[]>();
       onMounted(async () => {
         // 初始化下拉框数据源
         await loadDictTypeDropDown();
@@ -142,11 +146,20 @@
           openFkModal(true, { data });
         } else if (value === 'ApiTreeSelect') {
           openTreeModal(true, { data });
+        } else if (value === 'Select') {
+          data.dictTypeCode = '';
+          dictDataAll.value = dictTypeList.value;
+        } else if (value === 'ConstSelector') {
+          data.dictTypeCode = '';
+          dictDataAll.value = allConstSelector.value;
         }
       }
       async function loadDictTypeDropDown() {
         effectTypeData.value = await getDictDataDropdown('code_gen_effect_type');
-        dictDataAll.value = await await getDictTypeList();
+        const data = await getDictTypeList();
+        dictTypeList.value = data;
+        dictDataAll.value = data;
+        allConstSelector.value = await getAllConstSelector();
         codeGenQueryTypeData.value = await getDictDataDropdown('code_gen_query_type');
       }
 
@@ -193,6 +206,7 @@
         registerFkModal,
         registerTreeModal,
         fkHandleSuccess,
+        dictTypeList,
       };
     },
   });

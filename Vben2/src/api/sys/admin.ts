@@ -132,6 +132,10 @@ enum Api {
   AddDataResource = '/sysDataResource/add',
   DeleteDataResource = '/sysDataResource/delete',
   UpdateDataResource = '/sysDataResource/update',
+
+  //常量下拉框接口
+  AllConstSelector = '/constSelector/allConstSelector',
+  ConstSelector = '/constSelector/constSelector',
 }
 
 ////////// 账号管理接口 //////////
@@ -422,3 +426,10 @@ export const deleteDataResource = (id: number) =>
 // 更新数据资源
 export const updateDataResource = (params: any) =>
   defHttp.post({ url: Api.UpdateDataResource, params });
+
+////////// 常量下拉框管理接口 //////////
+// 获取所有常量下拉框列表
+export const getAllConstSelector = () => defHttp.get<any>({ url: Api.AllConstSelector });
+// 根据类名获取下拉框数据
+export const getConstSelector = (typeName?: string) =>
+  defHttp.get<any>({ url: Api.ConstSelector, params: { typeName } });

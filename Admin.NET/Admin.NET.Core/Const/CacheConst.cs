@@ -44,4 +44,9 @@ public class CacheConst
     /// 在线用户缓存
     /// </summary>
     public const string KeyOnlineUser = "onlineuser";
+
+    /// <summary>
+    /// 常量下拉框
+    /// </summary>
+    public const string KeyConstSelector = "const_selector:";
 }
