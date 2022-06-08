@@ -27,6 +27,16 @@ public static class SqlSugarSetup
                         || (type.PropertyType == typeof(string) && type.GetCustomAttribute<RequiredAttribute>() == null))
                         column.IsNullable = true;
                 },
+                EntityNameService = (type, entity) =>
+                {
+                    //实体类映射库名.表名
+                    var attr = type.GetCustomAttribute<SqlSugarEntityAttribute>();
+                    if (attr == null) return;
+                    var configId = attr.DbConfigId == SqlSugarConst.ConfigId ? SqlSugarConst.CONFIG_DEFAULT_DB : attr.DbConfigId;
+                    var tableName = type.GetCustomAttribute<SugarTable>().TableName;
+                    entity.DbTableName = $"{configId}.{tableName}";
+                    Console.WriteLine("\r\n" + type.Name.PadRight(30, ' ') + "===映射===>     " + entity.DbTableName);
+                }
             };
             var defaultConnection = new ConnectionConfig()
             {
