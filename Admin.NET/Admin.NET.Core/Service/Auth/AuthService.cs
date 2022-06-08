@@ -99,18 +99,17 @@ public class AuthService : IDynamicApiController, ITransient
 
         // 增加登录日志
         var client = Parser.GetDefault().Parse(_httpContextAccessor.HttpContext.Request.Headers["User-Agent"]);
-        await _eventPublisher.PublishAsync(new ChannelEventSource("Add:VisLog",
-            new SysLogVis
-            {
-                Success = YesNoEnum.Y,
-                Message = "登录",
-                Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
-                Browser = client.UA.Family + client.UA.Major,
-                Os = client.OS.Family + client.OS.Major,
-                VisType = LoginTypeEnum.Login,
-                UserName = user.UserName,
-                RealName = user.RealName
-            }));
+        await _eventPublisher.PublishAsync("Add:VisLog", new SysLogVis
+        {
+            Success = YesNoEnum.Y,
+            Message = "登录",
+            Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
+            Browser = client.UA.Family + client.UA.Major,
+            Os = client.OS.Family + client.OS.Major,
+            VisType = LoginTypeEnum.Login,
+            UserName = user.UserName,
+            RealName = user.RealName
+        });
 
         return new LoginUserInfoOutput
         {
@@ -153,15 +152,14 @@ public class AuthService : IDynamicApiController, ITransient
         //_httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid token";
 
         // 增加退出日志
-        await _eventPublisher.PublishAsync(new ChannelEventSource("Add:VisLog",
-            new SysLogVis
-            {
-                Success = YesNoEnum.Y,
-                Message = "退出",
-                VisType = LoginTypeEnum.Logout,
-                Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
-                UserName = user.UserName,
-                RealName = user.RealName
-            }));
+        await _eventPublisher.PublishAsync("Add:VisLog", new SysLogVis
+        {
+            Success = YesNoEnum.Y,
+            Message = "退出",
+            VisType = LoginTypeEnum.Logout,
+            Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
+            UserName = user.UserName,
+            RealName = user.RealName
+        });
     }
 }

@@ -43,23 +43,22 @@ public class RequestActionFilter : IAsyncActionFilter
         var actionDescriptor = context.ActionDescriptor as ControllerActionDescriptor;
         var ip = httpContext.GetRemoteIpAddressToIPv4();
 
-        await _eventPublisher.PublishAsync(new ChannelEventSource("Add:OpLog",
-            new SysLogOp
-            {
-                Success = isRequestSucceed ? YesNoEnum.Y : YesNoEnum.N,
-                Ip = ip,
-                Location = httpRequest.GetRequestUrlAddress(),
-                Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
-                Os = clientInfo?.OS.Family + clientInfo?.OS.Major,
-                Url = httpRequest.Path,
-                ClassName = context.Controller.ToString(),
-                MethodName = actionDescriptor?.ActionName,
-                ReqMethod = httpRequest.Method,
-                Param = context.ActionArguments.Count < 1 ? string.Empty : JSON.Serialize(context.ActionArguments),
-                Result = actionContext.Result?.GetType() == typeof(JsonResult) ? JSON.Serialize(actionContext.Result) : string.Empty,
-                ElapsedTime = sw.ElapsedMilliseconds,
-                UserName = httpContext.User?.FindFirstValue(ClaimConst.UserName),
-                RealName = httpContext.User?.FindFirstValue(ClaimConst.RealName)
-            }));
+        await _eventPublisher.PublishAsync("Add:OpLog", new SysLogOp
+        {
+            Success = isRequestSucceed ? YesNoEnum.Y : YesNoEnum.N,
+            Ip = ip,
+            Location = httpRequest.GetRequestUrlAddress(),
+            Browser = clientInfo?.UA.Family + clientInfo?.UA.Major,
+            Os = clientInfo?.OS.Family + clientInfo?.OS.Major,
+            Url = httpRequest.Path,
+            ClassName = context.Controller.ToString(),
+            MethodName = actionDescriptor?.ActionName,
+            ReqMethod = httpRequest.Method,
+            Param = context.ActionArguments.Count < 1 ? string.Empty : JSON.Serialize(context.ActionArguments),
+            Result = actionContext.Result?.GetType() == typeof(JsonResult) ? JSON.Serialize(actionContext.Result) : string.Empty,
+            ElapsedTime = sw.ElapsedMilliseconds,
+            UserName = httpContext.User?.FindFirstValue(ClaimConst.UserName),
+            RealName = httpContext.User?.FindFirstValue(ClaimConst.RealName)
+        });
     }
 }

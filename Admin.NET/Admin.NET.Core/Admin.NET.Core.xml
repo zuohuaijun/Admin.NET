@@ -2686,6 +2686,29 @@
             <param name="entity"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.ISugarQueryable{``0})">
+            <summary>
+            多库查询扩展
+            </summary>
+            <param name="queryable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``2(SqlSugar.ISugarQueryable{``0,``1})">
+            <summary>
+            多库查询扩展
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <param name="queryable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.GetTableInfo``1">
+            <summary>
+            根据实体类型获取表信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.LogExceptionHandler">
             <summary>
             全局异常处理
