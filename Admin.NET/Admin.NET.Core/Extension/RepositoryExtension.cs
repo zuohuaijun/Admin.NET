@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core;
+namespace Admin.NET.Core;
 
 public static class RepositoryExtension
 {
@@ -120,5 +120,44 @@ public static class RepositoryExtension
         return repository.Context.Insertable(entity)
             .EnableDiffLogEvent()
             .ExecuteCommandAsync();
+    }
+
+    
+    /// <summary>
+    /// 多库查询扩展
+    /// </summary>
+    /// <param name="queryable"></param>
+    /// <returns> </returns>
+    public static ISugarQueryable<T> AS<T>(this ISugarQueryable<T> queryable)
+    {
+        var info = GetTableInfo<T>();
+        return queryable.AS<T>($"{info.Item1}.{info.Item2}");
+
+    }
+
+    /// <summary>
+    /// 多库查询扩展
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="T2"></typeparam>
+    /// <param name="queryable"></param>
+    /// <returns></returns>
+    public static ISugarQueryable<T, T2> AS<T, T2>(this ISugarQueryable<T, T2> queryable)
+    {
+        var info = GetTableInfo<T2>();
+        return queryable.AS<T2>($"{info.Item1}.{info.Item2}");
+    }
+
+    /// <summary>
+    /// 根据实体类型获取表信息
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns></returns>
+    private static Tuple<string, string> GetTableInfo<T>()
+    {
+        var entityType = typeof(T);
+        var configId = entityType.GetCustomAttribute<SqlSugarEntityAttribute>().DbConfigId;
+        var tableName = entityType.GetCustomAttribute<SugarTable>().TableName;
+        return new Tuple<string, string>(configId, tableName);
     }
 }
