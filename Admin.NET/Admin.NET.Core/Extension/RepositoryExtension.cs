@@ -122,7 +122,6 @@ public static class RepositoryExtension
             .ExecuteCommandAsync();
     }
 
-    
     /// <summary>
     /// 多库查询扩展
     /// </summary>
@@ -132,7 +131,6 @@ public static class RepositoryExtension
     {
         var info = GetTableInfo<T>();
         return queryable.AS<T>($"{info.Item1}.{info.Item2}");
-
     }
 
     /// <summary>
