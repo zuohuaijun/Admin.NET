@@ -4,7 +4,6 @@
 /// 代码生成表
 /// </summary>
 [SugarTable("sys_code_gen", "代码生成表")]
-[SqlSugarEntity]
 public class SysCodeGen : EntityBase
 {
     /// <summary>

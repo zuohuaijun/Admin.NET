@@ -15,57 +15,26 @@ public static class SqlSugarSetup
         services.AddSingleton<ISqlSugarClient>(provider =>
         {
             var dbOptions = App.GetOptions<ConnectionStringsOptions>();
-            DealConnectionStr(ref dbOptions); // 处理本地库根目录路径
 
-            var connectionConfigs = SqlSugarConst.ConnectionConfigs; // 方便多库生成
             var configureExternalServices = new ConfigureExternalServices
             {
-                EntityService = (type, column) => // 修改列可空
+                EntityService = (type, column) => // 修改列可空-1、带?问号 2、String类型若没有Required
                 {
-                    // 1、带?问号 2、String类型若没有Required
                     if ((type.PropertyType.IsGenericType && type.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
                         || (type.PropertyType == typeof(string) && type.GetCustomAttribute<RequiredAttribute>() == null))
                         column.IsNullable = true;
-                },
-                EntityNameService = (type, entity) =>
-                {
-                    //实体类映射库名.表名
-                    var attr = type.GetCustomAttribute<SqlSugarEntityAttribute>();
-                    if (attr == null) return;
-                    var configId = attr.DbConfigId == SqlSugarConst.ConfigId ? SqlSugarConst.CONFIG_DEFAULT_DB : attr.DbConfigId;
-                    var tableName = type.GetCustomAttribute<SugarTable>().TableName;
-                    entity.DbTableName = $"{configId}.{tableName}";
-                    Console.WriteLine("\r\n" + type.Name.PadRight(30, ' ') + "===映射===>     " + entity.DbTableName);
                 }
             };
-            var defaultConnection = new ConnectionConfig()
+            dbOptions.ConnectionConfigs.ForEach(config =>
             {
-                DbType = (DbType)Convert.ToInt32(Enum.Parse(typeof(DbType), dbOptions.DefaultDbType)),
-                ConnectionString = dbOptions.DefaultConnection,
-                IsAutoCloseConnection = true,
-                ConfigId = dbOptions.DefaultConfigId,
-                ConfigureExternalServices = configureExternalServices
-            };
-            connectionConfigs.Add(defaultConnection);
-
-            dbOptions.DbConfigs.ForEach(config =>
-            {
-                var connection = new ConnectionConfig()
-                {
-                    DbType = (DbType)Convert.ToInt32(Enum.Parse(typeof(DbType), config.DbType)),
-                    ConnectionString = config.DbConnection,
-                    IsAutoCloseConnection = true,
-                    ConfigId = config.DbConfigId,
-                    ConfigureExternalServices = configureExternalServices
-                };
-                connectionConfigs.Add(connection);
+                config.ConfigureExternalServices = configureExternalServices;
             });
 
-            SqlSugarScope sqlSugar = new(connectionConfigs, db =>
+            SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs, db =>
             {
-                connectionConfigs.ForEach(config =>
+                dbOptions.ConnectionConfigs.ForEach(config =>
                 {
-                    var dbProvider = db.GetConnection((string)config.ConfigId);
+                    var dbProvider = db.GetConnectionScope((string)config.ConfigId);
 
                     // 设置超时时间
                     dbProvider.Ado.CommandTimeOut = 30;
@@ -80,7 +49,6 @@ public static class SqlSugarSetup
                         if (sql.StartsWith("DELETE"))
                             Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine("\r\n" + "=========执行SQL============" + "\r\n" + UtilMethods.GetSqlString(DbType.MySql, sql, pars) + "\r\n");
-                        //Console.WriteLine(sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)) + "\r\n" + "========================" + "\r\n");
                         App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
                     };
                     dbProvider.Aop.OnError = (ex) =>
@@ -88,7 +56,6 @@ public static class SqlSugarSetup
                         Console.ForegroundColor = ConsoleColor.Red;
                         var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
                         Console.WriteLine("\r\n" + "=========SQL错误============" + "\r\n" + UtilMethods.GetSqlString(DbType.MySql, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
-                        //Console.WriteLine($"{ex.Message}{Environment.NewLine}{ex.Sql}{Environment.NewLine}{pars}{Environment.NewLine}");
                         App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
                     };
 
@@ -131,7 +98,6 @@ public static class SqlSugarSetup
                     dbProvider.Aop.OnDiffLogEvent = async u =>
                     {
                         if (!dbOptions.EnableDiffLog) return;
-
                         var LogDiff = new SysLogDiff
                         {
                             // 操作后记录（字段描述、列名、值、表名、表描述）
@@ -175,24 +141,21 @@ public static class SqlSugarSetup
     /// </summary>
     public static void InitDataBase(SqlSugarScope db, ConnectionStringsOptions dbOptions)
     {
-        // 创建默认数据库
-        db.DbMaintenance.CreateDatabase();
-        // 创建业务数据库
-        dbOptions.DbConfigs.ForEach(config =>
+        // 创建数据库
+        dbOptions.ConnectionConfigs.ForEach(config =>
         {
-            db.GetConnection(config.DbConfigId).DbMaintenance.CreateDatabase();
+            db.GetConnectionScope(config.ConfigId).DbMaintenance.CreateDatabase();
         });
 
         // 获取所有实体表
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.IsDefined(typeof(SqlSugarEntityAttribute), false))
-            .OrderByDescending(u => u.GetSqlSugarEntityOrder());
+            && u.IsDefined(typeof(SugarTable), false));
         if (!entityTypes.Any()) return;
         // 初始化库表结构
         foreach (var entityType in entityTypes)
         {
-            var dbConfigId = entityType.GetCustomAttribute<SqlSugarEntityAttribute>(true).DbConfigId;
-            db.ChangeDatabase(dbConfigId);
+            var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+            db.ChangeDatabase(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
             db.CodeFirst.InitTables(entityType);
         }
 
@@ -210,8 +173,8 @@ public static class SqlSugarSetup
             if (seedData == null) continue;
 
             var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
-            var dbConfigId = entityType.GetCustomAttribute<SqlSugarEntityAttribute>(true).DbConfigId;
-            db.ChangeDatabase(dbConfigId);
+            var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+            db.ChangeDatabase(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
 
             var seedDataTable = seedData.ToList().ToDataTable();
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
@@ -231,7 +194,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 配置实体假删除过滤器
     /// </summary>
-    public static void SetDeletedEntityFilter(SqlSugarProvider db)
+    public static void SetDeletedEntityFilter(SqlSugarScopeProvider db)
     {
         // 获取所有继承基类数据表集合
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
@@ -248,7 +211,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 配置实体机构过滤器
     /// </summary>
-    public static async void SetOrgEntityFilter(SqlSugarProvider db)
+    public static async void SetOrgEntityFilter(SqlSugarScopeProvider db)
     {
         // 获取业务数据表集合
         var dataEntityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
@@ -272,7 +235,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 配置自定义实体过滤器
     /// </summary>
-    public static void SetCustomEntityFilter(SqlSugarProvider db)
+    public static void SetCustomEntityFilter(SqlSugarScopeProvider db)
     {
         // 排除超管过滤
         if (App.User?.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString())
@@ -297,7 +260,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 配置租户实体过滤器
     /// </summary>
-    public static void SetTenantEntityFilter(SqlSugarProvider db)
+    public static void SetTenantEntityFilter(SqlSugarScopeProvider db)
     {
         // 获取租户实体数据表集合
         var dataEntityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
@@ -312,28 +275,5 @@ public static class SqlSugarSetup
             Expression<Func<EntityTenant, bool>> dynamicExpression = u => u.TenantId == long.Parse(tenantId);
             db.QueryFilter.Add(new TableFilterItem<object>(dataEntityType, dynamicExpression));
         }
-    }
-
-    /// <summary>
-    /// 处理本地库根目录路径
-    /// </summary>
-    /// <param name="dbOptions"></param>
-    private static void DealConnectionStr(ref ConnectionStringsOptions dbOptions)
-    {
-        if (dbOptions.DefaultDbType.Trim().ToLower() == "sqlite" && dbOptions.DefaultConnection.Contains("./"))
-        {
-            dbOptions.DefaultConnection = UpdateDbPath(dbOptions.DefaultConnection);
-        }
-        dbOptions.DbConfigs.ForEach(cofing =>
-        {
-            if (cofing.DbType.Trim().ToLower() == "sqlite" && cofing.DbConnection.Contains("./"))
-                cofing.DbConnection = UpdateDbPath(cofing.DbConnection);
-        });
-    }
-
-    private static string UpdateDbPath(string dbConnection)
-    {
-        var file = Path.GetFileName(dbConnection.Replace("DataSource=", ""));
-        return $"DataSource={Environment.CurrentDirectory.Replace(@"\bin\Debug", "")}/{file}";
     }
 }

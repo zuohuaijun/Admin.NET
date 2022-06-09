@@ -4,7 +4,6 @@
 /// 系统异常日志表
 /// </summary>
 [SugarTable("sys_log_ex", "系统异常日志表")]
-[SqlSugarEntity]
 public class SysLogEx : EntityBase
 {
     /// <summary>

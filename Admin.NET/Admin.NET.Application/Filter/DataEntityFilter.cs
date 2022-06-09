@@ -1,7 +1,7 @@
 ﻿namespace Admin.NET.Application.Filter;
 
 /// <summary>
-/// 自定义业务实体过滤器(XXX数据)
+/// 实体过滤器
 /// </summary>
 public class DataEntityFilter : IEntityFilter
 {

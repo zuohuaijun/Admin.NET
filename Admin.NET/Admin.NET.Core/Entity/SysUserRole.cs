@@ -4,7 +4,6 @@
 /// 系统用户角色表
 /// </summary>
 [SugarTable("sys_user_role", "系统用户角色表")]
-[SqlSugarEntity]
 public class SysUserRole : EntityBaseId
 {
     /// <summary>

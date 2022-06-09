@@ -1,7 +1,7 @@
 ﻿namespace Admin.NET.Application.SeedData;
 
 /// <summary>
-/// 自己业务表种子数据
+/// 实体种子数据
 /// </summary>
 public class TestSeedData : ISqlSugarEntitySeedData<Test>
 {

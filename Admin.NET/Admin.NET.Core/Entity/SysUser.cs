@@ -4,7 +4,6 @@ namespace Admin.NET.Core;
 /// 系统用户表
 /// </summary>
 [SugarTable("sys_user", "系统用户表")]
-[SqlSugarEntity]
 public class SysUser : EntityTenant
 {
     /// <summary>

@@ -4,7 +4,6 @@
 /// 系统字典值表
 /// </summary>
 [SugarTable("sys_dict_data", "系统字典值表")]
-[SqlSugarEntity]
 public class SysDictData : EntityBase
 {
     /// <summary>

@@ -4,7 +4,6 @@
 /// 系统角色表
 /// </summary>
 [SugarTable("sys_role", "系统角色表")]
-[SqlSugarEntity]
 public class SysRole : EntityTenant
 {
     /// <summary>

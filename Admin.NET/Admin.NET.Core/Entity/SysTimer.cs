@@ -4,7 +4,6 @@
 /// 定时任务
 /// </summary>
 [SugarTable("sys_timer", "定时任务表")]
-[SqlSugarEntity]
 public class SysTimer : EntityBase
 {
     /// <summary>

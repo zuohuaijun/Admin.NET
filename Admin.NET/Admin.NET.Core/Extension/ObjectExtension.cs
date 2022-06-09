@@ -7,16 +7,6 @@ namespace Admin.NET.Core;
 public static class ObjectExtension
 {
     /// <summary>
-    /// 获取实体排序
-    /// </summary>
-    /// <param name="type">排序类型</param>
-    /// <returns>int</returns>
-    public static int GetSqlSugarEntityOrder(this Type type)
-    {
-        return !type.IsDefined(typeof(SqlSugarEntityAttribute), true) ? 0 : type.GetCustomAttribute<SqlSugarEntityAttribute>(true).Order;
-    }
-
-    /// <summary>
     /// 判断类型是否实现某个泛型
     /// </summary>
     /// <param name="type">类型</param>

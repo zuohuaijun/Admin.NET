@@ -6,22 +6,6 @@
 public class ConnectionStringsOptions : IConfigurableOptions
 {
     /// <summary>
-    /// 默认数据库标识
-    /// </summary>
-    public string DefaultConfigId { get; set; } = SqlSugarConst.ConfigId;
-
-    /// <summary>
-    /// 默认数据库类型
-    /// </summary>
-    public string DefaultDbType { get; set; }
-
-    /// <summary>
-    /// 默认数据库连接字符串
-    /// </summary>
-
-    public string DefaultConnection { get; set; }
-
-    /// <summary>
     /// 启用初始化库表
     /// </summary>
     public bool EnableInitTable { get; set; }
@@ -32,33 +16,7 @@ public class ConnectionStringsOptions : IConfigurableOptions
     public bool EnableDiffLog { get; set; }
 
     /// <summary>
-    /// 业务库集合
+    /// 数据库配置集合
     /// </summary>
-    public List<DbConfig> DbConfigs { get; set; } = new List<DbConfig>();
-}
-
-/// <summary>
-/// 数据库参数
-/// </summary>
-public class DbConfig
-{
-    /// <summary>
-    /// 数据库编号
-    /// </summary>
-    public string DbConfigId { get; set; }
-
-    /// <summary>
-    /// 数据库类型
-    /// </summary>
-    public string DbType { get; set; }
-
-    /// <summary>
-    /// 数据库连接字符串
-    /// </summary>
-    public string DbConnection { get; set; }
-
-    /// <summary>
-    /// 启用初始化库表
-    /// </summary>
-    public bool EnableInitTable { get; set; }
+    public List<ConnectionConfig> ConnectionConfigs { get; set; }
 }

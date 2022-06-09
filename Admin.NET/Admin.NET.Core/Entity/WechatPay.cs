@@ -4,7 +4,6 @@
 /// 微信支付表
 /// </summary>
 [SugarTable("wechat_pay", "微信支付表")]
-[SqlSugarEntity]
 public class WechatPay : EntityBase
 {
     /// <summary>

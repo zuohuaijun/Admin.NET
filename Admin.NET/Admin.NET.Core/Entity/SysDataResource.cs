@@ -4,7 +4,6 @@
 ///  数据资源表
 ///</summary>
 [SugarTable("sys_data_resource", "数据资源表")]
-[SqlSugarEntity]
 public class SysDataResource : EntityBase
 {
     /// <summary>

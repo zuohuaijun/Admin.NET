@@ -4,7 +4,6 @@
 /// 系统职位表
 /// </summary>
 [SugarTable("sys_pos", "系统职位表")]
-[SqlSugarEntity]
 public class SysPos : EntityTenant
 {
     /// <summary>

@@ -4,7 +4,6 @@
 /// 微信用户表
 /// </summary>
 [SugarTable("wechat_user", "微信用户表")]
-[SqlSugarEntity]
 public class WechatUser : EntityBase
 {
     /// <summary>

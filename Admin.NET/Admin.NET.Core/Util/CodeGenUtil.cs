@@ -10,8 +10,7 @@ public static class CodeGenUtil
     // 根据数据库类型来处理对应的数据字段类型
     public static string ConvertDataType(string dataType)
     {
-        var dbTypeStr = App.GetOptions<ConnectionStringsOptions>().DefaultDbType;
-        var dbType = (DbType)Convert.ToInt32(Enum.Parse(typeof(DbType), dbTypeStr));
+        var dbType = App.GetOptions<ConnectionStringsOptions>().ConnectionConfigs[0].DbType;
         return dbType switch
         {
             DbType.PostgreSQL => ConvertDataType_PostgreSQL(dataType),

@@ -4,7 +4,6 @@
 /// 系统操作日志表
 /// </summary>
 [SugarTable("sys_log_op", "系统操作日志表")]
-[SqlSugarEntity]
 public class SysLogOp : EntityBase
 {
     /// <summary>

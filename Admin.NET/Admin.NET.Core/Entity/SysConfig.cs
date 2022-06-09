@@ -4,7 +4,6 @@
 /// 系统参数配置表
 /// </summary>
 [SugarTable("sys_config", "系统参数配置表")]
-[SqlSugarEntity]
 public class SysConfig : EntityBase
 {
     /// <summary>

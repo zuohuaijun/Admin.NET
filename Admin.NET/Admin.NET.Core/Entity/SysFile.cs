@@ -4,7 +4,6 @@
 /// 系统文件表
 /// </summary>
 [SugarTable("sys_file", "系统文件表")]
-[SqlSugarEntity]
 public class SysFile : EntityBase
 {
     /// <summary>

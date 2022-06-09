@@ -154,7 +154,7 @@ public static class RepositoryExtension
     private static Tuple<string, string> GetTableInfo<T>()
     {
         var entityType = typeof(T);
-        var configId = entityType.GetCustomAttribute<SqlSugarEntityAttribute>().DbConfigId;
+        var configId = entityType.GetCustomAttribute<TenantAttribute>().configId.ToString();
         var tableName = entityType.GetCustomAttribute<SugarTable>().TableName;
         return new Tuple<string, string>(configId, tableName);
     }

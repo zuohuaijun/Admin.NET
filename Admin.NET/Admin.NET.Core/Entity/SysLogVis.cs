@@ -4,7 +4,6 @@
 /// 系统访问日志表
 /// </summary>
 [SugarTable("sys_log_vis", "系统访问日志表")]
-[SqlSugarEntity]
 public class SysLogVis : EntityBase
 {
     /// <summary>

@@ -19,39 +19,6 @@
             非实体表特性
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.SqlSugarEntityAttribute">
-            <summary>
-            SqlSugar实体配置特性
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SqlSugarEntityAttribute.DbConfigId">
-            <summary>
-            数据库上下文标识
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SqlSugarEntityAttribute.Order">
-            <summary>
-            实体顺序
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarEntityAttribute.#ctor">
-            <summary>
-            默认配置
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarEntityAttribute.#ctor(System.Int32)">
-            <summary>
-            配置实体排序
-            </summary>
-            <param name="order"></param>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarEntityAttribute.#ctor(System.Int32,System.String)">
-            <summary>
-            配置数据库标识和实体排序
-            </summary>
-            <param name="order"></param>
-            <param name="dbConfigId"></param>
-        </member>
         <member name="T:Admin.NET.Core.SqlSugarUnitOfWorkAttribute">
             <summary>
             SqlSugar工作单元配置特性
@@ -2560,13 +2527,6 @@
             对象拓展类
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.ObjectExtension.GetSqlSugarEntityOrder(System.Type)">
-            <summary>
-            获取实体排序
-            </summary>
-            <param name="type">排序类型</param>
-            <returns>int</returns>
-        </member>
         <member name="M:Admin.NET.Core.ObjectExtension.HasImplementedRawGeneric(System.Type,System.Type)">
             <summary>
             判断类型是否实现某个泛型
@@ -2788,21 +2748,6 @@
             数据库链接配置
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ConnectionStringsOptions.DefaultConfigId">
-            <summary>
-            默认数据库标识
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.ConnectionStringsOptions.DefaultDbType">
-            <summary>
-            默认数据库类型
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.ConnectionStringsOptions.DefaultConnection">
-            <summary>
-            默认数据库连接字符串
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.ConnectionStringsOptions.EnableInitTable">
             <summary>
             启用初始化库表
@@ -2813,34 +2758,9 @@
             启用库表差异日志
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ConnectionStringsOptions.DbConfigs">
+        <member name="P:Admin.NET.Core.ConnectionStringsOptions.ConnectionConfigs">
             <summary>
-            业务库集合
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.DbConfig">
-            <summary>
-            数据库参数
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.DbConfig.DbConfigId">
-            <summary>
-            数据库编号
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.DbConfig.DbType">
-            <summary>
-            数据库类型
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.DbConfig.DbConnection">
-            <summary>
-            数据库连接字符串
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.DbConfig.EnableInitTable">
-            <summary>
-            启用初始化库表
+            数据库配置集合
             </summary>
         </member>
         <member name="T:Admin.NET.Core.OSSProviderOptions">
@@ -6392,31 +6312,25 @@
             初始化数据库结构
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDeletedEntityFilter(SqlSugar.SqlSugarProvider)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDeletedEntityFilter(SqlSugar.SqlSugarScopeProvider)">
             <summary>
             配置实体假删除过滤器
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetOrgEntityFilter(SqlSugar.SqlSugarProvider)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetOrgEntityFilter(SqlSugar.SqlSugarScopeProvider)">
             <summary>
             配置实体机构过滤器
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetCustomEntityFilter(SqlSugar.SqlSugarProvider)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetCustomEntityFilter(SqlSugar.SqlSugarScopeProvider)">
             <summary>
             配置自定义实体过滤器
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetTenantEntityFilter(SqlSugar.SqlSugarProvider)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetTenantEntityFilter(SqlSugar.SqlSugarScopeProvider)">
             <summary>
             配置租户实体过滤器
             </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.DealConnectionStr(Admin.NET.Core.ConnectionStringsOptions@)">
-            <summary>
-            处理本地库根目录路径
-            </summary>
-            <param name="dbOptions"></param>
         </member>
         <member name="T:Admin.NET.Core.AdminResultProvider">
             <summary>

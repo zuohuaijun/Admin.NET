@@ -1,10 +1,12 @@
-﻿namespace Admin.NET.Application.Entity;
+﻿using Admin.NET.Application.Const;
+
+namespace Admin.NET.Application.Entity;
 
 /// <summary>
 /// 自己业务数据表
 /// </summary>
 [SugarTable("d_test", "自己业务数据表")]
-[SqlSugarEntity] // [SqlSugarEntity(DbConfigId = TestConst.ConfigId)]
+[Tenant(TestConst.ConfigId)]
 public class Test : EntityBase
 {
     /// <summary>
