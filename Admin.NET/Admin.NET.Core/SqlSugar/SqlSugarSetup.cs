@@ -15,9 +15,6 @@ public static class SqlSugarSetup
         services.AddSingleton<ISqlSugarClient>(provider =>
         {
             var dbOptions = App.GetOptions<ConnectionStringsOptions>();
-            //数据库配置信息赋值给sqlsugarconst常量
-            SqlSugarConst.ConnectionConfigs = dbOptions.ConnectionConfigs;
-
             var configureExternalServices = new ConfigureExternalServices
             {
                 EntityService = (type, column) => // 修改列可空-1、带?问号 2、String类型若没有Required

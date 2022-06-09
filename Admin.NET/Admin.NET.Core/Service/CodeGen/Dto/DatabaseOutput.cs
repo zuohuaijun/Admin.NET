@@ -8,7 +8,7 @@ public class DatabaseOutput
     /// <summary>
     /// 库定位器名
     /// </summary>
-    public dynamic DbConfigId { get; set; }
+    public dynamic ConfigId { get; set; }
 
     /// <summary>
     /// 数据库类型

@@ -14,9 +14,4 @@ public class SqlSugarConst
     /// 默认表主键
     /// </summary>
     public const string PrimaryKey = "Id";
-
-    /// <summary>
-    /// SqlSugar数据库链接集合(多库代码生成用)
-    /// </summary>
-    public static List<ConnectionConfig> ConnectionConfigs = new();
 }

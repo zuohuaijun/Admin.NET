@@ -8,7 +8,7 @@ public class TableOutput
     /// <summary>
     /// 库定位器名
     /// </summary>
-    public string DbConfigId { get; set; }
+    public string ConfigId { get; set; }
 
     /// <summary>
     /// 表名（字母形式的）

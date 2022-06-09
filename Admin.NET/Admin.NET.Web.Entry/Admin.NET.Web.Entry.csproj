@@ -18,6 +18,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Admin.NET.db" />
+	  <None Remove="Test.db" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<ProjectReference Include="..\Admin.NET.Web.Core\Admin.NET.Web.Core.csproj" />
 	</ItemGroup>
 

@@ -16,7 +16,7 @@ public class CustomViewEngine : ViewEngineModel
     /// <summary>
     /// 库定位器
     /// </summary>
-    public string DbConfigId { get; set; } = SqlSugarConst.ConfigId;
+    public string ConfigId { get; set; } = SqlSugarConst.ConfigId;
 
     public string AuthorName { get; set; }
 
@@ -55,8 +55,8 @@ public class CustomViewEngine : ViewEngineModel
     public List<TableColumnOuput> GetColumnListByTableName(string tableName)
     {
         //多库代码生成切换库
-        if (DbConfigId != SqlSugarConst.ConfigId)
-            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(DbConfigId);
+        if (ConfigId != SqlSugarConst.ConfigId)
+            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(ConfigId);
 
         // 获取实体类型属性
         var entityType = _sysCodeGenRep.Context.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);

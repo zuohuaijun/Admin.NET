@@ -228,11 +228,6 @@
             默认表主键
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.SqlSugarConst.ConnectionConfigs">
-            <summary>
-            SqlSugar数据库链接集合(多库代码生成用)
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.EntityBaseId">
             <summary>
             框架实体基类Id
@@ -313,7 +308,7 @@
             生成方式
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysCodeGen.DbConfigId">
+        <member name="P:Admin.NET.Core.SysCodeGen.ConfigId">
             <summary>
             库定位器名
             </summary>
@@ -3551,7 +3546,7 @@
             是否移除表前缀
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.CodeGenInput.DbConfigId">
+        <member name="P:Admin.NET.Core.Service.CodeGenInput.ConfigId">
             <summary>
             库定位器名
             </summary>
@@ -3706,7 +3701,7 @@
             菜单父级
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.CustomViewEngine.DbConfigId">
+        <member name="P:Admin.NET.Core.Service.CustomViewEngine.ConfigId">
             <summary>
             库定位器
             </summary>
@@ -3716,7 +3711,7 @@
             多库代码生成库列表输出
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.DatabaseOutput.DbConfigId">
+        <member name="P:Admin.NET.Core.Service.DatabaseOutput.ConfigId">
             <summary>
             库定位器名
             </summary>
@@ -3766,7 +3761,7 @@
             数据库表列表参数
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.TableOutput.DbConfigId">
+        <member name="P:Admin.NET.Core.Service.TableOutput.ConfigId">
             <summary>
             库定位器名
             </summary>

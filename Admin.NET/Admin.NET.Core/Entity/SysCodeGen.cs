@@ -32,7 +32,7 @@ public class SysCodeGen : EntityBase
     /// </summary>
     [MaxLength(50)]
     [SugarColumn(ColumnDescription = "库定位器名")]
-    public string DbConfigId { get; set; }
+    public string ConfigId { get; set; }
 
     /// <summary>
     /// 数据库名(保留字段)

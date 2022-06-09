@@ -23,7 +23,7 @@ public class CodeGenInput : BasePageInput
     /// <summary>
     /// 库定位器名
     /// </summary>
-    public virtual string DbConfigId { get; set; }
+    public virtual string ConfigId { get; set; }
 
     /// <summary>
     /// 数据库名(保留字段)

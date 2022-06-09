@@ -111,31 +111,21 @@ public class CodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [HttpGet("codeGenerate/DatabaseList")]
-    public async Task<List<DatabaseOutput>> GetDatabaseList()
+    public async Task<List<ConnectionConfig>> GetDatabaseList()
     {
-        var result = new List<DatabaseOutput>();
-        foreach (var item in SqlSugarConst.ConnectionConfigs)
-        {
-            result.Add(new DatabaseOutput()
-            {
-                DbConfigId = item.ConfigId,
-                DbType = item.DbType.ToString(),
-                ConnectionString = item.ConnectionString,
-            });
-        }
-        return await Task.FromResult(result);
+        return await Task.FromResult(App.GetOptions<ConnectionStringsOptions>().ConnectionConfigs);
     }
 
     /// <summary>
     /// 获取数据库表(实体)集合
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/codeGenerate/InformationList/{dbConfigId}")]
-    public async Task<List<TableOutput>> GetTableList(string dbConfigId = SqlSugarConst.ConfigId)
+    [HttpGet("/codeGenerate/InformationList/{configId}")]
+    public async Task<List<TableOutput>> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
         //切库,多库代码生成用
-        if (dbConfigId != SqlSugarConst.ConfigId)
-            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(dbConfigId);
+        if (configId != SqlSugarConst.ConfigId)
+            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(configId);
 
         List<DbTableInfo> dbTableInfos = _sysCodeGenRep.Context.DbMaintenance.GetTableInfoList(false);//这里不能走缓存,否则切库不起作用
         List<string> dbTableNames = dbTableInfos.Select(x => x.Name).ToList();
@@ -147,7 +137,7 @@ public class CodeGenService : IDynamicApiController, ITransient
         {
             result.Add(new TableOutput()
             {
-                DbConfigId = dbConfigId,
+                ConfigId = configId,
                 EntityName = item.EntityName,
                 TableName = item.DbTableName,
                 TableComment = item.TableDescription
@@ -160,12 +150,12 @@ public class CodeGenService : IDynamicApiController, ITransient
     /// 根据表名获取列
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/codeGenerate/ColumnList/{dbConfigId}/{tableName}")]
-    public List<TableColumnOuput> GetColumnListByTableName(string tableName, string dbConfigId = SqlSugarConst.ConfigId)
+    [HttpGet("/codeGenerate/ColumnList/{configId}/{tableName}")]
+    public List<TableColumnOuput> GetColumnListByTableName(string tableName, string configId = SqlSugarConst.ConfigId)
     {
         //切库,多库代码生成用
-        if (dbConfigId != SqlSugarConst.ConfigId)
-            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(dbConfigId);
+        if (configId != SqlSugarConst.ConfigId)
+            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(configId);
 
         // 获取实体类型属性
         var entityType = _sysCodeGenRep.Context.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);
@@ -190,8 +180,8 @@ public class CodeGenService : IDynamicApiController, ITransient
     public List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
     {
         //切库,多库代码生成用
-        if (!string.IsNullOrEmpty(input.DbConfigId) && input.DbConfigId != SqlSugarConst.ConfigId)
-            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(input.DbConfigId);
+        if (!string.IsNullOrEmpty(input.ConfigId) && input.ConfigId != SqlSugarConst.ConfigId)
+            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(input.ConfigId);
 
         var entityType = _commonService.GetEntityInfos().Result.FirstOrDefault(m => m.EntityName == input.TableName);
         if (entityType == null)
@@ -227,7 +217,7 @@ public class CodeGenService : IDynamicApiController, ITransient
 
             var data = new CustomViewEngine(_sysCodeGenRep)
             {
-                DbConfigId = input.DbConfigId,
+                ConfigId = input.ConfigId,
                 AuthorName = input.AuthorName,
                 BusName = input.BusName,
                 NameSpace = input.NameSpace,
