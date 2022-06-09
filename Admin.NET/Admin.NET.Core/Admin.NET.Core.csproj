@@ -28,8 +28,8 @@
     <PackageReference Include="MySql.Data" Version="8.0.29" />
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.5" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" Version="2.14.0" />
-    <PackageReference Include="SKIT.FlurlHttpClient.Wechat.TenpayV3" Version="2.9.1" />
-    <PackageReference Include="SqlSugarCore" Version="5.0.8.7" />
+    <PackageReference Include="SKIT.FlurlHttpClient.Wechat.TenpayV3" Version="2.10.0" />
+    <PackageReference Include="SqlSugarCore" Version="5.0.8.8" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.18" />
     <PackageReference Include="UAParser" Version="3.1.47" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.12" />
