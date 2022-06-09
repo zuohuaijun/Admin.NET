@@ -32,7 +32,7 @@ const apiColumnList = async (param: any) => {
   //if (typeof param !== 'string') return [];
   if (columnList.length === 0 || currentTable !== param.e) {
     //console.log('param:' + param);
-    const result = await getColumnList(param.dbConfigId, param.e);
+    const result = await getColumnList(param.configId, param.e);
     columnList = result;
   } else {
   }
@@ -48,7 +48,7 @@ const apiDictTypeDropDown = async () => {
 export const codeShowColumns: BasicColumn[] = [
   {
     title: '库定位器',
-    dataIndex: 'dbConfigId',
+    dataIndex: 'configId',
   },
   {
     title: '表名称',
@@ -81,15 +81,15 @@ export const codeFormSchema: FormSchema[] = [
     show: false,
   },
   {
-    field: 'dbConfigId',
+    field: 'configId',
     label: '库定位器',
     component: 'ApiSelect',
     componentProps: ({ formModel, formActionType }) => {
       return {
         api: apiDatabaseList,
         fieldNames: {
-          label: 'dbConfigId',
-          value: 'dbConfigId',
+          label: 'configId',
+          value: 'configId',
         },
         onChange: (e: any, option: any) => {
           formModel.tableName = undefined;
@@ -299,23 +299,23 @@ export const columns = [
 //外键
 export const fkFormSchema: FormSchema[] = [
   {
-    field: 'dbConfigId',
+    field: 'configId',
     label: '库定位器',
     component: 'ApiSelect',
     componentProps: ({ formModel, formActionType }) => {
       return {
         api: apiDatabaseList,
         fieldNames: {
-          label: 'dbConfigId',
-          value: 'dbConfigId',
+          label: 'configId',
+          value: 'configId',
         },
         onChange: (e: any, option: any) => {
           formModel.tableName = option.tableName;
           formModel.dbType = option.dbType;
           formModel.connectionString = option.connectionString;
           const { updateSchema } = formActionType;
-          const dbConfigId = e;
-          console.log('dbchange' + dbConfigId);
+          const configId = e;
+          console.log('dbchange' + configId);
           updateSchema([
             {
               field: 'tableName',
@@ -334,7 +334,7 @@ export const fkFormSchema: FormSchema[] = [
                     formModel.columnName = undefined;
                     formModel.entityName = option.entityName;
                     const { updateSchema } = formActionType;
-                    console.log('tableNamechange' + dbConfigId);
+                    console.log('tableNamechange' + configId);
                     updateSchema({
                       field: 'columnName',
                       componentProps: {
@@ -344,9 +344,9 @@ export const fkFormSchema: FormSchema[] = [
                           label: 'columnName',
                           value: 'columnName',
                         },
-                        params: { dbConfigId, e },
+                        params: { configId, e },
                         onChange: (e: any, option: any) => {
-                          console.log(e + 'columnNamechange' + dbConfigId);
+                          console.log(e + 'columnNamechange' + configId);
                           formModel.columnNetType = option.netType;
                         },
                       },
@@ -421,22 +421,22 @@ export const fkFormSchema: FormSchema[] = [
 //树形
 export const treeFormSchema: FormSchema[] = [
   {
-    field: 'dbConfigId',
+    field: 'configId',
     label: '库定位器',
     component: 'ApiSelect',
     componentProps: ({ formModel, formActionType }) => {
       return {
         api: apiDatabaseList,
         fieldNames: {
-          label: 'dbConfigId',
-          value: 'dbConfigId',
+          label: 'configId',
+          value: 'configId',
         },
         onChange: (e: any, option: any) => {
           formModel.tableName = undefined;
           formModel.dbType = option.dbType;
           formModel.connectionString = option.connectionString;
           const { updateSchema } = formActionType;
-          const dbConfigId = e;
+          const configId = e;
           updateSchema([
             {
               field: 'tableName',
@@ -461,7 +461,7 @@ export const treeFormSchema: FormSchema[] = [
                         componentProps: {
                           api: apiColumnList,
                           immediate: false,
-                          params: { dbConfigId, e },
+                          params: { configId, e },
                           fieldNames: {
                             label: 'columnName',
                             value: 'columnName',
@@ -473,7 +473,7 @@ export const treeFormSchema: FormSchema[] = [
                         componentProps: {
                           api: apiColumnList,
                           immediate: false,
-                          params: { dbConfigId, e },
+                          params: { configId, e },
                           fieldNames: {
                             label: 'columnName',
                             value: 'columnName',
@@ -485,7 +485,7 @@ export const treeFormSchema: FormSchema[] = [
                         componentProps: {
                           api: apiColumnList,
                           immediate: false,
-                          params: { dbConfigId, e },
+                          params: { configId, e },
                           fieldNames: {
                             label: 'columnName',
                             value: 'columnName',

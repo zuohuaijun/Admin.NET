@@ -371,11 +371,11 @@ export const deleGenerate = (params: any) =>
 export const getDatabaseList = (params?: any) =>
   defHttp.get<any>({ url: Api.GetDatabaseList, params });
 // 获取数据库表(实体)集合
-export const getTableList = (dbConfigId: string) =>
-  defHttp.get<any>({ url: Api.GetTableList + '/' + dbConfigId });
+export const getTableList = (configId: string) =>
+  defHttp.get<any>({ url: Api.GetTableList + '/' + configId });
 // 根据表名获取列
-export const getColumnList = (dbConfigId: string, tableName: string) =>
-  defHttp.get<any>({ url: Api.GetColumnList + '/' + dbConfigId + '/' + tableName });
+export const getColumnList = (configId: string, tableName: string) =>
+  defHttp.get<any>({ url: Api.GetColumnList + '/' + configId + '/' + tableName });
 // 本地生成
 export const generateRunLocal = (params: any) =>
   defHttp.post<any>({
