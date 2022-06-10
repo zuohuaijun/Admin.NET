@@ -2584,12 +2584,30 @@
             <param name="entity"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDelete``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            实体假删除 db.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISugarRepository,``0)">
             <summary>
             实体假删除异步 _rep.FakeDeleteAsync(entity)
             </summary>
             <typeparam name="T"></typeparam>
             <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            实体假删除 db.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
             <param name="entity"></param>
             <returns></returns>
         </member>
@@ -2613,12 +2631,32 @@
             <param name="ignoreAllNullColumns"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLog``1(SqlSugar.ISqlSugarClient,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0,System.Boolean)">
             <summary>
             更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
             </summary>
             <typeparam name="T"></typeparam>
             <param name="repository"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLogAsync``1(SqlSugar.ISqlSugarClient,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
             <param name="entity"></param>
             <param name="ignoreAllNullColumns"></param>
             <returns></returns>
@@ -2632,6 +2670,15 @@
             <param name="entity"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLog``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0)">
             <summary>
             新增实体并记录差异日志 _rep.InsertWithDiffLogAsync(entity)
@@ -2641,21 +2688,51 @@
             <param name="entity"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLogAsync``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.ISugarQueryable{``0})">
             <summary>
-            多库查询扩展
+            多库查询
             </summary>
             <param name="queryable"></param>
             <returns> </returns>
         </member>
         <member name="M:Admin.NET.Core.RepositoryExtension.AS``2(SqlSugar.ISugarQueryable{``0,``1})">
             <summary>
-            多库查询扩展
+            多库查询
             </summary>
             <typeparam name="T"></typeparam>
             <typeparam name="T2"></typeparam>
             <param name="queryable"></param>
             <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.IUpdateable{``0})">
+            <summary>
+            多库更新
+            </summary>
+            <param name="updateable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.IInsertable{``0})">
+            <summary>
+            多库新增
+            </summary>
+            <param name="insertable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.IDeleteable{``0})">
+            <summary>
+            多库删除
+            </summary>
+            <param name="deleteable"></param>
+            <returns> </returns>
         </member>
         <member name="M:Admin.NET.Core.RepositoryExtension.GetTableInfo``1">
             <summary>

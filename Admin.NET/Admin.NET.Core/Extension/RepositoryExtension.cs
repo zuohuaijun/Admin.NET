@@ -23,7 +23,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static int FakeDelete<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
     {
-        return db.Updateable(entity).ReSetValue(x => { x.IsDelete = true; })
+        return db.Updateable(entity).AS().ReSetValue(x => { x.IsDelete = true; })
             .IgnoreColumns(ignoreAllNullColumns: true)
             .EnableDiffLogEvent()   // 记录差异日志
             .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
@@ -51,7 +51,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static Task<int> FakeDeleteAsync<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
     {
-        return db.Updateable(entity).ReSetValue(x => { x.IsDelete = true; })
+        return db.Updateable(entity).AS().ReSetValue(x => { x.IsDelete = true; })
             .IgnoreColumns(ignoreAllNullColumns: true)
             .EnableDiffLogEvent()   // 记录差异日志
             .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
@@ -109,7 +109,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static int UpdateWithDiffLog<T>(this ISqlSugarClient db, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
     {
-        return db.Updateable(entity)
+        return db.Updateable(entity).AS()
             .IgnoreColumns(ignoreAllNullColumns: ignoreAllNullColumns)
             .EnableDiffLogEvent()
             .ExecuteCommand();
@@ -138,7 +138,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static Task<int> UpdateWithDiffLogAsync<T>(this ISqlSugarClient db, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
     {
-        return db.Updateable(entity)
+        return db.Updateable(entity).AS()
             .IgnoreColumns(ignoreAllNullColumns: ignoreAllNullColumns)
             .EnableDiffLogEvent()
             .ExecuteCommandAsync();
@@ -165,7 +165,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static int InsertWithDiffLog<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
     {
-        return db.Insertable(entity).EnableDiffLogEvent().ExecuteCommand();
+        return db.Insertable(entity).AS().EnableDiffLogEvent().ExecuteCommand();
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static Task<int> InsertWithDiffLogAsync<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
     {
-        return db.Insertable(entity).EnableDiffLogEvent().ExecuteCommandAsync();
+        return db.Insertable(entity).AS().EnableDiffLogEvent().ExecuteCommandAsync();
     }
 
     /// <summary>
