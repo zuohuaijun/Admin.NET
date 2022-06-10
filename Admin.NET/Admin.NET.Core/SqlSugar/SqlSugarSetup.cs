@@ -1,4 +1,4 @@
-﻿using DbType = SqlSugar.DbType;
+using DbType = SqlSugar.DbType;
 
 namespace Admin.NET.Core;
 
@@ -111,7 +111,7 @@ public static class SqlSugarSetup
                             Parameters = Newtonsoft.Json.JsonConvert.SerializeObject(u.Parameters),
                             Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
                         };
-                        await dbProvider.Insertable(LogDiff).ExecuteCommandAsync();
+                        await dbProvider.Insertable(LogDiff).AS().ExecuteCommandAsync();
                         Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine($"***差异日志开始***{ Environment.NewLine }{ Newtonsoft.Json.JsonConvert.SerializeObject(LogDiff) }{ Environment.NewLine }***差异日志结束***");
                     };
