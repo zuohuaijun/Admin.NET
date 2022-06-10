@@ -58,7 +58,6 @@ public static class RepositoryExtension
             .ExecuteCommandAsync();
     }
 
-
     /// <summary>
     /// 排序方式(默认降序)
     /// </summary>
@@ -202,7 +201,6 @@ public static class RepositoryExtension
     {
         var info = GetTableInfo<T>();
         return queryable.AS<T>($"{info.Item1}.{info.Item2}");
-
     }
 
     /// <summary>
@@ -264,5 +262,4 @@ public static class RepositoryExtension
         var tableName = entityType.GetCustomAttribute<SugarTable>().TableName;
         return new Tuple<string, string>(configId, tableName);
     }
-
 }
