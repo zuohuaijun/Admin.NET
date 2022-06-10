@@ -11,7 +11,19 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static int FakeDelete<T>(this ISugarRepository repository, T entity) where T : EntityBase, new()
     {
-        return repository.Context.Updateable(entity).ReSetValue(x => { x.IsDelete = true; })
+        return repository.Context.FakeDelete(entity);
+    }
+
+    /// <summary>
+    /// 实体假删除 db.FakeDelete(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="db"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static int FakeDelete<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
+    {
+        return db.Updateable(entity).AS().ReSetValue(x => { x.IsDelete = true; })
             .IgnoreColumns(ignoreAllNullColumns: true)
             .EnableDiffLogEvent()   // 记录差异日志
             .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
@@ -27,12 +39,25 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static Task<int> FakeDeleteAsync<T>(this ISugarRepository repository, T entity) where T : EntityBase, new()
     {
-        return repository.Context.Updateable(entity).ReSetValue(x => { x.IsDelete = true; })
+        return repository.Context.FakeDeleteAsync(entity);
+    }
+
+    /// <summary>
+    /// 实体假删除 db.FakeDelete(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="db"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static Task<int> FakeDeleteAsync<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
+    {
+        return db.Updateable(entity).AS().ReSetValue(x => { x.IsDelete = true; })
             .IgnoreColumns(ignoreAllNullColumns: true)
             .EnableDiffLogEvent()   // 记录差异日志
             .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
             .ExecuteCommandAsync();
     }
+
 
     /// <summary>
     /// 排序方式(默认降序)
@@ -72,7 +97,20 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static int UpdateWithDiffLog<T>(this ISugarRepository repository, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
     {
-        return repository.Context.Updateable(entity)
+        return repository.Context.UpdateWithDiffLog(entity, ignoreAllNullColumns);
+    }
+
+    /// <summary>
+    /// 更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="db"></param>
+    /// <param name="entity"></param>
+    /// <param name="ignoreAllNullColumns"></param>
+    /// <returns></returns>
+    public static int UpdateWithDiffLog<T>(this ISqlSugarClient db, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
+    {
+        return db.Updateable(entity).AS()
             .IgnoreColumns(ignoreAllNullColumns: ignoreAllNullColumns)
             .EnableDiffLogEvent()
             .ExecuteCommand();
@@ -88,7 +126,20 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static Task<int> UpdateWithDiffLogAsync<T>(this ISugarRepository repository, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
     {
-        return repository.Context.Updateable(entity)
+        return repository.Context.UpdateWithDiffLogAsync(entity, ignoreAllNullColumns);
+    }
+
+    /// <summary>
+    /// 更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="db"></param>
+    /// <param name="entity"></param>
+    /// <param name="ignoreAllNullColumns"></param>
+    /// <returns></returns>
+    public static Task<int> UpdateWithDiffLogAsync<T>(this ISqlSugarClient db, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
+    {
+        return db.Updateable(entity).AS()
             .IgnoreColumns(ignoreAllNullColumns: ignoreAllNullColumns)
             .EnableDiffLogEvent()
             .ExecuteCommandAsync();
@@ -103,9 +154,19 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static int InsertWithDiffLog<T>(this ISugarRepository repository, T entity) where T : EntityBase, new()
     {
-        return repository.Context.Insertable(entity)
-            .EnableDiffLogEvent()
-            .ExecuteCommand();
+        return repository.Context.InsertWithDiffLog(entity);
+    }
+
+    /// <summary>
+    /// 新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="db"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static int InsertWithDiffLog<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
+    {
+        return db.Insertable(entity).AS().EnableDiffLogEvent().ExecuteCommand();
     }
 
     /// <summary>
@@ -117,13 +178,23 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static Task<int> InsertWithDiffLogAsync<T>(this ISugarRepository repository, T entity) where T : EntityBase, new()
     {
-        return repository.Context.Insertable(entity)
-            .EnableDiffLogEvent()
-            .ExecuteCommandAsync();
+        return repository.Context.InsertWithDiffLogAsync(entity);
     }
 
     /// <summary>
-    /// 多库查询扩展
+    /// 新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="db"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static Task<int> InsertWithDiffLogAsync<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
+    {
+        return db.Insertable(entity).AS().EnableDiffLogEvent().ExecuteCommandAsync();
+    }
+
+    /// <summary>
+    /// 多库查询
     /// </summary>
     /// <param name="queryable"></param>
     /// <returns> </returns>
@@ -131,10 +202,11 @@ public static class RepositoryExtension
     {
         var info = GetTableInfo<T>();
         return queryable.AS<T>($"{info.Item1}.{info.Item2}");
+
     }
 
     /// <summary>
-    /// 多库查询扩展
+    /// 多库查询
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <typeparam name="T2"></typeparam>
@@ -147,6 +219,39 @@ public static class RepositoryExtension
     }
 
     /// <summary>
+    /// 多库更新
+    /// </summary>
+    /// <param name="updateable"></param>
+    /// <returns> </returns>
+    public static IUpdateable<T> AS<T>(this IUpdateable<T> updateable) where T : EntityBase, new()
+    {
+        var info = GetTableInfo<T>();
+        return updateable.AS($"{info.Item1}.{info.Item2}");
+    }
+
+    /// <summary>
+    /// 多库新增
+    /// </summary>
+    /// <param name="insertable"></param>
+    /// <returns> </returns>
+    public static IInsertable<T> AS<T>(this IInsertable<T> insertable) where T : EntityBase, new()
+    {
+        var info = GetTableInfo<T>();
+        return insertable.AS($"{info.Item1}.{info.Item2}");
+    }
+
+    /// <summary>
+    /// 多库删除
+    /// </summary>
+    /// <param name="deleteable"></param>
+    /// <returns> </returns>
+    public static IDeleteable<T> AS<T>(this IDeleteable<T> deleteable) where T : EntityBase, new()
+    {
+        var info = GetTableInfo<T>();
+        return deleteable.AS($"{info.Item1}.{info.Item2}");
+    }
+
+    /// <summary>
     /// 根据实体类型获取表信息
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -154,8 +259,11 @@ public static class RepositoryExtension
     private static Tuple<string, string> GetTableInfo<T>()
     {
         var entityType = typeof(T);
-        var configId = entityType.GetCustomAttribute<TenantAttribute>().configId.ToString();
+        var attr = entityType.GetCustomAttribute<TenantAttribute>();
+        var configId = attr == null ? SqlSugarConst.ConfigId : attr.configId.ToString();
         var tableName = entityType.GetCustomAttribute<SugarTable>().TableName;
         return new Tuple<string, string>(configId, tableName);
     }
+
 }
+
