@@ -8,9 +8,12 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysCodeGenConfig> _sysCodeGenConfigRep;
 
-    public CodeGenConfigService(SqlSugarRepository<SysCodeGenConfig> sysCodeGenConfigRep)
+    private readonly ISqlSugarClient db;
+    public CodeGenConfigService(SqlSugarRepository<SysCodeGenConfig> sysCodeGenConfigRep,
+        ISqlSugarClient db)
     {
         _sysCodeGenConfigRep = sysCodeGenConfigRep;
+        this.db = db;
     }
 
     /// <summary>
@@ -123,7 +126,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
             codeGenConfigs.Add(codeGenConfig);
         }
         //多库代码生成,这里要切回主库
-        _sysCodeGenConfigRep.Context.AsTenant().ChangeDatabase(SqlSugarConst.ConfigId);
+        db.AsTenant().ChangeDatabase(SqlSugarConst.ConfigId);
         _sysCodeGenConfigRep.Context.Insertable(codeGenConfigs).ExecuteCommand();
     }
 }

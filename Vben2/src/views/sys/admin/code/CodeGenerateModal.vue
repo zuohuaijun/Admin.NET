@@ -13,7 +13,7 @@
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
-  import { codeFormSchema } from './codeGenerate.data';
+  import { codeFormSchema, convertDbType } from './codeGenerate.data';
   import { BasicModal, useModalInner } from '/@/components/Modal';
   import { addGenerate, updateGenerate } from '/@/api/sys/admin';
 
@@ -35,6 +35,9 @@
         isUpdate.value = !!data?.isUpdate;
 
         if (unref(isUpdate)) {
+          data.record.dbTypeString = data.record.dbType
+            ? convertDbType(parseInt(data.record.dbType))
+            : '';
           setFieldsValue({
             ...data.record,
           });
