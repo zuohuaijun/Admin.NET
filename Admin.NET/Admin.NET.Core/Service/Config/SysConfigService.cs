@@ -107,6 +107,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
+    [NonAction]
     public async Task<string> GetConfigCache(string code)
     {
         var value = await _sysCacheService.GetStringAsync(code);
