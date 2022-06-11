@@ -154,7 +154,7 @@ public static class SqlSugarSetup
         foreach (var entityType in entityTypes)
         {
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            db.ChangeDatabase(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
+            db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
             db.CodeFirst.InitTables(entityType);
         }
 
@@ -173,7 +173,7 @@ public static class SqlSugarSetup
 
             var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            db.ChangeDatabase(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
+            db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
 
             var seedDataTable = seedData.ToList().ToDataTable();
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))

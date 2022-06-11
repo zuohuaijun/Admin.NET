@@ -6,14 +6,10 @@
 [ApiDescriptionSettings(Name = "代码生成配置", Order = 149)]
 public class CodeGenConfigService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysCodeGenConfig> _sysCodeGenConfigRep;
-
     private readonly ISqlSugarClient _db;
 
-    public CodeGenConfigService(SqlSugarRepository<SysCodeGenConfig> sysCodeGenConfigRep,
-        ISqlSugarClient db)
+    public CodeGenConfigService(ISqlSugarClient db)
     {
-        _sysCodeGenConfigRep = sysCodeGenConfigRep;
         _db = db;
     }
 
@@ -25,8 +21,9 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
     [HttpGet("/sysCodeGenerateConfig/list")]
     public async Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input)
     {
-        return await _sysCodeGenConfigRep.AsQueryable().Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesNoEnum.Y.ToString())
-          .Select<CodeGenConfig>().ToListAsync();
+        return await _db.Queryable<SysCodeGenConfig>()
+            .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesNoEnum.Y.ToString())
+            .Select<CodeGenConfig>().ToListAsync();
     }
 
     /// <summary>
@@ -38,7 +35,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
     public async Task Add(CodeGenConfig input)
     {
         var codeGenConfig = input.Adapt<SysCodeGenConfig>();
-        await _sysCodeGenConfigRep.InsertAsync(codeGenConfig);
+        await _db.Insertable(codeGenConfig).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -49,7 +46,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
     [NonAction]
     public async Task Delete(long codeGenId)
     {
-        await _sysCodeGenConfigRep.DeleteAsync(u => u.CodeGenId == codeGenId);
+        await _db.Deleteable<SysCodeGenConfig>().Where(u => u.CodeGenId == codeGenId).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -62,7 +59,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
     {
         if (inputList == null || inputList.Count < 1) return;
         List<SysCodeGenConfig> list = inputList.Adapt<List<SysCodeGenConfig>>();
-        await _sysCodeGenConfigRep.Context.Updateable(list).ExecuteCommandAsync();
+        await _db.Updateable(list).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -73,7 +70,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
     [HttpGet("/sysCodeGenerateConfig/detail")]
     public async Task<SysCodeGenConfig> Detail(CodeGenConfig input)
     {
-        return await _sysCodeGenConfigRep.AsQueryable().FirstAsync(u => u.Id == input.Id);
+        return await _db.Queryable<SysCodeGenConfig>().FirstAsync(u => u.Id == input.Id);
     }
 
     /// <summary>
@@ -127,7 +124,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
             codeGenConfigs.Add(codeGenConfig);
         }
         // 多库代码生成---这里要切回主库
-        _db.AsTenant().ChangeDatabase(SqlSugarConst.ConfigId);
-        _sysCodeGenConfigRep.Context.Insertable(codeGenConfigs).ExecuteCommand();
+        _db.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId);
+        _db.Insertable(codeGenConfigs).ExecuteCommand();
     }
 }

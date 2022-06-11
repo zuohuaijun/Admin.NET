@@ -6,27 +6,21 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Name = "代码生成器", Order = 150)]
 public class CodeGenService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysCodeGen> _sysCodeGenRep;
-    private readonly SqlSugarRepository<SysMenu> _sysMenuRep;
+    private readonly ISqlSugarClient _db;
+
     private readonly CodeGenConfigService _codeGenConfigService;
     private readonly IViewEngine _viewEngine;
     private readonly ICommonService _commonService;
 
-    private readonly ISqlSugarClient _db;
-
-    public CodeGenService(SqlSugarRepository<SysCodeGen> sysCodeGenRep,
-        SqlSugarRepository<SysMenu> sysMenuRep,
+    public CodeGenService(ISqlSugarClient db,
         CodeGenConfigService codeGenConfigService,
         IViewEngine viewEngine,
-        ICommonService commonService,
-        ISqlSugarClient db)
+        ICommonService commonService)
     {
-        _sysCodeGenRep = sysCodeGenRep;
-        _sysMenuRep = sysMenuRep;
+        _db = db;
         _codeGenConfigService = codeGenConfigService;
         _viewEngine = viewEngine;
         _commonService = commonService;
-        _db = db;
     }
 
     /// <summary>
@@ -38,7 +32,7 @@ public class CodeGenService : IDynamicApiController, ITransient
     public async Task<dynamic> QueryCodeGenPageList([FromQuery] CodeGenInput input)
     {
         var tableName = !string.IsNullOrEmpty(input.TableName?.Trim());
-        var codeGens = await _sysCodeGenRep.AsQueryable()
+        var codeGens = await _db.Queryable<SysCodeGen>()
             .WhereIF(!string.IsNullOrWhiteSpace(input.TableName), u => u.TableName.Contains(input.TableName.Trim()))
             .ToPagedListAsync(input.Page, input.PageSize);
         return codeGens;
@@ -52,12 +46,12 @@ public class CodeGenService : IDynamicApiController, ITransient
     [HttpPost("/codeGenerate/add")]
     public async Task AddCodeGen(AddCodeGenInput input)
     {
-        var isExist = await _sysCodeGenRep.AsQueryable().Where(u => u.TableName == input.TableName).AnyAsync();
+        var isExist = await _db.Queryable<SysCodeGen>().Where(u => u.TableName == input.TableName).AnyAsync();
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1400);
 
         var codeGen = input.Adapt<SysCodeGen>();
-        var newCodeGen = await _sysCodeGenRep.Context.Insertable(codeGen).ExecuteReturnEntityAsync();
+        var newCodeGen = await _db.Insertable(codeGen).ExecuteReturnEntityAsync();
         // 加入配置表中
         _codeGenConfigService.AddList(GetColumnList(input), newCodeGen);
     }
@@ -75,7 +69,7 @@ public class CodeGenService : IDynamicApiController, ITransient
         var codeGenConfigTaskList = new List<Task>();
         inputs.ForEach(u =>
         {
-            _sysCodeGenRep.DeleteById(u.Id);
+            _db.Deleteable<SysCodeGen>().In(u.Id).ExecuteCommand();
 
             // 删除配置表中
             codeGenConfigTaskList.Add(_codeGenConfigService.Delete(u.Id));
@@ -91,12 +85,12 @@ public class CodeGenService : IDynamicApiController, ITransient
     [HttpPost("/codeGenerate/edit")]
     public async Task UpdateCodeGen(UpdateCodeGenInput input)
     {
-        var isExist = await _sysCodeGenRep.AsQueryable().AnyAsync(u => u.TableName == input.TableName && u.Id != input.Id);
+        var isExist = await _db.Queryable<SysCodeGen>().AnyAsync(u => u.TableName == input.TableName && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1400);
 
         var codeGen = input.Adapt<SysCodeGen>();
-        await _sysCodeGenRep.UpdateAsync(codeGen);
+        await _db.Updateable(codeGen).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -107,7 +101,7 @@ public class CodeGenService : IDynamicApiController, ITransient
     [HttpGet("/codeGenerate/detail")]
     public async Task<SysCodeGen> GetCodeGen([FromQuery] QueryCodeGenInput input)
     {
-        return await _sysCodeGenRep.AsQueryable().SingleAsync(m => m.Id == input.Id);
+        return await _db.Queryable<SysCodeGen>().SingleAsync(m => m.Id == input.Id);
     }
 
     /// <summary>
@@ -127,8 +121,8 @@ public class CodeGenService : IDynamicApiController, ITransient
     [HttpGet("/codeGenerate/InformationList/{configId}")]
     public async Task<List<TableOutput>> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
-        //切库,多库代码生成用
-        _db.AsTenant().ChangeDatabase(configId);
+        // 切库---多库代码生成用
+        _db.AsTenant().GetConnectionScope(configId);
         List<DbTableInfo> dbTableInfos = _db.DbMaintenance.GetTableInfoList(false);//这里不能走缓存,否则切库不起作用
 
         List<string> dbTableNames = dbTableInfos.Select(x => x.Name).ToList();
@@ -157,7 +151,7 @@ public class CodeGenService : IDynamicApiController, ITransient
     public List<TableColumnOuput> GetColumnListByTableName(string tableName, string configId = SqlSugarConst.ConfigId)
     {
         // 切库---多库代码生成用
-        _db.AsTenant().ChangeDatabase(configId);
+        _db.AsTenant().GetConnectionScope(configId);
 
         // 获取实体类型属性
         var entityType = _db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == tableName);
@@ -182,7 +176,7 @@ public class CodeGenService : IDynamicApiController, ITransient
     {
         // 切库---多库代码生成用
         if (!string.IsNullOrEmpty(input.ConfigId))
-            _db.AsTenant().ChangeDatabase(input.ConfigId);
+            _db.AsTenant().GetConnectionScope(input.ConfigId);
 
         var entityType = _commonService.GetEntityInfos().Result.FirstOrDefault(m => m.EntityName == input.TableName);
         if (entityType == null)
@@ -216,7 +210,7 @@ public class CodeGenService : IDynamicApiController, ITransient
             var joinTableList = tableFieldList.Where(u => u.EffectType == "Upload" || u.EffectType == "fk").ToList();//需要连表查询的字段
             (string joinTableNames, string lowerJoinTableNames) = GetJoinTableStr(joinTableList);//获取连表的实体名和别名
 
-            var data = new CustomViewEngine(_sysCodeGenRep)
+            var data = new CustomViewEngine(_db)
             {
                 ConfigId = input.ConfigId,
                 AuthorName = input.AuthorName,
@@ -283,10 +277,10 @@ public class CodeGenService : IDynamicApiController, ITransient
                 Path = "/" + className.ToLower(),
                 Component = "LAYOUT",
             };
-            pid = (await _sysMenuRep.Context.Insertable(menuType0).ExecuteReturnEntityAsync()).Id;
+            pid = (await _db.Insertable(menuType0).ExecuteReturnEntityAsync()).Id;
         }
         // 由于后续菜单会有修改, 需要判断下 pid 是否存在, 不存在报错
-        else if (!await _sysMenuRep.AsQueryable().AnyAsync(e => e.Id == pid))
+        else if (!await _db.Queryable<SysMenu>().AnyAsync(e => e.Id == pid))
             throw Oops.Oh(ErrorCodeEnum.D1505);
 
         // 菜单
@@ -299,7 +293,7 @@ public class CodeGenService : IDynamicApiController, ITransient
             Path = "/" + className.ToLower(),
             Component = "/main/" + className + "/index",
         };
-        var pid1 = (await _sysMenuRep.Context.Insertable(menuType1).ExecuteReturnEntityAsync()).Id;
+        var pid1 = (await _db.Insertable(menuType1).ExecuteReturnEntityAsync()).Id;
 
         // 按钮-page
         var menuType2 = new SysMenu
@@ -347,7 +341,7 @@ public class CodeGenService : IDynamicApiController, ITransient
         };
 
         var menuList = new List<SysMenu>() { menuType2, menuType2_1, menuType2_2, menuType2_3, menuType2_4 };
-        await _sysMenuRep.Context.Insertable(menuList).ExecuteCommandAsync();
+        await _db.Insertable(menuList).ExecuteCommandAsync();
     }
 
     /// <summary>

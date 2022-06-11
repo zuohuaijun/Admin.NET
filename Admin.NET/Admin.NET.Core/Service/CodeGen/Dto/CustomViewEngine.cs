@@ -2,15 +2,15 @@
 
 public class CustomViewEngine : ViewEngineModel
 {
-    private readonly SqlSugarRepository<SysCodeGen> _sysCodeGenRep; // 代码生成器仓储
+    private readonly ISqlSugarClient _db;
 
     public CustomViewEngine()
     {
     }
 
-    public CustomViewEngine(SqlSugarRepository<SysCodeGen> sysCodeGenRep)
+    public CustomViewEngine(ISqlSugarClient db)
     {
-        _sysCodeGenRep = sysCodeGenRep;
+        _db = db;
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class CustomViewEngine : ViewEngineModel
         ColumnList = GetColumnListByTableName(tbName.ToString());
         var col = ColumnList.Where(c => c.ColumnName == colName.ToString()).FirstOrDefault();
         //多库代码生成切库调用后切换回原库
-        _sysCodeGenRep.Context.AsTenant().ChangeDatabase(SqlSugarConst.ConfigId);
+        _db.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId);
         return col.NetType;
     }
 
@@ -56,14 +56,14 @@ public class CustomViewEngine : ViewEngineModel
     {
         //多库代码生成切换库
         if (ConfigId != SqlSugarConst.ConfigId)
-            _sysCodeGenRep.Context.AsTenant().ChangeDatabase(ConfigId);
+            _db.AsTenant().GetConnectionScope(ConfigId);
 
         // 获取实体类型属性
-        var entityType = _sysCodeGenRep.Context.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);
+        var entityType = _db.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);
         if (entityType == null) return null;
 
         // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
-        return _sysCodeGenRep.Context.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new TableColumnOuput
+        return _db.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new TableColumnOuput
         {
             ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
