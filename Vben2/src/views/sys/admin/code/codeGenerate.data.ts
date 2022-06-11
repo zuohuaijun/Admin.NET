@@ -45,6 +45,46 @@ const apiDictTypeDropDown = async () => {
   return result;
 };
 
+export const convertDbType = (dbType: number) => {
+  let result = '';
+  switch (dbType) {
+    case 0:
+      result = 'MySql';
+      break;
+    case 1:
+      result = 'SqlServer';
+      break;
+    case 2:
+      result = 'Sqlite';
+      break;
+    case 3:
+      result = 'Oracle';
+      break;
+    case 4:
+      result = 'PostgreSql';
+      break;
+    case 5:
+      result = 'Dm';
+      break;
+    case 6:
+      result = 'Kdbndp';
+      break;
+    case 7:
+      result = 'Oscar';
+      break;
+    case 8:
+      result = 'MySqlConnector';
+      break;
+    case 9:
+      result = 'Access';
+      break;
+    default:
+      result = 'Custom';
+      break;
+  }
+  return result;
+};
+
 export const codeShowColumns: BasicColumn[] = [
   {
     title: '库定位器',
@@ -93,7 +133,9 @@ export const codeFormSchema: FormSchema[] = [
         },
         onChange: (e: any, option: any) => {
           formModel.tableName = undefined;
-          formModel.dbType = option.dbType;
+          formModel.dbTypeString = convertDbType(option.dbType);
+          //数据库是文本类型，此处转字符串否则序列化后会报错
+          formModel.dbType = option.dbType.toString();
           formModel.connectionString = option.connectionString;
           const { updateSchema } = formActionType;
           updateSchema([
@@ -140,6 +182,13 @@ export const codeFormSchema: FormSchema[] = [
   },
   {
     field: 'dbType',
+    label: '数据库类型',
+    component: 'Input',
+    dynamicDisabled: true,
+    show: false,
+  },
+  {
+    field: 'dbTypeString',
     label: '数据库类型',
     component: 'Input',
     dynamicDisabled: true,
