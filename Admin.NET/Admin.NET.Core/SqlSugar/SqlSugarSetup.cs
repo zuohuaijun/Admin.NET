@@ -197,7 +197,7 @@ public static class SqlSugarSetup
     {
         // 获取所有继承基类数据表集合
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.BaseType == typeof(EntityBase));
+            && (u.BaseType == typeof(EntityBase) || u.BaseType == typeof(EntityTenant) || u.BaseType == typeof(DataEntityBase)));
         if (!entityTypes.Any()) return;
 
         foreach (var entityType in entityTypes)
