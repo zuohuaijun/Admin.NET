@@ -7,7 +7,6 @@
 public class ConstSelectorService : IDynamicApiController, ITransient
 {
     private readonly IDistributedCache _cache;
-
     public ConstSelectorService(IDistributedCache cache)
     {
         _cache = cache;
@@ -17,8 +16,9 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     /// 获取所有常量下拉框列表
     /// </summary>
     /// <returns></returns>
+    [AllowAnonymous]
     [HttpGet("/constSelector/allConstSelector")]
-    public async Task<dynamic> GetAllConstSelector()
+    public async Task<List<SelectorDto>> GetAllConstSelector()
     {
         var key = $"{CacheConst.KeyConstSelector}AllSelector";
         var json = await _cache.GetStringAsync(key);
@@ -41,8 +41,9 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="typeName"></param>
     /// <returns></returns>
+    [AllowAnonymous]
     [HttpGet("/constSelector/constSelector")]
-    public async Task<dynamic> GetConstSelector(string typeName)
+    public async Task<List<SelectorDto>> GetConstSelector(string typeName)
     {
         var key = $"{CacheConst.KeyConstSelector}{typeName.ToUpper()}";
         var json = await _cache.GetStringAsync(key);
@@ -66,6 +67,22 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取所有下拉框及选项  用于前端缓存
+    /// </summary>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [HttpGet("/constSelector/allConstSelectorWithOptions")]
+    public async Task<List<SelectorDto>> GetAllConstSelectorWithOptions()
+    {
+        var selectors = await GetAllConstSelector();
+        foreach (var p in selectors)
+        {
+            p.Data = await GetConstSelector(Convert.ToString(p.Code));
+        }
+        return selectors;
+    }
+
+    /// <summary>
     /// 获取所有常量
     /// </summary>
     /// <returns></returns>
@@ -81,3 +98,4 @@ public class ConstSelectorService : IDynamicApiController, ITransient
         });
     }
 }
+

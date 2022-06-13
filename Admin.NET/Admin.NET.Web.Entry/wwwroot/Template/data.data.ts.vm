@@ -10,7 +10,7 @@ if(@column.EffectType == "Upload"){
 }else if(@column.EffectType == "ApiTreeSelect"){
 @:import { get@(@column.FkEntityName)Tree } from '/@@/api/main/@(@Model.ClassName)';
 }else if(@column.EffectType == "ConstSelector"){
-@:import { getConstSelector } from '/@@/api/sys/admin';
+@:import { codeToName, getSelector } from '/@@/utils/helper/constSelectorHelper';
 }else if(@column.EffectType == "Switch"){
 @:import { Switch } from 'ant-design-vue';
 }
@@ -31,6 +31,10 @@ if(@column.EffectType == "Upload"){
 }else if(@column.EffectType == "Switch"){
     @:customRender: ({ record }) => {
       @:return h(@(@column.EffectType), { checked: record.@(@column.LowerColumnName) });
+    @:},
+}else if(@column.EffectType == "ConstSelector"){
+    @:customRender: ({ record }) => {
+      @:return codeToName(record.@(@column.LowerColumnName), '@(@column.DictTypeCode)');
     @:},
 }
   @:},
@@ -63,10 +67,9 @@ if(@column.EffectType == "fk"){
       @:},
     @:},
 }else if(@column.EffectType == "ConstSelector"){
-    @:component: 'ApiSelect',
+    @:component: 'Select',
     @:componentProps: {
-      @:api: getConstSelector,
-      @:params: '@(@column.DictTypeCode)',
+      @:options: getSelector('@(@column.DictTypeCode)'),
       @:fieldNames: {
         @:label: 'name',
         @:value: 'code',
@@ -115,10 +118,9 @@ if(@column.EffectType == "fk"){
       @:},
     @:},
 }else if(@column.EffectType == "ConstSelector"){
-    @:component: 'ApiSelect',
+    @:component: 'Select',
     @:componentProps: {
-      @:api: getConstSelector,
-      @:params: '@(@column.DictTypeCode)',
+      @:options: getSelector('@(@column.DictTypeCode)'),
       @:fieldNames: {
         @:label: 'name',
         @:value: 'code',

@@ -136,6 +136,7 @@ enum Api {
   // 常量下拉框接口
   AllConstSelector = '/constSelector/allConstSelector',
   ConstSelector = '/constSelector/constSelector',
+  AllConstSelectorWithOptions = '/constSelector/allConstSelectorWithOptions',
 }
 
 ////////// 账号管理接口 //////////
@@ -433,3 +434,6 @@ export const getAllConstSelector = () => defHttp.get<any>({ url: Api.AllConstSel
 // 根据类名获取下拉框数据
 export const getConstSelector = (typeName?: string) =>
   defHttp.get<any>({ url: Api.ConstSelector, params: { typeName } });
+// 获取所有下拉框及选项
+export const getAllConstSelectorWithOptions = () =>
+  defHttp.get<any>({ url: Api.AllConstSelectorWithOptions });
