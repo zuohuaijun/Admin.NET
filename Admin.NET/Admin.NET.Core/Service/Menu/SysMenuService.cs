@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Service;
+namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 系统菜单服务
@@ -83,7 +83,10 @@ public class SysMenuService : IDynamicApiController, ITransient
     [HttpPost("/sysMenu/add")]
     public async Task AddMenu(AddMenuInput input)
     {
-        var isExist = await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name);
+        var isExist = input.Type != 3
+            ? await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name)
+            : await _sysMenuRep.IsAnyAsync(u => u.Permission == input.Permission);
+            
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D4000);
 
