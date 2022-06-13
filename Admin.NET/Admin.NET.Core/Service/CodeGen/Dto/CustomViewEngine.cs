@@ -47,23 +47,20 @@ public class CustomViewEngine : ViewEngineModel
     {
         ColumnList = GetColumnListByTableName(tbName.ToString());
         var col = ColumnList.Where(c => c.ColumnName == colName.ToString()).FirstOrDefault();
-        //多库代码生成切库调用后切换回原库
-        _db.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId);
         return col.NetType;
     }
 
     public List<TableColumnOuput> GetColumnListByTableName(string tableName)
     {
         //多库代码生成切换库
-        if (ConfigId != SqlSugarConst.ConfigId)
-            _db.AsTenant().GetConnectionScope(ConfigId);
+        var provider = _db.AsTenant().GetConnectionScope(ConfigId != SqlSugarConst.ConfigId ? ConfigId : SqlSugarConst.ConfigId);
 
         // 获取实体类型属性
-        var entityType = _db.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);
+        var entityType = provider.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);
         if (entityType == null) return null;
 
         // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
-        return _db.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new TableColumnOuput
+        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new TableColumnOuput
         {
             ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),

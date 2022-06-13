@@ -124,7 +124,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
             codeGenConfigs.Add(codeGenConfig);
         }
         // 多库代码生成---这里要切回主库
-        _db.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId);
-        _db.Insertable(codeGenConfigs).ExecuteCommand();
+        var provider = _db.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId);
+        provider.Insertable(codeGenConfigs).ExecuteCommand();
     }
 }

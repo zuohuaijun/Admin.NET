@@ -122,8 +122,8 @@ public class CodeGenService : IDynamicApiController, ITransient
     public async Task<List<TableOutput>> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
         // 切库---多库代码生成用
-        _db.AsTenant().GetConnectionScope(configId);
-        List<DbTableInfo> dbTableInfos = _db.DbMaintenance.GetTableInfoList(false);//这里不能走缓存,否则切库不起作用
+        var provider = _db.AsTenant().GetConnectionScope(configId);
+        List<DbTableInfo> dbTableInfos = provider.DbMaintenance.GetTableInfoList(false); // 这里不能走缓存,否则切库不起作用
 
         List<string> dbTableNames = dbTableInfos.Select(x => x.Name).ToList();
 
@@ -151,13 +151,13 @@ public class CodeGenService : IDynamicApiController, ITransient
     public List<TableColumnOuput> GetColumnListByTableName(string tableName, string configId = SqlSugarConst.ConfigId)
     {
         // 切库---多库代码生成用
-        _db.AsTenant().GetConnectionScope(configId);
+        var provider = _db.AsTenant().GetConnectionScope(configId);
 
         // 获取实体类型属性
-        var entityType = _db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == tableName);
+        var entityType = provider.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == tableName);
         if (entityType == null) return null;
         // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
-        return _db.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new TableColumnOuput
+        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new TableColumnOuput
         {
             ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
@@ -175,14 +175,13 @@ public class CodeGenService : IDynamicApiController, ITransient
     public List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
     {
         // 切库---多库代码生成用
-        if (!string.IsNullOrEmpty(input.ConfigId))
-            _db.AsTenant().GetConnectionScope(input.ConfigId);
+        var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.ConfigId);
 
         var entityType = _commonService.GetEntityInfos().Result.FirstOrDefault(m => m.EntityName == input.TableName);
         if (entityType == null)
             return null;
 
-        return _db.DbMaintenance.GetColumnInfosByTableName(entityType.DbTableName, false).Select(u => new TableColumnOuput
+        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.DbTableName, false).Select(u => new TableColumnOuput
         {
             ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),

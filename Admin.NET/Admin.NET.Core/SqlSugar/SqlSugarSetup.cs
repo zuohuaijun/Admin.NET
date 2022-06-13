@@ -154,8 +154,8 @@ public static class SqlSugarSetup
         foreach (var entityType in entityTypes)
         {
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
-            db.CodeFirst.InitTables(entityType);
+            var provider = db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
+            provider.CodeFirst.InitTables(entityType);
         }
 
         // 获取所有实体种子数据
@@ -173,18 +173,18 @@ public static class SqlSugarSetup
 
             var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
+            var provider = db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
 
             var seedDataTable = seedData.ToList().ToDataTable();
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
-                var storage = db.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
+                var storage = provider.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
                 storage.AsUpdateable.ExecuteCommand();
             }
             else //没有主键或者不是预定义的主键(没主键有重复的可能)
             {
-                var storage = db.Storageable(seedDataTable).ToStorage();
+                var storage = provider.Storageable(seedDataTable).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
             }
         }
