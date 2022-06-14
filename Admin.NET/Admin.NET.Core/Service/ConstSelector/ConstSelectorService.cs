@@ -6,22 +6,25 @@
 [ApiDescriptionSettings(Name = "常量下拉框", Order = 189)]
 public class ConstSelectorService : IDynamicApiController, ITransient
 {
-    private readonly IDistributedCache _cache;
-
-    public ConstSelectorService(IDistributedCache cache)
+    //private readonly IDistributedCache _cache;
+    private readonly ISysCacheService _sysCacheService;
+    public ConstSelectorService(IDistributedCache cache,
+        ISysCacheService sysCacheService)
     {
-        _cache = cache;
+        //_cache = cache;
+        _sysCacheService = sysCacheService;
     }
 
     /// <summary>
     /// 获取所有常量下拉框列表
     /// </summary>
     /// <returns></returns>
+    [AllowAnonymous]
     [HttpGet("/constSelector/allConstSelector")]
-    public async Task<dynamic> GetAllConstSelector()
+    public async Task<List<SelectorDto>> GetAllConstSelector()
     {
         var key = $"{CacheConst.KeyConstSelector}AllSelector";
-        var json = await _cache.GetStringAsync(key);
+        var json = await _sysCacheService.GetStringAsync(key);
         if (!string.IsNullOrWhiteSpace(json))
         {
             return json.ToObject<List<SelectorDto>>();
@@ -32,7 +35,7 @@ public class ConstSelectorService : IDynamicApiController, ITransient
             Name = x.CustomAttributes.ToList().FirstOrDefault()?.ConstructorArguments.ToList().FirstOrDefault().Value?.ToString() ?? x.Name,
             Code = x.Name
         }).ToList();
-        await _cache.SetStringAsync(key, selectData.ToJson());
+        await _sysCacheService.SetStringAsync(key, selectData.ToJson());
         return selectData;
     }
 
@@ -41,11 +44,12 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="typeName"></param>
     /// <returns></returns>
+    [AllowAnonymous]
     [HttpGet("/constSelector/constSelector")]
-    public async Task<dynamic> GetConstSelector(string typeName)
+    public async Task<List<SelectorDto>> GetConstSelector(string typeName)
     {
         var key = $"{CacheConst.KeyConstSelector}{typeName.ToUpper()}";
-        var json = await _cache.GetStringAsync(key);
+        var json = await _sysCacheService.GetStringAsync(key);
         if (!string.IsNullOrWhiteSpace(json))
         {
             return json.ToObject<List<SelectorDto>>();
@@ -61,8 +65,24 @@ public class ConstSelectorService : IDynamicApiController, ITransient
                 Name = x.Name,
                 Code = isEnum ? (int)x.GetValue(BindingFlags.Instance) : x.GetValue(BindingFlags.Instance)
             }).ToList();
-        await _cache.SetStringAsync(key, selectData.ToJson());
+        await _sysCacheService.SetStringAsync(key, selectData.ToJson());
         return selectData;
+    }
+
+    /// <summary>
+    /// 获取所有下拉框及选项  用于前端缓存
+    /// </summary>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [HttpGet("/constSelector/allConstSelectorWithOptions")]
+    public async Task<List<SelectorDto>> GetAllConstSelectorWithOptions()
+    {
+        var selectors = await GetAllConstSelector();
+        foreach (var p in selectors)
+        {
+            p.Data = await GetConstSelector(Convert.ToString(p.Code));
+        }
+        return selectors;
     }
 
     /// <summary>
@@ -81,3 +101,4 @@ public class ConstSelectorService : IDynamicApiController, ITransient
         });
     }
 }
+
