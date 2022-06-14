@@ -121,6 +121,8 @@ export interface ProjectConfig {
   lockTime: number;
   // Show breadcrumbs
   showBreadCrumb: boolean;
+  // Show app
+  showApp: boolean;
   // Show breadcrumb icon
   showBreadCrumbIcon: boolean;
   // Use error-handler-plugin

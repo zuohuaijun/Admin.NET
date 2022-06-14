@@ -1,12 +1,12 @@
 ﻿{
   "ConnectionStrings": {
-    "EnableInitTable": true, // 启用初始化库表
+    "EnableInitTable": false, // 启用初始化库表
     "EnableDiffLog": false, // 启用库表差异日志
     "ConnectionConfigs": [ // 默认第一个为主库
       {
         "ConfigId": "Dilon",
-        "DbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
-        "ConnectionString": "DataSource=./Admin.NET.db", // DataSource=C:\\db\\Admin.NET.db
+        "DbType": "SqlServer", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
+        "ConnectionString": "server=172.27.26.29;uid=sa;pwd=123456;database=AdminDB;MultipleActiveResultSets=True", // DataSource=C:\\db\\Admin.NET.db
         "IsAutoCloseConnection": true
       },
       {

@@ -35,6 +35,8 @@ export function useRootSetting() {
 
   const getShowFooter = computed(() => appStore.getProjectConfig.showFooter);
 
+  const getShowApp = computed(() => appStore.getProjectConfig.showApp);
+
   const getShowBreadCrumb = computed(() => appStore.getProjectConfig.showBreadCrumb);
 
   const getThemeColor = computed(() => appStore.getProjectConfig.themeColor);
@@ -80,6 +82,7 @@ export function useRootSetting() {
     getPermissionMode,
     getShowLogo,
     getUseErrorHandle,
+    getShowApp,
     getShowBreadCrumb,
     getShowBreadCrumbIcon,
     getUseOpenBackTop,

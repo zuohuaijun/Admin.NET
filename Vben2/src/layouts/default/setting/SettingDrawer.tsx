@@ -47,6 +47,7 @@ export default defineComponent({
     const {
       getContentMode,
       getShowFooter,
+      getShowApp,
       getShowBreadCrumb,
       getShowBreadCrumbIcon,
       getShowLogo,
@@ -281,6 +282,12 @@ export default defineComponent({
     function renderContent() {
       return (
         <>
+          <SwitchItem
+            title='应用标签页'
+            event={HandlerEnum.SHOW_APP}
+            def={unref(getShowApp)}
+            disabled={!unref(getShowHeader)}
+          />
           <SwitchItem
             title={t('layout.setting.breadcrumb')}
             event={HandlerEnum.SHOW_BREADCRUMB}

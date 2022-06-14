@@ -42,7 +42,7 @@ export function useHeaderSetting() {
     getIsMixSidebar,
     getIsTopMenu,
   } = useMenuSetting();
-  const { getShowBreadCrumb, getShowLogo } = useRootSetting();
+  const { getShowBreadCrumb, getShowApp, getShowLogo } = useRootSetting();
 
   const getShowMixHeaderRef = computed(() => !unref(getIsSidebarType) && unref(getShowHeader));
 
@@ -91,6 +91,7 @@ export function useHeaderSetting() {
     getUseLockPage,
     getShowFullScreen,
     getShowNotice,
+    getShowApp,
     getShowBread,
     getShowContent,
     getShowHeaderLogo,
