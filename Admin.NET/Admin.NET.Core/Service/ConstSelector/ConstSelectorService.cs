@@ -4,14 +4,13 @@
 /// 常量下拉框服务
 /// </summary>
 [ApiDescriptionSettings(Name = "常量下拉框", Order = 189)]
+[AllowAnonymous]
 public class ConstSelectorService : IDynamicApiController, ITransient
 {
-    //private readonly IDistributedCache _cache;
     private readonly ISysCacheService _sysCacheService;
-    public ConstSelectorService(IDistributedCache cache,
-        ISysCacheService sysCacheService)
+
+    public ConstSelectorService(ISysCacheService sysCacheService)
     {
-        //_cache = cache;
         _sysCacheService = sysCacheService;
     }
 
@@ -19,7 +18,6 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     /// 获取所有常量下拉框列表
     /// </summary>
     /// <returns></returns>
-    [AllowAnonymous]
     [HttpGet("/constSelector/allConstSelector")]
     public async Task<List<SelectorDto>> GetAllConstSelector()
     {
@@ -44,7 +42,6 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="typeName"></param>
     /// <returns></returns>
-    [AllowAnonymous]
     [HttpGet("/constSelector/constSelector")]
     public async Task<List<SelectorDto>> GetConstSelector(string typeName)
     {
@@ -73,7 +70,6 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     /// 获取所有下拉框及选项  用于前端缓存
     /// </summary>
     /// <returns></returns>
-    [AllowAnonymous]
     [HttpGet("/constSelector/allConstSelectorWithOptions")]
     public async Task<List<SelectorDto>> GetAllConstSelectorWithOptions()
     {
@@ -101,4 +97,3 @@ public class ConstSelectorService : IDynamicApiController, ITransient
         });
     }
 }
-
