@@ -6,10 +6,13 @@
 [ApiDescriptionSettings(Name = "常量下拉框", Order = 189)]
 public class ConstSelectorService : IDynamicApiController, ITransient
 {
-    private readonly IDistributedCache _cache;
-    public ConstSelectorService(IDistributedCache cache)
+    //private readonly IDistributedCache _cache;
+    private readonly ISysCacheService _sysCacheService;
+    public ConstSelectorService(IDistributedCache cache,
+        ISysCacheService sysCacheService)
     {
-        _cache = cache;
+        //_cache = cache;
+        _sysCacheService = sysCacheService;
     }
 
     /// <summary>
@@ -21,7 +24,7 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     public async Task<List<SelectorDto>> GetAllConstSelector()
     {
         var key = $"{CacheConst.KeyConstSelector}AllSelector";
-        var json = await _cache.GetStringAsync(key);
+        var json = await _sysCacheService.GetStringAsync(key);
         if (!string.IsNullOrWhiteSpace(json))
         {
             return json.ToObject<List<SelectorDto>>();
@@ -32,7 +35,7 @@ public class ConstSelectorService : IDynamicApiController, ITransient
             Name = x.CustomAttributes.ToList().FirstOrDefault()?.ConstructorArguments.ToList().FirstOrDefault().Value?.ToString() ?? x.Name,
             Code = x.Name
         }).ToList();
-        await _cache.SetStringAsync(key, selectData.ToJson());
+        await _sysCacheService.SetStringAsync(key, selectData.ToJson());
         return selectData;
     }
 
@@ -46,7 +49,7 @@ public class ConstSelectorService : IDynamicApiController, ITransient
     public async Task<List<SelectorDto>> GetConstSelector(string typeName)
     {
         var key = $"{CacheConst.KeyConstSelector}{typeName.ToUpper()}";
-        var json = await _cache.GetStringAsync(key);
+        var json = await _sysCacheService.GetStringAsync(key);
         if (!string.IsNullOrWhiteSpace(json))
         {
             return json.ToObject<List<SelectorDto>>();
@@ -62,7 +65,7 @@ public class ConstSelectorService : IDynamicApiController, ITransient
                 Name = x.Name,
                 Code = isEnum ? (int)x.GetValue(BindingFlags.Instance) : x.GetValue(BindingFlags.Instance)
             }).ToList();
-        await _cache.SetStringAsync(key, selectData.ToJson());
+        await _sysCacheService.SetStringAsync(key, selectData.ToJson());
         return selectData;
     }
 

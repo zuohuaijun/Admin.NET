@@ -137,6 +137,11 @@ enum Api {
   AllConstSelector = '/constSelector/allConstSelector',
   ConstSelector = '/constSelector/constSelector',
   AllConstSelectorWithOptions = '/constSelector/allConstSelectorWithOptions',
+
+  // 缓存接口
+  GetAllCacheKeys = '/sysCache/keyList',
+  GetStringAsync = '/sysCache/detail',
+  RemoveAsync = '/sysCache/remove',
 }
 
 ////////// 账号管理接口 //////////
@@ -437,3 +442,13 @@ export const getConstSelector = (typeName?: string) =>
 // 获取所有下拉框及选项
 export const getAllConstSelectorWithOptions = () =>
   defHttp.get<any>({ url: Api.AllConstSelectorWithOptions });
+
+////////// 缓存管理接口 //////////
+// 获取所有缓存列表
+export const getAllCacheKeys = () => defHttp.get<any>({ url: Api.GetAllCacheKeys });
+// 根据类名获取下拉框数据
+export const getCacheStringAsync = (cacheKey?: string) =>
+  defHttp.get<any>({ url: Api.GetStringAsync, params: { cacheKey } });
+// 获取所有下拉框及选项
+export const removeCacheAsync = (key?: string) =>
+  defHttp.get<any>({ url: Api.RemoveAsync, params: { key } });
