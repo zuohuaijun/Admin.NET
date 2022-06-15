@@ -47,14 +47,14 @@ public static class SqlSugarSetup
                             Console.ForegroundColor = ConsoleColor.White;
                         if (sql.StartsWith("DELETE"))
                             Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("\r\n" + "=========执行SQL============" + "\r\n" + UtilMethods.GetSqlString(DbType.MySql, sql, pars) + "\r\n");
+                        Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(DbType.MySql, sql, pars) + "\r\n");
                         App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
                     };
                     dbProvider.Aop.OnError = (ex) =>
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
                         var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
-                        Console.WriteLine("\r\n" + "=========SQL错误============" + "\r\n" + UtilMethods.GetSqlString(DbType.MySql, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
+                        Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(DbType.MySql, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
                         App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
                     };
 
@@ -113,7 +113,7 @@ public static class SqlSugarSetup
                         };
                         await dbProvider.Insertable(LogDiff).AS().ExecuteCommandAsync();
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine($"***差异日志开始***{ Environment.NewLine }{ Newtonsoft.Json.JsonConvert.SerializeObject(LogDiff) }{ Environment.NewLine }***差异日志结束***");
+                        Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{ Environment.NewLine }{ Newtonsoft.Json.JsonConvert.SerializeObject(LogDiff) }{ Environment.NewLine }**********差异日志结束**********\r\n");
                     };
 
                     // 配置实体假删除过滤器
