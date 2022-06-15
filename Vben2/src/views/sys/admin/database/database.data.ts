@@ -86,11 +86,6 @@ export const tableShowColumns: BasicColumn[] = [
 
 export const tableFormSchema: FormSchema[] = [
   {
-    field: 'dataTableInfo',
-    label: '数据表信息',
-    component: 'Divider',
-  },
-  {
     field: 'oldName',
     label: '表名',
     component: 'Input',
@@ -205,6 +200,13 @@ export const columnFormSchema: FormSchema[] = [
 
 export const createEntityFormSchema: FormSchema[] = [
   {
+    field: 'configId',
+    label: '数据库',
+    component: 'Input',
+    required: false,
+    show: false,
+  },
+  {
     field: 'tableName',
     label: '表名',
     component: 'Input',
@@ -224,9 +226,8 @@ export const createEntityFormSchema: FormSchema[] = [
     componentProps: {
       options: [
         { label: 'EntityBaseId', value: 'EntityBaseId' },
-        //{ label: 'AutoIncrementEntity', value: 'AutoIncrementEntity' },
         { label: 'EntityBase', value: 'EntityBase' },
-        //{ label: 'DBEntityTenant', value: 'DBEntityTenant' },
+        { label: 'EntityTenant', value: 'EntityTenant' },
       ],
     },
     defaultValue: 'EntityBase',

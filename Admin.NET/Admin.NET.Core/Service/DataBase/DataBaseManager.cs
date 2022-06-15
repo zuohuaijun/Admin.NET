@@ -69,26 +69,28 @@ public class DataBaseManager : IDynamicApiController, ITransient
     /// <summary>
     /// 获取表字段
     /// </summary>
-    /// <param name="tableName"></param>
+    /// <param name="tableName">表名</param>
+    /// <param name="configId">ConfigId</param>
     /// <returns></returns>
     [HttpGet("/dataBase/columnInfoList")]
-    public List<DbColumnInfoOutput> GetColumnInfosByTableName(string tableName)
+    public List<DbColumnInfoOutput> GetColumnInfosByTableName(string tableName, string configId = SqlSugarConst.ConfigId)
     {
+        var provider = _sqlSugarClient.AsTenant().GetConnectionScope(configId);
         if (string.IsNullOrWhiteSpace(tableName))
             return new List<DbColumnInfoOutput>();
-        return _sqlSugarClient.DbMaintenance.GetColumnInfosByTableName(tableName, false).Adapt<List<DbColumnInfoOutput>>();
+        return provider.DbMaintenance.GetColumnInfosByTableName(tableName, false).Adapt<List<DbColumnInfoOutput>>();
     }
-
     /// <summary>
-    /// 获取所有表
+    /// 获取表信息
     /// </summary>
+    /// <param name="configId">ConfigId</param>
     /// <returns></returns>
     [HttpGet("/dataBase/tableInfoList")]
-    public List<DbTableInfo> GetTableInfoList()
+    public List<DbTableInfo> GetTableInfoList(string configId = SqlSugarConst.ConfigId)
     {
-        return _sqlSugarClient.DbMaintenance.GetTableInfoList(false);
+        var provider = _sqlSugarClient.AsTenant().GetConnectionScope(configId);
+        return provider.DbMaintenance.GetTableInfoList(false);
     }
-
     /// <summary>
     /// 新增表
     /// </summary>
@@ -159,16 +161,17 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpPost("/table/createEntity")]
     public void CreateEntity(CreateEntityInput input)
     {
-        input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Magic.Application" : input.Position;
+        var provider = _sqlSugarClient.AsTenant().GetConnectionScope(input.ConfigId);
+        input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.BaseClassName = string.IsNullOrWhiteSpace(input.BaseClassName) ? "" : $" : {input.BaseClassName}";
         var templatePath = GetTemplatePath();
         var targetPath = GetTargetPath(input);
-        DbTableInfo dbTableInfo = _sqlSugarClient.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName);
+        DbTableInfo dbTableInfo = provider.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName);
         if (dbTableInfo == null)
             throw Oops.Oh(ErrorCodeEnum.db1001);
-        List<DbColumnInfo> dbColumnInfos = _sqlSugarClient.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
+        List<DbColumnInfo> dbColumnInfos = provider.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
 
-        if (input.BaseClassName.Contains("DBEntityTenant"))
+        if (input.BaseClassName.Contains("EntityTenant"))
         {
             dbColumnInfos = dbColumnInfos.Where(c => c.DbColumnName != "Id"
                  && c.DbColumnName != "TenantId"

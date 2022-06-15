@@ -6,9 +6,10 @@
     :title="getTitle"
     @ok="handleSubmit"
   >
+    <Divider orientation="left" style="font-size: 14px">数据表信息</Divider>
     <BasicForm @register="registerForm" />
     <template v-if="!isUpdate">
-      <a-divider orientation="left" style="font-size: 14px">数据列信息</a-divider>
+      <Divider orientation="left" style="font-size: 14px">数据列信息</Divider>
       <BasicTable @register="registerEditColumn">
         <template #action="{ record, column }">
           <TableAction :actions="createActions(record, column)" />
@@ -26,12 +27,7 @@
           >
         </a-col>
         <a-col :span="6">
-          <a-button
-            preIcon="carbon:add"
-            type="dashed"
-            style="width: 100%"
-            @click="addTenantColumn"
-            disabled
+          <a-button preIcon="carbon:add" type="dashed" style="width: 100%" @click="addTenantColumn"
             >新增租户字段</a-button
           >
         </a-col>
@@ -46,6 +42,7 @@
 </template>
 <script lang="ts">
   import { defineComponent, ref, computed, unref } from 'vue';
+  import { Divider } from 'ant-design-vue';
   import { BasicForm, useForm } from '/@/components/Form/index';
   import { tableFormSchema, editColumn } from './database.data';
   import { BasicModal, useModalInner } from '/@/components/Modal';
@@ -61,7 +58,7 @@
 
   export default defineComponent({
     name: 'TableModal',
-    components: { BasicModal, BasicForm, BasicTable, TableAction },
+    components: { BasicModal, BasicForm, BasicTable, TableAction, Divider },
     emits: ['success', 'register'],
     setup(_, { emit }) {
       const isUpdate = ref(true);

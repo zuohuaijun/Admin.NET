@@ -25,4 +25,6 @@ public class CreateEntityInput
     /// </summary>
     /// <example>Magic.Application</example>
     public string Position { get; set; }
+
+    public string ConfigId { get; set; }
 }

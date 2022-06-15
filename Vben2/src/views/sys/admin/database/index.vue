@@ -2,6 +2,15 @@
   <div>
     <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
       <BasicTable @register="registerTable" class="w-2/6" @row-dbClick="onRowClick">
+        <template #tableTitle>
+          <Select
+            style="width: 150px"
+            v-model:value="currentDB"
+            :options="dbList"
+            :field-names="{ label: 'configId', value: 'configId' }"
+            @change="handleDbChange"
+          />
+        </template>
         <template #toolbar>
           <a-button type="primary" @click="handleCreateTable">新增数据表</a-button>
         </template>
@@ -68,13 +77,20 @@
 <script lang="ts">
   import { defineComponent, ref } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
+  import { Select } from 'ant-design-vue';
   import { PageWrapper } from '/@/components/Page';
   import { tableShowColumns, columnShowColumns } from './database.data';
   import { useModal } from '/@/components/Modal';
   import TableModal from './TableModal.vue';
   import ColumnModal from './ColumnModal.vue';
   import CreateEntityModal from './CreateEntityModal.vue';
-  import { getTableInfoList, getColumnInfoList, deleteTable, deleteColumn } from '/@/api/sys/admin';
+  import {
+    getTableInfoList,
+    getColumnInfoList,
+    deleteTable,
+    deleteColumn,
+    getDatabaseList,
+  } from '/@/api/sys/admin';
   import { useMessage } from '/@/hooks/web/useMessage';
 
   export default defineComponent({
@@ -85,19 +101,29 @@
       TableModal,
       CreateEntityModal,
       ColumnModal,
+      Select,
     },
     setup() {
       const { createMessage } = useMessage();
       const [registerTableModal, { openModal }] = useModal();
       const [registerCreateEntityModal, { openModal: openCreateEntityModal }] = useModal();
       const [registerColumnModal, { openModal: openColumnModal }] = useModal();
+      const currentDB = ref('');
       const currentTable = ref('');
+      const dbList = ref<any[]>([]);
       const columnApi = async () => {
-        const result = await getColumnInfoList({ tableName: currentTable.value });
+        const result = await getColumnInfoList({
+          tableName: currentTable.value,
+          configId: currentDB.value,
+        });
         return result;
       };
       const [registerTable, { reload }] = useTable({
         api: getTableInfoList,
+        beforeFetch: (params: any) => {
+          params.configId = currentDB.value;
+        },
+        immediate: false,
         rowKey: 'name',
         showIndexColumn: false,
         pagination: false,
@@ -109,8 +135,14 @@
           slots: { customRender: 'action' },
         },
       });
+      getDatabaseList().then((res) => {
+        dbList.value = res;
+        currentDB.value = res[0].configId;
+        reload();
+      });
       const [registerColumnTable, { reload: colReload }] = useTable({
         api: columnApi,
+        immediate: false,
         rowKey: 'dbColumnName',
         showIndexColumn: false,
         pagination: false,
@@ -144,7 +176,7 @@
       }
 
       function handleCreateEntity(record: Recordable) {
-        openCreateEntityModal(true, { tableName: record.name });
+        openCreateEntityModal(true, { tableName: record.name, configId: currentDB.value });
       }
 
       function handleCreateColumn() {
@@ -180,6 +212,12 @@
         currentTable.value = record.name;
         colReload();
       }
+      function handleDbChange(value: string) {
+        currentDB.value = value;
+        currentTable.value = '';
+        reload();
+        colReload();
+      }
 
       return {
         registerTable,
@@ -198,6 +236,9 @@
         handleColumnEdit,
         handleCreateColumn,
         handleColumnDelete,
+        dbList,
+        currentDB,
+        handleDbChange,
       };
     },
   });

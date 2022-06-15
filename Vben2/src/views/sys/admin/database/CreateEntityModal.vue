@@ -18,6 +18,7 @@
         labelWidth: 100,
         schemas: createEntityFormSchema,
         showActionButtonGroup: false,
+        baseColProps: { span: 22 },
       });
 
       const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
@@ -25,6 +26,7 @@
         setModalProps({ confirmLoading: false });
         setFieldsValue({
           tableName: data.tableName,
+          configId: data.configId,
         });
       });
 
