@@ -30,6 +30,6 @@ public class LogExceptionHandler : IGlobalExceptionHandler, ISingleton
         });
 
         // 写日志文件
-        Log.Error(context.Exception.ToString());
+        Log.Error(EnhancedStackTrace.Current().ToString());
     }
 }
