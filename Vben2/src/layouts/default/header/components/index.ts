@@ -4,7 +4,6 @@ import FullScreen from './FullScreen.vue';
 export const UserDropDown = createAsyncComponent(() => import('./user-dropdown/index.vue'), {
   loading: true,
 });
-export const AppDropDown = createAsyncComponent(() => import('./AppDropDown.vue'));
 
 export const LayoutBreadcrumb = createAsyncComponent(() => import('./Breadcrumb.vue'));
 

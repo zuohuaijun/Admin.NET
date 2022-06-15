@@ -122,9 +122,6 @@ export function handler(event: HandlerEnum, value: any): DeepPartial<ProjectConf
     case HandlerEnum.CONTENT_MODE:
       return { contentMode: value };
 
-    case HandlerEnum.SHOW_APP:
-      return { showApp: value };
-
     case HandlerEnum.SHOW_BREADCRUMB:
       return { showBreadCrumb: value };
 

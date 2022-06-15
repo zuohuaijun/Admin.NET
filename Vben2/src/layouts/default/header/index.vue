@@ -49,13 +49,14 @@
       /> -->
 
       <UserDropDown :theme="getHeaderTheme" />
-      <AppDropDown :class="`${prefixCls}-action__item`" />
+
       <SettingDrawer v-if="getShowSetting" :class="`${prefixCls}-action__item`" />
     </div>
   </Header>
 </template>
 <script lang="ts">
   import { defineComponent, unref, computed } from 'vue';
+
   import { propTypes } from '/@/utils/propTypes';
 
   import { Layout } from 'ant-design-vue';
@@ -73,14 +74,7 @@
   import { SettingButtonPositionEnum } from '/@/enums/appEnum';
   import { AppLocalePicker } from '/@/components/Application';
 
-  import {
-    UserDropDown,
-    AppDropDown,
-    LayoutBreadcrumb,
-    FullScreen,
-    Notify,
-    ErrorAction,
-  } from './components';
+  import { UserDropDown, LayoutBreadcrumb, FullScreen, Notify, ErrorAction } from './components';
   import { useAppInject } from '/@/hooks/web/useAppInject';
   import { useDesign } from '/@/hooks/web/useDesign';
 
@@ -93,7 +87,6 @@
       Header: Layout.Header,
       AppLogo,
       LayoutTrigger,
-      AppDropDown,
       LayoutBreadcrumb,
       LayoutMenu,
       UserDropDown,
@@ -127,7 +120,6 @@
         getShowFullScreen,
         getShowNotice,
         getShowContent,
-        getShowApp,
         getShowBread,
         getShowHeaderLogo,
         getShowHeader,
@@ -185,7 +177,6 @@
         getHeaderTheme,
         getShowHeaderTrigger,
         getIsMobile,
-        getShowApp,
         getShowBread,
         getShowContent,
         getSplitType,
