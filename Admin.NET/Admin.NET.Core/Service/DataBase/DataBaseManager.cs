@@ -6,12 +6,12 @@
 [ApiDescriptionSettings(Name = "数据库管理", Order = 145)]
 public class DataBaseManager : IDynamicApiController, ITransient
 {
-    private readonly ISqlSugarClient _sqlSugarClient;
+    private readonly ISqlSugarClient _db;
     private readonly IViewEngine _viewEngine;
 
-    public DataBaseManager(ISqlSugarClient sqlSugarClient, IViewEngine viewEngine)
+    public DataBaseManager(ISqlSugarClient db, IViewEngine viewEngine)
     {
-        _sqlSugarClient = sqlSugarClient;
+        _db = db;
         _viewEngine = viewEngine;
     }
 
@@ -33,11 +33,11 @@ public class DataBaseManager : IDynamicApiController, ITransient
             DecimalDigits = input.DecimalDigits,
             DataType = input.DataType
         };
-        _sqlSugarClient.DbMaintenance.AddColumn(input.TableName, column);
-        _sqlSugarClient.DbMaintenance.AddColumnRemark(input.DbColumnName, input.TableName, input.ColumnDescription);
+        _db.DbMaintenance.AddColumn(input.TableName, column);
+        _db.DbMaintenance.AddColumnRemark(input.DbColumnName, input.TableName, input.ColumnDescription);
         if (column.IsPrimarykey)
         {
-            _sqlSugarClient.DbMaintenance.AddPrimaryKey(input.TableName, input.DbColumnName);
+            _db.DbMaintenance.AddPrimaryKey(input.TableName, input.DbColumnName);
         }
     }
 
@@ -48,7 +48,7 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpPost("/column/delete")]
     public void ColumnDelete(DbColumnInfoOutput input)
     {
-        _sqlSugarClient.DbMaintenance.DropColumn(input.TableName, input.DbColumnName);
+        _db.DbMaintenance.DropColumn(input.TableName, input.DbColumnName);
     }
 
     /// <summary>
@@ -58,12 +58,12 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpPost("/column/edit")]
     public void ColumnEdit(EditColumnInput input)
     {
-        _sqlSugarClient.DbMaintenance.RenameColumn(input.TableName, input.OldName, input.DbColumnName);
-        if (_sqlSugarClient.DbMaintenance.IsAnyColumnRemark(input.DbColumnName, input.TableName))
+        _db.DbMaintenance.RenameColumn(input.TableName, input.OldName, input.DbColumnName);
+        if (_db.DbMaintenance.IsAnyColumnRemark(input.DbColumnName, input.TableName))
         {
-            _sqlSugarClient.DbMaintenance.DeleteColumnRemark(input.DbColumnName, input.TableName);
+            _db.DbMaintenance.DeleteColumnRemark(input.DbColumnName, input.TableName);
         }
-        _sqlSugarClient.DbMaintenance.AddColumnRemark(input.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(input.ColumnDescription) ? input.DbColumnName : input.ColumnDescription);
+        _db.DbMaintenance.AddColumnRemark(input.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(input.ColumnDescription) ? input.DbColumnName : input.ColumnDescription);
     }
 
     /// <summary>
@@ -75,11 +75,12 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpGet("/dataBase/columnInfoList")]
     public List<DbColumnInfoOutput> GetColumnInfosByTableName(string tableName, string configId = SqlSugarConst.ConfigId)
     {
-        var provider = _sqlSugarClient.AsTenant().GetConnectionScope(configId);
+        var provider = _db.AsTenant().GetConnectionScope(configId);
         if (string.IsNullOrWhiteSpace(tableName))
             return new List<DbColumnInfoOutput>();
         return provider.DbMaintenance.GetColumnInfosByTableName(tableName, false).Adapt<List<DbColumnInfoOutput>>();
     }
+
     /// <summary>
     /// 获取表信息
     /// </summary>
@@ -88,9 +89,10 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpGet("/dataBase/tableInfoList")]
     public List<DbTableInfo> GetTableInfoList(string configId = SqlSugarConst.ConfigId)
     {
-        var provider = _sqlSugarClient.AsTenant().GetConnectionScope(configId);
+        var provider = _db.AsTenant().GetConnectionScope(configId);
         return provider.DbMaintenance.GetTableInfoList(false);
     }
+
     /// <summary>
     /// 新增表
     /// </summary>
@@ -117,15 +119,15 @@ public class DataBaseManager : IDynamicApiController, ITransient
                 DecimalDigits = m.DecimalDigits
             });
         });
-        _sqlSugarClient.DbMaintenance.CreateTable(input.Name, columns, false);
-        _sqlSugarClient.DbMaintenance.AddTableRemark(input.Name, input.Description);
+        _db.DbMaintenance.CreateTable(input.Name, columns, false);
+        _db.DbMaintenance.AddTableRemark(input.Name, input.Description);
         if (columns.Any(m => m.IsPrimarykey))
         {
-            _sqlSugarClient.DbMaintenance.AddPrimaryKey(input.Name, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
+            _db.DbMaintenance.AddPrimaryKey(input.Name, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
         }
         input.DbColumnInfoList.ForEach(m =>
         {
-            _sqlSugarClient.DbMaintenance.AddColumnRemark(m.DbColumnName, input.Name, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
+            _db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.Name, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
         });
     }
 
@@ -136,7 +138,7 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpPost("/table/delete")]
     public void TableDelete(DbTableInfo input)
     {
-        _sqlSugarClient.DbMaintenance.DropTable(input.Name);
+        _db.DbMaintenance.DropTable(input.Name);
     }
 
     /// <summary>
@@ -146,12 +148,12 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpPost("/table/edit")]
     public void TableEdit(EditTableInput input)
     {
-        _sqlSugarClient.DbMaintenance.RenameTable(input.OldName, input.Name);
-        if (_sqlSugarClient.DbMaintenance.IsAnyTableRemark(input.Name))
+        _db.DbMaintenance.RenameTable(input.OldName, input.Name);
+        if (_db.DbMaintenance.IsAnyTableRemark(input.Name))
         {
-            _sqlSugarClient.DbMaintenance.DeleteTableRemark(input.Name);
+            _db.DbMaintenance.DeleteTableRemark(input.Name);
         }
-        _sqlSugarClient.DbMaintenance.AddTableRemark(input.Name, input.Description);
+        _db.DbMaintenance.AddTableRemark(input.Name, input.Description);
     }
 
     /// <summary>
@@ -161,7 +163,7 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpPost("/table/createEntity")]
     public void CreateEntity(CreateEntityInput input)
     {
-        var provider = _sqlSugarClient.AsTenant().GetConnectionScope(input.ConfigId);
+        var provider = _db.AsTenant().GetConnectionScope(input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.BaseClassName = string.IsNullOrWhiteSpace(input.BaseClassName) ? "" : $" : {input.BaseClassName}";
         var templatePath = GetTemplatePath();
@@ -174,21 +176,21 @@ public class DataBaseManager : IDynamicApiController, ITransient
         if (input.BaseClassName.Contains("EntityTenant"))
         {
             dbColumnInfos = dbColumnInfos.Where(c => c.DbColumnName != "Id"
-                 && c.DbColumnName != "TenantId"
-                 && c.DbColumnName != "CreateTime"
-                 && c.DbColumnName != "UpdateTime"
-                 && c.DbColumnName != "CreateUserId"
-                 && c.DbColumnName != "UpdateUserId"
-                 && c.DbColumnName != "IsDelete").ToList();
+                && c.DbColumnName != "TenantId"
+                && c.DbColumnName != "CreateTime"
+                && c.DbColumnName != "UpdateTime"
+                && c.DbColumnName != "CreateUserId"
+                && c.DbColumnName != "UpdateUserId"
+                && c.DbColumnName != "IsDelete").ToList();
         }
         else if (input.BaseClassName.Contains("EntityBase"))
         {
             dbColumnInfos = dbColumnInfos.Where(c => c.DbColumnName != "Id"
-                 && c.DbColumnName != "CreateTime"
-                 && c.DbColumnName != "UpdateTime"
-                 && c.DbColumnName != "CreateUserId"
-                 && c.DbColumnName != "UpdateUserId"
-                 && c.DbColumnName != "IsDelete").ToList();
+                && c.DbColumnName != "CreateTime"
+                && c.DbColumnName != "UpdateTime"
+                && c.DbColumnName != "CreateUserId"
+                && c.DbColumnName != "UpdateUserId"
+                && c.DbColumnName != "IsDelete").ToList();
         }
         else if (input.BaseClassName.Contains("EntityBaseId"))
         {

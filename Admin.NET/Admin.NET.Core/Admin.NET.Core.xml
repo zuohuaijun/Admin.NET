@@ -4103,17 +4103,19 @@
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetColumnInfosByTableName(System.String)">
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetColumnInfosByTableName(System.String,System.String)">
             <summary>
             获取表字段
             </summary>
-            <param name="tableName"></param>
+            <param name="tableName">表名</param>
+            <param name="configId">ConfigId</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetTableInfoList">
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetTableInfoList(System.String)">
             <summary>
-            获取所有表
+            获取表信息
             </summary>
+            <param name="configId">ConfigId</param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.DataBaseManager.TableAdd(Admin.NET.Core.Service.DbTableInfoInput)">
@@ -4176,6 +4178,11 @@
             
              </summary>
              <example>Magic.Application</example>
+        </member>
+        <member name="P:Admin.NET.Core.Service.CreateEntityInput.ConfigId">
+            <summary>
+            
+            </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.DataResourceInput.Pid">
             <summary>

@@ -10,22 +10,22 @@ public class SysFileService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysFile> _sysFileRep;
     private readonly OSSProviderOptions _OSSProviderOptions;
-    private readonly IOSSService _OSSService;
     private readonly UploadOptions _uploadOptions;
     private readonly ICommonService _commonService;
+    private readonly IOSSService _OSSService;
 
     public SysFileService(SqlSugarRepository<SysFile> sysFileRep,
         IOptions<OSSProviderOptions> oSSProviderOptions,
-        IOSSServiceFactory ossServiceFactory,
+        IOptions<UploadOptions> uploadOptions,
         ICommonService commonService,
-        IOptions<UploadOptions> uploadOptions)
+        IOSSServiceFactory ossServiceFactory)
     {
         _sysFileRep = sysFileRep;
         _OSSProviderOptions = oSSProviderOptions.Value;
+        _uploadOptions = uploadOptions.Value;
         _commonService = commonService;
         if (_OSSProviderOptions.IsEnable)
             _OSSService = ossServiceFactory.Create(_OSSProviderOptions.Provider.ToString());
-        _uploadOptions = uploadOptions.Value;
     }
 
     /// <summary>
@@ -158,7 +158,8 @@ public class SysFileService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D8001);
 
         var sizeKb = (long)(file.Length / 1024.0); // 大小KB
-        if (sizeKb > _uploadOptions.MaxSize) throw Oops.Oh(ErrorCodeEnum.D8002);
+        if (sizeKb > _uploadOptions.MaxSize)
+            throw Oops.Oh(ErrorCodeEnum.D8002);
 
         var suffix = Path.GetExtension(file.FileName).ToLower(); // 后缀
 
