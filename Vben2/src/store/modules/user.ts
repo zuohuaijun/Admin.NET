@@ -8,6 +8,7 @@ import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
 import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
+import { getAllConstSelectorWithOptions } from '/@/api/sys/admin';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -23,6 +24,7 @@ interface UserState {
   roleList: RoleEnum[];
   sessionTimeout?: boolean;
   lastUpdateTime: number;
+  constSelectorWithOptions: [];
 }
 
 export const useUserStore = defineStore({
@@ -38,6 +40,8 @@ export const useUserStore = defineStore({
     sessionTimeout: false,
     // Last fetch time
     lastUpdateTime: 0,
+
+    constSelectorWithOptions: [],
   }),
   getters: {
     getUserInfo(): UserInfo {
@@ -54,6 +58,9 @@ export const useUserStore = defineStore({
     },
     getLastUpdateTime(): number {
       return this.lastUpdateTime;
+    },
+    getAllConstSelectorWithOptions(): any[] {
+      return this.constSelectorWithOptions || getAllConstSelectorWithOptions();
     },
   },
   actions: {
@@ -167,6 +174,11 @@ export const useUserStore = defineStore({
           await this.logout(true);
         },
       });
+    },
+    async getAllConstSelectorWithOptionsAction() {
+      const data = await getAllConstSelectorWithOptions();
+      this.constSelectorWithOptions = data;
+      // setAuthCache(USER_INFO_KEY, data);
     },
   },
 });
