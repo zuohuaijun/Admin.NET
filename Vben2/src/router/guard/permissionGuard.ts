@@ -29,6 +29,10 @@ export function createPermissionGuard(router: Router) {
       return;
     }
 
+    //缓存所有常量数据
+    if (userStore.constSelectorWithOptions.length === 0) {
+      await userStore.getAllConstSelectorWithOptionsAction();
+    }
     const token = userStore.getToken;
 
     // Whitelist can be directly entered

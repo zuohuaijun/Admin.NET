@@ -8,27 +8,27 @@ public class CacheConst
     /// <summary>
     /// 用户缓存
     /// </summary>
-    public const string KeyUser = "user_";
+    public const string KeyUser = "user:";
 
     /// <summary>
     /// 菜单缓存
     /// </summary>
-    public const string KeyMenu = "menu_";
+    public const string KeyMenu = "menu:";
 
     /// <summary>
     /// 权限缓存
     /// </summary>
-    public const string KeyPermission = "permission_";
+    public const string KeyPermission = "permission:";
 
     /// <summary>
     /// 机构Id集合缓存
     /// </summary>
-    public const string KeyOrgIdList = "org_";
+    public const string KeyOrgIdList = "org:";
 
     /// <summary>
     /// 验证码缓存
     /// </summary>
-    public const string KeyVerCode = "verCode_";
+    public const string KeyVerCode = "verCode:";
 
     /// <summary>
     /// 所有缓存关键字集合
@@ -38,12 +38,12 @@ public class CacheConst
     /// <summary>
     /// 定时任务缓存
     /// </summary>
-    public const string KeyTimer = "timer";
+    public const string KeyTimer = "timer:";
 
     /// <summary>
     /// 在线用户缓存
     /// </summary>
-    public const string KeyOnlineUser = "onlineuser";
+    public const string KeyOnlineUser = "onlineuser:";
 
     /// <summary>
     /// 常量下拉框

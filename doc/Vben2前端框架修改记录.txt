@@ -60,6 +60,16 @@ Vben2/index.html
 \src\utils\http\axios
 14、解决表格设置不加载列名选项的问题
 /src/components/Table/src/components/settings/ColumnSetting.vue 
+15、增加注册常量下拉框
+Vben2/src/main.ts	
+16、增加缓存所有常量下拉框数据
+Vben2/src/router/guard/permissionGuard.ts	
+17、增加获取所有常量下拉框
+Vben2/src/store/modules/user.ts	
+18、增加常量下拉框帮助类
+Vben2/src/utils/helper/constSelectorHelper.ts	
+19、
+
 
 
 /////////////////////////////////////////////////////////////////////
