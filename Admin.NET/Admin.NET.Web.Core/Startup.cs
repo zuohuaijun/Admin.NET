@@ -75,6 +75,9 @@ namespace Admin.NET.Web.Core
             // 注册模板引擎
             services.AddViewEngine();
 
+            // 注册即时通讯
+            services.AddSignalR();
+
             // 增加Logo输出显示
             services.AddLogoDisplay();
         }
@@ -111,6 +114,9 @@ namespace Admin.NET.Web.Core
 
             app.UseEndpoints(endpoints =>
             {
+                // 注册集线器
+                endpoints.MapHubs();
+
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

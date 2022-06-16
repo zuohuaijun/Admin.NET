@@ -179,15 +179,10 @@ public static class SqlSugarSetup
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
                 var storage = provider.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
-                //如果添加一条种子数，sqlsugar默认会通过@param的方式赋值，如果PropertyType为空，则默认数据类型为字符串。插入pgsql时候会报错， 所以要忽略为空的值添加
-                if (((InsertableProvider<System.Collections.Generic.Dictionary<string, object>>)storage.AsInsertable).IsSingle)
-                {
-                    storage.AsInsertable.IgnoreColumns("UpdateTime", "UpdateUserId", "CreateUserId").ExecuteCommand();
-                }
-                else
-                {
+                // 如果添加一条种子数，sqlsugar默认会通过@param的方式赋值，如果PropertyType为空，则默认数据类型为字符串。插入pgsql时候会报错，所以要忽略为空的值添加
+                _ = ((InsertableProvider<Dictionary<string, object>>)storage.AsInsertable).IsSingle ?
+                    storage.AsInsertable.IgnoreColumns("UpdateTime", "UpdateUserId", "CreateUserId").ExecuteCommand() :
                     storage.AsInsertable.ExecuteCommand();
-                }
                 storage.AsUpdateable.ExecuteCommand();
             }
             else //没有主键或者不是预定义的主键(没主键有重复的可能)
