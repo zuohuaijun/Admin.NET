@@ -4713,11 +4713,6 @@
             路径
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.MapperSysFileOutput.Id">
-            <summary>
-            雪花Id
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.Service.SysFileService">
             <summary>
             系统文件服务

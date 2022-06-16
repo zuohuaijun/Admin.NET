@@ -21,7 +21,7 @@ if(column.EffectType == "fk")
        @:public @(@column.ColumnName)Fk@(@column.FkEntityName)Output Fk@(@column.ColumnName) { get; set; }
 }else if(column.EffectType == "Upload"){
         @:public @column.NetType @column.ColumnName { get; set; }
-        @:public MapperSysFileOutput @(@column.ColumnName)Attachment { get; set; }
+        @:public SysFile @(@column.ColumnName)Attachment { get; set; }
 }else{
        @:public @column.NetType @column.ColumnName { get; set; }
 }

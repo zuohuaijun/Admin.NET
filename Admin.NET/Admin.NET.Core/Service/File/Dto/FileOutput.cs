@@ -38,22 +38,3 @@ public class FileOutput
     /// </summary>
     public string FilePath { get; set; }
 }
-
-[SugarTable("sys_file")]
-[NotTable]
-public class MapperSysFileOutput
-{
-    /// <summary>
-    /// 雪花Id
-    /// </summary>
-    [SugarColumn(ColumnDescription = "Id", IsPrimaryKey = true, IsIdentity = false)]
-    public long Id { get; set; }
-
-    public string BucketName { get; set; }
-
-    public string FileName { get; set; }
-
-    public string Suffix { get; set; }
-
-    public string FilePath { get; set; }
-}
