@@ -336,7 +336,7 @@ public class CodeGenService : IDynamicApiController, ITransient
             Pid = pid1,
             Title = busName + "编辑",
             Type = MenuTypeEnum.Btn,
-            Permission = className + ":update",
+            Permission = className + ":edit",
         };
 
         var menuList = new List<SysMenu>() { menuType2, menuType2_1, menuType2_2, menuType2_3, menuType2_4 };
