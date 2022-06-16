@@ -148,7 +148,7 @@ public static class SqlSugarSetup
 
         // 获取所有实体表
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.IsDefined(typeof(SugarTable), false));
+            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute),false));
         if (!entityTypes.Any()) return;
         // 初始化库表结构
         foreach (var entityType in entityTypes)
