@@ -68,7 +68,8 @@ Vben2/src/router/guard/permissionGuard.ts
 Vben2/src/store/modules/user.ts	
 18、增加常量下拉框帮助类
 Vben2/src/utils/helper/constSelectorHelper.ts	
-19、
+19、增加登录滑动验证
+Vben2/src/views/sys/login/LoginForm.vue	
 
 
 

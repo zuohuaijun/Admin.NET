@@ -10,7 +10,7 @@ public class ChatHub : Hub<IChatClient>
     private readonly ISysCacheService _cache;
     private readonly ISendMessageService _sendMessageService;
 
-    public ChatHub(ISysCacheService cache, 
+    public ChatHub(ISysCacheService cache,
         ISendMessageService sendMessageService)
     {
         _cache = cache;
@@ -23,31 +23,31 @@ public class ChatHub : Hub<IChatClient>
     /// <returns></returns>
     public override async Task OnConnectedAsync()
     {
-        //var token = Context.GetHttpContext().Request.Query["access_token"];
-        //var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
+        var token = Context.GetHttpContext().Request.Query["access_token"];
+        var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
 
-        //var client = Parser.GetDefault().Parse(Context.GetHttpContext().Request.Headers["User-Agent"]);
-        //var loginBrowser = client.UA.Family + client.UA.Major;
-        //var loginOs = client.OS.Family + client.OS.Major;
+        var client = Parser.GetDefault().Parse(Context.GetHttpContext().Request.Headers["User-Agent"]);
+        var loginBrowser = client.UA.Family + client.UA.Major;
+        var loginOs = client.OS.Family + client.OS.Major;
 
-        //var userId = claims.FirstOrDefault(e => e.Type == ClaimConst.CLAINM_USERID)?.Value;
-        //var account = claims.FirstOrDefault(e => e.Type == ClaimConst.CLAINM_ACCOUNT)?.Value;
-        //var name = claims.FirstOrDefault(e => e.Type == ClaimConst.CLAINM_NAME)?.Value;
-        //var tenantId = claims.FirstOrDefault(e => e.Type == ClaimConst.TENANT_ID)?.Value;
-        //var onlineUsers = await _cache.GetAsync<List<OnlineUser>>(CommonConst.CACHE_KEY_ONLINE_USER) ?? new List<OnlineUser>();
-        //onlineUsers.Add(new OnlineUser
-        //{
-        //    ConnectionId = Context.ConnectionId,
-        //    UserId = long.Parse(userId),
-        //    LastTime = DateTime.Now,
-        //    LastLoginIp = App.HttpContext.GetRequestIPv4(),
-        //    LastLoginBrowser = loginBrowser,
-        //    LastLoginOs = loginOs,
-        //    Account = account,
-        //    Name = name,
-        //    TenantId = Convert.ToInt64(tenantId),
-        //});
-        //await _cache.SetAsync(CommonConst.CACHE_KEY_ONLINE_USER, onlineUsers);
+        var userId = claims.FirstOrDefault(e => e.Type == ClaimConst.UserId)?.Value;
+        var account = claims.FirstOrDefault(e => e.Type == ClaimConst.UserName)?.Value;
+        var name = claims.FirstOrDefault(e => e.Type == ClaimConst.RealName)?.Value;
+        var tenantId = claims.FirstOrDefault(e => e.Type == ClaimConst.TenantId)?.Value;
+        var onlineUsers = await _cache.GetAsync<List<SysOnlineUser>>(CacheConst.KeyOnlineUser) ?? new List<SysOnlineUser>();
+        onlineUsers.Add(new SysOnlineUser
+        {
+            ConnectionId = Context.ConnectionId,
+            UserId = long.Parse(userId),
+            LastTime = DateTime.Now,
+            LastLoginIp = App.HttpContext.GetRemoteIpAddressToIPv4(),
+            LastLoginBrowser = loginBrowser,
+            LastLoginOs = loginOs,
+            Account = account,
+            Name = name,
+            TenantId = Convert.ToInt64(tenantId),
+        });
+        await _cache.SetAsync(CacheConst.KeyOnlineUser, onlineUsers);
     }
 
     /// <summary>
@@ -57,14 +57,14 @@ public class ChatHub : Hub<IChatClient>
     /// <returns></returns>
     public override async Task OnDisconnectedAsync(Exception exception)
     {
-        //if (!string.IsNullOrEmpty(Context.ConnectionId))
-        //{
-        //    var onlineUsers = await _cache.GetAsync<List<OnlineUser>>(CommonConst.CACHE_KEY_ONLINE_USER);
-        //    if (onlineUsers == null) return;
+        if (!string.IsNullOrEmpty(Context.ConnectionId))
+        {
+            var onlineUsers = await _cache.GetAsync<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
+            if (onlineUsers == null) return;
 
-        //    onlineUsers.RemoveAll(u => u.ConnectionId == Context.ConnectionId);
-        //    await _cache.SetAsync(CommonConst.CACHE_KEY_ONLINE_USER, onlineUsers);
-        //}
+            onlineUsers.RemoveAll(u => u.ConnectionId == Context.ConnectionId);
+            await _cache.SetAsync(CacheConst.KeyOnlineUser, onlineUsers);
+        }
     }
 
     /// <summary>
@@ -94,7 +94,6 @@ public class ChatHub : Hub<IChatClient>
     /// <returns></returns>
     public async Task ClientsSendMessagetoOther(MessageInput _message)
     {
-        // _message.userId为发送人ID
         await _sendMessageService.SendMessageToOtherUser(_message.Title, _message.Message, _message.MessageType, _message.UserId);
     }
 
