@@ -24,7 +24,7 @@ if(@column.EffectType == "Upload"){
               icon: 'clarity:note-edit-line',
               label: '编辑',
               onClick: handleEdit.bind(null, record),
-              disabled: !hasPermission('@(@Model.ClassName):update'),
+              disabled: !hasPermission('@(@Model.ClassName):edit'),
             },
             {
               icon: 'ant-design:delete-outlined',
