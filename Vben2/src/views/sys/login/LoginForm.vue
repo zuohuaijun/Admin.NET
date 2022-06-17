@@ -24,7 +24,7 @@
         :placeholder="t('sys.login.password')"
       />
     </FormItem>
-
+    <BasicDragVerify @success="handleSuccess" :successText="successText" width="404px" />
     <ARow class="enter-x">
       <ACol :span="12">
         <FormItem>
@@ -101,6 +101,7 @@
   import { LoginStateEnum, useLoginState, useFormRules, useFormValid } from './useLogin';
   import { useDesign } from '/@/hooks/web/useDesign';
   //import { onKeyStroke } from '@vueuse/core';
+  import { BasicDragVerify, DragVerifyActionType, PassingData } from '/@/components/Verify/index';
 
   const ACol = Col;
   const ARow = Row;
@@ -132,6 +133,13 @@
   async function handleLogin() {
     const data = await validForm();
     if (!data) return;
+    if (!verifyPass) {
+      createErrorModal({
+        title: t('sys.api.errorTip'),
+        content: '请进行滑动验证',
+      });
+      return;
+    }
     try {
       loading.value = true;
       const userInfo = await userStore.login({
@@ -155,5 +163,13 @@
     } finally {
       loading.value = false;
     }
+  }
+
+  let verifyPass = false;
+  const successText = ref('验证通过');
+  function handleSuccess(data: PassingData) {
+    verifyPass = true;
+    const { time } = data;
+    successText.value = `验证通过，耗时${time}秒`;
   }
 </script>
