@@ -168,7 +168,7 @@ public static class SqlSugarSetup
             var instance = Activator.CreateInstance(seedType);
 
             var hasDataMethod = seedType.GetMethod("HasData");
-            var seedData = ((IList)hasDataMethod?.Invoke(instance, null))?.Cast<object>();
+            var seedData = ((IEnumerable)hasDataMethod?.Invoke(instance, null))?.Cast<object>();
             if (seedData == null) continue;
 
             var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
