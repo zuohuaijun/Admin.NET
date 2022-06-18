@@ -41,11 +41,11 @@ public static class SqlSugarSetup
                     // 打印SQL语句
                     dbProvider.Aop.OnLogExecuting = (sql, pars) =>
                     {
-                        if (sql.StartsWith("SELECT"))
+                        if (sql.StartsWith("SELECT",StringComparison.OrdinalIgnoreCase))
                             Console.ForegroundColor = ConsoleColor.Green;
-                        if (sql.StartsWith("UPDATE") || sql.StartsWith("INSERT"))
+                        if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
                             Console.ForegroundColor = ConsoleColor.White;
-                        if (sql.StartsWith("DELETE"))
+                        if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase))
                             Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(DbType.MySql, sql, pars) + "\r\n");
                         App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
