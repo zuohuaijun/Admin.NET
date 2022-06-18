@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Furion.InstantMessaging;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Admin.NET.Core;
 
 /// <summary>
 /// 聊天集线器
 /// </summary>
+[MapHub("/hub/chathub")]
 public class ChatHub : Hub<IChatClient>
 {
     private readonly ISysCacheService _cache;

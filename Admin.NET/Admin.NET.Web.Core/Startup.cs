@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
 using Serilog;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
-using System.Text.Unicode;
 using Yitter.IdGenerator;
 
 namespace Admin.NET.Web.Core
@@ -40,13 +38,12 @@ namespace Admin.NET.Web.Core
 
             services.AddControllersWithViews()
                 .AddMvcFilter<RequestActionFilter>()
-                .AddJsonOptions(options =>
+                .AddNewtonsoftJson(options =>
                 {
-                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase; // 响应驼峰命名
-                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true; // 忽略大小写
-                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles; // 忽略循环引用
-                    options.JsonSerializerOptions.Converters.AddDateFormatString("yyyy-MM-dd HH:mm:ss"); // 时间格式化
-                    options.JsonSerializerOptions.Encoder = JavaScriptEncoder.Create(UnicodeRanges.All); // 中文编码
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 响应驼峰命名
+                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
+                    // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
                 })
                 .AddInjectWithUnifyResult<AdminResultProvider>();
 
