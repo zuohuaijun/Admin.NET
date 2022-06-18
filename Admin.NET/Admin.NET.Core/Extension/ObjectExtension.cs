@@ -122,7 +122,17 @@ public static class ObjectExtension
     /// <returns></returns>
     private static bool IsIgnoreColumn(PropertyInfo pi)
     {
-        var sc = pi.GetCustomAttributes<SugarColumn>(false).FirstOrDefault(u => u.IsIgnore == true);
-        return sc != null;
+        foreach (var attr in pi.GetCustomAttributes())
+        {
+            if (attr is SugarColumn sAttr && sAttr.IsIgnore)
+            {
+                return true;
+            }
+            if (attr is Navigate)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
