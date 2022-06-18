@@ -11,10 +11,7 @@ public class TestSeedData : ISqlSugarEntitySeedData<Test>
     /// <returns></returns>
     public IEnumerable<Test> HasData()
     {
-        return new[]
-        {
-            new Test{ Id=252885263003800, Name="123", Age=20, CreateTime=DateTime.Parse("2022-04-12 00:00:00") },
-            new Test{ Id=252885263003801, Name="456", Age=30, CreateTime=DateTime.Parse("2022-04-12 00:00:00") },
-        };
+        yield return new Test { Id = 252885263003800, Name = "123", Age = 20, CreateTime = DateTime.Parse("2022-04-12 00:00:00") };
+        yield return new Test { Id = 252885263003801, Name = "456", Age = 30, CreateTime = DateTime.Parse("2022-04-12 00:00:00") };
     }
 }
