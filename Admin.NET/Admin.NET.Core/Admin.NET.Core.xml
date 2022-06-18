@@ -6795,12 +6795,12 @@
             <param name="dataType"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Util.NewtonsoftJsonSerializerProvider">
+        <member name="T:Admin.NET.Core.Util.JsonSerializerProvider">
             <summary>
             Newtonsoft.Json 实现
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Util.NewtonsoftJsonSerializerProvider.Serialize(System.Object,System.Object)">
+        <member name="M:Admin.NET.Core.Util.JsonSerializerProvider.Serialize(System.Object,System.Object)">
             <summary>
             序列化对象
             </summary>
@@ -6808,7 +6808,7 @@
             <param name="jsonSerializerOptions"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Util.NewtonsoftJsonSerializerProvider.Deserialize``1(System.String,System.Object)">
+        <member name="M:Admin.NET.Core.Util.JsonSerializerProvider.Deserialize``1(System.String,System.Object)">
             <summary>
             反序列化字符串
             </summary>
@@ -6817,7 +6817,7 @@
             <param name="jsonSerializerOptions"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Util.NewtonsoftJsonSerializerProvider.GetSerializerOptions">
+        <member name="M:Admin.NET.Core.Util.JsonSerializerProvider.GetSerializerOptions">
             <summary>
             返回读取全局配置的 JSON 选项
             </summary>
