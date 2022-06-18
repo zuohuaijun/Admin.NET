@@ -41,7 +41,7 @@ public static class SqlSugarSetup
                     // 打印SQL语句
                     dbProvider.Aop.OnLogExecuting = (sql, pars) =>
                     {
-                        if (sql.StartsWith("SELECT",StringComparison.OrdinalIgnoreCase))
+                        if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                             Console.ForegroundColor = ConsoleColor.Green;
                         if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
                             Console.ForegroundColor = ConsoleColor.White;
@@ -148,7 +148,7 @@ public static class SqlSugarSetup
 
         // 获取所有实体表
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute),false));
+            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute), false));
         if (!entityTypes.Any()) return;
         // 初始化库表结构
         foreach (var entityType in entityTypes)
