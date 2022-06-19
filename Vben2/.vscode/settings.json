@@ -136,5 +136,8 @@
     "sider",
     "pnpm",
     "antd"
-  ]
+  ],
+  "vetur.format.scriptInitialIndent": true,
+  "vetur.format.styleInitialIndent": true,
+  "vetur.validation.script": false
 }
