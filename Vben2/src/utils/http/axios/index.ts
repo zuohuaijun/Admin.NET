@@ -153,7 +153,6 @@ const transform: AxiosTransform = {
    * @description: 响应拦截器处理
    */
   responseInterceptors: (res: AxiosResponse<any>) => {
-    // checkStatus(res.data.code, res.data.message);
     return res;
   },
 
@@ -205,6 +204,7 @@ const transform: AxiosTransform = {
 
 function createAxios(opt?: Partial<CreateAxiosOptions>) {
   return new VAxios(
+    // 深度合并
     deepMerge(
       {
         // See https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication#authentication_schemes
@@ -239,7 +239,7 @@ function createAxios(opt?: Partial<CreateAxiosOptions>) {
           // 接口拼接地址
           urlPrefix: urlPrefix,
           //  是否加入时间戳
-          joinTime: false,
+          joinTime: true,
           // 忽略重复请求
           ignoreCancelToken: true,
           // 是否携带token

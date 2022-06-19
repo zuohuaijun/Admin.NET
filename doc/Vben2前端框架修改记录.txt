@@ -48,27 +48,22 @@ src/components/Upload/src/UploadPreviewModal.vue
 src/components/Upload/src/props.ts	
 8、全局组件注册修改
 src/components/registerGlobComp.ts
-9、隐藏顶部消息通知、中英文切换、
+9、隐藏顶部消息通知、中英文切换、文档菜单、增加密码修改
 src\layouts\default\header\index.vue
-10、隐藏顶部用户下面的文档菜单
 src\layouts\default\header\components\user-dropdown\index.vue
-11、Tree组件添加滚动条
-src\components\Tree\src\Tree.vue
-12、改成中文
+10、改成中文
 Vben2/index.html	
-13、去掉时间戳
-\src\utils\http\axios
-14、解决表格设置不加载列名选项的问题
+11、解决表格设置不加载列名选项的问题
 /src/components/Table/src/components/settings/ColumnSetting.vue 
-15、增加注册常量下拉框
+12、增加注册常量下拉框
 Vben2/src/main.ts	
-16、增加缓存所有常量下拉框数据
+13、增加缓存所有常量下拉框数据
 Vben2/src/router/guard/permissionGuard.ts	
-17、增加获取所有常量下拉框
+14、增加获取所有常量下拉框
 Vben2/src/store/modules/user.ts	
-18、增加常量下拉框帮助类
+15、增加常量下拉框帮助类
 Vben2/src/utils/helper/constSelectorHelper.ts	
-19、增加登录滑动验证
+16、增加登录滑动验证
 Vben2/src/views/sys/login/LoginForm.vue	
 
 

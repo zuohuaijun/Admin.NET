@@ -184,9 +184,7 @@
       watchEffect(() => {
         const columns = table.getColumns();
         if (columns.length && !state.isInit) {
-          setTimeout(() => {
-            init();
-          }, 0);
+          init();
         }
       });
 
@@ -315,7 +313,12 @@
               }
 
               plainSortOptions.value = columns;
-              setColumns(columns);
+
+              setColumns(
+                columns
+                  .map((col: Options) => col.value)
+                  .filter((value: string) => state.checkedList.includes(value)),
+              );
             },
           });
           // 记录原始order 序列
