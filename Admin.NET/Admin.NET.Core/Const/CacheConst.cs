@@ -49,4 +49,9 @@ public class CacheConst
     /// 常量下拉框
     /// </summary>
     public const string KeyConstSelector = "selector:";
+
+    /// <summary>
+    /// swagger登录缓存
+    /// </summary>
+    public const string SwaggerLogin = "swaggerlogin:";
 }

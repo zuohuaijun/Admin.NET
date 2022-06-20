@@ -1,4 +1,7 @@
-﻿namespace Admin.NET.Core.Service;
+﻿using Furion.SpecificationDocument;
+using Microsoft.Extensions.Caching.Memory;
+
+namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 系统登录授权服务
@@ -13,6 +16,7 @@ public class AuthService : IDynamicApiController, ITransient
     private readonly IEventPublisher _eventPublisher;
     private readonly SysUserService _sysUserService;
     private readonly SysUserRoleService _sysUserRoleService;
+    private readonly IMemoryCache _cache;
 
     public AuthService(SqlSugarRepository<SysUser> sysUserRep,
         IOptions<RefreshTokenOptions> refreshTokenOptions,
@@ -20,7 +24,8 @@ public class AuthService : IDynamicApiController, ITransient
         IUserManager userManager,
         IEventPublisher eventPublisher,
         SysUserService sysUserService,
-        SysUserRoleService sysUserRoleService)
+        SysUserRoleService sysUserRoleService,
+        IMemoryCache cache)
     {
         _sysUserRep = sysUserRep;
         _httpContextAccessor = httpContextAccessor;
@@ -29,6 +34,7 @@ public class AuthService : IDynamicApiController, ITransient
         _eventPublisher = eventPublisher;
         _sysUserService = sysUserService;
         _sysUserRoleService = sysUserRoleService;
+        _cache = cache;
     }
 
     /// <summary>
@@ -161,5 +167,35 @@ public class AuthService : IDynamicApiController, ITransient
             UserName = user.UserName,
             RealName = user.RealName
         });
+    }
+
+    /// <summary>
+    /// Swagger登录检查
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost("/Swagger/CheckUrl"), NonUnify]
+    [AllowAnonymous]
+    public int SwaggerCheckUrl()
+    {
+        return _cache.Get<bool>(CacheConst.SwaggerLogin) ? 200 : 401;
+    }
+
+    /// <summary>
+    /// Swagger登录
+    /// </summary>
+    /// <param name="auth"></param>
+    /// <returns></returns>
+    [HttpPost("/Swagger/SubmitUrl"), NonUnify]
+    [AllowAnonymous]
+    public int SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
+    {
+        var username = App.Configuration["SpecificationDocumentSettings:LoginInfo:UserName"];
+        var password = App.Configuration["SpecificationDocumentSettings:LoginInfo:PassWord"];
+        if (auth.UserName == username && auth.Password == password)
+        {
+            _cache.Set<bool>(CacheConst.SwaggerLogin, true);
+            return 200;
+        }
+        return 401;
     }
 }

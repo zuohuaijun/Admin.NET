@@ -3299,6 +3299,19 @@
             退出系统
             </summary>
         </member>
+        <member name="M:Admin.NET.Core.Service.AuthService.SwaggerCheckUrl">
+            <summary>
+            Swagger登录检查
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.AuthService.SwaggerSubmitUrl(Furion.SpecificationDocument.SpecificationAuth)">
+            <summary>
+            Swagger登录
+            </summary>
+            <param name="auth"></param>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.Service.LoginInput">
             <summary>
             用户登录参数
