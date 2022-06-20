@@ -38,7 +38,7 @@
           fileListRef.value = value
             .filter((item) => !!item)
             .map((item) => {
-              const filePath = import.meta.env.VITE_GLOB_DOWNLOAD_URL + '/' + item.id + item.suffix;
+              const filePath = item.url;
               return {
                 url: filePath,
                 type: item.suffix.split('.').pop() || '',
