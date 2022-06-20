@@ -12,4 +12,6 @@ export interface UploadApiResult {
   sizeKb: string;
   //文件大小信息-计算后的
   sizeInfo: string;
+  //文件地址
+  url: string;
 }
