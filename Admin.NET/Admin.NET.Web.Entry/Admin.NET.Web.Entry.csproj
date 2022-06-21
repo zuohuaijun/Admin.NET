@@ -4,22 +4,23 @@
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="logs\**" />
-	  <Compile Remove="publish\**" />
-	  <Content Remove="logs\**" />
-	  <Content Remove="publish\**" />
-	  <EmbeddedResource Remove="logs\**" />
-	  <EmbeddedResource Remove="publish\**" />
-	  <None Remove="logs\**" />
-	  <None Remove="publish\**" />
+		<Compile Remove="logs\**" />
+		<Compile Remove="publish\**" />
+		<Content Remove="logs\**" />
+		<Content Remove="publish\**" />
+		<EmbeddedResource Remove="logs\**" />
+		<EmbeddedResource Remove="publish\**" />
+		<None Remove="logs\**" />
+		<None Remove="publish\**" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Admin.NET.db" />
-	  <None Remove="Test.db" />
+		<None Remove="Admin.NET.db" />
+		<None Remove="Test.db" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -27,33 +28,33 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Content Update="wwwroot\Template\data.data.ts.vm">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Template\dataModal.vue.vm">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Template\Dto.cs.vm">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Template\Entity.cs.vm">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Template\index.vue.vm">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Template\Input.cs.vm">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Template\Manage.js.vm">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Template\Output.cs.vm">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
-	  <Content Update="wwwroot\Template\Service.cs.vm">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </Content>
+		<Content Update="wwwroot\Template\data.data.ts.vm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Template\dataModal.vue.vm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Template\Dto.cs.vm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Template\Entity.cs.vm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Template\index.vue.vm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Template\Input.cs.vm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Template\Manage.js.vm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Template\Output.cs.vm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\Template\Service.cs.vm">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 	</ItemGroup>
 
 </Project>

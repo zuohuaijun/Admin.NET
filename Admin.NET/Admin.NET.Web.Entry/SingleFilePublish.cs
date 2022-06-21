@@ -32,7 +32,6 @@ public class SingleFilePublish : ISingleFilePublish
             "Admin.NET.Application",
             "Admin.NET.Core",
             "Admin.NET.Web.Core",
-            "Furion.Extras.ObjectMapper.Mapster"    // 修复单文件 Mapster 不能映射问题
         };
     }
 }

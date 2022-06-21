@@ -16,16 +16,8 @@ namespace Admin.NET.Web.Core
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddConfigurableOptions<ConnectionStringsOptions>();
-            services.AddConfigurableOptions<RefreshTokenOptions>();
-            services.AddConfigurableOptions<SnowIdOptions>();
-            services.AddConfigurableOptions<CacheOptions>();
-            services.AddConfigurableOptions<OSSProviderOptions>();
-            services.AddConfigurableOptions<UploadOptions>();
-            services.AddConfigurableOptions<WechatOptions>();
-            services.AddConfigurableOptions<WechatPayOptions>();
-            services.AddConfigurableOptions<PayCallBackOptions>();
-            services.AddConfigurableOptions<CodeGenOptions>();
+            // 统一配置项目选项注册
+            services.AddProjectOptions();
 
             services.AddSqlSugarSetup(App.Configuration);
 
