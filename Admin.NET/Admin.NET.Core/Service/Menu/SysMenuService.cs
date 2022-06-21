@@ -86,7 +86,7 @@ public class SysMenuService : IDynamicApiController, ITransient
         var isExist = input.Type != 3
             ? await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name)
             : await _sysMenuRep.IsAnyAsync(u => u.Permission == input.Permission);
-            
+
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D4000);
 

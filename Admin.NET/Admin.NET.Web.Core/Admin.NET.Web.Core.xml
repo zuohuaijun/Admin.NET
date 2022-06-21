@@ -18,5 +18,12 @@
             <param name="httpContext"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Web.Core.ProjectOptions.AddProjectOptions(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注册项目配置选项
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

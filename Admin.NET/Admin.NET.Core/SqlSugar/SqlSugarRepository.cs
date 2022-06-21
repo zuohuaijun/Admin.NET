@@ -10,7 +10,7 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
 
     public SqlSugarRepository(ISqlSugarClient context = null) : base(context) // 默认值等于null不能少
     {
-        iTenant = App.GetService<ISqlSugarClient>().AsTenant();        
+        iTenant = App.GetService<ISqlSugarClient>().AsTenant();
         base.Context = iTenant.GetConnectionWithAttr<T>();
     }
 }

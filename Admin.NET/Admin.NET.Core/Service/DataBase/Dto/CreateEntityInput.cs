@@ -27,7 +27,7 @@ public class CreateEntityInput
     public string Position { get; set; }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     public string ConfigId { get; set; }
 }

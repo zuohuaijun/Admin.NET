@@ -1,4 +1,2 @@
-var builder = WebApplication.CreateBuilder(args).Inject();
-builder.Host.UseSerilogDefault();
-var app = builder.Build();
-app.Run();
+Serve.Run(RunOptions.Default
+    .ConfigureBuilder(builder => builder.Host.UseSerilogDefault()));

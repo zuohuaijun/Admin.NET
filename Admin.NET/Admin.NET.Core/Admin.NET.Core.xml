@@ -103,6 +103,11 @@
             常量下拉框
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.CacheConst.SwaggerLogin">
+            <summary>
+            swagger登录缓存
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.ClaimConst">
             <summary>
             Claim相关常量
@@ -4357,9 +4362,9 @@
              <example>Magic.Application</example>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.ConfigId">
-            <summary>
+             <summary>
             
-            </summary>
+             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.DataResourceInput.Pid">
             <summary>
