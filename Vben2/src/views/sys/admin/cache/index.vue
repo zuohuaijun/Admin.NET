@@ -88,7 +88,7 @@
         for (let i = 0; i < keys.length; i++) {
           let keyArr = keys[i].split(':');
           let p = keyArr[0];
-          let parentKey = keyArr.length > 0 ? `${p}:` : p;
+          let parentKey = keyArr.length > 1 ? `${p}:` : p;
           if (cacheData.filter((x) => x.key == parentKey).length === 0) {
             cacheData.push({
               pid: 0,
@@ -114,8 +114,8 @@
         if (obj == undefined || keys.length == 0) return;
         console.log('select', keys[0], obj.selectedNodes[0]);
         currentNode.value = obj.selectedNodes[0];
-
-        if ((currentNode.value?.pid || 0) == 0) {
+        //根节点且没有：则代表没有子节点
+        if ((currentNode.value?.pid || 0) == 0 && currentNode.value?.key.indexOf(':') > 0) {
           jsonData.value = '';
           isJson.value = false;
           return;
