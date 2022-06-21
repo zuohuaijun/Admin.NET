@@ -10,7 +10,7 @@
       }
     ],
     "LoginInfo": {
-      "Enabled": true, // 是否开启Swagger登录
+      "Enabled": false, // 是否开启Swagger登录
       "CheckUrl": "/Swagger/CheckUrl",
       "SubmitUrl": "/Swagger/SubmitUrl",
       "UserName": "admin",
