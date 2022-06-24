@@ -23,7 +23,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static int FakeDelete<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
     {
-        return db.Updateable(entity).AS().ReSetValue(x => { x.IsDelete = true; })
+        return db.Updateable(entity).ReSetValue(x => { x.IsDelete = true; })
             .IgnoreColumns(ignoreAllNullColumns: true)
             .EnableDiffLogEvent()   // 记录差异日志
             .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
@@ -51,12 +51,13 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static Task<int> FakeDeleteAsync<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
     {
-        return db.Updateable(entity).AS().ReSetValue(x => { x.IsDelete = true; })
+        return db.Updateable(entity).ReSetValue(x => { x.IsDelete = true; })
             .IgnoreColumns(ignoreAllNullColumns: true)
             .EnableDiffLogEvent()   // 记录差异日志
             .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
             .ExecuteCommandAsync();
     }
+
 
     /// <summary>
     /// 排序方式(默认降序)
@@ -109,7 +110,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static int UpdateWithDiffLog<T>(this ISqlSugarClient db, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
     {
-        return db.Updateable(entity).AS()
+        return db.Updateable(entity)
             .IgnoreColumns(ignoreAllNullColumns: ignoreAllNullColumns)
             .EnableDiffLogEvent()
             .ExecuteCommand();
@@ -138,7 +139,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static Task<int> UpdateWithDiffLogAsync<T>(this ISqlSugarClient db, T entity, bool ignoreAllNullColumns = true) where T : EntityBase, new()
     {
-        return db.Updateable(entity).AS()
+        return db.Updateable(entity)
             .IgnoreColumns(ignoreAllNullColumns: ignoreAllNullColumns)
             .EnableDiffLogEvent()
             .ExecuteCommandAsync();
@@ -165,7 +166,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static int InsertWithDiffLog<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
     {
-        return db.Insertable(entity).AS().EnableDiffLogEvent().ExecuteCommand();
+        return db.Insertable(entity).EnableDiffLogEvent().ExecuteCommand();
     }
 
     /// <summary>
@@ -189,7 +190,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static Task<int> InsertWithDiffLogAsync<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
     {
-        return db.Insertable(entity).AS().EnableDiffLogEvent().ExecuteCommandAsync();
+        return db.Insertable(entity).EnableDiffLogEvent().ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -199,8 +200,7 @@ public static class RepositoryExtension
     /// <returns> </returns>
     public static ISugarQueryable<T> AS<T>(this ISugarQueryable<T> queryable)
     {
-        var info = GetTableInfo<T>();
-        return queryable.AS<T>($"{info.Item1}.{info.Item2}");
+        return queryable.AS<T>(GetTableName<T>(queryable.Context.Ado));
     }
 
     /// <summary>
@@ -212,41 +212,7 @@ public static class RepositoryExtension
     /// <returns></returns>
     public static ISugarQueryable<T, T2> AS<T, T2>(this ISugarQueryable<T, T2> queryable)
     {
-        var info = GetTableInfo<T2>();
-        return queryable.AS<T2>($"{info.Item1}.{info.Item2}");
-    }
-
-    /// <summary>
-    /// 多库更新
-    /// </summary>
-    /// <param name="updateable"></param>
-    /// <returns> </returns>
-    public static IUpdateable<T> AS<T>(this IUpdateable<T> updateable) where T : EntityBase, new()
-    {
-        var info = GetTableInfo<T>();
-        return updateable.AS($"{info.Item1}.{info.Item2}");
-    }
-
-    /// <summary>
-    /// 多库新增
-    /// </summary>
-    /// <param name="insertable"></param>
-    /// <returns> </returns>
-    public static IInsertable<T> AS<T>(this IInsertable<T> insertable) where T : EntityBase, new()
-    {
-        var info = GetTableInfo<T>();
-        return insertable.AS($"{info.Item1}.{info.Item2}");
-    }
-
-    /// <summary>
-    /// 多库删除
-    /// </summary>
-    /// <param name="deleteable"></param>
-    /// <returns> </returns>
-    public static IDeleteable<T> AS<T>(this IDeleteable<T> deleteable) where T : EntityBase, new()
-    {
-        var info = GetTableInfo<T>();
-        return deleteable.AS($"{info.Item1}.{info.Item2}");
+        return queryable.AS<T2>(GetTableName<T2>(queryable.Context.Ado));
     }
 
     /// <summary>
@@ -254,12 +220,26 @@ public static class RepositoryExtension
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <returns></returns>
-    private static Tuple<string, string> GetTableInfo<T>()
+    private static string GetTableName<T>(IAdo ado)
     {
         var entityType = typeof(T);
         var attr = entityType.GetCustomAttribute<TenantAttribute>();
         var configId = attr == null ? SqlSugarConst.ConfigId : attr.configId.ToString();
-        var tableName = entityType.GetCustomAttribute<SugarTable>().TableName;
-        return new Tuple<string, string>(configId, tableName);
+        var tableName = entityType.GetCustomAttribute<SugarTable>().TableName; 
+
+        //根据实际的数据库类型 修改此处  如果固定使用一个数据库，可用直接写死
+        var wholeTableName = $"{configId}.dbo.{tableName}";
+        if (ado is MySqlProvider)
+        {
+            wholeTableName = $"{configId}.{tableName}";
+        }
+        else if (ado is SqlServerProvider)
+        {
+            wholeTableName = $"{configId}.dbo.{tableName}";
+        }
+        return wholeTableName;
+
     }
+
 }
+
