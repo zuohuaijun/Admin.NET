@@ -2793,28 +2793,7 @@
             <param name="queryable"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.IUpdateable{``0})">
-            <summary>
-            多库更新
-            </summary>
-            <param name="updateable"></param>
-            <returns> </returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.IInsertable{``0})">
-            <summary>
-            多库新增
-            </summary>
-            <param name="insertable"></param>
-            <returns> </returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.IDeleteable{``0})">
-            <summary>
-            多库删除
-            </summary>
-            <param name="deleteable"></param>
-            <returns> </returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.GetTableInfo``1">
+        <member name="M:Admin.NET.Core.RepositoryExtension.GetTableName``1(SqlSugar.IAdo)">
             <summary>
             根据实体类型获取表信息
             </summary>
@@ -5119,7 +5098,7 @@
         <member name="M:Admin.NET.Core.Service.SysMenuService.UpdateMenu(Admin.NET.Core.Service.UpdateMenuInput)">
             <summary>
             更新菜单
-            </summary>upda
+            </summary>
             <param name="input"></param>
             <returns></returns>
         </member>

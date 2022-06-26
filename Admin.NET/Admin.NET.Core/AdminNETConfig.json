@@ -14,7 +14,7 @@
       "CheckUrl": "/Swagger/CheckUrl",
       "SubmitUrl": "/Swagger/SubmitUrl",
       "UserName": "admin",
-      "PassWord": "000000"
+      "Password": "000000"
     }
   },
   "AppSettings": {

@@ -189,9 +189,9 @@ public class AuthService : IDynamicApiController, ITransient
     [AllowAnonymous]
     public int SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
     {
-        var username = App.Configuration["SpecificationDocumentSettings:LoginInfo:UserName"];
-        var password = App.Configuration["SpecificationDocumentSettings:LoginInfo:PassWord"];
-        if (auth.UserName == username && auth.Password == password)
+        var userName = App.Configuration["SpecificationDocumentSettings:LoginInfo:UserName"];
+        var password = App.Configuration["SpecificationDocumentSettings:LoginInfo:Password"];
+        if (auth.UserName == userName && auth.Password == password)
         {
             _cache.Set<bool>(CacheConst.SwaggerLogin, true);
             return 200;
