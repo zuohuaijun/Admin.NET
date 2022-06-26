@@ -102,7 +102,7 @@ public class SysMenuService : IDynamicApiController, ITransient
 
     /// <summary>
     /// 更新菜单
-    /// </summary>upda
+    /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysMenu/update"),]
