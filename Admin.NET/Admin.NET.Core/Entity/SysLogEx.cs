@@ -23,31 +23,31 @@ public class SysLogEx : EntityBase
     /// <summary>
     /// 异常名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "异常名称", ColumnDataType = "text")]
+    [SugarColumn(ColumnDescription = "异常名称", ColumnDataType = "longtext,text,clob")]
     public string ExceptionName { get; set; }
 
     /// <summary>
     /// 异常信息
     /// </summary>
-    [SugarColumn(ColumnDescription = "异常信息", ColumnDataType = "text")]
+    [SugarColumn(ColumnDescription = "异常信息", ColumnDataType = "longtext,text,clob")]
     public string ExceptionMsg { get; set; }
 
     /// <summary>
     /// 异常源
     /// </summary>
-    [SugarColumn(ColumnDescription = "异常源", ColumnDataType = "text")]
+    [SugarColumn(ColumnDescription = "异常源", ColumnDataType = "longtext,text,clob")]
     public string ExceptionSource { get; set; }
 
     /// <summary>
     /// 堆栈信息
     /// </summary>
-    [SugarColumn(ColumnDescription = "堆栈信息", ColumnDataType = "text")]
+    [SugarColumn(ColumnDescription = "堆栈信息", ColumnDataType = "longtext,text,clob")]
     public string StackTrace { get; set; }
 
     /// <summary>
     /// 参数对象
     /// </summary>
-    [SugarColumn(ColumnDescription = "参数对象", ColumnDataType = "text")]
+    [SugarColumn(ColumnDescription = "参数对象", ColumnDataType = "longtext,text,clob")]
     public string ParamsObj { get; set; }
 
     /// <summary>

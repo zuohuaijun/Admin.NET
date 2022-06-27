@@ -15,7 +15,7 @@ public class SysLogOp : EntityBase
     /// <summary>
     /// 具体消息
     /// </summary>
-    [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = "text")]
+    [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = "longtext,text,clob")]
     public string Message { get; set; }
 
     /// <summary>
@@ -77,13 +77,13 @@ public class SysLogOp : EntityBase
     /// <summary>
     /// 请求参数
     /// </summary>
-    [SugarColumn(ColumnDescription = "请求参数", ColumnDataType = "text")]
+    [SugarColumn(ColumnDescription = "请求参数", ColumnDataType = "longtext,text,clob")]
     public string Param { get; set; }
 
     /// <summary>
     /// 返回结果
     /// </summary>
-    [SugarColumn(ColumnDescription = "返回结果", ColumnDataType = "text")]
+    [SugarColumn(ColumnDescription = "返回结果", ColumnDataType = "longtext,text,clob")]
     public string Result { get; set; }
 
     /// <summary>

@@ -15,7 +15,7 @@ public class SysLogVis : EntityBase
     /// <summary>
     /// 具体消息
     /// </summary>
-    [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = "text")]
+    [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = "longtext,text,clob")]
     public string Message { get; set; }
 
     /// <summary>
