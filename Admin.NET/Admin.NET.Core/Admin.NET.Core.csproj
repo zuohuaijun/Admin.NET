@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Caching.CSRedis" Version="3.8.2" />
+    <PackageReference Include="Caching.CSRedis" Version="3.8.3" />
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="3.7.0" />
     <PackageReference Include="Furion.Extras.Logging.Serilog" Version="3.7.0" />
     <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="3.7.0" />

@@ -14,7 +14,7 @@ public static class SqlSugarSetup
         // SqlSugarScope用AddSingleton单例
         services.AddSingleton<ISqlSugarClient>(provider =>
         {
-            var dbOptions = App.GetOptions<ConnectionStringsOptions>();
+            var dbOptions = App.GetOptions<DbConnectionOptions>();
             var configureExternalServices = new ConfigureExternalServices
             {
                 EntityService = (type, column) => // 修改列可空-1、带?问号 2、String类型若没有Required
@@ -138,7 +138,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 初始化数据库结构
     /// </summary>
-    public static void InitDataBase(SqlSugarScope db, ConnectionStringsOptions dbOptions)
+    public static void InitDataBase(SqlSugarScope db, DbConnectionOptions dbOptions)
     {
         // 创建数据库
         dbOptions.ConnectionConfigs.ForEach(config =>

@@ -111,7 +111,7 @@ public class CodeGenService : IDynamicApiController, ITransient
     [HttpGet("codeGenerate/DatabaseList")]
     public async Task<List<ConnectionConfig>> GetDatabaseList()
     {
-        return await Task.FromResult(App.GetOptions<ConnectionStringsOptions>().ConnectionConfigs);
+        return await Task.FromResult(App.GetOptions<DbConnectionOptions>().ConnectionConfigs);
     }
 
     /// <summary>

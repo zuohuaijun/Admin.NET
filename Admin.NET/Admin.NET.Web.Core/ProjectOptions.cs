@@ -12,7 +12,7 @@ public static class ProjectOptions
     /// <returns></returns>
     public static IServiceCollection AddProjectOptions(this IServiceCollection services)
     {
-        services.AddConfigurableOptions<ConnectionStringsOptions>();
+        services.AddConfigurableOptions<DbConnectionOptions>();
         services.AddConfigurableOptions<RefreshTokenOptions>();
         services.AddConfigurableOptions<SnowIdOptions>();
         services.AddConfigurableOptions<CacheOptions>();

@@ -2963,22 +2963,22 @@
             数据库实体程序集名称集合
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.ConnectionStringsOptions">
+        <member name="T:Admin.NET.Core.DbConnectionOptions">
             <summary>
             数据库链接配置
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ConnectionStringsOptions.EnableInitTable">
+        <member name="P:Admin.NET.Core.DbConnectionOptions.EnableInitTable">
             <summary>
             启用初始化库表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ConnectionStringsOptions.EnableDiffLog">
+        <member name="P:Admin.NET.Core.DbConnectionOptions.EnableDiffLog">
             <summary>
             启用库表差异日志
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ConnectionStringsOptions.ConnectionConfigs">
+        <member name="P:Admin.NET.Core.DbConnectionOptions.ConnectionConfigs">
             <summary>
             数据库配置集合
             </summary>
@@ -6631,7 +6631,7 @@
             <param name="services"></param>
             <param name="configuration"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.SqlSugarScope,Admin.NET.Core.ConnectionStringsOptions)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.SqlSugarScope,Admin.NET.Core.DbConnectionOptions)">
             <summary>
             初始化数据库结构
             </summary>

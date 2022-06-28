@@ -1,5 +1,7 @@
 ﻿{
-  "ConnectionStrings": {
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+
+  "DbConnection": {
     "EnableInitTable": true, // 启用初始化库表
     "EnableDiffLog": false, // 启用库表差异日志
     "ConnectionConfigs": [ // 默认第一个为主库
