@@ -144,9 +144,7 @@ public static class SqlSugarSetup
         dbOptions.ConnectionConfigs.ForEach(config =>
         {
             if (config.DbType != DbType.Oracle)
-            {
                 db.GetConnectionScope(config.ConfigId).DbMaintenance.CreateDatabase();
-            }
         });
 
         // 获取所有实体表
