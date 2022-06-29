@@ -94,6 +94,7 @@ enum Api {
   UpdateDictData = '/sysDictData/update',
   DeleteDictData = '/sysDictData/delete',
   GetDictDataDropdown = '/sysDictData/DictDataDropdown',
+  QueryDictDataDropdown = '/sysDictData/queryDictDataDropdown',
 
   // 数据库接口
   GetColumnInfoList = '/dataBase/columnInfoList',
@@ -321,6 +322,9 @@ export const getDictDataList = (params?: any) =>
 // 从字典中值，下拉框控件使用
 export const getDictDataDropdown = (params: any) =>
   defHttp.get<any>({ url: Api.GetDictDataDropdown + '/' + params });
+// 根据条件，从字典中值，下拉框控件使用
+export const queryDictDataDropdown = (params: any) =>
+  defHttp.get<any>({ url: Api.QueryDictDataDropdown, params });
 // 增加典类型
 export const addDictData = (params: any) => defHttp.post({ url: Api.AddDictData, params });
 // 删除字典类型
