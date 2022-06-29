@@ -37,6 +37,8 @@ export interface UserInfo {
   avatar: string;
   desc?: string;
   homePath?: string;
+  orgId: string | number;
+  orgName: string;
   roles: RoleInfo[];
 }
 
@@ -45,4 +47,11 @@ export interface BeforeMiniState {
   menuSplit?: boolean;
   menuMode?: MenuModeEnum;
   menuType?: MenuTypeEnum;
+}
+
+export interface OrgInfo {
+  orgId: string | number;
+  code: string;
+  name: string;
+  status: string | number;
 }
