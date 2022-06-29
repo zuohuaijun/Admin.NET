@@ -41,6 +41,7 @@ enum Api {
   AddOrg = '/sysOrg/add',
   DeleteOrg = '/sysOrg/delete',
   UpdateOrg = '/sysOrg/update',
+  UserOwnOrgInfoList = '/sysOrg/userOwnOrgInfo',
 
   // 职位接口
   PosList = '/sysPos/list',
@@ -220,6 +221,9 @@ export const addOrg = (params: any) => defHttp.post({ url: Api.AddOrg, params })
 export const deleteOrg = (id: number) => defHttp.post({ url: Api.DeleteOrg, params: { id } });
 // 更新机构
 export const updateOrg = (params: any) => defHttp.post({ url: Api.UpdateOrg, params });
+// 获取用户拥有机构信息列表
+export const userOwnOrgInfoList = (params: any) =>
+  defHttp.get<any>({ url: Api.UserOwnOrgInfoList + '/' + params });
 
 ////////// 职位管理接口 //////////
 // 获取职位列表

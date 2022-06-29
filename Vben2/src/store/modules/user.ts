@@ -1,4 +1,4 @@
-import type { UserInfo } from '/#/store';
+import type { UserInfo, OrgInfo } from '/#/store';
 import type { ErrorMessageMode } from '/#/axios';
 import { defineStore } from 'pinia';
 import { store } from '/@/store';
@@ -8,7 +8,7 @@ import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '/@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '/@/utils/auth';
 import { GetUserInfoModel, LoginParams } from '/@/api/sys/model/userModel';
 import { doLogout, getUserInfo, loginApi } from '/@/api/sys/user';
-import { getAllConstSelectorWithOptions } from '/@/api/sys/admin';
+import { getAllConstSelectorWithOptions, userOwnOrgInfoList } from '/@/api/sys/admin';
 import { useI18n } from '/@/hooks/web/useI18n';
 import { useMessage } from '/@/hooks/web/useMessage';
 import { router } from '/@/router';
@@ -20,6 +20,7 @@ import { h } from 'vue';
 
 interface UserState {
   userInfo: Nullable<UserInfo>;
+  orgInfo: OrgInfo[];
   token?: string;
   roleList: RoleEnum[];
   sessionTimeout?: boolean;
@@ -32,6 +33,8 @@ export const useUserStore = defineStore({
   state: (): UserState => ({
     // user info
     userInfo: null,
+    // org info
+    orgInfo: [],
     // token
     token: undefined,
     // roleList
@@ -61,6 +64,9 @@ export const useUserStore = defineStore({
     },
     getAllConstSelectorWithOptions(): any[] {
       return this.constSelectorWithOptions || getAllConstSelectorWithOptions();
+    },
+    getOrgInfo(): OrgInfo[] {
+      return this.orgInfo || [];
     },
   },
   actions: {
@@ -179,6 +185,22 @@ export const useUserStore = defineStore({
       const data = await getAllConstSelectorWithOptions();
       this.constSelectorWithOptions = data;
       // setAuthCache(USER_INFO_KEY, data);
+    },
+    async getOrgInfoAction(userid: number) {
+      const data = await userOwnOrgInfoList(userid);
+
+      let obj: OrgInfo;
+      const list: OrgInfo[] = [];
+      for (let i = 0; i < data.length; i++) {
+        obj = {
+          orgId: data[i].id,
+          code: data[i].code,
+          name: data[i].name,
+          status: data[i].status,
+        };
+        list.push(obj);
+      }
+      this.orgInfo = list;
     },
   },
 });

@@ -29,6 +29,11 @@ export function createPermissionGuard(router: Router) {
       return;
     }
 
+    //缓存当前用户部门信息
+    if (userStore.orgInfo.length === 0 && userStore.userInfo) {
+      const userid = Number(userStore.getUserInfo.userId);
+      await userStore.getOrgInfoAction(userid);
+    }
     //缓存所有常量数据
     if (userStore.constSelectorWithOptions.length === 0) {
       await userStore.getAllConstSelectorWithOptionsAction();
