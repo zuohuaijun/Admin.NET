@@ -3262,7 +3262,7 @@
             登录系统
             </summary>
             <param name="input"></param>
-            <remarks>用户名/密码：admin/123456</remarks>
+            <remarks>用户名/密码：vben/123456</remarks>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.AuthService.GetUserInfo">
@@ -3361,6 +3361,16 @@
         <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Desc">
             <summary>
             个人简介
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.OrgName">
+            <summary>
+            机构名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Roles">
@@ -4514,6 +4524,16 @@
             状态
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.QueryDictDataInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.QueryDictDataInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.PageDictTypeInput">
             <summary>
             字典类型分页
@@ -4654,6 +4674,13 @@
             根据字典唯一编码获取下拉框集合
             </summary>
             <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.QueryDictDataDropdown(Admin.NET.Core.Service.QueryDictDataInput)">
+            <summary>
+            根据条件查询字典获取下拉框集合
+            </summary>
+            <param name="input">查询参数</param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.SysDictTypeService">
@@ -5260,6 +5287,13 @@
             <summary>
             系统机构服务
             </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOrgService.GetUserOrgList(System.Int64)">
+            <summary>
+            获取用户拥有机构信息列表
+            </summary>
+            <param name="userId">用户id</param>
+            <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysOrgService.GetOrgList(Admin.NET.Core.Service.OrgInput)">
             <summary>

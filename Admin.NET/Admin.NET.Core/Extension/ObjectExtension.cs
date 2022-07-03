@@ -64,7 +64,7 @@ public static class ObjectExtension
         DataTable result = new();
         if (list.Count > 0)
         {
-            result.TableName = list[0].GetType().Name; // 表名赋值
+            // result.TableName = list[0].GetType().Name; // 表名赋值
             PropertyInfo[] propertys = list[0].GetType().GetProperties();
             foreach (PropertyInfo pi in propertys)
             {
