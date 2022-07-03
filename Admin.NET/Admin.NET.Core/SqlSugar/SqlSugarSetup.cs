@@ -177,6 +177,7 @@ public static class SqlSugarSetup
             var provider = db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
 
             var seedDataTable = seedData.ToList().ToDataTable();
+            seedDataTable.TableName = db.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
                 var storage = provider.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
