@@ -111,3 +111,17 @@ public class ChageStatusDictDataInput : BaseIdInput
     /// </summary>
     public int Status { get; set; }
 }
+
+public class QueryDictDataInput
+{
+    /// <summary>
+    /// 编码
+    /// </summary>
+    [Required(ErrorMessage = "字典唯一编码不能为空")]
+    public string Code { get; set; }
+
+    /// <summary>
+    /// 状态
+    /// </summary>
+    public int? Status { get; set; }
+}

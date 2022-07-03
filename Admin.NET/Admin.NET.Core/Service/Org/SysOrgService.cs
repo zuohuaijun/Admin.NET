@@ -32,6 +32,18 @@ public class SysOrgService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取用户拥有机构信息列表
+    /// </summary>
+    /// <param name="userId">用户id</param>
+    /// <returns></returns>
+    [HttpGet("/sysOrg/userOwnOrgInfo/{userId}")]
+    public async Task<List<SysOrg>> GetUserOrgList(long userId)
+    {
+        List<long> orgList = await _sysUserOrgService.GetUserOrgIdList(userId);
+        return await _sysOrgRep.AsQueryable().Where(t => orgList.Contains(t.Id)).ToListAsync();
+    }
+
+    /// <summary>
     /// 获取机构列表
     /// </summary>
     /// <returns></returns>

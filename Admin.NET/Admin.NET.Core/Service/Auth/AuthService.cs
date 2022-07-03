@@ -41,7 +41,7 @@ public class AuthService : IDynamicApiController, ITransient
     /// 登录系统
     /// </summary>
     /// <param name="input"></param>
-    /// <remarks>用户名/密码：admin/123456</remarks>
+    /// <remarks>用户名/密码：vben/123456</remarks>
     /// <returns></returns>
     [HttpPost("/login")]
     [AllowAnonymous]
@@ -124,6 +124,8 @@ public class AuthService : IDynamicApiController, ITransient
             RealName = user.RealName,
             Avatar = user.Avatar,
             Desc = user.Introduction,
+            OrgId = user.OrgId,
+            OrgName = user.SysOrg != null ? user.SysOrg.Name : "",
             Roles = roles.Select(u => new LoginRole
             {
                 RoleName = u.Name,

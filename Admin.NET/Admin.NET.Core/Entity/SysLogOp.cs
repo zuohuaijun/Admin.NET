@@ -28,8 +28,8 @@ public class SysLogOp : EntityBase
     /// <summary>
     /// 地址
     /// </summary>
-    [SugarColumn(ColumnDescription = "地址", Length = 100)]
-    [MaxLength(100)]
+    [SugarColumn(ColumnDescription = "地址", Length = 300)]
+    [MaxLength(300)]
     public string Location { get; set; }
 
     /// <summary>

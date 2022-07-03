@@ -35,7 +35,7 @@ public class UserManager : IUserManager, IScoped
 
     public SysUser User
     {
-        get => _sysUserRep.GetFirst(u => u.Id == UserId);
+        get => _sysUserRep.AsQueryable().Includes(t => t.SysOrg).First(u => u.Id == UserId);
     }
 
     public UserManager(SqlSugarRepository<SysUser> sysUserRep,

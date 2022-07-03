@@ -151,4 +151,23 @@ public class SysDictDataService : IDynamicApiController, ITransient
                 Value = b.Code
             }).ToListAsync();
     }
+
+    /// <summary>
+    /// 根据条件查询字典获取下拉框集合
+    /// </summary>
+    /// <param name="input">查询参数</param>
+    /// <returns></returns>
+    [HttpGet("/sysDictData/queryDictDataDropdown")]
+    public async Task<dynamic> QueryDictDataDropdown([FromQuery] QueryDictDataInput input)
+    {
+        return await _sysDictDataRep.Context.Queryable<SysDictType, SysDictData>((a, b) =>
+            new JoinQueryInfos(JoinType.Left, a.Id == b.DictTypeId))
+            .Where((a, b) => a.Code == input.Code)
+            .WhereIF(input.Status.HasValue, (a, b) => b.Status == (StatusEnum)input.Status.Value)
+            .Select((a, b) => new
+            {
+                Label = b.Value,
+                Value = b.Code
+            }).ToListAsync();
+    }
 }

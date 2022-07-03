@@ -41,6 +41,7 @@ enum Api {
   AddOrg = '/sysOrg/add',
   DeleteOrg = '/sysOrg/delete',
   UpdateOrg = '/sysOrg/update',
+  UserOwnOrgInfoList = '/sysOrg/userOwnOrgInfo',
 
   // 职位接口
   PosList = '/sysPos/list',
@@ -94,6 +95,7 @@ enum Api {
   UpdateDictData = '/sysDictData/update',
   DeleteDictData = '/sysDictData/delete',
   GetDictDataDropdown = '/sysDictData/DictDataDropdown',
+  QueryDictDataDropdown = '/sysDictData/queryDictDataDropdown',
 
   // 数据库接口
   GetColumnInfoList = '/dataBase/columnInfoList',
@@ -219,6 +221,9 @@ export const addOrg = (params: any) => defHttp.post({ url: Api.AddOrg, params })
 export const deleteOrg = (id: number) => defHttp.post({ url: Api.DeleteOrg, params: { id } });
 // 更新机构
 export const updateOrg = (params: any) => defHttp.post({ url: Api.UpdateOrg, params });
+// 获取用户拥有机构信息列表
+export const userOwnOrgInfoList = (params: any) =>
+  defHttp.get<any>({ url: Api.UserOwnOrgInfoList + '/' + params });
 
 ////////// 职位管理接口 //////////
 // 获取职位列表
@@ -321,6 +326,9 @@ export const getDictDataList = (params?: any) =>
 // 从字典中值，下拉框控件使用
 export const getDictDataDropdown = (params: any) =>
   defHttp.get<any>({ url: Api.GetDictDataDropdown + '/' + params });
+// 根据条件，从字典中值，下拉框控件使用
+export const queryDictDataDropdown = (params: any) =>
+  defHttp.get<any>({ url: Api.QueryDictDataDropdown, params });
 // 增加典类型
 export const addDictData = (params: any) => defHttp.post({ url: Api.AddDictData, params });
 // 删除字典类型

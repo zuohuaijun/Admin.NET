@@ -35,4 +35,8 @@ export interface GetUserInfoModel {
   avatar: string;
   // 介绍
   desc?: string;
+  // 机构id
+  orgId: string | number;
+  //机构名称
+  orgName: string;
 }
