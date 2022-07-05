@@ -9,7 +9,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <summary>
     /// SqlSugar 对象
     /// </summary>
-    private readonly SqlSugarClient _sqlSugarClient;
+    private readonly ISqlSugarClient _sqlSugarClient;
 
     /// <summary>
     /// 构造函数
@@ -17,7 +17,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <param name="sqlSugarClient"></param>
     public SqlSugarUnitOfWork(ISqlSugarClient sqlSugarClient)
     {
-        _sqlSugarClient = (SqlSugarClient)sqlSugarClient;
+        _sqlSugarClient = sqlSugarClient;
     }
 
     /// <summary>
@@ -39,7 +39,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <exception cref="NotImplementedException"></exception>
     public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfwork, bool isManual)
     {
-        _sqlSugarClient.BeginTran();
+        _sqlSugarClient.AsTenant().BeginTran();
     }
 
     /// <summary>
@@ -51,7 +51,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <exception cref="NotImplementedException"></exception>
     public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
     {
-        _sqlSugarClient.CommitTran();
+        _sqlSugarClient.AsTenant().CommitTran();
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <exception cref="NotImplementedException"></exception>
     public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
     {
-        _sqlSugarClient.RollbackTran();
+        _sqlSugarClient.AsTenant().RollbackTran();
     }
 
     /// <summary>
