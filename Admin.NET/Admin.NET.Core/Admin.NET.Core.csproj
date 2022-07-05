@@ -30,10 +30,10 @@
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.5" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" Version="2.16.0" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.TenpayV3" Version="2.10.0" />
-    <PackageReference Include="SqlSugarCore" Version="5.0.9.1" />
+    <PackageReference Include="SqlSugarCore" Version="5.0.9.2" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.19" />
     <PackageReference Include="UAParser" Version="3.1.47" />
-    <PackageReference Include="Yitter.IdGenerator" Version="1.0.12" />
+    <PackageReference Include="Yitter.IdGenerator" Version="1.0.13" />
   </ItemGroup>
 
   <ItemGroup>

@@ -18,7 +18,7 @@ public class SysUserExtOrgPosService : ITransient
     /// <param name="userId"></param>
     /// <param name="extIdList"></param>
     /// <returns></returns>
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task AddOrUpdate(long userId, List<UserExtOrgPosOutput> extIdList)
     {
         await DeleteEmpExtByUserId(userId); // 先删除

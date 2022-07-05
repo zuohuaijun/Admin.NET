@@ -48,7 +48,7 @@ public class SysRoleMenuService : ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task GrantRoleMenu(RoleMenuInput input)
     {
         await _sysRoleMenuRep.DeleteAsync(u => u.RoleId == input.Id);

@@ -2,6 +2,7 @@
 global using Admin.NET.Core.Util;
 global using Furion;
 global using Furion.ConfigurableOptions;
+global using Furion.DatabaseAccessor;
 global using Furion.DataEncryption;
 global using Furion.DataValidation;
 global using Furion.DependencyInjection;

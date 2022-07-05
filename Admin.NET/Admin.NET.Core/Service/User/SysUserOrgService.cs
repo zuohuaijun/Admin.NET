@@ -17,7 +17,7 @@ public class SysUserOrgService : ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task GrantUserOrg(UserOrgInput input)
     {
         await _sysUserOrgRep.DeleteAsync(u => u.UserId == input.Id);

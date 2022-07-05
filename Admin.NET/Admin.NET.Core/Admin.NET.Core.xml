@@ -19,34 +19,6 @@
             非实体表特性
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.SqlSugarUnitOfWorkAttribute">
-            <summary>
-            SqlSugar工作单元配置特性
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.#ctor">
-            <summary>
-            构造函数
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.#ctor(System.Data.IsolationLevel)">
-            <summary>
-            构造函数
-            </summary>
-            <remarks>
-            <para>支持传入事务隔离级别 <see cref="P:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.IsolationLevel"/> 参数值</para>
-            </remarks>
-            <param name="isolationLevel">事务隔离级别</param>
-        </member>
-        <member name="P:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.IsolationLevel">
-            <summary>
-            事务隔离级别
-            </summary>
-            <remarks>
-            <para>默认：<see cref="F:System.Data.IsolationLevel.ReadCommitted"/>，参见：<see cref="P:Admin.NET.Core.SqlSugarUnitOfWorkAttribute.IsolationLevel"/></para>
-            <para>说明：当事务A更新某条数据的时候，不容许其他事务来更新该数据，但可以进行读取操作</para>
-            </remarks>
-        </member>
         <member name="M:Admin.NET.Core.CSRedisSetup.AddCSRedisSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             CSRedis初始化
@@ -2809,40 +2781,6 @@
             <summary>
             请求操作拦截
             </summary>
-        </member>
-        <member name="T:Admin.NET.Core.SqlSugarUnitOfWorkFilter">
-            <summary>
-            SqlSugar工作单元拦截器
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.SqlSugarUnitOfWorkFilter.FilterOrder">
-            <summary>
-            过滤器排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SqlSugarUnitOfWorkFilter.Order">
-            <summary>
-            排序属性
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.SqlSugarUnitOfWorkFilter._sqlSugarClient">
-            <summary>
-            SqlSugar 对象
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWorkFilter.#ctor(SqlSugar.ISqlSugarClient)">
-            <summary>
-            构造函数
-            </summary>
-            <param name="sqlSugarClient"></param>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWorkFilter.OnActionExecutionAsync(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutionDelegate)">
-             <summary>
-            
-             </summary>
-             <param name="context"></param>
-             <param name="next"></param>
-             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.ChatHub">
             <summary>
@@ -6689,6 +6627,65 @@
             <summary>
             配置租户实体过滤器
             </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SqlSugarUnitOfWork">
+            <summary>
+            SqlSugar工作单元模式
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SqlSugarUnitOfWork._sqlSugarClient">
+            <summary>
+            SqlSugar 对象
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.#ctor(SqlSugar.ISqlSugarClient)">
+            <summary>
+            构造函数
+            </summary>
+            <param name="sqlSugarClient"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.OnUnmark(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,System.Boolean)">
+            <summary>
+            工作单元未标记处理
+            </summary>
+            <param name="resultContext"></param>
+            <param name="isManual"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.BeginTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Furion.DatabaseAccessor.UnitOfWorkAttribute,System.Boolean)">
+            <summary>
+            开启工作单元处理
+            </summary>
+            <param name="context"></param>
+            <param name="unitOfwork"></param>
+            <param name="isManual"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.CommitTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,Furion.DatabaseAccessor.UnitOfWorkAttribute,System.Boolean)">
+            <summary>
+            提交工作单元处理
+            </summary>
+            <param name="resultContext"></param>
+            <param name="unitOfwork"></param>
+            <param name="isManual"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.RollbackTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,Furion.DatabaseAccessor.UnitOfWorkAttribute,System.Boolean)">
+            <summary>
+            回滚工作单元处理
+            </summary>
+            <param name="resultContext"></param>
+            <param name="unitOfwork"></param>
+            <param name="isManual"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.OnCompleted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            执行完毕（无论成功失败）
+            </summary>
+            <param name="context"></param>
+            <param name="resultContext"></param>
+            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:Admin.NET.Core.AdminResultProvider">
             <summary>

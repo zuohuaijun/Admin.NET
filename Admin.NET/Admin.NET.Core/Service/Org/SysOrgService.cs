@@ -113,7 +113,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysOrg/update")]
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task UpdateOrg(UpdateOrgInput input)
     {
         if (input.Pid != 0)

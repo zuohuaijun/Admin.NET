@@ -17,7 +17,7 @@ public class SysRoleOrgService : ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task GrantRoleOrg(RoleOrgInput input)
     {
         await _sysRoleOrgRep.DeleteAsync(u => u.RoleId == input.Id);

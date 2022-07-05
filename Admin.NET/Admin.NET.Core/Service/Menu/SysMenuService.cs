@@ -128,7 +128,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysMenu/delete")]
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task DeleteMenu(DeleteMenuInput input)
     {
         var menuTreeList = await _sysMenuRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id);

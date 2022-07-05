@@ -17,7 +17,7 @@ public class SysUserRoleService : ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task GrantUserRole(UserRoleInput input)
     {
         await _sysUserRoleRep.DeleteAsync(u => u.UserId == input.Id);

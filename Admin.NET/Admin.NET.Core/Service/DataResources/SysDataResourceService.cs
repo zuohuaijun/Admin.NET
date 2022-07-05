@@ -84,7 +84,7 @@ public class SysDataResourceService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysDataResource/update")]
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task UpdateDataResource(UpdateDataResourceInput input)
     {
         if (input.Pid != 0)

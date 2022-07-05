@@ -133,6 +133,7 @@ public static class SqlSugarSetup
             return sqlSugar;
         });
         services.AddScoped(typeof(SqlSugarRepository<>)); // 注册仓储
+        services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 注册工作单元
     }
 
     /// <summary>

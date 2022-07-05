@@ -103,7 +103,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysRole/delete")]
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task DeleteRole(DeleteRoleInput input)
     {
         var sysRole = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
