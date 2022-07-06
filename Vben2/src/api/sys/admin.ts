@@ -130,6 +130,7 @@ enum Api {
   ResetTenantPwd = '/sysTenant/resetPwd',
 
   // 数据资源接口
+  DataResourceTree = '/sysDataResource/tree',
   DataResourceList = '/sysDataResource/list',
   AddDataResource = '/sysDataResource/add',
   DeleteDataResource = '/sysDataResource/delete',
@@ -429,6 +430,9 @@ export const resetTenantPwd = (id: number) =>
   defHttp.post<any>({ url: Api.ResetTenantPwd, params: { id } });
 
 ////////// 数据资源管理接口 //////////
+// 获取数据资源树结构列表
+export const getDataResourceTree = (params?: any) =>
+  defHttp.get<any>({ url: Api.DataResourceTree, params });
 // 获取数据资源列表
 export const getDataResourceList = (params?: any) =>
   defHttp.get<any>({ url: Api.DataResourceList, params });
