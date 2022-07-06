@@ -1,9 +1,8 @@
 ﻿namespace Admin.NET.Core;
 
 /// <summary>
-/// SqlSugar工作单元模式
+/// SqlSugar 事务和工作单元
 /// </summary>
-[SuppressSniffer]
 public sealed class SqlSugarUnitOfWork : IUnitOfWork
 {
     /// <summary>
@@ -21,23 +20,12 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     }
 
     /// <summary>
-    /// 工作单元未标记处理
-    /// </summary>
-    /// <param name="resultContext"></param>
-    /// <param name="isManual"></param>
-    /// <exception cref="NotImplementedException"></exception>
-    public void OnUnmark(ActionExecutedContext resultContext, bool isManual)
-    {
-    }
-
-    /// <summary>
     /// 开启工作单元处理
     /// </summary>
     /// <param name="context"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
+    /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfwork, bool isManual)
+    public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfWork)
     {
         _sqlSugarClient.AsTenant().BeginTran();
     }
@@ -46,10 +34,9 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// 提交工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
+    /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
+    public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         _sqlSugarClient.AsTenant().CommitTran();
     }
@@ -58,10 +45,9 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// 回滚工作单元处理
     /// </summary>
     /// <param name="resultContext"></param>
-    /// <param name="unitOfwork"></param>
-    /// <param name="isManual"></param>
+    /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfwork, bool isManual)
+    public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         _sqlSugarClient.AsTenant().RollbackTran();
     }

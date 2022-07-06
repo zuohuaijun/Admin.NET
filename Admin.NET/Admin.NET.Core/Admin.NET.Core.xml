@@ -6630,7 +6630,7 @@
         </member>
         <member name="T:Admin.NET.Core.SqlSugarUnitOfWork">
             <summary>
-            SqlSugar工作单元模式
+            SqlSugar 事务和工作单元
             </summary>
         </member>
         <member name="F:Admin.NET.Core.SqlSugarUnitOfWork._sqlSugarClient">
@@ -6644,39 +6644,28 @@
             </summary>
             <param name="sqlSugarClient"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.OnUnmark(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,System.Boolean)">
-            <summary>
-            工作单元未标记处理
-            </summary>
-            <param name="resultContext"></param>
-            <param name="isManual"></param>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.BeginTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Furion.DatabaseAccessor.UnitOfWorkAttribute,System.Boolean)">
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.BeginTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
             <summary>
             开启工作单元处理
             </summary>
             <param name="context"></param>
-            <param name="unitOfwork"></param>
-            <param name="isManual"></param>
+            <param name="unitOfWork"></param>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.CommitTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,Furion.DatabaseAccessor.UnitOfWorkAttribute,System.Boolean)">
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.CommitTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
             <summary>
             提交工作单元处理
             </summary>
             <param name="resultContext"></param>
-            <param name="unitOfwork"></param>
-            <param name="isManual"></param>
+            <param name="unitOfWork"></param>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.RollbackTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,Furion.DatabaseAccessor.UnitOfWorkAttribute,System.Boolean)">
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.RollbackTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
             <summary>
             回滚工作单元处理
             </summary>
             <param name="resultContext"></param>
-            <param name="unitOfwork"></param>
-            <param name="isManual"></param>
+            <param name="unitOfWork"></param>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.OnCompleted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">

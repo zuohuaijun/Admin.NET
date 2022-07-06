@@ -29,7 +29,7 @@ public class TestService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 工作单元（事务）测试
+    /// 事务和工作单元测试
     /// </summary>
     /// <returns></returns>
     [HttpGet("/test/list2")]
