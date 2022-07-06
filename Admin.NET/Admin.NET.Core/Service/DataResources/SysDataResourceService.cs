@@ -14,6 +14,58 @@ public class SysDataResourceService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取数据资源树结构列表
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("/sysDataResource/tree")]
+    public async Task<List<SysDataResource>> GetDataResourceTree([FromQuery] DataResourcesTreeInput input)
+    {
+        //通过根节点值来获取当前节点下的树结构数据
+        var rootValue = !string.IsNullOrEmpty(input.RootValue?.Trim());
+        SysDataResource rootDataTree = null;
+        if (rootValue)
+        {
+            rootDataTree = await _sysDataResourceRep.AsQueryable().Where(u => u.Value == input.RootValue && u.Pid == 0)
+              .Where(u => u.Status == StatusEnum.Enable).FirstAsync();
+
+            var childName = !string.IsNullOrEmpty(input.ChildName?.Trim());
+            //获取根节点下对应的子节点名称id
+            if (childName && rootDataTree != null)
+            {
+                rootDataTree = await _sysDataResourceRep.AsQueryable()
+               .Where(u => u.Code.Contains(rootDataTree.Code))
+               .Where(u => u.Name == input.ChildName)
+               .Where(u => u.Status == StatusEnum.Enable).FirstAsync();
+            }
+        }
+
+        if (rootDataTree == null)
+        {
+            return null;
+        }
+
+        var idList = rootDataTree.Id > 0 ? await GetChildIdListWithSelfById(rootDataTree.Id) : new List<long>();
+
+
+        var iSugarQueryable = _sysDataResourceRep.AsQueryable().OrderBy(u => u.Order)
+            .WhereIF(idList.Count > 0, u => idList.Contains(u.Id))
+            .Where(u => u.Status == StatusEnum.Enable); // 非超级管理员限制
+        var tree = await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, rootDataTree.Id > 0 ? rootDataTree.Id : 0);
+
+        //如果包含自己，则添加自己信息
+        if (input.IsContainSelf)
+        {
+            rootDataTree.Children = new List<SysDataResource>();
+            rootDataTree.Children.AddRange(tree);
+            var list = new List<SysDataResource>();
+            list.Add(rootDataTree);
+            return list;
+        }
+        return tree;
+    }
+
+
+    /// <summary>
     /// 获取数据资源列表
     /// </summary>
     /// <returns></returns>
@@ -84,7 +136,7 @@ public class SysDataResourceService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysDataResource/update")]
-    [UnitOfWork]
+    [SqlSugarUnitOfWork]
     public async Task UpdateDataResource(UpdateDataResourceInput input)
     {
         if (input.Pid != 0)

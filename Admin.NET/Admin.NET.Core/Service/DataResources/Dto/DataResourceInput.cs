@@ -1,5 +1,22 @@
 ﻿namespace Admin.NET.Core.Service;
 
+public class DataResourcesTreeInput
+{
+    /// <summary>
+    /// 根节点值
+    /// </summary>
+    public string RootValue { get; set; }
+    /// <summary>
+    /// 对应根节点下的名称
+    /// </summary>
+    public string ChildName { get; set; }
+
+    /// <summary>
+    /// 是否包含自己,默认不包含
+    /// </summary>
+    public bool IsContainSelf { get; set; } = false;
+}
+
 public class DataResourceInput : BaseIdInput
 {
     /// <summary>
