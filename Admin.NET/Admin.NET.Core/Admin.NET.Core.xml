@@ -4293,6 +4293,21 @@
             
              </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.DataResourcesTreeInput.RootValue">
+            <summary>
+            根节点值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.DataResourcesTreeInput.ChildName">
+            <summary>
+            对应根节点下的名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.DataResourcesTreeInput.IsContainSelf">
+            <summary>
+            是否包含自己,默认不包含
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.DataResourceInput.Pid">
             <summary>
             父Id
@@ -4337,6 +4352,12 @@
             <summary>
             系统数据资源服务
             </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataResourceService.GetDataResourceTree(Admin.NET.Core.Service.DataResourcesTreeInput)">
+            <summary>
+            获取数据资源树结构列表
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysDataResourceService.GetDataResourceList(Admin.NET.Core.Service.DataResourceInput)">
             <summary>

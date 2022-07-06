@@ -46,7 +46,6 @@ public class SysDataResourceService : IDynamicApiController, ITransient
 
         var idList = rootDataTree.Id > 0 ? await GetChildIdListWithSelfById(rootDataTree.Id) : new List<long>();
 
-
         var iSugarQueryable = _sysDataResourceRep.AsQueryable().OrderBy(u => u.Order)
             .WhereIF(idList.Count > 0, u => idList.Contains(u.Id))
             .Where(u => u.Status == StatusEnum.Enable); // 非超级管理员限制
@@ -63,7 +62,6 @@ public class SysDataResourceService : IDynamicApiController, ITransient
         }
         return tree;
     }
-
 
     /// <summary>
     /// 获取数据资源列表
@@ -136,7 +134,7 @@ public class SysDataResourceService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysDataResource/update")]
-    [SqlSugarUnitOfWork]
+    [UnitOfWork]
     public async Task UpdateDataResource(UpdateDataResourceInput input)
     {
         if (input.Pid != 0)

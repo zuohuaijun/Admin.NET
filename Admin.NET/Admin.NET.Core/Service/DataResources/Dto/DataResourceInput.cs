@@ -6,6 +6,7 @@ public class DataResourcesTreeInput
     /// 根节点值
     /// </summary>
     public string RootValue { get; set; }
+
     /// <summary>
     /// 对应根节点下的名称
     /// </summary>
