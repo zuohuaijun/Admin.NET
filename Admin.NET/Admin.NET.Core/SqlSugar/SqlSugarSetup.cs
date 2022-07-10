@@ -11,8 +11,6 @@ public static class SqlSugarSetup
     /// <param name="configuration"></param>
     public static void AddSqlSugarSetup(this IServiceCollection services, IConfiguration configuration)
     {
-        // SqlSugarScope用AddSingleton单例
-
         var dbOptions = App.GetOptions<DbConnectionOptions>();
         var configureExternalServices = new ConfigureExternalServices
         {
@@ -34,10 +32,10 @@ public static class SqlSugarSetup
             {
                 var dbProvider = db.GetConnectionScope((string)config.ConfigId);
 
-                    // 设置超时时间
+                // 设置超时时间
                 dbProvider.Ado.CommandTimeOut = 30;
 
-                    // 打印SQL语句
+                // 打印SQL语句
                 dbProvider.Aop.OnLogExecuting = (sql, pars) =>
                 {
                     if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
@@ -57,13 +55,13 @@ public static class SqlSugarSetup
                     App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
                 };
 
-                    // 数据审计
+                // 数据审计
                 dbProvider.Aop.DataExecuting = (oldValue, entityInfo) =>
                 {
-                        // 新增操作
+                    // 新增操作
                     if (entityInfo.OperationType == DataFilterType.InsertByObject)
                     {
-                            // 主键(long)-赋值雪花Id
+                        // 主键(long类型)-赋值雪花Id
                         if (entityInfo.EntityColumnInfo.IsPrimarykey && entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
                             entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
                         if (entityInfo.PropertyName == "CreateTime")
@@ -82,7 +80,7 @@ public static class SqlSugarSetup
                                 entityInfo.SetValue(App.User.FindFirst(ClaimConst.OrgId)?.Value);
                         }
                     }
-                        // 更新操作
+                    // 更新操作
                     if (entityInfo.OperationType == DataFilterType.UpdateByObject)
                     {
                         if (entityInfo.PropertyName == "UpdateTime")
@@ -92,19 +90,19 @@ public static class SqlSugarSetup
                     }
                 };
 
-                    // 差异日志
+                // 差异日志
                 dbProvider.Aop.OnDiffLogEvent = async u =>
                 {
                     if (!dbOptions.EnableDiffLog) return;
                     var LogDiff = new SysLogDiff
                     {
-                            // 操作后记录（字段描述、列名、值、表名、表描述）
+                        // 操作后记录（字段描述、列名、值、表名、表描述）
                         AfterData = Newtonsoft.Json.JsonConvert.SerializeObject(u.AfterData),
-                            // 操作前记录（字段描述、列名、值、表名、表描述）
+                        // 操作前记录（字段描述、列名、值、表名、表描述）
                         BeforeData = Newtonsoft.Json.JsonConvert.SerializeObject(u.BeforeData),
-                            // 传进来的对象
+                        // 传进来的对象
                         BusinessData = Newtonsoft.Json.JsonConvert.SerializeObject(u.BusinessData),
-                            // enum（insert、update、delete）
+                        // 枚举（insert、update、delete）
                         DiffType = u.DiffType.ToString(),
                         Sql = UtilMethods.GetSqlString(DbType.MySql, u.Sql, u.Parameters),
                         Parameters = Newtonsoft.Json.JsonConvert.SerializeObject(u.Parameters),
@@ -115,13 +113,13 @@ public static class SqlSugarSetup
                     Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{Newtonsoft.Json.JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
                 };
 
-                    // 配置实体假删除过滤器
+                // 配置实体假删除过滤器
                 SetDeletedEntityFilter(dbProvider);
-                    // 配置实体机构过滤器
+                // 配置实体机构过滤器
                 SetOrgEntityFilter(dbProvider);
-                    // 配置自定义实体过滤器
+                // 配置自定义实体过滤器
                 SetCustomEntityFilter(dbProvider);
-                    // 配置租户实体过滤器
+                // 配置租户实体过滤器
                 SetTenantEntityFilter(dbProvider);
             });
         });
@@ -130,9 +128,9 @@ public static class SqlSugarSetup
         if (dbOptions.EnableInitTable)
             InitDataBase(sqlSugar, dbOptions);
 
-        services.AddSingleton<ISqlSugarClient>(sqlSugar);//注入单例
+        services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
         services.AddScoped(typeof(SqlSugarRepository<>)); // 注册仓储
-        services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 注册工作单元
+        services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 注册事务与工作单元
     }
 
     /// <summary>
@@ -181,13 +179,13 @@ public static class SqlSugarSetup
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
                 var storage = provider.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
-                // 如果添加一条种子数，sqlsugar默认会通过@param的方式赋值，如果PropertyType为空，则默认数据类型为字符串。插入pgsql时候会报错，所以要忽略为空的值添加
+                // 如果添加一条种子数，sqlsugar 默认以 @param 的方式赋值，如果 PropertyType 为空，则默认数据类型为字符串。插入 pgsql 时候会报错，所以要忽略为空的值添加
                 _ = ((InsertableProvider<Dictionary<string, object>>)storage.AsInsertable).IsSingle ?
                     storage.AsInsertable.IgnoreColumns("UpdateTime", "UpdateUserId", "CreateUserId").ExecuteCommand() :
                     storage.AsInsertable.ExecuteCommand();
                 storage.AsUpdateable.ExecuteCommand();
             }
-            else //没有主键或者不是预定义的主键(没主键有重复的可能)
+            else // 没有主键或者不是预定义的主键(没主键有重复的可能)
             {
                 var storage = provider.Storageable(seedDataTable).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
