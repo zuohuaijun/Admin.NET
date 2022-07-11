@@ -61,12 +61,11 @@ public static class SqlSugarSetup
                     // 新增操作
                     if (entityInfo.OperationType == DataFilterType.InsertByObject)
                     {
-                        // 主键(long类型)-赋值雪花Id
+                        // 主键(long类型)且没有值的---赋值雪花Id
                         if (entityInfo.EntityColumnInfo.IsPrimarykey && entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
                         {
-                            var keyId = entityInfo.EntityColumnInfo.PropertyInfo.GetValue(entityInfo.EntityValue);
-                            //默认有id，则不用生成,有些业务需要提前设置id
-                            if (keyId == null || (long)keyId == 0)
+                            var id = entityInfo.EntityColumnInfo.PropertyInfo.GetValue(entityInfo.EntityValue);
+                            if (id == null || (long)id == 0)
                                 entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
                         }
                         if (entityInfo.PropertyName == "CreateTime")
