@@ -63,7 +63,12 @@ public static class SqlSugarSetup
                     {
                         // 主键(long类型)-赋值雪花Id
                         if (entityInfo.EntityColumnInfo.IsPrimarykey && entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
-                            entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
+                        {
+                            var keyId = entityInfo.EntityColumnInfo.PropertyInfo.GetValue(entityInfo.EntityValue);
+                            //默认有id，则不用生成,有些业务需要提前设置id
+                            if (keyId == null || (long)keyId == 0)
+                                entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
+                        }
                         if (entityInfo.PropertyName == "CreateTime")
                             entityInfo.SetValue(DateTime.Now);
                         if (App.User != null)
