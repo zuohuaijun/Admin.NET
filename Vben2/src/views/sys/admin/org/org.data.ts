@@ -2,6 +2,7 @@ import { BasicColumn } from '/@/components/Table';
 import { FormSchema } from '/@/components/Table';
 import { h } from 'vue';
 import { Tag } from 'ant-design-vue';
+import { getDictDataDropdown } from '/@/api/sys/admin';
 
 export const columns: BasicColumn[] = [
   {
@@ -13,6 +14,11 @@ export const columns: BasicColumn[] = [
   {
     title: '编码',
     dataIndex: 'code',
+  },
+  {
+    title: '级别',
+    width: 100,
+    dataIndex: 'level',
   },
   {
     title: '状态',
@@ -79,6 +85,20 @@ export const formSchema: FormSchema[] = [
     label: '机构名称',
     component: 'Input',
     required: true,
+    colProps: { span: 24 },
+  },
+  {
+    field: 'level',
+    label: '机构级别',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getDictDataDropdown,
+      params: 'org_level',
+      fieldNames: {
+        label: 'label',
+        value: 'value',
+      },
+    },
     colProps: { span: 24 },
   },
   // {
