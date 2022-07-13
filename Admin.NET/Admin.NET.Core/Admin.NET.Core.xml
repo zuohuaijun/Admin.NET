@@ -1055,6 +1055,11 @@
             状态
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysOrg.Level">
+            <summary>
+            级别 例如：省、市、县、区
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.SysOrg.Children">
             <summary>
             机构子项
@@ -5235,6 +5240,11 @@
         <member name="P:Admin.NET.Core.Service.OrgInput.Status">
             <summary>
             状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.OrgInput.Level">
+            <summary>
+            级别 例如：省、市、县、区
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.AddOrgInput.Name">

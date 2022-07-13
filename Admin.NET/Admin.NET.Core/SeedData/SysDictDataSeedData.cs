@@ -50,8 +50,8 @@ public class SysDictDataSeedData : ISqlSugarEntitySeedData<SysDictData>
 
             new SysDictData{ Id=269037953140001, DictTypeId=269037954200001, Value="省级", Code="省级", Order=1, Remark="省级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=269037953140002, DictTypeId=269037954200001, Value="市级", Code="市级", Order=2, Remark="市级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysDictData{ Id=269037953140003, DictTypeId=269037954200001, Value="县级", Code="县级", Order=3, Remark="县级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysDictData{ Id=269037953140004, DictTypeId=269037954200001, Value="区级", Code="区级", Order=4, Remark="区级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=269037953140003, DictTypeId=269037954200001, Value="区级", Code="区级", Order=3, Remark="区级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=269037953140004, DictTypeId=269037954200001, Value="县级", Code="县级", Order=4, Remark="县级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=269037953140005, DictTypeId=269037954200001, Value="其他", Code="其他", Order=5, Remark="其他", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
         };
     }

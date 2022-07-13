@@ -33,8 +33,7 @@ public class OrgInput : BaseIdInput
     public virtual int Status { get; set; }
 
     /// <summary>
-    /// 级别
-    /// 例：省、市、县、区
+    /// 级别 例如：省、市、县、区
     /// </summary>
     public virtual string Level { get; set; }
 }

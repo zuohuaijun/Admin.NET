@@ -46,10 +46,10 @@ public class SysOrg : EntityTenant
     public StatusEnum Status { get; set; } = StatusEnum.Enable;
 
     /// <summary>
-    /// 级别
-    /// 例：省、市、县、区
+    /// 级别 例如：省、市、县、区
     /// </summary>
     [SugarColumn(ColumnDescription = "级别")]
+    [MaxLength(20)]
     public string Level { get; set; }
 
     /// <summary>
