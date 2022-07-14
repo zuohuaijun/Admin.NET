@@ -1,4 +1,6 @@
-﻿namespace Admin.NET.Core.Service;
+﻿using Furion.Logging.Extensions;
+
+namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 定时任务服务
@@ -141,29 +143,36 @@ public class SysTimerService : IDynamicApiController, ITransient
                 {
                     action = async (_, _) =>
                     {
-                        var requestUrl = input.RequestUrl.Trim();
-                        requestUrl = requestUrl?.IndexOf("http") == 0 ? requestUrl : "http://" + requestUrl; // 默认http协议
-                        var requestParameters = input.RequestPara;
-                        var headersString = input.Headers;
-                        var headers = string.IsNullOrEmpty(headersString)
-                            ? null : JSON.Deserialize<Dictionary<string, string>>(headersString);
-                        switch (input.RequestType)
+                        try
                         {
-                            case RequestTypeEnum.Get:
-                                await requestUrl.SetHeaders(headers).GetAsync();
-                                break;
+                            var requestUrl = input.RequestUrl.Trim();
+                            requestUrl = requestUrl?.IndexOf("http") == 0 ? requestUrl : "http://" + requestUrl; // 默认http协议
+                            var requestParameters = input.RequestPara;
+                            var headersString = input.Headers;
+                            var headers = string.IsNullOrEmpty(headersString)
+                                ? null : JSON.Deserialize<Dictionary<string, string>>(headersString);
+                            switch (input.RequestType)
+                            {
+                                case RequestTypeEnum.Get:
+                                    await requestUrl.SetHeaders(headers).GetAsync();
+                                    break;
 
-                            case RequestTypeEnum.Post:
-                                await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PostAsync();
-                                break;
+                                case RequestTypeEnum.Post:
+                                    await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PostAsync();
+                                    break;
 
-                            case RequestTypeEnum.Put:
-                                await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PutAsync();
-                                break;
+                                case RequestTypeEnum.Put:
+                                    await requestUrl.SetHeaders(headers).SetQueries(requestParameters).PutAsync();
+                                    break;
 
-                            case RequestTypeEnum.Delete:
-                                await requestUrl.SetHeaders(headers).DeleteAsync();
-                                break;
+                                case RequestTypeEnum.Delete:
+                                    await requestUrl.SetHeaders(headers).DeleteAsync();
+                                    break;
+                            }
+                        }
+                        catch(Exception ex)
+                        {
+                            $"任务发生异常:{ex}".LogError();
                         }
                     };
                     break;
