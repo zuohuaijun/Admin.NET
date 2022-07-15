@@ -101,20 +101,20 @@ public static class SqlSugarSetup
                     var LogDiff = new SysLogDiff
                     {
                         // 操作后记录（字段描述、列名、值、表名、表描述）
-                        AfterData = Newtonsoft.Json.JsonConvert.SerializeObject(u.AfterData),
+                        AfterData = JsonConvert.SerializeObject(u.AfterData),
                         // 操作前记录（字段描述、列名、值、表名、表描述）
-                        BeforeData = Newtonsoft.Json.JsonConvert.SerializeObject(u.BeforeData),
+                        BeforeData = JsonConvert.SerializeObject(u.BeforeData),
                         // 传进来的对象
-                        BusinessData = Newtonsoft.Json.JsonConvert.SerializeObject(u.BusinessData),
+                        BusinessData = JsonConvert.SerializeObject(u.BusinessData),
                         // 枚举（insert、update、delete）
                         DiffType = u.DiffType.ToString(),
                         Sql = UtilMethods.GetSqlString(DbType.MySql, u.Sql, u.Parameters),
-                        Parameters = Newtonsoft.Json.JsonConvert.SerializeObject(u.Parameters),
+                        Parameters = JsonConvert.SerializeObject(u.Parameters),
                         Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
                     };
                     await db.GetConnectionScope(SqlSugarConst.ConfigId).Insertable(LogDiff).ExecuteCommandAsync();
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{Newtonsoft.Json.JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
+                    Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
                 };
 
                 // 配置实体假删除过滤器

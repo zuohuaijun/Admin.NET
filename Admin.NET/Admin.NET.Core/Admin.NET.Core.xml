@@ -1553,7 +1553,7 @@
         </member>
         <member name="P:Admin.NET.Core.WechatPay.Settlement">
             <summary>
-            结算信息。
+            结算信息
             </summary>
         </member>
         <member name="P:Admin.NET.Core.WechatPay.NotifyUrl">
@@ -6712,7 +6712,7 @@
             全局规范化结果
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.AdminResultProvider.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext,Furion.UnifyResult.Internal.ExceptionMetadata)">
+        <member name="M:Admin.NET.Core.AdminResultProvider.OnException(Microsoft.AspNetCore.Mvc.Filters.ExceptionContext,Furion.FriendlyException.ExceptionMetadata)">
             <summary>
             异常返回值
             </summary>

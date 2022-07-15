@@ -15,6 +15,7 @@ public class WechatPay : EntityBase
     /// <summary>
     /// 服务商AppId
     /// </summary>
+    [SugarColumn(ColumnDescription = "服务商AppId")]
     public string AppId { get; set; }
 
     /// <summary>
@@ -102,13 +103,15 @@ public class WechatPay : EntityBase
     public string GoodsTag { get; set; }
 
     /// <summary>
-    /// 结算信息。
+    /// 结算信息
     /// </summary>
+    [SugarColumn(ColumnDescription = "结算信息")]
     public string Settlement { get; set; }
 
     /// <summary>
     /// 回调通知地址
     /// </summary>
+    [SugarColumn(ColumnDescription = "回调通知地址")]
     public string NotifyUrl { get; set; }
 
     /// <summary>
@@ -132,13 +135,13 @@ public class WechatPay : EntityBase
     /// <summary>
     /// 子商户号
     /// </summary>
+    [SugarColumn(ColumnDescription = "子商户号")]
     public string SubMerchantId { get; set; }
 
     /// <summary>
     /// 子商户AppId
     /// </summary>
-    [Newtonsoft.Json.JsonProperty("sub_appid")]
-    [System.Text.Json.Serialization.JsonPropertyName("sub_appid")]
+    [SugarColumn(ColumnDescription = "回调通知地址")]
     public string SubAppId { get; set; }
 
     /// <summary>
