@@ -120,6 +120,11 @@
             组织机构名称
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ClaimConst.OrgLevel">
+            <summary>
+            组织机构级别
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.ClaimConst.OpenId">
             <summary>
             微信OpenId
@@ -3314,6 +3319,11 @@
         <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.OrgName">
             <summary>
             机构名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.OrgLevel">
+            <summary>
+            机构级别
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Roles">
