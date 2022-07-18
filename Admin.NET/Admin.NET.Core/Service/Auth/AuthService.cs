@@ -68,6 +68,7 @@ public class AuthService : IDynamicApiController, ITransient
             {ClaimConst.SuperAdmin, user.UserType},
             {ClaimConst.OrgId, user.OrgId},
             {ClaimConst.OrgName, user.SysOrg?.Name},
+            {ClaimConst.OrgLevel, user.SysOrg?.Level},
         });
 
         // 设置Swagger自动登录
@@ -126,6 +127,7 @@ public class AuthService : IDynamicApiController, ITransient
             Desc = user.Introduction,
             OrgId = user.OrgId,
             OrgName = user.SysOrg != null ? user.SysOrg.Name : "",
+            OrgLevel = user.SysOrg != null ? user.SysOrg.Level : "",
             Roles = roles.Select(u => new LoginRole
             {
                 RoleName = u.Name,

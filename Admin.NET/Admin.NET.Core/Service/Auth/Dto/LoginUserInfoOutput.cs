@@ -41,6 +41,11 @@ public class LoginUserInfoOutput
     public string OrgName { get; set; }
 
     /// <summary>
+    /// 机构级别
+    /// </summary>
+    public string OrgLevel { get; set; }
+
+    /// <summary>
     /// 角色集合
     /// </summary>
     public List<LoginRole> Roles { get; set; }
