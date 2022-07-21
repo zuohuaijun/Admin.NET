@@ -3,7 +3,7 @@
 /// <summary>
 /// 全局规范化结果
 /// </summary>
-[SuppressSniffer, UnifyModel(typeof(AdminResult<>))]
+[UnifyModel(typeof(AdminResult<>))]
 public class AdminResultProvider : IUnifyResultProvider
 {
     /// <summary>
