@@ -3,7 +3,7 @@
 namespace Admin.NET.Core;
 
 /// <summary>
-/// 全局异常处理
+/// 全局异常处理器
 /// </summary>
 public class LogExceptionHandler : IGlobalExceptionHandler, ISingleton
 {

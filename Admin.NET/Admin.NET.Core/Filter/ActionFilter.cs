@@ -1,13 +1,13 @@
 ﻿namespace Admin.NET.Core;
 
 /// <summary>
-/// 请求操作拦截
+/// 操作筛选器
 /// </summary>
-public class RequestActionFilter : IAsyncActionFilter
+public class ActionFilter : IAsyncActionFilter
 {
     private readonly IEventPublisher _eventPublisher;
 
-    public RequestActionFilter(IEventPublisher eventPublisher)
+    public ActionFilter(IEventPublisher eventPublisher)
     {
         _eventPublisher = eventPublisher;
     }
@@ -22,8 +22,8 @@ public class RequestActionFilter : IAsyncActionFilter
         }
 
         // 是否开启操作日志
-        var value = await App.GetService<SysConfigService>().GetConfigCache(CommonConst.SysOpLogFlag);
-        if (string.IsNullOrWhiteSpace(value) || !bool.Parse(value))
+        var sysOpLog = await App.GetService<SysConfigService>().GetConfigCache(CommonConst.SysOpLog);
+        if (string.IsNullOrWhiteSpace(sysOpLog) || !bool.Parse(sysOpLog))
         {
             await next();
             return;

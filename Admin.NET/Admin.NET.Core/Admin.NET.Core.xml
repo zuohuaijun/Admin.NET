@@ -157,17 +157,22 @@
         </member>
         <member name="F:Admin.NET.Core.CommonConst.SysDemoEnv">
             <summary>
-            演示环境开关配置
+            演示环境开关
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CommonConst.SysCaptchaFlag">
+        <member name="F:Admin.NET.Core.CommonConst.SysCaptcha">
             <summary>
-            验证码开关配置
+            验证码开关
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CommonConst.SysOpLogFlag">
+        <member name="F:Admin.NET.Core.CommonConst.SysOpLog">
             <summary>
-            开启操作日志配置
+            开启操作日志
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysSensitiveDetection">
+            <summary>
+            开启全局脱敏处理（默认不开启）
             </summary>
         </member>
         <member name="T:Admin.NET.Core.OrderStatus">
@@ -2782,14 +2787,19 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.LogExceptionHandler">
+        <member name="T:Admin.NET.Core.ActionFilter">
             <summary>
-            全局异常处理
+            操作筛选器
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.RequestActionFilter">
+        <member name="T:Admin.NET.Core.LogExceptionHandler">
             <summary>
-            请求操作拦截
+            全局异常处理器
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ResultFilter">
+            <summary>
+            结果筛选器
             </summary>
         </member>
         <member name="T:Admin.NET.Core.ChatHub">

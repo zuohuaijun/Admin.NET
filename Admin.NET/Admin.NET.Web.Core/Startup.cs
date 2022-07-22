@@ -28,8 +28,11 @@ public class Startup : AppStartup
 
         services.AddTaskScheduler();
 
+        services.AddSensitiveDetection();
+
         services.AddControllersWithViews()
-            .AddMvcFilter<RequestActionFilter>()
+            .AddMvcFilter<ActionFilter>()
+            .AddMvcFilter<ResultFilter>()
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 响应驼峰命名
