@@ -37,8 +37,7 @@ public class TestService : IDynamicApiController, ITransient
     public async Task<List<Test>> TestUnitOfWork()
     {
         await _testRep.InsertAsync(new Test() { Name = "admin" });
-        var a = 0;
-        var b = 1 / a;
+        throw new Exception("异常");
         return await _testRep.GetListAsync();
     }
 }

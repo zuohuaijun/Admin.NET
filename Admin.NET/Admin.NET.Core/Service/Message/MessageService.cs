@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using NETCore.MailKit.Core;
 
 namespace Admin.NET.Core.Service;
 
@@ -6,16 +7,23 @@ namespace Admin.NET.Core.Service;
 /// 消息发送服务
 /// </summary>
 [ApiDescriptionSettings(Name = "消息发送", Order = 101)]
-public class SendMessageService : ISendMessageService, IDynamicApiController, ITransient
+public class MessageService : IMessageService, IDynamicApiController, ITransient
 {
     private readonly ISysCacheService _sysCacheService;
     private readonly IHubContext<ChatHub, IChatClient> _chatHubContext;
 
-    public SendMessageService(ISysCacheService sysCacheService,
-        IHubContext<ChatHub, IChatClient> chatHubContext)
+    private readonly EmailOptions _emailOptions;
+    private readonly IEmailService _emailService;
+
+    public MessageService(ISysCacheService sysCacheService,
+        IHubContext<ChatHub, IChatClient> chatHubContext,
+        IOptions<EmailOptions> emailOptions,
+        IEmailService emailService)
     {
         _sysCacheService = sysCacheService;
         _chatHubContext = chatHubContext;
+        _emailOptions = emailOptions.Value;
+        _emailService = emailService;
     }
 
     /// <summary>
@@ -94,5 +102,21 @@ public class SendMessageService : ISendMessageService, IDynamicApiController, IT
                 userlist.Add(item.ConnectionId);
         }
         await _chatHubContext.Clients.Clients(userlist).ReceiveMessage(new { Title = title, Message = message, Messagetype = type });
+    }
+
+    /// <summary>
+    /// 发送邮件
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost("/email/send")]
+    public async Task SendEmail(string message)
+    {
+        //// 设置发送人邮件地址和名称
+        //var sendInfo = new SenderInfo
+        //{
+        //    SenderEmail = _emailOptions.SenderEmail,
+        //    SenderName = _emailOptions.SenderName,
+        //};
+        await _emailService.SendAsync(_emailOptions.ToEmail, _emailOptions.SenderName, message);
     }
 }

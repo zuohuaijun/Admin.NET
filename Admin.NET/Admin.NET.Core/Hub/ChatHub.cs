@@ -10,10 +10,10 @@ namespace Admin.NET.Core;
 public class ChatHub : Hub<IChatClient>
 {
     private readonly ISysCacheService _cache;
-    private readonly ISendMessageService _sendMessageService;
+    private readonly IMessageService _sendMessageService;
 
     public ChatHub(ISysCacheService cache,
-        ISendMessageService sendMessageService)
+        IMessageService sendMessageService)
     {
         _cache = cache;
         _sendMessageService = sendMessageService;

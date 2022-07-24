@@ -17,6 +17,8 @@ public class LogExceptionHandler : IGlobalExceptionHandler, ISingleton
     public async Task OnExceptionAsync(ExceptionContext context)
     {
         var stackTrace = EnhancedStackTrace.Current();
+
+        // 写日志数据库
         await _eventPublisher.PublishAsync("Add:ExLog", new SysLogEx
         {
             ClassName = context.Exception.TargetSite.DeclaringType?.FullName,

@@ -70,5 +70,15 @@
     "SecretKey": "",
     "IsEnableHttps": true,
     "IsEnableCache": true
+  },
+  "Email": {
+    "Server": "smtp.163.com", // 主机
+    "Port": 465, // 端口 465/994 25
+    "SenderName": "系统邮件", // 发送者名称
+    "SenderEmail": "zuohuaijun@163.com", // 发件者邮箱
+    "ToEmail": "515096995@qq.com", // 接收人邮箱
+    "Account": "zuohuaijun@163.com", // 发件邮箱账号
+    "Password": "XXXXXXXXXXXXXXXXX", // 发件邮箱密码
+    "Security": true // 启用SSL和TLS
   }
 }

@@ -3,7 +3,7 @@
 /// <summary>
 /// 数据库链接配置
 /// </summary>
-public class DbConnectionOptions : IConfigurableOptions
+public sealed class DbConnectionOptions : IConfigurableOptions
 {
     /// <summary>
     /// 启用初始化库表

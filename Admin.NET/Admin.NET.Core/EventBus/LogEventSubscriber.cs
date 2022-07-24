@@ -5,11 +5,11 @@
 /// </summary>
 public class LogEventSubscriber : IEventSubscriber
 {
-    public IServiceProvider Services { get; }
+    private readonly IServiceProvider _serviceProvider;
 
-    public LogEventSubscriber(IServiceProvider services)
+    public LogEventSubscriber(IServiceProvider serviceProvider)
     {
-        Services = services;
+        _serviceProvider = serviceProvider;
     }
 
     /// <summary>
@@ -20,7 +20,7 @@ public class LogEventSubscriber : IEventSubscriber
     [EventSubscribe("Add:OpLog")]
     public async Task CreateOpLog(EventHandlerExecutingContext context)
     {
-        using var scope = Services.CreateScope();
+        using var scope = _serviceProvider.CreateScope();
         var _rep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysLogOp>>();
         await _rep.InsertAsync((SysLogOp)context.Source.Payload);
     }
@@ -33,9 +33,12 @@ public class LogEventSubscriber : IEventSubscriber
     [EventSubscribe("Add:ExLog")]
     public async Task CreateExLog(EventHandlerExecutingContext context)
     {
-        using var scope = Services.CreateScope();
+        using var scope = _serviceProvider.CreateScope();
         var _rep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysLogEx>>();
         await _rep.InsertAsync((SysLogEx)context.Source.Payload);
+
+        // 发送邮件
+        await scope.ServiceProvider.GetRequiredService<IMessageService>().SendEmail(JSON.Serialize(context.Source.Payload));
     }
 
     /// <summary>
@@ -46,7 +49,7 @@ public class LogEventSubscriber : IEventSubscriber
     [EventSubscribe("Add:VisLog")]
     public async Task CreateVisLog(EventHandlerExecutingContext context)
     {
-        using var scope = Services.CreateScope();
+        using var scope = _serviceProvider.CreateScope();
         var _rep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysLogVis>>();
         await _rep.InsertAsync((SysLogVis)context.Source.Payload);
     }

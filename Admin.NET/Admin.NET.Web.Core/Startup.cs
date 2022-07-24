@@ -1,10 +1,15 @@
 ﻿using Admin.NET.Core;
+using Admin.NET.Core.Service;
 using Furion;
+using Furion.FriendlyException;
+using Furion.Logging.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using NETCore.MailKit.Extensions;
+using NETCore.MailKit.Infrastructure.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
@@ -16,18 +21,19 @@ public class Startup : AppStartup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        // 统一配置项目选项注册
+        // 注册配置选项
         services.AddProjectOptions();
-
+        // 注册ORM
         services.AddSqlSugarSetup(App.Configuration);
-
+        // 注册JWT
         services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
-
+        // 注册跨域
         services.AddCorsAccessor();
+        // 注册远程请求
         services.AddRemoteRequest();
-
+        // 注册任务调度
         services.AddTaskScheduler();
-
+        // 注册脱敏检测
         services.AddSensitiveDetection();
 
         services.AddControllersWithViews()
@@ -42,26 +48,23 @@ public class Startup : AppStartup
             })
             .AddInjectWithUnifyResult<AdminResultProvider>();
 
-        // 注册日志事件订阅者(支持自定义消息队列组件)
+        // 注册事件总线
         services.AddEventBus(builder =>
         {
             builder.AddSubscriber<LogEventSubscriber>();
         });
-
         // 注册OSS对象存储
-        services.AddOSSService(option =>
+        services.AddOSSService(options =>
         {
-            var ossOptions = App.GetOptions<OSSProviderOptions>();
-            option.Provider = (OSSProvider)ossOptions.Provider;
-            option.Endpoint = ossOptions.Endpoint;
-            option.AccessKey = ossOptions.AccessKey;
-            option.SecretKey = ossOptions.SecretKey;
-            option.Region = ossOptions.Region;
-            option.IsEnableCache = ossOptions.IsEnableCache;
-            option.IsEnableHttps = ossOptions.IsEnableHttps;
+            options = App.GetOptions<OSSProviderOptions>();
+        });
+        // 注册邮件
+        services.AddMailKit(options =>
+        {
+            options.UseMailKit(App.GetOptions<EmailOptions>());
         });
 
-        // 注册CSRedis缓存
+        // 注册Redis缓存
         services.AddCSRedisSetup();
 
         // 注册模板引擎
@@ -70,7 +73,7 @@ public class Startup : AppStartup
         // 注册即时通讯
         services.AddSignalR();
 
-        // 增加Logo输出显示
+        // 注册logo显示
         services.AddLogoDisplay();
 
         // 注册日志
@@ -99,9 +102,11 @@ public class Startup : AppStartup
         // 添加状态码拦截中间件
         app.UseUnifyResultStatusCodes();
 
+        // 启用HTTPS
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
+        // HTTP请求日志
         app.UseHttpLogging();
 
         app.UseRouting();

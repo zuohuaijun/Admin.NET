@@ -1,6 +1,6 @@
 ﻿namespace Admin.NET.Core.Service;
 
-public interface ISendMessageService
+public interface IMessageService
 {
     /// <summary>
     /// 发送消息给某个人
@@ -40,4 +40,11 @@ public interface ISendMessageService
     /// <param name="type">消息类型</param>
     /// <returns></returns>
     Task SendMessageToOtherUser(string title, string message, MessageTypeEnum type, long userId);
+
+    /// <summary>
+    /// 发送邮件
+    /// </summary>
+    /// <param name="message"></param>
+    /// <returns></returns>
+    Task SendEmail(string message);
 }
