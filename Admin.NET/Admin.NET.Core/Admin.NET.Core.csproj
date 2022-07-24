@@ -20,10 +20,9 @@
 
   <ItemGroup>
     <PackageReference Include="Caching.CSRedis" Version="3.8.3" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="3.8.9" />
-    <PackageReference Include="Furion.Extras.Logging.Serilog" Version="3.8.9" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="3.8.9" />
-    <PackageReference Include="Furion.Pure" Version="3.8.9" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="3.9.0" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="3.9.0" />
+    <PackageReference Include="Furion.Pure" Version="3.9.0" />
     <PackageReference Include="Magicodes.IE.Excel" Version="2.6.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" />
     <PackageReference Include="MySql.Data" Version="8.0.29" />
@@ -39,9 +38,5 @@
   <ItemGroup>
     <Folder Include="Service\File\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\OpenSource\Furion\framework\Furion.Pure\Furion.Pure.csproj" />
-  </ItemGroup>
-
+	
 </Project>

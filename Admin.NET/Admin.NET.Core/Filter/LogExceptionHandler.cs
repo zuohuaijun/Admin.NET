@@ -1,4 +1,4 @@
-﻿using Serilog;
+﻿using Furion.Logging.Extensions;
 
 namespace Admin.NET.Core;
 
@@ -31,6 +31,6 @@ public class LogExceptionHandler : IGlobalExceptionHandler, ISingleton
         });
 
         // 写日志文件
-        Log.Error(stackTrace.ToString());
+        stackTrace.ToString().LogError();
     }
 }

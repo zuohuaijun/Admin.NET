@@ -4,10 +4,10 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
-using Serilog;
 using Yitter.IdGenerator;
 
 namespace Admin.NET.Web.Core;
@@ -72,6 +72,16 @@ public class Startup : AppStartup
 
         // 增加Logo输出显示
         services.AddLogoDisplay();
+
+        // 注册日志
+        services.AddFileLogging();
+        services.AddFileLogging("logs/error.log", options =>
+        {
+            options.WriteFilter = (logMsg) =>
+            {
+                return logMsg.LogLevel == LogLevel.Error;
+            };
+        });
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -92,8 +102,7 @@ public class Startup : AppStartup
         app.UseHttpsRedirection();
         app.UseStaticFiles();
 
-        // Serilog请求日志中间件---必须在 UseStaticFiles 和 UseRouting 之间
-        app.UseSerilogRequestLogging();
+        app.UseHttpLogging();
 
         app.UseRouting();
 

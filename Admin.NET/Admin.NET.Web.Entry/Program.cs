@@ -1,2 +1,1 @@
-Serve.Run(RunOptions.Default
-    .ConfigureBuilder(builder => builder.Host.UseSerilogDefault()));
+Serve.Run(RunOptions.Default);
