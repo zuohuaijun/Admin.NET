@@ -1,15 +1,11 @@
 ﻿using Admin.NET.Core;
-using Admin.NET.Core.Service;
 using Furion;
-using Furion.FriendlyException;
-using Furion.Logging.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NETCore.MailKit.Extensions;
-using NETCore.MailKit.Infrastructure.Internal;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
@@ -21,24 +17,25 @@ public class Startup : AppStartup
 {
     public void ConfigureServices(IServiceCollection services)
     {
-        // 注册配置选项
+        // 配置选项
         services.AddProjectOptions();
-        // 注册ORM
+        // ORM-SqlSugar
         services.AddSqlSugarSetup(App.Configuration);
-        // 注册JWT
+        // JWT
         services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
-        // 注册跨域
+        // 允许跨域
         services.AddCorsAccessor();
-        // 注册远程请求
+        // 远程请求
         services.AddRemoteRequest();
-        // 注册任务调度
+        // 任务调度
         services.AddTaskScheduler();
-        // 注册脱敏检测
+        // 脱敏检测
         services.AddSensitiveDetection();
+        // 操作和结果拦截器
+        services.AddMvcFilter<ActionFilter>();
+        services.AddMvcFilter<ResultFilter>();
 
         services.AddControllersWithViews()
-            .AddMvcFilter<ActionFilter>()
-            .AddMvcFilter<ResultFilter>()
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 响应驼峰命名
@@ -48,42 +45,45 @@ public class Startup : AppStartup
             })
             .AddInjectWithUnifyResult<AdminResultProvider>();
 
-        // 注册事件总线
+        // 事件总线
         services.AddEventBus(builder =>
         {
             builder.AddSubscriber<LogEventSubscriber>();
         });
-        // 注册OSS对象存储
+        // OSS对象存储
         services.AddOSSService(options =>
         {
             options = App.GetOptions<OSSProviderOptions>();
         });
-        // 注册邮件
+        // 电子邮件
         services.AddMailKit(options =>
         {
             options.UseMailKit(App.GetOptions<EmailOptions>());
         });
 
-        // 注册Redis缓存
+        // Redis缓存
         services.AddCSRedisSetup();
 
-        // 注册模板引擎
+        // 模板引擎
         services.AddViewEngine();
 
-        // 注册即时通讯
+        // 即时通讯
         services.AddSignalR();
 
-        // 注册logo显示
+        // logo显示
         services.AddLogoDisplay();
 
-        // 注册日志
-        services.AddFileLogging();
-        services.AddFileLogging("logs/error.log", options =>
+        // 日志记录
+        services.AddLogging(builder =>
         {
-            options.WriteFilter = (logMsg) =>
+            builder.AddFile();
+            builder.AddFile("logs/error.log", options =>
             {
-                return logMsg.LogLevel == LogLevel.Error;
-            };
+                options.WriteFilter = (logMsg) =>
+                {
+                    return logMsg.LogLevel == LogLevel.Error;
+                };
+            });
         });
     }
 
@@ -105,9 +105,6 @@ public class Startup : AppStartup
         // 启用HTTPS
         app.UseHttpsRedirection();
         app.UseStaticFiles();
-
-        // HTTP请求日志
-        app.UseHttpLogging();
 
         app.UseRouting();
 

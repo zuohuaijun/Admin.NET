@@ -1,5 +1,6 @@
 ﻿using Admin.NET.Application.Const;
 using Furion.DatabaseAccessor;
+using Furion.Logging;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Admin.NET.Application.Serice;
@@ -9,6 +10,7 @@ namespace Admin.NET.Application.Serice;
 /// </summary>
 [ApiDescriptionSettings(TestConst.GroupName, Name = "XXX模块", Order = 200)]
 [AllowAnonymous]
+[LoggingMonitor]
 public class TestService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<Test> _testRep;
