@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace Admin.NET.Core;
+﻿namespace Admin.NET.Core;
 
 /// <summary>
 /// 系统操作日志表
@@ -8,9 +6,10 @@ namespace Admin.NET.Core;
 [SugarTable("sys_log_op", "系统操作日志表")]
 public class SysLogOp : EntityBase
 {
-    /// 类别名称
+    /// <summary>
+    /// 日志名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "类别名称", Length = 200)]
+    [SugarColumn(ColumnDescription = "日志名称", Length = 200)]
     public string LogName { get; set; }
 
     /// <summary>
@@ -35,5 +34,5 @@ public class SysLogOp : EntityBase
     /// 异常对象
     /// </summary>
     [SugarColumn(ColumnDescription = "异常对象", ColumnDataType = "longtext,text,clob")]
-    public string Exception { get; set; }  
+    public string Exception { get; set; }
 }

@@ -7,7 +7,6 @@ public class ActionFilter : IAsyncActionFilter
 {
     public ActionFilter()
     {
-
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)

@@ -145,7 +145,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
         return await _sysDictDataRep.Context.Queryable<SysDictType, SysDictData>((a, b) =>
             new JoinQueryInfos(JoinType.Left, a.Id == b.DictTypeId))
             .Where(a => a.Code == code)
-            .Where((a,b) => a.Status == StatusEnum.Enable&&b.Status== StatusEnum.Enable)
+            .Where((a, b) => a.Status == StatusEnum.Enable && b.Status == StatusEnum.Enable)
             .Select((a, b) => new
             {
                 Label = b.Value,

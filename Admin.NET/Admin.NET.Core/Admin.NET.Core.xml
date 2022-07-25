@@ -775,7 +775,11 @@
             系统操作日志表
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "P:Admin.NET.Core.SysLogOp.LogName" -->
+        <member name="P:Admin.NET.Core.SysLogOp.LogName">
+            <summary>
+            日志名称
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.SysLogOp.LogLevel">
             <summary>
             日志级别
