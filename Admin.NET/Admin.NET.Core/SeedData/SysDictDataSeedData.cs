@@ -45,7 +45,7 @@ public class SysDictDataSeedData : ISqlSugarEntitySeedData<SysDictData>
             new SysDictData{ Id=269037953120009, DictTypeId=269037954100003, Value="Guid", Code="Guid", Order=1, Remark="Guid", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=269037953120010, DictTypeId=269037954100003, Value="DateTimeOffset", Code="DateTimeOffset", Order=1, Remark="DateTimeOffset", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
-            new SysDictData{ Id=269037953130001, DictTypeId=269037954100004, Value="下载压缩包", Code="1", Order=1, Remark="下载压缩包", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=269037953130001, DictTypeId=269037954100004, Value="下载压缩包", Code="1", Order=1, Remark="下载压缩包", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=269037953130002, DictTypeId=269037954100004, Value="生成到本项目", Code="2", Order=1, Remark="生成到本项目", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
             new SysDictData{ Id=269037953140001, DictTypeId=269037954200001, Value="省级", Code="省级", Order=1, Remark="省级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },

@@ -4219,7 +4219,7 @@
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.TableDelete(SqlSugar.DbTableInfo)">
+        <member name="M:Admin.NET.Core.Service.DataBaseManager.TableDelete(Admin.NET.Core.Service.DeleteTableInput)">
             <summary>
             删除表
             </summary>

@@ -100,6 +100,7 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpPost("/table/add")]
     public void TableAdd(DbTableInfoInput input)
     {
+        var provider = _db.AsTenant().GetConnectionScope(input.ConfigId);
         var columns = new List<DbColumnInfo>();
         if (input.DbColumnInfoList == null || !input.DbColumnInfoList.Any())
         {
@@ -119,15 +120,15 @@ public class DataBaseManager : IDynamicApiController, ITransient
                 DecimalDigits = m.DecimalDigits
             });
         });
-        _db.DbMaintenance.CreateTable(input.Name, columns, false);
-        _db.DbMaintenance.AddTableRemark(input.Name, input.Description);
+        provider.DbMaintenance.CreateTable(input.Name, columns, false);
+        provider.DbMaintenance.AddTableRemark(input.Name, input.Description);
         if (columns.Any(m => m.IsPrimarykey))
         {
-            _db.DbMaintenance.AddPrimaryKey(input.Name, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
+            provider.DbMaintenance.AddPrimaryKey(input.Name, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
         }
         input.DbColumnInfoList.ForEach(m =>
         {
-            _db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.Name, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
+            provider.DbMaintenance.AddColumnRemark(m.DbColumnName, input.Name, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
         });
     }
 
@@ -136,9 +137,10 @@ public class DataBaseManager : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     [HttpPost("/table/delete")]
-    public void TableDelete(DbTableInfo input)
+    public void TableDelete(DeleteTableInput input)
     {
-        _db.DbMaintenance.DropTable(input.Name);
+        var provider = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        provider.DbMaintenance.DropTable(input.Name);
     }
 
     /// <summary>
@@ -148,12 +150,13 @@ public class DataBaseManager : IDynamicApiController, ITransient
     [HttpPost("/table/edit")]
     public void TableEdit(EditTableInput input)
     {
-        _db.DbMaintenance.RenameTable(input.OldName, input.Name);
-        if (_db.DbMaintenance.IsAnyTableRemark(input.Name))
+        var provider = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        provider.DbMaintenance.RenameTable(input.OldName, input.Name);
+        if (provider.DbMaintenance.IsAnyTableRemark(input.Name))
         {
-            _db.DbMaintenance.DeleteTableRemark(input.Name);
+            provider.DbMaintenance.DeleteTableRemark(input.Name);
         }
-        _db.DbMaintenance.AddTableRemark(input.Name, input.Description);
+        provider.DbMaintenance.AddTableRemark(input.Name, input.Description);
     }
 
     /// <summary>
