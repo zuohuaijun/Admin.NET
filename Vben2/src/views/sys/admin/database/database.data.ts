@@ -86,6 +86,12 @@ export const tableShowColumns: BasicColumn[] = [
 
 export const tableFormSchema: FormSchema[] = [
   {
+    field: 'configId',
+    label: '',
+    component: 'Input',
+    show: false,
+  },
+  {
     field: 'oldName',
     label: '表名',
     component: 'Input',

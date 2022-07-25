@@ -158,18 +158,20 @@
       function handleCreateTable() {
         openModal(true, {
           isUpdate: false,
+          configId: currentDB?.value,
         });
       }
 
       function handleEdit(record: Recordable) {
         openModal(true, {
           record,
+          configId: currentDB?.value,
           isUpdate: true,
         });
       }
 
       async function handleDelete(record: Recordable) {
-        await deleteTable(record);
+        await deleteTable({ configId: currentDB?.value, name: record.name });
         createMessage.success('删除成功！');
         reload();
         colReload();

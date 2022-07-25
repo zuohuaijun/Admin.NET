@@ -94,7 +94,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       options: [
         { label: '启用', value: 1 },
-        { label: '停用', value: 0 },
+        { label: '停用', value: 2 },
       ],
     },
   },

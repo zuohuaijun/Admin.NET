@@ -85,6 +85,9 @@
             ...data.record,
           });
         }
+        setFieldsValue({
+          configId: data.configId,
+        });
       });
 
       const getTitle = computed(() => (!unref(isUpdate) ? '新增表' : '编辑表'));
@@ -266,6 +269,7 @@
       async function handleSubmit() {
         try {
           const values = await validate();
+          debugger;
           setModalProps({ confirmLoading: true });
           if (!unref(isUpdate)) {
             let tbData: any = [];
