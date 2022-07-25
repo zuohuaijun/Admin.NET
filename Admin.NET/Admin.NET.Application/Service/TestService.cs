@@ -1,5 +1,6 @@
 ﻿using Admin.NET.Application.Const;
 using Furion.DatabaseAccessor;
+using Furion.Localization;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Admin.NET.Application.Serice;
@@ -39,5 +40,23 @@ public class TestService : IDynamicApiController, ITransient
         await _testRep.InsertAsync(new Test() { Name = "admin" });
         throw new Exception("异常");
         return await _testRep.GetListAsync();
+    }
+
+    /// <summary>
+    /// 多语言测试
+    /// </summary>
+    /// <returns></returns>
+    public string TestCulture()
+    {
+        //L.SetCulture("zh-CN");
+        //var a = L.GetSelectCulture();
+        //var a1 = L.Text["API Interfaces"];
+        //return $"当前语言【{a.Culture.Name}】 {a1}";
+
+        L.SetCulture("en-US");
+        var b = L.GetSelectCulture();
+        var b1 = L.Text["API 接口"];
+
+        return $"当前语言【{b.Culture.Name}】 {b1}";
     }
 }

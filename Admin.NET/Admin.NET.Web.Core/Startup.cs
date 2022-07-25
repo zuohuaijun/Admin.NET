@@ -41,6 +41,7 @@ public class Startup : AppStartup
         services.AddMvcFilter<LoggingMonitorAttribute>();
 
         services.AddControllersWithViews()
+            .AddAppLocalization()
             .AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 响应驼峰命名
@@ -122,6 +123,9 @@ public class Startup : AppStartup
 
         // 添加状态码拦截中间件
         app.UseUnifyResultStatusCodes();
+
+        // 配置多语言
+        app.UseAppLocalization();
 
         // 启用HTTPS
         app.UseHttpsRedirection();

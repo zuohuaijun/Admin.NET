@@ -31,6 +31,10 @@
     "DefaultErrorMessage": "系统异常，请联系管理员",
     "ThrowBah": true
   },
+  "LocalizationSettings": {
+    "SupportedCultures": [ "zh-CN", "en-US" ], // 语言列表
+    "DefaultCulture": "zh-CN" // 默认语言
+  },
   "JWTSettings": {
     "ValidateIssuerSigningKey": true, // 是否验证密钥，bool 类型，默认true
     "IssuerSigningKey": "3c1cbc3f546eda35168c3aa3cb91780fbe703f0996c6d123ea96dc85c70bbc0a", // 密钥，string 类型，必须是复杂密钥，长度大于16
