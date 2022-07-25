@@ -1,5 +1,6 @@
 ﻿using Admin.NET.Core;
 using Furion;
+using Furion.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,6 +10,7 @@ using NETCore.MailKit.Extensions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
+using System;
 using Yitter.IdGenerator;
 
 namespace Admin.NET.Web.Core;
@@ -31,9 +33,12 @@ public class Startup : AppStartup
         services.AddTaskScheduler();
         // 脱敏检测
         services.AddSensitiveDetection();
-        // 操作和结果拦截器
+        // 操作拦截器
         services.AddMvcFilter<ActionFilter>();
+        // 结果拦截器
         services.AddMvcFilter<ResultFilter>();
+        // 日志监听特性（拦截器）
+        services.AddMvcFilter<LoggingMonitorAttribute>();
 
         services.AddControllersWithViews()
             .AddNewtonsoftJson(options =>
@@ -76,7 +81,13 @@ public class Startup : AppStartup
         // 日志记录
         services.AddLogging(builder =>
         {
-            builder.AddFile();
+            builder.AddFile("logs/{0:yyyyMMdd}.log", options =>
+            {
+                options.FileNameRule = fileName =>
+                {
+                    return string.Format(fileName, DateTime.UtcNow);
+                };
+            });
             builder.AddFile("logs/error.log", options =>
             {
                 options.WriteFilter = (logMsg) =>
