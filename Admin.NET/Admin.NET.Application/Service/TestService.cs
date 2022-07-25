@@ -1,6 +1,5 @@
 ﻿using Admin.NET.Application.Const;
 using Furion.DatabaseAccessor;
-using Furion.Logging;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Admin.NET.Application.Serice;

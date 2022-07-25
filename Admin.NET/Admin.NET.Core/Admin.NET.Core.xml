@@ -775,79 +775,25 @@
             系统操作日志表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Success">
+        <!-- Badly formed XML comment ignored for member "P:Admin.NET.Core.SysLogOp.LogName" -->
+        <member name="P:Admin.NET.Core.SysLogOp.LogLevel">
             <summary>
-            是否执行成功（Y-是，N-否）
+            日志级别
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.EventId">
+            <summary>
+            事件Id
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogOp.Message">
             <summary>
-            具体消息
+            日志消息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Ip">
+        <member name="P:Admin.NET.Core.SysLogOp.Exception">
             <summary>
-            IP地址
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Location">
-            <summary>
-            地址
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Browser">
-            <summary>
-            浏览器
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Os">
-            <summary>
-            操作系统
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Url">
-            <summary>
-            请求地址
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.ClassName">
-            <summary>
-            类名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.MethodName">
-            <summary>
-            方法名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.ReqMethod">
-            <summary>
-            请求方式（GET POST PUT DELETE)
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Param">
-            <summary>
-            请求参数
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Result">
-            <summary>
-            返回结果
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.ElapsedTime">
-            <summary>
-            耗时（毫秒）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.UserName">
-            <summary>
-            账号名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.RealName">
-            <summary>
-            真实姓名
+            异常对象
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysLogVis">
@@ -2890,6 +2836,11 @@
             </summary>
             <param name="context"></param>
             <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.DbLoggingWriter">
+            <summary>
+            数据库日志写入器
+            </summary>
         </member>
         <member name="T:Admin.NET.Core.CacheOptions">
             <summary>

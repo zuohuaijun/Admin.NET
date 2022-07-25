@@ -81,13 +81,7 @@ public class Startup : AppStartup
         // 日志记录
         services.AddLogging(builder =>
         {
-            builder.AddFile("logs/{0:yyyyMMdd}.log", options =>
-            {
-                options.FileNameRule = fileName =>
-                {
-                    return string.Format(fileName, DateTime.UtcNow);
-                };
-            });
+            // 错误级别日志归类
             builder.AddFile("logs/error.log", options =>
             {
                 options.WriteFilter = (logMsg) =>
@@ -95,6 +89,22 @@ public class Startup : AppStartup
                     return logMsg.LogLevel == LogLevel.Error;
                 };
             });
+            // 每天创建一个日志文件
+            builder.AddFile("logs/{0:yyyyMMdd}.log", options =>
+            {
+                options.FileNameRule = fileName =>
+                {
+                    return string.Format(fileName, DateTime.UtcNow);
+                };
+            });
+            // 日志写入数据库
+            builder.AddDatabase<DbLoggingWriter>();
+        });
+
+        // 设置雪花Id算法机器码
+        YitIdHelper.SetIdGenerator(new IdGeneratorOptions
+        {
+            WorkerId = App.GetOptions<SnowIdOptions>().WorkerId
         });
     }
 
@@ -134,12 +144,6 @@ public class Startup : AppStartup
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
-        });
-
-        // 设置雪花Id算法机器码
-        YitIdHelper.SetIdGenerator(new IdGeneratorOptions
-        {
-            WorkerId = App.GetOptions<SnowIdOptions>().WorkerId
         });
     }
 }
