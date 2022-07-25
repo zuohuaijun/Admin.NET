@@ -5,10 +5,9 @@ enum Api {
   IsAccountExist = '/system/accountExist',
 
   // 用户接口
-  UserPageList = '/sysUser/pageList',
+  UserPageList = '/sysUser/page',
   AddUser = '/sysUser/add',
   DeleteUser = '/sysUser/delete',
-  GetDatabaseList = '/codeGenerate/DatabaseList',
   UpdateUser = '/sysUser/update',
   SetUserStatus = '/sysUser/setStatus',
   GrantUserRole = '/sysUser/grantRole',
@@ -19,7 +18,7 @@ enum Api {
   UserOwnOrgList = '/sysUser/ownOrg',
 
   // 角色接口
-  RolePageList = '/sysRole/pageList',
+  RolePageList = '/sysRole/page',
   RoleList = '/sysRole/list',
   AddRole = '/sysRole/add',
   DeleteRole = '/sysRole/delete',
@@ -50,29 +49,29 @@ enum Api {
   UpdatePos = '/sysPos/update',
 
   // 日志接口
-  VislogPageList = '/sysVisLog/pageList',
+  VislogPageList = '/sysVisLog/page',
   ClearVisLog = '/sysVisLog/clear',
-  OplogPageList = '/sysOpLog/pageList',
+  OplogPageList = '/sysOpLog/page',
   ClearOpLog = '/sysOpLog/clear',
-  ExlogPageList = '/sysExLog/pageList',
+  ExlogPageList = '/sysExLog/page',
   ClearExLog = '/sysExLog/clear',
-  DifflogPageList = '/sysDiffLog/pageList',
+  DifflogPageList = '/sysDiffLog/page',
   ClearDiffLog = '/sysDiffLog/clear',
 
   // 文件接口
-  FilePageList = '/sysFile/pageList',
+  FilePageList = '/sysFile/page',
   UploadFile = '/sysFile/upload',
   DownloadFile = '/sysFile/download',
   DeleteFile = '/sysFile/delete',
 
   // 参数配置接口
-  ConfigPageList = '/sysConfig/pageList',
+  ConfigPageList = '/sysConfig/page',
   AddConfig = '/sysConfig/add',
   DeleteConfig = '/sysConfig/delete',
   UpdateConfig = '/sysConfig/update',
 
   // 定时器接口
-  TimerPageList = '/sysTimer/pageList',
+  TimerPageList = '/sysTimer/page',
   AddTimer = '/sysTimer/add',
   DeleteTimer = '/sysTimer/delete',
   UpdateTimer = '/sysTimer/update',
@@ -84,13 +83,13 @@ enum Api {
   ServerNetWork = '/server/network',
 
   // 字典接口
-  GetDictTypePageList = '/sysDictType/pageList',
+  GetDictTypePageList = '/sysDictType/page',
   GetDictTypeList = '/sysDictType/list',
   AddDictType = '/sysDictType/add',
   UpdateDictType = '/sysDictType/update',
   DeleteDictType = '/sysDictType/delete',
 
-  GetDictDataPageList = '/sysDictData/pageList',
+  GetDictDataPageList = '/sysDictData/page',
   AddDictData = '/sysDictData/add',
   UpdateDictData = '/sysDictData/update',
   DeleteDictData = '/sysDictData/delete',
@@ -98,6 +97,7 @@ enum Api {
   QueryDictDataDropdown = '/sysDictData/queryDictDataDropdown',
 
   // 数据库接口
+  GetDatabaseList = '/codeGenerate/DatabaseList',
   GetColumnInfoList = '/dataBase/columnInfoList',
   GetTableInfoList = '/dataBase/tableInfoList',
   AddTable = '/table/add',

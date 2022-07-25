@@ -33,7 +33,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysFile/pageList")]
+    [HttpGet("/sysFile/page")]
     public async Task<SqlSugarPagedList<SysFile>> QueryFilePageList([FromQuery] PageFileInput input)
     {
         var files = await _sysFileRep.AsQueryable()

@@ -21,7 +21,7 @@ public class SysTimerService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysTimer/pageList")]
+    [HttpGet("/sysTimer/page")]
     public async Task<SqlSugarPagedList<TimerOutput>> GetTimerPageList([FromQuery] PageTimerInput input)
     {
         var workers = SpareTime.GetWorkers().ToList();

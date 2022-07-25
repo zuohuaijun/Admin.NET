@@ -17,7 +17,7 @@ public class SysVisLogService : IDynamicApiController, ITransient
     /// 获取访问日志分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysVisLog/pageList")]
+    [HttpGet("/sysVisLog/page")]
     [NotLog]
     public async Task<SqlSugarPagedList<SysLogVis>> GetVisLogList([FromQuery] PageLogInput input)
     {

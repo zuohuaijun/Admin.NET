@@ -5,77 +5,41 @@ import { Tag } from 'ant-design-vue';
 
 export const columns: BasicColumn[] = [
   {
-    title: '账号名称',
-    dataIndex: 'userName',
-    width: 100,
-    align: 'left',
+    title: '日志名称',
+    dataIndex: 'logName',
+    width: 200,
   },
   {
-    title: '是否成功',
-    dataIndex: 'success',
-    width: 80,
+    title: '日志级别',
+    dataIndex: 'logLevel',
+    width: 100,
     customRender: ({ record }) => {
-      const success = record.success;
-      const enable = ~~success === 1;
-      const color = enable ? 'green' : 'red';
-      const text = enable ? '成功' : '失败';
-      return h(Tag, { color: color }, () => text);
+      const logLevel = record.logLevel;
+      switch (logLevel) {
+        case 'Information':
+          return h(Tag, { color: 'green' }, () => 'Information');
+        case 'Warning':
+          return h(Tag, { color: 'orange' }, () => 'Warning');
+        case 'Error':
+          return h(Tag, { color: 'red' }, () => 'Error');
+        default:
+          return h(Tag, { color: 'blue' }, () => '未知');
+      }
     },
   },
   {
-    title: 'IP地址',
-    dataIndex: 'ip',
-    width: 100,
+    title: '事件Id',
+    dataIndex: 'eventId',
+    width: 150,
   },
   {
-    title: '地址',
-    dataIndex: 'location',
-    width: 100,
+    title: '日志消息',
+    dataIndex: 'message',
   },
   {
-    title: '浏览器',
-    dataIndex: 'browser',
-    width: 100,
-  },
-  {
-    title: '操作系统',
-    dataIndex: 'os',
-    width: 100,
-  },
-  {
-    title: '请求地址',
-    dataIndex: 'url',
+    title: '异常对象',
+    dataIndex: 'exception',
     width: 200,
-  },
-  {
-    title: '类名',
-    dataIndex: 'className',
-    width: 200,
-  },
-  {
-    title: '方法名',
-    dataIndex: 'methodName',
-    width: 200,
-  },
-  {
-    title: '请求方式',
-    dataIndex: 'reqMethod',
-    width: 80,
-  },
-  {
-    title: '请求参数',
-    dataIndex: 'param',
-    width: 200,
-  },
-  {
-    title: '返回结果',
-    dataIndex: 'result',
-    width: 300,
-  },
-  {
-    title: '耗时',
-    dataIndex: 'elapsedTime',
-    width: 50,
   },
   {
     title: '操作时间',
@@ -96,5 +60,19 @@ export const searchFormSchema: FormSchema[] = [
     label: '结束时间',
     component: 'DatePicker',
     colProps: { span: 8 },
+  },
+];
+
+export const formSchema: FormSchema[] = [
+  {
+    label: '',
+    field: 'message',
+    component: 'InputTextArea',
+    //dynamicDisabled: true,
+    colProps: { span: 24 },
+    componentProps: {
+      placeholder: '',
+      rows: 200,
+    },
   },
 ];

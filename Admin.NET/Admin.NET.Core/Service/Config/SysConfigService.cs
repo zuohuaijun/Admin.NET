@@ -21,7 +21,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysConfig/pageList")]
+    [HttpGet("/sysConfig/page")]
     public async Task<SqlSugarPagedList<SysConfig>> GetConfigPageList([FromQuery] PageConfigInput input)
     {
         return await _sysConfigRep.AsQueryable()

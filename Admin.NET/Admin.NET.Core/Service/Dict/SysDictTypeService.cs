@@ -21,7 +21,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// 获取字典类型分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysDictType/pageList")]
+    [HttpGet("/sysDictType/page")]
     public async Task<SqlSugarPagedList<SysDictType>> GetDictTypePageList([FromQuery] PageDictTypeInput input)
     {
         var code = !string.IsNullOrEmpty(input.Code?.Trim());

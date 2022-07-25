@@ -17,7 +17,7 @@ public class SysExLogService : IDynamicApiController, ITransient
     /// 获取异常日志分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysExLog/pageList")]
+    [HttpGet("/sysExLog/page")]
     [NotLog]
     public async Task<SqlSugarPagedList<SysLogEx>> GetExLogList([FromQuery] PageLogInput input)
     {

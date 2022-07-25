@@ -36,7 +36,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysRole/pageList")]
+    [HttpGet("/sysRole/page")]
     public async Task<SqlSugarPagedList<SysRole>> GetRolePageList([FromQuery] PageRoleInput input)
     {
         return await _sysRoleRep.AsQueryable()
