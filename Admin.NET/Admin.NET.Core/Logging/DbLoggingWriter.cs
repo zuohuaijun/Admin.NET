@@ -15,11 +15,11 @@ public class DbLoggingWriter : IDatabaseLoggingWriter
         _sysLogExRep = sysLogExRep;
     }
 
-    public async void Write(LogMessage logMsg, bool flush)
+    public void Write(LogMessage logMsg, bool flush)
     {
         if (logMsg.LogLevel == Microsoft.Extensions.Logging.LogLevel.Information)
         {
-            await _sysLogOpRep.InsertAsync(new SysLogOp
+            _sysLogOpRep.Insert(new SysLogOp
             {
                 LogName = logMsg.LogName,
                 LogLevel = logMsg.LogLevel.ToString(),
@@ -30,7 +30,7 @@ public class DbLoggingWriter : IDatabaseLoggingWriter
         }
         else
         {
-            await _sysLogExRep.InsertAsync(new SysLogEx
+            _sysLogExRep.Insert(new SysLogEx
             {
                 LogName = logMsg.LogName,
                 LogLevel = logMsg.LogLevel.ToString(),
