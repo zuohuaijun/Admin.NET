@@ -4,24 +4,24 @@
 /// 系统异常日志服务
 /// </summary>
 [ApiDescriptionSettings(Name = "异常日志", Order = 178)]
-public class SysExLogService : IDynamicApiController, ITransient
+public class SysLogExService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysLogEx> _sysExLogRep;
+    private readonly SqlSugarRepository<SysLogEx> _sysLogExRep;
 
-    public SysExLogService(SqlSugarRepository<SysLogEx> sysExLogRep)
+    public SysLogExService(SqlSugarRepository<SysLogEx> sysLogExRep)
     {
-        _sysExLogRep = sysExLogRep;
+        _sysLogExRep = sysLogExRep;
     }
 
     /// <summary>
     /// 获取异常日志分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysExLog/page")]
-    [NotLog]
-    public async Task<SqlSugarPagedList<SysLogEx>> GetExLogList([FromQuery] PageLogInput input)
+    [HttpGet("/sysLogEx/page")]
+    [SuppressMonitor]
+    public async Task<SqlSugarPagedList<SysLogEx>> GetLogExPage([FromQuery] PageLogInput input)
     {
-        return await _sysExLogRep.AsQueryable()
+        return await _sysLogExRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                         u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
             .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc)
@@ -32,9 +32,9 @@ public class SysExLogService : IDynamicApiController, ITransient
     /// 清空异常日志
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysExLog/clear")]
-    public async Task<bool> ClearExLog()
+    [HttpPost("/sysLogEx/clear")]
+    public async Task<bool> ClearLogEx()
     {
-        return await _sysExLogRep.DeleteAsync(u => u.Id > 0);
+        return await _sysLogExRep.DeleteAsync(u => u.Id > 0);
     }
 }

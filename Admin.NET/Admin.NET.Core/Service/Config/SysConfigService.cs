@@ -22,7 +22,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysConfig/page")]
-    public async Task<SqlSugarPagedList<SysConfig>> GetConfigPageList([FromQuery] PageConfigInput input)
+    public async Task<SqlSugarPagedList<SysConfig>> GetConfigPage([FromQuery] PageConfigInput input)
     {
         return await _sysConfigRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name?.Trim()), u => u.Name.Contains(input.Name))

@@ -7,60 +7,32 @@
 public class SysLogEx : EntityBase
 {
     /// <summary>
-    /// 类名
+    /// 日志名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "类名", Length = 100)]
-    [MaxLength(100)]
-    public string ClassName { get; set; }
+    [SugarColumn(ColumnDescription = "日志名称", Length = 200)]
+    public string LogName { get; set; }
 
     /// <summary>
-    /// 方法名
+    /// 日志级别
     /// </summary>
-    [SugarColumn(ColumnDescription = "方法名", Length = 100)]
-    [MaxLength(100)]
-    public string MethodName { get; set; }
+    [SugarColumn(ColumnDescription = "日志级别", Length = 20)]
+    public string LogLevel { get; set; }
 
     /// <summary>
-    /// 异常名称
+    /// 事件Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "异常名称", ColumnDataType = "longtext,text,clob")]
-    public string ExceptionName { get; set; }
+    [SugarColumn(ColumnDescription = "事件Id", ColumnDataType = "longtext,text,clob")]
+    public string EventId { get; set; }
 
     /// <summary>
-    /// 异常信息
+    /// 日志消息
     /// </summary>
-    [SugarColumn(ColumnDescription = "异常信息", ColumnDataType = "longtext,text,clob")]
-    public string ExceptionMsg { get; set; }
+    [SugarColumn(ColumnDescription = "日志消息", ColumnDataType = "longtext,text,clob")]
+    public string Message { get; set; }
 
     /// <summary>
-    /// 异常源
+    /// 异常对象
     /// </summary>
-    [SugarColumn(ColumnDescription = "异常源", ColumnDataType = "longtext,text,clob")]
-    public string ExceptionSource { get; set; }
-
-    /// <summary>
-    /// 堆栈信息
-    /// </summary>
-    [SugarColumn(ColumnDescription = "堆栈信息", ColumnDataType = "longtext,text,clob")]
-    public string StackTrace { get; set; }
-
-    /// <summary>
-    /// 参数对象
-    /// </summary>
-    [SugarColumn(ColumnDescription = "参数对象", ColumnDataType = "longtext,text,clob")]
-    public string ParamsObj { get; set; }
-
-    /// <summary>
-    /// 账号名称
-    /// </summary>
-    [SugarColumn(ColumnDescription = "账号名称", Length = 20)]
-    [MaxLength(20)]
-    public string UserName { get; set; }
-
-    /// <summary>
-    /// 真实姓名
-    /// </summary>
-    [SugarColumn(ColumnDescription = "真实姓名", Length = 20)]
-    [MaxLength(20)]
-    public string RealName { get; set; }
+    [SugarColumn(ColumnDescription = "异常对象", ColumnDataType = "longtext,text,clob")]
+    public string Exception { get; set; }
 }

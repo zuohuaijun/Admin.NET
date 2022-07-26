@@ -1,6 +1,5 @@
 ﻿using Admin.NET.Core;
 using Furion;
-using Furion.Logging;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -33,12 +32,10 @@ public class Startup : AppStartup
         services.AddTaskScheduler();
         // 脱敏检测
         services.AddSensitiveDetection();
-        // 操作拦截器
-        services.AddMvcFilter<ActionFilter>();
         // 结果拦截器
         services.AddMvcFilter<ResultFilter>();
         // 日志监听特性（拦截器）
-        services.AddMvcFilter<LoggingMonitorAttribute>();
+        services.AddMonitorLogging();
 
         services.AddControllersWithViews()
             .AddAppLocalization()

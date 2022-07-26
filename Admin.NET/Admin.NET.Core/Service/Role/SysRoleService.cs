@@ -37,7 +37,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysRole/page")]
-    public async Task<SqlSugarPagedList<SysRole>> GetRolePageList([FromQuery] PageRoleInput input)
+    public async Task<SqlSugarPagedList<SysRole>> GetRolePage([FromQuery] PageRoleInput input)
     {
         return await _sysRoleRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))

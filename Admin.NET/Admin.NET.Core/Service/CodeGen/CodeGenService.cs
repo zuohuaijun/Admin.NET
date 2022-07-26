@@ -29,13 +29,12 @@ public class CodeGenService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/codeGenerate/page")]
-    public async Task<dynamic> QueryCodeGenPageList([FromQuery] CodeGenInput input)
+    public async Task<dynamic> GetCodeGenPage([FromQuery] CodeGenInput input)
     {
         var tableName = !string.IsNullOrEmpty(input.TableName?.Trim());
-        var codeGens = await _db.Queryable<SysCodeGen>()
+        return await _db.Queryable<SysCodeGen>()
             .WhereIF(!string.IsNullOrWhiteSpace(input.TableName), u => u.TableName.Contains(input.TableName.Trim()))
             .ToPagedListAsync(input.Page, input.PageSize);
-        return codeGens;
     }
 
     /// <summary>

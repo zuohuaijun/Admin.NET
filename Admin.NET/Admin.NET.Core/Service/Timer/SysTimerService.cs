@@ -22,7 +22,7 @@ public class SysTimerService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTimer/page")]
-    public async Task<SqlSugarPagedList<TimerOutput>> GetTimerPageList([FromQuery] PageTimerInput input)
+    public async Task<SqlSugarPagedList<TimerOutput>> GetTimerPage([FromQuery] PageTimerInput input)
     {
         var workers = SpareTime.GetWorkers().ToList();
 

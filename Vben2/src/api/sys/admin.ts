@@ -49,14 +49,14 @@ enum Api {
   UpdatePos = '/sysPos/update',
 
   // 日志接口
-  VislogPageList = '/sysVisLog/page',
-  ClearVisLog = '/sysVisLog/clear',
-  OplogPageList = '/sysOpLog/page',
-  ClearOpLog = '/sysOpLog/clear',
-  ExlogPageList = '/sysExLog/page',
-  ClearExLog = '/sysExLog/clear',
-  DifflogPageList = '/sysDiffLog/page',
-  ClearDiffLog = '/sysDiffLog/clear',
+  VislogPageList = '/sysLogVis/page',
+  ClearVisLog = '/sysLogVis/clear',
+  OplogPageList = '/sysLogOp/page',
+  ClearOpLog = '/sysLogOp/clear',
+  ExlogPageList = '/sysLogEx/page',
+  ClearExLog = '/sysLogEx/clear',
+  DifflogPageList = '/sysLogDiff/page',
+  ClearDiffLog = '/sysLogDiff/clear',
 
   // 文件接口
   FilePageList = '/sysFile/page',

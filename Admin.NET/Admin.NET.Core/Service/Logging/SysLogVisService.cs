@@ -4,24 +4,24 @@
 /// 系统访问日志服务
 /// </summary>
 [ApiDescriptionSettings(Name = "访问日志", Order = 180)]
-public class SysVisLogService : IDynamicApiController, ITransient
+public class SysLogVisService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysLogVis> _sysVisLogRep;
+    private readonly SqlSugarRepository<SysLogVis> _sysLogVisRep;
 
-    public SysVisLogService(SqlSugarRepository<SysLogVis> sysVisLogRep)
+    public SysLogVisService(SqlSugarRepository<SysLogVis> sysLogVisRep)
     {
-        _sysVisLogRep = sysVisLogRep;
+        _sysLogVisRep = sysLogVisRep;
     }
 
     /// <summary>
     /// 获取访问日志分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysVisLog/page")]
-    [NotLog]
-    public async Task<SqlSugarPagedList<SysLogVis>> GetVisLogList([FromQuery] PageLogInput input)
+    [HttpGet("/sysLogVis/page")]
+    [SuppressMonitor]
+    public async Task<SqlSugarPagedList<SysLogVis>> GetLogVisPage([FromQuery] PageLogInput input)
     {
-        return await _sysVisLogRep.AsQueryable()
+        return await _sysLogVisRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                         u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
             .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc)
@@ -32,9 +32,9 @@ public class SysVisLogService : IDynamicApiController, ITransient
     /// 清空访问日志
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysVisLog/clear")]
-    public async Task<bool> ClearVisLog()
+    [HttpPost("/sysLogVis/clear")]
+    public async Task<bool> ClearLogVis()
     {
-        return await _sysVisLogRep.DeleteAsync(u => u.Id > 0);
+        return await _sysLogVisRep.DeleteAsync(u => u.Id > 0);
     }
 }

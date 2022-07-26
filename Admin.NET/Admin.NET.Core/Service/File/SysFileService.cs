@@ -34,15 +34,14 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysFile/page")]
-    public async Task<SqlSugarPagedList<SysFile>> QueryFilePageList([FromQuery] PageFileInput input)
+    public async Task<SqlSugarPagedList<SysFile>> GetFilePage([FromQuery] PageFileInput input)
     {
-        var files = await _sysFileRep.AsQueryable()
+        return await _sysFileRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.FileName), u => u.FileName.Contains(input.FileName.Trim()))
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                         u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
             .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc)
             .ToPagedListAsync(input.Page, input.PageSize);
-        return files;
     }
 
     /// <summary>

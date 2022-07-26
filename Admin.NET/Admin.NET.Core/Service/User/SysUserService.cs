@@ -37,7 +37,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysUser/page")]
-    public async Task<SqlSugarPagedList<SysUser>> GetUserPageList([FromQuery] PageUserInput input)
+    public async Task<SqlSugarPagedList<SysUser>> GetUserPage([FromQuery] PageUserInput input)
     {
         var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) : null;
 

@@ -45,6 +45,7 @@ public class AuthService : IDynamicApiController, ITransient
     /// <returns></returns>
     [HttpPost("/login")]
     [AllowAnonymous]
+    [SuppressMonitor]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
         var encryptPasswod = MD5Encryption.Encrypt(input.Password); // 加密密码

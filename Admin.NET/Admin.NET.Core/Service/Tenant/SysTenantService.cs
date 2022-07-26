@@ -46,7 +46,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/page")]
-    public async Task<dynamic> GetTenantPageList([FromQuery] TenantInput input)
+    public async Task<dynamic> GetTenantPage([FromQuery] TenantInput input)
     {
         return await _tenantRep.Context.Queryable<SysTenant>()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name.Trim()))

@@ -9,11 +9,6 @@
             常量下拉框特性
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.NotLogAttribute">
-            <summary>
-            禁用日志特性
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.NotTableAttribute">
             <summary>
             非实体表特性
@@ -725,49 +720,29 @@
             系统异常日志表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogEx.ClassName">
+        <member name="P:Admin.NET.Core.SysLogEx.LogName">
             <summary>
-            类名
+            日志名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogEx.MethodName">
+        <member name="P:Admin.NET.Core.SysLogEx.LogLevel">
             <summary>
-            方法名
+            日志级别
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogEx.ExceptionName">
+        <member name="P:Admin.NET.Core.SysLogEx.EventId">
             <summary>
-            异常名称
+            事件Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogEx.ExceptionMsg">
+        <member name="P:Admin.NET.Core.SysLogEx.Message">
             <summary>
-            异常信息
+            日志消息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogEx.ExceptionSource">
+        <member name="P:Admin.NET.Core.SysLogEx.Exception">
             <summary>
-            异常源
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.StackTrace">
-            <summary>
-            堆栈信息
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.ParamsObj">
-            <summary>
-            参数对象
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.UserName">
-            <summary>
-            账号名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.RealName">
-            <summary>
-            真实姓名
+            异常对象
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysLogOp">
@@ -2737,16 +2712,6 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.ActionFilter">
-            <summary>
-            操作筛选器
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.LogExceptionHandler">
-            <summary>
-            全局异常处理器
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.ResultFilter">
             <summary>
             结果筛选器
@@ -3477,7 +3442,7 @@
             代码生成器服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.QueryCodeGenPageList(Admin.NET.Core.Service.CodeGenInput)">
+        <member name="M:Admin.NET.Core.Service.CodeGenService.GetCodeGenPage(Admin.NET.Core.Service.CodeGenInput)">
             <summary>
             分页查询
             </summary>
@@ -4086,7 +4051,7 @@
             系统参数配置服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfigPageList(Admin.NET.Core.Service.PageConfigInput)">
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfigPage(Admin.NET.Core.Service.PageConfigInput)">
             <summary>
             获取参数配置分页列表
             </summary>
@@ -4563,7 +4528,7 @@
             系统字典值服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataPageList(Admin.NET.Core.Service.PageDictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataPage(Admin.NET.Core.Service.PageDictDataInput)">
             <summary>
             获取字典值分页列表
             </summary>
@@ -4637,7 +4602,7 @@
             系统字典类型服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictTypePageList(Admin.NET.Core.Service.PageDictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictTypePage(Admin.NET.Core.Service.PageDictTypeInput)">
             <summary>
             获取字典类型分页列表
             </summary>
@@ -4741,7 +4706,7 @@
             系统文件服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysFileService.QueryFilePageList(Admin.NET.Core.Service.PageFileInput)">
+        <member name="M:Admin.NET.Core.Service.SysFileService.GetFilePage(Admin.NET.Core.Service.PageFileInput)">
             <summary>
             获取文件分页列表
             </summary>
@@ -4799,69 +4764,69 @@
             结束时间
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysDiffLogService">
+        <member name="T:Admin.NET.Core.Service.SysLogDiffService">
             <summary>
             差异日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDiffLogService.GetDiffLogList(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogDiffService.GetLogDiffPage(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取差异日志分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDiffLogService.ClearVisLog">
+        <member name="M:Admin.NET.Core.Service.SysLogDiffService.ClearLogDiff">
             <summary>
             清空差异日志
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysExLogService">
+        <member name="T:Admin.NET.Core.Service.SysLogExService">
             <summary>
             系统异常日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysExLogService.GetExLogList(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogExService.GetLogExPage(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取异常日志分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysExLogService.ClearExLog">
+        <member name="M:Admin.NET.Core.Service.SysLogExService.ClearLogEx">
             <summary>
             清空异常日志
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysOpLogService">
+        <member name="T:Admin.NET.Core.Service.SysLogOpService">
             <summary>
             系统操作日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOpLogService.GetOpLogList(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogOpService.GetLogOpPage(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取操作日志分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOpLogService.ClearOpLog">
+        <member name="M:Admin.NET.Core.Service.SysLogOpService.ClearLogOp">
             <summary>
             清空操作日志
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysVisLogService">
+        <member name="T:Admin.NET.Core.Service.SysLogVisService">
             <summary>
             系统访问日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysVisLogService.GetVisLogList(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogVisService.GetLogVisPage(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取访问日志分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysVisLogService.ClearVisLog">
+        <member name="M:Admin.NET.Core.Service.SysLogVisService.ClearLogVis">
             <summary>
             清空访问日志
             </summary>
@@ -5569,7 +5534,7 @@
             系统角色服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRolePageList(Admin.NET.Core.Service.PageRoleInput)">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRolePage(Admin.NET.Core.Service.PageRoleInput)">
             <summary>
             获取角色分页列表
             </summary>
@@ -5741,7 +5706,7 @@
             租户管理服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantPageList(Admin.NET.Core.Service.TenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantPage(Admin.NET.Core.Service.TenantInput)">
             <summary>
             获取租户分页列表
             </summary>
@@ -5871,7 +5836,7 @@
             定时任务服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTimerService.GetTimerPageList(Admin.NET.Core.Service.PageTimerInput)">
+        <member name="M:Admin.NET.Core.Service.SysTimerService.GetTimerPage(Admin.NET.Core.Service.PageTimerInput)">
             <summary>
             获取任务分页列表
             </summary>
@@ -6253,7 +6218,7 @@
             系统用户服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserPageList(Admin.NET.Core.Service.PageUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserPage(Admin.NET.Core.Service.PageUserInput)">
             <summary>
             获取用户分页列表
             </summary>

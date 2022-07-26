@@ -4,24 +4,24 @@
 /// 差异日志服务
 /// </summary>
 [ApiDescriptionSettings(Name = "差异日志", Order = 180)]
-public class SysDiffLogService : IDynamicApiController, ITransient
+public class SysLogDiffService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysLogDiff> _sysDiffLogRep;
+    private readonly SqlSugarRepository<SysLogDiff> _sysLogDiffRep;
 
-    public SysDiffLogService(SqlSugarRepository<SysLogDiff> sysDiffLogRep)
+    public SysLogDiffService(SqlSugarRepository<SysLogDiff> sysLogDiffRep)
     {
-        _sysDiffLogRep = sysDiffLogRep;
+        _sysLogDiffRep = sysLogDiffRep;
     }
 
     /// <summary>
     /// 获取差异日志分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysDiffLog/page")]
-    [NotLog]
-    public async Task<SqlSugarPagedList<SysLogDiff>> GetDiffLogList([FromQuery] PageLogInput input)
+    [HttpGet("/sysLogDiff/page")]
+    [SuppressMonitor]
+    public async Task<SqlSugarPagedList<SysLogDiff>> GetLogDiffPage([FromQuery] PageLogInput input)
     {
-        return await _sysDiffLogRep.AsQueryable()
+        return await _sysLogDiffRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                         u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
             .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc)
@@ -32,9 +32,9 @@ public class SysDiffLogService : IDynamicApiController, ITransient
     /// 清空差异日志
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysDiffLog/clear")]
-    public async Task<bool> ClearVisLog()
+    [HttpPost("/sysLogDiff/clear")]
+    public async Task<bool> ClearLogDiff()
     {
-        return await _sysDiffLogRep.DeleteAsync(u => u.Id > 0);
+        return await _sysLogDiffRep.DeleteAsync(u => u.Id > 0);
     }
 }
