@@ -1,4 +1,5 @@
 ﻿using Admin.NET.Core;
+using AspNetCoreRateLimit;
 using Furion;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,7 +22,7 @@ public class Startup : AppStartup
         // 配置选项
         services.AddProjectOptions();
         // ORM-SqlSugar
-        services.AddSqlSugarSetup(App.Configuration);
+        services.AddSqlSugarSetup();
         // JWT
         services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
         // 允许跨域
@@ -47,6 +48,10 @@ public class Startup : AppStartup
                 // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
             })
             .AddInjectWithUnifyResult<AdminResultProvider>();
+
+        // 限流服务
+        services.AddInMemoryRateLimiting();
+        services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
         // 事件总线
         services.AddEventBus(builder =>
@@ -131,6 +136,10 @@ public class Startup : AppStartup
         app.UseRouting();
 
         app.UseCorsAccessor();
+
+        // 限流组件（在跨域之后）
+        app.UseIpRateLimiting();
+        app.UseClientRateLimiting();
 
         app.UseAuthentication();
         app.UseAuthorization();

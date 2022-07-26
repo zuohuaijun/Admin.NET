@@ -5,11 +5,10 @@ namespace Admin.NET.Core;
 public static class SqlSugarSetup
 {
     /// <summary>
-    /// Sqlsugar上下文初始化
+    /// Sqlsugar 上下文初始化
     /// </summary>
     /// <param name="services"></param>
-    /// <param name="configuration"></param>
-    public static void AddSqlSugarSetup(this IServiceCollection services, IConfiguration configuration)
+    public static void AddSqlSugarSetup(this IServiceCollection services)
     {
         var dbOptions = App.GetOptions<DbConnectionOptions>();
         var configureExternalServices = new ConfigureExternalServices

@@ -2906,6 +2906,26 @@
             支付宝退款回调
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.IpRateLimitingOptions">
+            <summary>
+            IP限流配置选项
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.IpRateLimitPoliciesOptions">
+            <summary>
+            IP限流策略配置选项
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ClientRateLimitingOptions">
+            <summary>
+            客户端限流配置选项
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ClientRateLimitPoliciesOptions">
+            <summary>
+            客户端限流策略配置选项
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.RefreshTokenOptions">
             <summary>
             刷新Token配置选项
@@ -6590,12 +6610,11 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.AddSqlSugarSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.AddSqlSugarSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            Sqlsugar上下文初始化
+            Sqlsugar 上下文初始化
             </summary>
             <param name="services"></param>
-            <param name="configuration"></param>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.SqlSugarScope,Admin.NET.Core.DbConnectionOptions)">
             <summary>

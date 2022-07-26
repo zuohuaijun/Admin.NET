@@ -10,15 +10,20 @@
   <ItemGroup>
     <None Remove="Admin.NET.Core.xml" />
     <None Remove="AdminNETConfig.json" />
+    <None Remove="RateLimitConfig.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="AdminNETConfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="RateLimitConfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
     <PackageReference Include="Caching.CSRedis" Version="3.8.3" />
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.0.3" />
     <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.0.3" />
