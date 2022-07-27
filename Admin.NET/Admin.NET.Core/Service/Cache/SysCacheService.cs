@@ -241,4 +241,32 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
 
         await AddCacheKey(cacheKey);
     }
+
+    /// <summary>
+    /// 获取最大角色数据范围
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    [NonAction]
+    public async Task<int?> GetStrongerDataScopeType(long userId)
+    {
+        var cacheKey = CacheConst.KeyStrongerDataScope + userId;
+        var res = await _cache.GetStringAsync(cacheKey);
+        return string.IsNullOrWhiteSpace(res) ? null : int.Parse(res);
+    }
+
+    /// <summary>
+    /// 缓存最大角色数据范围
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="dataScope"></param>
+    /// <returns></returns>
+    [NonAction]
+    public async Task SetStrongerDataScopeType(long userId, int dataScope)
+    {
+        var cacheKey = CacheConst.KeyStrongerDataScope + userId;
+        await _cache.SetStringAsync(cacheKey, dataScope.ToString());
+
+        await AddCacheKey(cacheKey);
+    }
 }

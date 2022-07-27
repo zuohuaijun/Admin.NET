@@ -26,6 +26,11 @@ public class CacheConst
     public const string KeyOrgIdList = "org:";
 
     /// <summary>
+    /// 最大角色数据范围缓存
+    /// </summary>
+    public const string KeyStrongerDataScope = "strongerdatascope:";
+
+    /// <summary>
     /// 验证码缓存
     /// </summary>
     public const string KeyVerCode = "verCode:";

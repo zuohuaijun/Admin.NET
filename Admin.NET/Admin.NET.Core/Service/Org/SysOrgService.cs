@@ -245,6 +245,10 @@ public class SysOrgService : IDynamicApiController, ITransient
         var orgIdList1 = await _sysRoleOrgService.GetRoleOrgIdList(customDataScopeRoleIdList);
         // 根据数据范围获取机构集合
         var orgIdList2 = await GetOrgIdListByDataScope(strongerDataScopeType);
+
+        var userId = _userManager.UserId;
+        //缓存当前用户最大范围策略设定权限值
+        await _sysCacheService.SetStrongerDataScopeType(userId, strongerDataScopeType); // 存缓存
         // 并集机构集合
         return orgIdList1.Concat(orgIdList2).Distinct().ToList();
     }
