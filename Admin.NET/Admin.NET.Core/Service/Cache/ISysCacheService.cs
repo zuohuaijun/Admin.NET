@@ -29,4 +29,8 @@ public interface ISysCacheService
     Task<List<string>> GetPermission(long userId);
 
     Task SetPermission(long userId, List<string> permissions);
+
+    Task<int?> GetStrongerDataScopeType(long userId);
+
+    Task SetStrongerDataScopeType(long userId, int dataScope);
 }

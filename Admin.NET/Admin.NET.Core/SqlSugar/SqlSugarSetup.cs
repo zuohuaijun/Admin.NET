@@ -229,6 +229,8 @@ public static class SqlSugarSetup
         // 获取用户机构Id集合
         var orgIds = await App.GetService<SysCacheService>().GetOrgIdList(long.Parse(userId));
         if (orgIds == null) return;
+        //如果不判断orgIds.Count==0，生成的sql语句条件中会出现1=2的bug
+        if (orgIds.Count == 0) return;
 
         foreach (var dataEntityType in dataEntityTypes)
         {
