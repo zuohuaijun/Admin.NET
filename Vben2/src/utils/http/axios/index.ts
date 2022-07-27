@@ -168,7 +168,10 @@ const transform: AxiosTransform = {
     const msg: string = response?.data?.error?.message ?? '';
     const err: string = error?.toString?.() ?? '';
     let errMessage = '';
-
+    if (response?.data?.code === ResultEnum.BUSY) {
+      errMessage = response?.data?.message || '访问太频繁，请稍后再试';
+    }
+    
     try {
       if (code === 'ECONNABORTED' && message.indexOf('timeout') !== -1) {
         errMessage = t('sys.api.apiTimeoutMessage');
