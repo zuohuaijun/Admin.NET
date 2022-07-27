@@ -43,7 +43,7 @@ public class SysUserService : IDynamicApiController, ITransient
 
         return await _sysUserRep.AsQueryable()
             .WhereIF(!_userManager.SuperAdmin, u => u.UserType != UserTypeEnum.SuperAdmin)
-            .WhereIF(input.OrgId > 0, u => orgList.Contains(u.OrgId))            
+            .WhereIF(input.OrgId > 0, u => orgList.Contains(u.OrgId))
             .WhereIF(!string.IsNullOrWhiteSpace(input.UserName), u => u.UserName.Contains(input.UserName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
             .ToPagedListAsync(input.Page, input.PageSize);

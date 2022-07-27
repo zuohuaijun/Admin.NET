@@ -248,9 +248,9 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     /// <param name="userId"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task<int?> GetStrongerDataScopeType(long userId)
+    public async Task<int?> GetMaxDataScopeType(long userId)
     {
-        var cacheKey = CacheConst.KeyStrongerDataScope + userId;
+        var cacheKey = CacheConst.KeyMaxDataScopeType + userId;
         var res = await _cache.GetStringAsync(cacheKey);
         return string.IsNullOrWhiteSpace(res) ? null : int.Parse(res);
     }
@@ -259,13 +259,13 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     /// 缓存最大角色数据范围
     /// </summary>
     /// <param name="userId"></param>
-    /// <param name="dataScope"></param>
+    /// <param name="dataScopeType"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task SetStrongerDataScopeType(long userId, int dataScope)
+    public async Task SetMaxDataScopeType(long userId, int dataScopeType)
     {
-        var cacheKey = CacheConst.KeyStrongerDataScope + userId;
-        await _cache.SetStringAsync(cacheKey, dataScope.ToString());
+        var cacheKey = CacheConst.KeyMaxDataScopeType + userId;
+        await _cache.SetStringAsync(cacheKey, dataScopeType.ToString());
 
         await AddCacheKey(cacheKey);
     }

@@ -45,6 +45,11 @@
             机构Id集合缓存
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyMaxDataScopeType">
+            <summary>
+            最大角色数据范围缓存
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.CacheConst.KeyVerCode">
             <summary>
             验证码缓存
@@ -3408,6 +3413,21 @@
             </summary>
             <param name="userId"></param>
             <param name="permissions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetMaxDataScopeType(System.Int64)">
+            <summary>
+            获取最大角色数据范围
+            </summary>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.SetMaxDataScopeType(System.Int64,System.Int32)">
+            <summary>
+            缓存最大角色数据范围
+            </summary>
+            <param name="userId"></param>
+            <param name="dataScopeType"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.CodeGenConfigService">

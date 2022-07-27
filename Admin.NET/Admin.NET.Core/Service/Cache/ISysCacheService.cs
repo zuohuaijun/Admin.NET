@@ -30,7 +30,7 @@ public interface ISysCacheService
 
     Task SetPermission(long userId, List<string> permissions);
 
-    Task<int?> GetStrongerDataScopeType(long userId);
+    Task<int?> GetMaxDataScopeType(long userId);
 
-    Task SetStrongerDataScopeType(long userId, int dataScope);
+    Task SetMaxDataScopeType(long userId, int dataScopeType);
 }

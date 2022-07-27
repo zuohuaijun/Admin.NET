@@ -28,7 +28,7 @@ public class CacheConst
     /// <summary>
     /// 最大角色数据范围缓存
     /// </summary>
-    public const string KeyStrongerDataScope = "strongerdatascope:";
+    public const string KeyMaxDataScopeType = "maxDataScopeType:";
 
     /// <summary>
     /// 验证码缓存
@@ -58,5 +58,5 @@ public class CacheConst
     /// <summary>
     /// swagger登录缓存
     /// </summary>
-    public const string SwaggerLogin = "swaggerlogin:";
+    public const string SwaggerLogin = "swaggerLogin:";
 }

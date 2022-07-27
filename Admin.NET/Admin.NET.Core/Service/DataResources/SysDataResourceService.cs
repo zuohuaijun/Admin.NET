@@ -42,8 +42,8 @@ public class SysDataResourceService : IDynamicApiController, ITransient
             }
         }
 
-        if (rootDataTree == null)        
-            return null;        
+        if (rootDataTree == null)
+            return null;
 
         var idList = rootDataTree.Id > 0 ? await GetChildIdListWithSelfById(rootDataTree.Id) : new List<long>();
         var iSugarQueryable = _sysDataResourceRep.AsQueryable()

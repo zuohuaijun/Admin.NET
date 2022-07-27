@@ -7,7 +7,6 @@ namespace Admin.NET.Core;
 /// </summary>
 public sealed class IpRateLimitingOptions : IpRateLimitOptions
 {
-
 }
 
 /// <summary>
@@ -15,7 +14,6 @@ public sealed class IpRateLimitingOptions : IpRateLimitOptions
 /// </summary>
 public sealed class IpRateLimitPoliciesOptions : IpRateLimitPolicies, IConfigurableOptions
 {
-
 }
 
 /// <summary>
@@ -23,7 +21,6 @@ public sealed class IpRateLimitPoliciesOptions : IpRateLimitPolicies, IConfigura
 /// </summary>
 public sealed class ClientRateLimitingOptions : ClientRateLimitOptions, IConfigurableOptions
 {
-
 }
 
 /// <summary>
@@ -31,5 +28,4 @@ public sealed class ClientRateLimitingOptions : ClientRateLimitOptions, IConfigu
 /// </summary>
 public sealed class ClientRateLimitPoliciesOptions : ClientRateLimitPolicies, IConfigurableOptions
 {
-
 }
