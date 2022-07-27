@@ -64,15 +64,16 @@ public class SysMenuService : IDynamicApiController, ITransient
         if (!string.IsNullOrWhiteSpace(input.Title) || input.Type > 0)
         {
             return await _sysMenuRep.AsQueryable()
-                .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title))
                 .WhereIF(input.Type > 0, u => u.Type == (MenuTypeEnum)input.Type)
                 .WhereIF(menuIdList.Count > 1, u => menuIdList.Contains(u.Id))
+                .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title))
                 .OrderBy(u => u.OrderNo).ToListAsync();
         }
 
         return await _sysMenuRep.AsQueryable()
             .WhereIF(menuIdList.Count > 1, u => menuIdList.Contains(u.Id))
-            .OrderBy(u => u.OrderNo).ToTreeAsync(u => u.Children, u => u.Pid, 0);
+            .OrderBy(u => u.OrderNo)
+            .ToTreeAsync(u => u.Children, u => u.Pid, 0);
     }
 
     /// <summary>
@@ -93,8 +94,7 @@ public class SysMenuService : IDynamicApiController, ITransient
         // 校验菜单参数
         CheckMenuParam(input.Adapt<MenuInput>());
 
-        var menu = input.Adapt<SysMenu>();
-        await _sysMenuRep.InsertAsync(menu);
+        await _sysMenuRep.InsertAsync(input.Adapt<SysMenu>());
 
         // 清除缓存
         DeleteMenuCache();
@@ -115,8 +115,7 @@ public class SysMenuService : IDynamicApiController, ITransient
         // 校验菜单参数
         CheckMenuParam(input.Adapt<MenuInput>());
 
-        var menu = input.Adapt<SysMenu>();
-        await _sysMenuRep.AsUpdateable(menu).IgnoreColumns(true).ExecuteCommandAsync();
+        await _sysMenuRep.AsUpdateable(input.Adapt<SysMenu>()).IgnoreColumns(true).ExecuteCommandAsync();
 
         // 清除缓存
         DeleteMenuCache();

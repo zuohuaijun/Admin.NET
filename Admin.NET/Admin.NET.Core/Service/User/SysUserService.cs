@@ -42,10 +42,10 @@ public class SysUserService : IDynamicApiController, ITransient
         var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) : null;
 
         return await _sysUserRep.AsQueryable()
+            .WhereIF(!_userManager.SuperAdmin, u => u.UserType != UserTypeEnum.SuperAdmin)
+            .WhereIF(input.OrgId > 0, u => orgList.Contains(u.OrgId))            
             .WhereIF(!string.IsNullOrWhiteSpace(input.UserName), u => u.UserName.Contains(input.UserName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
-            .WhereIF(input.OrgId > 0, u => orgList.Contains(u.OrgId))
-            .WhereIF(!_userManager.SuperAdmin, u => u.UserType != UserTypeEnum.SuperAdmin)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
@@ -80,8 +80,7 @@ public class SysUserService : IDynamicApiController, ITransient
         var isExist = await _sysUserRep.IsAnyAsync(u => u.UserName == input.UserName && u.Id != input.Id);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1003);
 
-        var user = input.Adapt<SysUser>();
-        await _sysUserRep.AsUpdateable(user).IgnoreColumns(true)
+        await _sysUserRep.AsUpdateable(input.Adapt<SysUser>()).IgnoreColumns(true)
             .IgnoreColumns(u => new { u.UserType }).ExecuteCommandAsync();
     }
 

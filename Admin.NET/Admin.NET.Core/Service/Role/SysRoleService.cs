@@ -40,9 +40,10 @@ public class SysRoleService : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<SysRole>> GetRolePage([FromQuery] PageRoleInput input)
     {
         return await _sysRoleRep.AsQueryable()
-            .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
             .WhereIF(input.Status > 0, u => u.Status == (StatusEnum)input.Status)
-            .OrderBy(u => u.Order).ToPagedListAsync(input.Page, input.PageSize);
+            .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
+            .OrderBy(u => u.Order)
+            .ToPagedListAsync(input.Page, input.PageSize);
     }
 
     /// <summary>
@@ -73,8 +74,7 @@ public class SysRoleService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        var role = input.Adapt<SysRole>();
-        await _sysRoleRep.InsertAsync(role);
+        await _sysRoleRep.InsertAsync(input.Adapt<SysRole>());
     }
 
     /// <summary>
@@ -93,8 +93,8 @@ public class SysRoleService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        var role = input.Adapt<SysRole>();
-        await _sysRoleRep.AsUpdateable(role).IgnoreColumns(true).IgnoreColumns(u => new { u.DataScope }).ExecuteCommandAsync();
+        await _sysRoleRep.AsUpdateable(input.Adapt<SysRole>()).IgnoreColumns(true)
+            .IgnoreColumns(u => new { u.DataScope }).ExecuteCommandAsync();
     }
 
     /// <summary>

@@ -42,8 +42,7 @@ public class SysPosService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D6000);
 
-        var pos = input.Adapt<SysPos>();
-        await _sysPosRep.InsertAsync(pos);
+        await _sysPosRep.InsertAsync(input.Adapt<SysPos>());
     }
 
     /// <summary>
@@ -58,8 +57,7 @@ public class SysPosService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D6000);
 
-        var pos = input.Adapt<SysPos>();
-        await _sysPosRep.AsUpdateable(pos).IgnoreColumns(true).ExecuteCommandAsync();
+        await _sysPosRep.AsUpdateable(input.Adapt<SysPos>()).IgnoreColumns(true).ExecuteCommandAsync();
     }
 
     /// <summary>

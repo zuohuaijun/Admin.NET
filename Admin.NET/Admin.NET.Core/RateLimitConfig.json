@@ -1,7 +1,7 @@
 {
   // IP限流配置
   "IpRateLimiting": {
-    // 例如设置了5次每分钟访问限流
+    // 例如:设置每分钟5次访问限流
     // 当False时：每个接口都加入计数，不管你访问哪个接口，只要在一分钟内累计够5次，将禁止访问。
     // 当True 时：当一分钟请求了5次GetData接口，则该接口将在时间段内禁止访问，但是还可以访问PostData()5次,总得来说是每个接口都有5次在这一分钟，互不干扰。
     "EnableEndpointRateLimiting": true,
@@ -12,7 +12,7 @@
     "RealIpHeader": "X-Real-IP",
     // 将ClientIdHeader被用于提取白名单的客户端ID。如果此标头中存在客户端ID并且与ClientWhitelist中指定的值匹配，则不应用速率限制。
     "ClientIdHeader": "X-ClientId",
-    // IP白名单:支持Ip v4和v6
+    // IP白名单:支持Ipv4和Ipv6
     "IpWhitelist": [],
     // 端点白名单
     "EndpointWhitelist": [],
@@ -31,25 +31,25 @@
       {
         "Endpoint": "*",
         "Period": "1s",
-        "Limit": 1
+        "Limit": 10
       },
       // 1分钟只能调用100次
       {
         "Endpoint": "*",
         "Period": "1m",
-        "Limit": 100
+        "Limit": 1000
       },
       // 1小时只能调用1000
       {
         "Endpoint": "*",
         "Period": "1h",
-        "Limit": 1000
+        "Limit": 10000
       },
       // 1天只能调用10000次
       {
         "Endpoint": "*",
         "Period": "1d",
-        "Limit": 10000
+        "Limit": 1000000
       }
     ]
   },
@@ -61,12 +61,12 @@
           {
             "Endpoint": "*",
             "Period": "1s",
-            "Limit": 1
+            "Limit": 10
           },
           {
             "Endpoint": "*",
             "Period": "1m",
-            "Limit": 100
+            "Limit": 1000
           }
         ]
       }
@@ -88,12 +88,12 @@
       {
         "Endpoint": "*",
         "Period": "1s",
-        "Limit": 1
+        "Limit": 10
       },
       {
         "Endpoint": "*",
         "Period": "1m",
-        "Limit": 100
+        "Limit": 1000
       }
     ]
   },
@@ -105,12 +105,12 @@
           {
             "Endpoint": "*",
             "Period": "1s",
-            "Limit": 1
+            "Limit": 10
           },
           {
             "Endpoint": "*",
             "Period": "1m",
-            "Limit": 100
+            "Limit": 1000
           }
         ]
       }

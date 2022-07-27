@@ -52,8 +52,7 @@ public class SysConfigService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D9000);
 
-        var config = input.Adapt<SysConfig>();
-        await _sysConfigRep.InsertAsync(config);
+        await _sysConfigRep.InsertAsync(input.Adapt<SysConfig>());
     }
 
     /// <summary>

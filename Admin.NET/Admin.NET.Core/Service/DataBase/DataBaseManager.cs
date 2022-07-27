@@ -78,6 +78,7 @@ public class DataBaseManager : IDynamicApiController, ITransient
         var provider = _db.AsTenant().GetConnectionScope(configId);
         if (string.IsNullOrWhiteSpace(tableName))
             return new List<DbColumnInfoOutput>();
+
         return provider.DbMaintenance.GetColumnInfosByTableName(tableName, false).Adapt<List<DbColumnInfoOutput>>();
     }
 

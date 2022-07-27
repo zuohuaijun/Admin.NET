@@ -88,8 +88,7 @@ public class CodeGenService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1400);
 
-        var codeGen = input.Adapt<SysCodeGen>();
-        await _db.Updateable(codeGen).ExecuteCommandAsync();
+        await _db.Updateable(input.Adapt<SysCodeGen>()).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -122,9 +121,9 @@ public class CodeGenService : IDynamicApiController, ITransient
     {
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(configId);
-        List<DbTableInfo> dbTableInfos = provider.DbMaintenance.GetTableInfoList(false); // 这里不能走缓存,否则切库不起作用
+        var dbTableInfos = provider.DbMaintenance.GetTableInfoList(false); // 这里不能走缓存,否则切库不起作用
 
-        List<string> dbTableNames = dbTableInfos.Select(x => x.Name).ToList();
+        var dbTableNames = dbTableInfos.Select(x => x.Name).ToList();
 
         IEnumerable<EntityInfo> entityInfos = await _commonService.GetEntityInfos();
         entityInfos = entityInfos.Where(x => dbTableNames.Contains(x.DbTableName));

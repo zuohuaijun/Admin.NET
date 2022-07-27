@@ -139,8 +139,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         if (!_userManager.SuperAdmin && (dataScopes.Count < 1 || !dataScopes.Contains(sysOrg.Id)))
             throw Oops.Oh(ErrorCodeEnum.D2003);
 
-        var org = input.Adapt<SysOrg>();
-        await _sysOrgRep.AsUpdateable(org).IgnoreColumns(true).ExecuteCommandAsync();
+        await _sysOrgRep.AsUpdateable(input.Adapt<SysOrg>()).IgnoreColumns(true).ExecuteCommandAsync();
     }
 
     /// <summary>

@@ -54,8 +54,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D3003);
 
-        var dictData = input.Adapt<SysDictData>();
-        await _sysDictDataRep.InsertAsync(dictData);
+        await _sysDictDataRep.InsertAsync(input.Adapt<SysDictData>());
     }
 
     /// <summary>
@@ -72,8 +71,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
         isExist = await _sysDictDataRep.IsAnyAsync(u => (u.Value == input.Value || u.Code == input.Code) && u.DictTypeId == input.DictTypeId && u.Id != input.Id);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D3003);
 
-        var dictData = input.Adapt<SysDictData>();
-        await _sysDictDataRep.UpdateAsync(dictData);
+        await _sysDictDataRep.UpdateAsync(input.Adapt<SysDictData>());
     }
 
     /// <summary>

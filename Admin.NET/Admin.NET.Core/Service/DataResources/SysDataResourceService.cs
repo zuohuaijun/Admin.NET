@@ -25,30 +25,31 @@ public class SysDataResourceService : IDynamicApiController, ITransient
         SysDataResource rootDataTree = null;
         if (rootValue)
         {
-            rootDataTree = await _sysDataResourceRep.AsQueryable().Where(u => u.Value == input.RootValue && u.Pid == 0)
-              .Where(u => u.Status == StatusEnum.Enable).FirstAsync();
+            rootDataTree = await _sysDataResourceRep.AsQueryable()
+                .Where(u => u.Status == StatusEnum.Enable)
+                .Where(u => u.Value == input.RootValue && u.Pid == 0)
+                .FirstAsync();
 
             var childName = !string.IsNullOrEmpty(input.ChildName?.Trim());
             //获取根节点下对应的子节点名称id
             if (childName && rootDataTree != null)
             {
                 rootDataTree = await _sysDataResourceRep.AsQueryable()
-               .Where(u => u.Code.Contains(rootDataTree.Code))
-               .Where(u => u.Name == input.ChildName)
-               .Where(u => u.Status == StatusEnum.Enable).FirstAsync();
+                    .Where(u => u.Status == StatusEnum.Enable)
+                    .Where(u => u.Code.Contains(rootDataTree.Code))
+                    .Where(u => u.Name == input.ChildName)
+                    .FirstAsync();
             }
         }
 
-        if (rootDataTree == null)
-        {
-            return null;
-        }
+        if (rootDataTree == null)        
+            return null;        
 
         var idList = rootDataTree.Id > 0 ? await GetChildIdListWithSelfById(rootDataTree.Id) : new List<long>();
-
-        var iSugarQueryable = _sysDataResourceRep.AsQueryable().OrderBy(u => u.Order)
+        var iSugarQueryable = _sysDataResourceRep.AsQueryable()
             .WhereIF(idList.Count > 0, u => idList.Contains(u.Id))
-            .Where(u => u.Status == StatusEnum.Enable); // 非超级管理员限制
+            .Where(u => u.Status == StatusEnum.Enable)
+            .OrderBy(u => u.Order); // 非超级管理员限制
         var tree = await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, rootDataTree.Id > 0 ? rootDataTree.Id : 0);
 
         //如果包含自己，则添加自己信息
@@ -56,9 +57,10 @@ public class SysDataResourceService : IDynamicApiController, ITransient
         {
             rootDataTree.Children = new List<SysDataResource>();
             rootDataTree.Children.AddRange(tree);
-            var list = new List<SysDataResource>();
-            list.Add(rootDataTree);
-            return list;
+            return new List<SysDataResource>
+            {
+                rootDataTree
+            };
         }
         return tree;
     }
@@ -71,7 +73,6 @@ public class SysDataResourceService : IDynamicApiController, ITransient
     public async Task<List<SysDataResource>> GetDataResourceList([FromQuery] DataResourceInput input)
     {
         var idList = input.Id > 0 ? await GetChildIdListWithSelfById(input.Id) : new List<long>();
-
         var iSugarQueryable = _sysDataResourceRep.AsQueryable().OrderBy(u => u.Order)
             .WhereIF(idList.Count > 0, u => idList.Contains(u.Id)); // 非超级管理员限制
 
@@ -155,8 +156,7 @@ public class SysDataResourceService : IDynamicApiController, ITransient
         if (childIdList.Contains(input.Pid))
             throw Oops.Oh(ErrorCodeEnum.D1601);
 
-        var dataResource = input.Adapt<SysDataResource>();
-        await _sysDataResourceRep.AsUpdateable(dataResource).IgnoreColumns(true).ExecuteCommandAsync();
+        await _sysDataResourceRep.AsUpdateable(input.Adapt<SysDataResource>()).IgnoreColumns(true).ExecuteCommandAsync();
     }
 
     /// <summary>

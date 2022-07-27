@@ -58,8 +58,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
     public async Task Update(List<CodeGenConfig> inputList)
     {
         if (inputList == null || inputList.Count < 1) return;
-        List<SysCodeGenConfig> list = inputList.Adapt<List<SysCodeGenConfig>>();
-        await _db.Updateable(list).ExecuteCommandAsync();
+        await _db.Updateable(inputList.Adapt<List<SysCodeGenConfig>>()).ExecuteCommandAsync();
     }
 
     /// <summary>

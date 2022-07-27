@@ -70,8 +70,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D3001);
 
-        var dictType = input.Adapt<SysDictType>();
-        await _sysDictTypeRep.InsertAsync(dictType);
+        await _sysDictTypeRep.InsertAsync(input.Adapt<SysDictType>());
     }
 
     /// <summary>
@@ -90,8 +89,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D3001);
 
-        var dictType = input.Adapt<SysDictType>();
-        await _sysDictTypeRep.UpdateAsync(dictType);
+        await _sysDictTypeRep.UpdateAsync(input.Adapt<SysDictType>());
     }
 
     /// <summary>
