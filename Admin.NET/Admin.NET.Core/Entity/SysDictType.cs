@@ -9,15 +9,15 @@ public class SysDictType : EntityBase
     /// <summary>
     /// 名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "名称", Length = 50)]
-    [Required, MaxLength(50)]
+    [SugarColumn(ColumnDescription = "名称", Length = 64)]
+    [Required, MaxLength(64)]
     public string Name { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
-    [SugarColumn(ColumnDescription = "编码", Length = 50)]
-    [Required, MaxLength(50)]
+    [SugarColumn(ColumnDescription = "编码", Length = 64)]
+    [Required, MaxLength(64)]
     public string Code { get; set; }
 
     /// <summary>
@@ -29,8 +29,8 @@ public class SysDictType : EntityBase
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 100)]
-    [MaxLength(100)]
+    [SugarColumn(ColumnDescription = "备注", Length = 256)]
+    [MaxLength(256)]
     public string Remark { get; set; }
 
     /// <summary>

@@ -12,8 +12,8 @@ public class Test : EntityBase
     /// <summary>
     /// 姓名
     /// </summary>
-    [SugarColumn(ColumnDescription = "姓名", Length = 20)]
-    [Required, MaxLength(20)]
+    [SugarColumn(ColumnDescription = "姓名", Length = 32)]
+    [Required, MaxLength(32)]
     public string Name { get; set; }
 
     /// <summary>

@@ -9,29 +9,29 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 账号
     /// </summary>
-    [SugarColumn(ColumnDescription = "账号名称", Length = 20)]
-    [Required, MaxLength(20)]
+    [SugarColumn(ColumnDescription = "账号名称", Length = 32)]
+    [Required, MaxLength(32)]
     public virtual string UserName { get; set; }
 
     /// <summary>
     /// 密码（默认MD5加密）
     /// </summary>
-    [SugarColumn(ColumnDescription = "账号密码", Length = 50)]
-    [Required, MaxLength(50)]
+    [SugarColumn(ColumnDescription = "账号密码", Length = 64)]
+    [Required, MaxLength(64)]
     public string Password { get; set; }
 
     /// <summary>
     /// 昵称
     /// </summary>
-    [SugarColumn(ColumnDescription = "昵称", Length = 20)]
-    [MaxLength(20)]
+    [SugarColumn(ColumnDescription = "昵称", Length = 32)]
+    [MaxLength(32)]
     public string NickName { get; set; }
 
     /// <summary>
     /// 头像
     /// </summary>
-    [SugarColumn(ColumnDescription = "头像", Length = 255)]
-    [MaxLength(255)]
+    [SugarColumn(ColumnDescription = "头像", Length = 256)]
+    [MaxLength(256)]
     public string Avatar { get; set; }
 
     /// <summary>
@@ -49,43 +49,43 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 邮箱
     /// </summary>
-    [SugarColumn(ColumnDescription = "邮箱", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "邮箱", Length = 64)]
+    [MaxLength(64)]
     public string Email { get; set; }
 
     /// <summary>
     /// 手机号码
     /// </summary>
-    [SugarColumn(ColumnDescription = "手机号码", Length = 20)]
-    [MaxLength(20)]
+    [SugarColumn(ColumnDescription = "手机号码", Length = 16)]
+    [MaxLength(16)]
     public string Phone { get; set; }
 
     /// <summary>
     /// 真实姓名
     /// </summary>
-    [SugarColumn(ColumnDescription = "真实姓名", Length = 20)]
-    [MaxLength(20)]
+    [SugarColumn(ColumnDescription = "真实姓名", Length = 32)]
+    [MaxLength(32)]
     public string RealName { get; set; }
 
     /// <summary>
     /// 身份证号
     /// </summary>
-    [SugarColumn(ColumnDescription = "身份证号", Length = 20)]
-    [MaxLength(20)]
+    [SugarColumn(ColumnDescription = "身份证号", Length = 32)]
+    [MaxLength(32)]
     public string IdCard { get; set; }
 
     /// <summary>
     /// 个性签名
     /// </summary>
-    [SugarColumn(ColumnDescription = "个性签名", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "个性签名", Length = 64)]
+    [MaxLength(64)]
     public string Signature { get; set; }
 
     /// <summary>
     /// 个人简介
     /// </summary>
-    [SugarColumn(ColumnDescription = "个人简介", Length = 500)]
-    [MaxLength(500)]
+    [SugarColumn(ColumnDescription = "个人简介", Length = 512)]
+    [MaxLength(512)]
     public string Introduction { get; set; }
 
     /// <summary>
@@ -97,8 +97,8 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 100)]
-    [MaxLength(100)]
+    [SugarColumn(ColumnDescription = "备注", Length = 128)]
+    [MaxLength(128)]
     public string Remark { get; set; }
 
     /// <summary>
@@ -136,8 +136,8 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 工号
     /// </summary>
-    [SugarColumn(ColumnDescription = "工号", Length = 30)]
-    [MaxLength(30)]
+    [SugarColumn(ColumnDescription = "工号", Length = 32)]
+    [MaxLength(32)]
     public string JobNum { get; set; }
 
     /// <summary>

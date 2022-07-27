@@ -9,22 +9,22 @@ public class SysConfig : EntityBase
     /// <summary>
     /// 名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "名称", Length = 50)]
-    [Required, MaxLength(50)]
+    [SugarColumn(ColumnDescription = "名称", Length = 64)]
+    [Required, MaxLength(64)]
     public string Name { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
-    [SugarColumn(ColumnDescription = "编码", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "编码", Length = 64)]
+    [MaxLength(64)]
     public string Code { get; set; }
 
     /// <summary>
     /// 属性值
     /// </summary>
-    [SugarColumn(ColumnDescription = "属性值", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "属性值", Length = 64)]
+    [MaxLength(64)]
     public string Value { get; set; }
 
     /// <summary>
@@ -36,8 +36,8 @@ public class SysConfig : EntityBase
     /// <summary>
     /// 常量所属分类的编码
     /// </summary>
-    [SugarColumn(ColumnDescription = "常量所属分类的编码", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "常量所属分类的编码", Length = 64)]
+    [MaxLength(64)]
     public string GroupCode { get; set; }
 
     /// <summary>
@@ -49,7 +49,7 @@ public class SysConfig : EntityBase
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 100)]
-    [MaxLength(100)]
+    [SugarColumn(ColumnDescription = "备注", Length = 256)]
+    [MaxLength(256)]
     public string Remark { get; set; }
 }

@@ -15,15 +15,15 @@ public class SysDictData : EntityBase
     /// <summary>
     /// 值
     /// </summary>
-    [SugarColumn(ColumnDescription = "值", Length = 100)]
-    [Required, MaxLength(100)]
+    [SugarColumn(ColumnDescription = "值", Length = 128)]
+    [Required, MaxLength(128)]
     public string Value { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
-    [SugarColumn(ColumnDescription = "编码", Length = 50)]
-    [Required, MaxLength(50)]
+    [SugarColumn(ColumnDescription = "编码", Length = 64)]
+    [Required, MaxLength(64)]
     public string Code { get; set; }
 
     /// <summary>
@@ -35,8 +35,8 @@ public class SysDictData : EntityBase
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 100)]
-    [MaxLength(100)]
+    [SugarColumn(ColumnDescription = "备注", Length = 128)]
+    [MaxLength(128)]
     public string Remark { get; set; }
 
     /// <summary>

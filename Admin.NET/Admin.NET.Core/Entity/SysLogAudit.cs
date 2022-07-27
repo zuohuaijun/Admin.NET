@@ -9,27 +9,27 @@ public class SysLogAudit : EntityBase
     /// <summary>
     /// 表名
     /// </summary>
-    [SugarColumn(ColumnDescription = "表名", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "表名", Length = 64)]
+    [MaxLength(64)]
     public string TableName { get; set; }
 
     /// <summary>
     /// 列名
     /// </summary>
-    [SugarColumn(ColumnDescription = "列名", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "列名", Length = 64)]
+    [MaxLength(64)]
     public string ColumnName { get; set; }
 
     /// <summary>
     /// 新值
     /// </summary>
-    [SugarColumn(ColumnDescription = "新值")]
+    [SugarColumn(ColumnDescription = "新值", ColumnDataType = "longtext,text,clob")]
     public string NewValue { get; set; }
 
     /// <summary>
     /// 旧值
     /// </summary>
-    [SugarColumn(ColumnDescription = "旧值")]
+    [SugarColumn(ColumnDescription = "旧值", ColumnDataType = "longtext,text,clob")]
     public string OldValue { get; set; }
 
     /// <summary>
@@ -47,14 +47,14 @@ public class SysLogAudit : EntityBase
     /// <summary>
     /// 账号名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "账号名称", Length = 20)]
-    [MaxLength(20)]
+    [SugarColumn(ColumnDescription = "账号名称", Length = 32)]
+    [MaxLength(32)]
     public string UserName { get; set; }
 
     /// <summary>
     /// 真实姓名
     /// </summary>
-    [SugarColumn(ColumnDescription = "真实姓名", Length = 20)]
-    [MaxLength(20)]
+    [SugarColumn(ColumnDescription = "真实姓名", Length = 32)]
+    [MaxLength(32)]
     public string RealName { get; set; }
 }

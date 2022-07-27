@@ -9,8 +9,8 @@ public class SysTimer : EntityBase
     /// <summary>
     /// 任务名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "任务名称", Length = 20)]
-    [Required, MaxLength(20)]
+    [SugarColumn(ColumnDescription = "任务名称", Length = 64)]
+    [Required, MaxLength(64)]
     public virtual string TimerName { get; set; }
 
     /// <summary>
@@ -41,8 +41,8 @@ public class SysTimer : EntityBase
     /// <summary>
     /// Cron表达式
     /// </summary>
-    [SugarColumn(ColumnDescription = "Cron表达式", Length = 20)]
-    [MaxLength(20)]
+    [SugarColumn(ColumnDescription = "Cron表达式", Length = 32)]
+    [MaxLength(32)]
     public string Cron { get; set; }
 
     /// <summary>
@@ -54,8 +54,8 @@ public class SysTimer : EntityBase
     /// <summary>
     /// 请求url
     /// </summary>
-    [SugarColumn(ColumnDescription = "请求url", Length = 200)]
-    [MaxLength(200)]
+    [SugarColumn(ColumnDescription = "请求url", Length = 256)]
+    [MaxLength(256)]
     public string RequestUrl { get; set; }
 
     /// <summary>
@@ -79,7 +79,7 @@ public class SysTimer : EntityBase
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 100)]
-    [MaxLength(100)]
+    [SugarColumn(ColumnDescription = "备注", Length = 128)]
+    [MaxLength(128)]
     public string Remark { get; set; }
 }

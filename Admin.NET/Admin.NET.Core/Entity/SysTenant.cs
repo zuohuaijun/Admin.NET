@@ -9,56 +9,56 @@ public class SysTenant : EntityBase
     /// <summary>
     /// 公司名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "公司名称", Length = 30)]
-    [Required, MaxLength(30)]
+    [SugarColumn(ColumnDescription = "公司名称", Length = 64)]
+    [Required, MaxLength(64)]
     public string Name { get; set; }
 
     /// <summary>
     /// 管理员名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "管理员名称", Length = 20)]
-    [Required, MaxLength(20)]
+    [SugarColumn(ColumnDescription = "管理员名称", Length = 32)]
+    [Required, MaxLength(32)]
     public string AdminName { get; set; }
 
     /// <summary>
     /// 主机
     /// </summary>
-    [SugarColumn(ColumnDescription = "主机", Length = 100)]
-    [MaxLength(100)]
+    [SugarColumn(ColumnDescription = "主机", Length = 128)]
+    [MaxLength(128)]
     public string Host { get; set; }
 
     /// <summary>
     /// 电子邮箱
     /// </summary>
-    [SugarColumn(ColumnDescription = "电子邮箱", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "电子邮箱", Length = 64)]
+    [MaxLength(64)]
     public string Email { get; set; }
 
     /// <summary>
     /// 电话
     /// </summary>
-    [SugarColumn(ColumnDescription = "电话", Length = 20)]
-    [MaxLength(20)]
+    [SugarColumn(ColumnDescription = "电话", Length = 16)]
+    [MaxLength(16)]
     public string Phone { get; set; }
 
     /// <summary>
     /// 数据库连接
     /// </summary>
-    [SugarColumn(ColumnDescription = "数据库连接", Length = 200)]
-    [MaxLength(200)]
+    [SugarColumn(ColumnDescription = "数据库连接", Length = 256)]
+    [MaxLength(256)]
     public string Connection { get; set; }
 
     /// <summary>
     /// 架构
     /// </summary>
-    [SugarColumn(ColumnDescription = "架构", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "架构", Length = 64)]
+    [MaxLength(64)]
     public string Schema { get; set; }
 
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 100)]
-    [MaxLength(100)]
+    [SugarColumn(ColumnDescription = "备注", Length = 128)]
+    [MaxLength(128)]
     public string Remark { get; set; }
 }

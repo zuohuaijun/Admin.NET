@@ -337,7 +337,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysCodeGenConfig.CodeGenId">
             <summary>
-            代码生成主表ID
+            代码生成主表Id
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysCodeGenConfig.ColumnName">
@@ -382,7 +382,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysCodeGenConfig.DictTypeCode">
             <summary>
-            字典code
+            字典编码
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysCodeGenConfig.WhetherRetract">
@@ -1613,7 +1613,7 @@
         </member>
         <member name="P:Admin.NET.Core.WechatUser.ExpiresIn">
             <summary>
-            ExpiresIn
+            过期时间
             </summary>
         </member>
         <member name="T:Admin.NET.Core.CacheTypeEnum">

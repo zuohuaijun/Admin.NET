@@ -9,13 +9,15 @@ public class SysLogOp : EntityBase
     /// <summary>
     /// 日志名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "日志名称", Length = 200)]
+    [SugarColumn(ColumnDescription = "日志名称", Length = 256)]
+    [MaxLength(256)]
     public string LogName { get; set; }
 
     /// <summary>
     /// 日志级别
     /// </summary>
-    [SugarColumn(ColumnDescription = "日志级别", Length = 20)]
+    [SugarColumn(ColumnDescription = "日志级别", Length = 16)]
+    [MaxLength(16)]
     public string LogLevel { get; set; }
 
     /// <summary>

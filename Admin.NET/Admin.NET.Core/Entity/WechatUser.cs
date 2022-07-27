@@ -27,43 +27,43 @@ public class WechatUser : EntityBase
     /// <summary>
     /// OpenId
     /// </summary>
-    [SugarColumn(ColumnDescription = "OpenId")]
-    [Required, MaxLength(50)]
+    [SugarColumn(ColumnDescription = "OpenId", Length = 64)]
+    [Required, MaxLength(64)]
     public string OpenId { get; set; }
 
     /// <summary>
     /// 缓存key
     /// </summary>
-    [SugarColumn(ColumnDescription = "缓存key")]
-    [MaxLength(255)]
+    [SugarColumn(ColumnDescription = "缓存key", Length = 256)]
+    [MaxLength(256)]
     public string SessionKey { get; set; }
 
     /// <summary>
     /// UnionId
     /// </summary>
-    [SugarColumn(ColumnDescription = "UnionId")]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "UnionId", Length = 64)]
+    [MaxLength(64)]
     public string UnionId { get; set; }
 
     /// <summary>
     /// 昵称
     /// </summary>
-    [SugarColumn(ColumnDescription = "昵称")]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "昵称", Length = 64)]
+    [MaxLength(64)]
     public string NickName { get; set; }
 
     /// <summary>
     /// 头像
     /// </summary>
-    [SugarColumn(ColumnDescription = "头像")]
-    [MaxLength(255)]
+    [SugarColumn(ColumnDescription = "头像", Length = 256)]
+    [MaxLength(256)]
     public string Avatar { get; set; }
 
     /// <summary>
     /// 手机号码
     /// </summary>
-    [SugarColumn(ColumnDescription = "手机号码")]
-    [MaxLength(20)]
+    [SugarColumn(ColumnDescription = "手机号码", Length = 16)]
+    [MaxLength(16)]
     public string Mobile { get; set; }
 
     /// <summary>
@@ -75,45 +75,45 @@ public class WechatUser : EntityBase
     /// <summary>
     /// 语言
     /// </summary>
-    [SugarColumn(ColumnDescription = "语言")]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "语言", Length = 64)]
+    [MaxLength(64)]
     public string Language { get; set; }
 
     /// <summary>
     /// 城市
     /// </summary>
-    [SugarColumn(ColumnDescription = "城市")]
-    [MaxLength(80)]
+    [SugarColumn(ColumnDescription = "城市", Length = 64)]
+    [MaxLength(64)]
     public string City { get; set; }
 
     /// <summary>
     /// 省
     /// </summary>
-    [SugarColumn(ColumnDescription = "省")]
-    [MaxLength(80)]
+    [SugarColumn(ColumnDescription = "省", Length = 64)]
+    [MaxLength(64)]
     public string Province { get; set; }
 
     /// <summary>
     /// 国家
     /// </summary>
-    [SugarColumn(ColumnDescription = "国家")]
-    [MaxLength(80)]
+    [SugarColumn(ColumnDescription = "国家", Length = 64)]
+    [MaxLength(64)]
     public string Country { get; set; }
 
     /// <summary>
     /// AccessToken
     /// </summary>
-    [SugarColumn(ColumnDescription = "AccessToken")]
+    [SugarColumn(ColumnDescription = "AccessToken", ColumnDataType = "longtext,text,clob")]
     public string AccessToken { get; set; }
 
     /// <summary>
     /// RefreshToken
     /// </summary>
-    [SugarColumn(ColumnDescription = "RefreshToken")]
+    [SugarColumn(ColumnDescription = "RefreshToken", ColumnDataType = "longtext,text,clob")]
     public string RefreshToken { get; set; }
 
     /// <summary>
-    /// ExpiresIn
+    /// 过期时间
     /// </summary>
     [SugarColumn(ColumnDescription = "ExpiresIn")]
     public int ExpiresIn { get; set; }

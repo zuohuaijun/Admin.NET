@@ -9,15 +9,15 @@ public class SysPos : EntityTenant
     /// <summary>
     /// 名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "名称", Length = 20)]
-    [Required, MaxLength(20)]
+    [SugarColumn(ColumnDescription = "名称", Length = 64)]
+    [Required, MaxLength(64)]
     public string Name { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
-    [SugarColumn(ColumnDescription = "编码", Length = 50)]
-    [MaxLength(50)]
+    [SugarColumn(ColumnDescription = "编码", Length = 64)]
+    [MaxLength(64)]
     public string Code { get; set; }
 
     /// <summary>
@@ -29,8 +29,8 @@ public class SysPos : EntityTenant
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 100)]
-    [MaxLength(100)]
+    [SugarColumn(ColumnDescription = "备注", Length = 128)]
+    [MaxLength(128)]
     public string Remark { get; set; }
 
     /// <summary>
