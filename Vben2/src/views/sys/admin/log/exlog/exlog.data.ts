@@ -3,44 +3,29 @@ import { FormSchema } from '/@/components/Table';
 
 export const columns: BasicColumn[] = [
   {
-    title: '账号名称',
-    dataIndex: 'userName',
+    title: '日志名称',
+    dataIndex: 'logName',
     width: 100,
     align: 'left',
   },
   {
-    title: '类名',
-    dataIndex: 'className',
+    title: '日志级别',
+    dataIndex: 'logLevel',
     width: 200,
   },
   {
-    title: '方法名',
-    dataIndex: 'methodName',
+    title: '事件Id',
+    dataIndex: 'eventId',
     width: 200,
   },
   {
-    title: '异常名称',
-    dataIndex: 'exceptionName',
+    title: '日志消息',
+    dataIndex: 'message',
     width: 200,
   },
   {
-    title: '异常信息',
-    dataIndex: 'exceptionMsg',
-    width: 200,
-  },
-  {
-    title: '异常源',
-    dataIndex: 'exceptionSource',
-    width: 200,
-  },
-  {
-    title: '堆栈信息',
-    dataIndex: 'stackTrace',
-    width: 200,
-  },
-  {
-    title: '参数对象',
-    dataIndex: 'paramsObj',
+    title: '异常对象',
+    dataIndex: 'exception',
     width: 200,
   },
   {
@@ -62,5 +47,20 @@ export const searchFormSchema: FormSchema[] = [
     label: '结束时间',
     component: 'DatePicker',
     colProps: { span: 8 },
+  },
+];
+
+export const formSchema: FormSchema[] = [
+  {
+    label: '',
+    field: 'message',
+    component: 'InputTextArea',
+    // dynamicDisabled: true,
+    colProps: { span: 24 },
+    componentProps: {
+      placeholder: '',
+      rows: 200,
+      allowClear: false,
+    },
   },
 ];

@@ -73,6 +73,7 @@ export const formSchema: FormSchema[] = [
     componentProps: {
       placeholder: '',
       rows: 200,
+      allowClear: false,
     },
   },
 ];

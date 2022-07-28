@@ -43,14 +43,14 @@ public static class SqlSugarSetup
                         Console.ForegroundColor = ConsoleColor.White;
                     if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase))
                         Console.ForegroundColor = ConsoleColor.Blue;
-                    Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(DbType.MySql, sql, pars) + "\r\n");
+                    Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
                     App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
                 };
                 dbProvider.Aop.OnError = (ex) =>
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
-                    Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(DbType.MySql, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
+                    Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
                     App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
                 };
 
@@ -107,7 +107,7 @@ public static class SqlSugarSetup
                         BusinessData = JsonConvert.SerializeObject(u.BusinessData),
                         // 枚举（insert、update、delete）
                         DiffType = u.DiffType.ToString(),
-                        Sql = UtilMethods.GetSqlString(DbType.MySql, u.Sql, u.Parameters),
+                        Sql = UtilMethods.GetSqlString(config.DbType, u.Sql, u.Parameters),
                         Parameters = JsonConvert.SerializeObject(u.Parameters),
                         Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
                     };
