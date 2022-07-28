@@ -1,6 +1,7 @@
 ﻿using Admin.NET.Application.Const;
 using Furion.DatabaseAccessor;
 using Furion.Localization;
+using Furion.Logging.Extensions;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Admin.NET.Application.Serice;
@@ -48,6 +49,7 @@ public class TestService : IDynamicApiController, ITransient
     /// <returns></returns>
     public string TestCulture()
     {
+        "ddd".LogWarning();
         //L.SetCulture("zh-CN");
         //var a = L.GetSelectCulture();
         //var a1 = L.Text["API Interfaces"];

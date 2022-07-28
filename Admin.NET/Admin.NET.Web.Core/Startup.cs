@@ -84,24 +84,46 @@ public class Startup : AppStartup
         // 日志记录
         services.AddLogging(builder =>
         {
-            // 错误级别日志归类
-            builder.AddFile("logs/error.log", options =>
+            // 每天创建一个日志文件（消息日志、错误日志、警告日志）
+            builder.AddFile("logs/{0:yyyyMMdd}_inf.log", options =>
+            {
+                options.WriteFilter = (logMsg) =>
+                {
+                    return logMsg.LogLevel == LogLevel.Information;
+                };
+                options.FileNameRule = fileName =>
+                {
+                    return string.Format(fileName, DateTime.Now);
+                };
+            });
+            builder.AddFile("logs/{0:yyyyMMdd}_err.log", options =>
             {
                 options.WriteFilter = (logMsg) =>
                 {
                     return logMsg.LogLevel == LogLevel.Error;
                 };
-            });
-            // 每天创建一个日志文件
-            builder.AddFile("logs/{0:yyyyMMdd}.log", options =>
-            {
                 options.FileNameRule = fileName =>
                 {
-                    return string.Format(fileName, DateTime.UtcNow);
+                    return string.Format(fileName, DateTime.Now);
                 };
             });
+            builder.AddFile("logs/{0:yyyyMMdd}_wrn.log", options =>
+            {
+                options.WriteFilter = (logMsg) =>
+                {
+                    return logMsg.LogLevel == LogLevel.Warning;
+                };
+                options.FileNameRule = fileName =>
+                {
+                    return string.Format(fileName, DateTime.Now);
+                };
+            });
+
             // 日志写入数据库
-            builder.AddDatabase<DbLoggingWriter>();
+            builder.AddDatabase<DbLoggingWriter>(options =>
+            {
+                options.MinimumLevel = LogLevel.Information;
+            });
         });
 
         // 设置雪花Id算法机器码
