@@ -68,6 +68,8 @@ if(@column.EffectType == "Upload"){
       const { hasPermission } = usePermission();
       const { createMessage } = useMessage();
       const [registerModal, { openModal }] = useModal();
+	  
+      const hasPage = hasPermission('@(@Model.ClassName):page');
       const [registerTable, { reload }] = useTable({
         title: '@(@Model.BusName)列表',
         api: get@(@Model.ClassName)PageList,
@@ -79,8 +81,9 @@ if(@column.EffectType == "Upload"){
           schemas: searchFormSchema,
           autoSubmitOnEnter: true,
         },
-        useSearchForm: true,
-        showTableSetting: true,
+        useSearchForm: hasPage,
+        immediate: hasPage,
+        showTableSetting: hasPage,
         bordered: true,
         canResize: true,
         actionColumn: {
