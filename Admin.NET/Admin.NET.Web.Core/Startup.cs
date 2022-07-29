@@ -95,6 +95,8 @@ public class Startup : AppStartup
                 {
                     return string.Format(fileName, DateTime.Now);
                 };
+                options.FileSizeLimitBytes = 10 * 1024;
+                options.MaxRollingFiles = 30;
             });
             builder.AddFile("logs/{0:yyyyMMdd}_err.log", options =>
             {
@@ -106,6 +108,8 @@ public class Startup : AppStartup
                 {
                     return string.Format(fileName, DateTime.Now);
                 };
+                options.FileSizeLimitBytes = 10 * 1024;
+                options.MaxRollingFiles = 30;
             });
             builder.AddFile("logs/{0:yyyyMMdd}_wrn.log", options =>
             {
@@ -117,6 +121,8 @@ public class Startup : AppStartup
                 {
                     return string.Format(fileName, DateTime.Now);
                 };
+                options.FileSizeLimitBytes = 10 * 1024;
+                options.MaxRollingFiles = 30;
             });
 
             // 日志写入数据库
