@@ -21,6 +21,14 @@ public class TestService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 测试
+    /// </summary>
+    public string GetName()
+    {
+        return "Furion";
+    }
+
+    /// <summary>
     /// 获取列表
     /// </summary>
     /// <returns></returns>

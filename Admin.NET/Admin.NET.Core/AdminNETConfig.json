@@ -49,9 +49,6 @@
   "RefreshToken": {
     "ExpiredTime": 20160 // 过期时间单位分钟（一般 refresh_token 的有效时间 > 2 * access_token 的有效时间）
   },
-  "CorsAccessorSettings": {
-    "WithExposedHeaders": [ "access-token", "x-access-token", "Content-Disposition" ]
-  },
   "Cache": {
     "CacheType": "MemoryCache", // RedisCache
     "RedisConnectionString": "127.0.0.1:6379,password=,defaultDatabase=2",
@@ -81,8 +78,8 @@
     "SenderName": "系统邮件", // 发送者名称
     "SenderEmail": "zuohuaijun@163.com", // 发件者邮箱
     "ToEmail": "515096995@qq.com", // 接收人邮箱
-    "Account": "zuohuaijun@163.com", // 发件邮箱账号
-    "Password": "XXXXXXXXXXXXXXXXX", // 发件邮箱密码
+    "Account": "", // 发件邮箱账号
+    "Password": "", // 发件邮箱密码
     "Security": true // 启用SSL和TLS
   }
 }
