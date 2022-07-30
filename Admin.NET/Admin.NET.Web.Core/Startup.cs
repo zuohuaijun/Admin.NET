@@ -1,6 +1,7 @@
 ﻿using Admin.NET.Core;
 using AspNetCoreRateLimit;
 using Furion;
+using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -172,7 +173,14 @@ public class Startup : AppStartup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        app.UseInject();
+        // 配置Swagger-Knife4UI
+        app.UseKnife4UI(c =>
+        {
+            c.RoutePrefix = "";
+            c.SwaggerEndpoint($"/swagger/All Groups/swagger.json", "接口文档");
+        });
+
+        app.UseInject(string.Empty);
 
         app.UseEndpoints(endpoints =>
         {
