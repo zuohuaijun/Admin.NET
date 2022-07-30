@@ -74,6 +74,8 @@ public class AuthService : IDynamicApiController, ITransient
 
         // 设置Swagger自动登录
         _httpContextAccessor.HttpContext.SigninToSwagger(accessToken);
+        // Knife4UI-AfterScript登录脚本
+        // ke.global.setAllHeader('Authorization', 'Bearer ' + ke.response.data.result.token);
 
         // 生成刷新Token令牌
         var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);

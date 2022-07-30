@@ -2811,6 +2811,18 @@
             <param name="context"></param>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.JobTimer">
+            <summary>
+            任务调度
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.JobTimer.DeleteLogJob(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            日志删除定时器
+            </summary>
+            <param name="timer"></param>
+            <param name="count"></param>
+        </member>
         <member name="T:Admin.NET.Core.DbLoggingWriter">
             <summary>
             数据库日志写入器
