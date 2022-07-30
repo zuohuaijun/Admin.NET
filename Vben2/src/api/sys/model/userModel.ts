@@ -39,4 +39,6 @@ export interface GetUserInfoModel {
   orgId: string | number;
   //机构名称
   orgName: string;
+  //机构级别
+  orgLevel: string;
 }
