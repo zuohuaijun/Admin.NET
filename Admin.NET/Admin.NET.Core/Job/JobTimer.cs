@@ -11,7 +11,7 @@ public class JobTimer : ISpareTimeWorker
     /// <param name="timer"></param>
     /// <param name="count"></param>
     [SpareTime("@midnight", "日志删除定时器", Description = "每天午夜运行一次", DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
-    public void DeleteLogJob(SpareTimer timer, long count)
+    public void ClearLogJob(SpareTimer timer, long count)
     {
         Scoped.Create(async (_, scope) =>
         {

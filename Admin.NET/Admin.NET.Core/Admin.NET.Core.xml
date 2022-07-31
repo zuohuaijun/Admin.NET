@@ -2816,7 +2816,7 @@
             任务调度
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.JobTimer.DeleteLogJob(Furion.TaskScheduler.SpareTimer,System.Int64)">
+        <member name="M:Admin.NET.Core.JobTimer.ClearLogJob(Furion.TaskScheduler.SpareTimer,System.Int64)">
             <summary>
             日志删除定时器
             </summary>
