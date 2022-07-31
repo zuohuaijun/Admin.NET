@@ -39,6 +39,7 @@ export interface UserInfo {
   homePath?: string;
   orgId: string | number;
   orgName: string;
+  orgLevel: string;
   roles: RoleInfo[];
 }
 
