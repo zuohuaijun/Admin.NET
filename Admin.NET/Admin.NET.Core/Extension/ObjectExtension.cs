@@ -1,7 +1,7 @@
 namespace Admin.NET.Core;
 
 /// <summary>
-/// 对象拓展类
+/// 对象拓展
 /// </summary>
 [SuppressSniffer]
 public static class ObjectExtension

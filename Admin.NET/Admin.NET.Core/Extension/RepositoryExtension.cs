@@ -1,5 +1,8 @@
 namespace Admin.NET.Core;
 
+/// <summary>
+/// 仓储拓展
+/// </summary>
 public static class RepositoryExtension
 {
     /// <summary>

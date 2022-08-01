@@ -9,7 +9,7 @@ public interface IChatClient
     /// 强制下线
     /// </summary>
     /// <returns></returns>
-    Task ForceExist();
+    Task ForceExist(string str);
 
     /// <summary>
     /// 发送信息
@@ -17,4 +17,11 @@ public interface IChatClient
     /// <param name="context"></param>
     /// <returns></returns>
     Task ReceiveMessage(object context);
+
+    /// <summary>
+    /// 组合信息
+    /// </summary>
+    /// <param name="notice"></param>
+    /// <returns></returns>
+    Task AppendNotice(SysNotice notice);
 }

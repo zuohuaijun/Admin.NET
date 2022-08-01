@@ -69,6 +69,7 @@
     "ExpiredTime": 20160 // 过期时间单位分钟（一般 refresh_token 的有效时间 > 2 * access_token 的有效时间）
   },
   "CorsAccessorSettings": {
+    "WithExposedHeaders": [ "Content-Disposition" ], // 如果前端不代理且是axios请求
     "SignalRSupport": true // 启用 SignalR 跨域支持
   },
   "Cache": {
