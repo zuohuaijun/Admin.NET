@@ -68,6 +68,9 @@
   "RefreshToken": {
     "ExpiredTime": 20160 // 过期时间单位分钟（一般 refresh_token 的有效时间 > 2 * access_token 的有效时间）
   },
+  "CorsAccessorSettings": {
+    "SignalRSupport": true // 启用 SignalR 跨域支持
+  },
   "Cache": {
     "CacheType": "MemoryCache", // RedisCache
     "RedisConnectionString": "127.0.0.1:6379,password=,defaultDatabase=2",
