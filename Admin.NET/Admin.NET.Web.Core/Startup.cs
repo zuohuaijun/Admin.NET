@@ -174,17 +174,17 @@ public class Startup : AppStartup
         app.UseAuthentication();
         app.UseAuthorization();
 
-        // 配置Swagger-Knife4UI（路由前缀一致代表独立版本配置）
+        // 配置Swagger-Knife4UI（路由前缀一致代表独立，不同则代表共存）
         app.UseKnife4UI(options =>
         {
-            options.RoutePrefix = string.Empty;
+            options.RoutePrefix = "kapi";
             foreach (var groupInfo in SpecificationDocumentBuilder.GetOpenApiGroups())
             {
                 options.SwaggerEndpoint("/" + groupInfo.RouteTemplate, groupInfo.Title);
             }
         });
 
-        app.UseInject(string.Empty);
+        app.UseInject();
 
         app.UseEndpoints(endpoints =>
         {
