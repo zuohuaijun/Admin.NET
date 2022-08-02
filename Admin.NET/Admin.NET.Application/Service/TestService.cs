@@ -3,6 +3,10 @@ using Furion.DatabaseAccessor;
 using Furion.Localization;
 using Furion.Logging.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+using QuestPDF.Infrastructure;
+using System.IO;
 
 namespace Admin.NET.Application.Serice;
 
@@ -154,5 +158,57 @@ public class TestService : IDynamicApiController, ITransient
     public string GetDescription()
     {
         return "Furion";
+    }
+
+    /// <summary>
+    /// 生成PDF文件
+    /// </summary>
+    [NonUnify]
+    public dynamic CreatePDF()
+    {
+        var logoPath = App.WebHostEnvironment.WebRootPath + @"\images\logo.png";
+        byte[] imageByte = null;
+        using (var fs = new FileStream(logoPath, FileMode.Open, FileAccess.Read))
+        {
+            using var br = new BinaryReader(fs);
+            imageByte = br.ReadBytes((int)fs.Length);
+        }
+        var title = "基于Furion/.NET6实现的通用管理平台。整合最新技术，模块插件式开发，前后端分离，开箱即用。集成SqlSugar、多租户、缓存、数据校验、鉴权、事件总线、动态API、通讯、远程请求、任务调度、gRPC等众多黑科技。代码简洁、易扩展，让开发更简单、更通用、更流行！";
+
+        var filePath = App.HostEnvironment.ContentRootPath + $"{DateTimeOffset.Now:yyyyMMddHHmmssfff}.PDF";
+        Document.Create(container =>
+        {
+            container.Page(page =>
+            {
+                page.Size(PageSizes.A4);
+                page.Margin(2, Unit.Centimetre);
+                page.PageColor(Colors.White);
+                page.DefaultTextStyle(x => x.FontSize(18));
+
+                page.Header()
+                    .AlignCenter().Text("Admin.NET")
+                    .SemiBold().FontSize(24).FontColor(Colors.Red.Medium);
+
+                page.Content()
+                    .PaddingVertical(1, Unit.Centimetre)
+                    .Column(x =>
+                    {
+                        x.Spacing(30);
+
+                        x.Item().Text(title).FontFamily("simhei");
+                        x.Item().AlignCenter().Height(100).Width(100).Image(imageByte, ImageScaling.Resize);
+                    });
+
+                page.Footer()
+                    .AlignCenter()
+                    .Text(x =>
+                    {
+                        x.Span("Page ");
+                        x.CurrentPageNumber();
+                    });
+            });
+        }).GeneratePdf(filePath);
+
+        return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = "xxx.PDF" };
     }
 }
