@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
+using QuestPDF.Previewer;
 using System.IO;
 
 namespace Admin.NET.Application.Serice;
@@ -162,9 +163,10 @@ public class TestService : IDynamicApiController, ITransient
 
     /// <summary>
     /// 生成PDF文件
+    /// 预览工具：dotnet tool install questpdf.previewer --global
     /// </summary>
     [NonUnify]
-    public dynamic CreatePDF()
+    public void CreatePDF()
     {
         var logoPath = App.WebHostEnvironment.WebRootPath + @"\images\logo.png";
         byte[] imageByte = null;
@@ -186,7 +188,7 @@ public class TestService : IDynamicApiController, ITransient
                 page.DefaultTextStyle(x => x.FontSize(18));
 
                 page.Header()
-                    .AlignCenter().Text("Admin.NET")
+                    .AlignCenter().Text("Admin.NET3333")
                     .SemiBold().FontSize(24).FontColor(Colors.Red.Medium);
 
                 page.Content()
@@ -207,8 +209,8 @@ public class TestService : IDynamicApiController, ITransient
                         x.CurrentPageNumber();
                     });
             });
-        }).GeneratePdf(filePath);
+        }).ShowInPreviewer();//.GeneratePdf(filePath);
 
-        return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = "xxx.PDF" };
+        //return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = "xxx.PDF" };
     }
 }

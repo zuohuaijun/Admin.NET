@@ -3622,7 +3622,7 @@
             <param name="cacheKey"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.Exists(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.ExistsAsync(System.String)">
             <summary>
             检查给定 key 是否存在
             </summary>

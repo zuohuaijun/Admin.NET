@@ -124,7 +124,7 @@ public class SysTimerService : IDynamicApiController, ITransient
     /// 创建定时任务
     /// </summary>
     /// <param name="input"></param>
-    private void CreateTimer(SysTimer input)
+    private async void CreateTimer(SysTimer input)
     {
         Action<SpareTimer, long> action = null;
         switch (input.RequestType)
@@ -175,14 +175,14 @@ public class SysTimerService : IDynamicApiController, ITransient
         if (input.RequestType == RequestTypeEnum.Run)
         {
             var timerParaName = $"{input.TimerName}_para";
-            var timerPara = _sysCacheService.Exists(timerParaName);
+            var timerPara = await _sysCacheService.ExistsAsync(timerParaName);
             var requestPara = string.IsNullOrEmpty(input.RequestPara);
 
             // 若没有任务配置但存在缓存则删除
             if (requestPara && timerPara)
-                _sysCacheService.RemoveAsync(timerParaName);
+                await _sysCacheService.RemoveAsync(timerParaName);
             else if (!requestPara)
-                _sysCacheService.SetAsync(timerParaName, JSON.Deserialize<Dictionary<string, string>>(input.RequestPara));
+                await _sysCacheService.SetAsync(timerParaName, JSON.Deserialize<Dictionary<string, string>>(input.RequestPara));
         }
 
         // 创建定时任务
