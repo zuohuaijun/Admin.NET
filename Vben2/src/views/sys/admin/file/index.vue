@@ -11,7 +11,7 @@
           :accept="['doc', 'docx', 'xls', 'xlsx', 'image/*']"
           :showPreviewNumber="false"
           :emptyHidePreview="true"
-          :disabled="!hasPermission('sysFile:upload')"
+          :hidden="!hasPermission('sysFile:upload')"
         />
       </template>
       <template #action="{ record }">
