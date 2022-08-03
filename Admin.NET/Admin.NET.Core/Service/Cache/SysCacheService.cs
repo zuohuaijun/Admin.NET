@@ -117,9 +117,10 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     /// <param name="cacheKey">键</param>
     /// <returns></returns>
     [NonAction]
-    public bool Exists(string cacheKey)
+    public async Task<bool> ExistsAsync(string cacheKey)
     {
-        return _cache.Equals(cacheKey);
+        var res = await _cache.GetAsync(cacheKey);
+        return res != null;
     }
 
     /// <summary>

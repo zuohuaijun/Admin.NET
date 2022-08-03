@@ -8,7 +8,7 @@ public interface ISysCacheService
 
     Task DelCacheKey(string cacheKey);
 
-    bool Exists(string cacheKey);
+    Task<bool> ExistsAsync(string cacheKey);
 
     Task<List<string>> GetAllCacheKeys();
 
