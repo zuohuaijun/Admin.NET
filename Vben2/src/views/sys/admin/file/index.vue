@@ -86,7 +86,9 @@
       });
 
       async function handleDownload(record: Recordable) {
-        const filePath = uploadUrl + '/' + record.filePath + '/' + record.id + record.suffix;
+        const filePath = record.url
+          ? record.url
+          : uploadUrl + '/' + record.filePath + '/' + record.id + record.suffix;
         downloadByUrl({ url: filePath });
       }
 

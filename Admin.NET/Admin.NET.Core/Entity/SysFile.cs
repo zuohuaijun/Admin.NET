@@ -47,4 +47,11 @@ public class SysFile : EntityBase
     [SugarColumn(ColumnDescription = "文件大小信息", Length = 64)]
     [MaxLength(64)]
     public string SizeInfo { get; set; }
+
+    /// <summary>
+    /// 外链地址  OSS上传后直接生成外链地址  方便前端预览
+    /// </summary>
+    [SugarColumn(ColumnDescription = "外链地址", Length = 128)]
+    [MaxLength(128)]
+    public string Url { get; set; }
 }

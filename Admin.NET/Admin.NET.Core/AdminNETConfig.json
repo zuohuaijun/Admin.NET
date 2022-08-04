@@ -93,7 +93,9 @@
     "AccessKey": "",
     "SecretKey": "",
     "IsEnableHttps": true,
-    "IsEnableCache": true
+    "IsEnableCache": true,
+    "Bucket": "",
+    "OptionName": "Aliyun"
   },
   "Email": {
     "Server": "smtp.163.com", // 主机

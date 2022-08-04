@@ -34,7 +34,9 @@ export const columns: BasicColumn[] = [
         record.suffix.indexOf('jpg') > 0 ||
         record.suffix.indexOf('bmp') > 0
       ) {
-        const filePath = uploadUrl + '/' + record.filePath + '/' + record.id + record.suffix;
+        const filePath = record.url
+          ? record.url
+          : uploadUrl + '/' + record.filePath + '/' + record.id + record.suffix;
         return h(TableImg, {
           size: 60,
           simpleShow: true,

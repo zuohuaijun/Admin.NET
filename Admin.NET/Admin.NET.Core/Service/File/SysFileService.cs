@@ -25,7 +25,7 @@ public class SysFileService : IDynamicApiController, ITransient
         _uploadOptions = uploadOptions.Value;
         _commonService = commonService;
         if (_OSSProviderOptions.IsEnable)
-            _OSSService = ossServiceFactory.Create(_OSSProviderOptions.Provider.ToString());
+            _OSSService = ossServiceFactory.Create(_OSSProviderOptions.OptionName);
     }
 
     /// <summary>
@@ -67,7 +67,7 @@ public class SysFileService : IDynamicApiController, ITransient
         return new FileOutput
         {
             Id = sysFile.Id,
-            Url = _commonService.GetFileUrl(sysFile),
+            Url = string.IsNullOrWhiteSpace(sysFile.Url) ? _commonService.GetFileUrl(sysFile) : sysFile.Url,
             SizeKb = sysFile.SizeKb,
             Suffix = sysFile.Suffix,
             FilePath = sysFile.FilePath,
@@ -162,21 +162,33 @@ public class SysFileService : IDynamicApiController, ITransient
 
         var suffix = Path.GetExtension(file.FileName).ToLower(); // 后缀
 
-        // 先存库获取Id
-        var newFile = await _sysFileRep.AsInsertable(new SysFile
+        var newFile = new SysFile
         {
-            BucketName = _OSSProviderOptions.IsEnable ? _OSSProviderOptions.Provider.ToString() : "Local",
+            Id = Yitter.IdGenerator.YitIdHelper.NextId(),
+            //BucketName = _OSSProviderOptions.IsEnable ? _OSSProviderOptions.Provider.ToString() : "Local",
+            //阿里云对bucket名称有要求，1.只能包括小写字母，数字，短横线（-）2.必须以小写字母或者数字开头  3.长度必须在3-63字节之间
+            //无法使用Provider
+            BucketName = _OSSProviderOptions.IsEnable ? _OSSProviderOptions.Bucket : "Local",
             FileName = Path.GetFileNameWithoutExtension(file.FileName),
             Suffix = suffix,
             SizeKb = sizeKb.ToString(),
             FilePath = path
-        }).ExecuteReturnEntityAsync();
+        };
 
         var finalName = newFile.Id + suffix; // 文件最终名称
         if (_OSSProviderOptions.IsEnable)
         {
             var filePath = string.Concat(path, "/", finalName);
-            await _OSSService.PutObjectAsync(newFile.BucketName.ToString(), filePath, file.OpenReadStream());
+            await _OSSService.PutObjectAsync(newFile.BucketName, filePath, file.OpenReadStream());
+            //  http://hxmkedu.oss-cn-hangzhou.aliyuncs.com/idcardpic/upload/2022/08/04/317117690298693.jpg
+            //  http://<你的bucket名字>.oss.aliyuncs.com/<你的object名字>
+            //  生成外链地址 方便前端预览
+            switch (_OSSProviderOptions.Provider)
+            {
+                case OSSProvider.Aliyun:
+                    newFile.Url = $"{(_OSSProviderOptions.IsEnableHttps ? "https" : "http")}://{newFile.BucketName}.{_OSSProviderOptions.Endpoint}/{filePath}";
+                    break;
+            }
         }
         else
         {
@@ -186,6 +198,7 @@ public class SysFileService : IDynamicApiController, ITransient
             using var stream = File.Create(Path.Combine(filePath, finalName));
             await file.CopyToAsync(stream);
         }
+        await _sysFileRep.AsInsertable(newFile).ExecuteCommandAsync();
         return newFile;
     }
 }

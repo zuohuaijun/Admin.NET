@@ -61,9 +61,16 @@ public class Startup : AppStartup
             builder.AddSubscriber<LogEventSubscriber>();
         });
         // OSS对象存储
-        services.AddOSSService(options =>
+        var opt = App.GetOptions<OSSProviderOptions>();
+        services.AddOSSService(opt.OptionName, options =>
         {
-            options = App.GetOptions<OSSProviderOptions>();
+            options.Provider = opt.Provider;
+            options.Endpoint = opt.Endpoint;
+            options.AccessKey = opt.AccessKey;
+            options.SecretKey = opt.SecretKey;
+            options.Region = opt.Region;
+            options.IsEnableCache = opt.IsEnableCache;
+            options.IsEnableHttps = opt.IsEnableHttps;
         });
         // 电子邮件
         services.AddMailKit(options =>
