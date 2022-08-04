@@ -179,8 +179,7 @@ public class SysFileService : IDynamicApiController, ITransient
         if (_OSSProviderOptions.IsEnable)
         {
             var filePath = string.Concat(path, "/", finalName);
-            await _OSSService.PutObjectAsync(newFile.BucketName, filePath, file.OpenReadStream());
-            //  http://hxmkedu.oss-cn-hangzhou.aliyuncs.com/idcardpic/upload/2022/08/04/317117690298693.jpg
+            await _OSSService.PutObjectAsync(newFile.BucketName, filePath, file.OpenReadStream()); 
             //  http://<你的bucket名字>.oss.aliyuncs.com/<你的object名字>
             //  生成外链地址 方便前端预览
             switch (_OSSProviderOptions.Provider)
@@ -197,6 +196,8 @@ public class SysFileService : IDynamicApiController, ITransient
                 Directory.CreateDirectory(filePath);
             using var stream = File.Create(Path.Combine(filePath, finalName));
             await file.CopyToAsync(stream);
+            //生成外链
+            newFile.Url = _commonService.GetFileUrl(newFile);
         }
         await _sysFileRep.AsInsertable(newFile).ExecuteCommandAsync();
         return newFile;
