@@ -20,7 +20,11 @@ public interface ISysCacheService
 
     Task SetAsync(string cacheKey, object value);
 
+    Task SetAsync(string cacheKey, object value, TimeSpan expire);
+
     Task SetStringAsync(string cacheKey, string value);
+
+    Task SetStringAsync(string cacheKey, string value, TimeSpan expire);
 
     Task<List<long>> GetOrgIdList(long userId);
 
