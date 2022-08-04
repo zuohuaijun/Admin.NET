@@ -39,6 +39,21 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     }
 
     /// <summary>
+    /// 增加对象缓存,并设置过期时间
+    /// </summary>
+    /// <param name="cacheKey"></param>
+    /// <param name="value"></param>
+    /// <param name="expire"></param>
+    /// <returns></returns>
+    [HttpPost("/sysCache/addObject/expire")]
+    public async Task SetAsync(string cacheKey, object value, TimeSpan expire)
+    {
+        await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JSON.Serialize(value)), new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expire });
+
+        await AddCacheKey(cacheKey);
+    }
+
+    /// <summary>
     /// 增加字符串缓存
     /// </summary>
     /// <param name="cacheKey"></param>
@@ -48,6 +63,21 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     public async Task SetStringAsync(string cacheKey, string value)
     {
         await _cache.SetStringAsync(cacheKey, value);
+
+        await AddCacheKey(cacheKey);
+    }
+
+    /// <summary>
+    /// 增加字符串缓存,并设置过期时间
+    /// </summary>
+    /// <param name="cacheKey"></param>
+    /// <param name="value"></param>
+    /// <param name="expire"></param>
+    /// <returns></returns>
+    [HttpPost("/sysCache/addString/expire")]
+    public async Task SetStringAsync(string cacheKey, string value, TimeSpan expire)
+    {
+        await _cache.SetStringAsync(cacheKey, value, new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expire });
 
         await AddCacheKey(cacheKey);
     }
