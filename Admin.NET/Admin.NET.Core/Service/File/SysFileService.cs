@@ -67,7 +67,7 @@ public class SysFileService : IDynamicApiController, ITransient
         return new FileOutput
         {
             Id = sysFile.Id,
-            Url = string.IsNullOrWhiteSpace(sysFile.Url) ? _commonService.GetFileUrl(sysFile) : sysFile.Url,
+            Url = sysFile.Url,  // string.IsNullOrWhiteSpace(sysFile.Url) ? _commonService.GetFileUrl(sysFile) : sysFile.Url,
             SizeKb = sysFile.SizeKb,
             Suffix = sysFile.Suffix,
             FilePath = sysFile.FilePath,
