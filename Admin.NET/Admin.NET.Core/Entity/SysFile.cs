@@ -49,7 +49,7 @@ public class SysFile : EntityBase
     public string SizeInfo { get; set; }
 
     /// <summary>
-    /// 外链地址  OSS上传后直接生成外链地址  方便前端预览
+    /// 外链地址-OSS上传后生成外链地址方便前端预览
     /// </summary>
     [SugarColumn(ColumnDescription = "外链地址", Length = 128)]
     [MaxLength(128)]

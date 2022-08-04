@@ -25,7 +25,7 @@ public class SysFileService : IDynamicApiController, ITransient
         _uploadOptions = uploadOptions.Value;
         _commonService = commonService;
         if (_OSSProviderOptions.IsEnable)
-            _OSSService = ossServiceFactory.Create(_OSSProviderOptions.OptionName);
+            _OSSService = ossServiceFactory.Create(_OSSProviderOptions.ProviderName);
     }
 
     /// <summary>
@@ -165,9 +165,9 @@ public class SysFileService : IDynamicApiController, ITransient
         var newFile = new SysFile
         {
             Id = Yitter.IdGenerator.YitIdHelper.NextId(),
-            //BucketName = _OSSProviderOptions.IsEnable ? _OSSProviderOptions.Provider.ToString() : "Local",
-            //阿里云对bucket名称有要求，1.只能包括小写字母，数字，短横线（-）2.必须以小写字母或者数字开头  3.长度必须在3-63字节之间
-            //无法使用Provider
+            // BucketName = _OSSProviderOptions.IsEnable ? _OSSProviderOptions.Provider.ToString() : "Local",
+            // 阿里云对bucket名称有要求，1.只能包括小写字母，数字，短横线（-）2.必须以小写字母或者数字开头  3.长度必须在3-63字节之间
+            // 无法使用Provider
             BucketName = _OSSProviderOptions.IsEnable ? _OSSProviderOptions.Bucket : "Local",
             FileName = Path.GetFileNameWithoutExtension(file.FileName),
             Suffix = suffix,
@@ -179,7 +179,7 @@ public class SysFileService : IDynamicApiController, ITransient
         if (_OSSProviderOptions.IsEnable)
         {
             var filePath = string.Concat(path, "/", finalName);
-            await _OSSService.PutObjectAsync(newFile.BucketName, filePath, file.OpenReadStream()); 
+            await _OSSService.PutObjectAsync(newFile.BucketName, filePath, file.OpenReadStream());
             //  http://<你的bucket名字>.oss.aliyuncs.com/<你的object名字>
             //  生成外链地址 方便前端预览
             switch (_OSSProviderOptions.Provider)

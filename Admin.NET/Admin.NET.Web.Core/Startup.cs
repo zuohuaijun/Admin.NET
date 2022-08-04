@@ -3,6 +3,7 @@ using AspNetCoreRateLimit;
 using Furion;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
+using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -60,9 +61,10 @@ public class Startup : AppStartup
         {
             builder.AddSubscriber<LogEventSubscriber>();
         });
-        // OSS对象存储
+
+        // OSS对象存储（必须一个个赋值）
         var opt = App.GetOptions<OSSProviderOptions>();
-        services.AddOSSService(opt.OptionName, options =>
+        services.AddOSSService(opt.ProviderName, options =>
         {
             options.Provider = opt.Provider;
             options.Endpoint = opt.Endpoint;
@@ -72,6 +74,7 @@ public class Startup : AppStartup
             options.IsEnableCache = opt.IsEnableCache;
             options.IsEnableHttps = opt.IsEnableHttps;
         });
+
         // 电子邮件
         services.AddMailKit(options =>
         {

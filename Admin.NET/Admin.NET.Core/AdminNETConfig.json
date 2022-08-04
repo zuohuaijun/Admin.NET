@@ -95,7 +95,7 @@
     "IsEnableHttps": true,
     "IsEnableCache": true,
     "Bucket": "",
-    "OptionName": "Aliyun"
+    "ProviderName": "Aliyun"
   },
   "Email": {
     "Server": "smtp.163.com", // 主机
