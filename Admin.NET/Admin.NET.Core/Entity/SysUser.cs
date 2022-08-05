@@ -18,6 +18,8 @@ public class SysUser : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "账号密码", Length = 64)]
     [Required, MaxLength(64)]
+    [System.Text.Json.Serialization.JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
     public string Password { get; set; }
 
     /// <summary>

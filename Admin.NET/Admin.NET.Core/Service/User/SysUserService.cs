@@ -81,7 +81,7 @@ public class SysUserService : IDynamicApiController, ITransient
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1003);
 
         await _sysUserRep.AsUpdateable(input.Adapt<SysUser>()).IgnoreColumns(true)
-            .IgnoreColumns(u => new { u.UserType }).ExecuteCommandAsync();
+            .IgnoreColumns(u => new { u.UserType, u.Password, u.Status }).ExecuteCommandAsync();
     }
 
     /// <summary>
