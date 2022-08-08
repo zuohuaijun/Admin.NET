@@ -39,11 +39,12 @@ public class SysUserService : IDynamicApiController, ITransient
     [HttpGet("/sysUser/page")]
     public async Task<SqlSugarPagedList<SysUser>> GetUserPage([FromQuery] PageUserInput input)
     {
-        var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) : _userManager.SuperAdmin ? null : await _sysOrgService.GetChildIdListWithSelfById(_userManager.User.OrgId);
+        var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) :
+            _userManager.SuperAdmin ? null : await _sysOrgService.GetChildIdListWithSelfById(_userManager.User.OrgId);
 
         return await _sysUserRep.AsQueryable()
             .WhereIF(!_userManager.SuperAdmin, u => u.UserType != UserTypeEnum.SuperAdmin)
-            .WhereIF(orgList is not null, u => orgList.Contains(u.OrgId))
+            .WhereIF(orgList != null, u => orgList.Contains(u.OrgId))
             .WhereIF(!string.IsNullOrWhiteSpace(input.UserName), u => u.UserName.Contains(input.UserName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
             .ToPagedListAsync(input.Page, input.PageSize);
