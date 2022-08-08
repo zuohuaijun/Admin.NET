@@ -3,7 +3,6 @@ using AspNetCoreRateLimit;
 using Furion;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
-using Mapster;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
