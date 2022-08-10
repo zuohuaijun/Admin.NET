@@ -19,7 +19,7 @@ public class JobTimer : ISpareTimeWorker
         //// 写日志文件
         //StringLoggingPart.Default.SetMessage("这是一个日志").LogInformation();
 
-        Scoped.Create(async (_, scope) =>
+        Scoped.Create((_, scope) =>
         {
             var services = scope.ServiceProvider;
             var db = services.GetService<ISqlSugarClient>();

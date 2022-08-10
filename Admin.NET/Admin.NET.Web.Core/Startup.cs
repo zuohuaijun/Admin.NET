@@ -58,7 +58,10 @@ public class Startup : AppStartup
         // 事件总线
         services.AddEventBus(builder =>
         {
+            // 订阅日志事件
             builder.AddSubscriber<LogEventSubscriber>();
+            // 事件执行器（失败重试）
+            builder.AddExecutor<RetryEventHandlerExecutor>();
         });
 
         // OSS对象存储（必须一个个赋值）

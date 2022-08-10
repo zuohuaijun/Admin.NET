@@ -2649,6 +2649,11 @@
             <param name="context"></param>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.RetryEventHandlerExecutor">
+            <summary>
+            事件执行器-超时控制、失败重试熔断等等
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.EnumExtension">
             <summary>
             枚举拓展
