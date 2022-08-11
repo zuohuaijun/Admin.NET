@@ -9,7 +9,7 @@ using QuestPDF.Infrastructure;
 using QuestPDF.Previewer;
 using System.IO;
 
-namespace Admin.NET.Application.Serice;
+namespace Admin.NET.Application.Service;
 
 /// <summary>
 /// 自己业务服务

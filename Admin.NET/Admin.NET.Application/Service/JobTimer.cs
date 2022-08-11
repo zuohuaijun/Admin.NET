@@ -1,7 +1,7 @@
 ﻿using Furion.Logging;
 using Furion.TaskScheduler;
 
-namespace Admin.NET.Application.Serice;
+namespace Admin.NET.Application.Service;
 
 /// <summary>
 /// 任务调度测试

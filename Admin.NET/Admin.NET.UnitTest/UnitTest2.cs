@@ -1,4 +1,4 @@
-﻿using Admin.NET.Application.Serice;
+﻿using Admin.NET.Application.Service;
 using Xunit;
 
 namespace Admin.NET.UnitTest;
