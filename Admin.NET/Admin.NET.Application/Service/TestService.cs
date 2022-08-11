@@ -165,8 +165,7 @@ public class TestService : IDynamicApiController, ITransient
     /// 生成PDF文件
     /// 预览工具：dotnet tool install questpdf.previewer --global
     /// </summary>
-    [NonUnify]
-    public void CreatePDF()
+    public dynamic CreatePDF()
     {
         var logoPath = App.WebHostEnvironment.WebRootPath + @"\images\logo.png";
         byte[] imageByte = null;
@@ -209,8 +208,8 @@ public class TestService : IDynamicApiController, ITransient
                         x.CurrentPageNumber();
                     });
             });
-        }).ShowInPreviewer();//.GeneratePdf(filePath);
+        }).GeneratePdf(filePath); //.ShowInPreviewer();//
 
-        //return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = "xxx.PDF" };
+        return new FileStreamResult(new FileStream(filePath, FileMode.Open), "application/octet-stream") { FileDownloadName = "xxx.PDF" };
     }
 }
