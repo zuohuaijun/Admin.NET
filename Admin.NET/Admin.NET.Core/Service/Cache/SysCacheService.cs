@@ -300,4 +300,25 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
 
         await AddCacheKey(cacheKey);
     }
+
+    /// <summary>
+    ///  根据父键清空   
+    /// </summary>
+    /// <param name="key"></param>
+    /// <returns></returns>
+    [HttpGet("/sysCache/delByParentKey")]
+    public async Task DelByParentKeyAsync(string key)
+    {
+        var allkeys = await GetAllCacheKeys();
+        if (allkeys == null) return;
+
+        var delAllkeys = allkeys.Where(u => u.StartsWith(key)).ToList();
+        delAllkeys.ForEach(u =>
+        {
+            _cache.Remove(u);
+        });
+        // 更新所有缓存键
+        allkeys = allkeys.Where(u => !u.StartsWith(key)).ToList();
+        await _cache.SetStringAsync(CacheConst.KeyAll, JSON.Serialize(allkeys));
+    }
 }

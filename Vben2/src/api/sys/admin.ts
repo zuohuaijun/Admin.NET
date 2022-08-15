@@ -145,6 +145,7 @@ enum Api {
   GetAllCacheKeys = '/sysCache/keyList',
   GetStringAsync = '/sysCache/detail',
   RemoveAsync = '/sysCache/remove',
+  DelByParentKeyAsync = '/sysCache/delByParentKey',
 }
 
 ////////// 账号管理接口 //////////
@@ -458,9 +459,12 @@ export const getAllConstSelectorWithOptions = () =>
 ////////// 缓存管理接口 //////////
 // 获取所有缓存列表
 export const getAllCacheKeys = () => defHttp.get<any>({ url: Api.GetAllCacheKeys });
-// 根据类名获取下拉框数据
+// 根据键获取缓存数据
 export const getCacheStringAsync = (cacheKey?: string) =>
   defHttp.get<any>({ url: Api.GetStringAsync, params: { cacheKey } });
-// 获取所有下拉框及选项
+// 删除缓存
 export const removeCacheAsync = (key?: string) =>
   defHttp.get<any>({ url: Api.RemoveAsync, params: { key } });
+// 根据父键删除缓存
+export const delByParentKeyAsync = (key?: string) =>
+  defHttp.get<any>({ url: Api.DelByParentKeyAsync, params: { key } });

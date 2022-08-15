@@ -37,4 +37,6 @@ public interface ISysCacheService
     Task<int?> GetMaxDataScopeType(long userId);
 
     Task SetMaxDataScopeType(long userId, int dataScopeType);
+    
+    Task DelByParentKeyAsync(string key);
 }

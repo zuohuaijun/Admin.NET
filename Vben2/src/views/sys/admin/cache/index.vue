@@ -55,7 +55,12 @@
   import { PageWrapper } from '/@/components/Page';
   import { PopConfirmButton } from '/@/components/Button';
 
-  import { getAllCacheKeys, getCacheStringAsync, removeCacheAsync } from '/@/api/sys/admin';
+  import {
+    getAllCacheKeys,
+    getCacheStringAsync,
+    removeCacheAsync,
+    delByParentKeyAsync,
+  } from '/@/api/sys/admin';
   import { BasicTree, TreeActionType, TreeItem } from '/@/components/Tree/index';
   import { JsonPreview } from '/@/components/CodeEditor';
   import { ScrollContainer } from '/@/components/Container/index';
@@ -143,10 +148,7 @@
 
       async function onEmptyCache() {
         openFullLoading();
-        for (let i = 0; i < currentNode.value.children.length; i++) {
-          const e = currentNode.value.children[i];
-          await removeCacheAsync(e.key);
-        }
+        await delByParentKeyAsync(currentNode.value.key);
         closeFullLoading();
         currentNode.value = {};
         isJson.value = false;
