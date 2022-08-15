@@ -5,6 +5,7 @@ using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -50,6 +51,12 @@ public class Startup : AppStartup
                 // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
             })
             .AddInjectWithUnifyResult<AdminResultProvider>();
+
+        // Nginx转发实际IP
+        services.Configure<ForwardedHeadersOptions>(options =>
+        {
+            options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+        });
 
         // 限流服务
         services.AddInMemoryRateLimiting();
@@ -158,10 +165,12 @@ public class Startup : AppStartup
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
+            app.UseForwardedHeaders();
         }
         else
         {
             app.UseExceptionHandler("/Home/Error");
+            app.UseForwardedHeaders();
             app.UseHsts();
         }
 

@@ -3727,6 +3727,13 @@
             <param name="dataScopeType"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.DelByParentKeyAsync(System.String)">
+            <summary>
+             根据父键清空
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.Service.CodeGenConfigService">
             <summary>
             代码生成详细配置服务

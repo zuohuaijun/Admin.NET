@@ -302,7 +302,7 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     }
 
     /// <summary>
-    ///  根据父键清空   
+    ///  根据父键清空
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
