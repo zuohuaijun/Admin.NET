@@ -25,7 +25,7 @@ public class JobTimer : ISpareTimeWorker
             var db = services.GetService<ISqlSugarClient>();
 
             // 写日志文件
-            StringLoggingPart.Default().SetMessage("【定时器】" + DateTime.Now + "执行次数：" + count).LogInformation();
+            Log.Information("【定时器】" + DateTime.Now + "执行次数：" + count);
         });
     }
 }

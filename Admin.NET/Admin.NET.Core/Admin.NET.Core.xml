@@ -7285,7 +7285,7 @@
             </summary>
             <param name="sqlSugarClient"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.BeginTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.BeginTransaction(Microsoft.AspNetCore.Mvc.Filters.FilterContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
             <summary>
             开启工作单元处理
             </summary>
@@ -7293,7 +7293,7 @@
             <param name="unitOfWork"></param>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.CommitTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.CommitTransaction(Microsoft.AspNetCore.Mvc.Filters.FilterContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
             <summary>
             提交工作单元处理
             </summary>
@@ -7301,7 +7301,7 @@
             <param name="unitOfWork"></param>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.RollbackTransaction(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.RollbackTransaction(Microsoft.AspNetCore.Mvc.Filters.FilterContext,Furion.DatabaseAccessor.UnitOfWorkAttribute)">
             <summary>
             回滚工作单元处理
             </summary>
@@ -7309,7 +7309,7 @@
             <param name="unitOfWork"></param>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.OnCompleted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext,Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+        <member name="M:Admin.NET.Core.SqlSugarUnitOfWork.OnCompleted(Microsoft.AspNetCore.Mvc.Filters.FilterContext,Microsoft.AspNetCore.Mvc.Filters.FilterContext)">
             <summary>
             执行完毕（无论成功失败）
             </summary>

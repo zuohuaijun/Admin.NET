@@ -25,7 +25,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <param name="context"></param>
     /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void BeginTransaction(ActionExecutingContext context, UnitOfWorkAttribute unitOfWork)
+    public void BeginTransaction(FilterContext context, UnitOfWorkAttribute unitOfWork)
     {
         _sqlSugarClient.AsTenant().BeginTran();
     }
@@ -36,7 +36,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <param name="resultContext"></param>
     /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void CommitTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
+    public void CommitTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         _sqlSugarClient.AsTenant().CommitTran();
     }
@@ -47,7 +47,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <param name="resultContext"></param>
     /// <param name="unitOfWork"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void RollbackTransaction(ActionExecutedContext resultContext, UnitOfWorkAttribute unitOfWork)
+    public void RollbackTransaction(FilterContext resultContext, UnitOfWorkAttribute unitOfWork)
     {
         _sqlSugarClient.AsTenant().RollbackTran();
     }
@@ -58,7 +58,7 @@ public sealed class SqlSugarUnitOfWork : IUnitOfWork
     /// <param name="context"></param>
     /// <param name="resultContext"></param>
     /// <exception cref="NotImplementedException"></exception>
-    public void OnCompleted(ActionExecutingContext context, ActionExecutedContext resultContext)
+    public void OnCompleted(FilterContext context, FilterContext resultContext)
     {
         _sqlSugarClient.Dispose();
     }
