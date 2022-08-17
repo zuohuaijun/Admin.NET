@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.11" />
+    <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.12" />
   </ItemGroup>
 
   <ItemGroup>

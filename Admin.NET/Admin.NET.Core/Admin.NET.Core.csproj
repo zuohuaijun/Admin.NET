@@ -25,9 +25,9 @@
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
     <PackageReference Include="Caching.CSRedis" Version="3.8.3" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.2.2" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.2.2" />
-    <PackageReference Include="Furion.Pure" Version="4.2.2" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.2.3" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.2.3" />
+    <PackageReference Include="Furion.Pure" Version="4.2.3" />
     <PackageReference Include="Magicodes.IE.Excel" Version="2.6.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
@@ -35,7 +35,7 @@
     <PackageReference Include="QuestPDF" Version="2022.8.0" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" Version="2.16.0" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.TenpayV3" Version="2.11.0" />
-    <PackageReference Include="SqlSugarCore" Version="5.1.2.1" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.2.2" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.19" />
     <PackageReference Include="UAParser" Version="3.1.47" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />

@@ -24,7 +24,7 @@ public class Startup : AppStartup
     {
         // 配置选项
         services.AddProjectOptions();
-        // ORM-SqlSugar
+        // SqlSugar
         services.AddSqlSugarSetup();
         // JWT
         services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
@@ -38,7 +38,7 @@ public class Startup : AppStartup
         services.AddSensitiveDetection();
         // 结果拦截器
         services.AddMvcFilter<ResultFilter>();
-        // 日志监听特性（拦截器）
+        // 日志监听
         services.AddMonitorLogging();
 
         services.AddControllersWithViews()
@@ -106,55 +106,21 @@ public class Startup : AppStartup
         // logo显示
         services.AddLogoDisplay();
 
-        // 日志记录
-        services.AddLogging(builder =>
+        // 日志写入文件-消息、警告、错误
+        Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, logLevel =>
         {
-            // 每天创建一个日志文件（消息日志、错误日志、警告日志）
-            builder.AddFile("logs/{0:yyyyMMdd}_inf.log", options =>
+            services.AddFileLogging("logs/{0:yyyyMMdd}_" + $"{logLevel}.log", options =>
             {
-                options.WriteFilter = (logMsg) =>
-                {
-                    return logMsg.LogLevel == LogLevel.Information;
-                };
-                options.FileNameRule = fileName =>
-                {
-                    return string.Format(fileName, DateTime.Now);
-                };
+                options.FileNameRule = fileName => string.Format(fileName, DateTime.Now); // 每天创建一个文件
+                options.WriteFilter = logMsg => logMsg.LogLevel == logLevel;
                 options.FileSizeLimitBytes = 10 * 1024;
                 options.MaxRollingFiles = 30;
             });
-            builder.AddFile("logs/{0:yyyyMMdd}_err.log", options =>
-            {
-                options.WriteFilter = (logMsg) =>
-                {
-                    return logMsg.LogLevel == LogLevel.Error;
-                };
-                options.FileNameRule = fileName =>
-                {
-                    return string.Format(fileName, DateTime.Now);
-                };
-                options.FileSizeLimitBytes = 10 * 1024;
-                options.MaxRollingFiles = 30;
-            });
-            builder.AddFile("logs/{0:yyyyMMdd}_wrn.log", options =>
-            {
-                options.WriteFilter = (logMsg) =>
-                {
-                    return logMsg.LogLevel == LogLevel.Warning;
-                };
-                options.FileNameRule = fileName =>
-                {
-                    return string.Format(fileName, DateTime.Now);
-                };
-                options.FileSizeLimitBytes = 10 * 1024;
-                options.MaxRollingFiles = 30;
-            });
-
-            // 日志写入数据库
-            builder.AddDatabase<DbLoggingWriter>(options =>
-            {
-                options.MinimumLevel = LogLevel.Information;
-            });
+        });
+        // 日志写入数据库
+        services.AddDatabaseLogging<DbLoggingWriter>(options =>
+        {
+            options.MinimumLevel = LogLevel.Information;
         });
 
         // 设置雪花Id算法机器码

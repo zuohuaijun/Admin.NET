@@ -75,6 +75,23 @@ public class SysFileService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 上传多文件
+    /// </summary>
+    /// <param name="files"></param>
+    /// <returns></returns>
+    [HttpPost("/sysFile/uploads")]
+    [AllowAnonymous]
+    public async Task<List<FileOutput>> UploadFiles([Required] List<IFormFile> files)
+    {
+        var filelist = new List<FileOutput>();
+        foreach (var file in files)
+        {
+            filelist.Add(await UploadFile(file));
+        }
+        return filelist;
+    }
+
+    /// <summary>
     /// 下载文件(文件流)
     /// </summary>
     /// <param name="input"></param>

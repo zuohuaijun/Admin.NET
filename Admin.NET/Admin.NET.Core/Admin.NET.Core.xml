@@ -5070,6 +5070,13 @@
             <param name="file"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.UploadFiles(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
+            <summary>
+            上传多文件
+            </summary>
+            <param name="files"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.Service.SysFileService.DownloadFile(Admin.NET.Core.Service.FileInput)">
             <summary>
             下载文件(文件流)
