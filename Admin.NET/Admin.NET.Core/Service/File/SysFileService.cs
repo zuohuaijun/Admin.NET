@@ -60,7 +60,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file"></param>
     /// <returns></returns>
     [HttpPost("/sysFile/upload")]
-    [AllowAnonymous]
     public async Task<FileOutput> UploadFile([Required] IFormFile file)
     {
         var sysFile = await HandleUploadFile(file);
@@ -80,7 +79,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="files"></param>
     /// <returns></returns>
     [HttpPost("/sysFile/uploads")]
-    [AllowAnonymous]
     public async Task<List<FileOutput>> UploadFiles([Required] List<IFormFile> files)
     {
         var filelist = new List<FileOutput>();

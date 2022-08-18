@@ -48,8 +48,8 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [AllowAnonymous]
     [HttpGet("/sysDictType/dataList")]
+    [AllowAnonymous]
     public async Task<List<SysDictData>> GetDictTypeDataList([FromQuery] GetDataDictTypeInput input)
     {
         var dictType = await _sysDictTypeRep.GetFirstAsync(u => u.Code == input.Code);
