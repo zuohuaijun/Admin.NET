@@ -10,25 +10,27 @@
       <template #toolbar>
         <a-button type="primary" @click="handleCreate"> 新增值 </a-button>
       </template>
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              icon: 'clarity:note-edit-line',
-              onClick: handleEdit.bind(null, record),
-              label: '编辑',
-            },
-            {
-              icon: 'ant-design:delete-outlined',
-              color: 'error',
-              label: '删除',
-              popConfirm: {
-                title: '是否确认删除',
-                confirm: handleDelete.bind(null, record),
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                icon: 'clarity:note-edit-line',
+                onClick: handleEdit.bind(null, record),
+                label: '编辑',
               },
-            },
-          ]"
-        />
+              {
+                icon: 'ant-design:delete-outlined',
+                color: 'error',
+                label: '删除',
+                popConfirm: {
+                  title: '是否确认删除',
+                  confirm: handleDelete.bind(null, record),
+                },
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
   </BasicModal>
@@ -72,7 +74,7 @@
           width: 150,
           title: '操作',
           dataIndex: 'action',
-          slots: { customRender: 'action' },
+          //slots: { customRender: 'action' },
           fixed: undefined,
         },
         size: 'small',

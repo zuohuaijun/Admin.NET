@@ -4,30 +4,32 @@
       <template #toolbar>
         <a-button type="primary" @click="handleCreate"> 新增类型 </a-button>
       </template>
-      <template #action="{ record }">
-        <TableAction
-          :actions="[
-            {
-              icon: 'clarity:note-edit-line',
-              onClick: handleEdit.bind(null, record),
-              label: '编辑',
-            },
-            {
-              icon: 'arcticons:colordict',
-              label: '字典',
-              onClick: handleDictData.bind(null, record),
-            },
-            {
-              icon: 'ant-design:delete-outlined',
-              color: 'error',
-              label: '删除',
-              popConfirm: {
-                title: '是否确认删除',
-                confirm: handleDelete.bind(null, record),
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                icon: 'clarity:note-edit-line',
+                onClick: handleEdit.bind(null, record),
+                label: '编辑',
               },
-            },
-          ]"
-        />
+              {
+                icon: 'arcticons:colordict',
+                label: '字典',
+                onClick: handleDictData.bind(null, record),
+              },
+              {
+                icon: 'ant-design:delete-outlined',
+                color: 'error',
+                label: '删除',
+                popConfirm: {
+                  title: '是否确认删除',
+                  confirm: handleDelete.bind(null, record),
+                },
+              },
+            ]"
+          />
+        </template>
       </template>
     </BasicTable>
     <DcitModal @register="registerModal" @success="handleSuccess" />
@@ -38,7 +40,7 @@
   import { defineComponent } from 'vue';
   import { BasicTable, useTable, TableAction } from '/@/components/Table';
   import { columns, searchFormSchema } from './dict.data';
-  import { getDictTypeList, deleteDictType } from '/@/api/sys/admin';
+  import { getDictTypePageList, deleteDictType } from '/@/api/sys/admin';
   import { useModal } from '/@/components/Modal';
   import DcitModal from './DictModal.vue';
   import DcitDataModal from './dictdata/index.vue';
@@ -50,7 +52,7 @@
       const [registerDictDataModal, { openModal: openDictDataModal }] = useModal();
       const [registerTable, { reload }] = useTable({
         title: '字典列表',
-        api: getDictTypeList,
+        api: getDictTypePageList,
         columns: columns,
         formConfig: {
           labelWidth: 120,
@@ -68,7 +70,7 @@
           width: 250,
           title: '操作',
           dataIndex: 'action',
-          slots: { customRender: 'action' },
+          // slots: { customRender: 'action' },
           fixed: undefined,
         },
       });
