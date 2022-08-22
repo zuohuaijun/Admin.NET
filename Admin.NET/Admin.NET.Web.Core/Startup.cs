@@ -113,7 +113,7 @@ public class Startup : AppStartup
             {
                 options.FileNameRule = fileName => string.Format(fileName, DateTime.Now); // 每天创建一个文件
                 options.WriteFilter = logMsg => logMsg.LogLevel == logLevel;
-                options.FileSizeLimitBytes = 10 * 1024;
+                options.FileSizeLimitBytes = 10 * 1024 * 1024;
                 options.MaxRollingFiles = 30;
             });
         });
