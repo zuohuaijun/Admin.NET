@@ -72,16 +72,15 @@ public class AuthService : IDynamicApiController, ITransient
             {ClaimConst.OrgLevel, user.SysOrg?.Level},
         });
 
-        // 设置Swagger自动登录
+        // 生成刷新Token令牌
+        var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
+        // 设置刷新Token令牌
+        _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = refreshToken;
+
+        // 登录Swagger
         _httpContextAccessor.HttpContext.SigninToSwagger(accessToken);
         // Knife4UI-AfterScript登录脚本
         // ke.global.setAllHeader('Authorization', 'Bearer ' + ke.response.headers['access-token']);
-
-        // 生成刷新Token令牌
-        var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
-
-        // 设置刷新Token令牌
-        _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = refreshToken;
 
         return new LoginOutput
         {
@@ -107,7 +106,7 @@ public class AuthService : IDynamicApiController, ITransient
         // 数据范围
         var dataScopes = await _sysUserService.GetUserOrgIdList();
 
-        // 增加登录日志
+        // 登录日志
         var client = Parser.GetDefault().Parse(_httpContextAccessor.HttpContext.Request.Headers["User-Agent"]);
         await _eventPublisher.PublishAsync("Add:VisLog", new SysLogVis
         {
@@ -162,9 +161,8 @@ public class AuthService : IDynamicApiController, ITransient
 
         // 退出Swagger
         _httpContextAccessor.HttpContext.SignoutToSwagger();
-        //_httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid token";
 
-        // 增加退出日志
+        // 退出日志
         await _eventPublisher.PublishAsync("Add:VisLog", new SysLogVis
         {
             Success = YesNoEnum.Y,
