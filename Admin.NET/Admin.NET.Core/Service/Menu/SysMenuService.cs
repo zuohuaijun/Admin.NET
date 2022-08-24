@@ -84,7 +84,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     [HttpPost("/sysMenu/add")]
     public async Task AddMenu(AddMenuInput input)
     {
-        var isExist = input.Type != 3
+        var isExist = input.Type != (int)MenuTypeEnum.Btn
             ? await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name)
             : await _sysMenuRep.IsAnyAsync(u => u.Permission == input.Permission);
 
@@ -108,7 +108,9 @@ public class SysMenuService : IDynamicApiController, ITransient
     [HttpPost("/sysMenu/update"),]
     public async Task UpdateMenu(UpdateMenuInput input)
     {
-        var isExist = await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.Id);
+        var isExist = input.Type != (int)MenuTypeEnum.Btn
+            ? await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.Id)
+            : await _sysMenuRep.IsAnyAsync(u => u.Permission == input.Permission && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D4000);
 
