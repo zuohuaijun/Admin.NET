@@ -6,17 +6,24 @@ namespace Admin.NET.Core;
 /// <summary>
 /// 聊天集线器
 /// </summary>
-[MapHub("/hub/chathub")]
+[MapHub("/hubs/chathub")]
 public class ChatHub : Hub<IChatClient>
 {
     private readonly ISysCacheService _cache;
     private readonly IMessageService _sendMessageService;
+    private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
+    private readonly IHubContext<ChatHub, IChatClient> _chatHubContext;
+
 
     public ChatHub(ISysCacheService cache,
-        IMessageService sendMessageService)
+        IMessageService sendMessageService,
+        SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
+        IHubContext<ChatHub, IChatClient> chatHubContext)
     {
         _cache = cache;
         _sendMessageService = sendMessageService;
+        _sysOnlineUerRep = sysOnlineUerRep;
+        _chatHubContext = chatHubContext;
     }
 
     /// <summary>
@@ -37,7 +44,7 @@ public class ChatHub : Hub<IChatClient>
         var name = claims.FirstOrDefault(e => e.Type == ClaimConst.RealName)?.Value;
         var tenantId = claims.FirstOrDefault(e => e.Type == ClaimConst.TenantId)?.Value;
         var onlineUsers = await _cache.GetAsync<List<SysOnlineUser>>(CacheConst.KeyOnlineUser) ?? new List<SysOnlineUser>();
-        onlineUsers.Add(new SysOnlineUser
+        var user = new SysOnlineUser
         {
             ConnectionId = Context.ConnectionId,
             UserId = long.Parse(userId),
@@ -48,8 +55,24 @@ public class ChatHub : Hub<IChatClient>
             Account = account,
             Name = name,
             TenantId = Convert.ToInt64(tenantId),
+        };
+        await _sysOnlineUerRep.AsInsertable(user).ExecuteCommandAsync();
+        //加入分组  以租户ID分组 方便后续通知
+        await _chatHubContext.Groups.AddToGroupAsync(Context.ConnectionId, $"{ChatHubPrefix.GROUP_ONLINE}{tenantId}");
+
+        var list = await _sysOnlineUerRep.AsQueryable().Filter("", true).Where(x => x.TenantId == user.TenantId).ToListAsync();
+        await _chatHubContext.Clients.Groups($"{ChatHubPrefix.GROUP_ONLINE}{user.TenantId}").OnlineUserChanged(new OnlineUserChangedDto
+        {
+            Name = user.Name,
+            Offline = false,
+            List = list
         });
-        await _cache.SetAsync(CacheConst.KeyOnlineUser, onlineUsers);
+
+        //onlineUsers.Add();
+        //await _cache.SetAsync($"{CacheConst.KeyOnlineUser}{ Context.ConnectionId}", user);
+
+
+        //await _sendMessageService.SendMessageToUserByConnectionId("asdasd但凡生得分", "下线吧", MessageTypeEnum.Offline, Context.ConnectionId);
     }
 
     /// <summary>
@@ -61,13 +84,37 @@ public class ChatHub : Hub<IChatClient>
     {
         if (!string.IsNullOrEmpty(Context.ConnectionId))
         {
-            var onlineUsers = await _cache.GetAsync<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
-            if (onlineUsers == null) return;
+            var user = await _sysOnlineUerRep.AsQueryable().Filter("", true).FirstAsync(x => x.ConnectionId == Context.ConnectionId);
+            if (user == null) return;
 
-            onlineUsers.RemoveAll(u => u.ConnectionId == Context.ConnectionId);
-            await _cache.SetAsync(CacheConst.KeyOnlineUser, onlineUsers);
+            await _sysOnlineUerRep.DeleteAsync(x => x.Id == user.Id);
+            //通知当前组用户变动
+            var list = await _sysOnlineUerRep.AsQueryable().Filter("", true).Where(x => x.TenantId == user.TenantId).ToListAsync();
+            await _chatHubContext.Clients.Groups($"{ChatHubPrefix.GROUP_ONLINE}{user.TenantId}").OnlineUserChanged(new OnlineUserChangedDto
+            {
+                Name = user.Name,
+                Offline = true,
+                List = list
+            });
+
+            //var onlineUsers = await _cache.GetAsync<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
+            //if (onlineUsers == null) return;
+
+            //onlineUsers.RemoveAll(u => u.ConnectionId == Context.ConnectionId);
+            //await _cache.RemoveAsync($"{CacheConst.KeyOnlineUser}{ Context.ConnectionId}");
         }
     }
+
+    /// <summary>
+    /// 强制下线
+    /// </summary>
+    /// <param name="request"></param>
+    /// <returns></returns>
+    public async Task ForceExistUser(ForceExistUserRequest request)
+    {
+        await _chatHubContext.Clients.Client(request.ConnectionId).ForceExist("强制下线");
+    }
+
 
     /// <summary>
     /// 前端调用发送方法（发送信息给某个人）
@@ -96,6 +143,7 @@ public class ChatHub : Hub<IChatClient>
     /// <returns></returns>
     public async Task ClientsSendMessagetoOther(MessageInput _message)
     {
+        // _message.userId为发送人ID
         await _sendMessageService.SendMessageToOtherUser(_message.Title, _message.Message, _message.MessageType, _message.UserId);
     }
 

@@ -18,6 +18,14 @@ public interface IChatClient
     /// <returns></returns>
     Task ReceiveMessage(object context);
 
+
+    /// <summary>
+    /// 在线用户变动
+    /// </summary>
+    /// <param name="context"></param>
+    /// <returns></returns>
+    Task OnlineUserChanged(OnlineUserChangedDto context);
+
     /// <summary>
     /// 组合信息
     /// </summary>

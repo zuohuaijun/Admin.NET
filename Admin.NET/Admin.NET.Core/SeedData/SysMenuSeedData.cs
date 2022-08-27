@@ -89,6 +89,7 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
             new SysMenu{ Id=252885263003860, Pid=252885263003780, Title="在线用户", Path="online", Name="OnlineManagement", Component="/sys/admin/online/index", Icon="ant-design:user-switch-outlined", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=107 },
             new SysMenu{ Id=252885263003861, Pid=252885263003860, Title="用户查询", Permission="online:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=252885263003862, Pid=252885263003860, Title="用户删除", Permission="online:delete", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
+            new SysMenu{ Id=252885263003863, Pid=252885263003860, Title="强制下线", Permission="online:ForceExistUser", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
 
             new SysMenu{ Id=252885263003870, Pid=252885263003780, Title="系统监控", Path="server", Name="ServerManagement", Component="/sys/admin/server/index", Icon="ant-design:alert-outlined", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=108 },
 

@@ -36,7 +36,7 @@ public class SysOnlineUser : EntityBaseId
     /// 最后连接时间
     /// </summary>
     [SugarColumn(ColumnDescription = "最后连接时间")]
-    public DateTimeOffset LastTime { get; set; }
+    public DateTime LastTime { get; set; }
 
     /// <summary>
     /// 最后登录IP

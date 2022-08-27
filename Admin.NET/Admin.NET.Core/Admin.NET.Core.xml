@@ -2989,6 +2989,13 @@
             <param name="exception"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.ChatHub.ForceExistUser(Admin.NET.Core.ForceExistUserRequest)">
+            <summary>
+            强制下线
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.ChatHub.ClientsSendMessage(Admin.NET.Core.MessageInput)">
             <summary>
             前端调用发送方法（发送信息给某个人）
@@ -3056,6 +3063,13 @@
         <member name="M:Admin.NET.Core.IChatClient.ReceiveMessage(System.Object)">
             <summary>
             发送信息
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.IChatClient.OnlineUserChanged(Admin.NET.Core.OnlineUserChangedDto)">
+            <summary>
+            在线用户变动
             </summary>
             <param name="context"></param>
             <returns></returns>

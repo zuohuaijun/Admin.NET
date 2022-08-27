@@ -38,6 +38,7 @@
     "@iconify/iconify": "^2.2.1",
     "@logicflow/core": "^1.1.13",
     "@logicflow/extension": "^1.1.13",
+    "@microsoft/signalr": "^6.0.8",
     "@vue/runtime-core": "^3.2.33",
     "@vue/shared": "^3.2.33",
     "@vueuse/core": "^8.3.0",

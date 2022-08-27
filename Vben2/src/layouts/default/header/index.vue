@@ -49,7 +49,7 @@
       /> -->
 
       <UserDropDown :theme="getHeaderTheme" />
-
+      <OnlineUser />
       <SettingDrawer v-if="getShowSetting" :class="`${prefixCls}-action__item`" />
     </div>
   </Header>
@@ -80,6 +80,7 @@
 
   import { createAsyncComponent } from '/@/utils/factory/createAsyncComponent';
   import { useLocale } from '/@/locales/useLocale';
+  import OnlineUser from '/@/extension/components/OnlineUser/OnlineUser.vue';
 
   export default defineComponent({
     name: 'LayoutHeader',
@@ -97,7 +98,8 @@
       ErrorAction,
       SettingDrawer: createAsyncComponent(() => import('/@/layouts/default/setting/index.vue'), {
         loading: true,
-      }),
+      }),      
+      OnlineUser,
     },
     props: {
       fixed: propTypes.bool,
