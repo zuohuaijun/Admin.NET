@@ -1,5 +1,4 @@
-﻿
-namespace Admin.NET.Core;
+﻿namespace Admin.NET.Core;
 
 public class ChatHubPrefix
 {
