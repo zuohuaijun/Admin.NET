@@ -28,7 +28,7 @@
                   <Space>
                     <span>
                       <ClockCircleOutlined />{{
-                        formatToDateTimes(item.lastTime, 'YYYY/MM/DD HH:mm:ss')
+                        formatToDateTime(item.lastTime, 'YYYY/MM/DD HH:mm:ss')
                       }}
                       <Divider type="vertical" />
                     </span>
@@ -77,7 +77,7 @@
     ClockCircleOutlined,
   } from '@ant-design/icons-vue';
 
-  import { formatToDateTimes } from '/@/utils/dateUtil';
+  import { formatToDateTime } from '/@/utils/dateUtil';
   const { VITE_GLOB_SIGNALR_URL } = getAppEnvConfig();
   const userStore = useUserStore();
   const { hasPermission } = usePermission();
