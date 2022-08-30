@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统职位服务
 /// </summary>
-[ApiDescriptionSettings(Name = "系统职位", Order = 196)]
+[ApiDescriptionSettings(Order = 196)]
 public class SysPosService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysPos> _sysPosRep;

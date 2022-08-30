@@ -1491,217 +1491,217 @@
             角色
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WechatPay">
+        <member name="T:Admin.NET.Core.WeChatPay">
             <summary>
             微信支付表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.MerchantId">
+        <member name="P:Admin.NET.Core.WeChatPay.MerchantId">
             <summary>
             微信商户号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.AppId">
+        <member name="P:Admin.NET.Core.WeChatPay.AppId">
             <summary>
             服务商AppId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.OutTradeNumber">
+        <member name="P:Admin.NET.Core.WeChatPay.OutTradeNumber">
             <summary>
             商户订单号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.TransactionId">
+        <member name="P:Admin.NET.Core.WeChatPay.TransactionId">
             <summary>
             支付订单号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.TradeType">
+        <member name="P:Admin.NET.Core.WeChatPay.TradeType">
             <summary>
             交易类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.TradeState">
+        <member name="P:Admin.NET.Core.WeChatPay.TradeState">
             <summary>
             交易状态
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.TradeStateDescription">
+        <member name="P:Admin.NET.Core.WeChatPay.TradeStateDescription">
             <summary>
             交易状态描述
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.BankType">
+        <member name="P:Admin.NET.Core.WeChatPay.BankType">
             <summary>
             付款银行类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.Total">
+        <member name="P:Admin.NET.Core.WeChatPay.Total">
             <summary>
             订单总金额
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.PayerTotal">
+        <member name="P:Admin.NET.Core.WeChatPay.PayerTotal">
             <summary>
             用户支付金额
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.SuccessTime">
+        <member name="P:Admin.NET.Core.WeChatPay.SuccessTime">
             <summary>
             支付完成时间
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.ExpireTime">
+        <member name="P:Admin.NET.Core.WeChatPay.ExpireTime">
             <summary>
             交易结束时间
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.Description">
+        <member name="P:Admin.NET.Core.WeChatPay.Description">
             <summary>
             商品描述
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.Scene">
+        <member name="P:Admin.NET.Core.WeChatPay.Scene">
             <summary>
             场景信息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.Attachment">
+        <member name="P:Admin.NET.Core.WeChatPay.Attachment">
             <summary>
             附加数据
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.GoodsTag">
+        <member name="P:Admin.NET.Core.WeChatPay.GoodsTag">
             <summary>
             优惠标记
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.Settlement">
+        <member name="P:Admin.NET.Core.WeChatPay.Settlement">
             <summary>
             结算信息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.NotifyUrl">
+        <member name="P:Admin.NET.Core.WeChatPay.NotifyUrl">
             <summary>
             回调通知地址
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.Remark">
+        <member name="P:Admin.NET.Core.WeChatPay.Remark">
             <summary>
             备注
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.OpenId">
+        <member name="P:Admin.NET.Core.WeChatPay.OpenId">
             <summary>
             微信OpenId标识
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.WechatUser">
+        <member name="P:Admin.NET.Core.WeChatPay.WeChatUser">
             <summary>
             关联微信用户
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.SubMerchantId">
+        <member name="P:Admin.NET.Core.WeChatPay.SubMerchantId">
             <summary>
             子商户号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.SubAppId">
+        <member name="P:Admin.NET.Core.WeChatPay.SubAppId">
             <summary>
             子商户AppId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPay.SubOpenId">
+        <member name="P:Admin.NET.Core.WeChatPay.SubOpenId">
             <summary>
             子商户唯一标识
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WechatUser">
+        <member name="T:Admin.NET.Core.WeChatUser">
             <summary>
             微信用户表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.UserId">
+        <member name="P:Admin.NET.Core.WeChatUser.UserId">
             <summary>
             关联系统用户Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.SysPos">
+        <member name="P:Admin.NET.Core.WeChatUser.SysPos">
             <summary>
             关联系统用户
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.Type">
+        <member name="P:Admin.NET.Core.WeChatUser.Type">
             <summary>
             第三方登录类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.OpenId">
+        <member name="P:Admin.NET.Core.WeChatUser.OpenId">
             <summary>
             OpenId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.SessionKey">
+        <member name="P:Admin.NET.Core.WeChatUser.SessionKey">
             <summary>
             缓存key
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.UnionId">
+        <member name="P:Admin.NET.Core.WeChatUser.UnionId">
             <summary>
             UnionId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.NickName">
+        <member name="P:Admin.NET.Core.WeChatUser.NickName">
             <summary>
             昵称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.Avatar">
+        <member name="P:Admin.NET.Core.WeChatUser.Avatar">
             <summary>
             头像
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.Mobile">
+        <member name="P:Admin.NET.Core.WeChatUser.Mobile">
             <summary>
             手机号码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.Sex">
+        <member name="P:Admin.NET.Core.WeChatUser.Sex">
             <summary>
             性别
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.Language">
+        <member name="P:Admin.NET.Core.WeChatUser.Language">
             <summary>
             语言
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.City">
+        <member name="P:Admin.NET.Core.WeChatUser.City">
             <summary>
             城市
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.Province">
+        <member name="P:Admin.NET.Core.WeChatUser.Province">
             <summary>
             省
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.Country">
+        <member name="P:Admin.NET.Core.WeChatUser.Country">
             <summary>
             国家
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.AccessToken">
+        <member name="P:Admin.NET.Core.WeChatUser.AccessToken">
             <summary>
             AccessToken
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.RefreshToken">
+        <member name="P:Admin.NET.Core.WeChatUser.RefreshToken">
             <summary>
             RefreshToken
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatUser.ExpiresIn">
+        <member name="P:Admin.NET.Core.WeChatUser.ExpiresIn">
             <summary>
             过期时间
             </summary>
@@ -3000,54 +3000,29 @@
             <summary>
             前端调用发送方法（发送信息给某个人）
             </summary>
-            <param name="_message"></param>
+            <param name="message"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.ChatHub.ClientsSendMessagetoAll(Admin.NET.Core.MessageInput)">
             <summary>
             前端调用发送方法（发送信息给所有人）
             </summary>
-            <param name="_message"></param>
+            <param name="message"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.ChatHub.ClientsSendMessagetoOther(Admin.NET.Core.MessageInput)">
             <summary>
             前端调用发送方法（发送消息给除了发送人的其他人）
             </summary>
-            <param name="_message"></param>
+            <param name="message"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.ChatHub.ClientsSendMessagetoUsers(Admin.NET.Core.MessageInput)">
             <summary>
             前端调用发送方法（发送消息给某些人）
             </summary>
-            <param name="_message"></param>
+            <param name="message"></param>
             <returns></returns>
-        </member>
-        <member name="P:Admin.NET.Core.MessageInput.UserId">
-            <summary>
-            用户ID
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.MessageInput.UserIds">
-            <summary>
-            用户ID列表
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.MessageInput.Title">
-            <summary>
-            消息标题
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.MessageInput.Message">
-            <summary>
-            消息内容
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.MessageInput.MessageType">
-            <summary>
-            消息类型
-            </summary>
         </member>
         <member name="T:Admin.NET.Core.IChatClient">
             <summary>
@@ -3184,12 +3159,12 @@
             支付回调配置选项
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.PayCallBackOptions.WechatPayUrl">
+        <member name="P:Admin.NET.Core.PayCallBackOptions.WeChatPayUrl">
             <summary>
             微信支付回调
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.PayCallBackOptions.WechatRefundUrl">
+        <member name="P:Admin.NET.Core.PayCallBackOptions.WeChatRefundUrl">
             <summary>
             微信退款回调
             </summary>
@@ -3264,42 +3239,42 @@
             上传格式
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WechatOptions">
+        <member name="T:Admin.NET.Core.WeChatOptions">
             <summary>
             微信相关配置选项
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WechatPayOptions">
+        <member name="T:Admin.NET.Core.WeChatPayOptions">
             <summary>
             微信支付配置选项
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.AppId">
+        <member name="P:Admin.NET.Core.WeChatPayOptions.AppId">
             <summary>
             微信公众平台AppId、开放平台AppId、小程序AppId、企业微信CorpId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantId">
+        <member name="P:Admin.NET.Core.WeChatPayOptions.MerchantId">
              <summary>
             商户平台的商户号
              </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantV3Secret">
+        <member name="P:Admin.NET.Core.WeChatPayOptions.MerchantV3Secret">
             <summary>
             商户平台的APIv3密钥
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantCertificateSerialNumber">
+        <member name="P:Admin.NET.Core.WeChatPayOptions.MerchantCertificateSerialNumber">
             <summary>
             商户平台的证书序列号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantCertificatePrivateKey">
+        <member name="P:Admin.NET.Core.WeChatPayOptions.MerchantCertificatePrivateKey">
             <summary>
             商户平台的API证书私钥(apiclient_key.pem文件内容)
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.RsaPublicKey">
+        <member name="P:Admin.NET.Core.WeChatPayOptions.RsaPublicKey">
             <summary>
             RSA公钥 仅调用"企业付款到银行卡API"时使用
             </summary>
@@ -3458,50 +3433,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.AuthService">
-            <summary>
-            系统登录授权服务
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.AuthService.Login(Admin.NET.Core.Service.LoginInput)">
-            <summary>
-            登录系统
-            </summary>
-            <param name="input"></param>
-            <remarks>用户名/密码：vben/123456</remarks>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.AuthService.GetUserInfo">
-            <summary>
-            获取用户信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.AuthService.RefreshToken(System.String)">
-            <summary>
-            获取刷新Token
-            </summary>
-            <param name="accessToken"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.AuthService.Logout">
-            <summary>
-            退出系统
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.AuthService.SwaggerCheckUrl">
-            <summary>
-            Swagger登录检查
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.AuthService.SwaggerSubmitUrl(Furion.SpecificationDocument.SpecificationAuth)">
-            <summary>
-            Swagger登录
-            </summary>
-            <param name="auth"></param>
-            <returns></returns>
-        </member>
         <member name="T:Admin.NET.Core.Service.LoginInput">
             <summary>
             用户登录参数
@@ -3600,6 +3531,50 @@
             角色编码
             </summary>
             <example>123456</example>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysAuthService">
+            <summary>
+            系统登录授权服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.Login(Admin.NET.Core.Service.LoginInput)">
+            <summary>
+            登录系统
+            </summary>
+            <param name="input"></param>
+            <remarks>用户名/密码：vben/123456</remarks>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.GetUserInfo">
+            <summary>
+            获取用户信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.RefreshToken(System.String)">
+            <summary>
+            获取刷新Token
+            </summary>
+            <param name="accessToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.Logout">
+            <summary>
+            退出系统
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.SwaggerCheckUrl">
+            <summary>
+            Swagger登录检查
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.SwaggerSubmitUrl(Furion.SpecificationDocument.SpecificationAuth)">
+            <summary>
+            Swagger登录
+            </summary>
+            <param name="auth"></param>
+            <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.SysCacheService">
             <summary>
@@ -3746,143 +3721,6 @@
              根据父键清空
             </summary>
             <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.Service.CodeGenConfigService">
-            <summary>
-            代码生成详细配置服务
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.List(Admin.NET.Core.Service.CodeGenConfig)">
-            <summary>
-            代码生成详细配置列表
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.Add(Admin.NET.Core.Service.CodeGenConfig)">
-            <summary>
-            增加
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.Delete(System.Int64)">
-            <summary>
-            删除
-            </summary>
-            <param name="codeGenId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.Update(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
-            <summary>
-            更新
-            </summary>
-            <param name="inputList"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.Detail(Admin.NET.Core.Service.CodeGenConfig)">
-            <summary>
-            详情
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenConfigService.AddList(System.Collections.Generic.List{Admin.NET.Core.Service.TableColumnOuput},Admin.NET.Core.SysCodeGen)">
-            <summary>
-            批量增加
-            </summary>
-            <param name="tableColumnOuputList"></param>
-            <param name="codeGenerate"></param>
-        </member>
-        <member name="T:Admin.NET.Core.Service.CodeGenService">
-            <summary>
-            代码生成器服务
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.GetCodeGenPage(Admin.NET.Core.Service.CodeGenInput)">
-            <summary>
-            分页查询
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.AddCodeGen(Admin.NET.Core.Service.AddCodeGenInput)">
-            <summary>
-            增加
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.DeleteCodeGen(System.Collections.Generic.List{Admin.NET.Core.Service.DeleteCodeGenInput})">
-            <summary>
-            删除
-            </summary>
-            <param name="inputs"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.UpdateCodeGen(Admin.NET.Core.Service.UpdateCodeGenInput)">
-            <summary>
-            更新
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.GetCodeGen(Admin.NET.Core.Service.QueryCodeGenInput)">
-            <summary>
-            详情
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.GetDatabaseList">
-            <summary>
-            获取数据库库集合
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.GetTableList(System.String)">
-            <summary>
-            获取数据库表(实体)集合
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.GetColumnListByTableName(System.String,System.String)">
-            <summary>
-            根据表名获取列
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.GetColumnList(Admin.NET.Core.Service.AddCodeGenInput)">
-            <summary>
-            获取数据表列（实体属性）集合
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.RunLocal(Admin.NET.Core.SysCodeGen)">
-            <summary>
-            代码生成_本地项目
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.GetJoinTableStr(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
-            <summary>
-            获取连表的实体名和别名
-            </summary>
-            <param name="configs"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.GetTemplatePathList">
-            <summary>
-            获取模板文件路径集合
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.CodeGenService.GetTargetPathList(Admin.NET.Core.SysCodeGen)">
-            <summary>
-            设置生成文件路径
-            </summary>
-            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.CodeGenConfig">
@@ -4290,6 +4128,143 @@
             表名称描述（注释）（功能名）
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.Service.SysCodeGenConfigService">
+            <summary>
+            系统代码生成配置服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.List(Admin.NET.Core.Service.CodeGenConfig)">
+            <summary>
+            代码生成详细配置列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Add(Admin.NET.Core.Service.CodeGenConfig)">
+            <summary>
+            增加
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Delete(System.Int64)">
+            <summary>
+            删除
+            </summary>
+            <param name="codeGenId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Update(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
+            <summary>
+            更新
+            </summary>
+            <param name="inputList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Detail(Admin.NET.Core.Service.CodeGenConfig)">
+            <summary>
+            详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.AddList(System.Collections.Generic.List{Admin.NET.Core.Service.TableColumnOuput},Admin.NET.Core.SysCodeGen)">
+            <summary>
+            批量增加
+            </summary>
+            <param name="tableColumnOuputList"></param>
+            <param name="codeGenerate"></param>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysCodeGenService">
+            <summary>
+            系统代码生成器服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetCodeGenPage(Admin.NET.Core.Service.CodeGenInput)">
+            <summary>
+            分页查询
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.AddCodeGen(Admin.NET.Core.Service.AddCodeGenInput)">
+            <summary>
+            增加
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.DeleteCodeGen(System.Collections.Generic.List{Admin.NET.Core.Service.DeleteCodeGenInput})">
+            <summary>
+            删除
+            </summary>
+            <param name="inputs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.UpdateCodeGen(Admin.NET.Core.Service.UpdateCodeGenInput)">
+            <summary>
+            更新
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetCodeGen(Admin.NET.Core.Service.QueryCodeGenInput)">
+            <summary>
+            详情
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetDatabaseList">
+            <summary>
+            获取数据库库集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetTableList(System.String)">
+            <summary>
+            获取数据库表(实体)集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetColumnListByTableName(System.String,System.String)">
+            <summary>
+            根据表名获取列
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetColumnList(Admin.NET.Core.Service.AddCodeGenInput)">
+            <summary>
+            获取数据表列（实体属性）集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.RunLocal(Admin.NET.Core.SysCodeGen)">
+            <summary>
+            代码生成_本地项目
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetJoinTableStr(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
+            <summary>
+            获取连表的实体名和别名
+            </summary>
+            <param name="configs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetTemplatePathList">
+            <summary>
+            获取模板文件路径集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetTargetPathList(Admin.NET.Core.SysCodeGen)">
+            <summary>
+            设置生成文件路径
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.Service.CommonService.GetEntityInfos">
             <summary>
             获取库表信息
@@ -4457,36 +4432,6 @@
             <param name="code"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.ConstSelectorService">
-            <summary>
-            常量下拉框服务
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.ConstSelectorService.GetAllConstSelector">
-            <summary>
-            获取所有常量下拉框列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.ConstSelectorService.GetConstSelector(System.String)">
-            <summary>
-            根据类名获取下拉框数据
-            </summary>
-            <param name="typeName"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.ConstSelectorService.GetAllConstSelectorWithOptions">
-            <summary>
-            获取所有下拉框及选项  用于前端缓存
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.ConstSelectorService.GetAllTypesAsync">
-            <summary>
-            获取所有常量
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:Admin.NET.Core.Service.SelectorDto.Name">
             <summary>
             名称
@@ -4502,79 +4447,34 @@
             扩展字段
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.DataBaseManager">
+        <member name="T:Admin.NET.Core.Service.SysConstService">
             <summary>
-            数据库管理服务
+            系统常量服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.ColumnAdd(Admin.NET.Core.Service.DbColumnInfoInput)">
+        <member name="M:Admin.NET.Core.Service.SysConstService.GetAllConstSelector">
             <summary>
-            添加列
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.ColumnDelete(Admin.NET.Core.Service.DbColumnInfoOutput)">
-            <summary>
-            删除列
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.ColumnEdit(Admin.NET.Core.Service.EditColumnInput)">
-            <summary>
-            编辑列
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetColumnInfosByTableName(System.String,System.String)">
-            <summary>
-            获取表字段
-            </summary>
-            <param name="tableName">表名</param>
-            <param name="configId">ConfigId</param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetTableInfoList(System.String)">
-            <summary>
-            获取表信息
-            </summary>
-            <param name="configId">ConfigId</param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.TableAdd(Admin.NET.Core.Service.DbTableInfoInput)">
-            <summary>
-            新增表
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.TableDelete(Admin.NET.Core.Service.DeleteTableInput)">
-            <summary>
-            删除表
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.TableEdit(Admin.NET.Core.Service.EditTableInput)">
-            <summary>
-            编辑表
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.CreateEntity(Admin.NET.Core.Service.CreateEntityInput)">
-            <summary>
-            创建实体
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetTemplatePath">
-            <summary>
-            获取模板文件路径集合
+            获取所有常量下拉框列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.DataBaseManager.GetTargetPath(Admin.NET.Core.Service.CreateEntityInput)">
+        <member name="M:Admin.NET.Core.Service.SysConstService.GetConstSelector(System.String)">
             <summary>
-            设置生成文件路径
+            根据类名获取下拉框数据
             </summary>
-            <param name="input"></param>
+            <param name="typeName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConstService.GetAllConstSelectorWithOptions">
+            <summary>
+            获取所有下拉框及选项  用于前端缓存
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConstService.GetAllTypesAsync">
+            <summary>
+            获取所有常量
+            </summary>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.TableName">
@@ -4605,6 +4505,81 @@
              <summary>
             
              </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysDataBaseService">
+            <summary>
+            系统数据库管理服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.ColumnAdd(Admin.NET.Core.Service.DbColumnInfoInput)">
+            <summary>
+            添加列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.ColumnDelete(Admin.NET.Core.Service.DbColumnInfoOutput)">
+            <summary>
+            删除列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.ColumnEdit(Admin.NET.Core.Service.EditColumnInput)">
+            <summary>
+            编辑列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetColumnInfosByTableName(System.String,System.String)">
+            <summary>
+            获取表字段
+            </summary>
+            <param name="tableName">表名</param>
+            <param name="configId">ConfigId</param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetTableInfoList(System.String)">
+            <summary>
+            获取表信息
+            </summary>
+            <param name="configId">ConfigId</param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.TableAdd(Admin.NET.Core.Service.DbTableInfoInput)">
+            <summary>
+            新增表
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.TableDelete(Admin.NET.Core.Service.DeleteTableInput)">
+            <summary>
+            删除表
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.TableEdit(Admin.NET.Core.Service.EditTableInput)">
+            <summary>
+            编辑表
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.CreateEntity(Admin.NET.Core.Service.CreateEntityInput)">
+            <summary>
+            创建实体
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetTemplatePath">
+            <summary>
+            获取模板文件路径集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetTargetPath(Admin.NET.Core.Service.CreateEntityInput)">
+            <summary>
+            设置生成文件路径
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.DataResourcesTreeInput.RootValue">
             <summary>
@@ -5131,7 +5106,7 @@
         </member>
         <member name="T:Admin.NET.Core.Service.SysLogDiffService">
             <summary>
-            差异日志服务
+            系统差异日志服务
             </summary>
         </member>
         <member name="M:Admin.NET.Core.Service.SysLogDiffService.GetLogDiffPage(Admin.NET.Core.Service.PageLogInput)">
@@ -5444,100 +5419,79 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.IMessageService.SendMessageToUser(System.String,System.String,Admin.NET.Core.MessageTypeEnum,System.Int64)">
-            <summary>
-            发送消息给某个人
-            </summary>
-            <param name="title">发送标题</param>
-            <param name="message">发送内容</param>
-            <param name="userId">接收人</param>
-            <param name="type">消息类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.IMessageService.SendMessageToUsers(System.String,System.String,Admin.NET.Core.MessageTypeEnum,System.Collections.Generic.List{System.Int64})">
-            <summary>
-            发送消息给某些人
-            </summary>
-            <param name="title">发送标题</param>
-            <param name="message">发送内容</param>
-            <param name="userId">接收人列表</param>
-            <param name="type">消息类型</param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.IMessageService.SendMessageToAllUser(System.String,System.String,Admin.NET.Core.MessageTypeEnum)">
+        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendMessageToAllUser(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给所有人
             </summary>
-            <param name="title">发送标题</param>
-            <param name="message">发送内容</param>
-            <param name="type">消息类型</param>
+            <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.IMessageService.SendMessageToOtherUser(System.String,System.String,Admin.NET.Core.MessageTypeEnum,System.Int64)">
+        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendMessageToUser(Admin.NET.Core.MessageInput)">
+            <summary>
+            发送消息给某个人
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendMessageToUsers(Admin.NET.Core.MessageInput)">
+            <summary>
+            发送消息给某些人
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendMessageToOtherUser(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给除了发送人的其他人
             </summary>
-            <param name="title">发送标题</param>
-            <param name="message">发送内容</param>
-            <param name="userId">发送人</param>
-            <param name="type">消息类型</param>
+            <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.IMessageService.SendEmail(System.String)">
+        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendEmail(System.String)">
             <summary>
             发送邮件
             </summary>
             <param name="message"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.MessageService">
+        <member name="T:Admin.NET.Core.Service.SysMessageService">
             <summary>
-            消息发送服务
+            系统消息发送服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.MessageService.SendMessageToAllUser(System.String,System.String,Admin.NET.Core.MessageTypeEnum)">
+        <member name="M:Admin.NET.Core.Service.SysMessageService.SendMessageToAllUser(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给所有人
             </summary>
-            <param name="title">发送标题</param>
-            <param name="message">发送内容</param>
-            <param name="type">消息类型</param>
+            <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.MessageService.SendMessageToOtherUser(System.String,System.String,Admin.NET.Core.MessageTypeEnum,System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysMessageService.SendMessageToOtherUser(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给除了发送人的其他人
             </summary>
-            <param name="title">发送标题</param>
-            <param name="message">发送内容</param>
-            <param name="userId">发送人</param>
-            <param name="type">消息类型</param>
+            <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.MessageService.SendMessageToUser(System.String,System.String,Admin.NET.Core.MessageTypeEnum,System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysMessageService.SendMessageToUser(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给某个人
             </summary>
-            <param name="title">发送标题</param>
-            <param name="message">发送内容</param>
-            <param name="userId">接收人</param>
-            <param name="type">消息类型</param>
+            <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.MessageService.SendMessageToUsers(System.String,System.String,Admin.NET.Core.MessageTypeEnum,System.Collections.Generic.List{System.Int64})">
+        <member name="M:Admin.NET.Core.Service.SysMessageService.SendMessageToUsers(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给某些人
             </summary>
-            <param name="title">发送标题</param>
-            <param name="message">发送内容</param>
-            <param name="userId">接收人列表</param>
-            <param name="type">消息类型</param>
+            <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.MessageService.SendEmail(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysMessageService.SendEmail(System.String)">
             <summary>
             发送邮件
             </summary>
+            <param name="message"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.NoticeBase">
@@ -6272,24 +6226,24 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.ServerService">
+        <member name="T:Admin.NET.Core.Service.SysServerService">
             <summary>
-            服务器监控服务
+            系统服务器监控服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.ServerService.GetServerBaseInfo">
+        <member name="M:Admin.NET.Core.Service.SysServerService.GetServerBaseInfo">
             <summary>
             服务器基本配置
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ServerService.GetServerUseInfo">
+        <member name="M:Admin.NET.Core.Service.SysServerService.GetServerUseInfo">
             <summary>
             服务器使用资源
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ServerService.GetServerNetWorkInfo">
+        <member name="M:Admin.NET.Core.Service.SysServerService.GetServerNetWorkInfo">
             <summary>
             服务器网络信息
             </summary>
@@ -6372,7 +6326,7 @@
         </member>
         <member name="T:Admin.NET.Core.Service.SysTenantService">
             <summary>
-            租户管理服务
+            系统租户管理服务
             </summary>
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantPage(Admin.NET.Core.Service.TenantInput)">
@@ -6502,7 +6456,7 @@
         </member>
         <member name="T:Admin.NET.Core.Service.SysTimerService">
             <summary>
-            定时任务服务
+            系统定时任务服务
             </summary>
         </member>
         <member name="M:Admin.NET.Core.Service.SysTimerService.GetTimerPage(Admin.NET.Core.Service.PageTimerInput)">
@@ -6994,12 +6948,12 @@
             Scope
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatOAuth2Input.Code">
+        <member name="P:Admin.NET.Core.Service.WeChatOAuth2Input.Code">
             <summary>
             Code
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatUserLogin.OpenId">
+        <member name="P:Admin.NET.Core.Service.WeChatUserLogin.OpenId">
             <summary>
             OpenId
             </summary>
@@ -7009,52 +6963,52 @@
             Url
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.OpenId">
+        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.OpenId">
             <summary>
             OpenId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.Total">
+        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.Total">
             <summary>
             订单金额
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.Description">
+        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.Description">
             <summary>
             商品描述
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.Attachment">
+        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.Attachment">
             <summary>
             附加数据
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.GoodsTag">
+        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.GoodsTag">
             <summary>
             优惠标记
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayParaInput.PrepayId">
+        <member name="P:Admin.NET.Core.Service.WeChatPayParaInput.PrepayId">
             <summary>
             订单Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayOutput.OpenId">
+        <member name="P:Admin.NET.Core.Service.WeChatPayOutput.OpenId">
             <summary>
             OpenId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayOutput.Total">
+        <member name="P:Admin.NET.Core.Service.WeChatPayOutput.Total">
             <summary>
             订单金额
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayOutput.Attachment">
+        <member name="P:Admin.NET.Core.Service.WeChatPayOutput.Attachment">
             <summary>
             附加数据
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatPayOutput.GoodsTag">
+        <member name="P:Admin.NET.Core.Service.WeChatPayOutput.GoodsTag">
             <summary>
             优惠标记
             </summary>
@@ -7064,7 +7018,7 @@
             微信API客户端
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatApiHttpClient.CreateWechatClient">
+        <member name="M:Admin.NET.Core.Service.WeChatApiHttpClient.CreateWeChatClient">
             <summary>
             微信公众号
             </summary>
@@ -7087,19 +7041,19 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.GenerateParametersForJsapiPay(Admin.NET.Core.Service.WechatPayParaInput)">
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.GenerateParametersForJsapiPay(Admin.NET.Core.Service.WeChatPayParaInput)">
             <summary>
             生成JSAPI调起支付所需参数
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreatePayTransaction(Admin.NET.Core.Service.WechatPayTransactionInput)">
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreatePayTransaction(Admin.NET.Core.Service.WeChatPayTransactionInput)">
             <summary>
             微信支付统一下单获取Id(商户直连)
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreatePayPartnerTransaction(Admin.NET.Core.Service.WechatPayTransactionInput)">
+        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreatePayPartnerTransaction(Admin.NET.Core.Service.WeChatPayTransactionInput)">
             <summary>
             微信支付统一下单获取Id(服务商模式)
             </summary>
@@ -7123,36 +7077,61 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.WechatService">
+        <member name="T:Admin.NET.Core.Service.WeChatService">
             <summary>
             微信公众号服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.WechatService.GenAuthUrl(Admin.NET.Core.Service.GenAuthUrlInput)">
+        <member name="M:Admin.NET.Core.Service.WeChatService.GenAuthUrl(Admin.NET.Core.Service.GenAuthUrlInput)">
             <summary>
             生成网页授权Url
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WechatService.LoginOAuth2(Admin.NET.Core.Service.WechatOAuth2Input)">
+        <member name="M:Admin.NET.Core.Service.WeChatService.LoginOAuth2(Admin.NET.Core.Service.WeChatOAuth2Input)">
             <summary>
             授权登录(Code换取OpenId)
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.WechatService.WechatUserLogin(Admin.NET.Core.Service.WechatUserLogin)">
+        <member name="M:Admin.NET.Core.Service.WeChatService.WechatUserLogin(Admin.NET.Core.Service.WeChatUserLogin)">
             <summary>
             微信用户登录
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WechatService.GenConfigPara(Admin.NET.Core.Service.SignatureInput)">
+        <member name="M:Admin.NET.Core.Service.WeChatService.GenConfigPara(Admin.NET.Core.Service.SignatureInput)">
             <summary>
             获取配置签名参数(wx.config)
             </summary>
             <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.MessageInput.UserId">
+            <summary>
+            用户ID
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MessageInput.UserIds">
+            <summary>
+            用户ID列表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MessageInput.Title">
+            <summary>
+            消息标题
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MessageInput.Message">
+            <summary>
+            消息内容
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MessageInput.MessageType">
+            <summary>
+            消息类型
+            </summary>
         </member>
         <member name="T:Admin.NET.Core.UserManager">
             <summary>

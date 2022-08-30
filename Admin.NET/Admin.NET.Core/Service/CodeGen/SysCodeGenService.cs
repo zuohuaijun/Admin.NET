@@ -1,19 +1,19 @@
 namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 代码生成器服务
+/// 系统代码生成器服务
 /// </summary>
-[ApiDescriptionSettings(Name = "代码生成器", Order = 150)]
-public class CodeGenService : IDynamicApiController, ITransient
+[ApiDescriptionSettings(Order = 150)]
+public class SysCodeGenService : IDynamicApiController, ITransient
 {
     private readonly ISqlSugarClient _db;
 
-    private readonly CodeGenConfigService _codeGenConfigService;
+    private readonly SysCodeGenConfigService _codeGenConfigService;
     private readonly IViewEngine _viewEngine;
     private readonly ICommonService _commonService;
 
-    public CodeGenService(ISqlSugarClient db,
-        CodeGenConfigService codeGenConfigService,
+    public SysCodeGenService(ISqlSugarClient db,
+        SysCodeGenConfigService codeGenConfigService,
         IViewEngine viewEngine,
         ICommonService commonService)
     {

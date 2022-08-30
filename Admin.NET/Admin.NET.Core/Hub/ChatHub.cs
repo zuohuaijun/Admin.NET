@@ -10,18 +10,17 @@ namespace Admin.NET.Core;
 public class ChatHub : Hub<IChatClient>
 {
     private readonly ISysCacheService _cache;
-    private readonly IMessageService _sendMessageService;
+    private readonly ISysMessageService _sysMessageService;
     private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
     private readonly IHubContext<ChatHub, IChatClient> _chatHubContext;
 
-
     public ChatHub(ISysCacheService cache,
-        IMessageService sendMessageService,
+        ISysMessageService sysMessageService,
         SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
         IHubContext<ChatHub, IChatClient> chatHubContext)
     {
         _cache = cache;
-        _sendMessageService = sendMessageService;
+        _sysMessageService = sysMessageService;
         _sysOnlineUerRep = sysOnlineUerRep;
         _chatHubContext = chatHubContext;
     }
@@ -71,7 +70,6 @@ public class ChatHub : Hub<IChatClient>
         //onlineUsers.Add();
         //await _cache.SetAsync($"{CacheConst.KeyOnlineUser}{ Context.ConnectionId}", user);
 
-
         //await _sendMessageService.SendMessageToUserByConnectionId("asdasd但凡生得分", "下线吧", MessageTypeEnum.Offline, Context.ConnectionId);
     }
 
@@ -115,45 +113,44 @@ public class ChatHub : Hub<IChatClient>
         await _chatHubContext.Clients.Client(request.ConnectionId).ForceExist("强制下线");
     }
 
-
     /// <summary>
     /// 前端调用发送方法（发送信息给某个人）
     /// </summary>
-    /// <param name="_message"></param>
+    /// <param name="message"></param>
     /// <returns></returns>
-    public async Task ClientsSendMessage(MessageInput _message)
+    public async Task ClientsSendMessage(MessageInput message)
     {
-        await _sendMessageService.SendMessageToUser(_message.Title, _message.Message, _message.MessageType, _message.UserId);
+        await _sysMessageService.SendMessageToUser(message);
     }
 
     /// <summary>
     /// 前端调用发送方法（发送信息给所有人）
     /// </summary>
-    /// <param name="_message"></param>
+    /// <param name="message"></param>
     /// <returns></returns>
-    public async Task ClientsSendMessagetoAll(MessageInput _message)
+    public async Task ClientsSendMessagetoAll(MessageInput message)
     {
-        await _sendMessageService.SendMessageToAllUser(_message.Title, _message.Message, _message.MessageType);
+        await _sysMessageService.SendMessageToAllUser(message);
     }
 
     /// <summary>
     /// 前端调用发送方法（发送消息给除了发送人的其他人）
     /// </summary>
-    /// <param name="_message"></param>
+    /// <param name="message"></param>
     /// <returns></returns>
-    public async Task ClientsSendMessagetoOther(MessageInput _message)
+    public async Task ClientsSendMessagetoOther(MessageInput message)
     {
         // _message.userId为发送人ID
-        await _sendMessageService.SendMessageToOtherUser(_message.Title, _message.Message, _message.MessageType, _message.UserId);
+        await _sysMessageService.SendMessageToOtherUser(message);
     }
 
     /// <summary>
     /// 前端调用发送方法（发送消息给某些人）
     /// </summary>
-    /// <param name="_message"></param>
+    /// <param name="message"></param>
     /// <returns></returns>
-    public async Task ClientsSendMessagetoUsers(MessageInput _message)
+    public async Task ClientsSendMessagetoUsers(MessageInput message)
     {
-        await _sendMessageService.SendMessageToUsers(_message.Title, _message.Message, _message.MessageType, _message.UserIds);
+        await _sysMessageService.SendMessageToUsers(message);
     }
 }

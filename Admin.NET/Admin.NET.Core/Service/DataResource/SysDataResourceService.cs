@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统数据资源服务
 /// </summary>
-[ApiDescriptionSettings(Name = "系统数据资源", Order = 189)]
+[ApiDescriptionSettings(Order = 189)]
 public class SysDataResourceService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysDataResource> _sysDataResourceRep;

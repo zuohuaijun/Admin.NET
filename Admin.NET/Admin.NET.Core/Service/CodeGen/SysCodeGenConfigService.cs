@@ -1,14 +1,14 @@
 ﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 代码生成详细配置服务
+/// 系统代码生成配置服务
 /// </summary>
-[ApiDescriptionSettings(Name = "代码生成配置", Order = 149)]
-public class CodeGenConfigService : IDynamicApiController, ITransient
+[ApiDescriptionSettings(Order = 149)]
+public class SysCodeGenConfigService : IDynamicApiController, ITransient
 {
     private readonly ISqlSugarClient _db;
 
-    public CodeGenConfigService(ISqlSugarClient db)
+    public SysCodeGenConfigService(ISqlSugarClient db)
     {
         _db = db;
     }
@@ -67,7 +67,7 @@ public class CodeGenConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysCodeGenerateConfig/detail")]
-    public async Task<SysCodeGenConfig> Detail(CodeGenConfig input)
+    public async Task<SysCodeGenConfig> Detail([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>().FirstAsync(u => u.Id == input.Id);
     }

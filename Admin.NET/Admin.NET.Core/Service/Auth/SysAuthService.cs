@@ -6,8 +6,8 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统登录授权服务
 /// </summary>
-[ApiDescriptionSettings(Name = "登录授权", Order = 200)]
-public class AuthService : IDynamicApiController, ITransient
+[ApiDescriptionSettings(Order = 200)]
+public class SysAuthService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
     private readonly RefreshTokenOptions _refreshTokenOptions;
@@ -18,7 +18,7 @@ public class AuthService : IDynamicApiController, ITransient
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly IMemoryCache _cache;
 
-    public AuthService(SqlSugarRepository<SysUser> sysUserRep,
+    public SysAuthService(SqlSugarRepository<SysUser> sysUserRep,
         IOptions<RefreshTokenOptions> refreshTokenOptions,
         IHttpContextAccessor httpContextAccessor,
         IUserManager userManager,

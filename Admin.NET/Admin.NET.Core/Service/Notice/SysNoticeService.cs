@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统通知公告服务
 /// </summary>
-[ApiDescriptionSettings(Name = "通知公告", Order = 100)]
+[ApiDescriptionSettings(Order = 100)]
 public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysNotice> _sysNoticeRep;

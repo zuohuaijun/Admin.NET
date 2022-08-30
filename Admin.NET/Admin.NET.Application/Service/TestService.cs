@@ -9,7 +9,7 @@ namespace Admin.NET.Application.Service;
 /// <summary>
 /// 自己业务服务
 /// </summary>
-[ApiDescriptionSettings(TestConst.GroupName, Name = "XXX模块", Order = 200)]
+[ApiDescriptionSettings(TestConst.GroupName, Order = 200)]
 [AllowAnonymous]
 public class TestService : IDynamicApiController, ITransient
 {

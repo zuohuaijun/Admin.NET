@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统字典值服务
 /// </summary>
-[ApiDescriptionSettings(Name = "系统字典值", Order = 191)]
+[ApiDescriptionSettings(Order = 191)]
 [AllowAnonymous]
 public class SysDictDataService : IDynamicApiController, ITransient
 {

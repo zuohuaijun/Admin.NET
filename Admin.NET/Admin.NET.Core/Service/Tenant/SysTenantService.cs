@@ -1,9 +1,9 @@
 namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 租户管理服务
+/// 系统租户管理服务
 /// </summary>
-[ApiDescriptionSettings(Name = "租户管理", Order = 140)]
+[ApiDescriptionSettings(Order = 140)]
 public class SysTenantService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysTenant> _tenantRep;

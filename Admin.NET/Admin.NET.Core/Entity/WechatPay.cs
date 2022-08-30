@@ -4,7 +4,7 @@
 /// 微信支付表
 /// </summary>
 [SugarTable("wechat_pay", "微信支付表")]
-public class WechatPay : EntityBase
+public class WeChatPay : EntityBase
 {
     /// <summary>
     /// 微信商户号
@@ -130,7 +130,7 @@ public class WechatPay : EntityBase
     /// 关联微信用户
     /// </summary>
     [SugarColumn(IsIgnore = true)]
-    public WechatUser WechatUser { get; set; }
+    public WeChatUser WeChatUser { get; set; }
 
     /// <summary>
     /// 子商户号

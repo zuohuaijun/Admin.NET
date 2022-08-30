@@ -1,15 +1,15 @@
 ﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 数据库管理服务
+/// 系统数据库管理服务
 /// </summary>
-[ApiDescriptionSettings(Name = "数据库管理", Order = 145)]
-public class DataBaseManager : IDynamicApiController, ITransient
+[ApiDescriptionSettings(Order = 145)]
+public class SysDataBaseService : IDynamicApiController, ITransient
 {
     private readonly ISqlSugarClient _db;
     private readonly IViewEngine _viewEngine;
 
-    public DataBaseManager(ISqlSugarClient db, IViewEngine viewEngine)
+    public SysDataBaseService(ISqlSugarClient db, IViewEngine viewEngine)
     {
         _db = db;
         _viewEngine = viewEngine;

@@ -1,15 +1,15 @@
 ﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 常量下拉框服务
+/// 系统常量服务
 /// </summary>
-[ApiDescriptionSettings(Name = "常量下拉框", Order = 189)]
+[ApiDescriptionSettings(Order = 189)]
 [AllowAnonymous]
-public class ConstSelectorService : IDynamicApiController, ITransient
+public class SysConstService : IDynamicApiController, ITransient
 {
     private readonly ISysCacheService _sysCacheService;
 
-    public ConstSelectorService(ISysCacheService sysCacheService)
+    public SysConstService(ISysCacheService sysCacheService)
     {
         _sysCacheService = sysCacheService;
     }

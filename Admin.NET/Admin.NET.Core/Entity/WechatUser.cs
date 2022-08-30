@@ -4,7 +4,7 @@
 /// 微信用户表
 /// </summary>
 [SugarTable("wechat_user", "微信用户表")]
-public class WechatUser : EntityBase
+public class WeChatUser : EntityBase
 {
     /// <summary>
     /// 关联系统用户Id

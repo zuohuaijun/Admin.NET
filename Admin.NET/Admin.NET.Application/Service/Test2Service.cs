@@ -6,11 +6,14 @@ using System.IO;
 
 namespace Admin.NET.Application.Service;
 
-[ApiDescriptionSettings(TestConst.GroupName, Name = "XXX模块", Order = 200)]
+/// <summary>
+/// 自己业务服务
+/// </summary>
+[ApiDescriptionSettings(TestConst.GroupName, Order = 200)]
 [AllowAnonymous]
-public class TestService2 : IDynamicApiController, ITransient
+public class Test2Service : IDynamicApiController, ITransient
 {
-    public TestService2()
+    public Test2Service()
     {
     }
 

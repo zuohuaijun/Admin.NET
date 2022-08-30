@@ -38,7 +38,7 @@ public class LogEventSubscriber : IEventSubscriber
         await _rep.InsertAsync((SysLogEx)context.Source.Payload);
 
         // 发送邮件
-        await scope.ServiceProvider.GetRequiredService<IMessageService>().SendEmail(JSON.Serialize(context.Source.Payload));
+        await scope.ServiceProvider.GetRequiredService<ISysMessageService>().SendEmail(JSON.Serialize(context.Source.Payload));
     }
 
     /// <summary>

@@ -3,7 +3,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统机构服务
 /// </summary>
-[ApiDescriptionSettings(Name = "系统机构", Order = 197)]
+[ApiDescriptionSettings(Order = 197)]
 public class SysOrgService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysOrg> _sysOrgRep;

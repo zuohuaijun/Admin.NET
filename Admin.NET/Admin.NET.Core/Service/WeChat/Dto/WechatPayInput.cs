@@ -1,6 +1,6 @@
 ﻿namespace Admin.NET.Core.Service;
 
-public class WechatPayTransactionInput
+public class WeChatPayTransactionInput
 {
     /// <summary>
     /// OpenId
@@ -28,7 +28,7 @@ public class WechatPayTransactionInput
     public string GoodsTag { get; set; }
 }
 
-public class WechatPayParaInput
+public class WeChatPayParaInput
 {
     /// <summary>
     /// 订单Id

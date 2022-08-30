@@ -18,7 +18,6 @@ public interface IChatClient
     /// <returns></returns>
     Task ReceiveMessage(object context);
 
-
     /// <summary>
     /// 在线用户变动
     /// </summary>

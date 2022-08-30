@@ -5,7 +5,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统在线用户服务
 /// </summary>
-[ApiDescriptionSettings(Name = "在线用户", Order = 100)]
+[ApiDescriptionSettings(Order = 100)]
 public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController, ITransient
 {
     private readonly ISysCacheService _sysCacheService;

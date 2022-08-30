@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统访问日志服务
 /// </summary>
-[ApiDescriptionSettings(Name = "访问日志", Order = 180)]
+[ApiDescriptionSettings(Order = 180)]
 public class SysLogVisService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysLogVis> _sysLogVisRep;

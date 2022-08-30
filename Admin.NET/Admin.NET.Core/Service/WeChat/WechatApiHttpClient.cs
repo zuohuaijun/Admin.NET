@@ -6,9 +6,9 @@
 [ApiDescriptionSettings(false)]
 public partial class WeChatApiHttpClient : ISingleton
 {
-    public readonly WechatOptions _weChatOptions;
+    public readonly WeChatOptions _weChatOptions;
 
-    public WeChatApiHttpClient(IOptions<WechatOptions> weChatOptions)
+    public WeChatApiHttpClient(IOptions<WeChatOptions> weChatOptions)
     {
         _weChatOptions = weChatOptions.Value;
     }
@@ -17,15 +17,15 @@ public partial class WeChatApiHttpClient : ISingleton
     /// 微信公众号
     /// </summary>
     /// <returns></returns>
-    public WechatApiClient CreateWechatClient()
+    public WechatApiClient CreateWeChatClient()
     {
-        if (string.IsNullOrEmpty(_weChatOptions.WechatAppId) || string.IsNullOrEmpty(_weChatOptions.WechatAppSecret))
+        if (string.IsNullOrEmpty(_weChatOptions.WeChatAppId) || string.IsNullOrEmpty(_weChatOptions.WeChatAppSecret))
             throw Oops.Oh("微信公众号配置错误");
 
         var wechatApiClient = new WechatApiClient(new WechatApiClientOptions()
         {
-            AppId = _weChatOptions.WechatAppId,
-            AppSecret = _weChatOptions.WechatAppSecret,
+            AppId = _weChatOptions.WeChatAppId,
+            AppSecret = _weChatOptions.WeChatAppSecret,
         });
 
         wechatApiClient.Configure(settings =>

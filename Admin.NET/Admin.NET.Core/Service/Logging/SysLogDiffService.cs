@@ -1,9 +1,9 @@
 ﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 差异日志服务
+/// 系统差异日志服务
 /// </summary>
-[ApiDescriptionSettings(Name = "差异日志", Order = 180)]
+[ApiDescriptionSettings(Order = 180)]
 public class SysLogDiffService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysLogDiff> _sysLogDiffRep;

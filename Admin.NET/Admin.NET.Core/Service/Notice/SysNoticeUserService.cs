@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统通知公告用户
 /// </summary>
-[ApiDescriptionSettings(Name = "通知公告用户", Order = 100)]
+[ApiDescriptionSettings(Order = 100)]
 public class SysNoticeUserService : ISysNoticeUserService, ITransient
 {
     private readonly SqlSugarRepository<SysNoticeUser> _sysNoticeUserRep;  // 通知公告用户表仓储

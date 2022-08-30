@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统操作日志服务
 /// </summary>
-[ApiDescriptionSettings(Name = "操作日志", Order = 179)]
+[ApiDescriptionSettings(Order = 179)]
 public class SysLogOpService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysLogOp> _sysLogOpRep;
