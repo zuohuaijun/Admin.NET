@@ -83,11 +83,12 @@
   const { hasPermission } = usePermission();
   const onlineUserList = ref<any>([]);
   const drawerShow = ref(false);
-  console.log(userStore.getUserInfo);
+  //console.log(userStore.getUserInfo);
 
   function toggleDrawer() {
     drawerShow.value = !drawerShow.value;
   }
+
   async function onForceExist(connectionId) {
     console.log(connectionId);
     await connection.send('ForceExistUser', { connectionId }).catch(function (err) {
@@ -126,8 +127,6 @@
     onlineUserList.value = data.list;
     notification.open({
       message: `${data.offline ? `${data.name}离开了` : `欢迎${data.name}上线`}`,
-      // description:
-      //   'This is the content of the notification. This is the content of the notification. This is the content of the notification.',
       placement: 'bottomRight',
     });
   });
@@ -141,19 +140,17 @@
   connection.onreconnected(() => {
     //重新连接成功
   });
-
-  //启动连接并发送消息测试
   connection.start().then(() => {
     //第一次连接成功
   });
-
-  // const sendMsg = async () => {
-  //   console.log(messages.value);
-  //   await connection.send('SendMessage', messages.value).catch(function (err) {
-  //     console.log(err);
-  //   });
-  // };
 </script>
+
+<style>
+  /*兼容vben浅色主题 */
+  .vben-layout-header--light .online-user-wrapper {
+    color: #000;
+  }
+</style>
 
 <style scoped>
   .extra-wrapper ::v-deep(.anticon) {
