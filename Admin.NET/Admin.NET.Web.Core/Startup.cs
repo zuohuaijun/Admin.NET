@@ -109,12 +109,12 @@ public class Startup : AppStartup
         // 日志写入文件-消息、警告、错误
         Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, logLevel =>
         {
-            services.AddFileLogging("logs/{0:yyyyMMdd}_" + $"{logLevel}.log", options =>
+            services.AddFileLogging("logs/{0:yyyyMMdd}_{1}.log", options =>
             {
-                options.FileNameRule = fileName => string.Format(fileName, DateTime.Now); // 每天创建一个文件
-                options.WriteFilter = logMsg => logMsg.LogLevel == logLevel;
-                options.FileSizeLimitBytes = 10 * 1024 * 1024;
-                options.MaxRollingFiles = 30;
+                options.FileNameRule = fileName => string.Format(fileName, DateTime.Now, logLevel.ToString()); // 每天创建一个文件
+                options.WriteFilter = logMsg => logMsg.LogLevel == logLevel; // 日志级别
+                options.FileSizeLimitBytes = 10 * 1024 * 1024; // 每个文件10M
+                options.MaxRollingFiles = 30; // 只保留30个文件
             });
         });
         // 日志写入数据库
