@@ -30,6 +30,7 @@
     <PackageReference Include="Furion.Pure" Version="4.3.3" />
     <PackageReference Include="Magicodes.IE.Excel" Version="2.6.4" />
     <PackageReference Include="Magicodes.IE.Pdf" Version="2.6.4" />
+    <PackageReference Include="Masuit.Tools.Core" Version="2.5.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.8" />
     <PackageReference Include="NETCore.MailKit" Version="2.1.0" />
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.8" />
