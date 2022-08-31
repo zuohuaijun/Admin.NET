@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div @click="toggleDrawer" style="color: green">{{ onlineUserList.length }}人在线</div>
+    <div @click="toggleDrawer">{{ onlineUserList.length }}人在线</div>
+    <span @click="toggleDrawer" class="online-user-wrapper">{{ onlineUserList.length }}人在线</span>
 
     <Drawer title="在线人员" width="600px" v-model:visible="drawerShow">
       <List item-layout="horizontal" :data-source="onlineUserList">
