@@ -3,7 +3,7 @@
 /// <summary>
 /// 任务调度
 /// </summary>
-public class JobTimer : ISpareTimeWorker
+public class LogJob : ISpareTimeWorker
 {
     /// <summary>
     /// 日志删除定时器
