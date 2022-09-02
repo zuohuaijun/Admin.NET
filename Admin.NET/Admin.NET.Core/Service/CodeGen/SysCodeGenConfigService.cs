@@ -31,8 +31,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [NonAction]
-    public async Task Add(CodeGenConfig input)
+    private async Task Add(CodeGenConfig input)
     {
         var codeGenConfig = input.Adapt<SysCodeGenConfig>();
         await _db.Insertable(codeGenConfig).ExecuteCommandAsync();

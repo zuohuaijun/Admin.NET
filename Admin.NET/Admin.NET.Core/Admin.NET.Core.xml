@@ -3056,17 +3056,27 @@
             <param name="notice"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.JobTimer">
+        <member name="T:Admin.NET.Core.LogJob">
             <summary>
             任务调度
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.JobTimer.ClearLogJob(Furion.TaskScheduler.SpareTimer,System.Int64)">
+        <member name="M:Admin.NET.Core.LogJob.ClearLogJob(Furion.TaskScheduler.SpareTimer,System.Int64)">
             <summary>
             日志删除定时器
             </summary>
             <param name="timer"></param>
             <param name="count"></param>
+        </member>
+        <member name="T:Admin.NET.Core.Job.OnlineUserJob">
+            <summary>
+            任务调度
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Job.OnlineUserJob.ClearOnlineUser(Furion.TaskScheduler.SpareTimer,System.Int64)">
+            <summary>
+            清理在线用户定时器---服务启动时自动清空在线用户，防止存在僵尸用户(掉线用户会自动重连)
+            </summary>
         </member>
         <member name="T:Admin.NET.Core.DbLoggingWriter">
             <summary>
@@ -3723,6 +3733,11 @@
             <param name="key"></param>
             <returns></returns>
         </member>
+        <member name="P:Admin.NET.Core.Service.CustomViewEngine.ConfigId">
+            <summary>
+            库定位器
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.CodeGenConfig">
             <summary>
             代码生成详细配置参数
@@ -4038,11 +4053,6 @@
             菜单父级
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.CustomViewEngine.ConfigId">
-            <summary>
-            库定位器
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.Service.DatabaseOutput">
             <summary>
             多库代码生成库列表输出
@@ -4250,6 +4260,15 @@
             获取连表的实体名和别名
             </summary>
             <param name="configs"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.AddMenu(System.String,System.String,System.Int64)">
+            <summary>
+            增加菜单
+            </summary>
+            <param name="className"></param>
+            <param name="busName"></param>
+            <param name="pid"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetTemplatePathList">
@@ -6505,11 +6524,6 @@
             获取所有定时任务方法列表（贴spareTime特性）
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTimerService.StartTimer">
-            <summary>
-            启动自启动任务
-            </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.OrgId">
             <summary>

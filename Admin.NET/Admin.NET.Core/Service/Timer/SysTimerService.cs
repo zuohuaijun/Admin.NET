@@ -242,14 +242,4 @@ public class SysTimerService : IDynamicApiController, ITransient
         await _sysCacheService.SetAsync(CacheConst.KeyTimer, timerMethodList);
         return timerMethodList;
     }
-
-    /// <summary>
-    /// 启动自启动任务
-    /// </summary>
-    [NonAction]
-    public async void StartTimer()
-    {
-        var timerList = await _sysTimerRep.GetListAsync(t => t.StartNow);
-        timerList.ForEach(CreateTimer);
-    }
 }

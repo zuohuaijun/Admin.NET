@@ -29,7 +29,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/codeGenerate/page")]
-    public async Task<dynamic> GetCodeGenPage([FromQuery] CodeGenInput input)
+    public async Task<SqlSugarPagedList<SysCodeGen>> GetCodeGenPage([FromQuery] CodeGenInput input)
     {
         var tableName = !string.IsNullOrEmpty(input.TableName?.Trim());
         return await _db.Queryable<SysCodeGen>()
@@ -106,10 +106,11 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取数据库库集合
     /// </summary>
     /// <returns></returns>
-    [HttpGet("codeGenerate/DatabaseList")]
-    public async Task<List<ConnectionConfig>> GetDatabaseList()
+    [HttpGet("codeGenerate/databaseList")]
+    public async Task<List<DatabaseOutput>> GetDatabaseList()
     {
-        return await Task.FromResult(App.GetOptions<DbConnectionOptions>().ConnectionConfigs);
+        var dblist = await Task.FromResult(App.GetOptions<DbConnectionOptions>().ConnectionConfigs);
+        return dblist.Adapt<List<DatabaseOutput>>();
     }
 
     /// <summary>
@@ -169,8 +170,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取数据表列（实体属性）集合
     /// </summary>
     /// <returns></returns>
-    [NonAction]
-    public List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
+    private List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
     {
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.ConfigId);
@@ -259,6 +259,13 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         return (str.TrimEnd(','), lowerStr.TrimEnd(','));
     }
 
+    /// <summary>
+    /// 增加菜单
+    /// </summary>
+    /// <param name="className"></param>
+    /// <param name="busName"></param>
+    /// <param name="pid"></param>
+    /// <returns></returns>
     private async Task AddMenu(string className, string busName, long pid)
     {
         // 如果 pid 为 0 说明为顶级菜单, 需要创建顶级目录

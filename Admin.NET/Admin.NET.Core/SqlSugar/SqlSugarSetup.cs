@@ -139,7 +139,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 初始化数据库结构
     /// </summary>
-    public static void InitDataBase(SqlSugarScope db, DbConnectionOptions dbOptions)
+    private static void InitDataBase(SqlSugarScope db, DbConnectionOptions dbOptions)
     {
         // 创建数据库
         dbOptions.ConnectionConfigs.ForEach(config =>
@@ -199,7 +199,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 配置实体假删除过滤器
     /// </summary>
-    public static void SetDeletedEntityFilter(SqlSugarScopeProvider db)
+    private static void SetDeletedEntityFilter(SqlSugarScopeProvider db)
     {
         // 获取所有继承基类数据表集合
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
@@ -216,7 +216,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 配置实体机构过滤器
     /// </summary>
-    public static async void SetOrgEntityFilter(SqlSugarScopeProvider db)
+    private static async void SetOrgEntityFilter(SqlSugarScopeProvider db)
     {
         // 获取业务数据表集合
         var dataEntityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
@@ -240,7 +240,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 配置自定义实体过滤器
     /// </summary>
-    public static void SetCustomEntityFilter(SqlSugarScopeProvider db)
+    private static void SetCustomEntityFilter(SqlSugarScopeProvider db)
     {
         // 排除超管过滤
         if (App.User?.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString())
@@ -265,7 +265,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 配置租户实体过滤器
     /// </summary>
-    public static void SetTenantEntityFilter(SqlSugarScopeProvider db)
+    private static void SetTenantEntityFilter(SqlSugarScopeProvider db)
     {
         // 获取租户实体数据表集合
         var dataEntityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass

@@ -41,6 +41,7 @@ public class CustomViewEngine : ViewEngineModel
     public bool IsJoinTable { get; set; }
 
     public bool IsUpload { get; set; }
+
     private List<TableColumnOuput> ColumnList { get; set; }
 
     public string GetColumnNetType(object tbName, object colName)

@@ -8,12 +8,12 @@ public class DatabaseOutput
     /// <summary>
     /// 库定位器名
     /// </summary>
-    public dynamic ConfigId { get; set; }
+    public string ConfigId { get; set; }
 
     /// <summary>
     /// 数据库类型
     /// </summary>
-    public string DbType { get; set; }
+    public SqlSugar.DbType DbType { get; set; }
 
     /// <summary>
     /// 数据库连接字符串
