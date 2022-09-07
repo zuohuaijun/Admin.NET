@@ -21,8 +21,8 @@ public class JobTimer : ISpareTimeWorker
 
         Scoped.Create((_, scope) =>
         {
-            var services = scope.ServiceProvider;
-            var db = services.GetService<ISqlSugarClient>();
+            //var services = scope.ServiceProvider;
+            //var db = services.GetService<ISqlSugarClient>();
 
             // 写日志文件
             Log.Information("【定时器】" + DateTime.Now + "执行次数：" + count);

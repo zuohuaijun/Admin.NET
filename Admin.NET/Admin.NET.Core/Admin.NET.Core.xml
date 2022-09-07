@@ -3078,9 +3078,19 @@
             清理在线用户定时器---服务启动时自动清空在线用户，防止存在僵尸用户(掉线用户会自动重连)
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.DbLoggingWriter">
+        <member name="T:Admin.NET.Core.DatabaseLoggingWriter">
             <summary>
             数据库日志写入器
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ElasticSearchLoggingWriter">
+            <summary>
+            ES日志写入器
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ElasticSearchSetup">
+            <summary>
+            ES服务注册
             </summary>
         </member>
         <member name="T:Admin.NET.Core.CacheOptions">
@@ -3133,6 +3143,21 @@
             数据库配置集合
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.ElasticSearchOptions">
+            <summary>
+            ElasticSearch配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ElasticSearchOptions.ServerUris">
+            <summary>
+            ES地址集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ElasticSearchOptions.DefaultIndex">
+            <summary>
+            默认索引
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.EmailOptions">
             <summary>
             邮件配置选项
@@ -3141,6 +3166,26 @@
         <member name="P:Admin.NET.Core.EmailOptions.ToEmail">
             <summary>
             接收人邮箱
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.OAuthOptions">
+            <summary>
+            第三方登录授权配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.OAuthOptions.Weixin">
+            <summary>
+            微信配置
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.OAuthOptionItem.ClientId">
+            <summary>
+            ClientId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.OAuthOptionItem.ClientSecret">
+            <summary>
+            ClientSecret
             </summary>
         </member>
         <member name="T:Admin.NET.Core.OSSProviderOptions">
@@ -7252,7 +7297,7 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.AddSqlSugarSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Sqlsugar 上下文初始化
             </summary>

@@ -3,12 +3,12 @@
 /// <summary>
 /// 数据库日志写入器
 /// </summary>
-public class DbLoggingWriter : IDatabaseLoggingWriter
+public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 {
     private readonly SqlSugarRepository<SysLogOp> _sysLogOpRep; // 操作日志
     private readonly SqlSugarRepository<SysLogEx> _sysLogExRep; // 异常日志
 
-    public DbLoggingWriter(SqlSugarRepository<SysLogOp> sysLogOpRep,
+    public DatabaseLoggingWriter(SqlSugarRepository<SysLogOp> sysLogOpRep,
         SqlSugarRepository<SysLogEx> sysLogExRep)
     {
         _sysLogOpRep = sysLogOpRep;
@@ -23,9 +23,9 @@ public class DbLoggingWriter : IDatabaseLoggingWriter
             {
                 LogName = logMsg.LogName,
                 LogLevel = logMsg.LogLevel.ToString(),
-                EventId = JSON.Serialize(logMsg.EventId),
+                EventId = logMsg.EventId.Id.ToString(),
                 Message = logMsg.Message,
-                Exception = logMsg.Exception == null ? "" : JSON.Serialize(logMsg.Exception),
+                Exception = logMsg.Exception?.ToString(),
             });
         }
         else
@@ -34,9 +34,9 @@ public class DbLoggingWriter : IDatabaseLoggingWriter
             {
                 LogName = logMsg.LogName,
                 LogLevel = logMsg.LogLevel.ToString(),
-                EventId = JSON.Serialize(logMsg.EventId),
+                EventId = logMsg.EventId.Id.ToString(),
                 Message = logMsg.Message,
-                Exception = logMsg.Exception == null ? "" : JSON.Serialize(logMsg.Exception),
+                Exception = logMsg.Exception?.ToString(),
             });
         }
     }

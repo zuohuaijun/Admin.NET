@@ -1,5 +1,6 @@
 ﻿using Admin.NET.Application.Const;
 using Furion.DatabaseAccessor;
+using Furion.FriendlyException;
 using Furion.Localization;
 using Furion.Logging.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -36,6 +37,17 @@ public class TestService : IDynamicApiController, ITransient
     public async Task<List<Test>> GetTestList()
     {
         return await _testRep.GetListAsync();
+    }
+
+    /// <summary>
+    /// 异常测试
+    /// </summary>
+    /// <returns></returns>
+    public void TestException()
+    {
+        throw new Exception("异常");
+
+        throw Oops.Oh("异常").WithData("数据");
     }
 
     /// <summary>

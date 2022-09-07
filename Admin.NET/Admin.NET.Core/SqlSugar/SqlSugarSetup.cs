@@ -8,7 +8,7 @@ public static class SqlSugarSetup
     /// Sqlsugar 上下文初始化
     /// </summary>
     /// <param name="services"></param>
-    public static void AddSqlSugarSetup(this IServiceCollection services)
+    public static void AddSqlSugar(this IServiceCollection services)
     {
         var dbOptions = App.GetOptions<DbConnectionOptions>();
         var configureExternalServices = new ConfigureExternalServices

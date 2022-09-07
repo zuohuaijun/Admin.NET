@@ -1,6 +1,7 @@
 ﻿using Admin.NET.Core;
 using AspNetCoreRateLimit;
 using Furion;
+using Furion.Logging;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;
@@ -14,6 +15,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
 using System;
+using System.IO;
 using Yitter.IdGenerator;
 
 namespace Admin.NET.Web.Core;
@@ -25,7 +27,7 @@ public class Startup : AppStartup
         // 配置选项
         services.AddProjectOptions();
         // SqlSugar
-        services.AddSqlSugarSetup();
+        services.AddSqlSugar();
         // JWT
         services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
         // 允许跨域
@@ -40,6 +42,16 @@ public class Startup : AppStartup
         services.AddMvcFilter<ResultFilter>();
         // 日志监听
         services.AddMonitorLogging();
+        // 第三方授权登录
+        services.AddAuthentication()
+            .AddWeixin(options =>
+            {
+                var opt = App.GetOptions<OAuthOptions>();
+                options.ClientId = opt.Weixin.ClientId;
+                options.ClientSecret = opt.Weixin.ClientSecret;
+            });
+        // ElasticSearch
+        services.AddElasticSearch();
 
         services.AddControllersWithViews()
             .AddAppLocalization()
@@ -115,13 +127,36 @@ public class Startup : AppStartup
                 options.WriteFilter = logMsg => logMsg.LogLevel == logLevel; // 日志级别
                 options.FileSizeLimitBytes = 10 * 1024 * 1024; // 每个文件10M
                 options.MaxRollingFiles = 30; // 只保留30个文件
+                // 输出Json格式，对接阿里云日志、Elastaicsearch第三方日志
+                options.MessageFormat = (logMsg) =>
+                {
+                    return logMsg.WriteArray(writer =>
+                    {
+                        writer.WriteStringValue(DateTime.Now.ToString("o"));
+                        writer.WriteStringValue(logMsg.LogLevel.ToString());
+                        writer.WriteStringValue(logMsg.LogName);
+                        writer.WriteNumberValue(logMsg.EventId.Id);
+                        writer.WriteStringValue(logMsg.Message);
+                        writer.WriteStringValue(logMsg.Exception?.ToString());
+                    });
+                };
+                // 写入失败时启用备用文件
+                options.HandleWriteError = (writeError) =>
+                {
+                    writeError.UseRollbackFileName(Path.GetFileNameWithoutExtension(writeError.CurrentFileName) + "-oops" + Path.GetExtension(writeError.CurrentFileName));
+                };
             });
         });
         // 日志写入数据库
-        services.AddDatabaseLogging<DbLoggingWriter>(options =>
+        services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
         {
             options.MinimumLevel = LogLevel.Information;
         });
+        //// 日志写入ElasticSearch
+        //services.AddDatabaseLogging<ESLoggingWriter>(options =>
+        //{
+        //    options.MinimumLevel = LogLevel.Information;
+        //});
 
         // 设置雪花Id算法机器码
         YitIdHelper.SetIdGenerator(new IdGeneratorOptions
