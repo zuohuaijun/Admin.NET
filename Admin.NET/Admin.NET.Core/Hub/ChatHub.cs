@@ -9,17 +9,17 @@ namespace Admin.NET.Core;
 [MapHub("/hubs/chathub")]
 public class ChatHub : Hub<IChatClient>
 {
-    private readonly ISysCacheService _cache;
+    private readonly ISysCacheService _sysCache;
     private readonly ISysMessageService _sysMessageService;
     private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
     private readonly IHubContext<ChatHub, IChatClient> _chatHubContext;
 
-    public ChatHub(ISysCacheService cache,
+    public ChatHub(ISysCacheService sysCache,
         ISysMessageService sysMessageService,
         SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
         IHubContext<ChatHub, IChatClient> chatHubContext)
     {
-        _cache = cache;
+        _sysCache = sysCache;
         _sysMessageService = sysMessageService;
         _sysOnlineUerRep = sysOnlineUerRep;
         _chatHubContext = chatHubContext;
@@ -42,7 +42,6 @@ public class ChatHub : Hub<IChatClient>
         var account = claims.FirstOrDefault(e => e.Type == ClaimConst.UserName)?.Value;
         var name = claims.FirstOrDefault(e => e.Type == ClaimConst.RealName)?.Value;
         var tenantId = claims.FirstOrDefault(e => e.Type == ClaimConst.TenantId)?.Value;
-        var onlineUsers = await _cache.GetAsync<List<SysOnlineUser>>(CacheConst.KeyOnlineUser) ?? new List<SysOnlineUser>();
         var user = new SysOnlineUser
         {
             ConnectionId = Context.ConnectionId,
@@ -69,7 +68,6 @@ public class ChatHub : Hub<IChatClient>
 
         //onlineUsers.Add();
         //await _cache.SetAsync($"{CacheConst.KeyOnlineUser}{ Context.ConnectionId}", user);
-
         //await _sendMessageService.SendMessageToUserByConnectionId("asdasd但凡生得分", "下线吧", MessageTypeEnum.Offline, Context.ConnectionId);
     }
 

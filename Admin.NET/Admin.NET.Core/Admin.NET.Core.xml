@@ -170,6 +170,11 @@
             开启操作日志
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysSingleLogin">
+            <summary>
+            开启当用户登录
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.CommonConst.SysSensitiveDetection">
             <summary>
             开启全局脱敏处理（默认不开启）
@@ -1966,6 +1971,11 @@
             禁止删除默认租户
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1024">
+            <summary>
+            已将其他地方登录账号下线
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.D2000">
             <summary>
             父机构不存在
@@ -3088,6 +3098,46 @@
             ES日志写入器
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.LogContent">
+            <summary>
+            日志内容
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.LogContent.LogName">
+            <summary>
+            记录器类别名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.LogContent.LogLevel">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.LogContent.EventId">
+            <summary>
+             事件 Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.LogContent.Exception">
+            <summary>
+            异常对象
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.LogContent.Context">
+            <summary>
+            日志上下文
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.LogContent.Message">
+            <summary>
+            日志消息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.LogContent.Time">
+            <summary>
+            日志时间
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.ElasticSearchSetup">
             <summary>
             ES服务注册
@@ -3141,21 +3191,6 @@
         <member name="P:Admin.NET.Core.DbConnectionOptions.ConnectionConfigs">
             <summary>
             数据库配置集合
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.ElasticSearchOptions">
-            <summary>
-            ElasticSearch配置选项
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.ElasticSearchOptions.ServerUris">
-            <summary>
-            ES地址集合
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.ElasticSearchOptions.DefaultIndex">
-            <summary>
-            默认索引
             </summary>
         </member>
         <member name="T:Admin.NET.Core.EmailOptions">
@@ -4489,9 +4524,9 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfigCache(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfigValue``1(System.String)">
             <summary>
-            获取参数配置缓存
+            获取参数配置值
             </summary>
             <param name="code"></param>
             <returns></returns>
@@ -5860,6 +5895,20 @@
             强制下线
             </summary>
             <param name="user"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.PushNotice(Admin.NET.Core.SysNotice,System.Collections.Generic.List{System.Int64})">
+            <summary>
+            发送消息
+            </summary>
+            <param name="notice"></param>
+            <param name="userIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.SignleLogin(System.Int64)">
+            <summary>
+            单用户登录
+            </summary>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.OrgInput.Pid">

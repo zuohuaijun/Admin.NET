@@ -41,8 +41,8 @@ public class SysTimer : EntityBase
     /// <summary>
     /// Cron表达式
     /// </summary>
-    [SugarColumn(ColumnDescription = "Cron表达式", Length = 32)]
-    [MaxLength(32)]
+    [SugarColumn(ColumnDescription = "Cron表达式", Length = 128)]
+    [MaxLength(128)]
     public string Cron { get; set; }
 
     /// <summary>

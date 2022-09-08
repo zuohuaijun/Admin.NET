@@ -10,11 +10,15 @@ public static class ElasticSearchSetup
 {
     public static void AddElasticSearch(this IServiceCollection services)
     {
-        var elkOptions = App.GetOptions<ElasticSearchOptions>();
+        var enabled = App.GetConfig<bool>("Logging:ElasticSearch:Enabled");
+        if (!enabled) return;
 
-        var uris = elkOptions.ServerUris.Select(u => new Uri(u));
+        var serverUris = App.GetConfig<List<string>>("Logging:ElasticSearch:ServerUris");
+        var defaultIndex = App.GetConfig<string>("Logging:ElasticSearch:DefaultIndex");
+
+        var uris = serverUris.Select(u => new Uri(u));
         var connectionPool = new SniffingConnectionPool(uris);
-        var settings = new ConnectionSettings(connectionPool).DefaultIndex(elkOptions.DefaultIndex);
+        var settings = new ConnectionSettings(connectionPool).DefaultIndex(defaultIndex);
         var client = new ElasticClient(settings);
 
         services.AddSingleton(client); // 单例注册

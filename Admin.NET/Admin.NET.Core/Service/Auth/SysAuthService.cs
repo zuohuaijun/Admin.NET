@@ -16,6 +16,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly IEventPublisher _eventPublisher;
     private readonly SysUserService _sysUserService;
     private readonly SysUserRoleService _sysUserRoleService;
+    private readonly ISysOnlineUserService _sysOnlineUserService;
     private readonly IMemoryCache _cache;
 
     public SysAuthService(SqlSugarRepository<SysUser> sysUserRep,
@@ -25,6 +26,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         IEventPublisher eventPublisher,
         SysUserService sysUserService,
         SysUserRoleService sysUserRoleService,
+        ISysOnlineUserService sysOnlineUserService,
         IMemoryCache cache)
     {
         _sysUserRep = sysUserRep;
@@ -34,6 +36,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         _eventPublisher = eventPublisher;
         _sysUserService = sysUserService;
         _sysUserRoleService = sysUserRoleService;
+        _sysOnlineUserService = sysOnlineUserService;
         _cache = cache;
     }
 
@@ -58,6 +61,9 @@ public class SysAuthService : IDynamicApiController, ITransient
         // 验证账号是否被冻结
         if (user.Status == StatusEnum.Disable)
             throw Oops.Oh(ErrorCodeEnum.D1017);
+
+        // 单用户登录（强制下线其他地方登录账号）
+        await _sysOnlineUserService.SignleLogin(user.Id);
 
         // 生成Token令牌
         var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>

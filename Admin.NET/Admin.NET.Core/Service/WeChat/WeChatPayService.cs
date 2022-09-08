@@ -85,8 +85,7 @@ public class WeChatPayService : IDynamicApiController, ITransient
         };
         await _weChatPayUserRep.InsertAsync(wechatPay);
 
-        return new
-        {
+        return new {
             response.PrepayId,
             request.OutTradeNumber
         };
@@ -133,8 +132,7 @@ public class WeChatPayService : IDynamicApiController, ITransient
         };
         await _weChatPayUserRep.InsertAsync(wechatPay);
 
-        return new
-        {
+        return new {
             response.PrepayId,
             request.OutTradeNumber
         };

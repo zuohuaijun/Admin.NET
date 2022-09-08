@@ -8,17 +8,17 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 100)]
 public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController, ITransient
 {
-    private readonly ISysCacheService _sysCacheService;
     private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
     private readonly IHubContext<ChatHub, IChatClient> _chatHubContext;
+    private readonly SysConfigService _sysConfigService;
 
-    public SysOnlineUserService(ISysCacheService sysCacheService,
-        SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
-        IHubContext<ChatHub, IChatClient> chatHubContext)
+    public SysOnlineUserService(SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
+        IHubContext<ChatHub, IChatClient> chatHubContext,
+        SysConfigService sysConfigService)
     {
-        _sysCacheService = sysCacheService;
         _sysOnlineUerRep = sysOnlineUerRep;
         _chatHubContext = chatHubContext;
+        _sysConfigService = sysConfigService;
     }
 
     /// <summary>
@@ -44,6 +44,12 @@ public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController
         await _sysOnlineUerRep.DeleteAsync(user);
     }
 
+    /// <summary>
+    /// 发送消息
+    /// </summary>
+    /// <param name="notice"></param>
+    /// <param name="userIds"></param>
+    /// <returns></returns>
     [NonAction]
     public async Task PushNotice(SysNotice notice, List<long> userIds)
     {
@@ -54,6 +60,25 @@ public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController
             {
                 await _chatHubContext.Clients.Client(item.ConnectionId).AppendNotice(notice);
             }
+        }
+    }
+
+    /// <summary>
+    /// 单用户登录
+    /// </summary>
+    /// <returns></returns>
+    [NonAction]
+    public async Task SignleLogin(long userId)
+    {
+        if (await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSingleLogin))
+        {
+            var onlineUsers = await _sysOnlineUerRep.GetListAsync();
+            if (onlineUsers == null) return;
+
+            var loginUser = onlineUsers.FirstOrDefault(u => u.UserId == userId);
+            if (loginUser == null) return;
+
+            await ForceExist(loginUser);
         }
     }
 }

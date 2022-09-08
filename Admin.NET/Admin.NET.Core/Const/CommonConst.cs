@@ -31,6 +31,11 @@ public class CommonConst
     public const string SysOpLog = "sys_op_log";
 
     /// <summary>
+    /// 开启当用户登录
+    /// </summary>
+    public const string SysSingleLogin = "sys_single_login";
+
+    /// <summary>
     /// 开启全局脱敏处理（默认不开启）
     /// </summary>
     public static bool SysSensitiveDetection = false;

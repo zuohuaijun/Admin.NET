@@ -1,7 +1,6 @@
 ﻿using Admin.NET.Core;
 using AspNetCoreRateLimit;
 using Furion;
-using Furion.Logging;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;
@@ -88,16 +87,16 @@ public class Startup : AppStartup
         });
 
         // OSS对象存储（必须一个个赋值）
-        var opt = App.GetOptions<OSSProviderOptions>();
-        services.AddOSSService(opt.ProviderName, options =>
+        var ossOpt = App.GetOptions<OSSProviderOptions>();
+        services.AddOSSService(ossOpt.ProviderName, options =>
         {
-            options.Provider = opt.Provider;
-            options.Endpoint = opt.Endpoint;
-            options.AccessKey = opt.AccessKey;
-            options.SecretKey = opt.SecretKey;
-            options.Region = opt.Region;
-            options.IsEnableCache = opt.IsEnableCache;
-            options.IsEnableHttps = opt.IsEnableHttps;
+            options.Provider = ossOpt.Provider;
+            options.Endpoint = ossOpt.Endpoint;
+            options.AccessKey = ossOpt.AccessKey;
+            options.SecretKey = ossOpt.SecretKey;
+            options.Region = ossOpt.Region;
+            options.IsEnableCache = ossOpt.IsEnableCache;
+            options.IsEnableHttps = ossOpt.IsEnableHttps;
         });
 
         // 电子邮件
@@ -118,45 +117,30 @@ public class Startup : AppStartup
         // logo显示
         services.AddLogoDisplay();
 
-        // 日志写入文件-消息、警告、错误
-        Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, logLevel =>
+        // 日志记录
+        if (App.GetConfig<bool>("Logging:File:Enabled")) // 日志写入文件
         {
-            services.AddFileLogging("logs/{0:yyyyMMdd}_{1}.log", options =>
+            Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, logLevel =>
             {
-                options.FileNameRule = fileName => string.Format(fileName, DateTime.Now, logLevel.ToString()); // 每天创建一个文件
-                options.WriteFilter = logMsg => logMsg.LogLevel == logLevel; // 日志级别
-                options.FileSizeLimitBytes = 10 * 1024 * 1024; // 每个文件10M
-                options.MaxRollingFiles = 30; // 只保留30个文件
-                // 输出Json格式，对接阿里云日志、Elastaicsearch第三方日志
-                options.MessageFormat = (logMsg) =>
+                services.AddFileLogging(options =>
                 {
-                    return logMsg.WriteArray(writer =>
+                    options.FileNameRule = fileName => string.Format(fileName, DateTime.Now, logLevel.ToString()); // 每天创建一个文件
+                    options.WriteFilter = logMsg => logMsg.LogLevel == logLevel; // 日志级别
+                    options.HandleWriteError = (writeError) => // 写入失败时启用备用文件
                     {
-                        writer.WriteStringValue(DateTime.Now.ToString("o"));
-                        writer.WriteStringValue(logMsg.LogLevel.ToString());
-                        writer.WriteStringValue(logMsg.LogName);
-                        writer.WriteNumberValue(logMsg.EventId.Id);
-                        writer.WriteStringValue(logMsg.Message);
-                        writer.WriteStringValue(logMsg.Exception?.ToString());
-                    });
-                };
-                // 写入失败时启用备用文件
-                options.HandleWriteError = (writeError) =>
-                {
-                    writeError.UseRollbackFileName(Path.GetFileNameWithoutExtension(writeError.CurrentFileName) + "-oops" + Path.GetExtension(writeError.CurrentFileName));
-                };
+                        writeError.UseRollbackFileName(Path.GetFileNameWithoutExtension(writeError.CurrentFileName) + "-oops" + Path.GetExtension(writeError.CurrentFileName));
+                    };
+                });
             });
-        });
-        // 日志写入数据库
-        services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+        }
+        if (App.GetConfig<bool>("Logging:Database:Enabled")) // 日志写入数据库
         {
-            options.MinimumLevel = LogLevel.Information;
-        });
-        //// 日志写入ElasticSearch
-        //services.AddDatabaseLogging<ESLoggingWriter>(options =>
-        //{
-        //    options.MinimumLevel = LogLevel.Information;
-        //});
+            services.AddDatabaseLogging<DatabaseLoggingWriter>();
+        }
+        if (App.GetConfig<bool>("Logging:ElasticSearch:Enabled")) // 日志写入ElasticSearch
+        {
+            services.AddDatabaseLogging<ElasticSearchLoggingWriter>();
+        }
 
         // 设置雪花Id算法机器码
         YitIdHelper.SetIdGenerator(new IdGeneratorOptions

@@ -151,6 +151,12 @@ public enum ErrorCodeEnum
     D1023,
 
     /// <summary>
+    /// 已将其他地方登录账号下线
+    /// </summary>
+    [ErrorCodeItemMetadata("已将其他地方登录账号下线")]
+    D1024,
+
+    /// <summary>
     /// 父机构不存在
     /// </summary>
     [ErrorCodeItemMetadata("父机构不存在")]

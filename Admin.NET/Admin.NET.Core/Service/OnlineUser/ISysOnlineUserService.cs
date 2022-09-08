@@ -7,4 +7,6 @@ public interface ISysOnlineUserService
     Task ForceExist(SysOnlineUser user);
 
     Task PushNotice(SysNotice notice, List<long> userIds);
+
+    Task SignleLogin(long userId);
 }

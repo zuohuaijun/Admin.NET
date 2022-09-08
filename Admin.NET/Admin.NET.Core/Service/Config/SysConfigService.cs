@@ -102,20 +102,20 @@ public class SysConfigService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取参数配置缓存
+    /// 获取参数配置值
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task<string> GetConfigCache(string code)
+    public async Task<T> GetConfigValue<T>(string code)
     {
         var value = await _sysCacheService.GetStringAsync(code);
         if (string.IsNullOrEmpty(value))
         {
             var config = await _sysConfigRep.GetFirstAsync(u => u.Code == code);
-            value = config != null ? config.Value : "";
+            value = config != null ? config.Value : default;
             await _sysCacheService.SetStringAsync(code, value);
         }
-        return value;
+        return (T)Convert.ChangeType(value, typeof(T));
     }
 }

@@ -144,8 +144,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
             new JoinQueryInfos(JoinType.Left, a.Id == b.DictTypeId))
             .Where(a => a.Code == code)
             .Where((a, b) => a.Status == StatusEnum.Enable && b.Status == StatusEnum.Enable)
-            .Select((a, b) => new
-            {
+            .Select((a, b) => new {
                 Label = b.Value,
                 Value = b.Code
             }).ToListAsync();
@@ -163,8 +162,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
             new JoinQueryInfos(JoinType.Left, a.Id == b.DictTypeId))
             .Where((a, b) => a.Code == input.Code)
             .WhereIF(input.Status.HasValue, (a, b) => b.Status == (StatusEnum)input.Status.Value)
-            .Select((a, b) => new
-            {
+            .Select((a, b) => new {
                 Label = b.Value,
                 Value = b.Code
             }).ToListAsync();

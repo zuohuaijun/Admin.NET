@@ -205,8 +205,7 @@ public class SysDataBaseService : IDynamicApiController, ITransient
             m.DataType = CodeGenUtil.ConvertDataType(m.DataType);
         });
         var tContent = File.ReadAllText(templatePath);
-        var tResult = _viewEngine.RunCompileFromCached(tContent, new
-        {
+        var tResult = _viewEngine.RunCompileFromCached(tContent, new {
             input.TableName,
             input.EntityName,
             input.BaseClassName,
