@@ -6,7 +6,7 @@ namespace Admin.NET.Application.Service;
 /// <summary>
 /// 任务调度测试
 /// </summary>
-public class JobTimer : ISpareTimeWorker
+public class TestJobTimer : ISpareTimeWorker
 {
     /// <summary>
     /// 定时器

@@ -81,7 +81,7 @@ public class AdminResultProvider : IUnifyResultProvider
         return new AdminResult<object>
         {
             Code = statusCode,
-            Message = JSON.Serialize(errors),
+            Message = errors is string str ? str : JSON.Serialize(errors),
             Result = data,
             Type = succeeded ? "success" : "error",
             Extras = UnifyContext.Take(),

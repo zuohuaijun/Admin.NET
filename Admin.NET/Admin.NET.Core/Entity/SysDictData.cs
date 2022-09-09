@@ -13,6 +13,12 @@ public class SysDictData : EntityBase
     public long DictTypeId { get; set; }
 
     /// <summary>
+    /// 字典类型
+    /// </summary>
+    [Navigate(NavigateType.OneToOne, nameof(DictTypeId))]
+    public SysDictType DictType { get; set; }
+
+    /// <summary>
     /// 值
     /// </summary>
     [SugarColumn(ColumnDescription = "值", Length = 128)]

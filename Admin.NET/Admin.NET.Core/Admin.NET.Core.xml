@@ -550,6 +550,11 @@
             字典类型Id
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysDictData.DictType">
+            <summary>
+            字典类型
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.SysDictData.Value">
             <summary>
             值

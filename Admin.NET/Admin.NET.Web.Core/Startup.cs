@@ -37,8 +37,8 @@ public class Startup : AppStartup
         services.AddTaskScheduler();
         // 脱敏检测
         services.AddSensitiveDetection();
-        // 结果拦截器
-        services.AddMvcFilter<ResultFilter>();
+        //// 结果拦截器
+        //services.AddMvcFilter<ResultFilter>();
         // 日志监听
         services.AddMonitorLogging();
         // 第三方授权登录
