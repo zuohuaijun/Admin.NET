@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 系统字典值表
@@ -15,6 +15,7 @@ public class SysDictData : EntityBase
     /// <summary>
     /// 字典类型
     /// </summary>
+    [SugarColumn(IsIgnore = true)]
     [Navigate(NavigateType.OneToOne, nameof(DictTypeId))]
     public SysDictType DictType { get; set; }
 
