@@ -44,27 +44,19 @@ public static class SqlSugarSetup
                     {
                         if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                             Console.ForegroundColor = ConsoleColor.Green;
-                        if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) ||
-                            sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
+                        if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
                             Console.ForegroundColor = ConsoleColor.White;
                         if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase))
                             Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" +
-                                          UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
-                        App.PrintToMiniProfiler("SqlSugar", "Info",
-                            sql + "\r\n" +
-                            db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+                        Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
+                        App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
                     };
                     dbProvider.Aop.OnError = (ex) =>
                     {
                         Console.ForegroundColor = ConsoleColor.Red;
-                        var pars = db.Utilities.SerializeObject(
-                            ((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
-                        Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" +
-                                          UtilMethods.GetSqlString(config.DbType, ex.Sql,
-                                              (SugarParameter[])ex.Parametres) + "\r\n");
-                        App.PrintToMiniProfiler("SqlSugar", "Error",
-                            $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
+                        var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
+                        Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
+                        App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
                     };
 
                     // 数据审计
@@ -74,14 +66,12 @@ public static class SqlSugarSetup
                         if (entityInfo.OperationType == DataFilterType.InsertByObject)
                         {
                             // 主键(long类型)且没有值的---赋值雪花Id
-                            if (entityInfo.EntityColumnInfo.IsPrimarykey &&
-                                entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
+                            if (entityInfo.EntityColumnInfo.IsPrimarykey && entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
                             {
                                 var id = entityInfo.EntityColumnInfo.PropertyInfo.GetValue(entityInfo.EntityValue);
                                 if (id == null || (long)id == 0)
                                     entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
                             }
-
                             if (entityInfo.PropertyName == "CreateTime")
                                 entityInfo.SetValue(DateTime.Now);
                             if (App.User != null)
@@ -92,14 +82,12 @@ public static class SqlSugarSetup
                                     if (tenantId == null || tenantId == 0)
                                         entityInfo.SetValue(App.User.FindFirst(ClaimConst.TenantId)?.Value);
                                 }
-
                                 if (entityInfo.PropertyName == "CreateUserId")
                                     entityInfo.SetValue(App.User.FindFirst(ClaimConst.UserId)?.Value);
                                 if (entityInfo.PropertyName == "CreateOrgId")
                                     entityInfo.SetValue(App.User.FindFirst(ClaimConst.OrgId)?.Value);
                             }
                         }
-
                         // 更新操作
                         if (entityInfo.OperationType == DataFilterType.UpdateByObject)
                         {
@@ -130,8 +118,7 @@ public static class SqlSugarSetup
                         };
                         await db.GetConnectionScope(SqlSugarConst.ConfigId).Insertable(LogDiff).ExecuteCommandAsync();
                         Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine(DateTime.Now +
-                                          $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
+                        Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
                     };
 
                     // 配置实体假删除过滤器
