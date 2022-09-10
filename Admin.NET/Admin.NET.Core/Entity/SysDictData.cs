@@ -1,4 +1,4 @@
-namespace Admin.NET.Core;
+﻿namespace Admin.NET.Core;
 
 /// <summary>
 /// 系统字典值表

@@ -9,6 +9,11 @@
             常量下拉框特性
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.CustomUnifyResultAttribute">
+            <summary>
+            自定义规范化结果特性
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.NotTableAttribute">
             <summary>
             非实体表特性
@@ -7468,7 +7473,7 @@
             <param name="unifyResultSettings"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.AdminResultProvider.RESTfulResult(System.Int32,System.Boolean,System.Object,System.Object)">
+        <member name="M:Admin.NET.Core.AdminResultProvider.RESTfulResult(Microsoft.AspNetCore.Http.HttpContext,System.Int32,System.Boolean,System.Object,System.Object)">
             <summary>
             返回 RESTful 风格结果集
             </summary>
