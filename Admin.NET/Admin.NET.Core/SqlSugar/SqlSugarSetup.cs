@@ -25,102 +25,107 @@ public static class SqlSugarSetup
             config.ConfigureExternalServices = configureExternalServices;
         });
 
-        // 初始化SqlSugarScope配置
-        var initConfig = false;
+        // 是否首次 初始化SqlSugarScope配置
+        var hasInitConfig = false;
 
         SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs, db =>
         {
-            if (!initConfig)
+            //Stopwatch stopWatch = new Stopwatch();
+            //stopWatch.Start();
+
+            var localConfig = hasInitConfig;
+            dbOptions.ConnectionConfigs.ForEach(config =>
             {
-                dbOptions.ConnectionConfigs.ForEach(config =>
+                var configId = (string)config.ConfigId;
+                var dbProvider = db.GetConnectionScope(configId);
+
+                // 设置超时时间
+                dbProvider.Ado.CommandTimeOut = 30;
+
+                // 打印SQL语句
+                dbProvider.Aop.OnLogExecuting = (sql, pars) =>
                 {
-                    var dbProvider = db.GetConnectionScope((string)config.ConfigId);
+                    if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
+                        Console.ForegroundColor = ConsoleColor.Green;
+                    if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
+                        Console.ForegroundColor = ConsoleColor.White;
+                    if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase))
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
+                    App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+                };
+                dbProvider.Aop.OnError = (ex) =>
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
+                    Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
+                    App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
+                };
 
-                    // 设置超时时间
-                    dbProvider.Ado.CommandTimeOut = 30;
-
-                    // 打印SQL语句
-                    dbProvider.Aop.OnLogExecuting = (sql, pars) =>
+                // 数据审计
+                dbProvider.Aop.DataExecuting = (oldValue, entityInfo) =>
+                {
+                    // 新增操作
+                    if (entityInfo.OperationType == DataFilterType.InsertByObject)
                     {
-                        if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
-                            Console.ForegroundColor = ConsoleColor.Green;
-                        if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
-                            Console.ForegroundColor = ConsoleColor.White;
-                        if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase))
-                            Console.ForegroundColor = ConsoleColor.Blue;
-                        Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
-                        App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
-                    };
-                    dbProvider.Aop.OnError = (ex) =>
-                    {
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
-                        Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
-                        App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
-                    };
-
-                    // 数据审计
-                    dbProvider.Aop.DataExecuting = (oldValue, entityInfo) =>
-                    {
-                        // 新增操作
-                        if (entityInfo.OperationType == DataFilterType.InsertByObject)
+                        // 主键(long类型)且没有值的---赋值雪花Id
+                        if (entityInfo.EntityColumnInfo.IsPrimarykey && entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
                         {
-                            // 主键(long类型)且没有值的---赋值雪花Id
-                            if (entityInfo.EntityColumnInfo.IsPrimarykey && entityInfo.EntityColumnInfo.PropertyInfo.PropertyType == typeof(long))
-                            {
-                                var id = entityInfo.EntityColumnInfo.PropertyInfo.GetValue(entityInfo.EntityValue);
-                                if (id == null || (long)id == 0)
-                                    entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
-                            }
-                            if (entityInfo.PropertyName == "CreateTime")
-                                entityInfo.SetValue(DateTime.Now);
-                            if (App.User != null)
-                            {
-                                if (entityInfo.PropertyName == "TenantId")
-                                {
-                                    var tenantId = ((dynamic)entityInfo.EntityValue).TenantId;
-                                    if (tenantId == null || tenantId == 0)
-                                        entityInfo.SetValue(App.User.FindFirst(ClaimConst.TenantId)?.Value);
-                                }
-                                if (entityInfo.PropertyName == "CreateUserId")
-                                    entityInfo.SetValue(App.User.FindFirst(ClaimConst.UserId)?.Value);
-                                if (entityInfo.PropertyName == "CreateOrgId")
-                                    entityInfo.SetValue(App.User.FindFirst(ClaimConst.OrgId)?.Value);
-                            }
+                            var id = entityInfo.EntityColumnInfo.PropertyInfo.GetValue(entityInfo.EntityValue);
+                            if (id == null || (long)id == 0)
+                                entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
                         }
-                        // 更新操作
-                        if (entityInfo.OperationType == DataFilterType.UpdateByObject)
+                        if (entityInfo.PropertyName == "CreateTime")
+                            entityInfo.SetValue(DateTime.Now);
+                        if (App.User != null)
                         {
-                            if (entityInfo.PropertyName == "UpdateTime")
-                                entityInfo.SetValue(DateTime.Now);
-                            if (entityInfo.PropertyName == "UpdateUserId")
-                                entityInfo.SetValue(App.User?.FindFirst(ClaimConst.UserId)?.Value);
+                            if (entityInfo.PropertyName == "TenantId")
+                            {
+                                var tenantId = ((dynamic)entityInfo.EntityValue).TenantId;
+                                if (tenantId == null || tenantId == 0)
+                                    entityInfo.SetValue(App.User.FindFirst(ClaimConst.TenantId)?.Value);
+                            }
+                            if (entityInfo.PropertyName == "CreateUserId")
+                                entityInfo.SetValue(App.User.FindFirst(ClaimConst.UserId)?.Value);
+                            if (entityInfo.PropertyName == "CreateOrgId")
+                                entityInfo.SetValue(App.User.FindFirst(ClaimConst.OrgId)?.Value);
                         }
-                    };
-
-                    // 差异日志
-                    dbProvider.Aop.OnDiffLogEvent = async u =>
+                    }
+                    // 更新操作
+                    if (entityInfo.OperationType == DataFilterType.UpdateByObject)
                     {
-                        if (!dbOptions.EnableDiffLog) return;
-                        var LogDiff = new SysLogDiff
-                        {
-                            // 操作后记录（字段描述、列名、值、表名、表描述）
-                            AfterData = JsonConvert.SerializeObject(u.AfterData),
-                            // 操作前记录（字段描述、列名、值、表名、表描述）
-                            BeforeData = JsonConvert.SerializeObject(u.BeforeData),
-                            // 传进来的对象
-                            BusinessData = JsonConvert.SerializeObject(u.BusinessData),
-                            // 枚举（insert、update、delete）
-                            DiffType = u.DiffType.ToString(),
-                            Sql = UtilMethods.GetSqlString(config.DbType, u.Sql, u.Parameters),
-                            Parameters = JsonConvert.SerializeObject(u.Parameters),
-                            Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
-                        };
-                        await db.GetConnectionScope(SqlSugarConst.ConfigId).Insertable(LogDiff).ExecuteCommandAsync();
-                        Console.ForegroundColor = ConsoleColor.Red;
-                        Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
-                    };
+                        if (entityInfo.PropertyName == "UpdateTime")
+                            entityInfo.SetValue(DateTime.Now);
+                        if (entityInfo.PropertyName == "UpdateUserId")
+                            entityInfo.SetValue(App.User?.FindFirst(ClaimConst.UserId)?.Value);
+                    }
+                };
 
+                // 差异日志
+                dbProvider.Aop.OnDiffLogEvent = async u =>
+                {
+                    if (!dbOptions.EnableDiffLog) return;
+                    var LogDiff = new SysLogDiff
+                    {
+                        // 操作后记录（字段描述、列名、值、表名、表描述）
+                        AfterData = JsonConvert.SerializeObject(u.AfterData),
+                        // 操作前记录（字段描述、列名、值、表名、表描述）
+                        BeforeData = JsonConvert.SerializeObject(u.BeforeData),
+                        // 传进来的对象
+                        BusinessData = JsonConvert.SerializeObject(u.BusinessData),
+                        // 枚举（insert、update、delete）
+                        DiffType = u.DiffType.ToString(),
+                        Sql = UtilMethods.GetSqlString(config.DbType, u.Sql, u.Parameters),
+                        Parameters = JsonConvert.SerializeObject(u.Parameters),
+                        Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
+                    };
+                    await db.GetConnectionScope(SqlSugarConst.ConfigId).Insertable(LogDiff).ExecuteCommandAsync();
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
+                };
+
+                if (!localConfig)
+                {
                     // 配置实体假删除过滤器
                     SetDeletedEntityFilter(dbProvider);
                     // 配置实体机构过滤器
@@ -129,9 +134,22 @@ public static class SqlSugarSetup
                     SetCustomEntityFilter(dbProvider);
                     // 配置租户实体过滤器
                     SetTenantEntityFilter(dbProvider);
-                });
-                initConfig = true;
-            }
+
+                    SqlSugarQueryFilterCache.Instance.QueryEntityFilters.TryAdd(configId,
+                        dbProvider.QueryFilter);
+                }
+                else
+                {
+                    if (SqlSugarQueryFilterCache.Instance.QueryEntityFilters.TryGetValue(configId,
+                           out QueryFilterProvider filter))
+                        dbProvider.QueryFilter = filter;
+                }
+            });
+
+            //stopWatch.Stop();
+            //long ts = stopWatch.ElapsedMilliseconds;
+
+            hasInitConfig = true;
         });
 
         // 初始化数据库结构及种子数据

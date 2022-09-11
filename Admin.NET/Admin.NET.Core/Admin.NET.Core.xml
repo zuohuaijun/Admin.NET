@@ -7350,6 +7350,11 @@
             <param name="pageSize"></param>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.SqlSugarQueryFilterCache">
+            <summary>
+            数据过滤器缓存
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SqlSugarRepository`1">
             <summary>
             SqlSugar仓储类
@@ -7709,6 +7714,12 @@
             <param name="fileName"></param>
             <param name="args"></param>
             <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Singleton`1">
+            <summary>
+            单例泛型类
+            </summary>
+            <typeparam name="T"></typeparam>
         </member>
         <member name="T:Admin.NET.Core.ByteUtil">
             <summary>
