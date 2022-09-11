@@ -13,7 +13,8 @@ public class ServerUtil
     {
         var furionAssembly = typeof(Furion.App).Assembly.GetName();
         var sqlSugarAssembly = typeof(ISqlSugarClient).Assembly.GetName();
-        return new {
+        return new
+        {
             HostName = Environment.MachineName, // HostName
             SystemOs = RuntimeInformation.OSDescription, // 系统名称
             OsArchitecture = Environment.OSVersion.Platform.ToString() + " " + RuntimeInformation.OSArchitecture.ToString(), // 系统架构
@@ -31,7 +32,8 @@ public class ServerUtil
     public static dynamic GetServerUseInfo()
     {
         var ramInfo = GetRamInfo();
-        return new {
+        return new
+        {
             TotalRam = Math.Ceiling(ramInfo.Total / 1024).ToString() + " GB", // 总内存
             RamRate = Math.Ceiling(100 * ramInfo.Used / ramInfo.Total) + " %", // 内存使用率
             CpuRate = Math.Ceiling(double.Parse(GetCpuRate())) + " %", // Cpu使用率
@@ -45,7 +47,8 @@ public class ServerUtil
     /// <returns></returns>
     public static async Task<dynamic> GetServerNetWorkInfo()
     {
-        return new {
+        return new
+        {
             WanIp = await GetWanIpFromPCOnline(), // 外网IP
             LocalIp = App.HttpContext?.Connection?.LocalIpAddress.ToString(),
             SendAndReceived = "", //"上行" + Math.Round(networkInfo.SendLength / 1024.0 / 1024 / 1024, 2) + "GB 下行" + Math.Round(networkInfo.ReceivedLength / 1024.0 / 1024 / 1024, 2) + "GB", // 上下行流量统计
@@ -64,7 +67,8 @@ public class ServerUtil
             var output = ShellUtil.Bash("free -m");
             var lines = output.Split("\n");
             var memory = lines[1].Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            return new {
+            return new
+            {
                 Total = double.Parse(memory[1]),
                 Used = double.Parse(memory[2]),
                 Free = double.Parse(memory[3])
@@ -78,7 +82,8 @@ public class ServerUtil
             var totalMemoryParts = lines[1].Split("=", StringSplitOptions.RemoveEmptyEntries);
             var total = Math.Round(double.Parse(totalMemoryParts[1]) / 1024, 2);
             var free = Math.Round(double.Parse(freeMemoryParts[1]) / 1024, 2);
-            return new {
+            return new
+            {
                 Total = total,
                 Free = free,
                 Used = total - free

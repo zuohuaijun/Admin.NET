@@ -14,7 +14,7 @@ public class AdminResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
-        return new JsonResult(RESTfulResult(metadata.StatusCode, errors: metadata.Errors));
+        return new JsonResult(RESTfulResult(context.HttpContext, metadata.StatusCode, errors: metadata.Errors));
     }
 
     /// <summary>
@@ -25,7 +25,7 @@ public class AdminResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnSucceeded(ActionExecutedContext context, object data)
     {
-        return new JsonResult(RESTfulResult(StatusCodes.Status200OK, true, data));
+        return new JsonResult(RESTfulResult(context.HttpContext, StatusCodes.Status200OK, true, data));
     }
 
     /// <summary>
@@ -36,7 +36,7 @@ public class AdminResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
     {
-        return new JsonResult(RESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, errors: metadata.ValidationResult));
+        return new JsonResult(RESTfulResult(context.HttpContext, metadata.StatusCode ?? StatusCodes.Status400BadRequest, errors: metadata.ValidationResult));
     }
 
     /// <summary>
@@ -55,12 +55,12 @@ public class AdminResultProvider : IUnifyResultProvider
         {
             // 处理 401 状态码
             case StatusCodes.Status401Unauthorized:
-                await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "401 登录已过期，请重新登录"),
+                await context.Response.WriteAsJsonAsync(RESTfulResult(context, statusCode, errors: "401 登录已过期，请重新登录"),
                     App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                 break;
             // 处理 403 状态码
             case StatusCodes.Status403Forbidden:
-                await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "403 禁止访问，没有权限"),
+                await context.Response.WriteAsJsonAsync(RESTfulResult(context, statusCode, errors: "403 禁止访问，没有权限"),
                     App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                 break;
 
@@ -76,8 +76,18 @@ public class AdminResultProvider : IUnifyResultProvider
     /// <param name="data"></param>
     /// <param name="errors"></param>
     /// <returns></returns>
-    private static AdminResult<object> RESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
+    private static AdminResult<object> RESTfulResult(HttpContext context, int statusCode, bool succeeded = default, object data = default, object errors = default)
     {
+        //// 获取自定义规范化结果特性
+        //var methodAttr = context.GetMetadata<CustomUnifyResultAttribute>();
+        //if (methodAttr.Name == "APP")
+        //{
+        //    return new JsonResult(new
+        //    {
+        //        AppResult = "APP返回格式"
+        //    });
+        //}
+
         return new AdminResult<object>
         {
             Code = statusCode,

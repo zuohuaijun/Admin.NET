@@ -80,7 +80,8 @@ public class WeChatService : IDynamicApiController, ITransient
         var wxUser = await _weChatUserRep.GetFirstAsync(p => p.OpenId == input.OpenId);
         if (wxUser == null)
             throw Oops.Oh("微信登录");
-        return new {
+        return new
+        {
             wxUser.Avatar,
             accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
             {

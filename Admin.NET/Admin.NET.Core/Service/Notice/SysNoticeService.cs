@@ -226,14 +226,16 @@ public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITrans
         int index = 0;
         foreach (var item in dic)
         {
-            noticeClays.Add(new {
+            noticeClays.Add(new
+            {
                 Index = index++,
                 Key = item.Describe,
                 Value = item.Value,
                 NoticeData = notices.Where(m => m.Type == item.Value).ToList()
             });
         }
-        return new {
+        return new
+        {
             Rows = noticeClays,
             TotalRows = count
         };
