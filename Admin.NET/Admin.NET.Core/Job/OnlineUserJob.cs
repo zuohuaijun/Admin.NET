@@ -15,6 +15,7 @@ public class OnlineUserJob : ISpareTimeWorker
         {
             var services = scope.ServiceProvider;
             var rep = services.GetService<SqlSugarRepository<SysOnlineUser>>();
+            if (rep == null) return;
             await rep.AsDeleteable().ExecuteCommandAsync();
 
             Console.ForegroundColor = ConsoleColor.Blue;

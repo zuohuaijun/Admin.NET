@@ -25,6 +25,8 @@ public class Startup : AppStartup
     {
         // 配置选项
         services.AddProjectOptions();
+        // 缓存注册
+        services.AddCache();
         // SqlSugar
         services.AddSqlSugar();
         // JWT
@@ -104,9 +106,6 @@ public class Startup : AppStartup
         {
             options.UseMailKit(App.GetOptions<EmailOptions>());
         });
-
-        // Redis缓存
-        services.AddCSRedisSetup();
 
         // 模板引擎
         services.AddViewEngine();

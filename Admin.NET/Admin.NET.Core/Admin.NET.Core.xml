@@ -19,11 +19,16 @@
             非实体表特性
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.CSRedisSetup.AddCSRedisSetup(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:Admin.NET.Core.CacheSetup.AddCache(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            CSRedis初始化
+            缓存注册（Redis缓存）
             </summary>
             <param name="services"></param>
+        </member>
+        <member name="T:Admin.NET.Core.SqlSugarCache">
+            <summary>
+            SqlSugar二级缓存
+            </summary>
         </member>
         <member name="T:Admin.NET.Core.CacheConst">
             <summary>
@@ -7350,11 +7355,6 @@
             <param name="pageSize"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.SqlSugarQueryFilterCache">
-            <summary>
-            数据过滤器缓存
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.SqlSugarRepository`1">
             <summary>
             SqlSugar仓储类
@@ -7714,12 +7714,6 @@
             <param name="fileName"></param>
             <param name="args"></param>
             <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.Singleton`1">
-            <summary>
-            单例泛型类
-            </summary>
-            <typeparam name="T"></typeparam>
         </member>
         <member name="T:Admin.NET.Core.ByteUtil">
             <summary>

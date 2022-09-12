@@ -18,26 +18,25 @@ public static class SqlSugarSetup
                 if ((type.PropertyType.IsGenericType && type.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
                     || (type.PropertyType == typeof(string) && type.GetCustomAttribute<RequiredAttribute>() == null))
                     column.IsNullable = true;
-            }
+            },
+            DataInfoCacheService = new SqlSugarCache(),
         };
         dbOptions.ConnectionConfigs.ForEach(config =>
         {
             config.ConfigureExternalServices = configureExternalServices;
+            config.InitKeyType = InitKeyType.Attribute;
+            config.IsAutoCloseConnection = true;
+            config.MoreSettings = new ConnMoreSettings
+            {
+                IsAutoRemoveDataCache = true
+            };
         });
-
-        // 是否首次 初始化SqlSugarScope配置
-        var hasInitConfig = false;
 
         SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs, db =>
         {
-            //Stopwatch stopWatch = new Stopwatch();
-            //stopWatch.Start();
-
-            var localConfig = hasInitConfig;
             dbOptions.ConnectionConfigs.ForEach(config =>
             {
-                var configId = (string)config.ConfigId;
-                var dbProvider = db.GetConnectionScope(configId);
+                var dbProvider = db.GetConnectionScope((string)config.ConfigId);
 
                 // 设置超时时间
                 dbProvider.Ado.CommandTimeOut = 30;
@@ -124,7 +123,9 @@ public static class SqlSugarSetup
                     Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
                 };
 
-                if (!localConfig)
+                // 缓存处理过滤器
+                var queryFilterProvider = db.DataCache.Get<QueryFilterProvider>(config.ConfigId);
+                if (queryFilterProvider == null)
                 {
                     // 配置实体假删除过滤器
                     SetDeletedEntityFilter(dbProvider);
@@ -134,22 +135,12 @@ public static class SqlSugarSetup
                     SetCustomEntityFilter(dbProvider);
                     // 配置租户实体过滤器
                     SetTenantEntityFilter(dbProvider);
-
-                    SqlSugarQueryFilterCache.Instance.QueryEntityFilters.TryAdd(configId,
-                        dbProvider.QueryFilter);
                 }
                 else
                 {
-                    if (SqlSugarQueryFilterCache.Instance.QueryEntityFilters.TryGetValue(configId,
-                           out QueryFilterProvider filter))
-                        dbProvider.QueryFilter = filter;
+                    dbProvider.QueryFilter = queryFilterProvider;
                 }
             });
-
-            //stopWatch.Stop();
-            //long ts = stopWatch.ElapsedMilliseconds;
-
-            hasInitConfig = true;
         });
 
         // 初始化数据库结构及种子数据
@@ -207,10 +198,10 @@ public static class SqlSugarSetup
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
                 var storage = provider.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
-                // 如果添加一条种子数，sqlsugar 默认以 @param 的方式赋值，如果 PropertyType 为空，则默认数据类型为字符串。插入 pgsql 时候会报错，所以要忽略为空的值添加
-                _ = ((InsertableProvider<Dictionary<string, object>>)storage.AsInsertable).IsSingle ?
-                    storage.AsInsertable.IgnoreColumns("UpdateTime", "UpdateUserId", "CreateUserId").ExecuteCommand() :
-                    storage.AsInsertable.ExecuteCommand();
+                //// 如果添加一条种子数，sqlsugar 默认以 @param 的方式赋值，如果 PropertyType 为空，则默认数据类型为字符串。插入 pgsql 时候会报错，所以要忽略为空的值添加
+                //_ = ((InsertableProvider<Dictionary<string, object>>)storage.AsInsertable).IsSingle ?
+                //    storage.AsInsertable.IgnoreColumns("UpdateTime", "UpdateUserId", "CreateUserId").ExecuteCommand() :
+                //    storage.AsInsertable.ExecuteCommand();
                 storage.AsUpdateable.ExecuteCommand();
             }
             else // 没有主键或者不是预定义的主键(没主键有重复的可能)
