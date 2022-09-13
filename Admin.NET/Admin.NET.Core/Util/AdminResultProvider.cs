@@ -71,6 +71,7 @@ public class AdminResultProvider : IUnifyResultProvider
     /// <summary>
     /// 返回 RESTful 风格结果集
     /// </summary>
+    /// <param name="context"></param>
     /// <param name="statusCode"></param>
     /// <param name="succeeded"></param>
     /// <param name="data"></param>

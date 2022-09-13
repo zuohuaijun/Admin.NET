@@ -2,7 +2,7 @@
 
 public interface ISysCacheService
 {
-    Task AddCacheKey(string cacheKey);
+    Task DelByParentKeyAsync(string key);
 
     Task DelByPatternAsync(string key);
 
@@ -14,6 +14,12 @@ public interface ISysCacheService
 
     Task<T> GetAsync<T>(string cacheKey);
 
+    Task<int?> GetMaxDataScopeType(long userId);
+
+    Task<List<long>> GetOrgIdList(long userId);
+
+    Task<List<string>> GetPermission(long userId);
+
     Task<string> GetStringAsync(string cacheKey);
 
     Task RemoveAsync(string key);
@@ -22,21 +28,13 @@ public interface ISysCacheService
 
     Task SetAsync(string cacheKey, object value, TimeSpan expire);
 
-    Task SetStringAsync(string cacheKey, string value);
-
-    Task SetStringAsync(string cacheKey, string value, TimeSpan expire);
-
-    Task<List<long>> GetOrgIdList(long userId);
+    Task SetMaxDataScopeType(long userId, int dataScopeType);
 
     Task SetOrgIdList(long userId, List<long> orgIdList);
 
-    Task<List<string>> GetPermission(long userId);
-
     Task SetPermission(long userId, List<string> permissions);
 
-    Task<int?> GetMaxDataScopeType(long userId);
+    Task SetStringAsync(string cacheKey, string value);
 
-    Task SetMaxDataScopeType(long userId, int dataScopeType);
-
-    Task DelByParentKeyAsync(string key);
+    Task SetStringAsync(string cacheKey, string value, TimeSpan expire);
 }

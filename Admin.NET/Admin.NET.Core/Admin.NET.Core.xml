@@ -3728,8 +3728,16 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysCacheService.GetStringAsync(System.String)">
             <summary>
-            获取缓存
+            获取字符串缓存
             </summary>
+            <param name="cacheKey"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetAsync``1(System.String)">
+            <summary>
+            获取对象缓存
+            </summary>
+            <typeparam name="T"></typeparam>
             <param name="cacheKey"></param>
             <returns></returns>
         </member>
@@ -3745,14 +3753,6 @@
             删除某特征关键字缓存
             </summary>
             <param name="key"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.GetAsync``1(System.String)">
-            <summary>
-            获取缓存
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="cacheKey"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCacheService.ExistsAsync(System.String)">
@@ -3823,7 +3823,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysCacheService.DelByParentKeyAsync(System.String)">
             <summary>
-             根据父键清空
+             根据父键清空缓存
             </summary>
             <param name="key"></param>
             <returns></returns>
@@ -7482,6 +7482,7 @@
             <summary>
             返回 RESTful 风格结果集
             </summary>
+            <param name="context"></param>
             <param name="statusCode"></param>
             <param name="succeeded"></param>
             <param name="data"></param>

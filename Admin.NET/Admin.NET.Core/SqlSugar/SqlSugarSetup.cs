@@ -135,6 +135,8 @@ public static class SqlSugarSetup
                     SetCustomEntityFilter(dbProvider);
                     // 配置租户实体过滤器
                     SetTenantEntityFilter(dbProvider);
+
+                    db.DataCache.Add(config.ConfigId, dbProvider.QueryFilter);
                 }
                 else
                 {
@@ -224,6 +226,12 @@ public static class SqlSugarSetup
 
         foreach (var entityType in entityTypes)
         {
+            // 排除非当前数据库实体
+            var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+            if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
+                (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                continue;
+
             Expression<Func<DataEntityBase, bool>> dynamicExpression = u => u.IsDelete == false;
             db.QueryFilter.Add(new TableFilterItem<object>(entityType, dynamicExpression));
         }

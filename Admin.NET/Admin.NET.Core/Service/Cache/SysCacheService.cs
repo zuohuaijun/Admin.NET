@@ -83,7 +83,7 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     }
 
     /// <summary>
-    /// 获取缓存
+    /// 获取字符串缓存
     /// </summary>
     /// <param name="cacheKey"></param>
     /// <returns></returns>
@@ -91,6 +91,19 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     public async Task<string> GetStringAsync(string cacheKey)
     {
         return await _cache.GetStringAsync(cacheKey);
+    }
+
+    /// <summary>
+    /// 获取对象缓存
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="cacheKey"></param>
+    /// <returns></returns>
+    [NonAction]
+    public async Task<T> GetAsync<T>(string cacheKey)
+    {
+        var res = await _cache.GetAsync(cacheKey);
+        return res == null ? default : JSON.Deserialize<T>(Encoding.UTF8.GetString(res));
     }
 
     /// <summary>
@@ -129,19 +142,6 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     }
 
     /// <summary>
-    /// 获取缓存
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="cacheKey"></param>
-    /// <returns></returns>
-    [NonAction]
-    public async Task<T> GetAsync<T>(string cacheKey)
-    {
-        var res = await _cache.GetAsync(cacheKey);
-        return res == null ? default : JSON.Deserialize<T>(Encoding.UTF8.GetString(res));
-    }
-
-    /// <summary>
     /// 检查给定 key 是否存在
     /// </summary>
     /// <param name="cacheKey">键</param>
@@ -158,8 +158,7 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     /// </summary>
     /// <param name="cacheKey"></param>
     /// <returns></returns>
-    [NonAction]
-    public async Task AddCacheKey(string cacheKey)
+    private async Task AddCacheKey(string cacheKey)
     {
         var res = await _cache.GetStringAsync(CacheConst.KeyAll);
         var allkeys = string.IsNullOrWhiteSpace(res) ? new List<string>() : JSON.Deserialize<List<string>>(res);
@@ -302,7 +301,7 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     }
 
     /// <summary>
-    ///  根据父键清空
+    ///  根据父键清空缓存
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
