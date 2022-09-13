@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.SignalR;
 
 namespace Admin.NET.Core.Service;
 
@@ -74,6 +74,7 @@ public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController
         {
             var loginUser = await _sysOnlineUerRep.GetFirstAsync(u => u.UserId == userId);
             if (loginUser == null) return;
+
             await ForceExist(loginUser);
         }
     }

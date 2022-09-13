@@ -167,7 +167,7 @@ public class ServerUtil
 
         var url = "http://whois.pconline.com.cn/ipJson.jsp";
         var stream = await url.GetAsStreamAsync();
-        var streamReader = new StreamReader(stream, Encoding.GetEncoding("GBK"));
+        var streamReader = new StreamReader(stream.Stream, stream.Encoding);
         var html = streamReader.ReadToEnd();
         var tmp = html[(html.IndexOf("({") + 2)..].Split(",");
         var ipAddr = tmp[0].Split(":")[1] + "【" + tmp[7].Split(":")[1] + "】";

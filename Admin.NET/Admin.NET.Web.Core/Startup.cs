@@ -80,12 +80,14 @@ public class Startup : AppStartup
         services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
 
         // 事件总线
-        services.AddEventBus(builder =>
+        services.AddEventBus(options =>
         {
+            // 不启用事件日志
+            options.LogEnabled = false;
             // 订阅日志事件
-            builder.AddSubscriber<LogEventSubscriber>();
+            options.AddSubscriber<LogEventSubscriber>();
             // 事件执行器（失败重试）
-            builder.AddExecutor<RetryEventHandlerExecutor>();
+            options.AddExecutor<RetryEventHandlerExecutor>();
         });
 
         // OSS对象存储（必须一个个赋值）

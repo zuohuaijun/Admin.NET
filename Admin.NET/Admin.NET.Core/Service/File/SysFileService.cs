@@ -104,7 +104,7 @@ public class SysFileService : IDynamicApiController, ITransient
         {
             var filePath = string.Concat(file.FilePath, "/", input.Id.ToString() + file.Suffix);
             var stream = await (await _OSSService.PresignedGetObjectAsync(file.BucketName.ToString(), filePath, 5)).GetAsStreamAsync();
-            return new FileStreamResult(stream, "application/octet-stream") { FileDownloadName = fileName };
+            return new FileStreamResult(stream.Stream, "application/octet-stream") { FileDownloadName = fileName };
         }
         else
         {

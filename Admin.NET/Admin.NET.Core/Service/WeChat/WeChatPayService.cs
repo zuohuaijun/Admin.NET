@@ -58,7 +58,7 @@ public class WeChatPayService : IDynamicApiController, ITransient
     {
         var request = new CreatePayTransactionJsapiRequest()
         {
-            OutTradeNumber = DateTimeOffset.Now.ToString("yyyyMMddHHmmssfff") + (new Random()).Next(100, 1000), // YitIdHelper.NextId(), // 订单号
+            OutTradeNumber = DateTimeOffset.Now.ToString("yyyyMMddHHmmssfff") + (new Random()).Next(100, 1000), // 订单号
             AppId = _weChatPayOptions.AppId,
             Description = input.Description,
             Attachment = input.Attachment,
@@ -100,7 +100,7 @@ public class WeChatPayService : IDynamicApiController, ITransient
     {
         var request = new CreatePayPartnerTransactionJsapiRequest()
         {
-            OutTradeNumber = DateTimeOffset.Now.ToString("yyyyMMddHHmmssfff") + (new Random()).Next(100, 1000), // YitIdHelper.NextId(), // 订单号
+            OutTradeNumber = DateTimeOffset.Now.ToString("yyyyMMddHHmmssfff") + (new Random()).Next(100, 1000), // 订单号
             AppId = _weChatPayOptions.AppId,
             MerchantId = _weChatPayOptions.MerchantId,
             SubAppId = _weChatPayOptions.AppId,
