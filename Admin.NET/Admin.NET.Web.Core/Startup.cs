@@ -39,16 +39,6 @@ public class Startup : AppStartup
         //services.AddMvcFilter<ResultFilter>();
         // 日志监听
         services.AddMonitorLogging();
-        // 第三方授权登录
-        services.AddAuthentication()
-            .AddWeixin(options =>
-            {
-                var opt = App.GetOptions<OAuthOptions>();
-                options.ClientId = opt.Weixin.ClientId;
-                options.ClientSecret = opt.Weixin.ClientSecret;
-            });
-        // ElasticSearch
-        services.AddElasticSearch();
 
         services.AddControllersWithViews()
             .AddAppLocalization()
@@ -63,8 +53,21 @@ public class Startup : AppStartup
 
         // 缓存注册
         services.AddCache();
+
         // SqlSugar
         services.AddSqlSugar();
+
+        // 第三方授权登录
+        services.AddAuthentication()
+            .AddWeixin(options =>
+            {
+                var opt = App.GetOptions<OAuthOptions>();
+                options.ClientId = opt.Weixin.ClientId;
+                options.ClientSecret = opt.Weixin.ClientSecret;
+            });
+
+        // ElasticSearch
+        services.AddElasticSearch();
 
         // 配置Nginx转发获取客户端真实IP
         // 注1：如果负载均衡不是在本机通过 Loopback 地址转发请求的，一定要加上options.KnownNetworks.Clear()和options.KnownProxies.Clear()
@@ -144,7 +147,7 @@ public class Startup : AppStartup
             services.AddDatabaseLogging<ElasticSearchLoggingWriter>();
         }
 
-        // 设置雪花Id算法机器码
+        // 配置雪花Id算法机器码
         YitIdHelper.SetIdGenerator(new IdGeneratorOptions
         {
             WorkerId = App.GetOptions<SnowIdOptions>().WorkerId

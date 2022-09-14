@@ -204,7 +204,7 @@ public static class SqlSugarSetup
                 //// 如果添加一条种子数，sqlsugar 默认以 @param 的方式赋值，如果 PropertyType 为空，则默认数据类型为字符串。插入 pgsql 时候会报错，所以要忽略为空的值添加
                 //_ = ((InsertableProvider<Dictionary<string, object>>)storage.AsInsertable).IsSingle ?
                 //    storage.AsInsertable.IgnoreColumns("UpdateTime", "UpdateUserId", "CreateUserId").ExecuteCommand() :
-                //    storage.AsInsertable.ExecuteCommand();
+                storage.AsInsertable.ExecuteCommand();
                 storage.AsUpdateable.ExecuteCommand();
             }
             else // 没有主键或者不是预定义的主键(没主键有重复的可能)

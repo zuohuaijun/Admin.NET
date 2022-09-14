@@ -24,7 +24,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
-    <PackageReference Include="Caching.CSRedis" Version="3.8.668" />
+    <PackageReference Include="Caching.CSRedis" Version="3.8.669" />
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.4.3" />
     <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.4.3" />
     <PackageReference Include="Furion.Pure" Version="4.4.3" />
