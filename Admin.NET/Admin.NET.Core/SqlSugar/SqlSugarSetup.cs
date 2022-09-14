@@ -11,6 +11,7 @@ public static class SqlSugarSetup
     public static void AddSqlSugar(this IServiceCollection services)
     {
         var dbOptions = App.GetOptions<DbConnectionOptions>();
+        var sqlSugarCache = new SqlSugarCache();
         var configureExternalServices = new ConfigureExternalServices
         {
             EntityService = (type, column) => // 修改列可空-1、带?问号 2、String类型若没有Required
@@ -19,7 +20,7 @@ public static class SqlSugarSetup
                     || (type.PropertyType == typeof(string) && type.GetCustomAttribute<RequiredAttribute>() == null))
                     column.IsNullable = true;
             },
-            DataInfoCacheService = new SqlSugarCache(),
+            DataInfoCacheService = sqlSugarCache,
         };
         dbOptions.ConnectionConfigs.ForEach(config =>
         {
@@ -32,17 +33,17 @@ public static class SqlSugarSetup
             };
         });
 
-        SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs, db =>
+        SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs, client =>
         {
             dbOptions.ConnectionConfigs.ForEach(config =>
             {
-                var dbProvider = db.GetConnectionScope((string)config.ConfigId);
+                var db = client.GetConnectionScope((string)config.ConfigId);
 
                 // 设置超时时间
-                dbProvider.Ado.CommandTimeOut = 30;
+                db.Ado.CommandTimeOut = 30;
 
                 // 打印SQL语句
-                dbProvider.Aop.OnLogExecuting = (sql, pars) =>
+                db.Aop.OnLogExecuting = (sql, pars) =>
                 {
                     if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                         Console.ForegroundColor = ConsoleColor.Green;
@@ -53,7 +54,7 @@ public static class SqlSugarSetup
                     Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
                     App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
                 };
-                dbProvider.Aop.OnError = (ex) =>
+                db.Aop.OnError = (ex) =>
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
@@ -62,7 +63,7 @@ public static class SqlSugarSetup
                 };
 
                 // 数据审计
-                dbProvider.Aop.DataExecuting = (oldValue, entityInfo) =>
+                db.Aop.DataExecuting = (oldValue, entityInfo) =>
                 {
                     // 新增操作
                     if (entityInfo.OperationType == DataFilterType.InsertByObject)
@@ -101,7 +102,7 @@ public static class SqlSugarSetup
                 };
 
                 // 差异日志
-                dbProvider.Aop.OnDiffLogEvent = async u =>
+                db.Aop.OnDiffLogEvent = async u =>
                 {
                     if (!dbOptions.EnableDiffLog) return;
                     var LogDiff = new SysLogDiff
@@ -118,7 +119,7 @@ public static class SqlSugarSetup
                         Parameters = JsonConvert.SerializeObject(u.Parameters),
                         Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
                     };
-                    await db.GetConnectionScope(SqlSugarConst.ConfigId).Insertable(LogDiff).ExecuteCommandAsync();
+                    await client.GetConnectionScope(SqlSugarConst.ConfigId).Insertable(LogDiff).ExecuteCommandAsync();
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
                 };
@@ -128,19 +129,19 @@ public static class SqlSugarSetup
                 if (queryFilterProvider == null)
                 {
                     // 配置实体假删除过滤器
-                    SetDeletedEntityFilter(dbProvider);
+                    SetDeletedEntityFilter(db);
                     // 配置实体机构过滤器
-                    SetOrgEntityFilter(dbProvider);
+                    SetOrgEntityFilter(db);
                     // 配置自定义实体过滤器
-                    SetCustomEntityFilter(dbProvider);
+                    SetCustomEntityFilter(db);
                     // 配置租户实体过滤器
-                    SetTenantEntityFilter(dbProvider);
+                    SetTenantEntityFilter(db);
 
-                    db.DataCache.Add(config.ConfigId, dbProvider.QueryFilter);
+                    db.DataCache.Add(config.ConfigId, db.QueryFilter);
                 }
                 else
                 {
-                    dbProvider.QueryFilter = queryFilterProvider;
+                    db.QueryFilter = queryFilterProvider;
                 }
             });
         });
@@ -193,13 +194,13 @@ public static class SqlSugarSetup
 
             var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            var provider = db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
+            var db2 = db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
 
             var seedDataTable = seedData.ToList().ToDataTable();
             seedDataTable.TableName = db.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
-                var storage = provider.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
+                var storage = db2.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
                 //// 如果添加一条种子数，sqlsugar 默认以 @param 的方式赋值，如果 PropertyType 为空，则默认数据类型为字符串。插入 pgsql 时候会报错，所以要忽略为空的值添加
                 //_ = ((InsertableProvider<Dictionary<string, object>>)storage.AsInsertable).IsSingle ?
                 //    storage.AsInsertable.IgnoreColumns("UpdateTime", "UpdateUserId", "CreateUserId").ExecuteCommand() :
@@ -208,7 +209,7 @@ public static class SqlSugarSetup
             }
             else // 没有主键或者不是预定义的主键(没主键有重复的可能)
             {
-                var storage = provider.Storageable(seedDataTable).ToStorage();
+                var storage = db2.Storageable(seedDataTable).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
             }
         }

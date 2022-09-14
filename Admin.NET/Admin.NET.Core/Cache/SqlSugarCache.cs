@@ -1,53 +1,66 @@
-﻿namespace Admin.NET.Core;
+﻿using Microsoft.Extensions.Caching.Memory;
+
+namespace Admin.NET.Core;
 
 /// <summary>
 /// SqlSugar二级缓存
 /// </summary>
-public class SqlSugarCache : ICacheService
+public class SqlSugarCache : ICacheService, ISingleton, IDisposable
 {
-    private static IDistributedCache _cache = App.GetService<IDistributedCache>();
+    private static readonly Lazy<IMemoryCache> lazyCache = new(() => new MemoryCache(new MemoryCacheOptions()));
+    public static IMemoryCache _cache => lazyCache.Value;
 
     public void Add<V>(string key, V value)
     {
-        _cache.Set(key, Encoding.UTF8.GetBytes(JSON.Serialize(value)));
+        _cache.Set(key, value);
     }
 
     public void Add<V>(string key, V value, int cacheDurationInSeconds)
     {
-        _cache.Set(key, Encoding.UTF8.GetBytes(JSON.Serialize(value)), new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(cacheDurationInSeconds) });
+        _cache.Set(key, value, TimeSpan.FromSeconds(cacheDurationInSeconds));
     }
 
     public bool ContainsKey<V>(string key)
     {
-        return _cache.Get(key) != null;
+        return _cache.TryGetValue(key, out _);
     }
 
     public V Get<V>(string key)
     {
-        var res = _cache.Get(key);
-        return res == null ? default : JSON.Deserialize<V>(Encoding.UTF8.GetString(res));
+        return _cache.Get<V>(key);
     }
 
     public IEnumerable<string> GetAllKey<V>()
     {
         const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
-        var entries = _cache.GetType().GetField("_entries", flags)?.GetValue(_cache);
-        var cacheItems = entries?.GetType().GetProperty("Keys").GetValue(entries) as ICollection<object>;
-        return cacheItems == null ? new List<string>() : cacheItems.Select(u => u.ToString()).ToList();
+        var entries = _cache.GetType().GetField("_entries", flags).GetValue(_cache);
+        var cacheItems = entries as IDictionary;
+        var keys = new List<string>();
+        if (cacheItems == null) return keys;
+        foreach (DictionaryEntry cacheItem in cacheItems)
+        {
+            keys.Add(cacheItem.Key.ToString());
+        }
+        return keys;
     }
 
     public V GetOrCreate<V>(string cacheKey, Func<V> create, int cacheDurationInSeconds = int.MaxValue)
     {
-        if (!ContainsKey<V>(cacheKey))
-            return JSON.Deserialize<V>(Encoding.UTF8.GetString(_cache.Get(cacheKey)));
-
-        var result = create();
-        Add(cacheKey, result, cacheDurationInSeconds);
-        return result;
+        if (!_cache.TryGetValue<V>(cacheKey, out V value))
+        {
+            value = create();
+            _cache.Set(cacheKey, value, TimeSpan.FromSeconds(cacheDurationInSeconds));
+        }
+        return value;
     }
 
     public void Remove<V>(string key)
     {
         _cache.Remove(key);
+    }
+
+    public void Dispose()
+    {
+        _cache.Dispose();
     }
 }

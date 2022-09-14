@@ -25,10 +25,6 @@ public class Startup : AppStartup
     {
         // 配置选项
         services.AddProjectOptions();
-        // 缓存注册
-        services.AddCache();
-        // SqlSugar
-        services.AddSqlSugar();
         // JWT
         services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
         // 允许跨域
@@ -64,6 +60,11 @@ public class Startup : AppStartup
                 // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
             })
             .AddInjectWithUnifyResult<AdminResultProvider>();
+
+        // 缓存注册
+        services.AddCache();
+        // SqlSugar
+        services.AddSqlSugar();
 
         // 配置Nginx转发获取客户端真实IP
         // 注1：如果负载均衡不是在本机通过 Loopback 地址转发请求的，一定要加上options.KnownNetworks.Clear()和options.KnownProxies.Clear()
