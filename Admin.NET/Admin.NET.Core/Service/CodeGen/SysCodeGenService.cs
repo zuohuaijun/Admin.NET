@@ -127,7 +127,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var dbTableNames = dbTableInfos.Select(x => x.Name).ToList();
 
         IEnumerable<EntityInfo> entityInfos = await _commonService.GetEntityInfos();
-        entityInfos = entityInfos.Where(x => dbTableNames.Contains(x.DbTableName));
+        entityInfos = entityInfos.Where(x => dbTableNames.Contains(x.DbTableName.ToLower()));
         var result = new List<TableOutput>();
         foreach (var item in entityInfos)
         {
@@ -135,7 +135,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             {
                 ConfigId = configId,
                 EntityName = item.EntityName,
-                TableName = item.DbTableName,
+                TableName = item.DbTableName.ToLower(),
                 TableComment = item.TableDescription
             });
         }
@@ -281,6 +281,22 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 Path = "/" + className.ToLower(),
                 Component = "LAYOUT",
             };
+            {//如果之前存在那么就删除本级和下级
+                var list = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType0.Title && e.Type == menuType0.Type).ToListAsync();
+                if (list.Count > 0)
+                {
+                    var listIds = list.Select(f => f.Id).ToList();
+                    var _ChildlistIds = new List<long>();
+                    foreach (var item in listIds)
+                    {
+                        var _Childlist = await _db.Queryable<SysMenu>().ToChildListAsync(u => u.Pid, item);
+                        _ChildlistIds.AddRange(_Childlist.Select(f => f.Id).ToList());
+                    }
+                    listIds.AddRange(_ChildlistIds);
+                    await _db.Deleteable<SysMenu>().Where(e => listIds.Contains(e.Id)).ExecuteCommandAsync();
+                    await _db.Deleteable<SysRoleMenu>().Where(e => listIds.Contains(e.MenuId)).ExecuteCommandAsync();
+                }
+            }
             pid = (await _db.Insertable(menuType0).ExecuteReturnEntityAsync()).Id;
         }
         // 由于后续菜单会有修改, 需要判断下 pid 是否存在, 不存在报错
@@ -297,6 +313,22 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Path = "/" + className.ToLower(),
             Component = "/main/" + className + "/index",
         };
+        {//如果之前存在那么就删除本级和下级
+            var list = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType1.Title && e.Type == menuType1.Type).ToListAsync();
+            if (list.Count > 0)
+            {
+                var listIds = list.Select(f => f.Id).ToList();
+                var _ChildlistIds=new List<long>();
+                foreach (var item in listIds)
+                {
+                    var _Childlist = await _db.Queryable<SysMenu>().ToChildListAsync(u => u.Pid, item);
+                    _ChildlistIds.AddRange(_Childlist.Select(f => f.Id).ToList());
+                }
+                listIds.AddRange(_ChildlistIds);
+                await _db.Deleteable<SysMenu>().Where(e => listIds.Contains(e.Id)).ExecuteCommandAsync();
+                await _db.Deleteable<SysRoleMenu>().Where(e => listIds.Contains(e.MenuId)).ExecuteCommandAsync();
+            }
+        }
         var pid1 = (await _db.Insertable(menuType1).ExecuteReturnEntityAsync()).Id;
 
         // 按钮-page
