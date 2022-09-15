@@ -3190,22 +3190,22 @@
         </member>
         <member name="T:Admin.NET.Core.DbConnectionOptions">
             <summary>
-            数据库链接配置
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.DbConnectionOptions.EnableInitTable">
-            <summary>
-            启用初始化库表
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.DbConnectionOptions.EnableDiffLog">
-            <summary>
-            启用库表差异日志
+            数据库配置选项
             </summary>
         </member>
         <member name="P:Admin.NET.Core.DbConnectionOptions.ConnectionConfigs">
             <summary>
-            数据库配置集合
+            数据库集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DbConnectionConfig.EnableInitDb">
+            <summary>
+            启用库表初始化
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DbConnectionConfig.EnableDiffLog">
+            <summary>
+            启用库表差异日志
             </summary>
         </member>
         <member name="T:Admin.NET.Core.EmailOptions">
@@ -7478,11 +7478,10 @@
             <param name="unifyResultSettings"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.AdminResultProvider.RESTfulResult(Microsoft.AspNetCore.Http.HttpContext,System.Int32,System.Boolean,System.Object,System.Object)">
+        <member name="M:Admin.NET.Core.AdminResultProvider.RESTfulResult(System.Int32,System.Boolean,System.Object,System.Object)">
             <summary>
             返回 RESTful 风格结果集
             </summary>
-            <param name="context"></param>
             <param name="statusCode"></param>
             <param name="succeeded"></param>
             <param name="data"></param>
@@ -7622,6 +7621,11 @@
             </summary>
             <param name="path"></param>
             <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.LongJsonConverter">
+            <summary>
+            序列化时long转string（防止js精度溢出）
+            </summary>
         </member>
         <member name="T:Admin.NET.Core.ReflectionUtil">
             <summary>

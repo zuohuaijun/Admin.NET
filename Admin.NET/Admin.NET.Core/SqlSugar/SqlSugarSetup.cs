@@ -1,5 +1,3 @@
-using DbType = SqlSugar.DbType;
-
 namespace Admin.NET.Core;
 
 public static class SqlSugarSetup
@@ -32,7 +30,7 @@ public static class SqlSugarSetup
             };
         });
 
-        SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs, client =>
+        SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs.Adapt<List<ConnectionConfig>>(), client =>
         {
             dbOptions.ConnectionConfigs.ForEach(config =>
             {
@@ -103,7 +101,8 @@ public static class SqlSugarSetup
                 // 差异日志
                 db.Aop.OnDiffLogEvent = async u =>
                 {
-                    if (!dbOptions.EnableDiffLog) return;
+                    if (!config.EnableDiffLog) return;
+
                     var LogDiff = new SysLogDiff
                     {
                         // 操作后记录（字段描述、列名、值、表名、表描述）
@@ -145,9 +144,8 @@ public static class SqlSugarSetup
             });
         });
 
-        // 初始化数据库结构及种子数据
-        if (dbOptions.EnableInitTable)
-            InitDataBase(sqlSugar, dbOptions);
+        // 初始化数据库表结构及种子数据
+        InitDataBase(sqlSugar, dbOptions);
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
         services.AddScoped(typeof(SqlSugarRepository<>)); // 注册仓储
@@ -162,27 +160,29 @@ public static class SqlSugarSetup
         // 创建数据库
         dbOptions.ConnectionConfigs.ForEach(config =>
         {
-            if (config.DbType != DbType.Oracle)
-                db.GetConnectionScope(config.ConfigId).DbMaintenance.CreateDatabase();
+            if (!config.EnableInitDb) return;
+            if (config.DbType == SqlSugar.DbType.Oracle) return;
+            db.GetConnectionScope(config.ConfigId).DbMaintenance.CreateDatabase();
         });
 
-        // 获取所有实体表
+        // 获取所有实体表-初始化表结构
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
             && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute), false));
         if (!entityTypes.Any()) return;
-        // 初始化库表结构
         foreach (var entityType in entityTypes)
         {
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            var provider = db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
-            provider.CodeFirst.InitTables(entityType);
+            var configId = tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId.ToString();
+            if (!dbOptions.ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId.ToString()).EnableInitDb)
+                continue;
+            var db2 = db.GetConnectionScope(configId);
+            db2.CodeFirst.InitTables(entityType);
         }
 
-        // 获取所有实体种子数据
+        // 获取所有种子配置-初始化数据
         var seedDataTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
             && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(ISqlSugarEntitySeedData<>))));
         if (!seedDataTypes.Any()) return;
-
         foreach (var seedType in seedDataTypes)
         {
             var instance = Activator.CreateInstance(seedType);
@@ -193,16 +193,16 @@ public static class SqlSugarSetup
 
             var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            var db2 = db.GetConnectionScope(tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId);
+            var configId = tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId.ToString();
+            if (!dbOptions.ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId).EnableInitDb)
+                continue;
+            var db2 = db.GetConnectionScope(configId);
 
             var seedDataTable = seedData.ToList().ToDataTable();
             seedDataTable.TableName = db.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
                 var storage = db2.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
-                //// 如果添加一条种子数，sqlsugar 默认以 @param 的方式赋值，如果 PropertyType 为空，则默认数据类型为字符串。插入 pgsql 时候会报错，所以要忽略为空的值添加
-                //_ = ((InsertableProvider<Dictionary<string, object>>)storage.AsInsertable).IsSingle ?
-                //    storage.AsInsertable.IgnoreColumns("UpdateTime", "UpdateUserId", "CreateUserId").ExecuteCommand() :
                 storage.AsInsertable.ExecuteCommand();
                 storage.AsUpdateable.ExecuteCommand();
             }

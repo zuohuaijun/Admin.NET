@@ -318,7 +318,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             if (list.Count > 0)
             {
                 var listIds = list.Select(f => f.Id).ToList();
-                var _ChildlistIds=new List<long>();
+                var _ChildlistIds = new List<long>();
                 foreach (var item in listIds)
                 {
                     var _Childlist = await _db.Queryable<SysMenu>().ToChildListAsync(u => u.Pid, item);

@@ -46,10 +46,11 @@ public class Startup : AppStartup
             .AddAppLocalization()
             .AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 响应驼峰命名
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 首字母小写（驼峰样式）
                 options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
-                // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
+                options.SerializerSettings.Converters.Add(new LongJsonConverter()); // long转string（防止js精度溢出）
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
             })
             .AddInjectWithUnifyResult<AdminResultProvider>();
 
