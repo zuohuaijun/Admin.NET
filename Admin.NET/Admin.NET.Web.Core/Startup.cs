@@ -25,6 +25,8 @@ public class Startup : AppStartup
     {
         // 配置选项
         services.AddProjectOptions();
+        // SqlSugar
+        services.AddSqlSugar();
         // JWT
         services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
         // 允许跨域
@@ -53,9 +55,6 @@ public class Startup : AppStartup
 
         // 缓存注册
         services.AddCache();
-
-        // SqlSugar
-        services.AddSqlSugar();
 
         // 第三方授权登录
         services.AddAuthentication()

@@ -11,7 +11,6 @@ public static class SqlSugarSetup
     public static void AddSqlSugar(this IServiceCollection services)
     {
         var dbOptions = App.GetOptions<DbConnectionOptions>();
-        var sqlSugarCache = new SqlSugarCache();
         var configureExternalServices = new ConfigureExternalServices
         {
             EntityService = (type, column) => // 修改列可空-1、带?问号 2、String类型若没有Required
@@ -20,7 +19,7 @@ public static class SqlSugarSetup
                     || (type.PropertyType == typeof(string) && type.GetCustomAttribute<RequiredAttribute>() == null))
                     column.IsNullable = true;
             },
-            DataInfoCacheService = sqlSugarCache,
+            DataInfoCacheService = new SqlSugarCache(),
         };
         dbOptions.ConnectionConfigs.ForEach(config =>
         {

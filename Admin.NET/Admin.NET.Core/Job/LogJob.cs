@@ -13,7 +13,7 @@ public class LogJob : ISpareTimeWorker
     [SpareTime("@midnight", "清理日志", Description = "每天午夜运行一次", DoOnce = false, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
     public void ClearLogJob(SpareTimer timer, long count)
     {
-        Scoped.Create(async (_, scope) =>
+        Scoped.CreateAsync(async (_, scope) =>
         {
             var services = scope.ServiceProvider;
             var db = services.GetService<ISqlSugarClient>();

@@ -11,14 +11,14 @@ public class OnlineUserJob : ISpareTimeWorker
     [SpareTime(1000, "清空在线用户", Description = "服务启动时运行", DoOnce = true, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
     public void ClearOnlineUser(SpareTimer timer, long count)
     {
-        //Scoped.Create(async (_, scope) =>
-        //{
-        //    var services = scope.ServiceProvider;
-        //    var rep = services.GetService<SqlSugarRepository<SysOnlineUser>>();
-        //    await rep.AsDeleteable().ExecuteCommandAsync();
+        Scoped.CreateAsync(async (_, scope) =>
+        {
+            var services = scope.ServiceProvider;
+            var rep = services.GetService<SqlSugarRepository<SysOnlineUser>>();
+            await rep.AsDeleteable().ExecuteCommandAsync();
 
-        //    Console.ForegroundColor = ConsoleColor.Blue;
-        //    Console.WriteLine("【" + DateTime.Now + "——清空在线用户】\r\n服务重启触发清空在线用户");
-        //});
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("【" + DateTime.Now + "——清空在线用户】\r\n服务重启触发清空在线用户");
+        });
     }
 }
