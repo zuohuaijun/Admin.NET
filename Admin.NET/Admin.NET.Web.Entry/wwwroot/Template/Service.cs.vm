@@ -1,8 +1,10 @@
+using Admin.NET.Application.Const;
+
 namespace @Model.NameSpace;
 /// <summary>
 /// @(@Model.BusName)服务
 /// </summary>
-[ApiDescriptionSettings(Name = "@(@Model.BusName)服务", Order = 100)]
+[ApiDescriptionSettings(TestConst.GroupName, Order = 100)]
 public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<@(@Model.ClassName)> _rep;
