@@ -5,21 +5,16 @@ namespace Admin.NET.Core;
 /// <summary>
 /// 序列化时long转string（防止js精度溢出）
 /// </summary>
-public class LongJsonConverter : JsonConverter
+public class LongJsonConverter : JsonConverter<long>
 {
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
-    {
-        JToken jtoken = JValue.ReadFrom(reader);
-        return jtoken.Values();
-    }
-
-    public override bool CanConvert(Type objectType)
-    {
-        return typeof(System.Int64).Equals(objectType);
-    }
-
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+    public override void WriteJson(JsonWriter writer, long value, JsonSerializer serializer)
     {
         serializer.Serialize(writer, value.ToString());
+    }
+
+    public override long ReadJson(JsonReader reader, Type objectType, long existingValue, bool hasExistingValue, JsonSerializer serializer)
+    {
+        JToken jt = JValue.ReadFrom(reader);
+        return jt.Value<long>();
     }
 }
