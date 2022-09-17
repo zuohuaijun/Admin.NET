@@ -1,14 +1,13 @@
-﻿using Microsoft.Extensions.Caching.Memory;
+﻿using NewLife.Caching;
 
 namespace Admin.NET.Core;
 
 /// <summary>
 /// SqlSugar二级缓存
 /// </summary>
-public class SqlSugarCache : ICacheService, ISingleton, IDisposable
+public class SqlSugarCache : ICacheService, ISingleton
 {
-    private static readonly Lazy<IMemoryCache> lazyCache = new(() => new MemoryCache(new MemoryCacheOptions()));
-    public static IMemoryCache _cache => lazyCache.Value;
+    private static readonly ICache _cache = App.GetRequiredService<ICache>();
 
     public void Add<V>(string key, V value)
     {
@@ -17,12 +16,12 @@ public class SqlSugarCache : ICacheService, ISingleton, IDisposable
 
     public void Add<V>(string key, V value, int cacheDurationInSeconds)
     {
-        _cache.Set(key, value, TimeSpan.FromSeconds(cacheDurationInSeconds));
+        _cache.Set(key, value, cacheDurationInSeconds);
     }
 
     public bool ContainsKey<V>(string key)
     {
-        return _cache.TryGetValue(key, out _);
+        return _cache.ContainsKey(key);
     }
 
     public V Get<V>(string key)
@@ -32,16 +31,7 @@ public class SqlSugarCache : ICacheService, ISingleton, IDisposable
 
     public IEnumerable<string> GetAllKey<V>()
     {
-        const BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic;
-        var entries = _cache.GetType().GetField("_entries", flags).GetValue(_cache);
-        var cacheItems = entries as IDictionary;
-        var keys = new List<string>();
-        if (cacheItems == null) return keys;
-        foreach (DictionaryEntry cacheItem in cacheItems)
-        {
-            keys.Add(cacheItem.Key.ToString());
-        }
-        return keys;
+        return _cache.Keys;
     }
 
     public V GetOrCreate<V>(string cacheKey, Func<V> create, int cacheDurationInSeconds = int.MaxValue)
@@ -49,7 +39,7 @@ public class SqlSugarCache : ICacheService, ISingleton, IDisposable
         if (!_cache.TryGetValue<V>(cacheKey, out V value))
         {
             value = create();
-            _cache.Set(cacheKey, value, TimeSpan.FromSeconds(cacheDurationInSeconds));
+            _cache.Set(cacheKey, value, cacheDurationInSeconds);
         }
         return value;
     }
@@ -57,10 +47,5 @@ public class SqlSugarCache : ICacheService, ISingleton, IDisposable
     public void Remove<V>(string key)
     {
         _cache.Remove(key);
-    }
-
-    public void Dispose()
-    {
-        _cache.Dispose();
     }
 }

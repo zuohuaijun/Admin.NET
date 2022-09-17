@@ -1,26 +1,28 @@
-﻿using CSRedis;
-using Microsoft.Extensions.Caching.Redis;
+﻿using NewLife.Caching;
 
 namespace Admin.NET.Core;
 
 public static class CacheSetup
 {
     /// <summary>
-    /// 缓存注册（Redis缓存）
+    /// 缓存注册（新生命Redis组件）
     /// </summary>
     /// <param name="services"></param>
     public static void AddCache(this IServiceCollection services)
     {
-        var cacheOptions = App.GetOptions<CacheOptions>();
-        if (cacheOptions.CacheType != CacheTypeEnum.RedisCache.ToString())
-            return;
-
-        services.AddSingleton<IDistributedCache>(provider =>
+        services.AddSingleton<ICache>(options =>
         {
-            var redisStr = $"{cacheOptions.RedisConnectionString},prefix={cacheOptions.InstanceName}";
-            var redis = new CSRedisClient(redisStr);
-            RedisHelper.Initialization(redis);
-            return new CSRedisCache(redis);
+            var cacheOptions = App.GetOptions<CacheOptions>();
+            if (cacheOptions.CacheType == CacheTypeEnum.Redis.ToString())
+            {
+                var redis = new Redis();
+                redis.Init(cacheOptions.RedisConnectionString);
+                return redis;
+            }
+            else
+            {
+                return Cache.Default;
+            }
         });
     }
 }

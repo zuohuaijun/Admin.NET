@@ -11,12 +11,7 @@ public sealed class CacheOptions : IConfigurableOptions
     public string CacheType { get; set; }
 
     /// <summary>
-    /// Redis连接
+    /// Redis连接字符串
     /// </summary>
     public string RedisConnectionString { get; set; }
-
-    /// <summary>
-    /// 键值前缀
-    /// </summary>
-    public string InstanceName { get; set; }
 }

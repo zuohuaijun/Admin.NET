@@ -1,5 +1,4 @@
-﻿using Furion.Logging;
-using Furion.TaskScheduler;
+﻿using Furion.TaskScheduler;
 
 namespace Admin.NET.Application.Service;
 

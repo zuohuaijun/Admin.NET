@@ -7,10 +7,10 @@
 public class SysTimerService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysTimer> _sysTimerRep;
-    private readonly ISysCacheService _sysCacheService;
+    private readonly SysCacheService _sysCacheService;
 
     public SysTimerService(SqlSugarRepository<SysTimer> sysTimerRep,
-        ISysCacheService sysCacheService)
+        SysCacheService sysCacheService)
     {
         _sysTimerRep = sysTimerRep;
         _sysCacheService = sysCacheService;
@@ -124,14 +124,14 @@ public class SysTimerService : IDynamicApiController, ITransient
     /// 创建定时任务
     /// </summary>
     /// <param name="input"></param>
-    private async void CreateTimer(SysTimer input)
+    private void CreateTimer(SysTimer input)
     {
         Action<SpareTimer, long> action = null;
         switch (input.RequestType)
         {
             case RequestTypeEnum.Run: // 创建本地方法委托
                 {
-                    var taskMethod = GetTimerMethodList()?.Result.FirstOrDefault(m => m.RequestUrl == input.RequestUrl);
+                    var taskMethod = GetTimerMethodList()?.FirstOrDefault(m => m.RequestUrl == input.RequestUrl);
                     if (taskMethod == null) break;
                     var typeInstance = Activator.CreateInstance(taskMethod.DeclaringType);
                     action = (Action<SpareTimer, long>)Delegate.CreateDelegate(typeof(Action<SpareTimer, long>), typeInstance, taskMethod.MethodName);
@@ -175,14 +175,14 @@ public class SysTimerService : IDynamicApiController, ITransient
         if (input.RequestType == RequestTypeEnum.Run)
         {
             var timerParaName = $"{input.TimerName}_para";
-            var timerPara = await _sysCacheService.ExistsAsync(timerParaName);
+            var timerPara = _sysCacheService.ExistKey(timerParaName);
             var requestPara = string.IsNullOrEmpty(input.RequestPara);
 
             // 若没有任务配置但存在缓存则删除
             if (requestPara && timerPara)
-                await _sysCacheService.RemoveAsync(timerParaName);
+                _sysCacheService.Remove(timerParaName);
             else if (!requestPara)
-                await _sysCacheService.SetAsync(timerParaName, JSON.Deserialize<Dictionary<string, string>>(input.RequestPara));
+                _sysCacheService.Set(timerParaName, JSON.Deserialize<Dictionary<string, string>>(input.RequestPara));
         }
 
         // 创建定时任务
@@ -205,10 +205,10 @@ public class SysTimerService : IDynamicApiController, ITransient
     /// 获取所有定时任务方法列表（贴spareTime特性）
     /// </summary>
     /// <returns></returns>
-    private async Task<IEnumerable<TimerMethod>> GetTimerMethodList()
+    private IEnumerable<TimerMethod> GetTimerMethodList()
     {
         // 有缓存就返回缓存
-        var timerMethodList = await _sysCacheService.GetAsync<IEnumerable<TimerMethod>>(CacheConst.KeyTimer);
+        var timerMethodList = _sysCacheService.Get<IEnumerable<TimerMethod>>(CacheConst.KeyTimer);
         if (timerMethodList != null) return timerMethodList;
 
         timerMethodList = App.EffectiveTypes
@@ -239,7 +239,7 @@ public class SysTimerService : IDynamicApiController, ITransient
                 };
             }));
 
-        await _sysCacheService.SetAsync(CacheConst.KeyTimer, timerMethodList);
+        _sysCacheService.Set(CacheConst.KeyTimer, timerMethodList);
         return timerMethodList;
     }
 }

@@ -10,13 +10,13 @@ public class SysMenuService : IDynamicApiController, ITransient
     private readonly IUserManager _userManager;
     private readonly SysRoleMenuService _sysRoleMenuService;
     private readonly SysUserRoleService _sysUserRoleService;
-    private readonly ISysCacheService _sysCacheService;
+    private readonly SysCacheService _sysCacheService;
 
     public SysMenuService(SqlSugarRepository<SysMenu> sysMenuRep,
         IUserManager userManager,
         SysRoleMenuService sysRoleMenuService,
         SysUserRoleService sysUserRoleService,
-        ISysCacheService sysCacheService)
+        SysCacheService sysCacheService)
     {
         _sysMenuRep = sysMenuRep;
         _userManager = userManager;
@@ -176,7 +176,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     public async Task<List<string>> GetPermCodeList()
     {
         var userId = _userManager.UserId;
-        var permissions = await _sysCacheService.GetPermission(userId); // 先从缓存里面读取
+        var permissions = _sysCacheService.GetPermission(userId); // 先从缓存里面读取
         if (permissions == null || permissions.Count == 0)
         {
             if (_userManager.SuperAdmin)
@@ -193,7 +193,7 @@ public class SysMenuService : IDynamicApiController, ITransient
                     .Where(u => menuIdList.Contains(u.Id))
                     .Select(u => u.Permission).ToListAsync();
             }
-            await _sysCacheService.SetPermission(userId, permissions); // 缓存结果
+            _sysCacheService.SetPermission(userId, permissions); // 缓存结果
         }
         return permissions;
     }
@@ -205,13 +205,13 @@ public class SysMenuService : IDynamicApiController, ITransient
     [NonAction]
     public async Task<List<string>> GetAllPermCodeList()
     {
-        var permissions = await _sysCacheService.GetPermission(0); // 先从缓存里面读取
+        var permissions = _sysCacheService.GetPermission(0); // 先从缓存里面读取
         if (permissions == null || permissions.Count == 0)
         {
             permissions = await _sysMenuRep.AsQueryable()
                     .Where(u => u.Type == MenuTypeEnum.Btn)
                     .Select(u => u.Permission).ToListAsync();
-            await _sysCacheService.SetPermission(0, permissions); // 缓存结果
+            _sysCacheService.SetPermission(0, permissions); // 缓存结果
         }
         return permissions;
     }
@@ -219,10 +219,10 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// <summary>
     /// 清除菜单和按钮缓存
     /// </summary>
-    private async void DeleteMenuCache()
+    private void DeleteMenuCache()
     {
-        await _sysCacheService.DelByPatternAsync(CacheConst.KeyMenu);
-        await _sysCacheService.DelByPatternAsync(CacheConst.KeyPermission);
+        _sysCacheService.RemoveByPrefixKey(CacheConst.KeyMenu);
+        _sysCacheService.RemoveByPrefixKey(CacheConst.KeyPermission);
     }
 
     /// <summary>

@@ -8,7 +8,7 @@ public class SysRoleService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysRole> _sysRoleRep;
     private readonly IUserManager _userManager;
-    private readonly ISysCacheService _sysCacheService;
+    private readonly SysCacheService _sysCacheService;
     private readonly SysRoleOrgService _sysRoleOrgService;
     private readonly SysRoleMenuService _sysRoleMenuService;
     private readonly SysOrgService _sysOrgService;
@@ -16,7 +16,7 @@ public class SysRoleService : IDynamicApiController, ITransient
 
     public SysRoleService(SqlSugarRepository<SysRole> sysRoleRep,
         IUserManager userManager,
-        ISysCacheService sysCacheService,
+        SysCacheService sysCacheService,
         SysRoleOrgService sysRoleOrgService,
         SysRoleMenuService sysRoleMenuService,
         SysOrgService sysOrgService,
@@ -146,7 +146,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     public async Task GrantRoleDataScope(RoleOrgInput input)
     {
         // 删除所有用户机构缓存
-        await _sysCacheService.DelByPatternAsync(CacheConst.KeyOrgIdList);
+        _sysCacheService.RemoveByPrefixKey(CacheConst.KeyOrgIdList);
 
         var role = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
         var dataScope = input.DataScope;

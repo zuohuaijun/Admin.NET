@@ -123,7 +123,8 @@ public static class SqlSugarSetup
                 };
 
                 // 缓存处理过滤器
-                var queryFilterProvider = db.DataCache.Get<QueryFilterProvider>(config.ConfigId);
+                var cacheKey = $"DB:{config.ConfigId}";
+                var queryFilterProvider = db.DataCache.Get<QueryFilterProvider>(cacheKey);
                 if (queryFilterProvider == null)
                 {
                     // 配置实体假删除过滤器
@@ -135,7 +136,7 @@ public static class SqlSugarSetup
                     // 配置租户实体过滤器
                     SetTenantEntityFilter(db);
 
-                    db.DataCache.Add(config.ConfigId, db.QueryFilter);
+                    db.DataCache.Add(cacheKey, db.QueryFilter);
                 }
                 else
                 {
@@ -240,7 +241,7 @@ public static class SqlSugarSetup
     /// <summary>
     /// 配置实体机构过滤器
     /// </summary>
-    private static async void SetOrgEntityFilter(SqlSugarScopeProvider db)
+    private static void SetOrgEntityFilter(SqlSugarScopeProvider db)
     {
         // 获取业务数据表集合
         var dataEntityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
@@ -251,7 +252,7 @@ public static class SqlSugarSetup
         if (string.IsNullOrWhiteSpace(userId)) return;
 
         // 获取用户机构Id集合
-        var orgIds = await App.GetService<SysCacheService>().GetOrgIdList(long.Parse(userId));
+        var orgIds = App.GetService<SysCacheService>().GetOrgIdList(long.Parse(userId));
         if (orgIds == null || orgIds.Count == 0) return;
 
         foreach (var dataEntityType in dataEntityTypes)

@@ -8,7 +8,7 @@ public class SysOrgService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysOrg> _sysOrgRep;
     private readonly IUserManager _userManager;
-    private readonly ISysCacheService _sysCacheService;
+    private readonly SysCacheService _sysCacheService;
     private readonly SysUserOrgService _sysUserOrgService;
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysRoleOrgService _sysRoleOrgService;
@@ -16,7 +16,7 @@ public class SysOrgService : IDynamicApiController, ITransient
 
     public SysOrgService(SqlSugarRepository<SysOrg> sysOrgRep,
         IUserManager userManager,
-        ISysCacheService sysCacheService,
+        SysCacheService sysCacheService,
         SysUserOrgService sysUserOrgService,
         SysUserRoleService sysUserRoleService,
         SysRoleOrgService sysRoleOrgService,
@@ -102,7 +102,7 @@ public class SysOrgService : IDynamicApiController, ITransient
                 OrgId = newOrg.Id
             });
             orgIdList.Add(newOrg.Id);
-            await _sysCacheService.SetOrgIdList(userId, orgIdList); // 刷新缓存
+            _sysCacheService.SetOrgIdList(userId, orgIdList); // 刷新缓存
         }
         return newOrg.Id;
     }
@@ -190,7 +190,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             return new List<long>();
 
         var userId = _userManager.UserId;
-        var orgIdList = await _sysCacheService.GetOrgIdList(userId); // 取缓存
+        var orgIdList = _sysCacheService.GetOrgIdList(userId); // 取缓存
         if (orgIdList == null || orgIdList.Count < 1)
         {
             // 用户机构集合
@@ -199,7 +199,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             var orgList2 = await GetUserRoleOrgIdList(userId);
             // 并集机构集合
             orgIdList = orgList1.Concat(orgList2).Distinct().ToList();
-            await _sysCacheService.SetOrgIdList(userId, orgIdList); // 存缓存
+            _sysCacheService.SetOrgIdList(userId, orgIdList); // 存缓存
         }
         return orgIdList;
     }
@@ -247,7 +247,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         var orgIdList2 = await GetOrgIdListByDataScope(strongerDataScopeType);
 
         // 缓存当前用户最大角色数据范围
-        await _sysCacheService.SetMaxDataScopeType(_userManager.UserId, strongerDataScopeType);
+        _sysCacheService.SetMaxDataScopeType(_userManager.UserId, strongerDataScopeType);
 
         // 并集机构集合
         return orgIdList1.Concat(orgIdList2).Distinct().ToList();

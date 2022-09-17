@@ -9,13 +9,13 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 101)]
 public class SysMessageService : ISysMessageService, IDynamicApiController, ITransient
 {
-    private readonly ISysCacheService _sysCacheService;
+    private readonly SysCacheService _sysCacheService;
     private readonly IHubContext<ChatHub, IChatClient> _chatHubContext;
 
     private readonly EmailOptions _emailOptions;
     private readonly IEmailService _emailService;
 
-    public SysMessageService(ISysCacheService sysCacheService,
+    public SysMessageService(SysCacheService sysCacheService,
         IHubContext<ChatHub, IChatClient> chatHubContext,
         IOptions<EmailOptions> emailOptions,
         IEmailService emailService)
@@ -45,7 +45,7 @@ public class SysMessageService : ISysMessageService, IDynamicApiController, ITra
     [HttpPost("sysMessage/otherUser")]
     public async Task SendMessageToOtherUser(MessageInput input)
     {
-        var onlineuserlist = await _sysCacheService.GetAsync<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
+        var onlineuserlist = _sysCacheService.Get<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
 
         var user = onlineuserlist.Where(x => x.UserId == input.UserId).ToList();
         if (user != null)
@@ -62,7 +62,7 @@ public class SysMessageService : ISysMessageService, IDynamicApiController, ITra
     [HttpPost("sysMessage/user")]
     public async Task SendMessageToUser(MessageInput input)
     {
-        var onlineuserlist = await _sysCacheService.GetAsync<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
+        var onlineuserlist = _sysCacheService.Get<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
 
         var user = onlineuserlist.Where(x => x.UserId == input.UserId).ToList();
         if (user == null) return;
@@ -81,7 +81,7 @@ public class SysMessageService : ISysMessageService, IDynamicApiController, ITra
     [HttpPost("sysMessage/users")]
     public async Task SendMessageToUsers(MessageInput input)
     {
-        var onlineuserlist = await _sysCacheService.GetAsync<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
+        var onlineuserlist = _sysCacheService.Get<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
 
         var userlist = new List<string>();
         foreach (var item in onlineuserlist)

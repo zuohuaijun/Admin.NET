@@ -9,12 +9,12 @@ namespace Admin.NET.Core;
 [MapHub("/hubs/chathub")]
 public class ChatHub : Hub<IChatClient>
 {
-    private readonly ISysCacheService _sysCache;
+    private readonly SysCacheService _sysCache;
     private readonly ISysMessageService _sysMessageService;
     private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
     private readonly IHubContext<ChatHub, IChatClient> _chatHubContext;
 
-    public ChatHub(ISysCacheService sysCache,
+    public ChatHub(SysCacheService sysCache,
         ISysMessageService sysMessageService,
         SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
         IHubContext<ChatHub, IChatClient> chatHubContext)

@@ -6,10 +6,10 @@
 public class SysRoleMenuService : ITransient
 {
     private readonly SqlSugarRepository<SysRoleMenu> _sysRoleMenuRep;
-    private readonly ISysCacheService _sysCacheService;
+    private readonly SysCacheService _sysCacheService;
 
     public SysRoleMenuService(SqlSugarRepository<SysRoleMenu> sysRoleMenuRep,
-        ISysCacheService sysCacheService)
+        SysCacheService sysCacheService)
     {
         _sysRoleMenuRep = sysRoleMenuRep;
         _sysCacheService = sysCacheService;
@@ -60,8 +60,8 @@ public class SysRoleMenuService : ITransient
         await _sysRoleMenuRep.InsertRangeAsync(menus);
 
         // 清除缓存
-        await _sysCacheService.DelByPatternAsync(CacheConst.KeyMenu);
-        await _sysCacheService.DelByPatternAsync(CacheConst.KeyPermission);
+        _sysCacheService.RemoveByPrefixKey(CacheConst.KeyMenu);
+        _sysCacheService.RemoveByPrefixKey(CacheConst.KeyPermission);
     }
 
     /// <summary>

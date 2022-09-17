@@ -1,109 +1,65 @@
-﻿namespace Admin.NET.Core.Service;
+﻿using NewLife.Caching;
+
+namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 系统缓存服务
 /// </summary>
 [ApiDescriptionSettings(Order = 190)]
-public class SysCacheService : ISysCacheService, IDynamicApiController, ISingleton
+public class SysCacheService : IDynamicApiController, ISingleton
 {
-    private readonly IDistributedCache _cache;
+    private readonly ICache _cache;
 
-    public SysCacheService(IDistributedCache cache)
+    public SysCacheService(ICache cache)
     {
         _cache = cache;
     }
 
     /// <summary>
-    /// 获取所有缓存列表
+    /// 获取所有缓存键名
     /// </summary>
     /// <returns></returns>
     [HttpGet("/sysCache/keyList")]
-    public async Task<List<string>> GetAllCacheKeys()
+    public List<string> GetCacheKeys()
     {
-        var res = await _cache.GetStringAsync(CacheConst.KeyAll);
-        return string.IsNullOrWhiteSpace(res) ? null : JSON.Deserialize<List<string>>(res);
+        return _cache.Keys.ToList();
     }
 
     /// <summary>
-    /// 增加对象缓存
+    /// 增加缓存
     /// </summary>
-    /// <param name="cacheKey"></param>
+    /// <param name="key"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    [HttpPost("/sysCache/addObject")]
-    public async Task SetAsync(string cacheKey, object value)
+    [HttpPost("/sysCache/add")]
+    public void Set(string key, object value)
     {
-        await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JSON.Serialize(value)));
-
-        await AddCacheKey(cacheKey);
+        _cache.Set(key, value);
     }
 
     /// <summary>
-    /// 增加对象缓存,并设置过期时间
+    /// 增加缓存并设置过期时间
     /// </summary>
-    /// <param name="cacheKey"></param>
+    /// <param name="key"></param>
     /// <param name="value"></param>
     /// <param name="expire"></param>
     /// <returns></returns>
-    [HttpPost("/sysCache/addObject/expire")]
-    public async Task SetAsync(string cacheKey, object value, TimeSpan expire)
+    [HttpPost("/sysCache/add/expire")]
+    public void Set(string key, object value, TimeSpan expire)
     {
-        await _cache.SetAsync(cacheKey, Encoding.UTF8.GetBytes(JSON.Serialize(value)), new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expire });
-
-        await AddCacheKey(cacheKey);
+        _cache.Set(key, value, expire);
     }
 
     /// <summary>
-    /// 增加字符串缓存
-    /// </summary>
-    /// <param name="cacheKey"></param>
-    /// <param name="value"></param>
-    /// <returns></returns>
-    [HttpPost("/sysCache/addString")]
-    public async Task SetStringAsync(string cacheKey, string value)
-    {
-        await _cache.SetStringAsync(cacheKey, value);
-
-        await AddCacheKey(cacheKey);
-    }
-
-    /// <summary>
-    /// 增加字符串缓存,并设置过期时间
-    /// </summary>
-    /// <param name="cacheKey"></param>
-    /// <param name="value"></param>
-    /// <param name="expire"></param>
-    /// <returns></returns>
-    [HttpPost("/sysCache/addString/expire")]
-    public async Task SetStringAsync(string cacheKey, string value, TimeSpan expire)
-    {
-        await _cache.SetStringAsync(cacheKey, value, new DistributedCacheEntryOptions() { AbsoluteExpirationRelativeToNow = expire });
-
-        await AddCacheKey(cacheKey);
-    }
-
-    /// <summary>
-    /// 获取字符串缓存
-    /// </summary>
-    /// <param name="cacheKey"></param>
-    /// <returns></returns>
-    [HttpGet("/sysCache/detail")]
-    public async Task<string> GetStringAsync(string cacheKey)
-    {
-        return await _cache.GetStringAsync(cacheKey);
-    }
-
-    /// <summary>
-    /// 获取对象缓存
+    /// 获取缓存
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    /// <param name="cacheKey"></param>
+    /// <param name="key"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task<T> GetAsync<T>(string cacheKey)
+    public T Get<T>(string key)
     {
-        var res = await _cache.GetAsync(cacheKey);
-        return res == null ? default : JSON.Deserialize<T>(Encoding.UTF8.GetString(res));
+        return _cache.Get<T>(key);
     }
 
     /// <summary>
@@ -112,78 +68,32 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     /// <param name="key"></param>
     /// <returns></returns>
     [HttpGet("/sysCache/remove")]
-    public async Task RemoveAsync(string key)
+    public void Remove(string key)
     {
-        await _cache.RemoveAsync(key);
-
-        await DelCacheKey(key);
+        _cache.Remove(key);
     }
 
     /// <summary>
-    /// 删除某特征关键字缓存
+    /// 检查缓存是否存在
     /// </summary>
-    /// <param name="key"></param>
+    /// <param name="key">键</param>
     /// <returns></returns>
     [NonAction]
-    public async Task DelByPatternAsync(string key)
+    public bool ExistKey(string key)
     {
-        var allkeys = await GetAllCacheKeys();
-        if (allkeys == null) return;
-
-        var delAllkeys = allkeys.Where(u => u.Contains(key)).ToList();
-        delAllkeys.ForEach(u =>
-        {
-            _cache.Remove(u);
-        });
-
-        // 更新所有缓存键
-        allkeys = allkeys.Where(u => !u.Contains(key)).ToList();
-        await _cache.SetStringAsync(CacheConst.KeyAll, JSON.Serialize(allkeys));
+        return _cache.ContainsKey(key);
     }
 
     /// <summary>
-    /// 检查给定 key 是否存在
+    /// 根据键名前缀删除缓存
     /// </summary>
-    /// <param name="cacheKey">键</param>
+    /// <param name="prefixKey">键名前缀</param>
     /// <returns></returns>
-    [NonAction]
-    public async Task<bool> ExistsAsync(string cacheKey)
+    [HttpGet("/sysCache/delByParentKey")]
+    public int RemoveByPrefixKey(string prefixKey)
     {
-        var res = await _cache.GetAsync(cacheKey);
-        return res != null;
-    }
-
-    /// <summary>
-    /// 增加缓存Key
-    /// </summary>
-    /// <param name="cacheKey"></param>
-    /// <returns></returns>
-    private async Task AddCacheKey(string cacheKey)
-    {
-        var res = await _cache.GetStringAsync(CacheConst.KeyAll);
-        var allkeys = string.IsNullOrWhiteSpace(res) ? new List<string>() : JSON.Deserialize<List<string>>(res);
-        if (!allkeys.Any(m => m == cacheKey))
-        {
-            allkeys.Add(cacheKey);
-            await _cache.SetStringAsync(CacheConst.KeyAll, JSON.Serialize(allkeys));
-        }
-    }
-
-    /// <summary>
-    /// 删除缓存
-    /// </summary>
-    /// <param name="cacheKey"></param>
-    /// <returns></returns>
-    [NonAction]
-    public async Task DelCacheKey(string cacheKey)
-    {
-        var res = await _cache.GetStringAsync(CacheConst.KeyAll);
-        var allkeys = string.IsNullOrWhiteSpace(res) ? new List<string>() : JSON.Deserialize<List<string>>(res);
-        if (allkeys.Any(m => m == cacheKey))
-        {
-            allkeys.Remove(cacheKey);
-            await _cache.SetStringAsync(CacheConst.KeyAll, JSON.Serialize(allkeys));
-        }
+        var delKeys = _cache.Keys.Where(u => u.StartsWith(prefixKey)).ToArray();
+        return _cache.Remove(delKeys);
     }
 
     /// <summary>
@@ -192,11 +102,10 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     /// <param name="userId"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task<List<long>> GetOrgIdList(long userId)
+    public List<long> GetOrgIdList(long userId)
     {
-        var cacheKey = CacheConst.KeyOrgIdList + userId;
-        var res = await _cache.GetStringAsync(cacheKey);
-        return string.IsNullOrWhiteSpace(res) ? null : JSON.Deserialize<List<long>>(res);
+        var key = CacheConst.KeyOrgIdList + userId;
+        return _cache.Get<List<long>>(key);
     }
 
     /// <summary>
@@ -206,12 +115,60 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     /// <param name="orgIdList"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task SetOrgIdList(long userId, List<long> orgIdList)
+    public bool SetOrgIdList(long userId, List<long> orgIdList)
     {
-        var cacheKey = CacheConst.KeyOrgIdList + userId;
-        await _cache.SetStringAsync(cacheKey, JSON.Serialize(orgIdList));
+        var key = CacheConst.KeyOrgIdList + userId;
+        return _cache.Set(key, orgIdList);
+    }
 
-        await AddCacheKey(cacheKey);
+    /// <summary>
+    /// 获取权限集合（按钮）
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    [NonAction]
+    public List<string> GetPermission(long userId)
+    {
+        var key = CacheConst.KeyPermission + userId;
+        return _cache.Get<List<string>>(key);
+    }
+
+    /// <summary>
+    /// 缓存权限集合（按钮）
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="permissions"></param>
+    /// <returns></returns>
+    [NonAction]
+    public bool SetPermission(long userId, List<string> permissions)
+    {
+        var key = CacheConst.KeyPermission + userId;
+        return _cache.Set(key, permissions);
+    }
+
+    /// <summary>
+    /// 获取最大角色数据范围
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <returns></returns>
+    [NonAction]
+    public int? GetMaxDataScopeType(long userId)
+    {
+        var key = CacheConst.KeyMaxDataScopeType + userId;
+        return _cache.Get<int>(key);
+    }
+
+    /// <summary>
+    /// 缓存最大角色数据范围
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="dataScopeType"></param>
+    /// <returns></returns>
+    [NonAction]
+    public bool SetMaxDataScopeType(long userId, int dataScopeType)
+    {
+        var key = CacheConst.KeyMaxDataScopeType + userId;
+        return _cache.Set(key, dataScopeType);
     }
 
     ///// <summary>
@@ -240,84 +197,5 @@ public class SysCacheService : ISysCacheService, IDynamicApiController, ISinglet
     //{
     //    var cacheKey = CommonConst.CACHE_KEY_MENU + $"{userId}-{appCode}";
     //    await _cache.SetStringAsync(cacheKey, JSON.Serialize(menus));
-
-    //    await AddCacheKey(cacheKey);
     //}
-
-    /// <summary>
-    /// 获取权限缓存（按钮）
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    [NonAction]
-    public async Task<List<string>> GetPermission(long userId)
-    {
-        var cacheKey = CacheConst.KeyPermission + userId;
-        var res = await _cache.GetStringAsync(cacheKey);
-        return string.IsNullOrWhiteSpace(res) ? null : JSON.Deserialize<List<string>>(res);
-    }
-
-    /// <summary>
-    /// 缓存权限
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="permissions"></param>
-    /// <returns></returns>
-    [NonAction]
-    public async Task SetPermission(long userId, List<string> permissions)
-    {
-        var cacheKey = CacheConst.KeyPermission + userId;
-        await _cache.SetStringAsync(cacheKey, JSON.Serialize(permissions));
-
-        await AddCacheKey(cacheKey);
-    }
-
-    /// <summary>
-    /// 获取最大角色数据范围
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    [NonAction]
-    public async Task<int?> GetMaxDataScopeType(long userId)
-    {
-        var cacheKey = CacheConst.KeyMaxDataScopeType + userId;
-        var res = await _cache.GetStringAsync(cacheKey);
-        return string.IsNullOrWhiteSpace(res) ? null : int.Parse(res);
-    }
-
-    /// <summary>
-    /// 缓存最大角色数据范围
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="dataScopeType"></param>
-    /// <returns></returns>
-    [NonAction]
-    public async Task SetMaxDataScopeType(long userId, int dataScopeType)
-    {
-        var cacheKey = CacheConst.KeyMaxDataScopeType + userId;
-        await _cache.SetStringAsync(cacheKey, dataScopeType.ToString());
-
-        await AddCacheKey(cacheKey);
-    }
-
-    /// <summary>
-    ///  根据父键清空缓存
-    /// </summary>
-    /// <param name="key"></param>
-    /// <returns></returns>
-    [HttpGet("/sysCache/delByParentKey")]
-    public async Task DelByParentKeyAsync(string key)
-    {
-        var allkeys = await GetAllCacheKeys();
-        if (allkeys == null) return;
-
-        var delAllkeys = allkeys.Where(u => u.StartsWith(key)).ToList();
-        delAllkeys.ForEach(u =>
-        {
-            _cache.Remove(u);
-        });
-        // 更新所有缓存键
-        allkeys = allkeys.Where(u => !u.StartsWith(key)).ToList();
-        await _cache.SetStringAsync(CacheConst.KeyAll, JSON.Serialize(allkeys));
-    }
 }

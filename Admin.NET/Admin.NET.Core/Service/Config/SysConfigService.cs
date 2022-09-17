@@ -7,10 +7,10 @@
 public class SysConfigService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysConfig> _sysConfigRep;
-    private readonly ISysCacheService _sysCacheService;
+    private readonly SysCacheService _sysCacheService;
 
     public SysConfigService(SqlSugarRepository<SysConfig> sysConfigRep,
-        ISysCacheService sysCacheService)
+        SysCacheService sysCacheService)
     {
         _sysConfigRep = sysConfigRep;
         _sysCacheService = sysCacheService;
@@ -70,7 +70,7 @@ public class SysConfigService : IDynamicApiController, ITransient
         var config = input.Adapt<SysConfig>();
         await _sysConfigRep.AsUpdateable(config).IgnoreColumns(true).ExecuteCommandAsync();
 
-        await _sysCacheService.DelCacheKey(config.Code);
+        _sysCacheService.Remove(config.Code);
     }
 
     /// <summary>
@@ -98,7 +98,7 @@ public class SysConfigService : IDynamicApiController, ITransient
 
         await _sysConfigRep.DeleteAsync(config);
 
-        await _sysCacheService.DelCacheKey(config.Code);
+        _sysCacheService.Remove(config.Code);
     }
 
     /// <summary>
@@ -109,12 +109,12 @@ public class SysConfigService : IDynamicApiController, ITransient
     [NonAction]
     public async Task<T> GetConfigValue<T>(string code)
     {
-        var value = await _sysCacheService.GetStringAsync(code);
+        var value = _sysCacheService.Get<string>(code);
         if (string.IsNullOrEmpty(value))
         {
             var config = await _sysConfigRep.GetFirstAsync(u => u.Code == code);
             value = config != null ? config.Value : default;
-            await _sysCacheService.SetStringAsync(code, value);
+            _sysCacheService.Set(code, value);
         }
         return (T)Convert.ChangeType(value, typeof(T));
     }

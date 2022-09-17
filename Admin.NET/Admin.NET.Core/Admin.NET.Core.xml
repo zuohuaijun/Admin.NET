@@ -21,7 +21,7 @@
         </member>
         <member name="M:Admin.NET.Core.CacheSetup.AddCache(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            缓存注册（Redis缓存）
+            缓存注册（新生命Redis组件）
             </summary>
             <param name="services"></param>
         </member>
@@ -1731,12 +1731,12 @@
             缓存类型枚举
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CacheTypeEnum.MemoryCache">
+        <member name="F:Admin.NET.Core.CacheTypeEnum.Memory">
             <summary>
             内存缓存
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CacheTypeEnum.RedisCache">
+        <member name="F:Admin.NET.Core.CacheTypeEnum.Redis">
             <summary>
             Redis缓存
             </summary>
@@ -3170,12 +3170,7 @@
         </member>
         <member name="P:Admin.NET.Core.CacheOptions.RedisConnectionString">
             <summary>
-            Redis连接
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.CacheOptions.InstanceName">
-            <summary>
-            键值前缀
+            Redis连接字符串
             </summary>
         </member>
         <member name="T:Admin.NET.Core.CodeGenOptions">
@@ -3686,94 +3681,56 @@
             系统缓存服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.GetAllCacheKeys">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetCacheKeys">
             <summary>
-            获取所有缓存列表
+            获取所有缓存键名
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.SetAsync(System.String,System.Object)">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.Set(System.String,System.Object)">
             <summary>
-            增加对象缓存
+            增加缓存
             </summary>
-            <param name="cacheKey"></param>
+            <param name="key"></param>
             <param name="value"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.SetAsync(System.String,System.Object,System.TimeSpan)">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.Set(System.String,System.Object,System.TimeSpan)">
             <summary>
-            增加对象缓存,并设置过期时间
+            增加缓存并设置过期时间
             </summary>
-            <param name="cacheKey"></param>
-            <param name="value"></param>
-            <param name="expire"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.SetStringAsync(System.String,System.String)">
-            <summary>
-            增加字符串缓存
-            </summary>
-            <param name="cacheKey"></param>
-            <param name="value"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.SetStringAsync(System.String,System.String,System.TimeSpan)">
-            <summary>
-            增加字符串缓存,并设置过期时间
-            </summary>
-            <param name="cacheKey"></param>
+            <param name="key"></param>
             <param name="value"></param>
             <param name="expire"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.GetStringAsync(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.Get``1(System.String)">
             <summary>
-            获取字符串缓存
-            </summary>
-            <param name="cacheKey"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.GetAsync``1(System.String)">
-            <summary>
-            获取对象缓存
+            获取缓存
             </summary>
             <typeparam name="T"></typeparam>
-            <param name="cacheKey"></param>
+            <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.RemoveAsync(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.Remove(System.String)">
             <summary>
             删除缓存
             </summary>
             <param name="key"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.DelByPatternAsync(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.ExistKey(System.String)">
             <summary>
-            删除某特征关键字缓存
+            检查缓存是否存在
             </summary>
-            <param name="key"></param>
+            <param name="key">键</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.ExistsAsync(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.RemoveByPrefixKey(System.String)">
             <summary>
-            检查给定 key 是否存在
+            根据键名前缀删除缓存
             </summary>
-            <param name="cacheKey">键</param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.AddCacheKey(System.String)">
-            <summary>
-            增加缓存Key
-            </summary>
-            <param name="cacheKey"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.DelCacheKey(System.String)">
-            <summary>
-            删除缓存
-            </summary>
-            <param name="cacheKey"></param>
+            <param name="prefixKey">键名前缀</param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCacheService.GetOrgIdList(System.Int64)">
@@ -3793,14 +3750,14 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysCacheService.GetPermission(System.Int64)">
             <summary>
-            获取权限缓存（按钮）
+            获取权限集合（按钮）
             </summary>
             <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCacheService.SetPermission(System.Int64,System.Collections.Generic.List{System.String})">
             <summary>
-            缓存权限
+            缓存权限集合（按钮）
             </summary>
             <param name="userId"></param>
             <param name="permissions"></param>
@@ -3819,13 +3776,6 @@
             </summary>
             <param name="userId"></param>
             <param name="dataScopeType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.DelByParentKeyAsync(System.String)">
-            <summary>
-             根据父键清空缓存
-            </summary>
-            <param name="key"></param>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.CustomViewEngine.ConfigId">

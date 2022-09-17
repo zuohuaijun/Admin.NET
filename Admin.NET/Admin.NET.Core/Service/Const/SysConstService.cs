@@ -7,9 +7,9 @@
 [AllowAnonymous]
 public class SysConstService : IDynamicApiController, ITransient
 {
-    private readonly ISysCacheService _sysCacheService;
+    private readonly SysCacheService _sysCacheService;
 
-    public SysConstService(ISysCacheService sysCacheService)
+    public SysConstService(SysCacheService sysCacheService)
     {
         _sysCacheService = sysCacheService;
     }
@@ -22,18 +22,15 @@ public class SysConstService : IDynamicApiController, ITransient
     public async Task<List<SelectorDto>> GetAllConstSelector()
     {
         var key = $"{CacheConst.KeyConstSelector}AllSelector";
-        var json = await _sysCacheService.GetStringAsync(key);
-        if (!string.IsNullOrWhiteSpace(json))
-        {
-            return json.ToObject<List<SelectorDto>>();
-        }
+        var json = _sysCacheService.Get<List<SelectorDto>>(key);
+
         var typeList = await GetAllTypesAsync();
         var selectData = typeList.Select(x => new SelectorDto
         {
             Name = x.CustomAttributes.ToList().FirstOrDefault()?.ConstructorArguments.ToList().FirstOrDefault().Value?.ToString() ?? x.Name,
             Code = x.Name
         }).ToList();
-        await _sysCacheService.SetStringAsync(key, selectData.ToJson());
+        _sysCacheService.Set(key, selectData);
         return selectData;
     }
 
@@ -46,11 +43,8 @@ public class SysConstService : IDynamicApiController, ITransient
     public async Task<List<SelectorDto>> GetConstSelector(string typeName)
     {
         var key = $"{CacheConst.KeyConstSelector}{typeName.ToUpper()}";
-        var json = await _sysCacheService.GetStringAsync(key);
-        if (!string.IsNullOrWhiteSpace(json))
-        {
-            return json.ToObject<List<SelectorDto>>();
-        }
+        var json = _sysCacheService.Get<List<SelectorDto>>(key);
+
         var typeList = await GetAllTypesAsync();
         var type = typeList.FirstOrDefault(x => x.Name == typeName);
 
@@ -62,7 +56,7 @@ public class SysConstService : IDynamicApiController, ITransient
                 Name = x.Name,
                 Code = isEnum ? (int)x.GetValue(BindingFlags.Instance) : x.GetValue(BindingFlags.Instance)
             }).ToList();
-        await _sysCacheService.SetStringAsync(key, selectData.ToJson());
+        _sysCacheService.Set(key, selectData);
         return selectData;
     }
 

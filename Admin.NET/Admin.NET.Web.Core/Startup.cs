@@ -25,6 +25,8 @@ public class Startup : AppStartup
     {
         // 配置选项
         services.AddProjectOptions();
+        // 缓存注册
+        services.AddCache();
         // SqlSugar
         services.AddSqlSugar();
         // JWT
@@ -53,9 +55,6 @@ public class Startup : AppStartup
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
             })
             .AddInjectWithUnifyResult<AdminResultProvider>();
-
-        // 缓存注册
-        services.AddCache();
 
         // 第三方授权登录
         services.AddAuthentication()

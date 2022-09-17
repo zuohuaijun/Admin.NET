@@ -8,7 +8,7 @@ public class SysUserService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
     private readonly IUserManager _userManager;
-    private readonly ISysCacheService _sysCacheService;
+    private readonly SysCacheService _sysCacheService;
     private readonly SysOrgService _sysOrgService;
     private readonly SysUserOrgService _sysUserOrgService;
     private readonly SysUserRoleService _sysUserRoleService;
@@ -16,7 +16,7 @@ public class SysUserService : IDynamicApiController, ITransient
 
     public SysUserService(SqlSugarRepository<SysUser> sysUserRep,
         IUserManager userManager,
-        ISysCacheService sysCacheService,
+        SysCacheService sysCacheService,
         SysOrgService sysOrgService,
         SysUserOrgService sysUserOrgService,
         SysUserRoleService sysUserRoleService,
@@ -174,7 +174,7 @@ public class SysUserService : IDynamicApiController, ITransient
     [HttpPost("/sysUser/grantOrg")]
     public async Task GrantUserOrg(UserOrgInput input)
     {
-        await _sysCacheService.RemoveAsync(CacheConst.KeyOrgIdList + $"{input.Id}"); // 清除缓存
+        _sysCacheService.Remove(CacheConst.KeyOrgIdList + $"{input.Id}"); // 清除缓存
 
         CheckDataScope(input.OrgId); // 数据范围检查
         await _sysUserOrgService.GrantUserOrg(input);
