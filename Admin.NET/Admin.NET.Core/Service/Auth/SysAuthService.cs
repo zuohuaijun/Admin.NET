@@ -16,6 +16,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly IEventPublisher _eventPublisher;
     private readonly SysUserService _sysUserService;
     private readonly SysUserRoleService _sysUserRoleService;
+    private readonly SysMenuService _sysMenuService;
     private readonly ISysOnlineUserService _sysOnlineUserService;
     private readonly IMemoryCache _cache;
 
@@ -26,6 +27,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         IEventPublisher eventPublisher,
         SysUserService sysUserService,
         SysUserRoleService sysUserRoleService,
+        SysMenuService sysMenuService,
         ISysOnlineUserService sysOnlineUserService,
         IMemoryCache cache)
     {
@@ -36,6 +38,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         _eventPublisher = eventPublisher;
         _sysUserService = sysUserService;
         _sysUserRoleService = sysUserRoleService;
+        _sysMenuService = sysMenuService;
         _sysOnlineUserService = sysOnlineUserService;
         _cache = cache;
     }
@@ -91,7 +94,8 @@ public class SysAuthService : IDynamicApiController, ITransient
         return new LoginOutput
         {
             UserId = user.Id,
-            Token = accessToken
+            Token = accessToken,
+            RefreshToken = refreshToken
         };
     }
 
@@ -111,6 +115,9 @@ public class SysAuthService : IDynamicApiController, ITransient
 
         // 数据范围
         var dataScopes = await _sysUserService.GetUserOrgIdList();
+
+        // 按钮权限
+        var buttons = await _sysMenuService.GetPermCodeList();
 
         // 登录日志
         var client = Parser.GetDefault().Parse(_httpContextAccessor.HttpContext.Request.Headers["User-Agent"]);
@@ -141,6 +148,7 @@ public class SysAuthService : IDynamicApiController, ITransient
                 RoleName = u.Name,
                 Value = u.Code
             }).ToList(),
+            Buttons = buttons
         };
     }
 

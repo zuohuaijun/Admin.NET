@@ -49,6 +49,11 @@ public class LoginUserInfoOutput
     /// 角色集合
     /// </summary>
     public List<LoginRole> Roles { get; set; }
+
+    /// <summary>
+    /// 按钮权限集合
+    /// </summary>
+    public List<string> Buttons { get; set; }
 }
 
 public class LoginRole

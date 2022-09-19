@@ -1,3 +1,5 @@
+using Masuit.Tools;
+
 namespace Admin.NET.Core;
 
 public static class SqlSugarSetup
@@ -122,26 +124,14 @@ public static class SqlSugarSetup
                     Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
                 };
 
-                // 缓存处理过滤器
-                var cacheKey = $"DB:{config.ConfigId}";
-                var queryFilterProvider = db.DataCache.Get<QueryFilterProvider>(cacheKey);
-                if (queryFilterProvider == null)
-                {
-                    // 配置实体假删除过滤器
-                    SetDeletedEntityFilter(db);
-                    // 配置实体机构过滤器
-                    SetOrgEntityFilter(db);
-                    // 配置自定义实体过滤器
-                    SetCustomEntityFilter(db);
-                    // 配置租户实体过滤器
-                    SetTenantEntityFilter(db);
-
-                    db.DataCache.Add(cacheKey, db.QueryFilter);
-                }
-                else
-                {
-                    db.QueryFilter = queryFilterProvider;
-                }
+                // 配置实体假删除过滤器
+                SetDeletedEntityFilter(db);
+                // 配置租户过滤器
+                SetTenantEntityFilter(db);
+                // 配置用户机构范围过滤器
+                SetOrgEntityFilter(db);
+                // 配置自定义过滤器
+                SetCustomEntityFilter(db);
             });
         });
 
@@ -161,7 +151,6 @@ public static class SqlSugarSetup
         // 创建数据库
         dbOptions.ConnectionConfigs.ForEach(config =>
         {
-            if (!config.EnableInitDb) return;
             if (config.DbType == SqlSugar.DbType.Oracle) return;
             db.GetConnectionScope(config.ConfigId).DbMaintenance.CreateDatabase();
         });
@@ -174,7 +163,7 @@ public static class SqlSugarSetup
         {
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
             var configId = tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId.ToString();
-            if (!dbOptions.ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId.ToString()).EnableInitDb)
+            if (!dbOptions.ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId).EnableInitDb)
                 continue;
             var db2 = db.GetConnectionScope(configId);
             db2.CodeFirst.InitTables(entityType);
@@ -220,50 +209,133 @@ public static class SqlSugarSetup
     /// </summary>
     private static void SetDeletedEntityFilter(SqlSugarScopeProvider db)
     {
-        // 获取所有继承基类数据表集合
-        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && (u.BaseType == typeof(EntityBase) || u.BaseType == typeof(EntityTenant) || u.BaseType == typeof(DataEntityBase)));
-        if (!entityTypes.Any()) return;
-
-        foreach (var entityType in entityTypes)
+        // 配置实体假删除缓存
+        var cacheKey = $"DB:{db.CurrentConnectionConfig.ConfigId}:FAKEDELETE";
+        var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
+        if (tableFilterItemList == null)
         {
-            // 排除非当前数据库实体
-            var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
-                (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
-                continue;
+            // 获取基类实体数据表
+            var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+                && (u.BaseType == typeof(EntityBase) || u.BaseType == typeof(EntityTenant) || u.BaseType == typeof(DataEntityBase)));
+            if (!entityTypes.Any()) return;
 
-            Expression<Func<DataEntityBase, bool>> dynamicExpression = u => u.IsDelete == false;
-            db.QueryFilter.Add(new TableFilterItem<object>(entityType, dynamicExpression));
+            var tableFilterItems = new List<TableFilterItem<object>>();
+            foreach (var entityType in entityTypes)
+            {
+                // 排除非当前数据库实体
+                var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+                if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
+                    (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                    continue;
+
+                Expression<Func<DataEntityBase, bool>> dynamicExpression = u => u.IsDelete == false;
+                var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);
+                tableFilterItems.Add(tableFilterItem);
+                db.QueryFilter.Add(tableFilterItem);
+            }
+            db.DataCache.Add(cacheKey, tableFilterItems);
+        }
+        else
+        {
+            tableFilterItemList.ForEach(u =>
+            {
+                db.QueryFilter.Add(u);
+            });
         }
     }
 
     /// <summary>
-    /// 配置实体机构过滤器
+    /// 配置租户过滤器
+    /// </summary>
+    private static void SetTenantEntityFilter(SqlSugarScopeProvider db)
+    {
+        var tenantId = App.User?.FindFirst(ClaimConst.TenantId)?.Value;
+        if (string.IsNullOrWhiteSpace(tenantId)) return;
+
+        // 配置租户缓存
+        var cacheKey = $"DB:{db.CurrentConnectionConfig.ConfigId}:TENANTID:{tenantId}";
+        var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
+        if (tableFilterItemList == null)
+        {
+            // 获取租户实体数据表
+            var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+                && u.BaseType == typeof(EntityTenant));
+            if (!entityTypes.Any()) return;
+
+            var tableFilterItems = new List<TableFilterItem<object>>();
+            foreach (var entityType in entityTypes)
+            {
+                // 排除非当前数据库实体
+                var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+                if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
+                    (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                    continue;
+
+                Expression<Func<EntityTenant, bool>> dynamicExpression = u => u.TenantId == long.Parse(tenantId);
+                var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);
+                tableFilterItems.Add(tableFilterItem);
+                db.QueryFilter.Add(tableFilterItem);
+            }
+            db.DataCache.Add(cacheKey, tableFilterItems);
+        }
+        else
+        {
+            tableFilterItemList.ForEach(u =>
+            {
+                db.QueryFilter.Add(u);
+            });
+        }
+    }
+
+    /// <summary>
+    /// 配置用户机构范围过滤器
     /// </summary>
     private static void SetOrgEntityFilter(SqlSugarScopeProvider db)
     {
-        // 获取业务数据表集合
-        var dataEntityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.BaseType == typeof(DataEntityBase));
-        if (!dataEntityTypes.Any()) return;
-
         var userId = App.User?.FindFirst(ClaimConst.UserId)?.Value;
         if (string.IsNullOrWhiteSpace(userId)) return;
 
-        // 获取用户机构Id集合
-        var orgIds = App.GetService<SysCacheService>().GetOrgIdList(long.Parse(userId));
-        if (orgIds == null || orgIds.Count == 0) return;
-
-        foreach (var dataEntityType in dataEntityTypes)
+        // 配置用户机构范围缓存
+        var cacheKey = $"DB:{db.CurrentConnectionConfig.ConfigId}:USERID:{userId}";
+        var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
+        if (tableFilterItemList == null)
         {
-            Expression<Func<DataEntityBase, bool>> dynamicExpression = u => orgIds.Contains((long)u.CreateOrgId);
-            db.QueryFilter.Add(new TableFilterItem<object>(dataEntityType, dynamicExpression));
+            // 获取用户所属机构
+            var orgIds = App.GetService<SysCacheService>().GetOrgIdList(long.Parse(userId));
+            if (orgIds == null || orgIds.Count == 0) return;
+
+            // 获取业务实体数据表
+            var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+                && u.BaseType == typeof(DataEntityBase));
+            if (!entityTypes.Any()) return;
+
+            var tableFilterItems = new List<TableFilterItem<object>>();
+            foreach (var entityType in entityTypes)
+            {
+                // 排除非当前数据库实体
+                var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+                if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
+                    (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                    continue;
+
+                Expression<Func<DataEntityBase, bool>> dynamicExpression = u => orgIds.Contains((long)u.CreateOrgId);
+                var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);
+                tableFilterItems.Add(tableFilterItem);
+                db.QueryFilter.Add(tableFilterItem);
+            }
+            db.DataCache.Add(cacheKey, tableFilterItems);
+        }
+        else
+        {
+            tableFilterItemList.ForEach(u =>
+            {
+                db.QueryFilter.Add(u);
+            });
         }
     }
 
     /// <summary>
-    /// 配置自定义实体过滤器
+    /// 配置自定义过滤器
     /// </summary>
     private static void SetCustomEntityFilter(SqlSugarScopeProvider db)
     {
@@ -271,39 +343,46 @@ public static class SqlSugarSetup
         if (App.User?.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString())
             return;
 
-        // 获取继承自定义实体过滤器接口的类集合
-        var entityFilterTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(IEntityFilter))));
-        if (!entityFilterTypes.Any()) return;
-
-        foreach (var entityFilter in entityFilterTypes)
+        // 配置用户机构范围缓存
+        var cacheKey = $"DB:{db.CurrentConnectionConfig.ConfigId}:CUSTOM";
+        var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
+        if (tableFilterItemList == null)
         {
-            var instance = Activator.CreateInstance(entityFilter);
-            var entityFilterMethod = entityFilter.GetMethod("AddEntityFilter");
-            var entityFilters = ((IList)entityFilterMethod?.Invoke(instance, null))?.Cast<object>();
-            if (entityFilters == null) continue;
-            foreach (TableFilterItem<object> filter in entityFilters)
-                db.QueryFilter.Add(filter);
+            // 获取自定义实体过滤器
+            var entityFilterTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+                && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(IEntityFilter))));
+            if (!entityFilterTypes.Any()) return;
+
+            var tableFilterItems = new List<TableFilterItem<object>>();
+            foreach (var entityFilter in entityFilterTypes)
+            {
+                var instance = Activator.CreateInstance(entityFilter);
+                var entityFilterMethod = entityFilter.GetMethod("AddEntityFilter");
+                var entityFilters = ((IList)entityFilterMethod?.Invoke(instance, null))?.Cast<object>();
+                if (entityFilters == null) continue;
+
+                entityFilters.ForEach(u =>
+                {
+                    var tableFilterItem = (TableFilterItem<object>)u;
+                    var entityType = tableFilterItem.GetType().GetProperty("type", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(tableFilterItem, null) as Type;
+                    // 排除非当前数据库实体
+                    var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+                    if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
+                        (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                        return;
+
+                    tableFilterItems.Add(tableFilterItem);
+                    db.QueryFilter.Add(tableFilterItem);
+                });
+            }
+            db.DataCache.Add(cacheKey, tableFilterItems);
         }
-    }
-
-    /// <summary>
-    /// 配置租户实体过滤器
-    /// </summary>
-    private static void SetTenantEntityFilter(SqlSugarScopeProvider db)
-    {
-        // 获取租户实体数据表集合
-        var dataEntityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.BaseType == typeof(EntityTenant));
-        if (!dataEntityTypes.Any()) return;
-
-        var tenantId = App.User?.FindFirst(ClaimConst.TenantId)?.Value;
-        if (string.IsNullOrWhiteSpace(tenantId)) return;
-
-        foreach (var dataEntityType in dataEntityTypes)
+        else
         {
-            Expression<Func<EntityTenant, bool>> dynamicExpression = u => u.TenantId == long.Parse(tenantId);
-            db.QueryFilter.Add(new TableFilterItem<object>(dataEntityType, dynamicExpression));
+            tableFilterItemList.ForEach(u =>
+            {
+                db.QueryFilter.Add(u);
+            });
         }
     }
 }

@@ -27,7 +27,7 @@
         </member>
         <member name="T:Admin.NET.Core.SqlSugarCache">
             <summary>
-            SqlSugar二级缓存
+            SqlSugar二级缓存（必须是内存缓存）
             </summary>
         </member>
         <member name="T:Admin.NET.Core.CacheConst">
@@ -3560,14 +3560,19 @@
             用户Id
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.LoginOutput.RoleInfo">
+            <summary>
+            角色
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.LoginOutput.Token">
             <summary>
             令牌Token
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginOutput.RoleInfo">
+        <member name="P:Admin.NET.Core.Service.LoginOutput.RefreshToken">
             <summary>
-            角色
+            刷新Token
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.LoginUserInfoOutput">
@@ -3618,6 +3623,11 @@
         <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Roles">
             <summary>
             角色集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Buttons">
+            <summary>
+            按钮权限集合
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.LoginRole.RoleName">
@@ -7327,19 +7337,19 @@
             配置实体假删除过滤器
             </summary>
         </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetTenantEntityFilter(SqlSugar.SqlSugarScopeProvider)">
+            <summary>
+            配置租户过滤器
+            </summary>
+        </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.SetOrgEntityFilter(SqlSugar.SqlSugarScopeProvider)">
             <summary>
-            配置实体机构过滤器
+            配置用户机构范围过滤器
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.SetCustomEntityFilter(SqlSugar.SqlSugarScopeProvider)">
             <summary>
-            配置自定义实体过滤器
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetTenantEntityFilter(SqlSugar.SqlSugarScopeProvider)">
-            <summary>
-            配置租户实体过滤器
+            配置自定义过滤器
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SqlSugarUnitOfWork">

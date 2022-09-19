@@ -3,11 +3,11 @@
 namespace Admin.NET.Core;
 
 /// <summary>
-/// SqlSugar二级缓存
+/// SqlSugar二级缓存（必须是内存缓存）
 /// </summary>
 public class SqlSugarCache : ICacheService, ISingleton
 {
-    private static readonly ICache _cache = App.GetRequiredService<ICache>();
+    private static readonly ICache _cache = Cache.Default;
 
     public void Add<V>(string key, V value)
     {
