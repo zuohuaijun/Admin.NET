@@ -166,7 +166,16 @@ public static class SqlSugarSetup
             if (!dbOptions.ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId).EnableInitDb)
                 continue;
             var db2 = db.GetConnectionScope(configId);
-            db2.CodeFirst.InitTables(entityType);
+            //添加分表特性后，初始化数据库时自动分表
+            var splitTable = entityType.GetCustomAttribute<SplitTableAttribute>();
+            if (splitTable == null)
+            {
+                db2.CodeFirst.InitTables(entityType);
+            }
+            else
+            {
+                db2.CodeFirst.SplitTables().InitTables(entityType);
+            }
         }
 
         // 获取所有种子配置-初始化数据
