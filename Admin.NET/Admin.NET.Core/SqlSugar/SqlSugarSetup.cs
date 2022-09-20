@@ -151,7 +151,7 @@ public static class SqlSugarSetup
         // 创建数据库
         dbOptions.ConnectionConfigs.ForEach(config =>
         {
-            if (config.DbType == SqlSugar.DbType.Oracle || !config.EnableInitDb) return;
+            if (!config.EnableInitDb || config.DbType == SqlSugar.DbType.Oracle) return;
             db.GetConnectionScope(config.ConfigId).DbMaintenance.CreateDatabase();
         });
 
@@ -161,21 +161,16 @@ public static class SqlSugarSetup
         if (!entityTypes.Any()) return;
         foreach (var entityType in entityTypes)
         {
-            var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+            var tAtt = entityType.GetCustomAttribute<TenantAttribute>(); // 多数据库
             var configId = tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId.ToString();
             if (!dbOptions.ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId).EnableInitDb)
                 continue;
             var db2 = db.GetConnectionScope(configId);
-            //添加分表特性后，初始化数据库时自动分表
-            var splitTable = entityType.GetCustomAttribute<SplitTableAttribute>();
+            var splitTable = entityType.GetCustomAttribute<SplitTableAttribute>(); // 分表
             if (splitTable == null)
-            {
                 db2.CodeFirst.InitTables(entityType);
-            }
             else
-            {
                 db2.CodeFirst.SplitTables().InitTables(entityType);
-            }
         }
 
         // 获取所有种子配置-初始化数据
@@ -196,7 +191,6 @@ public static class SqlSugarSetup
             if (!dbOptions.ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId).EnableInitDb)
                 continue;
             var db2 = db.GetConnectionScope(configId);
-
             var seedDataTable = seedData.ToList().ToDataTable();
             seedDataTable.TableName = db.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))

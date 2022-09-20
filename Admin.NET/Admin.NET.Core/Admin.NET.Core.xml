@@ -3788,6 +3788,13 @@
             <param name="dataScopeType"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysCacheService.CacheDetail(System.String)">
+            <summary>
+            获取缓存
+            </summary>
+            <param name="cacheKey"></param>
+            <returns></returns>
+        </member>
         <member name="P:Admin.NET.Core.Service.CustomViewEngine.ConfigId">
             <summary>
             库定位器

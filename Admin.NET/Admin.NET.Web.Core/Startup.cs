@@ -87,8 +87,6 @@ public class Startup : AppStartup
         {
             // 不启用事件日志
             options.LogEnabled = false;
-            // 订阅日志事件
-            options.AddSubscriber<LogEventSubscriber>();
             // 事件执行器（失败重试）
             options.AddExecutor<RetryEventHandlerExecutor>();
         });

@@ -3,7 +3,7 @@
 /// <summary>
 /// 日志事件订阅
 /// </summary>
-public class LogEventSubscriber : IEventSubscriber
+public class LogEventSubscriber : IEventSubscriber, ISingleton
 {
     private readonly IServiceProvider _serviceProvider;
 
