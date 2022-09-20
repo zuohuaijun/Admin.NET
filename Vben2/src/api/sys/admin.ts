@@ -466,5 +466,5 @@ export const getCacheStringAsync = (cacheKey?: string) =>
 export const removeCacheAsync = (key?: string) =>
   defHttp.get<any>({ url: Api.RemoveAsync, params: { key } });
 // 根据父键删除缓存
-export const delByParentKeyAsync = (key?: string) =>
-  defHttp.get<any>({ url: Api.DelByParentKeyAsync, params: { key } });
+export const delByParentKeyAsync = (prefixKey?: string) =>
+  defHttp.get<any>({ url: Api.DelByParentKeyAsync, params: { prefixKey } });

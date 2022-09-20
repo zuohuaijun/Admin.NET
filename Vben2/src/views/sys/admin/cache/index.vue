@@ -127,13 +127,8 @@
         }
 
         var res = await getCacheStringAsync(keys[0]);
-        try {
-          jsonData.value = JSON.parse(res);
-          isJson.value = true;
-        } catch (error) {
-          isJson.value = false;
-          jsonData.value = res;
-        }
+        jsonData.value = res;
+        isJson.value = true;
       }
 
       async function onDeleteCache() {
