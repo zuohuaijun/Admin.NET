@@ -171,6 +171,17 @@ public class SysCacheService : IDynamicApiController, ISingleton
         return _cache.Set(key, dataScopeType);
     }
 
+    /// <summary>
+    /// 获取缓存
+    /// </summary>
+    /// <param name="cacheKey"></param>
+    /// <returns></returns>
+    [HttpGet("/sysCache/detail")]
+    public dynamic CacheDetail(string cacheKey)
+    {
+        return _cache.Get<dynamic>(cacheKey);
+    }
+
     ///// <summary>
     ///// 获取菜单缓存
     ///// </summary>
