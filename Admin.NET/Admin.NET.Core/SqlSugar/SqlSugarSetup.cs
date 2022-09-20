@@ -151,7 +151,7 @@ public static class SqlSugarSetup
         // 创建数据库
         dbOptions.ConnectionConfigs.ForEach(config =>
         {
-            if (config.DbType == SqlSugar.DbType.Oracle) return;
+            if (config.DbType == SqlSugar.DbType.Oracle || !config.EnableInitDb) return;
             db.GetConnectionScope(config.ConfigId).DbMaintenance.CreateDatabase();
         });
 
