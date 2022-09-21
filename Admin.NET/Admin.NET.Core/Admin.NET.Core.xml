@@ -3183,6 +3183,16 @@
             数据库实体程序集名称集合
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.CodeGenOptions.FrontRootPath">
+            <summary>
+            前端文件根目录
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CodeGenOptions.BackendApplicationNamespace">
+            <summary>
+            后端生成到的项目
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.DbConnectionOptions">
             <summary>
             数据库配置选项
