@@ -28,7 +28,6 @@ bin-release/
 /App/MedicalPay/unpackage
 /Admin.NET/packages
 /Admin.NET/Admin.NET.Web.Entry/Properties/PublishProfiles/FolderProfile.pubxml.user
-/Soybean
 
 # folders
 dist/
