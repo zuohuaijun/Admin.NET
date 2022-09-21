@@ -1,4 +1,5 @@
-using Admin.NET.Application.Const;
+using @(@Model.NameSpace).Const;
+using @(@Model.NameSpace).Entity;
 
 namespace @Model.NameSpace;
 /// <summary>

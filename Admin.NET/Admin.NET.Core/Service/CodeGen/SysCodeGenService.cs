@@ -11,16 +11,19 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     private readonly SysCodeGenConfigService _codeGenConfigService;
     private readonly IViewEngine _viewEngine;
     private readonly ICommonService _commonService;
+    private readonly CodeGenOptions _codeGenOptions;
 
     public SysCodeGenService(ISqlSugarClient db,
         SysCodeGenConfigService codeGenConfigService,
         IViewEngine viewEngine,
-        ICommonService commonService)
+        ICommonService commonService,
+        IOptions<CodeGenOptions> codeGenOptions)
     {
         _db = db;
         _codeGenConfigService = codeGenConfigService;
         _viewEngine = viewEngine;
         _commonService = commonService;
+        _codeGenOptions = codeGenOptions.Value;
     }
 
     /// <summary>
@@ -405,18 +408,18 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    private static List<string> GetTargetPathList(SysCodeGen input)
+    private List<string> GetTargetPathList(SysCodeGen input)
     {
-        var backendPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName, "Admin.NET.Application", "Service", input.TableName);
+        var backendPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName, _codeGenOptions.BackendApplicationNamespace, "Service", input.TableName);
         var servicePath = Path.Combine(backendPath, input.TableName + "Service.cs");
         var inputPath = Path.Combine(backendPath, "Dto", input.TableName + "Input.cs");
         var outputPath = Path.Combine(backendPath, "Dto", input.TableName + "Output.cs");
         var viewPath = Path.Combine(backendPath, "Dto", input.TableName + "Dto.cs");
-        var frontendPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, "Vben2", "src", "views", "main");
+        var frontendPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, _codeGenOptions.FrontRootPath, "src", "views", "main");
         var indexPath = Path.Combine(frontendPath, input.TableName, "index.vue");
         var formDataPath = Path.Combine(frontendPath, input.TableName, "data.data.ts");
         var formModalPath = Path.Combine(frontendPath, input.TableName, "dataModal.vue");
-        var apiJsPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, "Vben2", "src", "api", "main", input.TableName + ".ts");
+        var apiJsPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, _codeGenOptions.FrontRootPath, "src", "api", "main", input.TableName + ".ts");
 
         return new List<string>()
         {
