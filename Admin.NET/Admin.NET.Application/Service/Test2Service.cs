@@ -1,4 +1,4 @@
-﻿using Admin.NET.Application.Const;
+using Admin.NET.Application.Const;
 using Magicodes.ExporterAndImporter.Core;
 using Magicodes.ExporterAndImporter.Pdf;
 using Microsoft.AspNetCore.Authorization;
@@ -9,7 +9,7 @@ namespace Admin.NET.Application.Service;
 /// <summary>
 /// 自己业务服务
 /// </summary>
-[ApiDescriptionSettings(TestConst.GroupName, Order = 200)]
+[ApiDescriptionSettings(ApplicationConst.GroupName, Order = 200)]
 [AllowAnonymous]
 public class Test2Service : IDynamicApiController, ITransient
 {

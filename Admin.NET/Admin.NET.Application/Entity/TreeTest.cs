@@ -1,4 +1,4 @@
-﻿using Admin.NET.Application.Const;
+using Admin.NET.Application.Const;
 
 namespace Admin.NET.Application.Entity;
 
@@ -6,7 +6,7 @@ namespace Admin.NET.Application.Entity;
 /// 多库代码生成树形测试表
 /// </summary>
 [SugarTable("d_treetest", "多库代码生成树形测试表")]
-[Tenant(TestConst.ConfigId)]
+[Tenant(ApplicationConst.ConfigId)]
 public class TreeTest : EntityBase
 {
     /// <summary>
