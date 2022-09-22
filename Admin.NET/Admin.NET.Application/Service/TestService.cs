@@ -1,4 +1,4 @@
-﻿using Admin.NET.Application.Const;
+using Admin.NET.Application.Const;
 using Furion.DatabaseAccessor;
 using Furion.FriendlyException;
 using Furion.Localization;
@@ -10,7 +10,7 @@ namespace Admin.NET.Application.Service;
 /// <summary>
 /// 自己业务服务
 /// </summary>
-[ApiDescriptionSettings(TestConst.GroupName, Order = 200)]
+[ApiDescriptionSettings(ApplicationConst.GroupName, Order = 200)]
 [AllowAnonymous]
 public class TestService : IDynamicApiController, ITransient
 {

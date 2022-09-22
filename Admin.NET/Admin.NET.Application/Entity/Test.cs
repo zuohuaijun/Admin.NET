@@ -1,4 +1,4 @@
-﻿using Admin.NET.Application.Const;
+using Admin.NET.Application.Const;
 
 namespace Admin.NET.Application.Entity;
 
@@ -6,7 +6,7 @@ namespace Admin.NET.Application.Entity;
 /// 自己业务数据表
 /// </summary>
 [SugarTable("d_test", "自己业务数据表")]
-[Tenant(TestConst.ConfigId)]
+[Tenant(ApplicationConst.ConfigId)]
 public class Test : EntityBase
 {
     /// <summary>

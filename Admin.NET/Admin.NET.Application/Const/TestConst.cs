@@ -1,6 +1,6 @@
-﻿namespace Admin.NET.Application.Const;
+namespace Admin.NET.Application.Const;
 
-public class TestConst
+public class ApplicationConst
 {
     /// <summary>
     /// API分组名称

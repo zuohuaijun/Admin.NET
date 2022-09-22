@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Service;
+namespace Admin.NET.Core.Service;
 
 public class CustomViewEngine : ViewEngineModel
 {
@@ -25,6 +25,8 @@ public class CustomViewEngine : ViewEngineModel
     public string NameSpace { get; set; }
 
     public string ClassName { get; set; }
+    
+    public string ProjectLastName { get; set; }
 
     public string LowerClassName
     {
