@@ -2674,6 +2674,25 @@
             <param name="context"></param>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.RedisEventSourceStorer">
+            <summary>
+            Redis自定义事件源存储器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.RedisEventSourceStorer.WriteAsync(Furion.EventBus.IEventSource,System.Threading.CancellationToken)">
+            <summary>
+            往 Redis 中写入一条
+            </summary>
+            <param name="eventSource"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:Admin.NET.Core.RedisEventSourceStorer.ReadAsync(System.Threading.CancellationToken)">
+            <summary>
+            从 Redis 中读取一条
+            </summary>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.RetryEventHandlerExecutor">
             <summary>
             事件执行器-超时控制、失败重试熔断等等

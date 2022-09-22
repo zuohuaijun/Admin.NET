@@ -10,12 +10,12 @@ public static class CacheSetup
     /// <param name="services"></param>
     public static void AddCache(this IServiceCollection services)
     {
-        services.AddSingleton<ICache>(options =>
+        services.AddSingleton(options =>
         {
             var cacheOptions = App.GetOptions<CacheOptions>();
             if (cacheOptions.CacheType == CacheTypeEnum.Redis.ToString())
             {
-                var redis = new Redis();
+                var redis = new FullRedis();
                 redis.Init(cacheOptions.RedisConnectionString);
                 return redis;
             }

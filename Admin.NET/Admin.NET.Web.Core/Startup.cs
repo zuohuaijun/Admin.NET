@@ -89,6 +89,12 @@ public class Startup : AppStartup
             options.LogEnabled = false;
             // 事件执行器（失败重试）
             options.AddExecutor<RetryEventHandlerExecutor>();
+            //// 替换事件源存储器
+            //options.ReplaceStorer(serviceProvider =>
+            //{
+            //    var redisClient = serviceProvider.GetService<ICache>();
+            //    return new RedisEventSourceStorer(redisClient);
+            //});
         });
 
         // OSS对象存储（必须一个个赋值）
