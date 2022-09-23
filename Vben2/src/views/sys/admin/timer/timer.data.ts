@@ -173,6 +173,12 @@ export const formSchema: FormSchema[] = [
     colProps: { span: 24 },
   },
   {
+    label: 'Headers参数',
+    field: 'headers',
+    component: 'InputTextArea',
+    colProps: { span: 24 },
+  },
+  {
     field: 'timerType',
     label: '任务类型',
     component: 'Select',
