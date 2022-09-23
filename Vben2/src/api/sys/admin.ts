@@ -108,6 +108,10 @@ enum Api {
   DeleteColumn = '/column/delete',
   CreateEntity = '/table/createEntity',
 
+  // 在线用户接口
+  GetOnlinePageList = '/sysOnlineUser/page',
+  ForceExist = '/sysOnlineUser/forceExist',
+
   // 代码生成接口
   GetGeneratePage = '/codeGenerate/page',
   AddGenerate = '/codeGenerate/add',
@@ -360,6 +364,13 @@ export const updateColumn = (params: any) => defHttp.post<any>({ url: Api.Update
 export const deleteColumn = (params: any) => defHttp.post<any>({ url: Api.DeleteColumn, params });
 // 生成实体
 export const createEntity = (params: any) => defHttp.post<any>({ url: Api.CreateEntity, params });
+
+////////// 在线用户接口 //////////
+// 分页查询在线用户
+export const getOnlinePageList = (params?: any) =>
+  defHttp.get<any>({ url: Api.GetOnlinePageList, params });
+// 强制下线
+export const forceExist = (id: number) => defHttp.post({ url: Api.ForceExist, params: { id } });
 
 ////////// 代码生成接口 //////////
 // 分页查询代码生成
