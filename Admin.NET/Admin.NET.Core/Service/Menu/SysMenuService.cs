@@ -209,8 +209,8 @@ public class SysMenuService : IDynamicApiController, ITransient
         if (permissions == null || permissions.Count == 0)
         {
             permissions = await _sysMenuRep.AsQueryable()
-                    .Where(u => u.Type == MenuTypeEnum.Btn)
-                    .Select(u => u.Permission).ToListAsync();
+                .Where(u => u.Type == MenuTypeEnum.Btn)
+                .Select(u => u.Permission).ToListAsync();
             _sysCacheService.SetPermission(0, permissions); // 缓存结果
         }
         return permissions;
@@ -221,7 +221,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     private void DeleteMenuCache()
     {
-        // _sysCacheService.RemoveByPrefixKey(CacheConst.KeyMenu);
+        _sysCacheService.RemoveByPrefixKey(CacheConst.KeyMenu);
         _sysCacheService.RemoveByPrefixKey(CacheConst.KeyPermission);
     }
 

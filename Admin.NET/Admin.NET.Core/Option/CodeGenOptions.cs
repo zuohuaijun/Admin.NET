@@ -9,7 +9,7 @@ public sealed class CodeGenOptions : IConfigurableOptions
     /// 数据库实体程序集名称集合
     /// </summary>
     public List<string> EntityAssemblyNames { get; set; }
-    
+
     /// <summary>
     /// 前端文件根目录
     /// </summary>

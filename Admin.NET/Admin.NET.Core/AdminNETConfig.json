@@ -75,7 +75,7 @@
     },
     "Cache": {
         "CacheType": "Redis", // Memory、Redis
-        "RedisConnectionString": "server=127.0.0.2:6379,127.0.0.1:6379;password=;db=5;"
+        "RedisConnectionString": "server=127.0.0.1:6379;password=;db=5;"
     },
     "SnowId": {
         "WorkerId": 5 // 取值范围0~63,默认1
