@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Service;
+namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 系统定时任务服务
@@ -143,7 +143,9 @@ public class SysTimerService : IDynamicApiController, ITransient
                     {
                         var requestUrl = input.RequestUrl.Trim();
                         requestUrl = requestUrl?.IndexOf("http") == 0 ? requestUrl : "http://" + requestUrl; // 默认http协议
-                        var requestParameters = input.RequestPara;
+                        var requestParametersString = input.RequestPara;
+                        var requestParameters = string.IsNullOrEmpty(requestParametersString)
+                            ? null : JSON.Deserialize<Dictionary<string, string>>(requestParametersString);
                         var headersString = input.Headers;
                         var headers = string.IsNullOrEmpty(headersString)
                             ? null : JSON.Deserialize<Dictionary<string, string>>(headersString);
