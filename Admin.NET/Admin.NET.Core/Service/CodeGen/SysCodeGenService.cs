@@ -34,7 +34,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     [HttpGet("/codeGenerate/page")]
     public async Task<SqlSugarPagedList<SysCodeGen>> GetCodeGenPage([FromQuery] CodeGenInput input)
     {
-        var tableName = !string.IsNullOrEmpty(input.TableName?.Trim());
         return await _db.Queryable<SysCodeGen>()
             .WhereIF(!string.IsNullOrWhiteSpace(input.TableName), u => u.TableName.Contains(input.TableName.Trim()))
             .ToPagedListAsync(input.Page, input.PageSize);
