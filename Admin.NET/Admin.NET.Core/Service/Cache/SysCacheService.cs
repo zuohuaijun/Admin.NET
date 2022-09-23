@@ -1,4 +1,4 @@
-﻿using NewLife.Caching;
+using NewLife.Caching;
 
 namespace Admin.NET.Core.Service;
 
@@ -93,6 +93,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     public int RemoveByPrefixKey(string prefixKey)
     {
         var delKeys = _cache.Keys.Where(u => u.StartsWith(prefixKey)).ToArray();
+        if (!delKeys.Any()) return 0;
         return _cache.Remove(delKeys);
     }
 
