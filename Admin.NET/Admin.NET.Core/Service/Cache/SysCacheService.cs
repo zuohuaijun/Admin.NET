@@ -178,9 +178,9 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="cacheKey"></param>
     /// <returns></returns>
     [HttpGet("/sysCache/detail")]
-    public dynamic CacheDetail(string cacheKey)
+    public string CacheDetail(string cacheKey)
     {
-        return _cache.Get<dynamic>(cacheKey);
+        return _cache.Get<string>(cacheKey);
     }
 
     ///// <summary>
