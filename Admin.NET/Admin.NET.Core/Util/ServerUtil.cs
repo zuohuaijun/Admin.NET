@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 服务器信息
@@ -64,14 +64,23 @@ public class ServerUtil
     {
         if (IsUnix())
         {
-            var output = ShellUtil.Bash("free -m");
+            //var output = ShellUtil.Bash("free -m");
+            //var lines = output.Split("\n");
+            //var memory = lines[1].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+            //return new
+            //{
+            //    Total = double.Parse(memory[1]),
+            //    Used = double.Parse(memory[2]),
+            //    Free = double.Parse(memory[3])
+            //};
+            var output = ShellUtil.Bash("cat /proc/meminfo");
             var lines = output.Split("\n");
-            var memory = lines[1].Split(" ", StringSplitOptions.RemoveEmptyEntries);
             return new
             {
-                Total = double.Parse(memory[1]),
-                Used = double.Parse(memory[2]),
-                Free = double.Parse(memory[3])
+                Total = Math.Round(double.Parse(lines[0].Split(" ", StringSplitOptions.RemoveEmptyEntries)[1]) / 1024, 2),
+                Used = Math.Round((double.Parse(lines[0].Split(" ", StringSplitOptions.RemoveEmptyEntries)[1])
+                - double.Parse(lines[1].Split(" ", StringSplitOptions.RemoveEmptyEntries)[1])) / 1024, 2),
+                Free = Math.Round(double.Parse(lines[1].Split(" ", StringSplitOptions.RemoveEmptyEntries)[1]) / 1024, 2),
             };
         }
         else
