@@ -64,15 +64,6 @@ public class ServerUtil
     {
         if (IsUnix())
         {
-            //var output = ShellUtil.Bash("free -m");
-            //var lines = output.Split("\n");
-            //var memory = lines[1].Split(" ", StringSplitOptions.RemoveEmptyEntries);
-            //return new
-            //{
-            //    Total = double.Parse(memory[1]),
-            //    Used = double.Parse(memory[2]),
-            //    Free = double.Parse(memory[3])
-            //};
             var output = ShellUtil.Bash("cat /proc/meminfo");
             var lines = output.Split("\n");
             return new
@@ -100,6 +91,7 @@ public class ServerUtil
         }
     }
 
+
     /// <summary>
     /// CPU信息
     /// </summary>
@@ -110,14 +102,14 @@ public class ServerUtil
         if (IsUnix())
         {
             var output = ShellUtil.Bash("top -b -n1 | grep \"Cpu(s)\" | awk '{print $2 + $4}'");
-            cpuRate = output.Trim();
+            cpuRate = output.Trim() ;
         }
         else
         {
             var output = ShellUtil.Cmd("wmic", "cpu get LoadPercentage");
             cpuRate = output.Replace("LoadPercentage", string.Empty).Trim();
         }
-        return cpuRate;
+        return cpuRate == "" ? "0" : cpuRate;
     }
 
     /// <summary>
