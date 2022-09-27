@@ -74,7 +74,7 @@
         "SignalRSupport": true // 启用 SignalR 跨域支持
     },
     "Cache": {
-        "CacheType": "Redis", // Memory、Redis
+        "CacheType": "Memory", // Memory、Redis
         "RedisConnectionString": "server=127.0.0.1:6379;password=;db=5;"
     },
     "SnowId": {

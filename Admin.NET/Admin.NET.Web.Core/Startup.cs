@@ -52,7 +52,7 @@ public class Startup : AppStartup
                 options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
                 // options.SerializerSettings.Converters.Add(new LongJsonConverter()); // long转string（防止js精度溢出） 超过16位开启
-                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
+                // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
             })
             .AddInjectWithUnifyResult<AdminResultProvider>();
 
