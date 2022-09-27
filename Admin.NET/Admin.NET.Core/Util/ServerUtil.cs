@@ -96,7 +96,7 @@ public class ServerUtil
     /// CPU信息
     /// </summary>
     /// <returns></returns>
-    public static string GetCpuRate()
+    private static string GetCpuRate()
     {
         string cpuRate;
         if (IsUnix())
