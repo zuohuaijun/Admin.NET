@@ -203,6 +203,10 @@ public class SysFileService : IDynamicApiController, ITransient
                 case OSSProvider.Aliyun:
                     newFile.Url = $"{(_OSSProviderOptions.IsEnableHttps ? "https" : "http")}://{newFile.BucketName}.{_OSSProviderOptions.Endpoint}/{filePath}";
                     break;
+                case OSSProvider.Minio:
+                    //获取Minio文件的下载或者预览地址
+                    newFile.Url = await GetMinioPreviewFileUrl(newFile.BucketName, filePath); ;
+                    break;
             }
         }
         else
@@ -231,5 +235,17 @@ public class SysFileService : IDynamicApiController, ITransient
         }
         await _sysFileRep.AsInsertable(newFile).ExecuteCommandAsync();
         return newFile;
+    }
+
+    
+    /// <summary>
+    /// 获取Minio文件的下载或者预览地址
+    /// </summary>
+    /// <param name="bucketName">桶名</param>
+    /// <param name="fileName">文件名</param>
+    /// <returns></returns>
+    private async Task<string> GetMinioPreviewFileUrl(String bucketName, String fileName)
+    {
+        return await _OSSService.PresignedGetObjectAsync(bucketName, fileName,7);
     }
 }
