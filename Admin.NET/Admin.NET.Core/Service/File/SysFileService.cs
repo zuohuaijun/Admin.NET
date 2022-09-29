@@ -181,7 +181,6 @@ public class SysFileService : IDynamicApiController, ITransient
         var newFile = new SysFile
         {
             Id = Yitter.IdGenerator.YitIdHelper.NextId(),
-            Provider = Enum.GetName(_OSSProviderOptions.Provider),
             // BucketName = _OSSProviderOptions.IsEnable ? _OSSProviderOptions.Provider.ToString() : "Local",
             // 阿里云对bucket名称有要求，1.只能包括小写字母，数字，短横线（-）2.必须以小写字母或者数字开头  3.长度必须在3-63字节之间
             // 无法使用Provider
@@ -195,6 +194,7 @@ public class SysFileService : IDynamicApiController, ITransient
         var finalName = newFile.Id + suffix; // 文件最终名称
         if (_OSSProviderOptions.IsEnable)
         {
+            newFile.Provider = Enum.GetName(_OSSProviderOptions.Provider);
             var filePath = string.Concat(path, "/", finalName);
             await _OSSService.PutObjectAsync(newFile.BucketName, filePath, file.OpenReadStream());
             //  http://<你的bucket名字>.oss.aliyuncs.com/<你的object名字>
@@ -212,6 +212,7 @@ public class SysFileService : IDynamicApiController, ITransient
         }
         else
         {
+            newFile.Provider = "";//本地存储 Provider 显示为空
             var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, path);
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
