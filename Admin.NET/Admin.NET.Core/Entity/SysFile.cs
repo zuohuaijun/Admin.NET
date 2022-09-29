@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 系统文件表
@@ -6,6 +6,13 @@
 [SugarTable("sys_file", "系统文件表")]
 public class SysFile : EntityBase
 {
+    /// <summary>
+    /// 提供者
+    /// </summary>
+    [SugarColumn(ColumnDescription = "提供者", Length = 128)]
+    [MaxLength(128)]
+    public string Provider { get; set; }
+
     /// <summary>
     /// 仓储名称
     /// </summary>

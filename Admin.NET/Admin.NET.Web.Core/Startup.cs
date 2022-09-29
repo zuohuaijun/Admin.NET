@@ -1,4 +1,4 @@
-﻿using Admin.NET.Core;
+using Admin.NET.Core;
 using AspNetCoreRateLimit;
 using Furion;
 using Furion.SpecificationDocument;
@@ -99,7 +99,7 @@ public class Startup : AppStartup
 
         // OSS对象存储（必须一个个赋值）
         var ossOpt = App.GetOptions<OSSProviderOptions>();
-        services.AddOSSService(ossOpt.ProviderName, options =>
+        services.AddOSSService(Enum.GetName(ossOpt.Provider), options =>
         {
             options.Provider = ossOpt.Provider;
             options.Endpoint = ossOpt.Endpoint;

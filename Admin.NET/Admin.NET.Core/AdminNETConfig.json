@@ -87,15 +87,14 @@
     },
     "OSSProvider": {
         "IsEnable": false,
-        "Provider": 2, // 0.Invalid/1.Minio/2.Aliyun/3.QCloud/4.Qiniu/5.HuaweiCloud
+        "Provider": "Aliyun", // Invalid/Minio/Aliyun/QCloud/Qiniu/HuaweiCloud
         "Endpoint": "",
         "Region": "",
         "AccessKey": "",
         "SecretKey": "",
         "IsEnableHttps": true,
         "IsEnableCache": true,
-        "Bucket": "",
-        "ProviderName": "Aliyun"
+        "Bucket": ""
     },
     "Email": {
         "Server": "smtp.163.com", // 主机

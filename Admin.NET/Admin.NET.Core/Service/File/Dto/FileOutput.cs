@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Service;
+namespace Admin.NET.Core.Service;
 
 public class FileOutput
 {
@@ -7,6 +7,11 @@ public class FileOutput
     /// </summary>
     public long Id { get; set; }
 
+    /// <summary>
+    /// 提供者
+    /// </summary>
+    public string Provider { get; set; }
+    
     /// <summary>
     /// 名称
     /// </summary>

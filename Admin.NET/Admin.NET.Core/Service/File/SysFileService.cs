@@ -26,7 +26,7 @@ public class SysFileService : IDynamicApiController, ITransient
         _uploadOptions = uploadOptions.Value;
         _commonService = commonService;
         if (_OSSProviderOptions.IsEnable)
-            _OSSService = ossServiceFactory.Create(_OSSProviderOptions.ProviderName);
+            _OSSService = ossServiceFactory.Create(Enum.GetName(_OSSProviderOptions.Provider));
     }
 
     /// <summary>
@@ -181,6 +181,7 @@ public class SysFileService : IDynamicApiController, ITransient
         var newFile = new SysFile
         {
             Id = Yitter.IdGenerator.YitIdHelper.NextId(),
+            Provider = Enum.GetName(_OSSProviderOptions.Provider),
             // BucketName = _OSSProviderOptions.IsEnable ? _OSSProviderOptions.Provider.ToString() : "Local",
             // 阿里云对bucket名称有要求，1.只能包括小写字母，数字，短横线（-）2.必须以小写字母或者数字开头  3.长度必须在3-63字节之间
             // 无法使用Provider
@@ -237,7 +238,6 @@ public class SysFileService : IDynamicApiController, ITransient
         return newFile;
     }
 
-    
     /// <summary>
     /// 获取Minio文件的下载或者预览地址
     /// </summary>
@@ -248,4 +248,5 @@ public class SysFileService : IDynamicApiController, ITransient
     {
         return await _OSSService.PresignedGetObjectAsync(bucketName, fileName,7);
     }
+
 }
