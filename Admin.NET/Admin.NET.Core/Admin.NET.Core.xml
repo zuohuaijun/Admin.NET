@@ -3137,46 +3137,6 @@
             ES日志写入器
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.LogContent">
-            <summary>
-            日志内容
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.LogContent.LogName">
-            <summary>
-            记录器类别名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.LogContent.LogLevel">
-            <summary>
-            日志级别
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.LogContent.EventId">
-            <summary>
-             事件 Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.LogContent.Exception">
-            <summary>
-            异常对象
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.LogContent.Context">
-            <summary>
-            日志上下文
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.LogContent.Message">
-            <summary>
-            日志消息
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.LogContent.Time">
-            <summary>
-            日志时间
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.ElasticSearchSetup">
             <summary>
             ES服务注册

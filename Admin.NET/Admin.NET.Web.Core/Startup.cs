@@ -147,7 +147,10 @@ public class Startup : AppStartup
         }
         if (App.GetConfig<bool>("Logging:ElasticSearch:Enabled")) // 日志写入ElasticSearch
         {
-            services.AddDatabaseLogging<ElasticSearchLoggingWriter>();
+            services.AddDatabaseLogging<ElasticSearchLoggingWriter>(options =>
+            {
+                options.MessageFormat = LoggerFormatter.Json;
+            });
         }
 
         // 配置雪花Id算法机器码
