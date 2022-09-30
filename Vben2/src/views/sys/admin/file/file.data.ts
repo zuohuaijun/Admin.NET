@@ -7,6 +7,12 @@ import { useGlobSetting } from '/@/hooks/setting';
 const { uploadUrl = '' } = useGlobSetting();
 export const columns: BasicColumn[] = [
   {
+    title: '提供者',
+    dataIndex: 'provider',
+    width: 100,
+    align: 'left',
+  },
+  {
     title: '仓储名称',
     dataIndex: 'bucketName',
     width: 100,

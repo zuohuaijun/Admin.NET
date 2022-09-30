@@ -26,7 +26,7 @@ public class SysFileService : IDynamicApiController, ITransient
         _uploadOptions = uploadOptions.Value;
         _commonService = commonService;
         if (_OSSProviderOptions.IsEnable)
-            _OSSService = ossServiceFactory.Create(_OSSProviderOptions.ProviderName);
+            _OSSService = ossServiceFactory.Create(Enum.GetName(_OSSProviderOptions.Provider));
     }
 
     /// <summary>
@@ -194,6 +194,7 @@ public class SysFileService : IDynamicApiController, ITransient
         var finalName = newFile.Id + suffix; // 文件最终名称
         if (_OSSProviderOptions.IsEnable)
         {
+            newFile.Provider = Enum.GetName(_OSSProviderOptions.Provider);
             var filePath = string.Concat(path, "/", finalName);
             await _OSSService.PutObjectAsync(newFile.BucketName, filePath, file.OpenReadStream());
             //  http://<你的bucket名字>.oss.aliyuncs.com/<你的object名字>
@@ -203,10 +204,15 @@ public class SysFileService : IDynamicApiController, ITransient
                 case OSSProvider.Aliyun:
                     newFile.Url = $"{(_OSSProviderOptions.IsEnableHttps ? "https" : "http")}://{newFile.BucketName}.{_OSSProviderOptions.Endpoint}/{filePath}";
                     break;
+                case OSSProvider.Minio:
+                    //获取Minio文件的下载或者预览地址
+                    newFile.Url = await GetMinioPreviewFileUrl(newFile.BucketName, filePath); ;
+                    break;
             }
         }
         else
         {
+            newFile.Provider = "";//本地存储 Provider 显示为空
             var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, path);
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
@@ -232,4 +238,16 @@ public class SysFileService : IDynamicApiController, ITransient
         await _sysFileRep.AsInsertable(newFile).ExecuteCommandAsync();
         return newFile;
     }
+
+    /// <summary>
+    /// 获取Minio文件的下载或者预览地址
+    /// </summary>
+    /// <param name="bucketName">桶名</param>
+    /// <param name="fileName">文件名</param>
+    /// <returns></returns>
+    private async Task<string> GetMinioPreviewFileUrl(String bucketName, String fileName)
+    {
+        return await _OSSService.PresignedGetObjectAsync(bucketName, fileName,7);
+    }
+
 }
