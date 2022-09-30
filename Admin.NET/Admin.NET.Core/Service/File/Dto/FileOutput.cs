@@ -11,17 +11,11 @@ public class FileOutput
     /// 提供者
     /// </summary>
     public string Provider { get; set; }
-    
+
     /// <summary>
     /// 名称
     /// </summary>
-    public string Name
-    {
-        get
-        {
-            return this.Id + this.Suffix;
-        }
-    }
+    public string Name => Id + Suffix;
 
     /// <summary>
     /// URL
