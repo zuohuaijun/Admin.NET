@@ -10,7 +10,7 @@ public static class SqlSugarSetup
     /// <param name="services"></param>
     public static void AddSqlSugar(this IServiceCollection services)
     {
-        var dbOptions = App.GetOptions<DbConnectionOptions>();
+        var dbOptions = App.GetConfig<DbConnectionOptions>("DbConnection", true);
         var configureExternalServices = new ConfigureExternalServices
         {
             EntityService = (type, column) => // 修改列可空-1、带?问号 2、String类型若没有Required
