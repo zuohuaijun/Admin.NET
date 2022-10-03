@@ -98,7 +98,7 @@ public class Startup : AppStartup
         });
 
         // OSS对象存储（必须一个个赋值）
-        var ossOpt = App.GetConfig<OSSProviderOptions>("OSSProvider", true);
+        var ossOpt = App.GetOptions<OSSProviderOptions>();
         services.AddOSSService(Enum.GetName(ossOpt.Provider), options =>
         {
             options.Provider = ossOpt.Provider;
@@ -113,7 +113,7 @@ public class Startup : AppStartup
         // 电子邮件
         services.AddMailKit(options =>
         {
-            options.UseMailKit(App.GetConfig<EmailOptions>("Email", true));
+            options.UseMailKit(App.GetOptions<EmailOptions>());
         });
 
         // 模板引擎
@@ -156,7 +156,7 @@ public class Startup : AppStartup
         // 配置雪花Id算法机器码
         YitIdHelper.SetIdGenerator(new IdGeneratorOptions
         {
-            WorkerId = App.GetConfig<SnowIdOptions>("SnowId", true).WorkerId
+            WorkerId = App.GetOptions<SnowIdOptions>().WorkerId
         });
     }
 
