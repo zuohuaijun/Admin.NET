@@ -134,6 +134,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     {
         var menuTreeList = await _sysMenuRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id);
         var menuIdList = menuTreeList.Select(u => u.Id).ToList();
+         menuIdList.Add(input.Id);
 
         await _sysMenuRep.DeleteAsync(u => menuIdList.Contains(u.Id));
 
