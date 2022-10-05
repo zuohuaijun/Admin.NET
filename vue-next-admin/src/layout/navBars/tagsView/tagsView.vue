@@ -530,7 +530,7 @@ export default defineComponent({
 			// 监听布局配置开启 TagsView 共用，为了演示还原默认值
 			proxy.mittBus.on('openShareTagsView', () => {
 				if (getThemeConfig.value.isShareTagsView) {
-					router.push('/home');
+					router.push('/dashboard/workbench');
 					state.tagsViewList = [];
 					state.tagsViewRoutesList.map((v: any) => {
 						if (v.meta.isAffix && !v.meta.isHide) {
