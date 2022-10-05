@@ -17,7 +17,7 @@ public class SysCodeGenConfig : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "字段名称", Length = 128)]
     [Required, MaxLength(128)]
-    public string ColumnName { get; set; }
+    public virtual string ColumnName { get; set; }
 
     /// <summary>
     /// 字段描述

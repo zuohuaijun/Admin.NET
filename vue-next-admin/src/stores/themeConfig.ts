@@ -42,7 +42,7 @@ export const useThemeConfig = defineStore('themeConfig', {
 			// 是否开启菜单背景颜色渐变
 			isMenuBarColorGradual: false,
 			// 默认分栏菜单背景颜色
-			columnsMenuBar: '#001529',
+			columnsMenuBar: '#2C3A49',
 			// 默认分栏菜单字体颜色
 			columnsMenuBarColor: '#F0F0F0',
 			// 是否开启分栏菜单背景颜色渐变

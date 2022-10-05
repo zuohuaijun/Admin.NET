@@ -9,7 +9,7 @@ import globalAxios, { AxiosInstance } from 'axios';
 import { Configuration } from '/@/api-services';
 import { BaseAPI, BASE_PATH } from '/@/api-services/base';
 import { ElMessage } from 'element-plus';
-import { Local } from '/@/utils/storage';
+import { Local, Session } from '/@/utils/storage';
 
 // 如果是 Angular 项目，则取消下面注释即可
 // import { environment } from './environments/environment';
@@ -38,7 +38,8 @@ const clearAccessTokens = () => {
 	// 刷新浏览器
 	window.location.reload();
 
-	// 这里可以添加清除更多 Key =========================================
+	// 清除其他
+	Session.clear();
 };
 
 /**

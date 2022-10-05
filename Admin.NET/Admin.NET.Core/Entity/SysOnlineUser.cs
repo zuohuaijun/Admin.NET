@@ -23,7 +23,7 @@ public class SysOnlineUser : EntityBaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "账号", Length = 32)]
     [Required, MaxLength(32)]
-    public string Account { get; set; }
+    public virtual string Account { get; set; }
 
     /// <summary>
     /// 姓名

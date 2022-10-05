@@ -11,14 +11,14 @@ public class SysTenant : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "公司名称", Length = 64)]
     [Required, MaxLength(64)]
-    public string Name { get; set; }
+    public virtual string Name { get; set; }
 
     /// <summary>
     /// 管理员名称
     /// </summary>
     [SugarColumn(ColumnDescription = "管理员名称", Length = 32)]
     [Required, MaxLength(32)]
-    public string AdminName { get; set; }
+    public virtual string AdminName { get; set; }
 
     /// <summary>
     /// 主机

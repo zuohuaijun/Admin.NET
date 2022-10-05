@@ -11,14 +11,14 @@ public class SysNotice : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "标题", Length = 32)]
     [Required, MaxLength(32)]
-    public string Title { get; set; }
+    public virtual string Title { get; set; }
 
     /// <summary>
     /// 内容
     /// </summary>
     [SugarColumn(ColumnDescription = "内容", ColumnDataType = "longtext,text,clob")]
     [Required]
-    public string Content { get; set; }
+    public virtual string Content { get; set; }
 
     /// <summary>
     /// 类型（字典 1通知 2公告）

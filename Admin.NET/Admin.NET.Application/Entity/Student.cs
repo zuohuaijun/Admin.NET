@@ -14,7 +14,7 @@ public class Student : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "姓名", Length = 32)]
     [Required, MaxLength(32)]
-    public string Name { get; set; }
+    public virtual string Name { get; set; }
 
     /// <summary>
     /// 年龄

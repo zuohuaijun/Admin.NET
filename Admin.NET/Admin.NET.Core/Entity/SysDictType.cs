@@ -11,14 +11,14 @@ public class SysDictType : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "名称", Length = 64)]
     [Required, MaxLength(64)]
-    public string Name { get; set; }
+    public virtual string Name { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
     [SugarColumn(ColumnDescription = "编码", Length = 64)]
     [Required, MaxLength(64)]
-    public string Code { get; set; }
+    public virtual string Code { get; set; }
 
     /// <summary>
     /// 排序

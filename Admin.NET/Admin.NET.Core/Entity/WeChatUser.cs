@@ -29,7 +29,7 @@ public class WeChatUser : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "OpenId", Length = 64)]
     [Required, MaxLength(64)]
-    public string OpenId { get; set; }
+    public virtual string OpenId { get; set; }
 
     /// <summary>
     /// 缓存key

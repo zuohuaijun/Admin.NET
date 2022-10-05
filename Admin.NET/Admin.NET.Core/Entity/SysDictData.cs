@@ -24,14 +24,14 @@ public class SysDictData : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "值", Length = 128)]
     [Required, MaxLength(128)]
-    public string Value { get; set; }
+    public virtual string Value { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
     [SugarColumn(ColumnDescription = "编码", Length = 64)]
     [Required, MaxLength(64)]
-    public string Code { get; set; }
+    public virtual string Code { get; set; }
 
     /// <summary>
     /// 排序

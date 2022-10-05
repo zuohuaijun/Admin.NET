@@ -890,19 +890,14 @@
             组件路径
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysMenu.Permission">
-            <summary>
-            权限标识
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.SysMenu.Redirect">
             <summary>
             重定向
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysMenu.FrameSrc">
+        <member name="P:Admin.NET.Core.SysMenu.Permission">
             <summary>
-            内嵌地址
+            权限标识
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysMenu.Title">
@@ -915,24 +910,44 @@
             图标
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysMenu.HideMenu">
+        <member name="P:Admin.NET.Core.SysMenu.IsIframe">
             <summary>
-            隐藏菜单
+            是否内嵌
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysMenu.IgnoreKeepAlive">
+        <member name="P:Admin.NET.Core.SysMenu.OutLink">
             <summary>
-            忽略缓存
+            外链链接
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysMenu.CurrentActiveMenu">
+        <member name="P:Admin.NET.Core.SysMenu.IsHide">
             <summary>
-            当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+            是否隐藏
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.IsKeepAlive">
+            <summary>
+            是否缓存
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.IsAffix">
+            <summary>
+            是否固定
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysMenu.OrderNo">
             <summary>
             排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysMenu.Remark">
+            <summary>
+            备注
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysMenu.Children">
@@ -5255,79 +5270,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.Pid">
-            <summary>
-            父Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.Type">
-            <summary>
-            菜单类型（1目录 2菜单 3按钮）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.Path">
-            <summary>
-            路由地址
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.Component">
-            <summary>
-            组件路径
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.Permission">
-            <summary>
-            权限标识
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.Redirect">
-            <summary>
-            跳转地址
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.FrameSrc">
-            <summary>
-            内嵌地址
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.Title">
-            <summary>
-            标题
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.Icon">
-            <summary>
-            图标
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.OrderNo">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.HideMenu">
-            <summary>
-            是否显示
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.IgnoreKeepAlive">
-            <summary>
-            是否忽略KeepAlive缓存
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.MenuInput.CurrentActiveMenu">
-            <summary>
-            当前激活的菜单-用于配置详情页时左侧激活的菜单路径
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.AddMenuInput.Title">
             <summary>
-            标题
+            名称
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.MenuOutput">
@@ -5375,11 +5320,6 @@
             重定向
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.MenuOutput.Disabled">
-            <summary>
-            是否可用
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.MenuOutput.Meta">
             <summary>
             菜单Meta
@@ -5405,9 +5345,29 @@
             图标
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.SysMenuMeta.FrameSrc">
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.IsIframe">
             <summary>
-            内嵌地址
+            是否内嵌
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.IsLink">
+            <summary>
+            外链链接
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.IsHide">
+            <summary>
+            是否隐藏
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.IsKeepAlive">
+            <summary>
+            是否缓存
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.IsAffix">
+            <summary>
+            是否固定
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.SysMenuMeta.OrderNo">
@@ -5415,19 +5375,14 @@
             排序
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.SysMenuMeta.HideMenu">
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.Status">
             <summary>
-            是否显示
+            状态
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.SysMenuMeta.IgnoreKeepAlive">
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.Remark">
             <summary>
-            是否忽略KeepAlive缓存
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.SysMenuMeta.CurrentActiveMenu">
-            <summary>
-            当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+            备注
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysMenuMapper">
