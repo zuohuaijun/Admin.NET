@@ -1,6 +1,6 @@
 <template>
 	<div class="layout-logo" v-if="setShowLogo" @click="onThemeConfigChange">
-		<img :src="logoMini" class="layout-logo-medium-img" />
+		<img :src="logoMini" class="layout-logo-medium-img" v-if="showLogo"/>
 		<span>{{ themeConfig.globalTitle }}</span>
 	</div>
 	<div class="layout-logo-size" v-else @click="onThemeConfigChange">
@@ -25,6 +25,11 @@ export default defineComponent({
 			let { isCollapse, layout } = themeConfig.value;
 			return !isCollapse || layout === 'classic' || document.body.clientWidth < 1000;
 		});
+		// 分类模式不显示图标
+		const showLogo = computed(() => {
+			let { layout } = themeConfig.value;
+			return layout !== 'columns';
+		});
 		// logo 点击实现菜单展开/收起
 		const onThemeConfigChange = () => {
 			if (themeConfig.value.layout === 'transverse') return false;
@@ -33,6 +38,7 @@ export default defineComponent({
 		return {
 			logoMini,
 			setShowLogo,
+			showLogo,
 			themeConfig,
 			onThemeConfigChange,
 		};
