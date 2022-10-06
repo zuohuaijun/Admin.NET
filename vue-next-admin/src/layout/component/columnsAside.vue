@@ -102,7 +102,7 @@ export default defineComponent({
 			state.liOldPath = path;
 			state.liOldIndex = k;
 			state.liHoverIndex = k;
-			proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(path));
+			// proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(path));
 			stores.setColumnsMenuHover(false);
 			stores.setColumnsNavHover(true);
 		};
@@ -171,11 +171,11 @@ export default defineComponent({
 				val.themeConfig.themeConfig.columnsAsideStyle === 'columnsRound' ? (state.difference = 3) : (state.difference = 0);
 				if (!val.routesList.isColumnsMenuHover && !val.routesList.isColumnsNavHover) {
 					state.liHoverIndex = null;
-					proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(route.path));
+					// proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(route.path));
 				} else {
 					state.liHoverIndex = state.liOldIndex;
 					if (!state.liOldPath) return false;
-					proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(state.liOldPath));
+					// proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(state.liOldPath));
 				}
 			},
 			{
