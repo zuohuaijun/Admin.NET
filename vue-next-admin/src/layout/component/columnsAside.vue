@@ -1,5 +1,8 @@
 <template>
 	<div class="layout-columns-aside">
+		<div class="layout-logo">
+			<img :src="logoMini" class="layout-logo-medium-img" />
+		</div>
 		<el-scrollbar>
 			<ul @mouseleave="onColumnsAsideMenuMouseleave()">
 				<li
@@ -51,6 +54,8 @@ import { storeToRefs } from 'pinia';
 import pinia from '/@/stores/index';
 import { useRoutesList } from '/@/stores/routesList';
 import { useThemeConfig } from '/@/stores/themeConfig';
+
+import logoMini from '/@/assets/logo-mini.svg';
 
 // 定义接口来定义对象的类型
 interface ColumnsAsideState {
@@ -201,6 +206,7 @@ export default defineComponent({
 			proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(to.path));
 		});
 		return {
+			logoMini,
 			themeConfig,
 			columnsAsideOffsetTopRefs,
 			columnsAsideActiveRef,
@@ -287,6 +293,17 @@ export default defineComponent({
 			width: 100%;
 			border-radius: 0;
 		}
+	}
+}
+.layout-logo {
+	width: 80px;
+	height: 50px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	animation: logoAnimation 0.3s ease-in-out;
+	&-medium-img {
+		width: 35px;
 	}
 }
 </style>

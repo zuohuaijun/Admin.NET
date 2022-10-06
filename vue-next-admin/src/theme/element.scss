@@ -68,14 +68,12 @@
 // 鼠标 hover 时颜色
 .el-menu-hover-bg-color {
 	background-color: var(--el-color-primary-light-8) !important;
-	// border-bottom: solid 1px var(--el-color-primary);
-	// margin: 0 2px 0 2px;
-	// border-radius: 10px;
+	// border-right: solid 2px var(--el-color-primary);
 }
 // 默认样式修改
 .el-menu {
 	border-right: none !important;
-	width: 220px;
+	width: 200px;
 }
 .el-menu-item {
 	height: 50px !important;
