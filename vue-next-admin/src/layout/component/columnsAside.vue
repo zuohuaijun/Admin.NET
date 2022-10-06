@@ -224,7 +224,7 @@ export default defineComponent({
 		li {
 			color: var(--next-bg-columnsMenuBarColor);
 			width: 100%;
-			height: 50px;
+			height: 55px;
 			text-align: center;
 			display: flex;
 			cursor: pointer;
@@ -273,7 +273,7 @@ export default defineComponent({
 			position: absolute;
 			left: 50%;
 			top: 2px;
-			height: 44px;
+			height: 50px;
 			width: 65px;
 			transform: translateX(-50%);
 			z-index: 0;
