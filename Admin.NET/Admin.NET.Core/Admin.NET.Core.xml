@@ -5270,6 +5270,16 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Title">
+            <summary>
+            标题
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuInput.Type">
+            <summary>
+            菜单类型（1目录 2菜单 3按钮）
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.AddMenuInput.Title">
             <summary>
             名称
@@ -5428,11 +5438,11 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMenuService.CheckMenuParam(Admin.NET.Core.Service.MenuInput)">
+        <member name="M:Admin.NET.Core.Service.SysMenuService.CheckMenuParam(Admin.NET.Core.SysMenu)">
             <summary>
             增加和编辑时检查菜单数据
             </summary>
-            <param name="input"></param>
+            <param name="menu"></param>
         </member>
         <member name="M:Admin.NET.Core.Service.SysMenuService.GetPermCodeList">
             <summary>

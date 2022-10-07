@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { MenuTypeEnum } from './menu-type-enum';
+import { StatusEnum } from './status-enum';
 import { SysMenu } from './sys-menu';
 /**
  * 系统菜单表
@@ -86,23 +87,17 @@ export interface SysMenu {
      */
     component?: string | null;
     /**
-     * 权限标识
-     * @type {string}
-     * @memberof SysMenu
-     */
-    permission?: string | null;
-    /**
      * 重定向
      * @type {string}
      * @memberof SysMenu
      */
     redirect?: string | null;
     /**
-     * 内嵌地址
+     * 权限标识
      * @type {string}
      * @memberof SysMenu
      */
-    frameSrc?: string | null;
+    permission?: string | null;
     /**
      * 标题
      * @type {string}
@@ -116,29 +111,53 @@ export interface SysMenu {
      */
     icon?: string | null;
     /**
-     * 隐藏菜单
+     * 是否内嵌
      * @type {boolean}
      * @memberof SysMenu
      */
-    hideMenu?: boolean;
+    isIframe?: boolean;
     /**
-     * 忽略缓存
-     * @type {boolean}
-     * @memberof SysMenu
-     */
-    ignoreKeepAlive?: boolean;
-    /**
-     * 当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+     * 外链链接
      * @type {string}
      * @memberof SysMenu
      */
-    currentActiveMenu?: string | null;
+    outLink?: string | null;
+    /**
+     * 是否隐藏
+     * @type {boolean}
+     * @memberof SysMenu
+     */
+    isHide?: boolean;
+    /**
+     * 是否缓存
+     * @type {boolean}
+     * @memberof SysMenu
+     */
+    isKeepAlive?: boolean;
+    /**
+     * 是否固定
+     * @type {boolean}
+     * @memberof SysMenu
+     */
+    isAffix?: boolean;
     /**
      * 排序
      * @type {number}
      * @memberof SysMenu
      */
     orderNo?: number;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof SysMenu
+     */
+    status?: StatusEnum;
+    /**
+     * 备注
+     * @type {string}
+     * @memberof SysMenu
+     */
+    remark?: string | null;
     /**
      * 菜单子项
      * @type {Array<SysMenu>}

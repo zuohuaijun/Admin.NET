@@ -1,13 +1,20 @@
 ﻿namespace Admin.NET.Core.Service;
 
-[NotTable]
-public class MenuInput : SysMenu
+public class MenuInput
 {
+    /// <summary>
+    /// 标题
+    /// </summary>
+    public string Title { get; set; }
 
+    /// <summary>
+    /// 菜单类型（1目录 2菜单 3按钮）
+    /// </summary>
+    public MenuTypeEnum Type { get; set; }
 }
 
 [NotTable]
-public class AddMenuInput : MenuInput
+public class AddMenuInput : SysMenu
 {
     /// <summary>
     /// 名称

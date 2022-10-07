@@ -24,6 +24,12 @@ export interface FileOutput {
      */
     id?: number;
     /**
+     * 提供者
+     * @type {string}
+     * @memberof FileOutput
+     */
+    provider?: string | null;
+    /**
      * 名称
      * @type {string}
      * @memberof FileOutput

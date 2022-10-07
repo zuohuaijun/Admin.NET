@@ -35,11 +35,11 @@ const clearAccessTokens = () => {
 	Local.remove(accessTokenKey);
 	Local.remove(refreshAccessTokenKey);
 
-	// 刷新浏览器
-	window.location.reload();
-
 	// 清除其他
 	Session.clear();
+
+	// 刷新浏览器
+	window.location.reload();
 };
 
 /**
@@ -81,6 +81,7 @@ axiosInstance.interceptors.request.use(
 	(error) => {
 		// 处理请求错误
 		if (error.request) {
+			ElMessage.error(error);
 		}
 
 		// 这里编写请求错误代码

@@ -69,12 +69,6 @@ export interface MenuOutput {
      */
     redirect?: string | null;
     /**
-     * 是否可用
-     * @type {boolean}
-     * @memberof MenuOutput
-     */
-    disabled?: boolean;
-    /**
      * 
      * @type {SysMenuMeta}
      * @memberof MenuOutput

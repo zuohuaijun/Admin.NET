@@ -1,114 +1,177 @@
 <template>
-	<div class="system-menu-container">
-		<el-card shadow="hover">
-			<div class="system-menu-search mb15">
-				<el-input size="default" placeholder="请输入菜单名称" style="max-width: 180px"> </el-input>
-				<el-button size="default" type="primary" class="ml10">
-					<el-icon>
-						<ele-Search />
-					</el-icon>
-					查询
-				</el-button>
-				<el-button size="default" type="success" class="ml10" @click="onOpenAddMenu">
-					<el-icon>
-						<ele-FolderAdd />
-					</el-icon>
-					新增菜单
-				</el-button>
-			</div>
-			<el-table :data="menuTableData" style="width: 100%" row-key="path" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-				<el-table-column label="菜单名称" show-overflow-tooltip>
-					<template #default="scope">
-						<SvgIcon :name="scope.row.meta.icon" />
-						<span class="ml10">{{ $t(scope.row.meta.title) }}</span>
-					</template>
-				</el-table-column>
-				<el-table-column prop="path" label="路由路径" show-overflow-tooltip></el-table-column>
-				<el-table-column label="组件路径" show-overflow-tooltip>
-					<template #default="scope">
-						<span>{{ scope.row.component }}</span>
-					</template>
-				</el-table-column>
-				<el-table-column label="权限标识" show-overflow-tooltip>
-					<template #default="scope">
-						<span>{{ scope.row.meta.roles }}</span>
-					</template>
-				</el-table-column>
-				<el-table-column label="排序" show-overflow-tooltip width="80">
-					<template #default="scope">
-						{{ scope.$index }}
-					</template>
-				</el-table-column>
-				<el-table-column label="类型" show-overflow-tooltip width="80">
-					<template #default="scope">
-						<el-tag type="success" size="small">{{ scope.row.xx }}菜单</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column label="操作" show-overflow-tooltip width="140">
-					<template #default="scope">
-						<el-button size="small" text type="primary" @click="onOpenAddMenu">新增</el-button>
-						<el-button size="small" text type="primary" @click="onOpenEditMenu(scope.row)">修改</el-button>
-						<el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)">删除</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-		</el-card>
-		<AddMenu ref="addMenuRef" />
-		<EditMenu ref="editMenuRef" />
-	</div>
+  <div class="page-container">
+    <el-card shadow="hover">
+      <el-form :model="queryParams" ref="queryForm" :inline="true">
+        <el-form-item label="菜单名称" prop="title">
+          <el-input placeholder="菜单名称" clearable @keyup.enter="handleQuery" v-model="queryParams.title" />
+        </el-form-item>
+        <el-form-item label="类型" prop="type">
+          <el-select v-model="queryParams.type" placeholder="类型" clearable>
+            <el-option v-for="dict in statusOptions" :key="dict.value" :label="dict.label" :value="dict.value" />
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button @click="resetQuery">
+            <el-icon>
+              <ele-Refresh />
+            </el-icon>
+            重置
+          </el-button>
+          <el-button type="primary" @click="handleQuery">
+            <el-icon>
+              <ele-Search />
+            </el-icon>
+            查询
+          </el-button>
+          <el-button @click="onOpenAddMenu">
+            <el-icon>
+              <ele-Plus />
+            </el-icon>
+            新增
+          </el-button>
+        </el-form-item>
+      </el-form>
+    </el-card>
+
+    <el-card shadow="hover" style="margin-top: 5px;">
+      <el-table :data="menuData" v-loading="loading" row-key="id"
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+        <el-table-column label="菜单名称" show-overflow-tooltip>
+          <template #default="scope">
+            <SvgIcon :name="scope.row.icon" />
+            <span class="ml10">{{ $t(scope.row.title) }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="类型" show-overflow-tooltip width="80" align="center">
+          <template #default="scope">
+            <el-tag type="warning" v-if="scope.row.type === 1">目录</el-tag>
+            <el-tag v-else-if="scope.row.type === 2">菜单</el-tag>
+            <el-tag type="info" v-else>按钮</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="path" label="路由路径" show-overflow-tooltip></el-table-column>
+        <el-table-column label="组件路径" show-overflow-tooltip>
+          <template #default="scope">
+            <span>{{ scope.row.component }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="权限标识" show-overflow-tooltip>
+          <template #default="scope">
+            <span>{{ scope.row.permission }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column label="排序" show-overflow-tooltip width="80" align="center">
+          <template #default="scope">
+            {{ scope.row.orderNo }}
+          </template>
+        </el-table-column>
+        <el-table-column label="状态" show-overflow-tooltip width="80" align="center">
+          <template #default="scope">
+            <el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
+            <el-tag type="danger" v-else>禁用</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column label="修改时间" show-overflow-tooltip align="center">
+          <template #default="scope">
+            {{ scope.row.createTime }}
+          </template>
+        </el-table-column>
+        <el-table-column label="操作" show-overflow-tooltip width="80" fixed="right" align="center">
+          <template #default="scope">
+            <el-button size="small" text type="primary" @click="onOpenEditMenu(scope.row)">
+              <el-icon>
+                <ele-Edit />
+              </el-icon>
+            </el-button>
+            <el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)">
+              <el-icon>
+                <ele-Delete />
+              </el-icon>
+            </el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-card>
+    <AddMenu ref="addMenuRef" />
+    <EditMenu ref="editMenuRef" />
+  </div>
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, computed, defineComponent } from 'vue';
-import { RouteRecordRaw } from 'vue-router';
+import { ref, toRefs, reactive, defineComponent, onMounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import { storeToRefs } from 'pinia';
-import { useRoutesList } from '/@/stores/routesList';
 import AddMenu from '/@/views/system/menu/component/addMenu.vue';
 import EditMenu from '/@/views/system/menu/component/editMenu.vue';
 
+import { SysMenuApi } from '/@/api-services';
+import { getAPI } from '/@/utils/axios-utils';
+
 export default defineComponent({
-	name: 'systemMenu',
-	components: { AddMenu, EditMenu },
-	setup() {
-		const stores = useRoutesList();
-		const { routesList } = storeToRefs(stores);
-		const addMenuRef = ref();
-		const editMenuRef = ref();
-		const state = reactive({});
-		// 获取 vuex 中的路由
-		const menuTableData = computed(() => {
-			return routesList.value;
-		});
-		// 打开新增菜单弹窗
-		const onOpenAddMenu = () => {
-			addMenuRef.value.openDialog();
-		};
-		// 打开编辑菜单弹窗
-		const onOpenEditMenu = (row: RouteRecordRaw) => {
-			editMenuRef.value.openDialog(row);
-		};
-		// 删除当前行
-		const onTabelRowDel = (row: RouteRecordRaw) => {
-			ElMessageBox.confirm(`此操作将永久删除路由：${row.path}, 是否继续?`, '提示', {
-				confirmButtonText: '删除',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(() => {
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		return {
-			addMenuRef,
-			editMenuRef,
-			onOpenAddMenu,
-			onOpenEditMenu,
-			menuTableData,
-			onTabelRowDel,
-			...toRefs(state),
-		};
-	},
+  name: 'systemMenu',
+  components: { AddMenu, EditMenu },
+  setup() {
+    const addMenuRef = ref();
+    const editMenuRef = ref();
+    const state: any = reactive({
+      // 遮罩层
+      loading: true,
+      // 菜单数据
+      menuData: [],
+      // 查询参数
+      queryParams: {
+        title: undefined,
+        type: undefined,
+      },
+      // 菜单状态数据字典
+      statusOptions: [{ value: 1, label: "目录" }, { value: 2, label: "菜单" }, { value: 3, label: "按钮" }],
+    });
+    onMounted(async () => {
+      handleQuery();
+    });
+    // 查询操作
+    const handleQuery = async () => {
+      state.loading = true;
+      var res = await getAPI(SysMenuApi).sysMenuListGet(state.queryParams.title, state.queryParams.type);
+      state.menuData = res.data.result;
+      state.loading = false;
+    };
+    // 重置操作
+    const resetQuery = () => {
+      state.queryParams.title = undefined;
+      state.queryParams.type = undefined;
+      handleQuery();
+    };
+    // 打开新增页面
+    const onOpenAddMenu = () => {
+      addMenuRef.value.openDialog();
+    };
+    // 打开编辑页面
+    const onOpenEditMenu = (row: any) => {
+      editMenuRef.value.openDialog(row);
+    };
+    // 删除当前行
+    const onTabelRowDel = (row: any) => {
+      ElMessageBox.confirm(`确定删除菜单：【${row.title}】?`, '提示', {
+        confirmButtonText: '删除',
+        cancelButtonText: '取消',
+        type: 'warning',
+      })
+        .then(async () => {
+          await getAPI(SysMenuApi).sysMenuDeletePost({ id: row.id });
+          ElMessage.success('删除成功');
+        })
+        .catch(() => { });
+    };
+    return {
+      handleQuery,
+      resetQuery,
+      addMenuRef,
+      editMenuRef,
+      onOpenAddMenu,
+      onOpenEditMenu,
+      onTabelRowDel,
+      ...toRefs(state),
+    };
+  },
 });
 </script>

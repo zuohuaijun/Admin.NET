@@ -21,6 +21,7 @@ import { AdminResultListMenuOutput } from '../models';
 import { AdminResultListString } from '../models';
 import { AdminResultListSysMenu } from '../models';
 import { DeleteMenuInput } from '../models';
+import { MenuTypeEnum } from '../models';
 import { UpdateMenuInput } from '../models';
 /**
  * SysMenuApi - axios parameter creator
@@ -185,29 +186,12 @@ export const SysMenuApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary 获取菜单列表
-         * @param {number} id 主键Id
-         * @param {number} [pid] 父Id
-         * @param {number} [type] 菜单类型（1目录 2菜单 3按钮）
-         * @param {string} [name] 名称
-         * @param {string} [path] 路由地址
-         * @param {string} [component] 组件路径
-         * @param {string} [permission] 权限标识
-         * @param {string} [redirect] 跳转地址
-         * @param {string} [frameSrc] 内嵌地址
          * @param {string} [title] 标题
-         * @param {string} [icon] 图标
-         * @param {number} [orderNo] 排序
-         * @param {boolean} [hideMenu] 是否显示
-         * @param {boolean} [ignoreKeepAlive] 是否忽略KeepAlive缓存
-         * @param {string} [currentActiveMenu] 当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+         * @param {MenuTypeEnum} [type] 菜单类型（1目录 2菜单 3按钮）
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysMenuListGet: async (id: number, pid?: number, type?: number, name?: string, path?: string, component?: string, permission?: string, redirect?: string, frameSrc?: string, title?: string, icon?: string, orderNo?: number, hideMenu?: boolean, ignoreKeepAlive?: boolean, currentActiveMenu?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling sysMenuListGet.');
-            }
+        sysMenuListGet: async (title?: string, type?: MenuTypeEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysMenu/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -221,64 +205,12 @@ export const SysMenuApiAxiosParamCreator = function (configuration?: Configurati
 
             // authentication Bearer required
 
-            if (pid !== undefined) {
-                localVarQueryParameter['Pid'] = pid;
-            }
-
-            if (type !== undefined) {
-                localVarQueryParameter['Type'] = type;
-            }
-
-            if (name !== undefined) {
-                localVarQueryParameter['Name'] = name;
-            }
-
-            if (path !== undefined) {
-                localVarQueryParameter['Path'] = path;
-            }
-
-            if (component !== undefined) {
-                localVarQueryParameter['Component'] = component;
-            }
-
-            if (permission !== undefined) {
-                localVarQueryParameter['Permission'] = permission;
-            }
-
-            if (redirect !== undefined) {
-                localVarQueryParameter['Redirect'] = redirect;
-            }
-
-            if (frameSrc !== undefined) {
-                localVarQueryParameter['FrameSrc'] = frameSrc;
-            }
-
             if (title !== undefined) {
                 localVarQueryParameter['Title'] = title;
             }
 
-            if (icon !== undefined) {
-                localVarQueryParameter['Icon'] = icon;
-            }
-
-            if (orderNo !== undefined) {
-                localVarQueryParameter['OrderNo'] = orderNo;
-            }
-
-            if (hideMenu !== undefined) {
-                localVarQueryParameter['HideMenu'] = hideMenu;
-            }
-
-            if (ignoreKeepAlive !== undefined) {
-                localVarQueryParameter['IgnoreKeepAlive'] = ignoreKeepAlive;
-            }
-
-            if (currentActiveMenu !== undefined) {
-                localVarQueryParameter['CurrentActiveMenu'] = currentActiveMenu;
-            }
-
-            if (id !== undefined) {
-                localVarQueryParameter['Id'] = id;
+            if (type !== undefined) {
+                localVarQueryParameter['Type'] = type;
             }
 
             const query = new URLSearchParams(localVarUrlObj.search);
@@ -404,26 +336,13 @@ export const SysMenuApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取菜单列表
-         * @param {number} id 主键Id
-         * @param {number} [pid] 父Id
-         * @param {number} [type] 菜单类型（1目录 2菜单 3按钮）
-         * @param {string} [name] 名称
-         * @param {string} [path] 路由地址
-         * @param {string} [component] 组件路径
-         * @param {string} [permission] 权限标识
-         * @param {string} [redirect] 跳转地址
-         * @param {string} [frameSrc] 内嵌地址
          * @param {string} [title] 标题
-         * @param {string} [icon] 图标
-         * @param {number} [orderNo] 排序
-         * @param {boolean} [hideMenu] 是否显示
-         * @param {boolean} [ignoreKeepAlive] 是否忽略KeepAlive缓存
-         * @param {string} [currentActiveMenu] 当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+         * @param {MenuTypeEnum} [type] 菜单类型（1目录 2菜单 3按钮）
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMenuListGet(id: number, pid?: number, type?: number, name?: string, path?: string, component?: string, permission?: string, redirect?: string, frameSrc?: string, title?: string, icon?: string, orderNo?: number, hideMenu?: boolean, ignoreKeepAlive?: boolean, currentActiveMenu?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysMenu>>> {
-            const localVarAxiosArgs = await SysMenuApiAxiosParamCreator(configuration).sysMenuListGet(id, pid, type, name, path, component, permission, redirect, frameSrc, title, icon, orderNo, hideMenu, ignoreKeepAlive, currentActiveMenu, options);
+        async sysMenuListGet(title?: string, type?: MenuTypeEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysMenu>>> {
+            const localVarAxiosArgs = await SysMenuApiAxiosParamCreator(configuration).sysMenuListGet(title, type, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -493,26 +412,13 @@ export const SysMenuApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary 获取菜单列表
-         * @param {number} id 主键Id
-         * @param {number} [pid] 父Id
-         * @param {number} [type] 菜单类型（1目录 2菜单 3按钮）
-         * @param {string} [name] 名称
-         * @param {string} [path] 路由地址
-         * @param {string} [component] 组件路径
-         * @param {string} [permission] 权限标识
-         * @param {string} [redirect] 跳转地址
-         * @param {string} [frameSrc] 内嵌地址
          * @param {string} [title] 标题
-         * @param {string} [icon] 图标
-         * @param {number} [orderNo] 排序
-         * @param {boolean} [hideMenu] 是否显示
-         * @param {boolean} [ignoreKeepAlive] 是否忽略KeepAlive缓存
-         * @param {string} [currentActiveMenu] 当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+         * @param {MenuTypeEnum} [type] 菜单类型（1目录 2菜单 3按钮）
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMenuListGet(id: number, pid?: number, type?: number, name?: string, path?: string, component?: string, permission?: string, redirect?: string, frameSrc?: string, title?: string, icon?: string, orderNo?: number, hideMenu?: boolean, ignoreKeepAlive?: boolean, currentActiveMenu?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysMenu>> {
-            return SysMenuApiFp(configuration).sysMenuListGet(id, pid, type, name, path, component, permission, redirect, frameSrc, title, icon, orderNo, hideMenu, ignoreKeepAlive, currentActiveMenu, options).then((request) => request(axios, basePath));
+        async sysMenuListGet(title?: string, type?: MenuTypeEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysMenu>> {
+            return SysMenuApiFp(configuration).sysMenuListGet(title, type, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -579,27 +485,14 @@ export class SysMenuApi extends BaseAPI {
     /**
      * 
      * @summary 获取菜单列表
-     * @param {number} id 主键Id
-     * @param {number} [pid] 父Id
-     * @param {number} [type] 菜单类型（1目录 2菜单 3按钮）
-     * @param {string} [name] 名称
-     * @param {string} [path] 路由地址
-     * @param {string} [component] 组件路径
-     * @param {string} [permission] 权限标识
-     * @param {string} [redirect] 跳转地址
-     * @param {string} [frameSrc] 内嵌地址
      * @param {string} [title] 标题
-     * @param {string} [icon] 图标
-     * @param {number} [orderNo] 排序
-     * @param {boolean} [hideMenu] 是否显示
-     * @param {boolean} [ignoreKeepAlive] 是否忽略KeepAlive缓存
-     * @param {string} [currentActiveMenu] 当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+     * @param {MenuTypeEnum} [type] 菜单类型（1目录 2菜单 3按钮）
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysMenuApi
      */
-    public async sysMenuListGet(id: number, pid?: number, type?: number, name?: string, path?: string, component?: string, permission?: string, redirect?: string, frameSrc?: string, title?: string, icon?: string, orderNo?: number, hideMenu?: boolean, ignoreKeepAlive?: boolean, currentActiveMenu?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysMenu>> {
-        return SysMenuApiFp(this.configuration).sysMenuListGet(id, pid, type, name, path, component, permission, redirect, frameSrc, title, icon, orderNo, hideMenu, ignoreKeepAlive, currentActiveMenu, options).then((request) => request(this.axios, this.basePath));
+    public async sysMenuListGet(title?: string, type?: MenuTypeEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysMenu>> {
+        return SysMenuApiFp(this.configuration).sysMenuListGet(title, type, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

@@ -11,6 +11,9 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { MenuTypeEnum } from './menu-type-enum';
+import { StatusEnum } from './status-enum';
+import { SysMenu } from './sys-menu';
 /**
  * 
  * @export
@@ -18,11 +21,41 @@
  */
 export interface AddMenuInput {
     /**
-     * 主键Id
+     * 雪花Id
      * @type {number}
      * @memberof AddMenuInput
      */
-    id: number;
+    id?: number;
+    /**
+     * 创建时间
+     * @type {Date}
+     * @memberof AddMenuInput
+     */
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof AddMenuInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
+     * @type {number}
+     * @memberof AddMenuInput
+     */
+    createUserId?: number | null;
+    /**
+     * 修改者Id
+     * @type {number}
+     * @memberof AddMenuInput
+     */
+    updateUserId?: number | null;
+    /**
+     * 软删除
+     * @type {boolean}
+     * @memberof AddMenuInput
+     */
+    isDelete?: boolean;
     /**
      * 父Id
      * @type {number}
@@ -30,11 +63,11 @@ export interface AddMenuInput {
      */
     pid?: number;
     /**
-     * 菜单类型（1目录 2菜单 3按钮）
-     * @type {number}
+     * 
+     * @type {MenuTypeEnum}
      * @memberof AddMenuInput
      */
-    type?: number;
+    type?: MenuTypeEnum;
     /**
      * 名称
      * @type {string}
@@ -54,23 +87,17 @@ export interface AddMenuInput {
      */
     component?: string | null;
     /**
-     * 权限标识
-     * @type {string}
-     * @memberof AddMenuInput
-     */
-    permission?: string | null;
-    /**
-     * 跳转地址
+     * 重定向
      * @type {string}
      * @memberof AddMenuInput
      */
     redirect?: string | null;
     /**
-     * 内嵌地址
+     * 权限标识
      * @type {string}
      * @memberof AddMenuInput
      */
-    frameSrc?: string | null;
+    permission?: string | null;
     /**
      * 图标
      * @type {string}
@@ -78,31 +105,61 @@ export interface AddMenuInput {
      */
     icon?: string | null;
     /**
+     * 是否内嵌
+     * @type {boolean}
+     * @memberof AddMenuInput
+     */
+    isIframe?: boolean;
+    /**
+     * 外链链接
+     * @type {string}
+     * @memberof AddMenuInput
+     */
+    outLink?: string | null;
+    /**
+     * 是否隐藏
+     * @type {boolean}
+     * @memberof AddMenuInput
+     */
+    isHide?: boolean;
+    /**
+     * 是否缓存
+     * @type {boolean}
+     * @memberof AddMenuInput
+     */
+    isKeepAlive?: boolean;
+    /**
+     * 是否固定
+     * @type {boolean}
+     * @memberof AddMenuInput
+     */
+    isAffix?: boolean;
+    /**
      * 排序
      * @type {number}
      * @memberof AddMenuInput
      */
     orderNo?: number;
     /**
-     * 是否显示
-     * @type {boolean}
+     * 
+     * @type {StatusEnum}
      * @memberof AddMenuInput
      */
-    hideMenu?: boolean;
+    status?: StatusEnum;
     /**
-     * 是否忽略KeepAlive缓存
-     * @type {boolean}
-     * @memberof AddMenuInput
-     */
-    ignoreKeepAlive?: boolean;
-    /**
-     * 当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+     * 备注
      * @type {string}
      * @memberof AddMenuInput
      */
-    currentActiveMenu?: string | null;
+    remark?: string | null;
     /**
-     * 标题
+     * 菜单子项
+     * @type {Array<SysMenu>}
+     * @memberof AddMenuInput
+     */
+    children?: Array<SysMenu> | null;
+    /**
+     * 名称
      * @type {string}
      * @memberof AddMenuInput
      */

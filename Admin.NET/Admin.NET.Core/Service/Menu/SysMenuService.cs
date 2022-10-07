@@ -92,7 +92,7 @@ public class SysMenuService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D4000);
 
         // 校验菜单参数
-        CheckMenuParam(input.Adapt<MenuInput>());
+        CheckMenuParam(input.Adapt<SysMenu>());
 
         await _sysMenuRep.InsertAsync(input.Adapt<SysMenu>());
 
@@ -115,7 +115,7 @@ public class SysMenuService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D4000);
 
         // 校验菜单参数
-        CheckMenuParam(input.Adapt<MenuInput>());
+        CheckMenuParam(input.Adapt<SysMenu>());
 
         await _sysMenuRep.AsUpdateable(input.Adapt<SysMenu>()).IgnoreColumns(true).ExecuteCommandAsync();
 
@@ -147,12 +147,12 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// <summary>
     /// 增加和编辑时检查菜单数据
     /// </summary>
-    /// <param name="input"></param>
-    private static void CheckMenuParam(MenuInput input)
+    /// <param name="menu"></param>
+    private static void CheckMenuParam(SysMenu menu)
     {
-        var type = input.Type;
+        var type = menu.Type;
         //var component = input.Component;
-        var permission = input.Permission;
+        var permission = menu.Permission;
         //if (type == (int)MenuTypeEnum.Dir || type == (int)MenuTypeEnum.Menu)
         //{
         //    if (string.IsNullOrEmpty(component))

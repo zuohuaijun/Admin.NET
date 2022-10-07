@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { StatusEnum } from './status-enum';
 /**
  * 菜单Meta配置
  * @export
@@ -30,11 +31,35 @@ export interface SysMenuMeta {
      */
     icon?: string | null;
     /**
-     * 内嵌地址
+     * 是否内嵌
+     * @type {boolean}
+     * @memberof SysMenuMeta
+     */
+    isIframe?: boolean;
+    /**
+     * 外链链接
      * @type {string}
      * @memberof SysMenuMeta
      */
-    frameSrc?: string | null;
+    isLink?: string | null;
+    /**
+     * 是否隐藏
+     * @type {boolean}
+     * @memberof SysMenuMeta
+     */
+    isHide?: boolean;
+    /**
+     * 是否缓存
+     * @type {boolean}
+     * @memberof SysMenuMeta
+     */
+    isKeepAlive?: boolean;
+    /**
+     * 是否固定
+     * @type {boolean}
+     * @memberof SysMenuMeta
+     */
+    isAffix?: boolean;
     /**
      * 排序
      * @type {number}
@@ -42,21 +67,15 @@ export interface SysMenuMeta {
      */
     orderNo?: number;
     /**
-     * 是否显示
-     * @type {boolean}
+     * 
+     * @type {StatusEnum}
      * @memberof SysMenuMeta
      */
-    hideMenu?: boolean;
+    status?: StatusEnum;
     /**
-     * 是否忽略KeepAlive缓存
-     * @type {boolean}
-     * @memberof SysMenuMeta
-     */
-    ignoreKeepAlive?: boolean;
-    /**
-     * 当前激活的菜单-用于配置详情页时左侧激活的菜单路径
+     * 备注
      * @type {string}
      * @memberof SysMenuMeta
      */
-    currentActiveMenu?: string | null;
+    remark?: string | null;
 }

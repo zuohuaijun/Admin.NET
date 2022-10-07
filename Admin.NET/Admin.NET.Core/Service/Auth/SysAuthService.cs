@@ -86,9 +86,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
 
         // 设置响应报文头
-        // _httpContextAccessor.HttpContext.SetTokensOfResponseHeaders(accessToken, refreshToken);
-        _httpContextAccessor.HttpContext.Response.Headers["access-token"] = accessToken;
-        _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = refreshToken;
+        _httpContextAccessor.HttpContext.SetTokensOfResponseHeaders(accessToken, refreshToken);
 
         // Swagger Knife4UI-AfterScript登录脚本
         // ke.global.setAllHeader('Authorization', 'Bearer ' + ke.response.headers['access-token']);
@@ -176,9 +174,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
         // 设置响应报文头
-        // _httpContextAccessor.HttpContext.SetTokensOfResponseHeaders("invalid_token", "invalid_token");
-        _httpContextAccessor.HttpContext.Response.Headers["access-token"] = "invalid_token";
-        _httpContextAccessor.HttpContext.Response.Headers["x-access-token"] = "invalid_token";
+        _httpContextAccessor.HttpContext.SetTokensOfResponseHeaders(null, null);
 
         // 退出日志
         await _eventPublisher.PublishAsync("Add:VisLog", new SysLogVis

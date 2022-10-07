@@ -54,6 +54,12 @@ export interface SysFile {
      */
     isDelete?: boolean;
     /**
+     * 提供者
+     * @type {string}
+     * @memberof SysFile
+     */
+    provider?: string | null;
+    /**
      * 仓储名称
      * @type {string}
      * @memberof SysFile
