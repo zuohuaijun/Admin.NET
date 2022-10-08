@@ -99,12 +99,12 @@ body,
 	.layout-aside-mobile {
 		position: fixed;
 		top: 0;
-		left: -220px;
-		width: 220px;
+		left: -200px;
+		width: 200px;
 		z-index: 9999999;
 	}
 	.layout-aside-mobile-close {
-		left: -220px;
+		left: -200px;
 		transition: all 0.3s cubic-bezier(0.39, 0.58, 0.57, 1);
 	}
 	.layout-aside-mobile-open {

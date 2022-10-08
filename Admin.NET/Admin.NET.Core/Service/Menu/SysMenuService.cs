@@ -85,7 +85,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     public async Task AddMenu(AddMenuInput input)
     {
         var isExist = input.Type != MenuTypeEnum.Btn
-            ? await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name)
+            ? await _sysMenuRep.IsAnyAsync(u => u.Title == input.Title)
             : await _sysMenuRep.IsAnyAsync(u => u.Permission == input.Permission);
 
         if (isExist)
@@ -109,7 +109,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     public async Task UpdateMenu(UpdateMenuInput input)
     {
         var isExist = input.Type != MenuTypeEnum.Btn
-            ? await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.Id)
+            ? await _sysMenuRep.IsAnyAsync(u => u.Title == input.Title && u.Id != input.Id)
             : await _sysMenuRep.IsAnyAsync(u => u.Permission == input.Permission && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D4000);
@@ -134,7 +134,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     {
         var menuTreeList = await _sysMenuRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id);
         var menuIdList = menuTreeList.Select(u => u.Id).ToList();
-         menuIdList.Add(input.Id);
+        menuIdList.Add(input.Id);
 
         await _sysMenuRep.DeleteAsync(u => menuIdList.Contains(u.Id));
 

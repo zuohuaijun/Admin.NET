@@ -7,7 +7,7 @@
         </el-form-item>
         <el-form-item label="类型" prop="type">
           <el-select v-model="queryParams.type" placeholder="类型" clearable>
-            <el-option v-for="dict in statusOptions" :key="dict.value" :label="dict.label" :value="dict.value" />
+            <el-option v-for="dict in menuType" :key="dict.value" :label="dict.label" :value="dict.value" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -23,7 +23,7 @@
             </el-icon>
             查询
           </el-button>
-          <el-button @click="onOpenAddMenu">
+          <el-button @click="openAddMenu">
             <el-icon>
               <ele-Plus />
             </el-icon>
@@ -78,12 +78,12 @@
         </el-table-column>
         <el-table-column label="操作" show-overflow-tooltip width="80" fixed="right" align="center">
           <template #default="scope">
-            <el-button size="small" text type="primary" @click="onOpenEditMenu(scope.row)">
+            <el-button size="small" text type="primary" @click="openEditMenu(scope.row)">
               <el-icon>
                 <ele-Edit />
               </el-icon>
             </el-button>
-            <el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)">
+            <el-button size="small" text type="primary" @click="delTabelRow(scope.row)">
               <el-icon>
                 <ele-Delete />
               </el-icon>
@@ -92,42 +92,45 @@
         </el-table-column>
       </el-table>
     </el-card>
-    <AddMenu ref="addMenuRef" />
-    <EditMenu ref="editMenuRef" />
+    <EditMenu ref="editMenuRef" :title="editMenuTitle" :menuData="menuData" />
   </div>
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, defineComponent, onMounted } from 'vue';
+import { ref, toRefs, reactive, defineComponent, onMounted, getCurrentInstance, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import AddMenu from '/@/views/system/menu/component/addMenu.vue';
 import EditMenu from '/@/views/system/menu/component/editMenu.vue';
 
 import { SysMenuApi } from '/@/api-services';
 import { getAPI } from '/@/utils/axios-utils';
 
 export default defineComponent({
-  name: 'systemMenu',
-  components: { AddMenu, EditMenu },
+  name: 'sysMenu',
+  components: { EditMenu },
   setup() {
-    const addMenuRef = ref();
+    const { proxy } = getCurrentInstance() as any;
     const editMenuRef = ref();
     const state: any = reactive({
-      // 遮罩层
       loading: true,
-      // 菜单数据
       menuData: [],
-      // 查询参数
       queryParams: {
         title: undefined,
         type: undefined,
       },
-      // 菜单状态数据字典
-      statusOptions: [{ value: 1, label: "目录" }, { value: 2, label: "菜单" }, { value: 3, label: "按钮" }],
+      menuType: [{ value: 1, label: "目录" }, { value: 2, label: "菜单" }, { value: 3, label: "按钮" }],
+      editMenuTitle: "",
     });
     onMounted(async () => {
       handleQuery();
+
+      proxy.mittBus.on("onSubmitRefresh", () => {
+        handleQuery();
+      });
     });
+    onUnmounted(() => {
+      proxy.mittBus.off("onSubmitRefresh");
+    });
+
     // 查询操作
     const handleQuery = async () => {
       state.loading = true;
@@ -142,34 +145,37 @@ export default defineComponent({
       handleQuery();
     };
     // 打开新增页面
-    const onOpenAddMenu = () => {
-      addMenuRef.value.openDialog();
+    const openAddMenu = () => {
+      state.editMenuTitle = "添加菜单";
+      editMenuRef.value.openDialog({});
     };
     // 打开编辑页面
-    const onOpenEditMenu = (row: any) => {
+    const openEditMenu = (row: any) => {
+      state.editMenuTitle = "编辑菜单";
       editMenuRef.value.openDialog(row);
     };
     // 删除当前行
-    const onTabelRowDel = (row: any) => {
+    const delTabelRow = (row: any) => {
       ElMessageBox.confirm(`确定删除菜单：【${row.title}】?`, '提示', {
         confirmButtonText: '删除',
         cancelButtonText: '取消',
         type: 'warning',
       })
         .then(async () => {
-          await getAPI(SysMenuApi).sysMenuDeletePost({ id: row.id });
-          ElMessage.success('删除成功');
+          getAPI(SysMenuApi).sysMenuDeletePost({ id: row.id }).then(() => {
+            handleQuery();
+            ElMessage.success('删除成功');
+          })
         })
         .catch(() => { });
     };
     return {
       handleQuery,
       resetQuery,
-      addMenuRef,
       editMenuRef,
-      onOpenAddMenu,
-      onOpenEditMenu,
-      onTabelRowDel,
+      openAddMenu,
+      openEditMenu,
+      delTabelRow,
       ...toRefs(state),
     };
   },
