@@ -5860,11 +5860,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:Admin.NET.Core.Service.OrgInput.Pid">
-            <summary>
-            父Id
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.OrgInput.Name">
             <summary>
             名称
@@ -5873,26 +5868,6 @@
         <member name="P:Admin.NET.Core.Service.OrgInput.Code">
             <summary>
             编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.OrgInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.OrgInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.OrgInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.OrgInput.Level">
-            <summary>
-            级别 例如：省、市、县、区
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.AddOrgInput.Name">

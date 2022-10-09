@@ -1,5 +1,5 @@
 <template>
-	<div class="system-dic-container">
+	<div class="sys-pos-container">
 		<el-card shadow="hover">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="职位名称" prop="name">
@@ -80,9 +80,9 @@ export default defineComponent({
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const editPosRef = ref();
-		const state: any = reactive({
+		const state = reactive({
 			loading: true,
-			posData: [],
+			posData: [] as any,
 			queryParams: {
 				name: undefined,
 				code: undefined,
@@ -101,11 +101,12 @@ export default defineComponent({
 		});
 
 		// 查询操作
-		const handleQuery = async () => {
+		const handleQuery = () => {
 			state.loading = true;
-			var res = await getAPI(SysPosApi).sysPosListGet(state.queryParams.name, state.queryParams.code);
-			state.posData = res.data.result;
-			state.loading = false;
+			getAPI(SysPosApi).sysPosListGet(state.queryParams.name, state.queryParams.code).then((res) => {
+				state.posData = res.data.result;
+				state.loading = false;
+			});
 		};
 		// 重置操作
 		const resetQuery = () => {

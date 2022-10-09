@@ -65,7 +65,7 @@ export interface SysMenuMeta {
      * @type {number}
      * @memberof SysMenuMeta
      */
-    orderNo?: number;
+    order?: number;
     /**
      * 
      * @type {StatusEnum}

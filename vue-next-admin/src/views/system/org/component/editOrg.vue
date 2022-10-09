@@ -1,66 +1,60 @@
 <template>
-	<div class="system-edit-dept-container">
-		<el-dialog title="修改部门" v-model="isShowDialog" width="769px">
-			<el-form :model="ruleForm" size="default" label-width="90px">
+	<div class="sys-org-container">
+		<el-dialog v-model="isShowDialog" width="500px">
+			<template #header>
+				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
+					{{ title }}
+				</div>
+			</template>
+			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="上级部门">
-							<el-cascader
-								:options="deptData"
-								:props="{ checkStrictly: true, value: 'deptName', label: 'deptName' }"
-								placeholder="请选择部门"
-								clearable
-								class="w100"
-								v-model="ruleForm.deptLevel"
-							>
+						<el-form-item label="上级机构">
+							<el-cascader :options="orgData" :props="{ checkStrictly: true, value: 'id', label: 'name' }"
+								placeholder="请选择上级机构" clearable class="w100" v-model="ruleForm.pid">
 								<template #default="{ node, data }">
-									<span>{{ data.deptName }}</span>
+									<span>{{ data.name }}</span>
 									<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
 								</template>
 							</el-cascader>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="部门名称">
-							<el-input v-model="ruleForm.deptName" placeholder="请输入部门名称" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="负责人">
-							<el-input v-model="ruleForm.person" placeholder="请输入负责人" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="手机号">
-							<el-input v-model="ruleForm.phone" placeholder="请输入手机号" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="邮箱">
-							<el-input v-model="ruleForm.email" placeholder="请输入" clearable></el-input>
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="排序">
-							<el-input-number v-model="ruleForm.sort" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="部门状态">
-							<el-switch v-model="ruleForm.status" inline-prompt active-text="启" inactive-text="禁"></el-switch>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="机构名称" prop="name">
+							<el-input v-model="ruleForm.name" placeholder="机构名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="部门描述">
-							<el-input v-model="ruleForm.describe" type="textarea" placeholder="请输入部门描述" maxlength="150"></el-input>
+						<el-form-item label="机构编码" prop="code">
+							<el-input v-model="ruleForm.code" placeholder="机构编码" clearable></el-input>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="排序">
+							<el-input-number v-model="ruleForm.order" controls-position="right" placeholder="排序"
+								class="w100" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="是否启用">
+							<el-radio-group v-model="ruleForm.status">
+								<el-radio :label="1">启用</el-radio>
+								<el-radio :label="2">不启用</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="备注">
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea">
+							</el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" size="default">修 改</el-button>
+					<el-button @click="cancel" size="default">取 消</el-button>
+					<el-button type="primary" @click="submit" size="default">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -68,112 +62,89 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, onMounted, defineComponent } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref, unref } from 'vue';
 
-// 定义接口来定义对象的类型
-interface TableDataRow {
-	deptName: string;
-	createTime: string;
-	status: boolean;
-	sort: number;
-	describe: string;
-	id: number;
-	children?: TableDataRow[];
-}
-interface RuleFormState {
-	deptLevel: Array<string>;
-	deptName: string;
-	person: string;
-	phone: string | number;
-	email: string;
-	sort: number;
-	status: boolean;
-	describe: string;
-}
-interface DeptSate {
-	isShowDialog: boolean;
-	ruleForm: RuleFormState;
-	deptData: Array<TableDataRow>;
-}
+import { getAPI } from '/@/utils/axios-utils';
+import { SysOrgApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysEditOrg',
+	components: {},
+	props: {
+		// 弹窗标题
+		title: {
+			type: String,
+			default: () => "",
+		},
+		// 机构数据
+		orgData: {
+			type: Array,
+			default: () => [],
+		}
+	},
 	setup() {
-		const state = reactive<DeptSate>({
+		const { proxy } = getCurrentInstance() as any;
+		const ruleFormRef = ref<HTMLElement | null>(null);
+		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {
-				deptLevel: [], // 上级部门
-				deptName: '', // 部门名称
-				person: '', // 负责人
-				phone: '', // 手机号
-				email: '', // 邮箱
-				sort: 0, // 排序
-				status: true, // 部门状态
-				describe: '', // 部门描述
+				id: 0, // Id
+				pid: 0, // 父节点Id
+				name: '', // 机构名称
+				code: '', // 机构编码
+				order: 10, // 排序
+				status: 1, // 是否启用
+				remark: '', // 备注
 			},
-			deptData: [], // 部门数据
+			ruleRules: {
+				name: [{ required: true, message: "机构名称不能为空", trigger: "blur" }],
+				code: [{ required: true, message: "机构编码不能为空", trigger: "blur" }],
+			},
 		});
 		// 打开弹窗
-		const openDialog = (row: RuleFormState) => {
-			row.deptLevel = ['vueNextAdmin'];
-			row.person = 'lyt';
-			row.phone = '12345678910';
-			row.email = 'vueNextAdmin@123.com';
+		const openDialog = (row: any) => {
 			state.ruleForm = row;
 			state.isShowDialog = true;
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
+			proxy.mittBus.emit("submitRefresh");
 			state.isShowDialog = false;
 		};
 		// 取消
-		const onCancel = () => {
-			closeDialog();
+		const cancel = () => {
+			state.isShowDialog = false;
 		};
-		// 新增
-		const onSubmit = () => {
-			closeDialog();
+		// 提交
+		const submit = () => {
+			const formWrap = unref(ruleFormRef) as any;
+			if (!formWrap) return;
+
+			// 取父节点Id
+			if (Array.isArray(state.ruleForm.pid))
+				state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
+			formWrap.validate(() => {
+				if (state.ruleForm.id != undefined && state.ruleForm.id != 0) {
+					getAPI(SysOrgApi).sysOrgUpdatePost(state.ruleForm).then(() => {
+						closeDialog();
+					})
+				}
+				else {
+					getAPI(SysOrgApi).sysOrgAddPost(state.ruleForm).then(() => {
+						closeDialog();
+					})
+				}
+			})
 		};
-		// 初始化部门数据
-		const initTableData = () => {
-			state.deptData.push({
-				deptName: 'vueNextAdmin',
-				createTime: new Date().toLocaleString(),
-				status: true,
-				sort: Math.random(),
-				describe: '顶级部门',
-				id: Math.random(),
-				children: [
-					{
-						deptName: 'IT外包服务',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Math.random(),
-						describe: '总部',
-						id: Math.random(),
-					},
-					{
-						deptName: '资本控股',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Math.random(),
-						describe: '分部',
-						id: Math.random(),
-					},
-				],
-			});
-		};
-		// 页面加载时
-		onMounted(() => {
-			initTableData();
-		});
 		return {
+			ruleFormRef,
 			openDialog,
 			closeDialog,
-			onCancel,
-			onSubmit,
+			cancel,
+			submit,
 			...toRefs(state),
 		};
 	},
 });
 </script>
+	

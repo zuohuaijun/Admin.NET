@@ -1,5 +1,5 @@
 <template>
-  <div class="page-container">
+  <div class="sys-menu-container">
     <el-card shadow="hover">
       <el-form :model="queryParams" ref="queryForm" :inline="true">
         <el-form-item label="菜单名称" prop="title">
@@ -96,9 +96,9 @@ export default defineComponent({
   setup() {
     const { proxy } = getCurrentInstance() as any;
     const editMenuRef = ref();
-    const state: any = reactive({
+    const state = reactive({
       loading: true,
-      menuData: [],
+      menuData: [] as any,
       queryParams: {
         title: undefined,
         type: undefined,
@@ -118,11 +118,12 @@ export default defineComponent({
     });
 
     // 查询操作
-    const handleQuery = async () => {
+    const handleQuery = () => {
       state.loading = true;
-      var res = await getAPI(SysMenuApi).sysMenuListGet(state.queryParams.title, state.queryParams.type);
-      state.menuData = res.data.result;
-      state.loading = false;
+      getAPI(SysMenuApi).sysMenuListGet(state.queryParams.title, state.queryParams.type).then((res) => {
+        state.menuData = res.data.result;
+        state.loading = false;
+      });
     };
     // 重置操作
     const resetQuery = () => {

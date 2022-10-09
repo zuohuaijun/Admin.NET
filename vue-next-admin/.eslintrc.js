@@ -59,9 +59,5 @@ module.exports = {
 		'no-v-model-argument': 'off',
 		'no-case-declarations': 'off',
 		'no-console': 'off',
-		"vue/no-reserved-component-names": ["error", {
-			"disallowVueBuiltInComponents": false,
-			"disallowVue3BuiltInComponents": false
-		}],
 	},
 };

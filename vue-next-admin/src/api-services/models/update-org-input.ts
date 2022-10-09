@@ -11,6 +11,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { StatusEnum } from './status-enum';
+import { SysOrg } from './sys-org';
 /**
  * 
  * @export
@@ -18,11 +20,47 @@
  */
 export interface UpdateOrgInput {
     /**
-     * 主键Id
+     * 雪花Id
      * @type {number}
      * @memberof UpdateOrgInput
      */
-    id: number;
+    id?: number;
+    /**
+     * 创建时间
+     * @type {Date}
+     * @memberof UpdateOrgInput
+     */
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof UpdateOrgInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
+     * @type {number}
+     * @memberof UpdateOrgInput
+     */
+    createUserId?: number | null;
+    /**
+     * 修改者Id
+     * @type {number}
+     * @memberof UpdateOrgInput
+     */
+    updateUserId?: number | null;
+    /**
+     * 软删除
+     * @type {boolean}
+     * @memberof UpdateOrgInput
+     */
+    isDelete?: boolean;
+    /**
+     * 租户Id
+     * @type {number}
+     * @memberof UpdateOrgInput
+     */
+    tenantId?: number | null;
     /**
      * 父Id
      * @type {number}
@@ -48,17 +86,23 @@ export interface UpdateOrgInput {
      */
     remark?: string | null;
     /**
-     * 状态
-     * @type {number}
+     * 
+     * @type {StatusEnum}
      * @memberof UpdateOrgInput
      */
-    status?: number;
+    status?: StatusEnum;
     /**
      * 级别 例如：省、市、县、区
      * @type {string}
      * @memberof UpdateOrgInput
      */
     level?: string | null;
+    /**
+     * 机构子项
+     * @type {Array<SysOrg>}
+     * @memberof UpdateOrgInput
+     */
+    children?: Array<SysOrg> | null;
     /**
      * 名称
      * @type {string}

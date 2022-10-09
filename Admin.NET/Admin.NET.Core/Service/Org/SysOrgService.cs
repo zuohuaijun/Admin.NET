@@ -53,15 +53,19 @@ public class SysOrgService : IDynamicApiController, ITransient
         var orgIdList = input.Id > 0 ? await GetChildIdListWithSelfById(input.Id) : await GetUserOrgIdList();
 
         var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.Order)
-            .WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id)); // 非超级管理员限制
+            .WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id));
 
-        if (!string.IsNullOrWhiteSpace(input.Name) || !string.IsNullOrWhiteSpace(input.Code) || input.Id > 0)
+        // 条件筛选可能造成无法构造树（列表数据）
+        if (!string.IsNullOrWhiteSpace(input.Name) || !string.IsNullOrWhiteSpace(input.Code))
         {
-            iSugarQueryable = iSugarQueryable
+            return await iSugarQueryable
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
-                .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code));
+                .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code))
+                .ToListAsync();
         }
-        return await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, input.Id > 0 ? input.Id : 0);
+        return input.Id > 0
+            ? await iSugarQueryable.ToChildListAsync(u => u.Pid, input.Id)
+            : await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0);
     }
 
     /// <summary>
@@ -160,14 +164,14 @@ public class SysOrgService : IDynamicApiController, ITransient
                 throw Oops.Oh(ErrorCodeEnum.D2003);
         }
 
-        // 若子机构有用户则禁止删除
-        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id);
-        var orgIdList = orgTreeList.Select(u => u.Id).ToList();
-
         // 若附属机构有用户则禁止删除
         var hasExtOrgEmp = await _sysEmpExtOrgPosService.HasExtOrgEmp(sysOrg.Id);
         if (hasExtOrgEmp)
             throw Oops.Oh(ErrorCodeEnum.D2005);
+
+        // 若子机构有用户则禁止删除
+        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id);
+        var orgIdList = orgTreeList.Select(u => u.Id).ToList();
 
         // 级联删除机构子节点
         await _sysOrgRep.DeleteAsync(u => orgIdList.Contains(u.Id));

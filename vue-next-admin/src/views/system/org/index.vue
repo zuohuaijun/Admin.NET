@@ -1,152 +1,177 @@
 <template>
-	<div class="system-dept-container">
-		<el-card shadow="hover">
-			<div class="system-dept-search mb15">
-				<el-input size="default" placeholder="请输入部门名称" style="max-width: 180px"> </el-input>
-				<el-button size="default" type="primary" class="ml10">
-					<el-icon>
-						<ele-Search />
-					</el-icon>
-					查询
-				</el-button>
-				<el-button size="default" type="success" class="ml10" @click="onOpenAddDept">
-					<el-icon>
-						<ele-FolderAdd />
-					</el-icon>
-					新增部门
-				</el-button>
-			</div>
-			<el-table :data="tableData.data" style="width: 100%" row-key="id" default-expand-all
-				:tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
-				<el-table-column prop="deptName" label="部门名称" show-overflow-tooltip> </el-table-column>
-				<el-table-column label="排序" show-overflow-tooltip width="80">
-					<template #default="scope">
-						{{ scope.$index }}
-					</template>
-				</el-table-column>
-				<el-table-column prop="status" label="部门状态" show-overflow-tooltip>
-					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.status">启用</el-tag>
-						<el-tag type="info" v-else>禁用</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="describe" label="部门描述" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" show-overflow-tooltip width="140">
-					<template #default="scope">
-						<el-button size="small" text type="primary" @click="onOpenAddDept">新增</el-button>
-						<el-button size="small" text type="primary" @click="onOpenEditDept(scope.row)">修改</el-button>
-						<el-button size="small" text type="primary" @click="onTabelRowDel(scope.row)">删除</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-		</el-card>
-		<EditOrg ref="editOrgRef" />
+	<div class="sys-org-container">
+		<el-row :gutter="5">
+			<el-col :span="4" :xs="24">
+				<OrgTree @node-click='nodeClick' />
+			</el-col>
+
+			<el-col :span="20" :xs="24">
+				<el-card shadow="hover">
+					<el-form :model="queryParams" ref="queryForm" :inline="true">
+						<el-form-item label="机构名称" prop="name">
+							<el-input placeholder="机构名称" clearable @keyup.enter="handleQuery"
+								v-model="queryParams.name" />
+						</el-form-item>
+						<el-form-item label="机构编码" prop="code">
+							<el-input placeholder="机构编码" clearable @keyup.enter="handleQuery"
+								v-model="queryParams.code" />
+						</el-form-item>
+						<el-form-item>
+							<el-button @click="resetQuery">
+								<el-icon>
+									<ele-Refresh />
+								</el-icon>
+								重置
+							</el-button>
+							<el-button type="primary" @click="handleQuery">
+								<el-icon>
+									<ele-Search />
+								</el-icon>
+								查询
+							</el-button>
+							<el-button @click="openAddOrg">
+								<el-icon>
+									<ele-Plus />
+								</el-icon>
+								新增
+							</el-button>
+						</el-form-item>
+					</el-form>
+				</el-card>
+
+				<el-card shadow="hover" style="margin-top: 5px;">
+					<el-table :data="orgData" style="width: 100%" row-key="id" default-expand-all
+						:tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+						<el-table-column prop="name" label="机构名称" show-overflow-tooltip> </el-table-column>
+						<el-table-column prop="code" label="机构编码" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="order" label="排序" show-overflow-tooltip width="80" align="center">
+						</el-table-column>
+						<el-table-column prop="status" label="状态" show-overflow-tooltip width="80" align="center">
+							<template #default="scope">
+								<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
+								<el-tag type="danger" v-else>禁用</el-tag>
+							</template>
+						</el-table-column>
+						<el-table-column prop="createTime" label="修改时间" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
+						<el-table-column label="操作" show-overflow-tooltip width="80" fixed="right" align="center">
+							<template #default="scope">
+								<el-button size="small" text type="primary" @click="openEditOrg(scope.row)">
+									<el-icon>
+										<ele-Edit />
+									</el-icon>
+								</el-button>
+								<el-button size="small" text type="primary" @click="delOrg(scope.row)">
+									<el-icon>
+										<ele-Delete />
+									</el-icon>
+								</el-button>
+							</template>
+						</el-table-column>
+					</el-table>
+				</el-card>
+			</el-col>
+		</el-row>
+		<EditOrg ref="editOrgRef" :title="editOrgTitle" :orgData="orgTreeData" />
 	</div>
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent } from 'vue';
+import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditOrg from '/@/views/system/org/component/editOrg.vue';
 
-// 定义接口来定义对象的类型
-interface TableDataRow {
-	deptName: string;
-	createTime: string;
-	status: boolean;
-	sort: number;
-	describe: string;
-	id: number;
-	children?: TableDataRow[];
-}
-interface TableDataState {
-	tableData: {
-		data: Array<TableDataRow>;
-		total: number;
-		loading: boolean;
-		param: {
-			pageNum: number;
-			pageSize: number;
-		};
-	};
-}
+import { getAPI } from '/@/utils/axios-utils';
+import { SysOrgApi } from '/@/api-services/apis/sys-org-api';
 
 export default defineComponent({
 	name: 'sysOrg',
-	components: { EditOrg },
+	components: { OrgTree, EditOrg },
 	setup() {
+		const { proxy } = getCurrentInstance() as any;
 		const editOrgRef = ref();
-		const state = reactive<TableDataState>({
-			tableData: {
-				data: [],
-				total: 0,
-				loading: false,
-				param: {
-					pageNum: 1,
-					pageSize: 10,
-				},
+		const state = reactive({
+			loading: true,
+			orgData: [] as any,
+			orgTreeData: [] as any, // 编辑页面上级机构树
+			queryParams: {
+				id: -1,
+				name: undefined,
+				code: undefined,
 			},
+			editOrgTitle: "",
 		});
-		// 初始化表格数据
-		const initTableData = () => {
-			state.tableData.data.push({
-				deptName: 'vueNextAdmin',
-				createTime: new Date().toLocaleString(),
-				status: true,
-				sort: Math.random(),
-				describe: '顶级部门',
-				id: Math.random(),
-				children: [
-					{
-						deptName: 'IT外包服务',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Math.random(),
-						describe: '总部',
-						id: Math.random(),
-					},
-					{
-						deptName: '资本控股',
-						createTime: new Date().toLocaleString(),
-						status: true,
-						sort: Math.random(),
-						describe: '分部',
-						id: Math.random(),
-					},
-				],
+		onMounted(async () => {
+			handleQuery();
+
+			proxy.mittBus.on("submitRefresh", () => {
+				handleQuery();
 			});
-			state.tableData.total = state.tableData.data.length;
+		});
+		onUnmounted(() => {
+			proxy.mittBus.off("submitRefresh");
+		});
+		// 查询操作
+		const handleQuery = () => {
+			state.loading = true;
+			getAPI(SysOrgApi).sysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code).then((res) => {
+				state.orgData = res.data.result;
+				state.loading = false;
+
+				if (state.queryParams.id == -1) {
+					state.orgTreeData = state.orgData;
+					console.log(state.orgTreeData)
+				}
+			});
 		};
-		// 打开新增菜单弹窗
-		const onOpenAddOrg = () => {
-			addDeptRef.value.openDialog();
+		// 重置操作
+		const resetQuery = () => {
+			state.queryParams.id = -1;
+			state.queryParams.name = undefined;
+			state.queryParams.code = undefined;
+			handleQuery();
 		};
-		// 打开编辑菜单弹窗
-		const onOpenEditOrg = (row: TableDataRow) => {
-			editDeptRef.value.openDialog(row);
+		// 打开新增页面
+		const openAddOrg = () => {
+			state.editOrgTitle = "添加机构";
+			editOrgRef.value.openDialog({});
 		};
-		// 删除当前行
-		const onTabelRowDel = (row: TableDataRow) => {
-			ElMessageBox.confirm(`此操作将永久删除部门：${row.deptName}, 是否继续?`, '提示', {
-				confirmButtonText: '删除',
+		// 打开编辑页面
+		const openEditOrg = (row: any) => {
+			state.editOrgTitle = "编辑机构";
+			editOrgRef.value.openDialog(row);
+		};
+		// 删除
+		const delOrg = (row: any) => {
+			ElMessageBox.confirm(`确定删除机构：【${row.name}】?`, '提示', {
+				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning',
 			})
 				.then(() => {
-					ElMessage.success('删除成功');
+					getAPI(SysOrgApi).sysOrgDeletePost({ id: row.id }).then(() => {
+						handleQuery();
+						ElMessage.success('删除成功');
+					})
 				})
 				.catch(() => { });
 		};
-		// 页面加载时
-		onMounted(() => {
-			initTableData();
-		});
+		// 树组件点击
+		const nodeClick = async (node: any) => {
+			state.queryParams.id = node.id;
+			state.queryParams.name = undefined; // node.name;
+			state.queryParams.code = undefined;
+			handleQuery();
+		};
 		return {
+			handleQuery,
+			resetQuery,
 			editOrgRef,
-			onOpenAddOrg,
-			onOpenEditOrg,
-			onTabelRowDel,
+			openAddOrg,
+			openEditOrg,
+			delOrg,
+			nodeClick,
 			...toRefs(state),
 		};
 	},

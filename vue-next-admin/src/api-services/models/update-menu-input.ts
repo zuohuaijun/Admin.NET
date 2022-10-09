@@ -139,7 +139,7 @@ export interface UpdateMenuInput {
      * @type {number}
      * @memberof UpdateMenuInput
      */
-    orderNo?: number;
+    order?: number;
     /**
      * 
      * @type {StatusEnum}

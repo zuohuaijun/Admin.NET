@@ -145,7 +145,7 @@ export interface SysMenu {
      * @type {number}
      * @memberof SysMenu
      */
-    orderNo?: number;
+    order?: number;
     /**
      * 
      * @type {StatusEnum}
