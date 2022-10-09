@@ -36,7 +36,7 @@ public class SysMenuService : IDynamicApiController, ITransient
         {
             var menuList = await _sysMenuRep.AsQueryable()
                 .Where(u => u.Type != MenuTypeEnum.Btn)
-                .OrderBy(u => u.OrderNo).ToTreeAsync(u => u.Children, u => u.Pid, 0);
+                .OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0);
             return menuList.Adapt<List<MenuOutput>>();
         }
         else
@@ -45,7 +45,7 @@ public class SysMenuService : IDynamicApiController, ITransient
             var menuList = await _sysMenuRep.AsQueryable()
                 .Where(u => u.Type != MenuTypeEnum.Btn)
                 .Where(u => menuIdList.Contains(u.Id))
-                .OrderBy(u => u.OrderNo).ToTreeAsync(u => u.Children, u => u.Pid, 0);
+                .OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0);
             return menuList.Adapt<List<MenuOutput>>();
         }
     }
@@ -67,12 +67,12 @@ public class SysMenuService : IDynamicApiController, ITransient
                 .WhereIF(input.Type > 0, u => u.Type == (MenuTypeEnum)input.Type)
                 .WhereIF(menuIdList.Count > 1, u => menuIdList.Contains(u.Id))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title))
-                .OrderBy(u => u.OrderNo).ToListAsync();
+                .OrderBy(u => u.Order).ToListAsync();
         }
 
         return await _sysMenuRep.AsQueryable()
             .WhereIF(menuIdList.Count > 1, u => menuIdList.Contains(u.Id))
-            .OrderBy(u => u.OrderNo)
+            .OrderBy(u => u.Order)
             .ToTreeAsync(u => u.Children, u => u.Pid, 0);
     }
 

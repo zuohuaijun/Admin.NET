@@ -68,8 +68,8 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="菜单排序">
-								<el-input-number v-model="ruleForm.orderNo" controls-position="right"
-									placeholder="请输入排序" class="w100" />
+								<el-input-number v-model="ruleForm.order" controls-position="right" placeholder="排序"
+									class="w100" />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -113,8 +113,8 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="菜单排序">
-								<el-input-number v-model="ruleForm.orderNo" controls-position="right"
-									placeholder="请输入排序" class="w100" />
+								<el-input-number v-model="ruleForm.order" controls-position="right" placeholder="排序"
+									class="w100" />
 							</el-form-item>
 						</el-col>
 					</template>
@@ -172,10 +172,10 @@ export default defineComponent({
 		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {
-				id: 0, // 菜单Id
-				pid: 0, // 上级菜单
+				id: 0, // Id
+				pid: 0, // 父节点Id
 				type: 1, // 菜单类型
-				name: '', // 路由名称
+				name: '', // 路由名称(全局唯一)
 				component: '', // 组件路径
 				redirect: '', // 路由重定向(有子集 children 时)
 				permission: '', // 权限标识				
@@ -187,7 +187,7 @@ export default defineComponent({
 				isAffix: false, // 是否固定
 				outLink: '', // 外链/内嵌时链接地址
 				isIframe: false, // 是否内嵌
-				orderNo: 10, // 菜单排序
+				order: 10, // 排序
 				status: 1, // 是否启用
 				remark: '', // 备注
 			},
@@ -204,7 +204,7 @@ export default defineComponent({
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit("onSubmitRefresh");
+			proxy.mittBus.emit("submitRefresh");
 			state.isShowDialog = false;
 		};
 		// 取消

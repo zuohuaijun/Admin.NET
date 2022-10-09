@@ -16,13 +16,8 @@
 					新增部门
 				</el-button>
 			</div>
-			<el-table
-				:data="tableData.data"
-				style="width: 100%"
-				row-key="id"
-				default-expand-all
-				:tree-props="{ children: 'children', hasChildren: 'hasChildren' }"
-			>
+			<el-table :data="tableData.data" style="width: 100%" row-key="id" default-expand-all
+				:tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
 				<el-table-column prop="deptName" label="部门名称" show-overflow-tooltip> </el-table-column>
 				<el-table-column label="排序" show-overflow-tooltip width="80">
 					<template #default="scope">
@@ -46,16 +41,14 @@
 				</el-table-column>
 			</el-table>
 		</el-card>
-		<AddDept ref="addDeptRef" />
-		<EditDept ref="editDeptRef" />
+		<EditOrg ref="editOrgRef" />
 	</div>
 </template>
 
 <script lang="ts">
 import { ref, toRefs, reactive, onMounted, defineComponent } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import AddDept from '/@/views/system/dept/component/addDept.vue';
-import EditDept from '/@/views/system/dept/component/editDept.vue';
+import EditOrg from '/@/views/system/org/component/editOrg.vue';
 
 // 定义接口来定义对象的类型
 interface TableDataRow {
@@ -80,11 +73,10 @@ interface TableDataState {
 }
 
 export default defineComponent({
-	name: 'systemDept',
-	components: { AddDept, EditDept },
+	name: 'sysOrg',
+	components: { EditOrg },
 	setup() {
-		const addDeptRef = ref();
-		const editDeptRef = ref();
+		const editOrgRef = ref();
 		const state = reactive<TableDataState>({
 			tableData: {
 				data: [],
@@ -127,11 +119,11 @@ export default defineComponent({
 			state.tableData.total = state.tableData.data.length;
 		};
 		// 打开新增菜单弹窗
-		const onOpenAddDept = () => {
+		const onOpenAddOrg = () => {
 			addDeptRef.value.openDialog();
 		};
 		// 打开编辑菜单弹窗
-		const onOpenEditDept = (row: TableDataRow) => {
+		const onOpenEditOrg = (row: TableDataRow) => {
 			editDeptRef.value.openDialog(row);
 		};
 		// 删除当前行
@@ -144,17 +136,16 @@ export default defineComponent({
 				.then(() => {
 					ElMessage.success('删除成功');
 				})
-				.catch(() => {});
+				.catch(() => { });
 		};
 		// 页面加载时
 		onMounted(() => {
 			initTableData();
 		});
 		return {
-			addDeptRef,
-			editDeptRef,
-			onOpenAddDept,
-			onOpenEditDept,
+			editOrgRef,
+			onOpenAddOrg,
+			onOpenEditOrg,
 			onTabelRowDel,
 			...toRefs(state),
 		};

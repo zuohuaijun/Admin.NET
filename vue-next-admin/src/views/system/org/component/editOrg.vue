@@ -97,7 +97,7 @@ interface DeptSate {
 }
 
 export default defineComponent({
-	name: 'systemEditDept',
+	name: 'sysEditOrg',
 	setup() {
 		const state = reactive<DeptSate>({
 			isShowDialog: false,

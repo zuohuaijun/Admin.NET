@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { StatusEnum } from './status-enum';
 /**
  * 
  * @export
@@ -18,11 +19,47 @@
  */
 export interface AddPosInput {
     /**
-     * 主键Id
+     * 雪花Id
      * @type {number}
      * @memberof AddPosInput
      */
-    id: number;
+    id?: number;
+    /**
+     * 创建时间
+     * @type {Date}
+     * @memberof AddPosInput
+     */
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof AddPosInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
+     * @type {number}
+     * @memberof AddPosInput
+     */
+    createUserId?: number | null;
+    /**
+     * 修改者Id
+     * @type {number}
+     * @memberof AddPosInput
+     */
+    updateUserId?: number | null;
+    /**
+     * 软删除
+     * @type {boolean}
+     * @memberof AddPosInput
+     */
+    isDelete?: boolean;
+    /**
+     * 租户Id
+     * @type {number}
+     * @memberof AddPosInput
+     */
+    tenantId?: number | null;
     /**
      * 编码
      * @type {string}
@@ -42,11 +79,11 @@ export interface AddPosInput {
      */
     remark?: string | null;
     /**
-     * 状态
-     * @type {number}
+     * 
+     * @type {StatusEnum}
      * @memberof AddPosInput
      */
-    status?: number;
+    status?: StatusEnum;
     /**
      * 名称
      * @type {string}

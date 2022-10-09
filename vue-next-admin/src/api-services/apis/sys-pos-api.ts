@@ -111,20 +111,12 @@ export const SysPosApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @summary 获取职位列表
-         * @param {number} id 主键Id
          * @param {string} [name] 名称
          * @param {string} [code] 编码
-         * @param {number} [order] 排序
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysPosListGet: async (id: number, name?: string, code?: string, order?: number, remark?: string, status?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling sysPosListGet.');
-            }
+        sysPosListGet: async (name?: string, code?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysPos/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -144,22 +136,6 @@ export const SysPosApiAxiosParamCreator = function (configuration?: Configuratio
 
             if (code !== undefined) {
                 localVarQueryParameter['Code'] = code;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (remark !== undefined) {
-                localVarQueryParameter['Remark'] = remark;
-            }
-
-            if (status !== undefined) {
-                localVarQueryParameter['Status'] = status;
-            }
-
-            if (id !== undefined) {
-                localVarQueryParameter['Id'] = id;
             }
 
             const query = new URLSearchParams(localVarUrlObj.search);
@@ -259,17 +235,13 @@ export const SysPosApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取职位列表
-         * @param {number} id 主键Id
          * @param {string} [name] 名称
          * @param {string} [code] 编码
-         * @param {number} [order] 排序
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosListGet(id: number, name?: string, code?: string, order?: number, remark?: string, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysPos>>> {
-            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).sysPosListGet(id, name, code, order, remark, status, options);
+        async sysPosListGet(name?: string, code?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysPos>>> {
+            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).sysPosListGet(name, code, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -321,17 +293,13 @@ export const SysPosApiFactory = function (configuration?: Configuration, basePat
         /**
          * 
          * @summary 获取职位列表
-         * @param {number} id 主键Id
          * @param {string} [name] 名称
          * @param {string} [code] 编码
-         * @param {number} [order] 排序
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosListGet(id: number, name?: string, code?: string, order?: number, remark?: string, status?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysPos>> {
-            return SysPosApiFp(configuration).sysPosListGet(id, name, code, order, remark, status, options).then((request) => request(axios, basePath));
+        async sysPosListGet(name?: string, code?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysPos>> {
+            return SysPosApiFp(configuration).sysPosListGet(name, code, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -378,18 +346,14 @@ export class SysPosApi extends BaseAPI {
     /**
      * 
      * @summary 获取职位列表
-     * @param {number} id 主键Id
      * @param {string} [name] 名称
      * @param {string} [code] 编码
-     * @param {number} [order] 排序
-     * @param {string} [remark] 备注
-     * @param {number} [status] 状态
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysPosApi
      */
-    public async sysPosListGet(id: number, name?: string, code?: string, order?: number, remark?: string, status?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysPos>> {
-        return SysPosApiFp(this.configuration).sysPosListGet(id, name, code, order, remark, status, options).then((request) => request(this.axios, this.basePath));
+    public async sysPosListGet(name?: string, code?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysPos>> {
+        return SysPosApiFp(this.configuration).sysPosListGet(name, code, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

@@ -80,7 +80,7 @@ let global: any = {
 };
 
 export default defineComponent({
-	name: 'home',
+	name: 'workbench',
 	setup() {
 		const homeLineRef = ref();
 		const homePieRef = ref();

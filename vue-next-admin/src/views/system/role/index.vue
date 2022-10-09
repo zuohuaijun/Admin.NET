@@ -85,7 +85,7 @@ interface TableDataState {
 }
 
 export default defineComponent({
-	name: 'systemRole',
+	name: 'sysRole',
 	components: { AddRole, EditRole },
 	setup() {
 		const addRoleRef = ref();

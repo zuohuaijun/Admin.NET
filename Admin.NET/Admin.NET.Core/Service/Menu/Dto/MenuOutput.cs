@@ -99,7 +99,7 @@ public class SysMenuMeta
     /// <summary>
     /// 排序
     /// </summary>
-    public int OrderNo { get; set; }
+    public int Order { get; set; }
 
     /// <summary>
     /// 状态
@@ -127,7 +127,7 @@ public class SysMenuMapper : IRegister
             .Map(t => t.Meta.IsHide, o => o.IsHide)
             .Map(t => t.Meta.IsKeepAlive, o => o.IsKeepAlive)
             .Map(t => t.Meta.IsAffix, o => o.IsAffix)
-            .Map(t => t.Meta.OrderNo, o => o.OrderNo)
+            .Map(t => t.Meta.Order, o => o.Order)
             .Map(t => t.Meta.Status, o => o.Status)
             .Map(t => t.Meta.Remark, o => o.Remark);
     }

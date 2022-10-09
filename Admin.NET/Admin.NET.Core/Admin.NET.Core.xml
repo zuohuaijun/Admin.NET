@@ -935,7 +935,7 @@
             是否固定
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysMenu.OrderNo">
+        <member name="P:Admin.NET.Core.SysMenu.Order">
             <summary>
             排序
             </summary>
@@ -5380,7 +5380,7 @@
             是否固定
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.SysMenuMeta.OrderNo">
+        <member name="P:Admin.NET.Core.Service.SysMenuMeta.Order">
             <summary>
             排序
             </summary>
@@ -5981,21 +5981,6 @@
         <member name="P:Admin.NET.Core.Service.PosInput.Code">
             <summary>
             编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.PosInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.PosInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.PosInput.Status">
-            <summary>
-            状态
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.AddPosInput.Name">

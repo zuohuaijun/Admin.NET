@@ -50,20 +50,9 @@
           </template>
         </el-table-column>
         <el-table-column prop="path" label="路由路径" show-overflow-tooltip></el-table-column>
-        <el-table-column label="组件路径" show-overflow-tooltip>
-          <template #default="scope">
-            <span>{{ scope.row.component }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="权限标识" show-overflow-tooltip>
-          <template #default="scope">
-            <span>{{ scope.row.permission }}</span>
-          </template>
-        </el-table-column>
-        <el-table-column label="排序" show-overflow-tooltip width="80" align="center">
-          <template #default="scope">
-            {{ scope.row.orderNo }}
-          </template>
+        <el-table-column prop="component" label="组件路径" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="permission" label="权限标识" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="order" label="排序" show-overflow-tooltip width="80" align="center">
         </el-table-column>
         <el-table-column label="状态" show-overflow-tooltip width="80" align="center">
           <template #default="scope">
@@ -71,10 +60,7 @@
             <el-tag type="danger" v-else>禁用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="修改时间" show-overflow-tooltip align="center">
-          <template #default="scope">
-            {{ scope.row.createTime }}
-          </template>
+        <el-table-column prop="createTime" label="修改时间" show-overflow-tooltip align="center">
         </el-table-column>
         <el-table-column label="操作" show-overflow-tooltip width="80" fixed="right" align="center">
           <template #default="scope">
@@ -83,7 +69,7 @@
                 <ele-Edit />
               </el-icon>
             </el-button>
-            <el-button size="small" text type="primary" @click="delTabelRow(scope.row)">
+            <el-button size="small" text type="primary" @click="delMenu(scope.row)">
               <el-icon>
                 <ele-Delete />
               </el-icon>
@@ -123,12 +109,12 @@ export default defineComponent({
     onMounted(async () => {
       handleQuery();
 
-      proxy.mittBus.on("onSubmitRefresh", () => {
+      proxy.mittBus.on("submitRefresh", () => {
         handleQuery();
       });
     });
     onUnmounted(() => {
-      proxy.mittBus.off("onSubmitRefresh");
+      proxy.mittBus.off("submitRefresh");
     });
 
     // 查询操作
@@ -155,9 +141,9 @@ export default defineComponent({
       editMenuRef.value.openDialog(row);
     };
     // 删除当前行
-    const delTabelRow = (row: any) => {
+    const delMenu = (row: any) => {
       ElMessageBox.confirm(`确定删除菜单：【${row.title}】?`, '提示', {
-        confirmButtonText: '删除',
+        confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning',
       })
@@ -175,7 +161,7 @@ export default defineComponent({
       editMenuRef,
       openAddMenu,
       openEditMenu,
-      delTabelRow,
+      delMenu,
       ...toRefs(state),
     };
   },

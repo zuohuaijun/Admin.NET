@@ -92,7 +92,7 @@ interface TableDataState {
 }
 
 export default defineComponent({
-	name: 'systemUser',
+	name: 'sysUser',
 	components: { AddUer, EditUser },
 	setup() {
 		const addUserRef = ref();

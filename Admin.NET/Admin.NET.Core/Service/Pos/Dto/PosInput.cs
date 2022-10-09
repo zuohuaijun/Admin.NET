@@ -1,34 +1,20 @@
 ﻿namespace Admin.NET.Core.Service;
 
-public class PosInput : BaseIdInput
+public class PosInput
 {
     /// <summary>
     /// 名称
     /// </summary>
-    public virtual string Name { get; set; }
+    public string Name { get; set; }
 
     /// <summary>
     /// 编码
     /// </summary>
-    public virtual string Code { get; set; }
-
-    /// <summary>
-    /// 排序
-    /// </summary>
-    public virtual int Order { get; set; }
-
-    /// <summary>
-    /// 备注
-    /// </summary>
-    public virtual string Remark { get; set; }
-
-    /// <summary>
-    /// 状态
-    /// </summary>
-    public virtual int Status { get; set; }
+    public string Code { get; set; }
 }
 
-public class AddPosInput : PosInput
+[NotTable]
+public class AddPosInput : SysPos
 {
     /// <summary>
     /// 名称
@@ -37,6 +23,7 @@ public class AddPosInput : PosInput
     public override string Name { get; set; }
 }
 
+[NotTable]
 public class UpdatePosInput : AddPosInput
 {
 }

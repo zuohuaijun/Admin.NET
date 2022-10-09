@@ -102,7 +102,7 @@ public class SysMenu : EntityBase
     /// 排序
     /// </summary>
     [SugarColumn(ColumnDescription = "排序")]
-    public int OrderNo { get; set; }
+    public int Order { get; set; }
 
     /// <summary>
     /// 状态
