@@ -68,7 +68,7 @@
 // 鼠标 hover 时颜色
 .el-menu-hover-bg-color {
 	background-color: var(--el-color-primary-light-8) !important;
-	// border-right: solid 2px var(--el-color-primary);
+	// border-right: solid 3px var(--el-color-primary);
 }
 // 默认样式修改
 .el-menu {
@@ -112,6 +112,10 @@
 }
 .el-sub-menu.is-active.is-opened .el-sub-menu__title {
 	background-color: unset !important;
+}
+// 当前选中菜单右侧边框
+.el-menu-item.is-active {
+	border-right: solid 3px var(--el-color-primary);
 }
 // 鼠标 hover 时背景色
 .el-menu-item:hover {

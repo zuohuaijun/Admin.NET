@@ -20,10 +20,11 @@ import { Local, Session } from '/@/utils/storage';
 export const serveConfig = new Configuration({
 	// 如果是 Angular 项目，则取消下面注释，并删除 process.env.NODE_ENV !== "production"
 	// basePath: !environment.production
-	basePath:
-		process.env.NODE_ENV !== 'production'
-			? 'https://localhost:44326' // 开发环境服务器接口地址
-			: 'https://*:5005', // 生产环境服务器接口地址
+	// basePath:
+	// 	process.env.NODE_ENV !== 'production'
+	// 		? 'https://localhost:44326' // 开发环境服务器接口地址
+	// 		: 'https://*:5005', // 生产环境服务器接口地址
+	basePath: import.meta.env.VITE_API_URL,
 });
 
 // token 键定义

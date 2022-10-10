@@ -35,14 +35,14 @@
 
     <el-card shadow="hover" style="margin-top: 5px;">
       <el-table :data="menuData" v-loading="loading" row-key="id"
-        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+        :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
         <el-table-column label="菜单名称" show-overflow-tooltip>
           <template #default="scope">
             <SvgIcon :name="scope.row.icon" />
             <span class="ml10">{{ $t(scope.row.title) }}</span>
           </template>
         </el-table-column>
-        <el-table-column label="类型" show-overflow-tooltip width="80" align="center">
+        <el-table-column label="类型" width="70" align="center" show-overflow-tooltip>
           <template #default="scope">
             <el-tag type="warning" v-if="scope.row.type === 1">目录</el-tag>
             <el-tag v-else-if="scope.row.type === 2">菜单</el-tag>
@@ -52,17 +52,17 @@
         <el-table-column prop="path" label="路由路径" show-overflow-tooltip></el-table-column>
         <el-table-column prop="component" label="组件路径" show-overflow-tooltip></el-table-column>
         <el-table-column prop="permission" label="权限标识" show-overflow-tooltip></el-table-column>
-        <el-table-column prop="order" label="排序" show-overflow-tooltip width="80" align="center">
+        <el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="状态" show-overflow-tooltip width="80" align="center">
+        <el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
           <template #default="scope">
             <el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
             <el-tag type="danger" v-else>禁用</el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="createTime" label="修改时间" show-overflow-tooltip align="center">
+        <el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip>
         </el-table-column>
-        <el-table-column label="操作" show-overflow-tooltip width="80" fixed="right" align="center">
+        <el-table-column label="操作" width="80" fixed="right" align="center" show-overflow-tooltip>
           <template #default="scope">
             <el-button size="small" text type="primary" @click="openEditMenu(scope.row)">
               <el-icon>
@@ -118,12 +118,11 @@ export default defineComponent({
     });
 
     // 查询操作
-    const handleQuery = () => {
+    const handleQuery = async () => {
       state.loading = true;
-      getAPI(SysMenuApi).sysMenuListGet(state.queryParams.title, state.queryParams.type).then((res) => {
-        state.menuData = res.data.result;
-        state.loading = false;
-      });
+      var res = await getAPI(SysMenuApi).sysMenuListGet(state.queryParams.title, state.queryParams.type);
+      state.menuData = res.data.result;
+      state.loading = false;
     };
     // 重置操作
     const resetQuery = () => {
@@ -149,10 +148,9 @@ export default defineComponent({
         type: 'warning',
       })
         .then(async () => {
-          getAPI(SysMenuApi).sysMenuDeletePost({ id: row.id }).then(() => {
-            handleQuery();
-            ElMessage.success('删除成功');
-          })
+          await getAPI(SysMenuApi).sysMenuDeletePost({ id: row.id });
+          handleQuery();
+          ElMessage.success('删除成功');
         })
         .catch(() => { });
     };

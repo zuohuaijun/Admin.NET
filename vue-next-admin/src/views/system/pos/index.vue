@@ -32,21 +32,21 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 5px;">
-			<el-table :data="posData" style="width: 100%">
-				<el-table-column type="index" label="序号" width="80" />
+			<el-table :data="posData" style="width: 100%" v-loading="loading" border>
+				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="name" label="职位名称" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="code" label="职位编码" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="order" label="排序" show-overflow-tooltip width="80" align="center">
+				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip>
 				</el-table-column>
-				<el-table-column prop="status" label="状态" show-overflow-tooltip width="80" align="center">
+				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
 						<el-tag type="danger" v-else>禁用</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="createTime" label="修改时间" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" show-overflow-tooltip width="80" fixed="right" align="center">
+				<el-table-column label="操作" width="80" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button size="small" text type="primary" @click="openEditPos(scope.row)">
 							<el-icon>
@@ -101,12 +101,11 @@ export default defineComponent({
 		});
 
 		// 查询操作
-		const handleQuery = () => {
+		const handleQuery = async () => {
 			state.loading = true;
-			getAPI(SysPosApi).sysPosListGet(state.queryParams.name, state.queryParams.code).then((res) => {
-				state.posData = res.data.result;
-				state.loading = false;
-			});
+			var res = await getAPI(SysPosApi).sysPosListGet(state.queryParams.name, state.queryParams.code);
+			state.posData = res.data.result;
+			state.loading = false;
 		};
 		// 重置操作
 		const resetQuery = () => {
@@ -131,11 +130,10 @@ export default defineComponent({
 				cancelButtonText: '取消',
 				type: 'warning',
 			})
-				.then(() => {
-					getAPI(SysPosApi).sysPosDeletePost({ id: row.id }).then(() => {
-						handleQuery();
-						ElMessage.success('删除成功');
-					})
+				.then(async () => {
+					await getAPI(SysPosApi).sysPosDeletePost({ id: row.id });
+					handleQuery();
+					ElMessage.success('删除成功');
 				})
 				.catch(() => { });
 		};

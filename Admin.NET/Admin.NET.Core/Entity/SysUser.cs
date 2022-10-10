@@ -14,7 +14,7 @@ public class SysUser : EntityTenant
     public virtual string UserName { get; set; }
 
     /// <summary>
-    /// 密码（默认MD5加密）
+    /// 账号密码（MD5加密）
     /// </summary>
     [SugarColumn(ColumnDescription = "账号密码", Length = 64)]
     [Required, MaxLength(64)]
@@ -60,21 +60,21 @@ public class SysUser : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "手机号码", Length = 16)]
     [MaxLength(16)]
-    public string Phone { get; set; }
+    public virtual string Phone { get; set; }
 
     /// <summary>
     /// 真实姓名
     /// </summary>
     [SugarColumn(ColumnDescription = "真实姓名", Length = 32)]
     [MaxLength(32)]
-    public string RealName { get; set; }
+    public virtual string RealName { get; set; }
 
     /// <summary>
     /// 身份证号
     /// </summary>
     [SugarColumn(ColumnDescription = "身份证号", Length = 32)]
     [MaxLength(32)]
-    public string IdCard { get; set; }
+    public virtual string IdCard { get; set; }
 
     /// <summary>
     /// 个性签名
@@ -95,19 +95,6 @@ public class SysUser : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "账号类型")]
     public UserTypeEnum UserType { get; set; } = UserTypeEnum.None;
-
-    /// <summary>
-    /// 备注
-    /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 128)]
-    [MaxLength(128)]
-    public string Remark { get; set; }
-
-    /// <summary>
-    /// 状态
-    /// </summary>
-    [SugarColumn(ColumnDescription = "状态")]
-    public StatusEnum Status { get; set; } = StatusEnum.Enable;
 
     /// <summary>
     /// 机构Id
@@ -147,4 +134,23 @@ public class SysUser : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "岗位状态")]
     public JobStatusEnum JobStatus { get; set; } = JobStatusEnum.On;
+
+    /// <summary>
+    /// 排序
+    /// </summary>
+    [SugarColumn(ColumnDescription = "排序")]
+    public int Order { get; set; } = 100;
+
+    /// <summary>
+    /// 状态
+    /// </summary>
+    [SugarColumn(ColumnDescription = "状态")]
+    public StatusEnum Status { get; set; } = StatusEnum.Enable;
+
+    /// <summary>
+    /// 备注
+    /// </summary>
+    [SugarColumn(ColumnDescription = "备注", Length = 128)]
+    [MaxLength(128)]
+    public string Remark { get; set; }
 }

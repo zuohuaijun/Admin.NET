@@ -103,17 +103,14 @@ export default defineComponent({
 			const formWrap = unref(ruleFormRef) as any;
 			if (!formWrap) return;
 
-			formWrap.validate(() => {
-				if (state.ruleForm.id != undefined && state.ruleForm.id != 0) {
-					getAPI(SysPosApi).sysPosUpdatePost(state.ruleForm).then(() => {
-						closeDialog();
-					})
+			formWrap.validate(async () => {
+				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
+					await getAPI(SysPosApi).sysPosUpdatePost(state.ruleForm);
 				}
 				else {
-					getAPI(SysPosApi).sysPosAddPost(state.ruleForm).then(() => {
-						closeDialog();
-					})
+					await getAPI(SysPosApi).sysPosAddPost(state.ruleForm);
 				}
+				closeDialog();
 			})
 		};
 		return {

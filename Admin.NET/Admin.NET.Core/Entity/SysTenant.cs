@@ -56,6 +56,12 @@ public class SysTenant : EntityBase
     public string Schema { get; set; }
 
     /// <summary>
+    /// 排序
+    /// </summary>
+    [SugarColumn(ColumnDescription = "排序")]
+    public int Order { get; set; } = 100;
+
+    /// <summary>
     /// 备注
     /// </summary>
     [SugarColumn(ColumnDescription = "备注", Length = 128)]

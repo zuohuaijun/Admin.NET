@@ -26,7 +26,7 @@
         </div>
       </div>
     </template>
-    <div style='margin-bottom: 45px'>
+    <div style="margin-bottom: 45px" v-loading="state.loading">
       <el-tree ref='treeRef' class='filter-tree' :data='state.orgData' :props='defaultProps'
         :filter-node-method='filterNode' @node-click="nodeClick" />
     </div>
@@ -54,31 +54,24 @@ const defaultProps = {
   label: 'name',
 };
 
-const props = defineProps({
-  maInit: Boolean,
-});
-
 const state = reactive({
   loading: true,
   orgData: [] as any,
 });
 
 onMounted(() => {
-  if (props.maInit == false) {
-    initTreeData();
-  }
+  initTreeData();
 });
 
 watch(filterText, (val) => {
   treeRef.value!.filter(val);
 });
 
-const initTreeData = () => {
+const initTreeData = async () => {
   state.loading = true;
-  getAPI(SysOrgApi).sysOrgListGet(0).then((res) => {
-    state.orgData = res.data.result;
-    state.loading = false;
-  })
+  var res = await getAPI(SysOrgApi).sysOrgListGet(0);
+  state.orgData = res.data.result;
+  state.loading = false;
 };
 
 const filterNode = (value: string, data: Tree) => {
@@ -107,10 +100,10 @@ const emits = defineEmits(['node-click']);
 const nodeClick = (node: any) => {
   emits('node-click', { id: node.id, name: node.name });
 };
-// const init = () => {
-//   initTreeData();
-// };
-// defineExpose({ init });
+
+const orgTreeData = state.orgData; // 异步数据导出不了？
+// 导出
+defineExpose({ orgTreeData });
 </script>
 
 <style scoped>

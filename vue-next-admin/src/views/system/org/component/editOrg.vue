@@ -123,17 +123,14 @@ export default defineComponent({
 			// 取父节点Id
 			if (Array.isArray(state.ruleForm.pid))
 				state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
-			formWrap.validate(() => {
-				if (state.ruleForm.id != undefined && state.ruleForm.id != 0) {
-					getAPI(SysOrgApi).sysOrgUpdatePost(state.ruleForm).then(() => {
-						closeDialog();
-					})
+			formWrap.validate(async () => {
+				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
+					await getAPI(SysOrgApi).sysOrgUpdatePost(state.ruleForm);
 				}
 				else {
-					getAPI(SysOrgApi).sysOrgAddPost(state.ruleForm).then(() => {
-						closeDialog();
-					})
+					await getAPI(SysOrgApi).sysOrgAddPost(state.ruleForm);
 				}
+				closeDialog();
 			})
 		};
 		return {

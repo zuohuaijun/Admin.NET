@@ -40,21 +40,22 @@
 				</el-card>
 
 				<el-card shadow="hover" style="margin-top: 5px;">
-					<el-table :data="orgData" style="width: 100%" row-key="id" default-expand-all
-						:tree-props="{ children: 'children', hasChildren: 'hasChildren' }">
+					<el-table :data="orgData" style="width: 100%" v-loading="loading" row-key="id" default-expand-all
+						:tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
 						<el-table-column prop="name" label="机构名称" show-overflow-tooltip> </el-table-column>
 						<el-table-column prop="code" label="机构编码" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="order" label="排序" show-overflow-tooltip width="80" align="center">
+						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip>
 						</el-table-column>
-						<el-table-column prop="status" label="状态" show-overflow-tooltip width="80" align="center">
+						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
 								<el-tag type="danger" v-else>禁用</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="createTime" label="修改时间" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip>
+						</el-table-column>
 						<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
-						<el-table-column label="操作" show-overflow-tooltip width="80" fixed="right" align="center">
+						<el-table-column label="操作" width="80" fixed="right" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button size="small" text type="primary" @click="openEditOrg(scope.row)">
 									<el-icon>
@@ -102,7 +103,7 @@ export default defineComponent({
 			},
 			editOrgTitle: "",
 		});
-		onMounted(async () => {
+		onMounted(() => {
 			handleQuery();
 
 			proxy.mittBus.on("submitRefresh", () => {
@@ -113,17 +114,14 @@ export default defineComponent({
 			proxy.mittBus.off("submitRefresh");
 		});
 		// 查询操作
-		const handleQuery = () => {
+		const handleQuery = async () => {
 			state.loading = true;
-			getAPI(SysOrgApi).sysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code).then((res) => {
-				state.orgData = res.data.result;
-				state.loading = false;
+			var res = await getAPI(SysOrgApi).sysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code);
+			state.orgData = res.data.result;
+			state.loading = false;
 
-				if (state.queryParams.id == -1) {
-					state.orgTreeData = state.orgData;
-					console.log(state.orgTreeData)
-				}
-			});
+			if (state.queryParams.id == -1)
+				state.orgTreeData = state.orgData;
 		};
 		// 重置操作
 		const resetQuery = () => {
@@ -149,11 +147,10 @@ export default defineComponent({
 				cancelButtonText: '取消',
 				type: 'warning',
 			})
-				.then(() => {
-					getAPI(SysOrgApi).sysOrgDeletePost({ id: row.id }).then(() => {
-						handleQuery();
-						ElMessage.success('删除成功');
-					})
+				.then(async () => {
+					await getAPI(SysOrgApi).sysOrgDeletePost({ id: row.id });
+					handleQuery();
+					ElMessage.success('删除成功');
 				})
 				.catch(() => { });
 		};

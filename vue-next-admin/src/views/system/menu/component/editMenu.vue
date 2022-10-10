@@ -219,17 +219,14 @@ export default defineComponent({
 			// 取父节点Id
 			if (Array.isArray(state.ruleForm.pid))
 				state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
-			formWrap.validate(() => {
-				if (state.ruleForm.id != undefined && state.ruleForm.id != 0) {
-					getAPI(SysMenuApi).sysMenuUpdatePost(state.ruleForm).then(() => {
-						closeDialog();
-					})
+			formWrap.validate(async () => {
+				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
+					await getAPI(SysMenuApi).sysMenuUpdatePost(state.ruleForm);
 				}
 				else {
-					getAPI(SysMenuApi).sysMenuAddPost(state.ruleForm).then(() => {
-						closeDialog();
-					})
+					await getAPI(SysMenuApi).sysMenuAddPost(state.ruleForm);
 				}
+				closeDialog();
 			})
 		};
 		return {

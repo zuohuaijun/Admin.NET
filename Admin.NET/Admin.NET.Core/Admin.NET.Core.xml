@@ -1275,6 +1275,11 @@
             架构
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysTenant.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.SysTenant.Remark">
             <summary>
             备注
@@ -1341,6 +1346,11 @@
             Headers参数 比如{"Authorization":"userpassword"}
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysTimer.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.SysTimer.Remark">
             <summary>
             备注
@@ -1358,7 +1368,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysUser.Password">
             <summary>
-            密码（默认MD5加密）
+            账号密码（MD5加密）
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysUser.NickName">
@@ -1416,16 +1426,6 @@
             账号类型-超级管理员_1、管理员_2、普通_3
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysUser.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.SysUser.OrgId">
             <summary>
             机构Id
@@ -1454,6 +1454,21 @@
         <member name="P:Admin.NET.Core.SysUser.JobStatus">
             <summary>
             岗位状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Remark">
+            <summary>
+            备注
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysUserExtOrgPos">
@@ -6558,99 +6573,9 @@
             职位名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.UserName">
-            <summary>
-            账号
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.Password">
-            <summary>
-            密码（默认MD5加密）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.NickName">
-            <summary>
-            昵称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.Avatar">
-            <summary>
-            头像
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.Birthday">
-            <summary>
-            出生日期
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.Sex">
-            <summary>
-            性别
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.Email">
-            <summary>
-            邮箱
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.Phone">
-            <summary>
-            手机号码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.RealName">
-            <summary>
-            真实姓名
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.IdCard">
-            <summary>
-            身份证号
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.Signature">
-            <summary>
-            个性签名
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.Introduction">
-            <summary>
-            个人简介
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.UserType">
-            <summary>
-            账号类型-超级管理员_1、管理员_2、普通_3
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.UserInput.Status">
             <summary>
             状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.OrgId">
-            <summary>
-            机构Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.PosId">
-            <summary>
-            职位Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.JobNum">
-            <summary>
-            工号
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserInput.JobStatus">
-            <summary>
-            岗位状态
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.PageUserInput.UserName">
@@ -6676,6 +6601,11 @@
         <member name="P:Admin.NET.Core.Service.AddUserInput.RealName">
             <summary>
             真实姓名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddUserInput.Password">
+            <summary>
+            账号密码
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.DeleteUserInput.OrgId">

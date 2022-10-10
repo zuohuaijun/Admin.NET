@@ -1,175 +1,236 @@
 <template>
-	<div class="system-user-container">
-		<el-card shadow="hover">
-			<div class="system-user-search mb15">
-				<el-input size="default" placeholder="请输入用户名称" style="max-width: 180px"> </el-input>
-				<el-button size="default" type="primary" class="ml10">
-					<el-icon>
-						<ele-Search />
-					</el-icon>
-					查询
-				</el-button>
-				<el-button size="default" type="success" class="ml10" @click="onOpenAddUser">
-					<el-icon>
-						<ele-FolderAdd />
-					</el-icon>
-					新增用户
-				</el-button>
-			</div>
-			<el-table :data="tableData.data" style="width: 100%">
-				<el-table-column type="index" label="序号" width="60" />
-				<el-table-column prop="userName" label="账户名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="userNickname" label="用户昵称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="roleSign" label="关联角色" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="department" label="部门" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="phone" label="手机号" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="email" label="邮箱" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="status" label="用户状态" show-overflow-tooltip>
-					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.status">启用</el-tag>
-						<el-tag type="info" v-else>禁用</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="describe" label="用户描述" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" width="100">
-					<template #default="scope">
-						<el-button :disabled="scope.row.userName === 'admin'" size="small" text type="primary" @click="onOpenEditUser(scope.row)">修改</el-button>
-						<el-button :disabled="scope.row.userName === 'admin'" size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-			<el-pagination
-				@size-change="onHandleSizeChange"
-				@current-change="onHandleCurrentChange"
-				class="mt15"
-				:pager-count="5"
-				:page-sizes="[10, 20, 30]"
-				v-model:current-page="tableData.param.pageNum"
-				background
-				v-model:page-size="tableData.param.pageSize"
-				layout="total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
-			</el-pagination>
-		</el-card>
-		<AddUer ref="addUserRef" />
-		<EditUser ref="editUserRef" />
+	<div class="sys-user-container">
+		<el-row :gutter="5">
+			<el-col :span="4" :xs="24">
+				<OrgTree ref="orgTreeRef" @node-click='nodeClick' />
+			</el-col>
+
+			<el-col :span="20" :xs="24">
+				<el-card shadow="hover">
+					<el-form :model="queryParams" ref="queryForm" :inline="true">
+						<el-form-item label="账号名称" prop="name">
+							<el-input placeholder="账号名称" clearable @keyup.enter="handleQuery"
+								v-model="queryParams.userName" />
+						</el-form-item>
+						<el-form-item label="手机号码" prop="code">
+							<el-input placeholder="手机号码" clearable @keyup.enter="handleQuery"
+								v-model="queryParams.phone" />
+						</el-form-item>
+						<el-form-item>
+							<el-button @click="resetQuery">
+								<el-icon>
+									<ele-Refresh />
+								</el-icon>
+								重置
+							</el-button>
+							<el-button type="primary" @click="handleQuery">
+								<el-icon>
+									<ele-Search />
+								</el-icon>
+								查询
+							</el-button>
+							<el-button @click="openAddUser">
+								<el-icon>
+									<ele-Plus />
+								</el-icon>
+								新增
+							</el-button>
+						</el-form-item>
+					</el-form>
+				</el-card>
+
+				<el-card shadow="hover" style="margin-top: 5px;">
+					<el-table :data="userData" style="width: 100%;" v-loading="loading" border>
+						<el-table-column type="index" label="序号" width="55" align="center" fixed />
+						<el-table-column prop="userName" label="账号名称" width="120" fixed show-overflow-tooltip>
+						</el-table-column>
+						<el-table-column prop="nickName" label="昵称" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column label="头像" width="80" align="center" show-overflow-tooltip>
+							<template #default="scope">
+								<el-avatar src="" size="small">{{scope.row.userName}} </el-avatar>
+							</template>
+						</el-table-column>
+						<el-table-column label="出生日期" width="100" align="center" show-overflow-tooltip>
+							<template #default="scope">
+								{{formatDate(new Date(scope.row.birthday), 'YYYY-mm-dd')}}
+							</template>
+						</el-table-column>
+						<el-table-column label="性别" width="70" align="center" show-overflow-tooltip>
+							<template #default="scope">
+								<el-tag v-if="scope.row.sex === 1">男</el-tag>
+								<el-tag type="danger" v-else>女</el-tag>
+							</template>
+						</el-table-column>
+						<el-table-column prop="phone" label="手机号码" width="120" align="center" show-overflow-tooltip>
+						</el-table-column>
+						<el-table-column prop="realName" label="真实姓名" width="120" show-overflow-tooltip>
+						</el-table-column>
+						<el-table-column prop="idCard" label="证件号码" width="150" show-overflow-tooltip></el-table-column>
+						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
+							<template #default="scope">
+								<el-switch v-model="scope.row.status" :active-value="1" :inactive-value="2" size="small"
+									@change="changeStatus(scope.row)">
+								</el-switch>
+							</template>
+						</el-table-column>
+						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip>
+						</el-table-column>
+						<el-table-column prop="createTime" label="修改时间" width="160" show-overflow-tooltip>
+						</el-table-column>
+						<el-table-column prop="remark" label="备注" width="200" show-overflow-tooltip></el-table-column>
+						<el-table-column label="操作" width="80" align="center" fixed="right" show-overflow-tooltip>
+							<template #default="scope">
+								<el-button size="small" text type="primary" @click="openEditUser(scope.row)">
+									<el-icon>
+										<ele-Edit />
+									</el-icon>
+								</el-button>
+								<el-button size="small" text type="primary" @click="delUser(scope.row)">
+									<el-icon>
+										<ele-Delete />
+									</el-icon>
+								</el-button>
+							</template>
+						</el-table-column>
+					</el-table>
+					<el-pagination v-model:currentPage="tableParams.page" v-model:page-size="tableParams.pageSize"
+						:total="tableParams.total" :page-sizes="[10, 20, 50, 100]" small background
+						@size-change="handleSizeChange" @current-change="handleCurrentChange"
+						layout="total, sizes, prev, pager, next, jumper" />
+				</el-card>
+			</el-col>
+		</el-row>
+		<EditUser ref="editUserRef" :title="editUserTitle" :orgData="orgTreeData" />
 	</div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent } from 'vue';
+import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import AddUer from '/@/views/system/user/component/addUser.vue';
+import { formatDate } from '/@/utils/formatTime';
+import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditUser from '/@/views/system/user/component/editUser.vue';
 
-// 定义接口来定义对象的类型
-interface TableDataRow {
-	userName: string;
-	userNickname: string;
-	roleSign: string;
-	department: string[];
-	phone: string;
-	email: string;
-	sex: string;
-	password: string;
-	overdueTime: Date;
-	status: boolean;
-	describe: string;
-	createTime: string;
-}
-interface TableDataState {
-	tableData: {
-		data: Array<TableDataRow>;
-		total: number;
-		loading: boolean;
-		param: {
-			pageNum: number;
-			pageSize: number;
-		};
-	};
-}
+import { getAPI } from '/@/utils/axios-utils';
+import { SysUserApi } from '/@/api-services/apis/sys-user-api';
+import { SysOrgApi } from '/@/api-services/apis/sys-org-api';
 
 export default defineComponent({
 	name: 'sysUser',
-	components: { AddUer, EditUser },
+	components: { OrgTree, EditUser },
 	setup() {
-		const addUserRef = ref();
+		const { proxy } = getCurrentInstance() as any;
+		const orgTreeRef = ref()
 		const editUserRef = ref();
-		const state = reactive<TableDataState>({
-			tableData: {
-				data: [],
-				total: 0,
-				loading: false,
-				param: {
-					pageNum: 1,
-					pageSize: 10,
-				},
+		const state = reactive({
+			loading: true,
+			userData: [] as any,
+			orgTreeData: [] as any, // 编辑页面上级机构树
+			queryParams: {
+				orgId: -1,
+				userName: undefined,
+				phone: undefined,
+
 			},
+			tableParams: {
+				page: 1,
+				pageSize: 10,
+				total: 0 as any,
+			},
+			editUserTitle: "",
 		});
-		// 初始化表格数据
-		const initTableData = () => {
-			const data: Array<TableDataRow> = [];
-			for (let i = 0; i < 2; i++) {
-				data.push({
-					userName: i === 0 ? 'admin' : 'test',
-					userNickname: i === 0 ? '我是管理员' : '我是普通用户',
-					roleSign: i === 0 ? 'admin' : 'common',
-					department: i === 0 ? ['vueNextAdmin', 'IT外包服务'] : ['vueNextAdmin', '资本控股'],
-					phone: '12345678910',
-					email: 'vueNextAdmin@123.com',
-					sex: '女',
-					password: '123456',
-					overdueTime: new Date(),
-					status: true,
-					describe: i === 0 ? '不可删除' : '测试用户',
-					createTime: new Date().toLocaleString(),
-				});
-			}
-			state.tableData.data = data;
-			state.tableData.total = state.tableData.data.length;
+		onMounted(async () => {
+			loadOrgData();
+			handleQuery();
+
+			proxy.mittBus.on("submitRefresh", () => {
+				handleQuery();
+			});
+		});
+		onUnmounted(() => {
+			proxy.mittBus.off("submitRefresh");
+		});
+		// 查询机构数据(可以从机构组件里面获取)
+		const loadOrgData = async () => {
+			state.loading = true;
+			var res = await getAPI(SysOrgApi).sysOrgListGet(0);
+			state.orgTreeData = res.data.result;
+			state.loading = false;
 		};
-		// 打开新增用户弹窗
-		const onOpenAddUser = () => {
-			addUserRef.value.openDialog();
+		// 查询操作
+		const handleQuery = async () => {
+			state.loading = true;
+			var res = await getAPI(SysUserApi).sysUserPageGet(state.queryParams.userName, state.queryParams.phone,
+				state.queryParams.orgId, state.tableParams.page, state.tableParams.pageSize);
+			state.userData = res.data.result?.items;
+			state.tableParams.total = res.data.result?.total;
+			state.loading = false;
 		};
-		// 打开修改用户弹窗
-		const onOpenEditUser = (row: TableDataRow) => {
+		// 重置操作
+		const resetQuery = () => {
+			state.queryParams.orgId = -1;
+			state.queryParams.userName = undefined;
+			state.queryParams.phone = undefined;
+			handleQuery();
+		};
+		// 打开新增页面
+		const openAddUser = () => {
+			state.editUserTitle = "添加账号";
+			editUserRef.value.openDialog({});
+		};
+		// 打开编辑页面
+		const openEditUser = (row: any) => {
+			state.editUserTitle = "编辑账号";
 			editUserRef.value.openDialog(row);
 		};
-		// 删除用户
-		const onRowDel = (row: TableDataRow) => {
-			ElMessageBox.confirm(`此操作将永久删除账户名称：“${row.userName}”，是否继续?`, '提示', {
-				confirmButtonText: '确认',
+		// 删除
+		const delUser = (row: any) => {
+			ElMessageBox.confirm(`确定删除账号：【${row.userName}】?`, '提示', {
+				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning',
 			})
-				.then(() => {
+				.then(async () => {
+					await getAPI(SysUserApi).sysUserDeletePost({ id: row.id });
+					handleQuery();
 					ElMessage.success('删除成功');
 				})
-				.catch(() => {});
+				.catch(() => { });
 		};
 		// 分页改变
-		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.pageSize = val;
+		const handleSizeChange = (val: number) => {
+			state.tableParams.pageSize = val;
+			handleQuery();
 		};
 		// 分页改变
-		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.pageNum = val;
+		const handleCurrentChange = (val: number) => {
+			state.tableParams.page = val;
+			handleQuery();
 		};
-		// 页面加载时
-		onMounted(() => {
-			initTableData();
-		});
+		// 修改状态
+		const changeStatus = async (row: any) => {
+			await getAPI(SysUserApi).sysUserSetStatusPost({ id: row.id, status: row.status });
+		}
+		// 树组件点击
+		const nodeClick = async (node: any) => {
+			state.queryParams.orgId = node.id;
+			state.queryParams.userName = undefined; // node.name;
+			state.queryParams.phone = undefined;
+			handleQuery();
+		};
 		return {
-			addUserRef,
+			handleQuery,
+			resetQuery,
+			orgTreeRef,
 			editUserRef,
-			onOpenAddUser,
-			onOpenEditUser,
-			onRowDel,
-			onHandleSizeChange,
-			onHandleCurrentChange,
+			openAddUser,
+			openEditUser,
+			delUser,
+			handleSizeChange,
+			handleCurrentChange,
+			changeStatus,
+			nodeClick,
+			formatDate,
 			...toRefs(state),
 		};
 	},
