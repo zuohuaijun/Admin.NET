@@ -17,7 +17,7 @@ export default defineComponent({
 		const initQrcode = () => {
 			(qrcodeRef.value as HTMLElement).innerHTML = '';
 			new QRCode(qrcodeRef.value, {
-				text: `https://qm.qq.com/cgi-bin/qm/qr?k=RdUY97Vx0T0vZ_1OOu-X1yFNkWgDwbjC&jump_from=webapi`,
+				text: `https://gitee.com/zuohuaijun/Admin.NET`,
 				width: 260,
 				height: 260,
 				colorDark: '#000000',

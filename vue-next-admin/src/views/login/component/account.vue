@@ -1,44 +1,39 @@
 <template>
 	<el-form size="large" class="login-content-form">
 		<el-form-item class="login-animation1">
-			<el-input type="text" :placeholder="$t('message.account.accountPlaceholder1')" v-model="ruleForm.userName" clearable autocomplete="off">
+			<el-input type="text" :placeholder="$t('message.account.accountPlaceholder1')" v-model="ruleForm.userName"
+				clearable autocomplete="off">
 				<template #prefix>
-					<el-icon class="el-input__icon"><ele-User /></el-icon>
+					<el-icon class="el-input__icon">
+						<ele-User />
+					</el-icon>
 				</template>
 			</el-input>
 		</el-form-item>
 		<el-form-item class="login-animation2">
-			<el-input
-				:type="isShowPassword ? 'text' : 'password'"
-				:placeholder="$t('message.account.accountPlaceholder2')"
-				v-model="ruleForm.password"
-				autocomplete="off"
-			>
+			<el-input :type="isShowPassword ? 'text' : 'password'"
+				:placeholder="$t('message.account.accountPlaceholder2')" v-model="ruleForm.password" autocomplete="off">
 				<template #prefix>
-					<el-icon class="el-input__icon"><ele-Unlock /></el-icon>
+					<el-icon class="el-input__icon">
+						<ele-Unlock />
+					</el-icon>
 				</template>
 				<template #suffix>
-					<i
-						class="iconfont el-input__icon login-content-password"
+					<i class="iconfont el-input__icon login-content-password"
 						:class="isShowPassword ? 'icon-yincangmima' : 'icon-xianshimima'"
-						@click="isShowPassword = !isShowPassword"
-					>
+						@click="isShowPassword = !isShowPassword">
 					</i>
 				</template>
 			</el-input>
 		</el-form-item>
 		<el-form-item class="login-animation3">
 			<el-col :span="15">
-				<el-input
-					type="text"
-					maxlength="4"
-					:placeholder="$t('message.account.accountPlaceholder3')"
-					v-model="ruleForm.code"
-					clearable
-					autocomplete="off"
-				>
+				<el-input type="text" maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')"
+					v-model="ruleForm.code" clearable autocomplete="off">
 					<template #prefix>
-						<el-icon class="el-input__icon"><ele-Position /></el-icon>
+						<el-icon class="el-input__icon">
+							<ele-Position />
+						</el-icon>
 					</template>
 				</el-input>
 			</el-col>
@@ -52,6 +47,7 @@
 				<span>{{ $t('message.account.accountBtnText') }}</span>
 			</el-button>
 		</el-form-item>
+		<div class="font12 mt30 login-animation4 login-msg">{{ $t('message.mobile.msgText') }}</div>
 	</el-form>
 </template>
 
@@ -101,7 +97,7 @@ export default defineComponent({
 				ElMessage.error("登录失败，请检查账号！");
 				return;
 			}
-			
+
 			state.loading.signIn = true;
 			// 存储 token 到浏览器缓存
 			Session.set('token', res.data.result?.token);
@@ -152,6 +148,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .login-content-form {
 	margin-top: 20px;
+
 	@for $i from 1 through 4 {
 		.login-animation#{$i} {
 			opacity: 0;
@@ -161,25 +158,33 @@ export default defineComponent({
 			animation-delay: calc($i/10) + s;
 		}
 	}
+
 	.login-content-password {
 		display: inline-block;
 		width: 20px;
 		cursor: pointer;
+
 		&:hover {
 			color: #909399;
 		}
 	}
+
 	.login-content-code {
 		width: 100%;
 		padding: 0;
 		font-weight: bold;
 		letter-spacing: 5px;
 	}
+
 	.login-content-submit {
 		width: 100%;
 		letter-spacing: 2px;
 		font-weight: 300;
 		margin-top: 15px;
+	}
+
+	.login-msg {
+		color: var(--el-text-color-placeholder);
 	}
 }
 </style>

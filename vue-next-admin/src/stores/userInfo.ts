@@ -32,21 +32,21 @@ export const useUserInfo = defineStore('userInfo', {
 		// https://gitee.com/lyt-top/vue-next-admin/issues/I5F1HP
 		async getApiUserInfo() {
 			return new Promise((resolve) => {
-				getAPI(SysAuthApi).getUserInfoGet().then((res)=>{
-					if (res.data.result == null) {
-						return;
-					}
-					var d = res.data.result;
-					const userInfos = {
-						userName: d.username,
-						photo:d.avatar,
-						time: new Date().getTime(),
-						roles: d.roles,
-						authBtnList: d.buttons
-					};
-					resolve(userInfos);
-				});
-				
+				getAPI(SysAuthApi)
+					.getUserInfoGet()
+					.then((res) => {
+						if (res.data.result == null) return;
+						var d = res.data.result;
+						const userInfos = {
+							userName: d.username,
+							photo: d.avatar ? d.avatar : '/favicon.ico',
+							time: new Date().getTime(),
+							roles: d.roles,
+							authBtnList: d.buttons,
+						};
+						resolve(userInfos);
+					});
+
 				// setTimeout(() => {
 				// 	// 模拟数据，请求接口时，记得删除多余代码及对应依赖的引入
 				// 	const userName = Cookies.get('userName');
