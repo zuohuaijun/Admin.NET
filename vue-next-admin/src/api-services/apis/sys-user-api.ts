@@ -284,29 +284,11 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary 获取用户拥有机构
          * @param {number} id 主键Id
-         * @param {string} [userName] 账号
-         * @param {string} [password] 密码（默认MD5加密）
-         * @param {string} [nickName] 昵称
-         * @param {string} [avatar] 头像
-         * @param {Date} [birthday] 出生日期
-         * @param {number} [sex] 性别
-         * @param {string} [email] 邮箱
-         * @param {string} [phone] 手机号码
-         * @param {string} [realName] 真实姓名
-         * @param {string} [idCard] 身份证号
-         * @param {string} [signature] 个性签名
-         * @param {string} [introduction] 个人简介
-         * @param {number} [userType] 账号类型-超级管理员_1、管理员_2、普通_3
-         * @param {string} [remark] 备注
          * @param {number} [status] 状态
-         * @param {number} [orgId] 机构Id
-         * @param {number} [posId] 职位Id
-         * @param {string} [jobNum] 工号
-         * @param {number} [jobStatus] 岗位状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysUserOwnOrgGet: async (id: number, userName?: string, password?: string, nickName?: string, avatar?: string, birthday?: Date, sex?: number, email?: string, phone?: string, realName?: string, idCard?: string, signature?: string, introduction?: string, userType?: number, remark?: string, status?: number, orgId?: number, posId?: number, jobNum?: string, jobStatus?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysUserOwnOrgGet: async (id: number, status?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling sysUserOwnOrgGet.');
@@ -324,82 +306,8 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
 
             // authentication Bearer required
 
-            if (userName !== undefined) {
-                localVarQueryParameter['UserName'] = userName;
-            }
-
-            if (password !== undefined) {
-                localVarQueryParameter['Password'] = password;
-            }
-
-            if (nickName !== undefined) {
-                localVarQueryParameter['NickName'] = nickName;
-            }
-
-            if (avatar !== undefined) {
-                localVarQueryParameter['Avatar'] = avatar;
-            }
-
-            if (birthday !== undefined) {
-                localVarQueryParameter['Birthday'] = (birthday as any instanceof Date) ?
-                    (birthday as any).toISOString() :
-                    birthday;
-            }
-
-            if (sex !== undefined) {
-                localVarQueryParameter['Sex'] = sex;
-            }
-
-            if (email !== undefined) {
-                localVarQueryParameter['Email'] = email;
-            }
-
-            if (phone !== undefined) {
-                localVarQueryParameter['Phone'] = phone;
-            }
-
-            if (realName !== undefined) {
-                localVarQueryParameter['RealName'] = realName;
-            }
-
-            if (idCard !== undefined) {
-                localVarQueryParameter['IdCard'] = idCard;
-            }
-
-            if (signature !== undefined) {
-                localVarQueryParameter['Signature'] = signature;
-            }
-
-            if (introduction !== undefined) {
-                localVarQueryParameter['Introduction'] = introduction;
-            }
-
-            if (userType !== undefined) {
-                localVarQueryParameter['UserType'] = userType;
-            }
-
-            if (remark !== undefined) {
-                localVarQueryParameter['Remark'] = remark;
-            }
-
             if (status !== undefined) {
                 localVarQueryParameter['Status'] = status;
-            }
-
-            if (orgId !== undefined) {
-                localVarQueryParameter['OrgId'] = orgId;
-            }
-
-            if (posId !== undefined) {
-                localVarQueryParameter['PosId'] = posId;
-            }
-
-            if (jobNum !== undefined) {
-                localVarQueryParameter['JobNum'] = jobNum;
-            }
-
-            if (jobStatus !== undefined) {
-                localVarQueryParameter['JobStatus'] = jobStatus;
             }
 
             if (id !== undefined) {
@@ -426,29 +334,11 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary 获取用户拥有角色
          * @param {number} id 主键Id
-         * @param {string} [userName] 账号
-         * @param {string} [password] 密码（默认MD5加密）
-         * @param {string} [nickName] 昵称
-         * @param {string} [avatar] 头像
-         * @param {Date} [birthday] 出生日期
-         * @param {number} [sex] 性别
-         * @param {string} [email] 邮箱
-         * @param {string} [phone] 手机号码
-         * @param {string} [realName] 真实姓名
-         * @param {string} [idCard] 身份证号
-         * @param {string} [signature] 个性签名
-         * @param {string} [introduction] 个人简介
-         * @param {number} [userType] 账号类型-超级管理员_1、管理员_2、普通_3
-         * @param {string} [remark] 备注
          * @param {number} [status] 状态
-         * @param {number} [orgId] 机构Id
-         * @param {number} [posId] 职位Id
-         * @param {string} [jobNum] 工号
-         * @param {number} [jobStatus] 岗位状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysUserOwnRoleGet: async (id: number, userName?: string, password?: string, nickName?: string, avatar?: string, birthday?: Date, sex?: number, email?: string, phone?: string, realName?: string, idCard?: string, signature?: string, introduction?: string, userType?: number, remark?: string, status?: number, orgId?: number, posId?: number, jobNum?: string, jobStatus?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysUserOwnRoleGet: async (id: number, status?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling sysUserOwnRoleGet.');
@@ -466,82 +356,8 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
 
             // authentication Bearer required
 
-            if (userName !== undefined) {
-                localVarQueryParameter['UserName'] = userName;
-            }
-
-            if (password !== undefined) {
-                localVarQueryParameter['Password'] = password;
-            }
-
-            if (nickName !== undefined) {
-                localVarQueryParameter['NickName'] = nickName;
-            }
-
-            if (avatar !== undefined) {
-                localVarQueryParameter['Avatar'] = avatar;
-            }
-
-            if (birthday !== undefined) {
-                localVarQueryParameter['Birthday'] = (birthday as any instanceof Date) ?
-                    (birthday as any).toISOString() :
-                    birthday;
-            }
-
-            if (sex !== undefined) {
-                localVarQueryParameter['Sex'] = sex;
-            }
-
-            if (email !== undefined) {
-                localVarQueryParameter['Email'] = email;
-            }
-
-            if (phone !== undefined) {
-                localVarQueryParameter['Phone'] = phone;
-            }
-
-            if (realName !== undefined) {
-                localVarQueryParameter['RealName'] = realName;
-            }
-
-            if (idCard !== undefined) {
-                localVarQueryParameter['IdCard'] = idCard;
-            }
-
-            if (signature !== undefined) {
-                localVarQueryParameter['Signature'] = signature;
-            }
-
-            if (introduction !== undefined) {
-                localVarQueryParameter['Introduction'] = introduction;
-            }
-
-            if (userType !== undefined) {
-                localVarQueryParameter['UserType'] = userType;
-            }
-
-            if (remark !== undefined) {
-                localVarQueryParameter['Remark'] = remark;
-            }
-
             if (status !== undefined) {
                 localVarQueryParameter['Status'] = status;
-            }
-
-            if (orgId !== undefined) {
-                localVarQueryParameter['OrgId'] = orgId;
-            }
-
-            if (posId !== undefined) {
-                localVarQueryParameter['PosId'] = posId;
-            }
-
-            if (jobNum !== undefined) {
-                localVarQueryParameter['JobNum'] = jobNum;
-            }
-
-            if (jobStatus !== undefined) {
-                localVarQueryParameter['JobStatus'] = jobStatus;
             }
 
             if (id !== undefined) {
@@ -860,30 +676,12 @@ export const SysUserApiFp = function(configuration?: Configuration) {
          * 
          * @summary 获取用户拥有机构
          * @param {number} id 主键Id
-         * @param {string} [userName] 账号
-         * @param {string} [password] 密码（默认MD5加密）
-         * @param {string} [nickName] 昵称
-         * @param {string} [avatar] 头像
-         * @param {Date} [birthday] 出生日期
-         * @param {number} [sex] 性别
-         * @param {string} [email] 邮箱
-         * @param {string} [phone] 手机号码
-         * @param {string} [realName] 真实姓名
-         * @param {string} [idCard] 身份证号
-         * @param {string} [signature] 个性签名
-         * @param {string} [introduction] 个人简介
-         * @param {number} [userType] 账号类型-超级管理员_1、管理员_2、普通_3
-         * @param {string} [remark] 备注
          * @param {number} [status] 状态
-         * @param {number} [orgId] 机构Id
-         * @param {number} [posId] 职位Id
-         * @param {string} [jobNum] 工号
-         * @param {number} [jobStatus] 岗位状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnOrgGet(id: number, userName?: string, password?: string, nickName?: string, avatar?: string, birthday?: Date, sex?: number, email?: string, phone?: string, realName?: string, idCard?: string, signature?: string, introduction?: string, userType?: number, remark?: string, status?: number, orgId?: number, posId?: number, jobNum?: string, jobStatus?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
-            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnOrgGet(id, userName, password, nickName, avatar, birthday, sex, email, phone, realName, idCard, signature, introduction, userType, remark, status, orgId, posId, jobNum, jobStatus, options);
+        async sysUserOwnOrgGet(id: number, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
+            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnOrgGet(id, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -893,30 +691,12 @@ export const SysUserApiFp = function(configuration?: Configuration) {
          * 
          * @summary 获取用户拥有角色
          * @param {number} id 主键Id
-         * @param {string} [userName] 账号
-         * @param {string} [password] 密码（默认MD5加密）
-         * @param {string} [nickName] 昵称
-         * @param {string} [avatar] 头像
-         * @param {Date} [birthday] 出生日期
-         * @param {number} [sex] 性别
-         * @param {string} [email] 邮箱
-         * @param {string} [phone] 手机号码
-         * @param {string} [realName] 真实姓名
-         * @param {string} [idCard] 身份证号
-         * @param {string} [signature] 个性签名
-         * @param {string} [introduction] 个人简介
-         * @param {number} [userType] 账号类型-超级管理员_1、管理员_2、普通_3
-         * @param {string} [remark] 备注
          * @param {number} [status] 状态
-         * @param {number} [orgId] 机构Id
-         * @param {number} [posId] 职位Id
-         * @param {string} [jobNum] 工号
-         * @param {number} [jobStatus] 岗位状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnRoleGet(id: number, userName?: string, password?: string, nickName?: string, avatar?: string, birthday?: Date, sex?: number, email?: string, phone?: string, realName?: string, idCard?: string, signature?: string, introduction?: string, userType?: number, remark?: string, status?: number, orgId?: number, posId?: number, jobNum?: string, jobStatus?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
-            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnRoleGet(id, userName, password, nickName, avatar, birthday, sex, email, phone, realName, idCard, signature, introduction, userType, remark, status, orgId, posId, jobNum, jobStatus, options);
+        async sysUserOwnRoleGet(id: number, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
+            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnRoleGet(id, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1058,59 +838,23 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
          * 
          * @summary 获取用户拥有机构
          * @param {number} id 主键Id
-         * @param {string} [userName] 账号
-         * @param {string} [password] 密码（默认MD5加密）
-         * @param {string} [nickName] 昵称
-         * @param {string} [avatar] 头像
-         * @param {Date} [birthday] 出生日期
-         * @param {number} [sex] 性别
-         * @param {string} [email] 邮箱
-         * @param {string} [phone] 手机号码
-         * @param {string} [realName] 真实姓名
-         * @param {string} [idCard] 身份证号
-         * @param {string} [signature] 个性签名
-         * @param {string} [introduction] 个人简介
-         * @param {number} [userType] 账号类型-超级管理员_1、管理员_2、普通_3
-         * @param {string} [remark] 备注
          * @param {number} [status] 状态
-         * @param {number} [orgId] 机构Id
-         * @param {number} [posId] 职位Id
-         * @param {string} [jobNum] 工号
-         * @param {number} [jobStatus] 岗位状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnOrgGet(id: number, userName?: string, password?: string, nickName?: string, avatar?: string, birthday?: Date, sex?: number, email?: string, phone?: string, realName?: string, idCard?: string, signature?: string, introduction?: string, userType?: number, remark?: string, status?: number, orgId?: number, posId?: number, jobNum?: string, jobStatus?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
-            return SysUserApiFp(configuration).sysUserOwnOrgGet(id, userName, password, nickName, avatar, birthday, sex, email, phone, realName, idCard, signature, introduction, userType, remark, status, orgId, posId, jobNum, jobStatus, options).then((request) => request(axios, basePath));
+        async sysUserOwnOrgGet(id: number, status?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
+            return SysUserApiFp(configuration).sysUserOwnOrgGet(id, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary 获取用户拥有角色
          * @param {number} id 主键Id
-         * @param {string} [userName] 账号
-         * @param {string} [password] 密码（默认MD5加密）
-         * @param {string} [nickName] 昵称
-         * @param {string} [avatar] 头像
-         * @param {Date} [birthday] 出生日期
-         * @param {number} [sex] 性别
-         * @param {string} [email] 邮箱
-         * @param {string} [phone] 手机号码
-         * @param {string} [realName] 真实姓名
-         * @param {string} [idCard] 身份证号
-         * @param {string} [signature] 个性签名
-         * @param {string} [introduction] 个人简介
-         * @param {number} [userType] 账号类型-超级管理员_1、管理员_2、普通_3
-         * @param {string} [remark] 备注
          * @param {number} [status] 状态
-         * @param {number} [orgId] 机构Id
-         * @param {number} [posId] 职位Id
-         * @param {string} [jobNum] 工号
-         * @param {number} [jobStatus] 岗位状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnRoleGet(id: number, userName?: string, password?: string, nickName?: string, avatar?: string, birthday?: Date, sex?: number, email?: string, phone?: string, realName?: string, idCard?: string, signature?: string, introduction?: string, userType?: number, remark?: string, status?: number, orgId?: number, posId?: number, jobNum?: string, jobStatus?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
-            return SysUserApiFp(configuration).sysUserOwnRoleGet(id, userName, password, nickName, avatar, birthday, sex, email, phone, realName, idCard, signature, introduction, userType, remark, status, orgId, posId, jobNum, jobStatus, options).then((request) => request(axios, basePath));
+        async sysUserOwnRoleGet(id: number, status?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
+            return SysUserApiFp(configuration).sysUserOwnRoleGet(id, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1239,61 +983,25 @@ export class SysUserApi extends BaseAPI {
      * 
      * @summary 获取用户拥有机构
      * @param {number} id 主键Id
-     * @param {string} [userName] 账号
-     * @param {string} [password] 密码（默认MD5加密）
-     * @param {string} [nickName] 昵称
-     * @param {string} [avatar] 头像
-     * @param {Date} [birthday] 出生日期
-     * @param {number} [sex] 性别
-     * @param {string} [email] 邮箱
-     * @param {string} [phone] 手机号码
-     * @param {string} [realName] 真实姓名
-     * @param {string} [idCard] 身份证号
-     * @param {string} [signature] 个性签名
-     * @param {string} [introduction] 个人简介
-     * @param {number} [userType] 账号类型-超级管理员_1、管理员_2、普通_3
-     * @param {string} [remark] 备注
      * @param {number} [status] 状态
-     * @param {number} [orgId] 机构Id
-     * @param {number} [posId] 职位Id
-     * @param {string} [jobNum] 工号
-     * @param {number} [jobStatus] 岗位状态
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async sysUserOwnOrgGet(id: number, userName?: string, password?: string, nickName?: string, avatar?: string, birthday?: Date, sex?: number, email?: string, phone?: string, realName?: string, idCard?: string, signature?: string, introduction?: string, userType?: number, remark?: string, status?: number, orgId?: number, posId?: number, jobNum?: string, jobStatus?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
-        return SysUserApiFp(this.configuration).sysUserOwnOrgGet(id, userName, password, nickName, avatar, birthday, sex, email, phone, realName, idCard, signature, introduction, userType, remark, status, orgId, posId, jobNum, jobStatus, options).then((request) => request(this.axios, this.basePath));
+    public async sysUserOwnOrgGet(id: number, status?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
+        return SysUserApiFp(this.configuration).sysUserOwnOrgGet(id, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
      * @summary 获取用户拥有角色
      * @param {number} id 主键Id
-     * @param {string} [userName] 账号
-     * @param {string} [password] 密码（默认MD5加密）
-     * @param {string} [nickName] 昵称
-     * @param {string} [avatar] 头像
-     * @param {Date} [birthday] 出生日期
-     * @param {number} [sex] 性别
-     * @param {string} [email] 邮箱
-     * @param {string} [phone] 手机号码
-     * @param {string} [realName] 真实姓名
-     * @param {string} [idCard] 身份证号
-     * @param {string} [signature] 个性签名
-     * @param {string} [introduction] 个人简介
-     * @param {number} [userType] 账号类型-超级管理员_1、管理员_2、普通_3
-     * @param {string} [remark] 备注
      * @param {number} [status] 状态
-     * @param {number} [orgId] 机构Id
-     * @param {number} [posId] 职位Id
-     * @param {string} [jobNum] 工号
-     * @param {number} [jobStatus] 岗位状态
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async sysUserOwnRoleGet(id: number, userName?: string, password?: string, nickName?: string, avatar?: string, birthday?: Date, sex?: number, email?: string, phone?: string, realName?: string, idCard?: string, signature?: string, introduction?: string, userType?: number, remark?: string, status?: number, orgId?: number, posId?: number, jobNum?: string, jobStatus?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
-        return SysUserApiFp(this.configuration).sysUserOwnRoleGet(id, userName, password, nickName, avatar, birthday, sex, email, phone, realName, idCard, signature, introduction, userType, remark, status, orgId, posId, jobNum, jobStatus, options).then((request) => request(this.axios, this.basePath));
+    public async sysUserOwnRoleGet(id: number, status?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
+        return SysUserApiFp(this.configuration).sysUserOwnRoleGet(id, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

@@ -11,6 +11,12 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { GenderEnum } from './gender-enum';
+import { JobStatusEnum } from './job-status-enum';
+import { StatusEnum } from './status-enum';
+import { SysOrg } from './sys-org';
+import { SysPos } from './sys-pos';
+import { UserTypeEnum } from './user-type-enum';
 /**
  * 
  * @export
@@ -18,17 +24,47 @@
  */
 export interface UpdateUserInput {
     /**
-     * 主键Id
+     * 雪花Id
      * @type {number}
      * @memberof UpdateUserInput
      */
-    id: number;
+    id?: number;
     /**
-     * 密码（默认MD5加密）
-     * @type {string}
+     * 创建时间
+     * @type {Date}
      * @memberof UpdateUserInput
      */
-    password?: string | null;
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof UpdateUserInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
+     * @type {number}
+     * @memberof UpdateUserInput
+     */
+    createUserId?: number | null;
+    /**
+     * 修改者Id
+     * @type {number}
+     * @memberof UpdateUserInput
+     */
+    updateUserId?: number | null;
+    /**
+     * 软删除
+     * @type {boolean}
+     * @memberof UpdateUserInput
+     */
+    isDelete?: boolean;
+    /**
+     * 租户Id
+     * @type {number}
+     * @memberof UpdateUserInput
+     */
+    tenantId?: number | null;
     /**
      * 昵称
      * @type {string}
@@ -48,11 +84,11 @@ export interface UpdateUserInput {
      */
     birthday?: Date | null;
     /**
-     * 性别
-     * @type {number}
+     * 
+     * @type {GenderEnum}
      * @memberof UpdateUserInput
      */
-    sex?: number;
+    sex?: GenderEnum;
     /**
      * 邮箱
      * @type {string}
@@ -84,23 +120,11 @@ export interface UpdateUserInput {
      */
     introduction?: string | null;
     /**
-     * 账号类型-超级管理员_1、管理员_2、普通_3
-     * @type {number}
+     * 
+     * @type {UserTypeEnum}
      * @memberof UpdateUserInput
      */
-    userType?: number;
-    /**
-     * 备注
-     * @type {string}
-     * @memberof UpdateUserInput
-     */
-    remark?: string | null;
-    /**
-     * 状态
-     * @type {number}
-     * @memberof UpdateUserInput
-     */
-    status?: number;
+    userType?: UserTypeEnum;
     /**
      * 机构Id
      * @type {number}
@@ -108,11 +132,23 @@ export interface UpdateUserInput {
      */
     orgId?: number;
     /**
+     * 
+     * @type {SysOrg}
+     * @memberof UpdateUserInput
+     */
+    sysOrg?: SysOrg;
+    /**
      * 职位Id
      * @type {number}
      * @memberof UpdateUserInput
      */
     posId?: number;
+    /**
+     * 
+     * @type {SysPos}
+     * @memberof UpdateUserInput
+     */
+    sysPos?: SysPos;
     /**
      * 工号
      * @type {string}
@@ -120,11 +156,29 @@ export interface UpdateUserInput {
      */
     jobNum?: string | null;
     /**
-     * 岗位状态
+     * 
+     * @type {JobStatusEnum}
+     * @memberof UpdateUserInput
+     */
+    jobStatus?: JobStatusEnum;
+    /**
+     * 排序
      * @type {number}
      * @memberof UpdateUserInput
      */
-    jobStatus?: number;
+    order?: number;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof UpdateUserInput
+     */
+    status?: StatusEnum;
+    /**
+     * 备注
+     * @type {string}
+     * @memberof UpdateUserInput
+     */
+    remark?: string | null;
     /**
      * 账号名称
      * @type {string}

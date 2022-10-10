@@ -96,6 +96,12 @@ export interface SysTenant {
      */
     schema?: string | null;
     /**
+     * 排序
+     * @type {number}
+     * @memberof SysTenant
+     */
+    order?: number;
+    /**
      * 备注
      * @type {string}
      * @memberof SysTenant

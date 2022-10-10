@@ -117,6 +117,12 @@ export interface UpdateTimerInput {
      */
     headers?: string | null;
     /**
+     * 排序
+     * @type {number}
+     * @memberof UpdateTimerInput
+     */
+    order?: number;
+    /**
      * 备注
      * @type {string}
      * @memberof UpdateTimerInput

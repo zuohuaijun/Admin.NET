@@ -138,18 +138,6 @@ export interface SysUser {
      */
     userType?: UserTypeEnum;
     /**
-     * 备注
-     * @type {string}
-     * @memberof SysUser
-     */
-    remark?: string | null;
-    /**
-     * 
-     * @type {StatusEnum}
-     * @memberof SysUser
-     */
-    status?: StatusEnum;
-    /**
      * 机构Id
      * @type {number}
      * @memberof SysUser
@@ -185,4 +173,22 @@ export interface SysUser {
      * @memberof SysUser
      */
     jobStatus?: JobStatusEnum;
+    /**
+     * 排序
+     * @type {number}
+     * @memberof SysUser
+     */
+    order?: number;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof SysUser
+     */
+    status?: StatusEnum;
+    /**
+     * 备注
+     * @type {string}
+     * @memberof SysUser
+     */
+    remark?: string | null;
 }

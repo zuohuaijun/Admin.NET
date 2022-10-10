@@ -117,6 +117,12 @@ export interface AddTimerInput {
      */
     headers?: string | null;
     /**
+     * 排序
+     * @type {number}
+     * @memberof AddTimerInput
+     */
+    order?: number;
+    /**
      * 备注
      * @type {string}
      * @memberof AddTimerInput

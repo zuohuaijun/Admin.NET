@@ -124,6 +124,12 @@ export interface TimerOutput {
      */
     headers?: string | null;
     /**
+     * 排序
+     * @type {number}
+     * @memberof TimerOutput
+     */
+    order?: number;
+    /**
      * 备注
      * @type {string}
      * @memberof TimerOutput
