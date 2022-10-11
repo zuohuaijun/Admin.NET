@@ -32,7 +32,7 @@ public class SysRoleMenuService : ITransient
     /// </summary>
     /// <param name="roleIdList"></param>
     /// <returns></returns>
-    public async Task<List<SysMenu>> GetRoleMenu(List<long> roleIdList)
+    public async Task<List<SysMenu>> GetRoleMenuTree(List<long> roleIdList)
     {
         var menuIdList = await _sysRoleMenuRep.AsQueryable()
             .Where(u => roleIdList.Contains(u.RoleId))
@@ -41,6 +41,22 @@ public class SysRoleMenuService : ITransient
         return await _sysRoleMenuRep.ChangeRepository<SqlSugarRepository<SysMenu>>().AsQueryable()
             .Where(u => menuIdList.Contains(u.Id))
             .ToTreeAsync(u => u.Children, u => u.Pid, 0);
+    }
+
+    /// <summary>
+    /// 根据角色Id集合获取菜单集合
+    /// </summary>
+    /// <param name="roleIdList"></param>
+    /// <returns></returns>
+    public async Task<List<long>> GetRoleMenuList(List<long> roleIdList)
+    {
+        var menuIdList = await _sysRoleMenuRep.AsQueryable()
+            .Where(u => roleIdList.Contains(u.RoleId))
+            .Select(u => u.MenuId).ToListAsync();
+
+        return await _sysRoleMenuRep.ChangeRepository<SqlSugarRepository<SysMenu>>().AsQueryable()
+            .Where(u => menuIdList.Contains(u.Id))
+            .Select(u => u.Id).ToListAsync();
     }
 
     /// <summary>

@@ -27,7 +27,7 @@
       </div>
     </template>
     <div style="margin-bottom: 45px" v-loading="state.loading">
-      <el-tree ref='treeRef' class='filter-tree' :data='state.orgData' :props='defaultProps'
+      <el-tree ref='treeRef' class='filter-tree' :data='state.orgData' :props="{children: 'children', label: 'name'}"
         :filter-node-method='filterNode' @node-click="nodeClick" />
     </div>
   </el-card>
@@ -41,18 +41,8 @@ import { Search, MoreFilled } from '@element-plus/icons-vue';
 import { getAPI } from '/@/utils/axios-utils';
 import { SysOrgApi } from '/@/api-services/api';
 
-interface Tree {
-  id: number;
-  name: string;
-  children?: Tree[];
-}
-
 const filterText = ref('');
 const treeRef = ref<InstanceType<typeof ElTree>>();
-const defaultProps = {
-  children: 'children',
-  label: 'name',
-};
 
 const state = reactive({
   loading: true,
@@ -74,7 +64,7 @@ const initTreeData = async () => {
   state.loading = false;
 };
 
-const filterNode = (value: string, data: Tree) => {
+const filterNode = (value: string, data: any) => {
   if (!value) return true;
   return data.name.includes(value);
 };

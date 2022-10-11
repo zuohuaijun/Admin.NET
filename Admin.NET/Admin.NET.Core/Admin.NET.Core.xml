@@ -6031,6 +6031,11 @@
             名称
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.AddRoleInput.MenuIdList">
+            <summary>
+            菜单Id集合
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.RoleMenuInput">
             <summary>
             授权角色菜单
@@ -6039,6 +6044,21 @@
         <member name="P:Admin.NET.Core.Service.RoleMenuInput.MenuIdList">
             <summary>
             菜单Id集合
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.RoleMenuOutput">
+            <summary>
+            角色菜单输出参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleMenuOutput.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.RoleMenuOutput.Title">
+            <summary>
+            名称
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.RoleOrgInput">
@@ -6088,9 +6108,16 @@
             <param name="roleIdList"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.GetRoleMenu(System.Collections.Generic.List{System.Int64})">
+        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.GetRoleMenuTree(System.Collections.Generic.List{System.Int64})">
             <summary>
             根据角色Id集合获取菜单树
+            </summary>
+            <param name="roleIdList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.GetRoleMenuList(System.Collections.Generic.List{System.Int64})">
+            <summary>
+            根据角色Id集合获取菜单集合
             </summary>
             <param name="roleIdList"></param>
             <returns></returns>
@@ -6174,6 +6201,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.UpdateRoleMenu(Admin.NET.Core.Service.AddRoleInput)">
+            <summary>
+            更新角色菜单权限
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.Service.SysRoleService.UpdateRole(Admin.NET.Core.Service.UpdateRoleInput)">
             <summary>
             更新角色
@@ -6202,9 +6236,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleOwnMenu(Admin.NET.Core.Service.RoleInput)">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleOwnMenuTree(Admin.NET.Core.Service.RoleInput)">
             <summary>
-            根据角色Id获取菜单树(前端区分父子节点)
+            根据角色Id获取菜单树(Antd)
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleOwnMenuList(Admin.NET.Core.Service.RoleInput)">
+            <summary>
+            根据角色Id获取菜单集合(Element)
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6380,9 +6421,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenu(Admin.NET.Core.Service.QueryeTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuTree(Admin.NET.Core.Service.QueryeTenantInput)">
             <summary>
-            获取租户管理员角色拥有菜单Id集合
+            获取租户管理员角色拥有菜单树
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuList(Admin.NET.Core.Service.QueryeTenantInput)">
+            <summary>
+            获取租户管理员角色拥有菜单树
             </summary>
             <param name="input"></param>
             <returns></returns>

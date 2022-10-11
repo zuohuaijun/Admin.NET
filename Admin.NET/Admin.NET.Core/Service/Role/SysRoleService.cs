@@ -74,7 +74,26 @@ public class SysRoleService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        await _sysRoleRep.InsertAsync(input.Adapt<SysRole>());
+        input.Id = (await _sysRoleRep.AsInsertable(input.Adapt<SysRole>()).ExecuteReturnEntityAsync()).Id;
+
+        await UpdateRoleMenu(input);
+    }
+
+    /// <summary>
+    /// 更新角色菜单权限
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    private async Task UpdateRoleMenu(AddRoleInput input)
+    {
+        // 更新角色菜单权限集合
+        if (input.MenuIdList == null || input.MenuIdList.Count < 1)
+            return;
+        await GrantRoleMenu(new RoleMenuInput()
+        {
+            Id = input.Id,
+            MenuIdList = input.MenuIdList
+        });
     }
 
     /// <summary>
@@ -95,6 +114,8 @@ public class SysRoleService : IDynamicApiController, ITransient
 
         await _sysRoleRep.AsUpdateable(input.Adapt<SysRole>()).IgnoreColumns(true)
             .IgnoreColumns(u => new { u.DataScope }).ExecuteCommandAsync();
+
+        await UpdateRoleMenu(input);
     }
 
     /// <summary>
@@ -176,14 +197,25 @@ public class SysRoleService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 根据角色Id获取菜单树(前端区分父子节点)
+    /// 根据角色Id获取菜单树(Antd)
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysRole/ownMenu")]
-    public async Task<List<SysMenu>> GetRoleOwnMenu([FromQuery] RoleInput input)
+    public async Task<List<SysMenu>> GetRoleOwnMenuTree([FromQuery] RoleInput input)
     {
-        return await _sysRoleMenuService.GetRoleMenu(new List<long> { input.Id });
+        return await _sysRoleMenuService.GetRoleMenuTree(new List<long> { input.Id });
+    }
+
+    /// <summary>
+    /// 根据角色Id获取菜单集合(Element)
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpGet("/sysRole/ownMenuList")]
+    public async Task<List<long>> GetRoleOwnMenuList([FromQuery] RoleInput input)
+    {
+        return await _sysRoleMenuService.GetRoleMenuList(new List<long> { input.Id });
     }
 
     /// <summary>

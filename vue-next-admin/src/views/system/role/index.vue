@@ -80,7 +80,7 @@
 				layout="total, sizes, prev, pager, next, jumper" />
 		</el-card>
 
-		<EditRole ref="editRoleRef" :title="editRoleTitle" />
+		<EditRole ref="editRoleRef" :title="editRoleTitle" :ownMenuData="ownMenuData" />
 	</div>
 </template>
 
@@ -112,6 +112,7 @@ export default defineComponent({
 				total: 0 as any,
 			},
 			editRoleTitle: "",
+			ownMenuData: [] as any,
 		});
 		onMounted(async () => {
 			handleQuery();
@@ -143,8 +144,12 @@ export default defineComponent({
 			editRoleRef.value.openDialog({});
 		};
 		// 打开编辑页面
-		const openEditRole = (row: any) => {
+		const openEditRole = async (row: any) => {
 			state.editRoleTitle = "编辑角色";
+			state.loading = true;
+			var res = await getAPI(SysRoleApi).sysRoleOwnMenuListGet(row.id);
+			state.ownMenuData = res.data.result;
+			state.loading = false;
 			editRoleRef.value.openDialog(row);
 		};
 		// 删除

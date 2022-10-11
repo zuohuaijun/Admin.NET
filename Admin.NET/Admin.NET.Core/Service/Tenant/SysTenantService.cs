@@ -231,18 +231,33 @@ public class SysTenantService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取租户管理员角色拥有菜单Id集合
+    /// 获取租户管理员角色拥有菜单树
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/ownMenu")]
-    public async Task<List<SysMenu>> OwnMenu([FromQuery] QueryeTenantInput input)
+    public async Task<List<SysMenu>> OwnMenuTree([FromQuery] QueryeTenantInput input)
     {
         var tenantAdminUser = await GetTenantAdminUser(input.Id);
         if (tenantAdminUser == null) return new List<SysMenu>();
         var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
         var tenantAdminRoleId = roleIds[0]; // 租户管理员角色Id
-        return await _sysRoleMenuService.GetRoleMenu(new List<long> { tenantAdminRoleId });
+        return await _sysRoleMenuService.GetRoleMenuTree(new List<long> { tenantAdminRoleId });
+    }
+
+    /// <summary>
+    /// 获取租户管理员角色拥有菜单树
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpGet("/sysTenant/ownMenuList")]
+    public async Task<List<long>> OwnMenuList([FromQuery] QueryeTenantInput input)
+    {
+        var tenantAdminUser = await GetTenantAdminUser(input.Id);
+        if (tenantAdminUser == null) return new List<long>();
+        var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
+        var tenantAdminRoleId = roleIds[0]; // 租户管理员角色Id
+        return await _sysRoleMenuService.GetRoleMenuList(new List<long> { tenantAdminRoleId });
     }
 
     /// <summary>

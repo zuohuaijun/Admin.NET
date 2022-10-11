@@ -20,8 +20,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="排序">
-							<el-input-number v-model="ruleForm.order" controls-position="right" placeholder="排序"
-								class="w100" />
+							<el-input-number v-model="ruleForm.order" placeholder="排序" class="w100" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -42,7 +41,7 @@
 						<el-form-item label="菜单权限" v-loading="loading">
 							<el-tree ref="treeRef" :data="menuData" node-key="id" show-checkbox
 								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
-								:default-checked-keys="ownMenuData" class="menu-data-tree" highlight-current
+								:default-checked-keys="ownMenuData" highlight-current class="menu-data-tree"
 								icon="ele-Menu" />
 						</el-form-item>
 					</el-col>
@@ -61,7 +60,7 @@
 
 <script lang="ts">
 import { reactive, toRefs, defineComponent, getCurrentInstance, ref, unref, onMounted } from 'vue';
-import { ElTree } from 'element-plus';
+import type { ElTree } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -74,7 +73,12 @@ export default defineComponent({
 		// 弹窗标题
 		title: {
 			type: String,
-			default: () => "",
+			default: "",
+		},
+		// 拥有菜单集合
+		ownMenuData: {
+			type: Array,
+			default: () => [252885263003711],
 		},
 	},
 	setup() {
@@ -91,13 +95,13 @@ export default defineComponent({
 				order: 10, // 排序
 				status: 1, // 是否启用
 				remark: '', // 备注
+				menuIdList: [] as any, // 菜单权限
 			},
 			ruleRules: {
 				name: [{ required: true, message: "角色名称不能为空", trigger: "blur" }],
 				code: [{ required: true, message: "角色编码不能为空", trigger: "blur" }],
 			},
 			menuData: [] as any, // 菜单数据
-			ownMenuData: [] as any, // 拥有菜单
 		});
 		onMounted(async () => {
 			state.loading = true;
@@ -107,6 +111,7 @@ export default defineComponent({
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
+			treeRef.value?.setCheckedKeys([]); // 先清空已选择节点
 			state.ruleForm = row;
 			state.isShowDialog = true;
 		};
@@ -125,6 +130,7 @@ export default defineComponent({
 			if (!formWrap) return;
 
 			formWrap.validate(async () => {
+				state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys(); //.concat(treeRef.value?.getHalfCheckedKeys());
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysRoleApi).sysRoleUpdatePost(state.ruleForm);
 				}
@@ -134,6 +140,7 @@ export default defineComponent({
 				closeDialog();
 			})
 		};
+		// 叶子节点同行显示样式
 		const treeNodeClass = (node: Node) => {
 			if (node.isLeaf) return '';
 			let addClass = true;
@@ -143,17 +150,14 @@ export default defineComponent({
 			}
 			return addClass ? 'penultimate-node' : '';
 		};
-		const getCheckeds = () => {
-			return treeRef.value!.getCheckedKeys().concat(treeRef.value!.getHalfCheckedKeys())
-		};
 		return {
 			ruleFormRef,
+			treeRef,
 			openDialog,
 			closeDialog,
 			cancel,
 			submit,
 			treeNodeClass,
-			getCheckeds,
 			...toRefs(state),
 		};
 	},

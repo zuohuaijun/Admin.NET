@@ -236,7 +236,7 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 根据角色Id获取菜单树(前端区分父子节点)
+         * @summary 根据角色Id获取菜单树(Antd)
          * @param {number} id 主键Id
          * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
@@ -248,6 +248,56 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
                 throw new RequiredError('id','Required parameter id was null or undefined when calling sysRoleOwnMenuGet.');
             }
             const localVarPath = `/sysRole/ownMenu`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            if (status !== undefined) {
+                localVarQueryParameter['Status'] = status;
+            }
+
+            if (id !== undefined) {
+                localVarQueryParameter['Id'] = id;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 根据角色Id获取菜单集合(Element)
+         * @param {number} id 主键Id
+         * @param {StatusEnum} [status] 状态
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysRoleOwnMenuListGet: async (id: number, status?: StatusEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            if (id === null || id === undefined) {
+                throw new RequiredError('id','Required parameter id was null or undefined when calling sysRoleOwnMenuListGet.');
+            }
+            const localVarPath = `/sysRole/ownMenuList`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -567,7 +617,7 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 根据角色Id获取菜单树(前端区分父子节点)
+         * @summary 根据角色Id获取菜单树(Antd)
          * @param {number} id 主键Id
          * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
@@ -575,6 +625,21 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
          */
         async sysRoleOwnMenuGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysMenu>>> {
             const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).sysRoleOwnMenuGet(id, status, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 根据角色Id获取菜单集合(Element)
+         * @param {number} id 主键Id
+         * @param {StatusEnum} [status] 状态
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysRoleOwnMenuListGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
+            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).sysRoleOwnMenuListGet(id, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -703,7 +768,7 @@ export const SysRoleApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 根据角色Id获取菜单树(前端区分父子节点)
+         * @summary 根据角色Id获取菜单树(Antd)
          * @param {number} id 主键Id
          * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
@@ -711,6 +776,17 @@ export const SysRoleApiFactory = function (configuration?: Configuration, basePa
          */
         async sysRoleOwnMenuGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysMenu>> {
             return SysRoleApiFp(configuration).sysRoleOwnMenuGet(id, status, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 根据角色Id获取菜单集合(Element)
+         * @param {number} id 主键Id
+         * @param {StatusEnum} [status] 状态
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysRoleOwnMenuListGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
+            return SysRoleApiFp(configuration).sysRoleOwnMenuListGet(id, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -825,7 +901,7 @@ export class SysRoleApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 根据角色Id获取菜单树(前端区分父子节点)
+     * @summary 根据角色Id获取菜单树(Antd)
      * @param {number} id 主键Id
      * @param {StatusEnum} [status] 状态
      * @param {*} [options] Override http request option.
@@ -834,6 +910,18 @@ export class SysRoleApi extends BaseAPI {
      */
     public async sysRoleOwnMenuGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysMenu>> {
         return SysRoleApiFp(this.configuration).sysRoleOwnMenuGet(id, status, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 根据角色Id获取菜单集合(Element)
+     * @param {number} id 主键Id
+     * @param {StatusEnum} [status] 状态
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysRoleApi
+     */
+    public async sysRoleOwnMenuListGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
+        return SysRoleApiFp(this.configuration).sysRoleOwnMenuListGet(id, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
