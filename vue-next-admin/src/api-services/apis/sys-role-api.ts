@@ -26,6 +26,7 @@ import { DeleteRoleInput } from '../models';
 import { RoleInput } from '../models';
 import { RoleMenuInput } from '../models';
 import { RoleOrgInput } from '../models';
+import { StatusEnum } from '../models';
 import { UpdateRoleInput } from '../models';
 /**
  * SysRoleApi - axios parameter creator
@@ -237,16 +238,11 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary 根据角色Id获取菜单树(前端区分父子节点)
          * @param {number} id 主键Id
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {number} [order] 排序
-         * @param {number} [dataScope] 数据范围类型
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysRoleOwnMenuGet: async (id: number, name?: string, code?: string, order?: number, dataScope?: number, remark?: string, status?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysRoleOwnMenuGet: async (id: number, status?: StatusEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling sysRoleOwnMenuGet.');
@@ -263,26 +259,6 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
-
-            if (name !== undefined) {
-                localVarQueryParameter['Name'] = name;
-            }
-
-            if (code !== undefined) {
-                localVarQueryParameter['Code'] = code;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (dataScope !== undefined) {
-                localVarQueryParameter['DataScope'] = dataScope;
-            }
-
-            if (remark !== undefined) {
-                localVarQueryParameter['Remark'] = remark;
-            }
 
             if (status !== undefined) {
                 localVarQueryParameter['Status'] = status;
@@ -312,16 +288,11 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary 根据角色Id获取机构Id集合
          * @param {number} id 主键Id
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {number} [order] 排序
-         * @param {number} [dataScope] 数据范围类型
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysRoleOwnOrgGet: async (id: number, name?: string, code?: string, order?: number, dataScope?: number, remark?: string, status?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysRoleOwnOrgGet: async (id: number, status?: StatusEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling sysRoleOwnOrgGet.');
@@ -338,26 +309,6 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
-
-            if (name !== undefined) {
-                localVarQueryParameter['Name'] = name;
-            }
-
-            if (code !== undefined) {
-                localVarQueryParameter['Code'] = code;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (dataScope !== undefined) {
-                localVarQueryParameter['DataScope'] = dataScope;
-            }
-
-            if (remark !== undefined) {
-                localVarQueryParameter['Remark'] = remark;
-            }
 
             if (status !== undefined) {
                 localVarQueryParameter['Status'] = status;
@@ -388,9 +339,6 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
          * @summary 获取角色分页列表
          * @param {string} [name] 名称
          * @param {string} [code] 编码
-         * @param {number} [dataScope] 数据范围类型
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -399,7 +347,7 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysRolePageGet: async (name?: string, code?: string, dataScope?: number, remark?: string, status?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysRolePageGet: async (name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysRole/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -419,18 +367,6 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
 
             if (code !== undefined) {
                 localVarQueryParameter['Code'] = code;
-            }
-
-            if (dataScope !== undefined) {
-                localVarQueryParameter['DataScope'] = dataScope;
-            }
-
-            if (remark !== undefined) {
-                localVarQueryParameter['Remark'] = remark;
-            }
-
-            if (status !== undefined) {
-                localVarQueryParameter['Status'] = status;
             }
 
             if (page !== undefined) {
@@ -633,17 +569,12 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
          * 
          * @summary 根据角色Id获取菜单树(前端区分父子节点)
          * @param {number} id 主键Id
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {number} [order] 排序
-         * @param {number} [dataScope] 数据范围类型
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysRoleOwnMenuGet(id: number, name?: string, code?: string, order?: number, dataScope?: number, remark?: string, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysMenu>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).sysRoleOwnMenuGet(id, name, code, order, dataScope, remark, status, options);
+        async sysRoleOwnMenuGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysMenu>>> {
+            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).sysRoleOwnMenuGet(id, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -653,17 +584,12 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
          * 
          * @summary 根据角色Id获取机构Id集合
          * @param {number} id 主键Id
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {number} [order] 排序
-         * @param {number} [dataScope] 数据范围类型
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysRoleOwnOrgGet(id: number, name?: string, code?: string, order?: number, dataScope?: number, remark?: string, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).sysRoleOwnOrgGet(id, name, code, order, dataScope, remark, status, options);
+        async sysRoleOwnOrgGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
+            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).sysRoleOwnOrgGet(id, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -674,9 +600,6 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
          * @summary 获取角色分页列表
          * @param {string} [name] 名称
          * @param {string} [code] 编码
-         * @param {number} [dataScope] 数据范围类型
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -685,8 +608,8 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysRolePageGet(name?: string, code?: string, dataScope?: number, remark?: string, status?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).sysRolePageGet(name, code, dataScope, remark, status, page, pageSize, field, order, descStr, options);
+        async sysRolePageGet(name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>>> {
+            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).sysRolePageGet(name, code, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -782,42 +705,29 @@ export const SysRoleApiFactory = function (configuration?: Configuration, basePa
          * 
          * @summary 根据角色Id获取菜单树(前端区分父子节点)
          * @param {number} id 主键Id
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {number} [order] 排序
-         * @param {number} [dataScope] 数据范围类型
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysRoleOwnMenuGet(id: number, name?: string, code?: string, order?: number, dataScope?: number, remark?: string, status?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysMenu>> {
-            return SysRoleApiFp(configuration).sysRoleOwnMenuGet(id, name, code, order, dataScope, remark, status, options).then((request) => request(axios, basePath));
+        async sysRoleOwnMenuGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysMenu>> {
+            return SysRoleApiFp(configuration).sysRoleOwnMenuGet(id, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary 根据角色Id获取机构Id集合
          * @param {number} id 主键Id
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {number} [order] 排序
-         * @param {number} [dataScope] 数据范围类型
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysRoleOwnOrgGet(id: number, name?: string, code?: string, order?: number, dataScope?: number, remark?: string, status?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
-            return SysRoleApiFp(configuration).sysRoleOwnOrgGet(id, name, code, order, dataScope, remark, status, options).then((request) => request(axios, basePath));
+        async sysRoleOwnOrgGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
+            return SysRoleApiFp(configuration).sysRoleOwnOrgGet(id, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary 获取角色分页列表
          * @param {string} [name] 名称
          * @param {string} [code] 编码
-         * @param {number} [dataScope] 数据范围类型
-         * @param {string} [remark] 备注
-         * @param {number} [status] 状态
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -826,8 +736,8 @@ export const SysRoleApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysRolePageGet(name?: string, code?: string, dataScope?: number, remark?: string, status?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>> {
-            return SysRoleApiFp(configuration).sysRolePageGet(name, code, dataScope, remark, status, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async sysRolePageGet(name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>> {
+            return SysRoleApiFp(configuration).sysRolePageGet(name, code, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -917,44 +827,31 @@ export class SysRoleApi extends BaseAPI {
      * 
      * @summary 根据角色Id获取菜单树(前端区分父子节点)
      * @param {number} id 主键Id
-     * @param {string} [name] 名称
-     * @param {string} [code] 编码
-     * @param {number} [order] 排序
-     * @param {number} [dataScope] 数据范围类型
-     * @param {string} [remark] 备注
-     * @param {number} [status] 状态
+     * @param {StatusEnum} [status] 状态
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysRoleApi
      */
-    public async sysRoleOwnMenuGet(id: number, name?: string, code?: string, order?: number, dataScope?: number, remark?: string, status?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysMenu>> {
-        return SysRoleApiFp(this.configuration).sysRoleOwnMenuGet(id, name, code, order, dataScope, remark, status, options).then((request) => request(this.axios, this.basePath));
+    public async sysRoleOwnMenuGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysMenu>> {
+        return SysRoleApiFp(this.configuration).sysRoleOwnMenuGet(id, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
      * @summary 根据角色Id获取机构Id集合
      * @param {number} id 主键Id
-     * @param {string} [name] 名称
-     * @param {string} [code] 编码
-     * @param {number} [order] 排序
-     * @param {number} [dataScope] 数据范围类型
-     * @param {string} [remark] 备注
-     * @param {number} [status] 状态
+     * @param {StatusEnum} [status] 状态
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysRoleApi
      */
-    public async sysRoleOwnOrgGet(id: number, name?: string, code?: string, order?: number, dataScope?: number, remark?: string, status?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
-        return SysRoleApiFp(this.configuration).sysRoleOwnOrgGet(id, name, code, order, dataScope, remark, status, options).then((request) => request(this.axios, this.basePath));
+    public async sysRoleOwnOrgGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
+        return SysRoleApiFp(this.configuration).sysRoleOwnOrgGet(id, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
      * @summary 获取角色分页列表
      * @param {string} [name] 名称
      * @param {string} [code] 编码
-     * @param {number} [dataScope] 数据范围类型
-     * @param {string} [remark] 备注
-     * @param {number} [status] 状态
      * @param {number} [page] 当前页码
      * @param {number} [pageSize] 页码容量
      * @param {string} [field] 排序字段
@@ -964,8 +861,8 @@ export class SysRoleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysRoleApi
      */
-    public async sysRolePageGet(name?: string, code?: string, dataScope?: number, remark?: string, status?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>> {
-        return SysRoleApiFp(this.configuration).sysRolePageGet(name, code, dataScope, remark, status, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async sysRolePageGet(name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>> {
+        return SysRoleApiFp(this.configuration).sysRolePageGet(name, code, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

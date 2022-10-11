@@ -24,6 +24,7 @@ import { AdminResultSysUser } from '../models';
 import { ChangePwdInput } from '../models';
 import { DeleteUserInput } from '../models';
 import { ResetPwdUserInput } from '../models';
+import { StatusEnum } from '../models';
 import { UpdateUserInput } from '../models';
 import { UserInput } from '../models';
 import { UserOrgInput } from '../models';
@@ -284,11 +285,11 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary 获取用户拥有机构
          * @param {number} id 主键Id
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysUserOwnOrgGet: async (id: number, status?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysUserOwnOrgGet: async (id: number, status?: StatusEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling sysUserOwnOrgGet.');
@@ -334,11 +335,11 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
          * 
          * @summary 获取用户拥有角色
          * @param {number} id 主键Id
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysUserOwnRoleGet: async (id: number, status?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysUserOwnRoleGet: async (id: number, status?: StatusEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling sysUserOwnRoleGet.');
@@ -676,11 +677,11 @@ export const SysUserApiFp = function(configuration?: Configuration) {
          * 
          * @summary 获取用户拥有机构
          * @param {number} id 主键Id
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnOrgGet(id: number, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
+        async sysUserOwnOrgGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
             const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnOrgGet(id, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -691,11 +692,11 @@ export const SysUserApiFp = function(configuration?: Configuration) {
          * 
          * @summary 获取用户拥有角色
          * @param {number} id 主键Id
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnRoleGet(id: number, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
+        async sysUserOwnRoleGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
             const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnRoleGet(id, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -838,22 +839,22 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
          * 
          * @summary 获取用户拥有机构
          * @param {number} id 主键Id
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnOrgGet(id: number, status?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
+        async sysUserOwnOrgGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
             return SysUserApiFp(configuration).sysUserOwnOrgGet(id, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary 获取用户拥有角色
          * @param {number} id 主键Id
-         * @param {number} [status] 状态
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnRoleGet(id: number, status?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
+        async sysUserOwnRoleGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
             return SysUserApiFp(configuration).sysUserOwnRoleGet(id, status, options).then((request) => request(axios, basePath));
         },
         /**
@@ -983,24 +984,24 @@ export class SysUserApi extends BaseAPI {
      * 
      * @summary 获取用户拥有机构
      * @param {number} id 主键Id
-     * @param {number} [status] 状态
+     * @param {StatusEnum} [status] 状态
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async sysUserOwnOrgGet(id: number, status?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
+    public async sysUserOwnOrgGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
         return SysUserApiFp(this.configuration).sysUserOwnOrgGet(id, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
      * @summary 获取用户拥有角色
      * @param {number} id 主键Id
-     * @param {number} [status] 状态
+     * @param {StatusEnum} [status] 状态
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async sysUserOwnRoleGet(id: number, status?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
+    public async sysUserOwnRoleGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
         return SysUserApiFp(this.configuration).sysUserOwnRoleGet(id, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**

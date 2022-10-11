@@ -11,6 +11,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { DataScopeEnum } from './data-scope-enum';
+import { StatusEnum } from './status-enum';
 /**
  * 
  * @export
@@ -18,11 +20,47 @@
  */
 export interface AddRoleInput {
     /**
-     * 主键Id
+     * 雪花Id
      * @type {number}
      * @memberof AddRoleInput
      */
-    id: number;
+    id?: number;
+    /**
+     * 创建时间
+     * @type {Date}
+     * @memberof AddRoleInput
+     */
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof AddRoleInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
+     * @type {number}
+     * @memberof AddRoleInput
+     */
+    createUserId?: number | null;
+    /**
+     * 修改者Id
+     * @type {number}
+     * @memberof AddRoleInput
+     */
+    updateUserId?: number | null;
+    /**
+     * 软删除
+     * @type {boolean}
+     * @memberof AddRoleInput
+     */
+    isDelete?: boolean;
+    /**
+     * 租户Id
+     * @type {number}
+     * @memberof AddRoleInput
+     */
+    tenantId?: number | null;
     /**
      * 编码
      * @type {string}
@@ -36,11 +74,11 @@ export interface AddRoleInput {
      */
     order?: number;
     /**
-     * 数据范围类型
-     * @type {number}
+     * 
+     * @type {DataScopeEnum}
      * @memberof AddRoleInput
      */
-    dataScope?: number;
+    dataScope?: DataScopeEnum;
     /**
      * 备注
      * @type {string}
@@ -48,11 +86,11 @@ export interface AddRoleInput {
      */
     remark?: string | null;
     /**
-     * 状态
-     * @type {number}
+     * 
+     * @type {StatusEnum}
      * @memberof AddRoleInput
      */
-    status?: number;
+    status?: StatusEnum;
     /**
      * 名称
      * @type {string}

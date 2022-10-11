@@ -47,6 +47,7 @@ public class SysUserService : IDynamicApiController, ITransient
             .WhereIF(orgList != null, u => orgList.Contains(u.OrgId))
             .WhereIF(!string.IsNullOrWhiteSpace(input.UserName), u => u.UserName.Contains(input.UserName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
+            .OrderBy(u => u.Order)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 

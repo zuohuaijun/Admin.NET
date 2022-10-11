@@ -39,7 +39,7 @@ import type { ElTree } from 'element-plus';
 import { Search, MoreFilled } from '@element-plus/icons-vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysOrgApi } from '/@/api-services/apis/sys-org-api';
+import { SysOrgApi } from '/@/api-services/api';
 
 interface Tree {
   id: number;

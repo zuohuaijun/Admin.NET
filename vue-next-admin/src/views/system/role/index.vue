@@ -1,162 +1,187 @@
 <template>
-	<div class="system-role-container">
+	<div class="sys-role-container">
 		<el-card shadow="hover">
-			<div class="system-user-search mb15">
-				<el-input size="default" placeholder="请输入角色名称" style="max-width: 180px"> </el-input>
-				<el-button size="default" type="primary" class="ml10">
-					<el-icon>
-						<ele-Search />
-					</el-icon>
-					查询
-				</el-button>
-				<el-button size="default" type="success" class="ml10" @click="onOpenAddRole">
-					<el-icon>
-						<ele-FolderAdd />
-					</el-icon>
-					新增角色
-				</el-button>
-			</div>
-			<el-table :data="tableData.data" style="width: 100%">
-				<el-table-column type="index" label="序号" width="60" />
-				<el-table-column prop="roleName" label="角色名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="roleSign" label="角色标识" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="sort" label="排序" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="status" label="角色状态" show-overflow-tooltip>
+			<el-form :model="queryParams" ref="queryForm" :inline="true">
+				<el-form-item label="角色名称" prop="name">
+					<el-input placeholder="角色名称" clearable @keyup.enter="handleQuery" v-model="queryParams.name" />
+				</el-form-item>
+				<el-form-item label="角色编码" prop="code">
+					<el-input placeholder="角色编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
+				</el-form-item>
+				<el-form-item>
+					<el-button @click="resetQuery">
+						<el-icon>
+							<ele-Refresh />
+						</el-icon>
+						重置
+					</el-button>
+					<el-button type="primary" @click="handleQuery">
+						<el-icon>
+							<ele-Search />
+						</el-icon>
+						查询
+					</el-button>
+					<el-button @click="openAddRole">
+						<el-icon>
+							<ele-Plus />
+						</el-icon>
+						新增
+					</el-button>
+				</el-form-item>
+			</el-form>
+		</el-card>
+
+		<el-card shadow="hover" style="margin-top: 5px;">
+			<el-table :data="roleData" style="width: 100%;" v-loading="loading" border>
+				<el-table-column type="index" label="序号" width="55" align="center" fixed />
+				<el-table-column prop="name" label="角色名称" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column prop="code" label="角色编码" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip>
+				</el-table-column>
+				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.status">启用</el-tag>
-						<el-tag type="info" v-else>禁用</el-tag>
+						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
+						<el-tag type="danger" v-else>禁用</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="describe" label="角色描述" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="createTime" label="创建时间" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" width="100">
+				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
+				<el-table-column label="操作" width="80" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button :disabled="scope.row.roleName === '超级管理员'" size="small" text type="primary" @click="onOpenEditRole(scope.row)"
-							>修改</el-button
-						>
-						<el-button :disabled="scope.row.roleName === '超级管理员'" size="small" text type="primary" @click="onRowDel(scope.row)">删除</el-button>
+						<el-tooltip content="角色编辑">
+							<el-button icon="ele-Edit" size="small" text type="primary"
+								@click="openEditRole(scope.row)">
+							</el-button>
+						</el-tooltip>
+						<el-dropdown>
+							<span style="color: var(--el-color-primary);padding-top: 6px;">
+								<el-icon>
+									<ele-MoreFilled />
+								</el-icon>
+							</span>
+							<template #dropdown>
+								<el-dropdown-menu>
+									<el-tooltip content="角色编辑">
+										<el-dropdown-item icon="ele-OfficeBuilding" @click="delRole(scope.row)">
+											数据范围
+										</el-dropdown-item>
+									</el-tooltip>
+									<el-dropdown-item icon="ele-Delete" @click="delRole(scope.row)">
+										删除角色
+									</el-dropdown-item>
+								</el-dropdown-menu>
+							</template>
+						</el-dropdown>
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination
-				@size-change="onHandleSizeChange"
-				@current-change="onHandleCurrentChange"
-				class="mt15"
-				:pager-count="5"
-				:page-sizes="[10, 20, 30]"
-				v-model:current-page="tableData.param.pageNum"
-				background
-				v-model:page-size="tableData.param.pageSize"
-				layout="total, sizes, prev, pager, next, jumper"
-				:total="tableData.total"
-			>
-			</el-pagination>
+			<el-pagination v-model:currentPage="tableParams.page" v-model:page-size="tableParams.pageSize"
+				:total="tableParams.total" :page-sizes="[10, 20, 50, 100]" small background
+				@size-change="handleSizeChange" @current-change="handleCurrentChange"
+				layout="total, sizes, prev, pager, next, jumper" />
 		</el-card>
-		<AddRole ref="addRoleRef" />
-		<EditRole ref="editRoleRef" />
+
+		<EditRole ref="editRoleRef" :title="editRoleTitle" />
 	</div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent } from 'vue';
+import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import AddRole from '/@/views/system/role/component/addRole.vue';
 import EditRole from '/@/views/system/role/component/editRole.vue';
 
-// 定义接口来定义对象的类型
-interface TableData {
-	roleName: string;
-	roleSign: string;
-	describe: string;
-	sort: number;
-	status: boolean;
-	createTime: string;
-}
-interface TableDataState {
-	tableData: {
-		data: Array<TableData>;
-		total: number;
-		loading: boolean;
-		param: {
-			pageNum: number;
-			pageSize: number;
-		};
-	};
-}
+import { getAPI } from '/@/utils/axios-utils';
+import { SysRoleApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysRole',
-	components: { AddRole, EditRole },
+	components: { EditRole },
 	setup() {
-		const addRoleRef = ref();
+		const { proxy } = getCurrentInstance() as any;
 		const editRoleRef = ref();
-		const state = reactive<TableDataState>({
-			tableData: {
-				data: [],
-				total: 0,
-				loading: false,
-				param: {
-					pageNum: 1,
-					pageSize: 10,
-				},
+		const state = reactive({
+			loading: true,
+			roleData: [] as any,
+			queryParams: {
+				name: undefined,
+				code: undefined,
+
 			},
+			tableParams: {
+				page: 1,
+				pageSize: 10,
+				total: 0 as any,
+			},
+			editRoleTitle: "",
 		});
-		// 初始化表格数据
-		const initTableData = () => {
-			const data: Array<TableData> = [];
-			for (let i = 0; i < 2; i++) {
-				data.push({
-					roleName: i === 0 ? '超级管理员' : '普通用户',
-					roleSign: i === 0 ? 'admin' : 'common',
-					describe: `测试角色${i + 1}`,
-					sort: i,
-					status: true,
-					createTime: new Date().toLocaleString(),
-				});
-			}
-			state.tableData.data = data;
-			state.tableData.total = state.tableData.data.length;
+		onMounted(async () => {
+			handleQuery();
+
+			proxy.mittBus.on("submitRefresh", () => {
+				handleQuery();
+			});
+		});
+		onUnmounted(() => {
+			proxy.mittBus.off("submitRefresh");
+		});
+		// 查询操作
+		const handleQuery = async () => {
+			state.loading = true;
+			var res = await getAPI(SysRoleApi).sysRolePageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
+			state.roleData = res.data.result?.items;
+			state.tableParams.total = res.data.result?.total;
+			state.loading = false;
 		};
-		// 打开新增角色弹窗
-		const onOpenAddRole = () => {
-			addRoleRef.value.openDialog();
+		// 重置操作
+		const resetQuery = () => {
+			state.queryParams.name = undefined;
+			state.queryParams.code = undefined;
+			handleQuery();
 		};
-		// 打开修改角色弹窗
-		const onOpenEditRole = (row: Object) => {
+		// 打开新增页面
+		const openAddRole = () => {
+			state.editRoleTitle = "添加角色";
+			editRoleRef.value.openDialog({});
+		};
+		// 打开编辑页面
+		const openEditRole = (row: any) => {
+			state.editRoleTitle = "编辑角色";
 			editRoleRef.value.openDialog(row);
 		};
-		// 删除角色
-		const onRowDel = (row: any) => {
-			ElMessageBox.confirm(`此操作将永久删除角色名称：“${row.roleName}”，是否继续?`, '提示', {
-				confirmButtonText: '确认',
+		// 删除
+		const delRole = (row: any) => {
+			ElMessageBox.confirm(`确定删角色：【${row.name}】?`, '提示', {
+				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning',
 			})
-				.then(() => {
+				.then(async () => {
+					await getAPI(SysRoleApi).sysRoleDeletePost({ id: row.id });
+					handleQuery();
 					ElMessage.success('删除成功');
 				})
-				.catch(() => {});
+				.catch(() => { });
 		};
 		// 分页改变
-		const onHandleSizeChange = (val: number) => {
-			state.tableData.param.pageSize = val;
+		const handleSizeChange = (val: number) => {
+			state.tableParams.pageSize = val;
+			handleQuery();
 		};
 		// 分页改变
-		const onHandleCurrentChange = (val: number) => {
-			state.tableData.param.pageNum = val;
+		const handleCurrentChange = (val: number) => {
+			state.tableParams.page = val;
+			handleQuery();
 		};
-		// 页面加载时
-		onMounted(() => {
-			initTableData();
-		});
 		return {
-			addRoleRef,
+			handleQuery,
+			resetQuery,
 			editRoleRef,
-			onOpenAddRole,
-			onOpenEditRole,
-			onRowDel,
-			onHandleSizeChange,
-			onHandleCurrentChange,
+			openAddRole,
+			openEditRole,
+			delRole,
+			handleSizeChange,
+			handleCurrentChange,
 			...toRefs(state),
 		};
 	},

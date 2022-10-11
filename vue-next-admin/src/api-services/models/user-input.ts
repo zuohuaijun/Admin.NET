@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { StatusEnum } from './status-enum';
 /**
  * 
  * @export
@@ -24,9 +25,9 @@ export interface UserInput {
      */
     id: number;
     /**
-     * 状态
-     * @type {number}
+     * 
+     * @type {StatusEnum}
      * @memberof UserInput
      */
-    status?: number;
+    status?: StatusEnum;
 }

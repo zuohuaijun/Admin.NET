@@ -80,16 +80,16 @@
 						<el-table-column prop="remark" label="备注" width="200" show-overflow-tooltip></el-table-column>
 						<el-table-column label="操作" width="80" align="center" fixed="right" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button size="small" text type="primary" @click="openEditUser(scope.row)">
-									<el-icon>
-										<ele-Edit />
-									</el-icon>
-								</el-button>
-								<el-button size="small" text type="primary" @click="delUser(scope.row)">
-									<el-icon>
-										<ele-Delete />
-									</el-icon>
-								</el-button>
+								<el-tooltip content="用户编辑">
+									<el-button icon="ele-Edit" size="small" text type="primary"
+										@click="openEditUser(scope.row)">
+									</el-button>
+								</el-tooltip>
+								<el-tooltip content="用户删除">
+									<el-button icon="ele-Delete" size="small" text type="primary"
+										@click="delUser(scope.row)">
+									</el-button>
+								</el-tooltip>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -112,8 +112,7 @@ import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditUser from '/@/views/system/user/component/editUser.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysUserApi } from '/@/api-services/apis/sys-user-api';
-import { SysOrgApi } from '/@/api-services/apis/sys-org-api';
+import { SysUserApi, SysOrgApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysUser',

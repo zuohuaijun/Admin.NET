@@ -3,34 +3,9 @@
 public class RoleInput : BaseIdInput
 {
     /// <summary>
-    /// 名称
-    /// </summary>
-    public virtual string Name { get; set; }
-
-    /// <summary>
-    /// 编码
-    /// </summary>
-    public virtual string Code { get; set; }
-
-    /// <summary>
-    /// 排序
-    /// </summary>
-    public virtual int Order { get; set; }
-
-    /// <summary>
-    /// 数据范围类型
-    /// </summary>
-    public virtual int DataScope { get; set; }
-
-    /// <summary>
-    /// 备注
-    /// </summary>
-    public virtual string Remark { get; set; }
-
-    /// <summary>
     /// 状态
     /// </summary>
-    public int Status { get; set; }
+    public virtual StatusEnum Status { get; set; }
 }
 
 public class PageRoleInput : BasePageInput
@@ -44,29 +19,10 @@ public class PageRoleInput : BasePageInput
     /// 编码
     /// </summary>
     public virtual string Code { get; set; }
-
-    ///// <summary>
-    ///// 排序
-    ///// </summary>
-    //public virtual int Order { get; set; }
-
-    /// <summary>
-    /// 数据范围类型
-    /// </summary>
-    public virtual int DataScope { get; set; }
-
-    /// <summary>
-    /// 备注
-    /// </summary>
-    public virtual string Remark { get; set; }
-
-    /// <summary>
-    /// 状态
-    /// </summary>
-    public virtual int Status { get; set; }
 }
 
-public class AddRoleInput : RoleInput
+[NotTable]
+public class AddRoleInput : SysRole
 {
     /// <summary>
     /// 名称
@@ -75,6 +31,7 @@ public class AddRoleInput : RoleInput
     public override string Name { get; set; }
 }
 
+[NotTable]
 public class UpdateRoleInput : AddRoleInput
 {
 }

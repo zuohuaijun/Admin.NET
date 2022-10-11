@@ -64,16 +64,14 @@
         </el-table-column>
         <el-table-column label="操作" width="80" fixed="right" align="center" show-overflow-tooltip>
           <template #default="scope">
-            <el-button size="small" text type="primary" @click="openEditMenu(scope.row)">
-              <el-icon>
-                <ele-Edit />
-              </el-icon>
-            </el-button>
-            <el-button size="small" text type="primary" @click="delMenu(scope.row)">
-              <el-icon>
-                <ele-Delete />
-              </el-icon>
-            </el-button>
+            <el-tooltip content="菜单编辑">
+              <el-button icon="ele-Edit" size="small" text type="primary" @click="openEditMenu(scope.row)">
+              </el-button>
+            </el-tooltip>
+            <el-tooltip content="菜单删除">
+              <el-button icon="ele-Delete" size="small" text type="primary" @click="delMenu(scope.row)">
+              </el-button>
+            </el-tooltip>
           </template>
         </el-table-column>
       </el-table>
@@ -87,8 +85,8 @@ import { ref, toRefs, reactive, defineComponent, onMounted, getCurrentInstance, 
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditMenu from '/@/views/system/menu/component/editMenu.vue';
 
-import { SysMenuApi } from '/@/api-services';
 import { getAPI } from '/@/utils/axios-utils';
+import { SysMenuApi } from '/@/api-services';
 
 export default defineComponent({
   name: 'sysMenu',

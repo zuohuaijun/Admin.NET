@@ -1,49 +1,49 @@
 <template>
-	<div class="system-edit-role-container">
-		<el-dialog title="修改角色" v-model="isShowDialog" width="769px">
-			<el-form :model="ruleForm" size="default" label-width="90px">
+	<div class="sys-role-container">
+		<el-dialog v-model="isShowDialog" width="500px">
+			<template #header>
+				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
+					{{ title }}
+				</div>
+			</template>
+			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="角色名称">
-							<el-input v-model="ruleForm.roleName" placeholder="请输入角色名称" clearable></el-input>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="角色名称" prop="name">
+							<el-input v-model="ruleForm.name" placeholder="角色名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="角色标识">
-							<template #label>
-								<el-tooltip effect="dark" content="用于 `router/route.ts` meta.roles" placement="top-start">
-									<span>角色标识</span>
-								</el-tooltip>
-							</template>
-							<el-input v-model="ruleForm.roleSign" placeholder="请输入角色标识" clearable></el-input>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="角色编码" prop="code">
+							<el-input v-model="ruleForm.code" placeholder="角色编码" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="排序">
-							<el-input-number v-model="ruleForm.sort" :min="0" :max="999" controls-position="right" placeholder="请输入排序" class="w100" />
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="角色状态">
-							<el-switch v-model="ruleForm.status" inline-prompt active-text="启" inactive-text="禁"></el-switch>
+							<el-input-number v-model="ruleForm.order" controls-position="right" placeholder="排序"
+								class="w100" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="角色描述">
-							<el-input v-model="ruleForm.describe" type="textarea" placeholder="请输入角色描述" maxlength="150"></el-input>
+						<el-form-item label="是否启用">
+							<el-radio-group v-model="ruleForm.status">
+								<el-radio :label="1">启用</el-radio>
+								<el-radio :label="2">不启用</el-radio>
+							</el-radio-group>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="菜单权限">
-							<el-tree :data="menuData" :props="menuProps" :default-checked-keys="[112, 113]" node-key="id" show-checkbox class="menu-data-tree" />
+						<el-form-item label="备注">
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea">
+							</el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="onCancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" size="default">修 改</el-button>
+					<el-button @click="cancel" size="default">取 消</el-button>
+					<el-button type="primary" @click="submit" size="default">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -51,192 +51,76 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref, unref } from 'vue';
 
-// 定义接口来定义对象的类型
-interface MenuDataTree {
-	id: number;
-	label: string;
-	children?: MenuDataTree[];
-}
-interface DialogRow {
-	roleName: string;
-	roleSign: string;
-	sort: number;
-	status: boolean;
-	describe: string;
-}
-interface RoleState {
-	isShowDialog: boolean;
-	ruleForm: DialogRow;
-	menuData: Array<MenuDataTree>;
-	menuProps: {
-		children: string;
-		label: string;
-	};
-}
+import { getAPI } from '/@/utils/axios-utils';
+import { SysRoleApi } from '/@/api-services/api';
 
 export default defineComponent({
-	name: 'systemEditRole',
+	name: 'sysEditRole',
+	components: {},
+	props: {
+		// 弹窗标题
+		title: {
+			type: String,
+			default: () => "",
+		},
+	},
 	setup() {
-		const state = reactive<RoleState>({
+		const { proxy } = getCurrentInstance() as any;
+		const ruleFormRef = ref<HTMLElement | null>(null);
+		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {
-				roleName: '', // 角色名称
-				roleSign: '', // 角色标识
-				sort: 0, // 排序
-				status: true, // 角色状态
-				describe: '', // 角色描述
+				id: 0, // Id
+				name: '', // 角色名称
+				code: '', // 角色编码
+				order: 10, // 排序
+				status: 1, // 是否启用
+				remark: '', // 备注
 			},
-			menuData: [],
-			menuProps: {
-				children: 'children',
-				label: 'label',
+			ruleRules: {
+				name: [{ required: true, message: "角色名称不能为空", trigger: "blur" }],
+				code: [{ required: true, message: "角色编码不能为空", trigger: "blur" }],
 			},
 		});
 		// 打开弹窗
-		const openDialog = (row: DialogRow) => {
+		const openDialog = (row: any) => {
 			state.ruleForm = row;
 			state.isShowDialog = true;
-			getMenuData();
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
+			proxy.mittBus.emit("submitRefresh");
 			state.isShowDialog = false;
 		};
 		// 取消
-		const onCancel = () => {
-			closeDialog();
+		const cancel = () => {
+			state.isShowDialog = false;
 		};
-		// 新增
-		const onSubmit = () => {
-			closeDialog();
-		};
-		// 获取菜单结构数据
-		const getMenuData = () => {
-			state.menuData = [
-				{
-					id: 1,
-					label: '系统管理',
-					children: [
-						{
-							id: 11,
-							label: '菜单管理',
-							children: [
-								{
-									id: 111,
-									label: '菜单新增',
-								},
-								{
-									id: 112,
-									label: '菜单修改',
-								},
-								{
-									id: 113,
-									label: '菜单删除',
-								},
-								{
-									id: 114,
-									label: '菜单查询',
-								},
-							],
-						},
-						{
-							id: 12,
-							label: '角色管理',
-							children: [
-								{
-									id: 121,
-									label: '角色新增',
-								},
-								{
-									id: 122,
-									label: '角色修改',
-								},
-								{
-									id: 123,
-									label: '角色删除',
-								},
-								{
-									id: 124,
-									label: '角色查询',
-								},
-							],
-						},
-						{
-							id: 13,
-							label: '用户管理',
-							children: [
-								{
-									id: 131,
-									label: '用户新增',
-								},
-								{
-									id: 132,
-									label: '用户修改',
-								},
-								{
-									id: 133,
-									label: '用户删除',
-								},
-								{
-									id: 134,
-									label: '用户查询',
-								},
-							],
-						},
-					],
-				},
-				{
-					id: 2,
-					label: '权限管理',
-					children: [
-						{
-							id: 21,
-							label: '前端控制',
-							children: [
-								{
-									id: 211,
-									label: '页面权限',
-								},
-								{
-									id: 212,
-									label: '页面权限',
-								},
-							],
-						},
-						{
-							id: 22,
-							label: '后端控制',
-							children: [
-								{
-									id: 221,
-									label: '页面权限',
-								},
-							],
-						},
-					],
-				},
-			];
+		// 提交
+		const submit = () => {
+			const formWrap = unref(ruleFormRef) as any;
+			if (!formWrap) return;
+
+			formWrap.validate(async () => {
+				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
+					await getAPI(SysRoleApi).sysRoleUpdatePost(state.ruleForm);
+				}
+				else {
+					await getAPI(SysRoleApi).sysRoleAddPost(state.ruleForm);
+				}
+				closeDialog();
+			})
 		};
 		return {
+			ruleFormRef,
 			openDialog,
 			closeDialog,
-			onCancel,
-			onSubmit,
+			cancel,
+			submit,
 			...toRefs(state),
 		};
 	},
 });
 </script>
-
-<style scoped lang="scss">
-.system-edit-role-container {
-	.menu-data-tree {
-		width: 100%;
-		border: 1px solid var(--el-border-color);
-		border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
-		padding: 5px;
-	}
-}
-</style>

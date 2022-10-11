@@ -57,16 +57,16 @@
 						<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
 						<el-table-column label="操作" width="80" fixed="right" align="center" show-overflow-tooltip>
 							<template #default="scope">
-								<el-button size="small" text type="primary" @click="openEditOrg(scope.row)">
-									<el-icon>
-										<ele-Edit />
-									</el-icon>
-								</el-button>
-								<el-button size="small" text type="primary" @click="delOrg(scope.row)">
-									<el-icon>
-										<ele-Delete />
-									</el-icon>
-								</el-button>
+								<el-tooltip content="机构编辑">
+									<el-button icon="ele-Edit" size="small" text type="primary"
+										@click="openEditOrg(scope.row)">
+									</el-button>
+								</el-tooltip>
+								<el-tooltip content="机构删除">
+									<el-button icon="ele-Delete" size="small" text type="primary"
+										@click="delOrg(scope.row)">
+									</el-button>
+								</el-tooltip>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -84,7 +84,7 @@ import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditOrg from '/@/views/system/org/component/editOrg.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysOrgApi } from '/@/api-services/apis/sys-org-api';
+import { SysOrgApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysOrg',

@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { StatusEnum } from './status-enum';
 /**
  * 
  * @export
@@ -24,39 +25,9 @@ export interface RoleInput {
      */
     id: number;
     /**
-     * 名称
-     * @type {string}
+     * 
+     * @type {StatusEnum}
      * @memberof RoleInput
      */
-    name?: string | null;
-    /**
-     * 编码
-     * @type {string}
-     * @memberof RoleInput
-     */
-    code?: string | null;
-    /**
-     * 排序
-     * @type {number}
-     * @memberof RoleInput
-     */
-    order?: number;
-    /**
-     * 数据范围类型
-     * @type {number}
-     * @memberof RoleInput
-     */
-    dataScope?: number;
-    /**
-     * 备注
-     * @type {string}
-     * @memberof RoleInput
-     */
-    remark?: string | null;
-    /**
-     * 状态
-     * @type {number}
-     * @memberof RoleInput
-     */
-    status?: number;
+    status?: StatusEnum;
 }

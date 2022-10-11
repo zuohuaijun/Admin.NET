@@ -6011,31 +6011,6 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="P:Admin.NET.Core.Service.RoleInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.RoleInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.RoleInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.RoleInput.DataScope">
-            <summary>
-            数据范围类型
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.RoleInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.RoleInput.Status">
             <summary>
             状态
@@ -6049,21 +6024,6 @@
         <member name="P:Admin.NET.Core.Service.PageRoleInput.Code">
             <summary>
             编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.PageRoleInput.DataScope">
-            <summary>
-            数据范围类型
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.PageRoleInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.PageRoleInput.Status">
-            <summary>
-            状态
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.AddRoleInput.Name">
