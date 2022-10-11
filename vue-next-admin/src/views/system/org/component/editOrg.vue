@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-org-container">
-		<el-dialog v-model="isShowDialog" width="500px">
+		<el-dialog v-model="isShowDialog" width="600px">
 			<template #header>
 				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
 					{{ title }}
@@ -29,17 +29,17 @@
 							<el-input v-model="ruleForm.code" placeholder="机构编码" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="排序">
 							<el-input-number v-model="ruleForm.order" controls-position="right" placeholder="排序"
 								class="w100" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="是否启用">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="状态">
 							<el-radio-group v-model="ruleForm.status">
 								<el-radio :label="1">启用</el-radio>
-								<el-radio :label="2">不启用</el-radio>
+								<el-radio :label="2">禁用</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>

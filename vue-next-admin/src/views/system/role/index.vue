@@ -62,11 +62,9 @@
 							</span>
 							<template #dropdown>
 								<el-dropdown-menu>
-									<el-tooltip content="角色编辑">
-										<el-dropdown-item icon="ele-OfficeBuilding" @click="delRole(scope.row)">
-											数据范围
-										</el-dropdown-item>
-									</el-tooltip>
+									<el-dropdown-item icon="ele-OfficeBuilding" @click="delRole(scope.row)">
+										数据范围
+									</el-dropdown-item>
 									<el-dropdown-item icon="ele-Delete" @click="delRole(scope.row)">
 										删除角色
 									</el-dropdown-item>

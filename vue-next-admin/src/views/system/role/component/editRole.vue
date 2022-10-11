@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-role-container">
-		<el-dialog v-model="isShowDialog" width="500px">
+		<el-dialog v-model="isShowDialog" width="769px">
 			<template #header>
 				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
 					{{ title }}
@@ -18,17 +18,17 @@
 							<el-input v-model="ruleForm.code" placeholder="角色编码" clearable></el-input>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="排序">
 							<el-input-number v-model="ruleForm.order" controls-position="right" placeholder="排序"
 								class="w100" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="是否启用">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="状态">
 							<el-radio-group v-model="ruleForm.status">
 								<el-radio :label="1">启用</el-radio>
-								<el-radio :label="2">不启用</el-radio>
+								<el-radio :label="2">禁用</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
@@ -38,6 +38,15 @@
 							</el-input>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="菜单权限" v-loading="loading">
+							<el-tree ref="treeRef" :data="menuData" node-key="id" show-checkbox
+								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
+								:default-checked-keys="ownMenuData" class="menu-data-tree" highlight-current
+								icon="ele-Menu" />
+						</el-form-item>
+					</el-col>
+
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -51,10 +60,12 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref, unref } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref, unref, onMounted } from 'vue';
+import { ElTree } from 'element-plus';
+import type Node from 'element-plus/es/components/tree/src/model/node'
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysRoleApi } from '/@/api-services/api';
+import { SysMenuApi, SysRoleApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysEditRole',
@@ -69,7 +80,9 @@ export default defineComponent({
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const ruleFormRef = ref<HTMLElement | null>(null);
+		const treeRef = ref<InstanceType<typeof ElTree>>()
 		const state = reactive({
+			loading: true,
 			isShowDialog: false,
 			ruleForm: {
 				id: 0, // Id
@@ -83,6 +96,14 @@ export default defineComponent({
 				name: [{ required: true, message: "角色名称不能为空", trigger: "blur" }],
 				code: [{ required: true, message: "角色编码不能为空", trigger: "blur" }],
 			},
+			menuData: [] as any, // 菜单数据
+			ownMenuData: [] as any, // 拥有菜单
+		});
+		onMounted(async () => {
+			state.loading = true;
+			var res = await getAPI(SysMenuApi).sysMenuListGet();
+			state.menuData = res.data.result;
+			state.loading = false;
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
@@ -113,14 +134,58 @@ export default defineComponent({
 				closeDialog();
 			})
 		};
+		const treeNodeClass = (node: Node) => {
+			if (node.isLeaf) return '';
+			let addClass = true;
+			for (const key in node.childNodes) {
+				if (!node.childNodes[key].isLeaf)
+					addClass = false;
+			}
+			return addClass ? 'penultimate-node' : '';
+		};
+		const getCheckeds = () => {
+			return treeRef.value!.getCheckedKeys().concat(treeRef.value!.getHalfCheckedKeys())
+		};
 		return {
 			ruleFormRef,
 			openDialog,
 			closeDialog,
 			cancel,
 			submit,
+			treeNodeClass,
+			getCheckeds,
 			...toRefs(state),
 		};
 	},
 });
 </script>
+
+<style scoped lang="scss">
+.menu-data-tree {
+	width: 100%;
+	border: 1px solid var(--el-border-color);
+	border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+	padding: 5px;
+}
+
+:deep(.penultimate-node) {
+	.el-tree-node__children {
+		padding-left: 60px;
+		white-space: pre-wrap;
+		line-height: 12px;
+
+		.el-tree-node {
+			display: inline-block;
+		}
+
+		.el-tree-node__content {
+			padding-left: 5px !important;
+			padding-right: 5px;
+
+			.el-tree-node__expand-icon {
+				display: none;
+			}
+		}
+	}
+}
+</style>
