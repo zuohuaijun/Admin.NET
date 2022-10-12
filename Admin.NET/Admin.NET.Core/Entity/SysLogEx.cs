@@ -7,9 +7,9 @@
 public class SysLogEx : EntityBase
 {
     /// <summary>
-    /// 日志名称
+    /// 记录器类别名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "日志名称", Length = 256)]
+    [SugarColumn(ColumnDescription = "记录器类别名称", Length = 256)]
     [MaxLength(256)]
     public string LogName { get; set; }
 
@@ -37,4 +37,22 @@ public class SysLogEx : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "异常对象", ColumnDataType = "longtext,text,clob")]
     public string Exception { get; set; }
+
+    /// <summary>
+    /// 当前状态值
+    /// </summary>
+    [SugarColumn(ColumnDescription = "当前状态值", ColumnDataType = "longtext,text,clob")]
+    public string State { get; set; }
+
+    /// <summary>
+    /// 日志记录时间
+    /// </summary>
+    [SugarColumn(ColumnDescription = "日志记录时间")]
+    public DateTime LogDateTime { get; set; }
+
+    /// <summary>
+    /// 线程Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "线程Id")]
+    public int ThreadId { get; set; }
 }

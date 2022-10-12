@@ -757,7 +757,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysLogEx.LogName">
             <summary>
-            日志名称
+            记录器类别名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogEx.LogLevel">
@@ -780,6 +780,21 @@
             异常对象
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysLogEx.State">
+            <summary>
+            当前状态值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.LogDateTime">
+            <summary>
+            日志记录时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.ThreadId">
+            <summary>
+            线程Id
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysLogOp">
             <summary>
             系统操作日志表
@@ -787,7 +802,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysLogOp.LogName">
             <summary>
-            日志名称
+            记录器类别名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogOp.LogLevel">
@@ -808,6 +823,21 @@
         <member name="P:Admin.NET.Core.SysLogOp.Exception">
             <summary>
             异常对象
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.State">
+            <summary>
+            当前状态值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.LogDateTime">
+            <summary>
+            日志记录时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.ThreadId">
+            <summary>
+            线程Id
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysLogVis">
