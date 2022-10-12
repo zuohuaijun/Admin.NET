@@ -69,7 +69,6 @@ const initTreeData = async () => {
 
 // 设置默认选择
 const setCheckedKeys = (orgData: any) => {
-  console.log("设置选择")
   state.isShowCheckbox = true;
   treeRef.value!.setCheckedKeys([]);
   state.ownOrgData = orgData;

@@ -59,7 +59,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref, unref, onMounted } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref, onMounted } from 'vue';
 import type { ElTree } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node'
 
@@ -83,7 +83,7 @@ export default defineComponent({
 	},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-		const ruleFormRef = ref<HTMLElement | null>(null);
+		const ruleFormRef = ref();
 		const treeRef = ref<InstanceType<typeof ElTree>>()
 		const state = reactive({
 			loading: true,
@@ -126,10 +126,8 @@ export default defineComponent({
 		};
 		// 提交
 		const submit = () => {
-			const formWrap = unref(ruleFormRef) as any;
-			if (!formWrap) return;
-
-			formWrap.validate(async () => {
+			ruleFormRef.value.validate(async (valid: boolean) => {
+				if (!valid) return;
 				state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys(); //.concat(treeRef.value?.getHalfCheckedKeys());
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysRoleApi).sysRoleUpdatePost(state.ruleForm);

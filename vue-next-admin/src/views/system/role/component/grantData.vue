@@ -1,16 +1,24 @@
 <template>
-	<div class="sys-grantOrg-container">
+	<div class="sys-grantData-container">
 		<el-dialog v-model="isShowDialog" width="450px">
 			<template #header>
 				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
 					授权数据范围
 				</div>
 			</template>
-			<el-form :model="ruleForm" size="default" label-width="80px">
+			<el-form :model="ruleForm" size="default">
 				<el-row :gutter="35">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24">
-						<el-form-item prop="orgIdList">
-							<OrgTree ref="orgTreeRef" />
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24" class="mb20">
+						<el-form-item prop="dataScope" label="数据范围">
+							<el-select v-model="ruleForm.dataScope" placeholder="数据范围" style="width: 100%">
+								<el-option v-for="d in dataScopeType" :key="d.value" :label="d.label"
+									:value="d.value" />
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24" v-show="ruleForm.dataScope === 5">
+						<el-form-item prop="orgIdList" label="机构列表">
+							<OrgTree ref="orgTreeRef" class="w100" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -30,7 +38,7 @@ import { reactive, toRefs, defineComponent, ref } from 'vue';
 import OrgTree from '/@/views/system/org/component/orgTree.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysUserApi } from '/@/api-services/api';
+import { SysRoleApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysGrantData',
@@ -41,14 +49,15 @@ export default defineComponent({
 			isShowDialog: false,
 			ruleForm: {
 				id: 0,
-				org: 0, // 用户所属机构
+				dataScope: 0, // 数据范围
 				orgIdList: [] as any, // 机构集合
 			},
+			dataScopeType: [{ value: 1, label: "全部数据" }, { value: 2, label: "本部门及以下数据" }, { value: 3, label: "本部门数据" }, { value: 4, label: "仅本人数据" }, { value: 5, label: "自定义数据" }], // 数据范围类型			
 		});
 		// 打开弹窗
 		const openDialog = async (row: any) => {
 			state.ruleForm = row;
-			var res = await getAPI(SysUserApi).sysUserOwnOrgGet(row.id);
+			var res = await getAPI(SysRoleApi).sysRoleOwnOrgGet(row.id);
 			setTimeout(() => { // 延迟传递数据
 				orgTreeRef.value?.setCheckedKeys(res.data.result);
 			}, 100);
@@ -60,8 +69,9 @@ export default defineComponent({
 		};
 		// 提交
 		const submit = async () => {
-			state.ruleForm.orgIdList = orgTreeRef.value?.getCheckedKeys();
-			await getAPI(SysUserApi).sysUserGrantOrgPost(state.ruleForm);
+			if (state.ruleForm.dataScope === 5)
+				state.ruleForm.orgIdList = orgTreeRef.value?.getCheckedKeys();
+			await getAPI(SysRoleApi).sysRoleGrantDataPost(state.ruleForm);
 			state.isShowDialog = false;
 		};
 		return {

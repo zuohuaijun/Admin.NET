@@ -80,7 +80,7 @@ public class ChangePwdInput
     /// <summary>
     /// 新密码
     /// </summary>
-    [Required(ErrorMessage = "原始密码不能为空")]
+    [Required(ErrorMessage = "新密码不能为空")]
     [StringLength(20, MinimumLength = 5, ErrorMessage = "密码需要大于5个字符")]
     public string PasswordNew { get; set; }
 }

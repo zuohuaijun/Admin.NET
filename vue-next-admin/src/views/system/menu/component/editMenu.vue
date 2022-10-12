@@ -143,7 +143,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref, unref } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
 import IconSelector from '/@/components/iconSelector/index.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -166,7 +166,7 @@ export default defineComponent({
 	},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-		const ruleFormRef = ref<HTMLElement | null>(null);
+		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {
@@ -211,13 +211,11 @@ export default defineComponent({
 		};
 		// 提交
 		const submit = () => {
-			const formWrap = unref(ruleFormRef) as any;
-			if (!formWrap) return;
-
 			// 上级菜单Id
 			if (Array.isArray(state.ruleForm.pid))
 				state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
-			formWrap.validate(async () => {
+			ruleFormRef.value.validate(async (valid: boolean) => {
+				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysMenuApi).sysMenuUpdatePost(state.ruleForm);
 				}
