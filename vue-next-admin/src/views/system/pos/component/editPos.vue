@@ -74,7 +74,7 @@ export default defineComponent({
 				id: 0, // Id
 				name: '', // 职位名称
 				code: '', // 职位编码
-				order: 10, // 排序
+				order: 100, // 排序
 				status: 1, // 是否启用
 				remark: '', // 备注
 			},

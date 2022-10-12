@@ -191,4 +191,10 @@ export interface UpdateUserInput {
      * @memberof UpdateUserInput
      */
     realName: string;
+    /**
+     * 角色Id集合
+     * @type {Array<number>}
+     * @memberof UpdateUserInput
+     */
+    roleIdList?: Array<number> | null;
 }

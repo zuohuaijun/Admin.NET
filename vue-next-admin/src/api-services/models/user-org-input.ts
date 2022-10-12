@@ -30,7 +30,7 @@ export interface UserOrgInput {
      */
     orgId?: number;
     /**
-     * 机构Id列表
+     * 机构Id集合
      * @type {Array<number>}
      * @memberof UserOrgInput
      */

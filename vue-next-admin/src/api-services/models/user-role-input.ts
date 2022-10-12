@@ -30,7 +30,7 @@ export interface UserRoleInput {
      */
     orgId?: number;
     /**
-     * 角色Id列表
+     * 角色Id集合
      * @type {Array<number>}
      * @memberof UserRoleInput
      */

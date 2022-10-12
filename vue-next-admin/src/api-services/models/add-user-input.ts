@@ -191,4 +191,10 @@ export interface AddUserInput {
      * @memberof AddUserInput
      */
     realName: string;
+    /**
+     * 角色Id集合
+     * @type {Array<number>}
+     * @memberof AddUserInput
+     */
+    roleIdList?: Array<number> | null;
 }

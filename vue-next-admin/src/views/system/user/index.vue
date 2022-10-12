@@ -78,18 +78,34 @@
 						<el-table-column prop="createTime" label="修改时间" width="160" show-overflow-tooltip>
 						</el-table-column>
 						<el-table-column prop="remark" label="备注" width="200" show-overflow-tooltip></el-table-column>
-						<el-table-column label="操作" width="80" align="center" fixed="right" show-overflow-tooltip>
+						<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tooltip content="用户编辑">
 									<el-button icon="ele-Edit" size="small" text type="primary"
-										@click="openEditUser(scope.row)">
+										@click="openEditUser(scope.row)">编辑
 									</el-button>
 								</el-tooltip>
-								<el-tooltip content="用户删除">
-									<el-button icon="ele-Delete" size="small" text type="primary"
-										@click="delUser(scope.row)">
-									</el-button>
-								</el-tooltip>
+								<el-dropdown>
+									<span style="color: var(--el-color-primary);padding-top: 6px;padding-left: 12px;">
+										<el-icon>
+											<ele-MoreFilled />
+										</el-icon>
+									</span>
+									<template #dropdown>
+										<el-dropdown-menu>
+											<el-dropdown-item icon="ele-OfficeBuilding"
+												@click="openGrantOrg(scope.row)">
+												数据范围
+											</el-dropdown-item>
+											<el-dropdown-item icon="ele-RefreshLeft" @click="resetUserPwd(scope.row)">
+												重置密码
+											</el-dropdown-item>
+											<el-dropdown-item icon="ele-Delete" @click="delUser(scope.row)">
+												删除账号
+											</el-dropdown-item>
+										</el-dropdown-menu>
+									</template>
+								</el-dropdown>
 							</template>
 						</el-table-column>
 					</el-table>
@@ -101,6 +117,7 @@
 			</el-col>
 		</el-row>
 		<EditUser ref="editUserRef" :title="editUserTitle" :orgData="orgTreeData" />
+		<GrantOrg ref="grantOrgRef" />
 	</div>
 </template>
 
@@ -110,17 +127,19 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import { formatDate } from '/@/utils/formatTime';
 import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditUser from '/@/views/system/user/component/editUser.vue';
+import GrantOrg from '/@/views/system/user/component/grantOrg.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysUserApi, SysOrgApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysUser',
-	components: { OrgTree, EditUser },
+	components: { OrgTree, EditUser, GrantOrg },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const orgTreeRef = ref()
 		const editUserRef = ref();
+		const grantOrgRef = ref();
 		const state = reactive({
 			loading: true,
 			userData: [] as any,
@@ -210,6 +229,23 @@ export default defineComponent({
 		const changeStatus = async (row: any) => {
 			await getAPI(SysUserApi).sysUserSetStatusPost({ id: row.id, status: row.status });
 		}
+		// 打开授权数据范围页面
+		const openGrantOrg = (row: any) => {
+			grantOrgRef.value.openDialog(row);
+		};
+		// 重置密码
+		const resetUserPwd = async (row: any) => {
+			ElMessageBox.confirm(`确定重置密码：【${row.userName}】?`, '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(async () => {
+					await getAPI(SysUserApi).sysUserResetPwdPost({ id: row.id });
+					ElMessage.success('密码重置成功：123456');
+				})
+				.catch(() => { });
+		}
 		// 树组件点击
 		const nodeClick = async (node: any) => {
 			state.queryParams.orgId = node.id;
@@ -222,12 +258,15 @@ export default defineComponent({
 			resetQuery,
 			orgTreeRef,
 			editUserRef,
+			grantOrgRef,
 			openAddUser,
 			openEditUser,
 			delUser,
 			handleSizeChange,
 			handleCurrentChange,
 			changeStatus,
+			openGrantOrg,
+			resetUserPwd,
 			nodeClick,
 			formatDate,
 			...toRefs(state),

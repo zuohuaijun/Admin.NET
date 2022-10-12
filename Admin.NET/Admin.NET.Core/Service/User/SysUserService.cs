@@ -66,7 +66,26 @@ public class SysUserService : IDynamicApiController, ITransient
 
         var user = input.Adapt<SysUser>();
         user.Password = MD5Encryption.Encrypt(CommonConst.SysPassword);
-        await _sysUserRep.InsertAsync(user);
+        input.Id = (await _sysUserRep.AsInsertable(user).ExecuteReturnEntityAsync()).Id;
+
+        await UpdateUserRole(input);
+    }
+
+    /// <summary>
+    /// 更新用户角色
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    private async Task UpdateUserRole(AddUserInput input)
+    {
+        if (input.RoleIdList == null || input.RoleIdList.Count < 1)
+            return;
+        await GrantUserRole(new UserRoleInput()
+        {
+            Id = input.Id,
+            OrgId = input.OrgId,
+            RoleIdList = input.RoleIdList
+        });
     }
 
     /// <summary>
@@ -84,6 +103,8 @@ public class SysUserService : IDynamicApiController, ITransient
 
         await _sysUserRep.AsUpdateable(input.Adapt<SysUser>()).IgnoreColumns(true)
             .IgnoreColumns(u => new { u.UserType, u.Password, u.Status }).ExecuteCommandAsync();
+
+        await UpdateUserRole(input);
     }
 
     /// <summary>
@@ -143,7 +164,7 @@ public class SysUserService : IDynamicApiController, ITransient
         if (!Enum.IsDefined(typeof(StatusEnum), input.Status))
             throw Oops.Oh(ErrorCodeEnum.D3005);
 
-        user.Status = (StatusEnum)input.Status;
+        user.Status = input.Status;
         return await _sysUserRep.AsUpdateable(user)
             .UpdateColumns(u => new { u.Status }).ExecuteCommandAsync();
     }

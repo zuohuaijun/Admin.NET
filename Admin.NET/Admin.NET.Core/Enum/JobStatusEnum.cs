@@ -22,4 +22,10 @@ public enum JobStatusEnum
     /// </summary>
     [Description("请假")]
     Leave = 3,
+
+    /// <summary>
+    /// 其他
+    /// </summary>
+    [Description("其他")]
+    Other = 4,
 }

@@ -45,6 +45,11 @@ public class AddUserInput : SysUser
     /// 账号密码
     /// </summary>
     public override string Password { get; set; } = CommonConst.SysPassword;
+
+    /// <summary>
+    /// 角色Id集合
+    /// </summary>
+    public List<long> RoleIdList { get; set; }
 }
 
 [NotTable]

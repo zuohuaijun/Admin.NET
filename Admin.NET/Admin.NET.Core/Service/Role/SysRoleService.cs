@@ -86,7 +86,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// <returns></returns>
     private async Task UpdateRoleMenu(AddRoleInput input)
     {
-        // 更新角色菜单权限集合
         if (input.MenuIdList == null || input.MenuIdList.Count < 1)
             return;
         await GrantRoleMenu(new RoleMenuInput()

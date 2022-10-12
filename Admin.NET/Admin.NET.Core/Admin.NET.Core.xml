@@ -2331,6 +2331,11 @@
             请假
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.JobStatusEnum.Other">
+            <summary>
+            其他
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.LoginTypeEnum">
             <summary>
             登录类型枚举
@@ -6616,6 +6621,11 @@
             账号密码
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.AddUserInput.RoleIdList">
+            <summary>
+            角色Id集合
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.DeleteUserInput.OrgId">
             <summary>
             机构Id
@@ -6643,17 +6653,7 @@
         </member>
         <member name="P:Admin.NET.Core.Service.UserOrgInput.OrgIdList">
             <summary>
-            机构Id列表
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserOutput.OrgName">
-            <summary>
-            机构名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserOutput.PosName">
-            <summary>
-            职位名称
+            机构Id集合
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.UserRoleInput">
@@ -6668,7 +6668,7 @@
         </member>
         <member name="P:Admin.NET.Core.Service.UserRoleInput.RoleIdList">
             <summary>
-            角色Id列表
+            角色Id集合
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysUserExtOrgPosService">
@@ -6806,6 +6806,13 @@
         <member name="M:Admin.NET.Core.Service.SysUserService.AddUser(Admin.NET.Core.Service.AddUserInput)">
             <summary>
             增加用户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateUserRole(Admin.NET.Core.Service.AddUserInput)">
+            <summary>
+            更新用户角色
             </summary>
             <param name="input"></param>
             <returns></returns>

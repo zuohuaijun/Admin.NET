@@ -91,7 +91,7 @@ export default defineComponent({
 				pid: 0, // 父节点Id
 				name: '', // 机构名称
 				code: '', // 机构编码
-				order: 10, // 排序
+				order: 100, // 排序
 				status: 1, // 是否启用
 				remark: '', // 备注
 			},
@@ -119,7 +119,7 @@ export default defineComponent({
 			const formWrap = unref(ruleFormRef) as any;
 			if (!formWrap) return;
 
-			// 取父节点Id
+			// 上级机构Id
 			if (Array.isArray(state.ruleForm.pid))
 				state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
 			formWrap.validate(async () => {

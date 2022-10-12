@@ -316,7 +316,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Path = "/" + className.ToLower(),
             Component = "/main/" + className + "/index",
         };
-        {//如果之前存在那么就删除本级和下级
+        {   // 如果之前存在那么就删除本级和下级
             var list = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType1.Title && e.Type == menuType1.Type).ToListAsync();
             if (list.Count > 0)
             {

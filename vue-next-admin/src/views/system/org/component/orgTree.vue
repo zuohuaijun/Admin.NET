@@ -27,8 +27,9 @@
       </div>
     </template>
     <div style="margin-bottom: 45px" v-loading="state.loading">
-      <el-tree ref='treeRef' class='filter-tree' :data='state.orgData' :props="{children: 'children', label: 'name'}"
-        :filter-node-method='filterNode' @node-click="nodeClick" />
+      <el-tree ref='treeRef' class='filter-tree' :data='state.orgData' node-key="id"
+        :props="{children: 'children', label: 'name'}" :filter-node-method='filterNode' @node-click="nodeClick"
+        :show-checkbox="state.isShowCheckbox" :default-checked-keys="state.ownOrgData" highlight-current />
     </div>
   </el-card>
 </template>
@@ -47,6 +48,8 @@ const treeRef = ref<InstanceType<typeof ElTree>>();
 const state = reactive({
   loading: true,
   orgData: [] as any,
+  isShowCheckbox: false,
+  ownOrgData: [],
 });
 
 onMounted(() => {
@@ -62,6 +65,19 @@ const initTreeData = async () => {
   var res = await getAPI(SysOrgApi).sysOrgListGet(0);
   state.orgData = res.data.result;
   state.loading = false;
+};
+
+// 设置默认选择
+const setCheckedKeys = (orgData: any) => {
+  console.log("设置选择")
+  state.isShowCheckbox = true;
+  treeRef.value!.setCheckedKeys([]);
+  state.ownOrgData = orgData;
+};
+
+// 获取已经选择
+const getCheckedKeys = () => {
+  return treeRef.value!.getCheckedKeys();
 };
 
 const filterNode = (value: string, data: any) => {
@@ -93,7 +109,7 @@ const nodeClick = (node: any) => {
 
 const orgTreeData = state.orgData; // 异步数据导出不了？
 // 导出
-defineExpose({ orgTreeData });
+defineExpose({ orgTreeData, setCheckedKeys, getCheckedKeys });
 </script>
 
 <style scoped>

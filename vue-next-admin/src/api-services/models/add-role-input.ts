@@ -97,4 +97,10 @@ export interface AddRoleInput {
      * @memberof AddRoleInput
      */
     name: string;
+    /**
+     * 菜单Id集合
+     * @type {Array<number>}
+     * @memberof AddRoleInput
+     */
+    menuIdList?: Array<number> | null;
 }

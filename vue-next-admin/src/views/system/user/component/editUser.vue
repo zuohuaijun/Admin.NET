@@ -52,6 +52,15 @@
 							<el-input v-model="ruleForm.email" placeholder="邮箱" clearable></el-input>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
+						<el-form-item label="角色" prop="roleIdList">
+							<el-select v-model="ruleForm.roleIdList" multiple value-key="id" clearable
+								placeholder="拥有角色" collapse-tags collapse-tags-tooltip class="w100" filterable>
+								<el-option v-for="item in roleData" :key="item.id" :label="item.name"
+									:value="item.id" />
+							</el-select>
+						</el-form-item>
+					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb5">
 						<el-form-item label="排序">
 							<el-input-number v-model="ruleForm.order" placeholder="排序" class="w100" />
@@ -61,7 +70,7 @@
 						<div style="color: #b1b3b8">其他</div>
 					</el-divider>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="所属机构">
+						<el-form-item label="所属机构" prop="orgId">
 							<el-cascader :options="orgData" :props="{ checkStrictly: true, value: 'id', label: 'name' }"
 								placeholder="所属机构" clearable class="w100" v-model="ruleForm.orgId">
 								<template #default="{ node, data }">
@@ -123,7 +132,7 @@
 import { reactive, toRefs, defineComponent, getCurrentInstance, ref, unref, onMounted } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysPosApi, SysUserApi } from '/@/api-services/api';
+import { SysPosApi, SysRoleApi, SysUserApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysEditUser',
@@ -161,25 +170,39 @@ export default defineComponent({
 				jobStatus: 1,
 				signature: '',
 				introduction: '',
-				order: 10, // 排序
+				order: 100, // 排序
 				remark: '', // 备注
+				roleIdList: [] as any, // 角色
 			},
-			jobStatusType: [{ value: 1, label: "在职" }, { value: 2, label: "离职" }, { value: 3, label: "请假" }], // 岗位状态
+			jobStatusType: [{ value: 1, label: "在职" }, { value: 2, label: "离职" }, { value: 3, label: "请假" }, { value: 4, label: "其他" }], // 岗位状态
 			posData: [] as any, // 职位数据
+			roleData: [] as any, // 角色数据
 			ruleRules: {
 				userName: [{ required: true, message: "账号名称不能为空", trigger: "blur" }],
 				phone: [{ required: true, message: "手机号码不能为空", trigger: "blur" }],
 				realName: [{ required: true, message: "真实姓名不能为空", trigger: "blur" }],
+				birthday: [{ required: true, message: "出生日期不能为空", trigger: "blur" }],
+				roleIdList: [{ required: true, message: "拥有角色不能为空", trigger: "blur" }],
+				orgId: [{ required: true, message: "所属机构不能为空", trigger: "blur" }],
+				posId: [{ required: true, message: "职位名称不能为空", trigger: "blur" }],
 			},
 		});
 		onMounted(async () => {
 			var res = await getAPI(SysPosApi).sysPosListGet();
 			state.posData = res.data.result;
+			var res1 = await getAPI(SysRoleApi).sysRoleListGet();
+			state.roleData = res1.data.result;
 		});
 		// 打开弹窗
-		const openDialog = (row: any) => {
+		const openDialog = async (row: any) => {
 			state.ruleForm = row;
-			state.isShowDialog = true;
+			if (JSON.stringify(row) !== "{}") {
+				var res = await getAPI(SysUserApi).sysUserOwnRoleGet(row.id);
+				state.ruleForm.roleIdList = res.data.result;
+				state.isShowDialog = true;
+			}
+			else
+				state.isShowDialog = true;
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
@@ -195,7 +218,7 @@ export default defineComponent({
 			const formWrap = unref(ruleFormRef) as any;
 			if (!formWrap) return;
 
-			// 取父节点Id
+			// 所属机构Id
 			if (Array.isArray(state.ruleForm.orgId))
 				state.ruleForm.orgId = state.ruleForm.orgId[state.ruleForm.orgId.length - 1];
 			formWrap.validate(async () => {

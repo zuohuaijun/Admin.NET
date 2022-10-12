@@ -11,7 +11,7 @@ public class UserRoleInput : BaseIdInput
     public long OrgId { get; set; }
 
     /// <summary>
-    /// 角色Id列表
+    /// 角色Id集合
     /// </summary>
     public List<long> RoleIdList { get; set; }
 }

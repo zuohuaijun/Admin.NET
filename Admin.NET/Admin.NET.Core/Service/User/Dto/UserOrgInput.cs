@@ -11,7 +11,7 @@ public class UserOrgInput : BaseIdInput
     public long OrgId { get; set; }
 
     /// <summary>
-    /// 机构Id列表
+    /// 机构Id集合
     /// </summary>
     public List<long> OrgIdList { get; set; }
 }

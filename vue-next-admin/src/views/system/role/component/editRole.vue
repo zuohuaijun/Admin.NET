@@ -92,7 +92,7 @@ export default defineComponent({
 				id: 0, // Id
 				name: '', // 角色名称
 				code: '', // 角色编码
-				order: 10, // 排序
+				order: 100, // 排序
 				status: 1, // 是否启用
 				remark: '', // 备注
 				menuIdList: [] as any, // 菜单权限

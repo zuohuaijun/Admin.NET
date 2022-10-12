@@ -47,15 +47,13 @@
 				</el-table-column>
 				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" width="80" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="110" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tooltip content="角色编辑">
-							<el-button icon="ele-Edit" size="small" text type="primary"
-								@click="openEditRole(scope.row)">
-							</el-button>
-						</el-tooltip>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditRole(scope.row)">
+							编辑
+						</el-button>
 						<el-dropdown>
-							<span style="color: var(--el-color-primary);padding-top: 6px;">
+							<span style="color: var(--el-color-primary);padding-top: 6px;padding-left: 12px;">
 								<el-icon>
 									<ele-MoreFilled />
 								</el-icon>
