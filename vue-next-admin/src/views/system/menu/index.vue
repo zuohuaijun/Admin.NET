@@ -1,6 +1,6 @@
 <template>
   <div class="sys-menu-container">
-    <el-card shadow="hover">
+    <el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
       <el-form :model="queryParams" ref="queryForm" :inline="true">
         <el-form-item label="菜单名称" prop="title">
           <el-input placeholder="菜单名称" clearable @keyup.enter="handleQuery" v-model="queryParams.title" />
@@ -11,22 +11,13 @@
           </el-select>
         </el-form-item>
         <el-form-item>
-          <el-button @click="resetQuery">
-            <el-icon>
-              <ele-Refresh />
-            </el-icon>
+          <el-button icon="ele-Refresh" @click="resetQuery">
             重置
           </el-button>
-          <el-button type="primary" @click="handleQuery">
-            <el-icon>
-              <ele-Search />
-            </el-icon>
+          <el-button type="primary" icon="ele-Search" @click="handleQuery">
             查询
           </el-button>
-          <el-button @click="openAddMenu">
-            <el-icon>
-              <ele-Plus />
-            </el-icon>
+          <el-button icon="ele-Plus" @click="openAddMenu">
             新增
           </el-button>
         </el-form-item>

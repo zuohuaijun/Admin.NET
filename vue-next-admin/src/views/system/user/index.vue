@@ -6,7 +6,7 @@
 			</el-col>
 
 			<el-col :span="20" :xs="24">
-				<el-card shadow="hover">
+				<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 					<el-form :model="queryParams" ref="queryForm" :inline="true">
 						<el-form-item label="账号名称" prop="name">
 							<el-input placeholder="账号名称" clearable @keyup.enter="handleQuery"
@@ -17,22 +17,13 @@
 								v-model="queryParams.phone" />
 						</el-form-item>
 						<el-form-item>
-							<el-button @click="resetQuery">
-								<el-icon>
-									<ele-Refresh />
-								</el-icon>
+							<el-button icon="ele-Refresh" @click="resetQuery">
 								重置
 							</el-button>
-							<el-button type="primary" @click="handleQuery">
-								<el-icon>
-									<ele-Search />
-								</el-icon>
+							<el-button type="primary" icon="ele-Search" @click="handleQuery">
 								查询
 							</el-button>
-							<el-button @click="openAddUser">
-								<el-icon>
-									<ele-Plus />
-								</el-icon>
+							<el-button icon="ele-Plus" @click="openAddUser">
 								新增
 							</el-button>
 						</el-form-item>
