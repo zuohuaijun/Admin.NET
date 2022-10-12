@@ -41,6 +41,7 @@ public class SysRoleMenuSeedData : ISqlSugarEntitySeedData<SysRoleMenu>
             new SysRoleMenu{ Id=252885263004025, RoleId=252885263003720, MenuId=252885263003773 },
             new SysRoleMenu{ Id=252885263004026, RoleId=252885263003720, MenuId=252885263003774 },
 
+            new SysRoleMenu{ Id=252885263003003, RoleId=252885263003721, MenuId=252885263003710 },
             new SysRoleMenu{ Id=252885263003004, RoleId=252885263003721, MenuId=252885263003711 },
             new SysRoleMenu{ Id=252885263003005, RoleId=252885263003721, MenuId=252885263003712 },
         };
