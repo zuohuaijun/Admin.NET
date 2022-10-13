@@ -107,10 +107,10 @@
 //        config.ForType<SysMenu, MenuOutput>()
 //            .Map(t => t.Meta.Title, o => o.Title)
 //            .Map(t => t.Meta.Icon, o => o.Icon)
-//            .Map(t => t.Meta.FrameSrc, o => o.OutLink)
+//            .Map(t => t.Meta.FrameSrc, o => o.FrameSrc)
 //            .Map(t => t.Meta.OrderNo, o => o.Order)
-//            .Map(t => t.Meta.HideMenu, o => o.IsHide)
-//            .Map(t => t.Meta.IgnoreKeepAlive, o => o.IsKeepAlive);
-//        //.Map(t => t.Meta.CurrentActiveMenu, o => o.CurrentActiveMenu);
+//            .Map(t => t.Meta.HideMenu, o => o.HideMenu)
+//            .Map(t => t.Meta.IgnoreKeepAlive, o => o.IgnoreKeepAlive)
+//            .Map(t => t.Meta.CurrentActiveMenu, o => o.CurrentActiveMenu);
 //    }
 //}

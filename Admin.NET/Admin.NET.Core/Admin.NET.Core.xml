@@ -2611,9 +2611,14 @@
             管理员
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.UserTypeEnum.None">
+        <member name="F:Admin.NET.Core.UserTypeEnum.User">
             <summary>
             普通账号
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.UserTypeEnum.None">
+            <summary>
+            游客
             </summary>
         </member>
         <member name="F:Admin.NET.Core.UserTypeEnum.SuperAdmin">

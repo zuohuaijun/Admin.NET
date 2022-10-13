@@ -112,7 +112,9 @@ axiosInstance.interceptors.response.use(
 		//  if (serve && serve.hasOwnProperty("errors") && serve.errors) {
 		//    throw new Error(JSON.stringify(serve.errors || "Request Error."));
 		//  }
-		if (serve && serve.code !== 200) {
+		if (serve && serve.code === 401) {
+			clearAccessTokens();
+		} else if (serve && serve.code !== 200) {
 			var error = JSON.stringify(serve.message);
 			ElMessage.error(error);
 			throw new Error(error);

@@ -91,7 +91,6 @@ public class ServerUtil
         }
     }
 
-
     /// <summary>
     /// CPU信息
     /// </summary>
@@ -102,7 +101,7 @@ public class ServerUtil
         if (IsUnix())
         {
             var output = ShellUtil.Bash("top -b -n1 | grep \"Cpu(s)\" | awk '{print $2 + $4}'");
-            cpuRate = output.Trim() ;
+            cpuRate = output.Trim();
         }
         else
         {

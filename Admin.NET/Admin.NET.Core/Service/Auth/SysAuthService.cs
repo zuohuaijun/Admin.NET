@@ -1,5 +1,4 @@
 ﻿using Furion.SpecificationDocument;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Admin.NET.Core.Service;
