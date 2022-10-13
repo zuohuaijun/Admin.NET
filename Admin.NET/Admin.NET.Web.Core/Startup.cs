@@ -42,7 +42,11 @@ public class Startup : AppStartup
         //// 结果拦截器
         //services.AddMvcFilter<ResultFilter>();
         // 日志监听
-        services.AddMonitorLogging();
+        services.AddMonitorLogging(options =>
+        {
+            options.IgnorePropertyNames = new[] { "Byte" };
+            options.IgnorePropertyTypes = new[] { typeof(byte[]) };
+        });
 
         services.AddControllersWithViews()
             .AddAppLocalization()
