@@ -21,7 +21,7 @@ public enum UserTypeEnum
     /// 游客
     /// </summary>
     [Description("游客")]
-    Nano = 3,
+    None = 3,
 
     /// <summary>
     /// 超级管理员
