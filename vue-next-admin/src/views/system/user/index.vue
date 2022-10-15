@@ -20,10 +20,10 @@
 							<el-button icon="ele-Refresh" @click="resetQuery">
 								重置
 							</el-button>
-							<el-button type="primary" icon="ele-Search" @click="handleQuery">
+							<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysUser:page'">
 								查询
 							</el-button>
-							<el-button icon="ele-Plus" @click="openAddUser">
+							<el-button icon="ele-Plus" @click="openAddUser" v-auth="'sysUser:add'">
 								新增
 							</el-button>
 						</el-form-item>
@@ -60,7 +60,7 @@
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-switch v-model="scope.row.status" :active-value="1" :inactive-value="2" size="small"
-									@change="changeStatus(scope.row)">
+									@change="changeStatus(scope.row)" v-auth="'sysUser:setStatus'">
 								</el-switch>
 							</template>
 						</el-table-column>
@@ -73,7 +73,7 @@
 							<template #default="scope">
 								<el-tooltip content="用户编辑">
 									<el-button icon="ele-Edit" size="small" text type="primary"
-										@click="openEditUser(scope.row)">编辑
+										@click="openEditUser(scope.row)" v-auth="'sysUser:update'">编辑
 									</el-button>
 								</el-tooltip>
 								<el-dropdown>
@@ -84,14 +84,14 @@
 									</span>
 									<template #dropdown>
 										<el-dropdown-menu>
-											<el-dropdown-item icon="ele-OfficeBuilding"
-												@click="openGrantOrg(scope.row)">
-												数据范围
+											<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantOrg(scope.row)"
+												:v-auth="'sysUser:grantData'">数据范围
 											</el-dropdown-item>
-											<el-dropdown-item icon="ele-RefreshLeft" @click="resetUserPwd(scope.row)">
-												重置密码
+											<el-dropdown-item icon="ele-RefreshLeft" @click="resetUserPwd(scope.row)"
+												:v-auth="'sysUser:resetPwd'" disabled>重置密码
 											</el-dropdown-item>
-											<el-dropdown-item icon="ele-Delete" @click="delUser(scope.row)">
+											<el-dropdown-item icon="ele-Delete" @click="delUser(scope.row)"
+												:v-auth="'sysUser:delete'">
 												删除账号
 											</el-dropdown-item>
 										</el-dropdown-menu>

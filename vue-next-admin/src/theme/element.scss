@@ -263,10 +263,13 @@
 	.el-button.is-text {
 		padding: 0;
 	}
-	// .el-table__cell {
-	// 	// 	background:#FF0000;
-	// 	// 	font-weight: 300;
-	// }
+	// 标题背景色
+	--el-table-header-bg-color: #fafafa;
+	// 标题字体颜色
+	thead{
+		color: var(--el-text-color-regular);	
+		font-weight: normal;
+	}
 }
 // 分页组件靠右显示
 .el-pagination {

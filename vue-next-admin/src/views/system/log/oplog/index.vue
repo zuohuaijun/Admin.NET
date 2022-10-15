@@ -3,10 +3,12 @@
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="开始时间" prop="name">
-					<el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
+					<el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间"
+						:shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item label="结束时间" prop="code">
-					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" />
+					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间"
+						:shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
@@ -25,27 +27,22 @@
 				<el-table-column prop="exception" label="异常对象" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="state" label="当前状态值" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="threadId" label="线程Id" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="logDateTime" label="日志记录时间" align="center" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="logDateTime" label="日志记录时间" align="center" show-overflow-tooltip>
+				</el-table-column>
 				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewdetail(scope.row)">查看详情 </el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewDetail(scope.row)">详情
+						</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination
-				v-model:currentPage="tableParams.page"
-				v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total"
-				:page-sizes="[10, 20, 50, 100]"
-				small
-				background
-				@size-change="handleSizeChange"
-				@current-change="handleCurrentChange"
-				layout="total, sizes, prev, pager, next, jumper"
-			/>
+			<el-pagination v-model:currentPage="tableParams.page" v-model:page-size="tableParams.pageSize"
+				:total="tableParams.total" :page-sizes="[10, 20, 50, 100]" small background
+				@size-change="handleSizeChange" @current-change="handleCurrentChange"
+				layout="total, sizes, prev, pager, next, jumper" />
 		</el-card>
-		<el-dialog v-model="dialogVisible" title="Tips" width="700px">
+		<el-dialog v-model="dialogVisible" title="日志详情" width="769px">
 			<pre>{{content}}</pre>
 			<template #footer>
 				<span class="dialog-footer">
@@ -80,7 +77,7 @@ export default defineComponent({
 			},
 			logData: [] as any,
 			dialogVisible: false,
-			content:"",
+			content: "",
 		});
 		onMounted(async () => {
 			handleQuery();
@@ -125,12 +122,11 @@ export default defineComponent({
 			state.tableParams.page = val;
 			handleQuery();
 		};
-		const viewdetail = (row: any) => {
-			debugger
-			state.content=row.state;
+		// 查看详情
+		const viewDetail = (row: any) => {
+			state.content = row.message;
 			state.dialogVisible = true;
 		};
-
 		const shortcuts = [
 			{
 				text: '今天',
@@ -160,7 +156,7 @@ export default defineComponent({
 			shortcuts,
 			handleSizeChange,
 			handleCurrentChange,
-			viewdetail,
+			viewDetail,
 			...toRefs(state),
 		};
 	},
@@ -172,12 +168,9 @@ export default defineComponent({
 	//font-size: 14px;
 	max-width: 60%;
 }
+
 pre {
-    white-space: break-spaces;
-    line-height: 17px;
-    margin-bottom: 0;
-    overflow: hidden;
-	font-size: 1em;
-    font-family: "SFMono-Regular",Consolas,"Liberation Mono",Menlo,Courier,monospace;
+	white-space: break-spaces;
+	line-height: 20px;
 }
 </style>

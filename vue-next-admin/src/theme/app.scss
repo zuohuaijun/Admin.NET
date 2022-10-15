@@ -22,6 +22,10 @@
 	--next-color-seting-main: #e9eef3;
 	--next-color-seting-aside: #d3dce6;
 	--next-color-seting-header: #b3c0d1;
+	// 重写全局样式
+	//--el-text-color-primary: rgba(0, 0, 0, .75) !important;
+    --el-text-color-regular: rgba(0, 0, 0, .75) !important;
+	//--el-text-color-secondary: var(--el-text-color-regular) !important;
 }
 
 html,

@@ -42,7 +42,7 @@
 							<el-tree ref="treeRef" :data="menuData" node-key="id" show-checkbox
 								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
 								:default-checked-keys="ownMenuData" highlight-current class="menu-data-tree"
-								icon="ele-Menu" />
+								icon="ele-Menu" check-strictly />
 						</el-form-item>
 					</el-col>
 

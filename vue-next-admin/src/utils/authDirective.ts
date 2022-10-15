@@ -13,7 +13,13 @@ export function authDirective(app: App) {
 	app.directive('auth', {
 		mounted(el, binding) {
 			const stores = useUserInfo();
-			if (!stores.userInfos.authBtnList.some((v: string) => v === binding.value)) el.parentNode.removeChild(el);
+			console.log(binding.value)
+			if (!stores.userInfos.authBtnList.some((v: string) => v === binding.value)) {
+				//el.parentNode.removeChild(el);
+				//el.disabled = true;
+				el.classList.add('is-disabled');
+				el.setAttribute('aria-disabled', 'true');
+			}
 		},
 	});
 	// 多个权限验证，满足一个则显示（v-auths="[xxx,xxx]"）
