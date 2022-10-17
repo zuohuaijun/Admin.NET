@@ -3,6 +3,7 @@ using AspNetCoreRateLimit;
 using Furion;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
+using Lazy.Captcha.Core;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -162,6 +163,12 @@ public class Startup : AppStartup
         {
             WorkerId = App.GetOptions<SnowIdOptions>().WorkerId
         });
+
+        // 验证码
+        services.AddCaptcha(App.Configuration);
+        //services.AddScoped<ICaptcha, DefaultCaptcha>();
+        services.AddScoped<ICaptcha, RandomCaptcha>();
+        //services.AddScoped<IStorage, DefaultStorage>();        
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

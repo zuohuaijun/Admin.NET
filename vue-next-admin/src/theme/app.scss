@@ -128,7 +128,7 @@ body,
 	}
 	.layout-scrollbar {
 		@extend .el-scrollbar;
-		padding: 5px; // 四周间隙
+		padding: 8px; // 四周间隙
 	}
 	.layout-mian-height-50 {
 		height: calc(100vh - 50px);

@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-org-container">
-		<el-row :gutter="5">
+		<el-row :gutter="8" style="width:100%">
 			<el-col :span="4" :xs="24">
 				<OrgTree @node-click='nodeClick' />
 			</el-col>
@@ -30,7 +30,7 @@
 					</el-form>
 				</el-card>
 
-				<el-card shadow="hover" style="margin-top: 5px;">
+				<el-card shadow="hover" style="margin-top: 8px;">
 					<el-table :data="orgData" style="width: 100%" v-loading="loading" row-key="id" default-expand-all
 						:tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
 						<el-table-column prop="name" label="机构名称" show-overflow-tooltip> </el-table-column>

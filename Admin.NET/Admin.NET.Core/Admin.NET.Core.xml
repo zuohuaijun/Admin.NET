@@ -1931,6 +1931,11 @@
             系统错误码
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D0009">
+            <summary>
+            验证码错误
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.D1000">
             <summary>
             用户名或密码不正确
@@ -3609,6 +3614,16 @@
             </summary>
             <example>123456</example>
         </member>
+        <member name="P:Admin.NET.Core.Service.LoginInput.CodeId">
+            <summary>
+            验证码Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginInput.Code">
+            <summary>
+            验证码
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.LoginOutput">
             <summary>
             用户登录结果
@@ -3731,6 +3746,12 @@
             <summary>
             退出系统
             </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.GetCaptcha">
+            <summary>
+            生成图片验证码
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.SwaggerCheckUrl">
             <summary>
@@ -7500,6 +7521,17 @@
             <summary>
             序列化时long转string（防止js精度溢出）
             </summary>
+        </member>
+        <member name="T:Admin.NET.Core.RandomCaptcha">
+            <summary>
+            随机验证码
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.RandomCaptcha.ChangeOptions(Lazy.Captcha.Core.CaptchaOptions)">
+            <summary>
+            更新选项
+            </summary>
+            <param name="options"></param>
         </member>
         <member name="T:Admin.NET.Core.ReflectionUtil">
             <summary>

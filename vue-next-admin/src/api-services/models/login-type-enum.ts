@@ -12,15 +12,15 @@
  * Do not edit the class manually.
  */
 /**
- * 登录类型枚举<br />&nbsp;登录 Login = 0<br />&nbsp;退出 Logout = 1<br />&nbsp;注册 Register = 2<br />&nbsp;改密 Change_password = 3<br />&nbsp;授权登陆 Authorized_login = 4<br />
+ * 登录类型枚举<br />&nbsp;登录 Login = 1<br />&nbsp;退出 Logout = 2<br />&nbsp;注册 Register = 3<br />&nbsp;改密 Change_password = 4<br />&nbsp;授权登陆 Authorized_login = 5<br />
  * @export
  * @enum {string}
  */
 export enum LoginTypeEnum {
-    NUMBER_0 = 0,
     NUMBER_1 = 1,
     NUMBER_2 = 2,
     NUMBER_3 = 3,
-    NUMBER_4 = 4
+    NUMBER_4 = 4,
+    NUMBER_5 = 5
 }
 

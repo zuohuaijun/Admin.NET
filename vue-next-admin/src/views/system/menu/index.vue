@@ -24,7 +24,7 @@
       </el-form>
     </el-card>
 
-    <el-card shadow="hover" style="margin-top: 5px;">
+    <el-card shadow="hover" style="margin-top: 8px;">
       <el-table :data="menuData" v-loading="loading" row-key="id"
         :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
         <el-table-column label="菜单名称" show-overflow-tooltip>

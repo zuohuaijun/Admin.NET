@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 /**
- * 岗位状态枚举<br />&nbsp;在职 On = 1<br />&nbsp;离职 Off = 2<br />&nbsp;请假 Leave = 3<br />
+ * 岗位状态枚举<br />&nbsp;在职 On = 1<br />&nbsp;离职 Off = 2<br />&nbsp;请假 Leave = 3<br />&nbsp;其他 Other = 4<br />
  * @export
  * @enum {string}
  */
 export enum JobStatusEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
-    NUMBER_3 = 3
+    NUMBER_3 = 3,
+    NUMBER_4 = 4
 }
 
