@@ -1,55 +1,55 @@
 {
-    "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
 
-    "DbConnection": {
-        "ConnectionConfigs": [
-            // 默认第一个为主库
-            {
-                "ConfigId": "Dilon",
-                "DbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
-                "ConnectionString": "DataSource=./Admin.NET.db",
-                "EnableInitDb": true, // 启用库表初始化
-                "EnableDiffLog": false // 启用库表差异日志
-            },
-            // 其他业务库
-            {
-                "ConfigId": "Test",
-                "DbType": "Sqlite",
-                "ConnectionString": "DataSource=./Test.db",
-                "EnableInitDb": false, // 启用库表初始化
-                "EnableDiffLog": false // 启用库表差异日志
-            }
-        ]
-    },
-    // 代码生成配置项-程序集名称集合
-    "CodeGen": {
-        "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application" ],
-        "FrontRootPath": "Vben2", //前端文件根目录
-        "BackendApplicationNamespace": "Admin.NET.Application" //后端生成到的项目
-    },
-    "Wechat": {
-        // 公众号
-        "WechatAppId": "",
-        "WechatAppSecret": "",
-        "EncodingAESKey": "",
-        "Token": "",
-        // 小程序
-        "WxOpenAppId": "",
-        "WxOpenAppSecret": "",
-        "WxOpenToken": "",
-        "WxOpenEncodingAESKey": ""
-    },
-    "WechatPay": {
-        "AppId": "", // 微信公众平台AppId、开放平台AppId、小程序AppId、企业微信CorpId
-        "MerchantId": "", // 商户平台的商户号
-        "MerchantV3Secret": "", // 商户平台的APIv3密钥
-        "MerchantCertificateSerialNumber": "", // 商户平台的证书序列号
-        "MerchantCertificatePrivateKey": "\\WxPayCert\\apiclient_key.pem" // 商户平台的API证书私钥(apiclient_key.pem文件内容)
-    },
-    "PayCallBack": {
-        "WechatPayUrl": "/notify/weChatPay/unifiedorder", // 微信支付回调
-        "WechatRefundUrl": "/notify/weChatPay/refund", // 微信退款回调
-        "AlipayUrl": "", // 支付宝支付回调
-        "AlipayRefundUrl": "" // 支付宝退款回调
-    }
+  "DbConnection": {
+    "ConnectionConfigs": [
+      // 默认第一个为主库
+      {
+        "ConfigId": "Coreshop",
+        "DbType": "MySql", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
+        "ConnectionString": "Server=localhost;uid=root;pwd=123456;Database=coreshop;pooling=true;min pool size=5;max pool size=32767;connect timeout=30000;charset=utf8;", // DataSource=C:\\db\\Admin.NET.db
+        "EnableInitDb": false, // 启用库表初始化
+        "EnableDiffLog": false // 启用库表差异日志
+      },
+      // 其他业务库
+      {
+        "ConfigId": "Test",
+        "DbType": "Sqlite",
+        "ConnectionString": "DataSource=./Test.db",
+        "EnableInitDb": false, // 启用库表初始化
+        "EnableDiffLog": false // 启用库表差异日志
+      }
+    ]
+  },
+  // 代码生成配置项-程序集名称集合
+  "CodeGen": {
+    "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application" ],
+    "FrontRootPath": "Vben2", //前端文件根目录
+    "BackendApplicationNamespace": "Admin.NET.Application" //后端生成到的项目
+  },
+  "Wechat": {
+    // 公众号
+    "WechatAppId": "",
+    "WechatAppSecret": "",
+    "EncodingAESKey": "",
+    "Token": "",
+    // 小程序
+    "WxOpenAppId": "",
+    "WxOpenAppSecret": "",
+    "WxOpenToken": "",
+    "WxOpenEncodingAESKey": ""
+  },
+  "WechatPay": {
+    "AppId": "", // 微信公众平台AppId、开放平台AppId、小程序AppId、企业微信CorpId
+    "MerchantId": "", // 商户平台的商户号
+    "MerchantV3Secret": "", // 商户平台的APIv3密钥
+    "MerchantCertificateSerialNumber": "", // 商户平台的证书序列号
+    "MerchantCertificatePrivateKey": "\\WxPayCert\\apiclient_key.pem" // 商户平台的API证书私钥(apiclient_key.pem文件内容)
+  },
+  "PayCallBack": {
+    "WechatPayUrl": "/notify/weChatPay/unifiedorder", // 微信支付回调
+    "WechatRefundUrl": "/notify/weChatPay/refund", // 微信退款回调
+    "AlipayUrl": "", // 支付宝支付回调
+    "AlipayRefundUrl": "" // 支付宝退款回调
+  }
 }
