@@ -2,7 +2,7 @@
   <div class="sys-server-container">
     <el-row :gutter="8">
       <el-col :md="12" :sm="24">
-        <el-card shadow="hover" header="系统信息" style="margin-bottom;: 8px">
+        <el-card shadow="hover" header="系统信息">
           <table class="sysInfo_table">
             <tr>
               <td class="sysInfo_td">主机名称：</td>
@@ -21,6 +21,18 @@
               <td class="sysInfo_td">{{ machineBaseInfo.processorCount }}</td>
             </tr>
             <tr>
+              <td class="sysInfo_td">运行时长：</td>
+              <td class="sysInfo_td">{{ machineBaseInfo.sysRunTime }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">外网地址：</td>
+              <td class="sysInfo_td">{{ machineBaseInfo.remoteIp }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">内网地址：</td>
+              <td class="sysInfo_td">{{ machineBaseInfo.localIp }}</td>
+            </tr>
+            <tr>
               <td class="sysInfo_td">运行框架：</td>
               <td class="sysInfo_td">{{ machineBaseInfo.frameworkDescription }}</td>
             </tr>
@@ -28,53 +40,87 @@
         </el-card>
       </el-col>
       <el-col :md="12" :sm="24">
-        <el-card shadow="hover" header="网络信息" style="margin-bottom;: 8px">
+        <el-card shadow="hover" header="使用信息">
           <table class="sysInfo_table">
             <tr>
-              <td class="sysInfo_td">外网信息：</td>
-              <td class="sysInfo_td">{{ machineNetworkInfo.wanIp }}</td>
+              <td class="sysInfo_td">启动时间：</td>
+              <td class="sysInfo_td">{{ machineUseInfo.startTime }}</td>
             </tr>
             <tr>
-              <td class="sysInfo_td">IPv4地址：</td>
-              <td class="sysInfo_td">{{ machineNetworkInfo.localIp }}</td>
+              <td class="sysInfo_td">运行时长：</td>
+              <td class="sysInfo_td">{{ machineUseInfo.runTime }}</td>
             </tr>
             <tr>
-              <td class="sysInfo_td">网卡MAC：</td>
-              <td class="sysInfo_td">{{ machineNetworkInfo.ipMac }}</td>
+              <td class="sysInfo_td">内存总量：</td>
+              <td class="sysInfo_td">{{ machineUseInfo.totalRam }}</td>
             </tr>
             <tr>
-              <td class="sysInfo_td">流量统计：</td>
-              <td class="sysInfo_td">{{ machineNetworkInfo.sendAndReceived }}</td>
+              <td class="sysInfo_td">使用内存：</td>
+              <td class="sysInfo_td">{{ machineUseInfo.usedRam }}</td>
             </tr>
             <tr>
-              <td class="sysInfo_td">网络速度：</td>
-              <td class="sysInfo_td">{{ machineNetworkInfo.networkSpeed }}</td>
+              <td class="sysInfo_td">空闲内存：</td>
+              <td class="sysInfo_td">{{ machineUseInfo.freeRam }}</td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">内存使用率：</td>
+              <td class="sysInfo_td">
+                <el-tag round>{{ machineUseInfo.ramRate }}</el-tag>
+              </td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">CPU使用率：</td>
+              <td class="sysInfo_td">
+                <el-tag round>{{ machineUseInfo.cpuRate }}</el-tag>
+              </td>
+            </tr>
+            <tr>
+              <td class="sysInfo_td">其他信息：</td>
+              <td class="sysInfo_td">{{ machineBaseInfo.environment }}</td>
             </tr>
           </table>
         </el-card>
       </el-col>
     </el-row>
-    <el-card shadow="hover" header="其他信息" style="margin-top: 8px">
-      <table class="sysInfo_table">
-        <tr>
-          <td class="sysInfo_td">运行时间：</td>
-          <td class="sysInfo_td">{{ machineUseInfo.runTime }}</td>
-          <td class="sysInfo_td">CPU使用率：</td>
-          <td class="sysInfo_td">{{ machineUseInfo.cpuRate }}</td>
-        </tr>
-        <tr>
-          <td class="sysInfo_td">总内存：</td>
-          <td class="sysInfo_td">{{ machineUseInfo.totalRam }}</td>
-          <td class="sysInfo_td">内存使用率：</td>
-          <td class="sysInfo_td">{{ machineUseInfo.ramRate }}</td>
-        </tr>
-      </table>
+    <el-card shadow="hover" header="程序集信息" style="margin-top: 8px;">
+      <div v-for="d in assemblyInfo" :key="d.name" style="display:inline-flex; margin:4px;">
+        <el-tag round>
+          <div style="display:inline-flex;">
+            <div style="">{{ d.name }}</div>
+            <div style="font-size:9px; color:black; margin-left: 3px;">{{ d.version }}</div>
+          </div>
+        </el-tag>
+      </div>
+    </el-card>
+    <el-card shadow="hover" header="磁盘信息" style="margin-top: 8px">
+      <el-table :data="machineDiskInfo" style="width: 100%">
+        <el-table-column prop="diskName" label="盘符">
+          <template #default="scope">
+            <el-tag round> {{ scope.row.diskName }}</el-tag>
+          </template>
+        </el-table-column>
+        <el-table-column prop="typeName" label="类型" />
+        <el-table-column prop="totalSize" label="磁盘总量">
+          <template #default="scope">{{ scope.row.totalSize }} GB</template>
+        </el-table-column>
+        <el-table-column prop="used" label="已使用">
+          <template #default="scope">{{ scope.row.used }} GB</template>
+        </el-table-column>
+        <el-table-column prop="availableFreeSpace" label="剩余量">
+          <template #default="scope">{{ scope.row.availableFreeSpace }} GB</template>
+        </el-table-column>
+        <el-table-column prop="availablePercent" label="使用率">
+          <template #default="scope">
+            <el-tag> {{ scope.row.availablePercent }}%</el-tag>
+          </template>
+        </el-table-column>
+      </el-table>
     </el-card>
   </div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, defineComponent, onActivated, onDeactivated } from 'vue';
+import { toRefs, reactive, defineComponent, onActivated, onDeactivated, onMounted } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysServerApi } from '/@/api-services';
@@ -87,46 +133,56 @@ export default defineComponent({
       loading: true,
       machineBaseInfo: [] as any,
       machineUseInfo: [] as any,
-      machineNetworkInfo: [] as any,
+      machineDiskInfo: [] as any,
+      assemblyInfo: [] as any,
       timer: null as any,
     });
-
-    // 服务器基本配置
+    onMounted(async () => {
+      state.loading = true;
+      loadMachineBaseInfo();
+      loadMachineUseInfo();
+      loadMachineDiskInfo();
+      loadAssemblyInfo();
+      state.loading = false;
+    });
+    // 服务器配置信息
     const loadMachineBaseInfo = async () => {
       var res = await getAPI(SysServerApi).serverBaseGet();
       state.machineBaseInfo = res.data.result;
     };
-    // 服务器使用资源
+    // 服务器内存信息
     const loadMachineUseInfo = async () => {
       var res = await getAPI(SysServerApi).serverUseGet();
       state.machineUseInfo = res.data.result;
     };
-    // 服务器网络信息
-    const loadMachineNetworkInfo = async () => {
-      var res = await getAPI(SysServerApi).serverNetworkGet();
-      state.machineNetworkInfo = res.data.result;
+    // 服务器磁盘信息
+    const loadMachineDiskInfo = async () => {
+      var res = await getAPI(SysServerApi).serverDiskGet();
+      state.machineDiskInfo = res.data.result;
     };
+    // 框架程序集信息
+    const loadAssemblyInfo = async () => {
+      var res = await getAPI(SysServerApi).serverAssemblyGet();
+      state.assemblyInfo = res.data.result;
+    };
+    // 实时刷新内存
     const refreshData = () => {
       loadMachineUseInfo();
-      loadMachineNetworkInfo();
     };
     onActivated(() => {
       state.timer = setInterval(() => {
         refreshData();
-      }, 3000);
+      }, 5000);
     });
     onDeactivated(() => {
       clearInterval(state.timer);
-      // state.timer = null;
     });
 
-    loadMachineBaseInfo();
-    loadMachineUseInfo();
-    loadMachineNetworkInfo();
     return {
       loadMachineBaseInfo,
       loadMachineUseInfo,
-      loadMachineNetworkInfo,
+      loadMachineDiskInfo,
+      loadAssemblyInfo,
       refreshData,
       ...toRefs(state),
     };
@@ -137,12 +193,146 @@ export default defineComponent({
 <style lang="scss">
 .sysInfo_table {
   width: 100%;
-  min-height: 45px;
-  line-height: 45px;
+  min-height: 40px;
+  line-height: 40px;
   text-align: center;
 }
 
 .sysInfo_td {
   border-bottom: 1px solid #e8e8e8;
+}
+
+.waterfall-last {
+  display: grid;
+  grid-gap: 0.25em;
+  grid-auto-flow: row dense;
+  grid-auto-rows: minmax(188px, 20vmin);
+  grid-template-columns: 1fr;
+
+  .waterfall-last-item {
+    height: 100%;
+    background: var(--el-color-primary);
+    color: var(--el-color-white);
+    transition: all 0.3s ease;
+    border-radius: 3px;
+
+    &:hover {
+      box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+  }
+}
+
+@media (min-width: 576px) {
+  .waterfall-last {
+    grid-template-columns: repeat(7, 1fr);
+
+    .waterfall-last-item {
+      &:nth-of-type(9n + 9) {
+        grid-column: auto / span 2;
+      }
+
+      &:nth-of-type(9n + 8) {
+        grid-column: auto / span 2;
+      }
+
+      &:nth-of-type(9n + 7) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(9n + 6) {
+        grid-column: auto / span 2;
+      }
+
+      &:nth-of-type(9n + 5) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(9n + 4) {
+        grid-column: auto / span 2;
+      }
+
+      &:nth-of-type(9n + 3) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(9n + 2) {
+        grid-column: auto / span 2;
+      }
+
+      &:nth-of-type(9n + 1) {
+        grid-column: auto / span 2;
+      }
+    }
+  }
+}
+
+@media (min-width: 576px) and (min-width: 1024px) {
+  .waterfall-last {
+    grid-template-columns: repeat(14, 1fr);
+
+    .waterfall-last-item {
+      &:nth-of-type(15n + 15) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 14) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 13) {
+        grid-column: auto / span 2;
+      }
+
+      &:nth-of-type(15n + 12) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 11) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 10) {
+        grid-column: auto / span 2;
+      }
+
+      &:nth-of-type(15n + 9) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 8) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 7) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 6) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 5) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 4) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 3) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 2) {
+        grid-column: auto / span 3;
+      }
+
+      &:nth-of-type(15n + 1) {
+        grid-column: auto / span 2;
+      }
+    }
+  }
 }
 </style>

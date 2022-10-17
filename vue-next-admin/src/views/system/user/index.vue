@@ -85,13 +85,13 @@
 									<template #dropdown>
 										<el-dropdown-menu>
 											<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantOrg(scope.row)"
-												:v-auth="'sysUser:grantData'">数据范围
+												v-auth="'sysUser:grantData'">数据范围
 											</el-dropdown-item>
 											<el-dropdown-item icon="ele-RefreshLeft" @click="resetUserPwd(scope.row)"
-												:v-auth="'sysUser:resetPwd'" disabled>重置密码
+												v-auth="'sysUser:resetPwd'">重置密码
 											</el-dropdown-item>
 											<el-dropdown-item icon="ele-Delete" @click="delUser(scope.row)"
-												:v-auth="'sysUser:delete'">
+												v-auth="'sysUser:delete'">
 												删除账号
 											</el-dropdown-item>
 										</el-dropdown-menu>

@@ -4,6 +4,19 @@ using Lazy.Captcha.Core.Storage;
 
 namespace Admin.NET.Core;
 
+public static class LazyCaptchaSetup
+{
+    /// <summary>
+    /// 验证码初始化
+    /// </summary>
+    /// <param name="services"></param>
+    public static void AddLazyCaptcha(this IServiceCollection services)
+    {
+        services.AddCaptcha(App.Configuration);
+        services.AddScoped<ICaptcha, RandomCaptcha>();
+    }
+}
+
 /// <summary>
 /// 随机验证码
 /// </summary>
@@ -53,9 +66,9 @@ public class RandomCaptcha : DefaultCaptcha
         options.ImageOption.InterferenceLineCount = random.Next(1, 5); // 干扰线数量
 
         options.ImageOption.BubbleCount = random.Next(1, 5); // 气泡数量
-                                                             //options.ImageOption.BubbleMinRadius = 5; // 气泡最小半径
-                                                             //options.ImageOption.BubbleMaxRadius = 15; // 气泡最大半径
-                                                             //options.ImageOption.BubbleThickness = 1; // 气泡边沿厚度
+        //options.ImageOption.BubbleMinRadius = 5; // 气泡最小半径
+        //options.ImageOption.BubbleMaxRadius = 15; // 气泡最大半径
+        //options.ImageOption.BubbleThickness = 1; // 气泡边沿厚度
 
         options.ImageOption.BackgroundColor = SixLabors.ImageSharp.Color.White; // 背景色
 

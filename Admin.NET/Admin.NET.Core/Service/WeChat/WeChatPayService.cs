@@ -33,7 +33,7 @@ public class WeChatPayService : IDynamicApiController, ITransient
             MerchantId = _weChatPayOptions.MerchantId,
             MerchantV3Secret = _weChatPayOptions.MerchantV3Secret,
             MerchantCertificateSerialNumber = _weChatPayOptions.MerchantCertificateSerialNumber,
-            MerchantCertificatePrivateKey = CommonUtil.GetRootPathFileText(_weChatPayOptions.MerchantCertificatePrivateKey),
+            MerchantCertificatePrivateKey = File.ReadAllText(App.WebHostEnvironment.ContentRootPath + _weChatPayOptions.MerchantCertificatePrivateKey),
             PlatformCertificateManager = new InMemoryCertificateManager()
         };
         return new WechatTenpayClient(tenpayClientOptions);
