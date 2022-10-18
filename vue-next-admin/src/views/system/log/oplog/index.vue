@@ -11,17 +11,13 @@
 						:shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery">
-						重置
-					</el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery">
-						查询
-					</el-button>
+					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
 
-		<el-card shadow="hover" style="margin-top: 5px;">
+		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="logData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="logName" label="记录器类别名称" show-overflow-tooltip></el-table-column>
@@ -34,12 +30,26 @@
 				<el-table-column prop="logDateTime" label="日志记录时间" align="center" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip></el-table-column>
+				<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
+					<template #default="scope">
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewDetail(scope.row)">详情
+						</el-button>
+					</template>
+				</el-table-column>
 			</el-table>
 			<el-pagination v-model:currentPage="tableParams.page" v-model:page-size="tableParams.pageSize"
 				:total="tableParams.total" :page-sizes="[10, 20, 50, 100]" small background
 				@size-change="handleSizeChange" @current-change="handleCurrentChange"
 				layout="total, sizes, prev, pager, next, jumper" />
 		</el-card>
+		<el-dialog v-model="dialogVisible" title="日志详情" width="769px">
+			<pre>{{content}}</pre>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button type="primary" @click="dialogVisible = false">确认</el-button>
+				</span>
+			</template>
+		</el-dialog>
 	</div>
 </template>
 
@@ -66,19 +76,23 @@ export default defineComponent({
 				total: 0 as any,
 			},
 			logData: [] as any,
+			dialogVisible: false,
+			content: "",
 		});
 		onMounted(async () => {
 			handleQuery();
 		});
 		// 查询操作
 		const handleQuery = async () => {
-			if (state.queryParams.startTime == null)
-				state.queryParams.startTime = undefined;
-			if (state.queryParams.endTime == null)
-				state.queryParams.endTime = undefined;
+			if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
+			if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
 			state.loading = true;
-			var res = await getAPI(SysLogOpApi).sysLogOpPageGet(state.queryParams.startTime, state.queryParams.endTime,
-				state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysLogOpApi).sysLogOpPageGet(
+				state.queryParams.startTime,
+				state.queryParams.endTime,
+				state.tableParams.page,
+				state.tableParams.pageSize
+			);
 			state.logData = res.data.result?.items;
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -108,6 +122,11 @@ export default defineComponent({
 			state.tableParams.page = val;
 			handleQuery();
 		};
+		// 查看详情
+		const viewDetail = (row: any) => {
+			state.content = row.message;
+			state.dialogVisible = true;
+		};
 		const shortcuts = [
 			{
 				text: '今天',
@@ -116,20 +135,20 @@ export default defineComponent({
 			{
 				text: '昨天',
 				value: () => {
-					const date = new Date()
-					date.setTime(date.getTime() - 3600 * 1000 * 24)
-					return date
+					const date = new Date();
+					date.setTime(date.getTime() - 3600 * 1000 * 24);
+					return date;
 				},
 			},
 			{
 				text: '上周',
 				value: () => {
-					const date = new Date()
-					date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-					return date
+					const date = new Date();
+					date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+					return date;
 				},
 			},
-		]
+		];
 		return {
 			handleQuery,
 			resetQuery,
@@ -137,6 +156,7 @@ export default defineComponent({
 			shortcuts,
 			handleSizeChange,
 			handleCurrentChange,
+			viewDetail,
 			...toRefs(state),
 		};
 	},
@@ -147,5 +167,10 @@ export default defineComponent({
 .el-popper {
 	//font-size: 14px;
 	max-width: 60%;
+}
+
+pre {
+	white-space: break-spaces;
+	line-height: 20px;
 }
 </style>

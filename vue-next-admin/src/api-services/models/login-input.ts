@@ -29,4 +29,16 @@ export interface LoginInput {
      * @memberof LoginInput
      */
     password: string;
+    /**
+     * 验证码Id
+     * @type {number}
+     * @memberof LoginInput
+     */
+    codeId?: number;
+    /**
+     * 验证码
+     * @type {string}
+     * @memberof LoginInput
+     */
+    code?: string | null;
 }

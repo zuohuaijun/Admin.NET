@@ -42,6 +42,15 @@ public class SysMenuService : IDynamicApiController, ITransient
         else
         {
             var menuIdList = await GetMenuIdList();
+            //// 获取所有节点的父节点（当半选状态的父节点未存储时）
+            //var treeIdList = new List<long>();
+            //foreach (var cId in menuIdList)
+            //{
+            //    if (cId < 1)
+            //        continue;
+            //    var pIds = _sysMenuRep.AsQueryable().ToParentList(u => u.Pid, cId).Select(u => u.Id).ToList();
+            //    treeIdList = treeIdList.Union(pIds).ToList();
+            //}
             var menuList = await _sysMenuRep.AsQueryable()
                 .Where(u => u.Type != MenuTypeEnum.Btn)
                 .Where(u => menuIdList.Contains(u.Id))

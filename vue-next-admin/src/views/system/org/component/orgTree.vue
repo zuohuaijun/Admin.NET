@@ -29,7 +29,8 @@
     <div style="margin-bottom: 45px" v-loading="state.loading">
       <el-tree ref='treeRef' class='filter-tree' :data='state.orgData' node-key="id"
         :props="{children: 'children', label: 'name'}" :filter-node-method='filterNode' @node-click="nodeClick"
-        :show-checkbox="state.isShowCheckbox" :default-checked-keys="state.ownOrgData" highlight-current />
+        :show-checkbox="state.isShowCheckbox" :default-checked-keys="state.ownOrgData" highlight-current
+        check-strictly />
     </div>
   </el-card>
 </template>

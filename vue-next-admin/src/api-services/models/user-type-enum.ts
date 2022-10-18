@@ -12,13 +12,14 @@
  * Do not edit the class manually.
  */
 /**
- * 账号类型枚举<br />&nbsp;管理员 Admin = 1<br />&nbsp;普通账号 None = 2<br />&nbsp;超级管理员 SuperAdmin = 999<br />
+ * 账号类型枚举<br />&nbsp;管理员 Admin = 1<br />&nbsp;普通账号 User = 2<br />&nbsp;游客 None = 3<br />&nbsp;超级管理员 SuperAdmin = 999<br />
  * @export
  * @enum {string}
  */
 export enum UserTypeEnum {
     NUMBER_1 = 1,
     NUMBER_2 = 2,
+    NUMBER_3 = 3,
     NUMBER_999 = 999
 }
 

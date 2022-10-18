@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-user-container">
-		<el-row :gutter="5">
+		<el-row :gutter="8" style="width:100%">
 			<el-col :span="4" :xs="24">
 				<OrgTree ref="orgTreeRef" @node-click='nodeClick' />
 			</el-col>
@@ -20,17 +20,17 @@
 							<el-button icon="ele-Refresh" @click="resetQuery">
 								重置
 							</el-button>
-							<el-button type="primary" icon="ele-Search" @click="handleQuery">
+							<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysUser:page'">
 								查询
 							</el-button>
-							<el-button icon="ele-Plus" @click="openAddUser">
+							<el-button icon="ele-Plus" @click="openAddUser" v-auth="'sysUser:add'">
 								新增
 							</el-button>
 						</el-form-item>
 					</el-form>
 				</el-card>
 
-				<el-card shadow="hover" style="margin-top: 5px;">
+				<el-card shadow="hover" style="margin-top: 8px;">
 					<el-table :data="userData" style="width: 100%;" v-loading="loading" border>
 						<el-table-column type="index" label="序号" width="55" align="center" fixed />
 						<el-table-column prop="userName" label="账号名称" width="120" fixed show-overflow-tooltip>
@@ -60,7 +60,7 @@
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-switch v-model="scope.row.status" :active-value="1" :inactive-value="2" size="small"
-									@change="changeStatus(scope.row)">
+									@change="changeStatus(scope.row)" v-auth="'sysUser:setStatus'">
 								</el-switch>
 							</template>
 						</el-table-column>
@@ -73,7 +73,7 @@
 							<template #default="scope">
 								<el-tooltip content="用户编辑">
 									<el-button icon="ele-Edit" size="small" text type="primary"
-										@click="openEditUser(scope.row)">编辑
+										@click="openEditUser(scope.row)" v-auth="'sysUser:update'">编辑
 									</el-button>
 								</el-tooltip>
 								<el-dropdown>
@@ -84,14 +84,14 @@
 									</span>
 									<template #dropdown>
 										<el-dropdown-menu>
-											<el-dropdown-item icon="ele-OfficeBuilding"
-												@click="openGrantOrg(scope.row)">
-												数据范围
+											<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantOrg(scope.row)"
+												v-auth="'sysUser:grantData'">数据范围
 											</el-dropdown-item>
-											<el-dropdown-item icon="ele-RefreshLeft" @click="resetUserPwd(scope.row)">
-												重置密码
+											<el-dropdown-item icon="ele-RefreshLeft" @click="resetUserPwd(scope.row)"
+												v-auth="'sysUser:resetPwd'">重置密码
 											</el-dropdown-item>
-											<el-dropdown-item icon="ele-Delete" @click="delUser(scope.row)">
+											<el-dropdown-item icon="ele-Delete" @click="delUser(scope.row)"
+												v-auth="'sysUser:delete'">
 												删除账号
 											</el-dropdown-item>
 										</el-dropdown-menu>

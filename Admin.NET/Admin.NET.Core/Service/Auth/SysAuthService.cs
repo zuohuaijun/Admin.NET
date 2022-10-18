@@ -1,4 +1,5 @@
 ﻿using Furion.SpecificationDocument;
+using Lazy.Captcha.Core;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Admin.NET.Core.Service;
@@ -19,6 +20,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly SysMenuService _sysMenuService;
     private readonly ISysOnlineUserService _sysOnlineUserService;
     private readonly IMemoryCache _cache;
+    private readonly ICaptcha _captcha;
 
     public SysAuthService(SqlSugarRepository<SysUser> sysUserRep,
         IOptions<RefreshTokenOptions> refreshTokenOptions,
@@ -29,7 +31,8 @@ public class SysAuthService : IDynamicApiController, ITransient
         SysUserRoleService sysUserRoleService,
         SysMenuService sysMenuService,
         ISysOnlineUserService sysOnlineUserService,
-        IMemoryCache cache)
+        IMemoryCache cache,
+        ICaptcha captcha)
     {
         _sysUserRep = sysUserRep;
         _httpContextAccessor = httpContextAccessor;
@@ -41,6 +44,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         _sysMenuService = sysMenuService;
         _sysOnlineUserService = sysOnlineUserService;
         _cache = cache;
+        _captcha = captcha;
     }
 
     /// <summary>
@@ -54,6 +58,10 @@ public class SysAuthService : IDynamicApiController, ITransient
     [SuppressMonitor]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
+        // 判断验证码
+        if (!_captcha.Validate(input.CodeId.ToString(), input.Code))
+            throw Oops.Oh(ErrorCodeEnum.D0009);
+
         var encryptPasswod = MD5Encryption.Encrypt(input.Password); // 加密密码
 
         // 判断用户名密码
@@ -185,6 +193,20 @@ public class SysAuthService : IDynamicApiController, ITransient
             UserName = user.UserName,
             RealName = user.RealName
         });
+    }
+
+    /// <summary>
+    /// 生成图片验证码
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("/captcha")]
+    [AllowAnonymous]
+    [SuppressMonitor]
+    public dynamic GetCaptcha()
+    {
+        var codeId = Yitter.IdGenerator.YitIdHelper.NextId();
+        var captcha = _captcha.Generate(codeId.ToString());
+        return new { Id = codeId, Img = captcha.Base64 };
     }
 
     /// <summary>

@@ -2,7 +2,7 @@
 	<div class="sys-password-container">
 		<NoticeBar text="账号密码修改，请慎重操作！" leftIcon="iconfont icon-tongzhi2" background="var(--el-color-primary-light-9)"
 			color="var(--el-color-primary)" />
-		<el-card shadow="hover" header="修改当前账号密码" class="mt15">
+		<el-card shadow="hover" header="修改当前账号密码" class="mt8">
 			<el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="ruleRules" label-width="80px">
 				<el-form-item label="当前密码" prop="passwordOld">
 					<el-input v-model="ruleForm.passwordOld" type="password" autocomplete="off" />

@@ -162,6 +162,9 @@ public class Startup : AppStartup
         {
             WorkerId = App.GetOptions<SnowIdOptions>().WorkerId
         });
+
+        // 验证码
+        services.AddLazyCaptcha();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

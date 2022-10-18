@@ -54,7 +54,7 @@ export interface SysLogEx {
      */
     isDelete?: boolean;
     /**
-     * 日志名称
+     * 记录器类别名称
      * @type {string}
      * @memberof SysLogEx
      */
@@ -83,4 +83,22 @@ export interface SysLogEx {
      * @memberof SysLogEx
      */
     exception?: string | null;
+    /**
+     * 当前状态值
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    state?: string | null;
+    /**
+     * 日志记录时间
+     * @type {Date}
+     * @memberof SysLogEx
+     */
+    logDateTime?: Date;
+    /**
+     * 线程Id
+     * @type {number}
+     * @memberof SysLogEx
+     */
+    threadId?: number;
 }

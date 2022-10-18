@@ -202,7 +202,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             // 角色机构集合
             var orgList2 = await GetUserRoleOrgIdList(userId);
             // 并集机构集合
-            orgIdList = orgList1.Concat(orgList2).Distinct().ToList();
+            orgIdList = orgList1.Union(orgList2).ToList();
             _sysCacheService.SetOrgIdList(userId, orgIdList); // 存缓存
         }
         return orgIdList;
@@ -254,7 +254,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         _sysCacheService.SetMaxDataScopeType(_userManager.UserId, strongerDataScopeType);
 
         // 并集机构集合
-        return orgIdList1.Concat(orgIdList2).Distinct().ToList();
+        return orgIdList1.Union(orgIdList2).ToList();
     }
 
     /// <summary>
