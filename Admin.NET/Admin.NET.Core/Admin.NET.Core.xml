@@ -2974,14 +2974,14 @@
         </member>
         <member name="M:Admin.NET.Core.ObjectExtension.ParseToDouble(System.Object)">
             <summary>
-            将object转换为double，若失败则返回0  
+            将object转换为double，若失败则返回0
             </summary>
             <param name="obj"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.ObjectExtension.ParseToDouble(System.Object,System.Double)">
             <summary>
-            将object转换为double，若失败则返回指定值 
+            将object转换为double，若失败则返回指定值
             </summary>
             <param name="str"></param>
             <param name="defaultValue"></param>
@@ -2989,14 +2989,14 @@
         </member>
         <member name="M:Admin.NET.Core.ObjectExtension.ParseToDateTime(System.String)">
             <summary>
-            将string转换为DateTime，若失败则返回日期最小值 
+            将string转换为DateTime，若失败则返回日期最小值
             </summary>
             <param name="str"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.ObjectExtension.ParseToDateTime(System.String,System.Nullable{System.DateTime})">
             <summary>
-            将string转换为DateTime，若失败则返回默认值  
+            将string转换为DateTime，若失败则返回默认值
             </summary>
             <param name="str"></param>
             <param name="defaultValue"></param>
@@ -7754,6 +7754,20 @@
             <summary>
             获取今天日期范围00:00:00 - 23:59:59
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.GetWeekByDate(System.DateTime)">
+            <summary>
+            获取星期几
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.GetWeekNumInMonth(System.DateTime)">
+            <summary>
+            获取这个月的第几周
+            </summary>
+            <param name="daytime"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.LongJsonConverter">

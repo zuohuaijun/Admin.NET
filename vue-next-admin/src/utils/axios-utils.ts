@@ -11,19 +11,8 @@ import { BaseAPI, BASE_PATH } from '/@/api-services/base';
 import { ElMessage } from 'element-plus';
 import { Local, Session } from '/@/utils/storage';
 
-// 如果是 Angular 项目，则取消下面注释即可
-// import { environment } from './environments/environment';
-
-/**
- * 接口服务器配置
- */
+// 接口服务器配置
 export const serveConfig = new Configuration({
-	// 如果是 Angular 项目，则取消下面注释，并删除 process.env.NODE_ENV !== "production"
-	// basePath: !environment.production
-	// basePath:
-	// 	process.env.NODE_ENV !== 'production'
-	// 		? 'https://localhost:44326' // 开发环境服务器接口地址
-	// 		: 'https://*:5005', // 生产环境服务器接口地址
 	basePath: import.meta.env.VITE_API_URL,
 });
 
@@ -43,9 +32,7 @@ const clearAccessTokens = () => {
 	window.location.reload();
 };
 
-/**
- * axios 默认实例
- */
+// axios 默认实例
 export const axiosInstance: AxiosInstance = globalAxios;
 
 // 这里可以配置 axios 更多选项 =========================================
@@ -85,7 +72,8 @@ axiosInstance.interceptors.request.use(
 			ElMessage.error(error);
 		}
 
-		// 这里编写请求错误代码
+		// 请求错误代码及自定义处理
+		ElMessage.error(error);
 
 		return Promise.reject(error);
 	}
@@ -109,15 +97,8 @@ axiosInstance.interceptors.response.use(
 		}
 
 		// 处理规范化结果错误
-		//  if (serve && serve.hasOwnProperty("errors") && serve.errors) {
-		//    throw new Error(JSON.stringify(serve.errors || "Request Error."));
-		//  }
-		if (serve && serve.code === 401) {
-			clearAccessTokens();
-		} else if (serve && serve.code !== 200) {
-			var error = JSON.stringify(serve.message);
-			ElMessage.error(error);
-			throw new Error(error);
+		if (serve && serve.hasOwnProperty('errors') && serve.errors) {
+			throw new Error(JSON.stringify(serve.errors || 'Request Error.'));
 		}
 
 		// 读取响应报文头 token 信息
@@ -134,7 +115,16 @@ axiosInstance.interceptors.response.use(
 			Local.set(refreshAccessTokenKey, refreshAccessToken);
 		}
 
-		// 这里编写响应拦截代码 =========================================
+		// 响应拦截及自定义处理
+		if (serve.code === 401) {
+			clearAccessTokens();
+		} else if (serve.code === undefined) {
+			return Promise.resolve(res);
+		} else if (serve.code !== 200) {
+			var error = JSON.stringify(serve.message);
+			ElMessage.error(error);
+			throw new Error(error);
+		}
 
 		return res;
 	},
@@ -146,7 +136,8 @@ axiosInstance.interceptors.response.use(
 			}
 		}
 
-		// 这里编写响应错误代码
+		// 响应错误代码及自定义处理
+		ElMessage.error(error);
 
 		return Promise.reject(error);
 	}

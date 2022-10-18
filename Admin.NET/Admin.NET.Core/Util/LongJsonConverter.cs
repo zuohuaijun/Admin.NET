@@ -15,6 +15,6 @@ public class LongJsonConverter : JsonConverter<long>
     public override long ReadJson(JsonReader reader, Type objectType, long existingValue, bool hasExistingValue, JsonSerializer serializer)
     {
         JToken jt = JValue.ReadFrom(reader);
-        return string.IsNullOrWhiteSpace(jt.Value<string>())?0: jt.Value<long>();
+        return string.IsNullOrWhiteSpace(jt.Value<string>()) ? 0 : jt.Value<long>();
     }
 }

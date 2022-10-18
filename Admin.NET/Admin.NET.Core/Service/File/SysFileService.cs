@@ -41,7 +41,7 @@ public class SysFileService : IDynamicApiController, ITransient
             .WhereIF(!string.IsNullOrWhiteSpace(input.FileName), u => u.FileName.Contains(input.FileName.Trim()))
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                         u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
-            .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc)
+            .OrderBy(u => u.CreateTime, OrderByType.Desc)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
@@ -104,13 +104,13 @@ public class SysFileService : IDynamicApiController, ITransient
         {
             var filePath = string.Concat(file.FilePath, "/", input.Id.ToString() + file.Suffix);
             var stream = await (await _OSSService.PresignedGetObjectAsync(file.BucketName.ToString(), filePath, 5)).GetAsStreamAsync();
-            return new FileStreamResult(stream.Stream, "application/octet-stream") { FileDownloadName = fileName };
+            return new FileStreamResult(stream.Stream, "application/octet-stream") { FileDownloadName = fileName + file.Suffix };
         }
         else
         {
             var filePath = Path.Combine(file.FilePath, input.Id.ToString() + file.Suffix);
             var path = Path.Combine(App.WebHostEnvironment.WebRootPath, filePath);
-            return new FileStreamResult(new FileStream(path, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName };
+            return new FileStreamResult(new FileStream(path, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName + file.Suffix };
         }
     }
 
@@ -188,7 +188,7 @@ public class SysFileService : IDynamicApiController, ITransient
             FileName = Path.GetFileNameWithoutExtension(file.FileName),
             Suffix = suffix,
             SizeKb = sizeKb.ToString(),
-            FilePath = path
+            FilePath = path,            
         };
 
         var finalName = newFile.Id + suffix; // 文件最终名称
@@ -206,24 +206,24 @@ public class SysFileService : IDynamicApiController, ITransient
                     break;
 
                 case OSSProvider.Minio:
-                    //获取Minio文件的下载或者预览地址
+                    // 获取Minio文件的下载或者预览地址
                     newFile.Url = await GetMinioPreviewFileUrl(newFile.BucketName, filePath); ;
                     break;
             }
         }
         else
         {
-            newFile.Provider = "";//本地存储 Provider 显示为空
+            newFile.Provider = ""; // 本地存储 Provider 显示为空
             var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, path);
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
 
             var realFile = Path.Combine(filePath, finalName);
-            await using var stream = File.Create(realFile);
+            using var stream = File.Create(realFile);
+
             await file.CopyToAsync(stream);
             var detector = stream.DetectFiletype();
-            var realExt = detector.Extension;//真实扩展名
-
+            var realExt = detector.Extension; // 真实扩展名
             // 二次校验扩展名
             if (!string.Equals(realExt, suffix.Replace(".", ""), StringComparison.OrdinalIgnoreCase))
             {
@@ -233,7 +233,7 @@ public class SysFileService : IDynamicApiController, ITransient
                 throw Oops.Oh(ErrorCodeEnum.D8001);
             }
 
-            //生成外链
+            // 生成外链
             newFile.Url = _commonService.GetFileUrl(newFile);
         }
         await _sysFileRep.AsInsertable(newFile).ExecuteCommandAsync();
@@ -246,7 +246,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="bucketName">桶名</param>
     /// <param name="fileName">文件名</param>
     /// <returns></returns>
-    private async Task<string> GetMinioPreviewFileUrl(String bucketName, String fileName)
+    private async Task<string> GetMinioPreviewFileUrl(string bucketName, string fileName)
     {
         return await _OSSService.PresignedGetObjectAsync(bucketName, fileName, 7);
     }

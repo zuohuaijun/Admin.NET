@@ -25,6 +25,8 @@ public class Startup : AppStartup
     {
         // 配置选项
         services.AddProjectOptions();
+        // 控制台格式化
+        services.AddConsoleFormatter();
         // 缓存注册
         services.AddCache();
         // SqlSugar

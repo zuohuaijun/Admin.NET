@@ -96,7 +96,7 @@
       <el-table :data="machineDiskInfo" style="width: 100%">
         <el-table-column prop="diskName" label="盘符">
           <template #default="scope">
-            <el-tag round> {{ scope.row.diskName }}</el-tag>
+            <el-tag round>{{ scope.row.diskName }}</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="typeName" label="类型" />
@@ -111,7 +111,7 @@
         </el-table-column>
         <el-table-column prop="availablePercent" label="使用率">
           <template #default="scope">
-            <el-tag> {{ scope.row.availablePercent }}%</el-tag>
+            <el-tag>{{ scope.row.availablePercent }}%</el-tag>
           </template>
         </el-table-column>
       </el-table>
