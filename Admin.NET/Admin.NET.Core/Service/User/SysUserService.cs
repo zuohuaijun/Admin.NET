@@ -67,6 +67,7 @@ public class SysUserService : IDynamicApiController, ITransient
         var user = input.Adapt<SysUser>();
         user.Password = MD5Encryption.Encrypt(CommonConst.SysPassword);
         input.Id = (await _sysUserRep.AsInsertable(user).ExecuteReturnEntityAsync()).Id;
+        user.Status = StatusEnum.Enable;
 
         await UpdateUserRole(input);
     }
