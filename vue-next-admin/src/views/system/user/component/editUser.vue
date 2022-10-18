@@ -2,7 +2,7 @@
 	<div class="sys-user-container">
 		<el-dialog v-model="isShowDialog" width="769px">
 			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
+				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
 					{{ title }}
 				</div>
 			</template>
@@ -30,8 +30,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="出生日期" prop="birthday">
-							<el-date-picker v-model="ruleForm.birthday" type="date" placeholder="出生日期"
-								format="YYYY-MM-DD" value-format="YYYY-MM-DD" style="width: 100%" />
+							<el-date-picker v-model="ruleForm.birthday" type="date" placeholder="出生日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" style="width: 100%" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -54,10 +53,8 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
 						<el-form-item label="角色" prop="roleIdList">
-							<el-select v-model="ruleForm.roleIdList" multiple value-key="id" clearable
-								placeholder="拥有角色" collapse-tags collapse-tags-tooltip class="w100" filterable>
-								<el-option v-for="item in roleData" :key="item.id" :label="item.name"
-									:value="item.id" />
+							<el-select v-model="ruleForm.roleIdList" multiple value-key="id" clearable placeholder="拥有角色" collapse-tags collapse-tags-tooltip class="w100" filterable>
+								<el-option v-for="item in roleData" :key="item.id" :label="item.name" :value="item.id" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -71,8 +68,7 @@
 					</el-divider>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="所属机构" prop="orgId">
-							<el-cascader :options="orgData" :props="{ checkStrictly: true, value: 'id', label: 'name' }"
-								placeholder="所属机构" clearable class="w100" v-model="ruleForm.orgId">
+							<el-cascader :options="orgData" :props="{ checkStrictly: true, value: 'id', label: 'name' }" placeholder="所属机构" clearable class="w100" v-model="ruleForm.orgId">
 								<template #default="{ node, data }">
 									<span>{{ data.name }}</span>
 									<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -95,8 +91,7 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="岗位状态" prop="jobStatus">
 							<el-select v-model="ruleForm.jobStatus" placeholder="岗位状态" style="width: 100%">
-								<el-option v-for="dict in jobStatusType" :key="dict.value" :label="dict.label"
-									:value="dict.value" />
+								<el-option v-for="dict in jobStatusType" :key="dict.value" :label="dict.label" :value="dict.value" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -112,8 +107,7 @@
 					</el-col> -->
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea">
-							</el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -141,13 +135,13 @@ export default defineComponent({
 		// 弹窗标题
 		title: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		// 机构数据
 		orgData: {
 			type: Array,
 			default: () => [],
-		}
+		},
 	},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -174,17 +168,22 @@ export default defineComponent({
 				remark: '', // 备注
 				roleIdList: [] as any, // 角色
 			},
-			jobStatusType: [{ value: 1, label: "在职" }, { value: 2, label: "离职" }, { value: 3, label: "请假" }, { value: 4, label: "其他" }], // 岗位状态
+			jobStatusType: [
+				{ value: 1, label: '在职' },
+				{ value: 2, label: '离职' },
+				{ value: 3, label: '请假' },
+				{ value: 4, label: '其他' },
+			], // 岗位状态
 			posData: [] as any, // 职位数据
 			roleData: [] as any, // 角色数据
 			ruleRules: {
-				userName: [{ required: true, message: "账号名称不能为空", trigger: "blur" }],
-				phone: [{ required: true, message: "手机号码不能为空", trigger: "blur" }],
-				realName: [{ required: true, message: "真实姓名不能为空", trigger: "blur" }],
-				birthday: [{ required: true, message: "出生日期不能为空", trigger: "blur" }],
-				roleIdList: [{ required: true, message: "拥有角色不能为空", trigger: "blur" }],
-				orgId: [{ required: true, message: "所属机构不能为空", trigger: "blur" }],
-				posId: [{ required: true, message: "职位名称不能为空", trigger: "blur" }],
+				userName: [{ required: true, message: '账号名称不能为空', trigger: 'blur' }],
+				phone: [{ required: true, message: '手机号码不能为空', trigger: 'blur' }],
+				realName: [{ required: true, message: '真实姓名不能为空', trigger: 'blur' }],
+				birthday: [{ required: true, message: '出生日期不能为空', trigger: 'blur' }],
+				roleIdList: [{ required: true, message: '拥有角色不能为空', trigger: 'blur' }],
+				orgId: [{ required: true, message: '所属机构不能为空', trigger: 'blur' }],
+				posId: [{ required: true, message: '职位名称不能为空', trigger: 'blur' }],
 			},
 		});
 		onMounted(async () => {
@@ -196,17 +195,15 @@ export default defineComponent({
 		// 打开弹窗
 		const openDialog = async (row: any) => {
 			state.ruleForm = row;
-			if (JSON.stringify(row) !== "{}") {
+			if (JSON.stringify(row) !== '{}') {
 				var res = await getAPI(SysUserApi).sysUserOwnRoleGet(row.id);
 				state.ruleForm.roleIdList = res.data.result;
 				state.isShowDialog = true;
-			}
-			else
-				state.isShowDialog = true;
+			} else state.isShowDialog = true;
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit("submitRefresh");
+			proxy.mittBus.emit('submitRefresh');
 			state.isShowDialog = false;
 		};
 		// 取消
@@ -216,18 +213,16 @@ export default defineComponent({
 		// 提交
 		const submit = () => {
 			// 所属机构Id
-			if (Array.isArray(state.ruleForm.orgId))
-				state.ruleForm.orgId = state.ruleForm.orgId[state.ruleForm.orgId.length - 1];
+			if (Array.isArray(state.ruleForm.orgId)) state.ruleForm.orgId = state.ruleForm.orgId[state.ruleForm.orgId.length - 1];
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysUserApi).sysUserUpdatePost(state.ruleForm);
-				}
-				else {
+				} else {
 					await getAPI(SysUserApi).sysUserAddPost(state.ruleForm);
 				}
 				closeDialog();
-			})
+			});
 		};
 		return {
 			ruleFormRef,
@@ -240,4 +235,3 @@ export default defineComponent({
 	},
 });
 </script>
-	

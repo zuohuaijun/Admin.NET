@@ -3,16 +3,15 @@
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="开始时间" prop="name">
-					<el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间"
-						:shortcuts="shortcuts" />
+					<el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item label="结束时间" prop="code">
-					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间"
-						:shortcuts="shortcuts" />
+					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
 					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
+					<el-button icon="ele-DeleteFilled" @click="clearLog"> 清空 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -27,23 +26,28 @@
 				<el-table-column prop="exception" label="异常对象" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="state" label="当前状态值" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="threadId" label="线程Id" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="logDateTime" label="日志记录时间" align="center" show-overflow-tooltip>
-				</el-table-column>
+				<el-table-column prop="logDateTime" label="日志记录时间" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewDetail(scope.row)">详情
-						</el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewDetail(scope.row)">详情 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination v-model:currentPage="tableParams.page" v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total" :page-sizes="[10, 20, 50, 100]" small background
-				@size-change="handleSizeChange" @current-change="handleCurrentChange"
-				layout="total, sizes, prev, pager, next, jumper" />
+			<el-pagination
+				v-model:currentPage="tableParams.page"
+				v-model:page-size="tableParams.pageSize"
+				:total="tableParams.total"
+				:page-sizes="[10, 20, 50, 100]"
+				small
+				background
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				layout="total, sizes, prev, pager, next, jumper"
+			/>
 		</el-card>
 		<el-dialog v-model="dialogVisible" title="日志详情" width="769px">
-			<pre>{{content}}</pre>
+			<pre>{{ content }}</pre>
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button type="primary" @click="dialogVisible = false">确认</el-button>
@@ -77,7 +81,7 @@ export default defineComponent({
 			},
 			logData: [] as any,
 			dialogVisible: false,
-			content: "",
+			content: '',
 		});
 		onMounted(async () => {
 			handleQuery();
@@ -87,12 +91,7 @@ export default defineComponent({
 			if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
 			if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
 			state.loading = true;
-			var res = await getAPI(SysLogOpApi).sysLogOpPageGet(
-				state.queryParams.startTime,
-				state.queryParams.endTime,
-				state.tableParams.page,
-				state.tableParams.pageSize
-			);
+			var res = await getAPI(SysLogOpApi).sysLogOpPageGet(state.queryParams.startTime, state.queryParams.endTime, state.tableParams.page, state.tableParams.pageSize);
 			state.logData = res.data.result?.items;
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -165,7 +164,6 @@ export default defineComponent({
 
 <style lang="scss">
 .el-popper {
-	//font-size: 14px;
 	max-width: 60%;
 }
 

@@ -2,9 +2,7 @@
 	<div class="sys-grantOrg-container">
 		<el-dialog v-model="isShowDialog" width="450px">
 			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
-					授权数据范围
-				</div>
+				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">授权数据范围</div>
 			</template>
 			<el-form :model="ruleForm" size="default" label-width="80px">
 				<el-row :gutter="35">
@@ -49,7 +47,8 @@ export default defineComponent({
 		const openDialog = async (row: any) => {
 			state.ruleForm = row;
 			var res = await getAPI(SysUserApi).sysUserOwnOrgGet(row.id);
-			setTimeout(() => { // 延迟传递数据
+			setTimeout(() => {
+				// 延迟传递数据
 				orgTreeRef.value?.setCheckedKeys(res.data.result);
 			}, 100);
 			state.isShowDialog = true;
@@ -74,4 +73,3 @@ export default defineComponent({
 	},
 });
 </script>
-	

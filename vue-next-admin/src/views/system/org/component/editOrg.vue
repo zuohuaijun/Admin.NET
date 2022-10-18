@@ -2,7 +2,7 @@
 	<div class="sys-org-container">
 		<el-dialog v-model="isShowDialog" width="600px">
 			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
+				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
 					{{ title }}
 				</div>
 			</template>
@@ -10,8 +10,7 @@
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="上级机构">
-							<el-cascader :options="orgData" :props="{ checkStrictly: true, value: 'id', label: 'name' }"
-								placeholder="请选择上级机构" clearable class="w100" v-model="ruleForm.pid">
+							<el-cascader :options="orgData" :props="{ checkStrictly: true, value: 'id', label: 'name' }" placeholder="请选择上级机构" clearable class="w100" v-model="ruleForm.pid">
 								<template #default="{ node, data }">
 									<span>{{ data.name }}</span>
 									<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -44,8 +43,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea">
-							</el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -73,13 +71,13 @@ export default defineComponent({
 		// 弹窗标题
 		title: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		// 机构数据
 		orgData: {
 			type: Array,
 			default: () => [],
-		}
+		},
 	},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -96,8 +94,8 @@ export default defineComponent({
 				remark: '', // 备注
 			},
 			ruleRules: {
-				name: [{ required: true, message: "机构名称不能为空", trigger: "blur" }],
-				code: [{ required: true, message: "机构编码不能为空", trigger: "blur" }],
+				name: [{ required: true, message: '机构名称不能为空', trigger: 'blur' }],
+				code: [{ required: true, message: '机构编码不能为空', trigger: 'blur' }],
 			},
 		});
 		// 打开弹窗
@@ -107,7 +105,7 @@ export default defineComponent({
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit("submitRefresh");
+			proxy.mittBus.emit('submitRefresh');
 			state.isShowDialog = false;
 		};
 		// 取消
@@ -117,18 +115,16 @@ export default defineComponent({
 		// 提交
 		const submit = () => {
 			// 上级机构Id
-			if (Array.isArray(state.ruleForm.pid))
-				state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
+			if (Array.isArray(state.ruleForm.pid)) state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysOrgApi).sysOrgUpdatePost(state.ruleForm);
-				}
-				else {
+				} else {
 					await getAPI(SysOrgApi).sysOrgAddPost(state.ruleForm);
 				}
 				closeDialog();
-			})
+			});
 		};
 		return {
 			ruleFormRef,
@@ -141,4 +137,3 @@ export default defineComponent({
 	},
 });
 </script>
-	

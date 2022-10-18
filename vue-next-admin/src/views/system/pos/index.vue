@@ -9,26 +9,19 @@
 					<el-input placeholder="职位编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
 				</el-form-item>
 				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery">
-						重置
-					</el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery">
-						查询
-					</el-button>
-					<el-button icon="ele-Plus" @click="openAddPos">
-						新增
-					</el-button>
+					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
+					<el-button icon="ele-Plus" @click="openAddPos"> 新增 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
 
-		<el-card shadow="hover" style="margin-top: 8px;">
+		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="posData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="name" label="职位名称" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="code" label="职位编码" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip>
-				</el-table-column>
+				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
@@ -39,12 +32,8 @@
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditPos(scope.row)">
-							编辑
-						</el-button>
-						<el-button icon="ele-Delete" size="small" text type="primary" @click="delPos(scope.row)">
-							删除
-						</el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditPos(scope.row)"> 编辑 </el-button>
+						<el-button icon="ele-Delete" size="small" text type="primary" @click="delPos(scope.row)"> 删除 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -74,17 +63,17 @@ export default defineComponent({
 				name: undefined,
 				code: undefined,
 			},
-			editPosTitle: "",
+			editPosTitle: '',
 		});
 		onMounted(async () => {
 			handleQuery();
 
-			proxy.mittBus.on("submitRefresh", () => {
+			proxy.mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off("submitRefresh");
+			proxy.mittBus.off('submitRefresh');
 		});
 
 		// 查询操作
@@ -102,12 +91,12 @@ export default defineComponent({
 		};
 		// 打开新增页面
 		const openAddPos = () => {
-			state.editPosTitle = "添加职位";
+			state.editPosTitle = '添加职位';
 			editPosRef.value.openDialog({});
 		};
 		// 打开编辑页面
 		const openEditPos = (row: any) => {
-			state.editPosTitle = "编辑职位";
+			state.editPosTitle = '编辑职位';
 			editPosRef.value.openDialog(row);
 		};
 		// 删除
@@ -122,7 +111,7 @@ export default defineComponent({
 					handleQuery();
 					ElMessage.success('删除成功');
 				})
-				.catch(() => { });
+				.catch(() => {});
 		};
 		return {
 			handleQuery,

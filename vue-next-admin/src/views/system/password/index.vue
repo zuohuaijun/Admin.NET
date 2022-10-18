@@ -1,7 +1,6 @@
 <template>
 	<div class="sys-password-container">
-		<NoticeBar text="账号密码修改，请慎重操作！" leftIcon="iconfont icon-tongzhi2" background="var(--el-color-primary-light-9)"
-			color="var(--el-color-primary)" />
+		<NoticeBar text="账号密码修改，请慎重操作！" leftIcon="iconfont icon-tongzhi2" background="var(--el-color-primary-light-9)" color="var(--el-color-primary)" />
 		<el-card shadow="hover" header="修改当前账号密码" class="mt8">
 			<el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="ruleRules" label-width="80px">
 				<el-form-item label="当前密码" prop="passwordOld">
@@ -39,11 +38,11 @@ export default defineComponent({
 
 		const validatePassword = (rule: any, value: any, callback: any) => {
 			if (value != state.ruleForm.passwordNew) {
-				callback(new Error("两次密码不一致！"))
+				callback(new Error('两次密码不一致！'));
 			} else {
-				callback()
+				callback();
 			}
-		}
+		};
 		const state = reactive({
 			ruleForm: {
 				id: 0,
@@ -52,16 +51,16 @@ export default defineComponent({
 				passwordNew2: '',
 			},
 			ruleRules: {
-				passwordOld: [{ required: true, message: "当前密码不能为空", trigger: "blur" }],
-				passwordNew: [{ required: true, message: "新密码不能为空", trigger: "blur" }],
-				passwordNew2: [{ validator: validatePassword, required: true, trigger: "blur" }],
+				passwordOld: [{ required: true, message: '当前密码不能为空', trigger: 'blur' }],
+				passwordNew: [{ required: true, message: '新密码不能为空', trigger: 'blur' }],
+				passwordNew2: [{ validator: validatePassword, required: true, trigger: 'blur' }],
 			},
 		});
 		// 重置
 		const reset = () => {
-			state.ruleForm.passwordOld = "";
-			state.ruleForm.passwordNew = "";
-			state.ruleForm.passwordNew2 = "";
+			state.ruleForm.passwordOld = '';
+			state.ruleForm.passwordNew = '';
+			state.ruleForm.passwordNew2 = '';
 		};
 		// 提交
 		const submit = () => {
@@ -73,13 +72,12 @@ export default defineComponent({
 					confirmButtonText: '确定',
 					cancelButtonText: '取消',
 					type: 'warning',
-				})
-					.then(async () => {
-						// 清除缓存
-						Session.clear();
-						window.location.reload();
-					});
-			})
+				}).then(async () => {
+					// 清除缓存
+					Session.clear();
+					window.location.reload();
+				});
+			});
 		};
 		return {
 			ruleFormRef,

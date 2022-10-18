@@ -2,17 +2,14 @@
 	<div class="sys-grantData-container">
 		<el-dialog v-model="isShowDialog" width="450px">
 			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
-					授权数据范围
-				</div>
+				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">授权数据范围</div>
 			</template>
 			<el-form :model="ruleForm" size="default">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24" class="mb20">
 						<el-form-item prop="dataScope" label="数据范围">
 							<el-select v-model="ruleForm.dataScope" placeholder="数据范围" style="width: 100%">
-								<el-option v-for="d in dataScopeType" :key="d.value" :label="d.label"
-									:value="d.value" />
+								<el-option v-for="d in dataScopeType" :key="d.value" :label="d.label" :value="d.value" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -52,13 +49,20 @@ export default defineComponent({
 				dataScope: 0, // 数据范围
 				orgIdList: [] as any, // 机构集合
 			},
-			dataScopeType: [{ value: 1, label: "全部数据" }, { value: 2, label: "本部门及以下数据" }, { value: 3, label: "本部门数据" }, { value: 4, label: "仅本人数据" }, { value: 5, label: "自定义数据" }], // 数据范围类型			
+			dataScopeType: [
+				{ value: 1, label: '全部数据' },
+				{ value: 2, label: '本部门及以下数据' },
+				{ value: 3, label: '本部门数据' },
+				{ value: 4, label: '仅本人数据' },
+				{ value: 5, label: '自定义数据' },
+			], // 数据范围类型
 		});
 		// 打开弹窗
 		const openDialog = async (row: any) => {
 			state.ruleForm = row;
 			var res = await getAPI(SysRoleApi).sysRoleOwnOrgGet(row.id);
-			setTimeout(() => { // 延迟传递数据
+			setTimeout(() => {
+				// 延迟传递数据
 				orgTreeRef.value?.setCheckedKeys(res.data.result);
 			}, 100);
 			state.isShowDialog = true;
@@ -69,8 +73,7 @@ export default defineComponent({
 		};
 		// 提交
 		const submit = async () => {
-			if (state.ruleForm.dataScope === 5)
-				state.ruleForm.orgIdList = orgTreeRef.value?.getCheckedKeys();
+			if (state.ruleForm.dataScope === 5) state.ruleForm.orgIdList = orgTreeRef.value?.getCheckedKeys();
 			await getAPI(SysRoleApi).sysRoleGrantDataPost(state.ruleForm);
 			state.isShowDialog = false;
 		};
@@ -84,4 +87,3 @@ export default defineComponent({
 	},
 });
 </script>
-	

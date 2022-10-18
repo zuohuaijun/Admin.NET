@@ -2,7 +2,7 @@
 	<div class="sys-menu-container">
 		<el-dialog v-model="isShowDialog" width="769px">
 			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
+				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
 					{{ title }}
 				</div>
 			</template>
@@ -10,9 +10,7 @@
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="上级菜单">
-							<el-cascader :options="menuData"
-								:props="{ checkStrictly: true, value: 'id', label: 'title' }" placeholder="请选择上级菜单"
-								clearable class="w100" v-model="ruleForm.pid">
+							<el-cascader :options="menuData" :props="{ checkStrictly: true, value: 'id', label: 'title' }" placeholder="请选择上级菜单" clearable class="w100" v-model="ruleForm.pid">
 								<template #default="{ node, data }">
 									<span>{{ data.title }}</span>
 									<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -62,8 +60,7 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="链接地址">
-								<el-input v-model="ruleForm.outLink" placeholder="外链/内嵌时链接地址" clearable>
-								</el-input>
+								<el-input v-model="ruleForm.outLink" placeholder="外链/内嵌时链接地址" clearable> </el-input>
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -126,8 +123,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea">
-							</el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -156,13 +152,13 @@ export default defineComponent({
 		// 弹窗标题
 		title: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		// 菜单数据
 		menuData: {
 			type: Array,
 			default: () => [],
-		}
+		},
 	},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -176,7 +172,7 @@ export default defineComponent({
 				name: '', // 路由名称(全局唯一)
 				component: '', // 组件路径
 				redirect: '', // 路由重定向(有子集 children 时)
-				permission: '', // 权限标识				
+				permission: '', // 权限标识
 				path: '', // 路由路径
 				title: '', // 菜单名称
 				icon: '', // 菜单图标
@@ -189,10 +185,14 @@ export default defineComponent({
 				status: 1, // 是否启用
 				remark: '', // 备注
 			},
-			menuType: [{ value: 1, label: "目录" }, { value: 2, label: "菜单" }, { value: 3, label: "按钮" }],
+			menuType: [
+				{ value: 1, label: '目录' },
+				{ value: 2, label: '菜单' },
+				{ value: 3, label: '按钮' },
+			],
 			ruleRules: {
-				type: [{ required: true, message: "菜单类型不能为空", trigger: "blur" }],
-				title: [{ required: true, message: "菜单名称不能为空", trigger: "blur" }],
+				type: [{ required: true, message: '菜单类型不能为空', trigger: 'blur' }],
+				title: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
 			},
 		});
 		// 打开弹窗
@@ -202,7 +202,7 @@ export default defineComponent({
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit("submitRefresh");
+			proxy.mittBus.emit('submitRefresh');
 			state.isShowDialog = false;
 		};
 		// 取消
@@ -212,18 +212,16 @@ export default defineComponent({
 		// 提交
 		const submit = () => {
 			// 上级菜单Id
-			if (Array.isArray(state.ruleForm.pid))
-				state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
+			if (Array.isArray(state.ruleForm.pid)) state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysMenuApi).sysMenuUpdatePost(state.ruleForm);
-				}
-				else {
+				} else {
 					await getAPI(SysMenuApi).sysMenuAddPost(state.ruleForm);
 				}
 				closeDialog();
-			})
+			});
 		};
 		return {
 			ruleFormRef,

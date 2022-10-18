@@ -2,7 +2,7 @@
 	<div class="sys-role-container">
 		<el-dialog v-model="isShowDialog" width="769px">
 			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
+				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
 					{{ title }}
 				</div>
 			</template>
@@ -33,19 +33,25 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea">
-							</el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="菜单权限" v-loading="loading">
-							<el-tree ref="treeRef" :data="menuData" node-key="id" show-checkbox
+							<el-tree
+								ref="treeRef"
+								:data="menuData"
+								node-key="id"
+								show-checkbox
 								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
-								:default-checked-keys="ownMenuData" highlight-current class="menu-data-tree"
-								icon="ele-Menu" check-strictly />
+								:default-checked-keys="ownMenuData"
+								highlight-current
+								class="menu-data-tree"
+								icon="ele-Menu"
+								check-strictly
+							/>
 						</el-form-item>
 					</el-col>
-
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -61,7 +67,7 @@
 <script lang="ts">
 import { reactive, toRefs, defineComponent, getCurrentInstance, ref, onMounted } from 'vue';
 import type { ElTree } from 'element-plus';
-import type Node from 'element-plus/es/components/tree/src/model/node'
+import type Node from 'element-plus/es/components/tree/src/model/node';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi, SysRoleApi } from '/@/api-services/api';
@@ -73,7 +79,7 @@ export default defineComponent({
 		// 弹窗标题
 		title: {
 			type: String,
-			default: "",
+			default: '',
 		},
 		// 拥有菜单集合
 		ownMenuData: {
@@ -84,7 +90,7 @@ export default defineComponent({
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const ruleFormRef = ref();
-		const treeRef = ref<InstanceType<typeof ElTree>>()
+		const treeRef = ref<InstanceType<typeof ElTree>>();
 		const state = reactive({
 			loading: true,
 			isShowDialog: false,
@@ -98,8 +104,8 @@ export default defineComponent({
 				menuIdList: [] as any, // 菜单权限
 			},
 			ruleRules: {
-				name: [{ required: true, message: "角色名称不能为空", trigger: "blur" }],
-				code: [{ required: true, message: "角色编码不能为空", trigger: "blur" }],
+				name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
+				code: [{ required: true, message: '角色编码不能为空', trigger: 'blur' }],
 			},
 			menuData: [] as any, // 菜单数据
 		});
@@ -117,7 +123,7 @@ export default defineComponent({
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit("submitRefresh");
+			proxy.mittBus.emit('submitRefresh');
 			state.isShowDialog = false;
 		};
 		// 取消
@@ -131,20 +137,18 @@ export default defineComponent({
 				state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys(); //.concat(treeRef.value?.getHalfCheckedKeys());
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysRoleApi).sysRoleUpdatePost(state.ruleForm);
-				}
-				else {
+				} else {
 					await getAPI(SysRoleApi).sysRoleAddPost(state.ruleForm);
 				}
 				closeDialog();
-			})
+			});
 		};
 		// 叶子节点同行显示样式
 		const treeNodeClass = (node: Node) => {
 			if (node.isLeaf) return '';
 			let addClass = true;
 			for (const key in node.childNodes) {
-				if (!node.childNodes[key].isLeaf)
-					addClass = false;
+				if (!node.childNodes[key].isLeaf) addClass = false;
 			}
 			return addClass ? 'penultimate-node' : '';
 		};

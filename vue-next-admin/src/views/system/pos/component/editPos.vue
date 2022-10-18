@@ -2,7 +2,7 @@
 	<div class="sys-pos-container">
 		<el-dialog v-model="isShowDialog" width="600px">
 			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog','.el-dialog__header']">
+				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
 					{{ title }}
 				</div>
 			</template>
@@ -33,8 +33,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea">
-							</el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -62,7 +61,7 @@ export default defineComponent({
 		// 弹窗标题
 		title: {
 			type: String,
-			default: "",
+			default: '',
 		},
 	},
 	setup() {
@@ -79,8 +78,8 @@ export default defineComponent({
 				remark: '', // 备注
 			},
 			ruleRules: {
-				name: [{ required: true, message: "职位名称不能为空", trigger: "blur" }],
-				code: [{ required: true, message: "职位编码不能为空", trigger: "blur" }],
+				name: [{ required: true, message: '职位名称不能为空', trigger: 'blur' }],
+				code: [{ required: true, message: '职位编码不能为空', trigger: 'blur' }],
 			},
 		});
 		// 打开弹窗
@@ -90,7 +89,7 @@ export default defineComponent({
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit("submitRefresh");
+			proxy.mittBus.emit('submitRefresh');
 			state.isShowDialog = false;
 		};
 		// 取消
@@ -103,12 +102,11 @@ export default defineComponent({
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysPosApi).sysPosUpdatePost(state.ruleForm);
-				}
-				else {
+				} else {
 					await getAPI(SysPosApi).sysPosAddPost(state.ruleForm);
 				}
 				closeDialog();
-			})
+			});
 		};
 		return {
 			ruleFormRef,

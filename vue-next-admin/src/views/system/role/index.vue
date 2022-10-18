@@ -9,24 +9,17 @@
 					<el-input placeholder="角色编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
 				</el-form-item>
 				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery">
-						重置
-					</el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery">
-						查询
-					</el-button>
-					<el-button icon="ele-Plus" @click="openAddRole">
-						新增
-					</el-button>
+					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
+					<el-button icon="ele-Plus" @click="openAddRole"> 新增 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
 
-		<el-card shadow="hover" style="margin-top: 8px;">
-			<el-table :data="roleData" style="width: 100%;" v-loading="loading" border>
+		<el-card shadow="hover" style="margin-top: 8px">
+			<el-table :data="roleData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
-				<el-table-column prop="name" label="角色名称" show-overflow-tooltip>
-				</el-table-column>
+				<el-table-column prop="name" label="角色名称" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="code" label="角色编码" show-overflow-tooltip></el-table-column>
 				<el-table-column label="数据范围" align="center" show-overflow-tooltip>
 					<template #default="scope">
@@ -37,8 +30,7 @@
 						<el-tag effect="plain" v-else-if="scope.row.dataScope === 5">自定义数据</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip>
-				</el-table-column>
+				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
@@ -49,33 +41,34 @@
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="110" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditRole(scope.row)">
-							编辑
-						</el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditRole(scope.row)"> 编辑 </el-button>
 						<el-dropdown>
-							<span style="color: var(--el-color-primary);padding-top: 6px;padding-left: 12px;">
+							<span style="color: var(--el-color-primary); padding-top: 6px; padding-left: 12px">
 								<el-icon>
 									<ele-MoreFilled />
 								</el-icon>
 							</span>
 							<template #dropdown>
 								<el-dropdown-menu>
-									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantData(scope.row)">
-										数据范围
-									</el-dropdown-item>
-									<el-dropdown-item icon="ele-Delete" @click="delRole(scope.row)">
-										删除角色
-									</el-dropdown-item>
+									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantData(scope.row)"> 数据范围 </el-dropdown-item>
+									<el-dropdown-item icon="ele-Delete" @click="delRole(scope.row)"> 删除角色 </el-dropdown-item>
 								</el-dropdown-menu>
 							</template>
 						</el-dropdown>
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination v-model:currentPage="tableParams.page" v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total" :page-sizes="[10, 20, 50, 100]" small background
-				@size-change="handleSizeChange" @current-change="handleCurrentChange"
-				layout="total, sizes, prev, pager, next, jumper" />
+			<el-pagination
+				v-model:currentPage="tableParams.page"
+				v-model:page-size="tableParams.pageSize"
+				:total="tableParams.total"
+				:page-sizes="[10, 20, 50, 100]"
+				small
+				background
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				layout="total, sizes, prev, pager, next, jumper"
+			/>
 		</el-card>
 
 		<EditRole ref="editRoleRef" :title="editRoleTitle" :ownMenuData="ownMenuData" />
@@ -111,18 +104,18 @@ export default defineComponent({
 				pageSize: 10,
 				total: 0 as any,
 			},
-			editRoleTitle: "",
+			editRoleTitle: '',
 			ownMenuData: [] as any,
 		});
 		onMounted(async () => {
 			handleQuery();
 
-			proxy.mittBus.on("submitRefresh", () => {
+			proxy.mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off("submitRefresh");
+			proxy.mittBus.off('submitRefresh');
 		});
 		// 查询操作
 		const handleQuery = async () => {
@@ -140,12 +133,12 @@ export default defineComponent({
 		};
 		// 打开新增页面
 		const openAddRole = () => {
-			state.editRoleTitle = "添加角色";
+			state.editRoleTitle = '添加角色';
 			editRoleRef.value.openDialog({});
 		};
 		// 打开编辑页面
 		const openEditRole = async (row: any) => {
-			state.editRoleTitle = "编辑角色";
+			state.editRoleTitle = '编辑角色';
 			state.loading = true;
 			var res = await getAPI(SysRoleApi).sysRoleOwnMenuListGet(row.id);
 			state.ownMenuData = res.data.result;
@@ -164,7 +157,7 @@ export default defineComponent({
 					handleQuery();
 					ElMessage.success('删除成功');
 				})
-				.catch(() => { });
+				.catch(() => {});
 		};
 		// 分页改变
 		const handleSizeChange = (val: number) => {

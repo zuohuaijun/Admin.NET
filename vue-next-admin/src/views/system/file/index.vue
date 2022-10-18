@@ -14,17 +14,14 @@
 						:shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery">重置
-					</el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery">查询
-					</el-button>
-					<el-button icon="ele-UploadFilled" @click="openUploadDialog">上传
-					</el-button>
+					<el-button icon="ele-Refresh" @click="resetQuery">重置 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery">查询 </el-button>
+					<el-button icon="ele-UploadFilled" @click="openUploadDialog">上传 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
 
-		<el-card shadow="hover" style="margin-top: 8px;">
+		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="fileData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="fileName" label="名称" show-overflow-tooltip></el-table-column>
@@ -33,28 +30,23 @@
 						<el-tag round>{{ scope.row.suffix }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="sizeKb" label="大小kb" align="center" show-overflow-tooltip>
-				</el-table-column>
+				<el-table-column prop="sizeKb" label="大小kb" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="url" label="预览" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-image style="width: 60px; height: 60px" :src="scope.row.url" :lazy="true"
 							:hide-on-click-modal="true" :preview-src-list="[scope.row.url]" :initial-index="0"
-							:z-index=10000 fit="scale-down" />
+							:z-index="10000" fit="scale-down" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="bucketName" label="存储位置" align="center" show-overflow-tooltip>
-				</el-table-column>
+				<el-table-column prop="bucketName" label="存储位置" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="id" label="存储标识" align="center" show-overflow-tooltip></el-table-column>
 				<!-- <el-table-column prop="userName" label="上传者" align="center" show-overflow-tooltip></el-table-column> -->
 				<el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Download" size="small" text type="primary"
-							@click="downloadFile(scope.row)">
-							下载
-						</el-button>
-						<el-button icon="ele-Delete" size="small" text type="primary" @click="delFile(scope.row)">
-							删除
+							@click="downloadFile(scope.row)"> 下载 </el-button>
+						<el-button icon="ele-Delete" size="small" text type="primary" @click="delFile(scope.row)"> 删除
 						</el-button>
 					</template>
 				</el-table-column>
@@ -72,13 +64,9 @@
 					<el-icon class="el-icon--upload">
 						<ele-UploadFilled />
 					</el-icon>
-					<div class="el-upload__text">
-						将文件拖到此处，或<em>点击上传</em>
-					</div>
+					<div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
 					<template #tip>
-						<div class="el-upload__tip">
-							请上传大小不超过 10MB 的文件
-						</div>
+						<div class="el-upload__tip">请上传大小不超过 10MB 的文件</div>
 					</template>
 				</el-upload>
 			</div>
@@ -105,7 +93,7 @@ export default defineComponent({
 	components: {},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-		const uploadRef = ref<UploadInstance>()
+		const uploadRef = ref<UploadInstance>();
 		const state = reactive({
 			loading: true,
 			fileData: [] as any,
@@ -125,12 +113,12 @@ export default defineComponent({
 		onMounted(async () => {
 			handleQuery();
 
-			proxy.mittBus.on("submitRefresh", () => {
+			proxy.mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off("submitRefresh");
+			proxy.mittBus.off('submitRefresh');
 		});
 
 		// 查询操作
@@ -143,7 +131,8 @@ export default defineComponent({
 				state.queryParams.startTime,
 				state.queryParams.endTime,
 				state.tableParams.page,
-				state.tableParams.pageSize);
+				state.tableParams.pageSize
+			);
 			state.fileData = res.data.result?.items;
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -170,7 +159,7 @@ export default defineComponent({
 			handleQuery();
 			ElMessage.success('上传成功');
 			state.dialogVisible = false;
-		}
+		};
 		// 下载
 		const downloadFile = async (row: any) => {
 			// var res = await getAPI(SysFileApi).sysFileDownloadPost({ id: row.id });
