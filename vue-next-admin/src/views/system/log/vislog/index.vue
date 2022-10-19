@@ -106,12 +106,12 @@ export default defineComponent({
 			ElMessage.success('清空成功');
 			handleQuery();
 		};
-		// 分页改变
+		// 改变页面容量
 		const handleSizeChange = (val: number) => {
 			state.tableParams.pageSize = val;
 			handleQuery();
 		};
-		// 分页改变
+		// 改变页码序号
 		const handleCurrentChange = (val: number) => {
 			state.tableParams.page = val;
 			handleQuery();

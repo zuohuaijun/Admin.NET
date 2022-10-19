@@ -55,7 +55,7 @@ export default defineComponent({
 				{ value: 3, label: '本部门数据' },
 				{ value: 4, label: '仅本人数据' },
 				{ value: 5, label: '自定义数据' },
-			], // 数据范围类型
+			],
 		});
 		// 打开弹窗
 		const openDialog = async (row: any) => {

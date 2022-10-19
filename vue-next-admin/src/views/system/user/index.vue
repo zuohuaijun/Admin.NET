@@ -39,8 +39,8 @@
 						</el-table-column>
 						<el-table-column label="性别" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
-								<el-tag v-if="scope.row.sex === 1">男</el-tag>
-								<el-tag type="danger" v-else>女</el-tag>
+								<el-tag v-if="scope.row.sex === 1"> 男 </el-tag>
+								<el-tag type="danger" v-else> 女 </el-tag>
 							</template>
 						</el-table-column>
 						<el-table-column prop="phone" label="手机号码" width="120" align="center" show-overflow-tooltip> </el-table-column>
@@ -57,7 +57,7 @@
 						<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tooltip content="用户编辑">
-									<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditUser(scope.row)" v-auth="'sysUser:update'">编辑 </el-button>
+									<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditUser(scope.row)" v-auth="'sysUser:update'"> 编辑 </el-button>
 								</el-tooltip>
 								<el-dropdown>
 									<span style="color: var(--el-color-primary); padding-top: 6px; padding-left: 12px">
@@ -67,8 +67,8 @@
 									</span>
 									<template #dropdown>
 										<el-dropdown-menu>
-											<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantOrg(scope.row)" v-auth="'sysUser:grantData'">数据范围 </el-dropdown-item>
-											<el-dropdown-item icon="ele-RefreshLeft" @click="resetUserPwd(scope.row)" v-auth="'sysUser:resetPwd'">重置密码 </el-dropdown-item>
+											<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantOrg(scope.row)" v-auth="'sysUser:grantData'"> 数据范围 </el-dropdown-item>
+											<el-dropdown-item icon="ele-RefreshLeft" @click="resetUserPwd(scope.row)" v-auth="'sysUser:resetPwd'"> 重置密码 </el-dropdown-item>
 											<el-dropdown-item icon="ele-Delete" @click="delUser(scope.row)" v-auth="'sysUser:delete'"> 删除账号 </el-dropdown-item>
 										</el-dropdown-menu>
 									</template>
@@ -187,12 +187,12 @@ export default defineComponent({
 				})
 				.catch(() => {});
 		};
-		// 分页改变
+		// 改变页面容量
 		const handleSizeChange = (val: number) => {
 			state.tableParams.pageSize = val;
 			handleQuery();
 		};
-		// 分页改变
+		// 改变页码序号
 		const handleCurrentChange = (val: number) => {
 			state.tableParams.page = val;
 			handleQuery();

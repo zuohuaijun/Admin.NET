@@ -6,12 +6,10 @@
 					<el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="queryParams.fileName" />
 				</el-form-item>
 				<el-form-item label="开始时间" prop="name">
-					<el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间"
-						:shortcuts="shortcuts" />
+					<el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item label="结束时间" prop="code">
-					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间"
-						:shortcuts="shortcuts" />
+					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery">重置 </el-button>
@@ -33,9 +31,16 @@
 				<el-table-column prop="sizeKb" label="大小kb" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="url" label="预览" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-image style="width: 60px; height: 60px" :src="scope.row.url" :lazy="true"
-							:hide-on-click-modal="true" :preview-src-list="[scope.row.url]" :initial-index="0"
-							:z-index="10000" fit="scale-down" />
+						<el-image
+							style="width: 60px; height: 60px"
+							:src="scope.row.url"
+							:lazy="true"
+							:hide-on-click-modal="true"
+							:preview-src-list="[scope.row.url]"
+							:initial-index="0"
+							:z-index="10000"
+							fit="scale-down"
+						/>
 					</template>
 				</el-table-column>
 				<el-table-column prop="bucketName" label="存储位置" align="center" show-overflow-tooltip> </el-table-column>
@@ -44,23 +49,27 @@
 				<el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Download" size="small" text type="primary"
-							@click="downloadFile(scope.row)"> 下载 </el-button>
-						<el-button icon="ele-Delete" size="small" text type="primary" @click="delFile(scope.row)"> 删除
-						</el-button>
+						<el-button icon="ele-Download" size="small" text type="primary" @click="downloadFile(scope.row)"> 下载 </el-button>
+						<el-button icon="ele-Delete" size="small" text type="primary" @click="delFile(scope.row)"> 删除 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>
-			<el-pagination v-model:currentPage="tableParams.page" v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total" :page-sizes="[10, 20, 50, 100]" small background
-				@size-change="handleSizeChange" @current-change="handleCurrentChange"
-				layout="total, sizes, prev, pager, next, jumper" />
+			<el-pagination
+				v-model:currentPage="tableParams.page"
+				v-model:page-size="tableParams.pageSize"
+				:total="tableParams.total"
+				:page-sizes="[10, 20, 50, 100]"
+				small
+				background
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				layout="total, sizes, prev, pager, next, jumper"
+			/>
 		</el-card>
 
 		<el-dialog title="上传文件" v-model="dialogVisible" :lock-scroll="false" width="400px">
 			<div>
-				<el-upload ref="uploadRef" drag :auto-upload="false" :limit="1" :file-list="fileList" action=""
-					:on-change="handleChange" accept=".jpg,.png,.bmp,.gif,.txt,.pdf,.xlsx,.docx">
+				<el-upload ref="uploadRef" drag :auto-upload="false" :limit="1" :file-list="fileList" action="" :on-change="handleChange" accept=".jpg,.png,.bmp,.gif,.txt,.pdf,.xlsx,.docx">
 					<el-icon class="el-icon--upload">
 						<ele-UploadFilled />
 					</el-icon>
@@ -126,13 +135,7 @@ export default defineComponent({
 			if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
 			if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
 			state.loading = true;
-			var res = await getAPI(SysFileApi).sysFilePageGet(
-				state.queryParams.fileName,
-				state.queryParams.startTime,
-				state.queryParams.endTime,
-				state.tableParams.page,
-				state.tableParams.pageSize
-			);
+			var res = await getAPI(SysFileApi).sysFilePageGet(state.queryParams.fileName, state.queryParams.startTime, state.queryParams.endTime, state.tableParams.page, state.tableParams.pageSize);
 			state.fileData = res.data.result?.items;
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -177,14 +180,14 @@ export default defineComponent({
 					handleQuery();
 					ElMessage.success('删除成功');
 				})
-				.catch(() => { });
+				.catch(() => {});
 		};
-		// 分页改变
+		// 改变页面容量
 		const handleSizeChange = (val: number) => {
 			state.tableParams.pageSize = val;
 			handleQuery();
 		};
-		// 分页改变
+		// 改变页码序号
 		const handleCurrentChange = (val: number) => {
 			state.tableParams.page = val;
 			handleQuery();

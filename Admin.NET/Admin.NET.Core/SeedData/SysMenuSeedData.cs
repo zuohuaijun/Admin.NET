@@ -58,7 +58,7 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
 
             new SysMenu{ Id=252885263002260, Pid=252885263002200, Title="修改密码", Path="/system/password", Name="sysPassword", Component="/system/password/index",Icon="ele-Hide", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=150 },
 
-            new SysMenu{ Id=252885263002300, Pid=0, Title="平台管理", Path="/platform", Name="platform", Component="Layout", Redirect="/platform/config", Icon="ele-Menu", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=200 },
+            new SysMenu{ Id=252885263002300, Pid=0, Title="平台管理", Path="/platform", Name="platform", Component="Layout", Redirect="/platform/tenant", Icon="ele-Menu", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=200 },
 
             new SysMenu{ Id=252885263002310, Pid=252885263002300, Title="租户管理", Path="/platform/tenant", Name="sysTenant", Component="/system/tenant/index", Icon="ele-School", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },
             new SysMenu{ Id=252885263002311, Pid=252885263002310, Title="租户查询", Permission="sysTenant:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },

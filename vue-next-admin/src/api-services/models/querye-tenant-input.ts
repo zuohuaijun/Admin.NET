@@ -18,7 +18,7 @@
  */
 export interface QueryeTenantInput {
     /**
-     * Id
+     * 主键Id
      * @type {number}
      * @memberof QueryeTenantInput
      */

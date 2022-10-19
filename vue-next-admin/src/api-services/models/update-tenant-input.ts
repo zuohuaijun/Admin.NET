@@ -18,35 +18,41 @@
  */
 export interface UpdateTenantInput {
     /**
-     * 当前页码
+     * 雪花Id
      * @type {number}
      * @memberof UpdateTenantInput
      */
-    page?: number;
+    id?: number;
     /**
-     * 页码容量
+     * 创建时间
+     * @type {Date}
+     * @memberof UpdateTenantInput
+     */
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof UpdateTenantInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
      * @type {number}
      * @memberof UpdateTenantInput
      */
-    pageSize?: number;
+    createUserId?: number | null;
     /**
-     * 排序字段
-     * @type {string}
+     * 修改者Id
+     * @type {number}
      * @memberof UpdateTenantInput
      */
-    field?: string | null;
+    updateUserId?: number | null;
     /**
-     * 排序方向
-     * @type {string}
+     * 软删除
+     * @type {boolean}
      * @memberof UpdateTenantInput
      */
-    order?: string | null;
-    /**
-     * 降序排序
-     * @type {string}
-     * @memberof UpdateTenantInput
-     */
-    descStr?: string | null;
+    isDelete?: boolean;
     /**
      * 主机
      * @type {string}
@@ -78,19 +84,19 @@ export interface UpdateTenantInput {
      */
     schema?: string | null;
     /**
+     * 排序
+     * @type {number}
+     * @memberof UpdateTenantInput
+     */
+    order?: number;
+    /**
      * 备注
      * @type {string}
      * @memberof UpdateTenantInput
      */
     remark?: string | null;
     /**
-     * Id
-     * @type {number}
-     * @memberof UpdateTenantInput
-     */
-    id: number;
-    /**
-     * 公司名称
+     * 租户名称
      * @type {string}
      * @memberof UpdateTenantInput
      */

@@ -18,35 +18,41 @@
  */
 export interface AddTenantInput {
     /**
-     * 当前页码
+     * 雪花Id
      * @type {number}
      * @memberof AddTenantInput
      */
-    page?: number;
+    id?: number;
     /**
-     * 页码容量
+     * 创建时间
+     * @type {Date}
+     * @memberof AddTenantInput
+     */
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof AddTenantInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
      * @type {number}
      * @memberof AddTenantInput
      */
-    pageSize?: number;
+    createUserId?: number | null;
     /**
-     * 排序字段
-     * @type {string}
+     * 修改者Id
+     * @type {number}
      * @memberof AddTenantInput
      */
-    field?: string | null;
+    updateUserId?: number | null;
     /**
-     * 排序方向
-     * @type {string}
+     * 软删除
+     * @type {boolean}
      * @memberof AddTenantInput
      */
-    order?: string | null;
-    /**
-     * 降序排序
-     * @type {string}
-     * @memberof AddTenantInput
-     */
-    descStr?: string | null;
+    isDelete?: boolean;
     /**
      * 主机
      * @type {string}
@@ -78,13 +84,19 @@ export interface AddTenantInput {
      */
     schema?: string | null;
     /**
+     * 排序
+     * @type {number}
+     * @memberof AddTenantInput
+     */
+    order?: number;
+    /**
      * 备注
      * @type {string}
      * @memberof AddTenantInput
      */
     remark?: string | null;
     /**
-     * 公司名称
+     * 租户名称
      * @type {string}
      * @memberof AddTenantInput
      */

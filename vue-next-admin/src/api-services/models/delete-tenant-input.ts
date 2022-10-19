@@ -18,7 +18,7 @@
  */
 export interface DeleteTenantInput {
     /**
-     * Id
+     * 主键Id
      * @type {number}
      * @memberof DeleteTenantInput
      */

@@ -84,7 +84,7 @@ export default defineComponent({
 		// 拥有菜单集合
 		ownMenuData: {
 			type: Array,
-			default: () => [252885263003711],
+			default: () => [],
 		},
 	},
 	setup() {

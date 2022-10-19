@@ -7,9 +7,9 @@
 public class SysTenant : EntityBase
 {
     /// <summary>
-    /// 公司名称
+    /// 租户名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "公司名称", Length = 64)]
+    [SugarColumn(ColumnDescription = "租户名称", Length = 64)]
     [Required, MaxLength(64)]
     public virtual string Name { get; set; }
 

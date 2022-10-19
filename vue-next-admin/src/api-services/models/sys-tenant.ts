@@ -54,7 +54,7 @@ export interface SysTenant {
      */
     isDelete?: boolean;
     /**
-     * 公司名称
+     * 租户名称
      * @type {string}
      * @memberof SysTenant
      */
