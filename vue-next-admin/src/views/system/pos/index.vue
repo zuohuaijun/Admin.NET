@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-pos-container">
-		<el-card shadow="hover">
+		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="职位名称" prop="name">
 					<el-input placeholder="职位名称" clearable @keyup.enter="handleQuery" v-model="queryParams.name" />
@@ -9,29 +9,20 @@
 					<el-input placeholder="职位编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
 				</el-form-item>
 				<el-form-item>
-					<el-button @click="resetQuery">
-						<el-icon>
-							<ele-Refresh />
-						</el-icon>
+					<el-button icon="ele-Refresh" @click="resetQuery">
 						重置
 					</el-button>
-					<el-button type="primary" @click="handleQuery">
-						<el-icon>
-							<ele-Search />
-						</el-icon>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery">
 						查询
 					</el-button>
-					<el-button @click="openAddPos">
-						<el-icon>
-							<ele-Plus />
-						</el-icon>
+					<el-button icon="ele-Plus" @click="openAddPos">
 						新增
 					</el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
 
-		<el-card shadow="hover" style="margin-top: 5px;">
+		<el-card shadow="hover" style="margin-top: 8px;">
 			<el-table :data="posData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="name" label="职位名称" show-overflow-tooltip></el-table-column>

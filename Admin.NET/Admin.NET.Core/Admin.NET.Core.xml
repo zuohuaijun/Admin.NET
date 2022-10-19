@@ -30,6 +30,23 @@
             SqlSugar二级缓存（必须是内存缓存）
             </summary>
         </member>
+        <member name="M:Admin.NET.Core.LazyCaptchaSetup.AddLazyCaptcha(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            验证码初始化
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:Admin.NET.Core.RandomCaptcha">
+            <summary>
+            随机验证码
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.RandomCaptcha.ChangeOptions(Lazy.Captcha.Core.CaptchaOptions)">
+            <summary>
+            更新选项
+            </summary>
+            <param name="options"></param>
+        </member>
         <member name="T:Admin.NET.Core.CacheConst">
             <summary>
             缓存相关常量
@@ -757,7 +774,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysLogEx.LogName">
             <summary>
-            日志名称
+            记录器类别名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogEx.LogLevel">
@@ -780,6 +797,21 @@
             异常对象
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysLogEx.State">
+            <summary>
+            当前状态值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.LogDateTime">
+            <summary>
+            日志记录时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogEx.ThreadId">
+            <summary>
+            线程Id
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysLogOp">
             <summary>
             系统操作日志表
@@ -787,7 +819,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysLogOp.LogName">
             <summary>
-            日志名称
+            记录器类别名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogOp.LogLevel">
@@ -808,6 +840,21 @@
         <member name="P:Admin.NET.Core.SysLogOp.Exception">
             <summary>
             异常对象
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.State">
+            <summary>
+            当前状态值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.LogDateTime">
+            <summary>
+            日志记录时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.ThreadId">
+            <summary>
+            线程Id
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysLogVis">
@@ -1901,6 +1948,11 @@
             系统错误码
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D0009">
+            <summary>
+            验证码错误
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.D1000">
             <summary>
             用户名或密码不正确
@@ -2581,9 +2633,14 @@
             管理员
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.UserTypeEnum.None">
+        <member name="F:Admin.NET.Core.UserTypeEnum.User">
             <summary>
             普通账号
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.UserTypeEnum.None">
+            <summary>
+            游客
             </summary>
         </member>
         <member name="F:Admin.NET.Core.UserTypeEnum.SuperAdmin">
@@ -2898,6 +2955,51 @@
             排除SqlSugar忽略的列
             </summary>
             <param name="pi"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ParseToLong(System.Object)">
+            <summary>
+            将object转换为long，若失败则返回0
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ParseToLong(System.String,System.Int64)">
+            <summary>
+            将object转换为long，若失败则返回指定值
+            </summary>
+            <param name="str"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ParseToDouble(System.Object)">
+            <summary>
+            将object转换为double，若失败则返回0
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ParseToDouble(System.Object,System.Double)">
+            <summary>
+            将object转换为double，若失败则返回指定值
+            </summary>
+            <param name="str"></param>
+            <param name="defaultValue"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ParseToDateTime(System.String)">
+            <summary>
+            将string转换为DateTime，若失败则返回日期最小值
+            </summary>
+            <param name="str"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.ParseToDateTime(System.String,System.Nullable{System.DateTime})">
+            <summary>
+            将string转换为DateTime，若失败则返回默认值
+            </summary>
+            <param name="str"></param>
+            <param name="defaultValue"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.RepositoryExtension">
@@ -3574,6 +3676,16 @@
             </summary>
             <example>123456</example>
         </member>
+        <member name="P:Admin.NET.Core.Service.LoginInput.CodeId">
+            <summary>
+            验证码Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginInput.Code">
+            <summary>
+            验证码
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.LoginOutput">
             <summary>
             用户登录结果
@@ -3696,6 +3808,12 @@
             <summary>
             退出系统
             </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.GetCaptcha">
+            <summary>
+            生成图片验证码
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.SwaggerCheckUrl">
             <summary>
@@ -6274,21 +6392,27 @@
             系统服务器监控服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysServerService.GetServerBaseInfo">
+        <member name="M:Admin.NET.Core.Service.SysServerService.GetServerBase">
             <summary>
-            服务器基本配置
+            服务器配置信息
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysServerService.GetServerUseInfo">
+        <member name="M:Admin.NET.Core.Service.SysServerService.GetServerUsed">
             <summary>
-            服务器使用资源
+            服务器内存信息
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysServerService.GetServerNetWorkInfo">
+        <member name="M:Admin.NET.Core.Service.SysServerService.GetServerDisk">
             <summary>
-            服务器网络信息
+            服务器磁盘信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysServerService.GetAssembly">
+            <summary>
+            框架主要程序集
             </summary>
             <returns></returns>
         </member>
@@ -7443,22 +7567,193 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.CommonUtil">
+        <member name="M:Admin.NET.Core.ComputerUtil.GetComputerInfo">
             <summary>
-            通用工具类
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.CommonUtil.GetTodayTimeList(System.DateTime)">
-            <summary>
-            获取今天日期范围00:00:00 - 23:59:59
+            内存信息
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.CommonUtil.GetRootPathFileText(System.String)">
+        <member name="M:Admin.NET.Core.ComputerUtil.GetDiskInfos">
             <summary>
-            获取项目根目录文件内容
+            磁盘信息
             </summary>
-            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ComputerUtil.GetIpFromPCOnline">
+            <summary>
+            IP地址信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ComputerUtil.GetRunTime">
+            <summary>
+            获取系统运行时间
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.MemoryMetrics">
+            <summary>
+            内存信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MemoryMetrics.UsedRam">
+            <summary>
+            已用内存
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MemoryMetrics.CpuRate">
+            <summary>
+            CPU使用率%
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MemoryMetrics.TotalRam">
+            <summary>
+            总内存 GB
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MemoryMetrics.RamRate">
+            <summary>
+            内存使用率 %
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MemoryMetrics.FreeRam">
+            <summary>
+            空闲内存
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.DiskInfo">
+            <summary>
+            磁盘信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DiskInfo.DiskName">
+            <summary>
+            磁盘名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DiskInfo.TypeName">
+            <summary>
+            类型名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DiskInfo.TotalFree">
+            <summary>
+            总剩余
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DiskInfo.TotalSize">
+            <summary>
+            总量
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DiskInfo.Used">
+            <summary>
+            已使用
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DiskInfo.AvailableFreeSpace">
+            <summary>
+            可使用
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.DiskInfo.AvailablePercent">
+            <summary>
+            使用百分比
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.MemoryMetricsClient.GetWindowsMetrics">
+            <summary>
+            windows系统获取内存信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.MemoryMetricsClient.GetUnixMetrics">
+            <summary>
+            Unix系统获取
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ShellUtil.Bash(System.String)">
+            <summary>
+            linux 系统命令
+            </summary>
+            <param name="command"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.ShellUtil.Cmd(System.String,System.String)">
+            <summary>
+            windows系统命令
+            </summary>
+            <param name="fileName"></param>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.GetBeginTime(System.Nullable{System.DateTime},System.Int32)">
+            <summary>
+            获取开始时间
+            </summary>
+            <param name="dateTime"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.ToLocalTimeDateBySeconds(System.Int64)">
+            <summary>
+             时间戳转本地时间-时间戳精确到秒
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.ToUnixTimestampBySeconds(System.DateTime)">
+            <summary>
+             时间转时间戳Unix-时间戳精确到秒
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.ToLocalTimeDateByMilliseconds(System.Int64)">
+            <summary>
+             时间戳转本地时间-时间戳精确到毫秒
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.ToUnixTimestampByMilliseconds(System.DateTime)">
+            <summary>
+             时间转时间戳Unix-时间戳精确到毫秒
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.FormatTime(System.Int64)">
+            <summary>
+            毫秒转天时分秒
+            </summary>
+            <param name="ms"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.GetUnixTimeStamp(System.DateTime)">
+            <summary>
+            获取unix时间戳
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.GetDayMinDate(System.DateTime)">
+            <summary>
+            获取日期天的最小时间
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.GetDayMaxDate(System.DateTime)">
+            <summary>
+            获取日期天的最大时间
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.FormatDateTime(System.Nullable{System.DateTime})">
+            <summary>
+            获取日期天的最大时间
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.GetTodayTimeList(System.DateTime)">
+            <summary>
+            获取今天日期范围00:00:00 - 23:59:59
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.LongJsonConverter">
@@ -7477,86 +7772,6 @@
             </summary>
             <param name="field"></param>
             <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.ServerUtil">
-            <summary>
-            服务器信息
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.ServerUtil.GetServerBaseInfo">
-            <summary>
-            服务器基本配置
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ServerUtil.GetServerUseInfo">
-            <summary>
-            服务器使用资源
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ServerUtil.GetServerNetWorkInfo">
-            <summary>
-            服务器网络信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ServerUtil.GetRamInfo">
-            <summary>
-            内存信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ServerUtil.GetCpuRate">
-            <summary>
-            CPU信息
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ServerUtil.GetRunTime">
-            <summary>
-            系统运行时间
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ServerUtil.IsUnix">
-            <summary>
-            是否Linux
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ServerUtil.FormatTime(System.Int64)">
-            <summary>
-            毫秒转天时分秒
-            </summary>
-            <param name="ms"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ServerUtil.GetWanIpFromPCOnline">
-            <summary>
-            获取外网IP和位置
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.ShellUtil">
-            <summary>
-            系统Shell命令
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.ShellUtil.Bash(System.String)">
-            <summary>
-            Bash命令
-            </summary>
-            <param name="command"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ShellUtil.Cmd(System.String,System.String)">
-            <summary>
-            cmd命令
-            </summary>
-            <param name="fileName"></param>
-            <param name="args"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.ByteUtil">

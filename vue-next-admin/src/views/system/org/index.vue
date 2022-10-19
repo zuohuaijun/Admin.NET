@@ -1,12 +1,12 @@
 <template>
 	<div class="sys-org-container">
-		<el-row :gutter="5">
+		<el-row :gutter="8" style="width:100%">
 			<el-col :span="4" :xs="24">
 				<OrgTree @node-click='nodeClick' />
 			</el-col>
 
 			<el-col :span="20" :xs="24">
-				<el-card shadow="hover">
+				<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 					<el-form :model="queryParams" ref="queryForm" :inline="true">
 						<el-form-item label="机构名称" prop="name">
 							<el-input placeholder="机构名称" clearable @keyup.enter="handleQuery"
@@ -17,29 +17,20 @@
 								v-model="queryParams.code" />
 						</el-form-item>
 						<el-form-item>
-							<el-button @click="resetQuery">
-								<el-icon>
-									<ele-Refresh />
-								</el-icon>
+							<el-button icon="ele-Refresh" @click="resetQuery">
 								重置
 							</el-button>
-							<el-button type="primary" @click="handleQuery">
-								<el-icon>
-									<ele-Search />
-								</el-icon>
+							<el-button type="primary" icon="ele-Search" @click="handleQuery">
 								查询
 							</el-button>
-							<el-button @click="openAddOrg">
-								<el-icon>
-									<ele-Plus />
-								</el-icon>
+							<el-button icon="ele-Plus" @click="openAddOrg">
 								新增
 							</el-button>
 						</el-form-item>
 					</el-form>
 				</el-card>
 
-				<el-card shadow="hover" style="margin-top: 5px;">
+				<el-card shadow="hover" style="margin-top: 8px;">
 					<el-table :data="orgData" style="width: 100%" v-loading="loading" row-key="id" default-expand-all
 						:tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
 						<el-table-column prop="name" label="机构名称" show-overflow-tooltip> </el-table-column>

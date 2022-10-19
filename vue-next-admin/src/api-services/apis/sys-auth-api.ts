@@ -18,6 +18,7 @@ import { Configuration } from '../configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AdminResultLoginOutput } from '../models';
 import { AdminResultLoginUserInfoOutput } from '../models';
+import { AdminResultObject } from '../models';
 import { AdminResultString } from '../models';
 import { LoginInput } from '../models';
 /**
@@ -26,6 +27,42 @@ import { LoginInput } from '../models';
  */
 export const SysAuthApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @summary 生成图片验证码
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        captchaGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/captcha`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @summary 获取刷新Token
@@ -285,6 +322,19 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary 生成图片验证码
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async captchaGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).captchaGet(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 获取刷新Token
          * @param {string} accessToken 
          * @param {*} [options] Override http request option.
@@ -376,6 +426,15 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary 生成图片验证码
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async captchaGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysAuthApiFp(configuration).captchaGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 获取刷新Token
          * @param {string} accessToken 
          * @param {*} [options] Override http request option.
@@ -442,6 +501,16 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
  * @extends {BaseAPI}
  */
 export class SysAuthApi extends BaseAPI {
+    /**
+     * 
+     * @summary 生成图片验证码
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysAuthApi
+     */
+    public async captchaGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysAuthApiFp(this.configuration).captchaGet(options).then((request) => request(this.axios, this.basePath));
+    }
     /**
      * 
      * @summary 获取刷新Token

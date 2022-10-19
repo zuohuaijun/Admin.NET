@@ -54,7 +54,7 @@ export interface SysLogOp {
      */
     isDelete?: boolean;
     /**
-     * 日志名称
+     * 记录器类别名称
      * @type {string}
      * @memberof SysLogOp
      */
@@ -83,4 +83,22 @@ export interface SysLogOp {
      * @memberof SysLogOp
      */
     exception?: string | null;
+    /**
+     * 当前状态值
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    state?: string | null;
+    /**
+     * 日志记录时间
+     * @type {Date}
+     * @memberof SysLogOp
+     */
+    logDateTime?: Date;
+    /**
+     * 线程Id
+     * @type {number}
+     * @memberof SysLogOp
+     */
+    threadId?: number;
 }

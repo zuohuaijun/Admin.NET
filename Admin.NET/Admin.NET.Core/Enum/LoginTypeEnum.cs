@@ -9,29 +9,29 @@ public enum LoginTypeEnum
     /// 登录
     /// </summary>
     [Description("登录")]
-    Login,
+    Login = 1,
 
     /// <summary>
     /// 退出
     /// </summary>
     [Description("退出")]
-    Logout,
+    Logout = 2,
 
     /// <summary>
     /// 注册
     /// </summary>
     [Description("注册")]
-    Register,
+    Register = 3,
 
     /// <summary>
     /// 改密
     /// </summary>
     [Description("改密")]
-    Change_password,
+    Change_password = 4,
 
     /// <summary>
     /// 三方授权登陆
     /// </summary>
     [Description("授权登陆")]
-    Authorized_login
+    Authorized_login = 5
 }

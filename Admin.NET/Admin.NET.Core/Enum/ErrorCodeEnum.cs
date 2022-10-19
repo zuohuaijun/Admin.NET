@@ -7,6 +7,12 @@
 public enum ErrorCodeEnum
 {
     /// <summary>
+    /// 验证码错误
+    /// </summary>
+    [ErrorCodeItemMetadata("验证码错误")]
+    D0009,
+
+    /// <summary>
     /// 用户名或密码不正确
     /// </summary>
     [ErrorCodeItemMetadata("用户名或密码不正确")]

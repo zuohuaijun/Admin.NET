@@ -129,7 +129,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref, unref, onMounted } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref, onMounted } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysPosApi, SysRoleApi, SysUserApi } from '/@/api-services/api';
@@ -151,7 +151,7 @@ export default defineComponent({
 	},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-		const ruleFormRef = ref<HTMLElement | null>(null);
+		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {
@@ -215,13 +215,11 @@ export default defineComponent({
 		};
 		// 提交
 		const submit = () => {
-			const formWrap = unref(ruleFormRef) as any;
-			if (!formWrap) return;
-
 			// 所属机构Id
 			if (Array.isArray(state.ruleForm.orgId))
 				state.ruleForm.orgId = state.ruleForm.orgId[state.ruleForm.orgId.length - 1];
-			formWrap.validate(async () => {
+			ruleFormRef.value.validate(async (valid: boolean) => {
+				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysUserApi).sysUserUpdatePost(state.ruleForm);
 				}

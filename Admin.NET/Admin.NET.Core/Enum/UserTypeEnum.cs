@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 账号类型枚举
@@ -15,7 +15,13 @@ public enum UserTypeEnum
     /// 普通账号
     /// </summary>
     [Description("普通账号")]
-    None = 2,
+    User = 2,
+
+    /// <summary>
+    /// 游客
+    /// </summary>
+    [Description("游客")]
+    None = 3,
 
     /// <summary>
     /// 超级管理员

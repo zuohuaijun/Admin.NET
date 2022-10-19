@@ -26,6 +26,9 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 EventId = logMsg.EventId.Id.ToString(),
                 Message = logMsg.Message,
                 Exception = logMsg.Exception?.ToString(),
+                State = logMsg.State?.ToString(),
+                LogDateTime = logMsg.LogDateTime,
+                ThreadId = logMsg.ThreadId,
             });
         }
         else
@@ -37,6 +40,9 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 EventId = logMsg.EventId.Id.ToString(),
                 Message = logMsg.Message,
                 Exception = logMsg.Exception?.ToString(),
+                State = logMsg.State?.ToString(),
+                LogDateTime = logMsg.LogDateTime,
+                ThreadId = logMsg.ThreadId,
             });
         }
     }

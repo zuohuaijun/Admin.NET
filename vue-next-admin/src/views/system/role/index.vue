@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-role-container">
-		<el-card shadow="hover">
+		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="角色名称" prop="name">
 					<el-input placeholder="角色名称" clearable @keyup.enter="handleQuery" v-model="queryParams.name" />
@@ -9,34 +9,34 @@
 					<el-input placeholder="角色编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
 				</el-form-item>
 				<el-form-item>
-					<el-button @click="resetQuery">
-						<el-icon>
-							<ele-Refresh />
-						</el-icon>
+					<el-button icon="ele-Refresh" @click="resetQuery">
 						重置
 					</el-button>
-					<el-button type="primary" @click="handleQuery">
-						<el-icon>
-							<ele-Search />
-						</el-icon>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery">
 						查询
 					</el-button>
-					<el-button @click="openAddRole">
-						<el-icon>
-							<ele-Plus />
-						</el-icon>
+					<el-button icon="ele-Plus" @click="openAddRole">
 						新增
 					</el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
 
-		<el-card shadow="hover" style="margin-top: 5px;">
+		<el-card shadow="hover" style="margin-top: 8px;">
 			<el-table :data="roleData" style="width: 100%;" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
 				<el-table-column prop="name" label="角色名称" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column prop="code" label="角色编码" show-overflow-tooltip></el-table-column>
+				<el-table-column label="数据范围" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag effect="plain" v-if="scope.row.dataScope === 1">全部数据</el-tag>
+						<el-tag effect="plain" v-else-if="scope.row.dataScope === 2">本部门及以下数据</el-tag>
+						<el-tag effect="plain" v-else-if="scope.row.dataScope === 3">本部门数据</el-tag>
+						<el-tag effect="plain" v-else-if="scope.row.dataScope === 4">仅本人数据</el-tag>
+						<el-tag effect="plain" v-else-if="scope.row.dataScope === 5">自定义数据</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip>
 				</el-table-column>
 				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
@@ -60,7 +60,7 @@
 							</span>
 							<template #dropdown>
 								<el-dropdown-menu>
-									<el-dropdown-item icon="ele-OfficeBuilding" @click="delRole(scope.row)">
+									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantData(scope.row)">
 										数据范围
 									</el-dropdown-item>
 									<el-dropdown-item icon="ele-Delete" @click="delRole(scope.row)">
@@ -79,6 +79,7 @@
 		</el-card>
 
 		<EditRole ref="editRoleRef" :title="editRoleTitle" :ownMenuData="ownMenuData" />
+		<GrantData ref="grantDataRef" />
 	</div>
 </template>
 
@@ -86,23 +87,24 @@
 import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditRole from '/@/views/system/role/component/editRole.vue';
+import GrantData from '/@/views/system/role/component/grantData.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysRoleApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysRole',
-	components: { EditRole },
+	components: { EditRole, GrantData },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const editRoleRef = ref();
+		const grantDataRef = ref();
 		const state = reactive({
 			loading: true,
 			roleData: [] as any,
 			queryParams: {
 				name: undefined,
 				code: undefined,
-
 			},
 			tableParams: {
 				page: 1,
@@ -174,15 +176,21 @@ export default defineComponent({
 			state.tableParams.page = val;
 			handleQuery();
 		};
+		// 打开授权数据范围页面
+		const openGrantData = (row: any) => {
+			grantDataRef.value.openDialog(row);
+		};
 		return {
 			handleQuery,
 			resetQuery,
 			editRoleRef,
+			grantDataRef,
 			openAddRole,
 			openEditRole,
 			delRole,
 			handleSizeChange,
 			handleCurrentChange,
+			openGrantData,
 			...toRefs(state),
 		};
 	},

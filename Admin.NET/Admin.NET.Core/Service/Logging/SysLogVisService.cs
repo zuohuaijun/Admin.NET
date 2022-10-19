@@ -23,8 +23,8 @@ public class SysLogVisService : IDynamicApiController, ITransient
     {
         return await _sysLogVisRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
-                        u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
-            .OrderBy(u => u.CreateTime, SqlSugar.OrderByType.Desc)
+                u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
+            .OrderBy(u => u.CreateTime, OrderByType.Desc)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
