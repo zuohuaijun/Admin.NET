@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { YesNoEnum } from './yes-no-enum';
 /**
  * 
  * @export
@@ -18,11 +19,47 @@
  */
 export interface AddConfigInput {
     /**
+     * 雪花Id
+     * @type {number}
+     * @memberof AddConfigInput
+     */
+    id?: number;
+    /**
+     * 创建时间
+     * @type {Date}
+     * @memberof AddConfigInput
+     */
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof AddConfigInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
+     * @type {number}
+     * @memberof AddConfigInput
+     */
+    createUserId?: number | null;
+    /**
+     * 修改者Id
+     * @type {number}
+     * @memberof AddConfigInput
+     */
+    updateUserId?: number | null;
+    /**
+     * 软删除
+     * @type {boolean}
+     * @memberof AddConfigInput
+     */
+    isDelete?: boolean;
+    /**
      * 名称
      * @type {string}
      * @memberof AddConfigInput
      */
-    name?: string | null;
+    name: string;
     /**
      * 编码
      * @type {string}
@@ -36,11 +73,11 @@ export interface AddConfigInput {
      */
     value?: string | null;
     /**
-     * 是否是系统参数（Y-是，N-否）
-     * @type {number}
+     * 
+     * @type {YesNoEnum}
      * @memberof AddConfigInput
      */
-    sysFlag?: number;
+    sysFlag?: YesNoEnum;
     /**
      * 常量所属分类的编码
      * @type {string}
@@ -59,10 +96,4 @@ export interface AddConfigInput {
      * @memberof AddConfigInput
      */
     remark?: string | null;
-    /**
-     * 状态
-     * @type {number}
-     * @memberof AddConfigInput
-     */
-    status?: number;
 }
