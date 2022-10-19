@@ -44,7 +44,6 @@
 								node-key="id"
 								show-checkbox
 								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
-								:default-checked-keys="ownMenuData"
 								highlight-current
 								class="menu-data-tree"
 								icon="ele-Menu"
@@ -81,11 +80,6 @@ export default defineComponent({
 			type: String,
 			default: '',
 		},
-		// 拥有菜单集合
-		ownMenuData: {
-			type: Array,
-			default: () => [],
-		},
 	},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -101,7 +95,7 @@ export default defineComponent({
 				order: 100, // 排序
 				status: 1, // 是否启用
 				remark: '', // 备注
-				menuIdList: [] as any, // 菜单权限
+				menuIdList: [] as any, // 菜单集合
 			},
 			ruleRules: {
 				name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
@@ -116,9 +110,14 @@ export default defineComponent({
 			state.loading = false;
 		});
 		// 打开弹窗
-		const openDialog = (row: any) => {
-			treeRef.value?.setCheckedKeys([]); // 先清空已选择节点
+		const openDialog = async (row: any) => {
 			state.ruleForm = row;
+			if (JSON.stringify(row) !== '{}') {
+				var res = await getAPI(SysRoleApi).sysRoleOwnMenuListGet(row.id);
+				setTimeout(() => {
+					treeRef.value?.setCheckedKeys(res.data.result);
+				}, 100);
+			}
 			state.isShowDialog = true;
 		};
 		// 关闭弹窗

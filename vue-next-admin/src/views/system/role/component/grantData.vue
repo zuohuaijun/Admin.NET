@@ -62,7 +62,6 @@ export default defineComponent({
 			state.ruleForm = row;
 			var res = await getAPI(SysRoleApi).sysRoleOwnOrgGet(row.id);
 			setTimeout(() => {
-				// 延迟传递数据
 				orgTreeRef.value?.setCheckedKeys(res.data.result);
 			}, 100);
 			state.isShowDialog = true;

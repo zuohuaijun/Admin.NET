@@ -71,7 +71,7 @@
 			/>
 		</el-card>
 
-		<EditRole ref="editRoleRef" :title="editRoleTitle" :ownMenuData="ownMenuData" />
+		<EditRole ref="editRoleRef" :title="editRoleTitle" />
 		<GrantData ref="grantDataRef" />
 	</div>
 </template>
@@ -105,7 +105,6 @@ export default defineComponent({
 				total: 0 as any,
 			},
 			editRoleTitle: '',
-			ownMenuData: [] as any,
 		});
 		onMounted(async () => {
 			handleQuery();
@@ -139,11 +138,11 @@ export default defineComponent({
 		// 打开编辑页面
 		const openEditRole = async (row: any) => {
 			state.editRoleTitle = '编辑角色';
-			state.loading = true;
-			var res = await getAPI(SysRoleApi).sysRoleOwnMenuListGet(row.id);
-			state.ownMenuData = res.data.result;
-			state.loading = false;
 			editRoleRef.value.openDialog(row);
+		};
+		// 打开授权数据范围页面
+		const openGrantData = (row: any) => {
+			grantDataRef.value.openDialog(row);
 		};
 		// 删除
 		const delRole = (row: any) => {
@@ -169,10 +168,6 @@ export default defineComponent({
 			state.tableParams.page = val;
 			handleQuery();
 		};
-		// 打开授权数据范围页面
-		const openGrantData = (row: any) => {
-			grantDataRef.value.openDialog(row);
-		};
 		return {
 			handleQuery,
 			resetQuery,
@@ -180,10 +175,10 @@ export default defineComponent({
 			grantDataRef,
 			openAddRole,
 			openEditRole,
+			openGrantData,
 			delRole,
 			handleSizeChange,
 			handleCurrentChange,
-			openGrantData,
 			...toRefs(state),
 		};
 	},

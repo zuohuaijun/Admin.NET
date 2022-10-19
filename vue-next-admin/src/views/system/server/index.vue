@@ -40,7 +40,7 @@
 				</el-card>
 			</el-col>
 			<el-col :md="12" :sm="24">
-				<el-card shadow="hover" header="使用信息">
+				<el-card shadow="hover" header="使用信息" v-loading="loading">
 					<table class="sysInfo_table">
 						<tr>
 							<td class="sysInfo_td">启动时间：</td>
@@ -138,12 +138,10 @@ export default defineComponent({
 			timer: null as any,
 		});
 		onMounted(async () => {
-			state.loading = true;
 			loadMachineBaseInfo();
 			loadMachineUseInfo();
 			loadMachineDiskInfo();
 			loadAssemblyInfo();
-			state.loading = false;
 		});
 		// 服务器配置信息
 		const loadMachineBaseInfo = async () => {
@@ -152,8 +150,10 @@ export default defineComponent({
 		};
 		// 服务器内存信息
 		const loadMachineUseInfo = async () => {
+			state.loading = true;
 			var res = await getAPI(SysServerApi).serverUseGet();
 			state.machineUseInfo = res.data.result;
+			state.loading = false;
 		};
 		// 服务器磁盘信息
 		const loadMachineDiskInfo = async () => {
