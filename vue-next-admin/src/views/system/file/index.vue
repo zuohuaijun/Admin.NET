@@ -50,7 +50,7 @@
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Download" size="small" text type="primary" @click="downloadFile(scope.row)"> 下载 </el-button>
-						<el-button icon="ele-Delete" size="small" text type="primary" @click="delFile(scope.row)"> 删除 </el-button>
+						<el-button icon="ele-Delete" size="small" text type="danger" @click="delFile(scope.row)"> 删除 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>

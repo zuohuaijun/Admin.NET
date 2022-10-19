@@ -106,7 +106,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysDictData/changeStatus")]
-    public async Task ChangeDictDataStatus(ChageStatusDictDataInput input)
+    public async Task ChangeDictDataStatus(DictDataInput input)
     {
         var dictData = await _sysDictDataRep.GetFirstAsync(u => u.Id == input.Id);
         if (dictData == null)

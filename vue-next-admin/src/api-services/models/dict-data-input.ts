@@ -11,16 +11,23 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { StatusEnum } from './status-enum';
 /**
  * 
  * @export
- * @interface QueryeTenantInput
+ * @interface DictDataInput
  */
-export interface QueryeTenantInput {
+export interface DictDataInput {
     /**
      * 主键Id
      * @type {number}
-     * @memberof QueryeTenantInput
+     * @memberof DictDataInput
      */
     id: number;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof DictDataInput
+     */
+    status?: StatusEnum;
 }

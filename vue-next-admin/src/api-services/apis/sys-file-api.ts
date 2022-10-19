@@ -150,7 +150,7 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary 获取文件分页列表
-         * @param {string} [fileName] 原始名称
+         * @param {string} [fileName] 文件名称
          * @param {Date} [startTime] 开始时间
          * @param {Date} [endTime] 结束时间
          * @param {number} [page] 当前页码
@@ -371,7 +371,7 @@ export const SysFileApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取文件分页列表
-         * @param {string} [fileName] 原始名称
+         * @param {string} [fileName] 文件名称
          * @param {Date} [startTime] 开始时间
          * @param {Date} [endTime] 结束时间
          * @param {number} [page] 当前页码
@@ -458,7 +458,7 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary 获取文件分页列表
-         * @param {string} [fileName] 原始名称
+         * @param {string} [fileName] 文件名称
          * @param {Date} [startTime] 开始时间
          * @param {Date} [endTime] 结束时间
          * @param {number} [page] 当前页码
@@ -537,7 +537,7 @@ export class SysFileApi extends BaseAPI {
     /**
      * 
      * @summary 获取文件分页列表
-     * @param {string} [fileName] 原始名称
+     * @param {string} [fileName] 文件名称
      * @param {Date} [startTime] 开始时间
      * @param {Date} [endTime] 结束时间
      * @param {number} [page] 当前页码

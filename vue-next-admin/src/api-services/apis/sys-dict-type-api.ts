@@ -21,8 +21,9 @@ import { AdminResultListSysDictData } from '../models';
 import { AdminResultListSysDictType } from '../models';
 import { AdminResultSqlSugarPagedListSysDictType } from '../models';
 import { AdminResultSysDictType } from '../models';
-import { ChangeStatusDictTypeInput } from '../models';
 import { DeleteDictTypeInput } from '../models';
+import { DictTypeInput } from '../models';
+import { StatusEnum } from '../models';
 import { UpdateDictTypeInput } from '../models';
 /**
  * SysDictTypeApi - axios parameter creator
@@ -74,11 +75,11 @@ export const SysDictTypeApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 
          * @summary 修改字典类型状态
-         * @param {ChangeStatusDictTypeInput} [body] 
+         * @param {DictTypeInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDictTypeChangeStatusPost: async (body?: ChangeStatusDictTypeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysDictTypeChangeStatusPost: async (body?: DictTypeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysDictType/changeStatus`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -202,10 +203,11 @@ export const SysDictTypeApiAxiosParamCreator = function (configuration?: Configu
          * 
          * @summary 获取字典类型详情
          * @param {number} id 主键Id
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDictTypeDetailGet: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysDictTypeDetailGet: async (id: number, status?: StatusEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling sysDictTypeDetailGet.');
@@ -222,6 +224,10 @@ export const SysDictTypeApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+
+            if (status !== undefined) {
+                localVarQueryParameter['Status'] = status;
+            }
 
             if (id !== undefined) {
                 localVarQueryParameter['Id'] = id;
@@ -417,11 +423,11 @@ export const SysDictTypeApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 修改字典类型状态
-         * @param {ChangeStatusDictTypeInput} [body] 
+         * @param {DictTypeInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDictTypeChangeStatusPost(body?: ChangeStatusDictTypeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+        async sysDictTypeChangeStatusPost(body?: DictTypeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
             const localVarAxiosArgs = await SysDictTypeApiAxiosParamCreator(configuration).sysDictTypeChangeStatusPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -460,11 +466,12 @@ export const SysDictTypeApiFp = function(configuration?: Configuration) {
          * 
          * @summary 获取字典类型详情
          * @param {number} id 主键Id
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDictTypeDetailGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysDictType>>> {
-            const localVarAxiosArgs = await SysDictTypeApiAxiosParamCreator(configuration).sysDictTypeDetailGet(id, options);
+        async sysDictTypeDetailGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysDictType>>> {
+            const localVarAxiosArgs = await SysDictTypeApiAxiosParamCreator(configuration).sysDictTypeDetailGet(id, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -539,11 +546,11 @@ export const SysDictTypeApiFactory = function (configuration?: Configuration, ba
         /**
          * 
          * @summary 修改字典类型状态
-         * @param {ChangeStatusDictTypeInput} [body] 
+         * @param {DictTypeInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDictTypeChangeStatusPost(body?: ChangeStatusDictTypeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+        async sysDictTypeChangeStatusPost(body?: DictTypeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
             return SysDictTypeApiFp(configuration).sysDictTypeChangeStatusPost(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -570,11 +577,12 @@ export const SysDictTypeApiFactory = function (configuration?: Configuration, ba
          * 
          * @summary 获取字典类型详情
          * @param {number} id 主键Id
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDictTypeDetailGet(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysDictType>> {
-            return SysDictTypeApiFp(configuration).sysDictTypeDetailGet(id, options).then((request) => request(axios, basePath));
+        async sysDictTypeDetailGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysDictType>> {
+            return SysDictTypeApiFp(configuration).sysDictTypeDetailGet(id, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -635,12 +643,12 @@ export class SysDictTypeApi extends BaseAPI {
     /**
      * 
      * @summary 修改字典类型状态
-     * @param {ChangeStatusDictTypeInput} [body] 
+     * @param {DictTypeInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysDictTypeApi
      */
-    public async sysDictTypeChangeStatusPost(body?: ChangeStatusDictTypeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+    public async sysDictTypeChangeStatusPost(body?: DictTypeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
         return SysDictTypeApiFp(this.configuration).sysDictTypeChangeStatusPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -669,12 +677,13 @@ export class SysDictTypeApi extends BaseAPI {
      * 
      * @summary 获取字典类型详情
      * @param {number} id 主键Id
+     * @param {StatusEnum} [status] 状态
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysDictTypeApi
      */
-    public async sysDictTypeDetailGet(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysDictType>> {
-        return SysDictTypeApiFp(this.configuration).sysDictTypeDetailGet(id, options).then((request) => request(this.axios, this.basePath));
+    public async sysDictTypeDetailGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysDictType>> {
+        return SysDictTypeApiFp(this.configuration).sysDictTypeDetailGet(id, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

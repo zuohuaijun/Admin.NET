@@ -124,7 +124,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysDictType/changeStatus")]
-    public async Task ChangeDictTypeStatus(ChangeStatusDictTypeInput input)
+    public async Task ChangeDictTypeStatus(DictTypeInput input)
     {
         var dictType = await _sysDictTypeRep.GetFirstAsync(u => u.Id == input.Id);
         if (dictType == null)

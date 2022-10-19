@@ -21,8 +21,9 @@ import { AdminResultListSysDictData } from '../models';
 import { AdminResultObject } from '../models';
 import { AdminResultSqlSugarPagedListSysDictData } from '../models';
 import { AdminResultSysDictData } from '../models';
-import { ChageStatusDictDataInput } from '../models';
 import { DeleteDictDataInput } from '../models';
+import { DictDataInput } from '../models';
+import { StatusEnum } from '../models';
 import { UpdateDictDataInput } from '../models';
 /**
  * SysDictDataApi - axios parameter creator
@@ -74,11 +75,11 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 
          * @summary 修改字典值状态
-         * @param {ChageStatusDictDataInput} [body] 
+         * @param {DictDataInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDictDataChangeStatusPost: async (body?: ChageStatusDictDataInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysDictDataChangeStatusPost: async (body?: DictDataInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysDictData/changeStatus`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -157,10 +158,11 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
          * 
          * @summary 获取字典值详情
          * @param {number} id 主键Id
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDictDataDetailGet: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysDictDataDetailGet: async (id: number, status?: StatusEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
                 throw new RequiredError('id','Required parameter id was null or undefined when calling sysDictDataDetailGet.');
@@ -177,6 +179,10 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+
+            if (status !== undefined) {
+                localVarQueryParameter['Status'] = status;
+            }
 
             if (id !== undefined) {
                 localVarQueryParameter['Id'] = id;
@@ -478,11 +484,11 @@ export const SysDictDataApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 修改字典值状态
-         * @param {ChageStatusDictDataInput} [body] 
+         * @param {DictDataInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDictDataChangeStatusPost(body?: ChageStatusDictDataInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+        async sysDictDataChangeStatusPost(body?: DictDataInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
             const localVarAxiosArgs = await SysDictDataApiAxiosParamCreator(configuration).sysDictDataChangeStatusPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -507,11 +513,12 @@ export const SysDictDataApiFp = function(configuration?: Configuration) {
          * 
          * @summary 获取字典值详情
          * @param {number} id 主键Id
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDictDataDetailGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysDictData>>> {
-            const localVarAxiosArgs = await SysDictDataApiAxiosParamCreator(configuration).sysDictDataDetailGet(id, options);
+        async sysDictDataDetailGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysDictData>>> {
+            const localVarAxiosArgs = await SysDictDataApiAxiosParamCreator(configuration).sysDictDataDetailGet(id, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -617,11 +624,11 @@ export const SysDictDataApiFactory = function (configuration?: Configuration, ba
         /**
          * 
          * @summary 修改字典值状态
-         * @param {ChageStatusDictDataInput} [body] 
+         * @param {DictDataInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDictDataChangeStatusPost(body?: ChageStatusDictDataInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+        async sysDictDataChangeStatusPost(body?: DictDataInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
             return SysDictDataApiFp(configuration).sysDictDataChangeStatusPost(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -638,11 +645,12 @@ export const SysDictDataApiFactory = function (configuration?: Configuration, ba
          * 
          * @summary 获取字典值详情
          * @param {number} id 主键Id
+         * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDictDataDetailGet(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysDictData>> {
-            return SysDictDataApiFp(configuration).sysDictDataDetailGet(id, options).then((request) => request(axios, basePath));
+        async sysDictDataDetailGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysDictData>> {
+            return SysDictDataApiFp(configuration).sysDictDataDetailGet(id, status, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -726,12 +734,12 @@ export class SysDictDataApi extends BaseAPI {
     /**
      * 
      * @summary 修改字典值状态
-     * @param {ChageStatusDictDataInput} [body] 
+     * @param {DictDataInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysDictDataApi
      */
-    public async sysDictDataChangeStatusPost(body?: ChageStatusDictDataInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+    public async sysDictDataChangeStatusPost(body?: DictDataInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
         return SysDictDataApiFp(this.configuration).sysDictDataChangeStatusPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -749,12 +757,13 @@ export class SysDictDataApi extends BaseAPI {
      * 
      * @summary 获取字典值详情
      * @param {number} id 主键Id
+     * @param {StatusEnum} [status] 状态
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysDictDataApi
      */
-    public async sysDictDataDetailGet(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysDictData>> {
-        return SysDictDataApiFp(this.configuration).sysDictDataDetailGet(id, options).then((request) => request(this.axios, this.basePath));
+    public async sysDictDataDetailGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysDictData>> {
+        return SysDictDataApiFp(this.configuration).sysDictDataDetailGet(id, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

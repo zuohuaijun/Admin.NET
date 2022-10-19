@@ -14,19 +14,13 @@
 /**
  * 
  * @export
- * @interface ChangeStatusDictTypeInput
+ * @interface TenantInput
  */
-export interface ChangeStatusDictTypeInput {
+export interface TenantInput {
     /**
      * 主键Id
      * @type {number}
-     * @memberof ChangeStatusDictTypeInput
+     * @memberof TenantInput
      */
     id: number;
-    /**
-     * 状态
-     * @type {number}
-     * @memberof ChangeStatusDictTypeInput
-     */
-    status?: number;
 }

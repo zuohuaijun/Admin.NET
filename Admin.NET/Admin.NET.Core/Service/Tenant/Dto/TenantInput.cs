@@ -1,6 +1,10 @@
 ﻿namespace Admin.NET.Core.Service;
 
-public class TenantInput : BasePageInput
+public class TenantInput : BaseIdInput
+{
+}
+
+public class PageTenantInput : BasePageInput
 {
     /// <summary>
     /// 名称
@@ -35,9 +39,5 @@ public class UpdateTenantInput : AddTenantInput
 }
 
 public class DeleteTenantInput : BaseIdInput
-{
-}
-
-public class QueryeTenantInput : BaseIdInput
 {
 }

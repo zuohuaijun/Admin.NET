@@ -4507,11 +4507,6 @@
             <param name="sysFile"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.PageConfigInput">
-            <summary>
-            参数配置分页
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.PageConfigInput.Name">
             <summary>
             名称
@@ -4824,14 +4819,9 @@
             <param name="pid"></param>
             <returns></returns>
         </member>
-        <member name="P:Admin.NET.Core.Service.GetDataDictDataInput.DictTypeId">
+        <member name="P:Admin.NET.Core.Service.DictDataInput.Status">
             <summary>
-            字典类型Id
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.Service.PageDictDataInput">
-            <summary>
-            字典值分页
+            状态
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.PageDictDataInput.DictTypeId">
@@ -4849,69 +4839,9 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.DictTypeId">
+        <member name="P:Admin.NET.Core.Service.GetDataDictDataInput.DictTypeId">
             <summary>
             字典类型Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Value">
-            <summary>
-            值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.DictTypeId">
-            <summary>
-            字典类型Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Value">
-            <summary>
-            值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.ChageStatusDictDataInput.Status">
-            <summary>
-            状态
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.QueryDictDataInput.Code">
@@ -4924,9 +4854,9 @@
             状态
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.PageDictTypeInput">
+        <member name="P:Admin.NET.Core.Service.DictTypeInput.Status">
             <summary>
-            字典类型分页
+            状态
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.PageDictTypeInput.Name">
@@ -4939,64 +4869,9 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.GetDataDictTypeInput.Code">
             <summary>
             编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.ChangeStatusDictTypeInput.Status">
-            <summary>
-            状态
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysDictDataService">
@@ -5045,7 +4920,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.ChangeDictDataStatus(Admin.NET.Core.Service.ChageStatusDictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.ChangeDictDataStatus(Admin.NET.Core.Service.DictDataInput)">
             <summary>
             修改字典值状态
             </summary>
@@ -5125,7 +5000,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.ChangeDictTypeStatus(Admin.NET.Core.Service.ChangeStatusDictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.ChangeDictTypeStatus(Admin.NET.Core.Service.DictTypeInput)">
             <summary>
             修改字典类型状态
             </summary>
@@ -5134,7 +5009,7 @@
         </member>
         <member name="P:Admin.NET.Core.Service.PageFileInput.FileName">
             <summary>
-            原始名称
+            文件名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.PageFileInput.StartTime">
@@ -6336,12 +6211,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.Name">
+        <member name="P:Admin.NET.Core.Service.PageTenantInput.Name">
             <summary>
             名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.Phone">
+        <member name="P:Admin.NET.Core.Service.PageTenantInput.Phone">
             <summary>
             电话
             </summary>
@@ -6361,7 +6236,7 @@
             系统租户管理服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantPage(Admin.NET.Core.Service.TenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantPage(Admin.NET.Core.Service.PageTenantInput)">
             <summary>
             获取租户分页列表
             </summary>
@@ -6395,7 +6270,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenant(Admin.NET.Core.Service.QueryeTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenant(Admin.NET.Core.Service.TenantInput)">
             <summary>
             获取租户详情
             </summary>
@@ -6415,21 +6290,21 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuTree(Admin.NET.Core.Service.QueryeTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuTree(Admin.NET.Core.Service.TenantInput)">
             <summary>
             获取租户管理员角色拥有菜单树
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuList(Admin.NET.Core.Service.QueryeTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuList(Admin.NET.Core.Service.TenantInput)">
             <summary>
             获取租户管理员角色拥有菜单树
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.ResetTenantPwd(Admin.NET.Core.Service.QueryeTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.ResetTenantPwd(Admin.NET.Core.Service.TenantInput)">
             <summary>
             重置租户管理员密码
             </summary>

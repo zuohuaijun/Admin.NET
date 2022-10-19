@@ -22,8 +22,8 @@ import { AdminResultListSysMenu } from '../models';
 import { AdminResultObject } from '../models';
 import { AdminResultSysTenant } from '../models';
 import { DeleteTenantInput } from '../models';
-import { QueryeTenantInput } from '../models';
 import { RoleMenuInput } from '../models';
+import { TenantInput } from '../models';
 import { UpdateTenantInput } from '../models';
 /**
  * SysTenantApi - axios parameter creator
@@ -399,11 +399,11 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @summary 重置租户管理员密码
-         * @param {QueryeTenantInput} [body] 
+         * @param {TenantInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantResetPwdPost: async (body?: QueryeTenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysTenantResetPwdPost: async (body?: TenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysTenant/resetPwd`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -607,11 +607,11 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 重置租户管理员密码
-         * @param {QueryeTenantInput} [body] 
+         * @param {TenantInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantResetPwdPost(body?: QueryeTenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+        async sysTenantResetPwdPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
             const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantResetPwdPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -729,11 +729,11 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @summary 重置租户管理员密码
-         * @param {QueryeTenantInput} [body] 
+         * @param {TenantInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantResetPwdPost(body?: QueryeTenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+        async sysTenantResetPwdPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
             return SysTenantApiFp(configuration).sysTenantResetPwdPost(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -852,12 +852,12 @@ export class SysTenantApi extends BaseAPI {
     /**
      * 
      * @summary 重置租户管理员密码
-     * @param {QueryeTenantInput} [body] 
+     * @param {TenantInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantResetPwdPost(body?: QueryeTenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+    public async sysTenantResetPwdPost(body?: TenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
         return SysTenantApiFp(this.configuration).sysTenantResetPwdPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**

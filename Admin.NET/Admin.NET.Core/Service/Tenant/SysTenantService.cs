@@ -46,7 +46,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/page")]
-    public async Task<dynamic> GetTenantPage([FromQuery] TenantInput input)
+    public async Task<dynamic> GetTenantPage([FromQuery] PageTenantInput input)
     {
         return await _tenantRep.Context.Queryable<SysTenant>()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name.Trim()))
@@ -200,7 +200,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/detail")]
-    public async Task<SysTenant> GetTenant([FromQuery] QueryeTenantInput input)
+    public async Task<SysTenant> GetTenant([FromQuery] TenantInput input)
     {
         return await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
     }
@@ -236,7 +236,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/ownMenu")]
-    public async Task<List<SysMenu>> OwnMenuTree([FromQuery] QueryeTenantInput input)
+    public async Task<List<SysMenu>> OwnMenuTree([FromQuery] TenantInput input)
     {
         var tenantAdminUser = await GetTenantAdminUser(input.Id);
         if (tenantAdminUser == null) return new List<SysMenu>();
@@ -250,7 +250,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/ownMenuList")]
-    public async Task<List<long>> OwnMenuList([FromQuery] QueryeTenantInput input)
+    public async Task<List<long>> OwnMenuList([FromQuery] TenantInput input)
     {
         var tenantAdminUser = await GetTenantAdminUser(input.Id);
         if (tenantAdminUser == null) return new List<long>();
@@ -264,7 +264,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysTenant/resetPwd")]
-    public async Task ResetTenantPwd(QueryeTenantInput input)
+    public async Task ResetTenantPwd(TenantInput input)
     {
         var tenantAdminUser = await GetTenantAdminUser(input.Id);
         tenantAdminUser.Password = MD5Encryption.Encrypt(CommonConst.SysPassword);

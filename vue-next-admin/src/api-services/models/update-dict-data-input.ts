@@ -11,6 +11,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { StatusEnum } from './status-enum';
+import { SysDictType } from './sys-dict-type';
 /**
  * 
  * @export
@@ -18,11 +20,41 @@
  */
 export interface UpdateDictDataInput {
     /**
-     * 主键Id
+     * 雪花Id
      * @type {number}
      * @memberof UpdateDictDataInput
      */
-    id: number;
+    id?: number;
+    /**
+     * 创建时间
+     * @type {Date}
+     * @memberof UpdateDictDataInput
+     */
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof UpdateDictDataInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
+     * @type {number}
+     * @memberof UpdateDictDataInput
+     */
+    createUserId?: number | null;
+    /**
+     * 修改者Id
+     * @type {number}
+     * @memberof UpdateDictDataInput
+     */
+    updateUserId?: number | null;
+    /**
+     * 软删除
+     * @type {boolean}
+     * @memberof UpdateDictDataInput
+     */
+    isDelete?: boolean;
     /**
      * 字典类型Id
      * @type {number}
@@ -30,17 +62,23 @@ export interface UpdateDictDataInput {
      */
     dictTypeId?: number;
     /**
+     * 
+     * @type {SysDictType}
+     * @memberof UpdateDictDataInput
+     */
+    dictType?: SysDictType;
+    /**
      * 值
      * @type {string}
      * @memberof UpdateDictDataInput
      */
-    value?: string | null;
+    value: string;
     /**
      * 编码
      * @type {string}
      * @memberof UpdateDictDataInput
      */
-    code?: string | null;
+    code: string;
     /**
      * 排序
      * @type {number}
@@ -54,9 +92,9 @@ export interface UpdateDictDataInput {
      */
     remark?: string | null;
     /**
-     * 状态
-     * @type {number}
+     * 
+     * @type {StatusEnum}
      * @memberof UpdateDictDataInput
      */
-    status?: number;
+    status?: StatusEnum;
 }

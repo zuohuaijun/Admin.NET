@@ -70,7 +70,6 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-
 		<EditRole ref="editRoleRef" :title="editRoleTitle" />
 		<GrantData ref="grantDataRef" />
 	</div>

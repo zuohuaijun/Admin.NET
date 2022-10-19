@@ -6,13 +6,8 @@ public class FileInput : BaseIdInput
 
 public class PageFileInput : BasePageInput
 {
-    ///// <summary>
-    ///// 仓储名称
-    ///// </summary>
-    //public OSSProvider BucketName { get; set; }
-
     /// <summary>
-    /// 原始名称
+    /// 文件名称
     /// </summary>
     public string FileName { get; set; }
 

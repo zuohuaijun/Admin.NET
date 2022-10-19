@@ -61,7 +61,6 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-
 		<EditTenant ref="editTenantRef" :title="editTenantTitle" />
 		<GrantMenu ref="grantMenuRef" />
 	</div>

@@ -11,22 +11,23 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { StatusEnum } from './status-enum';
 /**
  * 
  * @export
- * @interface ChageStatusDictDataInput
+ * @interface DictTypeInput
  */
-export interface ChageStatusDictDataInput {
+export interface DictTypeInput {
     /**
      * 主键Id
      * @type {number}
-     * @memberof ChageStatusDictDataInput
+     * @memberof DictTypeInput
      */
     id: number;
     /**
-     * 状态
-     * @type {number}
-     * @memberof ChageStatusDictDataInput
+     * 
+     * @type {StatusEnum}
+     * @memberof DictTypeInput
      */
-    status?: number;
+    status?: StatusEnum;
 }

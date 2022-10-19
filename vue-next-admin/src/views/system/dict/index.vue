@@ -1,41 +1,40 @@
 <template>
-	<div class="sys-config-container">
+	<div class="sys-dict-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="配置名称" prop="name">
-					<el-input placeholder="配置名称" clearable @keyup.enter="handleQuery" v-model="queryParams.name" />
+				<el-form-item label="字典名称" prop="name">
+					<el-input placeholder="字典名称" clearable @keyup.enter="handleQuery" v-model="queryParams.name" />
 				</el-form-item>
-				<el-form-item label="配置编码" prop="code">
-					<el-input placeholder="配置编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
+				<el-form-item label="字典编码" prop="code">
+					<el-input placeholder="字典编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
 					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
-					<el-button icon="ele-Plus" @click="openAddConfig"> 新增 </el-button>
+					<el-button icon="ele-Plus" @click="openAddDictType"> 新增 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="configData" style="width: 100%" v-loading="loading" border>
+			<el-table :data="dictTypeData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="name" label="配置名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="code" label="配置编码" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="value" label="属性值" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="sysFlag" label="平台参数" width="100" align="center" show-overflow-tooltip>
+				<el-table-column prop="name" label="字典名称" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="code" label="字典编码" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag v-if="scope.row.sysFlag === 1"> 是 </el-tag>
-						<el-tag type="danger" v-else> 否 </el-tag>
+						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
+						<el-tag type="danger" v-else>禁用</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="groupCode" label="所属分类" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip> </el-table-column>
 				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
-				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="210" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditConfig(scope.row)"> 编辑 </el-button>
-						<el-button icon="ele-Delete" size="small" text type="danger" @click="delConfig(scope.row)"> 删除 </el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditDictType(scope.row)"> 编辑 </el-button>
+						<el-button icon="ele-Memo" size="small" text type="primary" @click="openDictDataDialog(scope.row)"> 字典 </el-button>
+						<el-button icon="ele-Delete" size="small" text type="danger" @click="delDictType(scope.row)"> 删除 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -51,27 +50,30 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditConfig ref="editConfigRef" :title="editConfigTitle" />
+		<EditDictTpye ref="editDictTypeRef" :title="editDictTypeTitle" />
+		<DictDataDialog ref="dictDataDialogRef" />
 	</div>
 </template>
 
 <script lang="ts">
 import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import EditConfig from '/@/views/system/config/component/editConfig.vue';
+import EditDictTpye from '/@/views/system/dict/component/editDictType.vue';
+import DictDataDialog from '/@/views/system/dict/component/dictDataDialog.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysConfigApi } from '/@/api-services';
+import { SysDictTypeApi } from '/@/api-services';
 
 export default defineComponent({
-	name: 'sysConfig',
-	components: { EditConfig },
+	name: 'sysDict',
+	components: { EditDictTpye, DictDataDialog },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-		const editConfigRef = ref();
+		const editDictTypeRef = ref();
+		const dictDataDialogRef = ref();
 		const state = reactive({
 			loading: true,
-			configData: [] as any,
+			dictTypeData: [] as any,
 			queryParams: {
 				name: undefined,
 				code: undefined,
@@ -81,7 +83,7 @@ export default defineComponent({
 				pageSize: 10,
 				total: 0 as any,
 			},
-			editConfigTitle: '',
+			editDictTypeTitle: '',
 		});
 		onMounted(async () => {
 			handleQuery();
@@ -96,8 +98,8 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysConfigApi).sysConfigPageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
-			state.configData = res.data.result?.items;
+			var res = await getAPI(SysDictTypeApi).sysDictTypePageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
+			state.dictTypeData = res.data.result?.items;
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};
@@ -108,24 +110,28 @@ export default defineComponent({
 			handleQuery();
 		};
 		// 打开新增页面
-		const openAddConfig = () => {
-			state.editConfigTitle = '添加配置';
-			editConfigRef.value.openDialog({});
+		const openAddDictType = () => {
+			state.editDictTypeTitle = '添加字典';
+			editDictTypeRef.value.openDialog({});
 		};
 		// 打开编辑页面
-		const openEditConfig = (row: any) => {
-			state.editConfigTitle = '编辑配置';
-			editConfigRef.value.openDialog(row);
+		const openEditDictType = (row: any) => {
+			state.editDictTypeTitle = '编辑字典';
+			editDictTypeRef.value.openDialog(row);
+		};
+		// 打开字典值页面
+		const openDictDataDialog = (row: any) => {
+			dictDataDialogRef.value.openDialog(row);
 		};
 		// 删除
-		const delConfig = (row: any) => {
-			ElMessageBox.confirm(`确定删除配置：【${row.name}】?`, '提示', {
+		const delDictType = (row: any) => {
+			ElMessageBox.confirm(`确定删除字典：【${row.name}】?`, '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysConfigApi).sysConfigDeletePost({ id: row.id });
+					await getAPI(SysDictTypeApi).sysDictTypeDeletePost({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})
@@ -144,10 +150,12 @@ export default defineComponent({
 		return {
 			handleQuery,
 			resetQuery,
-			editConfigRef,
-			openAddConfig,
-			openEditConfig,
-			delConfig,
+			editDictTypeRef,
+			dictDataDialogRef,
+			openAddDictType,
+			openEditDictType,
+			openDictDataDialog,
+			delDictType,
 			handleSizeChange,
 			handleCurrentChange,
 			...toRefs(state),

@@ -5,7 +5,7 @@ public class UserInput : BaseIdInput
     /// <summary>
     /// 状态
     /// </summary>
-    public virtual StatusEnum Status { get; set; }
+    public StatusEnum Status { get; set; }
 }
 
 public class PageUserInput : BasePageInput
