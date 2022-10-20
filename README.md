@@ -1,7 +1,16 @@
-# Admin.NET
+<div align="center"><h1 align="center">Admin.NET</a></h1></div>
+<div align="center"><h3 align="center">有可能是.NET最好用的通用权限开发框架</h3></div>
+
+<div align="center">
+
+[![star](https://gitee.com/zuohuaijun/Admin.NET/badge/star.svg?theme=dark)](https://gitee.com/zuohuaijun/Admin.NET/stargazers)
+[![fork](https://gitee.com/zuohuaijun/Admin.NET/badge/fork.svg?theme=dark)](https://gitee.com/zuohuaijun/Admin.NET/members)
+[![GitHub license](https://img.shields.io/badge/license-Apache2-yellow)](https://gitee.com/dotnetchina/Furion/blob/master/LICENSE)
+
+</div>
 
 #### 🎁 介绍
-基于.NET6(Furion)/SqlSugar实现的通用管理平台，前端Vue3/Element-plus。整合最新技术，模块插件式开发，前后端分离，开箱即用。让.NET开发更简单，更通用，更流行。
+基于.NET6(Furion)/SqlSugar实现的通用权限开发框架，前端Vue3/Element-plus。整合最新技术，模块插件式开发，前后端分离，开箱即用。让.NET开发更简单，更通用，更流行。
 
 
 #### 🍎 大本营
@@ -12,6 +21,11 @@
 #### 📖 使用说明
 1.  支持各种数据库，后台配置文件自行修改（自动生成数据库及种子数据）
 2.  前端运行步骤：1、安装依赖cnpm install 2、运行cnpm run dev 3、打包cnpm run build
+
+
+```
+如果对您有帮助，请点击右上角⭐Star⭐关注 ，感谢支持开源！
+```
 
 
 #### 开发教程 💐 特别鸣谢
