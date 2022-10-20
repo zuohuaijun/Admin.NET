@@ -16,17 +16,11 @@ bin-release/
 # Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
 # should NOT be excluded as they contain compiler settings and other important
 # information for Eclipse / Flash Builder.
-/App/DilonPay/unpackage
-/App/MedicalWaste/unpackage
+/Admin.NET/.vs
+/Admin.NET/packages
 /Admin.NET/Admin.NET.Web.Entry/publish
 /Admin.NET/Admin.NET.Web.Entry/logs
-/Admin.NET/.vs
-/Vben2/yarn.lock
-/Vben2/dist
-/Vben2/node_modules
 /Admin.NET/Admin.NET.Web.Entry/wwwroot/Upload
-/App/MedicalPay/unpackage
-/Admin.NET/packages
 /Admin.NET/Admin.NET.Web.Entry/Properties/PublishProfiles/FolderProfile.pubxml.user
 
 # folders
