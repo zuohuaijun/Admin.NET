@@ -18,14 +18,16 @@ public class AddTimerInput : SysTimer
     public override string TimerName { get; set; }
 }
 
-public class DeleteTimerInput : BaseIdInput
-{
-}
-
+[NotTable]
 public class UpdateTimerInput : AddTimerInput
 {
 }
 
+public class DeleteTimerInput : BaseIdInput
+{
+}
+
+[NotTable]
 public class StopTimerInput : AddTimerInput
 {
 }

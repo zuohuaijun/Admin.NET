@@ -177,7 +177,6 @@ export default defineComponent({
 		onDeactivated(() => {
 			clearInterval(state.timer);
 		});
-
 		return {
 			loadMachineBaseInfo,
 			loadMachineUseInfo,

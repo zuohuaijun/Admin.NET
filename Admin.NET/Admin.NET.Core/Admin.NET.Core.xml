@@ -6338,11 +6338,6 @@
             任务状态
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.TimerMethod">
-            <summary>
-            定时任务方法
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.TimerMethod.MethodName">
             <summary>
             方法名
