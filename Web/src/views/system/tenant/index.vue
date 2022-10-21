@@ -10,8 +10,8 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
-					<el-button icon="ele-Plus" @click="openAddTenant"> 新增 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysTenant:page'"> 查询 </el-button>
+					<el-button icon="ele-Plus" @click="openAddTenant" v-auth="'sysTenant:add'"> 新增 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -31,7 +31,7 @@
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="110" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditTenant(scope.row)"> 编辑 </el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditTenant(scope.row)" v-auth="'sysTenant:update'"> 编辑 </el-button>
 						<el-dropdown>
 							<span style="color: var(--el-color-primary); padding-top: 6px; padding-left: 12px">
 								<el-icon>
@@ -40,9 +40,9 @@
 							</span>
 							<template #dropdown>
 								<el-dropdown-menu>
-									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantMenu(scope.row)"> 授权菜单 </el-dropdown-item>
-									<el-dropdown-item icon="ele-RefreshLeft" @click="resetTenantPwd(scope.row)"> 重置密码 </el-dropdown-item>
-									<el-dropdown-item icon="ele-Delete" @click="delTenant(scope.row)"> 删除租户 </el-dropdown-item>
+									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantMenu(scope.row)" :v-auth="'sysTenant:grantMenu'"> 授权菜单 </el-dropdown-item>
+									<el-dropdown-item icon="ele-RefreshLeft" @click="resetTenantPwd(scope.row)" :v-auth="'sysTenant:resetPwd'"> 重置密码 </el-dropdown-item>
+									<el-dropdown-item icon="ele-Delete" @click="delTenant(scope.row)" :v-auth="'sysTenant:delete'"> 删除租户 </el-dropdown-item>
 								</el-dropdown-menu>
 							</template>
 						</el-dropdown>

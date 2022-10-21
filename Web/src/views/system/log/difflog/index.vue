@@ -10,8 +10,8 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
-					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog"> 清空 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysDifflog:page'"> 查询 </el-button>
+					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysDifflog:clear'"> 清空 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>

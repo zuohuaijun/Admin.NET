@@ -7,8 +7,8 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
-					<el-button icon="ele-Plus" @click="openAddTimer"> 新增 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysTimer:page'"> 查询 </el-button>
+					<el-button icon="ele-Plus" @click="openAddTimer" v-auth="'sysTimer:add'"> 新增 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -65,8 +65,8 @@
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditTimer(scope.row)"> 编辑 </el-button>
-						<el-button icon="ele-Delete" size="small" text type="danger" @click="delTimer(scope.row)"> 删除 </el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditTimer(scope.row)" v-auth="'sysTimer:update'"> 编辑 </el-button>
+						<el-button icon="ele-Delete" size="small" text type="danger" @click="delTimer(scope.row)" v-auth="'sysTimer:delete'"> 删除 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>

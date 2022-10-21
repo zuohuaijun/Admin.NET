@@ -14,7 +14,7 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="reset" size="default">重 置</el-button>
-					<el-button icon="ele-Select" type="primary" @click="submit" size="default">确 定</el-button>
+					<el-button icon="ele-Select" type="primary" @click="submit" size="default" v-auth="'sysPassword:update'">确 定</el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>

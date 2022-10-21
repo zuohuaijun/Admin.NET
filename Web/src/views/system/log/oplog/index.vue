@@ -10,8 +10,8 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
-					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog"> 清空 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysOplog:page'"> 查询 </el-button>
+					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysOplog:clear'"> 清空 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -30,7 +30,7 @@
 				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewDetail(scope.row)">详情 </el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewDetail(scope.row)" v-auth="'sysOplog:page'">详情 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>
