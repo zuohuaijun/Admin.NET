@@ -1,0 +1,10 @@
+﻿namespace Admin.NET.Core;
+
+public class OnlineUserHubOutput
+{
+    public string RealName { get; set; }
+
+    public bool Online { get; set; }
+
+    public List<SysOnlineUser> UserList { get; set; }
+}

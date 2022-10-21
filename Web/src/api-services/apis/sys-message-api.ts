@@ -30,8 +30,8 @@ export const SysMessageApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        emailSendPost: async (message?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/email/send`;
+        sysEmailSendPost: async (message?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysEmail/send`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -244,8 +244,8 @@ export const SysMessageApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async emailSendPost(message?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).emailSendPost(message, options);
+        async sysEmailSendPost(message?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).sysEmailSendPost(message, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -323,8 +323,8 @@ export const SysMessageApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async emailSendPost(message?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysMessageApiFp(configuration).emailSendPost(message, options).then((request) => request(axios, basePath));
+        async sysEmailSendPost(message?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysMessageApiFp(configuration).sysEmailSendPost(message, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -384,8 +384,8 @@ export class SysMessageApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysMessageApi
      */
-    public async emailSendPost(message?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysMessageApiFp(this.configuration).emailSendPost(message, options).then((request) => request(this.axios, this.basePath));
+    public async sysEmailSendPost(message?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysMessageApiFp(this.configuration).sysEmailSendPost(message, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

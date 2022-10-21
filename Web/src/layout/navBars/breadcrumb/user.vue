@@ -6,19 +6,15 @@
 			</div>
 			<template #dropdown>
 				<el-dropdown-menu>
-					<el-dropdown-item command="large" :disabled="disabledSize === 'large'">{{
-					$t('message.user.dropdownLarge') }}</el-dropdown-item>
-					<el-dropdown-item command="default" :disabled="disabledSize === 'default'">{{
-					$t('message.user.dropdownDefault') }}</el-dropdown-item>
-					<el-dropdown-item command="small" :disabled="disabledSize === 'small'">{{
-					$t('message.user.dropdownSmall') }}</el-dropdown-item>
+					<el-dropdown-item command="large" :disabled="disabledSize === 'large'">{{ $t('message.user.dropdownLarge') }}</el-dropdown-item>
+					<el-dropdown-item command="default" :disabled="disabledSize === 'default'">{{ $t('message.user.dropdownDefault') }}</el-dropdown-item>
+					<el-dropdown-item command="small" :disabled="disabledSize === 'small'">{{ $t('message.user.dropdownSmall') }}</el-dropdown-item>
 				</el-dropdown-menu>
 			</template>
 		</el-dropdown>
 		<el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onLanguageChange">
 			<div class="layout-navbars-breadcrumb-user-icon">
-				<i class="iconfont" :class="disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'"
-					:title="$t('message.user.title1')"></i>
+				<i class="iconfont" :class="disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'" :title="$t('message.user.title1')"></i>
 			</div>
 			<template #dropdown>
 				<el-dropdown-menu>
@@ -50,9 +46,13 @@
 				</template>
 			</el-popover>
 		</div>
-		<div class="layout-navbars-breadcrumb-user-icon mr10" @click="onScreenfullClick">
-			<i class="iconfont" :title="isScreenfull ? $t('message.user.title6') : $t('message.user.title5')"
-				:class="!isScreenfull ? 'icon-fullscreen' : 'icon-tuichuquanping'"></i>
+		<div class="layout-navbars-breadcrumb-user-icon" @click="onScreenfullClick">
+			<i class="iconfont" :title="isScreenfull ? $t('message.user.title6') : $t('message.user.title5')" :class="!isScreenfull ? 'icon-fullscreen' : 'icon-tuichuquanping'"></i>
+		</div>
+		<div class="layout-navbars-breadcrumb-user-icon mr10" @click="onOnlineUserClick">
+			<el-icon title="在线用户">
+				<ele-User />
+			</el-icon>
 		</div>
 		<el-dropdown :show-timeout="70" :hide-timeout="50" @command="onHandleCommandClick">
 			<span class="layout-navbars-breadcrumb-user-link">
@@ -74,6 +74,7 @@
 			</template>
 		</el-dropdown>
 		<Search ref="searchRef" />
+		<OnlineUser ref="onlineUserRef" />
 	</div>
 </template>
 
@@ -91,9 +92,13 @@ import { Session, Local } from '/@/utils/storage';
 import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
 import Search from '/@/layout/navBars/breadcrumb/search.vue';
 
+import OnlineUser from '/@/views/system/onlineUser/index.vue';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysAuthApi } from '/@/api-services/api';
+
 export default defineComponent({
 	name: 'layoutBreadcrumbUser',
-	components: { UserNews, Search },
+	components: { UserNews, Search, OnlineUser },
 	setup() {
 		const { t } = useI18n();
 		const { proxy } = <any>getCurrentInstance();
@@ -103,6 +108,7 @@ export default defineComponent({
 		const { userInfos } = storeToRefs(stores);
 		const { themeConfig } = storeToRefs(storesThemeConfig);
 		const searchRef = ref();
+		const onlineUserRef = ref();
 		const state = reactive({
 			isScreenfull: false,
 			disabledI18n: 'zh-cn',
@@ -146,30 +152,27 @@ export default defineComponent({
 					confirmButtonText: t('message.user.logOutConfirm'),
 					cancelButtonText: t('message.user.logOutCancel'),
 					buttonSize: 'default',
-					beforeClose: (action, instance, done) => {
+					beforeClose: async (action, instance, done) => {
 						if (action === 'confirm') {
 							instance.confirmButtonLoading = true;
 							instance.confirmButtonText = t('message.user.logOutExit');
-							setTimeout(() => {
-								done();
-								setTimeout(() => {
-									instance.confirmButtonLoading = false;
-								}, 300);
-							}, 500);
+							await getAPI(SysAuthApi).logoutPost();
+							instance.confirmButtonLoading = false;
+							done();
 						} else {
 							done();
 						}
 					},
 				})
 					.then(async () => {
-						// 清除缓存/token等
+						// 清除缓存 token 等
 						Session.clear();
 						// 使用 reload 时，不需要调用 resetRoute() 重置路由
 						window.location.reload();
 					})
-					.catch(() => { });
+					.catch(() => {});
 			} else if (path === 'wareHouse') {
-				window.open('https://gitee.com/lyt-top/vue-next-admin');
+				window.open('https://gitee.com/zuohuaijun/Admin.NET');
 			} else {
 				router.push(path);
 			}
@@ -177,6 +180,10 @@ export default defineComponent({
 		// 菜单搜索点击
 		const onSearchClick = () => {
 			searchRef.value.openSearch();
+		};
+		// 在线用户列表
+		const onOnlineUserClick = () => {
+			onlineUserRef.value.openDrawer();
 		};
 		// 组件大小改变
 		const onComponentSizeChange = (size: string) => {
@@ -243,9 +250,11 @@ export default defineComponent({
 			onHandleCommandClick,
 			onScreenfullClick,
 			onSearchClick,
+			onOnlineUserClick,
 			onComponentSizeChange,
 			onLanguageChange,
 			searchRef,
+			onlineUserRef,
 			layoutUserFlexNum,
 			...toRefs(state),
 		};

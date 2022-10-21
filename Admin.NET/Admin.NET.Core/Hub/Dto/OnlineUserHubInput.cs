@@ -1,6 +1,6 @@
 ﻿namespace Admin.NET.Core;
 
-public class ChatHubRequest
+public class OnlineUserHubInput
 {
     public string ConnectionId { get; set; }
 }

@@ -1,18 +1,16 @@
 ﻿namespace Admin.NET.Core;
 
-/// <summary>
-/// 聊天客户端接口定义
-/// </summary>
-public interface IChatClient
+public interface IOnlineUserHub
 {
     /// <summary>
     /// 强制下线
     /// </summary>
+    /// <param name="context"></param>
     /// <returns></returns>
-    Task ForceExist(string str);
+    Task ForceOffline(object context);
 
     /// <summary>
-    /// 发送信息
+    /// 接收消息
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
@@ -23,10 +21,10 @@ public interface IChatClient
     /// </summary>
     /// <param name="context"></param>
     /// <returns></returns>
-    Task OnlineUserChanged(OnlineUserChangedDto context);
+    Task OnlineUserChange(OnlineUserHubOutput context);
 
     /// <summary>
-    /// 组合信息
+    /// 组合消息
     /// </summary>
     /// <param name="notice"></param>
     /// <returns></returns>

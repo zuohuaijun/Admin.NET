@@ -24,6 +24,12 @@ export interface SysOnlineUser {
      */
     id?: number;
     /**
+     * 租户Id
+     * @type {number}
+     * @memberof SysOnlineUser
+     */
+    tenantId?: number | null;
+    /**
      * 连接Id
      * @type {string}
      * @memberof SysOnlineUser
@@ -40,41 +46,35 @@ export interface SysOnlineUser {
      * @type {string}
      * @memberof SysOnlineUser
      */
-    account: string;
+    userName: string;
     /**
-     * 姓名
+     * 真实姓名
      * @type {string}
      * @memberof SysOnlineUser
      */
-    name?: string | null;
+    realName?: string | null;
     /**
-     * 最后连接时间
+     * 连接时间
      * @type {Date}
      * @memberof SysOnlineUser
      */
-    lastTime?: Date;
+    time?: Date;
     /**
-     * 最后登录IP
+     * 连接IP
      * @type {string}
      * @memberof SysOnlineUser
      */
-    lastLoginIp?: string | null;
+    ip?: string | null;
     /**
-     * 最后登录浏览器
+     * 浏览器
      * @type {string}
      * @memberof SysOnlineUser
      */
-    lastLoginBrowser?: string | null;
+    browser?: string | null;
     /**
-     * 最后登录所用系统
+     * 操作系统
      * @type {string}
      * @memberof SysOnlineUser
      */
-    lastLoginOs?: string | null;
-    /**
-     * 租户Id
-     * @type {number}
-     * @memberof SysOnlineUser
-     */
-    tenantId?: number;
+    os?: string | null;
 }

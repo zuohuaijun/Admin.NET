@@ -6,6 +6,7 @@ public class DateTimeUtil
     /// 获取开始时间
     /// </summary>
     /// <param name="dateTime"></param>
+    /// <param name="days"></param>
     /// <returns></returns>
     public static DateTime GetBeginTime(DateTime? dateTime, int days = 0)
     {

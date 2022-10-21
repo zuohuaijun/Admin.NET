@@ -6,29 +6,32 @@ namespace Admin.NET.Core.Service;
 /// 系统在线用户服务
 /// </summary>
 [ApiDescriptionSettings(Order = 100)]
-public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController, ITransient
+public class SysOnlineUserService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
-    private readonly IHubContext<ChatHub, IChatClient> _chatHubContext;
+    private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;    
     private readonly SysConfigService _sysConfigService;
+    private readonly IHubContext<OnlineUserHub, IOnlineUserHub> _onlineUserHubContext;
 
     public SysOnlineUserService(SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
-        IHubContext<ChatHub, IChatClient> chatHubContext,
-        SysConfigService sysConfigService)
+        SysConfigService sysConfigService,
+        IHubContext<OnlineUserHub, IOnlineUserHub> onlineUserHubContext)
     {
         _sysOnlineUerRep = sysOnlineUerRep;
-        _chatHubContext = chatHubContext;
         _sysConfigService = sysConfigService;
+        _onlineUserHubContext = onlineUserHubContext;
     }
 
     /// <summary>
-    /// 获取在线用户信息
+    /// 获取在线用户分页列表
     /// </summary>
     /// <returns></returns>
     [HttpGet("/sysOnlineUser/page")]
-    public async Task<dynamic> List([FromQuery] BasePageInput input)
+    public async Task<dynamic> GetOnlineUserPage([FromQuery] PageOnlineUserInput input)
     {
-        return await _sysOnlineUerRep.AsQueryable().ToPagedListAsync(input.Page, input.PageSize);
+        return await _sysOnlineUerRep.AsQueryable()
+            .WhereIF(!string.IsNullOrWhiteSpace(input.UserName), u => u.UserName.Contains(input.UserName))
+            .WhereIF(!string.IsNullOrWhiteSpace(input.RealName), u => u.RealName.Contains(input.RealName))
+            .ToPagedListAsync(input.Page, input.PageSize);
     }
 
     /// <summary>
@@ -36,11 +39,11 @@ public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    [HttpPost("/sysOnlineUser/forceExist")]
+    [HttpPost("/sysOnlineUser/forceOffline")]
     [NonValidation]
-    public async Task ForceExist(SysOnlineUser user)
+    public async Task ForceOffline(SysOnlineUser user)
     {
-        await _chatHubContext.Clients.Client(user.ConnectionId).ForceExist("00000000");
+        await _onlineUserHubContext.Clients.Client(user.ConnectionId).ForceOffline("强制下线");
         await _sysOnlineUerRep.DeleteAsync(user);
     }
 
@@ -51,15 +54,14 @@ public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController
     /// <param name="userIds"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task PushNotice(SysNotice notice, List<long> userIds)
+    public async Task AppendNotice(SysNotice notice, List<long> userIds)
     {
         var userList = await _sysOnlineUerRep.GetListAsync(m => userIds.Contains(m.UserId));
-        if (userList.Any())
+        if (!userList.Any()) return;
+
+        foreach (var item in userList)
         {
-            foreach (var item in userList)
-            {
-                await _chatHubContext.Clients.Client(item.ConnectionId).AppendNotice(notice);
-            }
+            await _onlineUserHubContext.Clients.Client(item.ConnectionId).AppendNotice(notice);
         }
     }
 
@@ -72,10 +74,10 @@ public class SysOnlineUserService : ISysOnlineUserService, IDynamicApiController
     {
         if (await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSingleLogin))
         {
-            var loginUser = await _sysOnlineUerRep.GetFirstAsync(u => u.UserId == userId);
-            if (loginUser == null) return;
+            var user = await _sysOnlineUerRep.GetFirstAsync(u => u.UserId == userId);
+            if (user == null) return;
 
-            await ForceExist(loginUser);
+            await ForceOffline(user);
         }
     }
 }

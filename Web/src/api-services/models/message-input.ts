@@ -37,15 +37,15 @@ export interface MessageInput {
      */
     title?: string | null;
     /**
-     * 消息内容
-     * @type {string}
-     * @memberof MessageInput
-     */
-    message?: string | null;
-    /**
      * 
      * @type {MessageTypeEnum}
      * @memberof MessageInput
      */
     messageType?: MessageTypeEnum;
+    /**
+     * 消息内容
+     * @type {string}
+     * @memberof MessageInput
+     */
+    message?: string | null;
 }

@@ -6,24 +6,23 @@
 [ApiDescriptionSettings(Order = 100)]
 public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysNotice> _sysNoticeRep;
-    private readonly ISysOnlineUserService _sysOnlineUserService;
-
-    private readonly ISysNoticeUserService _sysNoticeUserService;
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
+    private readonly SqlSugarRepository<SysNotice> _sysNoticeRep;
 
+    private readonly SysOnlineUserService _sysOnlineUserService;
+    private readonly ISysNoticeUserService _sysNoticeUserService;
     private readonly IUserManager _userManager;
 
-    public SysNoticeService(SqlSugarRepository<SysNotice> sysNoticeRep,
+    public SysNoticeService(SqlSugarRepository<SysUser> sysUserRep,
+        SqlSugarRepository<SysNotice> sysNoticeRep,
+        SysOnlineUserService sysOnlineUserService,
         ISysNoticeUserService sysNoticeUserService,
-        ISysOnlineUserService sysOnlineUserService,
-        SqlSugarRepository<SysUser> sysUserRep,
         IUserManager userManager)
     {
-        _sysNoticeRep = sysNoticeRep;
-        _sysNoticeUserService = sysNoticeUserService;
-        _sysOnlineUserService = sysOnlineUserService;
         _sysUserRep = sysUserRep;
+        _sysNoticeRep = sysNoticeRep;
+        _sysOnlineUserService = sysOnlineUserService;
+        _sysNoticeUserService = sysNoticeUserService;
         _userManager = userManager;
     }
 
@@ -67,7 +66,7 @@ public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITrans
         await _sysNoticeUserService.Add(newItem.Id, noticeUserIdList, noticeUserStatus);
         if (newItem.Status == NoticeStatusEnum.PUBLIC)
         {
-            await _sysOnlineUserService.PushNotice(newItem, noticeUserIdList);
+            await _sysOnlineUserService.AppendNotice(newItem, noticeUserIdList);
         }
     }
 
@@ -115,7 +114,7 @@ public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITrans
         await _sysNoticeUserService.Update(input.Id, noticeUserIdList, noticeUserStatus);
         if (notice.Status == NoticeStatusEnum.PUBLIC)
         {
-            await _sysOnlineUserService.PushNotice(notice, noticeUserIdList);
+            await _sysOnlineUserService.AppendNotice(notice, noticeUserIdList);
         }
     }
 
@@ -185,7 +184,7 @@ public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITrans
         {
             // 获取通知到的用户
             var noticeUserList = await _sysNoticeUserService.GetNoticeUserListByNoticeId(input.Id);
-            await _sysOnlineUserService.PushNotice(notice, noticeUserList.Select(m => m.UserId).ToList());
+            await _sysOnlineUserService.AppendNotice(notice, noticeUserList.Select(m => m.UserId).ToList());
         }
     }
 

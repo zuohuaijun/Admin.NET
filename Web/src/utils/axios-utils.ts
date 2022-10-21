@@ -20,8 +20,13 @@ export const serveConfig = new Configuration({
 export const accessTokenKey = 'access-token';
 export const refreshAccessTokenKey = `x-${accessTokenKey}`;
 
+// 获取 token
+export const getToken = () => {
+	return Local.get(accessTokenKey);
+};
+
 // 清除 token
-const clearAccessTokens = () => {
+export const clearAccessTokens = () => {
 	Local.remove(accessTokenKey);
 	Local.remove(refreshAccessTokenKey);
 

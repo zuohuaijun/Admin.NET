@@ -18,7 +18,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly SysUserService _sysUserService;
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysMenuService _sysMenuService;
-    private readonly ISysOnlineUserService _sysOnlineUserService;
+    private readonly SysOnlineUserService _sysOnlineUserService;
     private readonly IMemoryCache _cache;
     private readonly ICaptcha _captcha;
 
@@ -30,7 +30,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         SysUserService sysUserService,
         SysUserRoleService sysUserRoleService,
         SysMenuService sysMenuService,
-        ISysOnlineUserService sysOnlineUserService,
+        SysOnlineUserService sysOnlineUserService,
         IMemoryCache cache,
         ICaptcha captcha)
     {
@@ -51,7 +51,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// 登录系统
     /// </summary>
     /// <param name="input"></param>
-    /// <remarks>用户名/密码：vben/123456</remarks>
+    /// <remarks>用户名/密码：superadmin/123456</remarks>
     /// <returns></returns>
     [HttpPost("/login")]
     [AllowAnonymous]
@@ -173,7 +173,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <summary>
     /// 退出系统
     /// </summary>
-    [HttpGet("/logout")]
+    [HttpPost("/logout")]
     public async void Logout()
     {
         var user = _userManager.User;

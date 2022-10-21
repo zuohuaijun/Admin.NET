@@ -12,7 +12,7 @@ public class RedisEventSourceStorer : IEventSourceStorer
 
     private readonly FullRedis _redis;
 
-    private readonly string _topic = "eventbus";
+    // private readonly string _topic = "eventbus";
 
     public RedisEventSourceStorer(ICache redis, int capacity = 10000)
     {

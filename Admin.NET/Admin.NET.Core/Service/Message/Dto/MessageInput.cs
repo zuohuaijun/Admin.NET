@@ -18,12 +18,12 @@ public class MessageInput
     public string Title { get; set; }
 
     /// <summary>
-    /// 消息内容
-    /// </summary>
-    public string Message { get; set; }
-
-    /// <summary>
     /// 消息类型
     /// </summary>
     public MessageTypeEnum MessageType { get; set; }
+
+    /// <summary>
+    /// 消息内容
+    /// </summary>
+    public string Message { get; set; }
 }

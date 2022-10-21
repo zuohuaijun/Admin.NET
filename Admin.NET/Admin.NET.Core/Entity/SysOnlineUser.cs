@@ -4,7 +4,7 @@
 /// 系统在线用户表
 /// </summary>
 [SugarTable("sys_online_user", "系统在线用户表")]
-public class SysOnlineUser : EntityBaseId
+public class SysOnlineUser : EntityTenantId
 {
     /// <summary>
     /// 连接Id
@@ -23,45 +23,39 @@ public class SysOnlineUser : EntityBaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "账号", Length = 32)]
     [Required, MaxLength(32)]
-    public virtual string Account { get; set; }
+    public virtual string UserName { get; set; }
 
     /// <summary>
-    /// 姓名
+    /// 真实姓名
     /// </summary>
-    [SugarColumn(ColumnDescription = "姓名", Length = 32)]
+    [SugarColumn(ColumnDescription = "真实姓名", Length = 32)]
     [MaxLength(32)]
-    public string Name { get; set; }
+    public string RealName { get; set; }
 
     /// <summary>
-    /// 最后连接时间
+    /// 连接时间
     /// </summary>
-    [SugarColumn(ColumnDescription = "最后连接时间")]
-    public DateTime LastTime { get; set; }
+    [SugarColumn(ColumnDescription = "连接时间")]
+    public DateTime Time { get; set; }
 
     /// <summary>
-    /// 最后登录IP
+    /// 连接IP
     /// </summary>
-    [SugarColumn(ColumnDescription = "最后登录IP", Length = 16)]
+    [SugarColumn(ColumnDescription = "连接IP", Length = 16)]
     [MaxLength(16)]
-    public string LastLoginIp { get; set; }
+    public string Ip { get; set; }
 
     /// <summary>
-    /// 最后登录浏览器
+    /// 浏览器
     /// </summary>
-    [SugarColumn(ColumnDescription = "最后登录浏览器", Length = 32)]
-    [MaxLength(32)]
-    public string LastLoginBrowser { get; set; }
+    [SugarColumn(ColumnDescription = "浏览器", Length = 128)]
+    [MaxLength(128)]
+    public string Browser { get; set; }
 
     /// <summary>
-    /// 最后登录所用系统
+    /// 操作系统
     /// </summary>
-    [SugarColumn(ColumnDescription = "最后登录系统", Length = 32)]
-    [MaxLength(32)]
-    public string LastLoginOs { get; set; }
-
-    /// <summary>
-    /// 租户Id
-    /// </summary>
-    [SugarColumn(ColumnDescription = "租户Id")]
-    public long TenantId { get; set; }
+    [SugarColumn(ColumnDescription = "操作系统", Length = 128)]
+    [MaxLength(128)]
+    public string Os { get; set; }
 }

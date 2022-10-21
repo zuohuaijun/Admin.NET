@@ -12,6 +12,7 @@
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.0.6",
 		"@wangeditor/editor": "^5.1.11",
+		"@microsoft/signalr": "^6.0.10",
 		"axios": "^0.27.2",
 		"countup.js": "^2.3.2",
 		"cropperjs": "^1.5.12",

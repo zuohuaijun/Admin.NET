@@ -31,8 +31,8 @@ export const SysOnlineUserApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysOnlineUserForceExistPost: async (body?: SysOnlineUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysOnlineUser/forceExist`;
+        sysOnlineUserForceOfflinePost: async (body?: SysOnlineUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysOnlineUser/forceOffline`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -67,7 +67,9 @@ export const SysOnlineUserApiAxiosParamCreator = function (configuration?: Confi
         },
         /**
          * 
-         * @summary 获取在线用户信息
+         * @summary 获取在线用户分页列表
+         * @param {string} [userName] 账号名称
+         * @param {string} [realName] 真实姓名
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -76,7 +78,7 @@ export const SysOnlineUserApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysOnlineUserPageGet: async (page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysOnlineUserPageGet: async (userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysOnlineUser/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -89,6 +91,14 @@ export const SysOnlineUserApiAxiosParamCreator = function (configuration?: Confi
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+
+            if (userName !== undefined) {
+                localVarQueryParameter['UserName'] = userName;
+            }
+
+            if (realName !== undefined) {
+                localVarQueryParameter['RealName'] = realName;
+            }
 
             if (page !== undefined) {
                 localVarQueryParameter['Page'] = page;
@@ -142,8 +152,8 @@ export const SysOnlineUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserForceExistPost(body?: SysOnlineUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysOnlineUserApiAxiosParamCreator(configuration).sysOnlineUserForceExistPost(body, options);
+        async sysOnlineUserForceOfflinePost(body?: SysOnlineUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysOnlineUserApiAxiosParamCreator(configuration).sysOnlineUserForceOfflinePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -151,7 +161,9 @@ export const SysOnlineUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取在线用户信息
+         * @summary 获取在线用户分页列表
+         * @param {string} [userName] 账号名称
+         * @param {string} [realName] 真实姓名
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -160,8 +172,8 @@ export const SysOnlineUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserPageGet(page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysOnlineUserApiAxiosParamCreator(configuration).sysOnlineUserPageGet(page, pageSize, field, order, descStr, options);
+        async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysOnlineUserApiAxiosParamCreator(configuration).sysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -183,12 +195,14 @@ export const SysOnlineUserApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserForceExistPost(body?: SysOnlineUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysOnlineUserApiFp(configuration).sysOnlineUserForceExistPost(body, options).then((request) => request(axios, basePath));
+        async sysOnlineUserForceOfflinePost(body?: SysOnlineUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysOnlineUserApiFp(configuration).sysOnlineUserForceOfflinePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 获取在线用户信息
+         * @summary 获取在线用户分页列表
+         * @param {string} [userName] 账号名称
+         * @param {string} [realName] 真实姓名
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -197,8 +211,8 @@ export const SysOnlineUserApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserPageGet(page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
-            return SysOnlineUserApiFp(configuration).sysOnlineUserPageGet(page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysOnlineUserApiFp(configuration).sysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -218,12 +232,14 @@ export class SysOnlineUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysOnlineUserApi
      */
-    public async sysOnlineUserForceExistPost(body?: SysOnlineUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysOnlineUserApiFp(this.configuration).sysOnlineUserForceExistPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysOnlineUserForceOfflinePost(body?: SysOnlineUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysOnlineUserApiFp(this.configuration).sysOnlineUserForceOfflinePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 获取在线用户信息
+     * @summary 获取在线用户分页列表
+     * @param {string} [userName] 账号名称
+     * @param {string} [realName] 真实姓名
      * @param {number} [page] 当前页码
      * @param {number} [pageSize] 页码容量
      * @param {string} [field] 排序字段
@@ -233,7 +249,7 @@ export class SysOnlineUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysOnlineUserApi
      */
-    public async sysOnlineUserPageGet(page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
-        return SysOnlineUserApiFp(this.configuration).sysOnlineUserPageGet(page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysOnlineUserApiFp(this.configuration).sysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -7,23 +7,22 @@ namespace Admin.NET.Core.Service;
 /// 系统消息发送服务
 /// </summary>
 [ApiDescriptionSettings(Order = 101)]
-public class SysMessageService : ISysMessageService, IDynamicApiController, ITransient
+public class SysMessageService : IDynamicApiController, ITransient
 {
     private readonly SysCacheService _sysCacheService;
-    private readonly IHubContext<ChatHub, IChatClient> _chatHubContext;
-
     private readonly EmailOptions _emailOptions;
     private readonly IEmailService _emailService;
+    private readonly IHubContext<OnlineUserHub, IOnlineUserHub> _chatHubContext;
 
     public SysMessageService(SysCacheService sysCacheService,
-        IHubContext<ChatHub, IChatClient> chatHubContext,
         IOptions<EmailOptions> emailOptions,
-        IEmailService emailService)
+        IEmailService emailService,
+        IHubContext<OnlineUserHub, IOnlineUserHub> chatHubContext)
     {
         _sysCacheService = sysCacheService;
-        _chatHubContext = chatHubContext;
         _emailOptions = emailOptions.Value;
         _emailService = emailService;
+        _chatHubContext = chatHubContext;
     }
 
     /// <summary>
@@ -97,7 +96,7 @@ public class SysMessageService : ISysMessageService, IDynamicApiController, ITra
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    [HttpPost("/email/send")]
+    [HttpPost("/sysEmail/send")]
     public async Task SendEmail(string message)
     {
         //// 设置发送人邮件地址和名称

@@ -145,7 +145,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 用户名/密码：vben/123456
+         * 用户名/密码：superadmin/123456
          * @summary 登录系统
          * @param {LoginInput} body 
          * @param {*} [options] Override http request option.
@@ -195,7 +195,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        logoutGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        logoutPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/logout`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -203,7 +203,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -361,7 +361,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
             };
         },
         /**
-         * 用户名/密码：vben/123456
+         * 用户名/密码：superadmin/123456
          * @summary 登录系统
          * @param {LoginInput} body 
          * @param {*} [options] Override http request option.
@@ -380,8 +380,8 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async logoutGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).logoutGet(options);
+        async logoutPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).logoutPost(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -453,7 +453,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
             return SysAuthApiFp(configuration).getUserInfoGet(options).then((request) => request(axios, basePath));
         },
         /**
-         * 用户名/密码：vben/123456
+         * 用户名/密码：superadmin/123456
          * @summary 登录系统
          * @param {LoginInput} body 
          * @param {*} [options] Override http request option.
@@ -468,8 +468,8 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async logoutGet(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysAuthApiFp(configuration).logoutGet(options).then((request) => request(axios, basePath));
+        async logoutPost(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysAuthApiFp(configuration).logoutPost(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -533,7 +533,7 @@ export class SysAuthApi extends BaseAPI {
         return SysAuthApiFp(this.configuration).getUserInfoGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
-     * 用户名/密码：vben/123456
+     * 用户名/密码：superadmin/123456
      * @summary 登录系统
      * @param {LoginInput} body 
      * @param {*} [options] Override http request option.
@@ -550,8 +550,8 @@ export class SysAuthApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysAuthApi
      */
-    public async logoutGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysAuthApiFp(this.configuration).logoutGet(options).then((request) => request(this.axios, this.basePath));
+    public async logoutPost(options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysAuthApiFp(this.configuration).logoutPost(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
