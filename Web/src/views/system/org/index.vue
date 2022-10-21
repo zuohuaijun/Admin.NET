@@ -2,7 +2,7 @@
 	<div class="sys-org-container">
 		<el-row :gutter="8" style="width: 100%">
 			<el-col :span="4" :xs="24">
-				<OrgTree @node-click="nodeClick" />
+				<OrgTree ref="orgTreeRef" @node-click="nodeClick" />
 			</el-col>
 
 			<el-col :span="20" :xs="24">
@@ -64,10 +64,11 @@ export default defineComponent({
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const editOrgRef = ref();
+		const orgTreeRef = ref();
 		const state = reactive({
 			loading: true,
-			orgData: [] as any,
-			orgTreeData: [] as any, // 编辑页面上级机构树
+			orgData: [] as any, // 机构列表数据
+			orgTreeData: [] as any, // 机构树所有数据
 			queryParams: {
 				id: -1,
 				name: undefined,
@@ -78,8 +79,15 @@ export default defineComponent({
 		onMounted(() => {
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', () => {
+			proxy.mittBus.on('submitRefresh', async () => {
 				handleQuery();
+
+				// 编辑删除后更新机构数据
+				state.loading = true;
+				var res = await getAPI(SysOrgApi).sysOrgListGet(-1, '', '');
+				state.orgTreeData = res.data.result;
+				state.loading = false;
+				orgTreeRef.value.updateTreeData(state.orgTreeData);
 			});
 		});
 		onUnmounted(() => {
@@ -92,7 +100,8 @@ export default defineComponent({
 			state.orgData = res.data.result;
 			state.loading = false;
 
-			if (state.queryParams.id == -1) state.orgTreeData = state.orgData;
+			// 若无选择节点并且查询条件为空时
+			if (state.queryParams.id == -1 && state.queryParams.name == undefined && state.queryParams.code == undefined) state.orgTreeData = state.orgData;
 		};
 		// 重置操作
 		const resetQuery = () => {
@@ -122,6 +131,7 @@ export default defineComponent({
 					await getAPI(SysOrgApi).sysOrgDeletePost({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
+					proxy.mittBus.emit('submitRefresh');
 				})
 				.catch(() => {});
 		};
@@ -136,6 +146,7 @@ export default defineComponent({
 			handleQuery,
 			resetQuery,
 			editOrgRef,
+			orgTreeRef,
 			openAddOrg,
 			openEditOrg,
 			delOrg,

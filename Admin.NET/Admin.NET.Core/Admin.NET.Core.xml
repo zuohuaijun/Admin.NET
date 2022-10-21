@@ -7193,9 +7193,9 @@
             附加数据
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.AdminResult`1.Timestamp">
+        <member name="P:Admin.NET.Core.AdminResult`1.Time">
             <summary>
-            时间戳
+            时间
             </summary>
         </member>
         <member name="T:Admin.NET.Core.BaseIdInput">

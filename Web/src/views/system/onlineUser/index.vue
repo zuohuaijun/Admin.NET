@@ -21,10 +21,10 @@
 					<el-table-column type="index" label="序号" width="55" align="center" />
 					<el-table-column prop="userName" label="账号" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="realName" label="姓名" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="time" label="登录时间" show-overflow-tooltip></el-table-column>
 					<el-table-column prop="ip" label="IP地址" show-overflow-tooltip> </el-table-column>
 					<el-table-column prop="browser" label="浏览器" show-overflow-tooltip></el-table-column>
-					<el-table-column prop="connectionId" label="连接Id" show-overflow-tooltip></el-table-column>
+					<!-- <el-table-column prop="connectionId" label="连接Id" show-overflow-tooltip></el-table-column> -->
+					<el-table-column prop="time" label="登录时间" show-overflow-tooltip></el-table-column>
 					<el-table-column label="操作" width="70" fixed="right" align="center" show-overflow-tooltip>
 						<template #default="scope">
 							<el-button icon="ele-CircleClose" size="small" text type="danger" v-auth="'sysUser:forceOffline'" @click="forceOffline(scope.row.connectionId)"> 下线 </el-button>
@@ -55,10 +55,6 @@ import * as SignalR from '@microsoft/signalr';
 import { getAPI, getToken, clearAccessTokens } from '/@/utils/axios-utils';
 import { SysOnlineUserApi, SysAuthApi } from '/@/api-services/api';
 
-const reciveMessage = (msg: any) => {
-	console.log('接收消息：', msg);
-};
-
 const state = reactive({
 	loading: false,
 	isVisible: false,
@@ -74,23 +70,51 @@ const state = reactive({
 	onlineUserList: [] as any, // 在线用户列表
 });
 
-const signalrUrl = `${import.meta.env.VITE_API_URL}/hubs/onlineUser`;
 // 初始化SignalR对象
 const connection = new SignalR.HubConnectionBuilder()
 	.configureLogging(SignalR.LogLevel.Information)
-	.withUrl(`${signalrUrl}?access_token=${getToken()}`)
+	.withUrl(`${import.meta.env.VITE_API_URL}/hubs/onlineUser?access_token=${getToken()}`)
 	.withAutomaticReconnect({
-		nextRetryDelayInMilliseconds: () => {
+		nextRetryDelayInMilliseconds: (a) => {
+			console.log(a)
 			return 5000; // 每5秒重连一次
 		},
 	})
 	.build();
 
-connection.keepAliveIntervalInMilliseconds = 15000; // 心跳检测15s
+connection.keepAliveIntervalInMilliseconds = 15 * 1000; // 心跳检测15s
+connection.serverTimeoutInMilliseconds = 30 * 60 * 1000; // 超时时间30m
 
-// 注册web端方法供后端调用
+// 启动连接
+connection.start().then(() => {
+	console.log('启动连接');
+});
+// 断开连接
+connection.onclose(async () => {
+	console.log('断开连接');
+	state.onlineUserList = [];
+});
+// 重连中
+connection.onreconnecting(() => {
+	ElNotification({
+		title: '提示',
+		message: '与服务器重连中...',
+		type: 'error',
+		position: 'bottom-right',
+	});
+});
+// 重连成功
+connection.onreconnected(() => {
+	console.log('重连成功');
+});
+
+const reciveMessage = (msg: any) => {
+	console.log('接收消息：', msg);
+};
+
+// 接收消息
 connection.on('ReceiveMessage', reciveMessage);
-// 强制用户下线
+// 强制下线
 connection.on('ForceOffline', async (data: any) => {
 	console.log('强制下线', data);
 	await connection.stop();
@@ -104,22 +128,10 @@ connection.on('OnlineUserChange', (data: any) => {
 	ElNotification({
 		title: '提示',
 		message: `${data.online ? `【${data.realName}】上线了` : `【${data.realName}】离开了`}`,
-		type: 'info',
+		type: `${data.online ? 'info' : 'error'}`,
 		position: 'bottom-right',
 	});
 });
-
-// 第一次连接成功
-connection.start().then(() => {});
-
-// 连接断开
-connection.onclose(async () => {});
-
-// 掉线重连中
-connection.onreconnecting(() => {});
-
-// 重新连接成功
-connection.onreconnected(() => {});
 
 // 打开页面
 const openDrawer = () => {
