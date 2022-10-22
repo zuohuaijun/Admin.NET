@@ -49,9 +49,9 @@ export interface AdminResultNoticeDetailOutput {
      */
     extras?: any | null;
     /**
-     * 时间戳
-     * @type {number}
+     * 时间
+     * @type {Date}
      * @memberof AdminResultNoticeDetailOutput
      */
-    timestamp?: number;
+    time?: Date;
 }

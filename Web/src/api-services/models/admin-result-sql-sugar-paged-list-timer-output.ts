@@ -49,9 +49,9 @@ export interface AdminResultSqlSugarPagedListTimerOutput {
      */
     extras?: any | null;
     /**
-     * 时间戳
-     * @type {number}
+     * 时间
+     * @type {Date}
      * @memberof AdminResultSqlSugarPagedListTimerOutput
      */
-    timestamp?: number;
+    time?: Date;
 }

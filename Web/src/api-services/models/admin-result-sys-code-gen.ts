@@ -49,9 +49,9 @@ export interface AdminResultSysCodeGen {
      */
     extras?: any | null;
     /**
-     * 时间戳
-     * @type {number}
+     * 时间
+     * @type {Date}
      * @memberof AdminResultSysCodeGen
      */
-    timestamp?: number;
+    time?: Date;
 }

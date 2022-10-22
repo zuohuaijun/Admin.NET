@@ -48,9 +48,9 @@ export interface AdminResultInt64 {
      */
     extras?: any | null;
     /**
-     * 时间戳
-     * @type {number}
+     * 时间
+     * @type {Date}
      * @memberof AdminResultInt64
      */
-    timestamp?: number;
+    time?: Date;
 }

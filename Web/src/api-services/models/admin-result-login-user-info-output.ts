@@ -49,9 +49,9 @@ export interface AdminResultLoginUserInfoOutput {
      */
     extras?: any | null;
     /**
-     * 时间戳
-     * @type {number}
+     * 时间
+     * @type {Date}
      * @memberof AdminResultLoginUserInfoOutput
      */
-    timestamp?: number;
+    time?: Date;
 }

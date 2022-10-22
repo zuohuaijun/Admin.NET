@@ -67,7 +67,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    [HttpGet("/sysCache/remove")]
+    [HttpPost("/sysCache/remove")]
     public void Remove(string key)
     {
         _cache.Remove(key);
@@ -89,7 +89,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="prefixKey">键名前缀</param>
     /// <returns></returns>
-    [HttpGet("/sysCache/delByParentKey")]
+    [HttpPost("/sysCache/delByParentKey")]
     public int RemoveByPrefixKey(string prefixKey)
     {
         var delKeys = _cache.Keys.Where(u => u.StartsWith(prefixKey)).ToArray();

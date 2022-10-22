@@ -49,9 +49,9 @@ export interface AdminResultWeChatPayOutput {
      */
     extras?: any | null;
     /**
-     * 时间戳
-     * @type {number}
+     * 时间
+     * @type {Date}
      * @memberof AdminResultWeChatPayOutput
      */
-    timestamp?: number;
+    time?: Date;
 }

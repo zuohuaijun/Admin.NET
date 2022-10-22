@@ -49,9 +49,9 @@ export interface AdminResultListSysDictType {
      */
     extras?: any | null;
     /**
-     * 时间戳
-     * @type {number}
+     * 时间
+     * @type {Date}
      * @memberof AdminResultListSysDictType
      */
-    timestamp?: number;
+    time?: Date;
 }

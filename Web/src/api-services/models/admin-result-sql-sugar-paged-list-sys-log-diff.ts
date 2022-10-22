@@ -49,9 +49,9 @@ export interface AdminResultSqlSugarPagedListSysLogDiff {
      */
     extras?: any | null;
     /**
-     * 时间戳
-     * @type {number}
+     * 时间
+     * @type {Date}
      * @memberof AdminResultSqlSugarPagedListSysLogDiff
      */
-    timestamp?: number;
+    time?: Date;
 }

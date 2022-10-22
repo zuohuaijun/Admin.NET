@@ -130,7 +130,7 @@ export const SysCacheApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCacheDelByParentKeyGet: async (prefixKey?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysCacheDelByParentKeyPost: async (prefixKey?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysCache/delByParentKey`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -138,7 +138,7 @@ export const SysCacheApiAxiosParamCreator = function (configuration?: Configurat
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -248,7 +248,7 @@ export const SysCacheApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCacheRemoveGet: async (key?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysCacheRemovePost: async (key?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysCache/remove`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -256,7 +256,7 @@ export const SysCacheApiAxiosParamCreator = function (configuration?: Configurat
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -329,8 +329,8 @@ export const SysCacheApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCacheDelByParentKeyGet(prefixKey?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
-            const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).sysCacheDelByParentKeyGet(prefixKey, options);
+        async sysCacheDelByParentKeyPost(prefixKey?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
+            const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).sysCacheDelByParentKeyPost(prefixKey, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -370,8 +370,8 @@ export const SysCacheApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCacheRemoveGet(key?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).sysCacheRemoveGet(key, options);
+        async sysCacheRemovePost(key?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).sysCacheRemovePost(key, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -416,8 +416,8 @@ export const SysCacheApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCacheDelByParentKeyGet(prefixKey?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
-            return SysCacheApiFp(configuration).sysCacheDelByParentKeyGet(prefixKey, options).then((request) => request(axios, basePath));
+        async sysCacheDelByParentKeyPost(prefixKey?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
+            return SysCacheApiFp(configuration).sysCacheDelByParentKeyPost(prefixKey, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -445,8 +445,8 @@ export const SysCacheApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCacheRemoveGet(key?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCacheApiFp(configuration).sysCacheRemoveGet(key, options).then((request) => request(axios, basePath));
+        async sysCacheRemovePost(key?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCacheApiFp(configuration).sysCacheRemovePost(key, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -491,8 +491,8 @@ export class SysCacheApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCacheApi
      */
-    public async sysCacheDelByParentKeyGet(prefixKey?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
-        return SysCacheApiFp(this.configuration).sysCacheDelByParentKeyGet(prefixKey, options).then((request) => request(this.axios, this.basePath));
+    public async sysCacheDelByParentKeyPost(prefixKey?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
+        return SysCacheApiFp(this.configuration).sysCacheDelByParentKeyPost(prefixKey, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -523,7 +523,7 @@ export class SysCacheApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCacheApi
      */
-    public async sysCacheRemoveGet(key?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCacheApiFp(this.configuration).sysCacheRemoveGet(key, options).then((request) => request(this.axios, this.basePath));
+    public async sysCacheRemovePost(key?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCacheApiFp(this.configuration).sysCacheRemovePost(key, options).then((request) => request(this.axios, this.basePath));
     }
 }

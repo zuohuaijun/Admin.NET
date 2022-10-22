@@ -49,9 +49,9 @@ export interface AdminResultSqlSugarPagedListSysDictData {
      */
     extras?: any | null;
     /**
-     * 时间戳
-     * @type {number}
+     * 时间
+     * @type {Date}
      * @memberof AdminResultSqlSugarPagedListSysDictData
      */
-    timestamp?: number;
+    time?: Date;
 }

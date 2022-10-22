@@ -142,11 +142,12 @@ export default defineComponent({
 		onUnmounted(() => {
 			proxy.mittBus.off('submitRefresh');
 		});
-		// 查询机构数据(可以从机构组件里面获取)
+		// 查询机构数据
 		const loadOrgData = async () => {
 			state.loading = true;
 			var res = await getAPI(SysOrgApi).sysOrgListGet(0);
 			state.orgTreeData = res.data.result;
+			orgTreeRef.value.updateTreeData(state.orgTreeData); // 赋值机构树
 			state.loading = false;
 		};
 		// 查询操作

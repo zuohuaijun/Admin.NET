@@ -17,7 +17,6 @@ export * from './apis/sys-code-gen-config-api';
 export * from './apis/sys-config-api';
 export * from './apis/sys-const-api';
 export * from './apis/sys-data-base-api';
-export * from './apis/sys-data-resource-api';
 export * from './apis/sys-dict-data-api';
 export * from './apis/sys-dict-type-api';
 export * from './apis/sys-file-api';

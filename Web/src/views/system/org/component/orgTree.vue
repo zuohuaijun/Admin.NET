@@ -63,7 +63,7 @@ const state = reactive({
 });
 
 onMounted(() => {
-	initTreeData();
+	// initTreeData();
 });
 
 watch(filterText, (val) => {
@@ -121,9 +121,9 @@ const nodeClick = (node: any) => {
 	emits('node-click', { id: node.id, name: node.name });
 };
 
-const orgTreeData = state.orgData; // 异步数据导出不了？
+//const orgTreeData = state.orgData; // 异步数据导出不了？
 // 导出
-defineExpose({ orgTreeData, setCheckedKeys, getCheckedKeys, updateTreeData });
+defineExpose({ setCheckedKeys, getCheckedKeys, updateTreeData });
 </script>
 
 <style scoped>
