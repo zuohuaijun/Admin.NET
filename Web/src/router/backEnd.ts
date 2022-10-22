@@ -1,5 +1,4 @@
 import { RouteRecordRaw } from 'vue-router';
-//import { storeToRefs } from 'pinia';
 import pinia from '/@/stores/index';
 import { useUserInfo } from '/@/stores/userInfo';
 import { useRequestOldRoutes } from '/@/stores/requestOldRoutes';
@@ -9,11 +8,9 @@ import { dynamicRoutes, notFoundAndNoPower } from '/@/router/route';
 import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/index';
 import { useRoutesList } from '/@/stores/routesList';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
-//import { useMenuApi } from '/@/api/menu/index';
-import { getAPI } from '../utils/axios-utils';
-import { SysMenuApi } from '../api-services/apis/sys-menu-api';
 
-//const menuApi = useMenuApi();
+import { getAPI } from '../utils/axios-utils';
+import { SysMenuApi } from '../api-services/api';
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -106,15 +103,6 @@ export async function setAddRoute() {
 export async function getBackEndControlRoutes() {
 	var res = await getAPI(SysMenuApi).getMenuListGet();
 	return res.data.result;
-	
-	// // 模拟 admin 与 test
-	// const stores = useUserInfo(pinia);
-	// const { userInfos } = storeToRefs(stores);
-	// const auth = userInfos.value.roles[0];
-	// // 管理员 admin
-	// if (auth === 'admin') return menuApi.getMenuAdmin();
-	// // 其它用户 test
-	// else return menuApi.getMenuTest();
 }
 
 /**

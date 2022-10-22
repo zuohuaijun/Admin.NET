@@ -27,7 +27,7 @@
 					<el-table-column prop="time" label="登录时间" show-overflow-tooltip></el-table-column>
 					<el-table-column label="操作" width="70" fixed="right" align="center" show-overflow-tooltip>
 						<template #default="scope">
-							<el-button icon="ele-CircleClose" size="small" text type="danger" v-auth="'sysUser:forceOffline'" @click="forceOffline(scope.row.connectionId)"> 下线 </el-button>
+							<el-button icon="ele-CircleClose" size="small" text type="danger" v-auth="'sysUser:forceOffline'" @click="forceOffline(scope.row)"> 下线 </el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -49,7 +49,7 @@
 
 <script setup lang="ts">
 import { reactive } from 'vue';
-import { ElNotification } from 'element-plus';
+import { ElMessageBox, ElNotification } from 'element-plus';
 import * as SignalR from '@microsoft/signalr';
 
 import { getAPI, getToken, clearAccessTokens } from '/@/utils/axios-utils';
@@ -151,10 +151,18 @@ const resetQuery = () => {
 	handleQuery();
 };
 // 强制下线
-const forceOffline = async (connectionId: any) => {
-	await connection.send('ForceOffline', { connectionId }).catch(function (err) {
-		console.log(err);
-	});
+const forceOffline = async (row: any) => {
+	ElMessageBox.confirm(`确定踢掉账号：【${row.realName}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await connection.send('ForceOffline', { connectionId: row.connectionId }).catch(function (err) {
+				console.log(err);
+			});
+		})
+		.catch(() => {});
 };
 // 改变页面容量
 const handleSizeChange = (val: number) => {

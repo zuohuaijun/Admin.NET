@@ -4,11 +4,11 @@
 			<template #header>
 				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">授权数据范围</div>
 			</template>
-			<el-form :model="ruleForm" size="default" label-width="80px">
+			<el-form :model="ruleForm" size="default" label-width="0">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24">
 						<el-form-item prop="orgIdList">
-							<OrgTree ref="orgTreeRef" />
+							<OrgTree ref="orgTreeRef" style="width: 100%" />
 						</el-form-item>
 					</el-col>
 				</el-row>

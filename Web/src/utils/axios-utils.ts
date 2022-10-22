@@ -6,10 +6,11 @@
  */
 
 import globalAxios, { AxiosInstance } from 'axios';
-import { Configuration } from '/@/api-services';
-import { BaseAPI, BASE_PATH } from '/@/api-services/base';
+import { Configuration } from '../api-services';
+import { BaseAPI, BASE_PATH } from '../api-services/base';
+
 import { ElMessage } from 'element-plus';
-import { Local, Session } from '/@/utils/storage';
+import { Local, Session } from '../utils/storage';
 
 // 接口服务器配置
 export const serveConfig = new Configuration({

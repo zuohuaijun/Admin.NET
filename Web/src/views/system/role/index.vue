@@ -50,8 +50,8 @@
 							</span>
 							<template #dropdown>
 								<el-dropdown-menu>
-									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantData(scope.row)" :v-auth="'sysRole:grantData'"> 数据范围 </el-dropdown-item>
-									<el-dropdown-item icon="ele-Delete" @click="delRole(scope.row)" :v-auth="'sysRole:delete'"> 删除角色 </el-dropdown-item>
+									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantData(scope.row)" :disabled="!auth('sysRole:grantData')"> 数据范围 </el-dropdown-item>
+									<el-dropdown-item icon="ele-Delete" @click="delRole(scope.row)" divided :disabled="!auth('sysRole:delete')"> 删除角色 </el-dropdown-item>
 								</el-dropdown-menu>
 							</template>
 						</el-dropdown>
@@ -78,6 +78,7 @@
 <script lang="ts">
 import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import { auth } from '/@/utils/authFunction';
 import EditRole from '/@/views/system/role/component/editRole.vue';
 import GrantData from '/@/views/system/role/component/grantData.vue';
 
@@ -178,6 +179,7 @@ export default defineComponent({
 			delRole,
 			handleSizeChange,
 			handleCurrentChange,
+			auth,
 			...toRefs(state),
 		};
 	},

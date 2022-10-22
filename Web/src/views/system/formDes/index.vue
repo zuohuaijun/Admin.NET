@@ -1,5 +1,5 @@
 <template>
-	<div class="sys-formDesign-container">
+	<div class="sys-formDes-container">
 		<v-form-designer ref="vFormDesignRef"></v-form-designer>
 	</div>
 </template>
@@ -8,7 +8,7 @@
 import { toRefs, reactive, defineComponent, ref } from 'vue';
 
 export default defineComponent({
-	name: 'sysFormDesign',
+	name: 'sysFormDes',
 	components: {},
 	setup() {
 		const vFormDesignRef = ref(null);
