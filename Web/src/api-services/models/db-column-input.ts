@@ -14,61 +14,67 @@
 /**
  * 
  * @export
- * @interface DbColumnInfoInput
+ * @interface DbColumnInput
  */
-export interface DbColumnInfoInput {
+export interface DbColumnInput {
     /**
      * 
      * @type {string}
-     * @memberof DbColumnInfoInput
+     * @memberof DbColumnInput
+     */
+    configId?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DbColumnInput
      */
     tableName?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof DbColumnInfoInput
+     * @memberof DbColumnInput
      */
     dbColumnName?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof DbColumnInfoInput
+     * @memberof DbColumnInput
      */
     dataType?: string | null;
     /**
      * 
      * @type {number}
-     * @memberof DbColumnInfoInput
+     * @memberof DbColumnInput
      */
     length?: number;
     /**
      * 
      * @type {string}
-     * @memberof DbColumnInfoInput
+     * @memberof DbColumnInput
      */
     columnDescription?: string | null;
     /**
      * 
      * @type {number}
-     * @memberof DbColumnInfoInput
+     * @memberof DbColumnInput
      */
     isNullable?: number;
     /**
      * 
      * @type {number}
-     * @memberof DbColumnInfoInput
+     * @memberof DbColumnInput
      */
     isIdentity?: number;
     /**
      * 
      * @type {number}
-     * @memberof DbColumnInfoInput
+     * @memberof DbColumnInput
      */
     isPrimarykey?: number;
     /**
      * 
      * @type {number}
-     * @memberof DbColumnInfoInput
+     * @memberof DbColumnInput
      */
     decimalDigits?: number;
 }

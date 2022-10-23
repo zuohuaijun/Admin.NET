@@ -14,19 +14,25 @@
 /**
  * 
  * @export
- * @interface DeleteTableInput
+ * @interface DeleteDbColumnInput
  */
-export interface DeleteTableInput {
+export interface DeleteDbColumnInput {
     /**
      * 
      * @type {string}
-     * @memberof DeleteTableInput
+     * @memberof DeleteDbColumnInput
      */
     configId?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof DeleteTableInput
+     * @memberof DeleteDbColumnInput
      */
-    name?: string | null;
+    tableName?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof DeleteDbColumnInput
+     */
+    dbColumnName?: string | null;
 }

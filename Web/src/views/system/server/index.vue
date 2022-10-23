@@ -172,7 +172,7 @@ export default defineComponent({
 		onActivated(() => {
 			state.timer = setInterval(() => {
 				refreshData();
-			}, 5000);
+			}, 10000);
 		});
 		onDeactivated(() => {
 			clearInterval(state.timer);

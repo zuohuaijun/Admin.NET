@@ -11,47 +11,46 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { DbColumnInfoOutput } from './db-column-info-output';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultListDbColumnInfoOutput
+ * @interface AdminResultListObject
  */
-export interface AdminResultListDbColumnInfoOutput {
+export interface AdminResultListObject {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultListDbColumnInfoOutput
+     * @memberof AdminResultListObject
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultListDbColumnInfoOutput
+     * @memberof AdminResultListObject
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultListDbColumnInfoOutput
+     * @memberof AdminResultListObject
      */
     message?: string | null;
     /**
      * 数据
-     * @type {Array<DbColumnInfoOutput>}
-     * @memberof AdminResultListDbColumnInfoOutput
+     * @type {Array<any>}
+     * @memberof AdminResultListObject
      */
-    result?: Array<DbColumnInfoOutput> | null;
+    result?: Array<any> | null;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultListDbColumnInfoOutput
+     * @memberof AdminResultListObject
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultListDbColumnInfoOutput
+     * @memberof AdminResultListObject
      */
     time?: Date;
 }

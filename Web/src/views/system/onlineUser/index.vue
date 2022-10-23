@@ -95,6 +95,7 @@ connection.onclose(async () => {
 });
 // 重连中
 connection.onreconnecting(() => {
+	state.onlineUserList = [];
 	ElNotification({
 		title: '提示',
 		message: '与服务器重连中...',

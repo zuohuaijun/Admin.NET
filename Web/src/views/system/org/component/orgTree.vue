@@ -56,14 +56,14 @@ const filterText = ref('');
 const treeRef = ref<InstanceType<typeof ElTree>>();
 
 const state = reactive({
-	loading: true,
+	loading: false,
 	orgData: [] as any,
 	isShowCheckbox: false,
 	ownOrgData: [],
 });
 
 onMounted(() => {
-	// initTreeData();
+	initTreeData();
 });
 
 watch(filterText, (val) => {
@@ -123,7 +123,7 @@ const nodeClick = (node: any) => {
 
 //const orgTreeData = state.orgData; // 异步数据导出不了？
 // 导出
-defineExpose({ setCheckedKeys, getCheckedKeys, updateTreeData });
+defineExpose({ initTreeData, updateTreeData, setCheckedKeys, getCheckedKeys });
 </script>
 
 <style scoped>

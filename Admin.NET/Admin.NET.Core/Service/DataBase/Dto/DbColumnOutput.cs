@@ -1,6 +1,6 @@
 ﻿namespace Admin.NET.Core.Service;
 
-public class DbColumnInfoOutput
+public class DbColumnOutput
 {
     public string TableName { get; set; }
 
@@ -11,6 +11,8 @@ public class DbColumnInfoOutput
     public string PropertyName { get; set; }
 
     public string DataType { get; set; }
+
+    public object PropertyType { get; set; }
 
     public int Length { get; set; }
 
@@ -32,5 +34,11 @@ public class DbColumnInfoOutput
 
     public bool IsArray { get; set; }
 
-    internal bool IsJson { get; set; }
+    public bool IsJson { get; set; }
+
+    public bool? IsUnsigned { get; set; }
+
+    public int CreateTableFieldSort { get; set; }
+
+    internal object SqlParameterDbType { get; set; }
 }

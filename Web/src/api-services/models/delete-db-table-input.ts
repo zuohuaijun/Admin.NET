@@ -14,31 +14,19 @@
 /**
  * 
  * @export
- * @interface EditTableInput
+ * @interface DeleteDbTableInput
  */
-export interface EditTableInput {
+export interface DeleteDbTableInput {
     /**
      * 
      * @type {string}
-     * @memberof EditTableInput
+     * @memberof DeleteDbTableInput
      */
     configId?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof EditTableInput
+     * @memberof DeleteDbTableInput
      */
-    name?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof EditTableInput
-     */
-    oldName?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof EditTableInput
-     */
-    description?: string | null;
+    tableName?: string | null;
 }

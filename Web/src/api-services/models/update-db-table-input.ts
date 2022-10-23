@@ -14,37 +14,31 @@
 /**
  * 
  * @export
- * @interface CreateEntityInput
+ * @interface UpdateDbTableInput
  */
-export interface CreateEntityInput {
+export interface UpdateDbTableInput {
     /**
-     * 表名
+     * 
      * @type {string}
-     * @memberof CreateEntityInput
+     * @memberof UpdateDbTableInput
+     */
+    configId?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateDbTableInput
      */
     tableName?: string | null;
     /**
-     * 实体名
+     * 
      * @type {string}
-     * @memberof CreateEntityInput
+     * @memberof UpdateDbTableInput
      */
-    entityName?: string | null;
+    oldTableName?: string | null;
     /**
-     * 基类名
+     * 
      * @type {string}
-     * @memberof CreateEntityInput
+     * @memberof UpdateDbTableInput
      */
-    baseClassName?: string | null;
-    /**
-     * 导出位置
-     * @type {string}
-     * @memberof CreateEntityInput
-     */
-    position?: string | null;
-    /**
-     * 库标识
-     * @type {string}
-     * @memberof CreateEntityInput
-     */
-    configId?: string | null;
+    description?: string | null;
 }

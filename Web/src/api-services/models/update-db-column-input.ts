@@ -11,35 +11,40 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { DbColumnInfoInput } from './db-column-info-input';
 /**
  * 
  * @export
- * @interface DbTableInfoInput
+ * @interface UpdateDbColumnInput
  */
-export interface DbTableInfoInput {
+export interface UpdateDbColumnInput {
     /**
      * 
      * @type {string}
-     * @memberof DbTableInfoInput
+     * @memberof UpdateDbColumnInput
      */
     configId?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof DbTableInfoInput
+     * @memberof UpdateDbColumnInput
      */
-    name?: string | null;
+    tableName?: string | null;
     /**
      * 
      * @type {string}
-     * @memberof DbTableInfoInput
+     * @memberof UpdateDbColumnInput
      */
-    description?: string | null;
+    columnName?: string | null;
     /**
      * 
-     * @type {Array<DbColumnInfoInput>}
-     * @memberof DbTableInfoInput
+     * @type {string}
+     * @memberof UpdateDbColumnInput
      */
-    dbColumnInfoList?: Array<DbColumnInfoInput> | null;
+    oldColumnName?: string | null;
+    /**
+     * 
+     * @type {string}
+     * @memberof UpdateDbColumnInput
+     */
+    description?: string | null;
 }

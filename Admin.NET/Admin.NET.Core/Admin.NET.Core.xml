@@ -4561,105 +4561,111 @@
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.TableName">
-             <summary>
-            
-             </summary>
-             <example>student</example>
+            <summary>
+            表名
+            </summary>
+            <example>student</example>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.EntityName">
-             <summary>
-            
-             </summary>
-             <example>Student</example>
+            <summary>
+            实体名
+            </summary>
+            <example>Student</example>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.BaseClassName">
-             <summary>
-            
-             </summary>
-             <example>AutoIncrementEntity</example>
+            <summary>
+            基类名
+            </summary>
+            <example>AutoIncrementEntity</example>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.Position">
-             <summary>
-            
-             </summary>
-             <example>Magic.Application</example>
+            <summary>
+            导出位置
+            </summary>
+            <example>Web.Application</example>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.ConfigId">
-             <summary>
-            
-             </summary>
+            <summary>
+            库标识
+            </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysDataBaseService">
+        <member name="T:Admin.NET.Core.Service.SysDatabaseService">
             <summary>
             系统数据库管理服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.ColumnAdd(Admin.NET.Core.Service.DbColumnInfoInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetDbList">
             <summary>
-            添加列
+            获取库列表
             </summary>
-            <param name="input"></param>
+            <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.ColumnDelete(Admin.NET.Core.Service.DbColumnInfoOutput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetColumnList(System.String,System.String)">
             <summary>
-            删除列
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.ColumnEdit(Admin.NET.Core.Service.EditColumnInput)">
-            <summary>
-            编辑列
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetColumnInfosByTableName(System.String,System.String)">
-            <summary>
-            获取表字段
+            获取字段列表
             </summary>
             <param name="tableName">表名</param>
             <param name="configId">ConfigId</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetTableInfoList(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.AddColumn(Admin.NET.Core.Service.DbColumnInput)">
             <summary>
-            获取表信息
+            增加列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.DeleteColumn(Admin.NET.Core.Service.DeleteDbColumnInput)">
+            <summary>
+            删除列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.UpdateColumn(Admin.NET.Core.Service.UpdateDbColumnInput)">
+            <summary>
+            编辑列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetTableList(System.String)">
+            <summary>
+            获取表列表
             </summary>
             <param name="configId">ConfigId</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.TableAdd(Admin.NET.Core.Service.DbTableInfoInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.AddTable(Admin.NET.Core.Service.DbTableInput)">
             <summary>
-            新增表
+            增加表
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.TableDelete(Admin.NET.Core.Service.DeleteTableInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.DeleteTable(Admin.NET.Core.Service.DeleteDbTableInput)">
             <summary>
             删除表
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.TableEdit(Admin.NET.Core.Service.EditTableInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.UpdateTable(Admin.NET.Core.Service.UpdateDbTableInput)">
             <summary>
             编辑表
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.CreateEntity(Admin.NET.Core.Service.CreateEntityInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.CreateEntity(Admin.NET.Core.Service.CreateEntityInput)">
             <summary>
             创建实体
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetTemplatePath">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetEntityTemplatePath">
             <summary>
-            获取模板文件路径集合
+            获取实体模板文件路径
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetTargetPath(Admin.NET.Core.Service.CreateEntityInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetEntityTargetPath(Admin.NET.Core.Service.CreateEntityInput)">
             <summary>
-            设置生成文件路径
+            设置生成实体文件路径
             </summary>
             <param name="input"></param>
             <returns></returns>

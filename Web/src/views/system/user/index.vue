@@ -147,7 +147,7 @@ export default defineComponent({
 			state.loading = true;
 			var res = await getAPI(SysOrgApi).sysOrgListGet(0);
 			state.orgTreeData = res.data.result;
-			orgTreeRef.value.updateTreeData(state.orgTreeData); // 赋值机构树
+			// orgTreeRef.value.updateTreeData(state.orgTreeData); // 赋值机构树
 			state.loading = false;
 		};
 		// 查询操作
