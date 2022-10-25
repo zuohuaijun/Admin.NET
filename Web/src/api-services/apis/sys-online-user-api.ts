@@ -16,7 +16,7 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { AdminResultObject } from '../models';
+import { AdminResultSqlSugarPagedListSysOnlineUser } from '../models';
 import { SysOnlineUser } from '../models';
 /**
  * SysOnlineUserApi - axios parameter creator
@@ -172,7 +172,7 @@ export const SysOnlineUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+        async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysOnlineUser>>> {
             const localVarAxiosArgs = await SysOnlineUserApiAxiosParamCreator(configuration).sysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -211,7 +211,7 @@ export const SysOnlineUserApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+        async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysOnlineUser>> {
             return SysOnlineUserApiFp(configuration).sysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
     };
@@ -249,7 +249,7 @@ export class SysOnlineUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysOnlineUserApi
      */
-    public async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+    public async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysOnlineUser>> {
         return SysOnlineUserApiFp(this.configuration).sysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
 }

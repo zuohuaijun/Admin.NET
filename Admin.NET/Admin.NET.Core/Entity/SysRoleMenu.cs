@@ -22,5 +22,6 @@ public class SysRoleMenu : EntityBaseId
     /// 菜单
     /// </summary>
     [SugarColumn(IsIgnore = true)]
+    [Navigate(NavigateType.OneToOne, nameof(MenuId))]
     public SysMenu SysMenu { get; set; }
 }

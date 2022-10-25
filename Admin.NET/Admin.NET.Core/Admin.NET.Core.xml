@@ -117,7 +117,7 @@
             用户Id
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.ClaimConst.UserName">
+        <member name="F:Admin.NET.Core.ClaimConst.Account">
             <summary>
             账号
             </summary>
@@ -127,9 +127,14 @@
             真实姓名
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.ClaimConst.SuperAdmin">
+        <member name="F:Admin.NET.Core.ClaimConst.NickName">
             <summary>
-            是否超级管理
+            昵称
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ClaimConst.AccountType">
+            <summary>
+            账号类型
             </summary>
         </member>
         <member name="F:Admin.NET.Core.ClaimConst.TenantId">
@@ -147,19 +152,9 @@
             组织机构名称
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.ClaimConst.OrgLevel">
-            <summary>
-            组织机构级别
-            </summary>
-        </member>
         <member name="F:Admin.NET.Core.ClaimConst.OpenId">
             <summary>
             微信OpenId
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.ClaimConst.NickName">
-            <summary>
-            昵称
             </summary>
         </member>
         <member name="F:Admin.NET.Core.ClaimConst.RunMode">
@@ -1127,11 +1122,6 @@
             状态
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysOrg.Level">
-            <summary>
-            级别 例如：省、市、县、区
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.SysOrg.Children">
             <summary>
             机构子项
@@ -1368,14 +1358,19 @@
             系统用户表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.UserName">
+        <member name="P:Admin.NET.Core.SysUser.Account">
             <summary>
             账号
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysUser.Password">
             <summary>
-            账号密码（MD5加密）
+            密码（MD5加密）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.RealName">
+            <summary>
+            真实姓名
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysUser.NickName">
@@ -1388,19 +1383,24 @@
             头像
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.Birthday">
-            <summary>
-            出生日期
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.SysUser.Sex">
             <summary>
             性别-男_1、女_2
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.Email">
+        <member name="P:Admin.NET.Core.SysUser.Age">
             <summary>
-            邮箱
+            年龄
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Birthday">
+            <summary>
+            出生日期
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Nation">
+            <summary>
+            民族
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysUser.Phone">
@@ -1408,19 +1408,59 @@
             手机号码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.RealName">
+        <member name="P:Admin.NET.Core.SysUser.CardType">
             <summary>
-            真实姓名
+            证件类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.IdCard">
+        <member name="P:Admin.NET.Core.SysUser.IdCardNum">
             <summary>
             身份证号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.Signature">
+        <member name="P:Admin.NET.Core.SysUser.Email">
             <summary>
-            个性签名
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.CultureLevel">
+            <summary>
+            文化程度
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.PoliticalOutlook">
+            <summary>
+            政治面貌
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.College">
+            <summary>
+            毕业院校
+            </summary>COLLEGE
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.OfficePhone">
+            <summary>
+            办公电话
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.EmergencyContact">
+            <summary>
+            紧急联系人
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.EmergencyPhone">
+            <summary>
+            紧急联系人电话
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.EmergencyAddress">
+            <summary>
+            紧急联系人地址
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysUser.Introduction">
@@ -1428,9 +1468,24 @@
             个人简介
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.UserType">
+        <member name="P:Admin.NET.Core.SysUser.Order">
             <summary>
-            账号类型-超级管理员_1、管理员_2、普通_3
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.AccountType">
+            <summary>
+            账号类型
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysUser.OrgId">
@@ -1458,79 +1513,79 @@
             工号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.JobStatus">
+        <member name="P:Admin.NET.Core.SysUser.PosLevel">
             <summary>
-            岗位状态
+            职级
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.Order">
+        <member name="P:Admin.NET.Core.SysUser.JoinDate">
             <summary>
-            排序
+            入职日期
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.Status">
+        <member name="P:Admin.NET.Core.SysUser.LastLoginIp">
             <summary>
-            状态
+            最新登录Ip
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.Remark">
+        <member name="P:Admin.NET.Core.SysUser.LastLoginAddress">
             <summary>
-            备注
+            最新登录地点
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.SysUserExtOrgPos">
+        <member name="P:Admin.NET.Core.SysUser.LastLoginTime">
             <summary>
-            系统用户附属机构职位表
+            最新登录时间
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUserExtOrgPos.UserId">
+        <member name="P:Admin.NET.Core.SysUser.LastLoginDevice">
+            <summary>
+            最新登录设备
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysUserExtOrg">
+            <summary>
+            系统用户扩展机构表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUserExtOrg.UserId">
             <summary>
             用户Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUserExtOrgPos.SysUser">
-            <summary>
-            用户
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysUserExtOrgPos.OrgId">
+        <member name="P:Admin.NET.Core.SysUserExtOrg.OrgId">
             <summary>
             机构Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUserExtOrgPos.SysOrg">
+        <member name="P:Admin.NET.Core.SysUserExtOrg.SysOrg">
             <summary>
             机构
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUserExtOrgPos.PosId">
+        <member name="P:Admin.NET.Core.SysUserExtOrg.PosId">
             <summary>
             职位Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUserExtOrgPos.SysPos">
+        <member name="P:Admin.NET.Core.SysUserExtOrg.SysPos">
             <summary>
             职位
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.SysUserOrg">
+        <member name="P:Admin.NET.Core.SysUserExtOrg.JobNum">
             <summary>
-            系统用户机构表
+            工号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUserOrg.UserId">
+        <member name="P:Admin.NET.Core.SysUserExtOrg.PosLevel">
             <summary>
-            用户Id
+            职级
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUserOrg.OrgId">
+        <member name="P:Admin.NET.Core.SysUserExtOrg.JoinDate">
             <summary>
-            机构Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysUserOrg.SysOrg">
-            <summary>
-            机构
+            入职日期
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysUserRole">
@@ -1688,7 +1743,7 @@
             关联系统用户Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.SysPos">
+        <member name="P:Admin.NET.Core.WeChatUser.SysUser">
             <summary>
             关联系统用户
             </summary>
@@ -1768,6 +1823,31 @@
             过期时间
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.AccountTypeEnum">
+            <summary>
+            账号类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.AccountTypeEnum.None">
+            <summary>
+            游客
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.AccountTypeEnum.User">
+            <summary>
+            普通账号
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.AccountTypeEnum.Admin">
+            <summary>
+            管理员
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.AccountTypeEnum.SuperAdmin">
+            <summary>
+            超级管理员
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.CacheTypeEnum">
             <summary>
             缓存类型枚举
@@ -1788,12 +1868,22 @@
             证件类型枚举
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CardTypeEnum.IDCard">
+        <member name="F:Admin.NET.Core.CardTypeEnum.IdCard">
             <summary>
             身份证
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CardTypeEnum.GATCard">
+        <member name="F:Admin.NET.Core.CardTypeEnum.PassportCard">
+            <summary>
+            护照
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CardTypeEnum.BirthCard">
+            <summary>
+            出生证
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CardTypeEnum.GatCard">
             <summary>
             港澳台通行证
             </summary>
@@ -1801,6 +1891,51 @@
         <member name="F:Admin.NET.Core.CardTypeEnum.ForeignCard">
             <summary>
             外国人居留证
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.CultureLevelEnum">
+            <summary>
+            文化程度枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CultureLevelEnum.Level1">
+            <summary>
+            小学
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CultureLevelEnum.Level2">
+            <summary>
+            初中
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CultureLevelEnum.Level3">
+            <summary>
+            高中
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CultureLevelEnum.Level4">
+            <summary>
+            中专
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CultureLevelEnum.Level5">
+            <summary>
+            大专
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CultureLevelEnum.Level6">
+            <summary>
+            本科
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CultureLevelEnum.Level7">
+            <summary>
+            硕士研究生
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CultureLevelEnum.Level8">
+            <summary>
+            博士研究生
             </summary>
         </member>
         <member name="T:Admin.NET.Core.DataOpTypeEnum">
@@ -2581,31 +2716,6 @@
         <member name="F:Admin.NET.Core.StatusEnum.Disable">
             <summary>
             停用
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.UserTypeEnum">
-            <summary>
-            账号类型枚举
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.UserTypeEnum.Admin">
-            <summary>
-            管理员
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.UserTypeEnum.User">
-            <summary>
-            普通账号
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.UserTypeEnum.None">
-            <summary>
-            游客
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.UserTypeEnum.SuperAdmin">
-            <summary>
-            超级管理员
             </summary>
         </member>
         <member name="T:Admin.NET.Core.WeChatReturnCodeEnum">
@@ -3494,17 +3604,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.SysEmpExtOrgPosSeedData">
-            <summary>
-            系统用户附属机构职位表种子数据
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SysEmpExtOrgPosSeedData.HasData">
-            <summary>
-            种子数据
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:Admin.NET.Core.SysMenuSeedData">
             <summary>
             系统菜单表种子数据
@@ -3571,12 +3670,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.SysUserOrgSeedData">
+        <member name="T:Admin.NET.Core.SysUserExtOrgSeedData">
             <summary>
-            系统用户机构表种子数据
+            系统用户扩展机构表种子数据
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.SysUserOrgSeedData.HasData">
+        <member name="M:Admin.NET.Core.SysUserExtOrgSeedData.HasData">
             <summary>
             种子数据
             </summary>
@@ -3609,9 +3708,9 @@
             用户登录参数
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginInput.UserName">
+        <member name="P:Admin.NET.Core.Service.LoginInput.Account">
             <summary>
-            用户名
+            账号
             </summary>
             <example>admin</example>
         </member>
@@ -3636,17 +3735,7 @@
             用户登录结果
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginOutput.UserId">
-            <summary>
-            用户Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.LoginOutput.RoleInfo">
-            <summary>
-            角色
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.LoginOutput.Token">
+        <member name="P:Admin.NET.Core.Service.LoginOutput.AccessToken">
             <summary>
             令牌Token
             </summary>
@@ -3656,72 +3745,50 @@
             刷新Token
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.LoginUserInfoOutput">
+        <member name="T:Admin.NET.Core.Service.LoginUserOutput">
             <summary>
             用户登录信息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.UserId">
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.UserId">
             <summary>
             用户Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Username">
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.Account">
             <summary>
             账号名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.RealName">
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.RealName">
             <summary>
             真实姓名
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Avatar">
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.Avatar">
             <summary>
             头像
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Desc">
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.Introduction">
             <summary>
             个人简介
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.OrgId">
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.OrgId">
             <summary>
             机构Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.OrgName">
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.OrgName">
             <summary>
             机构名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.OrgLevel">
-            <summary>
-            机构级别
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Roles">
-            <summary>
-            角色集合
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserInfoOutput.Buttons">
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.Buttons">
             <summary>
             按钮权限集合
             </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.LoginRole.RoleName">
-            <summary>
-            角色名称
-            </summary>
-            <example>admin</example>
-        </member>
-        <member name="P:Admin.NET.Core.Service.LoginRole.Value">
-            <summary>
-            角色编码
-            </summary>
-            <example>123456</example>
         </member>
         <member name="T:Admin.NET.Core.Service.SysAuthService">
             <summary>
@@ -5639,13 +5706,6 @@
             系统机构服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOrgService.GetUserOrgList(System.Int64)">
-            <summary>
-            获取用户拥有机构信息列表
-            </summary>
-            <param name="userId">用户id</param>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysOrgService.GetOrgList(Admin.NET.Core.Service.OrgInput)">
             <summary>
             获取机构列表
@@ -6241,34 +6301,29 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.OrgId">
+        <member name="P:Admin.NET.Core.Service.UserExtOrgInput.OrgId">
             <summary>
             机构Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.OrgCode">
-            <summary>
-            机构编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.OrgName">
-            <summary>
-            机构名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.PosId">
+        <member name="P:Admin.NET.Core.Service.UserExtOrgInput.PosId">
             <summary>
             职位Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.PosCode">
+        <member name="P:Admin.NET.Core.Service.UserExtOrgInput.JobNum">
             <summary>
-            职位编码
+            工号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.UserExtOrgPosOutput.PosName">
+        <member name="P:Admin.NET.Core.Service.UserExtOrgInput.PosLevel">
             <summary>
-            职位名称
+            职级
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.UserExtOrgInput.JoinDate">
+            <summary>
+            入职日期
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.UserInput.Status">
@@ -6276,9 +6331,14 @@
             状态
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.PageUserInput.UserName">
+        <member name="P:Admin.NET.Core.Service.PageUserInput.Account">
             <summary>
             账号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageUserInput.RealName">
+            <summary>
+            姓名
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.PageUserInput.Phone">
@@ -6288,12 +6348,12 @@
         </member>
         <member name="P:Admin.NET.Core.Service.PageUserInput.OrgId">
             <summary>
-            机构Id
+            查询时所选机构Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.AddUserInput.UserName">
+        <member name="P:Admin.NET.Core.Service.AddUserInput.Account">
             <summary>
-            账号名称
+            账号
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.AddUserInput.RealName">
@@ -6303,12 +6363,17 @@
         </member>
         <member name="P:Admin.NET.Core.Service.AddUserInput.Password">
             <summary>
-            账号密码
+            账号
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.AddUserInput.RoleIdList">
             <summary>
-            角色Id集合
+            角色集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddUserInput.ExtOrgIdList">
+            <summary>
+            扩展机构集合
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.DeleteUserInput.OrgId">
@@ -6326,29 +6391,14 @@
             新密码
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.UserOrgInput">
-            <summary>
-            授权用户机构
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserOrgInput.OrgId">
-            <summary>
-            机构Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UserOrgInput.OrgIdList">
-            <summary>
-            机构Id集合
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.Service.UserRoleInput">
             <summary>
             授权用户角色
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.UserRoleInput.OrgId">
+        <member name="P:Admin.NET.Core.Service.UserRoleInput.UserId">
             <summary>
-            机构Id
+            用户Id
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.UserRoleInput.RoleIdList">
@@ -6356,84 +6406,52 @@
             角色Id集合
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysUserExtOrgPosService">
+        <member name="T:Admin.NET.Core.Service.SysUserExtOrgService">
             <summary>
-            系统用户附属机构职位服务
+            系统用户扩展机构服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.AddOrUpdate(System.Int64,System.Collections.Generic.List{Admin.NET.Core.Service.UserExtOrgPosOutput})">
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgService.GetUserExtOrgList(System.Int64)">
             <summary>
-            保存或编辑附属机构信息
-            </summary>
-            <param name="userId"></param>
-            <param name="extIdList"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.GetEmpExtOrgPosList(System.Int64)">
-            <summary>
-            根据用户Id获取附属机构和职位信息
+            获取用户扩展机构集合
             </summary>
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.HasExtOrgEmp(System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgService.UpdateUserExtOrg(System.Int64,System.Collections.Generic.List{Admin.NET.Core.SysUserExtOrg})">
             <summary>
-            根据附属机构Id判断是否有用户
-            </summary>
-            <param name="orgId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.HasExtPosEmp(System.Int64)">
-            <summary>
-            根据附属职位Id判断是否有用户
-            </summary>
-            <param name="posId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysUserExtOrgPosService.DeleteEmpExtByUserId(System.Int64)">
-            <summary>
-            根据用户Id删除用户附属
+            更新用户扩展机构
             </summary>
             <param name="userId"></param>
+            <param name="extOrgList"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysUserOrgService">
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgService.DeleteUserExtOrgByOrgIdList(System.Collections.Generic.List{System.Int64})">
             <summary>
-            系统用户机构服务
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysUserOrgService.GrantUserOrg(Admin.NET.Core.Service.UserOrgInput)">
-            <summary>
-            授权用户所属机构
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysUserOrgService.GetUserOrgIdList(System.Int64)">
-            <summary>
-            根据用户Id获取机构Id集合
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysUserOrgService.DeleteUserOrgByOrgIdList(System.Collections.Generic.List{System.Int64})">
-            <summary>
-            根据机构Id集合删除用户机构
+            根据机构Id集合删除扩展机构
             </summary>
             <param name="orgIdList"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserOrgService.DeleteUserOrgByUserId(System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgService.DeleteUserExtOrgByUserId(System.Int64)">
             <summary>
-            根据用户Id删除用户机构
+            根据用户Id删除扩展机构
             </summary>
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserOrgService.AddUserOrg(Admin.NET.Core.SysUserOrg)">
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgService.HasUserOrg(System.Int64)">
             <summary>
-            增加用户机构
+            根据机构Id判断是否有用户
             </summary>
+            <param name="orgId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserExtOrgService.HasUserPos(System.Int64)">
+            <summary>
+            根据职位Id判断是否有用户
+            </summary>
+            <param name="posId"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.SysUserRoleService">
@@ -6495,9 +6513,9 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateUserRole(Admin.NET.Core.Service.AddUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateRoleAndExtOrg(Admin.NET.Core.Service.AddUserInput)">
             <summary>
-            更新用户角色
+            更新角色和扩展机构
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6536,13 +6554,6 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GrantUserOrg(Admin.NET.Core.Service.UserOrgInput)">
-            <summary>
-            授权用户机构
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysUserService.ChangeUserPwd(Admin.NET.Core.Service.ChangePwdInput)">
             <summary>
             修改用户密码
@@ -6557,32 +6568,18 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOwnRole(Admin.NET.Core.Service.UserInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOwnRole(System.Int64)">
             <summary>
             获取用户拥有角色
             </summary>
-            <param name="input"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOwnOrg(Admin.NET.Core.Service.UserInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOrgList(System.Int64)">
             <summary>
-            获取用户拥有机构
+            获取用户扩展机构
             </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOrgIdList">
-            <summary>
-            获取当前用户机构列表权限
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.CheckDataScope(System.Int64)">
-            <summary>
-            检查用户数据范围
-            当有多个机构时，在登录时选择一个组织，所以组织Id/OrgId从前端传过来
-            </summary>
-            <param name="orgId"></param>
+            <param name="userId"></param>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.GenAuthUrlInput.RedirectUrl">
@@ -6782,7 +6779,7 @@
         </member>
         <member name="T:Admin.NET.Core.UserManager">
             <summary>
-            用户管理
+            当前登录用户
             </summary>
         </member>
         <member name="M:Admin.NET.Core.UserManager.CheckUserAsync(System.Int64)">

@@ -6,29 +6,23 @@
 [ApiDescriptionSettings(Order = 199)]
 public class SysUserService : IDynamicApiController, ITransient
 {
+    private readonly UserManager _userManager;
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
-    private readonly IUserManager _userManager;
-    private readonly SysCacheService _sysCacheService;
     private readonly SysOrgService _sysOrgService;
-    private readonly SysUserOrgService _sysUserOrgService;
+    private readonly SysUserExtOrgService _sysUserExtOrgService;
     private readonly SysUserRoleService _sysUserRoleService;
-    private readonly SysUserExtOrgPosService _sysUserExtOrgPosService;
 
-    public SysUserService(SqlSugarRepository<SysUser> sysUserRep,
-        IUserManager userManager,
-        SysCacheService sysCacheService,
+    public SysUserService(UserManager userManager,
+        SqlSugarRepository<SysUser> sysUserRep,
         SysOrgService sysOrgService,
-        SysUserOrgService sysUserOrgService,
-        SysUserRoleService sysUserRoleService,
-        SysUserExtOrgPosService sysUserExtOrgPosService)
+        SysUserExtOrgService sysUserExtOrgService,
+        SysUserRoleService sysUserRoleService)
     {
-        _sysUserRep = sysUserRep;
         _userManager = userManager;
+        _sysUserRep = sysUserRep;
         _sysOrgService = sysOrgService;
-        _sysUserOrgService = sysUserOrgService;
+        _sysUserExtOrgService = sysUserExtOrgService;
         _sysUserRoleService = sysUserRoleService;
-        _sysCacheService = sysCacheService;
-        _sysUserExtOrgPosService = sysUserExtOrgPosService;
     }
 
     /// <summary>
@@ -40,12 +34,13 @@ public class SysUserService : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<SysUser>> GetUserPage([FromQuery] PageUserInput input)
     {
         var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) :
-            _userManager.SuperAdmin ? null : await _sysOrgService.GetChildIdListWithSelfById(_userManager.User.OrgId);
+            _userManager.SuperAdmin ? null : await _sysOrgService.GetChildIdListWithSelfById(_userManager.OrgId);
 
         return await _sysUserRep.AsQueryable()
-            .WhereIF(!_userManager.SuperAdmin, u => u.UserType != UserTypeEnum.SuperAdmin)
+            .WhereIF(!_userManager.SuperAdmin, u => u.AccountType != AccountTypeEnum.SuperAdmin)
             .WhereIF(orgList != null, u => orgList.Contains(u.OrgId))
-            .WhereIF(!string.IsNullOrWhiteSpace(input.UserName), u => u.UserName.Contains(input.UserName))
+            .WhereIF(!string.IsNullOrWhiteSpace(input.Account), u => u.Account.Contains(input.Account))
+            .WhereIF(!string.IsNullOrWhiteSpace(input.RealName), u => u.RealName.Contains(input.RealName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
             .OrderBy(u => u.Order)
             .ToPagedListAsync(input.Page, input.PageSize);
@@ -57,35 +52,29 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysUser/add")]
+    [UnitOfWork]
     public async Task AddUser(AddUserInput input)
     {
-        CheckDataScope(input.OrgId); // 数据范围检查
-
-        var isExist = await _sysUserRep.IsAnyAsync(u => u.UserName == input.UserName);
+        var isExist = await _sysUserRep.IsAnyAsync(u => u.Account == input.Account);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1003);
 
         var user = input.Adapt<SysUser>();
         user.Password = MD5Encryption.Encrypt(CommonConst.SysPassword);
         input.Id = (await _sysUserRep.AsInsertable(user).ExecuteReturnEntityAsync()).Id;
 
-        await UpdateUserRole(input);
+        await UpdateRoleAndExtOrg(input);
     }
 
     /// <summary>
-    /// 更新用户角色
+    /// 更新角色和扩展机构
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    private async Task UpdateUserRole(AddUserInput input)
+    private async Task UpdateRoleAndExtOrg(AddUserInput input)
     {
-        if (input.RoleIdList == null || input.RoleIdList.Count < 1)
-            return;
-        await GrantUserRole(new UserRoleInput()
-        {
-            Id = input.Id,
-            OrgId = input.OrgId,
-            RoleIdList = input.RoleIdList
-        });
+        await GrantUserRole(new UserRoleInput { UserId = input.Id, RoleIdList = input.RoleIdList });
+
+        await _sysUserExtOrgService.UpdateUserExtOrg(input.Id, input.ExtOrgIdList);
     }
 
     /// <summary>
@@ -94,17 +83,16 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysUser/update")]
+    [UnitOfWork]
     public async Task UpdateUser(UpdateUserInput input)
     {
-        CheckDataScope(input.OrgId); // 数据范围检查
-
-        var isExist = await _sysUserRep.IsAnyAsync(u => u.UserName == input.UserName && u.Id != input.Id);
+        var isExist = await _sysUserRep.IsAnyAsync(u => u.Account == input.Account && u.Id != input.Id);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1003);
 
         await _sysUserRep.AsUpdateable(input.Adapt<SysUser>()).IgnoreColumns(true)
-            .IgnoreColumns(u => new { u.UserType, u.Password, u.Status }).ExecuteCommandAsync();
+            .IgnoreColumns(u => new { u.AccountType, u.Password, u.Status }).ExecuteCommandAsync();
 
-        await UpdateUserRole(input);
+        await UpdateRoleAndExtOrg(input);
     }
 
     /// <summary>
@@ -113,30 +101,24 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysUser/delete")]
+    [UnitOfWork]
     public async Task DeleteUser(DeleteUserInput input)
     {
-        CheckDataScope(input.OrgId); // 数据范围检查
-
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
         if (user == null)
             throw Oops.Oh(ErrorCodeEnum.D1002);
-        if (user.UserType == UserTypeEnum.SuperAdmin)
+        if (user.AccountType == AccountTypeEnum.SuperAdmin)
             throw Oops.Oh(ErrorCodeEnum.D1014);
-        //if (user.UserType == UserTypeEnum.Admin)
-        //    throw Oops.Oh(ErrorCodeEnum.D1018);
         if (user.Id == _userManager.UserId)
             throw Oops.Oh(ErrorCodeEnum.D1001);
 
         await _sysUserRep.DeleteAsync(user);
 
-        //// 删除用户-附属机构职位信息
-        await _sysUserExtOrgPosService.DeleteEmpExtByUserId(input.Id);
-
-        //删除用户-角色关联信息
+        // 删除用户角色
         await _sysUserRoleService.DeleteUserRoleByUserId(input.Id);
 
-        //删除用户-机构关联信息
-        await _sysUserOrgService.DeleteUserOrgByUserId(input.Id);
+        // 删除用户扩展机构
+        await _sysUserExtOrgService.DeleteUserExtOrgByUserId(input.Id);
     }
 
     /// <summary>
@@ -158,7 +140,7 @@ public class SysUserService : IDynamicApiController, ITransient
     public async Task<int> SetUserStatus(UserInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
-        if (user.UserType == UserTypeEnum.SuperAdmin)
+        if (user.AccountType == AccountTypeEnum.SuperAdmin)
             throw Oops.Oh(ErrorCodeEnum.D1015);
 
         if (!Enum.IsDefined(typeof(StatusEnum), input.Status))
@@ -177,29 +159,11 @@ public class SysUserService : IDynamicApiController, ITransient
     [HttpPost("/sysUser/grantRole")]
     public async Task GrantUserRole(UserRoleInput input)
     {
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
-        if (user.UserType == UserTypeEnum.SuperAdmin)
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.UserId);
+        if (user.AccountType == AccountTypeEnum.SuperAdmin)
             throw Oops.Oh(ErrorCodeEnum.D1022);
 
-        //if (user.UserType == UserTypeEnum.Admin)
-        //    throw Oops.Oh(ErrorCodeEnum.D1008);
-
-        CheckDataScope(input.OrgId); // 数据范围检查
         await _sysUserRoleService.GrantUserRole(input);
-    }
-
-    /// <summary>
-    /// 授权用户机构
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    [HttpPost("/sysUser/grantOrg")]
-    public async Task GrantUserOrg(UserOrgInput input)
-    {
-        _sysCacheService.Remove(CacheConst.KeyOrgIdList + $"{input.Id}"); // 清除缓存
-
-        CheckDataScope(input.OrgId); // 数据范围检查
-        await _sysUserOrgService.GrantUserOrg(input);
     }
 
     /// <summary>
@@ -233,48 +197,22 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <summary>
     /// 获取用户拥有角色
     /// </summary>
-    /// <param name="input"></param>
+    /// <param name="userId"></param>
     /// <returns></returns>
-    [HttpGet("/sysUser/ownRole")]
-    public async Task<List<long>> GetUserOwnRole([FromQuery] UserInput input)
+    [HttpGet("/sysUser/ownRole/{userId}")]
+    public async Task<List<long>> GetUserOwnRole(long userId)
     {
-        return await _sysUserRoleService.GetUserRoleIdList(input.Id);
+        return await _sysUserRoleService.GetUserRoleIdList(userId);
     }
 
     /// <summary>
-    /// 获取用户拥有机构
+    /// 获取用户扩展机构
     /// </summary>
-    /// <param name="input"></param>
+    /// <param name="userId"></param>
     /// <returns></returns>
-    [HttpGet("/sysUser/ownOrg")]
-    public async Task<List<long>> GetUserOwnOrg([FromQuery] UserInput input)
+    [HttpGet("/sysUser/ownOrg/{userId}")]
+    public async Task<List<SysUserExtOrg>> GetUserOrgList(long userId)
     {
-        return await _sysUserOrgService.GetUserOrgIdList(input.Id);
-    }
-
-    /// <summary>
-    /// 获取当前用户机构列表权限
-    /// </summary>
-    /// <returns></returns>
-    [NonAction]
-    public async Task<List<long>> GetUserOrgIdList()
-    {
-        return await _sysOrgService.GetUserOrgIdList();
-    }
-
-    /// <summary>
-    /// 检查用户数据范围
-    /// 当有多个机构时，在登录时选择一个组织，所以组织Id/OrgId从前端传过来
-    /// </summary>
-    /// <param name="orgId"></param>
-    /// <returns></returns>
-    private async void CheckDataScope(long orgId)
-    {
-        if (!_userManager.SuperAdmin)
-        {
-            var dataScopes = await GetUserOrgIdList();
-            if (!dataScopes.Any(u => u == orgId))
-                throw Oops.Oh(ErrorCodeEnum.D1013);
-        }
+        return await _sysUserExtOrgService.GetUserExtOrgList(userId);
     }
 }

@@ -49,14 +49,15 @@ import { toRefs, reactive, onMounted, defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysLogDiffApi } from '/@/api-services';
+import { SysLogDiffApi } from '/@/api-services/api';
+import { SysLogDiff } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysDiffLog',
 	components: {},
 	setup() {
 		const state = reactive({
-			loading: true,
+			loading: false,
 			queryParams: {
 				startTime: undefined,
 				endTime: undefined,
@@ -66,7 +67,7 @@ export default defineComponent({
 				pageSize: 10,
 				total: 0 as any,
 			},
-			logData: [] as any,
+			logData: [] as Array<SysLogDiff>,
 		});
 		onMounted(async () => {
 			handleQuery();
@@ -77,7 +78,7 @@ export default defineComponent({
 			if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
 			state.loading = true;
 			var res = await getAPI(SysLogDiffApi).sysLogDiffPageGet(state.queryParams.startTime, state.queryParams.endTime, state.tableParams.page, state.tableParams.pageSize);
-			state.logData = res.data.result?.items;
+			state.logData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};

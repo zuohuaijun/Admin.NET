@@ -20,10 +20,12 @@ public class SysUserRoleService : ITransient
     [UnitOfWork]
     public async Task GrantUserRole(UserRoleInput input)
     {
-        await _sysUserRoleRep.DeleteAsync(u => u.UserId == input.Id);
+        await _sysUserRoleRep.DeleteAsync(u => u.UserId == input.UserId);
+
+        if (input.RoleIdList == null || input.RoleIdList.Count < 1) return;
         var roles = input.RoleIdList.Select(u => new SysUserRole
         {
-            UserId = input.Id,
+            UserId = input.UserId,
             RoleId = u
         }).ToList();
         await _sysUserRoleRep.InsertRangeAsync(roles);

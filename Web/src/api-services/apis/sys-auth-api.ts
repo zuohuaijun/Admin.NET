@@ -17,7 +17,7 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AdminResultLoginOutput } from '../models';
-import { AdminResultLoginUserInfoOutput } from '../models';
+import { AdminResultLoginUserOutput } from '../models';
 import { AdminResultObject } from '../models';
 import { AdminResultString } from '../models';
 import { LoginInput } from '../models';
@@ -353,7 +353,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserInfoGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultLoginUserInfoOutput>>> {
+        async getUserInfoGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultLoginUserOutput>>> {
             const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).getUserInfoGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -449,7 +449,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getUserInfoGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultLoginUserInfoOutput>> {
+        async getUserInfoGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultLoginUserOutput>> {
             return SysAuthApiFp(configuration).getUserInfoGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -529,7 +529,7 @@ export class SysAuthApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysAuthApi
      */
-    public async getUserInfoGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultLoginUserInfoOutput>> {
+    public async getUserInfoGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultLoginUserOutput>> {
         return SysAuthApiFp(this.configuration).getUserInfoGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**

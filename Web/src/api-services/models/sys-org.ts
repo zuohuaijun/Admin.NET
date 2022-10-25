@@ -98,12 +98,6 @@ export interface SysOrg {
      */
     status?: StatusEnum;
     /**
-     * 级别 例如：省、市、县、区
-     * @type {string}
-     * @memberof SysOrg
-     */
-    level?: string | null;
-    /**
      * 机构子项
      * @type {Array<SysOrg>}
      * @memberof SysOrg

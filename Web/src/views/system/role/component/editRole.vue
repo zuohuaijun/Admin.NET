@@ -6,15 +6,15 @@
 					{{ title }}
 				</div>
 			</template>
-			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="80px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="角色名称" prop="name">
+						<el-form-item label="角色名称" prop="name" :rules="[{ required: true, message: '角色名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.name" placeholder="角色名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="角色编码" prop="code">
+						<el-form-item label="角色编码" prop="code" :rules="[{ required: true, message: '角色编码不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.code" placeholder="角色编码" clearable></el-input>
 						</el-form-item>
 					</el-col>
@@ -70,12 +70,12 @@ import type Node from 'element-plus/es/components/tree/src/model/node';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi, SysRoleApi } from '/@/api-services/api';
+import { SysMenu, UpdateRoleInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditRole',
 	components: {},
 	props: {
-		// 弹窗标题
 		title: {
 			type: String,
 			default: '',
@@ -86,27 +86,15 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const treeRef = ref<InstanceType<typeof ElTree>>();
 		const state = reactive({
-			loading: true,
+			loading: false,
 			isShowDialog: false,
-			ruleForm: {
-				id: 0, // Id
-				name: '', // 角色名称
-				code: '', // 角色编码
-				order: 100, // 排序
-				status: 1, // 是否启用
-				remark: '', // 备注
-				menuIdList: [] as any, // 菜单集合
-			},
-			ruleRules: {
-				name: [{ required: true, message: '角色名称不能为空', trigger: 'blur' }],
-				code: [{ required: true, message: '角色编码不能为空', trigger: 'blur' }],
-			},
-			menuData: [] as any, // 菜单数据
+			ruleForm: {} as UpdateRoleInput,
+			menuData: [] as Array<SysMenu>, // 菜单数据
 		});
 		onMounted(async () => {
 			state.loading = true;
 			var res = await getAPI(SysMenuApi).sysMenuListGet();
-			state.menuData = res.data.result;
+			state.menuData = res.data.result ?? [];
 			state.loading = false;
 		});
 		// 打开弹窗
@@ -133,7 +121,7 @@ export default defineComponent({
 		const submit = () => {
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
-				state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys(); //.concat(treeRef.value?.getHalfCheckedKeys());
+				state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys() as Array<number>; //.concat(treeRef.value?.getHalfCheckedKeys());
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 					await getAPI(SysRoleApi).sysRoleUpdatePost(state.ruleForm);
 				} else {

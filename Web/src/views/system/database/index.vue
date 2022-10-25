@@ -70,6 +70,7 @@ import EditColumn from '/@/views/system/database/component/editColumn.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
+import { DbColumnOutput, DbTableInfo } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysDatabase',
@@ -83,9 +84,9 @@ export default defineComponent({
 			loading1: false,
 			dbData: [] as any,
 			configId: '',
-			tableData: [] as any,
+			tableData: [] as Array<DbTableInfo>,
 			tableName: '',
-			columnData: [] as any,
+			columnData: [] as Array<DbColumnOutput>,
 			queryParams: {
 				name: undefined,
 				code: undefined,
@@ -116,14 +117,14 @@ export default defineComponent({
 
 			state.loading = true;
 			var res = await getAPI(SysDatabaseApi).sysDatabaseTableListGet(state.configId);
-			state.tableData = res.data.result;
+			state.tableData = res.data.result ?? [];
 			state.loading = false;
 		};
 		// 列查询操作
 		const handleQueryColunm = async () => {
 			state.loading1 = true;
 			var res = await getAPI(SysDatabaseApi).sysDatabaseColumnListGet(state.tableName, state.configId);
-			state.columnData = res.data.result;
+			state.columnData = res.data.result ?? [];
 			state.loading1 = false;
 		};
 		// 打开表编辑页面
@@ -135,7 +136,7 @@ export default defineComponent({
 				configId: state.configId,
 				tableName: state.tableName,
 				oldTableName: state.tableName,
-				description: res.description,
+				description: res[0].description,
 			};
 			editTableRef.value.openDialog(table);
 		};

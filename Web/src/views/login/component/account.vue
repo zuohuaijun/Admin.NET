@@ -1,7 +1,7 @@
 <template>
 	<el-form ref="ruleFormRef" :model="ruleForm" size="large" :rules="rules" class="login-content-form">
-		<el-form-item class="login-animation1" prop="userName">
-			<el-input type="text" placeholder="请输入账号" v-model="ruleForm.userName" clearable autocomplete="off">
+		<el-form-item class="login-animation1" prop="account">
+			<el-input type="text" placeholder="请输入账号" v-model="ruleForm.account" clearable autocomplete="off">
 				<template #prefix>
 					<el-icon class="el-input__icon">
 						<ele-User />
@@ -10,25 +10,20 @@
 			</el-input>
 		</el-form-item>
 		<el-form-item class="login-animation2" prop="password">
-			<el-input :type="isShowPassword ? 'text' : 'password'" placeholder="请输入密码" v-model="ruleForm.password"
-				autocomplete="off">
+			<el-input :type="isShowPassword ? 'text' : 'password'" placeholder="请输入密码" v-model="ruleForm.password" autocomplete="off">
 				<template #prefix>
 					<el-icon class="el-input__icon">
 						<ele-Unlock />
 					</el-icon>
 				</template>
 				<template #suffix>
-					<i class="iconfont el-input__icon login-content-password"
-						:class="isShowPassword ? 'icon-yincangmima' : 'icon-xianshimima'"
-						@click="isShowPassword = !isShowPassword">
-					</i>
+					<i class="iconfont el-input__icon login-content-password" :class="isShowPassword ? 'icon-yincangmima' : 'icon-xianshimima'" @click="isShowPassword = !isShowPassword"> </i>
 				</template>
 			</el-input>
 		</el-form-item>
 		<el-form-item class="login-animation3" prop="captcha">
 			<el-col :span="15">
-				<el-input type="text" maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')"
-					v-model="ruleForm.code" clearable autocomplete="off">
+				<el-input type="text" maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="ruleForm.code" clearable autocomplete="off">
 					<template #prefix>
 						<el-icon class="el-input__icon">
 							<ele-Position />
@@ -39,8 +34,7 @@
 			<el-col :span="1"></el-col>
 			<el-col :span="8">
 				<div class="login-content-code">
-					<img class="login-content-code-img" @click="getCaptcha" width="130px" height="38px"
-						:src="captchaImage" style="cursor: pointer" />
+					<img class="login-content-code-img" @click="getCaptcha" width="130px" height="38px" :src="captchaImage" style="cursor: pointer" />
 				</div>
 			</el-col>
 		</el-form-item>
@@ -53,9 +47,16 @@
 	</el-form>
 
 	<el-dialog v-model="verifyVisible" title="" width="300px" center>
-		<DragVerifyImgRotate ref="dragRef" :imgsrc="verifyImg" v-model:isPassing="isPass" text="请按住滑块拖动"
-			successText="验证通过" handlerIcon="fa fa-angle-double-right" successIcon="fa fa-hand-peace-o"
-			@passcallback="passVerify" />
+		<DragVerifyImgRotate
+			ref="dragRef"
+			:imgsrc="verifyImg"
+			v-model:isPassing="isPass"
+			text="请按住滑块拖动"
+			successText="验证通过"
+			handlerIcon="fa fa-angle-double-right"
+			successIcon="fa fa-hand-peace-o"
+			@passcallback="passVerify"
+		/>
 	</el-dialog>
 </template>
 
@@ -64,10 +65,10 @@ import { toRefs, reactive, defineComponent, computed, ref, onMounted } from 'vue
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
-import Cookies from 'js-cookie';
-import { storeToRefs } from 'pinia';
-import { useThemeConfig } from '/@/stores/themeConfig';
-import { initFrontEndControlRoutes } from '/@/router/frontEnd';
+// import Cookies from 'js-cookie';
+// import { storeToRefs } from 'pinia';
+// import { useThemeConfig } from '/@/stores/themeConfig';
+// import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
@@ -77,16 +78,16 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/apis/sys-auth-api';
 
 // 旋转图片滑块组件
-import DragVerifyImgRotate from "/@/components/dragVerify/dragVerifyImgRotate.vue";
-import verifyImg from '/@/assets/logo-mini.svg'
+import DragVerifyImgRotate from '/@/components/dragVerify/dragVerifyImgRotate.vue';
+import verifyImg from '/@/assets/logo-mini.svg';
 
 export default defineComponent({
 	name: 'loginAccount',
 	components: { DragVerifyImgRotate },
 	setup() {
 		const { t } = useI18n();
-		const storesThemeConfig = useThemeConfig();
-		const { themeConfig } = storeToRefs(storesThemeConfig);
+		// const storesThemeConfig = useThemeConfig();
+		// const { themeConfig } = storeToRefs(storesThemeConfig);
 		const route = useRoute();
 		const router = useRouter();
 
@@ -95,15 +96,15 @@ export default defineComponent({
 		const state = reactive({
 			isShowPassword: false,
 			ruleForm: {
-				userName: 'superadmin',
+				account: 'superadmin',
 				password: '123456',
 				code: '1234',
 				codeId: 0,
 			},
 			rules: {
-				userName: [{ required: true, message: "请输入用户名", trigger: "blur" }],
-				password: [{ required: true, message: "请输入密码", trigger: "blur" }],
-				code: [{ required: true, message: "请输入验证码", trigger: "blur" }],
+				account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+				password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
+				code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
 			},
 			loading: {
 				signIn: false,
@@ -111,16 +112,16 @@ export default defineComponent({
 			verifyVisible: false,
 			isPass: false,
 			verifyImg: verifyImg,
-			captchaImage: "",
+			captchaImage: '',
 		});
 		onMounted(() => {
 			getCaptcha();
 		});
 		// 获取验证码
 		const getCaptcha = async () => {
-			state.ruleForm.code = "";
+			state.ruleForm.code = '';
 			var res = await getAPI(SysAuthApi).captchaGet();
-			state.captchaImage = "data:text/html;base64," + res.data.result?.img;
+			state.captchaImage = 'data:text/html;base64,' + res.data.result?.img;
 			state.ruleForm.codeId = res.data.result?.id;
 		};
 		// 时间获取
@@ -130,36 +131,35 @@ export default defineComponent({
 		// 登录
 		const onSignIn = async () => {
 			var res = await getAPI(SysAuthApi).loginPost(state.ruleForm);
-			if (res.data.result?.token == null) {
+			if (res.data.result?.accessToken == null) {
 				getCaptcha(); // 重新获取验证码
 
-				ElMessage.error("登录失败，请检查账号！");
+				ElMessage.error('登录失败，请检查账号！');
 				return;
 			}
 
 			state.loading.signIn = true;
 			// 存储 token 到浏览器缓存
-			Session.set('token', res.data.result?.token);
-			// 模拟数据，对接接口时，记得删除多余代码及对应依赖的引入。用于 `/src/stores/userInfo.ts` 中不同用户登录判断（模拟数据）
-			Cookies.set('userName', state.ruleForm.userName);
-			if (!themeConfig.value.isRequestRoutes) {
-				// 前端控制路由，2、请注意执行顺序
-				await initFrontEndControlRoutes();
-				signInSuccess();
-			} else {
-				// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
-				// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
-				await initBackEndControlRoutes();
-				// 执行完 initBackEndControlRoutes，再执行 signInSuccess
-				signInSuccess();
-			}
+			Session.set('token', res.data.result?.accessToken);
+			// // 模拟数据，对接接口时，记得删除多余代码及对应依赖的引入。用于 `/src/stores/userInfo.ts` 中不同用户登录判断（模拟数据）
+			// Cookies.set('userName', state.ruleForm.account);
+			// if (!themeConfig.value.isRequestRoutes) {
+			// 	// 前端控制路由，2、请注意执行顺序
+			// 	await initFrontEndControlRoutes();
+			// 	signInSuccess();
+			// } else {
+			// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
+			// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+			await initBackEndControlRoutes();
+			// 执行完 initBackEndControlRoutes，再执行 signInSuccess
+			signInSuccess();
+			// }
 		};
 		// 登录成功后的跳转
 		const signInSuccess = () => {
 			// 初始化登录成功时间问候语
 			let currentTimeInfo = currentTime.value;
-			// 登录成功，跳到转首页
-			// 如果是复制粘贴的路径，非首页/登录页，那么登录成功后重定向到对应的路径中
+			// 登录成功跳到转首页，如果是复制粘贴的路径，非首页/登录页，那么登录成功后重定向到对应的路径中
 			if (route.query?.redirect) {
 				router.push({
 					path: <string>route.query?.redirect,
@@ -168,12 +168,11 @@ export default defineComponent({
 			} else {
 				router.push('/');
 			}
-			// 登录成功提示
-			// 关闭 loading
+			// 登录成功提示 关闭loading
 			state.loading.signIn = true;
 			const signInText = t('message.signInText');
 			ElMessage.success(`${currentTimeInfo}，${signInText}`);
-			// 添加 loading，防止第一次进入界面时出现短暂空白
+			// 添加loading，防止第一次进入界面时出现短暂空白
 			NextLoading.start();
 		};
 		// 打开旋转验证

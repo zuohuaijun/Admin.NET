@@ -120,7 +120,7 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
             new SysMenu{ Id=252885263002620, Pid=252885263002600, Title="表单设计", Path="/develop/formDes", Name="sysFormDes", Component="/system/formDes/index", Icon="ele-Edit", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=101 },
             new SysMenu{ Id=252885263002630, Pid=252885263002600, Title="代码生成", Path="/develop/codeGen", Name="sysCodeGen", Component="/system/codeGen/index", Icon="ele-Crop", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=102 },
             new SysMenu{ Id=252885263002640, Pid=252885263002600, Title="库表管理", Path="/develop/database", Name="sysDatabase", Component="/system/database/index",Icon="ele-Coin", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=103 },
- 
+
             new SysMenu{ Id=252885263002700, Pid=0, Title="帮助文档", Path="/doc", Name="doc", Component="Layout", Redirect="/doc/furion", Icon="ele-Notebook", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=500 },
             new SysMenu{ Id=252885263002710, Pid=252885263002700, Title="后台教程", Path="/doc/furion", Name="sysFurion", Component="IFrame", IsIframe=false, IsKeepAlive=false, OutLink="https://furion.baiqian.ltd/", Icon="ele-Promotion", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },
             new SysMenu{ Id=252885263002711, Pid=252885263002700, Title="前端教程", Path="/doc/element", Name="sysElement", Component="IFrame", IsIframe=false, IsKeepAlive=false, OutLink="https://element-plus.gitee.io/zh-CN/", Icon="ele-Position", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=101 },

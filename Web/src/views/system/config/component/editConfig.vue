@@ -6,25 +6,28 @@
 					{{ title }}
 				</div>
 			</template>
-			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="80px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="配置名称" prop="name">
+						<el-form-item label="配置名称" prop="name" :rules="[{ required: true, message: '配置名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.name" placeholder="配置名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="配置编码" prop="code">
+						<el-form-item label="配置编码" prop="code" :rules="[{ required: true, message: '配置编码不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.code" placeholder="配置编码" clearable :disabled="ruleForm.sysFlag == 1"></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="值" prop="value">
-							<el-input v-model="ruleForm.value" placeholder="值" clearable></el-input>
+						<el-form-item label="值" prop="value" :rules="[{ required: true, message: '值不能为空', trigger: 'blur' }]">
+							<el-select v-model="ruleForm.value" placeholder="值" clearable filterable allow-create default-first-option style="width: 100%">
+								<el-option label="True" value="True" />
+								<el-option label="False" value="False" />
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="系统参数" prop="sysFlag">
+						<el-form-item label="系统参数" prop="sysFlag" :rules="[{ required: true, message: '系统参数不能为空', trigger: 'blur' }]">
 							<el-radio-group v-model="ruleForm.sysFlag" :disabled="ruleForm.sysFlag == 1">
 								<el-radio :label="1">是</el-radio>
 								<el-radio :label="2">否</el-radio>
@@ -63,12 +66,12 @@ import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue'
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysConfigApi } from '/@/api-services/api';
+import { UpdateConfigInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditPos',
 	components: {},
 	props: {
-		// 弹窗标题
 		title: {
 			type: String,
 			default: '',
@@ -79,22 +82,7 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {
-				id: 0, // Id
-				name: '', // 配置名称
-				code: '', // 配置编码
-				value: '', // 值
-				sysFlag: 1, // 系统参数
-				groupCode: '', // 所属分类
-				order: 100, // 排序
-				remark: '', // 备注
-			},
-			ruleRules: {
-				name: [{ required: true, message: '配置名称不能为空', trigger: 'blur' }],
-				code: [{ required: true, message: '配置编码不能为空', trigger: 'blur' }],
-				value: [{ required: true, message: '值不能为空', trigger: 'blur' }],
-				sysFlag: [{ required: true, message: '系统参数不能为空', trigger: 'blur' }],
-			},
+			ruleForm: {} as UpdateConfigInput,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {

@@ -2,15 +2,15 @@
 	<div class="sys-password-container">
 		<NoticeBar text="账号密码修改，请慎重操作！" leftIcon="iconfont icon-tongzhi2" background="var(--el-color-primary-light-9)" color="var(--el-color-primary)" />
 		<el-card shadow="hover" header="修改当前账号密码" class="mt8">
-			<el-form ref="ruleFormRef" :model="ruleForm" status-icon :rules="ruleRules" label-width="80px">
-				<el-form-item label="当前密码" prop="passwordOld">
+			<el-form ref="ruleFormRef" :model="ruleForm" status-icon label-width="80px">
+				<el-form-item label="当前密码" prop="passwordOld" :rules="[{ required: true, message: '当前密码不能为空', trigger: 'blur' }]">
 					<el-input v-model="ruleForm.passwordOld" type="password" autocomplete="off" />
 				</el-form-item>
-				<el-form-item label="新密码" prop="passwordNew">
+				<el-form-item label="新密码" prop="passwordNew" :rules="[{ required: true, message: '新密码不能为空', trigger: 'blur' }]">
 					<el-input v-model="ruleForm.passwordNew" type="password" autocomplete="off" />
 				</el-form-item>
-				<el-form-item label="确认密码" prop="passwordNew2">
-					<el-input v-model.number="ruleForm.passwordNew2" type="password" />
+				<el-form-item label="确认密码" prop="passwordNew2" :rules="[{ validator: validatePassword, required: true, trigger: 'blur' }]">
+					<el-input type="password" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="reset" size="default">重 置</el-button>
@@ -29,6 +29,7 @@ import { Session } from '/@/utils/storage';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysUserApi } from '/@/api-services/api';
+import { ChangePwdInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysPassword',
@@ -44,23 +45,12 @@ export default defineComponent({
 			}
 		};
 		const state = reactive({
-			ruleForm: {
-				id: 0,
-				passwordOld: '',
-				passwordNew: '',
-				passwordNew2: '',
-			},
-			ruleRules: {
-				passwordOld: [{ required: true, message: '当前密码不能为空', trigger: 'blur' }],
-				passwordNew: [{ required: true, message: '新密码不能为空', trigger: 'blur' }],
-				passwordNew2: [{ validator: validatePassword, required: true, trigger: 'blur' }],
-			},
+			ruleForm: {} as ChangePwdInput,
 		});
 		// 重置
 		const reset = () => {
 			state.ruleForm.passwordOld = '';
 			state.ruleForm.passwordNew = '';
-			state.ruleForm.passwordNew2 = '';
 		};
 		// 提交
 		const submit = () => {
@@ -83,6 +73,7 @@ export default defineComponent({
 			ruleFormRef,
 			reset,
 			submit,
+			validatePassword,
 			...toRefs(state),
 		};
 	},

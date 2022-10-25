@@ -33,11 +33,7 @@
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditTenant(scope.row)" v-auth="'sysTenant:update'"> 编辑 </el-button>
 						<el-dropdown>
-							<span style="color: var(--el-color-primary); padding-top: 6px; padding-left: 12px">
-								<el-icon>
-									<ele-MoreFilled />
-								</el-icon>
-							</span>
+							<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px"> </el-button>
 							<template #dropdown>
 								<el-dropdown-menu>
 									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantMenu(scope.row)" :v-auth="'sysTenant:grantMenu'"> 授权菜单 </el-dropdown-item>
@@ -74,6 +70,7 @@ import GrantMenu from '/@/views/system/tenant/component/grantMenu.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysTenantApi } from '/@/api-services/api';
+import { SysTenant } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysTenant',
@@ -83,8 +80,8 @@ export default defineComponent({
 		const editTenantRef = ref();
 		const grantMenuRef = ref();
 		const state = reactive({
-			loading: true,
-			tenantData: [] as any,
+			loading: false,
+			tenantData: [] as Array<SysTenant>,
 			queryParams: {
 				name: undefined,
 				phone: undefined,
@@ -110,7 +107,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			var res = await getAPI(SysTenantApi).sysTenantPageGet(state.queryParams.name, state.queryParams.phone, state.tableParams.page, state.tableParams.pageSize);
-			state.tenantData = res.data.result?.items;
+			state.tenantData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};

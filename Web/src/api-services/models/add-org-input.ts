@@ -92,12 +92,6 @@ export interface AddOrgInput {
      */
     status?: StatusEnum;
     /**
-     * 级别 例如：省、市、县、区
-     * @type {string}
-     * @memberof AddOrgInput
-     */
-    level?: string | null;
-    /**
      * 机构子项
      * @type {Array<SysOrg>}
      * @memberof AddOrgInput

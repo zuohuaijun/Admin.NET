@@ -11,12 +11,13 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { AccountTypeEnum } from './account-type-enum';
+import { CardTypeEnum } from './card-type-enum';
+import { CultureLevelEnum } from './culture-level-enum';
 import { GenderEnum } from './gender-enum';
-import { JobStatusEnum } from './job-status-enum';
 import { StatusEnum } from './status-enum';
 import { SysOrg } from './sys-org';
 import { SysPos } from './sys-pos';
-import { UserTypeEnum } from './user-type-enum';
 /**
  * 系统用户表
  * @export
@@ -70,7 +71,13 @@ export interface SysUser {
      * @type {string}
      * @memberof SysUser
      */
-    userName: string;
+    account: string;
+    /**
+     * 真实姓名
+     * @type {string}
+     * @memberof SysUser
+     */
+    realName?: string | null;
     /**
      * 昵称
      * @type {string}
@@ -84,23 +91,29 @@ export interface SysUser {
      */
     avatar?: string | null;
     /**
-     * 出生日期
-     * @type {Date}
-     * @memberof SysUser
-     */
-    birthday?: Date | null;
-    /**
      * 
      * @type {GenderEnum}
      * @memberof SysUser
      */
     sex?: GenderEnum;
     /**
-     * 邮箱
+     * 年龄
+     * @type {number}
+     * @memberof SysUser
+     */
+    age?: number;
+    /**
+     * 出生日期
+     * @type {Date}
+     * @memberof SysUser
+     */
+    birthday?: Date | null;
+    /**
+     * 民族
      * @type {string}
      * @memberof SysUser
      */
-    email?: string | null;
+    nation?: string | null;
     /**
      * 手机号码
      * @type {string}
@@ -108,23 +121,71 @@ export interface SysUser {
      */
     phone?: string | null;
     /**
-     * 真实姓名
-     * @type {string}
+     * 
+     * @type {CardTypeEnum}
      * @memberof SysUser
      */
-    realName?: string | null;
+    cardType?: CardTypeEnum;
     /**
      * 身份证号
      * @type {string}
      * @memberof SysUser
      */
-    idCard?: string | null;
+    idCardNum?: string | null;
     /**
-     * 个性签名
+     * 邮箱
      * @type {string}
      * @memberof SysUser
      */
-    signature?: string | null;
+    email?: string | null;
+    /**
+     * 地址
+     * @type {string}
+     * @memberof SysUser
+     */
+    address?: string | null;
+    /**
+     * 
+     * @type {CultureLevelEnum}
+     * @memberof SysUser
+     */
+    cultureLevel?: CultureLevelEnum;
+    /**
+     * 政治面貌
+     * @type {string}
+     * @memberof SysUser
+     */
+    politicalOutlook?: string | null;
+    /**
+     * 毕业院校
+     * @type {string}
+     * @memberof SysUser
+     */
+    college?: string | null;
+    /**
+     * 办公电话
+     * @type {string}
+     * @memberof SysUser
+     */
+    officePhone?: string | null;
+    /**
+     * 紧急联系人
+     * @type {string}
+     * @memberof SysUser
+     */
+    emergencyContact?: string | null;
+    /**
+     * 紧急联系人电话
+     * @type {string}
+     * @memberof SysUser
+     */
+    emergencyPhone?: string | null;
+    /**
+     * 紧急联系人地址
+     * @type {string}
+     * @memberof SysUser
+     */
+    emergencyAddress?: string | null;
     /**
      * 个人简介
      * @type {string}
@@ -132,11 +193,29 @@ export interface SysUser {
      */
     introduction?: string | null;
     /**
-     * 
-     * @type {UserTypeEnum}
+     * 排序
+     * @type {number}
      * @memberof SysUser
      */
-    userType?: UserTypeEnum;
+    order?: number;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof SysUser
+     */
+    status?: StatusEnum;
+    /**
+     * 备注
+     * @type {string}
+     * @memberof SysUser
+     */
+    remark?: string | null;
+    /**
+     * 
+     * @type {AccountTypeEnum}
+     * @memberof SysUser
+     */
+    accountType?: AccountTypeEnum;
     /**
      * 机构Id
      * @type {number}
@@ -168,27 +247,39 @@ export interface SysUser {
      */
     jobNum?: string | null;
     /**
-     * 
-     * @type {JobStatusEnum}
-     * @memberof SysUser
-     */
-    jobStatus?: JobStatusEnum;
-    /**
-     * 排序
-     * @type {number}
-     * @memberof SysUser
-     */
-    order?: number;
-    /**
-     * 
-     * @type {StatusEnum}
-     * @memberof SysUser
-     */
-    status?: StatusEnum;
-    /**
-     * 备注
+     * 职级
      * @type {string}
      * @memberof SysUser
      */
-    remark?: string | null;
+    posLevel?: string | null;
+    /**
+     * 入职日期
+     * @type {Date}
+     * @memberof SysUser
+     */
+    joinDate?: Date | null;
+    /**
+     * 最新登录Ip
+     * @type {string}
+     * @memberof SysUser
+     */
+    lastLoginIp?: string | null;
+    /**
+     * 最新登录地点
+     * @type {string}
+     * @memberof SysUser
+     */
+    lastLoginAddress?: string | null;
+    /**
+     * 最新登录时间
+     * @type {Date}
+     * @memberof SysUser
+     */
+    lastLoginTime?: Date | null;
+    /**
+     * 最新登录设备
+     * @type {string}
+     * @memberof SysUser
+     */
+    lastLoginDevice?: string | null;
 }

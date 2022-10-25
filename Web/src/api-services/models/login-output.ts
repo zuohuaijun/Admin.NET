@@ -11,7 +11,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { LoginRole } from './login-role';
 /**
  * 用户登录结果
  * @export
@@ -19,23 +18,11 @@ import { LoginRole } from './login-role';
  */
 export interface LoginOutput {
     /**
-     * 用户Id
-     * @type {number}
-     * @memberof LoginOutput
-     */
-    userId?: number;
-    /**
-     * 
-     * @type {LoginRole}
-     * @memberof LoginOutput
-     */
-    roleInfo?: LoginRole;
-    /**
      * 令牌Token
      * @type {string}
      * @memberof LoginOutput
      */
-    token?: string | null;
+    accessToken?: string | null;
     /**
      * 刷新Token
      * @type {string}

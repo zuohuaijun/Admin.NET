@@ -343,7 +343,7 @@ public static class SqlSugarSetup
     private static void SetCustomEntityFilter(SqlSugarScopeProvider db)
     {
         // 排除超管过滤
-        if (App.User?.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString())
+        if (App.User?.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString())
             return;
 
         // 配置用户机构范围缓存

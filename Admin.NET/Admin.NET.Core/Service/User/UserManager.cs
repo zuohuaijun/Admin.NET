@@ -1,9 +1,9 @@
 ﻿namespace Admin.NET.Core;
 
 /// <summary>
-/// 用户管理
+/// 当前登录用户
 /// </summary>
-public class UserManager : IUserManager, IScoped
+public class UserManager : IScoped
 {
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -13,9 +13,14 @@ public class UserManager : IUserManager, IScoped
         get => long.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.UserId)?.Value);
     }
 
+    public long OrgId
+    {
+        get => long.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.OrgId)?.Value);
+    }
+
     public string UserName
     {
-        get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.UserName)?.Value;
+        get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.Account)?.Value;
     }
 
     public string RealName
@@ -25,7 +30,7 @@ public class UserManager : IUserManager, IScoped
 
     public bool SuperAdmin
     {
-        get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString();
+        get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString();
     }
 
     public string OpenId
@@ -35,7 +40,7 @@ public class UserManager : IUserManager, IScoped
 
     public SysUser User
     {
-        get => _sysUserRep.AsQueryable().Includes(t => t.SysOrg).First(u => u.Id == UserId);
+        get => _sysUserRep.GetFirst(u => u.Id == UserId);
     }
 
     public UserManager(SqlSugarRepository<SysUser> sysUserRep,

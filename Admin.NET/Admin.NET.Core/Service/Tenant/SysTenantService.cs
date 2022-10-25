@@ -11,7 +11,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     private readonly SqlSugarRepository<SysRole> _roleRep;
     private readonly SqlSugarRepository<SysPos> _posRep;
     private readonly SqlSugarRepository<SysUser> _userRep;
-    private readonly SqlSugarRepository<SysUserExtOrgPos> _sysUserExtOrgPosRep;
+    private readonly SqlSugarRepository<SysUserExtOrg> _sysUserExtOrgRep;
     private readonly SqlSugarRepository<SysRoleMenu> _sysRoleMenuRep;
     private readonly SqlSugarRepository<SysUserRole> _userRoleRep;
     private readonly SysUserRoleService _sysUserRoleService;
@@ -22,7 +22,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         SqlSugarRepository<SysRole> roleRep,
         SqlSugarRepository<SysPos> posRep,
         SqlSugarRepository<SysUser> userRep,
-        SqlSugarRepository<SysUserExtOrgPos> sysUserExtOrgPosRep,
+        SqlSugarRepository<SysUserExtOrg> sysUserExtOrgRep,
         SqlSugarRepository<SysRoleMenu> sysRoleMenuRep,
         SqlSugarRepository<SysUserRole> userRoleRep,
         SysUserRoleService sysUserRoleService,
@@ -33,7 +33,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         _roleRep = roleRep;
         _posRep = posRep;
         _userRep = userRep;
-        _sysUserExtOrgPosRep = sysUserExtOrgPosRep;
+        _sysUserExtOrgRep = sysUserExtOrgRep;
         _sysRoleMenuRep = sysRoleMenuRep;
         _userRoleRep = userRoleRep;
         _sysUserRoleService = sysUserRoleService;
@@ -46,9 +46,9 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/page")]
-    public async Task<dynamic> GetTenantPage([FromQuery] PageTenantInput input)
+    public async Task<SqlSugarPagedList<SysTenant>> GetTenantPage([FromQuery] PageTenantInput input)
     {
-        return await _tenantRep.Context.Queryable<SysTenant>()
+        return await _tenantRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name.Trim()))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone.Trim()))
             .ToPagedListAsync(input.Page, input.PageSize);
@@ -111,12 +111,12 @@ public class SysTenantService : IDynamicApiController, ITransient
         var newUser = new SysUser
         {
             TenantId = tenantId,
-            UserName = admin,
+            Account = admin,
             Password = MD5Encryption.Encrypt(CommonConst.SysPassword),
             NickName = newTenant.AdminName,
             Email = newTenant.Email,
             Phone = newTenant.Phone,
-            UserType = UserTypeEnum.Admin,
+            AccountType = AccountTypeEnum.Admin,
             OrgId = newOrg.Id,
             PosId = newPos.Id,
             Birthday = DateTime.Parse("1986-06-28"),
@@ -131,14 +131,6 @@ public class SysTenantService : IDynamicApiController, ITransient
             UserId = newUser.Id
         };
         await _userRoleRep.InsertAsync(newUserRole);
-
-        var newUserExtOrgPos = new SysUserExtOrgPos
-        {
-            OrgId = newOrg.Id,
-            PosId = newPos.Id,
-            UserId = newUser.Id
-        };
-        await _sysUserExtOrgPosRep.InsertAsync(newUserExtOrgPos);
     }
 
     /// <summary>
@@ -151,7 +143,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     {
         var users = await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
         // 超级管理员所在租户为默认租户
-        if (users.Any(u => u.UserType == UserTypeEnum.SuperAdmin))
+        if (users.Any(u => u.AccountType == AccountTypeEnum.SuperAdmin))
             throw Oops.Oh(ErrorCodeEnum.D1023);
         var entity = await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
         await _tenantRep.DeleteAsync(entity);
@@ -164,7 +156,7 @@ public class SysTenantService : IDynamicApiController, ITransient
 
         await _roleRep.AsDeleteable().Where(u => u.TenantId == input.Id).ExecuteCommandAsync();
 
-        await _sysUserExtOrgPosRep.AsDeleteable().Where(u => userIds.Contains(u.UserId)).ExecuteCommandAsync();
+        await _sysUserExtOrgRep.AsDeleteable().Where(u => userIds.Contains(u.UserId)).ExecuteCommandAsync();
 
         var roles = await _roleRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
         await _roleRep.AsDeleteable().Where(u => u.TenantId == input.Id).ExecuteCommandAsync();
@@ -190,8 +182,8 @@ public class SysTenantService : IDynamicApiController, ITransient
 
         var tenantAdminUser = await GetTenantAdminUser(input.Id);
         if (tenantAdminUser == null) return;
-        tenantAdminUser.UserName = entity.AdminName;
-        await _userRep.Context.Updateable(tenantAdminUser).UpdateColumns(u => new { u.UserName }).ExecuteCommandAsync();
+        tenantAdminUser.Account = entity.AdminName;
+        await _userRep.Context.Updateable(tenantAdminUser).UpdateColumns(u => new { u.Account }).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -278,6 +270,6 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <returns></returns>
     private async Task<SysUser> GetTenantAdminUser(long tenantId)
     {
-        return await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == tenantId && u.UserType == UserTypeEnum.Admin).FirstAsync();
+        return await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == tenantId && u.AccountType == AccountTypeEnum.Admin).FirstAsync();
     }
 }

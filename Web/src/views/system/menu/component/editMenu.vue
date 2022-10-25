@@ -6,11 +6,18 @@
 					{{ title }}
 				</div>
 			</template>
-			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="80px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="上级菜单">
-							<el-cascader :options="menuData" :props="{ checkStrictly: true, value: 'id', label: 'title' }" placeholder="请选择上级菜单" clearable class="w100" v-model="ruleForm.pid">
+							<el-cascader
+								:options="menuData"
+								:props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'title' }"
+								placeholder="请选择上级菜单"
+								clearable
+								class="w100"
+								v-model="ruleForm.pid"
+							>
 								<template #default="{ node, data }">
 									<span>{{ data.title }}</span>
 									<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -19,16 +26,16 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="菜单类型" prop="type">
+						<el-form-item label="菜单类型" prop="type" :rules="[{ required: true, message: '菜单类型不能为空', trigger: 'blur' }]">
 							<el-radio-group v-model="ruleForm.type">
-								<el-radio v-for="dict in menuType" :key="dict.value" :label="dict.value">
-									{{ dict.label }}
-								</el-radio>
+								<el-radio :label="1">目录</el-radio>
+								<el-radio :label="2">菜单</el-radio>
+								<el-radio :label="3">按钮</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="菜单名称" prop="title">
+						<el-form-item label="菜单名称" prop="title" :rules="[{ required: true, message: '菜单名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.title" placeholder="菜单名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
@@ -144,19 +151,18 @@ import IconSelector from '/@/components/iconSelector/index.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi } from '/@/api-services/api';
+import { SysMenu, UpdateMenuInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditMenu',
 	components: { IconSelector },
 	props: {
-		// 弹窗标题
 		title: {
 			type: String,
 			default: '',
 		},
-		// 菜单数据
 		menuData: {
-			type: Array,
+			type: Array<SysMenu>,
 			default: () => [],
 		},
 	},
@@ -165,35 +171,7 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {
-				id: 0, // Id
-				pid: 0, // 父节点Id
-				type: 1, // 菜单类型
-				name: '', // 路由名称(全局唯一)
-				component: '', // 组件路径
-				redirect: '', // 路由重定向(有子集 children 时)
-				permission: '', // 权限标识
-				path: '', // 路由路径
-				title: '', // 菜单名称
-				icon: '', // 菜单图标
-				isHide: false, // 是否隐藏
-				isKeepAlive: true, // 是否缓存
-				isAffix: false, // 是否固定
-				outLink: '', // 外链/内嵌时链接地址
-				isIframe: false, // 是否内嵌
-				order: 100, // 排序
-				status: 1, // 是否启用
-				remark: '', // 备注
-			},
-			menuType: [
-				{ value: 1, label: '目录' },
-				{ value: 2, label: '菜单' },
-				{ value: 3, label: '按钮' },
-			],
-			ruleRules: {
-				type: [{ required: true, message: '菜单类型不能为空', trigger: 'blur' }],
-				title: [{ required: true, message: '菜单名称不能为空', trigger: 'blur' }],
-			},
+			ruleForm: {} as UpdateMenuInput,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
@@ -211,8 +189,6 @@ export default defineComponent({
 		};
 		// 提交
 		const submit = () => {
-			// 上级菜单Id
-			if (Array.isArray(state.ruleForm.pid)) state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {

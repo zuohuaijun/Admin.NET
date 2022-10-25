@@ -130,6 +130,7 @@ public class WeChatPay : EntityBase
     /// 关联微信用户
     /// </summary>
     [SugarColumn(IsIgnore = true)]
+    [Navigate(NavigateType.OneToOne, nameof(OpenId))]
     public WeChatUser WeChatUser { get; set; }
 
     /// <summary>

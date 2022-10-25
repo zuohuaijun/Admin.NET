@@ -6,15 +6,15 @@
 					{{ '表编辑' }}
 				</div>
 			</template>
-			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="80px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="表名称" prop="tableName">
+						<el-form-item label="表名称" prop="tableName" :rules="[{ required: true, message: '名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.tableName" placeholder="表名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="描述" prop="description">
+						<el-form-item label="描述" prop="description" :rules="[{ required: true, message: '描述不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.description" placeholder="描述" clearable type="textarea"></el-input>
 						</el-form-item>
 					</el-col>
@@ -35,6 +35,7 @@ import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue'
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
+import { UpdateDbTableInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditTable',
@@ -44,16 +45,7 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {
-				configId: '',
-				tableName: '',
-				oldTableName: '',
-				description: '',
-			},
-			ruleRules: {
-				tableName: [{ required: true, message: '名称不能为空', trigger: 'blur' }],
-				description: [{ required: true, message: '描述不能为空', trigger: 'blur' }],
-			},
+			ruleForm: {} as UpdateDbTableInput,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {

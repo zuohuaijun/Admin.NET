@@ -85,7 +85,7 @@ public class AdminResultProvider : IUnifyResultProvider
             Result = data,
             Type = succeeded ? "success" : "error",
             Extras = UnifyContext.Take(),
-            Time = DateTime.Now  
+            Time = DateTime.Now
         };
     }
 }

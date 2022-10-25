@@ -7,13 +7,13 @@
 public class SysPosService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysPos> _sysPosRep;
-    private readonly SysUserExtOrgPosService _sysUserExtOrgPosService;
+    private readonly SysUserExtOrgService _sysUserOrgService;
 
     public SysPosService(SqlSugarRepository<SysPos> sysPosRep,
-        SysUserExtOrgPosService sysUserExtOrgPosService)
+        SysUserExtOrgService sysUserOrgService)
     {
         _sysPosRep = sysPosRep;
-        _sysUserExtOrgPosService = sysUserExtOrgPosService;
+        _sysUserOrgService = sysUserOrgService;
     }
 
     /// <summary>
@@ -75,7 +75,7 @@ public class SysPosService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D6001);
 
         // 该附属职位下是否有用户
-        var hasExtPosEmp = await _sysUserExtOrgPosService.HasExtPosEmp(input.Id);
+        var hasExtPosEmp = await _sysUserOrgService.HasUserPos(input.Id);
         if (hasExtPosEmp)
             throw Oops.Oh(ErrorCodeEnum.D6001);
 

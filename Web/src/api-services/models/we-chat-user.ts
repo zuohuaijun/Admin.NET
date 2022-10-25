@@ -11,7 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SysPos } from './sys-pos';
+import { SysUser } from './sys-user';
 import { WeChatUserTypeEnum } from './we-chat-user-type-enum';
 /**
  * 微信用户表
@@ -63,10 +63,10 @@ export interface WeChatUser {
     userId?: number;
     /**
      * 
-     * @type {SysPos}
+     * @type {SysUser}
      * @memberof WeChatUser
      */
-    sysPos?: SysPos;
+    sysUser?: SysUser;
     /**
      * 
      * @type {WeChatUserTypeEnum}

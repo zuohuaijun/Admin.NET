@@ -3,7 +3,7 @@
 /// <summary>
 /// 用户登录信息
 /// </summary>
-public class LoginUserInfoOutput
+public class LoginUserOutput
 {
     /// <summary>
     /// 用户Id
@@ -13,7 +13,7 @@ public class LoginUserInfoOutput
     /// <summary>
     /// 账号名称
     /// </summary>
-    public string Username { get; set; }
+    public string Account { get; set; }
 
     /// <summary>
     /// 真实姓名
@@ -28,7 +28,7 @@ public class LoginUserInfoOutput
     /// <summary>
     /// 个人简介
     /// </summary>
-    public string Desc { get; set; }
+    public string Introduction { get; set; }
 
     /// <summary>
     /// 机构Id
@@ -41,32 +41,7 @@ public class LoginUserInfoOutput
     public string OrgName { get; set; }
 
     /// <summary>
-    /// 机构级别
-    /// </summary>
-    public string OrgLevel { get; set; }
-
-    /// <summary>
-    /// 角色集合
-    /// </summary>
-    public List<LoginRole> Roles { get; set; }
-
-    /// <summary>
     /// 按钮权限集合
     /// </summary>
     public List<string> Buttons { get; set; }
-}
-
-public class LoginRole
-{
-    /// <summary>
-    /// 角色名称
-    /// </summary>
-    /// <example>admin</example>
-    public string RoleName { get; set; }
-
-    /// <summary>
-    /// 角色编码
-    /// </summary>
-    /// <example>123456</example>
-    public string Value { get; set; }
 }

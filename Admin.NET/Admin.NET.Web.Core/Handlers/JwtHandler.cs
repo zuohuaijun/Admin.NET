@@ -53,7 +53,7 @@ namespace Admin.NET.Web.Core
                 return true;
 
             // 管理员判断
-            if (App.User.FindFirst(ClaimConst.SuperAdmin)?.Value == ((int)UserTypeEnum.SuperAdmin).ToString())
+            if (App.User.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString())
                 return true;
 
             // 路由名称

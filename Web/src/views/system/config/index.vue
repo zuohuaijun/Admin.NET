@@ -61,7 +61,8 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import EditConfig from '/@/views/system/config/component/editConfig.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysConfigApi } from '/@/api-services';
+import { SysConfigApi } from '/@/api-services/api';
+import { SysConfig } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysConfig',
@@ -70,8 +71,8 @@ export default defineComponent({
 		const { proxy } = getCurrentInstance() as any;
 		const editConfigRef = ref();
 		const state = reactive({
-			loading: true,
-			configData: [] as any,
+			loading: false,
+			configData: [] as Array<SysConfig>,
 			queryParams: {
 				name: undefined,
 				code: undefined,
@@ -97,7 +98,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			var res = await getAPI(SysConfigApi).sysConfigPageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
-			state.configData = res.data.result?.items;
+			state.configData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};

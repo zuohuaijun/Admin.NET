@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { LoginUserInfoOutput } from './login-user-info-output';
+import { SysUserExtOrg } from './sys-user-ext-org';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultLoginUserInfoOutput
+ * @interface AdminResultListSysUserExtOrg
  */
-export interface AdminResultLoginUserInfoOutput {
+export interface AdminResultListSysUserExtOrg {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultLoginUserInfoOutput
+     * @memberof AdminResultListSysUserExtOrg
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultLoginUserInfoOutput
+     * @memberof AdminResultListSysUserExtOrg
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultLoginUserInfoOutput
+     * @memberof AdminResultListSysUserExtOrg
      */
     message?: string | null;
     /**
-     * 
-     * @type {LoginUserInfoOutput}
-     * @memberof AdminResultLoginUserInfoOutput
+     * 数据
+     * @type {Array<SysUserExtOrg>}
+     * @memberof AdminResultListSysUserExtOrg
      */
-    result?: LoginUserInfoOutput;
+    result?: Array<SysUserExtOrg> | null;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultLoginUserInfoOutput
+     * @memberof AdminResultListSysUserExtOrg
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultLoginUserInfoOutput
+     * @memberof AdminResultListSysUserExtOrg
      */
     time?: Date;
 }

@@ -7,40 +7,25 @@ namespace Admin.NET.Core.Service;
 public class SysOrgService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysOrg> _sysOrgRep;
-    private readonly IUserManager _userManager;
+    private readonly UserManager _userManager;
     private readonly SysCacheService _sysCacheService;
-    private readonly SysUserOrgService _sysUserOrgService;
+    private readonly SysUserExtOrgService _sysUserExtOrgService;
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysRoleOrgService _sysRoleOrgService;
-    private readonly SysUserExtOrgPosService _sysEmpExtOrgPosService;
 
     public SysOrgService(SqlSugarRepository<SysOrg> sysOrgRep,
-        IUserManager userManager,
+        UserManager userManager,
         SysCacheService sysCacheService,
-        SysUserOrgService sysUserOrgService,
+        SysUserExtOrgService sysUserExtOrgService,
         SysUserRoleService sysUserRoleService,
-        SysRoleOrgService sysRoleOrgService,
-        SysUserExtOrgPosService sysEmpExtOrgPosService)
+        SysRoleOrgService sysRoleOrgService)
     {
         _sysOrgRep = sysOrgRep;
         _userManager = userManager;
         _sysCacheService = sysCacheService;
-        _sysUserOrgService = sysUserOrgService;
+        _sysUserExtOrgService = sysUserExtOrgService;
         _sysUserRoleService = sysUserRoleService;
         _sysRoleOrgService = sysRoleOrgService;
-        _sysEmpExtOrgPosService = sysEmpExtOrgPosService;
-    }
-
-    /// <summary>
-    /// 获取用户拥有机构信息列表
-    /// </summary>
-    /// <param name="userId">用户id</param>
-    /// <returns></returns>
-    [HttpGet("/sysOrg/userOwnOrgInfo/{userId}")]
-    public async Task<List<SysOrg>> GetUserOrgList(long userId)
-    {
-        List<long> orgList = await _sysUserOrgService.GetUserOrgIdList(userId);
-        return await _sysOrgRep.AsQueryable().Where(t => orgList.Contains(t.Id)).ToListAsync();
     }
 
     /// <summary>
@@ -95,19 +80,6 @@ public class SysOrgService : IDynamicApiController, ITransient
         }
         var sysOrg = input.Adapt<SysOrg>();
         var newOrg = await _sysOrgRep.AsInsertable(sysOrg).ExecuteReturnEntityAsync();
-
-        // 非超级管理员时，将新机构加到用户数据范围内
-        if (!_userManager.SuperAdmin)
-        {
-            var userId = _userManager.UserId;
-            await _sysUserOrgService.AddUserOrg(new SysUserOrg
-            {
-                UserId = userId,
-                OrgId = newOrg.Id
-            });
-            orgIdList.Add(newOrg.Id);
-            _sysCacheService.SetOrgIdList(userId, orgIdList); // 刷新缓存
-        }
         return newOrg.Id;
     }
 
@@ -164,8 +136,8 @@ public class SysOrgService : IDynamicApiController, ITransient
                 throw Oops.Oh(ErrorCodeEnum.D2003);
         }
 
-        // 若附属机构有用户则禁止删除
-        var hasExtOrgEmp = await _sysEmpExtOrgPosService.HasExtOrgEmp(sysOrg.Id);
+        // 若扩展机构有用户则禁止删除
+        var hasExtOrgEmp = await _sysUserExtOrgService.HasUserOrg(sysOrg.Id);
         if (hasExtOrgEmp)
             throw Oops.Oh(ErrorCodeEnum.D2005);
 
@@ -180,7 +152,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         await _sysRoleOrgService.DeleteRoleOrgByOrgIdList(orgIdList);
 
         // 级联删除用户机构数据
-        await _sysUserOrgService.DeleteUserOrgByOrgIdList(orgIdList);
+        await _sysUserExtOrgService.DeleteUserExtOrgByOrgIdList(orgIdList);
     }
 
     /// <summary>
@@ -197,12 +169,12 @@ public class SysOrgService : IDynamicApiController, ITransient
         var orgIdList = _sysCacheService.GetOrgIdList(userId); // 取缓存
         if (orgIdList == null || orgIdList.Count < 1)
         {
-            // 用户机构集合
-            var orgList1 = await _sysUserOrgService.GetUserOrgIdList(userId);
+            // 扩展机构集合
+            var orgList1 = await _sysUserExtOrgService.GetUserExtOrgList(userId);
             // 角色机构集合
             var orgList2 = await GetUserRoleOrgIdList(userId);
-            // 并集机构集合
-            orgIdList = orgList1.Union(orgList2).ToList();
+            // 机构并集
+            orgIdList = orgList1.Select(u => u.OrgId).Union(orgList2).ToList();
             _sysCacheService.SetOrgIdList(userId, orgIdList); // 存缓存
         }
         return orgIdList;
@@ -264,7 +236,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// <returns></returns>
     private async Task<List<long>> GetOrgIdListByDataScope(int dataScope)
     {
-        var orgId = _userManager.User.OrgId;
+        var orgId = _userManager.OrgId;
         var orgIdList = new List<long>();
         // 若数据范围是全部，则获取所有机构Id集合
         if (dataScope == (int)DataScopeEnum.All)

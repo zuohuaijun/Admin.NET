@@ -6,20 +6,20 @@
 					{{ title }}
 				</div>
 			</template>
-			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="100px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="任务名称" prop="timerName">
+						<el-form-item label="任务名称" prop="timerName" :rules="[{ required: true, message: '任务名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.timerName" placeholder="任务名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="请求地址" prop="requestUrl">
+						<el-form-item label="请求地址" prop="requestUrl" :rules="[{ required: true, message: '请求地址不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.requestUrl" placeholder="请求地址" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="请求类型" prop="requestType">
+						<el-form-item label="请求类型" prop="requestType" :rules="[{ required: true, message: '请求类型不能为空', trigger: 'blur' }]">
 							<el-radio-group v-model="ruleForm.requestType">
 								<el-radio :label="0">RUN</el-radio>
 								<el-radio :label="1">GET</el-radio>
@@ -35,7 +35,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="任务类型" prop="timerType">
+						<el-form-item label="任务类型" prop="timerType" :rules="[{ required: true, message: '任务类型不能为空', trigger: 'blur' }]">
 							<el-select v-model="ruleForm.timerType" placeholder="岗位状态" style="width: 100%">
 								<el-option label="间隔模式" :value="0" />
 								<el-option label="Cron模式" :value="1" />
@@ -72,12 +72,12 @@ import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue'
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysTimerApi } from '/@/api-services/api';
+import { UpdateTimerInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditTimer',
 	components: {},
 	props: {
-		// 弹窗标题
 		title: {
 			type: String,
 			default: '',
@@ -88,27 +88,10 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {
-				id: 0, // Id
-				timerName: '', // 任务名称
-				requestUrl: '', // 请求地址
-				requestType: 1, // 请求类型
-				requestPara: '', // 请求参数
-				timerType: 0, // 任务类型
-				interval: 5, // 执行间隔
-				cron: '', // cron表达式
-				remark: '', // 备注
-			},
-			ruleRules: {
-				timerName: [{ required: true, message: '任务名称不能为空', trigger: 'blur' }],
-				requestUrl: [{ required: true, message: '请求地址不能为空', trigger: 'blur' }],
-				requestType: [{ required: true, message: '请求类型不能为空', trigger: 'blur' }],
-				timerType: [{ required: true, message: '任务类型不能为空', trigger: 'blur' }],
-			},
+			ruleForm: {} as UpdateTimerInput,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
-			console.log(row);
 			state.ruleForm = row;
 			state.isShowDialog = true;
 		};

@@ -6,15 +6,15 @@
 					{{ title }}
 				</div>
 			</template>
-			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="80px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="字典值" prop="value">
+						<el-form-item label="字典值" prop="value" :rules="[{ required: true, message: '字典值不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.value" placeholder="字典值" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="编码" prop="code">
+						<el-form-item label="编码" prop="code" :rules="[{ required: true, message: '编码不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.code" placeholder="编码" clearable></el-input>
 						</el-form-item>
 					</el-col>
@@ -53,17 +53,16 @@ import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue'
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDictDataApi } from '/@/api-services/api';
+import { UpdateDictDataInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditDictData',
 	components: {},
 	props: {
-		// 弹窗标题
 		title: {
 			type: String,
 			default: '',
 		},
-		// 字典类型Id
 		dictTypeId: {
 			type: Number,
 			default: 0,
@@ -74,19 +73,7 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {
-				dictTypeId: 0, // 字典类型Id
-				id: 0, // Id
-				value: '', // 字典值
-				code: '', // 编码
-				status: 1, // 状态
-				order: 100, // 排序
-				remark: '', // 备注
-			},
-			ruleRules: {
-				value: [{ required: true, message: '字典值不能为空', trigger: 'blur' }],
-				code: [{ required: true, message: '编码不能为空', trigger: 'blur' }],
-			},
+			ruleForm: {} as UpdateDictDataInput,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {

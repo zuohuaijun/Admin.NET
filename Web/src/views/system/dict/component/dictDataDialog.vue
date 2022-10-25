@@ -1,13 +1,13 @@
 <template>
 	<div class="sys-dictData-container">
-		<el-dialog title="字典值列表" v-model="isShowDialog">
+		<el-dialog title="字典值列表" v-model="isShowDialog" width="860px">
 			<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 				<el-form :model="queryParams" ref="queryForm" :inline="true">
-					<el-form-item label="字典值" prop="value">
-						<el-input placeholder="字典值" clearable @keyup.enter="handleQuery" v-model="queryParams.value" />
+					<el-form-item label="值" prop="value">
+						<el-input placeholder="值" clearable @keyup.enter="handleQuery" v-model="queryParams.value" />
 					</el-form-item>
-					<el-form-item label="字典编码" prop="code">
-						<el-input placeholder="字典编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
+					<el-form-item label="编码" prop="code">
+						<el-input placeholder="编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
 					</el-form-item>
 					<el-form-item>
 						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
@@ -61,7 +61,8 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import EditDictData from '/@/views/system/dict/component/editDictData.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysDictDataApi } from '/@/api-services';
+import { SysDictDataApi } from '/@/api-services/api';
+import { SysDictData } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysDictData',
@@ -71,8 +72,8 @@ export default defineComponent({
 		const editDictDataRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			loading: true,
-			dictDataData: [] as any,
+			loading: false,
+			dictDataData: [] as Array<SysDictData>,
 			queryParams: {
 				value: undefined,
 				code: undefined,
@@ -103,7 +104,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			var res = await getAPI(SysDictDataApi).sysDictDataPageGet(state.dictTypeId, state.queryParams.value, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
-			state.dictDataData = res.data.result?.items;
+			state.dictDataData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};

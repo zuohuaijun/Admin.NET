@@ -16,7 +16,8 @@ public class WeChatUser : EntityBase
     /// 关联系统用户
     /// </summary>
     [SugarColumn(IsIgnore = true)]
-    public SysPos SysPos { get; set; }
+    [Navigate(NavigateType.OneToOne, nameof(UserId))]
+    public SysUser SysUser { get; set; }
 
     /// <summary>
     /// 第三方登录类型

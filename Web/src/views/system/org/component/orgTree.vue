@@ -51,13 +51,14 @@ import { Search, MoreFilled } from '@element-plus/icons-vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysOrgApi } from '/@/api-services/api';
+import { SysOrg } from '/@/api-services/models';
 
 const filterText = ref('');
 const treeRef = ref<InstanceType<typeof ElTree>>();
 
 const state = reactive({
 	loading: false,
-	orgData: [] as any,
+	orgData: [] as Array<SysOrg>,
 	isShowCheckbox: false,
 	ownOrgData: [],
 });
@@ -73,7 +74,7 @@ watch(filterText, (val) => {
 const initTreeData = async () => {
 	state.loading = true;
 	var res = await getAPI(SysOrgApi).sysOrgListGet(0);
-	state.orgData = res.data.result;
+	state.orgData = res.data.result ?? [];
 	state.loading = false;
 };
 
