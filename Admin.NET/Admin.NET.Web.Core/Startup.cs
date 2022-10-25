@@ -41,6 +41,11 @@ public class Startup : AppStartup
         services.AddSensitiveDetection();
         //// 结果拦截器
         //services.AddMvcFilter<ResultFilter>();
+        // 控制台格式化
+        services.AddConsoleFormatter(options =>
+        {
+            options.DateFormat = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
+        });
         // 日志监听
         services.AddMonitorLogging(options =>
         {
@@ -54,6 +59,9 @@ public class Startup : AppStartup
             {
                 options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 首字母小写（驼峰样式）
                 options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
+                // options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
+                // options.SerializerSettings.DateParseHandling = DateParseHandling.None;
+                // options.SerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
                 // options.SerializerSettings.Converters.Add(new LongJsonConverter()); // long转string（防止js精度溢出） 超过16位开启
                 // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
@@ -89,6 +97,7 @@ public class Startup : AppStartup
         // 事件总线
         services.AddEventBus(options =>
         {
+            options.UseUtcTimestamp = false;
             // 不启用事件日志
             options.LogEnabled = false;
             // 事件执行器（失败重试）

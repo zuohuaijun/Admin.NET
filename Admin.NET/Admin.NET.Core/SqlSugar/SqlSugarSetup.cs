@@ -213,7 +213,7 @@ public static class SqlSugarSetup
     private static void SetDeletedEntityFilter(SqlSugarScopeProvider db)
     {
         // 配置实体假删除缓存
-        var cacheKey = $"DB:{db.CurrentConnectionConfig.ConfigId}:FAKEDELETE";
+        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:IsDelete";
         var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
         if (tableFilterItemList == null)
         {
@@ -256,7 +256,7 @@ public static class SqlSugarSetup
         if (string.IsNullOrWhiteSpace(tenantId)) return;
 
         // 配置租户缓存
-        var cacheKey = $"DB:{db.CurrentConnectionConfig.ConfigId}:TENANTID:{tenantId}";
+        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:TenantId:{tenantId}";
         var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
         if (tableFilterItemList == null)
         {
@@ -299,7 +299,7 @@ public static class SqlSugarSetup
         if (string.IsNullOrWhiteSpace(userId)) return;
 
         // 配置用户机构范围缓存
-        var cacheKey = $"DB:{db.CurrentConnectionConfig.ConfigId}:USERID:{userId}";
+        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:UserId:{userId}";
         var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
         if (tableFilterItemList == null)
         {
@@ -347,7 +347,7 @@ public static class SqlSugarSetup
             return;
 
         // 配置用户机构范围缓存
-        var cacheKey = $"DB:{db.CurrentConnectionConfig.ConfigId}:CUSTOM";
+        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:Custom";
         var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
         if (tableFilterItemList == null)
         {

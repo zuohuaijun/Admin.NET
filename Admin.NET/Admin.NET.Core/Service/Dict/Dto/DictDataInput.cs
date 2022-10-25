@@ -2,20 +2,12 @@
 
 public class DictDataInput : BaseIdInput
 {
-}
-
-public class GetDataDictDataInput
-{
     /// <summary>
-    /// 字典类型Id
+    /// 状态
     /// </summary>
-    [Required(ErrorMessage = "字典类型Id不能为空"), DataValidation(ValidationTypes.Numeric)]
-    public long DictTypeId { get; set; }
+    public StatusEnum Status { get; set; }
 }
 
-/// <summary>
-/// 字典值分页
-/// </summary>
 public class PageDictDataInput : BasePageInput
 {
     /// <summary>
@@ -34,82 +26,27 @@ public class PageDictDataInput : BasePageInput
     public string Code { get; set; }
 }
 
-public class AddDictDataInput
+[NotTable]
+public class AddDictDataInput : SysDictData
 {
-    /// <summary>
-    /// 字典类型Id
-    /// </summary>
-    public long DictTypeId { get; set; }
-
-    /// <summary>
-    /// 值
-    /// </summary>
-    public string Value { get; set; }
-
-    /// <summary>
-    /// 编码
-    /// </summary>
-    public string Code { get; set; }
-
-    /// <summary>
-    /// 排序
-    /// </summary>
-    public int Order { get; set; }
-
-    /// <summary>
-    /// 备注
-    /// </summary>
-    public string Remark { get; set; }
-
-    /// <summary>
-    /// 状态
-    /// </summary>
-    public int Status { get; set; }
 }
 
-public class UpdateDictDataInput : BaseIdInput
+[NotTable]
+public class UpdateDictDataInput : AddDictDataInput
 {
-    /// <summary>
-    /// 字典类型Id
-    /// </summary>
-    public long DictTypeId { get; set; }
-
-    /// <summary>
-    /// 值
-    /// </summary>
-    public string Value { get; set; }
-
-    /// <summary>
-    /// 编码
-    /// </summary>
-    public string Code { get; set; }
-
-    /// <summary>
-    /// 排序
-    /// </summary>
-    public int Order { get; set; }
-
-    /// <summary>
-    /// 备注
-    /// </summary>
-    public string Remark { get; set; }
-
-    /// <summary>
-    /// 状态
-    /// </summary>
-    public int Status { get; set; }
 }
 
 public class DeleteDictDataInput : BaseIdInput
 {
 }
 
-public class ChageStatusDictDataInput : BaseIdInput
+public class GetDataDictDataInput
 {
     /// <summary>
-    /// 状态
+    /// 字典类型Id
     /// </summary>
-    public int Status { get; set; }
+    [Required(ErrorMessage = "字典类型Id不能为空"), DataValidation(ValidationTypes.Numeric)]
+    public long DictTypeId { get; set; }
 }
 
 public class QueryDictDataInput

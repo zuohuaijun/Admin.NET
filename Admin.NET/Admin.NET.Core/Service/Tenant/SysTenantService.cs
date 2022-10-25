@@ -46,7 +46,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/page")]
-    public async Task<dynamic> GetTenantPage([FromQuery] TenantInput input)
+    public async Task<dynamic> GetTenantPage([FromQuery] PageTenantInput input)
     {
         return await _tenantRep.Context.Queryable<SysTenant>()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name.Trim()))
@@ -71,7 +71,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 初始化新增租户数据
+    /// 新增租户初始化
     /// </summary>
     /// <param name="newTenant"></param>
     private async Task InitNewTenant(SysTenant newTenant)
@@ -79,7 +79,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         long tenantId = newTenant.Id;
         string admin = newTenant.AdminName;
         string companyName = newTenant.Name;
-        // 初始化公司（组织结构）
+        // 初始化租户（组织结构）
         var newOrg = new SysOrg
         {
             TenantId = tenantId,
@@ -94,15 +94,15 @@ public class SysTenantService : IDynamicApiController, ITransient
         {
             TenantId = tenantId,
             Code = CommonConst.SysAdminRoleCode,
-            Name = "系统管理员",
+            Name = "租户管理员",
             DataScope = DataScopeEnum.All
         };
         await _roleRep.InsertAsync(newRole);
 
         var newPos = new SysPos
         {
-            Name = "总经理",
-            Code = "zjl",
+            Name = "租户管理员",
+            Code = "adminTenant",
             TenantId = tenantId
         };
         await _posRep.InsertAsync(newPos);
@@ -119,9 +119,9 @@ public class SysTenantService : IDynamicApiController, ITransient
             UserType = UserTypeEnum.Admin,
             OrgId = newOrg.Id,
             PosId = newPos.Id,
-            Birthday = System.DateTime.Parse("1988-02-03"),
-            RealName = "管理员",
-            Remark = "管理员"
+            Birthday = DateTime.Parse("1986-06-28"),
+            RealName = "租户管理员",
+            Remark = "租户管理员"
         };
         await _userRep.InsertAsync(newUser);
 
@@ -182,7 +182,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysTenant/edit")]
+    [HttpPost("/sysTenant/update")]
     public async Task UpdateTenant(UpdateTenantInput input)
     {
         var entity = input.Adapt<SysTenant>();
@@ -200,7 +200,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/detail")]
-    public async Task<SysTenant> GetTenant([FromQuery] QueryeTenantInput input)
+    public async Task<SysTenant> GetTenant([FromQuery] TenantInput input)
     {
         return await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
     }
@@ -236,13 +236,12 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/ownMenu")]
-    public async Task<List<SysMenu>> OwnMenuTree([FromQuery] QueryeTenantInput input)
+    public async Task<List<SysMenu>> OwnMenuTree([FromQuery] TenantInput input)
     {
         var tenantAdminUser = await GetTenantAdminUser(input.Id);
         if (tenantAdminUser == null) return new List<SysMenu>();
         var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
-        var tenantAdminRoleId = roleIds[0]; // 租户管理员角色Id
-        return await _sysRoleMenuService.GetRoleMenuTree(new List<long> { tenantAdminRoleId });
+        return await _sysRoleMenuService.GetRoleMenuTree(new List<long> { roleIds[0] });
     }
 
     /// <summary>
@@ -251,13 +250,12 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/ownMenuList")]
-    public async Task<List<long>> OwnMenuList([FromQuery] QueryeTenantInput input)
+    public async Task<List<long>> OwnMenuList([FromQuery] TenantInput input)
     {
         var tenantAdminUser = await GetTenantAdminUser(input.Id);
         if (tenantAdminUser == null) return new List<long>();
         var roleIds = await _sysUserRoleService.GetUserRoleIdList(tenantAdminUser.Id);
-        var tenantAdminRoleId = roleIds[0]; // 租户管理员角色Id
-        return await _sysRoleMenuService.GetRoleMenuList(new List<long> { tenantAdminRoleId });
+        return await _sysRoleMenuService.GetRoleMenuList(new List<long> { roleIds[0] });
     }
 
     /// <summary>
@@ -266,7 +264,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysTenant/resetPwd")]
-    public async Task ResetTenantPwd(QueryeTenantInput input)
+    public async Task ResetTenantPwd(TenantInput input)
     {
         var tenantAdminUser = await GetTenantAdminUser(input.Id);
         tenantAdminUser.Password = MD5Encryption.Encrypt(CommonConst.SysPassword);

@@ -85,7 +85,7 @@ public class AdminResultProvider : IUnifyResultProvider
             Result = data,
             Type = succeeded ? "success" : "error",
             Extras = UnifyContext.Take(),
-            Timestamp = DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()
+            Time = DateTime.Now  
         };
     }
 }
@@ -122,7 +122,7 @@ public class AdminResult<T>
     public object Extras { get; set; }
 
     /// <summary>
-    /// 时间戳
+    /// 时间
     /// </summary>
-    public long Timestamp { get; set; }
+    public DateTime Time { get; set; }
 }

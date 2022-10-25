@@ -307,6 +307,16 @@
             租户Id
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.EntityTenantId">
+            <summary>
+            租户基类实体Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EntityTenantId.TenantId">
+            <summary>
+            租户Id
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysCodeGen">
             <summary>
             代码生成表
@@ -520,51 +530,6 @@
         <member name="P:Admin.NET.Core.SysConfig.Remark">
             <summary>
             备注
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.SysDataResource">
-             <summary>
-              数据资源表
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDataResource.Pid">
-             <summary>
-             父节点Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDataResource.Name">
-             <summary>
-             名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDataResource.Value">
-             <summary>
-             值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDataResource.Code">
-             <summary>
-             节点编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDataResource.Order">
-             <summary>
-             排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDataResource.Remark">
-             <summary>
-             备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDataResource.Status">
-             <summary>
-             状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysDataResource.Children">
-            <summary>
-            数据资源子项
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysDictData">
@@ -1097,39 +1062,34 @@
             用户Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysOnlineUser.Account">
+        <member name="P:Admin.NET.Core.SysOnlineUser.UserName">
             <summary>
             账号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysOnlineUser.Name">
+        <member name="P:Admin.NET.Core.SysOnlineUser.RealName">
             <summary>
-            姓名
+            真实姓名
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysOnlineUser.LastTime">
+        <member name="P:Admin.NET.Core.SysOnlineUser.Time">
             <summary>
-            最后连接时间
+            连接时间
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysOnlineUser.LastLoginIp">
+        <member name="P:Admin.NET.Core.SysOnlineUser.Ip">
             <summary>
-            最后登录IP
+            连接IP
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysOnlineUser.LastLoginBrowser">
+        <member name="P:Admin.NET.Core.SysOnlineUser.Browser">
             <summary>
-            最后登录浏览器
+            浏览器
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysOnlineUser.LastLoginOs">
+        <member name="P:Admin.NET.Core.SysOnlineUser.Os">
             <summary>
-            最后登录所用系统
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysOnlineUser.TenantId">
-            <summary>
-            租户Id
+            操作系统
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysOrg">
@@ -1289,7 +1249,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysTenant.Name">
             <summary>
-            公司名称
+            租户名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysTenant.AdminName">
@@ -3157,89 +3117,85 @@
             结果筛选器
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.ChatHub">
-            <summary>
-            聊天集线器
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.ChatHub.OnConnectedAsync">
-            <summary>
-            连接
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ChatHub.OnDisconnectedAsync(System.Exception)">
-            <summary>
-            断开
-            </summary>
-            <param name="exception"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ChatHub.ForceExistUser(Admin.NET.Core.ForceExistUserRequest)">
+        <member name="M:Admin.NET.Core.IOnlineUserHub.ForceOffline(System.Object)">
             <summary>
             强制下线
-            </summary>
-            <param name="request"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ChatHub.ClientsSendMessage(Admin.NET.Core.MessageInput)">
-            <summary>
-            前端调用发送方法（发送信息给某个人）
-            </summary>
-            <param name="message"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ChatHub.ClientsSendMessagetoAll(Admin.NET.Core.MessageInput)">
-            <summary>
-            前端调用发送方法（发送信息给所有人）
-            </summary>
-            <param name="message"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ChatHub.ClientsSendMessagetoOther(Admin.NET.Core.MessageInput)">
-            <summary>
-            前端调用发送方法（发送消息给除了发送人的其他人）
-            </summary>
-            <param name="message"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ChatHub.ClientsSendMessagetoUsers(Admin.NET.Core.MessageInput)">
-            <summary>
-            前端调用发送方法（发送消息给某些人）
-            </summary>
-            <param name="message"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.IChatClient">
-            <summary>
-            聊天客户端接口定义
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.IChatClient.ForceExist(System.String)">
-            <summary>
-            强制下线
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.IChatClient.ReceiveMessage(System.Object)">
-            <summary>
-            发送信息
             </summary>
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.IChatClient.OnlineUserChanged(Admin.NET.Core.OnlineUserChangedDto)">
+        <member name="M:Admin.NET.Core.IOnlineUserHub.ReceiveMessage(System.Object)">
+            <summary>
+            接收消息
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.IOnlineUserHub.OnlineUserChange(Admin.NET.Core.OnlineUserHubOutput)">
             <summary>
             在线用户变动
             </summary>
             <param name="context"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.IChatClient.AppendNotice(Admin.NET.Core.SysNotice)">
+        <member name="M:Admin.NET.Core.IOnlineUserHub.AppendNotice(Admin.NET.Core.SysNotice)">
             <summary>
-            组合信息
+            组合消息
             </summary>
             <param name="notice"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.OnlineUserHub">
+            <summary>
+            在线用户集线器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.OnlineUserHub.OnConnectedAsync">
+            <summary>
+            连接
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.OnlineUserHub.OnDisconnectedAsync(System.Exception)">
+            <summary>
+            断开
+            </summary>
+            <param name="exception"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.OnlineUserHub.ForceOffline(Admin.NET.Core.OnlineUserHubInput)">
+            <summary>
+            强制下线
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.OnlineUserHub.ClientsSendMessage(Admin.NET.Core.MessageInput)">
+            <summary>
+            前端调用发送方法（发送信息给某个人）
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.OnlineUserHub.ClientsSendMessagetoAll(Admin.NET.Core.MessageInput)">
+            <summary>
+            前端调用发送方法（发送信息给所有人）
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.OnlineUserHub.ClientsSendMessagetoOther(Admin.NET.Core.MessageInput)">
+            <summary>
+            前端调用发送方法（发送消息给除了发送人的其他人）
+            </summary>
+            <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.OnlineUserHub.ClientsSendMessagetoUsers(Admin.NET.Core.MessageInput)">
+            <summary>
+            前端调用发送方法（发送消息给某些人）
+            </summary>
+            <param name="message"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.LogJob">
@@ -3256,12 +3212,12 @@
         </member>
         <member name="T:Admin.NET.Core.Job.OnlineUserJob">
             <summary>
-            任务调度
+            在线用户任务调度
             </summary>
         </member>
         <member name="M:Admin.NET.Core.Job.OnlineUserJob.ClearOnlineUser(Furion.TaskScheduler.SpareTimer,System.Int64)">
             <summary>
-            清理在线用户定时器---服务启动时自动清空在线用户，防止存在僵尸用户(掉线用户会自动重连)
+            服务重启清空在线用户（防止僵尸用户，掉线用户会自动重连）
             </summary>
         </member>
         <member name="T:Admin.NET.Core.DatabaseLoggingWriter">
@@ -3511,17 +3467,6 @@
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SysConfigSeedData.HasData">
-            <summary>
-            种子数据
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.SysDataResourceSeedData">
-            <summary>
-            系统数据资源种子数据
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SysDataResourceSeedData.HasData">
             <summary>
             种子数据
             </summary>
@@ -3788,7 +3733,7 @@
             登录系统
             </summary>
             <param name="input"></param>
-            <remarks>用户名/密码：vben/123456</remarks>
+            <remarks>用户名/密码：superadmin/123456</remarks>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.GetUserInfo">
@@ -4507,11 +4452,6 @@
             <param name="sysFile"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.PageConfigInput">
-            <summary>
-            参数配置分页
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.PageConfigInput.Name">
             <summary>
             名称
@@ -4520,86 +4460,6 @@
         <member name="P:Admin.NET.Core.Service.PageConfigInput.Code">
             <summary>
             编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddConfigInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddConfigInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddConfigInput.Value">
-            <summary>
-            属性值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddConfigInput.SysFlag">
-            <summary>
-            是否是系统参数（Y-是，N-否）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddConfigInput.GroupCode">
-            <summary>
-            常量所属分类的编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddConfigInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddConfigInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddConfigInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Value">
-            <summary>
-            属性值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.SysFlag">
-            <summary>
-            是否是系统参数（Y-是，N-否）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.GroupCode">
-            <summary>
-            常量所属分类的编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateConfigInput.Status">
-            <summary>
-            状态
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysConfigService">
@@ -4701,217 +4561,118 @@
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.TableName">
-             <summary>
-            
-             </summary>
-             <example>student</example>
+            <summary>
+            表名
+            </summary>
+            <example>student</example>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.EntityName">
-             <summary>
-            
-             </summary>
-             <example>Student</example>
+            <summary>
+            实体名
+            </summary>
+            <example>Student</example>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.BaseClassName">
-             <summary>
-            
-             </summary>
-             <example>AutoIncrementEntity</example>
+            <summary>
+            基类名
+            </summary>
+            <example>AutoIncrementEntity</example>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.Position">
-             <summary>
-            
-             </summary>
-             <example>Magic.Application</example>
+            <summary>
+            导出位置
+            </summary>
+            <example>Web.Application</example>
         </member>
         <member name="P:Admin.NET.Core.Service.CreateEntityInput.ConfigId">
-             <summary>
-            
-             </summary>
+            <summary>
+            库标识
+            </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysDataBaseService">
+        <member name="T:Admin.NET.Core.Service.SysDatabaseService">
             <summary>
             系统数据库管理服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.ColumnAdd(Admin.NET.Core.Service.DbColumnInfoInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetDbList">
             <summary>
-            添加列
+            获取库列表
             </summary>
-            <param name="input"></param>
+            <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.ColumnDelete(Admin.NET.Core.Service.DbColumnInfoOutput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetColumnList(System.String,System.String)">
             <summary>
-            删除列
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.ColumnEdit(Admin.NET.Core.Service.EditColumnInput)">
-            <summary>
-            编辑列
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetColumnInfosByTableName(System.String,System.String)">
-            <summary>
-            获取表字段
+            获取字段列表
             </summary>
             <param name="tableName">表名</param>
             <param name="configId">ConfigId</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetTableInfoList(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.AddColumn(Admin.NET.Core.Service.DbColumnInput)">
             <summary>
-            获取表信息
+            增加列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.DeleteColumn(Admin.NET.Core.Service.DeleteDbColumnInput)">
+            <summary>
+            删除列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.UpdateColumn(Admin.NET.Core.Service.UpdateDbColumnInput)">
+            <summary>
+            编辑列
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetTableList(System.String)">
+            <summary>
+            获取表列表
             </summary>
             <param name="configId">ConfigId</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.TableAdd(Admin.NET.Core.Service.DbTableInfoInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.AddTable(Admin.NET.Core.Service.DbTableInput)">
             <summary>
-            新增表
+            增加表
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.TableDelete(Admin.NET.Core.Service.DeleteTableInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.DeleteTable(Admin.NET.Core.Service.DeleteDbTableInput)">
             <summary>
             删除表
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.TableEdit(Admin.NET.Core.Service.EditTableInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.UpdateTable(Admin.NET.Core.Service.UpdateDbTableInput)">
             <summary>
             编辑表
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.CreateEntity(Admin.NET.Core.Service.CreateEntityInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.CreateEntity(Admin.NET.Core.Service.CreateEntityInput)">
             <summary>
             创建实体
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetTemplatePath">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetEntityTemplatePath">
             <summary>
-            获取模板文件路径集合
+            获取实体模板文件路径
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDataBaseService.GetTargetPath(Admin.NET.Core.Service.CreateEntityInput)">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetEntityTargetPath(Admin.NET.Core.Service.CreateEntityInput)">
             <summary>
-            设置生成文件路径
+            设置生成实体文件路径
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="P:Admin.NET.Core.Service.DataResourcesTreeInput.RootValue">
-            <summary>
-            根节点值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DataResourcesTreeInput.ChildName">
-            <summary>
-            对应根节点下的名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DataResourcesTreeInput.IsContainSelf">
-            <summary>
-            是否包含自己,默认不包含
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DataResourceInput.Pid">
-            <summary>
-            父Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DataResourceInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DataResourceInput.Value">
-             <summary>
-             值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DataResourceInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DataResourceInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DataResourceInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DataResourceInput.Status">
+        <member name="P:Admin.NET.Core.Service.DictDataInput.Status">
             <summary>
             状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDataResourceInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.Service.SysDataResourceService">
-            <summary>
-            系统数据资源服务
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataResourceService.GetDataResourceTree(Admin.NET.Core.Service.DataResourcesTreeInput)">
-            <summary>
-            获取数据资源树结构列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataResourceService.GetDataResourceList(Admin.NET.Core.Service.DataResourceInput)">
-            <summary>
-            获取数据资源列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataResourceService.AddDataResource(Admin.NET.Core.Service.AddDataResourceInput)">
-            <summary>
-            增加数据资源
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataResourceService.UpdateDataResource(Admin.NET.Core.Service.UpdateDataResourceInput)">
-            <summary>
-            更新数据资源
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataResourceService.DeleteDataResource(Admin.NET.Core.Service.DeleteDataResourceInput)">
-            <summary>
-            删除数据资源
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysDataResourceService.GetChildIdListWithSelfById(System.Int64)">
-            <summary>
-            根据节点Id获取子节点Id集合(包含自己)
-            </summary>
-            <param name="pid"></param>
-            <returns></returns>
-        </member>
-        <member name="P:Admin.NET.Core.Service.GetDataDictDataInput.DictTypeId">
-            <summary>
-            字典类型Id
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.Service.PageDictDataInput">
-            <summary>
-            字典值分页
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.PageDictDataInput.DictTypeId">
@@ -4929,69 +4690,9 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.DictTypeId">
+        <member name="P:Admin.NET.Core.Service.GetDataDictDataInput.DictTypeId">
             <summary>
             字典类型Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Value">
-            <summary>
-            值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictDataInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.DictTypeId">
-            <summary>
-            字典类型Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Value">
-            <summary>
-            值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictDataInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.ChageStatusDictDataInput.Status">
-            <summary>
-            状态
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.QueryDictDataInput.Code">
@@ -5004,9 +4705,9 @@
             状态
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.PageDictTypeInput">
+        <member name="P:Admin.NET.Core.Service.DictTypeInput.Status">
             <summary>
-            字典类型分页
+            状态
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.PageDictTypeInput.Name">
@@ -5019,64 +4720,9 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddDictTypeInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Code">
-            <summary>
-            编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateDictTypeInput.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.GetDataDictTypeInput.Code">
             <summary>
             编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.ChangeStatusDictTypeInput.Status">
-            <summary>
-            状态
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysDictDataService">
@@ -5125,7 +4771,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.ChangeDictDataStatus(Admin.NET.Core.Service.ChageStatusDictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.ChangeDictDataStatus(Admin.NET.Core.Service.DictDataInput)">
             <summary>
             修改字典值状态
             </summary>
@@ -5205,7 +4851,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.ChangeDictTypeStatus(Admin.NET.Core.Service.ChangeStatusDictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.ChangeDictTypeStatus(Admin.NET.Core.Service.DictTypeInput)">
             <summary>
             修改字典类型状态
             </summary>
@@ -5214,7 +4860,7 @@
         </member>
         <member name="P:Admin.NET.Core.Service.PageFileInput.FileName">
             <summary>
-            原始名称
+            文件名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.PageFileInput.StartTime">
@@ -5605,41 +5251,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendMessageToAllUser(Admin.NET.Core.MessageInput)">
-            <summary>
-            发送消息给所有人
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendMessageToUser(Admin.NET.Core.MessageInput)">
-            <summary>
-            发送消息给某个人
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendMessageToUsers(Admin.NET.Core.MessageInput)">
-            <summary>
-            发送消息给某些人
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendMessageToOtherUser(Admin.NET.Core.MessageInput)">
-            <summary>
-            发送消息给除了发送人的其他人
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.ISysMessageService.SendEmail(System.String)">
-            <summary>
-            发送邮件
-            </summary>
-            <param name="message"></param>
-            <returns></returns>
-        </member>
         <member name="T:Admin.NET.Core.Service.SysMessageService">
             <summary>
             系统消息发送服务
@@ -5966,25 +5577,35 @@
             <param name="status"></param>
             <returns></returns>
         </member>
+        <member name="P:Admin.NET.Core.Service.PageOnlineUserInput.UserName">
+            <summary>
+            账号名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageOnlineUserInput.RealName">
+            <summary>
+            真实姓名
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.SysOnlineUserService">
             <summary>
             系统在线用户服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.List(Admin.NET.Core.BasePageInput)">
+        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.GetOnlineUserPage(Admin.NET.Core.Service.PageOnlineUserInput)">
             <summary>
-            获取在线用户信息
+            获取在线用户分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.ForceExist(Admin.NET.Core.SysOnlineUser)">
+        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.ForceOffline(Admin.NET.Core.SysOnlineUser)">
             <summary>
             强制下线
             </summary>
             <param name="user"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.PushNotice(Admin.NET.Core.SysNotice,System.Collections.Generic.List{System.Int64})">
+        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.AppendNotice(Admin.NET.Core.SysNotice,System.Collections.Generic.List{System.Int64})">
             <summary>
             发送消息
             </summary>
@@ -6416,77 +6037,22 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.TenantInput">
+        <member name="P:Admin.NET.Core.Service.PageTenantInput.Name">
             <summary>
-            租户管理输入参数
+            名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.Name">
-            <summary>
-            公司名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.AdminName">
-            <summary>
-            管理员名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.Host">
-            <summary>
-            主机
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.Email">
-            <summary>
-            电子邮箱
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.Phone">
+        <member name="P:Admin.NET.Core.Service.PageTenantInput.Phone">
             <summary>
             电话
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.Connection">
-            <summary>
-            数据库连接
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.Schema">
-            <summary>
-            架构
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.AddTenantInput.Name">
             <summary>
-            公司名称
+            租户名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.AddTenantInput.AdminName">
-            <summary>
-            管理员名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DeleteTenantInput.Id">
-            <summary>
-            Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateTenantInput.Id">
-            <summary>
-            Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateTenantInput.Name">
-            <summary>
-            公司名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateTenantInput.AdminName">
             <summary>
             管理员名称
             </summary>
@@ -6496,7 +6062,7 @@
             系统租户管理服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantPage(Admin.NET.Core.Service.TenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantPage(Admin.NET.Core.Service.PageTenantInput)">
             <summary>
             获取租户分页列表
             </summary>
@@ -6512,7 +6078,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.InitNewTenant(Admin.NET.Core.SysTenant)">
             <summary>
-            初始化新增租户数据
+            新增租户初始化
             </summary>
             <param name="newTenant"></param>
         </member>
@@ -6530,7 +6096,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenant(Admin.NET.Core.Service.QueryeTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenant(Admin.NET.Core.Service.TenantInput)">
             <summary>
             获取租户详情
             </summary>
@@ -6550,21 +6116,21 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuTree(Admin.NET.Core.Service.QueryeTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuTree(Admin.NET.Core.Service.TenantInput)">
             <summary>
             获取租户管理员角色拥有菜单树
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuList(Admin.NET.Core.Service.QueryeTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuList(Admin.NET.Core.Service.TenantInput)">
             <summary>
             获取租户管理员角色拥有菜单树
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.ResetTenantPwd(Admin.NET.Core.Service.QueryeTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.ResetTenantPwd(Admin.NET.Core.Service.TenantInput)">
             <summary>
             重置租户管理员密码
             </summary>
@@ -6596,11 +6162,6 @@
         <member name="P:Admin.NET.Core.Service.SetTimerStatusInput.Status">
             <summary>
             任务状态
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.Service.TimerMethod">
-            <summary>
-            定时任务方法
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.TimerMethod.MethodName">
@@ -7209,14 +6770,14 @@
             消息标题
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.MessageInput.Message">
-            <summary>
-            消息内容
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.MessageInput.MessageType">
             <summary>
             消息类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.MessageInput.Message">
+            <summary>
+            消息内容
             </summary>
         </member>
         <member name="T:Admin.NET.Core.UserManager">
@@ -7482,9 +7043,9 @@
             附加数据
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.AdminResult`1.Timestamp">
+        <member name="P:Admin.NET.Core.AdminResult`1.Time">
             <summary>
-            时间戳
+            时间
             </summary>
         </member>
         <member name="T:Admin.NET.Core.BaseIdInput">
@@ -7693,6 +7254,7 @@
             获取开始时间
             </summary>
             <param name="dateTime"></param>
+            <param name="days"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.DateTimeUtil.ToLocalTimeDateBySeconds(System.Int64)">
@@ -7754,6 +7316,20 @@
             <summary>
             获取今天日期范围00:00:00 - 23:59:59
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.GetWeekByDate(System.DateTime)">
+            <summary>
+            获取星期几
+            </summary>
+            <param name="dt"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.DateTimeUtil.GetWeekNumInMonth(System.DateTime)">
+            <summary>
+            获取这个月的第几周
+            </summary>
+            <param name="daytime"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.LongJsonConverter">

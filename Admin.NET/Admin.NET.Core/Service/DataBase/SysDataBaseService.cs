@@ -4,23 +4,49 @@
 /// 系统数据库管理服务
 /// </summary>
 [ApiDescriptionSettings(Order = 145)]
-public class SysDataBaseService : IDynamicApiController, ITransient
+public class SysDatabaseService : IDynamicApiController, ITransient
 {
     private readonly ISqlSugarClient _db;
     private readonly IViewEngine _viewEngine;
 
-    public SysDataBaseService(ISqlSugarClient db, IViewEngine viewEngine)
+    public SysDatabaseService(ISqlSugarClient db, IViewEngine viewEngine)
     {
         _db = db;
         _viewEngine = viewEngine;
     }
 
     /// <summary>
-    /// 添加列
+    /// 获取库列表
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("/sysDatabase/list")]
+    public List<dynamic> GetDbList()
+    {
+        return App.GetOptions<DbConnectionOptions>().ConnectionConfigs.Select(u => u.ConfigId).ToList();
+    }
+
+    /// <summary>
+    /// 获取字段列表
+    /// </summary>
+    /// <param name="tableName">表名</param>
+    /// <param name="configId">ConfigId</param>
+    /// <returns></returns>
+    [HttpGet("/sysDatabase/columnList")]
+    public List<DbColumnOutput> GetColumnList(string tableName, string configId = SqlSugarConst.ConfigId)
+    {
+        var db = _db.AsTenant().GetConnectionScope(configId);
+        if (string.IsNullOrWhiteSpace(tableName))
+            return new List<DbColumnOutput>();
+
+        return db.DbMaintenance.GetColumnInfosByTableName(tableName, false).Adapt<List<DbColumnOutput>>();
+    }
+
+    /// <summary>
+    /// 增加列
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/column/add")]
-    public void ColumnAdd(DbColumnInfoInput input)
+    [HttpPost("/sysDatabase/column/add")]
+    public void AddColumn(DbColumnInput input)
     {
         var column = new DbColumnInfo
         {
@@ -33,80 +59,61 @@ public class SysDataBaseService : IDynamicApiController, ITransient
             DecimalDigits = input.DecimalDigits,
             DataType = input.DataType
         };
-        _db.DbMaintenance.AddColumn(input.TableName, column);
-        _db.DbMaintenance.AddColumnRemark(input.DbColumnName, input.TableName, input.ColumnDescription);
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        db.DbMaintenance.AddColumn(input.TableName, column);
+        db.DbMaintenance.AddColumnRemark(input.DbColumnName, input.TableName, input.ColumnDescription);
         if (column.IsPrimarykey)
-        {
-            _db.DbMaintenance.AddPrimaryKey(input.TableName, input.DbColumnName);
-        }
+            db.DbMaintenance.AddPrimaryKey(input.TableName, input.DbColumnName);
     }
 
     /// <summary>
     /// 删除列
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/column/delete")]
-    public void ColumnDelete(DbColumnInfoOutput input)
+    [HttpPost("/sysDatabase/column/delete")]
+    public void DeleteColumn(DeleteDbColumnInput input)
     {
-        _db.DbMaintenance.DropColumn(input.TableName, input.DbColumnName);
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        db.DbMaintenance.DropColumn(input.TableName, input.DbColumnName);
     }
 
     /// <summary>
     /// 编辑列
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/column/edit")]
-    public void ColumnEdit(EditColumnInput input)
+    [HttpPost("/sysDatabase/column/update")]
+    public void UpdateColumn(UpdateDbColumnInput input)
     {
-        _db.DbMaintenance.RenameColumn(input.TableName, input.OldName, input.DbColumnName);
-        if (_db.DbMaintenance.IsAnyColumnRemark(input.DbColumnName, input.TableName))
-        {
-            _db.DbMaintenance.DeleteColumnRemark(input.DbColumnName, input.TableName);
-        }
-        _db.DbMaintenance.AddColumnRemark(input.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(input.ColumnDescription) ? input.DbColumnName : input.ColumnDescription);
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        db.DbMaintenance.RenameColumn(input.TableName, input.OldColumnName, input.ColumnName);
+        if (db.DbMaintenance.IsAnyColumnRemark(input.ColumnName, input.TableName))
+            db.DbMaintenance.DeleteColumnRemark(input.ColumnName, input.TableName);
+        db.DbMaintenance.AddColumnRemark(input.ColumnName, input.TableName, string.IsNullOrWhiteSpace(input.Description) ? input.ColumnName : input.Description);
     }
 
     /// <summary>
-    /// 获取表字段
-    /// </summary>
-    /// <param name="tableName">表名</param>
-    /// <param name="configId">ConfigId</param>
-    /// <returns></returns>
-    [HttpGet("/dataBase/columnInfoList")]
-    public List<DbColumnInfoOutput> GetColumnInfosByTableName(string tableName, string configId = SqlSugarConst.ConfigId)
-    {
-        var provider = _db.AsTenant().GetConnectionScope(configId);
-        if (string.IsNullOrWhiteSpace(tableName))
-            return new List<DbColumnInfoOutput>();
-
-        return provider.DbMaintenance.GetColumnInfosByTableName(tableName, false).Adapt<List<DbColumnInfoOutput>>();
-    }
-
-    /// <summary>
-    /// 获取表信息
+    /// 获取表列表
     /// </summary>
     /// <param name="configId">ConfigId</param>
     /// <returns></returns>
-    [HttpGet("/dataBase/tableInfoList")]
-    public List<DbTableInfo> GetTableInfoList(string configId = SqlSugarConst.ConfigId)
+    [HttpGet("/sysDatabase/tableList")]
+    public List<DbTableInfo> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
-        var provider = _db.AsTenant().GetConnectionScope(configId);
-        return provider.DbMaintenance.GetTableInfoList(false);
+        var db = _db.AsTenant().GetConnectionScope(configId);
+        return db.DbMaintenance.GetTableInfoList(false);
     }
 
     /// <summary>
-    /// 新增表
+    /// 增加表
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/table/add")]
-    public void TableAdd(DbTableInfoInput input)
+    [HttpPost("/sysDatabase/table/add")]
+    public void AddTable(DbTableInput input)
     {
-        var provider = _db.AsTenant().GetConnectionScope(input.ConfigId);
         var columns = new List<DbColumnInfo>();
         if (input.DbColumnInfoList == null || !input.DbColumnInfoList.Any())
-        {
             throw Oops.Oh(ErrorCodeEnum.db1000);
-        }
+
         input.DbColumnInfoList.ForEach(m =>
         {
             columns.Add(new DbColumnInfo
@@ -121,15 +128,15 @@ public class SysDataBaseService : IDynamicApiController, ITransient
                 DecimalDigits = m.DecimalDigits
             });
         });
-        provider.DbMaintenance.CreateTable(input.Name, columns, false);
-        provider.DbMaintenance.AddTableRemark(input.Name, input.Description);
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        db.DbMaintenance.CreateTable(input.TableName, columns, false);
+        db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
         if (columns.Any(m => m.IsPrimarykey))
-        {
-            provider.DbMaintenance.AddPrimaryKey(input.Name, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
-        }
+            db.DbMaintenance.AddPrimaryKey(input.TableName, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
+
         input.DbColumnInfoList.ForEach(m =>
         {
-            provider.DbMaintenance.AddColumnRemark(m.DbColumnName, input.Name, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
+            db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
         });
     }
 
@@ -137,45 +144,43 @@ public class SysDataBaseService : IDynamicApiController, ITransient
     /// 删除表
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/table/delete")]
-    public void TableDelete(DeleteTableInput input)
+    [HttpPost("/sysDatabase/table/delete")]
+    public void DeleteTable(DeleteDbTableInput input)
     {
-        var provider = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        provider.DbMaintenance.DropTable(input.Name);
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        db.DbMaintenance.DropTable(input.TableName);
     }
 
     /// <summary>
     /// 编辑表
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/table/edit")]
-    public void TableEdit(EditTableInput input)
+    [HttpPost("/sysDatabase/table/update")]
+    public void UpdateTable(UpdateDbTableInput input)
     {
-        var provider = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        provider.DbMaintenance.RenameTable(input.OldName, input.Name);
-        if (provider.DbMaintenance.IsAnyTableRemark(input.Name))
-        {
-            provider.DbMaintenance.DeleteTableRemark(input.Name);
-        }
-        provider.DbMaintenance.AddTableRemark(input.Name, input.Description);
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        db.DbMaintenance.RenameTable(input.OldTableName, input.TableName);
+        if (db.DbMaintenance.IsAnyTableRemark(input.TableName))
+            db.DbMaintenance.DeleteTableRemark(input.TableName);
+        db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
     }
 
     /// <summary>
     /// 创建实体
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/table/createEntity")]
+    [HttpPost("/sysDatabase/entity/create")]
     public void CreateEntity(CreateEntityInput input)
     {
-        var provider = _db.AsTenant().GetConnectionScope(input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.BaseClassName = string.IsNullOrWhiteSpace(input.BaseClassName) ? "" : $" : {input.BaseClassName}";
-        var templatePath = GetTemplatePath();
-        var targetPath = GetTargetPath(input);
-        DbTableInfo dbTableInfo = provider.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName);
+        var templatePath = GetEntityTemplatePath();
+        var targetPath = GetEntityTargetPath(input);
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName);
         if (dbTableInfo == null)
             throw Oops.Oh(ErrorCodeEnum.db1001);
-        List<DbColumnInfo> dbColumnInfos = provider.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
+        List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
 
         if (input.BaseClassName.Contains("EntityTenant"))
         {
@@ -217,24 +222,23 @@ public class SysDataBaseService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取模板文件路径集合
+    /// 获取实体模板文件路径
     /// </summary>
     /// <returns></returns>
-    private static string GetTemplatePath()
+    private static string GetEntityTemplatePath()
     {
         var templatePath = App.WebHostEnvironment.WebRootPath + @"\Template\";
         return Path.Combine(templatePath, "Entity.cs.vm");
     }
 
     /// <summary>
-    /// 设置生成文件路径
+    /// 设置生成实体文件路径
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    private static string GetTargetPath(CreateEntityInput input)
+    private static string GetEntityTargetPath(CreateEntityInput input)
     {
         var backendPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName, input.Position, "Entity");
-        var entityPath = Path.Combine(backendPath, input.EntityName + ".cs");
-        return entityPath;
+        return Path.Combine(backendPath, input.EntityName + ".cs");
     }
 }

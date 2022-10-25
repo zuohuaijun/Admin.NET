@@ -71,3 +71,15 @@ public abstract class EntityTenant : EntityBase
     [SugarColumn(ColumnDescription = "租户Id")]
     public virtual long? TenantId { get; set; }
 }
+
+/// <summary>
+/// 租户基类实体Id
+/// </summary>
+public abstract class EntityTenantId : EntityBaseId
+{
+    /// <summary>
+    /// 租户Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "租户Id")]
+    public virtual long? TenantId { get; set; }
+}

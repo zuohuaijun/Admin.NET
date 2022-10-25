@@ -1,0 +1,174 @@
+<template>
+	<div class="sys-oplog-container">
+		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
+			<el-form :model="queryParams" ref="queryForm" :inline="true">
+				<el-form-item label="开始时间" prop="name">
+					<el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
+				</el-form-item>
+				<el-form-item label="结束时间" prop="code">
+					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" />
+				</el-form-item>
+				<el-form-item>
+					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysOplog:page'"> 查询 </el-button>
+					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysOplog:clear'"> 清空 </el-button>
+				</el-form-item>
+			</el-form>
+		</el-card>
+
+		<el-card shadow="hover" style="margin-top: 8px">
+			<el-table :data="logData" style="width: 100%" v-loading="loading" border>
+				<el-table-column type="index" label="序号" width="55" align="center" />
+				<el-table-column prop="logName" label="记录器类别名称" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="logLevel" label="日志级别" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="eventId" label="事件Id" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="message" label="日志消息" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="exception" label="异常对象" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="state" label="当前状态值" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="threadId" label="线程Id" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="logDateTime" label="日志记录时间" align="center" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip></el-table-column>
+				<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
+					<template #default="scope">
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewDetail(scope.row)" v-auth="'sysOplog:page'">详情 </el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+			<el-pagination
+				v-model:currentPage="tableParams.page"
+				v-model:page-size="tableParams.pageSize"
+				:total="tableParams.total"
+				:page-sizes="[10, 20, 50, 100]"
+				small
+				background
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				layout="total, sizes, prev, pager, next, jumper"
+			/>
+		</el-card>
+		<el-dialog v-model="dialogVisible" title="日志详情" width="769px">
+			<pre>{{ content }}</pre>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button type="primary" @click="dialogVisible = false">确认</el-button>
+				</span>
+			</template>
+		</el-dialog>
+	</div>
+</template>
+
+<script lang="ts">
+import { toRefs, reactive, onMounted, defineComponent } from 'vue';
+import { ElMessage } from 'element-plus';
+
+import { getAPI } from '/@/utils/axios-utils';
+import { SysLogOpApi } from '/@/api-services';
+
+export default defineComponent({
+	name: 'sysOpLog',
+	components: {},
+	setup() {
+		const state = reactive({
+			loading: true,
+			queryParams: {
+				startTime: undefined,
+				endTime: undefined,
+			},
+			tableParams: {
+				page: 1,
+				pageSize: 10,
+				total: 0 as any,
+			},
+			logData: [] as any,
+			dialogVisible: false,
+			content: '',
+		});
+		onMounted(async () => {
+			handleQuery();
+		});
+		// 查询操作
+		const handleQuery = async () => {
+			if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
+			if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
+			state.loading = true;
+			var res = await getAPI(SysLogOpApi).sysLogOpPageGet(state.queryParams.startTime, state.queryParams.endTime, state.tableParams.page, state.tableParams.pageSize);
+			state.logData = res.data.result?.items;
+			state.tableParams.total = res.data.result?.total;
+			state.loading = false;
+		};
+		// 重置操作
+		const resetQuery = () => {
+			state.queryParams.startTime = undefined;
+			state.queryParams.endTime = undefined;
+			handleQuery();
+		};
+		// 清空日志
+		const clearLog = async () => {
+			state.loading = true;
+			await getAPI(SysLogOpApi).sysLogOpClearPost();
+			state.loading = false;
+
+			ElMessage.success('清空成功');
+			handleQuery();
+		};
+		// 改变页面容量
+		const handleSizeChange = (val: number) => {
+			state.tableParams.pageSize = val;
+			handleQuery();
+		};
+		// 改变页码序号
+		const handleCurrentChange = (val: number) => {
+			state.tableParams.page = val;
+			handleQuery();
+		};
+		// 查看详情
+		const viewDetail = (row: any) => {
+			state.content = row.message;
+			state.dialogVisible = true;
+		};
+		const shortcuts = [
+			{
+				text: '今天',
+				value: new Date(),
+			},
+			{
+				text: '昨天',
+				value: () => {
+					const date = new Date();
+					date.setTime(date.getTime() - 3600 * 1000 * 24);
+					return date;
+				},
+			},
+			{
+				text: '上周',
+				value: () => {
+					const date = new Date();
+					date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
+					return date;
+				},
+			},
+		];
+		return {
+			handleQuery,
+			resetQuery,
+			clearLog,
+			shortcuts,
+			handleSizeChange,
+			handleCurrentChange,
+			viewDetail,
+			...toRefs(state),
+		};
+	},
+});
+</script>
+
+<style lang="scss">
+.el-popper {
+	max-width: 60%;
+}
+
+pre {
+	white-space: break-spaces;
+	line-height: 20px;
+}
+</style>

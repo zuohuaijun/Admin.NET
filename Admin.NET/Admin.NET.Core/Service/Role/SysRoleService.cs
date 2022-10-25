@@ -200,7 +200,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysRole/ownMenu")]
+    [HttpGet("/sysRole/ownMenuTree")]
     public async Task<List<SysMenu>> GetRoleOwnMenuTree([FromQuery] RoleInput input)
     {
         return await _sysRoleMenuService.GetRoleMenuTree(new List<long> { input.Id });

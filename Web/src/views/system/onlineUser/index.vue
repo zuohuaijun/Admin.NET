@@ -1,0 +1,183 @@
+<template>
+	<div class="sys-onlineUser-container">
+		<el-drawer v-model="state.isVisible" title="在线用户列表" size="45%">
+			<el-card shadow="hover" :body-style="{ paddingBottom: '0' }" style="margin: 8px">
+				<el-form :model="state.queryParams" ref="queryForm" :inline="true">
+					<el-form-item label="账号名称" prop="userName">
+						<el-input placeholder="账号名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.userName" />
+					</el-form-item>
+					<el-form-item label="真实姓名" prop="realName">
+						<el-input placeholder="账号名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.realName" />
+					</el-form-item>
+					<el-form-item>
+						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+						<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
+					</el-form-item>
+				</el-form>
+			</el-card>
+
+			<el-card shadow="hover" style="margin: 8px">
+				<el-table :data="state.onlineUserList" style="width: 100%" v-loading="state.loading" border>
+					<el-table-column type="index" label="序号" width="55" align="center" />
+					<el-table-column prop="userName" label="账号" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="realName" label="姓名" show-overflow-tooltip></el-table-column>
+					<el-table-column prop="ip" label="IP地址" show-overflow-tooltip> </el-table-column>
+					<el-table-column prop="browser" label="浏览器" show-overflow-tooltip></el-table-column>
+					<!-- <el-table-column prop="connectionId" label="连接Id" show-overflow-tooltip></el-table-column> -->
+					<el-table-column prop="time" label="登录时间" show-overflow-tooltip></el-table-column>
+					<el-table-column label="操作" width="70" fixed="right" align="center" show-overflow-tooltip>
+						<template #default="scope">
+							<el-button icon="ele-CircleClose" size="small" text type="danger" v-auth="'sysUser:forceOffline'" @click="forceOffline(scope.row)"> 下线 </el-button>
+						</template>
+					</el-table-column>
+				</el-table>
+				<el-pagination
+					v-model:currentPage="state.tableParams.page"
+					v-model:page-size="state.tableParams.pageSize"
+					:total="state.tableParams.total"
+					:page-sizes="[10, 20, 50, 100]"
+					small
+					background
+					@size-change="handleSizeChange"
+					@current-change="handleCurrentChange"
+					layout="total, sizes, prev, pager, next, jumper"
+				/>
+			</el-card>
+		</el-drawer>
+	</div>
+</template>
+
+<script setup lang="ts">
+import { reactive } from 'vue';
+import { ElMessageBox, ElNotification } from 'element-plus';
+import * as SignalR from '@microsoft/signalr';
+
+import { getAPI, getToken, clearAccessTokens } from '/@/utils/axios-utils';
+import { SysOnlineUserApi, SysAuthApi } from '/@/api-services/api';
+
+const state = reactive({
+	loading: false,
+	isVisible: false,
+	queryParams: {
+		userName: undefined,
+		realName: undefined,
+	},
+	tableParams: {
+		page: 1,
+		pageSize: 10,
+		total: 0 as any,
+	},
+	onlineUserList: [] as any, // 在线用户列表
+});
+
+// 初始化SignalR对象
+const connection = new SignalR.HubConnectionBuilder()
+	.configureLogging(SignalR.LogLevel.Information)
+	.withUrl(`${import.meta.env.VITE_API_URL}/hubs/onlineUser?access_token=${getToken()}`)
+	.withAutomaticReconnect({
+		nextRetryDelayInMilliseconds: (a) => {
+			console.log(a);
+			return 5000; // 每5秒重连一次
+		},
+	})
+	.build();
+
+connection.keepAliveIntervalInMilliseconds = 15 * 1000; // 心跳检测15s
+connection.serverTimeoutInMilliseconds = 30 * 60 * 1000; // 超时时间30m
+
+// 启动连接
+connection.start().then(() => {
+	console.log('启动连接');
+});
+// 断开连接
+connection.onclose(async () => {
+	console.log('断开连接');
+});
+// 重连中
+connection.onreconnecting(() => {
+	state.onlineUserList = [];
+	ElNotification({
+		title: '提示',
+		message: '与服务器重连中...',
+		type: 'error',
+		position: 'bottom-right',
+	});
+});
+// 重连成功
+connection.onreconnected(() => {
+	console.log('重连成功');
+});
+
+const reciveMessage = (msg: any) => {
+	console.log('接收消息：', msg);
+};
+
+// 接收消息
+connection.on('ReceiveMessage', reciveMessage);
+// 强制下线
+connection.on('ForceOffline', async (data: any) => {
+	console.log('强制下线', data);
+	await connection.stop();
+
+	await getAPI(SysAuthApi).logoutPost();
+	clearAccessTokens();
+});
+// 在线用户改变
+connection.on('OnlineUserChange', (data: any) => {
+	state.onlineUserList = data.userList;
+	ElNotification({
+		title: '提示',
+		message: `${data.online ? `【${data.realName}】上线了` : `【${data.realName}】离开了`}`,
+		type: `${data.online ? 'info' : 'error'}`,
+		position: 'bottom-right',
+	});
+});
+
+// 打开页面
+const openDrawer = () => {
+	state.isVisible = true;
+};
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysOnlineUserApi).sysOnlineUserPageGet(state.queryParams.userName, state.queryParams.realName, state.tableParams.page, state.tableParams.pageSize);
+	state.onlineUserList = res.data.result?.items;
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+};
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.userName = undefined;
+	state.queryParams.realName = undefined;
+	handleQuery();
+};
+// 强制下线
+const forceOffline = async (row: any) => {
+	ElMessageBox.confirm(`确定踢掉账号：【${row.realName}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await connection.send('ForceOffline', { connectionId: row.connectionId }).catch(function (err) {
+				console.log(err);
+			});
+		})
+		.catch(() => {});
+};
+// 改变页面容量
+const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+};
+// 改变页码序号
+const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+};
+
+// 导出
+defineExpose({ openDrawer });
+</script>
+
+<style lang="scss"></style>

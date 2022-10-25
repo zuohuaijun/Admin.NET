@@ -6,6 +6,7 @@ public class DateTimeUtil
     /// 获取开始时间
     /// </summary>
     /// <param name="dateTime"></param>
+    /// <param name="days"></param>
     /// <returns></returns>
     public static DateTime GetBeginTime(DateTime? dateTime, int days = 0)
     {
@@ -132,5 +133,37 @@ public class DateTimeUtil
             Convert.ToDateTime(time.ToString("D").ToString()),
             Convert.ToDateTime(time.AddDays(1).ToString("D").ToString()).AddSeconds(-1)
         };
+    }
+
+    /// <summary>
+    /// 获取星期几
+    /// </summary>
+    /// <param name="dt"></param>
+    /// <returns></returns>
+    public static string GetWeekByDate(DateTime dt)
+    {
+        var day = new[] { "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" };
+        return day[Convert.ToInt32(dt.DayOfWeek.ToString("d"))];
+    }
+
+    /// <summary>
+    /// 获取这个月的第几周
+    /// </summary>
+    /// <param name="daytime"></param>
+    /// <returns></returns>
+    public static int GetWeekNumInMonth(DateTime daytime)
+    {
+        int dayInMonth = daytime.Day;
+        // 本月第一天
+        DateTime firstDay = daytime.AddDays(1 - daytime.Day);
+        // 本月第一天是周几
+        int weekday = (int)firstDay.DayOfWeek == 0 ? 7 : (int)firstDay.DayOfWeek;
+        // 本月第一周有几天
+        int firstWeekEndDay = 7 - (weekday - 1);
+        // 当前日期和第一周之差
+        int diffday = dayInMonth - firstWeekEndDay;
+        diffday = diffday > 0 ? diffday : 1;
+        // 当前是第几周，若整除7就减一天
+        return ((diffday % 7) == 0 ? (diffday / 7 - 1) : (diffday / 7)) + 1 + (dayInMonth > firstWeekEndDay ? 1 : 0);
     }
 }

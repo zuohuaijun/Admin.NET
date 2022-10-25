@@ -1,6 +1,5 @@
 {
   "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
-
   "DbConnection": {
     "ConnectionConfigs": [
       // 默认第一个为主库
