@@ -19,25 +19,25 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="logData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="userName" label="账号名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="realName" label="真实姓名" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="userName" label="账号名称" show-overflow-tooltip />
+				<el-table-column prop="realName" label="真实姓名" show-overflow-tooltip />
 				<el-table-column prop="success" label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.success === 1">成功</el-tag>
 						<el-tag type="danger" v-else>失败</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ip" label="IP地址" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="browser" label="浏览器" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="os" label="操作系统" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="ip" label="IP地址" show-overflow-tooltip />
+				<el-table-column prop="browser" label="浏览器" show-overflow-tooltip />
+				<el-table-column prop="os" label="操作系统" show-overflow-tooltip />
 				<el-table-column prop="visType" label="类型" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.visType === 1">登录</el-tag>
 						<el-tag type="danger" v-else>退出</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="location" label="地址" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="location" label="地址" show-overflow-tooltip />
+				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip />
 			</el-table>
 			<el-pagination
 				v-model:currentPage="tableParams.page"

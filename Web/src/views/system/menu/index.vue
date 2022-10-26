@@ -35,17 +35,17 @@
 						<el-tag type="info" v-else>按钮</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="path" label="路由路径" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="component" label="组件路径" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="permission" label="权限标识" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="path" label="路由路径" show-overflow-tooltip />
+				<el-table-column prop="component" label="组件路径" show-overflow-tooltip />
+				<el-table-column prop="permission" label="权限标识" show-overflow-tooltip />
+				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
 						<el-tag type="danger" v-else>禁用</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditMenu(scope.row)" v-auth="'sysMenu:update'"> 编辑 </el-button>

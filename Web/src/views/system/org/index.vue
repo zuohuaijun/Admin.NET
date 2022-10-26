@@ -24,17 +24,17 @@
 
 				<el-card shadow="hover" style="margin-top: 8px">
 					<el-table :data="orgData" style="width: 100%" v-loading="loading" row-key="id" default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
-						<el-table-column prop="name" label="机构名称" show-overflow-tooltip> </el-table-column>
-						<el-table-column prop="code" label="机构编码" show-overflow-tooltip></el-table-column>
-						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip> </el-table-column>
+						<el-table-column prop="name" label="机构名称" show-overflow-tooltip />
+						<el-table-column prop="code" label="机构编码" show-overflow-tooltip />
+						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
 								<el-tag type="danger" v-else>禁用</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip> </el-table-column>
-						<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
+						<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 						<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditOrg(scope.row)" v-auth="'sysOrg:update'"> 编辑 </el-button>

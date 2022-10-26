@@ -14,9 +14,9 @@ public class SysTenant : EntityBase
     public virtual string Name { get; set; }
 
     /// <summary>
-    /// 管理员名称
+    /// 管理员
     /// </summary>
-    [SugarColumn(ColumnDescription = "管理员名称", Length = 32)]
+    [SugarColumn(ColumnDescription = "管理员", Length = 32)]
     [Required, MaxLength(32)]
     public virtual string AdminName { get; set; }
 
@@ -42,18 +42,23 @@ public class SysTenant : EntityBase
     public string Phone { get; set; }
 
     /// <summary>
+    /// 租户类型
+    /// </summary>
+    [SugarColumn(ColumnDescription = "租户类型")]
+    public TenantTypeEnum TenantType { get; set; }
+
+    /// <summary>
+    /// 数据库类型
+    /// </summary>
+    [SugarColumn(ColumnDescription = "数据库类型")]
+    public SqlSugar.DbType DbType { get; set; }
+
+    /// <summary>
     /// 数据库连接
     /// </summary>
     [SugarColumn(ColumnDescription = "数据库连接", Length = 256)]
     [MaxLength(256)]
     public string Connection { get; set; }
-
-    /// <summary>
-    /// 架构
-    /// </summary>
-    [SugarColumn(ColumnDescription = "架构", Length = 64)]
-    [MaxLength(64)]
-    public string Schema { get; set; }
 
     /// <summary>
     /// 排序

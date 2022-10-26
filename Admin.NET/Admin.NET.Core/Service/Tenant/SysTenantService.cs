@@ -116,7 +116,7 @@ public class SysTenantService : IDynamicApiController, ITransient
             NickName = newTenant.AdminName,
             Email = newTenant.Email,
             Phone = newTenant.Phone,
-            AccountType = AccountTypeEnum.Admin,
+            AccountType = AccountTypeEnum.SysAdmin,
             OrgId = newOrg.Id,
             PosId = newPos.Id,
             Birthday = DateTime.Parse("1986-06-28"),
@@ -270,6 +270,6 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <returns></returns>
     private async Task<SysUser> GetTenantAdminUser(long tenantId)
     {
-        return await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == tenantId && u.AccountType == AccountTypeEnum.Admin).FirstAsync();
+        return await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == tenantId && u.AccountType == AccountTypeEnum.SysAdmin).FirstAsync();
     }
 }

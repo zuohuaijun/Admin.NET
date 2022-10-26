@@ -28,14 +28,14 @@
 				<el-card shadow="hover" style="margin-top: 8px">
 					<el-table :data="userData" style="width: 100%" v-loading="loading" border>
 						<el-table-column type="index" label="序号" width="55" align="center" fixed />
-						<el-table-column prop="account" label="账号" width="120" fixed show-overflow-tooltip> </el-table-column>
-						<el-table-column prop="nickName" label="昵称" width="120" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="account" label="账号" width="120" fixed show-overflow-tooltip />
+						<el-table-column prop="nickName" label="昵称" width="120" show-overflow-tooltip />
 						<el-table-column label="头像" width="80" align="center" show-overflow-tooltip>
 							<template #default="scope">
-								<el-avatar src="" size="small">{{ scope.row.account }} </el-avatar>
+								<el-avatar src="" size="small">{{ scope.row.nickName.slice(0, 1) }} </el-avatar>
 							</template>
 						</el-table-column>
-						<el-table-column prop="realName" label="姓名" width="120" show-overflow-tooltip> </el-table-column>
+						<el-table-column prop="realName" label="姓名" width="120" show-overflow-tooltip />
 						<el-table-column label="出生日期" width="100" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								{{ formatDate(new Date(scope.row.birthday), 'YYYY-mm-dd') }}
@@ -47,20 +47,20 @@
 								<el-tag type="danger" v-else> 女 </el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="phone" label="手机号码" width="120" align="center" show-overflow-tooltip> </el-table-column>
+						<el-table-column prop="phone" label="手机号码" width="120" align="center" show-overflow-tooltip />
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-switch v-model="scope.row.status" :active-value="1" :inactive-value="2" size="small" @change="changeStatus(scope.row)" v-auth="'sysUser:setStatus'" />
 							</template>
 						</el-table-column>
-						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip> </el-table-column>
-						<el-table-column prop="createTime" label="修改时间" width="160" show-overflow-tooltip> </el-table-column>
-						<el-table-column prop="remark" label="备注" width="200" show-overflow-tooltip></el-table-column>
+						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
+						<el-table-column prop="createTime" label="修改时间" width="160" show-overflow-tooltip />
+						<el-table-column prop="remark" label="备注" width="200" show-overflow-tooltip />
 						<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditUser(scope.row)" v-auth="'sysUser:update'"> 编辑 </el-button>
 								<el-dropdown>
-									<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px"> </el-button>
+									<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px" />
 									<template #dropdown>
 										<el-dropdown-menu>
 											<el-dropdown-item icon="ele-RefreshLeft" @click="resetUserPwd(scope.row)" :disabled="!auth('sysUser:resetPwd')"> 重置密码 </el-dropdown-item>

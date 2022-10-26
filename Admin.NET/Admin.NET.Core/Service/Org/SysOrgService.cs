@@ -35,22 +35,29 @@ public class SysOrgService : IDynamicApiController, ITransient
     [HttpGet("/sysOrg/list")]
     public async Task<List<SysOrg>> GetOrgList([FromQuery] OrgInput input)
     {
-        var orgIdList = input.Id > 0 ? await GetChildIdListWithSelfById(input.Id) : await GetUserOrgIdList();
+        var orgIdList = await GetUserOrgIdList();
 
-        var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.Order)
-            .WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id));
+        var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.Order);
 
         // 条件筛选可能造成无法构造树（列表数据）
         if (!string.IsNullOrWhiteSpace(input.Name) || !string.IsNullOrWhiteSpace(input.Code))
         {
-            return await iSugarQueryable
+            return await iSugarQueryable.WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code))
                 .ToListAsync();
         }
-        return input.Id > 0
-            ? await iSugarQueryable.ToChildListAsync(u => u.Pid, input.Id)
-            : await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0);
+
+        if (input.Id > 0)
+        {
+            return await iSugarQueryable.WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id)).ToChildListAsync(u => u.Pid, input.Id);
+        }
+        else
+        {
+            return _userManager.SuperAdmin ?
+                await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0) :
+                await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0, orgIdList.Select(d => (object)d).ToArray());
+        }
     }
 
     /// <summary>

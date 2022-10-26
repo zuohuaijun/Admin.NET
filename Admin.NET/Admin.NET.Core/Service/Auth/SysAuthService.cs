@@ -79,8 +79,8 @@ public class SysAuthService : IDynamicApiController, ITransient
             {ClaimConst.TenantId, user.TenantId},
             {ClaimConst.Account, user.Account},
             {ClaimConst.RealName, user.RealName},
-            {ClaimConst.AccountType, user.AccountType }
-            // {ClaimConst.OrgId, user.OrgId},
+            {ClaimConst.AccountType, user.AccountType },
+            {ClaimConst.OrgId, user.OrgId},
         });
 
         // 生成刷新Token令牌
@@ -127,7 +127,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             Browser = client.UA.Family + client.UA.Major,
             Os = client.OS.Family + client.OS.Major,
             VisType = LoginTypeEnum.Login,
-            UserName = user.Account,
+            Account = user.Account,
             RealName = user.RealName
         });
 
@@ -171,7 +171,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             Message = "退出",
             VisType = LoginTypeEnum.Logout,
             Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
-            UserName = user.Account,
+            Account = user.Account,
             RealName = user.RealName
         });
     }

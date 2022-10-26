@@ -13,12 +13,7 @@ public class UserManager : IScoped
         get => long.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.UserId)?.Value);
     }
 
-    public long OrgId
-    {
-        get => long.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.OrgId)?.Value);
-    }
-
-    public string UserName
+    public string Account
     {
         get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.Account)?.Value;
     }
@@ -31,6 +26,11 @@ public class UserManager : IScoped
     public bool SuperAdmin
     {
         get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString();
+    }
+
+    public long OrgId
+    {
+        get => long.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.OrgId)?.Value);
     }
 
     public string OpenId

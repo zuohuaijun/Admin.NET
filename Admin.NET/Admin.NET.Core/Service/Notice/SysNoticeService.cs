@@ -142,7 +142,7 @@ public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITrans
                 var noticeUserRead = new NoticeUserRead
                 {
                     UserId = u.UserId,
-                    UserName = _userManager.UserName,
+                    UserName = _userManager.Account,
                     ReadStatus = u.ReadStatus,
                     ReadTime = u.ReadTime
                 };
@@ -251,7 +251,7 @@ public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITrans
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
         notice.PublicUserId = _userManager.UserId;
-        notice.PublicUserName = _userManager.UserName;
+        notice.PublicUserName = _userManager.Account;
         notice.PublicOrgId = user.OrgId;
         // notice.PublicOrgName = user.OrgName;
     }

@@ -312,6 +312,76 @@
             租户Id
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.SysArea">
+            <summary>
+            系统行政地区表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.Pid">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.ShortName">
+            <summary>
+            简称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.MergerName">
+            <summary>
+            组合名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.AreaCode">
+            <summary>
+            行政代码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.ZipCode">
+            <summary>
+            邮政编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.CityCode">
+            <summary>
+            区号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.Level">
+            <summary>
+            层级
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.PinYin">
+            <summary>
+            拼音
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.Lat">
+            <summary>
+            维度
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysArea.Children">
+            <summary>
+            机构子项
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysCodeGen">
             <summary>
             代码生成表
@@ -677,9 +747,9 @@
             审计时间
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogAudit.UserName">
+        <member name="P:Admin.NET.Core.SysLogAudit.Account">
             <summary>
-            账号名称
+            账号
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogAudit.RealName">
@@ -857,9 +927,9 @@
             访问类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogVis.UserName">
+        <member name="P:Admin.NET.Core.SysLogVis.Account">
             <summary>
-            账号名称
+            账号
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogVis.RealName">
@@ -1244,7 +1314,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysTenant.AdminName">
             <summary>
-            管理员名称
+            管理员
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysTenant.Host">
@@ -1262,14 +1332,19 @@
             电话
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysTenant.TenantType">
+            <summary>
+            租户类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.SysTenant.Connection">
             <summary>
             数据库连接
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTenant.Schema">
-            <summary>
-            架构
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysTenant.Order">
@@ -1830,7 +1905,7 @@
         </member>
         <member name="F:Admin.NET.Core.AccountTypeEnum.None">
             <summary>
-            游客
+            其他
             </summary>
         </member>
         <member name="F:Admin.NET.Core.AccountTypeEnum.User">
@@ -1838,9 +1913,19 @@
             普通账号
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.AccountTypeEnum.Admin">
+        <member name="F:Admin.NET.Core.AccountTypeEnum.DeptUser">
             <summary>
-            管理员
+            部门账号
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.AccountTypeEnum.DeptAdmin">
+            <summary>
+            部门管理员
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.AccountTypeEnum.SysAdmin">
+            <summary>
+            系统管理员
             </summary>
         </member>
         <member name="F:Admin.NET.Core.AccountTypeEnum.SuperAdmin">
@@ -2716,6 +2801,21 @@
         <member name="F:Admin.NET.Core.StatusEnum.Disable">
             <summary>
             停用
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.TenantTypeEnum">
+            <summary>
+            租户类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.TenantTypeEnum.Id">
+            <summary>
+            Id隔离
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.TenantTypeEnum.Db">
+            <summary>
+            库隔离
             </summary>
         </member>
         <member name="T:Admin.NET.Core.WeChatReturnCodeEnum">

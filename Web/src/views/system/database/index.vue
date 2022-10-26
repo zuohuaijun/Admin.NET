@@ -25,8 +25,8 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="columnData" style="width: 100%" v-loading="loading1" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="dbColumnName" label="字段名" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="dataType" label="数据类型" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="dbColumnName" label="字段名" show-overflow-tooltip />
+				<el-table-column prop="dataType" label="数据类型" show-overflow-tooltip />
 				<el-table-column prop="isPrimarykey" label="主键" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.isPrimarykey === true">是</el-tag>
@@ -45,10 +45,10 @@
 						<el-tag type="info" v-else>否</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="length" label="长度" width="70" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="decimalDigits" label="精度" width="70" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="defaultValue" label="默认值" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="columnDescription" label="描述" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="length" label="长度" width="70" align="center" show-overflow-tooltip />
+				<el-table-column prop="decimalDigits" label="精度" width="70" align="center" show-overflow-tooltip />
+				<el-table-column prop="defaultValue" label="默认值" show-overflow-tooltip />
+				<el-table-column prop="columnDescription" label="描述" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditColumn(scope.row)"> 编辑 </el-button>

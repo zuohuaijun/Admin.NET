@@ -2,20 +2,18 @@
 	<div class="sys-dbColumn-container">
 		<el-dialog v-model="isShowDialog" width="600px">
 			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
-					{{ '列编辑' }}
-				</div>
+				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">列编辑</div>
 			</template>
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="列名称" prop="columnName" :rules="[{ required: true, message: '名称不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.columnName" placeholder="列名称" clearable></el-input>
+							<el-input v-model="ruleForm.columnName" placeholder="列名称" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="描述" prop="description" :rules="[{ required: true, message: '描述不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.description" placeholder="描述" clearable type="textarea"></el-input>
+							<el-input v-model="ruleForm.description" placeholder="描述" clearable type="textarea" />
 						</el-form-item>
 					</el-col>
 				</el-row>

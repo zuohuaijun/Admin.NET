@@ -19,15 +19,15 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="logData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="diffType" label="差异操作" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="sql" label="Sql语句" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="parameters" label="参数" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="duration" label="耗时(ms)" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="message" label="日志消息" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="beforeData" label="操作前记录" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="afterData" label="操作后记录" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="businessData" label="业务对象" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="diffType" label="差异操作" show-overflow-tooltip />
+				<el-table-column prop="sql" label="Sql语句" show-overflow-tooltip />
+				<el-table-column prop="parameters" label="参数" show-overflow-tooltip />
+				<el-table-column prop="duration" label="耗时(ms)" show-overflow-tooltip />
+				<el-table-column prop="message" label="日志消息" show-overflow-tooltip />
+				<el-table-column prop="beforeData" label="操作前记录" show-overflow-tooltip />
+				<el-table-column prop="afterData" label="操作后记录" show-overflow-tooltip />
+				<el-table-column prop="businessData" label="业务对象" show-overflow-tooltip />
+				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip />
 			</el-table>
 			<el-pagination
 				v-model:currentPage="tableParams.page"

@@ -166,6 +166,7 @@ export * from './sys-user-ext-org';
 export * from './table-column-ouput';
 export * from './table-output';
 export * from './tenant-input';
+export * from './tenant-type-enum';
 export * from './time-span';
 export * from './timer-output';
 export * from './update-code-gen-input';

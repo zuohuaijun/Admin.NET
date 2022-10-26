@@ -19,19 +19,19 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="configData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="name" label="配置名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="code" label="配置编码" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="value" label="属性值" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="name" label="配置名称" show-overflow-tooltip />
+				<el-table-column prop="code" label="配置编码" show-overflow-tooltip />
+				<el-table-column prop="value" label="属性值" show-overflow-tooltip />
 				<el-table-column prop="sysFlag" label="平台参数" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.sysFlag === 1"> 是 </el-tag>
 						<el-tag type="danger" v-else> 否 </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="groupCode" label="所属分类" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="groupCode" label="所属分类" show-overflow-tooltip />
+				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
+				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
+				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditConfig(scope.row)" v-auth="'sysConfig:update'"> 编辑 </el-button>

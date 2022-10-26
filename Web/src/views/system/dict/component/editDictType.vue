@@ -2,20 +2,18 @@
 	<div class="sys-dictType-container">
 		<el-dialog v-model="isShowDialog" width="600px">
 			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
-					{{ title }}
-				</div>
+				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">{{ title }}</div>
 			</template>
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="字典名称" prop="name" :rules="[{ required: true, message: '字典名称不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.name" placeholder="字典名称" clearable></el-input>
+							<el-input v-model="ruleForm.name" placeholder="字典名称" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="字典编码" prop="code" :rules="[{ required: true, message: '字典编码不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.code" placeholder="字典编码" clearable></el-input>
+							<el-input v-model="ruleForm.code" placeholder="字典编码" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -33,7 +31,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea" />
 						</el-form-item>
 					</el-col>
 				</el-row>

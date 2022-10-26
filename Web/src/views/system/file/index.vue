@@ -20,9 +20,9 @@
 					/>
 				</el-form-item>
 				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery">重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysFile:page'">查询 </el-button>
-					<el-button icon="ele-UploadFilled" @click="openUploadDialog" v-auth="'sysFile:upload'">上传 </el-button>
+					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysFile:page'"> 查询 </el-button>
+					<el-button icon="ele-UploadFilled" @click="openUploadDialog" v-auth="'sysFile:upload'"> 上传 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -30,13 +30,13 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="fileData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="fileName" label="名称" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="fileName" label="名称" show-overflow-tooltip />
 				<el-table-column prop="suffix" label="后缀" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag round>{{ scope.row.suffix }}</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="sizeKb" label="大小kb" align="center" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="sizeKb" label="大小kb" align="center" show-overflow-tooltip />
 				<el-table-column prop="url" label="预览" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-image
@@ -51,10 +51,10 @@
 						/>
 					</template>
 				</el-table-column>
-				<el-table-column prop="bucketName" label="存储位置" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="id" label="存储标识" align="center" show-overflow-tooltip></el-table-column>
-				<!-- <el-table-column prop="userName" label="上传者" align="center" show-overflow-tooltip></el-table-column> -->
-				<el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="bucketName" label="存储位置" align="center" show-overflow-tooltip />
+				<el-table-column prop="id" label="存储标识" align="center" show-overflow-tooltip />
+				<!-- <el-table-column prop="userName" label="上传者" align="center" show-overflow-tooltip/> -->
+				<el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Download" size="small" text type="primary" @click="downloadFile(scope.row)" v-auth="'sysFile:download'"> 下载 </el-button>
