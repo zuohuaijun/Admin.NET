@@ -10,37 +10,34 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 200)]
 public class SysAuthService : IDynamicApiController, ITransient
 {
+    private readonly UserManager _userManager;
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
     private readonly RefreshTokenOptions _refreshTokenOptions;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IUserManager _userManager;
     private readonly IEventPublisher _eventPublisher;
     private readonly SysUserService _sysUserService;
-    private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysMenuService _sysMenuService;
     private readonly SysOnlineUserService _sysOnlineUserService;
     private readonly IMemoryCache _cache;
     private readonly ICaptcha _captcha;
 
-    public SysAuthService(SqlSugarRepository<SysUser> sysUserRep,
+    public SysAuthService(UserManager userManager,
+        SqlSugarRepository<SysUser> sysUserRep,
         IOptions<RefreshTokenOptions> refreshTokenOptions,
         IHttpContextAccessor httpContextAccessor,
-        IUserManager userManager,
         IEventPublisher eventPublisher,
         SysUserService sysUserService,
-        SysUserRoleService sysUserRoleService,
         SysMenuService sysMenuService,
         SysOnlineUserService sysOnlineUserService,
         IMemoryCache cache,
         ICaptcha captcha)
     {
+        _userManager = userManager;
         _sysUserRep = sysUserRep;
         _httpContextAccessor = httpContextAccessor;
-        _userManager = userManager;
         _refreshTokenOptions = refreshTokenOptions.Value;
         _eventPublisher = eventPublisher;
         _sysUserService = sysUserService;
-        _sysUserRoleService = sysUserRoleService;
         _sysMenuService = sysMenuService;
         _sysOnlineUserService = sysOnlineUserService;
         _cache = cache;
@@ -62,18 +59,17 @@ public class SysAuthService : IDynamicApiController, ITransient
         if (!_captcha.Validate(input.CodeId.ToString(), input.Code))
             throw Oops.Oh(ErrorCodeEnum.D0009);
 
-        var encryptPasswod = MD5Encryption.Encrypt(input.Password); // 加密密码
+        var encryptPasswod = MD5Encryption.Encrypt(input.Password);
 
         // 判断用户名密码
-        var user = await _sysUserRep.AsQueryable().Includes(u => u.SysOrg)
-            .FirstAsync(u => u.UserName.Equals(input.UserName) && u.Password.Equals(encryptPasswod));
+        var user = await _sysUserRep.GetFirstAsync(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod));
         _ = user ?? throw Oops.Oh(ErrorCodeEnum.D1000);
 
-        // 验证账号是否被冻结
+        // 账号是否被冻结
         if (user.Status == StatusEnum.Disable)
             throw Oops.Oh(ErrorCodeEnum.D1017);
 
-        // 单用户登录（强制下线其他地方登录账号）
+        // 单用户登录
         await _sysOnlineUserService.SignleLogin(user.Id);
 
         // 生成Token令牌
@@ -81,12 +77,10 @@ public class SysAuthService : IDynamicApiController, ITransient
         {
             {ClaimConst.UserId, user.Id},
             {ClaimConst.TenantId, user.TenantId},
-            {ClaimConst.UserName, user.UserName},
+            {ClaimConst.Account, user.Account},
             {ClaimConst.RealName, user.RealName},
-            {ClaimConst.SuperAdmin, user.UserType},
-            {ClaimConst.OrgId, user.OrgId},
-            {ClaimConst.OrgName, user.SysOrg?.Name},
-            {ClaimConst.OrgLevel, user.SysOrg?.Level},
+            {ClaimConst.AccountType, user.AccountType }
+            // {ClaimConst.OrgId, user.OrgId},
         });
 
         // 生成刷新Token令牌
@@ -100,8 +94,7 @@ public class SysAuthService : IDynamicApiController, ITransient
 
         return new LoginOutput
         {
-            UserId = user.Id,
-            Token = accessToken,
+            AccessToken = accessToken,
             RefreshToken = refreshToken
         };
     }
@@ -111,50 +104,38 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [HttpGet("/getUserInfo")]
-    public async Task<LoginUserInfoOutput> GetUserInfo()
+    public async Task<LoginUserOutput> GetUserInfo()
     {
         var user = _userManager.User;
         if (user == null)
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
-        // 角色信息
-        var roles = await _sysUserRoleService.GetUserRoleList(user.Id);
-
-        // 数据范围
-        var dataScopes = await _sysUserService.GetUserOrgIdList();
-
-        // 按钮权限
+        // 按钮权限集合
         var buttons = await _sysMenuService.GetPermCodeList();
 
         // 登录日志
+        var ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4();
         var client = Parser.GetDefault().Parse(_httpContextAccessor.HttpContext.Request.Headers["User-Agent"]);
+        //var ipInfo = IpTool.Search(ip);
+        //var address = ipInfo.Country + ipInfo.Province + ipInfo.City + "[" + ipInfo.NetworkOperator + "][" + ipInfo.Latitude + ipInfo.Longitude + "]";
         await _eventPublisher.PublishAsync("Add:VisLog", new SysLogVis
         {
             Success = YesNoEnum.Y,
             Message = "登录",
-            Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
+            Ip = ip,
+            //Location = address,
             Browser = client.UA.Family + client.UA.Major,
             Os = client.OS.Family + client.OS.Major,
             VisType = LoginTypeEnum.Login,
-            UserName = user.UserName,
+            UserName = user.Account,
             RealName = user.RealName
         });
 
-        return new LoginUserInfoOutput
+        return new LoginUserOutput
         {
-            UserId = user.Id,
-            Username = user.UserName,
+            Account = user.Account,
             RealName = user.RealName,
             Avatar = user.Avatar,
-            Desc = user.Introduction,
-            OrgId = user.OrgId,
-            OrgName = user.SysOrg != null ? user.SysOrg.Name : "",
-            OrgLevel = user.SysOrg != null ? user.SysOrg.Level : "",
-            Roles = roles.Select(u => new LoginRole
-            {
-                RoleName = u.Name,
-                Value = u.Code
-            }).ToList(),
             Buttons = buttons
         };
     }
@@ -190,7 +171,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             Message = "退出",
             VisType = LoginTypeEnum.Logout,
             Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
-            UserName = user.UserName,
+            UserName = user.Account,
             RealName = user.RealName
         });
     }

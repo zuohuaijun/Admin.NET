@@ -18,11 +18,11 @@
  */
 export interface LoginInput {
     /**
-     * 用户名
+     * 账号
      * @type {string}
      * @memberof LoginInput
      */
-    userName: string;
+    account: string;
     /**
      * 密码
      * @type {string}

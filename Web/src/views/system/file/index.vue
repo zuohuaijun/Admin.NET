@@ -5,11 +5,19 @@
 				<el-form-item label="文件名称" prop="fileName">
 					<el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="queryParams.fileName" />
 				</el-form-item>
-				<el-form-item label="开始时间" prop="name">
-					<el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
+				<el-form-item label="时间范围" prop="timeRange">
+					<!-- <el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item label="结束时间" prop="code">
-					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" />
+					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" /> -->
+					<el-date-picker
+						v-model="queryParams.timeRange"
+						type="datetimerange"
+						start-placeholder="开始时间"
+						end-placeholder="结束时间"
+						format="YYYY-MM-DD HH:mm:ss"
+						value-format="YYYY-MM-DD HH:mm:ss"
+					/>
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery">重置 </el-button>
@@ -95,7 +103,8 @@ import { ElMessageBox, ElMessage, UploadInstance } from 'element-plus';
 
 import { downloadByUrl } from '/@/utils/download';
 import { getAPI } from '/@/utils/axios-utils';
-import { SysFileApi } from '/@/api-services';
+import { SysFileApi } from '/@/api-services/api';
+import { SysFile } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysFile',
@@ -104,12 +113,11 @@ export default defineComponent({
 		const { proxy } = getCurrentInstance() as any;
 		const uploadRef = ref<UploadInstance>();
 		const state = reactive({
-			loading: true,
-			fileData: [] as any,
+			loading: false,
+			fileData: [] as Array<SysFile>,
 			queryParams: {
 				fileName: undefined,
-				startTime: undefined,
-				endTime: undefined,
+				timeRange: [] as any,
 			},
 			tableParams: {
 				page: 1,
@@ -132,19 +140,23 @@ export default defineComponent({
 
 		// 查询操作
 		const handleQuery = async () => {
-			if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
-			if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
+			let startTime = undefined;
+			let endTime = undefined;
+			if (state.queryParams.timeRange != undefined) {
+				startTime = state.queryParams.timeRange[0];
+				endTime = state.queryParams.timeRange[1];
+			}
+
 			state.loading = true;
-			var res = await getAPI(SysFileApi).sysFilePageGet(state.queryParams.fileName, state.queryParams.startTime, state.queryParams.endTime, state.tableParams.page, state.tableParams.pageSize);
-			state.fileData = res.data.result?.items;
+			var res = await getAPI(SysFileApi).sysFilePageGet(state.queryParams.fileName, startTime, endTime, state.tableParams.page, state.tableParams.pageSize);
+			state.fileData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};
 		// 重置操作
 		const resetQuery = () => {
 			state.queryParams.fileName = undefined;
-			state.queryParams.startTime = undefined;
-			state.queryParams.endTime = undefined;
+			state.queryParams.timeRange = undefined;
 			handleQuery();
 		};
 		// 打开上传页面

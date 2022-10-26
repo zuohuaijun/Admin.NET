@@ -11,11 +11,12 @@ import { SysAuthApi } from '../api-services/api';
 export const useUserInfo = defineStore('userInfo', {
 	state: (): UserInfosStates => ({
 		userInfos: {
-			userName: '',
-			photo: '',
-			time: 0,
+			account: '',
+			realName: '',
+			avatar: '',
 			roles: [],
 			authBtnList: [],
+			time: 0,
 		},
 	}),
 	actions: {
@@ -37,11 +38,12 @@ export const useUserInfo = defineStore('userInfo', {
 						if (res.data.result == null) return;
 						var d = res.data.result;
 						const userInfos = {
-							userName: d.username,
-							photo: d.avatar ? d.avatar : '/favicon.ico',
-							time: new Date().getTime(),
-							roles: d.roles,
+							account: d.account,
+							realName: d.realName,
+							avatar: d.avatar ? d.avatar : '/favicon.ico',
+							roles: [],
 							authBtnList: d.buttons,
+							time: new Date().getTime(),
 						};
 						resolve(userInfos);
 					});

@@ -61,7 +61,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="tally" label="执行次数" width="100" align="center" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="createTime" label="修改时间" width="100" align="center" show-overflow-tooltip></el-table-column>
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
@@ -92,7 +92,7 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import EditTimer from '/@/views/system/timer/component/editTimer.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysTimerApi } from '/@/api-services';
+import { SysTimerApi, TimerOutput } from '/@/api-services';
 
 export default defineComponent({
 	name: 'sysTimer',
@@ -101,8 +101,8 @@ export default defineComponent({
 		const { proxy } = getCurrentInstance() as any;
 		const editTimerRef = ref();
 		const state = reactive({
-			loading: true,
-			timerData: [] as any,
+			loading: false,
+			timerData: [] as Array<TimerOutput>,
 			queryParams: {
 				timerName: undefined,
 			},
@@ -128,7 +128,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			var res = await getAPI(SysTimerApi).sysTimerPageGet(state.queryParams.timerName, state.tableParams.page, state.tableParams.pageSize);
-			state.timerData = res.data.result?.items;
+			state.timerData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};

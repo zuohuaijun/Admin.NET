@@ -59,14 +59,15 @@ import { toRefs, reactive, onMounted, defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysLogVisApi } from '/@/api-services';
+import { SysLogVisApi } from '/@/api-services/api';
+import { SysLogVis } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysVisLog',
 	components: {},
 	setup() {
 		const state = reactive({
-			loading: true,
+			loading: false,
 			queryParams: {
 				startTime: undefined,
 				endTime: undefined,
@@ -76,7 +77,7 @@ export default defineComponent({
 				pageSize: 10,
 				total: 0 as any,
 			},
-			logData: [] as any,
+			logData: [] as Array<SysLogVis>,
 		});
 		onMounted(async () => {
 			handleQuery();
@@ -87,7 +88,7 @@ export default defineComponent({
 			if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
 			state.loading = true;
 			var res = await getAPI(SysLogVisApi).sysLogVisPageGet(state.queryParams.startTime, state.queryParams.endTime, state.tableParams.page, state.tableParams.pageSize);
-			state.logData = res.data.result?.items;
+			state.logData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};

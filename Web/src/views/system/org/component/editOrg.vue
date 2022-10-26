@@ -6,11 +6,11 @@
 					{{ title }}
 				</div>
 			</template>
-			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="80px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="上级机构">
-							<el-cascader :options="orgData" :props="{ checkStrictly: true, value: 'id', label: 'name' }" placeholder="请选择上级机构" clearable class="w100" v-model="ruleForm.pid">
+							<el-cascader :options="orgData" :props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'name' }" placeholder="请选择上级机构" clearable class="w100" v-model="ruleForm.pid">
 								<template #default="{ node, data }">
 									<span>{{ data.name }}</span>
 									<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -19,12 +19,12 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="机构名称" prop="name">
+						<el-form-item label="机构名称" prop="name" :rules="[{ required: true, message: '机构名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.name" placeholder="机构名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="机构编码" prop="code">
+						<el-form-item label="机构编码" prop="code" :rules="[{ required: true, message: '机构编码不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.code" placeholder="机构编码" clearable></el-input>
 						</el-form-item>
 					</el-col>
@@ -63,19 +63,18 @@ import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue'
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysOrgApi } from '/@/api-services/api';
+import { SysOrg, UpdateOrgInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditOrg',
 	components: {},
 	props: {
-		// 弹窗标题
 		title: {
 			type: String,
 			default: '',
 		},
-		// 机构数据
 		orgData: {
-			type: Array,
+			type: Array<SysOrg>,
 			default: () => [],
 		},
 	},
@@ -84,19 +83,7 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {
-				id: 0, // Id
-				pid: 0, // 父节点Id
-				name: '', // 机构名称
-				code: '', // 机构编码
-				order: 100, // 排序
-				status: 1, // 是否启用
-				remark: '', // 备注
-			},
-			ruleRules: {
-				name: [{ required: true, message: '机构名称不能为空', trigger: 'blur' }],
-				code: [{ required: true, message: '机构编码不能为空', trigger: 'blur' }],
-			},
+			ruleForm: {} as UpdateOrgInput,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
@@ -114,8 +101,6 @@ export default defineComponent({
 		};
 		// 提交
 		const submit = () => {
-			// 上级机构Id
-			if (Array.isArray(state.ruleForm.pid)) state.ruleForm.pid = state.ruleForm.pid[state.ruleForm.pid.length - 1];
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {

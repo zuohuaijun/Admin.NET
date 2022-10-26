@@ -130,7 +130,7 @@ export default defineComponent({
 	components: {},
 	setup() {
 		const state = reactive({
-			loading: true,
+			loading: false,
 			machineBaseInfo: [] as any,
 			machineUseInfo: [] as any,
 			machineDiskInfo: [] as any,

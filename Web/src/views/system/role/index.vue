@@ -43,11 +43,7 @@
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditRole(scope.row)" v-auth="'sysRole:update'"> 编辑 </el-button>
 						<el-dropdown>
-							<span style="color: var(--el-color-primary); padding-top: 6px; padding-left: 12px">
-								<el-icon>
-									<ele-MoreFilled />
-								</el-icon>
-							</span>
+							<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px"> </el-button>
 							<template #dropdown>
 								<el-dropdown-menu>
 									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantData(scope.row)" :disabled="!auth('sysRole:grantData')"> 数据范围 </el-dropdown-item>
@@ -84,6 +80,7 @@ import GrantData from '/@/views/system/role/component/grantData.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysRoleApi } from '/@/api-services/api';
+import { SysRole } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysRole',
@@ -93,8 +90,8 @@ export default defineComponent({
 		const editRoleRef = ref();
 		const grantDataRef = ref();
 		const state = reactive({
-			loading: true,
-			roleData: [] as any,
+			loading: false,
+			roleData: [] as Array<SysRole>,
 			queryParams: {
 				name: undefined,
 				code: undefined,
@@ -120,7 +117,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			var res = await getAPI(SysRoleApi).sysRolePageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
-			state.roleData = res.data.result?.items;
+			state.roleData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};

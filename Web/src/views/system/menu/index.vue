@@ -7,7 +7,9 @@
 				</el-form-item>
 				<el-form-item label="类型" prop="type">
 					<el-select v-model="queryParams.type" placeholder="类型" clearable>
-						<el-option v-for="dict in menuType" :key="dict.value" :label="dict.label" :value="dict.value" />
+						<el-option label="目录" :value="1" />
+						<el-option label="菜单" :value="2" />
+						<el-option label="按钮" :value="3" />
 					</el-select>
 				</el-form-item>
 				<el-form-item>
@@ -62,7 +64,8 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import EditMenu from '/@/views/system/menu/component/editMenu.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysMenuApi } from '/@/api-services';
+import { SysMenuApi } from '/@/api-services/api';
+import { SysMenu } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysMenu',
@@ -71,17 +74,12 @@ export default defineComponent({
 		const { proxy } = getCurrentInstance() as any;
 		const editMenuRef = ref();
 		const state = reactive({
-			loading: true,
-			menuData: [] as any,
+			loading: false,
+			menuData: [] as Array<SysMenu>,
 			queryParams: {
 				title: undefined,
 				type: undefined,
 			},
-			menuType: [
-				{ value: 1, label: '目录' },
-				{ value: 2, label: '菜单' },
-				{ value: 3, label: '按钮' },
-			],
 			editMenuTitle: '',
 		});
 		onMounted(async () => {
@@ -99,7 +97,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			var res = await getAPI(SysMenuApi).sysMenuListGet(state.queryParams.title, state.queryParams.type);
-			state.menuData = res.data.result;
+			state.menuData = res.data.result ?? [];
 			state.loading = false;
 		};
 		// 重置操作

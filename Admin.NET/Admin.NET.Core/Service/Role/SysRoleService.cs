@@ -6,24 +6,24 @@
 [ApiDescriptionSettings(Order = 198)]
 public class SysRoleService : IDynamicApiController, ITransient
 {
+    private readonly UserManager _userManager;
     private readonly SqlSugarRepository<SysRole> _sysRoleRep;
-    private readonly IUserManager _userManager;
     private readonly SysCacheService _sysCacheService;
     private readonly SysRoleOrgService _sysRoleOrgService;
     private readonly SysRoleMenuService _sysRoleMenuService;
     private readonly SysOrgService _sysOrgService;
     private readonly SysUserRoleService _sysUserRoleService;
 
-    public SysRoleService(SqlSugarRepository<SysRole> sysRoleRep,
-        IUserManager userManager,
+    public SysRoleService(UserManager userManager,
+        SqlSugarRepository<SysRole> sysRoleRep,
         SysCacheService sysCacheService,
         SysRoleOrgService sysRoleOrgService,
         SysRoleMenuService sysRoleMenuService,
         SysOrgService sysOrgService,
         SysUserRoleService sysUserRoleService)
     {
-        _sysRoleRep = sysRoleRep;
         _userManager = userManager;
+        _sysRoleRep = sysRoleRep;
         _sysCacheService = sysCacheService;
         _sysRoleOrgService = sysRoleOrgService;
         _sysRoleMenuService = sysRoleMenuService;

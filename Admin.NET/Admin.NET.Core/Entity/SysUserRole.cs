@@ -22,5 +22,6 @@ public class SysUserRole : EntityBaseId
     /// 角色
     /// </summary>
     [SugarColumn(IsIgnore = true)]
+    [Navigate(NavigateType.OneToOne, nameof(RoleId))]
     public SysRole SysRole { get; set; }
 }

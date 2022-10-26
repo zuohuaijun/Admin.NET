@@ -18,17 +18,11 @@
  */
 export interface UserRoleInput {
     /**
-     * 主键Id
+     * 用户Id
      * @type {number}
      * @memberof UserRoleInput
      */
-    id: number;
-    /**
-     * 机构Id
-     * @type {number}
-     * @memberof UserRoleInput
-     */
-    orgId?: number;
+    userId?: number;
     /**
      * 角色Id集合
      * @type {Array<number>}

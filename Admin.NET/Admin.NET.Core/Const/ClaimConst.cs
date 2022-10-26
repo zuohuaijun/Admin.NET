@@ -13,7 +13,7 @@ public class ClaimConst
     /// <summary>
     /// 账号
     /// </summary>
-    public const string UserName = "UserName";
+    public const string Account = "Account";
 
     /// <summary>
     /// 真实姓名
@@ -21,9 +21,14 @@ public class ClaimConst
     public const string RealName = "RealName";
 
     /// <summary>
-    /// 是否超级管理
+    /// 昵称
     /// </summary>
-    public const string SuperAdmin = "SuperAdmin";
+    public const string NickName = "NickName";
+
+    /// <summary>
+    /// 账号类型
+    /// </summary>
+    public const string AccountType = "AccountType";
 
     /// <summary>
     /// 租户Id
@@ -41,19 +46,9 @@ public class ClaimConst
     public const string OrgName = "OrgName";
 
     /// <summary>
-    /// 组织机构级别
-    /// </summary>
-    public const string OrgLevel = "OrgLevel";
-
-    /// <summary>
     /// 微信OpenId
     /// </summary>
     public const string OpenId = "OpenId";
-
-    /// <summary>
-    /// 昵称
-    /// </summary>
-    public const string NickName = "NickName";
 
     /// <summary>
     /// 运行模式（账号和三方授权）

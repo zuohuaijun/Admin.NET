@@ -205,48 +205,6 @@ export const SysOrgApiAxiosParamCreator = function (configuration?: Configuratio
                 options: localVarRequestOptions,
             };
         },
-        /**
-         * 
-         * @summary 获取用户拥有机构信息列表
-         * @param {number} userId 用户id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sysOrgUserOwnOrgInfoUserIdGet: async (userId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            if (userId === null || userId === undefined) {
-                throw new RequiredError('userId','Required parameter userId was null or undefined when calling sysOrgUserOwnOrgInfoUserIdGet.');
-            }
-            const localVarPath = `/sysOrg/userOwnOrgInfo/{userId}`
-                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
     }
 };
 
@@ -314,20 +272,6 @@ export const SysOrgApiFp = function(configuration?: Configuration) {
                 return axios.request(axiosRequestArgs);
             };
         },
-        /**
-         * 
-         * @summary 获取用户拥有机构信息列表
-         * @param {number} userId 用户id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysOrgUserOwnOrgInfoUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysOrg>>> {
-            const localVarAxiosArgs = await SysOrgApiAxiosParamCreator(configuration).sysOrgUserOwnOrgInfoUserIdGet(userId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
     }
 };
 
@@ -378,16 +322,6 @@ export const SysOrgApiFactory = function (configuration?: Configuration, basePat
          */
         async sysOrgUpdatePost(body?: UpdateOrgInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
             return SysOrgApiFp(configuration).sysOrgUpdatePost(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 获取用户拥有机构信息列表
-         * @param {number} userId 用户id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysOrgUserOwnOrgInfoUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysOrg>> {
-            return SysOrgApiFp(configuration).sysOrgUserOwnOrgInfoUserIdGet(userId, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -444,16 +378,5 @@ export class SysOrgApi extends BaseAPI {
      */
     public async sysOrgUpdatePost(body?: UpdateOrgInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
         return SysOrgApiFp(this.configuration).sysOrgUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 获取用户拥有机构信息列表
-     * @param {number} userId 用户id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysOrgApi
-     */
-    public async sysOrgUserOwnOrgInfoUserIdGet(userId: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysOrg>> {
-        return SysOrgApiFp(this.configuration).sysOrgUserOwnOrgInfoUserIdGet(userId, options).then((request) => request(this.axios, this.basePath));
     }
 }

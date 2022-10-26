@@ -188,7 +188,7 @@ public class SysFileService : IDynamicApiController, ITransient
             FileName = Path.GetFileNameWithoutExtension(file.FileName),
             Suffix = suffix,
             SizeKb = sizeKb.ToString(),
-            FilePath = path,            
+            FilePath = path,
         };
 
         var finalName = newFile.Id + suffix; // 文件最终名称

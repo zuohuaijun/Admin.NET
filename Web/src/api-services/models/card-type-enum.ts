@@ -12,27 +12,15 @@
  * Do not edit the class manually.
  */
 /**
- * 授权用户机构
+ * 证件类型枚举<br />&nbsp;身份证 IdCard = 0<br />&nbsp;护照 PassportCard = 1<br />&nbsp;出生证 BirthCard = 2<br />&nbsp;港澳台通行证 GatCard = 3<br />&nbsp;外国人居留证 ForeignCard = 4<br />
  * @export
- * @interface UserOrgInput
+ * @enum {string}
  */
-export interface UserOrgInput {
-    /**
-     * 主键Id
-     * @type {number}
-     * @memberof UserOrgInput
-     */
-    id: number;
-    /**
-     * 机构Id
-     * @type {number}
-     * @memberof UserOrgInput
-     */
-    orgId?: number;
-    /**
-     * 机构Id集合
-     * @type {Array<number>}
-     * @memberof UserOrgInput
-     */
-    orgIdList?: Array<number> | null;
+export enum CardTypeEnum {
+    NUMBER_0 = 0,
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3,
+    NUMBER_4 = 4
 }
+

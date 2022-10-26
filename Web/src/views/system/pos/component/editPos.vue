@@ -6,15 +6,15 @@
 					{{ title }}
 				</div>
 			</template>
-			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="80px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="职位名称" prop="name">
+						<el-form-item label="职位名称" prop="name" :rules="[{ required: true, message: '职位名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.name" placeholder="职位名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="职位编码" prop="code">
+						<el-form-item label="职位编码" prop="code" :rules="[{ required: true, message: '职位编码不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.code" placeholder="职位编码" clearable></el-input>
 						</el-form-item>
 					</el-col>
@@ -53,12 +53,12 @@ import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue'
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysPosApi } from '/@/api-services/api';
+import { UpdatePosInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditPos',
 	components: {},
 	props: {
-		// 弹窗标题
 		title: {
 			type: String,
 			default: '',
@@ -69,18 +69,7 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {
-				id: 0, // Id
-				name: '', // 职位名称
-				code: '', // 职位编码
-				order: 100, // 排序
-				status: 1, // 是否启用
-				remark: '', // 备注
-			},
-			ruleRules: {
-				name: [{ required: true, message: '职位名称不能为空', trigger: 'blur' }],
-				code: [{ required: true, message: '职位编码不能为空', trigger: 'blur' }],
-			},
+			ruleForm: {} as UpdatePosInput,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {

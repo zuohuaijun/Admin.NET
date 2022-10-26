@@ -6,11 +6,11 @@
 public class LoginInput
 {
     /// <summary>
-    /// 用户名
+    /// 账号
     /// </summary>
     /// <example>admin</example>
-    [Required(ErrorMessage = "用户名不能为空"), MinLength(3, ErrorMessage = "用户名不能少于3个字符")]
-    public string UserName { get; set; }
+    [Required(ErrorMessage = "账号不能为空"), MinLength(3, ErrorMessage = "账号不能少于3个字符")]
+    public string Account { get; set; }
 
     /// <summary>
     /// 密码

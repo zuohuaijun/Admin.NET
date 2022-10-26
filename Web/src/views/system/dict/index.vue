@@ -62,7 +62,8 @@ import EditDictTpye from '/@/views/system/dict/component/editDictType.vue';
 import DictDataDialog from '/@/views/system/dict/component/dictDataDialog.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysDictTypeApi } from '/@/api-services';
+import { SysDictTypeApi } from '/@/api-services/api';
+import { SysDictType } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysDict',
@@ -72,8 +73,8 @@ export default defineComponent({
 		const editDictTypeRef = ref();
 		const dictDataDialogRef = ref();
 		const state = reactive({
-			loading: true,
-			dictTypeData: [] as any,
+			loading: false,
+			dictTypeData: [] as Array<SysDictType>,
 			queryParams: {
 				name: undefined,
 				code: undefined,
@@ -99,7 +100,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			var res = await getAPI(SysDictTypeApi).sysDictTypePageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
-			state.dictTypeData = res.data.result?.items;
+			state.dictTypeData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};

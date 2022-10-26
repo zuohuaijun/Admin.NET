@@ -54,6 +54,7 @@ import * as SignalR from '@microsoft/signalr';
 
 import { getAPI, getToken, clearAccessTokens } from '/@/utils/axios-utils';
 import { SysOnlineUserApi, SysAuthApi } from '/@/api-services/api';
+import { SysOnlineUser } from '/@/api-services/models';
 
 const state = reactive({
 	loading: false,
@@ -67,7 +68,7 @@ const state = reactive({
 		pageSize: 10,
 		total: 0 as any,
 	},
-	onlineUserList: [] as any, // 在线用户列表
+	onlineUserList: [] as Array<SysOnlineUser>, // 在线用户列表
 });
 
 // 初始化SignalR对象
@@ -95,7 +96,6 @@ connection.onclose(async () => {
 });
 // 重连中
 connection.onreconnecting(() => {
-	state.onlineUserList = [];
 	ElNotification({
 		title: '提示',
 		message: '与服务器重连中...',

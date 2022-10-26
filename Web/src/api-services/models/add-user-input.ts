@@ -11,12 +11,14 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { AccountTypeEnum } from './account-type-enum';
+import { CardTypeEnum } from './card-type-enum';
+import { CultureLevelEnum } from './culture-level-enum';
 import { GenderEnum } from './gender-enum';
-import { JobStatusEnum } from './job-status-enum';
 import { StatusEnum } from './status-enum';
 import { SysOrg } from './sys-org';
 import { SysPos } from './sys-pos';
-import { UserTypeEnum } from './user-type-enum';
+import { SysUserExtOrg } from './sys-user-ext-org';
 /**
  * 
  * @export
@@ -78,23 +80,29 @@ export interface AddUserInput {
      */
     avatar?: string | null;
     /**
-     * 出生日期
-     * @type {Date}
-     * @memberof AddUserInput
-     */
-    birthday?: Date | null;
-    /**
      * 
      * @type {GenderEnum}
      * @memberof AddUserInput
      */
     sex?: GenderEnum;
     /**
-     * 邮箱
+     * 年龄
+     * @type {number}
+     * @memberof AddUserInput
+     */
+    age?: number;
+    /**
+     * 出生日期
+     * @type {Date}
+     * @memberof AddUserInput
+     */
+    birthday?: Date | null;
+    /**
+     * 民族
      * @type {string}
      * @memberof AddUserInput
      */
-    email?: string | null;
+    nation?: string | null;
     /**
      * 手机号码
      * @type {string}
@@ -102,17 +110,71 @@ export interface AddUserInput {
      */
     phone?: string | null;
     /**
+     * 
+     * @type {CardTypeEnum}
+     * @memberof AddUserInput
+     */
+    cardType?: CardTypeEnum;
+    /**
      * 身份证号
      * @type {string}
      * @memberof AddUserInput
      */
-    idCard?: string | null;
+    idCardNum?: string | null;
     /**
-     * 个性签名
+     * 邮箱
      * @type {string}
      * @memberof AddUserInput
      */
-    signature?: string | null;
+    email?: string | null;
+    /**
+     * 地址
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    address?: string | null;
+    /**
+     * 
+     * @type {CultureLevelEnum}
+     * @memberof AddUserInput
+     */
+    cultureLevel?: CultureLevelEnum;
+    /**
+     * 政治面貌
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    politicalOutlook?: string | null;
+    /**
+     * 毕业院校
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    college?: string | null;
+    /**
+     * 办公电话
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    officePhone?: string | null;
+    /**
+     * 紧急联系人
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    emergencyContact?: string | null;
+    /**
+     * 紧急联系人电话
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    emergencyPhone?: string | null;
+    /**
+     * 紧急联系人地址
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    emergencyAddress?: string | null;
     /**
      * 个人简介
      * @type {string}
@@ -120,11 +182,29 @@ export interface AddUserInput {
      */
     introduction?: string | null;
     /**
-     * 
-     * @type {UserTypeEnum}
+     * 排序
+     * @type {number}
      * @memberof AddUserInput
      */
-    userType?: UserTypeEnum;
+    order?: number;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof AddUserInput
+     */
+    status?: StatusEnum;
+    /**
+     * 备注
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    remark?: string | null;
+    /**
+     * 
+     * @type {AccountTypeEnum}
+     * @memberof AddUserInput
+     */
+    accountType?: AccountTypeEnum;
     /**
      * 机构Id
      * @type {number}
@@ -156,35 +236,47 @@ export interface AddUserInput {
      */
     jobNum?: string | null;
     /**
-     * 
-     * @type {JobStatusEnum}
-     * @memberof AddUserInput
-     */
-    jobStatus?: JobStatusEnum;
-    /**
-     * 排序
-     * @type {number}
-     * @memberof AddUserInput
-     */
-    order?: number;
-    /**
-     * 
-     * @type {StatusEnum}
-     * @memberof AddUserInput
-     */
-    status?: StatusEnum;
-    /**
-     * 备注
+     * 职级
      * @type {string}
      * @memberof AddUserInput
      */
-    remark?: string | null;
+    posLevel?: string | null;
     /**
-     * 账号名称
+     * 入职日期
+     * @type {Date}
+     * @memberof AddUserInput
+     */
+    joinDate?: Date | null;
+    /**
+     * 最新登录Ip
      * @type {string}
      * @memberof AddUserInput
      */
-    userName: string;
+    lastLoginIp?: string | null;
+    /**
+     * 最新登录地点
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    lastLoginAddress?: string | null;
+    /**
+     * 最新登录时间
+     * @type {Date}
+     * @memberof AddUserInput
+     */
+    lastLoginTime?: Date | null;
+    /**
+     * 最新登录设备
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    lastLoginDevice?: string | null;
+    /**
+     * 账号
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    account: string;
     /**
      * 真实姓名
      * @type {string}
@@ -192,9 +284,15 @@ export interface AddUserInput {
      */
     realName: string;
     /**
-     * 角色Id集合
+     * 角色集合
      * @type {Array<number>}
      * @memberof AddUserInput
      */
     roleIdList?: Array<number> | null;
+    /**
+     * 扩展机构集合
+     * @type {Array<SysUserExtOrg>}
+     * @memberof AddUserInput
+     */
+    extOrgIdList?: Array<SysUserExtOrg> | null;
 }

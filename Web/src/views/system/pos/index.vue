@@ -48,7 +48,8 @@ import { ElMessageBox, ElMessage } from 'element-plus';
 import EditPos from '/@/views/system/pos/component/editPos.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysPosApi } from '/@/api-services';
+import { SysPosApi } from '/@/api-services/api';
+import { SysPos } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysPos',
@@ -57,8 +58,8 @@ export default defineComponent({
 		const { proxy } = getCurrentInstance() as any;
 		const editPosRef = ref();
 		const state = reactive({
-			loading: true,
-			posData: [] as any,
+			loading: false,
+			posData: [] as Array<SysPos>,
 			queryParams: {
 				name: undefined,
 				code: undefined,
@@ -80,7 +81,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			var res = await getAPI(SysPosApi).sysPosListGet(state.queryParams.name, state.queryParams.code);
-			state.posData = res.data.result;
+			state.posData = res.data.result ?? [];
 			state.loading = false;
 		};
 		// 重置操作

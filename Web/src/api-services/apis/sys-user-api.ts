@@ -19,15 +19,14 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import { AddUserInput } from '../models';
 import { AdminResultInt32 } from '../models';
 import { AdminResultListInt64 } from '../models';
+import { AdminResultListSysUserExtOrg } from '../models';
 import { AdminResultSqlSugarPagedListSysUser } from '../models';
 import { AdminResultSysUser } from '../models';
 import { ChangePwdInput } from '../models';
 import { DeleteUserInput } from '../models';
 import { ResetPwdUserInput } from '../models';
-import { StatusEnum } from '../models';
 import { UpdateUserInput } from '../models';
 import { UserInput } from '../models';
-import { UserOrgInput } from '../models';
 import { UserRoleInput } from '../models';
 /**
  * SysUserApi - axios parameter creator
@@ -201,47 +200,6 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 授权用户机构
-         * @param {UserOrgInput} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sysUserGrantOrgPost: async (body?: UserOrgInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysUser/grantOrg`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary 授权用户角色
          * @param {UserRoleInput} [body] 
          * @param {*} [options] Override http request option.
@@ -283,18 +241,18 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 获取用户拥有机构
-         * @param {number} id 主键Id
-         * @param {StatusEnum} [status] 状态
+         * @summary 获取用户扩展机构
+         * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysUserOwnOrgGet: async (id: number, status?: StatusEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling sysUserOwnOrgGet.');
+        sysUserOwnOrgUserIdGet: async (userId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            if (userId === null || userId === undefined) {
+                throw new RequiredError('userId','Required parameter userId was null or undefined when calling sysUserOwnOrgUserIdGet.');
             }
-            const localVarPath = `/sysUser/ownOrg`;
+            const localVarPath = `/sysUser/ownOrg/{userId}`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -306,14 +264,6 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
-
-            if (status !== undefined) {
-                localVarQueryParameter['Status'] = status;
-            }
-
-            if (id !== undefined) {
-                localVarQueryParameter['Id'] = id;
-            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -334,17 +284,17 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary 获取用户拥有角色
-         * @param {number} id 主键Id
-         * @param {StatusEnum} [status] 状态
+         * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysUserOwnRoleGet: async (id: number, status?: StatusEnum, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling sysUserOwnRoleGet.');
+        sysUserOwnRoleUserIdGet: async (userId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            if (userId === null || userId === undefined) {
+                throw new RequiredError('userId','Required parameter userId was null or undefined when calling sysUserOwnRoleUserIdGet.');
             }
-            const localVarPath = `/sysUser/ownRole`;
+            const localVarPath = `/sysUser/ownRole/{userId}`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -356,14 +306,6 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
-
-            if (status !== undefined) {
-                localVarQueryParameter['Status'] = status;
-            }
-
-            if (id !== undefined) {
-                localVarQueryParameter['Id'] = id;
-            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -384,9 +326,10 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary 获取用户分页列表
-         * @param {string} [userName] 账号
+         * @param {string} [account] 账号
+         * @param {string} [realName] 姓名
          * @param {string} [phone] 手机号
-         * @param {number} [orgId] 机构Id
+         * @param {number} [orgId] 查询时所选机构Id
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -395,7 +338,7 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysUserPageGet: async (userName?: string, phone?: string, orgId?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysUserPageGet: async (account?: string, realName?: string, phone?: string, orgId?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysUser/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -409,8 +352,12 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
 
             // authentication Bearer required
 
-            if (userName !== undefined) {
-                localVarQueryParameter['UserName'] = userName;
+            if (account !== undefined) {
+                localVarQueryParameter['Account'] = account;
+            }
+
+            if (realName !== undefined) {
+                localVarQueryParameter['RealName'] = realName;
             }
 
             if (phone !== undefined) {
@@ -647,20 +594,6 @@ export const SysUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 授权用户机构
-         * @param {UserOrgInput} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysUserGrantOrgPost(body?: UserOrgInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserGrantOrgPost(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
          * @summary 授权用户角色
          * @param {UserRoleInput} [body] 
          * @param {*} [options] Override http request option.
@@ -675,14 +608,13 @@ export const SysUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取用户拥有机构
-         * @param {number} id 主键Id
-         * @param {StatusEnum} [status] 状态
+         * @summary 获取用户扩展机构
+         * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnOrgGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
-            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnOrgGet(id, status, options);
+        async sysUserOwnOrgUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysUserExtOrg>>> {
+            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnOrgUserIdGet(userId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -691,13 +623,12 @@ export const SysUserApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取用户拥有角色
-         * @param {number} id 主键Id
-         * @param {StatusEnum} [status] 状态
+         * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnRoleGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
-            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnRoleGet(id, status, options);
+        async sysUserOwnRoleUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
+            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserOwnRoleUserIdGet(userId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -706,9 +637,10 @@ export const SysUserApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取用户分页列表
-         * @param {string} [userName] 账号
+         * @param {string} [account] 账号
+         * @param {string} [realName] 姓名
          * @param {string} [phone] 手机号
-         * @param {number} [orgId] 机构Id
+         * @param {number} [orgId] 查询时所选机构Id
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -717,8 +649,8 @@ export const SysUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserPageGet(userName?: string, phone?: string, orgId?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysUser>>> {
-            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserPageGet(userName, phone, orgId, page, pageSize, field, order, descStr, options);
+        async sysUserPageGet(account?: string, realName?: string, phone?: string, orgId?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysUser>>> {
+            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserPageGet(account, realName, phone, orgId, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -817,16 +749,6 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 授权用户机构
-         * @param {UserOrgInput} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysUserGrantOrgPost(body?: UserOrgInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysUserApiFp(configuration).sysUserGrantOrgPost(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary 授权用户角色
          * @param {UserRoleInput} [body] 
          * @param {*} [options] Override http request option.
@@ -837,32 +759,31 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 获取用户拥有机构
-         * @param {number} id 主键Id
-         * @param {StatusEnum} [status] 状态
+         * @summary 获取用户扩展机构
+         * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnOrgGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
-            return SysUserApiFp(configuration).sysUserOwnOrgGet(id, status, options).then((request) => request(axios, basePath));
+        async sysUserOwnOrgUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysUserExtOrg>> {
+            return SysUserApiFp(configuration).sysUserOwnOrgUserIdGet(userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary 获取用户拥有角色
-         * @param {number} id 主键Id
-         * @param {StatusEnum} [status] 状态
+         * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserOwnRoleGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
-            return SysUserApiFp(configuration).sysUserOwnRoleGet(id, status, options).then((request) => request(axios, basePath));
+        async sysUserOwnRoleUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
+            return SysUserApiFp(configuration).sysUserOwnRoleUserIdGet(userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary 获取用户分页列表
-         * @param {string} [userName] 账号
+         * @param {string} [account] 账号
+         * @param {string} [realName] 姓名
          * @param {string} [phone] 手机号
-         * @param {number} [orgId] 机构Id
+         * @param {number} [orgId] 查询时所选机构Id
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -871,8 +792,8 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserPageGet(userName?: string, phone?: string, orgId?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysUser>> {
-            return SysUserApiFp(configuration).sysUserPageGet(userName, phone, orgId, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async sysUserPageGet(account?: string, realName?: string, phone?: string, orgId?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysUser>> {
+            return SysUserApiFp(configuration).sysUserPageGet(account, realName, phone, orgId, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -960,17 +881,6 @@ export class SysUserApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 授权用户机构
-     * @param {UserOrgInput} [body] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysUserApi
-     */
-    public async sysUserGrantOrgPost(body?: UserOrgInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysUserApiFp(this.configuration).sysUserGrantOrgPost(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
      * @summary 授权用户角色
      * @param {UserRoleInput} [body] 
      * @param {*} [options] Override http request option.
@@ -982,34 +892,33 @@ export class SysUserApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取用户拥有机构
-     * @param {number} id 主键Id
-     * @param {StatusEnum} [status] 状态
+     * @summary 获取用户扩展机构
+     * @param {number} userId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async sysUserOwnOrgGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
-        return SysUserApiFp(this.configuration).sysUserOwnOrgGet(id, status, options).then((request) => request(this.axios, this.basePath));
+    public async sysUserOwnOrgUserIdGet(userId: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysUserExtOrg>> {
+        return SysUserApiFp(this.configuration).sysUserOwnOrgUserIdGet(userId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
      * @summary 获取用户拥有角色
-     * @param {number} id 主键Id
-     * @param {StatusEnum} [status] 状态
+     * @param {number} userId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async sysUserOwnRoleGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
-        return SysUserApiFp(this.configuration).sysUserOwnRoleGet(id, status, options).then((request) => request(this.axios, this.basePath));
+    public async sysUserOwnRoleUserIdGet(userId: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
+        return SysUserApiFp(this.configuration).sysUserOwnRoleUserIdGet(userId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
      * @summary 获取用户分页列表
-     * @param {string} [userName] 账号
+     * @param {string} [account] 账号
+     * @param {string} [realName] 姓名
      * @param {string} [phone] 手机号
-     * @param {number} [orgId] 机构Id
+     * @param {number} [orgId] 查询时所选机构Id
      * @param {number} [page] 当前页码
      * @param {number} [pageSize] 页码容量
      * @param {string} [field] 排序字段
@@ -1019,8 +928,8 @@ export class SysUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async sysUserPageGet(userName?: string, phone?: string, orgId?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysUser>> {
-        return SysUserApiFp(this.configuration).sysUserPageGet(userName, phone, orgId, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async sysUserPageGet(account?: string, realName?: string, phone?: string, orgId?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysUser>> {
+        return SysUserApiFp(this.configuration).sysUserPageGet(account, realName, phone, orgId, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

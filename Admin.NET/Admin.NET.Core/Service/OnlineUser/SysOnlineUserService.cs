@@ -8,7 +8,7 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 100)]
 public class SysOnlineUserService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;    
+    private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
     private readonly SysConfigService _sysConfigService;
     private readonly IHubContext<OnlineUserHub, IOnlineUserHub> _onlineUserHubContext;
 
@@ -26,7 +26,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [HttpGet("/sysOnlineUser/page")]
-    public async Task<dynamic> GetOnlineUserPage([FromQuery] PageOnlineUserInput input)
+    public async Task<SqlSugarPagedList<SysOnlineUser>> GetOnlineUserPage([FromQuery] PageOnlineUserInput input)
     {
         return await _sysOnlineUerRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.UserName), u => u.UserName.Contains(input.UserName))

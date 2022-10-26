@@ -11,71 +11,58 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { LoginRole } from './login-role';
 /**
  * 用户登录信息
  * @export
- * @interface LoginUserInfoOutput
+ * @interface LoginUserOutput
  */
-export interface LoginUserInfoOutput {
+export interface LoginUserOutput {
     /**
      * 用户Id
      * @type {number}
-     * @memberof LoginUserInfoOutput
+     * @memberof LoginUserOutput
      */
     userId?: number;
     /**
      * 账号名称
      * @type {string}
-     * @memberof LoginUserInfoOutput
+     * @memberof LoginUserOutput
      */
-    username?: string | null;
+    account?: string | null;
     /**
      * 真实姓名
      * @type {string}
-     * @memberof LoginUserInfoOutput
+     * @memberof LoginUserOutput
      */
     realName?: string | null;
     /**
      * 头像
      * @type {string}
-     * @memberof LoginUserInfoOutput
+     * @memberof LoginUserOutput
      */
     avatar?: string | null;
     /**
      * 个人简介
      * @type {string}
-     * @memberof LoginUserInfoOutput
+     * @memberof LoginUserOutput
      */
-    desc?: string | null;
+    introduction?: string | null;
     /**
      * 机构Id
      * @type {number}
-     * @memberof LoginUserInfoOutput
+     * @memberof LoginUserOutput
      */
     orgId?: number;
     /**
      * 机构名称
      * @type {string}
-     * @memberof LoginUserInfoOutput
+     * @memberof LoginUserOutput
      */
     orgName?: string | null;
     /**
-     * 机构级别
-     * @type {string}
-     * @memberof LoginUserInfoOutput
-     */
-    orgLevel?: string | null;
-    /**
-     * 角色集合
-     * @type {Array<LoginRole>}
-     * @memberof LoginUserInfoOutput
-     */
-    roles?: Array<LoginRole> | null;
-    /**
      * 按钮权限集合
      * @type {Array<string>}
-     * @memberof LoginUserInfoOutput
+     * @memberof LoginUserOutput
      */
     buttons?: Array<string> | null;
 }

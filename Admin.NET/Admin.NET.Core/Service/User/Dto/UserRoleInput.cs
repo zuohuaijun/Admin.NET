@@ -3,12 +3,12 @@
 /// <summary>
 /// 授权用户角色
 /// </summary>
-public class UserRoleInput : BaseIdInput
+public class UserRoleInput
 {
     /// <summary>
-    /// 机构Id
+    /// 用户Id
     /// </summary>
-    public long OrgId { get; set; }
+    public long UserId { get; set; }
 
     /// <summary>
     /// 角色Id集合

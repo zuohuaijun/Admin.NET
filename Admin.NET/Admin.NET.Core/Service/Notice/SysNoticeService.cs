@@ -6,24 +6,26 @@
 [ApiDescriptionSettings(Order = 100)]
 public class SysNoticeService : ISysNoticeService, IDynamicApiController, ITransient
 {
+    private readonly UserManager _userManager;
+
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
     private readonly SqlSugarRepository<SysNotice> _sysNoticeRep;
 
     private readonly SysOnlineUserService _sysOnlineUserService;
     private readonly ISysNoticeUserService _sysNoticeUserService;
-    private readonly IUserManager _userManager;
 
-    public SysNoticeService(SqlSugarRepository<SysUser> sysUserRep,
+    public SysNoticeService(
+        UserManager userManager,
+        SqlSugarRepository<SysUser> sysUserRep,
         SqlSugarRepository<SysNotice> sysNoticeRep,
         SysOnlineUserService sysOnlineUserService,
-        ISysNoticeUserService sysNoticeUserService,
-        IUserManager userManager)
+        ISysNoticeUserService sysNoticeUserService)
     {
+        _userManager = userManager;
         _sysUserRep = sysUserRep;
         _sysNoticeRep = sysNoticeRep;
         _sysOnlineUserService = sysOnlineUserService;
         _sysNoticeUserService = sysNoticeUserService;
-        _userManager = userManager;
     }
 
     /// <summary>

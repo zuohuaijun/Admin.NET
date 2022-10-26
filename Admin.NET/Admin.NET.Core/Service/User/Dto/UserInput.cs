@@ -13,7 +13,12 @@ public class PageUserInput : BasePageInput
     /// <summary>
     /// 账号
     /// </summary>
-    public string UserName { get; set; }
+    public string Account { get; set; }
+
+    /// <summary>
+    /// 姓名
+    /// </summary>
+    public string RealName { get; set; }
 
     /// <summary>
     /// 手机号
@@ -21,7 +26,7 @@ public class PageUserInput : BasePageInput
     public string Phone { get; set; }
 
     /// <summary>
-    /// 机构Id
+    /// 查询时所选机构Id
     /// </summary>
     public long OrgId { get; set; }
 }
@@ -30,10 +35,10 @@ public class PageUserInput : BasePageInput
 public class AddUserInput : SysUser
 {
     /// <summary>
-    /// 账号名称
+    /// 账号
     /// </summary>
-    [Required(ErrorMessage = "账号名称不能为空")]
-    public override string UserName { get; set; }
+    [Required(ErrorMessage = "账号不能为空")]
+    public override string Account { get; set; }
 
     /// <summary>
     /// 真实姓名
@@ -42,14 +47,19 @@ public class AddUserInput : SysUser
     public override string RealName { get; set; }
 
     /// <summary>
-    /// 账号密码
+    /// 账号
     /// </summary>
     public override string Password { get; set; } = CommonConst.SysPassword;
 
     /// <summary>
-    /// 角色Id集合
+    /// 角色集合
     /// </summary>
     public List<long> RoleIdList { get; set; }
+
+    /// <summary>
+    /// 扩展机构集合
+    /// </summary>
+    public List<SysUserExtOrg> ExtOrgIdList { get; set; }
 }
 
 [NotTable]

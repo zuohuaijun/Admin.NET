@@ -11,19 +11,19 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
 {
     private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
     private readonly SysCacheService _sysCache;
-    private readonly SysMessageService _sysMessageService;    
+    private readonly SysMessageService _sysMessageService;
     private readonly IHubContext<OnlineUserHub, IOnlineUserHub> _onlineUserHubContext;
 
     private const string GROUP_ONLINE = "GROUP_ONLINE_"; // 租户分组前缀
 
-    public OnlineUserHub(SqlSugarRepository<SysOnlineUser> sysOnlineUerRep, 
+    public OnlineUserHub(SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
         SysCacheService sysCache,
-        SysMessageService sysMessageService,        
+        SysMessageService sysMessageService,
         IHubContext<OnlineUserHub, IOnlineUserHub> onlineUserHubContext)
     {
         _sysOnlineUerRep = sysOnlineUerRep;
         _sysCache = sysCache;
-        _sysMessageService = sysMessageService;        
+        _sysMessageService = sysMessageService;
         _onlineUserHubContext = onlineUserHubContext;
     }
 
@@ -40,7 +40,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
         {
             ConnectionId = Context.ConnectionId,
             UserId = long.Parse(claims.FirstOrDefault(u => u.Type == ClaimConst.UserId)?.Value),
-            UserName = claims.FirstOrDefault(u => u.Type == ClaimConst.UserName)?.Value,
+            UserName = claims.FirstOrDefault(u => u.Type == ClaimConst.Account)?.Value,
             RealName = claims.FirstOrDefault(u => u.Type == ClaimConst.RealName)?.Value,
             Time = DateTime.Now,
             Ip = App.HttpContext.GetRemoteIpAddressToIPv4(),

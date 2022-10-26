@@ -6,20 +6,20 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 195)]
 public class SysMenuService : IDynamicApiController, ITransient
 {
+    private readonly UserManager _userManager;
     private readonly SqlSugarRepository<SysMenu> _sysMenuRep;
-    private readonly IUserManager _userManager;
     private readonly SysRoleMenuService _sysRoleMenuService;
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysCacheService _sysCacheService;
 
-    public SysMenuService(SqlSugarRepository<SysMenu> sysMenuRep,
-        IUserManager userManager,
+    public SysMenuService(UserManager userManager,
+        SqlSugarRepository<SysMenu> sysMenuRep,
         SysRoleMenuService sysRoleMenuService,
         SysUserRoleService sysUserRoleService,
         SysCacheService sysCacheService)
     {
-        _sysMenuRep = sysMenuRep;
         _userManager = userManager;
+        _sysMenuRep = sysMenuRep;
         _sysRoleMenuService = sysRoleMenuService;
         _sysUserRoleService = sysUserRoleService;
         _sysCacheService = sysCacheService;

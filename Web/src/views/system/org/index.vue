@@ -57,6 +57,7 @@ import EditOrg from '/@/views/system/org/component/editOrg.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysOrgApi } from '/@/api-services/api';
+import { SysOrg } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysOrg',
@@ -66,9 +67,9 @@ export default defineComponent({
 		const editOrgRef = ref();
 		const orgTreeRef = ref();
 		const state = reactive({
-			loading: true,
-			orgData: [] as any, // 机构列表数据
-			orgTreeData: [] as any, // 机构树所有数据
+			loading: false,
+			orgData: [] as Array<SysOrg>, // 机构列表数据
+			orgTreeData: [] as Array<SysOrg>, // 机构树所有数据
 			queryParams: {
 				id: -1,
 				name: undefined,
@@ -85,7 +86,7 @@ export default defineComponent({
 				// 编辑删除后更新机构数据
 				state.loading = true;
 				var res = await getAPI(SysOrgApi).sysOrgListGet(-1, '', '');
-				state.orgTreeData = res.data.result;
+				state.orgTreeData = res.data.result ?? [];
 				state.loading = false;
 				orgTreeRef.value.updateTreeData(state.orgTreeData);
 			});
@@ -97,7 +98,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			var res = await getAPI(SysOrgApi).sysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code);
-			state.orgData = res.data.result;
+			state.orgData = res.data.result ?? [];
 			state.loading = false;
 
 			// 若无选择节点并且查询条件为空时
@@ -138,7 +139,7 @@ export default defineComponent({
 		// 树组件点击
 		const nodeClick = async (node: any) => {
 			state.queryParams.id = node.id;
-			state.queryParams.name = undefined; // node.name;
+			state.queryParams.name = undefined;
 			state.queryParams.code = undefined;
 			handleQuery();
 		};

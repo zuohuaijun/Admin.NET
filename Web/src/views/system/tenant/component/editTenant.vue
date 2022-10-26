@@ -6,15 +6,15 @@
 					{{ title }}
 				</div>
 			</template>
-			<el-form :model="ruleForm" :rules="ruleRules" ref="ruleFormRef" size="default" label-width="100px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="租户名称" prop="name">
+						<el-form-item label="租户名称" prop="name" :rules="[{ required: true, message: '租户名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.name" placeholder="租户名称" clearable></el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="管理员" prop="adminName">
+						<el-form-item label="管理员" prop="adminName" :rules="[{ required: true, message: '管理员不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.adminName" placeholder="管理员" clearable></el-input>
 						</el-form-item>
 					</el-col>
@@ -70,12 +70,12 @@ import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue'
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysTenantApi } from '/@/api-services/api';
+import { UpdateTenantInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditTenant',
 	components: {},
 	props: {
-		// 弹窗标题
 		title: {
 			type: String,
 			default: '',
@@ -85,25 +85,8 @@ export default defineComponent({
 		const { proxy } = getCurrentInstance() as any;
 		const ruleFormRef = ref();
 		const state = reactive({
-			loading: true,
 			isShowDialog: false,
-			ruleForm: {
-				id: 0, // Id
-				name: '', // 租户名称
-				adminName: '', // 租户编码
-				phone: '', // 电话
-				host: '', // 主机
-				email: '', // 邮箱
-				connection: '', // 数据库连接
-				schema: '', // 架构
-				order: 100, // 排序
-				remark: '', // 备注
-				menuIdList: [] as any, // 菜单权限
-			},
-			ruleRules: {
-				name: [{ required: true, message: '租户名称不能为空', trigger: 'blur' }],
-				adminName: [{ required: true, message: '管理员不能为空', trigger: 'blur' }],
-			},
+			ruleForm: {} as UpdateTenantInput,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
@@ -142,33 +125,3 @@ export default defineComponent({
 	},
 });
 </script>
-
-<style scoped lang="scss">
-.menu-data-tree {
-	width: 100%;
-	border: 1px solid var(--el-border-color);
-	border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
-	padding: 5px;
-}
-
-:deep(.penultimate-node) {
-	.el-tree-node__children {
-		padding-left: 60px;
-		white-space: pre-wrap;
-		line-height: 12px;
-
-		.el-tree-node {
-			display: inline-block;
-		}
-
-		.el-tree-node__content {
-			padding-left: 5px !important;
-			padding-right: 5px;
-
-			.el-tree-node__expand-icon {
-				display: none;
-			}
-		}
-	}
-}
-</style>
