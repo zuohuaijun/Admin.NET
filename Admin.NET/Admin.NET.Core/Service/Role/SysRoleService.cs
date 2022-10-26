@@ -74,8 +74,8 @@ public class SysRoleService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        input.Id = (await _sysRoleRep.AsInsertable(input.Adapt<SysRole>()).ExecuteReturnEntityAsync()).Id;
-
+        var newRole = await _sysRoleRep.AsInsertable(input.Adapt<SysRole>()).ExecuteReturnEntityAsync();
+        input.Id = newRole.Id;
         await UpdateRoleMenu(input);
     }
 

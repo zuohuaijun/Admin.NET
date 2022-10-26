@@ -1913,17 +1913,7 @@
             普通账号
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.AccountTypeEnum.DeptUser">
-            <summary>
-            部门账号
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.AccountTypeEnum.DeptAdmin">
-            <summary>
-            部门管理员
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.AccountTypeEnum.SysAdmin">
+        <member name="F:Admin.NET.Core.AccountTypeEnum.Admin">
             <summary>
             系统管理员
             </summary>

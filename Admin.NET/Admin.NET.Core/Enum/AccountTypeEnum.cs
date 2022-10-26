@@ -18,22 +18,10 @@ public enum AccountTypeEnum
     User = 1,
 
     /// <summary>
-    /// 部门账号
-    /// </summary>
-    [Description("部门账号")]
-    DeptUser = 2,
-
-    /// <summary>
-    /// 部门管理员
-    /// </summary>
-    [Description("部门管理员")]
-    DeptAdmin = 3,
-
-    /// <summary>
     /// 系统管理员
     /// </summary>
     [Description("系统管理员")]
-    SysAdmin = 4,
+    Admin = 4,
 
     /// <summary>
     /// 超级管理员
