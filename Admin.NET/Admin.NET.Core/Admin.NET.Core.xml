@@ -312,76 +312,6 @@
             租户Id
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.SysArea">
-            <summary>
-            系统行政地区表
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.Pid">
-            <summary>
-            父Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.ShortName">
-            <summary>
-            简称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.MergerName">
-            <summary>
-            组合名
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.AreaCode">
-            <summary>
-            行政代码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.ZipCode">
-            <summary>
-            邮政编码
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.CityCode">
-            <summary>
-            区号
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.Level">
-            <summary>
-            层级
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.PinYin">
-            <summary>
-            拼音
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.Lng">
-            <summary>
-            经度
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.Lat">
-            <summary>
-            维度
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.Remark">
-            <summary>
-            备注
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysArea.Children">
-            <summary>
-            机构子项
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.SysCodeGen">
             <summary>
             代码生成表
@@ -1225,6 +1155,76 @@
         <member name="P:Admin.NET.Core.SysPos.Status">
             <summary>
             状态
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysRegion">
+            <summary>
+            系统行政地区表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Pid">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.ShortName">
+            <summary>
+            简称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.MergerName">
+            <summary>
+            组合名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.AreaCode">
+            <summary>
+            行政代码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.ZipCode">
+            <summary>
+            邮政编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.CityCode">
+            <summary>
+            区号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Level">
+            <summary>
+            层级
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.PinYin">
+            <summary>
+            拼音
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Lat">
+            <summary>
+            维度
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Children">
+            <summary>
+            机构子项
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysRole">
@@ -2093,7 +2093,7 @@
             全部数据
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.DataScopeEnum.Dept_with_child">
+        <member name="F:Admin.NET.Core.DataScopeEnum.DeptChild">
             <summary>
             本部门及以下数据
             </summary>
@@ -2578,12 +2578,12 @@
             注册
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.LoginTypeEnum.Change_password">
+        <member name="F:Admin.NET.Core.LoginTypeEnum.ChangePassword">
             <summary>
             改密
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.LoginTypeEnum.Authorized_login">
+        <member name="F:Admin.NET.Core.LoginTypeEnum.AuthorizedLogin">
             <summary>
             三方授权登陆
             </summary>
@@ -2688,31 +2688,6 @@
             已读
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.OrgTypeEnum">
-            <summary>
-            机构类型枚举
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.OrgTypeEnum.Brand">
-            <summary>
-            品牌
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.OrgTypeEnum.Head">
-            <summary>
-            总店(加盟/直营)
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.OrgTypeEnum.Direct">
-            <summary>
-            直营店
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.OrgTypeEnum.Franchised">
-            <summary>
-            加盟店
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.RequestTypeEnum">
             <summary>
             HTTP请求类型
@@ -2741,26 +2716,6 @@
         <member name="F:Admin.NET.Core.RequestTypeEnum.Delete">
             <summary>
             DELETE
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.RoleTypeEnum">
-            <summary>
-            角色类型枚举
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.RoleTypeEnum.Group">
-            <summary>
-            集团角色
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.RoleTypeEnum.Join">
-            <summary>
-            加盟商角色
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.RoleTypeEnum.Store">
-            <summary>
-            门店角色
             </summary>
         </member>
         <member name="T:Admin.NET.Core.RunModeEnum">
@@ -5077,12 +5032,6 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysFileService.GetFileList">
-            <summary>
-            获取文件列表
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysFileService.UploadFile(Microsoft.AspNetCore.Http.IFormFile)">
             <summary>
             上传文件
@@ -6244,19 +6193,6 @@
             更新租户
             </summary>
             <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenant(Admin.NET.Core.Service.TenantInput)">
-            <summary>
-            获取租户详情
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantList">
-            <summary>
-            获取租户列表
-            </summary>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.GrantMenu(Admin.NET.Core.Service.RoleMenuInput)">

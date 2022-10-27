@@ -70,7 +70,7 @@ import { useI18n } from 'vue-i18n';
 // import { useThemeConfig } from '/@/stores/themeConfig';
 // import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
-import { Session } from '/@/utils/storage';
+import { Session, Local } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
 
@@ -130,6 +130,10 @@ export default defineComponent({
 		});
 		// 登录
 		const onSignIn = async () => {
+			// 先清空缓存
+			Session.clear();
+			Local.clear();
+
 			var res = await getAPI(SysAuthApi).loginPost(state.ruleForm);
 			if (res.data.result?.accessToken == null) {
 				getCaptcha(); // 重新获取验证码

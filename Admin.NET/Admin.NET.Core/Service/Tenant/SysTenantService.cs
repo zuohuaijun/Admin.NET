@@ -85,7 +85,8 @@ public class SysTenantService : IDynamicApiController, ITransient
             TenantId = tenantId,
             Pid = 0,
             Name = companyName,
-            Code = companyName
+            Code = companyName,
+            Remark = companyName,
         };
         await _orgRep.InsertAsync(newOrg);
 
@@ -94,8 +95,9 @@ public class SysTenantService : IDynamicApiController, ITransient
         {
             TenantId = tenantId,
             Code = CommonConst.SysAdminRoleCode,
-            Name = "租户管理员",
-            DataScope = DataScopeEnum.All
+            Name = "租户管理员-" + companyName,
+            DataScope = DataScopeEnum.All,
+            Remark = companyName
         };
         await _roleRep.InsertAsync(newRole);
 
@@ -103,7 +105,8 @@ public class SysTenantService : IDynamicApiController, ITransient
         {
             Name = "租户管理员",
             Code = "adminTenant",
-            TenantId = tenantId
+            TenantId = tenantId,
+            Remark = companyName,
         };
         await _posRep.InsertAsync(newPos);
 
@@ -121,7 +124,7 @@ public class SysTenantService : IDynamicApiController, ITransient
             PosId = newPos.Id,
             Birthday = DateTime.Parse("1986-06-28"),
             RealName = "租户管理员",
-            Remark = "租户管理员"
+            Remark = "租户管理员" + companyName,
         };
         await _userRep.InsertAsync(newUser);
 
@@ -187,27 +190,6 @@ public class SysTenantService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取租户详情
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    [HttpGet("/sysTenant/detail")]
-    public async Task<SysTenant> GetTenant([FromQuery] TenantInput input)
-    {
-        return await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
-    }
-
-    /// <summary>
-    /// 获取租户列表
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("/sysTenant/list")]
-    public async Task<dynamic> GetTenantList()
-    {
-        return await _tenantRep.AsQueryable().ToListAsync();
-    }
-
-    /// <summary>
     /// 授权租户管理员角色菜单
     /// </summary>
     /// <param name="input"></param>
@@ -227,7 +209,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysTenant/ownMenu")]
+    [HttpGet("/sysTenant/ownMenuTree")]
     public async Task<List<SysMenu>> OwnMenuTree([FromQuery] TenantInput input)
     {
         var tenantAdminUser = await GetTenantAdminUser(input.Id);

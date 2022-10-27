@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
 import { UserInfosStates } from './interface';
 import { Session } from '/@/utils/storage';
-import { getAPI } from '../utils/axios-utils';
-import { SysAuthApi } from '../api-services/api';
+
+import { getAPI } from '/@/utils/axios-utils';
+import { SysAuthApi } from '/@/api-services/api';
 
 /**
  * 用户信息
@@ -33,7 +34,7 @@ export const useUserInfo = defineStore('userInfo', {
 		async getApiUserInfo() {
 			return new Promise((resolve) => {
 				getAPI(SysAuthApi)
-					.getUserInfoGet()
+					.userInfoGet()
 					.then((res: any) => {
 						if (res.data.result == null) return;
 						var d = res.data.result;

@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 /**
- * 登录类型枚举<br />&nbsp;登录 Login = 1<br />&nbsp;退出 Logout = 2<br />&nbsp;注册 Register = 3<br />&nbsp;改密 Change_password = 4<br />&nbsp;授权登陆 Authorized_login = 5<br />
+ * 登录类型枚举<br />&nbsp;登录 Login = 1<br />&nbsp;退出 Logout = 2<br />&nbsp;注册 Register = 3<br />&nbsp;改密 ChangePassword = 4<br />&nbsp;授权登陆 AuthorizedLogin = 5<br />
  * @export
  * @enum {string}
  */

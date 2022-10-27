@@ -10,7 +10,7 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysPos:page'"> 查询 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysPos:list'"> 查询 </el-button>
 					<el-button icon="ele-Plus" @click="openAddPos" v-auth="'sysPos:add'"> 新增 </el-button>
 				</el-form-item>
 			</el-form>

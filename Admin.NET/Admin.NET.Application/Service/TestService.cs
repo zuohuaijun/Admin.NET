@@ -1,4 +1,5 @@
 using Admin.NET.Application.Const;
+using Admin.NET.Core.Service;
 using Furion.DatabaseAccessor;
 using Furion.FriendlyException;
 using Furion.Localization;
@@ -16,9 +17,16 @@ public class TestService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<Test> _testRep;
 
-    public TestService(SqlSugarRepository<Test> testRep)
+    private readonly SqlSugarRepository<SysMenu> _sysMenuRep;
+    private readonly SysMenuService _sysMenuService;
+
+    public TestService(SqlSugarRepository<Test> testRep, 
+        SqlSugarRepository<SysMenu> sysMenuRep,
+        SysMenuService sysMenuService)
     {
         _testRep = testRep;
+        _sysMenuRep = sysMenuRep;
+        _sysMenuService = sysMenuService;
     }
 
     /// <summary>
@@ -48,6 +56,24 @@ public class TestService : IDynamicApiController, ITransient
         throw new Exception("异常");
 
         throw Oops.Oh("异常").WithData("数据");
+    }
+
+    /// <summary>
+    /// 事务测试
+    /// </summary>
+    [UnitOfWork]
+    public async Task TestTran()
+    {
+        //await _sysMenuRep.GetListAsync();
+
+        //var menuIdList = new List<long> { 0, 1, 2 };
+
+        //await _sysMenuRep.DeleteAsync(u => menuIdList.Contains(u.Id));
+
+        //await _sysMenuRep.DeleteAsync(u => u.Id == 1);
+
+
+        await _sysMenuService.DeleteMenu(new DeleteMenuInput { Id = 252885263002711 });
     }
 
     /// <summary>

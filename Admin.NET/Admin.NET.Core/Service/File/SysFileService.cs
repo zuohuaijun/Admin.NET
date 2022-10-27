@@ -46,16 +46,6 @@ public class SysFileService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取文件列表
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("/sysFile/list")]
-    public async Task<List<SysFile>> GetFileList()
-    {
-        return await _sysFileRep.GetListAsync();
-    }
-
-    /// <summary>
     /// 上传文件
     /// </summary>
     /// <param name="file"></param>

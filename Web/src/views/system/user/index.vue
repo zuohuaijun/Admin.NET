@@ -32,7 +32,7 @@
 						<el-table-column prop="nickName" label="昵称" width="120" show-overflow-tooltip />
 						<el-table-column label="头像" width="80" align="center" show-overflow-tooltip>
 							<template #default="scope">
-								<el-avatar src="" size="small">{{ scope.row.nickName.slice(0, 1) }} </el-avatar>
+								<el-avatar src="" size="small">{{ scope.row.nickName?.slice(0, 1) }} </el-avatar>
 							</template>
 						</el-table-column>
 						<el-table-column prop="realName" label="姓名" width="120" show-overflow-tooltip />
@@ -141,7 +141,6 @@ export default defineComponent({
 			state.loading = true;
 			var res = await getAPI(SysOrgApi).sysOrgListGet(0);
 			state.orgTreeData = res.data.result ?? [];
-			// orgTreeRef.value.updateTreeData(state.orgTreeData); // 赋值机构树
 			state.loading = false;
 		};
 		// 查询操作

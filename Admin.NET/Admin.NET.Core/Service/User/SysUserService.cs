@@ -34,7 +34,7 @@ public class SysUserService : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<SysUser>> GetUserPage([FromQuery] PageUserInput input)
     {
         var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) :
-            _userManager.SuperAdmin ? null : await _sysOrgService.GetChildIdListWithSelfById(_userManager.OrgId);
+            _userManager.SuperAdmin ? null : await _sysOrgService.GetUserOrgIdList(); // 各管理员只能看到自己机构下的用户列表
 
         return await _sysUserRep.AsQueryable()
             .WhereIF(!_userManager.SuperAdmin, u => u.AccountType != AccountTypeEnum.SuperAdmin)
@@ -147,8 +147,7 @@ public class SysUserService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D3005);
 
         user.Status = input.Status;
-        return await _sysUserRep.AsUpdateable(user)
-            .UpdateColumns(u => new { u.Status }).ExecuteCommandAsync();
+        return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => new { u.Status }).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -171,7 +170,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysUser/changeUserPwd")]
+    [HttpPost("/sysUser/changePwd")]
     public async Task<int> ChangeUserPwd(ChangePwdInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);

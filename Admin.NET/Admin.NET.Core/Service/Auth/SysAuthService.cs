@@ -103,7 +103,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// 获取用户信息
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/getUserInfo")]
+    [HttpGet("/userInfo")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
         var user = _userManager.User;

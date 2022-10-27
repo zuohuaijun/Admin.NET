@@ -19,7 +19,7 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="logData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="userName" label="账号名称" show-overflow-tooltip />
+				<el-table-column prop="account" label="账号名称" show-overflow-tooltip />
 				<el-table-column prop="realName" label="真实姓名" show-overflow-tooltip />
 				<el-table-column prop="success" label="状态" width="70" show-overflow-tooltip>
 					<template #default="scope">

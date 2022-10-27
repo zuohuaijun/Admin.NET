@@ -14,7 +14,7 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="reset" size="default">重 置</el-button>
-					<el-button icon="ele-Select" type="primary" @click="submit" size="default" v-auth="'sysPassword:update'">确 定</el-button>
+					<el-button icon="ele-Select" type="primary" @click="submit" size="default" v-auth="'sysUser:changePwd'">确 定</el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -56,7 +56,7 @@ export default defineComponent({
 		const submit = () => {
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
-				await getAPI(SysUserApi).sysUserChangeUserPwdPost(state.ruleForm);
+				await getAPI(SysUserApi).sysUserChangePwdPost(state.ruleForm);
 				// 退出系统
 				ElMessageBox.confirm('密码已修改，是否重新登录系统？', '提示', {
 					confirmButtonText: '确定',

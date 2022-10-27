@@ -26,7 +26,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="系统参数" prop="sysFlag" :rules="[{ required: true, message: '系统参数不能为空', trigger: 'blur' }]">
-							<el-radio-group v-model="ruleForm.sysFlag" :disabled="ruleForm.sysFlag == 1">
+							<el-radio-group v-model="ruleForm.sysFlag" :disabled="ruleForm.sysFlag == 1 && ruleForm.id != undefined">
 								<el-radio :label="1">是</el-radio>
 								<el-radio :label="2">否</el-radio>
 							</el-radio-group>

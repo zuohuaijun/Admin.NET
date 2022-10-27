@@ -27,11 +27,11 @@ public enum LoginTypeEnum
     /// 改密
     /// </summary>
     [Description("改密")]
-    Change_password = 4,
+    ChangePassword = 4,
 
     /// <summary>
     /// 三方授权登陆
     /// </summary>
     [Description("授权登陆")]
-    Authorized_login = 5
+    AuthorizedLogin = 5
 }

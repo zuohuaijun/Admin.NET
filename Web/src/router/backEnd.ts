@@ -9,8 +9,8 @@ import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/
 import { useRoutesList } from '/@/stores/routesList';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 
-import { getAPI } from '../utils/axios-utils';
-import { SysMenuApi } from '../api-services/api';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysMenuApi } from '/@/api-services/api';
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -101,7 +101,7 @@ export async function setAddRoute() {
  * @returns 返回后端路由菜单数据
  */
 export async function getBackEndControlRoutes() {
-	var res = await getAPI(SysMenuApi).getMenuListGet();
+	var res = await getAPI(SysMenuApi).loginMenuGet();
 	return res.data.result;
 }
 

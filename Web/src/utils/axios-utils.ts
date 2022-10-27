@@ -127,9 +127,9 @@ axiosInstance.interceptors.response.use(
 		} else if (serve.code === undefined) {
 			return Promise.resolve(res);
 		} else if (serve.code !== 200) {
-			var error = JSON.stringify(serve.message);
-			ElMessage.error(error);
-			throw new Error(error);
+			var message = JSON.stringify(serve.message);
+			ElMessage.error(message);
+			throw new Error(message);
 		}
 
 		return res;
@@ -177,6 +177,7 @@ export function feature<T, U = Error>(promise: Promise<T>, errorExt?: object): P
  * @returns 服务API 实例
  */
 export function getAPI<T extends BaseAPI>(
+	// eslint-disable-next-line no-unused-vars
 	apiType: new (configuration?: Configuration, basePath?: string, axiosInstance?: AxiosInstance) => T,
 	configuration: Configuration = serveConfig,
 	basePath: string = BASE_PATH,

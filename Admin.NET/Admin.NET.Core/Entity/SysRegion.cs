@@ -3,8 +3,8 @@
 /// <summary>
 /// 系统行政地区表
 /// </summary>
-[SugarTable("sys_area", "系统行政地区表")]
-public class SysArea : EntityBaseId
+[SugarTable("sys_region", "系统行政地区表")]
+public class SysRegion : EntityBaseId
 {
     /// <summary>
     /// 父Id
@@ -90,5 +90,5 @@ public class SysArea : EntityBaseId
     /// 机构子项
     /// </summary>
     [SugarColumn(IsIgnore = true)]
-    public List<SysOrg> Children { get; set; }
+    public List<SysRegion> Children { get; set; }
 }

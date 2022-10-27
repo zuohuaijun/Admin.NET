@@ -82,8 +82,8 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysUserChangeUserPwdPost: async (body?: ChangePwdInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysUser/changeUserPwd`;
+        sysUserChangePwdPost: async (body?: ChangePwdInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysUser/changePwd`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -557,8 +557,8 @@ export const SysUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserChangeUserPwdPost(body?: ChangePwdInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
-            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserChangeUserPwdPost(body, options);
+        async sysUserChangePwdPost(body?: ChangePwdInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
+            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).sysUserChangePwdPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -724,8 +724,8 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysUserChangeUserPwdPost(body?: ChangePwdInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
-            return SysUserApiFp(configuration).sysUserChangeUserPwdPost(body, options).then((request) => request(axios, basePath));
+        async sysUserChangePwdPost(body?: ChangePwdInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
+            return SysUserApiFp(configuration).sysUserChangePwdPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -854,8 +854,8 @@ export class SysUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async sysUserChangeUserPwdPost(body?: ChangePwdInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
-        return SysUserApiFp(this.configuration).sysUserChangeUserPwdPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysUserChangePwdPost(body?: ChangePwdInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
+        return SysUserApiFp(this.configuration).sysUserChangePwdPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

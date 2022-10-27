@@ -98,7 +98,7 @@ connection.onclose(async () => {
 connection.onreconnecting(() => {
 	ElNotification({
 		title: '提示',
-		message: '与服务器重连中...',
+		message: '服务器已断线...',
 		type: 'error',
 		position: 'bottom-right',
 	});
@@ -141,7 +141,7 @@ const openDrawer = () => {
 const handleQuery = async () => {
 	state.loading = true;
 	var res = await getAPI(SysOnlineUserApi).sysOnlineUserPageGet(state.queryParams.userName, state.queryParams.realName, state.tableParams.page, state.tableParams.pageSize);
-	state.onlineUserList = res.data.result?.items;
+	state.onlineUserList = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;
 };

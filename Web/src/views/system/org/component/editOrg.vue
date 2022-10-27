@@ -88,11 +88,6 @@ export default defineComponent({
 			state.ruleForm = row;
 			state.isShowDialog = true;
 		};
-		// 关闭弹窗
-		const closeDialog = () => {
-			proxy.mittBus.emit('submitRefresh');
-			state.isShowDialog = false;
-		};
 		// 取消
 		const cancel = () => {
 			state.isShowDialog = false;
@@ -106,13 +101,13 @@ export default defineComponent({
 				} else {
 					await getAPI(SysOrgApi).sysOrgAddPost(state.ruleForm);
 				}
-				closeDialog();
+				proxy.mittBus.emit('submitRefresh');
+				state.isShowDialog = false;
 			});
 		};
 		return {
 			ruleFormRef,
 			openDialog,
-			closeDialog,
 			cancel,
 			submit,
 			...toRefs(state),

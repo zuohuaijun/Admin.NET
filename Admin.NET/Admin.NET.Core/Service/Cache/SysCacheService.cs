@@ -67,7 +67,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    [HttpPost("/sysCache/remove")]
+    [HttpPost("/sysCache/delete")]
     public void Remove(string key)
     {
         _cache.Remove(key);

@@ -27,5 +27,5 @@ public enum AccountTypeEnum
     /// 超级管理员
     /// </summary>
     [Description("超级管理员")]
-    SuperAdmin = 99999,
+    SuperAdmin = 999,
 }

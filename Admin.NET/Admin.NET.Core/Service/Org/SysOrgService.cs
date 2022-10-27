@@ -6,15 +6,15 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 197)]
 public class SysOrgService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysOrg> _sysOrgRep;
     private readonly UserManager _userManager;
+    private readonly SqlSugarRepository<SysOrg> _sysOrgRep;
     private readonly SysCacheService _sysCacheService;
     private readonly SysUserExtOrgService _sysUserExtOrgService;
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysRoleOrgService _sysRoleOrgService;
 
-    public SysOrgService(SqlSugarRepository<SysOrg> sysOrgRep,
-        UserManager userManager,
+    public SysOrgService(UserManager userManager, 
+        SqlSugarRepository<SysOrg> sysOrgRep,        
         SysCacheService sysCacheService,
         SysUserExtOrgService sysUserExtOrgService,
         SysUserRoleService sysUserRoleService,
@@ -50,7 +50,7 @@ public class SysOrgService : IDynamicApiController, ITransient
 
         if (input.Id > 0)
         {
-            return await iSugarQueryable.WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id)).ToChildListAsync(u => u.Pid, input.Id);
+            return await iSugarQueryable.WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id)).ToChildListAsync(u => u.Pid, input.Id, true);
         }
         else
         {
@@ -131,6 +131,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysOrg/delete")]
+    [UnitOfWork]
     public async Task DeleteOrg(DeleteOrgInput input)
     {
         var sysOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Id);
@@ -149,7 +150,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D2005);
 
         // 若子机构有用户则禁止删除
-        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id);
+        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id, true);
         var orgIdList = orgTreeList.Select(u => u.Id).ToList();
 
         // 级联删除机构子节点
@@ -251,7 +252,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             orgIdList = await _sysOrgRep.AsQueryable().Select(u => u.Id).ToListAsync();
         }
         // 若数据范围是本部门及以下，则获取本节点和子节点集合
-        else if (dataScope == (int)DataScopeEnum.Dept_with_child)
+        else if (dataScope == (int)DataScopeEnum.DeptChild)
         {
             orgIdList = await GetChildIdListWithSelfById(orgId);
         }
@@ -271,7 +272,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     [NonAction]
     public async Task<List<long>> GetChildIdListWithSelfById(long pid)
     {
-        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, pid);
+        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, pid, true);
         return orgTreeList.Select(u => u.Id).ToList();
     }
 }

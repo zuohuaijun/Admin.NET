@@ -84,11 +84,7 @@ export default defineComponent({
 				handleQuery();
 
 				// 编辑删除后更新机构数据
-				state.loading = true;
-				var res = await getAPI(SysOrgApi).sysOrgListGet(-1, '', '');
-				state.orgTreeData = res.data.result ?? [];
-				state.loading = false;
-				orgTreeRef.value.updateTreeData(state.orgTreeData);
+				orgTreeRef.value.initTreeData();
 			});
 		});
 		onUnmounted(() => {
@@ -130,7 +126,6 @@ export default defineComponent({
 			})
 				.then(async () => {
 					await getAPI(SysOrgApi).sysOrgDeletePost({ id: row.id });
-					handleQuery();
 					ElMessage.success('删除成功');
 					proxy.mittBus.emit('submitRefresh');
 				})
