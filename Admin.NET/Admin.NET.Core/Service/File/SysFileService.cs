@@ -211,8 +211,12 @@ public class SysFileService : IDynamicApiController, ITransient
             var realFile = Path.Combine(filePath, finalName);
             using var stream = File.Create(realFile);
 
-            await file.CopyToAsync(stream);
-            var detector = stream.DetectFiletype();
+            IDetector detector;
+            using (var stream = File.Create(realFile)) 
+            {
+                await file.CopyToAsync(stream);
+                detector = stream.DetectFiletype();
+            }
             var realExt = detector.Extension; // 真实扩展名
             // 二次校验扩展名
             if (!string.Equals(realExt, suffix.Replace(".", ""), StringComparison.OrdinalIgnoreCase))
