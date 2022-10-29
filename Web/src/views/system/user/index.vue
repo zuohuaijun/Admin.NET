@@ -202,13 +202,10 @@ export default defineComponent({
 		};
 		// 修改状态
 		const changeStatus = async (row: any) => {
-			await getAPI(SysUserApi).sysUserSetStatusPost({ id: row.id, status: row.status })
-				.catch(()=>{
-					if (row.status==1) {
-                 		row.status==2
-             		}else{
-                 		row.status=1
-             		}
+			getAPI(SysUserApi)
+				.sysUserSetStatusPost({ id: row.id, status: row.status })
+				.catch(() => {
+					row.status = row.status == 1 ? 2 : 1;
 				});
 		};
 		// 重置密码
