@@ -46,7 +46,7 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<el-dialog v-model="dialogVisible" title="日志详情" width="769px">
+		<el-dialog v-model="dialogVisible" title="日志详情" draggable width="769px">
 			<pre>{{ content }}</pre>
 			<template #footer>
 				<span class="dialog-footer">

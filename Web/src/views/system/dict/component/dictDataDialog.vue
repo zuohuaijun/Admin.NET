@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-dictData-container">
-		<el-dialog title="字典值列表" v-model="isShowDialog" width="860px">
+		<el-dialog title="字典值列表" v-model="isShowDialog" draggable width="860px">
 			<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 				<el-form :model="queryParams" ref="queryForm" :inline="true">
 					<el-form-item label="值" prop="value">

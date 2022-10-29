@@ -1,9 +1,6 @@
 <template>
 	<div class="sys-tenant-container">
-		<el-dialog v-model="isShowDialog" width="769px">
-			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">{{ title }}</div>
-			</template>
+		<el-dialog v-model="isShowDialog" :title="title" draggable width="769px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
