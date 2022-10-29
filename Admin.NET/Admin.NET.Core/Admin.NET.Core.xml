@@ -1182,7 +1182,7 @@
             组合名
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysRegion.AreaCode">
+        <member name="P:Admin.NET.Core.SysRegion.Code">
             <summary>
             行政代码
             </summary>
@@ -1215,6 +1215,11 @@
         <member name="P:Admin.NET.Core.SysRegion.Lat">
             <summary>
             维度
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Order">
+            <summary>
+            排序
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysRegion.Remark">
@@ -2516,6 +2521,21 @@
         <member name="F:Admin.NET.Core.ErrorCodeEnum.db1001">
             <summary>
             数据表不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.R2000">
+            <summary>
+            父节点不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.R2001">
+            <summary>
+            当前节点Id不能与父节点Id相同
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.R2002">
+            <summary>
+            已有相同编码或名称
             </summary>
         </member>
         <member name="T:Admin.NET.Core.GenderEnum">
@@ -5852,6 +5872,72 @@
             删除职位
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRegionInput.Pid">
+            <summary>
+            父节点Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRegionInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRegionInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddRegionInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysRegionService">
+            <summary>
+            系统行政区域服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.GetRegionPage(Admin.NET.Core.Service.PageRegionInput)">
+            <summary>
+            获取行政区域列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.GetRegionList(Admin.NET.Core.Service.RegionInput)">
+            <summary>
+            获取行政区域列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.AddRegion(Admin.NET.Core.Service.AddRegionInput)">
+            <summary>
+            增加行政区域
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.UpdateRegion(Admin.NET.Core.Service.UpdateRegionInput)">
+            <summary>
+            更新行政区域
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.DeleteRegion(Admin.NET.Core.Service.DeleteRegionInput)">
+            <summary>
+            删除行政区域
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.SyncRegion">
+            <summary>
+            同步行政区域
+            </summary>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.RoleInput.Status">

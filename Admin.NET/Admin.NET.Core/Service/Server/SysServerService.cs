@@ -1,4 +1,5 @@
-﻿using AspNetCoreRateLimit;
+﻿using AngleSharp.Html.Parser;
+using AspNetCoreRateLimit;
 using Lazy.Captcha.Core;
 using Magicodes.ExporterAndImporter.Excel;
 using Magicodes.ExporterAndImporter.Pdf;
@@ -94,6 +95,7 @@ public class SysServerService : IDynamicApiController, ITransient
         var parserAssembly = typeof(Parser).Assembly.GetName();
         var nestAssembly = typeof(IElasticClient).Assembly.GetName();
         var limitAssembly = typeof(IpRateLimitMiddleware).Assembly.GetName();
+        var htmlParserAssembly = typeof(HtmlParser).Assembly.GetName();
 
         return new[]
         {
@@ -111,6 +113,7 @@ public class SysServerService : IDynamicApiController, ITransient
             new { parserAssembly.Name, parserAssembly.Version },
             new { nestAssembly.Name, nestAssembly.Version },
             new { limitAssembly.Name, limitAssembly.Version },
+            new { htmlParserAssembly.Name, htmlParserAssembly.Version },
         };
     }
 }

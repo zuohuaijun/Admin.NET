@@ -209,8 +209,6 @@ public class SysFileService : IDynamicApiController, ITransient
                 Directory.CreateDirectory(filePath);
 
             var realFile = Path.Combine(filePath, finalName);
-            using var stream = File.Create(realFile);
-
             IDetector detector;
             using (var stream = File.Create(realFile)) 
             {

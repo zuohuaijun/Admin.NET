@@ -17,7 +17,7 @@ public class SysRegion : EntityBaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "名称", Length = 64)]
     [Required, MaxLength(64)]
-    public string Name { get; set; }
+    public virtual string Name { get; set; }
 
     /// <summary>
     /// 简称
@@ -38,7 +38,7 @@ public class SysRegion : EntityBaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "行政代码", Length = 32)]
     [MaxLength(32)]
-    public string AreaCode { get; set; }
+    public string Code { get; set; }
 
     /// <summary>
     /// 邮政编码
@@ -78,6 +78,12 @@ public class SysRegion : EntityBaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "维度")]
     public float Lat { get; set; }
+
+    /// <summary>
+    /// 排序
+    /// </summary>
+    [SugarColumn(ColumnDescription = "排序")]
+    public int Order { get; set; } = 100;
 
     /// <summary>
     /// 备注

@@ -30,6 +30,7 @@ export * from './apis/sys-notice-api';
 export * from './apis/sys-online-user-api';
 export * from './apis/sys-org-api';
 export * from './apis/sys-pos-api';
+export * from './apis/sys-region-api';
 export * from './apis/sys-role-api';
 export * from './apis/sys-server-api';
 export * from './apis/sys-tenant-api';
