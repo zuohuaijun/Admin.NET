@@ -49,7 +49,7 @@ public static class ComputerUtil
         }
         else
         {
-            var driv = DriveInfo.GetDrives();
+            var driv = DriveInfo.GetDrives().Where(u => u.IsReady);
             foreach (var item in driv)
             {
                 var obj = new DiskInfo()
