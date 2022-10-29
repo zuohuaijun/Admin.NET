@@ -201,7 +201,7 @@ export default defineComponent({
 			handleQuery();
 		};
 		// 修改状态
-		const changeStatus = async (row: any) => {
+		const changeStatus = (row: any) => {
 			getAPI(SysUserApi)
 				.sysUserSetStatusPost({ id: row.id, status: row.status })
 				.catch(() => {
