@@ -6,11 +6,6 @@
 public class LoginUserOutput
 {
     /// <summary>
-    /// 用户Id
-    /// </summary>
-    public long UserId { get; set; }
-
-    /// <summary>
     /// 账号名称
     /// </summary>
     public string Account { get; set; }
@@ -31,14 +26,24 @@ public class LoginUserOutput
     public string Introduction { get; set; }
 
     /// <summary>
-    /// 机构Id
+    /// 地址
     /// </summary>
-    public long OrgId { get; set; }
+    public string Address { get; set; }
+
+    /// <summary>
+    /// 电子签名
+    /// </summary>
+    public string Signature { get; set; }
 
     /// <summary>
     /// 机构名称
     /// </summary>
     public string OrgName { get; set; }
+
+    /// <summary>
+    /// 职位名称
+    /// </summary>
+    public string PosName { get; set; }
 
     /// <summary>
     /// 按钮权限集合

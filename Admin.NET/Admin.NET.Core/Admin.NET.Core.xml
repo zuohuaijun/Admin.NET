@@ -1623,6 +1623,11 @@
             最新登录设备
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysUser.Signature">
+            <summary>
+            电子签名
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysUserExtOrg">
             <summary>
             系统用户扩展机构表
@@ -3815,11 +3820,6 @@
             用户登录信息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserOutput.UserId">
-            <summary>
-            用户Id
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.LoginUserOutput.Account">
             <summary>
             账号名称
@@ -3840,14 +3840,24 @@
             个人简介
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserOutput.OrgId">
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.Address">
             <summary>
-            机构Id
+            地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.Signature">
+            <summary>
+            电子签名
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.LoginUserOutput.OrgName">
             <summary>
             机构名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.PosName">
+            <summary>
+            职位名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.LoginUserOutput.Buttons">
@@ -5052,11 +5062,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysFileService.UploadFile(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:Admin.NET.Core.Service.SysFileService.UploadFile(Microsoft.AspNetCore.Http.IFormFile,System.String)">
             <summary>
             上传文件
             </summary>
             <param name="file"></param>
+            <param name="path"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysFileService.UploadFiles(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
@@ -5087,11 +5098,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysFileService.HandleUploadFile(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:Admin.NET.Core.Service.SysFileService.HandleUploadFile(Microsoft.AspNetCore.Http.IFormFile,System.String)">
             <summary>
             上传文件
             </summary>
             <param name="file">文件</param>
+            <param name="savePath">路径</param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysFileService.GetMinioPreviewFileUrl(System.String,System.String)">
@@ -5100,6 +5112,20 @@
             </summary>
             <param name="bucketName">桶名</param>
             <param name="fileName">文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.UploadAvatar(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传头像
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.UploadSignature(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传电子签名
+            </summary>
+            <param name="file"></param>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.PageLogInput.StartTime">
@@ -6473,11 +6499,6 @@
             真实姓名
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.AddUserInput.Password">
-            <summary>
-            账号
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.AddUserInput.RoleIdList">
             <summary>
             角色集合
@@ -6646,9 +6667,15 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUser(System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserBase">
             <summary>
-            查看用户
+            查看用户基本信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateUserBase(Admin.NET.Core.SysUser)">
+            <summary>
+            设置用户基本信息
             </summary>
             <returns></returns>
         </member>

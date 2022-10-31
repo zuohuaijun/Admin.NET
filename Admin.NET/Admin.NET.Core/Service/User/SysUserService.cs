@@ -122,13 +122,24 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 查看用户
+    /// 查看用户基本信息
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysUser/detail")]
-    public async Task<SysUser> GetUser(long id)
+    [HttpGet("/sysUser/base")]
+    public async Task<SysUser> GetUserBase()
     {
-        return await _sysUserRep.GetFirstAsync(u => u.Id == id);
+        return await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
+    }
+
+    /// <summary>
+    /// 设置用户基本信息
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost("/sysUser/base")]
+    public async Task<int> UpdateUserBase(SysUser user)
+    {
+        return await _sysUserRep.AsUpdateable(user)
+            .IgnoreColumns(u => new { u.CreateTime, u.Account, u.Password, u.AccountType, u.OrgId, u.PosId }).ExecuteCommandAsync();
     }
 
     /// <summary>

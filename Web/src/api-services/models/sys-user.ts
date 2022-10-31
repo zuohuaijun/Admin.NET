@@ -282,4 +282,10 @@ export interface SysUser {
      * @memberof SysUser
      */
     lastLoginDevice?: string | null;
+    /**
+     * 电子签名
+     * @type {string}
+     * @memberof SysUser
+     */
+    signature?: string | null;
 }

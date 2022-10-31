@@ -192,13 +192,108 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 上传文件
+         * @summary 上传头像
          * @param {Blob} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysFileUploadPostForm: async (file?: Blob, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysFileUploadAvatarPostForm: async (file?: Blob, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysFile/uploadAvatar`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new FormData();
+
+            // authentication Bearer required
+
+
+            if (file !== undefined) { 
+                localVarFormParams.append('file', file as any);
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 上传文件
+         * @param {Blob} [file] 
+         * @param {string} [path] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysFileUploadPostForm: async (file?: Blob, path?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysFile/upload`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+            const localVarFormParams = new FormData();
+
+            // authentication Bearer required
+
+            if (path !== undefined) {
+                localVarQueryParameter['path'] = path;
+            }
+
+
+            if (file !== undefined) { 
+                localVarFormParams.append('file', file as any);
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'multipart/form-data';
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = localVarFormParams;
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 上传电子签名
+         * @param {Blob} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysFileUploadSignaturePostForm: async (file?: Blob, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysFile/uploadSignature`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -341,13 +436,42 @@ export const SysFileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 上传文件
+         * @summary 上传头像
          * @param {Blob} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysFileUploadPostForm(file?: Blob, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultFileOutput>>> {
-            const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).sysFileUploadPostForm(file, options);
+        async sysFileUploadAvatarPostForm(file?: Blob, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultFileOutput>>> {
+            const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).sysFileUploadAvatarPostForm(file, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 上传文件
+         * @param {Blob} [file] 
+         * @param {string} [path] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysFileUploadPostForm(file?: Blob, path?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultFileOutput>>> {
+            const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).sysFileUploadPostForm(file, path, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 上传电子签名
+         * @param {Blob} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysFileUploadSignaturePostForm(file?: Blob, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultFileOutput>>> {
+            const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).sysFileUploadSignaturePostForm(file, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -415,13 +539,34 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 上传文件
+         * @summary 上传头像
          * @param {Blob} [file] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysFileUploadPostForm(file?: Blob, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultFileOutput>> {
-            return SysFileApiFp(configuration).sysFileUploadPostForm(file, options).then((request) => request(axios, basePath));
+        async sysFileUploadAvatarPostForm(file?: Blob, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultFileOutput>> {
+            return SysFileApiFp(configuration).sysFileUploadAvatarPostForm(file, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 上传文件
+         * @param {Blob} [file] 
+         * @param {string} [path] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysFileUploadPostForm(file?: Blob, path?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultFileOutput>> {
+            return SysFileApiFp(configuration).sysFileUploadPostForm(file, path, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 上传电子签名
+         * @param {Blob} [file] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysFileUploadSignaturePostForm(file?: Blob, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultFileOutput>> {
+            return SysFileApiFp(configuration).sysFileUploadSignaturePostForm(file, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -485,14 +630,37 @@ export class SysFileApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 上传文件
+     * @summary 上传头像
      * @param {Blob} [file] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysFileApi
      */
-    public async sysFileUploadPostForm(file?: Blob, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultFileOutput>> {
-        return SysFileApiFp(this.configuration).sysFileUploadPostForm(file, options).then((request) => request(this.axios, this.basePath));
+    public async sysFileUploadAvatarPostForm(file?: Blob, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultFileOutput>> {
+        return SysFileApiFp(this.configuration).sysFileUploadAvatarPostForm(file, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 上传文件
+     * @param {Blob} [file] 
+     * @param {string} [path] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysFileApi
+     */
+    public async sysFileUploadPostForm(file?: Blob, path?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultFileOutput>> {
+        return SysFileApiFp(this.configuration).sysFileUploadPostForm(file, path, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 上传电子签名
+     * @param {Blob} [file] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysFileApi
+     */
+    public async sysFileUploadSignaturePostForm(file?: Blob, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultFileOutput>> {
+        return SysFileApiFp(this.configuration).sysFileUploadSignaturePostForm(file, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

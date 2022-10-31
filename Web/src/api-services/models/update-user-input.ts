@@ -272,6 +272,12 @@ export interface UpdateUserInput {
      */
     lastLoginDevice?: string | null;
     /**
+     * 电子签名
+     * @type {string}
+     * @memberof UpdateUserInput
+     */
+    signature?: string | null;
+    /**
      * 账号
      * @type {string}
      * @memberof UpdateUserInput

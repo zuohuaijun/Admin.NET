@@ -18,12 +18,6 @@
  */
 export interface LoginUserOutput {
     /**
-     * 用户Id
-     * @type {number}
-     * @memberof LoginUserOutput
-     */
-    userId?: number;
-    /**
      * 账号名称
      * @type {string}
      * @memberof LoginUserOutput
@@ -48,17 +42,29 @@ export interface LoginUserOutput {
      */
     introduction?: string | null;
     /**
-     * 机构Id
-     * @type {number}
+     * 地址
+     * @type {string}
      * @memberof LoginUserOutput
      */
-    orgId?: number;
+    address?: string | null;
+    /**
+     * 电子签名
+     * @type {string}
+     * @memberof LoginUserOutput
+     */
+    signature?: string | null;
     /**
      * 机构名称
      * @type {string}
      * @memberof LoginUserOutput
      */
     orgName?: string | null;
+    /**
+     * 职位名称
+     * @type {string}
+     * @memberof LoginUserOutput
+     */
+    posName?: string | null;
     /**
      * 按钮权限集合
      * @type {Array<string>}

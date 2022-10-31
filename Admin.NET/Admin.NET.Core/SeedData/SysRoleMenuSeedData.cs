@@ -59,8 +59,11 @@ public class SysRoleMenuSeedData : ISqlSugarEntitySeedData<SysRoleMenu>
             new SysRoleMenu{ Id=252885263003143, RoleId=252885263003721, MenuId=252885263002252 },
             new SysRoleMenu{ Id=252885263003144, RoleId=252885263003721, MenuId=252885263002253 },
             new SysRoleMenu{ Id=252885263003145, RoleId=252885263003721, MenuId=252885263002254 },
-            // 修改密码
+            // 个人中心
             new SysRoleMenu{ Id=252885263003151, RoleId=252885263003721, MenuId=252885263002260 },
+            new SysRoleMenu{ Id=252885263003152, RoleId=252885263003721, MenuId=252885263002261 },
+            new SysRoleMenu{ Id=252885263003153, RoleId=252885263003721, MenuId=252885263002262 },
+            new SysRoleMenu{ Id=252885263003154, RoleId=252885263003721, MenuId=252885263002263 },
 
             // 平台管理
             new SysRoleMenu{ Id=252885263003200, RoleId=252885263003721, MenuId=252885263002300 },
@@ -87,12 +90,13 @@ public class SysRoleMenuSeedData : ISqlSugarEntitySeedData<SysRoleMenu>
             new SysRoleMenu{ Id=252885263003241, RoleId=252885263003721, MenuId=252885263002370 },
             new SysRoleMenu{ Id=252885263003242, RoleId=252885263003721, MenuId=252885263002371 },
             new SysRoleMenu{ Id=252885263003243, RoleId=252885263003721, MenuId=252885263002372 },
-            // 数据资源
+            // 行政区域
             new SysRoleMenu{ Id=252885263003251, RoleId=252885263003721, MenuId=252885263002380 },
             new SysRoleMenu{ Id=252885263003252, RoleId=252885263003721, MenuId=252885263002381 },
             new SysRoleMenu{ Id=252885263003253, RoleId=252885263003721, MenuId=252885263002382 },
             new SysRoleMenu{ Id=252885263003254, RoleId=252885263003721, MenuId=252885263002383 },
             new SysRoleMenu{ Id=252885263003255, RoleId=252885263003721, MenuId=252885263002384 },
+            new SysRoleMenu{ Id=252885263003256, RoleId=252885263003721, MenuId=252885263002385 },
             // 文件管理
             new SysRoleMenu{ Id=252885263003261, RoleId=252885263003721, MenuId=252885263002390 },
             new SysRoleMenu{ Id=252885263003262, RoleId=252885263003721, MenuId=252885263002391 },
@@ -122,8 +126,11 @@ public class SysRoleMenuSeedData : ISqlSugarEntitySeedData<SysRoleMenu>
             //new SysRoleMenu{ Id=252885263004002, RoleId=252885263003722, MenuId=252885263002111 },
             // 系统管理
             new SysRoleMenu{ Id=252885263004100, RoleId=252885263003722, MenuId=252885263002200 },
-            // 密码修改
+            // 个人中心
             new SysRoleMenu{ Id=252885263004151, RoleId=252885263003722, MenuId=252885263002260 },
+            new SysRoleMenu{ Id=252885263004152, RoleId=252885263003722, MenuId=252885263002261 },
+            new SysRoleMenu{ Id=252885263004153, RoleId=252885263003722, MenuId=252885263002262 },
+            new SysRoleMenu{ Id=252885263004154, RoleId=252885263003722, MenuId=252885263002263 },
 
             // 数据面板【user3/252885263003724】
             new SysRoleMenu{ Id=252885263005000, RoleId=252885263003724, MenuId=252885263002100 },
@@ -131,8 +138,11 @@ public class SysRoleMenuSeedData : ISqlSugarEntitySeedData<SysRoleMenu>
             //new SysRoleMenu{ Id=252885263005002, RoleId=252885263003724, MenuId=252885263002111 },
             // 系统管理
             new SysRoleMenu{ Id=252885263005100, RoleId=252885263003724, MenuId=252885263002200 },
-            // 密码修改
+            // 个人中心
             new SysRoleMenu{ Id=252885263005151, RoleId=252885263003724, MenuId=252885263002260},
+            new SysRoleMenu{ Id=252885263005152, RoleId=252885263003724, MenuId=252885263002261 },
+            new SysRoleMenu{ Id=252885263005153, RoleId=252885263003724, MenuId=252885263002262 },
+            new SysRoleMenu{ Id=252885263005154, RoleId=252885263003724, MenuId=252885263002263 },
 
             // 其他租户
             // 数据面板【admin1/252885263004721】
@@ -180,8 +190,11 @@ public class SysRoleMenuSeedData : ISqlSugarEntitySeedData<SysRoleMenu>
             new SysRoleMenu{ Id=252885263103143, RoleId=252885263004721, MenuId=252885263002252 },
             new SysRoleMenu{ Id=252885263103144, RoleId=252885263004721, MenuId=252885263002253 },
             new SysRoleMenu{ Id=252885263103145, RoleId=252885263004721, MenuId=252885263002254 },
-            // 密码修改
+            // 个人中心
             new SysRoleMenu{ Id=252885263103151, RoleId=252885263004721, MenuId=252885263002260 },
+            new SysRoleMenu{ Id=252885263103152, RoleId=252885263004721, MenuId=252885263002261 },
+            new SysRoleMenu{ Id=252885263103153, RoleId=252885263004721, MenuId=252885263002262 },
+            new SysRoleMenu{ Id=252885263103154, RoleId=252885263004721, MenuId=252885263002263 },
         };
     }
 }
