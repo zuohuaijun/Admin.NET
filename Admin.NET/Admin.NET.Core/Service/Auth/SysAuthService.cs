@@ -141,6 +141,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             Avatar = user.Avatar,
             Address = user.Address,
             Signature = user.Signature,
+            OrgId = user.OrgId,
             OrgName = org?.Name,
             PosName = pos?.Name,
             Buttons = buttons

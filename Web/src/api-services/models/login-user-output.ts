@@ -54,6 +54,12 @@ export interface LoginUserOutput {
      */
     signature?: string | null;
     /**
+     * 机构Id
+     * @type {number}
+     * @memberof LoginUserOutput
+     */
+    orgId?: number;
+    /**
      * 机构名称
      * @type {string}
      * @memberof LoginUserOutput

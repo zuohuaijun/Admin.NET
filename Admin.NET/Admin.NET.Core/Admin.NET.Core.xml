@@ -3850,6 +3850,11 @@
             电子签名
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.LoginUserOutput.OrgName">
             <summary>
             机构名称

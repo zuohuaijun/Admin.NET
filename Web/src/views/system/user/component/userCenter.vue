@@ -87,7 +87,9 @@
 								</el-row>
 							</el-form>
 						</el-tab-pane>
-						<el-tab-pane label="组织机构"></el-tab-pane>
+						<el-tab-pane label="组织机构">
+							<OrgTree ref="orgTreeRef" />
+						</el-tab-pane>
 						<el-tab-pane label="修改密码">
 							<el-form ref="ruleFormPasswordRef" :model="ruleFormPassword" status-icon label-width="80px">
 								<el-form-item label="当前密码" prop="passwordOld" :rules="[{ required: true, message: '当前密码不能为空', trigger: 'blur' }]">
@@ -135,14 +137,16 @@ import { storeToRefs } from 'pinia';
 import { ElMessageBox, UploadInstance } from 'element-plus';
 import { useUserInfo } from '/@/stores/userInfo';
 import { Session } from '/@/utils/storage';
+import { base64ToFile } from '/@/utils/base64Conver';
+import OrgTree from '/@/views/system/user/component/orgTree.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysFileApi, SysUserApi } from '/@/api-services/api';
 import { ChangePwdInput, SysUser } from '/@/api-services/models';
-import { base64ToFile } from '/@/utils/base64Conver';
 
 export default defineComponent({
 	name: 'sysUserCenter',
+	components: { OrgTree },
 	setup() {
 		const stores = useUserInfo();
 		const { userInfos } = storeToRefs(stores);

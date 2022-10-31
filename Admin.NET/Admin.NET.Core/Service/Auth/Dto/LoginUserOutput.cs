@@ -36,6 +36,11 @@ public class LoginUserOutput
     public string Signature { get; set; }
 
     /// <summary>
+    /// 机构Id
+    /// </summary>
+    public long OrgId { get; set; }
+
+    /// <summary>
     /// 机构名称
     /// </summary>
     public string OrgName { get; set; }
