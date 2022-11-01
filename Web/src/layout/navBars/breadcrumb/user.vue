@@ -64,11 +64,8 @@
 			</span>
 			<template #dropdown>
 				<el-dropdown-menu>
-					<!-- <el-dropdown-item command="/dashboard/workbench">{{ $t('message.user.dropdown1') }}</el-dropdown-item> -->
-					<!-- <el-dropdown-item command="wareHouse">{{ $t('message.user.dropdown6') }}</el-dropdown-item> -->
+					<!-- <el-dropdown-item command="/dashboard/home">{{ $t('message.user.dropdown1') }}</el-dropdown-item> -->
 					<el-dropdown-item command="/system/userCenter">{{ $t('message.user.dropdown2') }}</el-dropdown-item>
-					<!-- <el-dropdown-item command="/404">{{ $t('message.user.dropdown3') }}</el-dropdown-item>
-					<el-dropdown-item command="/401">{{ $t('message.user.dropdown4') }}</el-dropdown-item> -->
 					<el-dropdown-item divided command="logOut">{{ $t('message.user.dropdown5') }}</el-dropdown-item>
 				</el-dropdown-menu>
 			</template>
