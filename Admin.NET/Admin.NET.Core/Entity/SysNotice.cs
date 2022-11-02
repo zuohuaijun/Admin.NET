@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统通知公告表
 /// </summary>
-[SugarTable("sys_notice", "通知公告表")]
+[SugarTable("sys_notice", "系统通知公告表")]
 public class SysNotice : EntityBase
 {
     /// <summary>
@@ -21,9 +21,9 @@ public class SysNotice : EntityBase
     public virtual string Content { get; set; }
 
     /// <summary>
-    /// 类型（字典 1通知 2公告）
+    /// 类型（1通知 2公告）
     /// </summary>
-    [SugarColumn(ColumnDescription = "类型（字典 1通知 2公告）")]
+    [SugarColumn(ColumnDescription = "类型（1通知 2公告）")]
     public NoticeTypeEnum Type { get; set; }
 
     /// <summary>
@@ -65,8 +65,8 @@ public class SysNotice : EntityBase
     public DateTime CancelTime { get; set; }
 
     /// <summary>
-    /// 状态（字典 0草稿 1发布 2撤回 3删除）
+    /// 状态（0草稿 1发布 2撤回 3删除）
     /// </summary>
-    [SugarColumn(ColumnDescription = "状态（字典 0草稿 1发布 2撤回 3删除）")]
+    [SugarColumn(ColumnDescription = "状态（0草稿 1发布 2撤回 3删除）")]
     public NoticeStatusEnum Status { get; set; }
 }

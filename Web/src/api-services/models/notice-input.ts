@@ -11,23 +11,16 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { NoticeStatusEnum } from './notice-status-enum';
 /**
  * 
  * @export
- * @interface ChangeStatusNoticeInput
+ * @interface NoticeInput
  */
-export interface ChangeStatusNoticeInput {
+export interface NoticeInput {
     /**
-     * Id
+     * 主键Id
      * @type {number}
-     * @memberof ChangeStatusNoticeInput
+     * @memberof NoticeInput
      */
     id: number;
-    /**
-     * 
-     * @type {NoticeStatusEnum}
-     * @memberof ChangeStatusNoticeInput
-     */
-    status: NoticeStatusEnum;
 }

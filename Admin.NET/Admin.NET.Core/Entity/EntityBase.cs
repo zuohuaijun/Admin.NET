@@ -20,25 +20,25 @@ public abstract class EntityBase : EntityBaseId
     /// <summary>
     /// 创建时间
     /// </summary>
-    [SugarColumn(ColumnDescription = "创建时间")]
+    [SugarColumn(ColumnDescription = "创建时间", IsOnlyIgnoreUpdate = true)]
     public virtual DateTime? CreateTime { get; set; }
 
     /// <summary>
     /// 更新时间
     /// </summary>
-    [SugarColumn(ColumnDescription = "更新时间")]
+    [SugarColumn(ColumnDescription = "更新时间", IsOnlyIgnoreInsert = true)]
     public virtual DateTime? UpdateTime { get; set; }
 
     /// <summary>
     /// 创建者Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "创建者Id")]
+    [SugarColumn(ColumnDescription = "创建者Id", IsOnlyIgnoreUpdate = true)]
     public virtual long? CreateUserId { get; set; }
 
     /// <summary>
     /// 修改者Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "修改者Id")]
+    [SugarColumn(ColumnDescription = "修改者Id", IsOnlyIgnoreInsert = true)]
     public virtual long? UpdateUserId { get; set; }
 
     /// <summary>

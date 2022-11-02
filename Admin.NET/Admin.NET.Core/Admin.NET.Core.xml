@@ -979,7 +979,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysNotice.Type">
             <summary>
-            类型（字典 1通知 2公告）
+            类型（1通知 2公告）
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysNotice.PublicUserId">
@@ -1014,7 +1014,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysNotice.Status">
             <summary>
-            状态（字典 0草稿 1发布 2撤回 3删除）
+            状态（0草稿 1发布 2撤回 3删除）
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysNoticeUser">
@@ -1025,6 +1025,11 @@
         <member name="P:Admin.NET.Core.SysNoticeUser.NoticeId">
             <summary>
             通知公告Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysNoticeUser.SysNotice">
+            <summary>
+            通知公告
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysNoticeUser.UserId">
@@ -1039,7 +1044,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysNoticeUser.ReadStatus">
             <summary>
-            状态（字典 0未读 1已读）
+            状态（0未读 1已读）
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysOnlineUser">
@@ -5448,184 +5453,14 @@
             <param name="message"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.NoticeBase">
-            <summary>
-            通知公告参数
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.Title">
+        <member name="P:Admin.NET.Core.Service.PageNoticeInput.Title">
             <summary>
             标题
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.Content">
+        <member name="P:Admin.NET.Core.Service.PageNoticeInput.Type">
             <summary>
-            内容
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.Type">
-            <summary>
-            类型（字典 1通知 2公告）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.PublicUserId">
-            <summary>
-            发布人Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.PublicUserName">
-            <summary>
-            发布人姓名
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.PublicOrgId">
-            <summary>
-            发布机构Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.PublicOrgName">
-            <summary>
-            发布机构名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.PublicTime">
-            <summary>
-            发布时间
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.CancelTime">
-            <summary>
-            撤回时间
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeBase.Status">
-            <summary>
-            状态（字典 0草稿 1发布 2撤回 3删除）
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.Service.NoticeDetailOutput">
-            <summary>
-            系统通知公告详情参数
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeDetailOutput.NoticeUserIdList">
-            <summary>
-            通知到的用户Id集合
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeDetailOutput.NoticeUserReadInfoList">
-            <summary>
-            通知到的用户阅读信息集合
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeUserRead.UserId">
-            <summary>
-            用户Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeUserRead.UserName">
-            <summary>
-            用户名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeUserRead.ReadStatus">
-            <summary>
-            状态（字典 0未读 1已读）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeUserRead.ReadTime">
-            <summary>
-            阅读时间
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.Service.NoticeInput">
-            <summary>
-            通知公告参数
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeInput.Title">
-            <summary>
-            标题
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeInput.Content">
-            <summary>
-            内容
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeInput.Type">
-            <summary>
-            类型（字典 1通知 2公告）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeInput.Status">
-            <summary>
-            状态（字典 0草稿 1发布 2撤回 3删除）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeInput.NoticeUserIdList">
-            <summary>
-            通知到的人
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddNoticeInput.Title">
-            <summary>
-            标题
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddNoticeInput.Content">
-            <summary>
-            内容
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddNoticeInput.Type">
-            <summary>
-            类型（字典 1通知 2公告）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddNoticeInput.Status">
-            <summary>
-            状态（字典 0草稿 1发布 2撤回 3删除）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddNoticeInput.NoticeUserIdList">
-            <summary>
-            通知到的人
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.DeleteNoticeInput.Id">
-            <summary>
-            Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.UpdateNoticeInput.Id">
-            <summary>
-            Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.ChangeStatusNoticeInput.Status">
-            <summary>
-            状态（字典 0草稿 1发布 2撤回 3删除）
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.Service.NoticeReceiveOutput">
-            <summary>
-            通知公告接收参数
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeReceiveOutput.Id">
-            <summary>
-            Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeReceiveOutput.ReadStatus">
-            <summary>
-            阅读状态（字典 0未读 1已读）
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.NoticeReceiveOutput.ReadTime">
-            <summary>
-            阅读时间
+            类型（1通知 2公告）
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysNoticeService">
@@ -5633,9 +5468,9 @@
             系统通知公告服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.QueryNoticePageList(Admin.NET.Core.Service.NoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetPageNotice(Admin.NET.Core.Service.PageNoticeInput)">
             <summary>
-            分页查询通知公告
+            获取通知公告分页列表
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5647,13 +5482,6 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.DeleteNotice(Admin.NET.Core.Service.DeleteNoticeInput)">
-            <summary>
-            删除通知公告
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysNoticeService.UpdateNotice(Admin.NET.Core.Service.UpdateNoticeInput)">
             <summary>
             更新通知公告
@@ -5661,78 +5489,45 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetNotice(Admin.NET.Core.Service.QueryNoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.DeleteNotice(Admin.NET.Core.Service.DeleteNoticeInput)">
             <summary>
-            获取通知公告详情
+            删除通知公告
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.ChangeStatus(Admin.NET.Core.Service.ChangeStatusNoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.PublicNotice(Admin.NET.Core.Service.NoticeInput)">
             <summary>
-            修改通知公告状态
+            发布通知公告
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.ReceivedNoticePageList(Admin.NET.Core.Service.NoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.SetNoticeRead(Admin.NET.Core.Service.NoticeInput)">
             <summary>
-            获取接收的通知公告
+            设置通知公告已读状态
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.UnReadNoticeList(Admin.NET.Core.Service.NoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetPageReceivedNotice(Admin.NET.Core.Service.PageNoticeInput)">
             <summary>
-            未处理消息
+            获取接收的通知公告（当前用户）
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.UpdatePublicInfo(Admin.NET.Core.SysNotice)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetUnReadNoticeList">
             <summary>
-            更新发布信息
+            获取未读的通知公告（当前用户）
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.InitNoticeInfo(Admin.NET.Core.SysNotice)">
+            <summary>
+            初始化通知公告信息
             </summary>
             <param name="notice"></param>
-        </member>
-        <member name="T:Admin.NET.Core.Service.SysNoticeUserService">
-            <summary>
-            系统通知公告用户
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeUserService.Add(System.Int64,System.Collections.Generic.List{System.Int64},Admin.NET.Core.NoticeUserStatusEnum)">
-            <summary>
-            增加
-            </summary>
-            <param name="noticeId"></param>
-            <param name="noticeUserIdList"></param>
-            <param name="noticeUserStatus"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeUserService.Update(System.Int64,System.Collections.Generic.List{System.Int64},Admin.NET.Core.NoticeUserStatusEnum)">
-            <summary>
-            更新
-            </summary>
-            <param name="noticeId"></param>
-            <param name="noticeUserIdList"></param>
-            <param name="noticeUserStatus"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeUserService.GetNoticeUserListByNoticeId(System.Int64)">
-            <summary>
-            获取通知公告用户列表
-            </summary>
-            <param name="noticeId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeUserService.Read(System.Int64,System.Int64,Admin.NET.Core.NoticeUserStatusEnum)">
-            <summary>
-            设置通知公告读取状态
-            </summary>
-            <param name="noticeId"></param>
-            <param name="userId"></param>
-            <param name="status"></param>
-            <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.PageOnlineUserInput.UserName">
             <summary>

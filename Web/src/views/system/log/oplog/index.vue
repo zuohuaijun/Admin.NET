@@ -28,9 +28,9 @@
 				<el-table-column prop="threadId" label="线程Id" show-overflow-tooltip />
 				<el-table-column prop="logDateTime" label="日志记录时间" align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip />
-				<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
+				<el-table-column label="操作" width="80" align="center" fixed="right" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewDetail(scope.row)" v-auth="'sysOplog:page'">详情 </el-button>
+						<el-button icon="ele-InfoFilled" size="small" text type="primary" @click="viewDetail(scope.row)" v-auth="'sysOplog:page'">详情 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>

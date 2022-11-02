@@ -1,0 +1,160 @@
+<template>
+	<div class="notice-container">
+		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
+			<el-form :model="queryParams" ref="queryForm" :inline="true">
+				<el-form-item label="标题" prop="title">
+					<el-input placeholder="标题" clearable @keyup.enter="handleQuery" v-model="queryParams.title" />
+				</el-form-item>
+				<el-form-item label="类型" prop="type">
+					<el-select v-model="queryParams.type" placeholder="类型" clearable style="width: 100%">
+						<el-option label="通知" :value="1" />
+						<el-option label="公告" :value="2" />
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysNotice:page'"> 查询 </el-button>
+				</el-form-item>
+			</el-form>
+		</el-card>
+
+		<el-card shadow="hover" style="margin-top: 8px">
+			<el-table :data="noticeData" style="width: 100%" v-loading="loading" border :row-class-name="tableRowClassName">
+				<el-table-column type="index" label="序号" width="55" align="center" />
+				<el-table-column prop="sysNotice.title" label="标题" show-overflow-tooltip />
+				<el-table-column prop="sysNotice.content" label="内容" show-overflow-tooltip />
+				<el-table-column prop="sysNotice.type" label="类型" width="100" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag v-if="scope.row.sysNotice.type === 1"> 通知 </el-tag>
+						<el-tag type="danger" v-else> 公告 </el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="sysNotice.createTime" label="创建时间" align="center" show-overflow-tooltip />
+				<el-table-column prop="readStatus" label="阅读状态" width="100" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" v-if="scope.row.readStatus === 1"> 已读 </el-tag>
+						<el-tag type="danger" v-else> 未读 </el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="sysNotice.publicUserName" label="发布者" align="center" show-overflow-tooltip />
+				<el-table-column prop="sysNotice.publicTime" label="发布时间" align="center" show-overflow-tooltip />
+				<el-table-column label="操作" width="80" fixed="right" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-button icon="ele-InfoFilled" size="small" text type="primary" @click="viewDetail(scope.row)"> 详情 </el-button>
+					</template>
+				</el-table-column>
+			</el-table>
+			<el-pagination
+				v-model:currentPage="tableParams.page"
+				v-model:page-size="tableParams.pageSize"
+				:total="tableParams.total"
+				:page-sizes="[10, 20, 50, 100]"
+				small
+				background
+				@size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				layout="total, sizes, prev, pager, next, jumper"
+			/>
+		</el-card>
+		<el-dialog v-model="dialogVisible" title="消息详情" draggable width="769px">
+			<p v-html="content"></p>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button type="primary" @click="dialogVisible = false">确认</el-button>
+				</span>
+			</template>
+		</el-dialog>
+	</div>
+</template>
+
+<script lang="ts">
+import { toRefs, reactive, onMounted, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+
+import { getAPI } from '/@/utils/axios-utils';
+import { SysNoticeApi } from '/@/api-services/api';
+import { SysNoticeUser } from '/@/api-services/models';
+
+export default defineComponent({
+	name: 'notice',
+	components: {},
+	setup() {
+		const { proxy } = getCurrentInstance() as any;
+		const state = reactive({
+			loading: false,
+			noticeData: [] as Array<SysNoticeUser>,
+			queryParams: {
+				title: undefined,
+				type: undefined,
+			},
+			tableParams: {
+				page: 1,
+				pageSize: 10,
+				total: 0 as any,
+			},
+			editNoticeTitle: '',
+			dialogVisible: false,
+			content: '',
+		});
+		onMounted(async () => {
+			handleQuery();
+
+			proxy.mittBus.on('submitRefresh', () => {
+				handleQuery();
+			});
+		});
+		onUnmounted(() => {
+			proxy.mittBus.off('submitRefresh');
+		});
+		// 查询操作
+		const handleQuery = async () => {
+			state.loading = true;
+			var res = await getAPI(SysNoticeApi).sysNoticePageReceivedGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
+			state.noticeData = res.data.result?.items ?? [];
+			state.tableParams.total = res.data.result?.total;
+			state.loading = false;
+		};
+		// 重置操作
+		const resetQuery = () => {
+			state.queryParams.title = undefined;
+			state.queryParams.type = undefined;
+			handleQuery();
+		};
+		// 改变页面容量
+		const handleSizeChange = (val: number) => {
+			state.tableParams.pageSize = val;
+			handleQuery();
+		};
+		// 改变页码序号
+		const handleCurrentChange = (val: number) => {
+			state.tableParams.page = val;
+			handleQuery();
+		};
+		// 查看详情
+		const viewDetail = async (row: any) => {
+			state.content = row.sysNotice.content;
+			state.dialogVisible = true;
+
+			await getAPI(SysNoticeApi).sysNoticeSetReadPost({ id: row.sysNotice.id });
+		};
+		// eslint-disable-next-line no-unused-vars
+		const tableRowClassName = ({ row, rowIndex }: { row: SysNoticeUser; rowIndex: number }) => {
+			return row.readStatus === 1 ? 'info-row' : '';
+		};
+		return {
+			handleQuery,
+			resetQuery,
+			viewDetail,
+			handleSizeChange,
+			handleCurrentChange,
+			tableRowClassName,
+			...toRefs(state),
+		};
+	},
+});
+</script>
+
+<style lang="scss">
+.el-table .info-row {
+	--el-table-tr-bg-color: var(--el-color-info-light-9);
+}
+</style>
