@@ -7,7 +7,7 @@
         "ConfigId": "eolane",
         "DbType": "MySql", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
         "ConnectionString": "Server=localhost;uid=root;pwd=123456;Database=eolane_platform;pooling=true;min pool size=5;max pool size=32767;connect timeout=30000;charset=utf8;", // DataSource=C:\\db\\Admin.NET.db
-        "EnableInitDb": true, // 启用库表初始化
+        "EnableInitDb": false, // 启用库表初始化
         "EnableDiffLog": false // 启用库表差异日志
       },
       // 其他业务库
