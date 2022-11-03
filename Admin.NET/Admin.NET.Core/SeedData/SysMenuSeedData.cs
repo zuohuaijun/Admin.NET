@@ -15,7 +15,7 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
         {
             new SysMenu{ Id=252885263002100, Pid=0, Title="数据面板", Path="/dashboard", Name="dashboard", Component="Layout", Redirect="/dashboard/home", Icon="ele-HomeFilled", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=10 },
             new SysMenu{ Id=252885263002110, Pid=252885263002100, Title="工作台", Path="/dashboard/home", Name="home", Component="/home/index", IsAffix=true, Icon="ele-HomeFilled", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },
-            new SysMenu{ Id=252885263002111, Pid=252885263002100, Title="站内信", Path="/dashboard/notice", Name="notice", Component="/home/notice/index", IsAffix=true, Icon="ele-Bell", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=101 },
+            new SysMenu{ Id=252885263002111, Pid=252885263002100, Title="站内信", Path="/dashboard/notice", Name="notice", Component="/home/notice/index", Icon="ele-Bell", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=101 },
 
             new SysMenu{ Id=252885263002200, Pid=0, Title="系统管理", Path="/system", Name="system", Component="Layout", Redirect="/system/user", Icon="ele-Setting", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },
 

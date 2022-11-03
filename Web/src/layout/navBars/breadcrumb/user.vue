@@ -33,7 +33,7 @@
 			<i class="icon-skin iconfont" :title="$t('message.user.title3')"></i>
 		</div>
 		<div class="layout-navbars-breadcrumb-user-icon">
-			<el-popover placement="bottom" trigger="click" transition="el-zoom-in-top" :width="300" :persistent="false">
+			<el-popover placement="bottom" trigger="hover" transition="el-zoom-in-top" :width="300" :persistent="false">
 				<template #reference>
 					<el-badge :is-dot="true">
 						<el-icon :title="$t('message.user.title4')">
@@ -41,9 +41,7 @@
 						</el-icon>
 					</el-badge>
 				</template>
-				<template #default>
-					<UserNews />
-				</template>
+				<UserNews :noticeList="noticeList" />
 			</el-popover>
 		</div>
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onScreenfullClick">
@@ -91,7 +89,7 @@ import Search from '/@/layout/navBars/breadcrumb/search.vue';
 
 import OnlineUser from '/@/views/system/onlineUser/index.vue';
 import { getAPI } from '/@/utils/axios-utils';
-import { SysAuthApi } from '/@/api-services/api';
+import { SysAuthApi, SysNoticeApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'layoutBreadcrumbUser',
@@ -110,6 +108,7 @@ export default defineComponent({
 			isScreenfull: false,
 			disabledI18n: 'zh-cn',
 			disabledSize: 'large',
+			noticeList: [] as any, // 站内信列表
 		});
 		// 设置分割样式
 		const layoutUserFlexNum = computed(() => {
@@ -236,12 +235,21 @@ export default defineComponent({
 			}
 		};
 		// 页面加载时
-		onMounted(() => {
+		onMounted(async () => {
 			if (Local.get('themeConfig')) {
 				initI18n();
 				initComponentSize();
 			}
+			// 加载未读的站内信
+			var res = await getAPI(SysNoticeApi).sysNoticeUnReadListGet();
+			state.noticeList = res.data.result ?? [];
+
+			// 接收站内信
+			proxy.signalR.on('PublicNotice', reciveNotice);
 		});
+		const reciveNotice = (msg: any) => {
+			state.noticeList.push(msg);
+		};
 		return {
 			userInfos,
 			onLayoutSetingClick,

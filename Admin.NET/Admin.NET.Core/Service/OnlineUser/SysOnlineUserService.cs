@@ -48,20 +48,20 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 发送消息
+    /// 发布站内消息
     /// </summary>
     /// <param name="notice"></param>
     /// <param name="userIds"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task AppendNotice(SysNotice notice, List<long> userIds)
+    public async Task PublicNotice(SysNotice notice, List<long> userIds)
     {
         var userList = await _sysOnlineUerRep.GetListAsync(m => userIds.Contains(m.UserId));
         if (!userList.Any()) return;
 
         foreach (var item in userList)
         {
-            await _onlineUserHubContext.Clients.Client(item.ConnectionId).AppendNotice(notice);
+            await _onlineUserHubContext.Clients.Client(item.ConnectionId).PublicNotice(notice);
         }
     }
 

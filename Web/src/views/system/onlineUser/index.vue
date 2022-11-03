@@ -48,14 +48,14 @@
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue';
+import { getCurrentInstance, onMounted, reactive } from 'vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
-import * as SignalR from '@microsoft/signalr';
 
-import { getAPI, getToken, clearAccessTokens } from '/@/utils/axios-utils';
+import { getAPI, clearAccessTokens } from '/@/utils/axios-utils';
 import { SysOnlineUserApi, SysAuthApi } from '/@/api-services/api';
 import { SysOnlineUser } from '/@/api-services/models';
 
+const { proxy } = getCurrentInstance() as any;
 const state = reactive({
 	loading: false,
 	isVisible: false,
@@ -71,68 +71,30 @@ const state = reactive({
 	onlineUserList: [] as Array<SysOnlineUser>, // 在线用户列表
 });
 
-// 初始化SignalR对象
-const connection = new SignalR.HubConnectionBuilder()
-	//.configureLogging(SignalR.LogLevel.Information)
-	.withUrl(`${import.meta.env.VITE_API_URL}/hubs/onlineUser?access_token=${getToken()}`)
-	.withAutomaticReconnect({
-		nextRetryDelayInMilliseconds: (a) => {
-			console.log(a);
-			return 5000; // 每5秒重连一次
-		},
-	})
-	.build();
+onMounted(async () => {
+	handleQuery();
 
-connection.keepAliveIntervalInMilliseconds = 15 * 1000; // 心跳检测15s
-connection.serverTimeoutInMilliseconds = 30 * 60 * 1000; // 超时时间30m
+	// 在线用户列表
+	proxy.signalR.off('OnlineUserList');
+	proxy.signalR.on('OnlineUserList', (data: any) => {
+		state.onlineUserList = data.userList;
+		ElNotification({
+			title: '提示',
+			message: `${data.online ? `【${data.realName}】上线了` : `【${data.realName}】离开了`}`,
+			type: `${data.online ? 'info' : 'error'}`,
+			position: 'bottom-right',
+		});
+	});
+	// 强制下线
+	proxy.signalR.off('ForceOffline');
+	proxy.signalR.on('ForceOffline', async (data: any) => {
+		console.log('强制下线', data);
+		await proxy.signalR.stop();
 
-// 启动连接
-connection.start().then(() => {
-	console.log('启动连接');
-});
-// 断开连接
-connection.onclose(async () => {
-	console.log('断开连接');
-});
-// 重连中
-connection.onreconnecting(() => {
-	ElNotification({
-		title: '提示',
-		message: '服务器已断线...',
-		type: 'error',
-		position: 'bottom-right',
+		await getAPI(SysAuthApi).logoutPost();
+		clearAccessTokens();
 	});
 });
-// 重连成功
-connection.onreconnected(() => {
-	console.log('重连成功');
-});
-
-const reciveMessage = (msg: any) => {
-	console.log('接收消息：', msg);
-};
-
-// 接收消息
-connection.on('ReceiveMessage', reciveMessage);
-// 强制下线
-connection.on('ForceOffline', async (data: any) => {
-	console.log('强制下线', data);
-	await connection.stop();
-
-	await getAPI(SysAuthApi).logoutPost();
-	clearAccessTokens();
-});
-// 在线用户改变
-connection.on('OnlineUserChange', (data: any) => {
-	state.onlineUserList = data.userList;
-	ElNotification({
-		title: '提示',
-		message: `${data.online ? `【${data.realName}】上线了` : `【${data.realName}】离开了`}`,
-		type: `${data.online ? 'info' : 'error'}`,
-		position: 'bottom-right',
-	});
-});
-
 // 打开页面
 const openDrawer = () => {
 	state.isVisible = true;
@@ -159,7 +121,7 @@ const forceOffline = async (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await connection.send('ForceOffline', { connectionId: row.connectionId }).catch(function (err) {
+			await proxy.signalR.send('ForceOffline', { connectionId: row.connectionId }).catch(function (err: any) {
 				console.log(err);
 			});
 		})

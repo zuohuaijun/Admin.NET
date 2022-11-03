@@ -17,7 +17,7 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AddNoticeInput } from '../models';
-import { AdminResultListSysNoticeUser } from '../models';
+import { AdminResultListSysNotice } from '../models';
 import { AdminResultSqlSugarPagedListSysNotice } from '../models';
 import { AdminResultSqlSugarPagedListSysNoticeUser } from '../models';
 import { DeleteNoticeInput } from '../models';
@@ -524,7 +524,7 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysNoticeUser>>> {
+        async sysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysNotice>>> {
             const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeUnReadListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -632,7 +632,7 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysNoticeUser>> {
+        async sysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysNotice>> {
             return SysNoticeApiFp(configuration).sysNoticeUnReadListGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -740,7 +740,7 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticeUnReadListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysNoticeUser>> {
+    public async sysNoticeUnReadListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysNotice>> {
         return SysNoticeApiFp(this.configuration).sysNoticeUnReadListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**

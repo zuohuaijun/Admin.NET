@@ -107,7 +107,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
         await _sysNoticeUserRep.InsertRangeAsync(noticeUserList);
 
         // 广播所有在线账号
-        await _sysOnlineUserService.AppendNotice(notice, userIdList);
+        await _sysOnlineUserService.PublicNotice(notice, userIdList);
     }
 
     /// <summary>
@@ -146,12 +146,12 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [HttpGet("/sysNotice/unReadList")]
-    public async Task<List<SysNoticeUser>> GetUnReadNoticeList()
+    public async Task<List<SysNotice>> GetUnReadNoticeList()
     {
         return await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
             .Where(u => u.UserId == _userManager.UserId && u.ReadStatus == NoticeUserStatusEnum.UNREAD)
             .OrderBy(u => u.SysNotice.CreateTime, OrderByType.Desc)
-            .OrderBy(u => u.SysNotice.CreateTime, OrderByType.Desc).ToListAsync();
+            .ToListAsync(u => u.SysNotice);
     }
 
     /// <summary>

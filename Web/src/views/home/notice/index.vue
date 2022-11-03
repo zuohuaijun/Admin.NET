@@ -26,13 +26,13 @@
 				<el-table-column prop="sysNotice.type" label="类型" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.sysNotice.type === 1"> 通知 </el-tag>
-						<el-tag type="danger" v-else> 公告 </el-tag>
+						<el-tag type="warning" v-else> 公告 </el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="sysNotice.createTime" label="创建时间" align="center" show-overflow-tooltip />
 				<el-table-column prop="readStatus" label="阅读状态" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.readStatus === 1"> 已读 </el-tag>
+						<el-tag type="info" v-if="scope.row.readStatus === 1"> 已读 </el-tag>
 						<el-tag type="danger" v-else> 未读 </el-tag>
 					</template>
 				</el-table-column>
@@ -134,6 +134,7 @@ export default defineComponent({
 			state.content = row.sysNotice.content;
 			state.dialogVisible = true;
 
+			row.readStatus = 1;
 			await getAPI(SysNoticeApi).sysNoticeSetReadPost({ id: row.sysNotice.id });
 		};
 		// eslint-disable-next-line no-unused-vars
@@ -154,7 +155,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.el-table .info-row {
-	--el-table-tr-bg-color: var(--el-color-info-light-9);
-}
+// .el-table .info-row {
+// 	--el-table-tr-bg-color: var(--el-color-info-light-9);
+// }
 </style>

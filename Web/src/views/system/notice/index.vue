@@ -27,7 +27,7 @@
 				<el-table-column prop="type" label="类型" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.type === 1"> 通知 </el-tag>
-						<el-tag type="danger" v-else> 公告 </el-tag>
+						<el-tag type="warning" v-else> 公告 </el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip />

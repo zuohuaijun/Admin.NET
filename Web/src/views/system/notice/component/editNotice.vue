@@ -10,7 +10,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="类型" prop="type" :rules="[{ required: true, message: '类型不能为空', trigger: 'blur' }]">
-							<el-select v-model="ruleForm.type" placeholder="类型" clearable filterable allow-create default-first-option style="width: 100%">
+							<el-select v-model="ruleForm.type" placeholder="类型" filterable allow-create default-first-option style="width: 100%">
 								<el-option label="通知" :value="1" />
 								<el-option label="公告" :value="2" />
 							</el-select>

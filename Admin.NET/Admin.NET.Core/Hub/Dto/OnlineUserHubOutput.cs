@@ -1,6 +1,6 @@
 ﻿namespace Admin.NET.Core;
 
-public class OnlineUserHubOutput
+public class OnlineUserList
 {
     public string RealName { get; set; }
 

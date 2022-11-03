@@ -3302,9 +3302,23 @@
             结果筛选器
             </summary>
         </member>
+        <member name="M:Admin.NET.Core.IOnlineUserHub.OnlineUserList(Admin.NET.Core.OnlineUserList)">
+            <summary>
+            在线用户列表
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.IOnlineUserHub.ForceOffline(System.Object)">
             <summary>
             强制下线
+            </summary>
+            <param name="context"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.IOnlineUserHub.PublicNotice(Admin.NET.Core.SysNotice)">
+            <summary>
+            发布站内消息
             </summary>
             <param name="context"></param>
             <returns></returns>
@@ -3314,20 +3328,6 @@
             接收消息
             </summary>
             <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.IOnlineUserHub.OnlineUserChange(Admin.NET.Core.OnlineUserHubOutput)">
-            <summary>
-            在线用户变动
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.IOnlineUserHub.AppendNotice(Admin.NET.Core.SysNotice)">
-            <summary>
-            组合消息
-            </summary>
-            <param name="notice"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.OnlineUserHub">
@@ -5557,9 +5557,9 @@
             <param name="user"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.AppendNotice(Admin.NET.Core.SysNotice,System.Collections.Generic.List{System.Int64})">
+        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.PublicNotice(Admin.NET.Core.SysNotice,System.Collections.Generic.List{System.Int64})">
             <summary>
-            发送消息
+            发布站内消息
             </summary>
             <param name="notice"></param>
             <param name="userIds"></param>

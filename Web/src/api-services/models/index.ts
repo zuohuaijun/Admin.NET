@@ -32,7 +32,7 @@ export * from './admin-result-list-sys-config';
 export * from './admin-result-list-sys-dict-data';
 export * from './admin-result-list-sys-dict-type';
 export * from './admin-result-list-sys-menu';
-export * from './admin-result-list-sys-notice-user';
+export * from './admin-result-list-sys-notice';
 export * from './admin-result-list-sys-org';
 export * from './admin-result-list-sys-pos';
 export * from './admin-result-list-sys-region';
