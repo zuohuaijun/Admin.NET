@@ -159,10 +159,10 @@ public class SysTenantService : IDynamicApiController, ITransient
 
         await _sysUserExtOrgRep.AsDeleteable().Where(u => userIds.Contains(u.UserId)).ExecuteCommandAsync();
 
-        var roles = await _roleRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
         await _roleRep.AsDeleteable().Where(u => u.TenantId == input.Id).ExecuteCommandAsync();
 
-        var roleIds = roles.Select(u => u.Id).ToList();
+        var roleIds = await _roleRep.AsQueryable().Filter(null, true)
+            .Where(u => u.TenantId == input.Id).Select(u => u.Id).ToListAsync();
         await _sysRoleMenuRep.AsDeleteable().Where(u => roleIds.Contains(u.RoleId)).ExecuteCommandAsync();
 
         await _orgRep.AsDeleteable().Where(u => u.TenantId == input.Id).ExecuteCommandAsync();

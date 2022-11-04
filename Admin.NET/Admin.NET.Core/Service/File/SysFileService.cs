@@ -257,10 +257,17 @@ public class SysFileService : IDynamicApiController, ITransient
     [HttpPost("/sysFile/uploadAvatar")]
     public async Task<FileOutput> UploadAvatar([Required] IFormFile file)
     {
+        var user = App.GetService<UserManager>().User;
+        // 删除当前用户已有头像
+        if (!string.IsNullOrWhiteSpace(user.Avatar) && user.Avatar.EndsWith(".png"))
+        {
+            var fileId = Path.GetFileNameWithoutExtension(user.Avatar);
+            await DeleteFile(new DeleteFileInput { Id = long.Parse(fileId) });
+        }
+
         var res = await UploadFile(file, "Avatar");
-        var userId = App.GetService<UserManager>().UserId;
         await _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>()
-            .UpdateAsync(u => new SysUser() { Avatar = res.Url }, u => u.Id == userId);
+            .UpdateAsync(u => new SysUser() { Avatar = res.Url }, u => u.Id == user.Id);
         return res;
     }
 
@@ -272,10 +279,17 @@ public class SysFileService : IDynamicApiController, ITransient
     [HttpPost("/sysFile/uploadSignature")]
     public async Task<FileOutput> UploadSignature([Required] IFormFile file)
     {
+        var user = App.GetService<UserManager>().User;
+        // 删除当前用户已有电子签名
+        if (!string.IsNullOrWhiteSpace(user.Signature) && user.Signature.EndsWith(".png"))
+        {
+            var fileId = Path.GetFileNameWithoutExtension(user.Signature);
+            await DeleteFile(new DeleteFileInput { Id = long.Parse(fileId) });
+        }
+
         var res = await UploadFile(file, "Signature");
-        var userId = App.GetService<UserManager>().UserId;
         await _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>()
-            .UpdateAsync(u => new SysUser() { Signature = res.Url }, u => u.Id == userId);
+            .UpdateAsync(u => new SysUser() { Signature = res.Url }, u => u.Id == user.Id);
         return res;
     }
 }
