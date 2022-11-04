@@ -1,6 +1,4 @@
 using Admin.NET.Application.Const;
-using AngleSharp;
-using AngleSharp.Html.Dom;
 using Furion.DatabaseAccessor;
 using Furion.FriendlyException;
 using Furion.Localization;

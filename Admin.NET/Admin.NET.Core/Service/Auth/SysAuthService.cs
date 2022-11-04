@@ -15,9 +15,10 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly RefreshTokenOptions _refreshTokenOptions;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IEventPublisher _eventPublisher;
-    private readonly SysUserService _sysUserService;
     private readonly SysMenuService _sysMenuService;
+    private readonly SysTenantService _sysTenantService;
     private readonly SysOnlineUserService _sysOnlineUserService;
+    private readonly SysConfigService _sysConfigService;
     private readonly IMemoryCache _cache;
     private readonly ICaptcha _captcha;
 
@@ -26,9 +27,10 @@ public class SysAuthService : IDynamicApiController, ITransient
         IOptions<RefreshTokenOptions> refreshTokenOptions,
         IHttpContextAccessor httpContextAccessor,
         IEventPublisher eventPublisher,
-        SysUserService sysUserService,
         SysMenuService sysMenuService,
+        SysTenantService sysTenantService,
         SysOnlineUserService sysOnlineUserService,
+        SysConfigService sysConfigService,
         IMemoryCache cache,
         ICaptcha captcha)
     {
@@ -37,9 +39,10 @@ public class SysAuthService : IDynamicApiController, ITransient
         _httpContextAccessor = httpContextAccessor;
         _refreshTokenOptions = refreshTokenOptions.Value;
         _eventPublisher = eventPublisher;
-        _sysUserService = sysUserService;
         _sysMenuService = sysMenuService;
+        _sysTenantService = sysTenantService;
         _sysOnlineUserService = sysOnlineUserService;
+        _sysConfigService = sysConfigService;
         _cache = cache;
         _captcha = captcha;
     }
@@ -55,8 +58,11 @@ public class SysAuthService : IDynamicApiController, ITransient
     [SuppressMonitor]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
+        // 判断租户
+
         // 判断验证码
-        if (!_captcha.Validate(input.CodeId.ToString(), input.Code))
+        var captchaEnabled = await GetCaptchaFlag();
+        if (captchaEnabled && !_captcha.Validate(input.CodeId.ToString(), input.Code))
             throw Oops.Oh(ErrorCodeEnum.D0009);
 
         var encryptPasswod = MD5Encryption.Encrypt(input.Password);
@@ -153,7 +159,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="accessToken"></param>
     /// <returns></returns>
-    [HttpPost("/getRefreshToken")]
+    [HttpPost("/refreshToken")]
     public string RefreshToken([Required] string accessToken)
     {
         return JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
@@ -185,6 +191,18 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 是否启用验证码
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("/captchaFlag")]
+    [AllowAnonymous]
+    [SuppressMonitor]
+    public async Task<bool> GetCaptchaFlag()
+    {
+        return await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha);
+    }
+
+    /// <summary>
     /// 生成图片验证码
     /// </summary>
     /// <returns></returns>
@@ -196,6 +214,19 @@ public class SysAuthService : IDynamicApiController, ITransient
         var codeId = Yitter.IdGenerator.YitIdHelper.NextId();
         var captcha = _captcha.Generate(codeId.ToString());
         return new { Id = codeId, Img = captcha.Base64 };
+    }
+
+    /// <summary>
+    /// 是否启用多库租户
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("/tenantDbList")]
+    [AllowAnonymous]
+    [SuppressMonitor]
+    public async Task<List<SysTenant>> GetTenantDbList()
+    {
+        var tenantDbEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysTenantDb);
+        return tenantDbEnabled ? await _sysTenantService.GetTenantDbList() : new List<SysTenant>();
     }
 
     /// <summary>

@@ -16,7 +16,7 @@
                 "ConfigId": "Test",
                 "DbType": "Sqlite",
                 "ConnectionString": "DataSource=./Test.db",
-                "EnableInitDb": true, // 启用库表初始化
+                "EnableInitDb": false, // 启用库表初始化
                 "EnableDiffLog": false // 启用库表差异日志
             }
         ]

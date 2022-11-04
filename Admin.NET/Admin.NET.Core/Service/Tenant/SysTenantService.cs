@@ -16,6 +16,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     private readonly SqlSugarRepository<SysUserRole> _userRoleRep;
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysRoleMenuService _sysRoleMenuService;
+    private readonly SysConfigService _sysConfigService;
 
     public SysTenantService(SqlSugarRepository<SysTenant> tenantRep,
         SqlSugarRepository<SysOrg> orgRep,
@@ -26,7 +27,8 @@ public class SysTenantService : IDynamicApiController, ITransient
         SqlSugarRepository<SysRoleMenu> sysRoleMenuRep,
         SqlSugarRepository<SysUserRole> userRoleRep,
         SysUserRoleService sysUserRoleService,
-        SysRoleMenuService sysRoleMenuService)
+        SysRoleMenuService sysRoleMenuService,
+        SysConfigService sysConfigService)
     {
         _tenantRep = tenantRep;
         _orgRep = orgRep;
@@ -38,6 +40,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         _userRoleRep = userRoleRep;
         _sysUserRoleService = sysUserRoleService;
         _sysRoleMenuService = sysRoleMenuService;
+        _sysConfigService = sysConfigService;
     }
 
     /// <summary>
@@ -52,6 +55,16 @@ public class SysTenantService : IDynamicApiController, ITransient
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name.Trim()))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone.Trim()))
             .ToPagedListAsync(input.Page, input.PageSize);
+    }
+
+    /// <summary>
+    /// 获取库隔离的租户列表
+    /// </summary>
+    /// <returns></returns>
+    [NonAction]
+    public async Task<List<SysTenant>> GetTenantDbList()
+    {
+        return await _tenantRep.GetListAsync(u => u.TenantType == TenantTypeEnum.Db);
     }
 
     /// <summary>
@@ -94,7 +107,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         var newRole = new SysRole
         {
             TenantId = tenantId,
-            Code = CommonConst.SysAdminRoleCode,
+            Code = CommonConst.SysAdminRole,
             Name = "租户管理员-" + companyName,
             DataScope = DataScopeEnum.All,
             Remark = companyName
@@ -111,11 +124,12 @@ public class SysTenantService : IDynamicApiController, ITransient
         await _posRep.InsertAsync(newPos);
 
         // 初始化租户管理员
+        var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
         var newUser = new SysUser
         {
             TenantId = tenantId,
             Account = admin,
-            Password = MD5Encryption.Encrypt(CommonConst.SysPassword),
+            Password = MD5Encryption.Encrypt(password),
             NickName = newTenant.AdminName,
             Email = newTenant.Email,
             Phone = newTenant.Phone,
@@ -238,8 +252,10 @@ public class SysTenantService : IDynamicApiController, ITransient
     [HttpPost("/sysTenant/resetPwd")]
     public async Task ResetTenantPwd(TenantInput input)
     {
+        var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
+
         var tenantAdminUser = await GetTenantAdminUser(input.Id);
-        tenantAdminUser.Password = MD5Encryption.Encrypt(CommonConst.SysPassword);
+        tenantAdminUser.Password = MD5Encryption.Encrypt(password);
         await _userRep.UpdateAsync(tenantAdminUser);
     }
 

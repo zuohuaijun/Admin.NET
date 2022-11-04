@@ -1,12 +1,11 @@
 <template>
 	<div class="login-container">
 		<div class="login-icon-group">
-			<div class="login-icon-group-title">
+			<!-- <div class="login-icon-group-title">
 				<img :src="logoMini" />
-				<!-- <div class="login-icon-group-title-text font25">{{ getThemeConfig.globalViceTitle }}</div> -->
-			</div>
-			<el-carousel height="550px"
-				style="width: 100%; padding-right: 38%; top:50%; transform: translateY(-50%) translate3d(0, 0, 0);">
+				<div class="login-icon-group-title-text font25">{{ getThemeConfig.globalViceTitle }}</div>
+			</div> -->
+			<el-carousel height="550px" style="width: 100%; padding-right: 38%; top: 50%; transform: translateY(-50%) translate3d(0, 0, 0)">
 				<el-carousel-item>
 					<img :src="loginIconTwo" class="login-icon-group-icon" />
 				</el-carousel-item>

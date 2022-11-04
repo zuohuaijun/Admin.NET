@@ -167,19 +167,14 @@
             通用常量
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CommonConst.SysPassword">
-            <summary>
-            默认密码
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.CommonConst.SysAdminRoleCode">
-            <summary>
-            系统管理员角色编码
-            </summary>
-        </member>
         <member name="F:Admin.NET.Core.CommonConst.SysDemoEnv">
             <summary>
             演示环境开关
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysPassword">
+            <summary>
+            默认密码
             </summary>
         </member>
         <member name="F:Admin.NET.Core.CommonConst.SysCaptcha">
@@ -192,9 +187,24 @@
             开启操作日志
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysTokenExpire">
+            <summary>
+            Token过期时间
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.CommonConst.SysSingleLogin">
             <summary>
-            开启当用户登录
+            单用户登录
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysTenantDb">
+            <summary>
+            开启多库租户
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysAdminRole">
+            <summary>
+            系统管理员角色编码
             </summary>
         </member>
         <member name="F:Admin.NET.Core.CommonConst.SysSensitiveDetection">
@@ -1355,6 +1365,11 @@
         <member name="P:Admin.NET.Core.SysTenant.Connection">
             <summary>
             数据库连接
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.ConfigId">
+            <summary>
+            数据库标识
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysTenant.Order">
@@ -3805,6 +3820,11 @@
             验证码
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.LoginInput.TenantId">
+            <summary>
+            租户Id
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.LoginOutput">
             <summary>
             用户登录结果
@@ -3906,9 +3926,21 @@
             退出系统
             </summary>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.GetCaptchaFlag">
+            <summary>
+            是否启用验证码
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.GetCaptcha">
             <summary>
             生成图片验证码
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysAuthService.GetTenantDbList">
+            <summary>
+            是否启用多库租户
             </summary>
             <returns></returns>
         </member>
@@ -6078,6 +6110,12 @@
             获取租户分页列表
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantDbList">
+            <summary>
+            获取库隔离的租户列表
+            </summary>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.AddTenant(Admin.NET.Core.Service.AddTenantInput)">

@@ -41,4 +41,10 @@ export interface LoginInput {
      * @memberof LoginInput
      */
     code?: string | null;
+    /**
+     * 租户Id
+     * @type {number}
+     * @memberof LoginInput
+     */
+    tenantId?: number;
 }

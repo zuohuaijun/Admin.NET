@@ -92,6 +92,12 @@ export interface AddTenantInput {
      */
     connection?: string | null;
     /**
+     * 数据库标识
+     * @type {string}
+     * @memberof AddTenantInput
+     */
+    configId?: string | null;
+    /**
      * 排序
      * @type {number}
      * @memberof AddTenantInput

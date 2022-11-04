@@ -11,18 +11,21 @@ public class SysUserService : IDynamicApiController, ITransient
     private readonly SysOrgService _sysOrgService;
     private readonly SysUserExtOrgService _sysUserExtOrgService;
     private readonly SysUserRoleService _sysUserRoleService;
+    private readonly SysConfigService _sysConfigService;
 
     public SysUserService(UserManager userManager,
         SqlSugarRepository<SysUser> sysUserRep,
         SysOrgService sysOrgService,
         SysUserExtOrgService sysUserExtOrgService,
-        SysUserRoleService sysUserRoleService)
+        SysUserRoleService sysUserRoleService,
+        SysConfigService sysConfigService)
     {
         _userManager = userManager;
         _sysUserRep = sysUserRep;
         _sysOrgService = sysOrgService;
         _sysUserExtOrgService = sysUserExtOrgService;
         _sysUserRoleService = sysUserRoleService;
+        _sysConfigService = sysConfigService;
     }
 
     /// <summary>
@@ -58,8 +61,10 @@ public class SysUserService : IDynamicApiController, ITransient
         var isExist = await _sysUserRep.IsAnyAsync(u => u.Account == input.Account);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1003);
 
+        var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
+
         var user = input.Adapt<SysUser>();
-        user.Password = MD5Encryption.Encrypt(CommonConst.SysPassword);
+        user.Password = MD5Encryption.Encrypt(password);
         var newUser = await _sysUserRep.AsInsertable(user).ExecuteReturnEntityAsync();
         input.Id = newUser.Id;
         await UpdateRoleAndExtOrg(input);
@@ -199,8 +204,10 @@ public class SysUserService : IDynamicApiController, ITransient
     [HttpPost("/sysUser/resetPwd")]
     public async Task<int> ResetUserPwd(ResetPwdUserInput input)
     {
+        var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
+
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
-        user.Password = MD5Encryption.Encrypt(CommonConst.SysPassword);
+        user.Password = MD5Encryption.Encrypt(password);
         return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
     }
 

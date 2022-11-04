@@ -36,6 +36,7 @@ export * from './admin-result-list-sys-notice';
 export * from './admin-result-list-sys-org';
 export * from './admin-result-list-sys-pos';
 export * from './admin-result-list-sys-region';
+export * from './admin-result-list-sys-tenant';
 export * from './admin-result-list-sys-user-ext-org';
 export * from './admin-result-list-table-column-ouput';
 export * from './admin-result-list-table-output';
