@@ -76,7 +76,7 @@
 <script lang="ts">
 import { ref, getCurrentInstance, computed, reactive, toRefs, onMounted, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
-import { ElMessageBox, ElMessage } from 'element-plus';
+import { ElMessageBox, ElMessage, ElNotification } from 'element-plus';
 import screenfull from 'screenfull';
 import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
@@ -248,7 +248,14 @@ export default defineComponent({
 			proxy.signalR.on('PublicNotice', reciveNotice);
 		});
 		const reciveNotice = (msg: any) => {
-			state.noticeList.push(msg);
+			state.noticeList.unshift(msg);
+
+			ElNotification({
+				title: '提示',
+				message: '您有一条新消息...',
+				type: 'info',
+				position: 'bottom-right',
+			});
 		};
 		return {
 			userInfos,

@@ -8,7 +8,7 @@
 				</template>
 				<div class="notice-box">
 					<template v-if="noticeList.length > 0">
-						<div class="notice-item" v-for="(v, k) in noticeList" :key="k" @click="viewNoticeDetail(v)">
+						<div class="notice-item" v-for="(v, k) in noticeList" :key="k" @click="viewNoticeDetail(v)" v-show="v.readStatus == 1 ? false : true">
 							<div class="notice-title">{{ v.type == 1 ? '【通知】' : '【公告】' }}{{ v.title }}</div>
 							<div class="notice-msg">{{ v.content }}</div>
 							<div class="notice-time">{{ v.publicTime }}</div>
@@ -63,6 +63,7 @@ const viewNoticeDetail = async (notice: any) => {
 	state.dialogVisible = true;
 
 	// 设置已读
+	notice.readStatus = 1;
 	await getAPI(SysNoticeApi).sysNoticeSetReadPost({ id: notice.id });
 };
 </script>

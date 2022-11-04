@@ -33,7 +33,7 @@
 				<el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip />
 				<el-table-column prop="status" label="状态" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.status === 1"> 已发布 </el-tag>
+						<el-tag type="info" v-if="scope.row.status === 1"> 已发布 </el-tag>
 						<el-tag type="warning" v-else> 未发布 </el-tag>
 					</template>
 				</el-table-column>
