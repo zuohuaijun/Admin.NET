@@ -509,7 +509,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysConfig.SysFlag">
             <summary>
-            是否是系统参数（Y-是，N-否）
+            是否是内置参数（Y-是，N-否）
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysConfig.GroupCode">

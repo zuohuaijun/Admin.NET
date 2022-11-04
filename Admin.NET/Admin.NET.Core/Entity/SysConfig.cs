@@ -28,9 +28,9 @@ public class SysConfig : EntityBase
     public string Value { get; set; }
 
     /// <summary>
-    /// 是否是系统参数（Y-是，N-否）
+    /// 是否是内置参数（Y-是，N-否）
     /// </summary>
-    [SugarColumn(ColumnDescription = "是否是系统参数")]
+    [SugarColumn(ColumnDescription = "是否是内置参数")]
     public YesNoEnum SysFlag { get; set; }
 
     /// <summary>

@@ -14,6 +14,7 @@
 				:only-one-node="state.onlyOneNode"
 				:clone-node-drag="state.cloneNodeDrag"
 				:node-draggable="state.nodeDraggable"
+				style="background-color: var(--el-bg-color)"
 			>
 				<template v-slot="{ node }">
 					<div class="tree-org-node__text node-label">
@@ -52,7 +53,7 @@ const state = reactive({
 	cloneNodeDrag: false,
 	nodeDraggable: false,
 	style: {
-		background: '#FF5C00',
+		background: 'var(--el-color-primary)', //'#FF5C00',
 		color: '#FFFFFF',
 	},
 });

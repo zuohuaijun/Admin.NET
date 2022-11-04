@@ -33,7 +33,7 @@
 							<el-button icon="ele-Delete" size="small" type="danger" @click="delCache" v-auth="'sysCache:delete'"> 删除缓存 </el-button>
 						</div>
 					</template>
-					<vue-json-pretty :data="cacheValue" showLength showIcon showLineNumber showSelectController style="background-color: #ffffff" />
+					<vue-json-pretty :data="cacheValue" showLength showIcon showLineNumber showSelectController />
 				</el-card>
 			</el-col>
 		</el-row>

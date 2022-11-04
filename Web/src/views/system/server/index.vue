@@ -87,7 +87,7 @@
 				<el-tag round>
 					<div style="display: inline-flex">
 						<div style="">{{ d.name }}</div>
-						<div style="font-size: 9px; color: black; margin-left: 3px">{{ d.version }}</div>
+						<div style="font-size: 9px; margin-left: 3px">{{ d.version }}</div>
 					</div>
 				</el-tag>
 			</div>

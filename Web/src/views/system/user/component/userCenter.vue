@@ -114,7 +114,7 @@
 
 		<el-dialog title="电子签名" v-model="signDialogVisible" draggable width="600px">
 			<div style="border: 1px dashed gray; width: 100%; height: 250px">
-				<VueSignaturePad ref="signaturePadRef" :options="signOptions" />
+				<VueSignaturePad ref="signaturePadRef" :options="signOptions" style="background-color: #fff" />
 			</div>
 			<div style="margin-top: 10px">
 				<div style="display: inline">画笔粗细：<el-input-number v-model="signOptions.minWidth" :min="0.5" :max="2.5" :step="0.1" size="small" /></div>
@@ -313,6 +313,7 @@ export default defineComponent({
 	margin-bottom: 10px;
 	width: 100%;
 	height: 150px;
+	background-color: #fff;
 	text-align: center;
 	vertical-align: middle;
 	border: solid 1px var(--el-border-color);

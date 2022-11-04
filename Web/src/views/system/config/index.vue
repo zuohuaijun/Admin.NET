@@ -22,7 +22,7 @@
 				<el-table-column prop="name" label="配置名称" show-overflow-tooltip />
 				<el-table-column prop="code" label="配置编码" show-overflow-tooltip />
 				<el-table-column prop="value" label="属性值" show-overflow-tooltip />
-				<el-table-column prop="sysFlag" label="平台参数" width="100" align="center" show-overflow-tooltip>
+				<el-table-column prop="sysFlag" label="内置参数" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.sysFlag === 1"> 是 </el-tag>
 						<el-tag type="danger" v-else> 否 </el-tag>
