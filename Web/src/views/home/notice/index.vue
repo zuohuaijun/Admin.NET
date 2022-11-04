@@ -22,7 +22,9 @@
 			<el-table :data="noticeData" style="width: 100%" v-loading="loading" border :row-class-name="tableRowClassName">
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="sysNotice.title" label="标题" show-overflow-tooltip />
-				<el-table-column prop="sysNotice.content" label="内容" show-overflow-tooltip />
+				<el-table-column prop="sysNotice.content" label="内容" show-overflow-tooltip>
+					<template #default="scope"> {{ removeHtml(scope.row.sysNotice.content) }} </template>
+				</el-table-column>
 				<el-table-column prop="sysNotice.type" label="类型" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.sysNotice.type === 1"> 通知 </el-tag>
@@ -69,6 +71,7 @@
 
 <script lang="ts">
 import { toRefs, reactive, onMounted, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+import commonFunction from '/@/utils/commonFunction';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysNoticeApi } from '/@/api-services/api';
@@ -79,6 +82,7 @@ export default defineComponent({
 	components: {},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
+		const { removeHtml } = commonFunction();
 		const state = reactive({
 			loading: false,
 			noticeData: [] as Array<SysNoticeUser>,
@@ -148,6 +152,7 @@ export default defineComponent({
 			handleSizeChange,
 			handleCurrentChange,
 			tableRowClassName,
+			removeHtml,
 			...toRefs(state),
 		};
 	},

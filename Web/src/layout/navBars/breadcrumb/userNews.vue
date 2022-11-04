@@ -10,7 +10,7 @@
 					<template v-if="noticeList.length > 0">
 						<div class="notice-item" v-for="(v, k) in noticeList" :key="k" @click="viewNoticeDetail(v)" v-show="v.readStatus == 1 ? false : true">
 							<div class="notice-title">{{ v.type == 1 ? '【通知】' : '【公告】' }}{{ v.title }}</div>
-							<div class="notice-msg">{{ v.content }}</div>
+							<div class="notice-content">{{ removeHtmlSub(v.content) }}</div>
 							<div class="notice-time">{{ v.publicTime }}</div>
 							<el-divider border-style="dashed" style="margin: 10px 0" />
 						</div>
@@ -44,11 +44,14 @@
 import { reactive } from 'vue';
 import { SysNoticeApi } from '/@/api-services/api';
 import router from '/@/router';
+import commonFunction from '/@/utils/commonFunction';
+
 import { getAPI } from '/@/utils/axios-utils';
 
 defineProps({
 	noticeList: Array as any,
 });
+const { removeHtmlSub } = commonFunction();
 const state = reactive({
 	dialogVisible: false,
 	content: '',
@@ -88,7 +91,7 @@ const viewNoticeDetail = async (notice: any) => {
 			// .notice-title {
 			// 	color: var(--el-color-primary);
 			// }
-			.notice-msg {
+			.notice-content {
 				color: var(--el-text-color-secondary);
 				margin-top: 3px;
 				margin-bottom: 3px;

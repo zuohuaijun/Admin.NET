@@ -23,7 +23,9 @@
 			<el-table :data="noticeData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="title" label="标题" show-overflow-tooltip />
-				<el-table-column prop="content" label="内容" show-overflow-tooltip />
+				<el-table-column prop="content" label="内容" show-overflow-tooltip>
+					<template #default="scope"> {{ removeHtml(scope.row.content) }} </template>
+				</el-table-column>
 				<el-table-column prop="type" label="类型" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.type === 1"> 通知 </el-tag>
@@ -66,6 +68,7 @@
 <script lang="ts">
 import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import commonFunction from '/@/utils/commonFunction';
 import EditNotice from '/@/views/system/notice/component/editNotice.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -78,6 +81,7 @@ export default defineComponent({
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const editNoticeRef = ref();
+		const { removeHtml } = commonFunction();
 		const state = reactive({
 			loading: false,
 			noticeData: [] as Array<SysNotice>,
@@ -174,6 +178,7 @@ export default defineComponent({
 			publicNotice,
 			handleSizeChange,
 			handleCurrentChange,
+			removeHtml,
 			...toRefs(state),
 		};
 	},
