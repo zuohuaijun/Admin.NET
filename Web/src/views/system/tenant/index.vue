@@ -22,7 +22,7 @@
 				<el-table-column prop="name" label="租户名称" show-overflow-tooltip />
 				<el-table-column prop="adminName" label="管理员" show-overflow-tooltip />
 				<el-table-column prop="phone" label="电话" show-overflow-tooltip />
-				<el-table-column prop="host" label="主机" show-overflow-tooltip />
+				<!-- <el-table-column prop="host" label="主机" show-overflow-tooltip /> -->
 				<el-table-column prop="email" label="邮箱" show-overflow-tooltip />
 				<el-table-column prop="tenantType" label="租户类型" align="center" show-overflow-tooltip>
 					<template #default="scope">
@@ -50,12 +50,14 @@
 						<el-tag v-else-if="scope.row.dbType === 900"> Custom </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="connection" label="数据库连接" show-overflow-tooltip />
+				<el-table-column prop="configId" label="数据库标识" show-overflow-tooltip />
+				<el-table-column prop="connection" label="数据库连接" width="300" show-overflow-tooltip />
 				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
-				<el-table-column label="操作" width="110" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="180" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
+						<el-button icon="ele-Coin" size="small" text type="danger" @click="openEditTenant(scope.row)" v-auth="'sysTenant:createDb'" :disabled="scope.row.tenantType == 0"> 生成库 </el-button>
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditTenant(scope.row)" v-auth="'sysTenant:update'"> 编辑 </el-button>
 						<el-dropdown>
 							<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px" />
@@ -145,7 +147,7 @@ export default defineComponent({
 		// 打开新增页面
 		const openAddTenant = () => {
 			state.editTenantTitle = '添加租户';
-			editTenantRef.value.openDialog({});
+			editTenantRef.value.openDialog({ tenantType: 0 });
 		};
 		// 打开编辑页面
 		const openEditTenant = (row: any) => {

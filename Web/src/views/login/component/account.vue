@@ -1,6 +1,6 @@
 <template>
 	<el-form ref="ruleFormRef" :model="ruleForm" size="large" :rules="rules" class="login-content-form">
-		<el-form-item class="login-animation1" v-show="tenantList.length > 0">
+		<el-form-item class="login-animation0" v-show="tenantList.length > 0">
 			<el-select v-model="ruleForm.tenantId" value-key="id" placeholder="租户名称" class="w100">
 				<template #prefix>
 					<el-icon>
@@ -33,7 +33,7 @@
 		</el-form-item>
 		<el-form-item class="login-animation3" prop="captcha" v-show="captchaEnabled">
 			<el-col :span="15">
-				<el-input type="text" maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="ruleForm.code" clearable autocomplete="off">
+				<el-input type="text" maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="ruleForm.code" clearable autocomplete="off" @keyup.enter="openVerify">
 					<template #prefix>
 						<el-icon>
 							<ele-Position />
@@ -238,7 +238,7 @@ export default defineComponent({
 .login-content-form {
 	margin-top: 20px;
 
-	@for $i from 1 through 4 {
+	@for $i from 0 through 4 {
 		.login-animation#{$i} {
 			opacity: 0;
 			animation-name: error-num;

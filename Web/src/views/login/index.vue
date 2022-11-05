@@ -131,7 +131,7 @@ export default defineComponent({
 
 	.login-content {
 		width: 500px;
-		height: 500px;
+		height: 550px;
 		padding: 20px;
 		position: absolute;
 		right: 10%;
@@ -153,7 +153,7 @@ export default defineComponent({
 				font-size: 32px;
 				text-align: center;
 				//letter-spacing: 4px;
-				margin: 5px 0 30px;
+				margin: 5px 0 20px;
 				white-space: nowrap;
 				z-index: 5;
 				position: relative;

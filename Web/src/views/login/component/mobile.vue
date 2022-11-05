@@ -1,6 +1,6 @@
 <template>
 	<el-form size="large" class="login-content-form">
-		<el-form-item class="login-animation4">
+		<el-form-item class="login-animation1">
 			<el-input type="text" :placeholder="$t('message.mobile.placeholder1')" v-model="ruleForm.userName" clearable autocomplete="off">
 				<template #prefix>
 					<i class="iconfont icon-dianhua el-input__icon"></i>

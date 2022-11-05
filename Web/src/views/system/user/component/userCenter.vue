@@ -99,7 +99,7 @@
 									<el-input v-model="ruleFormPassword.passwordNew" type="password" autocomplete="off" />
 								</el-form-item>
 								<el-form-item label="确认密码" prop="passwordNew2" :rules="[{ validator: validatePassword, required: true, trigger: 'blur' }]">
-									<el-input type="password" />
+									<el-input v-model="passwordNew2" type="password" autocomplete="off" />
 								</el-form-item>
 								<el-form-item>
 									<el-button icon="ele-Refresh" @click="resetPassword" size="default">重 置</el-button>
@@ -168,6 +168,7 @@ export default defineComponent({
 				},
 			},
 			signFileList: [] as any,
+			passwordNew2: '',
 		});
 		onMounted(async () => {
 			state.loading = true;
@@ -233,7 +234,7 @@ export default defineComponent({
 		};
 		// 密码验证
 		const validatePassword = (_rule: any, value: any, callback: any) => {
-			if (value != state.ruleFormPassword.passwordNew) {
+			if (state.passwordNew2 != state.ruleFormPassword.passwordNew) {
 				callback(new Error('两次密码不一致！'));
 			} else {
 				callback();
@@ -243,6 +244,7 @@ export default defineComponent({
 		const resetPassword = () => {
 			state.ruleFormPassword.passwordOld = '';
 			state.ruleFormPassword.passwordNew = '';
+			state.passwordNew2 = '';
 		};
 		// 密码提交
 		const submitPassword = () => {

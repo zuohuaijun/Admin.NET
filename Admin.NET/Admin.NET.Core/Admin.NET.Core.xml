@@ -6127,7 +6127,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.InitNewTenant(Admin.NET.Core.SysTenant)">
             <summary>
-            新增租户初始化
+            新增租户初始化（Id隔离）
             </summary>
             <param name="newTenant"></param>
         </member>

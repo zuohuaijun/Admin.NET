@@ -93,7 +93,7 @@ export default defineComponent({
 		// 打开新增页面
 		const openAddPos = () => {
 			state.editPosTitle = '添加职位';
-			editPosRef.value.openDialog({});
+			editPosRef.value.openDialog({ status: 1 });
 		};
 		// 打开编辑页面
 		const openEditPos = (row: any) => {

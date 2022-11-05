@@ -75,16 +75,19 @@ public class SysTenantService : IDynamicApiController, ITransient
     [HttpPost("/sysTenant/add")]
     public async Task AddTenant(AddTenantInput input)
     {
-        var isExist = await _tenantRep.IsAnyAsync(u => u.Name == input.Name || u.AdminName == input.AdminName);
+        var isExist = await _tenantRep.IsAnyAsync(u => u.Name == input.Name ||
+            (u.AdminName == input.AdminName && input.TenantType == TenantTypeEnum.Id));
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1300);
 
-        var entity = input.Adapt<SysTenant>();
-        await _tenantRep.InsertAsync(entity);
-        await InitNewTenant(entity);
+        var tenant = input.Adapt<SysTenant>();
+        await _tenantRep.InsertAsync(tenant);
+
+        if (tenant.TenantType == TenantTypeEnum.Db) return;
+        await InitNewTenant(tenant);
     }
 
     /// <summary>
-    /// 新增租户初始化
+    /// 新增租户初始化（Id隔离）
     /// </summary>
     /// <param name="newTenant"></param>
     private async Task InitNewTenant(SysTenant newTenant)
