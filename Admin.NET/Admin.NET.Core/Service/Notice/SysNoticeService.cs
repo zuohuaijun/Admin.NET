@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Service;
+namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 系统通知公告服务
@@ -148,10 +148,11 @@ public class SysNoticeService : IDynamicApiController, ITransient
     [HttpGet("/sysNotice/unReadList")]
     public async Task<List<SysNotice>> GetUnReadNoticeList()
     {
-        return await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
+        List<SysNoticeUser> list = await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
             .Where(u => u.UserId == _userManager.UserId && u.ReadStatus == NoticeUserStatusEnum.UNREAD)
             .OrderBy(u => u.SysNotice.CreateTime, OrderByType.Desc)
-            .ToListAsync(u => u.SysNotice);
+            .ToListAsync();
+        return list.Select(t => t.SysNotice).ToList();
     }
 
     /// <summary>
