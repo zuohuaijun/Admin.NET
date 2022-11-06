@@ -83,7 +83,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
         {
             {ClaimConst.UserId, user.Id},
-            {ClaimConst.TenantId, input.TenantId},
+            {ClaimConst.TenantId, user.TenantId},
             {ClaimConst.Account, user.Account},
             {ClaimConst.RealName, user.RealName},
             {ClaimConst.AccountType, user.AccountType },
@@ -113,7 +113,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     [HttpGet("/userInfo")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
-        var user = _sysUserRep.GetFirst(u => u.Id == _userManager.UserId);
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
         if (user == null)
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
