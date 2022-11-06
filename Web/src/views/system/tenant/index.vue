@@ -57,7 +57,7 @@
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 				<el-table-column label="操作" width="180" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Coin" size="small" text type="danger" @click="openEditTenant(scope.row)" v-auth="'sysTenant:createDb'" :disabled="scope.row.tenantType == 0"> 生成库 </el-button>
+						<el-button icon="ele-Coin" size="small" text type="danger" @click="createTenant(scope.row)" v-auth="'sysTenant:createDb'" :disabled="scope.row.tenantType == 0"> 创建库 </el-button>
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditTenant(scope.row)" v-auth="'sysTenant:update'"> 编辑 </el-button>
 						<el-dropdown>
 							<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px" />
@@ -195,6 +195,20 @@ export default defineComponent({
 			state.tableParams.page = val;
 			handleQuery();
 		};
+		// 创建租户库
+		const createTenant = (row: any) => {
+			ElMessageBox.confirm(`确定创建/更新数据库：【${row.name}】?`, '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(async () => {
+					await getAPI(SysTenantApi).sysTenantCreateDbPost({ id: row.id });
+					handleQuery();
+					ElMessage.success('创建/更新数据库成功');
+				})
+				.catch(() => {});
+		};
 		return {
 			handleQuery,
 			resetQuery,
@@ -207,6 +221,7 @@ export default defineComponent({
 			delTenant,
 			handleSizeChange,
 			handleCurrentChange,
+			createTenant,
 			...toRefs(state),
 		};
 	},

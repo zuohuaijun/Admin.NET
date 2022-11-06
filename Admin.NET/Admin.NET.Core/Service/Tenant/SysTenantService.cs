@@ -17,6 +17,8 @@ public class SysTenantService : IDynamicApiController, ITransient
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysRoleMenuService _sysRoleMenuService;
     private readonly SysConfigService _sysConfigService;
+    private readonly SysCacheService _sysCacheService;
+    private readonly ISqlSugarClient _db;
 
     public SysTenantService(SqlSugarRepository<SysTenant> tenantRep,
         SqlSugarRepository<SysOrg> orgRep,
@@ -28,7 +30,9 @@ public class SysTenantService : IDynamicApiController, ITransient
         SqlSugarRepository<SysUserRole> userRoleRep,
         SysUserRoleService sysUserRoleService,
         SysRoleMenuService sysRoleMenuService,
-        SysConfigService sysConfigService)
+        SysConfigService sysConfigService,
+        SysCacheService sysCacheService,
+        ISqlSugarClient db)
     {
         _tenantRep = tenantRep;
         _orgRep = orgRep;
@@ -41,6 +45,8 @@ public class SysTenantService : IDynamicApiController, ITransient
         _sysUserRoleService = sysUserRoleService;
         _sysRoleMenuService = sysRoleMenuService;
         _sysConfigService = sysConfigService;
+        _sysCacheService = sysCacheService;
+        _db = db;
     }
 
     /// <summary>
@@ -81,6 +87,7 @@ public class SysTenantService : IDynamicApiController, ITransient
 
         var tenant = input.Adapt<SysTenant>();
         await _tenantRep.InsertAsync(tenant);
+        await UpdateTenantCache();
 
         if (tenant.TenantType == TenantTypeEnum.Db) return;
         await InitNewTenant(tenant);
@@ -167,6 +174,7 @@ public class SysTenantService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D1023);
         var entity = await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
         await _tenantRep.DeleteAsync(entity);
+        await UpdateTenantCache();
 
         // 删除与租户相关的表数据
         var userIds = users.Select(u => u.Id).ToList();
@@ -202,6 +210,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         if (tenantAdminUser == null) return;
         tenantAdminUser.Account = entity.AdminName;
         await _userRep.Context.Updateable(tenantAdminUser).UpdateColumns(u => new { u.Account }).ExecuteCommandAsync();
+        await UpdateTenantCache();
     }
 
     /// <summary>
@@ -263,12 +272,59 @@ public class SysTenantService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取租户
+    /// </summary>
+    /// <param name="tenantId"></param>
+    /// <returns></returns>
+    [NonAction]
+    public async Task<SysTenant> GetTenant(long tenantId)
+    {
+        return await _tenantRep.GetFirstAsync(u => u.Id == tenantId);
+    }
+
+    /// <summary>
     /// 获取租户管理员用户
     /// </summary>
     /// <param name="tenantId"></param>
     /// <returns></returns>
     private async Task<SysUser> GetTenantAdminUser(long tenantId)
     {
-        return await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == tenantId && u.AccountType == AccountTypeEnum.Admin).FirstAsync();
+        return await _userRep.GetFirstAsync(u => u.TenantId == tenantId && u.AccountType == AccountTypeEnum.Admin);
+    }
+
+    /// <summary>
+    /// 缓存所有租户
+    /// </summary>
+    /// <returns></returns>
+    [NonAction]
+    public async Task UpdateTenantCache()
+    {
+        _sysCacheService.Remove(CacheConst.KeyTenant);
+
+        var tenantList = await _tenantRep.GetListAsync();
+        _sysCacheService.Set(CacheConst.KeyTenant, tenantList);
+    }
+
+    /// <summary>
+    /// 创建租户数据库（根据默认库结构）
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPost("/sysTenant/createDb")]
+    public async Task CreateTenantDb(TenantInput input)
+    {
+        var tenant = await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
+        if (tenant == null) return;
+
+        var dbConnection = new DbConnectionConfig
+        {
+            EnableInitDb = true,
+            DbType = tenant.DbType,
+            ConfigId = tenant.ConfigId,
+            ConnectionString = tenant.Connection,
+            IsAutoCloseConnection = true,
+        };
+
+        SqlSugarSetup.CreateDataBase(_db, dbConnection, tenant.Id);
     }
 }

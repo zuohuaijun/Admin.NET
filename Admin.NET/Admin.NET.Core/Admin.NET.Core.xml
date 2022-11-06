@@ -64,7 +64,7 @@
         </member>
         <member name="F:Admin.NET.Core.CacheConst.KeyPermission">
             <summary>
-            权限缓存
+            权限缓存（按钮集合）
             </summary>
         </member>
         <member name="F:Admin.NET.Core.CacheConst.KeyOrgIdList">
@@ -105,6 +105,11 @@
         <member name="F:Admin.NET.Core.CacheConst.SwaggerLogin">
             <summary>
             swagger登录缓存
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CacheConst.KeyTenant">
+            <summary>
+            租户缓存
             </summary>
         </member>
         <member name="T:Admin.NET.Core.ClaimConst">
@@ -250,6 +255,11 @@
         <member name="F:Admin.NET.Core.SqlSugarConst.PrimaryKey">
             <summary>
             默认表主键
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.SqlSugarConst.TenantId">
+            <summary>
+            默认租户Id
             </summary>
         </member>
         <member name="T:Admin.NET.Core.EntityBaseId">
@@ -4014,56 +4024,11 @@
             <param name="prefixKey">键名前缀</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.GetOrgIdList(System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetCacheValue(System.String)">
             <summary>
-            获取机构Id集合
+            获取缓存值
             </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.SetOrgIdList(System.Int64,System.Collections.Generic.List{System.Int64})">
-            <summary>
-            缓存机构Id集合
-            </summary>
-            <param name="userId"></param>
-            <param name="orgIdList"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.GetPermission(System.Int64)">
-            <summary>
-            获取权限集合（按钮）
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.SetPermission(System.Int64,System.Collections.Generic.List{System.String})">
-            <summary>
-            缓存权限集合（按钮）
-            </summary>
-            <param name="userId"></param>
-            <param name="permissions"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.GetMaxDataScopeType(System.Int64)">
-            <summary>
-            获取最大角色数据范围
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.SetMaxDataScopeType(System.Int64,System.Int32)">
-            <summary>
-            缓存最大角色数据范围
-            </summary>
-            <param name="userId"></param>
-            <param name="dataScopeType"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.CacheDetail(System.String)">
-            <summary>
-            获取缓存
-            </summary>
-            <param name="cacheKey"></param>
+            <param name="key"></param>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.CustomViewEngine.ConfigId">
@@ -6173,11 +6138,31 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenant(System.Int64)">
+            <summary>
+            获取租户
+            </summary>
+            <param name="tenantId"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantAdminUser(System.Int64)">
             <summary>
             获取租户管理员用户
             </summary>
             <param name="tenantId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.UpdateTenantCache">
+            <summary>
+            缓存所有租户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.CreateTenantDb(Admin.NET.Core.Service.TenantInput)">
+            <summary>
+            创建租户数据库（根据默认库结构）
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.PageTimerInput.TimerName">
@@ -6759,13 +6744,6 @@
             当前登录用户
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.UserManager.CheckUserAsync(System.Int64)">
-            <summary>
-            获取用户信息
-            </summary>
-            <param name="userId"></param>
-            <returns></returns>
-        </member>
         <member name="T:Admin.NET.Core.IEntityFilter">
             <summary>
             自定义实体过滤器接口
@@ -6865,7 +6843,25 @@
             </summary>
             <param name="services"></param>
         </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDbConfig(Admin.NET.Core.DbConnectionConfig)">
+            <summary>
+            配置连接属性
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDbAop(SqlSugar.SqlSugarScopeProvider,Admin.NET.Core.DbConnectionConfig)">
+            <summary>
+            配置Aop
+            </summary>
+            <param name="db"></param>
+            <param name="config"></param>
+        </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.SqlSugarScope,Admin.NET.Core.DbConnectionOptions)">
+            <summary>
+            初始化数据库结构
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.CreateDataBase(SqlSugar.ISqlSugarClient,Admin.NET.Core.DbConnectionConfig,System.Int64)">
             <summary>
             初始化数据库结构
             </summary>

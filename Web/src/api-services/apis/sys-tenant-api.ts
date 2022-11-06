@@ -73,6 +73,47 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @summary 创建租户数据库（根据默认库结构）
+         * @param {TenantInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysTenantCreateDbPost: async (body?: TenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysTenant/createDb`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 删除租户
          * @param {DeleteTenantInput} [body] 
          * @param {*} [options] Override http request option.
@@ -421,6 +462,20 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 创建租户数据库（根据默认库结构）
+         * @param {TenantInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysTenantCreateDbPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantCreateDbPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 删除租户
          * @param {DeleteTenantInput} [body] 
          * @param {*} [options] Override http request option.
@@ -544,6 +599,16 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
+         * @summary 创建租户数据库（根据默认库结构）
+         * @param {TenantInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysTenantCreateDbPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysTenantApiFp(configuration).sysTenantCreateDbPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 删除租户
          * @param {DeleteTenantInput} [body] 
          * @param {*} [options] Override http request option.
@@ -638,6 +703,17 @@ export class SysTenantApi extends BaseAPI {
      */
     public async sysTenantAddPost(body?: AddTenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
         return SysTenantApiFp(this.configuration).sysTenantAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 创建租户数据库（根据默认库结构）
+     * @param {TenantInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysTenantApi
+     */
+    public async sysTenantCreateDbPost(body?: TenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysTenantApiFp(this.configuration).sysTenantCreateDbPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

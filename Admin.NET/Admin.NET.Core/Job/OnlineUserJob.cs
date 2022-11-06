@@ -19,6 +19,9 @@ public class OnlineUserJob : ISpareTimeWorker
 
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("【" + DateTime.Now + "】服务重启清空在线用户");
+
+            // 缓存多租户
+            await services.GetService<SysTenantService>().UpdateTenantCache();
         });
     }
 }

@@ -16,7 +16,7 @@ public class CacheConst
     public const string KeyMenu = "menu:";
 
     /// <summary>
-    /// 权限缓存
+    /// 权限缓存（按钮集合）
     /// </summary>
     public const string KeyPermission = "permission:";
 
@@ -59,4 +59,9 @@ public class CacheConst
     /// swagger登录缓存
     /// </summary>
     public const string SwaggerLogin = "swaggerLogin:";
+
+    /// <summary>
+    /// 租户缓存
+    /// </summary>
+    public const string KeyTenant = "tenant:";
 }

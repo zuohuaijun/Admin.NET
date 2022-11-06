@@ -13,5 +13,5 @@ public class ApplicationConst
     /// <summary>
     /// 数据库标识
     /// </summary>
-    public const string ConfigId = "Test";
+    public const string ConfigId = "test";
 }

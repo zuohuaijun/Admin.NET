@@ -9,18 +9,21 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 194)]
 public class SysFileService : IDynamicApiController, ITransient
 {
+    private readonly UserManager _userManager;
     private readonly SqlSugarRepository<SysFile> _sysFileRep;
     private readonly OSSProviderOptions _OSSProviderOptions;
     private readonly UploadOptions _uploadOptions;
     private readonly ICommonService _commonService;
     private readonly IOSSService _OSSService;
 
-    public SysFileService(SqlSugarRepository<SysFile> sysFileRep,
+    public SysFileService(UserManager userManager,
+        SqlSugarRepository<SysFile> sysFileRep,
         IOptions<OSSProviderOptions> oSSProviderOptions,
         IOptions<UploadOptions> uploadOptions,
         ICommonService commonService,
         IOSSServiceFactory ossServiceFactory)
     {
+        _userManager = userManager;
         _sysFileRep = sysFileRep;
         _OSSProviderOptions = oSSProviderOptions.Value;
         _uploadOptions = uploadOptions.Value;
@@ -257,7 +260,8 @@ public class SysFileService : IDynamicApiController, ITransient
     [HttpPost("/sysFile/uploadAvatar")]
     public async Task<FileOutput> UploadAvatar([Required] IFormFile file)
     {
-        var user = App.GetService<UserManager>().User;
+        var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();
+        var user = sysUserRep.GetFirst(u => u.Id == _userManager.UserId);
         // 删除当前用户已有头像
         if (!string.IsNullOrWhiteSpace(user.Avatar) && user.Avatar.EndsWith(".png"))
         {
@@ -266,8 +270,7 @@ public class SysFileService : IDynamicApiController, ITransient
         }
 
         var res = await UploadFile(file, "Avatar");
-        await _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>()
-            .UpdateAsync(u => new SysUser() { Avatar = res.Url }, u => u.Id == user.Id);
+        await sysUserRep.UpdateAsync(u => new SysUser() { Avatar = res.Url }, u => u.Id == user.Id);
         return res;
     }
 
@@ -279,7 +282,8 @@ public class SysFileService : IDynamicApiController, ITransient
     [HttpPost("/sysFile/uploadSignature")]
     public async Task<FileOutput> UploadSignature([Required] IFormFile file)
     {
-        var user = App.GetService<UserManager>().User;
+        var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();
+        var user = sysUserRep.GetFirst(u => u.Id == _userManager.UserId);
         // 删除当前用户已有电子签名
         if (!string.IsNullOrWhiteSpace(user.Signature) && user.Signature.EndsWith(".png"))
         {
@@ -288,8 +292,7 @@ public class SysFileService : IDynamicApiController, ITransient
         }
 
         var res = await UploadFile(file, "Signature");
-        await _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>()
-            .UpdateAsync(u => new SysUser() { Signature = res.Url }, u => u.Id == user.Id);
+        await sysUserRep.UpdateAsync(u => new SysUser() { Signature = res.Url }, u => u.Id == user.Id);
         return res;
     }
 }

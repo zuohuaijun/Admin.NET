@@ -58,7 +58,8 @@ public class SysAuthService : IDynamicApiController, ITransient
     [SuppressMonitor]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
-        // 判断租户
+        // 记录当前租户
+        _userManager.TenantId = input.TenantId;
 
         // 判断验证码
         var captchaEnabled = await GetCaptchaFlag();
@@ -82,7 +83,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
         {
             {ClaimConst.UserId, user.Id},
-            {ClaimConst.TenantId, user.TenantId},
+            {ClaimConst.TenantId, input.TenantId},
             {ClaimConst.Account, user.Account},
             {ClaimConst.RealName, user.RealName},
             {ClaimConst.AccountType, user.AccountType },
@@ -112,7 +113,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     [HttpGet("/userInfo")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
-        var user = _userManager.User;
+        var user = _sysUserRep.GetFirst(u => u.Id == _userManager.UserId);
         if (user == null)
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
@@ -171,8 +172,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     [HttpPost("/logout")]
     public async void Logout()
     {
-        var user = _userManager.User;
-        if (user == null)
+        if (string.IsNullOrWhiteSpace(_userManager.Account))
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
         // 设置响应报文头
@@ -185,8 +185,8 @@ public class SysAuthService : IDynamicApiController, ITransient
             Message = "退出",
             VisType = LoginTypeEnum.Logout,
             Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
-            Account = user.Account,
-            RealName = user.RealName
+            Account = _userManager.Account,
+            RealName = _userManager.RealName
         });
     }
 

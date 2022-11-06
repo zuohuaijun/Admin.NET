@@ -119,7 +119,7 @@ export default defineComponent({
 
 			currentNode.value = node;
 			state.loading1 = true;
-			var res = await getAPI(SysCacheApi).sysCacheDetailGet(node.id);
+			var res = await getAPI(SysCacheApi).sysCacheValueGet(node.id);
 			state.cacheValue = res.data.result;
 			state.loading1 = false;
 		};

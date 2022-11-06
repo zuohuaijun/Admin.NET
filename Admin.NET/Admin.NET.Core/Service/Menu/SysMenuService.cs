@@ -1,3 +1,5 @@
+using static SKIT.FlurlHttpClient.Wechat.Api.Models.CgibinUserInfoBatchGetResponse.Types;
+
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -168,7 +170,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     public async Task<List<string>> GetPermCodeList()
     {
         var userId = _userManager.UserId;
-        var permissions = _sysCacheService.GetPermission(userId); // 取缓存
+        var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyPermission + userId); // 取缓存
         if (permissions == null || permissions.Count == 0)
         {
             var menuIdList = _userManager.SuperAdmin ? new List<long>() : await GetMenuIdList();
@@ -176,7 +178,7 @@ public class SysMenuService : IDynamicApiController, ITransient
                 .Where(u => u.Type == MenuTypeEnum.Btn)
                 .WhereIF(menuIdList.Count > 0, u => menuIdList.Contains(u.Id))
                 .Select(u => u.Permission).ToListAsync();
-            _sysCacheService.SetPermission(userId, permissions); // 缓存结果
+            _sysCacheService.Set(CacheConst.KeyPermission + userId, permissions); // 缓存结果
         }
         return permissions;
     }
@@ -188,13 +190,13 @@ public class SysMenuService : IDynamicApiController, ITransient
     [NonAction]
     public async Task<List<string>> GetAllPermCodeList()
     {
-        var permissions = _sysCacheService.GetPermission(0); // 先从缓存里面读取
+        var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyPermission + 0); // 先从缓存里面读取
         if (permissions == null || permissions.Count == 0)
         {
             permissions = await _sysMenuRep.AsQueryable()
                 .Where(u => u.Type == MenuTypeEnum.Btn)
                 .Select(u => u.Permission).ToListAsync();
-            _sysCacheService.SetPermission(0, permissions); // 缓存结果
+            _sysCacheService.Set(CacheConst.KeyPermission + 0, permissions); // 缓存结果
         }
         return permissions;
     }
