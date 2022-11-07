@@ -63,13 +63,14 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance, toRaw } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditTable from '/@/views/system/database/component/editTable.vue';
 import EditColumn from '/@/views/system/database/component/editColumn.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
+import { getTableInfoList, getColumnInfoList } from '/@/api/system/admin';
 import { DbColumnOutput, DbTableInfo } from '/@/api-services/models';
 
 export default defineComponent({
@@ -96,6 +97,7 @@ export default defineComponent({
 		onMounted(async () => {
 			state.loading = true;
 			var res = await getAPI(SysDatabaseApi).sysDatabaseListGet();
+			// var res = await getTableInfoList({});
 			state.dbData = res.data.result;
 			state.loading = false;
 
@@ -116,16 +118,24 @@ export default defineComponent({
 			state.columnData = [];
 
 			state.loading = true;
-			var res = await getAPI(SysDatabaseApi).sysDatabaseTableListGet(state.configId);
-			state.tableData = res.data.result ?? [];
-			state.loading = false;
+			getTableInfoList({ configId: state.configId }).then((res) => {
+				state.tableData = res.data.result ?? [];
+				state.loading = false;
+			});
+			// var res = await getAPI(SysDatabaseApi).sysDatabaseTableListGet(state.configId);
+			// state.tableData = res.data.result ?? [];
+			// state.loading = false;
 		};
 		// 列查询操作
 		const handleQueryColunm = async () => {
 			state.loading1 = true;
-			var res = await getAPI(SysDatabaseApi).sysDatabaseColumnListGet(state.tableName, state.configId);
-			state.columnData = res.data.result ?? [];
-			state.loading1 = false;
+			// var res = await getAPI(SysDatabaseApi).sysDatabaseColumnListGet(state.tableName, state.configId);
+			// state.columnData = res.data.result ?? [];
+			// state.loading1 = false;
+			getColumnInfoList({ tableName: state.tableName, configId: state.configId }).then((res) => {
+				state.columnData = res.data.result ?? [];
+				state.loading1 = false;
+			});
 		};
 		// 打开表编辑页面
 		const openEditTable = () => {

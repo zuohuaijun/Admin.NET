@@ -49,11 +49,12 @@ public class SysFileService : IDynamicApiController, ITransient
     /// 上传文件
     /// </summary>
     /// <param name="file"></param>
+    /// <param name="path"></param>
     /// <returns></returns>
     [HttpPost("/sysFile/upload")]
-    public async Task<FileOutput> UploadFile([Required] IFormFile file)
+    public async Task<FileOutput> UploadFile([Required] IFormFile file, string path = "")
     {
-        var sysFile = await HandleUploadFile(file);
+        var sysFile = await HandleUploadFile(file, path);
         return new FileOutput
         {
             Id = sysFile.Id,
@@ -145,19 +146,24 @@ public class SysFileService : IDynamicApiController, ITransient
     /// 上传文件
     /// </summary>
     /// <param name="file">文件</param>
+    /// <param name="savePath">路径</param>
     /// <returns></returns>
-    private async Task<SysFile> HandleUploadFile(IFormFile file)
+    private async Task<SysFile> HandleUploadFile(IFormFile file, string savePath = "")
     {
         if (file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
 
-        string path = _uploadOptions.Path;
-        var reg = new Regex(@"(\{.+?})");
-        var match = reg.Matches(path);
-        match.ToList().ForEach(a =>
+        var path = savePath;
+        if (string.IsNullOrWhiteSpace(savePath))
         {
-            var str = DateTime.Now.ToString(a.ToString().Substring(1, a.Length - 2));
-            path = path.Replace(a.ToString(), str);
-        });
+            path = _uploadOptions.Path;
+            var reg = new Regex(@"(\{.+?})");
+            var match = reg.Matches(path);
+            match.ToList().ForEach(a =>
+            {
+                var str = DateTime.Now.ToString(a.ToString().Substring(1, a.Length - 2)); // 每天一个目录
+                path = path.Replace(a.ToString(), str);
+            });
+        }
 
         if (!_uploadOptions.ContentType.Contains(file.ContentType))
             throw Oops.Oh(ErrorCodeEnum.D8001);
@@ -210,7 +216,7 @@ public class SysFileService : IDynamicApiController, ITransient
 
             var realFile = Path.Combine(filePath, finalName);
             IDetector detector;
-            using (var stream = File.Create(realFile)) 
+            using (var stream = File.Create(realFile))
             {
                 await file.CopyToAsync(stream);
                 detector = stream.DetectFiletype();
@@ -241,5 +247,35 @@ public class SysFileService : IDynamicApiController, ITransient
     private async Task<string> GetMinioPreviewFileUrl(string bucketName, string fileName)
     {
         return await _OSSService.PresignedGetObjectAsync(bucketName, fileName, 7);
+    }
+
+    /// <summary>
+    /// 上传头像
+    /// </summary>
+    /// <param name="file"></param>
+    /// <returns></returns>
+    [HttpPost("/sysFile/uploadAvatar")]
+    public async Task<FileOutput> UploadAvatar([Required] IFormFile file)
+    {
+        var res = await UploadFile(file, "Avatar");
+        var userId = App.GetService<UserManager>().UserId;
+        await _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>()
+            .UpdateAsync(u => new SysUser() { Avatar = res.Url }, u => u.Id == userId);
+        return res;
+    }
+
+    /// <summary>
+    /// 上传电子签名
+    /// </summary>
+    /// <param name="file"></param>
+    /// <returns></returns>
+    [HttpPost("/sysFile/uploadSignature")]
+    public async Task<FileOutput> UploadSignature([Required] IFormFile file)
+    {
+        var res = await UploadFile(file, "Signature");
+        var userId = App.GetService<UserManager>().UserId;
+        await _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>()
+            .UpdateAsync(u => new SysUser() { Signature = res.Url }, u => u.Id == userId);
+        return res;
     }
 }

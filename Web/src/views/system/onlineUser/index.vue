@@ -73,7 +73,7 @@ const state = reactive({
 
 // 初始化SignalR对象
 const connection = new SignalR.HubConnectionBuilder()
-	.configureLogging(SignalR.LogLevel.Information)
+	//.configureLogging(SignalR.LogLevel.Information)
 	.withUrl(`${import.meta.env.VITE_API_URL}/hubs/onlineUser?access_token=${getToken()}`)
 	.withAutomaticReconnect({
 		nextRetryDelayInMilliseconds: (a) => {

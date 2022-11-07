@@ -201,8 +201,12 @@ export default defineComponent({
 			handleQuery();
 		};
 		// 修改状态
-		const changeStatus = async (row: any) => {
-			await getAPI(SysUserApi).sysUserSetStatusPost({ id: row.id, status: row.status });
+		const changeStatus = (row: any) => {
+			getAPI(SysUserApi)
+				.sysUserSetStatusPost({ id: row.id, status: row.status })
+				.catch(() => {
+					row.status = row.status == 1 ? 2 : 1;
+				});
 		};
 		// 重置密码
 		const resetUserPwd = async (row: any) => {

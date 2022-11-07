@@ -14,32 +14,13 @@
 /**
  * 
  * @export
- * @interface UpdateDbTableInput
+ * @interface SysFileUploadAvatarBody
  */
-export interface UpdateDbTableInput {
+export interface SysFileUploadAvatarBody {
     /**
      * 
-     * @type {string}
-     * @memberof UpdateDbTableInput
+     * @type {Blob}
+     * @memberof SysFileUploadAvatarBody
      */
-    configId?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateDbTableInput
-     */
-    tableName?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateDbTableInput
-     */
-    oldTableName?: string | null;
-    /**
-     * 
-     * @type {string}
-     * @memberof UpdateDbTableInput
-     */
-    description?: string | null;
+    file: Blob;
 }
-

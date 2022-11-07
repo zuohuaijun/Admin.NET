@@ -8,6 +8,11 @@ export interface UserInfosState {
 	account: string;
 	realName: string;
 	avatar: string;
+	address: string;
+	signature: string;
+	orgId: string;
+	orgName: string;
+	posName: string;
 	roles: string[];
 	authBtnList: string[];
 	time: number;

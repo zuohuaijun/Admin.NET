@@ -110,6 +110,9 @@ public class SysAuthService : IDynamicApiController, ITransient
         if (user == null)
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
+        var org = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysOrg>>().GetFirstAsync(u => u.Id == user.OrgId);
+        var pos = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysPos>>().GetFirstAsync(u => u.Id == user.PosId);
+
         // 按钮权限集合
         var buttons = await _sysMenuService.GetPermCodeList();
 
@@ -136,6 +139,11 @@ public class SysAuthService : IDynamicApiController, ITransient
             Account = user.Account,
             RealName = user.RealName,
             Avatar = user.Avatar,
+            Address = user.Address,
+            Signature = user.Signature,
+            OrgId = user.OrgId,
+            OrgName = org?.Name,
+            PosName = pos?.Name,
             Buttons = buttons
         };
     }
