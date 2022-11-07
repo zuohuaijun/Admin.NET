@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SysTenant } from './sys-tenant';
+import { SysRegion } from './sys-region';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultSysTenant
+ * @interface AdminResultListSysRegion
  */
-export interface AdminResultSysTenant {
+export interface AdminResultListSysRegion {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultSysTenant
+     * @memberof AdminResultListSysRegion
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultSysTenant
+     * @memberof AdminResultListSysRegion
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultSysTenant
+     * @memberof AdminResultListSysRegion
      */
     message?: string | null;
     /**
-     * 
-     * @type {SysTenant}
-     * @memberof AdminResultSysTenant
+     * 数据
+     * @type {Array<SysRegion>}
+     * @memberof AdminResultListSysRegion
      */
-    result?: SysTenant;
+    result?: Array<SysRegion> | null;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultSysTenant
+     * @memberof AdminResultListSysRegion
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultSysTenant
+     * @memberof AdminResultListSysRegion
      */
     time?: Date;
 }

@@ -79,8 +79,8 @@ public class SysAuthService : IDynamicApiController, ITransient
             {ClaimConst.TenantId, user.TenantId},
             {ClaimConst.Account, user.Account},
             {ClaimConst.RealName, user.RealName},
-            {ClaimConst.AccountType, user.AccountType }
-            // {ClaimConst.OrgId, user.OrgId},
+            {ClaimConst.AccountType, user.AccountType },
+            {ClaimConst.OrgId, user.OrgId},
         });
 
         // 生成刷新Token令牌
@@ -103,12 +103,15 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// 获取用户信息
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/getUserInfo")]
+    [HttpGet("/userInfo")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
         var user = _userManager.User;
         if (user == null)
             throw Oops.Oh(ErrorCodeEnum.D1011);
+
+        var org = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysOrg>>().GetFirstAsync(u => u.Id == user.OrgId);
+        var pos = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysPos>>().GetFirstAsync(u => u.Id == user.PosId);
 
         // 按钮权限集合
         var buttons = await _sysMenuService.GetPermCodeList();
@@ -127,7 +130,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             Browser = client.UA.Family + client.UA.Major,
             Os = client.OS.Family + client.OS.Major,
             VisType = LoginTypeEnum.Login,
-            UserName = user.Account,
+            Account = user.Account,
             RealName = user.RealName
         });
 
@@ -136,6 +139,11 @@ public class SysAuthService : IDynamicApiController, ITransient
             Account = user.Account,
             RealName = user.RealName,
             Avatar = user.Avatar,
+            Address = user.Address,
+            Signature = user.Signature,
+            OrgId = user.OrgId,
+            OrgName = org?.Name,
+            PosName = pos?.Name,
             Buttons = buttons
         };
     }
@@ -171,7 +179,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             Message = "退出",
             VisType = LoginTypeEnum.Logout,
             Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
-            UserName = user.Account,
+            Account = user.Account,
             RealName = user.RealName
         });
     }

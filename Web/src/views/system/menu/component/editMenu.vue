@@ -1,11 +1,6 @@
 <template>
 	<div class="sys-menu-container">
-		<el-dialog v-model="isShowDialog" width="769px">
-			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
-					{{ title }}
-				</div>
-			</template>
+		<el-dialog v-model="isShowDialog" :title="title" draggable width="769px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -36,23 +31,23 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="菜单名称" prop="title" :rules="[{ required: true, message: '菜单名称不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.title" placeholder="菜单名称" clearable></el-input>
+							<el-input v-model="ruleForm.title" placeholder="菜单名称" clearable />
 						</el-form-item>
 					</el-col>
 					<template v-if="ruleForm.type === 1 || ruleForm.type === 2">
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="路由名称">
-								<el-input v-model="ruleForm.name" placeholder="路由名称" clearable></el-input>
+								<el-input v-model="ruleForm.name" placeholder="路由名称" clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="路由路径">
-								<el-input v-model="ruleForm.path" placeholder="路由路径" clearable></el-input>
+								<el-input v-model="ruleForm.path" placeholder="路由路径" clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="组件路径">
-								<el-input v-model="ruleForm.component" placeholder="组件路径" clearable></el-input>
+								<el-input v-model="ruleForm.component" placeholder="组件路径" clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -62,12 +57,12 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="重定向">
-								<el-input v-model="ruleForm.redirect" placeholder="重定向地址" clearable></el-input>
+								<el-input v-model="ruleForm.redirect" placeholder="重定向地址" clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="链接地址">
-								<el-input v-model="ruleForm.outLink" placeholder="外链/内嵌时链接地址" clearable> </el-input>
+								<el-input v-model="ruleForm.outLink" placeholder="外链/内嵌时链接地址" clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -111,7 +106,7 @@
 					<template v-if="ruleForm.type === 3">
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="权限标识">
-								<el-input v-model="ruleForm.permission" placeholder="权限标识" clearable></el-input>
+								<el-input v-model="ruleForm.permission" placeholder="权限标识" clearable />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -130,7 +125,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea" />
 						</el-form-item>
 					</el-col>
 				</el-row>

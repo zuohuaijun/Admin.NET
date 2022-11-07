@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia';
-import { UserInfosStates } from './interface';
+import { UserInfosState, UserInfosStates } from './interface';
 import { Session } from '/@/utils/storage';
-import { getAPI } from '../utils/axios-utils';
-import { SysAuthApi } from '../api-services/api';
+
+import { getAPI } from '/@/utils/axios-utils';
+import { SysAuthApi } from '/@/api-services/api';
 
 /**
  * 用户信息
@@ -10,14 +11,7 @@ import { SysAuthApi } from '../api-services/api';
  */
 export const useUserInfo = defineStore('userInfo', {
 	state: (): UserInfosStates => ({
-		userInfos: {
-			account: '',
-			realName: '',
-			avatar: '',
-			roles: [],
-			authBtnList: [],
-			time: 0,
-		},
+		userInfos: {} as UserInfosState,
 	}),
 	actions: {
 		async setUserInfos() {
@@ -33,7 +27,7 @@ export const useUserInfo = defineStore('userInfo', {
 		async getApiUserInfo() {
 			return new Promise((resolve) => {
 				getAPI(SysAuthApi)
-					.getUserInfoGet()
+					.userInfoGet()
 					.then((res: any) => {
 						if (res.data.result == null) return;
 						var d = res.data.result;
@@ -41,6 +35,11 @@ export const useUserInfo = defineStore('userInfo', {
 							account: d.account,
 							realName: d.realName,
 							avatar: d.avatar ? d.avatar : '/favicon.ico',
+							address: d.address,
+							signature: d.signature,
+							orgId: d.orgId,
+							orgName: d.orgName,
+							posName: d.posName,
 							roles: [],
 							authBtnList: d.buttons,
 							time: new Date().getTime(),

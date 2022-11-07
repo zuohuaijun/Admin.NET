@@ -32,6 +32,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// <param name="configId">ConfigId</param>
     /// <returns></returns>
     [HttpGet("/sysDatabase/columnList")]
+    [AllowAnonymous]
     public List<DbColumnOutput> GetColumnList(string tableName, string configId = SqlSugarConst.ConfigId)
     {
         var db = _db.AsTenant().GetConnectionScope(configId);

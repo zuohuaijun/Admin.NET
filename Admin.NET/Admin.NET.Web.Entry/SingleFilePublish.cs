@@ -32,7 +32,6 @@ public class SingleFilePublish : ISingleFilePublish
             "Admin.NET.Application",
             "Admin.NET.Core",
             "Admin.NET.Web.Core",
-            "BusinessSystem",
         };
     }
 }

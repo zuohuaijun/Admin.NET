@@ -25,8 +25,8 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="columnData" style="width: 100%" v-loading="loading1" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="dbColumnName" label="字段名" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="dataType" label="数据类型" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="dbColumnName" label="字段名" show-overflow-tooltip />
+				<el-table-column prop="dataType" label="数据类型" show-overflow-tooltip />
 				<el-table-column prop="isPrimarykey" label="主键" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.isPrimarykey === true">是</el-tag>
@@ -45,10 +45,10 @@
 						<el-tag type="info" v-else>否</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="length" label="长度" width="70" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="decimalDigits" label="精度" width="70" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="defaultValue" label="默认值" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="columnDescription" label="描述" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="length" label="长度" width="70" align="center" show-overflow-tooltip />
+				<el-table-column prop="decimalDigits" label="精度" width="70" align="center" show-overflow-tooltip />
+				<el-table-column prop="defaultValue" label="默认值" show-overflow-tooltip />
+				<el-table-column prop="columnDescription" label="描述" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditColumn(scope.row)"> 编辑 </el-button>
@@ -63,13 +63,14 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance, toRaw } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditTable from '/@/views/system/database/component/editTable.vue';
 import EditColumn from '/@/views/system/database/component/editColumn.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
+import { getTableInfoList, getColumnInfoList } from '/@/api/system/admin';
 import { DbColumnOutput, DbTableInfo } from '/@/api-services/models';
 
 export default defineComponent({
@@ -96,6 +97,7 @@ export default defineComponent({
 		onMounted(async () => {
 			state.loading = true;
 			var res = await getAPI(SysDatabaseApi).sysDatabaseListGet();
+			// var res = await getTableInfoList({});
 			state.dbData = res.data.result;
 			state.loading = false;
 
@@ -116,16 +118,24 @@ export default defineComponent({
 			state.columnData = [];
 
 			state.loading = true;
-			var res = await getAPI(SysDatabaseApi).sysDatabaseTableListGet(state.configId);
-			state.tableData = res.data.result ?? [];
-			state.loading = false;
+			getTableInfoList({ configId: state.configId }).then((res) => {
+				state.tableData = res.data.result ?? [];
+				state.loading = false;
+			});
+			// var res = await getAPI(SysDatabaseApi).sysDatabaseTableListGet(state.configId);
+			// state.tableData = res.data.result ?? [];
+			// state.loading = false;
 		};
 		// 列查询操作
 		const handleQueryColunm = async () => {
 			state.loading1 = true;
-			var res = await getAPI(SysDatabaseApi).sysDatabaseColumnListGet(state.tableName, state.configId);
-			state.columnData = res.data.result ?? [];
-			state.loading1 = false;
+			// var res = await getAPI(SysDatabaseApi).sysDatabaseColumnListGet(state.tableName, state.configId);
+			// state.columnData = res.data.result ?? [];
+			// state.loading1 = false;
+			getColumnInfoList({ tableName: state.tableName, configId: state.configId }).then((res) => {
+				state.columnData = res.data.result ?? [];
+				state.loading1 = false;
+			});
 		};
 		// 打开表编辑页面
 		const openEditTable = () => {

@@ -11,6 +11,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { DbType } from './db-type';
+import { TenantTypeEnum } from './tenant-type-enum';
 /**
  * 
  * @export
@@ -72,17 +74,23 @@ export interface UpdateTenantInput {
      */
     phone?: string | null;
     /**
+     * 
+     * @type {TenantTypeEnum}
+     * @memberof UpdateTenantInput
+     */
+    tenantType?: TenantTypeEnum;
+    /**
+     * 
+     * @type {DbType}
+     * @memberof UpdateTenantInput
+     */
+    dbType?: DbType;
+    /**
      * 数据库连接
      * @type {string}
      * @memberof UpdateTenantInput
      */
     connection?: string | null;
-    /**
-     * 架构
-     * @type {string}
-     * @memberof UpdateTenantInput
-     */
-    schema?: string | null;
     /**
      * 排序
      * @type {number}

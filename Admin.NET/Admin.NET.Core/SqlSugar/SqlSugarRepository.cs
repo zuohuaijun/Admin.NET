@@ -11,6 +11,6 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
     public SqlSugarRepository(ISqlSugarClient context = null) : base(context)
     {
         iTenant = App.GetService<ISqlSugarClient>().AsTenant();
-        Context = iTenant.GetConnectionWithAttr<T>();
+        base.Context = iTenant.GetConnectionScopeWithAttr<T>();
     }
 }

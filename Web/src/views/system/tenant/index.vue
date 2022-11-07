@@ -19,21 +19,46 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="tenantData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
-				<el-table-column prop="name" label="租户名称" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="adminName" label="管理员" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="phone" label="电话" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="host" label="主机" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="email" label="邮箱" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="connection" label="数据库连接" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="schema" label="架构" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="name" label="租户名称" show-overflow-tooltip />
+				<el-table-column prop="adminName" label="管理员" show-overflow-tooltip />
+				<el-table-column prop="phone" label="电话" show-overflow-tooltip />
+				<el-table-column prop="host" label="主机" show-overflow-tooltip />
+				<el-table-column prop="email" label="邮箱" show-overflow-tooltip />
+				<el-table-column prop="tenantType" label="租户类型" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag v-if="scope.row.tenantType === 0"> ID隔离 </el-tag>
+						<el-tag v-else> 库隔离 </el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="dbType" label="数据库类型" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag v-if="scope.row.dbType === 0"> MySql </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 1"> SqlServer </el-tag>
+						<el-tag v-if="scope.row.dbType === 2"> Sqlite </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 3"> Oracle </el-tag>
+						<el-tag v-if="scope.row.dbType === 4"> PostgreSQL </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 5"> Dm </el-tag>
+						<el-tag v-if="scope.row.dbType === 6"> Kdbndp </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 7"> Oscar </el-tag>
+						<el-tag v-if="scope.row.dbType === 8"> MySqlConnector </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 9"> Access </el-tag>
+						<el-tag v-if="scope.row.dbType === 10"> OpenGauss </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 11"> QuestDB </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 12"> HG </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 13"> ClickHouse </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 14"> GBase </el-tag>
+						<el-tag v-else-if="scope.row.dbType === 900"> Custom </el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="connection" label="数据库连接" show-overflow-tooltip />
+				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
+				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
+				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 				<el-table-column label="操作" width="110" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditTenant(scope.row)" v-auth="'sysTenant:update'"> 编辑 </el-button>
 						<el-dropdown>
-							<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px"> </el-button>
+							<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px" />
 							<template #dropdown>
 								<el-dropdown-menu>
 									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantMenu(scope.row)" :v-auth="'sysTenant:grantMenu'"> 授权菜单 </el-dropdown-item>

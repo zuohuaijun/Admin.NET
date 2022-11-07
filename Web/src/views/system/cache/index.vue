@@ -106,7 +106,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysCacheApi).sysCacheRemovePost(currentNode.value.id);
+					await getAPI(SysCacheApi).sysCacheDeletePost(currentNode.value.id);
 					handleQuery();
 					state.cacheValue = undefined;
 					ElMessage.success('删除成功');

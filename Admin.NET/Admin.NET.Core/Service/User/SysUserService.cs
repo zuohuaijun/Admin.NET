@@ -34,7 +34,7 @@ public class SysUserService : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<SysUser>> GetUserPage([FromQuery] PageUserInput input)
     {
         var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) :
-            _userManager.SuperAdmin ? null : await _sysOrgService.GetChildIdListWithSelfById(_userManager.OrgId);
+            _userManager.SuperAdmin ? null : await _sysOrgService.GetUserOrgIdList(); // 各管理员只能看到自己机构下的用户列表
 
         return await _sysUserRep.AsQueryable()
             .WhereIF(!_userManager.SuperAdmin, u => u.AccountType != AccountTypeEnum.SuperAdmin)
@@ -60,8 +60,8 @@ public class SysUserService : IDynamicApiController, ITransient
 
         var user = input.Adapt<SysUser>();
         user.Password = MD5Encryption.Encrypt(CommonConst.SysPassword);
-        input.Id = (await _sysUserRep.AsInsertable(user).ExecuteReturnEntityAsync()).Id;
-
+        var newUser = await _sysUserRep.AsInsertable(user).ExecuteReturnEntityAsync();
+        input.Id = newUser.Id;
         await UpdateRoleAndExtOrg(input);
     }
 
@@ -122,13 +122,24 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 查看用户
+    /// 查看用户基本信息
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysUser/detail")]
-    public async Task<SysUser> GetUser(long id)
+    [HttpGet("/sysUser/base")]
+    public async Task<SysUser> GetUserBase()
     {
-        return await _sysUserRep.GetFirstAsync(u => u.Id == id);
+        return await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
+    }
+
+    /// <summary>
+    /// 设置用户基本信息
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost("/sysUser/base")]
+    public async Task<int> UpdateUserBase(SysUser user)
+    {
+        return await _sysUserRep.AsUpdateable(user)
+            .IgnoreColumns(u => new { u.CreateTime, u.Account, u.Password, u.AccountType, u.OrgId, u.PosId }).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -147,8 +158,7 @@ public class SysUserService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D3005);
 
         user.Status = input.Status;
-        return await _sysUserRep.AsUpdateable(user)
-            .UpdateColumns(u => new { u.Status }).ExecuteCommandAsync();
+        return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => new { u.Status }).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -171,7 +181,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysUser/changeUserPwd")]
+    [HttpPost("/sysUser/changePwd")]
     public async Task<int> ChangeUserPwd(ChangePwdInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);

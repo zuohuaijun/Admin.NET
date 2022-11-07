@@ -53,11 +53,11 @@ public class SysLogVis : EntityBase
     public LoginTypeEnum VisType { get; set; }
 
     /// <summary>
-    /// 账号名称
+    /// 账号
     /// </summary>
-    [SugarColumn(ColumnDescription = "账号名称", Length = 32)]
+    [SugarColumn(ColumnDescription = "账号", Length = 32)]
     [MaxLength(32)]
-    public string UserName { get; set; }
+    public string Account { get; set; }
 
     /// <summary>
     /// 真实姓名

@@ -55,6 +55,7 @@ public static class SqlSugarSetup
                 };
                 db.Aop.OnError = (ex) =>
                 {
+                    if (ex.Parametres == null) return;
                     Console.ForegroundColor = ConsoleColor.Red;
                     var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
                     Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
@@ -79,7 +80,11 @@ public static class SqlSugarSetup
                         if (App.User != null)
                         {
                             if (entityInfo.PropertyName == "TenantId")
-                                entityInfo.SetValue(App.User.FindFirst(ClaimConst.TenantId)?.Value);
+                            {
+                                var tenantId = ((dynamic)entityInfo.EntityValue).TenantId;
+                                if (tenantId == null || tenantId == 0)
+                                    entityInfo.SetValue(App.User.FindFirst(ClaimConst.TenantId)?.Value);
+                            }
                             if (entityInfo.PropertyName == "CreateUserId")
                                 entityInfo.SetValue(App.User.FindFirst(ClaimConst.UserId)?.Value);
                             if (entityInfo.PropertyName == "CreateOrgId")

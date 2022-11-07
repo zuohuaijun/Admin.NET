@@ -284,7 +284,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 Path = "/" + className.ToLower(),
                 Component = "LAYOUT",
             };
-            {//如果之前存在那么就删除本级和下级
+            {   //如果之前存在那么就删除本级和下级
                 var list = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType0.Title && e.Type == menuType0.Type).ToListAsync();
                 if (list.Count > 0)
                 {

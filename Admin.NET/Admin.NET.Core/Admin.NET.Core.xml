@@ -677,9 +677,9 @@
             审计时间
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogAudit.UserName">
+        <member name="P:Admin.NET.Core.SysLogAudit.Account">
             <summary>
-            账号名称
+            账号
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogAudit.RealName">
@@ -857,9 +857,9 @@
             访问类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogVis.UserName">
+        <member name="P:Admin.NET.Core.SysLogVis.Account">
             <summary>
-            账号名称
+            账号
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogVis.RealName">
@@ -1157,6 +1157,81 @@
             状态
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.SysRegion">
+            <summary>
+            系统行政地区表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Pid">
+            <summary>
+            父Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.ShortName">
+            <summary>
+            简称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.MergerName">
+            <summary>
+            组合名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Code">
+            <summary>
+            行政代码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.ZipCode">
+            <summary>
+            邮政编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.CityCode">
+            <summary>
+            区号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Level">
+            <summary>
+            层级
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.PinYin">
+            <summary>
+            拼音
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Lng">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Lat">
+            <summary>
+            维度
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Order">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysRegion.Children">
+            <summary>
+            机构子项
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysRole">
             <summary>
             系统角色表
@@ -1244,7 +1319,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysTenant.AdminName">
             <summary>
-            管理员名称
+            管理员
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysTenant.Host">
@@ -1262,14 +1337,19 @@
             电话
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysTenant.TenantType">
+            <summary>
+            租户类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.DbType">
+            <summary>
+            数据库类型
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.SysTenant.Connection">
             <summary>
             数据库连接
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTenant.Schema">
-            <summary>
-            架构
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysTenant.Order">
@@ -1541,6 +1621,11 @@
         <member name="P:Admin.NET.Core.SysUser.LastLoginDevice">
             <summary>
             最新登录设备
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysUser.Signature">
+            <summary>
+            电子签名
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysUserExtOrg">
@@ -1830,7 +1915,7 @@
         </member>
         <member name="F:Admin.NET.Core.AccountTypeEnum.None">
             <summary>
-            游客
+            其他
             </summary>
         </member>
         <member name="F:Admin.NET.Core.AccountTypeEnum.User">
@@ -1840,7 +1925,7 @@
         </member>
         <member name="F:Admin.NET.Core.AccountTypeEnum.Admin">
             <summary>
-            管理员
+            系统管理员
             </summary>
         </member>
         <member name="F:Admin.NET.Core.AccountTypeEnum.SuperAdmin">
@@ -2018,7 +2103,7 @@
             全部数据
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.DataScopeEnum.Dept_with_child">
+        <member name="F:Admin.NET.Core.DataScopeEnum.DeptChild">
             <summary>
             本部门及以下数据
             </summary>
@@ -2443,6 +2528,21 @@
             数据表不存在
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.R2000">
+            <summary>
+            父节点不存在
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.R2001">
+            <summary>
+            当前节点Id不能与父节点Id相同
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.R2002">
+            <summary>
+            已有相同编码或名称
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.GenderEnum">
             <summary>
             性别枚举
@@ -2503,12 +2603,12 @@
             注册
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.LoginTypeEnum.Change_password">
+        <member name="F:Admin.NET.Core.LoginTypeEnum.ChangePassword">
             <summary>
             改密
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.LoginTypeEnum.Authorized_login">
+        <member name="F:Admin.NET.Core.LoginTypeEnum.AuthorizedLogin">
             <summary>
             三方授权登陆
             </summary>
@@ -2613,31 +2713,6 @@
             已读
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.OrgTypeEnum">
-            <summary>
-            机构类型枚举
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.OrgTypeEnum.Brand">
-            <summary>
-            品牌
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.OrgTypeEnum.Head">
-            <summary>
-            总店(加盟/直营)
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.OrgTypeEnum.Direct">
-            <summary>
-            直营店
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.OrgTypeEnum.Franchised">
-            <summary>
-            加盟店
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.RequestTypeEnum">
             <summary>
             HTTP请求类型
@@ -2668,26 +2743,6 @@
             DELETE
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.RoleTypeEnum">
-            <summary>
-            角色类型枚举
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.RoleTypeEnum.Group">
-            <summary>
-            集团角色
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.RoleTypeEnum.Join">
-            <summary>
-            加盟商角色
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.RoleTypeEnum.Store">
-            <summary>
-            门店角色
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.RunModeEnum">
             <summary>
             运行模式枚举
@@ -2716,6 +2771,21 @@
         <member name="F:Admin.NET.Core.StatusEnum.Disable">
             <summary>
             停用
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.TenantTypeEnum">
+            <summary>
+            租户类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.TenantTypeEnum.Id">
+            <summary>
+            Id隔离
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.TenantTypeEnum.Db">
+            <summary>
+            库隔离
             </summary>
         </member>
         <member name="T:Admin.NET.Core.WeChatReturnCodeEnum">
@@ -3750,11 +3820,6 @@
             用户登录信息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginUserOutput.UserId">
-            <summary>
-            用户Id
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.LoginUserOutput.Account">
             <summary>
             账号名称
@@ -3775,6 +3840,16 @@
             个人简介
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.Address">
+            <summary>
+            地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.Signature">
+            <summary>
+            电子签名
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.LoginUserOutput.OrgId">
             <summary>
             机构Id
@@ -3783,6 +3858,11 @@
         <member name="P:Admin.NET.Core.Service.LoginUserOutput.OrgName">
             <summary>
             机构名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LoginUserOutput.PosName">
+            <summary>
+            职位名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.LoginUserOutput.Buttons">
@@ -4987,17 +5067,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysFileService.GetFileList">
-            <summary>
-            获取文件列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysFileService.UploadFile(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:Admin.NET.Core.Service.SysFileService.UploadFile(Microsoft.AspNetCore.Http.IFormFile,System.String)">
             <summary>
             上传文件
             </summary>
             <param name="file"></param>
+            <param name="path"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysFileService.UploadFiles(System.Collections.Generic.List{Microsoft.AspNetCore.Http.IFormFile})">
@@ -5028,11 +5103,12 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysFileService.HandleUploadFile(Microsoft.AspNetCore.Http.IFormFile)">
+        <member name="M:Admin.NET.Core.Service.SysFileService.HandleUploadFile(Microsoft.AspNetCore.Http.IFormFile,System.String)">
             <summary>
             上传文件
             </summary>
             <param name="file">文件</param>
+            <param name="savePath">路径</param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysFileService.GetMinioPreviewFileUrl(System.String,System.String)">
@@ -5041,6 +5117,20 @@
             </summary>
             <param name="bucketName">桶名</param>
             <param name="fileName">文件名</param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.UploadAvatar(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传头像
+            </summary>
+            <param name="file"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysFileService.UploadSignature(Microsoft.AspNetCore.Http.IFormFile)">
+            <summary>
+            上传电子签名
+            </summary>
+            <param name="file"></param>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.PageLogInput.StartTime">
@@ -5815,6 +5905,72 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="P:Admin.NET.Core.Service.PageRegionInput.Pid">
+            <summary>
+            父节点Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRegionInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageRegionInput.Code">
+            <summary>
+            编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddRegionInput.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysRegionService">
+            <summary>
+            系统行政区域服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.GetRegionPage(Admin.NET.Core.Service.PageRegionInput)">
+            <summary>
+            获取行政区域列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.GetRegionList(Admin.NET.Core.Service.RegionInput)">
+            <summary>
+            获取行政区域列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.AddRegion(Admin.NET.Core.Service.AddRegionInput)">
+            <summary>
+            增加行政区域
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.UpdateRegion(Admin.NET.Core.Service.UpdateRegionInput)">
+            <summary>
+            更新行政区域
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.DeleteRegion(Admin.NET.Core.Service.DeleteRegionInput)">
+            <summary>
+            删除行政区域
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysRegionService.SyncRegion">
+            <summary>
+            同步行政区域
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Admin.NET.Core.Service.RoleInput.Status">
             <summary>
             状态
@@ -6156,19 +6312,6 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenant(Admin.NET.Core.Service.TenantInput)">
-            <summary>
-            获取租户详情
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantList">
-            <summary>
-            获取租户列表
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.GrantMenu(Admin.NET.Core.Service.RoleMenuInput)">
             <summary>
             授权租户管理员角色菜单
@@ -6361,11 +6504,6 @@
             真实姓名
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.AddUserInput.Password">
-            <summary>
-            账号
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.AddUserInput.RoleIdList">
             <summary>
             角色集合
@@ -6534,9 +6672,15 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUser(System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserBase">
             <summary>
-            查看用户
+            查看用户基本信息
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateUserBase(Admin.NET.Core.SysUser)">
+            <summary>
+            设置用户基本信息
             </summary>
             <returns></returns>
         </member>

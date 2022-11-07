@@ -19,8 +19,8 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="roleData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
-				<el-table-column prop="name" label="角色名称" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="code" label="角色编码" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="name" label="角色名称" show-overflow-tooltip />
+				<el-table-column prop="code" label="角色编码" show-overflow-tooltip />
 				<el-table-column label="数据范围" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag effect="plain" v-if="scope.row.dataScope === 1">全部数据</el-tag>
@@ -30,20 +30,20 @@
 						<el-tag effect="plain" v-else-if="scope.row.dataScope === 5">自定义数据</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip> </el-table-column>
+				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
 						<el-tag type="danger" v-else>禁用</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
+				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 				<el-table-column label="操作" width="110" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditRole(scope.row)" v-auth="'sysRole:update'"> 编辑 </el-button>
 						<el-dropdown>
-							<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px"> </el-button>
+							<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px" />
 							<template #dropdown>
 								<el-dropdown-menu>
 									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantData(scope.row)" :disabled="!auth('sysRole:grantData')"> 数据范围 </el-dropdown-item>

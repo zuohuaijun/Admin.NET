@@ -98,11 +98,11 @@ export interface SysLogVis {
      */
     visType?: LoginTypeEnum;
     /**
-     * 账号名称
+     * 账号
      * @type {string}
      * @memberof SysLogVis
      */
-    userName?: string | null;
+    account?: string | null;
     /**
      * 真实姓名
      * @type {string}

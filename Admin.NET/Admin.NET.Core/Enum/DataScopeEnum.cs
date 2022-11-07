@@ -15,7 +15,7 @@ public enum DataScopeEnum
     /// 本部门及以下数据
     /// </summary>
     [Description("本部门及以下数据")]
-    Dept_with_child = 2,
+    DeptChild = 2,
 
     /// <summary>
     /// 本部门数据

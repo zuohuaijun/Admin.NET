@@ -78,11 +78,6 @@ const initTreeData = async () => {
 	state.loading = false;
 };
 
-// 更新树节点数据
-const updateTreeData = (treeData: any) => {
-	state.orgData = treeData;
-};
-
 // 设置默认选择
 const setCheckedKeys = (orgData: any) => {
 	state.isShowCheckbox = true;
@@ -124,7 +119,7 @@ const nodeClick = (node: any) => {
 
 //const orgTreeData = state.orgData; // 异步数据导出不了？
 // 导出
-defineExpose({ initTreeData, updateTreeData, setCheckedKeys, getCheckedKeys });
+defineExpose({ initTreeData, setCheckedKeys, getCheckedKeys });
 </script>
 
 <style scoped>

@@ -6,15 +6,15 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 197)]
 public class SysOrgService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysOrg> _sysOrgRep;
     private readonly UserManager _userManager;
+    private readonly SqlSugarRepository<SysOrg> _sysOrgRep;
     private readonly SysCacheService _sysCacheService;
     private readonly SysUserExtOrgService _sysUserExtOrgService;
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysRoleOrgService _sysRoleOrgService;
 
-    public SysOrgService(SqlSugarRepository<SysOrg> sysOrgRep,
-        UserManager userManager,
+    public SysOrgService(UserManager userManager, 
+        SqlSugarRepository<SysOrg> sysOrgRep,        
         SysCacheService sysCacheService,
         SysUserExtOrgService sysUserExtOrgService,
         SysUserRoleService sysUserRoleService,
@@ -35,22 +35,29 @@ public class SysOrgService : IDynamicApiController, ITransient
     [HttpGet("/sysOrg/list")]
     public async Task<List<SysOrg>> GetOrgList([FromQuery] OrgInput input)
     {
-        var orgIdList = input.Id > 0 ? await GetChildIdListWithSelfById(input.Id) : await GetUserOrgIdList();
+        var orgIdList = await GetUserOrgIdList();
 
-        var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.Order)
-            .WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id));
+        var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.Order);
 
         // 条件筛选可能造成无法构造树（列表数据）
         if (!string.IsNullOrWhiteSpace(input.Name) || !string.IsNullOrWhiteSpace(input.Code))
         {
-            return await iSugarQueryable
+            return await iSugarQueryable.WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code))
                 .ToListAsync();
         }
-        return input.Id > 0
-            ? await iSugarQueryable.ToChildListAsync(u => u.Pid, input.Id)
-            : await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0);
+
+        if (input.Id > 0)
+        {
+            return await iSugarQueryable.WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id)).ToChildListAsync(u => u.Pid, input.Id, true);
+        }
+        else
+        {
+            return _userManager.SuperAdmin ?
+                await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0) :
+                await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0, orgIdList.Select(d => (object)d).ToArray());
+        }
     }
 
     /// <summary>
@@ -124,6 +131,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysOrg/delete")]
+    [UnitOfWork]
     public async Task DeleteOrg(DeleteOrgInput input)
     {
         var sysOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Id);
@@ -142,7 +150,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D2005);
 
         // 若子机构有用户则禁止删除
-        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id);
+        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id, true);
         var orgIdList = orgTreeList.Select(u => u.Id).ToList();
 
         // 级联删除机构子节点
@@ -244,7 +252,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             orgIdList = await _sysOrgRep.AsQueryable().Select(u => u.Id).ToListAsync();
         }
         // 若数据范围是本部门及以下，则获取本节点和子节点集合
-        else if (dataScope == (int)DataScopeEnum.Dept_with_child)
+        else if (dataScope == (int)DataScopeEnum.DeptChild)
         {
             orgIdList = await GetChildIdListWithSelfById(orgId);
         }
@@ -264,7 +272,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     [NonAction]
     public async Task<List<long>> GetChildIdListWithSelfById(long pid)
     {
-        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, pid);
+        var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, pid, true);
         return orgTreeList.Select(u => u.Id).ToList();
     }
 }

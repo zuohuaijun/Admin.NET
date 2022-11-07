@@ -13,7 +13,7 @@ public class CommonConst
     /// <summary>
     /// 系统管理员角色编码
     /// </summary>
-    public const string SysAdminRoleCode = "sys_admin_role";
+    public const string SysAdminRoleCode = "sys_admin";
 
     /// <summary>
     /// 演示环境开关

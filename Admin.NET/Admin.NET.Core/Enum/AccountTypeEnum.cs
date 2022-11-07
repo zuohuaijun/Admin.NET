@@ -6,9 +6,9 @@ namespace Admin.NET.Core;
 public enum AccountTypeEnum
 {
     /// <summary>
-    /// 游客
+    /// 其他
     /// </summary>
-    [Description("游客")]
+    [Description("其他")]
     None = 0,
 
     /// <summary>
@@ -18,14 +18,14 @@ public enum AccountTypeEnum
     User = 1,
 
     /// <summary>
-    /// 管理员
+    /// 系统管理员
     /// </summary>
-    [Description("管理员")]
-    Admin = 2,
+    [Description("系统管理员")]
+    Admin = 4,
 
     /// <summary>
     /// 超级管理员
     /// </summary>
     [Description("超级管理员")]
-    SuperAdmin = 99999,
+    SuperAdmin = 999,
 }

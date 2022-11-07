@@ -19,15 +19,15 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="logData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="logName" label="记录器类别名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="logLevel" label="日志级别" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="eventId" label="事件Id" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="message" label="日志消息" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="exception" label="异常对象" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="state" label="当前状态值" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="threadId" label="线程Id" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="logDateTime" label="日志记录时间" align="center" show-overflow-tooltip> </el-table-column>
-				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="logName" label="记录器类别名称" show-overflow-tooltip />
+				<el-table-column prop="logLevel" label="日志级别" show-overflow-tooltip />
+				<el-table-column prop="eventId" label="事件Id" show-overflow-tooltip />
+				<el-table-column prop="message" label="日志消息" show-overflow-tooltip />
+				<el-table-column prop="exception" label="异常对象" show-overflow-tooltip />
+				<el-table-column prop="state" label="当前状态值" show-overflow-tooltip />
+				<el-table-column prop="threadId" label="线程Id" show-overflow-tooltip />
+				<el-table-column prop="logDateTime" label="日志记录时间" align="center" show-overflow-tooltip />
+				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="viewDetail(scope.row)" v-auth="'sysOplog:page'">详情 </el-button>
@@ -46,7 +46,7 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<el-dialog v-model="dialogVisible" title="日志详情" width="769px">
+		<el-dialog v-model="dialogVisible" title="日志详情" draggable width="769px">
 			<pre>{{ content }}</pre>
 			<template #footer>
 				<span class="dialog-footer">

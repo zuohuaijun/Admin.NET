@@ -16,8 +16,8 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="timerData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="timerName" label="任务名称" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="requestUrl" label="请求地址" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="timerName" label="任务名称" show-overflow-tooltip />
+				<el-table-column prop="requestUrl" label="请求地址" show-overflow-tooltip />
 				<el-table-column prop="requestType" label="请求类型" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="info" v-if="scope.row.requestType == 0"> {{ 'RUN' }} </el-tag>
@@ -60,9 +60,9 @@
 						<el-switch v-model="scope.row.status" :active-value="0" :inactive-value="1" size="small" @change="changeStatus(scope.row)" v-auth="'sysTimer:setStatus'" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="tally" label="执行次数" width="100" align="center" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="createTime" label="修改时间" width="100" align="center" show-overflow-tooltip></el-table-column>
-				<el-table-column prop="remark" label="备注" show-overflow-tooltip></el-table-column>
+				<el-table-column prop="tally" label="执行次数" width="100" align="center" show-overflow-tooltip />
+				<el-table-column prop="createTime" label="修改时间" width="100" align="center" show-overflow-tooltip />
+				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditTimer(scope.row)" v-auth="'sysTimer:update'"> 编辑 </el-button>

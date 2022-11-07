@@ -1,21 +1,16 @@
 <template>
 	<div class="sys-config-container">
-		<el-dialog v-model="isShowDialog" width="600px">
-			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
-					{{ title }}
-				</div>
-			</template>
+		<el-dialog v-model="isShowDialog" :title="title" draggable width="600px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="配置名称" prop="name" :rules="[{ required: true, message: '配置名称不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.name" placeholder="配置名称" clearable></el-input>
+							<el-input v-model="ruleForm.name" placeholder="配置名称" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="配置编码" prop="code" :rules="[{ required: true, message: '配置编码不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.code" placeholder="配置编码" clearable :disabled="ruleForm.sysFlag == 1"></el-input>
+							<el-input v-model="ruleForm.code" placeholder="配置编码" clearable :disabled="ruleForm.sysFlag == 1" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -28,7 +23,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="系统参数" prop="sysFlag" :rules="[{ required: true, message: '系统参数不能为空', trigger: 'blur' }]">
-							<el-radio-group v-model="ruleForm.sysFlag" :disabled="ruleForm.sysFlag == 1">
+							<el-radio-group v-model="ruleForm.sysFlag" :disabled="ruleForm.sysFlag == 1 && ruleForm.id != undefined">
 								<el-radio :label="1">是</el-radio>
 								<el-radio :label="2">否</el-radio>
 							</el-radio-group>
@@ -36,7 +31,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="所属分类" prop="groupCode">
-							<el-input v-model="ruleForm.groupCode" placeholder="所属分类" clearable :disabled="ruleForm.sysFlag == 1"></el-input>
+							<el-input v-model="ruleForm.groupCode" placeholder="所属分类" clearable :disabled="ruleForm.sysFlag == 1" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -46,7 +41,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea" />
 						</el-form-item>
 					</el-col>
 				</el-row>

@@ -1,21 +1,16 @@
 <template>
 	<div class="sys-timer-container">
-		<el-dialog v-model="isShowDialog" width="769px">
-			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
-					{{ title }}
-				</div>
-			</template>
+		<el-dialog v-model="isShowDialog" :title="title" draggable width="769px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="任务名称" prop="timerName" :rules="[{ required: true, message: '任务名称不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.timerName" placeholder="任务名称" clearable></el-input>
+							<el-input v-model="ruleForm.timerName" placeholder="任务名称" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="请求地址" prop="requestUrl" :rules="[{ required: true, message: '请求地址不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.requestUrl" placeholder="请求地址" clearable></el-input>
+							<el-input v-model="ruleForm.requestUrl" placeholder="请求地址" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -31,7 +26,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="请求参数" prop="requestPara">
-							<el-input v-model="ruleForm.requestPara" placeholder="所属分类" clearable type="textarea"></el-input>
+							<el-input v-model="ruleForm.requestPara" placeholder="所属分类" clearable type="textarea" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -44,15 +39,15 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="执行间隔" prop="interval" v-if="ruleForm.timerType == 0">
-							<el-input v-model="ruleForm.interval" placeholder="执行间隔" clearable></el-input>
+							<el-input v-model="ruleForm.interval" placeholder="执行间隔" clearable />
 						</el-form-item>
 						<el-form-item label="Cron表达式" prop="cron" v-else>
-							<el-input v-model="ruleForm.cron" placeholder="Cron表达式" clearable></el-input>
+							<el-input v-model="ruleForm.cron" placeholder="Cron表达式" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea" />
 						</el-form-item>
 					</el-col>
 				</el-row>

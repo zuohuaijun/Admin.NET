@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SysFile } from './sys-file';
+import { SqlSugarPagedListSysRegion } from './sql-sugar-paged-list-sys-region';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultListSysFile
+ * @interface AdminResultSqlSugarPagedListSysRegion
  */
-export interface AdminResultListSysFile {
+export interface AdminResultSqlSugarPagedListSysRegion {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultListSysFile
+     * @memberof AdminResultSqlSugarPagedListSysRegion
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultListSysFile
+     * @memberof AdminResultSqlSugarPagedListSysRegion
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultListSysFile
+     * @memberof AdminResultSqlSugarPagedListSysRegion
      */
     message?: string | null;
     /**
-     * 数据
-     * @type {Array<SysFile>}
-     * @memberof AdminResultListSysFile
+     * 
+     * @type {SqlSugarPagedListSysRegion}
+     * @memberof AdminResultSqlSugarPagedListSysRegion
      */
-    result?: Array<SysFile> | null;
+    result?: SqlSugarPagedListSysRegion;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultListSysFile
+     * @memberof AdminResultSqlSugarPagedListSysRegion
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultListSysFile
+     * @memberof AdminResultSqlSugarPagedListSysRegion
      */
     time?: Date;
 }

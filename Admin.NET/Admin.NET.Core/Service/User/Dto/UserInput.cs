@@ -47,11 +47,6 @@ public class AddUserInput : SysUser
     public override string RealName { get; set; }
 
     /// <summary>
-    /// 账号
-    /// </summary>
-    public override string Password { get; set; } = CommonConst.SysPassword;
-
-    /// <summary>
     /// 角色集合
     /// </summary>
     public List<long> RoleIdList { get; set; }

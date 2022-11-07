@@ -17,10 +17,10 @@ public class SysUser : EntityTenant
     /// 密码（MD5加密）
     /// </summary>
     [SugarColumn(ColumnDescription = "密码", Length = 64)]
-    [Required, MaxLength(64)]
+    [MaxLength(64)]
     [System.Text.Json.Serialization.JsonIgnore]
     [JsonIgnore]
-    public virtual string Password { get; set; }
+    public virtual string Password { get; set; }  = CommonConst.SysPassword;
 
     /// <summary>
     /// 真实姓名
@@ -39,8 +39,8 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 头像
     /// </summary>
-    [SugarColumn(ColumnDescription = "头像", Length = 256)]
-    [MaxLength(256)]
+    [SugarColumn(ColumnDescription = "头像", Length = 512)]
+    [MaxLength(512)]
     public string Avatar { get; set; }
 
     /// <summary>
@@ -254,4 +254,11 @@ public class SysUser : EntityTenant
     [SugarColumn(ColumnDescription = "最新登录设备", Length = 128)]
     [MaxLength(128)]
     public string LastLoginDevice { get; set; }
+
+    /// <summary>
+    /// 电子签名
+    /// </summary>
+    [SugarColumn(ColumnDescription = "电子签名", Length = 512)]
+    [MaxLength(512)]
+    public string Signature { get; set; }
 }

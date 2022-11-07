@@ -484,5 +484,23 @@ public enum ErrorCodeEnum
     /// 数据表不存在
     /// </summary>
     [ErrorCodeItemMetadata("数据表不存在")]
-    db1001
+    db1001,
+
+    /// <summary>
+    /// 父节点不存在
+    /// </summary>
+    [ErrorCodeItemMetadata("父节点不存在")]
+    R2000,
+
+    /// <summary>
+    /// 当前节点Id不能与父节点Id相同
+    /// </summary>
+    [ErrorCodeItemMetadata("当前节点Id不能与父节点Id相同")]
+    R2001,
+
+    /// <summary>
+    /// 已有相同编码或名称
+    /// </summary>
+    [ErrorCodeItemMetadata("已有相同编码或名称")]
+    R2002,
 }

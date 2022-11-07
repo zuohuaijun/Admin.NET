@@ -1,11 +1,6 @@
 <template>
 	<div class="sys-org-container">
-		<el-dialog v-model="isShowDialog" width="600px">
-			<template #header>
-				<div style="font-size: large" v-drag="['.el-dialog', '.el-dialog__header']">
-					{{ title }}
-				</div>
-			</template>
+		<el-dialog v-model="isShowDialog" :title="title" draggable width="600px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -20,12 +15,12 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="机构名称" prop="name" :rules="[{ required: true, message: '机构名称不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.name" placeholder="机构名称" clearable></el-input>
+							<el-input v-model="ruleForm.name" placeholder="机构名称" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="机构编码" prop="code" :rules="[{ required: true, message: '机构编码不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.code" placeholder="机构编码" clearable></el-input>
+							<el-input v-model="ruleForm.code" placeholder="机构编码" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -43,7 +38,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea"> </el-input>
+							<el-input v-model="ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea" />
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -90,11 +85,6 @@ export default defineComponent({
 			state.ruleForm = row;
 			state.isShowDialog = true;
 		};
-		// 关闭弹窗
-		const closeDialog = () => {
-			proxy.mittBus.emit('submitRefresh');
-			state.isShowDialog = false;
-		};
 		// 取消
 		const cancel = () => {
 			state.isShowDialog = false;
@@ -108,13 +98,13 @@ export default defineComponent({
 				} else {
 					await getAPI(SysOrgApi).sysOrgAddPost(state.ruleForm);
 				}
-				closeDialog();
+				proxy.mittBus.emit('submitRefresh');
+				state.isShowDialog = false;
 			});
 		};
 		return {
 			ruleFormRef,
 			openDialog,
-			closeDialog,
 			cancel,
 			submit,
 			...toRefs(state),

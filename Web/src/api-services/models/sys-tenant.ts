@@ -11,6 +11,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { DbType } from './db-type';
+import { TenantTypeEnum } from './tenant-type-enum';
 /**
  * 系统租户表
  * @export
@@ -60,7 +62,7 @@ export interface SysTenant {
      */
     name: string;
     /**
-     * 管理员名称
+     * 管理员
      * @type {string}
      * @memberof SysTenant
      */
@@ -84,17 +86,23 @@ export interface SysTenant {
      */
     phone?: string | null;
     /**
+     * 
+     * @type {TenantTypeEnum}
+     * @memberof SysTenant
+     */
+    tenantType?: TenantTypeEnum;
+    /**
+     * 
+     * @type {DbType}
+     * @memberof SysTenant
+     */
+    dbType?: DbType;
+    /**
      * 数据库连接
      * @type {string}
      * @memberof SysTenant
      */
     connection?: string | null;
-    /**
-     * 架构
-     * @type {string}
-     * @memberof SysTenant
-     */
-    schema?: string | null;
     /**
      * 排序
      * @type {number}

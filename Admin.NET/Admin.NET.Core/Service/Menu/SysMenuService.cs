@@ -29,7 +29,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取登录菜单树
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/getMenuList")]
+    [HttpGet("/loginMenu")]
     public async Task<List<MenuOutput>> GetLoginMenuTree()
     {
         if (_userManager.SuperAdmin)
@@ -42,15 +42,6 @@ public class SysMenuService : IDynamicApiController, ITransient
         else
         {
             var menuIdList = await GetMenuIdList();
-            //// 获取所有节点的父节点（当半选状态的父节点未存储时）
-            //var treeIdList = new List<long>();
-            //foreach (var cId in menuIdList)
-            //{
-            //    if (cId < 1)
-            //        continue;
-            //    var pIds = _sysMenuRep.AsQueryable().ToParentList(u => u.Pid, cId).Select(u => u.Id).ToList();
-            //    treeIdList = treeIdList.Union(pIds).ToList();
-            //}
             var menuList = await _sysMenuRep.AsQueryable()
                 .Where(u => u.Type != MenuTypeEnum.Btn)
                 .Where(u => menuIdList.Contains(u.Id))
@@ -73,7 +64,7 @@ public class SysMenuService : IDynamicApiController, ITransient
         if (!string.IsNullOrWhiteSpace(input.Title) || input.Type > 0)
         {
             return await _sysMenuRep.AsQueryable()
-                .WhereIF(input.Type > 0, u => u.Type == (MenuTypeEnum)input.Type)
+                .WhereIF(input.Type > 0, u => u.Type == input.Type)
                 .WhereIF(menuIdList.Count > 1, u => menuIdList.Contains(u.Id))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title))
                 .OrderBy(u => u.Order).ToListAsync();
@@ -141,9 +132,8 @@ public class SysMenuService : IDynamicApiController, ITransient
     [UnitOfWork]
     public async Task DeleteMenu(DeleteMenuInput input)
     {
-        var menuTreeList = await _sysMenuRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id);
+        var menuTreeList = await _sysMenuRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id, true);
         var menuIdList = menuTreeList.Select(u => u.Id).ToList();
-        menuIdList.Add(input.Id);
 
         await _sysMenuRep.DeleteAsync(u => menuIdList.Contains(u.Id));
 
@@ -160,16 +150,8 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// <param name="menu"></param>
     private static void CheckMenuParam(SysMenu menu)
     {
-        var type = menu.Type;
-        //var component = input.Component;
         var permission = menu.Permission;
-        //if (type == (int)MenuTypeEnum.Dir || type == (int)MenuTypeEnum.Menu)
-        //{
-        //    if (string.IsNullOrEmpty(component))
-        //        throw Oops.Oh(ErrorCodeEnum.D4001);
-        //}
-        //else
-        if (type == MenuTypeEnum.Btn)
+        if (menu.Type == MenuTypeEnum.Btn)
         {
             if (string.IsNullOrEmpty(permission))
                 throw Oops.Oh(ErrorCodeEnum.D4003);
@@ -182,27 +164,18 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取按钮权限列表(登录)
     /// </summary>
     /// <returns></returns>
-    [HttpGet("getPermCode")]
+    [HttpGet("/getPermCode")]
     public async Task<List<string>> GetPermCodeList()
     {
         var userId = _userManager.UserId;
-        var permissions = _sysCacheService.GetPermission(userId); // 先从缓存里面读取
+        var permissions = _sysCacheService.GetPermission(userId); // 取缓存
         if (permissions == null || permissions.Count == 0)
         {
-            if (_userManager.SuperAdmin)
-            {
-                permissions = await _sysMenuRep.AsQueryable()
-                    .Where(u => u.Type == MenuTypeEnum.Btn)
-                    .Select(u => u.Permission).ToListAsync();
-            }
-            else
-            {
-                var menuIdList = await GetMenuIdList();
-                permissions = await _sysMenuRep.AsQueryable()
-                    .Where(u => u.Type == MenuTypeEnum.Btn)
-                    .Where(u => menuIdList.Contains(u.Id))
-                    .Select(u => u.Permission).ToListAsync();
-            }
+            var menuIdList = _userManager.SuperAdmin ? new List<long>() : await GetMenuIdList();
+            permissions = await _sysMenuRep.AsQueryable()
+                .Where(u => u.Type == MenuTypeEnum.Btn)
+                .WhereIF(menuIdList.Count > 0, u => menuIdList.Contains(u.Id))
+                .Select(u => u.Permission).ToListAsync();
             _sysCacheService.SetPermission(userId, permissions); // 缓存结果
         }
         return permissions;
