@@ -15,9 +15,10 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly RefreshTokenOptions _refreshTokenOptions;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IEventPublisher _eventPublisher;
-    private readonly SysUserService _sysUserService;
     private readonly SysMenuService _sysMenuService;
+    private readonly SysTenantService _sysTenantService;
     private readonly SysOnlineUserService _sysOnlineUserService;
+    private readonly SysConfigService _sysConfigService;
     private readonly IMemoryCache _cache;
     private readonly ICaptcha _captcha;
 
@@ -26,9 +27,10 @@ public class SysAuthService : IDynamicApiController, ITransient
         IOptions<RefreshTokenOptions> refreshTokenOptions,
         IHttpContextAccessor httpContextAccessor,
         IEventPublisher eventPublisher,
-        SysUserService sysUserService,
         SysMenuService sysMenuService,
+        SysTenantService sysTenantService,
         SysOnlineUserService sysOnlineUserService,
+        SysConfigService sysConfigService,
         IMemoryCache cache,
         ICaptcha captcha)
     {
@@ -37,9 +39,10 @@ public class SysAuthService : IDynamicApiController, ITransient
         _httpContextAccessor = httpContextAccessor;
         _refreshTokenOptions = refreshTokenOptions.Value;
         _eventPublisher = eventPublisher;
-        _sysUserService = sysUserService;
         _sysMenuService = sysMenuService;
+        _sysTenantService = sysTenantService;
         _sysOnlineUserService = sysOnlineUserService;
+        _sysConfigService = sysConfigService;
         _cache = cache;
         _captcha = captcha;
     }
@@ -55,8 +58,12 @@ public class SysAuthService : IDynamicApiController, ITransient
     [SuppressMonitor]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
+        // 记录当前租户
+        _userManager.TenantId = input.TenantId;
+
         // 判断验证码
-        if (!_captcha.Validate(input.CodeId.ToString(), input.Code))
+        var captchaEnabled = await GetCaptchaFlag();
+        if (captchaEnabled && !_captcha.Validate(input.CodeId.ToString(), input.Code))
             throw Oops.Oh(ErrorCodeEnum.D0009);
 
         var encryptPasswod = MD5Encryption.Encrypt(input.Password);
@@ -106,7 +113,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     [HttpGet("/userInfo")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
-        var user = _userManager.User;
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
         if (user == null)
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
@@ -153,7 +160,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="accessToken"></param>
     /// <returns></returns>
-    [HttpPost("/getRefreshToken")]
+    [HttpPost("/refreshToken")]
     public string RefreshToken([Required] string accessToken)
     {
         return JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
@@ -165,8 +172,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     [HttpPost("/logout")]
     public async void Logout()
     {
-        var user = _userManager.User;
-        if (user == null)
+        if (string.IsNullOrWhiteSpace(_userManager.Account))
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
         // 设置响应报文头
@@ -179,9 +185,21 @@ public class SysAuthService : IDynamicApiController, ITransient
             Message = "退出",
             VisType = LoginTypeEnum.Logout,
             Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
-            Account = user.Account,
-            RealName = user.RealName
+            Account = _userManager.Account,
+            RealName = _userManager.RealName
         });
+    }
+
+    /// <summary>
+    /// 是否启用验证码
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("/captchaFlag")]
+    [AllowAnonymous]
+    [SuppressMonitor]
+    public async Task<bool> GetCaptchaFlag()
+    {
+        return await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha);
     }
 
     /// <summary>
@@ -196,6 +214,19 @@ public class SysAuthService : IDynamicApiController, ITransient
         var codeId = Yitter.IdGenerator.YitIdHelper.NextId();
         var captcha = _captcha.Generate(codeId.ToString());
         return new { Id = codeId, Img = captcha.Base64 };
+    }
+
+    /// <summary>
+    /// 是否启用多库租户
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet("/tenantDbList")]
+    [AllowAnonymous]
+    [SuppressMonitor]
+    public async Task<List<SysTenant>> GetTenantDbList()
+    {
+        var tenantDbEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysTenantDb);
+        return tenantDbEnabled ? await _sysTenantService.GetTenantDbList() : new List<SysTenant>();
     }
 
     /// <summary>

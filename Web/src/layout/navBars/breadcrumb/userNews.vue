@@ -1,115 +1,119 @@
 <template>
-	<div class="layout-navbars-breadcrumb-user-news">
-		<div class="head-box">
-			<div class="head-box-title">{{ $t('message.user.newTitle') }}</div>
-			<div class="head-box-btn" v-if="newsList.length > 0" @click="onAllReadClick">{{ $t('message.user.newBtn') }}</div>
-		</div>
-		<div class="content-box">
-			<template v-if="newsList.length > 0">
-				<div class="content-box-item" v-for="(v, k) in newsList" :key="k">
-					<div>{{ v.label }}</div>
-					<div class="content-box-msg">
-						{{ v.value }}
-					</div>
-					<div class="content-box-time">{{ v.time }}</div>
+	<div class="user-news-container">
+		<el-tabs stretch class="content-box">
+			<el-tab-pane label="站内信">
+				<template #label>
+					<el-icon><ele-Bell /></el-icon>
+					<span style="margin-left: 5px">站内信</span>
+				</template>
+				<div class="notice-box">
+					<template v-if="noticeList.length > 0">
+						<div class="notice-item" v-for="(v, k) in noticeList" :key="k" @click="viewNoticeDetail(v)" v-show="v.readStatus == 1 ? false : true">
+							<div class="notice-title">{{ v.type == 1 ? '【通知】' : '【公告】' }}{{ v.title }}</div>
+							<div class="notice-content">{{ removeHtmlSub(v.content) }}</div>
+							<div class="notice-time">{{ v.publicTime }}</div>
+							<el-divider border-style="dashed" style="margin: 10px 0" />
+						</div>
+					</template>
+					<el-empty description="空" v-else></el-empty>
 				</div>
+				<div class="notice-foot" @click="goToNotice" v-if="noticeList.length > 0">前往通知中心</div>
+			</el-tab-pane>
+			<el-tab-pane label="我的">
+				<template #label>
+					<el-icon><ele-Position /></el-icon>
+					<span style="margin-left: 5px">我的</span>
+				</template>
+				<div style="height: 400px; overflow-y: auto; padding-right: 10px">
+					<el-empty description="空"></el-empty>
+				</div>
+			</el-tab-pane>
+		</el-tabs>
+		<el-dialog v-model="state.dialogVisible" title="消息详情" draggable width="769px">
+			<p v-html="state.content"></p>
+			<template #footer>
+				<span class="dialog-footer">
+					<el-button type="primary" @click="state.dialogVisible = false">确认</el-button>
+				</span>
 			</template>
-			<el-empty :description="$t('message.user.newDesc')" v-else></el-empty>
-		</div>
-		<div class="foot-box" @click="onGoToGiteeClick" v-if="newsList.length > 0">{{ $t('message.user.newGo') }}</div>
+		</el-dialog>
 	</div>
 </template>
 
-<script lang="ts">
-import { reactive, toRefs, defineComponent } from 'vue';
+<script lang="ts" setup>
+import { reactive } from 'vue';
+import { SysNoticeApi } from '/@/api-services/api';
+import router from '/@/router';
+import commonFunction from '/@/utils/commonFunction';
 
-export default defineComponent({
-	name: 'layoutBreadcrumbUserNews',
-	setup() {
-		const state = reactive({
-			newsList: [
-				{
-					label: '关于版本发布的通知',
-					value: 'vue-next-admin，基于 vue3 + CompositionAPI + typescript + vite + element plus，正式发布时间：2021年02月28日！',
-					time: '2020-12-08',
-				},
-				{
-					label: '关于学习交流的通知',
-					value: 'QQ群号码 665452019，欢迎小伙伴入群学习交流探讨！',
-					time: '2020-12-08',
-				},
-			],
-		});
-		// 全部已读点击
-		const onAllReadClick = () => {
-			state.newsList = [];
-		};
-		// 前往通知中心点击
-		const onGoToGiteeClick = () => {
-			window.open('https://gitee.com/lyt-top/vue-next-admin');
-		};
-		return {
-			onAllReadClick,
-			onGoToGiteeClick,
-			...toRefs(state),
-		};
-	},
+import { getAPI } from '/@/utils/axios-utils';
+
+defineProps({
+	noticeList: Array as any,
 });
+const { removeHtmlSub } = commonFunction();
+const state = reactive({
+	dialogVisible: false,
+	content: '',
+});
+// 前往通知中心点击
+const goToNotice = () => {
+	router.push('/dashboard/notice');
+};
+// 查看消息详情
+const viewNoticeDetail = async (notice: any) => {
+	state.content = notice.content;
+	state.dialogVisible = true;
+
+	// 设置已读
+	notice.readStatus = 1;
+	await getAPI(SysNoticeApi).sysNoticeSetReadPost({ id: notice.id });
+};
 </script>
 
 <style scoped lang="scss">
-.layout-navbars-breadcrumb-user-news {
-	.head-box {
-		display: flex;
-		border-bottom: 1px solid var(--el-border-color-lighter);
-		box-sizing: border-box;
-		color: var(--el-text-color-primary);
-		justify-content: space-between;
-		height: 35px;
-		align-items: center;
-		.head-box-btn {
-			color: var(--el-color-primary);
-			font-size: 13px;
-			cursor: pointer;
-			opacity: 0.8;
-			&:hover {
-				opacity: 1;
-			}
-		}
-	}
+.user-news-container {
 	.content-box {
-		font-size: 13px;
-		.content-box-item {
-			padding-top: 12px;
-			&:last-of-type {
-				padding-bottom: 12px;
+		font-size: 12px;
+		.notice-box {
+			height: 400px;
+			padding-right: 10px;
+
+			margin-bottom: 35px;
+			&:hover {
+				overflow-y: scroll;
 			}
-			.content-box-msg {
-				color: var(--el-text-color-secondary);
-				margin-top: 5px;
-				margin-bottom: 5px;
+		}
+		.notice-item {
+			&:hover {
+				background-color: rgba(#b8b8b8, 0.1);
 			}
-			.content-box-time {
+			// .notice-title {
+			// 	color: var(--el-color-primary);
+			// }
+			.notice-content {
 				color: var(--el-text-color-secondary);
+				margin-top: 3px;
+				margin-bottom: 3px;
+			}
+			.notice-time {
+				color: var(--el-text-color-secondary);
+				text-align: right;
 			}
 		}
 	}
-	.foot-box {
+	.notice-foot {
 		height: 35px;
+		width: 100%;
 		color: var(--el-color-primary);
-		font-size: 13px;
+		font-size: 14px;
 		cursor: pointer;
-		opacity: 0.8;
+		position: absolute;
+		bottom: 0px;
+		background-color: #fff;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		border-top: 1px solid var(--el-border-color-lighter);
-		&:hover {
-			opacity: 1;
-		}
-	}
-	:deep(.el-empty__description p) {
-		font-size: 13px;
 	}
 }
 </style>

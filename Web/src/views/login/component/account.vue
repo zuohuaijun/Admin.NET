@@ -1,9 +1,19 @@
 <template>
 	<el-form ref="ruleFormRef" :model="ruleForm" size="large" :rules="rules" class="login-content-form">
+		<el-form-item class="login-animation0" v-show="tenantList.length > 0">
+			<el-select v-model="ruleForm.tenantId" value-key="id" placeholder="租户名称" class="w100">
+				<template #prefix>
+					<el-icon>
+						<ele-OfficeBuilding />
+					</el-icon>
+				</template>
+				<el-option v-for="item in tenantList" :key="item.id" :label="item.name" :value="item.id" />
+			</el-select>
+		</el-form-item>
 		<el-form-item class="login-animation1" prop="account">
 			<el-input type="text" placeholder="请输入账号" v-model="ruleForm.account" clearable autocomplete="off">
 				<template #prefix>
-					<el-icon class="el-input__icon">
+					<el-icon>
 						<ele-User />
 					</el-icon>
 				</template>
@@ -12,7 +22,7 @@
 		<el-form-item class="login-animation2" prop="password">
 			<el-input :type="isShowPassword ? 'text' : 'password'" placeholder="请输入密码" v-model="ruleForm.password" autocomplete="off">
 				<template #prefix>
-					<el-icon class="el-input__icon">
+					<el-icon>
 						<ele-Unlock />
 					</el-icon>
 				</template>
@@ -21,11 +31,11 @@
 				</template>
 			</el-input>
 		</el-form-item>
-		<el-form-item class="login-animation3" prop="captcha">
+		<el-form-item class="login-animation3" prop="captcha" v-show="captchaEnabled">
 			<el-col :span="15">
-				<el-input type="text" maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="ruleForm.code" clearable autocomplete="off">
+				<el-input type="text" maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="ruleForm.code" clearable autocomplete="off" @keyup.enter="openVerify">
 					<template #prefix>
-						<el-icon class="el-input__icon">
+						<el-icon>
 							<ele-Position />
 						</el-icon>
 					</template>
@@ -75,7 +85,8 @@ import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysAuthApi } from '/@/api-services/apis/sys-auth-api';
+import { SysAuthApi } from '/@/api-services/api';
+import { SysTenant } from '/@/api-services/models';
 
 // 旋转图片滑块组件
 import DragVerifyImgRotate from '/@/components/dragVerify/dragVerifyImgRotate.vue';
@@ -98,8 +109,9 @@ export default defineComponent({
 			ruleForm: {
 				account: 'superadmin',
 				password: '123456',
-				code: '1234',
+				code: '',
 				codeId: 0,
+				tenantId: 0,
 			},
 			rules: {
 				account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -113,8 +125,19 @@ export default defineComponent({
 			isPass: false,
 			verifyImg: verifyImg,
 			captchaImage: '',
+			captchaEnabled: true,
+			tenantList: [] as Array<SysTenant>,
 		});
-		onMounted(() => {
+		onMounted(async () => {
+			// 是否开启多库租户
+			var res = await getAPI(SysAuthApi).tenantDbListGet();
+			state.tenantList = res.data.result ?? [];
+			if (state.tenantList.length > 0) state.ruleForm.tenantId = state.tenantList[0].id ?? 0;
+
+			// 是否开启验证码验证
+			var res1 = await getAPI(SysAuthApi).captchaFlagGet();
+			state.captchaEnabled = res1.data.result ?? true;
+			if (!state.captchaEnabled) return;
 			getCaptcha();
 		});
 		// 获取验证码
@@ -184,15 +207,19 @@ export default defineComponent({
 			ruleFormRef.value.validate((valid: boolean) => {
 				if (!valid) return false;
 
-				state.verifyVisible = true;
-				state.isPass = false;
-				dragRef.value.reset();
+				if (!state.captchaEnabled) {
+					passVerify();
+				} else {
+					state.verifyVisible = true;
+					state.isPass = false;
+					dragRef.value.reset();
+				}
 			});
 		};
 		// 通过旋转验证
 		const passVerify = () => {
 			state.verifyVisible = false;
-			state.isPass = false;
+			state.isPass = true;
 			onSignIn();
 		};
 		return {
@@ -211,7 +238,7 @@ export default defineComponent({
 .login-content-form {
 	margin-top: 20px;
 
-	@for $i from 1 through 4 {
+	@for $i from 0 through 4 {
 		.login-animation#{$i} {
 			opacity: 0;
 			animation-name: error-num;

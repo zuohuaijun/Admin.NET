@@ -67,7 +67,7 @@
 ------------------------------- */
 // 鼠标 hover 时颜色
 .el-menu-hover-bg-color {
-	background-color: var(--el-color-primary-light-8) !important;
+	background-color: var(--el-color-primary-light-7) !important;
 	// border-right: solid 3px var(--el-color-primary);
 }
 // 默认样式修改
@@ -263,12 +263,14 @@
 	.el-button.is-text {
 		padding: 0;
 	}
-	// 标题背景色
-	--el-table-header-bg-color: #fafafa;
-	// 标题字体颜色
-	thead{
+	// 表头背景色
+	//--el-table-header-bg-color: var(--el-text-color-secondary);// #fafafa;
+	// 表头字体颜色
+	thead {
 		color: var(--el-text-color-regular);	
-		font-weight: normal;
+		th {
+			font-weight: 600;
+		}
 	}
 }
 // 分页组件靠右显示

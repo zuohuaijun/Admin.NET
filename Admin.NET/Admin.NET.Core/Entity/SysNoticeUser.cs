@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统通知公告用户表
 /// </summary>
-[SugarTable("sys_notice_user", "通知公告用户表")]
+[SugarTable("sys_notice_user", "系统通知公告用户表")]
 public class SysNoticeUser
 {
     /// <summary>
@@ -11,6 +11,13 @@ public class SysNoticeUser
     /// </summary>
     [SugarColumn(ColumnDescription = "通知公告Id")]
     public long NoticeId { get; set; }
+
+    /// <summary>
+    /// 通知公告
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    [Navigate(NavigateType.OneToOne, nameof(NoticeId))]
+    public SysNotice SysNotice { get; set; }
 
     /// <summary>
     /// 用户Id
@@ -25,8 +32,8 @@ public class SysNoticeUser
     public DateTime ReadTime { get; set; }
 
     /// <summary>
-    /// 状态（字典 0未读 1已读）
+    /// 状态（0未读 1已读）
     /// </summary>
-    [SugarColumn(ColumnDescription = "状态（字典 0未读 1已读）")]
-    public NoticeUserStatusEnum ReadStatus { get; set; }
+    [SugarColumn(ColumnDescription = "状态（0未读 1已读）")]
+    public NoticeUserStatusEnum ReadStatus { get; set; } = NoticeUserStatusEnum.UNREAD;
 }

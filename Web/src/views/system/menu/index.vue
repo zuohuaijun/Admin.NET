@@ -109,7 +109,7 @@ export default defineComponent({
 		// 打开新增页面
 		const openAddMenu = () => {
 			state.editMenuTitle = '添加菜单';
-			editMenuRef.value.openDialog({});
+			editMenuRef.value.openDialog({ type: 2 });
 		};
 		// 打开编辑页面
 		const openEditMenu = (row: any) => {

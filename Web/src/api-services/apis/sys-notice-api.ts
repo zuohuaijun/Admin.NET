@@ -17,11 +17,11 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AddNoticeInput } from '../models';
-import { AdminResultNoticeDetailOutput } from '../models';
-import { AdminResultObject } from '../models';
-import { ChangeStatusNoticeInput } from '../models';
+import { AdminResultListSysNotice } from '../models';
+import { AdminResultSqlSugarPagedListSysNotice } from '../models';
+import { AdminResultSqlSugarPagedListSysNoticeUser } from '../models';
 import { DeleteNoticeInput } from '../models';
-import { NoticeStatusEnum } from '../models';
+import { NoticeInput } from '../models';
 import { NoticeTypeEnum } from '../models';
 import { UpdateNoticeInput } from '../models';
 /**
@@ -39,47 +39,6 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          */
         sysNoticeAddPost: async (body?: AddNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysNotice/add`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 修改通知公告状态
-         * @param {ChangeStatusNoticeInput} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sysNoticeChangeStatusPost: async (body?: ChangeStatusNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/changeStatus`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -155,17 +114,19 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 获取通知公告详情
-         * @param {number} id Id
+         * @summary 获取通知公告分页列表
+         * @param {string} [title] 标题
+         * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
+         * @param {number} [page] 当前页码
+         * @param {number} [pageSize] 页码容量
+         * @param {string} [field] 排序字段
+         * @param {string} [order] 排序方向
+         * @param {string} [descStr] 降序排序
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticeDetailGet: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'id' is not null or undefined
-            if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling sysNoticeDetailGet.');
-            }
-            const localVarPath = `/sysNotice/detail`;
+        sysNoticePageGet: async (title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysNotice/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -178,8 +139,32 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
 
             // authentication Bearer required
 
-            if (id !== undefined) {
-                localVarQueryParameter['Id'] = id;
+            if (title !== undefined) {
+                localVarQueryParameter['Title'] = title;
+            }
+
+            if (type !== undefined) {
+                localVarQueryParameter['Type'] = type;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (field !== undefined) {
+                localVarQueryParameter['Field'] = field;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['Order'] = order;
+            }
+
+            if (descStr !== undefined) {
+                localVarQueryParameter['DescStr'] = descStr;
             }
 
             const query = new URLSearchParams(localVarUrlObj.search);
@@ -200,13 +185,84 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 更新通知公告
-         * @param {UpdateNoticeInput} [body] 
+         * @summary 获取接收的通知公告（当前用户）
+         * @param {string} [title] 标题
+         * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
+         * @param {number} [page] 当前页码
+         * @param {number} [pageSize] 页码容量
+         * @param {string} [field] 排序字段
+         * @param {string} [order] 排序方向
+         * @param {string} [descStr] 降序排序
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticeEditPost: async (body?: UpdateNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/edit`;
+        sysNoticePageReceivedGet: async (title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysNotice/pageReceived`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            if (title !== undefined) {
+                localVarQueryParameter['Title'] = title;
+            }
+
+            if (type !== undefined) {
+                localVarQueryParameter['Type'] = type;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (field !== undefined) {
+                localVarQueryParameter['Field'] = field;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['Order'] = order;
+            }
+
+            if (descStr !== undefined) {
+                localVarQueryParameter['DescStr'] = descStr;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 发布通知公告
+         * @param {NoticeInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysNoticePublicPost: async (body?: NoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysNotice/public`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -241,22 +297,53 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 分页查询通知公告
-         * @param {string} [title] 标题
-         * @param {string} [content] 内容
-         * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-         * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-         * @param {Array<number>} [noticeUserIdList] 通知到的人
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @summary 设置通知公告已读状态
+         * @param {NoticeInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticePageGet: async (title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/page`;
+        sysNoticeSetReadPost: async (body?: NoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysNotice/setRead`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 获取未读的通知公告（当前用户）
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysNoticeUnReadListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysNotice/unReadList`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -268,46 +355,6 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
-
-            if (title !== undefined) {
-                localVarQueryParameter['Title'] = title;
-            }
-
-            if (content !== undefined) {
-                localVarQueryParameter['Content'] = content;
-            }
-
-            if (type !== undefined) {
-                localVarQueryParameter['Type'] = type;
-            }
-
-            if (status !== undefined) {
-                localVarQueryParameter['Status'] = status;
-            }
-
-            if (noticeUserIdList) {
-                localVarQueryParameter['NoticeUserIdList'] = noticeUserIdList;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -327,73 +374,26 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 获取接收的通知公告
-         * @param {string} [title] 标题
-         * @param {string} [content] 内容
-         * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-         * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-         * @param {Array<number>} [noticeUserIdList] 通知到的人
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @summary 更新通知公告
+         * @param {UpdateNoticeInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticeReceivedGet: async (title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/received`;
+        sysNoticeUpdatePost: async (body?: UpdateNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysNotice/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (title !== undefined) {
-                localVarQueryParameter['Title'] = title;
-            }
-
-            if (content !== undefined) {
-                localVarQueryParameter['Content'] = content;
-            }
-
-            if (type !== undefined) {
-                localVarQueryParameter['Type'] = type;
-            }
-
-            if (status !== undefined) {
-                localVarQueryParameter['Status'] = status;
-            }
-
-            if (noticeUserIdList) {
-                localVarQueryParameter['NoticeUserIdList'] = noticeUserIdList;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -405,92 +405,8 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 未处理消息
-         * @param {string} [title] 标题
-         * @param {string} [content] 内容
-         * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-         * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-         * @param {Array<number>} [noticeUserIdList] 通知到的人
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sysNoticeUnreadGet: async (title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/unread`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            if (title !== undefined) {
-                localVarQueryParameter['Title'] = title;
-            }
-
-            if (content !== undefined) {
-                localVarQueryParameter['Content'] = content;
-            }
-
-            if (type !== undefined) {
-                localVarQueryParameter['Type'] = type;
-            }
-
-            if (status !== undefined) {
-                localVarQueryParameter['Status'] = status;
-            }
-
-            if (noticeUserIdList) {
-                localVarQueryParameter['NoticeUserIdList'] = noticeUserIdList;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -522,20 +438,6 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 修改通知公告状态
-         * @param {ChangeStatusNoticeInput} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysNoticeChangeStatusPost(body?: ChangeStatusNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeChangeStatusPost(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
          * @summary 删除通知公告
          * @param {DeleteNoticeInput} [body] 
          * @param {*} [options] Override http request option.
@@ -550,13 +452,80 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取通知公告详情
-         * @param {number} id Id
+         * @summary 获取通知公告分页列表
+         * @param {string} [title] 标题
+         * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
+         * @param {number} [page] 当前页码
+         * @param {number} [pageSize] 页码容量
+         * @param {string} [field] 排序字段
+         * @param {string} [order] 排序方向
+         * @param {string} [descStr] 降序排序
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeDetailGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultNoticeDetailOutput>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeDetailGet(id, options);
+        async sysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticePageGet(title, type, page, pageSize, field, order, descStr, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取接收的通知公告（当前用户）
+         * @param {string} [title] 标题
+         * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
+         * @param {number} [page] 当前页码
+         * @param {number} [pageSize] 页码容量
+         * @param {string} [field] 排序字段
+         * @param {string} [order] 排序方向
+         * @param {string} [descStr] 降序排序
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysNoticePageReceivedGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNoticeUser>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticePageReceivedGet(title, type, page, pageSize, field, order, descStr, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 发布通知公告
+         * @param {NoticeInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysNoticePublicPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticePublicPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 设置通知公告已读状态
+         * @param {NoticeInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysNoticeSetReadPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeSetReadPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取未读的通知公告（当前用户）
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysNotice>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeUnReadListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -569,77 +538,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeEditPost(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeEditPost(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 分页查询通知公告
-         * @param {string} [title] 标题
-         * @param {string} [content] 内容
-         * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-         * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-         * @param {Array<number>} [noticeUserIdList] 通知到的人
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysNoticePageGet(title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticePageGet(title, content, type, status, noticeUserIdList, page, pageSize, field, order, descStr, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 获取接收的通知公告
-         * @param {string} [title] 标题
-         * @param {string} [content] 内容
-         * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-         * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-         * @param {Array<number>} [noticeUserIdList] 通知到的人
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysNoticeReceivedGet(title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeReceivedGet(title, content, type, status, noticeUserIdList, page, pageSize, field, order, descStr, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 未处理消息
-         * @param {string} [title] 标题
-         * @param {string} [content] 内容
-         * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-         * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-         * @param {Array<number>} [noticeUserIdList] 通知到的人
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysNoticeUnreadGet(title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeUnreadGet(title, content, type, status, noticeUserIdList, page, pageSize, field, order, descStr, options);
+        async sysNoticeUpdatePost(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -666,16 +566,6 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary 修改通知公告状态
-         * @param {ChangeStatusNoticeInput} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysNoticeChangeStatusPost(body?: ChangeStatusNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysNoticeApiFp(configuration).sysNoticeChangeStatusPost(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary 删除通知公告
          * @param {DeleteNoticeInput} [body] 
          * @param {*} [options] Override http request option.
@@ -686,13 +576,64 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary 获取通知公告详情
-         * @param {number} id Id
+         * @summary 获取通知公告分页列表
+         * @param {string} [title] 标题
+         * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
+         * @param {number} [page] 当前页码
+         * @param {number} [pageSize] 页码容量
+         * @param {string} [field] 排序字段
+         * @param {string} [order] 排序方向
+         * @param {string} [descStr] 降序排序
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeDetailGet(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultNoticeDetailOutput>> {
-            return SysNoticeApiFp(configuration).sysNoticeDetailGet(id, options).then((request) => request(axios, basePath));
+        async sysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
+            return SysNoticeApiFp(configuration).sysNoticePageGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取接收的通知公告（当前用户）
+         * @param {string} [title] 标题
+         * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
+         * @param {number} [page] 当前页码
+         * @param {number} [pageSize] 页码容量
+         * @param {string} [field] 排序字段
+         * @param {string} [order] 排序方向
+         * @param {string} [descStr] 降序排序
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysNoticePageReceivedGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNoticeUser>> {
+            return SysNoticeApiFp(configuration).sysNoticePageReceivedGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 发布通知公告
+         * @param {NoticeInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysNoticePublicPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).sysNoticePublicPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 设置通知公告已读状态
+         * @param {NoticeInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysNoticeSetReadPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).sysNoticeSetReadPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取未读的通知公告（当前用户）
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysNotice>> {
+            return SysNoticeApiFp(configuration).sysNoticeUnReadListGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -701,65 +642,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeEditPost(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysNoticeApiFp(configuration).sysNoticeEditPost(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 分页查询通知公告
-         * @param {string} [title] 标题
-         * @param {string} [content] 内容
-         * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-         * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-         * @param {Array<number>} [noticeUserIdList] 通知到的人
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysNoticePageGet(title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
-            return SysNoticeApiFp(configuration).sysNoticePageGet(title, content, type, status, noticeUserIdList, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 获取接收的通知公告
-         * @param {string} [title] 标题
-         * @param {string} [content] 内容
-         * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-         * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-         * @param {Array<number>} [noticeUserIdList] 通知到的人
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysNoticeReceivedGet(title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
-            return SysNoticeApiFp(configuration).sysNoticeReceivedGet(title, content, type, status, noticeUserIdList, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 未处理消息
-         * @param {string} [title] 标题
-         * @param {string} [content] 内容
-         * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-         * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-         * @param {Array<number>} [noticeUserIdList] 通知到的人
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysNoticeUnreadGet(title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
-            return SysNoticeApiFp(configuration).sysNoticeUnreadGet(title, content, type, status, noticeUserIdList, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async sysNoticeUpdatePost(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).sysNoticeUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -784,17 +668,6 @@ export class SysNoticeApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 修改通知公告状态
-     * @param {ChangeStatusNoticeInput} [body] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysNoticeApi
-     */
-    public async sysNoticeChangeStatusPost(body?: ChangeStatusNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeChangeStatusPost(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
      * @summary 删除通知公告
      * @param {DeleteNoticeInput} [body] 
      * @param {*} [options] Override http request option.
@@ -806,14 +679,69 @@ export class SysNoticeApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取通知公告详情
-     * @param {number} id Id
+     * @summary 获取通知公告分页列表
+     * @param {string} [title] 标题
+     * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
+     * @param {number} [page] 当前页码
+     * @param {number} [pageSize] 页码容量
+     * @param {string} [field] 排序字段
+     * @param {string} [order] 排序方向
+     * @param {string} [descStr] 降序排序
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticeDetailGet(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultNoticeDetailOutput>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeDetailGet(id, options).then((request) => request(this.axios, this.basePath));
+    public async sysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
+        return SysNoticeApiFp(this.configuration).sysNoticePageGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取接收的通知公告（当前用户）
+     * @param {string} [title] 标题
+     * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
+     * @param {number} [page] 当前页码
+     * @param {number} [pageSize] 页码容量
+     * @param {string} [field] 排序字段
+     * @param {string} [order] 排序方向
+     * @param {string} [descStr] 降序排序
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysNoticeApi
+     */
+    public async sysNoticePageReceivedGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNoticeUser>> {
+        return SysNoticeApiFp(this.configuration).sysNoticePageReceivedGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 发布通知公告
+     * @param {NoticeInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysNoticeApi
+     */
+    public async sysNoticePublicPost(body?: NoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).sysNoticePublicPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 设置通知公告已读状态
+     * @param {NoticeInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysNoticeApi
+     */
+    public async sysNoticeSetReadPost(body?: NoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).sysNoticeSetReadPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取未读的通知公告（当前用户）
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysNoticeApi
+     */
+    public async sysNoticeUnReadListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysNotice>> {
+        return SysNoticeApiFp(this.configuration).sysNoticeUnReadListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -823,67 +751,7 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticeEditPost(body?: UpdateNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeEditPost(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 分页查询通知公告
-     * @param {string} [title] 标题
-     * @param {string} [content] 内容
-     * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-     * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-     * @param {Array<number>} [noticeUserIdList] 通知到的人
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysNoticeApi
-     */
-    public async sysNoticePageGet(title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
-        return SysNoticeApiFp(this.configuration).sysNoticePageGet(title, content, type, status, noticeUserIdList, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 获取接收的通知公告
-     * @param {string} [title] 标题
-     * @param {string} [content] 内容
-     * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-     * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-     * @param {Array<number>} [noticeUserIdList] 通知到的人
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysNoticeApi
-     */
-    public async sysNoticeReceivedGet(title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeReceivedGet(title, content, type, status, noticeUserIdList, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 未处理消息
-     * @param {string} [title] 标题
-     * @param {string} [content] 内容
-     * @param {NoticeTypeEnum} [type] 类型（字典 1通知 2公告）
-     * @param {NoticeStatusEnum} [status] 状态（字典 0草稿 1发布 2撤回 3删除）
-     * @param {Array<number>} [noticeUserIdList] 通知到的人
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysNoticeApi
-     */
-    public async sysNoticeUnreadGet(title?: string, content?: string, type?: NoticeTypeEnum, status?: NoticeStatusEnum, noticeUserIdList?: Array<number>, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeUnreadGet(title, content, type, status, noticeUserIdList, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async sysNoticeUpdatePost(body?: UpdateNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).sysNoticeUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -12,34 +12,41 @@
  * Do not edit the class manually.
  */
 import { NoticeUserStatusEnum } from './notice-user-status-enum';
+import { SysNotice } from './sys-notice';
 /**
- * 
+ * 系统通知公告用户表
  * @export
- * @interface NoticeUserRead
+ * @interface SysNoticeUser
  */
-export interface NoticeUserRead {
+export interface SysNoticeUser {
+    /**
+     * 通知公告Id
+     * @type {number}
+     * @memberof SysNoticeUser
+     */
+    noticeId?: number;
+    /**
+     * 
+     * @type {SysNotice}
+     * @memberof SysNoticeUser
+     */
+    sysNotice?: SysNotice;
     /**
      * 用户Id
      * @type {number}
-     * @memberof NoticeUserRead
+     * @memberof SysNoticeUser
      */
     userId?: number;
     /**
-     * 用户名称
-     * @type {string}
-     * @memberof NoticeUserRead
+     * 阅读时间
+     * @type {Date}
+     * @memberof SysNoticeUser
      */
-    userName?: string | null;
+    readTime?: Date;
     /**
      * 
      * @type {NoticeUserStatusEnum}
-     * @memberof NoticeUserRead
+     * @memberof SysNoticeUser
      */
     readStatus?: NoticeUserStatusEnum;
-    /**
-     * 阅读时间
-     * @type {Date}
-     * @memberof NoticeUserRead
-     */
-    readTime?: Date;
 }

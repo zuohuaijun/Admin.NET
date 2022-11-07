@@ -20,7 +20,6 @@ public class PageRegionInput : BasePageInput
 
 public class RegionInput : BaseIdInput
 {
-
 }
 
 [NotTable]

@@ -20,35 +20,41 @@ import { NoticeTypeEnum } from './notice-type-enum';
  */
 export interface UpdateNoticeInput {
     /**
-     * 当前页码
+     * 雪花Id
      * @type {number}
      * @memberof UpdateNoticeInput
      */
-    page?: number;
+    id?: number;
     /**
-     * 页码容量
+     * 创建时间
+     * @type {Date}
+     * @memberof UpdateNoticeInput
+     */
+    createTime?: Date | null;
+    /**
+     * 更新时间
+     * @type {Date}
+     * @memberof UpdateNoticeInput
+     */
+    updateTime?: Date | null;
+    /**
+     * 创建者Id
      * @type {number}
      * @memberof UpdateNoticeInput
      */
-    pageSize?: number;
+    createUserId?: number | null;
     /**
-     * 排序字段
-     * @type {string}
+     * 修改者Id
+     * @type {number}
      * @memberof UpdateNoticeInput
      */
-    field?: string | null;
+    updateUserId?: number | null;
     /**
-     * 排序方向
-     * @type {string}
+     * 软删除
+     * @type {boolean}
      * @memberof UpdateNoticeInput
      */
-    order?: string | null;
-    /**
-     * 降序排序
-     * @type {string}
-     * @memberof UpdateNoticeInput
-     */
-    descStr?: string | null;
+    isDelete?: boolean;
     /**
      * 标题
      * @type {string}
@@ -66,23 +72,47 @@ export interface UpdateNoticeInput {
      * @type {NoticeTypeEnum}
      * @memberof UpdateNoticeInput
      */
-    type: NoticeTypeEnum;
+    type?: NoticeTypeEnum;
+    /**
+     * 发布人Id
+     * @type {number}
+     * @memberof UpdateNoticeInput
+     */
+    publicUserId?: number;
+    /**
+     * 发布人姓名
+     * @type {string}
+     * @memberof UpdateNoticeInput
+     */
+    publicUserName?: string | null;
+    /**
+     * 发布机构Id
+     * @type {number}
+     * @memberof UpdateNoticeInput
+     */
+    publicOrgId?: number;
+    /**
+     * 发布机构名称
+     * @type {string}
+     * @memberof UpdateNoticeInput
+     */
+    publicOrgName?: string | null;
+    /**
+     * 发布时间
+     * @type {Date}
+     * @memberof UpdateNoticeInput
+     */
+    publicTime?: Date;
+    /**
+     * 撤回时间
+     * @type {Date}
+     * @memberof UpdateNoticeInput
+     */
+    cancelTime?: Date;
     /**
      * 
      * @type {NoticeStatusEnum}
      * @memberof UpdateNoticeInput
      */
-    status: NoticeStatusEnum;
-    /**
-     * 通知到的人
-     * @type {Array<number>}
-     * @memberof UpdateNoticeInput
-     */
-    noticeUserIdList: Array<number>;
-    /**
-     * Id
-     * @type {number}
-     * @memberof UpdateNoticeInput
-     */
-    id: number;
+    status?: NoticeStatusEnum;
 }

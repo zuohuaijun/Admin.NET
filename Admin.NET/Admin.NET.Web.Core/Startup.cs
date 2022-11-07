@@ -1,4 +1,5 @@
 using Admin.NET.Core;
+using Admin.NET.Core.Service;
 using AspNetCoreRateLimit;
 using Furion;
 using Furion.SpecificationDocument;
@@ -21,7 +22,7 @@ namespace Admin.NET.Web.Core;
 
 public class Startup : AppStartup
 {
-    public void ConfigureServices(IServiceCollection services)
+    public async void ConfigureServices(IServiceCollection services)
     {
         // 配置选项
         services.AddProjectOptions();

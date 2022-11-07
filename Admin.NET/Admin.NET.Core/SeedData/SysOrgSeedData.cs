@@ -13,7 +13,7 @@ public class SysOrgSeedData : ISqlSugarEntitySeedData<SysOrg>
     {
         return new[]
         {
-            new SysOrg{ Id=252885263003720, Pid=0, Name="大名科技有限公司", Code="1001", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Remark="大名科技", TenantId=142307070918780 },
+            new SysOrg{ Id=252885263003720, Pid=0, Name="大名科技", Code="1001", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Remark="大名科技", TenantId=142307070918780 },
             new SysOrg{ Id=252885263003721, Pid=252885263003720, Name="市场部", Code="100101", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Remark="市场部", TenantId=142307070918780 },
             new SysOrg{ Id=252885263003722, Pid=252885263003720, Name="研发部", Code="100102", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Remark="研发部", TenantId=142307070918780 },
             new SysOrg{ Id=252885263003723, Pid=252885263003720, Name="财务部", Code="100103", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Remark="财务部", TenantId=142307070918780 },
@@ -29,8 +29,6 @@ public class SysOrgSeedData : ISqlSugarEntitySeedData<SysOrg>
             new SysOrg{ Id=252885263003741, Pid=252885263003740, Name="市场部", Code="100301", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Remark="市场部", TenantId=142307070918780 },
             new SysOrg{ Id=252885263003742, Pid=252885263003740, Name="研发部", Code="100302", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Remark="市场部", TenantId=142307070918780 },
             new SysOrg{ Id=252885263003743, Pid=252885263003740, Name="财务部", Code="100303", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Remark="市场部", TenantId=142307070918780 },
-
-            new SysOrg{ Id=252885263004720, Pid=0, Name="租户1公司", Code="2001", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Remark="租户1公司" , TenantId=142307070918781 },
         };
     }
 }

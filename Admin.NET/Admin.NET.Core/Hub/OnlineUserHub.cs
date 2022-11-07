@@ -9,20 +9,17 @@ namespace Admin.NET.Core;
 [MapHub("/hubs/onlineUser")]
 public class OnlineUserHub : Hub<IOnlineUserHub>
 {
+    private const string GROUP_ONLINE = "GROUP_ONLINE_"; // 租户分组前缀
+
     private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
-    private readonly SysCacheService _sysCache;
     private readonly SysMessageService _sysMessageService;
     private readonly IHubContext<OnlineUserHub, IOnlineUserHub> _onlineUserHubContext;
 
-    private const string GROUP_ONLINE = "GROUP_ONLINE_"; // 租户分组前缀
-
     public OnlineUserHub(SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
-        SysCacheService sysCache,
         SysMessageService sysMessageService,
         IHubContext<OnlineUserHub, IOnlineUserHub> onlineUserHubContext)
     {
         _sysOnlineUerRep = sysOnlineUerRep;
-        _sysCache = sysCache;
         _sysMessageService = sysMessageService;
         _onlineUserHubContext = onlineUserHubContext;
     }
@@ -51,11 +48,12 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
         await _sysOnlineUerRep.InsertAsync(user);
 
         // 以租户Id分组方便区分
-        await _onlineUserHubContext.Groups.AddToGroupAsync(Context.ConnectionId, $"{GROUP_ONLINE}{user.TenantId}");
+        var groupName = $"{GROUP_ONLINE}{user.TenantId}";
+        await _onlineUserHubContext.Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
         var userList = await _sysOnlineUerRep.AsQueryable().Filter("", true)
             .Where(u => u.TenantId == user.TenantId).Take(10).ToListAsync();
-        await _onlineUserHubContext.Clients.Groups($"{GROUP_ONLINE}{user.TenantId}").OnlineUserChange(new OnlineUserHubOutput
+        await _onlineUserHubContext.Clients.Groups(groupName).OnlineUserList(new OnlineUserList
         {
             RealName = user.RealName,
             Online = true,
@@ -80,7 +78,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
         // 通知当前组用户变动
         var userList = await _sysOnlineUerRep.AsQueryable().Filter("", true)
             .Where(u => u.TenantId == user.TenantId).Take(10).ToListAsync();
-        await _onlineUserHubContext.Clients.Groups($"{GROUP_ONLINE}{user.TenantId}").OnlineUserChange(new OnlineUserHubOutput
+        await _onlineUserHubContext.Clients.Groups($"{GROUP_ONLINE}{user.TenantId}").OnlineUserList(new OnlineUserList
         {
             RealName = user.RealName,
             Online = false,

@@ -104,7 +104,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     public async Task UpdateRole(UpdateRoleInput input)
     {
         var adminRole = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
-        if (adminRole.Code == CommonConst.SysAdminRoleCode)
+        if (adminRole.Code == CommonConst.SysAdminRole)
             throw Oops.Oh(ErrorCodeEnum.D1020);
 
         var isExist = await _sysRoleRep.IsAnyAsync(u => (u.Name == input.Name || u.Code == input.Code) && u.Id != input.Id);
@@ -127,7 +127,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     public async Task DeleteRole(DeleteRoleInput input)
     {
         var sysRole = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
-        if (sysRole.Code == CommonConst.SysAdminRoleCode)
+        if (sysRole.Code == CommonConst.SysAdminRole)
             throw Oops.Oh(ErrorCodeEnum.D1019);
 
         await _sysRoleRep.DeleteAsync(sysRole);
@@ -151,7 +151,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     public async Task GrantRoleMenu(RoleMenuInput input)
     {
         var role = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
-        if (!_userManager.SuperAdmin && role.Code == CommonConst.SysAdminRoleCode)
+        if (!_userManager.SuperAdmin && role.Code == CommonConst.SysAdminRole)
             throw Oops.Oh(ErrorCodeEnum.D1021);
 
         await _sysRoleMenuService.GrantRoleMenu(input);

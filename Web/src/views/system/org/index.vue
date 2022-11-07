@@ -110,7 +110,7 @@ export default defineComponent({
 		// 打开新增页面
 		const openAddOrg = () => {
 			state.editOrgTitle = '添加机构';
-			editOrgRef.value.openDialog({});
+			editOrgRef.value.openDialog({ status: 1 });
 		};
 		// 打开编辑页面
 		const openEditOrg = (row: any) => {

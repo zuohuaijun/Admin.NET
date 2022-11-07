@@ -61,6 +61,13 @@ public class SysTenant : EntityBase
     public string Connection { get; set; }
 
     /// <summary>
+    /// 数据库标识
+    /// </summary>
+    [SugarColumn(ColumnDescription = "数据库标识", Length = 64)]
+    [MaxLength(64)]
+    public string ConfigId { get; set; }
+
+    /// <summary>
     /// 排序
     /// </summary>
     [SugarColumn(ColumnDescription = "排序")]

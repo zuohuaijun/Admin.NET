@@ -5,59 +5,51 @@
 /// </summary>
 public class UserManager : IScoped
 {
-    private readonly SqlSugarRepository<SysUser> _sysUserRep;
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private long _tenantId;
 
     public long UserId
     {
-        get => long.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.UserId)?.Value);
+        get => long.Parse(_httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.UserId)?.Value);
+    }
+
+    public long TenantId
+    {
+        get
+        {
+            var tId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.TenantId);
+            return tId == null ? _tenantId : long.Parse(tId.Value);
+        }
+        set => _tenantId = value;
     }
 
     public string Account
     {
-        get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.Account)?.Value;
+        get => _httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.Account)?.Value;
     }
 
     public string RealName
     {
-        get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.RealName)?.Value;
+        get => _httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.RealName)?.Value;
     }
 
     public bool SuperAdmin
     {
-        get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString();
+        get => _httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString();
     }
 
     public long OrgId
     {
-        get => long.Parse(_httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.OrgId)?.Value);
+        get => long.Parse(_httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.OrgId)?.Value);
     }
 
     public string OpenId
     {
-        get => _httpContextAccessor.HttpContext.User.FindFirst(ClaimConst.OpenId)?.Value;
+        get => _httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.OpenId)?.Value;
     }
 
-    public SysUser User
+    public UserManager(IHttpContextAccessor httpContextAccessor)
     {
-        get => _sysUserRep.GetFirst(u => u.Id == UserId);
-    }
-
-    public UserManager(SqlSugarRepository<SysUser> sysUserRep,
-        IHttpContextAccessor httpContextAccessor)
-    {
-        _sysUserRep = sysUserRep;
         _httpContextAccessor = httpContextAccessor;
-    }
-
-    /// <summary>
-    /// 获取用户信息
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    public async Task<SysUser> CheckUserAsync(long userId)
-    {
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == userId);
-        return user ?? throw Oops.Oh(ErrorCodeEnum.D1002);
     }
 }

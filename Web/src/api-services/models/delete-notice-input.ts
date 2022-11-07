@@ -18,7 +18,7 @@
  */
 export interface DeleteNoticeInput {
     /**
-     * Id
+     * 主键Id
      * @type {number}
      * @memberof DeleteNoticeInput
      */

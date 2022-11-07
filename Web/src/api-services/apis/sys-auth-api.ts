@@ -16,6 +16,8 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
+import { AdminResultBoolean } from '../models';
+import { AdminResultListSysTenant } from '../models';
 import { AdminResultLoginOutput } from '../models';
 import { AdminResultLoginUserOutput } from '../models';
 import { AdminResultObject } from '../models';
@@ -29,12 +31,12 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @summary 生成图片验证码
+         * @summary 是否启用验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        captchaGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/captcha`;
+        captchaFlagGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/captchaFlag`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -65,32 +67,23 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 获取刷新Token
-         * @param {string} accessToken 
+         * @summary 生成图片验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        getRefreshTokenPost: async (accessToken: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'accessToken' is not null or undefined
-            if (accessToken === null || accessToken === undefined) {
-                throw new RequiredError('accessToken','Required parameter accessToken was null or undefined when calling getRefreshTokenPost.');
-            }
-            const localVarPath = `/getRefreshToken`;
+        captchaGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/captcha`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
-
-            if (accessToken !== undefined) {
-                localVarQueryParameter['accessToken'] = accessToken;
-            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -172,6 +165,51 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 获取刷新Token
+         * @param {string} accessToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        refreshTokenPost: async (accessToken: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'accessToken' is not null or undefined
+            if (accessToken === null || accessToken === undefined) {
+                throw new RequiredError('accessToken','Required parameter accessToken was null or undefined when calling refreshTokenPost.');
+            }
+            const localVarPath = `/refreshToken`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            if (accessToken !== undefined) {
+                localVarQueryParameter['accessToken'] = accessToken;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -277,6 +315,42 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 是否启用多库租户
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        tenantDbListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/tenantDbList`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 获取用户信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -322,12 +396,12 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary 生成图片验证码
+         * @summary 是否启用验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async captchaGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).captchaGet(options);
+        async captchaFlagGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).captchaFlagGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -335,13 +409,12 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取刷新Token
-         * @param {string} accessToken 
+         * @summary 生成图片验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async getRefreshTokenPost(accessToken: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
-            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).getRefreshTokenPost(accessToken, options);
+        async captchaGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).captchaGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -369,6 +442,20 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
          */
         async logoutPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
             const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).logoutPost(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取刷新Token
+         * @param {string} accessToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async refreshTokenPost(accessToken: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).refreshTokenPost(accessToken, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -404,6 +491,19 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 是否启用多库租户
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async tenantDbListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysTenant>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).tenantDbListGet(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 获取用户信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -426,22 +526,21 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
+         * @summary 是否启用验证码
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async captchaFlagGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
+            return SysAuthApiFp(configuration).captchaFlagGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 生成图片验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async captchaGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
             return SysAuthApiFp(configuration).captchaGet(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 获取刷新Token
-         * @param {string} accessToken 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async getRefreshTokenPost(accessToken: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
-            return SysAuthApiFp(configuration).getRefreshTokenPost(accessToken, options).then((request) => request(axios, basePath));
         },
         /**
          * 用户名/密码：superadmin/123456
@@ -461,6 +560,16 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
          */
         async logoutPost(options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
             return SysAuthApiFp(configuration).logoutPost(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取刷新Token
+         * @param {string} accessToken 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async refreshTokenPost(accessToken: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
+            return SysAuthApiFp(configuration).refreshTokenPost(accessToken, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -484,6 +593,15 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 是否启用多库租户
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async tenantDbListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysTenant>> {
+            return SysAuthApiFp(configuration).tenantDbListGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 获取用户信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -503,6 +621,16 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
 export class SysAuthApi extends BaseAPI {
     /**
      * 
+     * @summary 是否启用验证码
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysAuthApi
+     */
+    public async captchaFlagGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
+        return SysAuthApiFp(this.configuration).captchaFlagGet(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
      * @summary 生成图片验证码
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -510,17 +638,6 @@ export class SysAuthApi extends BaseAPI {
      */
     public async captchaGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
         return SysAuthApiFp(this.configuration).captchaGet(options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 获取刷新Token
-     * @param {string} accessToken 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysAuthApi
-     */
-    public async getRefreshTokenPost(accessToken: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
-        return SysAuthApiFp(this.configuration).getRefreshTokenPost(accessToken, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 用户名/密码：superadmin/123456
@@ -545,6 +662,17 @@ export class SysAuthApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 获取刷新Token
+     * @param {string} accessToken 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysAuthApi
+     */
+    public async refreshTokenPost(accessToken: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
+        return SysAuthApiFp(this.configuration).refreshTokenPost(accessToken, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
      * @summary Swagger登录检查
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -564,6 +692,16 @@ export class SysAuthApi extends BaseAPI {
      */
     public async swaggerSubmitUrlPostForm(userName?: string, password?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<number>> {
         return SysAuthApiFp(this.configuration).swaggerSubmitUrlPostForm(userName, password, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 是否启用多库租户
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysAuthApi
+     */
+    public async tenantDbListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysTenant>> {
+        return SysAuthApiFp(this.configuration).tenantDbListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

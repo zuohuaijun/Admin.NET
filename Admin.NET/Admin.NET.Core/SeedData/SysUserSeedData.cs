@@ -19,8 +19,6 @@ public class SysUserSeedData : ISqlSugarEntitySeedData<SysUser>
             new SysUser{ Id=252885263003723, Account="user2", Password="e10adc3949ba59abbe56e057f20f883e", NickName="部门职员", RealName="部门职员", Phone="18020030720", Birthday=DateTime.Parse("1986-06-28"), Sex=GenderEnum.Female, AccountType=AccountTypeEnum.User, Remark="部门职员", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrgId=252885263003722, PosId=252885263003729, TenantId=142307070918780 },
             new SysUser{ Id=252885263003724, Account="user3", Password="e10adc3949ba59abbe56e057f20f883e", NickName="普通用户", RealName="普通用户", Phone="18020030720", Birthday=DateTime.Parse("1986-06-28"), Sex=GenderEnum.Female, AccountType=AccountTypeEnum.User, Remark="普通用户", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrgId=252885263003723, PosId=252885263003729, TenantId=142307070918780 },
             new SysUser{ Id=252885263003725, Account="user4", Password="e10adc3949ba59abbe56e057f20f883e", NickName="其他", RealName="其他", Phone="18020030720", Birthday=DateTime.Parse("1986-06-28"), Sex=GenderEnum.Female, AccountType=AccountTypeEnum.None, Remark="普通用户", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrgId=252885263003724, PosId=252885263003729, TenantId=142307070918780 },
-
-            new SysUser{ Id=252885263004721, Account="admin1", Password="e10adc3949ba59abbe56e057f20f883e", NickName="系统管理员", RealName="系统管理员", Phone="18020030720", Birthday=DateTime.Parse("1986-06-28"), Sex=GenderEnum.Male, AccountType=AccountTypeEnum.Admin, Remark="系统管理员", CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrgId=252885263004720, PosId=252885263004721, TenantId=142307070918781 }
         };
     }
 }

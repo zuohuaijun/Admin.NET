@@ -4,23 +4,26 @@
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="租户类型" :rules="[{ required: true, message: '租户类型不能为空', trigger: 'blur' }]">
+							<el-radio-group v-model="ruleForm.tenantType">
+								<el-radio :label="0">ID隔离</el-radio>
+								<el-radio :label="1">库隔离</el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="租户名称" prop="name" :rules="[{ required: true, message: '租户名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.name" placeholder="租户名称" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="管理员" prop="adminName" :rules="[{ required: true, message: '管理员不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.adminName" placeholder="管理员" clearable />
+							<el-input v-model="ruleForm.adminName" placeholder="管理员" clearable :disabled="ruleForm.tenantType == 1" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="电话" prop="phone" :rules="[{ required: true, message: '电话号码不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.phone" placeholder="电话" clearable />
-						</el-form-item>
-					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="主机">
-							<el-input v-model="ruleForm.host" placeholder="主机" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -33,17 +36,14 @@
 							<el-input-number v-model="ruleForm.order" placeholder="排序" class="w100" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="租户类型" :rules="[{ required: true, message: '租户类型不能为空', trigger: 'blur' }]">
-							<el-radio-group v-model="ruleForm.tenantType">
-								<el-radio :label="0">ID隔离</el-radio>
-								<el-radio :label="1">库隔离</el-radio>
-							</el-radio-group>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="主机">
+							<el-input v-model="ruleForm.host" placeholder="主机" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="数据库类型">
-							<el-select v-model="ruleForm.dbType" placeholder="数据库类型" clearable style="width: 100%">
+							<el-select v-model="ruleForm.dbType" placeholder="数据库类型" clearable style="width: 100%" :disabled="ruleForm.tenantType == 0 && ruleForm.tenantType != undefined">
 								<el-option label="MySql" :value="0" />
 								<el-option label="SqlServer" :value="1" />
 								<el-option label="Sqlite" :value="2" />
@@ -63,9 +63,14 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="4" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="数据库标识">
+							<el-input v-model="ruleForm.configId" placeholder="数据库标识" clearable :disabled="ruleForm.tenantType == 0 && ruleForm.tenantType != undefined" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="连接字符串">
-							<el-input v-model="ruleForm.connection" placeholder="连接字符串" clearable type="textarea" />
+							<el-input v-model="ruleForm.connection" placeholder="连接字符串" clearable type="textarea" :disabled="ruleForm.tenantType == 0 && ruleForm.tenantType != undefined" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -86,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref, watch } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysTenantApi } from '/@/api-services/api';
@@ -107,6 +112,9 @@ export default defineComponent({
 		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {} as UpdateTenantInput,
+		});
+		watch(state, () => {
+			if (state.ruleForm.tenantType == 1) state.ruleForm.adminName = 'Administrator';
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {

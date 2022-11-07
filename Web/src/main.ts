@@ -5,6 +5,7 @@ import router from './router';
 import { directive } from '/@/utils/directive';
 import { i18n } from '/@/i18n/index';
 import other from '/@/utils/other';
+import { signalR } from '/@/views/system/onlineUser/signalR';
 
 import ElementPlus from 'element-plus';
 import 'element-plus/dist/index.css';
@@ -27,6 +28,7 @@ app.use(pinia).use(router).use(ElementPlus, { i18n: i18n.global.t }).use(VForm3)
 const globalProperties = {
 	mittBus: mitt(),
 	i18n,
+	signalR,
 };
 
 // 必须合并vue默认的变量，否则有问题

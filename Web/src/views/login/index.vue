@@ -1,12 +1,11 @@
 <template>
 	<div class="login-container">
 		<div class="login-icon-group">
-			<div class="login-icon-group-title">
+			<!-- <div class="login-icon-group-title">
 				<img :src="logoMini" />
-				<!-- <div class="login-icon-group-title-text font25">{{ getThemeConfig.globalViceTitle }}</div> -->
-			</div>
-			<el-carousel height="550px"
-				style="width: 100%; padding-right: 38%; top:50%; transform: translateY(-50%) translate3d(0, 0, 0);">
+				<div class="login-icon-group-title-text font25">{{ getThemeConfig.globalViceTitle }}</div>
+			</div> -->
+			<el-carousel height="550px" style="width: 100%; padding-right: 38%; top: 50%; transform: translateY(-50%) translate3d(0, 0, 0)">
 				<el-carousel-item>
 					<img :src="loginIconTwo" class="login-icon-group-icon" />
 				</el-carousel-item>
@@ -132,7 +131,7 @@ export default defineComponent({
 
 	.login-content {
 		width: 500px;
-		height: 500px;
+		height: 550px;
 		padding: 20px;
 		position: absolute;
 		right: 10%;
@@ -154,7 +153,7 @@ export default defineComponent({
 				font-size: 32px;
 				text-align: center;
 				//letter-spacing: 4px;
-				margin: 5px 0 30px;
+				margin: 5px 0 20px;
 				white-space: nowrap;
 				z-index: 5;
 				position: relative;

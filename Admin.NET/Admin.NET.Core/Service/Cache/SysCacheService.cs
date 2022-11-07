@@ -98,116 +98,13 @@ public class SysCacheService : IDynamicApiController, ISingleton
     }
 
     /// <summary>
-    /// 获取机构Id集合
+    /// 获取缓存值
     /// </summary>
-    /// <param name="userId"></param>
+    /// <param name="key"></param>
     /// <returns></returns>
-    [NonAction]
-    public List<long> GetOrgIdList(long userId)
+    [HttpGet("/sysCache/value")]
+    public dynamic GetCacheValue(string key)
     {
-        var key = CacheConst.KeyOrgIdList + userId;
-        return _cache.Get<List<long>>(key);
+        return _cache.Get<dynamic>(key);
     }
-
-    /// <summary>
-    /// 缓存机构Id集合
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="orgIdList"></param>
-    /// <returns></returns>
-    [NonAction]
-    public bool SetOrgIdList(long userId, List<long> orgIdList)
-    {
-        var key = CacheConst.KeyOrgIdList + userId;
-        return _cache.Set(key, orgIdList);
-    }
-
-    /// <summary>
-    /// 获取权限集合（按钮）
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    [NonAction]
-    public List<string> GetPermission(long userId)
-    {
-        var key = CacheConst.KeyPermission + userId;
-        return _cache.Get<List<string>>(key);
-    }
-
-    /// <summary>
-    /// 缓存权限集合（按钮）
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="permissions"></param>
-    /// <returns></returns>
-    [NonAction]
-    public bool SetPermission(long userId, List<string> permissions)
-    {
-        var key = CacheConst.KeyPermission + userId;
-        return _cache.Set(key, permissions);
-    }
-
-    /// <summary>
-    /// 获取最大角色数据范围
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <returns></returns>
-    [NonAction]
-    public int? GetMaxDataScopeType(long userId)
-    {
-        var key = CacheConst.KeyMaxDataScopeType + userId;
-        return _cache.Get<int>(key);
-    }
-
-    /// <summary>
-    /// 缓存最大角色数据范围
-    /// </summary>
-    /// <param name="userId"></param>
-    /// <param name="dataScopeType"></param>
-    /// <returns></returns>
-    [NonAction]
-    public bool SetMaxDataScopeType(long userId, int dataScopeType)
-    {
-        var key = CacheConst.KeyMaxDataScopeType + userId;
-        return _cache.Set(key, dataScopeType);
-    }
-
-    /// <summary>
-    /// 获取缓存
-    /// </summary>
-    /// <param name="cacheKey"></param>
-    /// <returns></returns>
-    [HttpGet("/sysCache/detail")]
-    public dynamic CacheDetail(string cacheKey)
-    {
-        return _cache.Get<dynamic>(cacheKey);
-    }
-
-    ///// <summary>
-    ///// 获取菜单缓存
-    ///// </summary>
-    ///// <param name="userId"></param>
-    ///// <param name="appCode"></param>
-    ///// <returns></returns>
-    //[NonAction]
-    //public async Task<List<AntDesignTreeNode>> GetMenu(long userId, string appCode)
-    //{
-    //    var cacheKey = CacheConst.KeyMenu + $"{userId}-{appCode}";
-    //    var res = await _cache.GetStringAsync(cacheKey);
-    //    return string.IsNullOrWhiteSpace(res) ? null : JSON.Deserialize<List<AntDesignTreeNode>>(res);
-    //}
-
-    ///// <summary>
-    ///// 缓存菜单
-    ///// </summary>
-    ///// <param name="userId"></param>
-    ///// <param name="appCode"></param>
-    ///// <param name="menus"></param>
-    ///// <returns></returns>
-    //[NonAction]
-    //public async Task SetMenu(long userId, string appCode, List<AntDesignTreeNode> menus)
-    //{
-    //    var cacheKey = CommonConst.CACHE_KEY_MENU + $"{userId}-{appCode}";
-    //    await _cache.SetStringAsync(cacheKey, JSON.Serialize(menus));
-    //}
 }

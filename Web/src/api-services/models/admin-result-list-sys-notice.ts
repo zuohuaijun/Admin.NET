@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { NoticeDetailOutput } from './notice-detail-output';
+import { SysNotice } from './sys-notice';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultNoticeDetailOutput
+ * @interface AdminResultListSysNotice
  */
-export interface AdminResultNoticeDetailOutput {
+export interface AdminResultListSysNotice {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultNoticeDetailOutput
+     * @memberof AdminResultListSysNotice
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultNoticeDetailOutput
+     * @memberof AdminResultListSysNotice
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultNoticeDetailOutput
+     * @memberof AdminResultListSysNotice
      */
     message?: string | null;
     /**
-     * 
-     * @type {NoticeDetailOutput}
-     * @memberof AdminResultNoticeDetailOutput
+     * 数据
+     * @type {Array<SysNotice>}
+     * @memberof AdminResultListSysNotice
      */
-    result?: NoticeDetailOutput;
+    result?: Array<SysNotice> | null;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultNoticeDetailOutput
+     * @memberof AdminResultListSysNotice
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultNoticeDetailOutput
+     * @memberof AdminResultListSysNotice
      */
     time?: Date;
 }

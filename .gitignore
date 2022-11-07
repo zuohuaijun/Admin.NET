@@ -27,3 +27,5 @@ bin-release/
 dist/
 .vs/
 node_modules/
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/Avatar
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/Signature

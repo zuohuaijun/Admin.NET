@@ -6,19 +6,14 @@
 public class CommonConst
 {
     /// <summary>
-    /// 默认密码
-    /// </summary>
-    public const string SysPassword = "123456";
-
-    /// <summary>
-    /// 系统管理员角色编码
-    /// </summary>
-    public const string SysAdminRoleCode = "sys_admin";
-
-    /// <summary>
     /// 演示环境开关
     /// </summary>
-    public const string SysDemoEnv = "sys_demo_env";
+    public const string SysDemoEnv = "sys_demo";
+
+    /// <summary>
+    /// 默认密码
+    /// </summary>
+    public const string SysPassword = "sys_password";
 
     /// <summary>
     /// 验证码开关
@@ -28,12 +23,27 @@ public class CommonConst
     /// <summary>
     /// 开启操作日志
     /// </summary>
-    public const string SysOpLog = "sys_op_log";
+    public const string SysOpLog = "sys_oplog";
 
     /// <summary>
-    /// 开启当用户登录
+    /// Token过期时间
+    /// </summary>
+    public const string SysTokenExpire = "sys_token_expire";
+
+    /// <summary>
+    /// 单用户登录
     /// </summary>
     public const string SysSingleLogin = "sys_single_login";
+
+    /// <summary>
+    /// 开启多库租户
+    /// </summary>
+    public const string SysTenantDb = "sys_tenant_db";
+
+    /// <summary>
+    /// 系统管理员角色编码
+    /// </summary>
+    public const string SysAdminRole = "sys_admin";
 
     /// <summary>
     /// 开启全局脱敏处理（默认不开启）

@@ -51,5 +51,4 @@
     "AlipayUrl": "", // 支付宝支付回调
     "AlipayRefundUrl": "" // 支付宝退款回调
   }
-
 }

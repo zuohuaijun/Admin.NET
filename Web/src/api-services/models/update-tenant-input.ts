@@ -92,6 +92,12 @@ export interface UpdateTenantInput {
      */
     connection?: string | null;
     /**
+     * 数据库标识
+     * @type {string}
+     * @memberof UpdateTenantInput
+     */
+    configId?: string | null;
+    /**
      * 排序
      * @type {number}
      * @memberof UpdateTenantInput

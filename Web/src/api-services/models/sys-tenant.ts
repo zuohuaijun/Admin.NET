@@ -104,6 +104,12 @@ export interface SysTenant {
      */
     connection?: string | null;
     /**
+     * 数据库标识
+     * @type {string}
+     * @memberof SysTenant
+     */
+    configId?: string | null;
+    /**
      * 排序
      * @type {number}
      * @memberof SysTenant

@@ -37,7 +37,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="sizeKb" label="大小kb" align="center" show-overflow-tooltip />
-				<el-table-column prop="url" label="预览" align="center" show-overflow-tooltip>
+				<el-table-column prop="url" label="预览" align="center">
 					<template #default="scope">
 						<el-image
 							style="width: 60px; height: 60px"
@@ -46,8 +46,8 @@
 							:hide-on-click-modal="true"
 							:preview-src-list="[scope.row.url]"
 							:initial-index="0"
-							:z-index="10000"
 							fit="scale-down"
+							preview-teleported
 						/>
 					</template>
 				</el-table-column>
