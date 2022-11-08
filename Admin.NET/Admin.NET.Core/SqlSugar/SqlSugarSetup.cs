@@ -220,13 +220,14 @@ public static class SqlSugarSetup
             }
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
-                var storage = db2.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
+                //解决pgsql中，业务添加框架的种子数据时候，类映射了多个类型的问题bug（本bug是sqlsugar作者提供的解决方案）
+                var storage = db2.CopyNew().Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
                 storage.AsUpdateable.ExecuteCommand();
             }
             else // 没有主键或者不是预定义的主键(有重复的可能)
             {
-                var storage = db2.Storageable(seedDataTable).ToStorage();
+                var storage = db2.CopyNew().Storageable(seedDataTable).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
             }
         }
