@@ -65,18 +65,10 @@ public class SysAuthService : IDynamicApiController, ITransient
 
         var encryptPasswod = MD5Encryption.Encrypt(input.Password);
 
-        // 判断用户名密码
-        Expression<Func<SysUser, bool>> sysUserExp = u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod);
-        SysUser user = null;
-        if (input.TenantId > 0)
-        {
-            var db = App.GetRequiredService<ISqlSugarClient>().AsTenant();
-            user = await SqlSugarSetup.InitTenantDb(db, input.TenantId).Queryable<SysUser>().FirstAsync(sysUserExp);
-        }
-        else
-        {
-            user = await _sysUserRep.GetFirstAsync(sysUserExp);
-        }
+        // 判断用户名密码 
+        var user = await _sysUserRep.AsQueryable().Filter(null, true)
+            .WhereIF(input.TenantId > 0, u => u.TenantId == input.TenantId)
+            .FirstAsync(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod));
         _ = user ?? throw Oops.Oh(ErrorCodeEnum.D1000);
 
         // 账号是否被冻结

@@ -19,6 +19,11 @@
             非实体表特性
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.TenantBusinessAttribute">
+            <summary>
+            租户业务表特性
+            </summary>
+        </member>
         <member name="M:Admin.NET.Core.CacheSetup.AddCache(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             缓存注册（新生命Redis组件）
@@ -6187,7 +6192,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.CreateTenantDb(Admin.NET.Core.Service.TenantInput)">
             <summary>
-            创建租户数据库（根据默认库结构）
+            创建租户数据库
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6882,20 +6887,26 @@
             </summary>
             <param name="db"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDatabase(SqlSugar.ITenant,Admin.NET.Core.DbConnectionConfig,System.Int64)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDatabase(SqlSugar.SqlSugarScope,Admin.NET.Core.DbConnectionConfig)">
             <summary>
-            初始化数据库结构
+            初始化数据库
             </summary>
             <param name="db"></param>
             <param name="config"></param>
-            <param name="tenantId"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.InitTenantDb(SqlSugar.ITenant,System.Int64)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitTenantConnection(SqlSugar.ITenant,System.Int64)">
             <summary>
-            增加租户库连接
+            初始化租户库连接
             </summary>
             <param name="iTenant"></param>
             <param name="tenantId"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitTenantDatabase(SqlSugar.ITenant,Admin.NET.Core.DbConnectionConfig)">
+            <summary>
+            初始化租户业务数据库
+            </summary>
+            <param name="itenant"></param>
+            <param name="config"></param>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.SetDeletedEntityFilter(SqlSugar.SqlSugarScopeProvider)">
             <summary>

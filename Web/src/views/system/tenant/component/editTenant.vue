@@ -18,7 +18,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="管理员" prop="adminName" :rules="[{ required: true, message: '管理员不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.adminName" placeholder="管理员" clearable :disabled="ruleForm.tenantType == 1" />
+							<el-input v-model="ruleForm.adminName" placeholder="管理员" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref, watch } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysTenantApi } from '/@/api-services/api';
@@ -112,9 +112,6 @@ export default defineComponent({
 		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {} as UpdateTenantInput,
-		});
-		watch(state, () => {
-			if (state.ruleForm.tenantType == 1) state.ruleForm.adminName = 'Administrator';
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {

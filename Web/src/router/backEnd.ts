@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 import pinia from '/@/stores/index';
 import { useUserInfo } from '/@/stores/userInfo';
 import { useRequestOldRoutes } from '/@/stores/requestOldRoutes';
-import { Session } from '/@/utils/storage';
+import { Local, Session } from '/@/utils/storage';
 import { NextLoading } from '/@/utils/loading';
 import { dynamicRoutes, notFoundAndNoPower } from '/@/router/route';
 import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/index';
@@ -11,6 +11,7 @@ import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi } from '/@/api-services/api';
+import { ElMessage } from 'element-plus';
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -102,6 +103,14 @@ export async function setAddRoute() {
  */
 export async function getBackEndControlRoutes() {
 	var res = await getAPI(SysMenuApi).loginMenuGet();
+	if (res.data.result == undefined || res.data.result.length < 1) {
+		ElMessage.error('没有任何菜单权限，请联系管理员！');
+		setTimeout(() => {
+			Session.clear();
+			Local.clear();
+			window.location.reload();
+		}, 3000);
+	}
 	return res.data.result;
 }
 

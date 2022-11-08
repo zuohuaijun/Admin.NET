@@ -103,10 +103,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpPost("/sysRole/update")]
     public async Task UpdateRole(UpdateRoleInput input)
     {
-        var adminRole = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
-        if (adminRole.Code == CommonConst.SysAdminRole)
-            throw Oops.Oh(ErrorCodeEnum.D1020);
-
         var isExist = await _sysRoleRep.IsAnyAsync(u => (u.Name == input.Name || u.Code == input.Code) && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);

@@ -56,18 +56,20 @@
 		<div class="font12 mt30 login-animation4 login-msg">{{ $t('message.mobile.msgText') }}</div>
 	</el-form>
 
-	<el-dialog v-model="verifyVisible" title="" width="300px" center>
-		<DragVerifyImgRotate
-			ref="dragRef"
-			:imgsrc="verifyImg"
-			v-model:isPassing="isPass"
-			text="请按住滑块拖动"
-			successText="验证通过"
-			handlerIcon="fa fa-angle-double-right"
-			successIcon="fa fa-hand-peace-o"
-			@passcallback="passVerify"
-		/>
-	</el-dialog>
+	<div class="dialog-header">
+		<el-dialog v-model="verifyVisible" width="300px" center :show-close="false">
+			<DragVerifyImgRotate
+				ref="dragRef"
+				:imgsrc="verifyImg"
+				v-model:isPassing="isPass"
+				text="请按住滑块拖动"
+				successText="验证通过"
+				handlerIcon="fa fa-angle-double-right"
+				successIcon="fa fa-hand-peace-o"
+				@passcallback="passVerify"
+			/>
+		</el-dialog>
+	</div>
 </template>
 
 <script lang="ts">
@@ -84,7 +86,7 @@ import { Session, Local } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
 
-import { getAPI } from '/@/utils/axios-utils';
+import { feature, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/api';
 import { SysTenant } from '/@/api-services/models';
 
@@ -157,10 +159,12 @@ export default defineComponent({
 			Session.clear();
 			Local.clear();
 
-			var res = await getAPI(SysAuthApi).loginPost(state.ruleForm);
-			if (res.data.result?.accessToken == null) {
+			const [err, res] = await feature(getAPI(SysAuthApi).loginPost(state.ruleForm));
+			if (err) {
 				getCaptcha(); // 重新获取验证码
-
+				return;
+			}
+			if (res?.data.result?.accessToken == undefined) {
 				ElMessage.error('登录失败，请检查账号！');
 				return;
 			}
@@ -235,6 +239,16 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.dialog-header {
+	:deep(.el-dialog) {
+		.el-dialog__header {
+			// padding: 0px !important;
+			// background: #fff !important;
+			display: none;
+		}
+	}
+}
+
 .login-content-form {
 	margin-top: 20px;
 

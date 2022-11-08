@@ -16,8 +16,8 @@
 			</div>
 
 			<div class="dv_handler dv_handler_bg" :class="{goFirst:isOk}" @mousedown="dragStart" @touchstart="dragStart"
-				ref="handler" :style="handlerStyle" style="background-color: var(--el-color-primary)">
-				<i :class="handlerIcon"></i>
+				ref="handler" :style="handlerStyle" style="background-color: var(--el-color-primary);">
+				<i :class="handlerIcon" style="color: #FFF;"></i>
 			</div>
 		</div>
 	</div>

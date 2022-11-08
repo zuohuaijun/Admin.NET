@@ -86,7 +86,6 @@ public class SysTenantService : IDynamicApiController, ITransient
         await _tenantRep.InsertAsync(tenant);
         await UpdateTenantCache();
 
-        if (tenant.TenantType == TenantTypeEnum.Db) return;
         await InitNewTenant(tenant);
     }
 
@@ -322,7 +321,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 创建租户数据库（根据默认库结构）
+    /// 创建租户数据库
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
@@ -335,22 +334,15 @@ public class SysTenantService : IDynamicApiController, ITransient
         if (tenant.DbType == SqlSugar.DbType.Oracle)
             throw Oops.Oh(ErrorCodeEnum.Z1002);
 
-        var dbConnection = new DbConnectionConfig
+        var config = new DbConnectionConfig
         {
             EnableInitDb = true,
+            EnableDiffLog = false,
             DbType = tenant.DbType,
-            ConfigId = tenant.ConfigId,
+            ConfigId = tenant.Id.ToString(),
             ConnectionString = tenant.Connection,
             IsAutoCloseConnection = true,
         };
-        SqlSugarSetup.SetDbConfig(dbConnection);
-        var db = App.GetRequiredService<ISqlSugarClient>();
-        db.AsTenant().AddConnection(dbConnection);
-        db.DbMaintenance.CreateDatabase();
-        SqlSugarSetup.InitDatabase(db.AsTenant(), dbConnection, tenant.Id);
-
-        // 去掉租户库里面的租户菜单（租户表）
-
-
+        SqlSugarSetup.InitTenantDatabase(App.GetRequiredService<ISqlSugarClient>().AsTenant(), config);
     }
 }
