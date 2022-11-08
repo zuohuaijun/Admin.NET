@@ -30,6 +30,12 @@
 						<el-tag v-else> 库隔离 </el-tag>
 					</template>
 				</el-table-column>
+				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
+						<el-tag type="danger" v-else>禁用</el-tag>
+					</template>
+				</el-table-column>
 				<el-table-column prop="dbType" label="数据库类型" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.dbType === 0"> MySql </el-tag>

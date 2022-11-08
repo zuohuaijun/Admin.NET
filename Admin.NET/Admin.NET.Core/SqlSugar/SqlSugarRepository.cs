@@ -16,18 +16,7 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         var tenantId = App.GetRequiredService<UserManager>().TenantId;
         if (tenantId > 1)
         {
-            var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
-            if (!iTenant.IsAnyConnection(tenant.ConfigId))
-            {
-                iTenant.AddConnection(new ConnectionConfig()
-                {
-                    ConfigId = tenant.ConfigId,
-                    ConnectionString = tenant.Connection,
-                    DbType = tenant.DbType,
-                    IsAutoCloseConnection = true
-                });
-            }
-            base.Context = iTenant.GetConnectionScope(tenant.ConfigId);
+            base.Context = SqlSugarSetup.InitTenantDb(iTenant, tenantId);
         }
         else
         {

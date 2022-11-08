@@ -1392,6 +1392,11 @@
             备注
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysTenant.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysTimer">
             <summary>
             定时任务
@@ -2571,6 +2576,16 @@
         <member name="F:Admin.NET.Core.ErrorCodeEnum.R2002">
             <summary>
             已有相同编码或名称
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.Z1001">
+            <summary>
+            默认租户状态禁止修改
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.Z1002">
+            <summary>
+            禁止创建此类型的数据库
             </summary>
         </member>
         <member name="T:Admin.NET.Core.GenderEnum">
@@ -6045,6 +6060,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.PageTenantInput.Name">
             <summary>
             名称
@@ -6086,6 +6106,13 @@
         <member name="M:Admin.NET.Core.Service.SysTenantService.AddTenant(Admin.NET.Core.Service.AddTenantInput)">
             <summary>
             增加租户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.SetTenantStatus(Admin.NET.Core.Service.TenantInput)">
+            <summary>
+            设置租户状态
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6849,22 +6876,26 @@
             </summary>
             <param name="config"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDbAop(SqlSugar.SqlSugarScopeProvider,Admin.NET.Core.DbConnectionConfig)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDbAop(SqlSugar.SqlSugarScopeProvider)">
             <summary>
             配置Aop
             </summary>
             <param name="db"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.ITenant,Admin.NET.Core.DbConnectionConfig,System.Int64)">
+            <summary>
+            初始化数据库结构
+            </summary>
+            <param name="db"></param>
             <param name="config"></param>
+            <param name="tenantId"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.SqlSugarScope,Admin.NET.Core.DbConnectionOptions)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitTenantDb(SqlSugar.ITenant,System.Int64)">
             <summary>
-            初始化数据库结构
+            增加租户库连接
             </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.CreateDataBase(SqlSugar.ISqlSugarClient,Admin.NET.Core.DbConnectionConfig,System.Int64)">
-            <summary>
-            初始化数据库结构
-            </summary>
+            <param name="iTenant"></param>
+            <param name="tenantId"></param>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.SetDeletedEntityFilter(SqlSugar.SqlSugarScopeProvider)">
             <summary>

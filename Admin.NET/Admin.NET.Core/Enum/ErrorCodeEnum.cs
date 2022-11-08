@@ -503,4 +503,16 @@ public enum ErrorCodeEnum
     /// </summary>
     [ErrorCodeItemMetadata("已有相同编码或名称")]
     R2002,
+
+    /// <summary>
+    /// 默认租户状态禁止修改
+    /// </summary>
+    [ErrorCodeItemMetadata("默认租户状态禁止修改")]
+    Z1001,
+
+    /// <summary>
+    /// 禁止创建此类型的数据库
+    /// </summary>
+    [ErrorCodeItemMetadata("禁止创建此类型的数据库")]
+    Z1002,
 }

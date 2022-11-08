@@ -2,6 +2,10 @@
 
 public class TenantInput : BaseIdInput
 {
+    /// <summary>
+    /// 状态
+    /// </summary>
+    public StatusEnum Status { get; set; }
 }
 
 public class PageTenantInput : BasePageInput

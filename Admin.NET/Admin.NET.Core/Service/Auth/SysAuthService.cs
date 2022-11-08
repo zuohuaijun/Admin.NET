@@ -58,9 +58,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     [SuppressMonitor]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
-        // 记录当前租户
-        _userManager.TenantId = input.TenantId;
-
         // 判断验证码
         var captchaEnabled = await GetCaptchaFlag();
         if (captchaEnabled && !_captcha.Validate(input.CodeId.ToString(), input.Code))
@@ -69,7 +66,17 @@ public class SysAuthService : IDynamicApiController, ITransient
         var encryptPasswod = MD5Encryption.Encrypt(input.Password);
 
         // 判断用户名密码
-        var user = await _sysUserRep.GetFirstAsync(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod));
+        Expression<Func<SysUser, bool>> sysUserExp = u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod);
+        SysUser user = null;
+        if (input.TenantId > 0)
+        {
+            var db = App.GetRequiredService<ISqlSugarClient>().AsTenant();
+            user = await SqlSugarSetup.InitTenantDb(db, input.TenantId).Queryable<SysUser>().FirstAsync(sysUserExp);
+        }
+        else
+        {
+            user = await _sysUserRep.GetFirstAsync(sysUserExp);
+        }
         _ = user ?? throw Oops.Oh(ErrorCodeEnum.D1000);
 
         // 账号是否被冻结
