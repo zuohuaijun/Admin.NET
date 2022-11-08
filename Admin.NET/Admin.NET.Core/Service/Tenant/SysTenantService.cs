@@ -347,6 +347,10 @@ public class SysTenantService : IDynamicApiController, ITransient
         var db = App.GetRequiredService<ISqlSugarClient>();
         db.AsTenant().AddConnection(dbConnection);
         db.DbMaintenance.CreateDatabase();
-        SqlSugarSetup.InitDataBase(db.AsTenant(), dbConnection, tenant.Id);
+        SqlSugarSetup.InitDatabase(db.AsTenant(), dbConnection, tenant.Id);
+
+        // 去掉租户库里面的租户菜单（租户表）
+
+
     }
 }

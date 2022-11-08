@@ -106,7 +106,7 @@ export default defineComponent({
 <style scoped lang="scss">
 .menu-data-tree {
 	width: 100%;
-	border: 1px solid var(--el-border-color);
+	// border: 1px solid var(--el-border-color);
 	border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
 	padding: 5px;
 }

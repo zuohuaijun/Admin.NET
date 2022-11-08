@@ -6882,7 +6882,7 @@
             </summary>
             <param name="db"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.ITenant,Admin.NET.Core.DbConnectionConfig,System.Int64)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDatabase(SqlSugar.ITenant,Admin.NET.Core.DbConnectionConfig,System.Int64)">
             <summary>
             初始化数据库结构
             </summary>

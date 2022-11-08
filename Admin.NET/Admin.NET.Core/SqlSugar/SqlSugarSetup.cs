@@ -26,8 +26,10 @@ public static class SqlSugarSetup
         dbOptions.ConnectionConfigs.ForEach(config =>
         {
             if (config.EnableInitDb && config.DbType != SqlSugar.DbType.Oracle)
+            {
                 sqlSugar.DbMaintenance.CreateDatabase();
-            InitDataBase(sqlSugar.AsTenant(), config);
+                InitDatabase(sqlSugar.AsTenant(), config);
+            }
         });
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
@@ -171,7 +173,7 @@ public static class SqlSugarSetup
     /// <param name="db"></param>
     /// <param name="config"></param>
     /// <param name="tenantId"></param>
-    public static void InitDataBase(ITenant db, DbConnectionConfig config, long tenantId = 0)
+    public static void InitDatabase(ITenant db, DbConnectionConfig config, long tenantId = 0)
     {
         // 获取所有实体表-初始化表结构
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
