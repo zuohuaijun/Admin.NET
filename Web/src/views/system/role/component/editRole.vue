@@ -42,7 +42,6 @@
 								highlight-current
 								class="menu-data-tree"
 								icon="ele-Menu"
-								check-strictly
 							/>
 						</el-form-item>
 					</el-col>

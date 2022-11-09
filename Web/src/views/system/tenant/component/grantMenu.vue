@@ -15,7 +15,6 @@
 								highlight-current
 								class="menu-data-tree"
 								icon="ele-Menu"
-								check-strictly
 								default-expand-all
 							/>
 						</el-form-item>
