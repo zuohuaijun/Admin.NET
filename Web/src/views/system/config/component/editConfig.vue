@@ -64,7 +64,7 @@ import { SysConfigApi } from '/@/api-services/api';
 import { UpdateConfigInput } from '/@/api-services/models';
 
 export default defineComponent({
-	name: 'sysEditPos',
+	name: 'sysEditConfig',
 	components: {},
 	props: {
 		title: {

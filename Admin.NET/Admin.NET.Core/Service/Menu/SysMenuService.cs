@@ -1,5 +1,3 @@
-using static SKIT.FlurlHttpClient.Wechat.Api.Models.CgibinUserInfoBatchGetResponse.Types;
-
 namespace Admin.NET.Core.Service;
 
 /// <summary>

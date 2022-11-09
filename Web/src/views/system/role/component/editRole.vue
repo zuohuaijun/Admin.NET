@@ -9,7 +9,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="角色编码" prop="code">
+						<el-form-item label="角色编码" prop="code" :rules="[{ required: true, message: '角色编码不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.code" placeholder="角色编码" clearable />
 						</el-form-item>
 					</el-col>

@@ -64,7 +64,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpPost("/sysRole/add")]
     public async Task AddRole(AddRoleInput input)
     {
-        var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name);
+        var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
@@ -97,7 +97,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpPost("/sysRole/update")]
     public async Task UpdateRole(UpdateRoleInput input)
     {
-        var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.Id);
+        var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
