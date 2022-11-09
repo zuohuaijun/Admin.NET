@@ -220,7 +220,8 @@ public static class SqlSugarSetup
             {
                 var storage = db2.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
-                storage.AsUpdateable.ExecuteCommand();
+                var ignoreUpdate = hasDataMethod.GetCustomAttribute<IgnoreUpdateAttribute>();
+                if (ignoreUpdate == null) storage.AsUpdateable.ExecuteCommand();
             }
             else // 没有主键或者不是预定义的主键(有重复的可能)
             {
