@@ -56,7 +56,7 @@
 						<el-tag v-else-if="scope.row.dbType === 900"> Custom </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="configId" label="数据库标识" show-overflow-tooltip />
+				<!-- <el-table-column prop="configId" label="数据库标识" show-overflow-tooltip /> -->
 				<el-table-column prop="connection" label="数据库连接" width="300" show-overflow-tooltip />
 				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
