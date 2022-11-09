@@ -36,11 +36,11 @@
 							<el-input-number v-model="ruleForm.order" placeholder="排序" class="w100" />
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="主机">
 							<el-input v-model="ruleForm.host" placeholder="主机" clearable />
 						</el-form-item>
-					</el-col> -->
+					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="数据库类型">
 							<el-select v-model="ruleForm.dbType" placeholder="数据库类型" clearable style="width: 100%" :disabled="ruleForm.tenantType == 0 && ruleForm.tenantType != undefined">
@@ -63,11 +63,11 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="数据库标识">
 							<el-input v-model="ruleForm.configId" placeholder="数据库标识" clearable :disabled="ruleForm.tenantType == 0 && ruleForm.tenantType != undefined" />
 						</el-form-item>
-					</el-col> -->
+					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="连接字符串">
 							<el-input v-model="ruleForm.connection" placeholder="连接字符串" clearable type="textarea" :disabled="ruleForm.tenantType == 0 && ruleForm.tenantType != undefined" />
@@ -115,7 +115,7 @@ export default defineComponent({
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
-			state.ruleForm = row;
+			state.ruleForm =  JSON.parse(JSON.stringify(row));
 			state.isShowDialog = true;
 		};
 		// 关闭弹窗
