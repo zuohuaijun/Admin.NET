@@ -42,7 +42,7 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.22" />
     <PackageReference Include="UAParser" Version="3.1.47" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
-    <PackageReference Include="Masuit.Tools.Core" Version="2.5.7.2" />
+    <PackageReference Include="Masuit.Tools.Core" Version="2.5.7.3" />
   </ItemGroup>
 
   <ItemGroup>
