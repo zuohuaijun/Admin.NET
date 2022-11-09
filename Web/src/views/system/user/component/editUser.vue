@@ -259,7 +259,7 @@ export default defineComponent({
 		});
 		// 打开弹窗
 		const openDialog = async (row: any) => {
-			state.ruleForm = row;
+			state.ruleForm = JSON.parse(JSON.stringify(row));
 			if (JSON.stringify(row) !== '{}') {
 				var resRole = await getAPI(SysUserApi).sysUserOwnRoleUserIdGet(row.id);
 				state.ruleForm.roleIdList = resRole.data.result;

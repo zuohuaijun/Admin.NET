@@ -93,7 +93,7 @@ export default defineComponent({
 		});
 		// 打开弹窗
 		const openDialog = async (row: any) => {
-			state.ruleForm = row;
+			state.ruleForm = JSON.parse(JSON.stringify(row));
 			if (JSON.stringify(row) !== '{}') {
 				var res = await getAPI(SysRoleApi).sysRoleOwnMenuListGet(row.id);
 				setTimeout(() => {

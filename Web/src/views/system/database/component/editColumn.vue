@@ -44,7 +44,7 @@ export default defineComponent({
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
-			state.ruleForm = row;
+			state.ruleForm = JSON.parse(JSON.stringify(row));
 			state.isShowDialog = true;
 		};
 		// 关闭弹窗

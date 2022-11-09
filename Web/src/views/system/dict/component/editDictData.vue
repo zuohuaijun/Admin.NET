@@ -72,7 +72,7 @@ export default defineComponent({
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
-			state.ruleForm = row;
+			state.ruleForm = JSON.parse(JSON.stringify(row));
 			if (JSON.stringify(row) == '{}') {
 				state.ruleForm.dictTypeId = props.dictTypeId;
 			}
