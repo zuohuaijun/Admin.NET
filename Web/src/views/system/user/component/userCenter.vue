@@ -136,11 +136,10 @@ import { toRefs, reactive, defineComponent, ref, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { ElMessageBox, UploadInstance } from 'element-plus';
 import { useUserInfo } from '/@/stores/userInfo';
-import { Session } from '/@/utils/storage';
 import { base64ToFile } from '/@/utils/base64Conver';
 import OrgTree from '/@/views/system/user/component/orgTree.vue';
 
-import { getAPI } from '/@/utils/axios-utils';
+import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysFileApi, SysUserApi } from '/@/api-services/api';
 import { ChangePwdInput, SysUser } from '/@/api-services/models';
 
@@ -257,9 +256,7 @@ export default defineComponent({
 					cancelButtonText: '取消',
 					type: 'warning',
 				}).then(async () => {
-					// 清除缓存
-					Session.clear();
-					window.location.reload();
+					clearAccessTokens();
 				});
 			});
 		};

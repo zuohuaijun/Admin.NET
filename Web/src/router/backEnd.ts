@@ -2,7 +2,7 @@ import { RouteRecordRaw } from 'vue-router';
 import pinia from '/@/stores/index';
 import { useUserInfo } from '/@/stores/userInfo';
 import { useRequestOldRoutes } from '/@/stores/requestOldRoutes';
-import { Local, Session } from '/@/utils/storage';
+import { Session } from '/@/utils/storage';
 import { NextLoading } from '/@/utils/loading';
 import { dynamicRoutes, notFoundAndNoPower } from '/@/router/route';
 import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/index';
@@ -106,8 +106,7 @@ export async function getBackEndControlRoutes() {
 	if (res.data.result == undefined || res.data.result.length < 1) {
 		ElMessage.error('没有任何菜单权限，请联系管理员！');
 		setTimeout(() => {
-			Session.clear();
-			Local.clear();
+			Session.removeToken();
 			window.location.reload();
 		}, 3000);
 	}

@@ -25,7 +25,7 @@ import { defineComponent, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
-import { Session } from '/@/utils/storage';
+import { clearAccessTokens } from '/@/utils/axios-utils';
 
 export default defineComponent({
 	name: '401',
@@ -35,11 +35,7 @@ export default defineComponent({
 		const { themeConfig } = storeToRefs(storesThemeConfig);
 		const { isTagsViewCurrenFull } = storeToRefs(storesTagsViewRoutes);
 		const onSetAuth = () => {
-			// https://gitee.com/lyt-top/vue-next-admin/issues/I5C3JS
-			// 清除缓存/token等
-			Session.clear();
-			// 使用 reload 时，不需要调用 resetRoute() 重置路由
-			window.location.reload();
+			clearAccessTokens();
 		};
 		// 设置主内容的高度
 		const initTagViewHeight = computed(() => {

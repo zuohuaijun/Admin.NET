@@ -56,4 +56,10 @@ export const Session = {
 		Cookies.remove('token');
 		window.sessionStorage.clear();
 	},
+	// 移除Token缓存
+	removeToken() {
+		var key = 'token';
+		Cookies.remove(key);
+		window.sessionStorage.removeItem(key);
+	},
 };
