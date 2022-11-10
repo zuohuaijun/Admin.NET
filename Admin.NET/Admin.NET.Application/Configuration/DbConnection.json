@@ -1,0 +1,23 @@
+{
+    "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+
+    "DbConnection": {
+        // ConnectionConfig具体配置见SqlSugar
+        "ConnectionConfigs": [
+            {
+                "ConfigId": "default",
+                "DbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
+                "ConnectionString": "DataSource=./Admin.NET.db",
+                "EnableInitDb": true, // 启用库表初始化
+                "EnableDiffLog": false // 启用库表差异日志
+            }
+            //{
+            //    "ConfigId": "test",
+            //    "DbType": "Sqlite",
+            //    "ConnectionString": "DataSource=./Test.db",
+            //    "EnableInitDb": true, // 启用库表初始化
+            //    "EnableDiffLog": false // 启用库表差异日志
+            //}
+        ]
+    }
+}

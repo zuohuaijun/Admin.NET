@@ -9,25 +9,14 @@
 
   <ItemGroup>
     <None Remove="Admin.NET.Core.xml" />
-    <None Remove="AdminNETConfig.json" />
-    <None Remove="RateLimitConfig.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="AdminNETConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="RateLimitConfig.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AngleSharp" Version="0.17.1" />
     <PackageReference Include="AspNetCoreRateLimit" Version="4.0.2" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.7.6" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.7.6" />
-    <PackageReference Include="Furion.Pure" Version="4.7.6" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.7.7" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.7.7" />
+    <PackageReference Include="Furion.Pure" Version="4.7.7" />
     <PackageReference Include="Lazy.Captcha.Core" Version="1.1.6" />
     <PackageReference Include="Magicodes.IE.Excel" Version="2.7.0" />
     <PackageReference Include="Magicodes.IE.Pdf" Version="2.7.0" />
@@ -42,7 +31,7 @@
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.22" />
     <PackageReference Include="UAParser" Version="3.1.47" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
-    <PackageReference Include="Masuit.Tools.Core" Version="2.5.7.3" />
+    <PackageReference Include="Masuit.Tools.Core" Version="2.5.7.4" />
   </ItemGroup>
 
   <ItemGroup>
