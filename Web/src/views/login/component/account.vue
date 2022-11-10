@@ -1,6 +1,6 @@
 <template>
 	<el-form ref="ruleFormRef" :model="ruleForm" size="large" :rules="rules" class="login-content-form">
-		<el-form-item class="login-animation0" v-show="tenantList.length > 0">
+		<!-- <el-form-item class="login-animation0" v-show="tenantList.length > 0">
 			<el-select v-model="ruleForm.tenantId" value-key="id" placeholder="租户名称" class="w100">
 				<template #prefix>
 					<el-icon>
@@ -9,7 +9,7 @@
 				</template>
 				<el-option v-for="item in tenantList" :key="item.id" :label="item.name" :value="item.id" />
 			</el-select>
-		</el-form-item>
+		</el-form-item> -->
 		<el-form-item class="login-animation1" prop="account">
 			<el-input type="text" placeholder="请输入账号" v-model="ruleForm.account" clearable autocomplete="off">
 				<template #prefix>
@@ -84,7 +84,7 @@ import { NextLoading } from '/@/utils/loading';
 
 import { clearTokens, feature, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/api';
-import { SysTenant } from '/@/api-services/models';
+//import { SysTenant } from '/@/api-services/models';
 
 // 旋转图片滑块组件
 import DragVerifyImgRotate from '/@/components/dragVerify/dragVerifyImgRotate.vue';
@@ -107,7 +107,7 @@ export default defineComponent({
 				password: '123456',
 				code: '',
 				codeId: 0,
-				tenantId: 0,
+				//tenantId: 0,
 			},
 			rules: {
 				account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -122,13 +122,13 @@ export default defineComponent({
 			verifyImg: verifyImg,
 			captchaImage: '',
 			captchaEnabled: true,
-			tenantList: [] as Array<SysTenant>,
+			//tenantList: [] as Array<SysTenant>,
 		});
 		onMounted(async () => {
-			// 是否开启多库租户
-			var res = await getAPI(SysAuthApi).tenantDbListGet();
-			state.tenantList = res.data.result ?? [];
-			if (state.tenantList.length > 0) state.ruleForm.tenantId = state.tenantList[0].id ?? 0;
+			// // 是否开启多库租户
+			// var res = await getAPI(SysAuthApi).tenantDbListGet();
+			// state.tenantList = res.data.result ?? [];
+			// if (state.tenantList.length > 0) state.ruleForm.tenantId = state.tenantList[0].id ?? 0;
 
 			// 是否开启验证码验证
 			var res1 = await getAPI(SysAuthApi).captchaFlagGet();
@@ -149,7 +149,7 @@ export default defineComponent({
 		});
 		// 登录
 		const onSignIn = async () => {
-			// 先清空缓存
+			// 先清空Token缓存
 			clearTokens();
 
 			const [err, res] = await feature(getAPI(SysAuthApi).loginPost(state.ruleForm));
@@ -158,6 +158,7 @@ export default defineComponent({
 				return;
 			}
 			if (res?.data.result?.accessToken == undefined) {
+				getCaptcha(); // 重新获取验证码
 				ElMessage.error('登录失败，请检查账号！');
 				return;
 			}

@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { DbType } from './db-type';
+import { StatusEnum } from './status-enum';
 import { TenantTypeEnum } from './tenant-type-enum';
 /**
  * 
@@ -109,6 +110,12 @@ export interface AddTenantInput {
      * @memberof AddTenantInput
      */
     remark?: string | null;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof AddTenantInput
+     */
+    status?: StatusEnum;
     /**
      * 租户名称
      * @type {string}

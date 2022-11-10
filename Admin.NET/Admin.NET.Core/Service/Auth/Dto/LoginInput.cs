@@ -29,8 +29,8 @@ public class LoginInput
     /// </summary>
     public string Code { get; set; }
 
-    /// <summary>
-    /// 租户Id
-    /// </summary>
-    public long TenantId { get; set; }
+    ///// <summary>
+    ///// 租户Id
+    ///// </summary>
+    //public long TenantId { get; set; }
 }

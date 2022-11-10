@@ -397,10 +397,16 @@ public enum ErrorCodeEnum
     D1200,
 
     /// <summary>
-    /// 已存在同名或同管理员或同主机租户
+    /// 已存在同名的租户
     /// </summary>
-    [ErrorCodeItemMetadata("已存在同名或同主机租户")]
+    [ErrorCodeItemMetadata("已存在同名的租户")]
     D1300,
+
+    /// <summary>
+    /// 已存在同名的租户管理员
+    /// </summary>
+    [ErrorCodeItemMetadata("已存在同名的租户管理员")]
+    D1301,
 
     /// <summary>
     /// 该表代码模板已经生成过

@@ -58,6 +58,9 @@ public class SysAuthService : IDynamicApiController, ITransient
     [SuppressMonitor]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
+        //// 可以根据域名获取具体租户
+        //var host = _httpContextAccessor.HttpContext.Request.Host;
+
         // 判断验证码
         var captchaEnabled = await GetCaptchaFlag();
         if (captchaEnabled && !_captcha.Validate(input.CodeId.ToString(), input.Code))
@@ -67,7 +70,7 @@ public class SysAuthService : IDynamicApiController, ITransient
 
         // 判断用户名密码 
         var user = await _sysUserRep.AsQueryable().Filter(null, true)
-            .WhereIF(input.TenantId > 0, u => u.TenantId == input.TenantId)
+            // .WhereIF(input.TenantId > 0, u => u.TenantId == input.TenantId)
             .FirstAsync(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod));
         _ = user ?? throw Oops.Oh(ErrorCodeEnum.D1000);
 
