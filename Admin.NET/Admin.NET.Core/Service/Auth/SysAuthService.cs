@@ -16,7 +16,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly IEventPublisher _eventPublisher;
     private readonly SysMenuService _sysMenuService;
-    private readonly SysTenantService _sysTenantService;
     private readonly SysOnlineUserService _sysOnlineUserService;
     private readonly SysConfigService _sysConfigService;
     private readonly IMemoryCache _cache;
@@ -28,7 +27,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         IHttpContextAccessor httpContextAccessor,
         IEventPublisher eventPublisher,
         SysMenuService sysMenuService,
-        SysTenantService sysTenantService,
         SysOnlineUserService sysOnlineUserService,
         SysConfigService sysConfigService,
         IMemoryCache cache,
@@ -40,7 +38,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         _refreshTokenOptions = refreshTokenOptions.Value;
         _eventPublisher = eventPublisher;
         _sysMenuService = sysMenuService;
-        _sysTenantService = sysTenantService;
         _sysOnlineUserService = sysOnlineUserService;
         _sysConfigService = sysConfigService;
         _cache = cache;
@@ -68,9 +65,8 @@ public class SysAuthService : IDynamicApiController, ITransient
 
         var encryptPasswod = MD5Encryption.Encrypt(input.Password);
 
-        // 判断用户名密码 
+        // 判断用户名密码
         var user = await _sysUserRep.AsQueryable().Filter(null, true)
-            // .WhereIF(input.TenantId > 0, u => u.TenantId == input.TenantId)
             .FirstAsync(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod));
         _ = user ?? throw Oops.Oh(ErrorCodeEnum.D1000);
 
@@ -216,19 +212,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         var codeId = Yitter.IdGenerator.YitIdHelper.NextId();
         var captcha = _captcha.Generate(codeId.ToString());
         return new { Id = codeId, Img = captcha.Base64 };
-    }
-
-    /// <summary>
-    /// 是否启用多库租户
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("/tenantDbList")]
-    [AllowAnonymous]
-    [SuppressMonitor]
-    public async Task<List<SysTenant>> GetTenantDbList()
-    {
-        var tenantDbEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysTenantDb);
-        return tenantDbEnabled ? await _sysTenantService.GetTenantDbList() : new List<SysTenant>();
     }
 
     /// <summary>

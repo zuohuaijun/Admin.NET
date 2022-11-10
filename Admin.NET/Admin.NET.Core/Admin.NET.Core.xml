@@ -212,11 +212,6 @@
             单用户登录
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CommonConst.SysTenantDb">
-            <summary>
-            开启多库租户
-            </summary>
-        </member>
         <member name="F:Admin.NET.Core.CommonConst.SysAdminRole">
             <summary>
             系统管理员角色编码
@@ -3970,12 +3965,6 @@
         <member name="M:Admin.NET.Core.Service.SysAuthService.GetCaptcha">
             <summary>
             生成图片验证码
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysAuthService.GetTenantDbList">
-            <summary>
-            是否启用多库租户
             </summary>
             <returns></returns>
         </member>
