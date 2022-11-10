@@ -9,6 +9,7 @@ public class SysConfigSeedData : ISqlSugarEntitySeedData<SysConfig>
     /// 种子数据
     /// </summary>
     /// <returns></returns>
+    [IgnoreUpdate]
     public IEnumerable<SysConfig> HasData()
     {
         return new[]

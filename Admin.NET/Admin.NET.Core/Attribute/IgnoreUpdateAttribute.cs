@@ -1,7 +1,10 @@
 namespace Admin.NET.Core;
+
 /// <summary>
-/// 种子数据忽略更新，防止数据被覆盖
+/// 忽略更新种子数据特性
 /// </summary>
+[SuppressSniffer]
+[AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = true)]
 public class IgnoreUpdateAttribute : Attribute
 {
 }

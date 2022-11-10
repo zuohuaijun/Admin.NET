@@ -2,7 +2,7 @@
     "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
 
     "DbConnection": {
-        // ConnectionConfig具体配置见SqlSugar
+        // 具体配置见SqlSugar官网
         "ConnectionConfigs": [
             {
                 "ConfigId": "default",

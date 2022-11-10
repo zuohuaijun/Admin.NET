@@ -9,6 +9,7 @@ public class SysPosSeedData : ISqlSugarEntitySeedData<SysPos>
     /// 种子数据
     /// </summary>
     /// <returns></returns>
+    [IgnoreUpdate]
     public IEnumerable<SysPos> HasData()
     {
         return new[]

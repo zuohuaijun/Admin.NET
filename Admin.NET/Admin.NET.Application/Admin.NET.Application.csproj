@@ -9,18 +9,12 @@
 
   <ItemGroup>
     <None Remove="Admin.NET.Application.xml" />
-    <None Remove="Configuration\appsettings.json" />
     <None Remove="Configuration\Limit.json" />
     <None Remove="Configuration\Logging.json" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Configuration\Logging.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
-    <Content Include="Configuration\appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
@@ -44,7 +38,7 @@
     <None Update="Configuration\CodeGen.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Update="Configuration\DbConnection.json">
+    <None Update="Configuration\Database.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Configuration\Email.json">

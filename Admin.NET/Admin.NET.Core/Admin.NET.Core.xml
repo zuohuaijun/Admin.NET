@@ -14,6 +14,11 @@
             自定义规范化结果特性
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.IgnoreUpdateAttribute">
+            <summary>
+            忽略更新种子数据特性
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.NotTableAttribute">
             <summary>
             非实体表特性

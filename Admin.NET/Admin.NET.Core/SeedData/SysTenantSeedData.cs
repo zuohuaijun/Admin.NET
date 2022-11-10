@@ -9,6 +9,7 @@ public class SysTenantSeedData : ISqlSugarEntitySeedData<SysTenant>
     /// 种子数据
     /// </summary>
     /// <returns></returns>
+    [IgnoreUpdate]
     public IEnumerable<SysTenant> HasData()
     {
         return new[]
