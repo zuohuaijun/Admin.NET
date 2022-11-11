@@ -7134,6 +7134,19 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.CommonUtil">
+            <summary>
+            通用工具类
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.CommonUtil.ExecPercent(System.Decimal,System.Decimal)">
+            <summary>
+            生成百分数
+            </summary>
+            <param name="PassCount"></param>
+            <param name="allCount"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.ComputerUtil.GetComputerInfo">
             <summary>
             内存信息
