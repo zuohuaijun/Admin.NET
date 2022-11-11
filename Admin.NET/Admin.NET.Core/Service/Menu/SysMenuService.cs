@@ -43,10 +43,26 @@ public class SysMenuService : IDynamicApiController, ITransient
         {
             var menuIdList = await GetMenuIdList();
             var menuList = await _sysMenuRep.AsQueryable()
-                .Where(u => u.Type != MenuTypeEnum.Btn)
-                .Where(u => menuIdList.Contains(u.Id))
-                .OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0);
+                //.Where(u => u.Type != MenuTypeEnum.Btn)
+                //.Where(u => menuIdList.Contains(u.Id))
+                .OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0, menuIdList.Select(d => (object)d).ToArray());
+            DeleteBtnFromMenuTree(menuList);
             return menuList.Adapt<List<MenuOutput>>();
+        }
+    }
+
+    /// <summary>
+    /// 删除登录菜单树里面的按钮
+    /// </summary>
+    private void DeleteBtnFromMenuTree(List<SysMenu> menuList)
+    {
+        for (var i = menuList.Count - 1; i >= 0; i--)
+        {
+            var menu = menuList[i];
+            if (menu.Type == MenuTypeEnum.Btn)
+                menuList.Remove(menu);
+            else if (menu.Children.Count > 0)
+                DeleteBtnFromMenuTree(menu.Children);
         }
     }
 
@@ -55,6 +71,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [HttpGet("/sysMenu/list")]
+    [AllowAnonymous]
     public async Task<List<SysMenu>> GetMenuList([FromQuery] MenuInput input)
     {
         var menuIdList = new List<long>();

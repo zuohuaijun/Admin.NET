@@ -183,6 +183,9 @@ public class SysOrgService : IDynamicApiController, ITransient
             var orgList2 = await GetUserRoleOrgIdList(userId);
             // 机构并集
             orgIdList = orgList1.Select(u => u.OrgId).Union(orgList2).ToList();
+            // 当前所属机构
+            if (!orgIdList.Contains(_userManager.OrgId))
+                orgIdList.Add(_userManager.OrgId);
             _sysCacheService.Set(CacheConst.KeyOrgIdList + userId, orgIdList); // 存缓存
         }
         return orgIdList;
