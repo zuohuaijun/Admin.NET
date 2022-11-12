@@ -182,7 +182,7 @@ export default defineComponent({
 				} else {
 					state.verifyVisible = true;
 					state.isPass = false;
-					dragRef.value.reset();
+					dragRef.value?.reset();
 				}
 			});
 		};
