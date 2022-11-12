@@ -5368,6 +5368,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.DeleteBtnFromMenuTree(System.Collections.Generic.List{Admin.NET.Core.SysMenu})">
+            <summary>
+            删除登录菜单树里面的按钮
+            </summary>
+        </member>
         <member name="M:Admin.NET.Core.Service.SysMenuService.GetMenuList(Admin.NET.Core.Service.MenuInput)">
             <summary>
             获取菜单列表
