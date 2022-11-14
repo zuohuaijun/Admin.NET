@@ -12,7 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="6.0.14" />
-    <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.12" />
+    <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.13" />
   </ItemGroup>
 
   <ItemGroup>

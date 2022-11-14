@@ -17,7 +17,6 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AdminResultBoolean } from '../models';
-import { AdminResultListSysTenant } from '../models';
 import { AdminResultLoginOutput } from '../models';
 import { AdminResultLoginUserOutput } from '../models';
 import { AdminResultObject } from '../models';
@@ -315,42 +314,6 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 是否启用多库租户
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        tenantDbListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/tenantDbList`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary 获取用户信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -491,19 +454,6 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 是否启用多库租户
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async tenantDbListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysTenant>>> {
-            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).tenantDbListGet(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
          * @summary 获取用户信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -590,15 +540,6 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
          */
         async swaggerSubmitUrlPostForm(userName?: string, password?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<number>> {
             return SysAuthApiFp(configuration).swaggerSubmitUrlPostForm(userName, password, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 是否启用多库租户
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async tenantDbListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysTenant>> {
-            return SysAuthApiFp(configuration).tenantDbListGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -692,16 +633,6 @@ export class SysAuthApi extends BaseAPI {
      */
     public async swaggerSubmitUrlPostForm(userName?: string, password?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<number>> {
         return SysAuthApiFp(this.configuration).swaggerSubmitUrlPostForm(userName, password, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 是否启用多库租户
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysAuthApi
-     */
-    public async tenantDbListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysTenant>> {
-        return SysAuthApiFp(this.configuration).tenantDbListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

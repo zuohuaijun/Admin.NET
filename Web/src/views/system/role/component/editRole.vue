@@ -42,7 +42,6 @@
 								highlight-current
 								class="menu-data-tree"
 								icon="ele-Menu"
-								check-strictly
 							/>
 						</el-form-item>
 					</el-col>
@@ -94,7 +93,7 @@ export default defineComponent({
 		});
 		// 打开弹窗
 		const openDialog = async (row: any) => {
-			state.ruleForm = row;
+			state.ruleForm = JSON.parse(JSON.stringify(row));
 			if (JSON.stringify(row) !== '{}') {
 				var res = await getAPI(SysRoleApi).sysRoleOwnMenuListGet(row.id);
 				setTimeout(() => {
@@ -158,9 +157,9 @@ export default defineComponent({
 
 :deep(.penultimate-node) {
 	.el-tree-node__children {
-		padding-left: 60px;
+		padding-left: 40px;
 		white-space: pre-wrap;
-		line-height: 12px;
+		line-height: 100%;
 
 		.el-tree-node {
 			display: inline-block;
@@ -170,9 +169,9 @@ export default defineComponent({
 			padding-left: 5px !important;
 			padding-right: 5px;
 
-			.el-tree-node__expand-icon {
-				display: none;
-			}
+			// .el-tree-node__expand-icon {
+			// 	display: none;
+			// }
 		}
 	}
 }

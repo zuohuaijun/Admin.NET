@@ -1,5 +1,3 @@
-using Masuit.Tools;
-
 namespace Admin.NET.Core;
 
 public static class SqlSugarSetup
@@ -16,21 +14,23 @@ public static class SqlSugarSetup
             SetDbConfig(config);
         });
 
-        SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs.Adapt<List<ConnectionConfig>>(), client =>
+        SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs.Adapt<List<ConnectionConfig>>(), db =>
         {
             dbOptions.ConnectionConfigs.ForEach(config =>
             {
-                var db = client.GetConnectionScope((string)config.ConfigId);
-                SetDbAop(db, config);
+                SetDbAop(db.GetConnectionScope(config.ConfigId));
             });
         });
 
         // 初始化数据库表结构及种子数据
-        InitDataBase(sqlSugar, dbOptions);
+        dbOptions.ConnectionConfigs.ForEach(config =>
+        {
+            InitDatabase(sqlSugar, config);
+        });
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
-        services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 注册事务与工作单元
+        services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 事务与工作单元注册
     }
 
     /// <summary>
@@ -62,9 +62,10 @@ public static class SqlSugarSetup
     /// 配置Aop
     /// </summary>
     /// <param name="db"></param>
-    /// <param name="config"></param>
-    public static void SetDbAop(this SqlSugarScopeProvider db, DbConnectionConfig config)
+    public static void SetDbAop(SqlSugarScopeProvider db)
     {
+        var config = db.CurrentConnectionConfig;
+
         // 设置超时时间
         db.Ado.CommandTimeOut = 30;
 
@@ -147,10 +148,14 @@ public static class SqlSugarSetup
         //        Parameters = JsonConvert.SerializeObject(u.Parameters),
         //        Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
         //    };
-        //    await client.GetConnectionScope(SqlSugarConst.ConfigId).Insertable(LogDiff).ExecuteCommandAsync();
+        //    await db.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId).Insertable(LogDiff).ExecuteCommandAsync();
         //    Console.ForegroundColor = ConsoleColor.Red;
         //    Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
         //};
+
+        // 超管时排除各种过滤器
+        if (App.User?.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString())
+            return;
 
         // 配置实体假删除过滤器
         SetDeletedEntityFilter(db);
@@ -163,93 +168,28 @@ public static class SqlSugarSetup
     }
 
     /// <summary>
-    /// 初始化数据库结构
+    /// 初始化数据库
     /// </summary>
-    private static void InitDataBase(SqlSugarScope db, DbConnectionOptions dbOptions)
+    /// <param name="db"></param>
+    /// <param name="config"></param>
+    public static void InitDatabase(SqlSugarScope db, DbConnectionConfig config)
     {
-        // 创建数据库
-        dbOptions.ConnectionConfigs.ForEach(config =>
-        {
-            if (!config.EnableInitDb || config.DbType == SqlSugar.DbType.Oracle) return;
-            db.GetConnectionScope(config.ConfigId).DbMaintenance.CreateDatabase();
-        });
-
-        // 获取所有实体表-初始化表结构
-        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute), false));
-        if (!entityTypes.Any()) return;
-        foreach (var entityType in entityTypes)
-        {
-            var tAtt = entityType.GetCustomAttribute<TenantAttribute>(); // 多数据库
-            var configId = tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId.ToString();
-            if (!dbOptions.ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId).EnableInitDb)
-                continue;
-            var db2 = db.GetConnectionScope(configId);
-            var splitTable = entityType.GetCustomAttribute<SplitTableAttribute>(); // 分表
-            if (splitTable == null)
-                db2.CodeFirst.InitTables(entityType);
-            else
-                db2.CodeFirst.SplitTables().InitTables(entityType);
-        }
-
-        // 获取所有种子配置-初始化数据
-        var seedDataTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(ISqlSugarEntitySeedData<>))));
-        if (!seedDataTypes.Any()) return;
-        foreach (var seedType in seedDataTypes)
-        {
-            var instance = Activator.CreateInstance(seedType);
-
-            var hasDataMethod = seedType.GetMethod("HasData");
-            var seedData = ((IEnumerable)hasDataMethod?.Invoke(instance, null))?.Cast<object>();
-            if (seedData == null) continue;
-
-            var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
-            var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            var configId = tAtt == null ? SqlSugarConst.ConfigId : tAtt.configId.ToString();
-            if (!dbOptions.ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId).EnableInitDb)
-                continue;
-            var db2 = db.GetConnectionScope(configId);
-            var seedDataTable = seedData.ToList().ToDataTable();
-            seedDataTable.TableName = db.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
-            if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
-            {
-                var storage = db2.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
-                storage.AsInsertable.ExecuteCommand();
-                storage.AsUpdateable.ExecuteCommand();
-            }
-            else // 没有主键或者不是预定义的主键(没主键有重复的可能)
-            {
-                var storage = db2.Storageable(seedDataTable).ToStorage();
-                storage.AsInsertable.ExecuteCommand();
-            }
-        }
-    }
-
-    /// <summary>
-    /// 初始化数据库结构
-    /// </summary>
-    public static void CreateDataBase(ISqlSugarClient db, DbConnectionConfig config, long tenantId)
-    {
-        SetDbConfig(config);
-
-        var itenant = db.AsTenant();
-        // 创建数据库
         if (!config.EnableInitDb || config.DbType == SqlSugar.DbType.Oracle) return;
-        itenant.AddConnection(config);
-        var dbProvider = itenant.GetConnectionScope(config.ConfigId);
-        SetDbAop(dbProvider, config);
-        dbProvider.DbMaintenance.CreateDatabase();
+
+        // 创建数据库
+        db.DbMaintenance.CreateDatabase();
 
         // 获取所有实体表-初始化表结构
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
             && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute), false));
         if (!entityTypes.Any()) return;
+        var db2 = db.GetConnectionScope(config.ConfigId);
         foreach (var entityType in entityTypes)
         {
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            if (tAtt != null) continue;
-            var db2 = itenant.GetConnectionScope(config.ConfigId);
+            if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
+            if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
+
             var splitTable = entityType.GetCustomAttribute<SplitTableAttribute>();
             if (splitTable == null)
                 db2.CodeFirst.InitTables(entityType);
@@ -271,27 +211,73 @@ public static class SqlSugarSetup
 
             var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            if (tAtt != null) continue;
-            var db2 = itenant.GetConnectionScope(config.ConfigId);
+            if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
+            if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
+
             var seedDataTable = seedData.ToList().ToDataTable();
-            seedDataTable.TableName = db.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
-            // 设置租户Id
-            if (seedDataTable.Columns.Contains(SqlSugarConst.TenantId))
-            {
-                foreach (DataRow dr in seedDataTable.Rows)                
-                    dr[SqlSugarConst.TenantId] = tenantId;                
-            }
+            seedDataTable.TableName = db2.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
-                var storage = db2.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
+                var storage = db2.CopyNew().Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
-                storage.AsUpdateable.ExecuteCommand();
+                var ignoreUpdate = hasDataMethod.GetCustomAttribute<IgnoreUpdateAttribute>();
+                if (ignoreUpdate == null) storage.AsUpdateable.ExecuteCommand();
             }
-            else // 没有主键或者不是预定义的主键(没主键有重复的可能)
+            else // 没有主键或者不是预定义的主键(有重复的可能)
             {
-                var storage = db2.Storageable(seedDataTable).ToStorage();
+                var storage = db2.CopyNew().Storageable(seedDataTable).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
             }
+        }
+    }
+
+    /// <summary>
+    /// 初始化租户库连接
+    /// </summary>
+    /// <param name="iTenant"></param>
+    /// <param name="tenantId"></param>
+    public static SqlSugarScopeProvider InitTenantConnection(ITenant iTenant, long tenantId)
+    {
+        var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
+        if (!iTenant.IsAnyConnection(tenantId.ToString()))
+        {
+            iTenant.AddConnection(new ConnectionConfig()
+            {
+                ConfigId = tenantId.ToString(),
+                ConnectionString = tenant.Connection,
+                DbType = tenant.DbType,
+                IsAutoCloseConnection = true
+            });
+            SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()));
+        }
+        return iTenant.GetConnectionScope(tenantId.ToString());
+    }
+
+    /// <summary>
+    /// 初始化租户业务数据库
+    /// </summary>
+    /// <param name="itenant"></param>
+    /// <param name="config"></param>
+    public static void InitTenantDatabase(ITenant itenant, DbConnectionConfig config)
+    {
+        SetDbConfig(config);
+
+        itenant.AddConnection(config);
+        var db = itenant.GetConnectionScope(config.ConfigId);
+        db.DbMaintenance.CreateDatabase();
+
+        // 获取所有实体表-初始化租户业务表
+        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute), false)
+            && u.IsDefined(typeof(TenantBusinessAttribute), false));
+        if (!entityTypes.Any()) return;
+        foreach (var entityType in entityTypes)
+        {
+            var splitTable = entityType.GetCustomAttribute<SplitTableAttribute>();
+            if (splitTable == null)
+                db.CodeFirst.InitTables(entityType);
+            else
+                db.CodeFirst.SplitTables().InitTables(entityType);
         }
     }
 
@@ -430,10 +416,6 @@ public static class SqlSugarSetup
     /// </summary>
     private static void SetCustomEntityFilter(SqlSugarScopeProvider db)
     {
-        // 排除超管过滤
-        if (App.User?.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString())
-            return;
-
         // 配置用户机构范围缓存
         var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:Custom";
         var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
@@ -452,7 +434,7 @@ public static class SqlSugarSetup
                 var entityFilters = ((IList)entityFilterMethod?.Invoke(instance, null))?.Cast<object>();
                 if (entityFilters == null) continue;
 
-                entityFilters.ForEach(u =>
+                foreach (var u in entityFilters)
                 {
                     var tableFilterItem = (TableFilterItem<object>)u;
                     var entityType = tableFilterItem.GetType().GetProperty("type", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(tableFilterItem, null) as Type;
@@ -464,7 +446,7 @@ public static class SqlSugarSetup
 
                     tableFilterItems.Add(tableFilterItem);
                     db.QueryFilter.Add(tableFilterItem);
-                });
+                }
             }
             db.DataCache.Add(cacheKey, tableFilterItems);
         }

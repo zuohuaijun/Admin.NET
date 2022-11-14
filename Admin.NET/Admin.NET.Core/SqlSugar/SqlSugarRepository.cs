@@ -12,22 +12,11 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
     {
         iTenant = App.GetRequiredService<ISqlSugarClient>().AsTenant();
 
-        // 根据当前租户Id切换数据库
-        var tenantId = App.GetRequiredService<UserManager>().TenantId;
-        if (tenantId > 1)
+        // 根据租户业务实体是否切库
+        if (typeof(T).IsDefined(typeof(TenantBusinessAttribute), false))
         {
-            var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
-            if (!iTenant.IsAnyConnection(tenant.ConfigId))
-            {
-                iTenant.AddConnection(new ConnectionConfig()
-                {
-                    ConfigId = tenant.ConfigId,
-                    ConnectionString = tenant.Connection,
-                    DbType = tenant.DbType,
-                    IsAutoCloseConnection = true
-                });
-            }
-            base.Context = iTenant.GetConnectionScope(tenant.ConfigId);
+            var tenantId = App.GetRequiredService<UserManager>().TenantId; // 根据租户Id切库
+            base.Context = SqlSugarSetup.InitTenantConnection(iTenant, tenantId);
         }
         else
         {

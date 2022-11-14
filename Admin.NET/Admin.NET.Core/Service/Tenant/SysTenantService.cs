@@ -18,7 +18,6 @@ public class SysTenantService : IDynamicApiController, ITransient
     private readonly SysRoleMenuService _sysRoleMenuService;
     private readonly SysConfigService _sysConfigService;
     private readonly SysCacheService _sysCacheService;
-    private readonly ISqlSugarClient _db;
 
     public SysTenantService(SqlSugarRepository<SysTenant> tenantRep,
         SqlSugarRepository<SysOrg> orgRep,
@@ -31,8 +30,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         SysUserRoleService sysUserRoleService,
         SysRoleMenuService sysRoleMenuService,
         SysConfigService sysConfigService,
-        SysCacheService sysCacheService,
-        ISqlSugarClient db)
+        SysCacheService sysCacheService)
     {
         _tenantRep = tenantRep;
         _orgRep = orgRep;
@@ -46,7 +44,6 @@ public class SysTenantService : IDynamicApiController, ITransient
         _sysRoleMenuService = sysRoleMenuService;
         _sysConfigService = sysConfigService;
         _sysCacheService = sysCacheService;
-        _db = db;
     }
 
     /// <summary>
@@ -70,7 +67,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     [NonAction]
     public async Task<List<SysTenant>> GetTenantDbList()
     {
-        return await _tenantRep.GetListAsync(u => u.TenantType == TenantTypeEnum.Db);
+        return await _tenantRep.GetListAsync(u => u.TenantType == TenantTypeEnum.Db && u.Status == StatusEnum.Enable);
     }
 
     /// <summary>
@@ -81,16 +78,36 @@ public class SysTenantService : IDynamicApiController, ITransient
     [HttpPost("/sysTenant/add")]
     public async Task AddTenant(AddTenantInput input)
     {
-        var isExist = await _tenantRep.IsAnyAsync(u => u.Name == input.Name ||
-            (u.AdminName == input.AdminName && input.TenantType == TenantTypeEnum.Id));
+        var isExist = await _tenantRep.IsAnyAsync(u => u.Name == input.Name);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1300);
+
+        isExist = await _userRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.AdminName);
+        if (isExist) throw Oops.Oh(ErrorCodeEnum.D1301);
 
         var tenant = input.Adapt<SysTenant>();
         await _tenantRep.InsertAsync(tenant);
         await UpdateTenantCache();
 
-        if (tenant.TenantType == TenantTypeEnum.Db) return;
         await InitNewTenant(tenant);
+    }
+
+    /// <summary>
+    /// 设置租户状态
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [HttpPost("/sysTenant/setStatus")]
+    public async Task<int> SetTenantStatus(TenantInput input)
+    {
+        var tenant = await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
+        if (tenant.ConfigId == SqlSugarConst.ConfigId)
+            throw Oops.Oh(ErrorCodeEnum.Z1001);
+
+        if (!Enum.IsDefined(typeof(StatusEnum), input.Status))
+            throw Oops.Oh(ErrorCodeEnum.D3005);
+
+        tenant.Status = input.Status;
+        return await _tenantRep.AsUpdateable(tenant).UpdateColumns(u => new { u.Status }).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -158,6 +175,17 @@ public class SysTenantService : IDynamicApiController, ITransient
             UserId = newUser.Id
         };
         await _userRoleRep.InsertAsync(newUserRole);
+
+        // 默认租户管理员角色菜单集合
+        var menuIdList = new List<long> { 252885263002100,252885263002110,252885263002111,
+            252885263005200,252885263005210,252885263005211,252885263005212,252885263005213,252885263005214,252885263005215,252885263005216,252885263005217,252885263005218,252885263005219,252885263005220,
+            252885263005230,252885263005231,252885263005232,252885263005233,252885263005234,252885263005235,252885263005236,252885263005237,
+            252885263005240,252885263005241,252885263005242,252885263005243,252885263005244,
+            252885263005250,252885263005251,252885263005252,252885263005253,252885263005254,
+            252885263005260,252885263005261,252885263005262,252885263005263,
+            252885263005270,252885263005271,252885263005272,252885263005273,252885263005274,252885263005275,252885263005276
+        };
+        await _sysRoleMenuService.GrantRoleMenu(new RoleMenuInput() { Id = newRole.Id, MenuIdList = menuIdList });
     }
 
     /// <summary>
@@ -306,7 +334,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 创建租户数据库（根据默认库结构）
+    /// 创建租户数据库
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
@@ -316,15 +344,18 @@ public class SysTenantService : IDynamicApiController, ITransient
         var tenant = await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
         if (tenant == null) return;
 
-        var dbConnection = new DbConnectionConfig
+        if (tenant.DbType == SqlSugar.DbType.Oracle)
+            throw Oops.Oh(ErrorCodeEnum.Z1002);
+
+        var config = new DbConnectionConfig
         {
             EnableInitDb = true,
+            EnableDiffLog = false,
             DbType = tenant.DbType,
-            ConfigId = tenant.ConfigId,
+            ConfigId = tenant.Id.ToString(),
             ConnectionString = tenant.Connection,
             IsAutoCloseConnection = true,
         };
-
-        SqlSugarSetup.CreateDataBase(_db, dbConnection, tenant.Id);
+        SqlSugarSetup.InitTenantDatabase(App.GetRequiredService<ISqlSugarClient>().AsTenant(), config);
     }
 }

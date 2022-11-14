@@ -64,7 +64,7 @@ import { SysConfigApi } from '/@/api-services/api';
 import { UpdateConfigInput } from '/@/api-services/models';
 
 export default defineComponent({
-	name: 'sysEditPos',
+	name: 'sysEditConfig',
 	components: {},
 	props: {
 		title: {
@@ -81,7 +81,7 @@ export default defineComponent({
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
-			state.ruleForm = row;
+			state.ruleForm = JSON.parse(JSON.stringify(row));
 			state.isShowDialog = true;
 		};
 		// 关闭弹窗

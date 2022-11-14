@@ -397,10 +397,16 @@ public enum ErrorCodeEnum
     D1200,
 
     /// <summary>
-    /// 已存在同名或同管理员或同主机租户
+    /// 已存在同名的租户
     /// </summary>
-    [ErrorCodeItemMetadata("已存在同名或同主机租户")]
+    [ErrorCodeItemMetadata("已存在同名的租户")]
     D1300,
+
+    /// <summary>
+    /// 已存在同名的租户管理员
+    /// </summary>
+    [ErrorCodeItemMetadata("已存在同名的租户管理员")]
+    D1301,
 
     /// <summary>
     /// 该表代码模板已经生成过
@@ -509,4 +515,16 @@ public enum ErrorCodeEnum
     /// </summary>
     [ErrorCodeItemMetadata("已有相同编码或名称")]
     R2002,
+
+    /// <summary>
+    /// 默认租户状态禁止修改
+    /// </summary>
+    [ErrorCodeItemMetadata("默认租户状态禁止修改")]
+    Z1001,
+
+    /// <summary>
+    /// 禁止创建此类型的数据库
+    /// </summary>
+    [ErrorCodeItemMetadata("禁止创建此类型的数据库")]
+    Z1002,
 }

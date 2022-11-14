@@ -27,7 +27,13 @@
 				<el-table-column prop="tenantType" label="租户类型" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.tenantType === 0"> ID隔离 </el-tag>
-						<el-tag v-else> 库隔离 </el-tag>
+						<el-tag type="danger" v-else> 库隔离 </el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
+						<el-tag type="danger" v-else>禁用</el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="dbType" label="数据库类型" align="center" show-overflow-tooltip>
@@ -50,7 +56,7 @@
 						<el-tag v-else-if="scope.row.dbType === 900"> Custom </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="configId" label="数据库标识" show-overflow-tooltip />
+				<!-- <el-table-column prop="configId" label="数据库标识" show-overflow-tooltip /> -->
 				<el-table-column prop="connection" label="数据库连接" width="300" show-overflow-tooltip />
 				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
@@ -197,15 +203,14 @@ export default defineComponent({
 		};
 		// 创建租户库
 		const createTenant = (row: any) => {
-			ElMessageBox.confirm(`确定创建/更新数据库：【${row.name}】?`, '提示', {
+			ElMessageBox.confirm(`确定创建/更新租户数据库：【${row.name}】?`, '提示', {
 				confirmButtonText: '确定',
 				cancelButtonText: '取消',
 				type: 'warning',
 			})
 				.then(async () => {
 					await getAPI(SysTenantApi).sysTenantCreateDbPost({ id: row.id });
-					handleQuery();
-					ElMessage.success('创建/更新数据库成功');
+					ElMessage.success('创建/更新租户数据库成功');
 				})
 				.catch(() => {});
 		};

@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-tenant-container">
-		<el-dialog v-model="isShowDialog" :title="title" draggable width="769px">
+		<el-dialog v-model="isShowDialog" :title="title" draggable :close-on-click-modal="false" width="769px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -18,7 +18,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="管理员" prop="adminName" :rules="[{ required: true, message: '管理员不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.adminName" placeholder="管理员" clearable :disabled="ruleForm.tenantType == 1" />
+							<el-input v-model="ruleForm.adminName" placeholder="管理员" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -36,11 +36,11 @@
 							<el-input-number v-model="ruleForm.order" placeholder="排序" class="w100" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="主机">
 							<el-input v-model="ruleForm.host" placeholder="主机" clearable />
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="数据库类型">
 							<el-select v-model="ruleForm.dbType" placeholder="数据库类型" clearable style="width: 100%" :disabled="ruleForm.tenantType == 0 && ruleForm.tenantType != undefined">
@@ -63,11 +63,11 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<!-- <el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="数据库标识">
 							<el-input v-model="ruleForm.configId" placeholder="数据库标识" clearable :disabled="ruleForm.tenantType == 0 && ruleForm.tenantType != undefined" />
 						</el-form-item>
-					</el-col>
+					</el-col> -->
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="连接字符串">
 							<el-input v-model="ruleForm.connection" placeholder="连接字符串" clearable type="textarea" :disabled="ruleForm.tenantType == 0 && ruleForm.tenantType != undefined" />
@@ -91,7 +91,7 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref, watch } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysTenantApi } from '/@/api-services/api';
@@ -113,12 +113,9 @@ export default defineComponent({
 			isShowDialog: false,
 			ruleForm: {} as UpdateTenantInput,
 		});
-		watch(state, () => {
-			if (state.ruleForm.tenantType == 1) state.ruleForm.adminName = 'Administrator';
-		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
-			state.ruleForm = row;
+			state.ruleForm = JSON.parse(JSON.stringify(row));
 			state.isShowDialog = true;
 		};
 		// 关闭弹窗

@@ -28,14 +28,17 @@ export const getToken = () => {
 
 // 清除 token
 export const clearAccessTokens = () => {
-	Local.remove(accessTokenKey);
-	Local.remove(refreshAccessTokenKey);
-
-	// 清除其他
-	Session.clear();
+	clearTokens();
 
 	// 刷新浏览器
 	window.location.reload();
+};
+
+// 清除 token
+export const clearTokens = () => {
+	Local.remove(accessTokenKey);
+	Local.remove(refreshAccessTokenKey);
+	Session.removeToken();
 };
 
 // axios 默认实例

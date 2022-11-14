@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { DbType } from './db-type';
+import { StatusEnum } from './status-enum';
 import { TenantTypeEnum } from './tenant-type-enum';
 /**
  * 系统租户表
@@ -121,4 +122,10 @@ export interface SysTenant {
      * @memberof SysTenant
      */
     remark?: string | null;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof SysTenant
+     */
+    status?: StatusEnum;
 }

@@ -36,7 +36,7 @@ public class RandomCaptcha : DefaultCaptcha
     protected override void ChangeOptions(CaptchaOptions options)
     {
         // 随机验证码类型
-        options.CaptchaType = captchaTypes[random.Next(0, captchaTypes.Length)];
+        options.CaptchaType = captchaTypes[10]; // captchaTypes[random.Next(0, captchaTypes.Length)];
 
         // 当是算数运算时，CodeLength是指运算数个数
         if (options.CaptchaType.IsArithmetic())

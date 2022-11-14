@@ -50,7 +50,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     [HttpPost("/sysRegion/add")]
     public async Task<long> AddRegion(AddRegionInput input)
     {
-        var isExist = await _sysRegionRep.IsAnyAsync(u => u.Code == input.Code && u.Name == input.Name);
+        var isExist = await _sysRegionRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.R2002);
 

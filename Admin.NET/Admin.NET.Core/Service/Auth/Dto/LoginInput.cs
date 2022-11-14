@@ -28,9 +28,4 @@ public class LoginInput
     /// 验证码
     /// </summary>
     public string Code { get; set; }
-
-    /// <summary>
-    /// 租户Id
-    /// </summary>
-    public long TenantId { get; set; }
 }

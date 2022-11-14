@@ -53,13 +53,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpGet("/sysRole/list")]
     public async Task<List<RoleOutput>> GetRoleList()
     {
-        //// 若非超级管理员则只取拥有角色Id集合
-        //var roleIdList = _userManager.SuperAdmin ? new List<long>() :
-        //    await _sysUserRoleService.GetUserRoleIdList(_userManager.UserId);
-
-        return await _sysRoleRep.AsQueryable()
-            //.WhereIF(roleIdList.Count > 0, u => roleIdList.Contains(u.Id))
-            .OrderBy(u => u.Order).Select<RoleOutput>().ToListAsync();
+        return await _sysRoleRep.AsQueryable().OrderBy(u => u.Order).Select<RoleOutput>().ToListAsync();
     }
 
     /// <summary>
@@ -70,7 +64,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpPost("/sysRole/add")]
     public async Task AddRole(AddRoleInput input)
     {
-        var isExist = await _sysRoleRep.IsAnyAsync(u => u.Code == input.Code || u.Name == input.Name);
+        var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
@@ -103,11 +97,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpPost("/sysRole/update")]
     public async Task UpdateRole(UpdateRoleInput input)
     {
-        var adminRole = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
-        if (adminRole.Code == CommonConst.SysAdminRole)
-            throw Oops.Oh(ErrorCodeEnum.D1020);
-
-        var isExist = await _sysRoleRep.IsAnyAsync(u => (u.Name == input.Name || u.Code == input.Code) && u.Id != input.Id);
+        var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
@@ -150,10 +140,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpPost("/sysRole/grantMenu")]
     public async Task GrantRoleMenu(RoleMenuInput input)
     {
-        var role = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
-        if (!_userManager.SuperAdmin && role.Code == CommonConst.SysAdminRole)
-            throw Oops.Oh(ErrorCodeEnum.D1021);
-
         await _sysRoleMenuService.GrantRoleMenu(input);
     }
 

@@ -131,7 +131,7 @@ export default defineComponent({
 
 	.login-content {
 		width: 500px;
-		height: 550px;
+		height: 500px;
 		padding: 20px;
 		position: absolute;
 		right: 10%;

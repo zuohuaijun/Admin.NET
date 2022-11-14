@@ -1,15 +1,5 @@
 <template>
 	<el-form ref="ruleFormRef" :model="ruleForm" size="large" :rules="rules" class="login-content-form">
-		<el-form-item class="login-animation0" v-show="tenantList.length > 0">
-			<el-select v-model="ruleForm.tenantId" value-key="id" placeholder="租户名称" class="w100">
-				<template #prefix>
-					<el-icon>
-						<ele-OfficeBuilding />
-					</el-icon>
-				</template>
-				<el-option v-for="item in tenantList" :key="item.id" :label="item.name" :value="item.id" />
-			</el-select>
-		</el-form-item>
 		<el-form-item class="login-animation1" prop="account">
 			<el-input type="text" placeholder="请输入账号" v-model="ruleForm.account" clearable autocomplete="off">
 				<template #prefix>
@@ -56,18 +46,20 @@
 		<div class="font12 mt30 login-animation4 login-msg">{{ $t('message.mobile.msgText') }}</div>
 	</el-form>
 
-	<el-dialog v-model="verifyVisible" title="" width="300px" center>
-		<DragVerifyImgRotate
-			ref="dragRef"
-			:imgsrc="verifyImg"
-			v-model:isPassing="isPass"
-			text="请按住滑块拖动"
-			successText="验证通过"
-			handlerIcon="fa fa-angle-double-right"
-			successIcon="fa fa-hand-peace-o"
-			@passcallback="passVerify"
-		/>
-	</el-dialog>
+	<div class="dialog-header">
+		<el-dialog v-model="verifyVisible" width="300px" center :show-close="false">
+			<DragVerifyImgRotate
+				ref="dragRef"
+				:imgsrc="verifyImg"
+				v-model:isPassing="isPass"
+				text="请按住滑块拖动"
+				successText="验证通过"
+				handlerIcon="fa fa-angle-double-right"
+				successIcon="fa fa-hand-peace-o"
+				@passcallback="passVerify"
+			/>
+		</el-dialog>
+	</div>
 </template>
 
 <script lang="ts">
@@ -75,18 +67,13 @@ import { toRefs, reactive, defineComponent, computed, ref, onMounted } from 'vue
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
-// import Cookies from 'js-cookie';
-// import { storeToRefs } from 'pinia';
-// import { useThemeConfig } from '/@/stores/themeConfig';
-// import { initFrontEndControlRoutes } from '/@/router/frontEnd';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
-import { Session, Local } from '/@/utils/storage';
+import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
 
-import { getAPI } from '/@/utils/axios-utils';
+import { clearTokens, feature, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/api';
-import { SysTenant } from '/@/api-services/models';
 
 // 旋转图片滑块组件
 import DragVerifyImgRotate from '/@/components/dragVerify/dragVerifyImgRotate.vue';
@@ -97,8 +84,6 @@ export default defineComponent({
 	components: { DragVerifyImgRotate },
 	setup() {
 		const { t } = useI18n();
-		// const storesThemeConfig = useThemeConfig();
-		// const { themeConfig } = storeToRefs(storesThemeConfig);
 		const route = useRoute();
 		const router = useRouter();
 
@@ -111,7 +96,6 @@ export default defineComponent({
 				password: '123456',
 				code: '',
 				codeId: 0,
-				tenantId: 0,
 			},
 			rules: {
 				account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -126,14 +110,8 @@ export default defineComponent({
 			verifyImg: verifyImg,
 			captchaImage: '',
 			captchaEnabled: true,
-			tenantList: [] as Array<SysTenant>,
 		});
 		onMounted(async () => {
-			// 是否开启多库租户
-			var res = await getAPI(SysAuthApi).tenantDbListGet();
-			state.tenantList = res.data.result ?? [];
-			if (state.tenantList.length > 0) state.ruleForm.tenantId = state.tenantList[0].id ?? 0;
-
 			// 是否开启验证码验证
 			var res1 = await getAPI(SysAuthApi).captchaFlagGet();
 			state.captchaEnabled = res1.data.result ?? true;
@@ -153,34 +131,26 @@ export default defineComponent({
 		});
 		// 登录
 		const onSignIn = async () => {
-			// 先清空缓存
-			Session.clear();
-			Local.clear();
+			// 先清空Token缓存
+			clearTokens();
 
-			var res = await getAPI(SysAuthApi).loginPost(state.ruleForm);
-			if (res.data.result?.accessToken == null) {
+			const [err, res] = await feature(getAPI(SysAuthApi).loginPost(state.ruleForm));
+			if (err) {
 				getCaptcha(); // 重新获取验证码
-
+				return;
+			}
+			if (res?.data.result?.accessToken == undefined) {
+				getCaptcha(); // 重新获取验证码
 				ElMessage.error('登录失败，请检查账号！');
 				return;
 			}
 
 			state.loading.signIn = true;
-			// 存储 token 到浏览器缓存
-			Session.set('token', res.data.result?.accessToken);
-			// // 模拟数据，对接接口时，记得删除多余代码及对应依赖的引入。用于 `/src/stores/userInfo.ts` 中不同用户登录判断（模拟数据）
-			// Cookies.set('userName', state.ruleForm.account);
-			// if (!themeConfig.value.isRequestRoutes) {
-			// 	// 前端控制路由，2、请注意执行顺序
-			// 	await initFrontEndControlRoutes();
-			// 	signInSuccess();
-			// } else {
-			// 模拟后端控制路由，isRequestRoutes 为 true，则开启后端控制路由
-			// 添加完动态路由，再进行 router 跳转，否则可能报错 No match found for location with path "/"
+			Session.set('token', res.data.result?.accessToken); // 缓存token
+			// 添加完动态路由再进行router跳转，否则可能报错 No match found for location with path "/"
 			await initBackEndControlRoutes();
-			// 执行完 initBackEndControlRoutes，再执行 signInSuccess
+			// 再执行 signInSuccess
 			signInSuccess();
-			// }
 		};
 		// 登录成功后的跳转
 		const signInSuccess = () => {
@@ -212,7 +182,7 @@ export default defineComponent({
 				} else {
 					state.verifyVisible = true;
 					state.isPass = false;
-					dragRef.value.reset();
+					dragRef.value?.reset();
 				}
 			});
 		};
@@ -235,6 +205,14 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
+.dialog-header {
+	:deep(.el-dialog) {
+		.el-dialog__header {
+			display: none;
+		}
+	}
+}
+
 .login-content-form {
 	margin-top: 20px;
 

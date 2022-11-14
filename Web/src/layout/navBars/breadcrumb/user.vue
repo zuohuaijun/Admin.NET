@@ -83,12 +83,12 @@ import { storeToRefs } from 'pinia';
 import { useUserInfo } from '/@/stores/userInfo';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import other from '/@/utils/other';
-import { Session, Local } from '/@/utils/storage';
+import { Local } from '/@/utils/storage';
 import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
 import Search from '/@/layout/navBars/breadcrumb/search.vue';
 
 import OnlineUser from '/@/views/system/onlineUser/index.vue';
-import { getAPI } from '/@/utils/axios-utils';
+import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi, SysNoticeApi } from '/@/api-services/api';
 
 export default defineComponent({
@@ -161,11 +161,7 @@ export default defineComponent({
 					},
 				})
 					.then(async () => {
-						// 清除缓存 Token 等
-						Session.clear();
-						Local.clear();
-						// 使用 reload 时，不需要调用 resetRoute() 重置路由
-						window.location.reload();
+						clearAccessTokens();
 					})
 					.catch(() => {});
 			} else if (path === 'wareHouse') {

@@ -68,7 +68,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     [HttpPost("/sysOrg/add")]
     public async Task<long> AddOrg(AddOrgInput input)
     {
-        var isExist = await _sysOrgRep.IsAnyAsync(u => u.Code == input.Code && u.Name == input.Name);
+        var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D2002);
 
@@ -108,7 +108,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D2001);
 
         var sysOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Id);
-        var isExist = await _sysOrgRep.IsAnyAsync(u => (u.Name == input.Name && u.Code == input.Code) && u.Id != sysOrg.Id);
+        var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != sysOrg.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D2002);
 
@@ -183,6 +183,9 @@ public class SysOrgService : IDynamicApiController, ITransient
             var orgList2 = await GetUserRoleOrgIdList(userId);
             // 机构并集
             orgIdList = orgList1.Select(u => u.OrgId).Union(orgList2).ToList();
+            // 当前所属机构
+            if (!orgIdList.Contains(_userManager.OrgId))
+                orgIdList.Add(_userManager.OrgId);
             _sysCacheService.Set(CacheConst.KeyOrgIdList + userId, orgIdList); // 存缓存
         }
         return orgIdList;

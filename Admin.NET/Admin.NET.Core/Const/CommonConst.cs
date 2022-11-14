@@ -36,11 +36,6 @@ public class CommonConst
     public const string SysSingleLogin = "sys_single_login";
 
     /// <summary>
-    /// 开启多库租户
-    /// </summary>
-    public const string SysTenantDb = "sys_tenant_db";
-
-    /// <summary>
     /// 系统管理员角色编码
     /// </summary>
     public const string SysAdminRole = "sys_admin";

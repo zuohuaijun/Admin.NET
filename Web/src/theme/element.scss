@@ -250,6 +250,33 @@
 	overflow-y: auto;
 	overflow-x: hidden;
 }
+.el-dialog__title{
+	font-size: 14px;
+	color: #FFF;
+	font-weight: 700;
+}
+.el-dialog__header {
+	margin-right: 0;
+	padding-top: 10px;
+	// border-bottom: 1px solid var(--el-color-primary-light-1);
+	background: var(--el-color-primary-light-1);
+
+}
+.el-dialog__footer {
+	border-top: 1px dashed var(--el-color-primary-light-5);
+	padding-bottom: 10px;
+  }
+.el-dialog__headerbtn{
+	height: 40px;
+	font-weight: 900;
+	.el-dialog__close{
+		color: #FFF;
+	}
+}
+.el-dialog__headerbtn:hover .el-dialog__close{
+	color: var(--el-color-danger) !important;
+}
+
 
 /* Card 卡片
 ------------------------------- */

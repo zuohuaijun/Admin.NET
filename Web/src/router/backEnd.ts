@@ -11,6 +11,7 @@ import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi } from '/@/api-services/api';
+import { ElMessage } from 'element-plus';
 
 const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
 const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
@@ -102,6 +103,13 @@ export async function setAddRoute() {
  */
 export async function getBackEndControlRoutes() {
 	var res = await getAPI(SysMenuApi).loginMenuGet();
+	if (res.data.result == undefined || res.data.result.length < 1) {
+		ElMessage.error('没有任何菜单权限，请联系管理员！');
+		setTimeout(() => {
+			Session.removeToken();
+			window.location.reload();
+		}, 3000);
+	}
 	return res.data.result;
 }
 

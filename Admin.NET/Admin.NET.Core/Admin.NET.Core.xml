@@ -14,9 +14,19 @@
             自定义规范化结果特性
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.IgnoreUpdateAttribute">
+            <summary>
+            忽略更新种子数据特性
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.NotTableAttribute">
             <summary>
             非实体表特性
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.TenantBusinessAttribute">
+            <summary>
+            租户业务表特性
             </summary>
         </member>
         <member name="M:Admin.NET.Core.CacheSetup.AddCache(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
@@ -200,11 +210,6 @@
         <member name="F:Admin.NET.Core.CommonConst.SysSingleLogin">
             <summary>
             单用户登录
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.CommonConst.SysTenantDb">
-            <summary>
-            开启多库租户
             </summary>
         </member>
         <member name="F:Admin.NET.Core.CommonConst.SysAdminRole">
@@ -1392,6 +1397,11 @@
             备注
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysTenant.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysTimer">
             <summary>
             定时任务
@@ -2485,7 +2495,12 @@
         </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.D1300">
             <summary>
-            已存在同名或同管理员或同主机租户
+            已存在同名的租户
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1301">
+            <summary>
+            已存在同名的租户管理员
             </summary>
         </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.D1400">
@@ -2576,6 +2591,16 @@
         <member name="F:Admin.NET.Core.ErrorCodeEnum.R2002">
             <summary>
             已有相同编码或名称
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.Z1001">
+            <summary>
+            默认租户状态禁止修改
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.Z1002">
+            <summary>
+            禁止创建此类型的数据库
             </summary>
         </member>
         <member name="T:Admin.NET.Core.GenderEnum">
@@ -3835,11 +3860,6 @@
             验证码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.LoginInput.TenantId">
-            <summary>
-            租户Id
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.Service.LoginOutput">
             <summary>
             用户登录结果
@@ -3950,12 +3970,6 @@
         <member name="M:Admin.NET.Core.Service.SysAuthService.GetCaptcha">
             <summary>
             生成图片验证码
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysAuthService.GetTenantDbList">
-            <summary>
-            是否启用多库租户
             </summary>
             <returns></returns>
         </member>
@@ -5359,6 +5373,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysMenuService.DeleteBtnFromMenuTree(System.Collections.Generic.List{Admin.NET.Core.SysMenu})">
+            <summary>
+            删除登录菜单树里面的按钮
+            </summary>
+        </member>
         <member name="M:Admin.NET.Core.Service.SysMenuService.GetMenuList(Admin.NET.Core.Service.MenuInput)">
             <summary>
             获取菜单列表
@@ -6050,6 +6069,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.PageTenantInput.Name">
             <summary>
             名称
@@ -6091,6 +6115,13 @@
         <member name="M:Admin.NET.Core.Service.SysTenantService.AddTenant(Admin.NET.Core.Service.AddTenantInput)">
             <summary>
             增加租户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysTenantService.SetTenantStatus(Admin.NET.Core.Service.TenantInput)">
+            <summary>
+            设置租户状态
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6165,7 +6196,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.CreateTenantDb(Admin.NET.Core.Service.TenantInput)">
             <summary>
-            创建租户数据库（根据默认库结构）
+            创建租户数据库
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6854,22 +6885,32 @@
             </summary>
             <param name="config"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDbAop(SqlSugar.SqlSugarScopeProvider,Admin.NET.Core.DbConnectionConfig)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDbAop(SqlSugar.SqlSugarScopeProvider)">
             <summary>
             配置Aop
             </summary>
             <param name="db"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDatabase(SqlSugar.SqlSugarScope,Admin.NET.Core.DbConnectionConfig)">
+            <summary>
+            初始化数据库
+            </summary>
+            <param name="db"></param>
             <param name="config"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.InitDataBase(SqlSugar.SqlSugarScope,Admin.NET.Core.DbConnectionOptions)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitTenantConnection(SqlSugar.ITenant,System.Int64)">
             <summary>
-            初始化数据库结构
+            初始化租户库连接
             </summary>
+            <param name="iTenant"></param>
+            <param name="tenantId"></param>
         </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.CreateDataBase(SqlSugar.ISqlSugarClient,Admin.NET.Core.DbConnectionConfig,System.Int64)">
+        <member name="M:Admin.NET.Core.SqlSugarSetup.InitTenantDatabase(SqlSugar.ITenant,Admin.NET.Core.DbConnectionConfig)">
             <summary>
-            初始化数据库结构
+            初始化租户业务数据库
             </summary>
+            <param name="itenant"></param>
+            <param name="config"></param>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.SetDeletedEntityFilter(SqlSugar.SqlSugarScopeProvider)">
             <summary>
@@ -7101,6 +7142,19 @@
             <summary>
             返回读取全局配置的 JSON 选项
             </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.CommonUtil">
+            <summary>
+            通用工具类
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.CommonUtil.ExecPercent(System.Decimal,System.Decimal)">
+            <summary>
+            生成百分数
+            </summary>
+            <param name="PassCount"></param>
+            <param name="allCount"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.ComputerUtil.GetComputerInfo">

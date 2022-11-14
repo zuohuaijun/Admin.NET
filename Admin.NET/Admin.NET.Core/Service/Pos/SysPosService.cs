@@ -53,7 +53,7 @@ public class SysPosService : IDynamicApiController, ITransient
     [HttpPost("/sysPos/update")]
     public async Task UpdatePos(UpdatePosInput input)
     {
-        var isExist = await _sysPosRep.IsAnyAsync(u => (u.Name == input.Name || u.Code == input.Code) && u.Id != input.Id);
+        var isExist = await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D6000);
 

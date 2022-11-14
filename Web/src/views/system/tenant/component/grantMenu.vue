@@ -15,7 +15,6 @@
 								highlight-current
 								class="menu-data-tree"
 								icon="ele-Menu"
-								check-strictly
 								default-expand-all
 							/>
 						</el-form-item>
@@ -106,16 +105,16 @@ export default defineComponent({
 <style scoped lang="scss">
 .menu-data-tree {
 	width: 100%;
-	border: 1px solid var(--el-border-color);
+	// border: 1px solid var(--el-border-color);
 	border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
 	padding: 5px;
 }
 
 :deep(.penultimate-node) {
 	.el-tree-node__children {
-		padding-left: 60px;
+		padding-left: 40px;
 		white-space: pre-wrap;
-		line-height: 12px;
+		line-height: 100%;
 
 		.el-tree-node {
 			display: inline-block;
@@ -125,9 +124,9 @@ export default defineComponent({
 			padding-left: 5px !important;
 			padding-right: 5px;
 
-			.el-tree-node__expand-icon {
-				display: none;
-			}
+			// .el-tree-node__expand-icon {
+			// 	display: none;
+			// }
 		}
 	}
 }

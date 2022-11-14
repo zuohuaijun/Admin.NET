@@ -79,4 +79,10 @@ public class SysTenant : EntityBase
     [SugarColumn(ColumnDescription = "备注", Length = 128)]
     [MaxLength(128)]
     public string Remark { get; set; }
+
+    /// <summary>
+    /// 状态
+    /// </summary>
+    [SugarColumn(ColumnDescription = "状态")]
+    public StatusEnum Status { get; set; } = StatusEnum.Enable;
 }

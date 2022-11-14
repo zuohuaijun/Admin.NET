@@ -1,0 +1,41 @@
+{
+    "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+
+    "SpecificationDocumentSettings": {
+        "DocumentTitle": "Admin.NET 框架",
+        "GroupOpenApiInfos": [
+            {
+                "Group": "Default",
+                "Title": "Admin.NET",
+                "Description": "让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>",
+                "Version": "1.0.0",
+                "TermsOfService": "https://dotnetchina.gitee.io/furion/",
+                "Contact": {
+                    "Name": "zuohuaijun",
+                    "Url": "https://gitee.com/zuohuaijun/Admin.NET",
+                    "Email": "515096995@qq.com"
+                }
+            },
+            {
+                "Group": "All Groups",
+                "Title": "所有接口",
+                "Description": "让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>",
+                "Version": "1.0.0",
+                "TermsOfService": "https://dotnetchina.gitee.io/furion/",
+                "Contact": {
+                    "Name": "zuohuaijun",
+                    "Url": "https://gitee.com/zuohuaijun/Admin.NET",
+                    "Email": "515096995@qq.com"
+                }
+            }
+        ],
+        "EnableAllGroups": true,
+        "LoginInfo": {
+            "Enabled": false, // 是否开启Swagger登录
+            "CheckUrl": "/Swagger/CheckUrl",
+            "SubmitUrl": "/Swagger/SubmitUrl",
+            "UserName": "admin",
+            "Password": "000000"
+        }
+    }
+}

@@ -84,40 +84,43 @@
 								<div style="color: #b1b3b8">附属机构</div>
 							</el-divider>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-								<el-button icon="ele-Plus" type="primary" @click="addExtOrgRow"> 增加附属机构 </el-button>
+								<el-button icon="ele-Plus" type="primary" plain @click="addExtOrgRow"> 增加附属机构 </el-button>
 								<span style="font-size: 12px; color: gray; padding-left: 5px"> 具有相应组织机构的数据权限 </span>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-								<el-row :gutter="35" v-for="(v, k) in ruleForm.extOrgIdList" :key="k">
-									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-										<el-form-item label="机构" :prop="`extOrgIdList[${k}].orgId`" :rules="[{ required: true, message: `机构不能为空`, trigger: 'blur' }]">
-											<template #label>
-												<el-button icon="ele-Delete" type="danger" circle plain size="small" @click="deleteExtOrgRow(k)"></el-button>
-												<span class="ml5">机构</span>
-											</template>
-											<el-cascader
-												:options="orgData"
-												:props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'name' }"
-												placeholder="机构组织"
-												clearable
-												class="w100"
-												v-model="ruleForm.extOrgIdList[k].orgId"
-											>
-												<template #default="{ node, data }">
-													<span>{{ data.name }}</span>
-													<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+								<template v-if="ruleForm.extOrgIdList != undefined && ruleForm.extOrgIdList.length > 0">
+									<el-row :gutter="35" v-for="(v, k) in ruleForm.extOrgIdList" :key="k">
+										<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+											<el-form-item label="机构" :prop="`extOrgIdList[${k}].orgId`" :rules="[{ required: true, message: `机构不能为空`, trigger: 'blur' }]">
+												<template #label>
+													<el-button icon="ele-Delete" type="danger" circle plain size="small" @click="deleteExtOrgRow(k)"></el-button>
+													<span class="ml5">机构</span>
 												</template>
-											</el-cascader>
-										</el-form-item>
-									</el-col>
-									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-										<el-form-item label="职位" :prop="`extOrgIdList[${k}].posId`" :rules="[{ required: true, message: `职位不能为空`, trigger: 'blur' }]">
-											<el-select v-model="ruleForm.extOrgIdList[k].posId" placeholder="职位名称" style="width: 100%">
-												<el-option v-for="d in posData" :key="d.id" :label="d.name" :value="d.id" />
-											</el-select>
-										</el-form-item>
-									</el-col>
-								</el-row>
+												<el-cascader
+													:options="orgData"
+													:props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'name' }"
+													placeholder="机构组织"
+													clearable
+													class="w100"
+													v-model="ruleForm.extOrgIdList[k].orgId"
+												>
+													<template #default="{ node, data }">
+														<span>{{ data.name }}</span>
+														<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+													</template>
+												</el-cascader>
+											</el-form-item>
+										</el-col>
+										<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+											<el-form-item label="职位" :prop="`extOrgIdList[${k}].posId`" :rules="[{ required: true, message: `职位不能为空`, trigger: 'blur' }]">
+												<el-select v-model="ruleForm.extOrgIdList[k].posId" placeholder="职位名称" style="width: 100%">
+													<el-option v-for="d in posData" :key="d.id" :label="d.name" :value="d.id" />
+												</el-select>
+											</el-form-item>
+										</el-col>
+									</el-row>
+								</template>
+								<el-empty description="空" v-else></el-empty>
 							</el-col>
 						</el-row>
 					</el-form>
@@ -259,7 +262,7 @@ export default defineComponent({
 		});
 		// 打开弹窗
 		const openDialog = async (row: any) => {
-			state.ruleForm = row;
+			state.ruleForm = JSON.parse(JSON.stringify(row));
 			if (JSON.stringify(row) !== '{}') {
 				var resRole = await getAPI(SysUserApi).sysUserOwnRoleUserIdGet(row.id);
 				state.ruleForm.roleIdList = resRole.data.result;
