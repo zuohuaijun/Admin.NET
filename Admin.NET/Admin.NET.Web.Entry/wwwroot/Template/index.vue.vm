@@ -4,30 +4,30 @@
 		          
 @if(Model.QueryWhetherList.Count > 0){
      @:<el-form :model="queryParams" ref="queryForm" :inline="true">
-		 @:<a-row>
+		 @:<el-row>
 foreach (var column in Model.QueryWhetherList){
     if(@column.EffectType == "Input" || @column.EffectType == "InputTextArea"){
        @:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" >
        @:<el-form-item label="@column.ColumnComment">
-       @:<el-input v-model="queryParam.@(@column.ColumnName)" clearable placeholder="请输入@(@column.ColumnComment)"/>
+       @:<el-input v-model="queryParams.@(@column.ColumnName)" clearable placeholder="请输入@(@column.ColumnComment)"/>
        @:</el-form-item>
        @:</el-col>
     }else if(@column.EffectType == "InputTextArea"){
 		@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" >
         @:<el-form-item label="@column.ColumnComment">
-        @:<el-input-number v-model="queryParam.@(@column.ColumnName)"  clearable placeholder="请输入@(@column.ColumnComment)"/>
+        @:<el-input-number v-model="queryParams.@(@column.ColumnName)"  clearable placeholder="请输入@(@column.ColumnComment)"/>
         @:</el-form-item>
         @:</el-col>
     }else if(@column.EffectType == "InputNumber"){
 		@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" >
         @:<el-form-item label="@column.ColumnComment">
-        @:<el-input-number v-model="queryParam.@(@column.ColumnName)"  clearable placeholder="请输入@(@column.ColumnComment)"/>
+        @:<el-input-number v-model="queryParams.@(@column.ColumnName)"  clearable placeholder="请输入@(@column.ColumnComment)"/>
         @:</el-form-item>
         @:</el-col>
     }else if(@column.EffectType == "fk"){
         @:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" >
         @:<el-form-item label="@column.ColumnComment">
-        @:<el-select clearable v-model="queryParam.@(@column.ColumnName)" placeholder="请选择@(@column.ColumnComment)">
+        @:<el-select clearable v-model="queryParams.@(@column.ColumnName)" placeholder="请选择@(@column.ColumnComment)">
         @:<el-select-option v-for="(item,index) in get@(@column.FkEntityName)DropdownList" :key="index" :value="item.vaue">{{ item.label }}</el-select-option>
         @:</el-select>
         @:</el-form-item>
@@ -35,7 +35,7 @@ foreach (var column in Model.QueryWhetherList){
     }else if(@column.EffectType == "Select"){
          @:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" >
          @:<el-form-item label="@column.ColumnComment">
-         @:<el-select clearable v-model="queryParam.@(@column.ColumnName)" placeholder="请选择@(@column.ColumnComment)">
+         @:<el-select clearable v-model="queryParams.@(@column.ColumnName)" placeholder="请选择@(@column.ColumnComment)">
          @:<el-select-option v-for="(item,index) in getDictDataDropdownList('@(@column.DictTypeCode)')" :key="index" :value="item.code">{{ item.name }}</el-select-option>
          @:</el-select>
          @:</el-form-item>
@@ -43,24 +43,25 @@ foreach (var column in Model.QueryWhetherList){
     }else if(@column.EffectType == "DatePicker"){
         @:<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" >
         @:<el-form-item label="@column.ColumnComment">
-        @:<el-date-picker placeholder="请选择@(@column.ColumnComment)" v-model="queryParam.@(@column.ColumnName)Date" />
+        @:<el-date-picker placeholder="请选择@(@column.ColumnComment)" v-model="queryParams.@(@column.ColumnName)Date" />
         @:</el-form-item>
         @:</el-col>
-    }
-			@:<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" >
-             @: <span class="table-page-search-submitButtons">
-                @: <el-button icon="ele-Refresh" @@click="() => queryParam = {}"> 重置 </el-button>
-              @: <el-button type="primary" icon="ele-Search" @@click="handleQuery" v-auth="'@(@Model.ClassName):page'"> 查询 </el-button>
-				@:  <el-button icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.ClassName):add'"> 新增 </el-button>  
-             @: </span>
-           @: </el-col>
-          @:</a-row>
-        @:</a-form>
-}
+			 }
+
+			 }
+			 @:<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" >
+				 @: <span class="table-page-search-submitButtons">
+					 @: <el-button icon="ele-Refresh" @@click="() => queryParams = {}"> 重置 </el-button>
+					 @: <el-button type="primary" icon="ele-Search" @@click="handleQuery" v-auth="'@(@Model.ClassName):page'"> 查询 </el-button>
+					 @:  <el-button icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.ClassName):add'"> 新增 </el-button>
+					 @:</span>
+				 @:</el-col>
+			 @:</el-row>
+		 @:</el-form>
 }
       
-    </a-card>
-    <a-card :bordered="false">
+    </el-card>
+    <el-card :bordered="false">
 	<el-table 
 		:data="tableData" 
 		style="width: 100%" 
@@ -120,150 +121,150 @@ foreach (var column in Model.QueryWhetherList){
 		layout="total, sizes, prev, pager, next, jumper"
 	/>	 
 <editDialog ref="editDialogRef" :title="edit@(@Model.ClassName)Title"/>
-    </a-card>
+    </el-card>
   </div>
 </template>
 
 <script lang="ts">
 	import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
-    import { ElMessageBox, ElMessage } from 'element-plus';
+	import { ElMessageBox, ElMessage } from 'element-plus';
 	import { auth } from '/@@/utils/authFunction';
 	import { formatDate } from '/@@/utils/formatTime';
-	
+
 	import editDialog from '/@@/views/main/@(@Model.ClassName)/component/editDialog.vue'
-	import { get@(@Model.ClassName)Page, delete@(@Model.ClassName) } from '/@@/api/main/@(@Model.ClassName)';
-@foreach (var column in Model.QueryWhetherList){
+	import { get@(@Model.ClassName)PageList, delete@(@Model.ClassName) } from '/@@/api/main/@(@Model.ClassName)';
+	@foreach (var column in Model.QueryWhetherList){
 	if(@column.EffectType == "fk"){
-  @:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.ClassName)';		
+	@:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.ClassName)';
 	}
-}
-@foreach (var column in Model.QueryWhetherList){
+	}
+	@foreach (var column in Model.QueryWhetherList){
 	if(@column.EffectType == "Select"){
-  @:import { getDictDataDropdown } from '/@@/api/system/admin';
-  break;
+	@:import { getDictDataDropdown } from '/@@/api/system/admin';
+	break;
 	}
-}	
+	}
 	export default defineComponent({
-	    name: '@(@Model.ClassName)',
-		components: { editDialog },
-		setup() {
-		    const { proxy } = getCurrentInstance() as any;
-			const editDialogRef = ref();
-			const state = reactive({
-			    loading: false,
-			    tableData: [] as any,
-			    queryParams: {} as any,
-			    tableParams: {
-				    page: 1,
-				    pageSize: 10,
-				    total: 0 as any,
-			    },
-			    edit@(@Model.ClassName)Title: '',
-		    });
-			
-			onMounted(async () => {
-			    handleQuery();
+	name: '@(@Model.ClassName)',
+	components: { editDialog },
+	setup() {
+	const { proxy } = getCurrentInstance() as any;
+	const editDialogRef = ref();
+	const state = reactive({
+	loading: false,
+	tableData: [] as any,
+	queryParams: {} as any,
+	tableParams: {
+	page: 1,
+	pageSize: 10,
+	total: 0 as any,
+	},
+	edit@(@Model.ClassName)Title: '',
+	});
 
-			    proxy.mittBus.on('submitRefresh', () => {
-				    handleQuery();
-			    });
-		    });
-			
-		    onUnmounted(() => {
-			    proxy.mittBus.off('submitRefresh');
-		    });	
-			
-			// 查询操作
-		    const handleQuery = async () => {
-			    state.loading = true;
-			    var res = await get@(@Model.ClassName)Page(Object.assign(state.queryParams, state.tableParams));
-			    state.tableData = res.data.result?.items ?? [];
-			    state.tableParams.total = res.data.result?.total;
-			    state.loading = false;
-		    };
-			
-			// 打开新增页面
-		    const openAdd@(@Model.ClassName) = () => {
-			    state.edit@(@Model.ClassName)Title = '添加@(@Model.BusName)';
-			    editDialogRef.value.openDialog({});
-		    };
-			
-		    // 打开编辑页面
-		    const openEdit@(@Model.ClassName) = (row: any) => {
-			    state.edit@(@Model.ClassName)Title = '编辑@(@Model.BusName)';
-			    editDialogRef.value.openDialog(row);
-		    };
-			
-		    // 删除
-		    const del@(@Model.ClassName) = (row: any) => {
-			    ElMessageBox.confirm(`确定要删除吗?`, '提示', {
-				    confirmButtonText: '确定',
-				    cancelButtonText: '取消',
-				    type: 'warning',
-			    })
-				    .then(async () => {
-					    await delete@(@Model.ClassName)(row);
-					    handleQuery();
-					    ElMessage.success('删除成功');
-				    })
-				    .catch(() => {});
-		    };
-			
-		    // 改变页面容量
-		    const handleSizeChange = (val: number) => {
-			    state.tableParams.pageSize = val;
-			    handleQuery();
-		    };
-			
-		    // 改变页码序号
-		    const handleCurrentChange = (val: number) => {
-			    state.tableParams.page = val;
-			    handleQuery();
-		    };
-			
-@foreach (var column in Model.QueryWhetherList){
-	if(@column.EffectType == "fk"){
-			@:const get@(@column.FkEntityName)DropdownList = await () => {
-				@:let list = await get@(@column.FkEntityName)Dropdown();
-			    @:return list.data.result ?? [];
-		    @:};
-			break;
-	}
-}
+	onMounted(async () => {
+	handleQuery();
 
-@foreach (var column in Model.QueryWhetherList){
-	if(@column.EffectType == "Select"){
-			@:const getDictDataDropdownList = await (val: any) => {
-				@:let list = await getDictDataDropdownList(val);
-			    @:return list.data.result ?? [];
-		    @:};
-			break;
-	}
-}
-            return {
-			    handleQuery,
-			    editDialogRef,
-			    openAdd@(@Model.ClassName),
-			    openEdit@(@Model.ClassName),
-			    del@(@Model.ClassName),
-			    handleSizeChange,
-			    handleCurrentChange,
-			    formatDate,
-@foreach (var column in Model.QueryWhetherList){
+	proxy.mittBus.on('submitRefresh', () => {
+	handleQuery();
+	});
+	});
+
+	onUnmounted(() => {
+	proxy.mittBus.off('submitRefresh');
+	});
+
+	// 查询操作
+	const handleQuery = async () => {
+	state.loading = true;
+	var res = await get@(@Model.ClassName)PageList(Object.assign(state.queryParams, state.tableParams));
+	state.tableData = res.data.result?.items ?? [];
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+	};
+
+	// 打开新增页面
+	const openAdd@(@Model.ClassName) = () => {
+	state.edit@(@Model.ClassName)Title = '添加@(@Model.BusName)';
+	editDialogRef.value.openDialog({});
+	};
+
+	// 打开编辑页面
+	const openEdit@(@Model.ClassName) = (row: any) => {
+	state.edit@(@Model.ClassName)Title = '编辑@(@Model.BusName)';
+	editDialogRef.value.openDialog(row);
+	};
+
+	// 删除
+	const del@(@Model.ClassName) = (row: any) => {
+	ElMessageBox.confirm(`确定要删除吗?`, '提示', {
+	confirmButtonText: '确定',
+	cancelButtonText: '取消',
+	type: 'warning',
+	})
+	.then(async () => {
+	await delete@(@Model.ClassName)(row);
+	handleQuery();
+	ElMessage.success('删除成功');
+	})
+	.catch(() => {});
+	};
+
+	// 改变页面容量
+	const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+	};
+
+	// 改变页码序号
+	const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+	};
+
+	@foreach (var column in Model.QueryWhetherList){
 	if(@column.EffectType == "fk"){
-			@:get@(@column.FkEntityName)DropdownList,
-			break;
+	@:const get@(@column.FkEntityName)DropdownList = await () => {
+	@:let list = await get@(@column.FkEntityName)Dropdown();
+	@:return list.data.result ?? [];
+	@:};
+	break;
 	}
-}
-@foreach (var column in Model.QueryWhetherList){
+	}
+
+	@foreach (var column in Model.QueryWhetherList){
 	if(@column.EffectType == "Select"){
-			@:getDictDataDropdownList,
-			break;
+	@:const getDictDataDropdownList = await (val: any) => {
+	@:let list = await getDictDataDropdownList(val);
+	@:return list.data.result ?? [];
+	@:};
+	break;
 	}
-}				
-			    auth,
-			    ...toRefs(state),
-		   };
-		}
+	}
+	return {
+	handleQuery,
+	editDialogRef,
+	openAdd@(@Model.ClassName),
+	openEdit@(@Model.ClassName),
+	del@(@Model.ClassName),
+	handleSizeChange,
+	handleCurrentChange,
+	formatDate,
+	@foreach (var column in Model.QueryWhetherList){
+	if(@column.EffectType == "fk"){
+	@:get@(@column.FkEntityName)DropdownList,
+	break;
+	}
+	}
+	@foreach (var column in Model.QueryWhetherList){
+	if(@column.EffectType == "Select"){
+	@:getDictDataDropdownList,
+	break;
+	}
+	}
+	auth,
+	...toRefs(state),
+	};
+	}
 	})
 </script>
