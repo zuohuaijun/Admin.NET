@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-dbTable-container">
-		<el-dialog v-model="isShowDialog" title="表编辑" draggable width="1400px">
+		<el-dialog v-model="isShowDialog" title="表新增" draggable width="1400px">
 			<el-divider content-position="left">数据表信息</el-divider>
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
@@ -28,38 +28,35 @@
 						<el-input v-model="scope.row.columnDescription" autocomplete="off" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="isPrimarykey" label="主键" >
+				<el-table-column prop="isPrimarykey" label="主键">
 					<template #default="scope">
 						<el-select v-model="scope.row.isPrimarykey" class="m-2" placeholder="Select">
 							<el-option v-for="item in isOrNotSelect()" :key="item.value" :label="item.label" :value="item.value" />
 						</el-select>
-						<!-- <el-switch v-model="scope.row.isPrimarykey" active-text="是" inactive-text="否" /> -->
 					</template>
 				</el-table-column>
-				<el-table-column prop="isIdentity" label="自增" >
+				<el-table-column prop="isIdentity" label="自增">
 					<template #default="scope">
 						<el-select v-model="scope.row.isIdentity" class="m-2" placeholder="Select">
 							<el-option v-for="item in isOrNotSelect()" :key="item.value" :label="item.label" :value="item.value" />
 						</el-select>
-						<!-- <el-switch v-model="scope.row.isIdentity" active-text="是" inactive-text="否" /> -->
 					</template>
 				</el-table-column>
-				<el-table-column prop="dataType" label="类型" >
+				<el-table-column prop="dataType" label="类型">
 					<template #default="scope">
 						<el-select v-model="scope.row.dataType" class="m-2" placeholder="Select">
 							<el-option v-for="item in apiTypeSelect()" :key="item.value" :label="item.value" :value="item.value" />
 						</el-select>
 					</template>
 				</el-table-column>
-				<el-table-column prop="isNullable" label="可空" >
+				<el-table-column prop="isNullable" label="可空">
 					<template #default="scope">
 						<el-select v-model="scope.row.isNullable" class="m-2" placeholder="Select">
 							<el-option v-for="item in isOrNotSelect()" :key="item.value" :label="item.label" :value="item.value" />
 						</el-select>
-						<!-- <el-switch v-model="scope.row.isNullable" active-text="是" inactive-text="否" /> -->
 					</template>
 				</el-table-column>
-				<el-table-column prop="length" label="长度" >
+				<el-table-column prop="length" label="长度">
 					<template #default="scope">
 						<el-input-number v-model="scope.row.length" size="small" />
 					</template>
@@ -69,17 +66,19 @@
 						<el-input-number v-model="scope.row.decimalDigits" size="small" />
 					</template>
 				</el-table-column>
-				<el-table-column fixed="right" label="操作" width="120">
+				<el-table-column fixed="right" label="操作" width="220">
 					<template #default="scope">
-						<el-button link type="primary" size="small" @click.prevent="deleteRow(scope.$index)"> Remove </el-button>
+						<el-button link type="primary" icon="el-icon-delete" size="small" @click.prevent="handleColDelete(scope.$index)">删除</el-button>
+						<el-button v-if="tableData.length > 1" link type="primary" icon="ele-Top" size="small" @click.prevent="handleColTop(scope.row, scope.$index)">上移</el-button>
+						<el-button v-if="tableData.length > 1" link type="primary" icon="ele-Bottom" size="small" @click.prevent="handleColDown(scope.row, scope.$index)">下移</el-button>
 					</template>
 				</el-table-column>
 			</el-table>
-			<div style="text-align: center">
-				<el-button type="primary" text bg @click="addPrimaryColumn">新增主键字段</el-button>
-				<el-button type="primary" text bg @click="addColumn">新增普通字段</el-button>
-				<el-button type="primary" text bg @click="addTenantColumn">新增租户字段</el-button>
-				<el-button type="primary" text bg @click="addBaseColumn">新增基础字段</el-button>
+			<div style="text-align: left; margin-top: 10px">
+				<el-button icon="ele-Plus" @click="addPrimaryColumn">新增主键字段</el-button>
+				<el-button icon="ele-Plus" @click="addColumn">新增普通字段</el-button>
+				<el-button icon="ele-Plus" @click="addTenantColumn">新增租户字段</el-button>
+				<el-button icon="ele-Plus" @click="addBaseColumn">新增基础字段</el-button>
 			</div>
 
 			<template #footer>
@@ -93,61 +92,59 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref, toRaw } from 'vue';
+import { EditRecordRow, UpdateDbTableInput } from '/@/api/system/interface';
+import { ElMessage } from 'element-plus';
 
-import { getAPI } from '/@/utils/axios-utils';
-import { SysDatabaseApi } from '/@/api-services/api';
-import { UpdateDbTableInput } from '/@/api-services/models';
+import { addTable } from '/@/api/system/admin';
 
 export default defineComponent({
-	name: 'sysEditTable',
+	name: 'sysAddTable',
 	components: {},
 	setup() {
 		var colIndex = 0;
-		/**
-		 *
-		 * @export
-		 * @interface EditRecordRow
-		 */
-		interface EditRecordRow {
-			columnDescription?: string | null;
-			dataType?: string | null;
-			dbColumnName?: string | null;
-			decimalDigits: number;
-			isIdentity: number;
-			isNullable: number;
-			isPrimarykey: number;
-			length: number;
-			key?: number;
-			editable?: boolean;
-			isNew: boolean;
-		}
 		const { proxy } = getCurrentInstance() as any;
 		const ruleFormRef = ref();
-		const tableData = reactive([]) as Array<EditRecordRow>;
 		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {} as UpdateDbTableInput,
+			tableData: [] as Array<EditRecordRow>,
 		});
+
 		// 打开弹窗
 		const openDialog = (row: any) => {
 			state.ruleForm = row;
 			state.isShowDialog = true;
 		};
+
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit('submitRefreshTable');
+			proxy.mittBus.emit('addTableSubmitted', state.ruleForm.tableName);
+			state.tableData = [];
 			state.isShowDialog = false;
 		};
+
 		// 取消
 		const cancel = () => {
 			state.isShowDialog = false;
 		};
+
 		// 提交
 		const submit = () => {
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
-				await getAPI(SysDatabaseApi).sysDatabaseTableUpdatePost(state.ruleForm);
+				if (state.tableData.length === 0) {
+					ElMessage({
+						type: 'error',
+						message: `请选择库名!`,
+					});
+					return;
+				}
+				const params: any = {
+					dbColumnInfoList: state.tableData,
+					...state.ruleForm,
+				};
+				await addTable(params);
 				closeDialog();
 			});
 		};
@@ -226,17 +223,13 @@ export default defineComponent({
 			return [
 				{
 					label: '是',
-					value: 1
+					value: 1,
 				},
 				{
 					label: '否',
-					value: 0
-				}
+					value: 0,
+				},
 			];
-		};
-
-		const deleteRow = (index: number) => {
-			tableData.splice(index, 1);
 		};
 
 		function addPrimaryColumn() {
@@ -253,7 +246,7 @@ export default defineComponent({
 				editable: true,
 				isNew: true,
 			};
-			tableData.push(addRow);
+			state.tableData.push(addRow);
 			colIndex++;
 		}
 
@@ -271,7 +264,7 @@ export default defineComponent({
 				editable: true,
 				isNew: true,
 			};
-			tableData.push(addRow);
+			state.tableData.push(addRow);
 			colIndex++;
 		}
 
@@ -289,7 +282,7 @@ export default defineComponent({
 				editable: true,
 				isNew: true,
 			};
-			tableData.push(addRow);
+			state.tableData.push(addRow);
 			colIndex++;
 		}
 
@@ -324,7 +317,7 @@ export default defineComponent({
 			];
 
 			fileds.forEach((m: any) => {
-				tableData.push({
+				state.tableData.push({
 					columnDescription: m.desc,
 					dataType: m.dataType,
 					dbColumnName: m.name,
@@ -340,6 +333,31 @@ export default defineComponent({
 				colIndex++;
 			});
 		}
+
+		function handleColDelete(index: number) {
+			state.tableData.splice(index, 1);
+		}
+
+		function handleColTop(record: EditRecordRow, index: number) {
+			if (record.isNew) {
+				var data1 = ChangeExForArray(index, index - 1, state.tableData);
+				return data1;
+			}
+		}
+
+		function handleColDown(record: EditRecordRow, index: number) {
+			if (record.isNew) {
+				return ChangeExForArray(index, index + 1, state.tableData);
+			}
+		}
+
+		function ChangeExForArray(index1: number, index2: number, array: Array<EditRecordRow>) {
+			let temp = array[index1];
+			array[index1] = array[index2];
+			array[index2] = temp;
+			return array;
+		}
+
 		return {
 			ruleFormRef,
 			openDialog,
@@ -347,14 +365,15 @@ export default defineComponent({
 			cancel,
 			submit,
 			...toRefs(state),
-			tableData,
-			deleteRow,
 			apiTypeSelect,
 			addPrimaryColumn,
 			addColumn,
 			addTenantColumn,
 			addBaseColumn,
-			isOrNotSelect
+			isOrNotSelect,
+			handleColTop,
+			handleColDown,
+			handleColDelete,
 		};
 	},
 });

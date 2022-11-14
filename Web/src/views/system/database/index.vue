@@ -18,6 +18,7 @@
 					<el-button icon="ele-Delete" type="danger" @click="delTable"> 删除表 </el-button>
 					<el-button icon="ele-Plus" @click="openAddTable"> 增加表 </el-button>
 					<el-button icon="ele-Plus" @click="openAddColumn"> 增加列 </el-button>
+					<el-button icon="ele-Plus" type="primary" @click="openGenerateDialog"> 生成实体 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -59,6 +60,9 @@
 		</el-card>
 		<EditTable ref="editTableRef" />
 		<EditColumn ref="editColumnRef" />
+		<AddTable ref="addTableRef" />
+		<AddColumn ref="addColumnRef" />
+		<GenerateEntity ref="generateEntityRef" />
 	</div>
 </template>
 
@@ -67,19 +71,25 @@ import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurr
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditTable from '/@/views/system/database/component/editTable.vue';
 import EditColumn from '/@/views/system/database/component/editColumn.vue';
+import AddTable from '/@/views/system/database/component/addTable.vue';
+import AddColumn from '/@/views/system/database/component/addColumn.vue';
+import GenerateEntity from '/@/views/system/database/component/generateEntity.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
-import { getTableInfoList, getColumnInfoList } from '/@/api/system/admin';
 import { DbColumnOutput, DbTableInfo } from '/@/api-services/models';
+import { AddDbColumnInput } from '/@/api/system/interface';
 
 export default defineComponent({
 	name: 'sysDatabase',
-	components: { EditTable, EditColumn },
+	components: { EditTable, EditColumn, AddTable,AddColumn,GenerateEntity },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const editTableRef = ref();
 		const editColumnRef = ref();
+		const addTableRef = ref();
+		const addColumnRef = ref();
+		const generateEntityRef = ref();
 		const state = reactive({
 			loading: false,
 			loading1: false,
@@ -97,7 +107,6 @@ export default defineComponent({
 		onMounted(async () => {
 			state.loading = true;
 			var res = await getAPI(SysDatabaseApi).sysDatabaseListGet();
-			// var res = await getTableInfoList({});
 			state.dbData = res.data.result;
 			state.loading = false;
 
@@ -107,35 +116,33 @@ export default defineComponent({
 			proxy.mittBus.on('submitRefreshColumn', () => {
 				handleQueryColunm();
 			});
+			proxy.mittBus.on('addTableSubmitted', (res: any) => {
+				handleQueryTable();
+				state.tableName = res;
+				handleQueryColunm();
+			});
 		});
 		onUnmounted(() => {
 			proxy.mittBus.off('submitRefreshTable');
 			proxy.mittBus.off('submitRefreshColumn');
+			proxy.mittBus.off('addTableSubmitted');
 		});
 		// 表查询操作
 		const handleQueryTable = async () => {
 			state.tableName = '';
 			state.columnData = [];
-
 			state.loading = true;
-			getTableInfoList({ configId: state.configId }).then((res) => {
-				state.tableData = res.data.result ?? [];
-				state.loading = false;
-			});
-			// var res = await getAPI(SysDatabaseApi).sysDatabaseTableListGet(state.configId);
-			// state.tableData = res.data.result ?? [];
-			// state.loading = false;
+
+			var res = await getAPI(SysDatabaseApi).sysDatabaseTableListGet(state.configId);
+			state.tableData = res.data.result ?? [];
+			state.loading = false;
 		};
 		// 列查询操作
 		const handleQueryColunm = async () => {
 			state.loading1 = true;
-			// var res = await getAPI(SysDatabaseApi).sysDatabaseColumnListGet(state.tableName, state.configId);
-			// state.columnData = res.data.result ?? [];
-			// state.loading1 = false;
-			getColumnInfoList({ tableName: state.tableName, configId: state.configId }).then((res) => {
-				state.columnData = res.data.result ?? [];
-				state.loading1 = false;
-			});
+			var res = await getAPI(SysDatabaseApi).sysDatabaseColumnListGet(state.tableName, state.configId);
+			state.columnData = res.data.result ?? [];
+			state.loading1 = false;
 		};
 		// 打开表编辑页面
 		const openEditTable = () => {
@@ -150,12 +157,35 @@ export default defineComponent({
 			};
 			editTableRef.value.openDialog(table);
 		};
+
+		// 打开实体生成页面
+		const openGenerateDialog = () => {
+			if (state.configId == '' || state.tableName == '') return;
+
+			var res = state.tableData.filter((u: any) => u.name == state.tableName);
+			var table: any = {
+				configId: state.configId,
+				tableName: state.tableName
+			};
+			generateEntityRef.value.openDialog(table);
+		};
 		// 打开表增加页面
 		const openAddTable = () => {
-			ElMessage({
-				type: 'success',
-				message: `期待您的PR！ ${state.configId}`,
-			});
+			if (state.configId == '') {
+				ElMessage({
+					type: 'error',
+					message: `请选择库名!`,
+				});
+				return;
+			}
+
+			var table: any = {
+				configId: state.configId,
+				tableName: '',
+				oldTableName: '',
+				description: '',
+			};
+			addTableRef.value.openDialog(table);
 		};
 		// 打开列编辑页面
 		const openEditColumn = (row: any) => {
@@ -170,10 +200,29 @@ export default defineComponent({
 		};
 		// 打开列增加页面
 		const openAddColumn = () => {
-			ElMessage({
-				type: 'success',
-				message: `期待您的PR！ ${state.configId}`,
-			});
+			if (state.configId == '' || state.tableName == '') {
+				ElMessage({
+					type: 'error',
+					message: `请选择库名和表名!`,
+				});
+				return;
+			}
+			const addRow: AddDbColumnInput = {
+				configId: state.configId,
+				tableName: state.tableName,
+				columnDescription: '',
+				dataType: '',
+				dbColumnName: '',
+				decimalDigits: 0,
+				isIdentity: 0,
+				isNullable: 0,
+				isPrimarykey: 0,
+				length: 0,
+				key: 0,
+				editable: true,
+				isNew: true,
+			};
+			addColumnRef.value.openDialog(addRow);
 		};
 		// 删除表
 		const delTable = () => {
@@ -212,8 +261,12 @@ export default defineComponent({
 			openAddColumn,
 			delTable,
 			delColumn,
+			openGenerateDialog,
 			editTableRef,
 			editColumnRef,
+			addTableRef,
+			addColumnRef,
+			generateEntityRef,
 			...toRefs(state),
 		};
 	},

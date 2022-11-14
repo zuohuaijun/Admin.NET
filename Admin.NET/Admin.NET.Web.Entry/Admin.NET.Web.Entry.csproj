@@ -51,6 +51,9 @@
 		<Content Update="wwwroot\Template\Input.cs.vm">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+		<Content Update="wwwroot\Template\Manage - Copy.js.vm">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
 		<Content Update="wwwroot\Template\Manage.js.vm">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>

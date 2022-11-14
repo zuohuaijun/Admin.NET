@@ -1,0 +1,133 @@
+<template>
+  <div>
+    <BasicTable @@register="registerTable">
+      <template #toolbar>
+        <a-button type="primary" @@click="handleCreate" :disabled="!hasPermission('@(@Model.ClassName):add')">新增@(@Model.BusName)</a-button>
+      </template>
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "Upload"){
+      @:<template #@(@column.LowerColumnName)="{ text, record }">
+        <TableImg
+          v-if="record.@(@column.LowerColumnName)Attachment"
+          :size="60"
+          :simpleShow="true"
+          :showBadge="false"
+          :imgList="[downUrl + '/' + record.@(@column.LowerColumnName)Attachment.id + record.@(@column.LowerColumnName)Attachment.suffix]"
+        />
+      </template>
+}
+}
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                icon: 'clarity:note-edit-line',
+                label: '编辑',
+                onClick: handleEdit.bind(null, record),
+                disabled: !hasPermission('@(@Model.ClassName):edit'),
+              },
+              {
+                icon: 'ant-design:delete-outlined',
+                color: 'error',
+                label: '删除',
+                ifShow: hasPermission('@(@Model.ClassName):delete'),
+                popConfirm: {
+                  title: '是否确认删除',
+                  placement: 'left',
+                  confirm: handleDelete.bind(null, record),
+                },
+              },
+            ]"
+          />
+        </template>
+      </template>
+    </BasicTable>
+    <@(@Model.ClassName)Modal @@register="registerModal" @@success="handleSuccess" />
+  </div>
+</template>
+<script lang="ts">
+  import { defineComponent } from 'vue';
+  import { usePermission } from '/@@/hooks/web/usePermission';
+  @if(Model.IsUpload){
+  @:import { BasicTable, useTable, TableAction, TableImg } from '/@@/components/Table';
+  }else{
+  @:import { BasicTable, useTable, TableAction } from '/@@/components/Table';
+  }
+  import { useModal } from '/@@/components/Modal';
+  import @(@Model.ClassName)Modal from './dataModal.vue';
+
+  import { columns, searchFormSchema } from './data.data';
+  import { useMessage } from '/@@/hooks/web/useMessage';
+  import { get@(@Model.ClassName)PageList, delete@(@Model.ClassName) } from '/@@/api/main/@(@Model.ClassName)';
+  export default defineComponent({
+  @if(Model.IsUpload){
+    @:components: { BasicTable, @(@Model.ClassName)Modal, TableAction, TableImg },
+  }else{
+     @:components:{ BasicTable, @(@Model.ClassName)Modal, TableAction },
+  }
+    setup() {
+      const { hasPermission } = usePermission();
+      const { createMessage } = useMessage();
+      const [registerModal, { openModal }] = useModal();
+	  const hasPage = hasPermission('@(@Model.ClassName):page');
+      const [registerTable, { reload }] = useTable({
+        title: '@(@Model.BusName)列表',
+        api: get@(@Model.ClassName)PageList,
+        pagination: true,
+        rowKey: 'id',
+        columns,
+        formConfig: {
+          labelWidth: 120,
+          schemas: searchFormSchema,
+          autoSubmitOnEnter: true,
+        },
+        useSearchForm: hasPage,
+        immediate: hasPage,
+        showTableSetting: hasPage,
+        bordered: true,
+        canResize: true,
+        actionColumn: {
+          width: 160,
+          title: '操作',
+          dataIndex: 'action',
+          //slots: { customRender: 'action' },
+        },
+      });
+
+      function handleCreate() {
+        openModal(true, {
+          isUpdate: false,
+        });
+      }
+
+      function handleEdit(record: Recordable) {
+        openModal(true, {
+          record,
+          isUpdate: true,
+        });
+      }
+
+      async function handleDelete(record: Recordable) {
+        await delete@(@Model.ClassName)(record);
+        reload();
+        createMessage.success('删除成功！');
+      }
+      function handleSuccess() {
+        reload();
+      }
+      return {
+        hasPermission,
+        registerTable,
+        registerModal,
+        handleCreate,
+        handleEdit,
+        handleDelete,
+        handleSuccess,
+@if(@Model.IsUpload){
+        @:downUrl: import.meta.env.VITE_GLOB_DOWNLOAD_URL,
+}
+      };
+    },
+  });
+</script>

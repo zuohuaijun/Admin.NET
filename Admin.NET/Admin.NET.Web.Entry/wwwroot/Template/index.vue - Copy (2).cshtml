@@ -1,3 +1,4 @@
+@Model  Admin.Net.Core.CustomEngine
 <template>
   <div class="@(@Model.ClassName)-container">
     <el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
@@ -62,7 +63,7 @@ foreach (var column in Model.QueryWhetherList){
     </a-card>
     <a-card :bordered="false">
 	<el-table 
-		:data="tableData" 
+		:data="userData" 
 		style="width: 100%" 
 		v-loading="loading" 
 		tooltip-effect="light"

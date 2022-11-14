@@ -487,6 +487,12 @@ public enum ErrorCodeEnum
     db1001,
 
     /// <summary>
+    /// 数据表不存在
+    /// </summary>
+    [ErrorCodeItemMetadata("不允许添加相同字段名")]
+    db1002,
+
+    /// <summary>
     /// 父节点不存在
     /// </summary>
     [ErrorCodeItemMetadata("父节点不存在")]

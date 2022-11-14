@@ -1,5 +1,6 @@
 using @(@Model.NameSpace).Const;
 using @(@Model.NameSpace).Entity;
+using Mapster;
 
 namespace @Model.NameSpace;
 /// <summary>

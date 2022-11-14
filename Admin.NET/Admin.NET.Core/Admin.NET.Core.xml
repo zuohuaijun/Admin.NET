@@ -2558,6 +2558,11 @@
             数据表不存在
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.db1002">
+            <summary>
+            数据表不存在
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.R2000">
             <summary>
             父节点不存在

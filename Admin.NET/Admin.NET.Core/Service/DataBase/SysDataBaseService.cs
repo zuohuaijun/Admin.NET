@@ -115,6 +115,11 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         if (input.DbColumnInfoList == null || !input.DbColumnInfoList.Any())
             throw Oops.Oh(ErrorCodeEnum.db1000);
 
+        if (input.DbColumnInfoList.GroupBy(q => q.DbColumnName).Any(q => q.Count() > 1))
+        {
+            throw Oops.Oh(ErrorCodeEnum.db1002);
+        }
+
         input.DbColumnInfoList.ForEach(m =>
         {
             columns.Add(new DbColumnInfo
