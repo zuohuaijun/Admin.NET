@@ -4,6 +4,8 @@ import { Session } from '/@/utils/storage';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/api';
+import request from '/@/utils/request';
+import { getAllConstSelectorWithOptions } from '/@/api/system/admin';
 
 /**
  * 用户信息
@@ -12,7 +14,13 @@ import { SysAuthApi } from '/@/api-services/api';
 export const useUserInfo = defineStore('userInfo', {
 	state: (): UserInfosStates => ({
 		userInfos: {} as UserInfosState,
+		constSelectorWithOptions: [],
 	}),
+	getters: {
+		getAllConstSelectorWithOptions(): any[] {
+			return this.constSelectorWithOptions || getAllConstSelectorWithOptions();
+		},
+	},
 	actions: {
 		async setUserInfos() {
 			// 缓存用户信息
@@ -47,6 +55,11 @@ export const useUserInfo = defineStore('userInfo', {
 						resolve(userInfos);
 					});
 			});
+		},
+		// 获取当前用户信息
+		async getAllConstSelectorWithOptionsAction() {
+			var res = await getAllConstSelectorWithOptions();
+			this.constSelectorWithOptions = res.data.result ?? [];
 		},
 	},
 });

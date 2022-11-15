@@ -32,6 +32,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// <param name="configId">ConfigId</param>
     /// <returns></returns>
     [HttpGet("/sysDatabase/columnList")]
+    [AllowAnonymous]
     public List<DbColumnOutput> GetColumnList(string tableName, string configId = SqlSugarConst.ConfigId)
     {
         var db = _db.AsTenant().GetConnectionScope(configId);
@@ -113,6 +114,11 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var columns = new List<DbColumnInfo>();
         if (input.DbColumnInfoList == null || !input.DbColumnInfoList.Any())
             throw Oops.Oh(ErrorCodeEnum.db1000);
+
+        if (input.DbColumnInfoList.GroupBy(q => q.DbColumnName).Any(q => q.Count() > 1))
+        {
+            throw Oops.Oh(ErrorCodeEnum.db1002);
+        }
 
         input.DbColumnInfoList.ForEach(m =>
         {

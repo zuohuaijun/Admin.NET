@@ -29,3 +29,9 @@ dist/
 node_modules/
 /Admin.NET/Admin.NET.Web.Entry/wwwroot/Avatar
 /Admin.NET/Admin.NET.Web.Entry/wwwroot/Signature
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/Template/Manage.js - Copy.cshtml
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/Template/editDialog.vue - Copy.cshtml
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/Template/index.vue - Copy (2).cshtml
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/Template/index.vue - Copy.vm
+/Admin.NET/Admin.NET.Web.Entry/wwwroot/Template/Manage - Copy.js.vm
+/Admin.NET/Admin.NET.Application/AppConfig.json

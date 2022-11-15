@@ -200,28 +200,31 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         // 先删除该表已生成的菜单列表
         var templatePathList = GetTemplatePathList();
         var targetPathList = GetTargetPathList(input);
+
+        var tableFieldList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
+
+        var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesNoEnum.Y.ToString()).ToList(); // 前端查询集合
+        var joinTableList = tableFieldList.Where(u => u.EffectType == "Upload" || u.EffectType == "fk").ToList();// 需要连表查询的字段
+        (string joinTableNames, string lowerJoinTableNames) = GetJoinTableStr(joinTableList);// 获取连表的实体名和别名
+
+        var data = new CustomViewEngine(_db)
+        {
+            ConfigId = input.ConfigId,
+            AuthorName = input.AuthorName,
+            BusName = input.BusName,
+            NameSpace = input.NameSpace,
+            ClassName = input.TableName,
+            ProjectLastName = input.NameSpace.Split('.').Last(),
+            QueryWhetherList = queryWhetherList,
+            TableField = tableFieldList,
+            IsJoinTable = joinTableList.Count > 0,
+            IsUpload = joinTableList.Where(u => u.EffectType == "Upload").Any(),
+        };
+
         for (var i = 0; i < templatePathList.Count; i++)
         {
             var tContent = File.ReadAllText(templatePathList[i]);
 
-            var tableFieldList = await _codeGenConfigService.List(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
-            var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesNoEnum.Y.ToString()).ToList(); // 前端查询集合
-            var joinTableList = tableFieldList.Where(u => u.EffectType == "Upload" || u.EffectType == "fk").ToList();//需要连表查询的字段
-            (string joinTableNames, string lowerJoinTableNames) = GetJoinTableStr(joinTableList);//获取连表的实体名和别名
-
-            var data = new CustomViewEngine(_db)
-            {
-                ConfigId = input.ConfigId,
-                AuthorName = input.AuthorName,
-                BusName = input.BusName,
-                NameSpace = input.NameSpace,
-                ClassName = input.TableName,
-                ProjectLastName = input.NameSpace.Split('.').Last(),
-                QueryWhetherList = queryWhetherList,
-                TableField = tableFieldList,
-                IsJoinTable = joinTableList.Count > 0,
-                IsUpload = joinTableList.Where(u => u.EffectType == "Upload").Any(),
-            };
             var tResult = _viewEngine.RunCompile<CustomViewEngine>(tContent, data, builderAction: builder =>
             {
                 builder.AddAssemblyReferenceByName("System.Linq");
@@ -397,8 +400,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Path.Combine(templatePath , "Output.cs.vm"),
             Path.Combine(templatePath , "Dto.cs.vm"),
             Path.Combine(templatePath , "index.vue.vm"),
-            Path.Combine(templatePath , "data.data.ts.vm"),
-            Path.Combine(templatePath , "dataModal.vue.vm"),
+            Path.Combine(templatePath , "editDialog.vue.vm"),
             Path.Combine(templatePath , "manage.js.vm"),
         };
     }
@@ -417,8 +419,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var viewPath = Path.Combine(backendPath, "Dto", input.TableName + "Dto.cs");
         var frontendPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, _codeGenOptions.FrontRootPath, "src", "views", "main");
         var indexPath = Path.Combine(frontendPath, input.TableName, "index.vue");
-        var formDataPath = Path.Combine(frontendPath, input.TableName, "data.data.ts");
-        var formModalPath = Path.Combine(frontendPath, input.TableName, "dataModal.vue");
+        var formModalPath = Path.Combine(frontendPath, input.TableName, "component", "editDialog.vue");
         var apiJsPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, _codeGenOptions.FrontRootPath, "src", "api", "main", input.TableName + ".ts");
 
         return new List<string>()
@@ -428,7 +429,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             outputPath,
             viewPath,
             indexPath,
-            formDataPath,
             formModalPath,
             apiJsPath
         };
