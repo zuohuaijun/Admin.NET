@@ -3,6 +3,7 @@
 /// <summary>
 /// 通用常量
 /// </summary>
+[Const("平台配置")]
 public class CommonConst
 {
     /// <summary>

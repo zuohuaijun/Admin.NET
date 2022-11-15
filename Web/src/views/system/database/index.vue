@@ -18,7 +18,7 @@
 					<el-button icon="ele-Delete" type="danger" @click="delTable"> 删除表 </el-button>
 					<el-button icon="ele-Plus" @click="openAddTable"> 增加表 </el-button>
 					<el-button icon="ele-Plus" @click="openAddColumn"> 增加列 </el-button>
-					<el-button icon="ele-Plus" type="primary" @click="openGenerateDialog"> 生成实体 </el-button>
+					<el-button icon="ele-Plus" type="primary" @click="openGenDialog"> 生成实体 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -62,18 +62,18 @@
 		<EditColumn ref="editColumnRef" />
 		<AddTable ref="addTableRef" />
 		<AddColumn ref="addColumnRef" />
-		<GenerateEntity ref="generateEntityRef" />
+		<GenEntity ref="genEntityRef" />
 	</div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance, toRaw } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditTable from '/@/views/system/database/component/editTable.vue';
 import EditColumn from '/@/views/system/database/component/editColumn.vue';
 import AddTable from '/@/views/system/database/component/addTable.vue';
 import AddColumn from '/@/views/system/database/component/addColumn.vue';
-import GenerateEntity from '/@/views/system/database/component/generateEntity.vue';
+import GenEntity from '/@/views/system/database/component/genEntity.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
@@ -82,14 +82,14 @@ import { AddDbColumnInput } from '/@/api/system/interface';
 
 export default defineComponent({
 	name: 'sysDatabase',
-	components: { EditTable, EditColumn, AddTable,AddColumn,GenerateEntity },
+	components: { EditTable, EditColumn, AddTable, AddColumn, GenEntity },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
 		const editTableRef = ref();
 		const editColumnRef = ref();
 		const addTableRef = ref();
 		const addColumnRef = ref();
-		const generateEntityRef = ref();
+		const genEntityRef = ref();
 		const state = reactive({
 			loading: false,
 			loading1: false,
@@ -159,15 +159,15 @@ export default defineComponent({
 		};
 
 		// 打开实体生成页面
-		const openGenerateDialog = () => {
+		const openGenDialog = () => {
 			if (state.configId == '' || state.tableName == '') return;
 
-			var res = state.tableData.filter((u: any) => u.name == state.tableName);
+			// var res = state.tableData.filter((u: any) => u.name == state.tableName);
 			var table: any = {
 				configId: state.configId,
-				tableName: state.tableName
+				tableName: state.tableName,
 			};
-			generateEntityRef.value.openDialog(table);
+			genEntityRef.value.openDialog(table);
 		};
 		// 打开表增加页面
 		const openAddTable = () => {
@@ -261,12 +261,12 @@ export default defineComponent({
 			openAddColumn,
 			delTable,
 			delColumn,
-			openGenerateDialog,
+			openGenDialog,
 			editTableRef,
 			editColumnRef,
 			addTableRef,
 			addColumnRef,
-			generateEntityRef,
+			genEntityRef,
 			...toRefs(state),
 		};
 	},

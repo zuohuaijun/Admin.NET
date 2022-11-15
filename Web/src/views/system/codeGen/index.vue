@@ -48,12 +48,12 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance, toRaw } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import CodeGenerateDialog from '/@/views/system/codeGen/component/codeGenerateDialog.vue';
 import CodeConfigDialog from '/@/views/system/codeGen/component/generateConfigDialog.vue';
 
-import { AddCodeGenInput, SysCodeGen, SysMenu } from '/@/api/system/interface';
+import { SysCodeGen, SysMenu } from '/@/api/system/interface';
 import { getGeneratePage, getMenuList, getDictDataDropdown, deleGenerate, generateRunLocal } from '/@/api/system/admin';
 
 export default defineComponent({
@@ -94,7 +94,7 @@ export default defineComponent({
 			proxy.mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
-			proxy.mittBus.on('submitRefreshFk', (res: any) => {
+			proxy.mittBus.on('submitRefreshFk', () => {
 				state.tableData;
 			});
 		});

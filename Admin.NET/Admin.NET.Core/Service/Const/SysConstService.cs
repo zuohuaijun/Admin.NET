@@ -15,79 +15,63 @@ public class SysConstService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取所有常量下拉框列表
+    /// 获取所有常量列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/constSelector/allConstSelector")]
-    public async Task<List<SelectorDto>> GetAllConstSelector()
+    [HttpGet("/sysConst/list")]
+    public async Task<List<ConstOutput>> GetConstList()
     {
-        var key = $"{CacheConst.KeyConstSelector}AllSelector";
-        var json = _sysCacheService.Get<List<SelectorDto>>(key);
-
-        var typeList = await GetAllTypesAsync();
-        var selectData = typeList.Select(x => new SelectorDto
+        var key = $"{CacheConst.KeyConst}list";
+        var constlist = _sysCacheService.Get<List<ConstOutput>>(key);
+        if (constlist == null)
         {
-            Name = x.CustomAttributes.ToList().FirstOrDefault()?.ConstructorArguments.ToList().FirstOrDefault().Value?.ToString() ?? x.Name,
-            Code = x.Name
-        }).ToList();
-        _sysCacheService.Set(key, selectData);
-        return selectData;
+            var typeList = GetConstAttributeList();
+            constlist = typeList.Select(x => new ConstOutput
+            {
+                Name = x.CustomAttributes.ToList().FirstOrDefault()?.ConstructorArguments.ToList().FirstOrDefault().Value?.ToString() ?? x.Name,
+                Code = x.Name,
+                Data = GetConstData(Convert.ToString(x.Name))
+            }).ToList();
+            _sysCacheService.Set(key, constlist);
+        }
+        return await Task.FromResult(constlist);
     }
 
     /// <summary>
-    /// 根据类名获取下拉框数据
+    /// 根据类名获取常量数据
     /// </summary>
     /// <param name="typeName"></param>
     /// <returns></returns>
-    [HttpGet("/constSelector/constSelector")]
-    public async Task<List<SelectorDto>> GetConstSelector(string typeName)
+    [HttpGet("/sysConst/data")]
+    public async Task<List<ConstOutput>> GetConstData(string typeName)
     {
-        var key = $"{CacheConst.KeyConstSelector}{typeName.ToUpper()}";
-        var json = _sysCacheService.Get<List<SelectorDto>>(key);
-
-        var typeList = await GetAllTypesAsync();
-        var type = typeList.FirstOrDefault(x => x.Name == typeName);
-
-        var isEnum = type.BaseType.Name == "Enum";
-        var selectData = type.GetFields()?
-            .Where(isEnum, x => x.FieldType.Name == typeName)
-            .Select(x => new SelectorDto
-            {
-                Name = x.Name,
-                Code = isEnum ? (int)x.GetValue(BindingFlags.Instance) : x.GetValue(BindingFlags.Instance)
-            }).ToList();
-        _sysCacheService.Set(key, selectData);
-        return selectData;
-    }
-
-    /// <summary>
-    /// 获取所有下拉框及选项  用于前端缓存
-    /// </summary>
-    /// <returns></returns>
-    [HttpGet("/constSelector/allConstSelectorWithOptions")]
-    public async Task<List<SelectorDto>> GetAllConstSelectorWithOptions()
-    {
-        var selectors = await GetAllConstSelector();
-        foreach (var p in selectors)
+        var key = $"{CacheConst.KeyConst}{typeName.ToUpper()}";
+        var constlist = _sysCacheService.Get<List<ConstOutput>>(key);
+        if (constlist == null)
         {
-            p.Data = await GetConstSelector(Convert.ToString(p.Code));
+            var typeList = GetConstAttributeList();
+            var type = typeList.FirstOrDefault(x => x.Name == typeName);
+
+            var isEnum = type.BaseType.Name == "Enum";
+            constlist = type.GetFields()?
+                .Where(isEnum, x => x.FieldType.Name == typeName)
+                .Select(x => new ConstOutput
+                {
+                    Name = x.Name,
+                    Code = isEnum ? (int)x.GetValue(BindingFlags.Instance) : x.GetValue(BindingFlags.Instance)
+                }).ToList();
+            _sysCacheService.Set(key, constlist);
         }
-        return selectors;
+        return await Task.FromResult(constlist);
     }
 
     /// <summary>
-    /// 获取所有常量
+    /// 获取常量特性类型列表
     /// </summary>
     /// <returns></returns>
-    private async Task<List<Type>> GetAllTypesAsync()
+    private List<Type> GetConstAttributeList()
     {
-        return await Task.Run(() =>
-        {
-            var typeList = AppDomain.CurrentDomain.GetAssemblies()
-                .SelectMany(x => x.GetTypes())
-                .Where(x => x.CustomAttributes.Any(y => y.AttributeType == typeof(ConstSelectorAttribute)))
-                .ToList();
-            return typeList;
-        });
+        return AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
+            .Where(x => x.CustomAttributes.Any(y => y.AttributeType == typeof(ConstAttribute))).ToList();
     }
 }

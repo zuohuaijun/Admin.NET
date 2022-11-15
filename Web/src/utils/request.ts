@@ -1,5 +1,5 @@
 import axios, { AxiosInstance } from 'axios';
-import { ElMessage, ElMessageBox } from 'element-plus';
+import { ElMessage } from 'element-plus';
 import { Local, Session } from '/@/utils/storage';
 
 // 配置新建一个 axios 实例
@@ -81,21 +81,6 @@ service.interceptors.request.use(
 // 添加响应拦截器
 service.interceptors.response.use(
 	(res) => {
-		// // 对响应数据做点什么
-		// const res = response.data;
-		// if (res.code && res.code !== 0) {
-		// 	// `token` 过期或者账号已在别处登录
-		// 	if (res.code === 401 || res.code === 4001) {
-		// 		Session.clear(); // 清除浏览器全部临时缓存
-		// 		window.location.href = '/'; // 去登录页
-		// 		ElMessageBox.alert('你已被登出，请重新登录', '提示', {})
-		// 			.then(() => {})
-		// 			.catch(() => {});
-		// 	}
-		// 	return Promise.reject(service.interceptors.response);
-		// } else {
-		// 	return response.data;
-		// }
 		// 获取状态码和返回数据
 		var status = res.status;
 		var serve = res.data;

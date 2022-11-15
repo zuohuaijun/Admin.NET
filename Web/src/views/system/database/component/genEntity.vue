@@ -1,5 +1,5 @@
 <template>
-	<div class="sys-dbColumn-container">
+	<div class="sys-dbEntity-container">
 		<el-dialog v-model="isShowDialog" title="配置实体" draggable width="600px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
@@ -10,7 +10,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="实体名称" prop="entityName" :rules="[{ required: true, message: '实体名称不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.entityName" placeholder="实体名称" clearable/>
+							<el-input v-model="ruleForm.entityName" placeholder="实体名称" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -29,7 +29,7 @@
 								<el-option label="Admin.NET.Core" value="Admin.NET.Core" />
 							</el-select>
 						</el-form-item>
-					</el-col>				
+					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -48,7 +48,7 @@ import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue'
 import { createEntity } from '/@/api/system/admin';
 
 export default defineComponent({
-	name: 'generateEntity',
+	name: 'sysGenEntity',
 	components: {},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;

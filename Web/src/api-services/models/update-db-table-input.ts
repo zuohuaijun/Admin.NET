@@ -42,4 +42,3 @@ export interface UpdateDbTableInput {
      */
     description?: string | null;
 }
-

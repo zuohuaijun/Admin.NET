@@ -82,7 +82,7 @@
 import { reactive, toRefs, onMounted, defineComponent, getCurrentInstance, ref } from 'vue';
 
 import { getDatabaseList, getTableList, addGenerate, updateGenerate } from '/@/api/system/admin';
-import { AddCodeGenInput, DbTableInfo } from '/@/api/system/interface';
+import { AddCodeGenInput } from '/@/api/system/interface';
 
 export default defineComponent({
 	name: 'codeGenerateDialog',
@@ -131,7 +131,7 @@ export default defineComponent({
 		// 打开弹窗
 		const openDialog = (addRow: AddCodeGenInput) => {
 			state.ruleForm = addRow;
-			if (state.ruleForm .type === '1') {
+			if (state.ruleForm.type === '1') {
 				state.ruleForm.nameSpace = 'Admin.NET.Application';
 				state.ruleForm.authorName = 'one';
 				state.ruleForm.generateType = '2';

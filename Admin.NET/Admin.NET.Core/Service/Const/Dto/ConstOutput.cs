@@ -1,6 +1,6 @@
 ﻿namespace Admin.NET.Core.Service;
 
-public class SelectorDto
+public class ConstOutput
 {
     /// <summary>
     /// 名称

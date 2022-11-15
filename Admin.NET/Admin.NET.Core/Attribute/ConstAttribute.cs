@@ -1,15 +1,15 @@
 ﻿namespace Admin.NET.Core;
 
 /// <summary>
-/// 常量下拉框特性
+/// 常量特性
 /// </summary>
 [SuppressSniffer]
 [AttributeUsage(AttributeTargets.All, AllowMultiple = true, Inherited = true)]
-public class ConstSelectorAttribute : Attribute
+public class ConstAttribute : Attribute
 {
     public string Name { get; set; }
 
-    public ConstSelectorAttribute(string name)
+    public ConstAttribute(string name)
     {
         Name = name;
     }

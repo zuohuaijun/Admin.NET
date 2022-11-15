@@ -54,7 +54,6 @@
 import { reactive, toRefs, defineComponent, getCurrentInstance, ref, onMounted } from 'vue';
 
 import { getDatabaseList, getTableList, getColumnList } from '/@/api/system/admin';
-import { AddDbColumnInput } from '/@/api/system/interface';
 
 export default defineComponent({
 	name: 'tree',

@@ -23,7 +23,7 @@
 								<el-option v-for="item in columnData" :key="item.columnName" :label="item.columnName" :value="item.columnName" />
 							</el-select>
 						</el-form-item>
-					</el-col>					
+					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -85,7 +85,7 @@ export default defineComponent({
 
 		const getColumnInfoList = async () => {
 			if (state.ruleForm.configId == '' || state.ruleForm.tableName == '') return;
-            console.log(state.ruleForm.configId, state.ruleForm.tableName)
+			console.log(state.ruleForm.configId, state.ruleForm.tableName);
 			var res = await getColumnList(state.ruleForm.configId, state.ruleForm.tableName);
 			state.columnData = res.data.result;
 		};

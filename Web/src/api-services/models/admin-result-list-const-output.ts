@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SelectorDto } from './selector-dto';
+import { ConstOutput } from './const-output';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultListSelectorDto
+ * @interface AdminResultListConstOutput
  */
-export interface AdminResultListSelectorDto {
+export interface AdminResultListConstOutput {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultListSelectorDto
+     * @memberof AdminResultListConstOutput
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultListSelectorDto
+     * @memberof AdminResultListConstOutput
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultListSelectorDto
+     * @memberof AdminResultListConstOutput
      */
     message?: string | null;
     /**
      * 数据
-     * @type {Array<SelectorDto>}
-     * @memberof AdminResultListSelectorDto
+     * @type {Array<ConstOutput>}
+     * @memberof AdminResultListConstOutput
      */
-    result?: Array<SelectorDto> | null;
+    result?: Array<ConstOutput> | null;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultListSelectorDto
+     * @memberof AdminResultListConstOutput
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultListSelectorDto
+     * @memberof AdminResultListConstOutput
      */
     time?: Date;
 }

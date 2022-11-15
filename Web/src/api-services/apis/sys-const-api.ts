@@ -16,7 +16,7 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { AdminResultListSelectorDto } from '../models';
+import { AdminResultListConstOutput } from '../models';
 /**
  * SysConstApi - axios parameter creator
  * @export
@@ -25,85 +25,13 @@ export const SysConstApiAxiosParamCreator = function (configuration?: Configurat
     return {
         /**
          * 
-         * @summary 获取所有常量下拉框列表
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        constSelectorAllConstSelectorGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/constSelector/allConstSelector`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 获取所有下拉框及选项  用于前端缓存
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        constSelectorAllConstSelectorWithOptionsGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/constSelector/allConstSelectorWithOptions`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 根据类名获取下拉框数据
+         * @summary 根据类名获取常量数据
          * @param {string} [typeName] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        constSelectorConstSelectorGet: async (typeName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/constSelector/constSelector`;
+        sysConstDataGet: async (typeName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysConst/data`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -136,6 +64,42 @@ export const SysConstApiAxiosParamCreator = function (configuration?: Configurat
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary 获取所有常量列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysConstListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysConst/list`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -147,39 +111,26 @@ export const SysConstApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary 获取所有常量下拉框列表
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async constSelectorAllConstSelectorGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSelectorDto>>> {
-            const localVarAxiosArgs = await SysConstApiAxiosParamCreator(configuration).constSelectorAllConstSelectorGet(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 获取所有下拉框及选项  用于前端缓存
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async constSelectorAllConstSelectorWithOptionsGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSelectorDto>>> {
-            const localVarAxiosArgs = await SysConstApiAxiosParamCreator(configuration).constSelectorAllConstSelectorWithOptionsGet(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 根据类名获取下拉框数据
+         * @summary 根据类名获取常量数据
          * @param {string} [typeName] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async constSelectorConstSelectorGet(typeName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSelectorDto>>> {
-            const localVarAxiosArgs = await SysConstApiAxiosParamCreator(configuration).constSelectorConstSelectorGet(typeName, options);
+        async sysConstDataGet(typeName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListConstOutput>>> {
+            const localVarAxiosArgs = await SysConstApiAxiosParamCreator(configuration).sysConstDataGet(typeName, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取所有常量列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysConstListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListConstOutput>>> {
+            const localVarAxiosArgs = await SysConstApiAxiosParamCreator(configuration).sysConstListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -196,31 +147,22 @@ export const SysConstApiFactory = function (configuration?: Configuration, baseP
     return {
         /**
          * 
-         * @summary 获取所有常量下拉框列表
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async constSelectorAllConstSelectorGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSelectorDto>> {
-            return SysConstApiFp(configuration).constSelectorAllConstSelectorGet(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 获取所有下拉框及选项  用于前端缓存
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async constSelectorAllConstSelectorWithOptionsGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSelectorDto>> {
-            return SysConstApiFp(configuration).constSelectorAllConstSelectorWithOptionsGet(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 根据类名获取下拉框数据
+         * @summary 根据类名获取常量数据
          * @param {string} [typeName] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async constSelectorConstSelectorGet(typeName?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSelectorDto>> {
-            return SysConstApiFp(configuration).constSelectorConstSelectorGet(typeName, options).then((request) => request(axios, basePath));
+        async sysConstDataGet(typeName?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListConstOutput>> {
+            return SysConstApiFp(configuration).sysConstDataGet(typeName, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取所有常量列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysConstListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListConstOutput>> {
+            return SysConstApiFp(configuration).sysConstListGet(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -234,33 +176,23 @@ export const SysConstApiFactory = function (configuration?: Configuration, baseP
 export class SysConstApi extends BaseAPI {
     /**
      * 
-     * @summary 获取所有常量下拉框列表
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysConstApi
-     */
-    public async constSelectorAllConstSelectorGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSelectorDto>> {
-        return SysConstApiFp(this.configuration).constSelectorAllConstSelectorGet(options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 获取所有下拉框及选项  用于前端缓存
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysConstApi
-     */
-    public async constSelectorAllConstSelectorWithOptionsGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSelectorDto>> {
-        return SysConstApiFp(this.configuration).constSelectorAllConstSelectorWithOptionsGet(options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 根据类名获取下拉框数据
+     * @summary 根据类名获取常量数据
      * @param {string} [typeName] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysConstApi
      */
-    public async constSelectorConstSelectorGet(typeName?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSelectorDto>> {
-        return SysConstApiFp(this.configuration).constSelectorConstSelectorGet(typeName, options).then((request) => request(this.axios, this.basePath));
+    public async sysConstDataGet(typeName?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListConstOutput>> {
+        return SysConstApiFp(this.configuration).sysConstDataGet(typeName, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取所有常量列表
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysConstApi
+     */
+    public async sysConstListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListConstOutput>> {
+        return SysConstApiFp(this.configuration).sysConstListGet(options).then((request) => request(this.axios, this.basePath));
     }
 }

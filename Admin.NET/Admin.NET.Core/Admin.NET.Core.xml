@@ -4,9 +4,9 @@
         <name>Admin.NET.Core</name>
     </assembly>
     <members>
-        <member name="T:Admin.NET.Core.ConstSelectorAttribute">
+        <member name="T:Admin.NET.Core.ConstAttribute">
             <summary>
-            常量下拉框特性
+            常量特性
             </summary>
         </member>
         <member name="T:Admin.NET.Core.CustomUnifyResultAttribute">
@@ -107,7 +107,7 @@
             在线用户缓存
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CacheConst.KeyConstSelector">
+        <member name="F:Admin.NET.Core.CacheConst.KeyConst">
             <summary>
             常量下拉框
             </summary>
@@ -220,31 +220,6 @@
         <member name="F:Admin.NET.Core.CommonConst.SysSensitiveDetection">
             <summary>
             开启全局脱敏处理（默认不开启）
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.OrderStatus">
-            <summary>
-            示例-类型下拉框
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.SyncStatusEnum">
-            <summary>
-            示例-枚举下拉框
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.SyncStatusEnum.未同步">
-            <summary>
-            未同步
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.SyncStatusEnum.同步成功">
-            <summary>
-            同步成功
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.SyncStatusEnum.同步失败">
-            <summary>
-            同步失败
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SqlSugarConst">
@@ -4683,17 +4658,17 @@
             <param name="code"></param>
             <returns></returns>
         </member>
-        <member name="P:Admin.NET.Core.Service.SelectorDto.Name">
+        <member name="P:Admin.NET.Core.Service.ConstOutput.Name">
             <summary>
             名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.SelectorDto.Code">
+        <member name="P:Admin.NET.Core.Service.ConstOutput.Code">
             <summary>
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.SelectorDto.Data">
+        <member name="P:Admin.NET.Core.Service.ConstOutput.Data">
             <summary>
             扩展字段
             </summary>
@@ -4703,28 +4678,22 @@
             系统常量服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConstService.GetAllConstSelector">
+        <member name="M:Admin.NET.Core.Service.SysConstService.GetConstList">
             <summary>
-            获取所有常量下拉框列表
+            获取所有常量列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConstService.GetConstSelector(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysConstService.GetConstData(System.String)">
             <summary>
-            根据类名获取下拉框数据
+            根据类名获取常量数据
             </summary>
             <param name="typeName"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConstService.GetAllConstSelectorWithOptions">
+        <member name="M:Admin.NET.Core.Service.SysConstService.GetConstAttributeList">
             <summary>
-            获取所有下拉框及选项  用于前端缓存
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysConstService.GetAllTypesAsync">
-            <summary>
-            获取所有常量
+            获取常量特性类型列表
             </summary>
             <returns></returns>
         </member>

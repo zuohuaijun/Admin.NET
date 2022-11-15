@@ -3,9 +3,8 @@ import { UserInfosState, UserInfosStates } from './interface';
 import { Session } from '/@/utils/storage';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysAuthApi } from '/@/api-services/api';
-import request from '/@/utils/request';
-import { getAllConstSelectorWithOptions } from '/@/api/system/admin';
+import { SysAuthApi, SysConstApi } from '/@/api-services/api';
+import { ConstOutput } from '/@/api-services/models';
 
 /**
  * 用户信息
@@ -14,11 +13,14 @@ import { getAllConstSelectorWithOptions } from '/@/api/system/admin';
 export const useUserInfo = defineStore('userInfo', {
 	state: (): UserInfosStates => ({
 		userInfos: {} as UserInfosState,
-		constSelectorWithOptions: [],
+		constList: [] as Array<ConstOutput>,
 	}),
 	getters: {
-		getAllConstSelectorWithOptions(): any[] {
-			return this.constSelectorWithOptions || getAllConstSelectorWithOptions();
+		// 获取系统常量列表
+		async getSysConstList(): Promise<any[]> {
+			var res = await getAPI(SysConstApi).sysConstListGet();
+			this.constList = res.data.result ?? [];
+			return this.constList;
 		},
 	},
 	actions: {
@@ -55,11 +57,6 @@ export const useUserInfo = defineStore('userInfo', {
 						resolve(userInfos);
 					});
 			});
-		},
-		// 获取当前用户信息
-		async getAllConstSelectorWithOptionsAction() {
-			var res = await getAllConstSelectorWithOptions();
-			this.constSelectorWithOptions = res.data.result ?? [];
 		},
 	},
 });

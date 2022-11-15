@@ -3,6 +3,8 @@
  * `stores` 全部类型定义在这里
  */
 
+import { ConstOutput } from '/@/api-services/models';
+
 // 用户信息
 export interface UserInfosState {
 	account: string;
@@ -19,7 +21,7 @@ export interface UserInfosState {
 }
 export interface UserInfosStates {
 	userInfos: UserInfosState;
-	constSelectorWithOptions: [];
+	constList: Array<ConstOutput>;
 }
 
 // 路由缓存列表
