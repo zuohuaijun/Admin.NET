@@ -45,7 +45,9 @@
 <script lang="ts">
 import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
 
-import { createEntity } from '/@/api/system/admin';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysDatabaseApi } from '/@/api-services/api';
+
 
 export default defineComponent({
 	name: 'sysGenEntity',
@@ -80,7 +82,7 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 
-				await createEntity(state.ruleForm);
+				await getAPI(SysDatabaseApi).sysDatabaseCreateEntityPost(state.ruleForm);
 				closeDialog();
 			});
 		};

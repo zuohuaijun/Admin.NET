@@ -46,7 +46,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 增加列
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/sysDatabase/column/add")]
+    [HttpPost("/sysDatabase/addColumn")]
     public void AddColumn(DbColumnInput input)
     {
         var column = new DbColumnInfo
@@ -71,7 +71,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 删除列
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/sysDatabase/column/delete")]
+    [HttpPost("/sysDatabase/deleteColumn")]
     public void DeleteColumn(DeleteDbColumnInput input)
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
@@ -82,7 +82,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 编辑列
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/sysDatabase/column/update")]
+    [HttpPost("/sysDatabase/updateColumn")]
     public void UpdateColumn(UpdateDbColumnInput input)
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
@@ -108,7 +108,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 增加表
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/sysDatabase/table/add")]
+    [HttpPost("/sysDatabase/addTable")]
     public void AddTable(DbTableInput input)
     {
         var columns = new List<DbColumnInfo>();
@@ -144,13 +144,14 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         {
             db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
         });
+
     }
 
     /// <summary>
     /// 删除表
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/sysDatabase/table/delete")]
+    [HttpPost("/sysDatabase/deleteTable")]
     public void DeleteTable(DeleteDbTableInput input)
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
@@ -161,7 +162,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 编辑表
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/sysDatabase/table/update")]
+    [HttpPost("/sysDatabase/updateTable")]
     public void UpdateTable(UpdateDbTableInput input)
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
@@ -175,7 +176,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 创建实体
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/sysDatabase/entity/create")]
+    [HttpPost("/sysDatabase/createEntity")]
     public void CreateEntity(CreateEntityInput input)
     {
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;

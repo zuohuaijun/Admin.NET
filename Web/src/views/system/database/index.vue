@@ -77,8 +77,7 @@ import GenEntity from '/@/views/system/database/component/genEntity.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
-import { DbColumnOutput, DbTableInfo } from '/@/api-services/models';
-import { AddDbColumnInput } from '/@/api/system/interface';
+import { DbColumnOutput, DbTableInfo,DbColumnInput,DeleteDbTableInput,DeleteDbColumnInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysDatabase',
@@ -207,7 +206,7 @@ export default defineComponent({
 				});
 				return;
 			}
-			const addRow: AddDbColumnInput = {
+			const addRow: DbColumnInput = {
 				configId: state.configId,
 				tableName: state.tableName,
 				columnDescription: '',
@@ -218,9 +217,9 @@ export default defineComponent({
 				isNullable: 0,
 				isPrimarykey: 0,
 				length: 0,
-				key: 0,
-				editable: true,
-				isNew: true,
+				// key: 0,
+				// editable: true,
+				// isNew: true,
 			};
 			addColumnRef.value.openDialog(addRow);
 		};
@@ -232,7 +231,12 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysDatabaseApi).sysDatabaseTableDeletePost({ configId: state.configId, tableName: state.tableName });
+
+					const deleteDbTableInput: DeleteDbTableInput = {
+						configId: state.configId,
+						tableName: state.tableName
+					};
+					await getAPI(SysDatabaseApi).sysDatabaseDeleteTablePost(deleteDbTableInput);
 					handleQueryTable();
 					ElMessage.success('表删除成功');
 				})
@@ -246,7 +250,12 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysDatabaseApi).sysDatabaseColumnDeletePost({ configId: state.configId, tableName: state.tableName, dbColumnName: row.dbColumnName });
+					const eleteDbColumnInput: DeleteDbColumnInput = {
+						configId: state.configId,
+						tableName: state.tableName,
+						dbColumnName: row.dbColumnName
+					};
+					await getAPI(SysDatabaseApi).sysDatabaseDeleteColumnPost(eleteDbColumnInput);
 					handleQueryTable();
 					ElMessage.success('列删除成功');
 				})

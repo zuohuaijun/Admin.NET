@@ -92,11 +92,12 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref, toRaw } from 'vue';
-import { EditRecordRow, UpdateDbTableInput } from '/@/api/system/interface';
+import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
+import { EditRecordRow, UpdateDbTableInput } from '/@/api-services/models'
 import { ElMessage } from 'element-plus';
 
-import { addTable } from '/@/api/system/admin';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysDatabaseApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysAddTable',
@@ -144,7 +145,7 @@ export default defineComponent({
 					dbColumnInfoList: state.tableData,
 					...state.ruleForm,
 				};
-				await addTable(params);
+				await getAPI(SysDatabaseApi).sysDatabaseAddTablePost(params);
 				closeDialog();
 			});
 		};

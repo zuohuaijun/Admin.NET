@@ -65,6 +65,9 @@
 
 <script lang="ts">
 import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysDatabaseApi } from '/@/api-services/api';
+import { DbColumnInput } from '/@/api-services/models';
 
 import { addColumn } from '/@/api/system/admin';
 import { AddDbColumnInput } from '/@/api/system/interface';
@@ -77,10 +80,10 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {} as AddDbColumnInput,
+			ruleForm: {} as DbColumnInput,
 		});
 		// 打开弹窗
-		const openDialog = (addRow: AddDbColumnInput) => {
+		const openDialog = (addRow: DbColumnInput) => {
 			state.ruleForm = addRow;
 			state.isShowDialog = true;
 		};
@@ -98,7 +101,7 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 
-				await addColumn(state.ruleForm);
+				await await getAPI(SysDatabaseApi).sysDatabaseAddColumnPost(state.ruleForm);
 				closeDialog();
 			});
 		};
