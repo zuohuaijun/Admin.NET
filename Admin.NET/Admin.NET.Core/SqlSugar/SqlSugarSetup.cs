@@ -176,14 +176,15 @@ public static class SqlSugarSetup
     {
         if (!config.EnableInitDb || config.DbType == SqlSugar.DbType.Oracle) return;
 
+        var dbProvider = db.GetConnectionScope(config.ConfigId);
+
         // 创建数据库
-        db.DbMaintenance.CreateDatabase();
+        dbProvider.DbMaintenance.CreateDatabase();
 
         // 获取所有实体表-初始化表结构
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
             && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute), false));
         if (!entityTypes.Any()) return;
-        var db2 = db.GetConnectionScope(config.ConfigId);
         foreach (var entityType in entityTypes)
         {
             var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
@@ -192,9 +193,9 @@ public static class SqlSugarSetup
 
             var splitTable = entityType.GetCustomAttribute<SplitTableAttribute>();
             if (splitTable == null)
-                db2.CodeFirst.InitTables(entityType);
+                dbProvider.CodeFirst.InitTables(entityType);
             else
-                db2.CodeFirst.SplitTables().InitTables(entityType);
+                dbProvider.CodeFirst.SplitTables().InitTables(entityType);
         }
 
         // 获取所有种子配置-初始化数据
@@ -215,17 +216,17 @@ public static class SqlSugarSetup
             if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
 
             var seedDataTable = seedData.ToList().ToDataTable();
-            seedDataTable.TableName = db2.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
+            seedDataTable.TableName = dbProvider.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
-                var storage = db2.CopyNew().Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
+                var storage = dbProvider.CopyNew().Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
                 var ignoreUpdate = hasDataMethod.GetCustomAttribute<IgnoreUpdateAttribute>();
                 if (ignoreUpdate == null) storage.AsUpdateable.ExecuteCommand();
             }
             else // 没有主键或者不是预定义的主键(有重复的可能)
             {
-                var storage = db2.CopyNew().Storageable(seedDataTable).ToStorage();
+                var storage = dbProvider.CopyNew().Storageable(seedDataTable).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
             }
         }
