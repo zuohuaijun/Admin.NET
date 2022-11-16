@@ -116,6 +116,7 @@ export default defineComponent({
 		// 打开弹窗
 		const openDialog = (row: any) => {
 			state.ruleForm = JSON.parse(JSON.stringify(row));
+			console.log(state.ruleForm)
 			state.isShowDialog = true;
 		};
 		// 关闭弹窗

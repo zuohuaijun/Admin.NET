@@ -12,7 +12,24 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="数据库类型" prop="dbType" :rules="[{ required: true, message: '描述不能为空', trigger: 'blur' }]">
-							<el-input v-model="ruleForm.dbTypeString" disabled />
+							<el-select v-model="ruleForm.dbType" placeholder="数据库类型" clearable disabled >
+								<el-option label="MySql" :value="'0'" />
+								<el-option label="SqlServer" :value="'1'" />
+								<el-option label="Sqlite" :value="'2'" />
+								<el-option label="Oracle" :value="'3'" />
+								<el-option label="PostgreSQL" :value="'4'" />
+								<el-option label="Dm" :value="'5'" />
+								<el-option label="Kdbndp" :value="'6'" />
+								<el-option label="Oscar" :value="'7'" />
+								<el-option label="MySqlConnector" :value="'8'" />
+								<el-option label="Access" :value="'9'" />
+								<el-option label="OpenGauss" :value="'10'" />
+								<el-option label="QuestDB" :value="'11'" />
+								<el-option label="HG" :value="'12'" />
+								<el-option label="ClickHouse" :value="'13'" />
+								<el-option label="GBase" :value="'14'" />
+								<el-option label="Custom" :value="'900'" />
+							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -81,8 +98,10 @@
 <script lang="ts">
 import { reactive, toRefs, onMounted, defineComponent, getCurrentInstance, ref } from 'vue';
 
-import { getDatabaseList, getTableList, addGenerate, updateGenerate } from '/@/api/system/admin';
-import { AddCodeGenInput } from '/@/api/system/interface';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysCodeGenApi } from '/@/api-services/api';
+
+import { UpdateCodeGenInput,AddCodeGenInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'codeGenerateDialog',
@@ -106,38 +125,31 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {} as AddCodeGenInput,
+			ruleForm: {} as UpdateCodeGenInput,
 			tableData: [] as any,
 			dbData: [] as any,
 		});
 
 		onMounted(async () => {
-			var res = await getDatabaseList();
+			var res = await getAPI(SysCodeGenApi).codeGenerateDatabaseListGet();
 			state.dbData = res.data.result;
 		});
 
 		// DbChanged
 		const DbChanged = async () => {
 			if (state.ruleForm.configId === '') return;
-			let res = await getTableList(state.ruleForm.configId as string);
+			let res = await getAPI(SysCodeGenApi).codeGenerateInformationListConfigIdGet(state.ruleForm.configId as string);
 			state.tableData = res.data.result ?? [];
 
 			let db = state.dbData.filter((u: any) => u.configId == state.ruleForm.configId);
 			state.ruleForm.connectionString = db[0].connectionString;
 			state.ruleForm.dbType = db[0].dbType.toString();
-			state.ruleForm.dbTypeString = convertDbType(db[0].dbType);
 		};
 
+
 		// 打开弹窗
-		const openDialog = (addRow: AddCodeGenInput) => {
-			state.ruleForm = addRow;
-			if (state.ruleForm.type === '1') {
-				state.ruleForm.nameSpace = 'Admin.NET.Application';
-				state.ruleForm.authorName = 'one';
-				state.ruleForm.generateType = '2';
-			} else {
-				state.ruleForm.dbTypeString = convertDbType(parseInt(state.ruleForm.dbType));
-			}
+		const openDialog = (row: any) => {
+			state.ruleForm = JSON.parse(JSON.stringify(row));
 			state.isShowDialog = true;
 		};
 
@@ -156,56 +168,15 @@ export default defineComponent({
 		const submit = () => {
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
-
-				if (state.ruleForm.type === '1') {
-					await addGenerate(state.ruleForm);
+				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
+					await getAPI(SysCodeGenApi).codeGenerateEditPost(state.ruleForm as UpdateCodeGenInput);
 				} else {
-					await updateGenerate(state.ruleForm);
+					await getAPI(SysCodeGenApi).codeGenerateAddPost(state.ruleForm as AddCodeGenInput);
 				}
+				
 				closeDialog();
 			});
 		};
-
-		const convertDbType = (dbType: number) => {
-			let result = '';
-			switch (dbType) {
-				case 0:
-					result = 'MySql';
-					break;
-				case 1:
-					result = 'SqlServer';
-					break;
-				case 2:
-					result = 'Sqlite';
-					break;
-				case 3:
-					result = 'Oracle';
-					break;
-				case 4:
-					result = 'PostgreSql';
-					break;
-				case 5:
-					result = 'Dm';
-					break;
-				case 6:
-					result = 'Kdbndp';
-					break;
-				case 7:
-					result = 'Oscar';
-					break;
-				case 8:
-					result = 'MySqlConnector';
-					break;
-				case 9:
-					result = 'Access';
-					break;
-				default:
-					result = 'Custom';
-					break;
-			}
-			return result;
-		};
-
 		const isOrNotSelect = () => {
 			return [
 				{
@@ -226,7 +197,6 @@ export default defineComponent({
 			cancel,
 			submit,
 			...toRefs(state),
-			convertDbType,
 			isOrNotSelect,
 			DbChanged,
 		};

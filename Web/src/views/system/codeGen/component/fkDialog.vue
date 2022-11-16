@@ -39,7 +39,8 @@
 <script lang="ts">
 import { reactive, toRefs, defineComponent, getCurrentInstance, ref, onMounted } from 'vue';
 
-import { getDatabaseList, getTableList, getColumnList } from '/@/api/system/admin';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysCodeGenApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'fk',
@@ -57,7 +58,7 @@ export default defineComponent({
 		});
 
 		onMounted(async () => {
-			var res = await getDatabaseList();
+			var res = await getAPI(SysCodeGenApi).codeGenerateDatabaseListGet();
 			state.dbData = res.data.result;
 		});
 
@@ -73,20 +74,20 @@ export default defineComponent({
 		};
 
 		const getDbList = async () => {
-			var res = await getDatabaseList();
+			var res = await getAPI(SysCodeGenApi).codeGenerateDatabaseListGet();
 			state.dbData = res.data.result;
 		};
 
 		const getTableInfoList = async () => {
 			if (state.ruleForm.configId == '') return;
-			var res = await getTableList(state.ruleForm.configId);
+			var res = await getAPI(SysCodeGenApi).codeGenerateInformationListConfigIdGet(state.ruleForm.configId);
 			state.tableData = res.data.result;
 		};
 
 		const getColumnInfoList = async () => {
 			if (state.ruleForm.configId == '' || state.ruleForm.tableName == '') return;
 			console.log(state.ruleForm.configId, state.ruleForm.tableName);
-			var res = await getColumnList(state.ruleForm.configId, state.ruleForm.tableName);
+			var res = await getAPI(SysCodeGenApi).codeGenerateColumnListConfigIdTableNameGet(state.ruleForm.tableName,state.ruleForm.configId);
 			state.columnData = res.data.result;
 		};
 

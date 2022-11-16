@@ -29,6 +29,6 @@ dist/
 node_modules/
 /Admin.NET/Admin.NET.Web.Entry/wwwroot/Avatar
 /Admin.NET/Admin.NET.Web.Entry/wwwroot/Signature
-/Admin.NET/Admin.NET.Web.Entry/Admin.NET.db
+/Admin.NET/Admin.NET.Web.Entry/*.db
 /Admin.NET/Admin.NET.Web.Core/Admin.NET.Web.Core.csproj.user
 /Admin.NET/Admin.NET.Web.Entry/Admin.NET.Web.Entry.csproj.user

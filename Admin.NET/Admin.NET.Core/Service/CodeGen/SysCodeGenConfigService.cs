@@ -24,6 +24,8 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
         return await _db.Queryable<SysCodeGenConfig>()
             .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesNoEnum.Y.ToString())
             .Select<CodeGenConfig>().ToListAsync();
+
+
     }
 
     /// <summary>

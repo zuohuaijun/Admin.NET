@@ -70,8 +70,8 @@ import { reactive, toRefs, onMounted, onUnmounted, defineComponent, getCurrentIn
 import fkDialog from '/@/views/system/codeGen/component/fkDialog.vue';
 import treeDialog from '/@/views/system/codeGen/component/treeDialog.vue';
 
-import { getGenerateConfigList, getDictDataDropdown, getDictTypeList, updateGenerateConfig, getAllConstSelector } from '/@/api/system/admin';
-import { AddCodeGenInput, DbTableInfo } from '/@/api/system/interface';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysCodeGenConfigApi,SysConstApi,SysDictDataApi,SysDictTypeApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'codeGenerateConfig',
@@ -93,17 +93,17 @@ export default defineComponent({
 		});
 
 		onMounted(async () => {
-			let res = await getDictDataDropdown('code_gen_effect_type');
+			let res = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_effect_type');
 			state.effectTypeList = res.data.result;
 
-			res = await getDictTypeList();
+			res = await getAPI(SysDictTypeApi).sysDictTypeListGet();
 			state.dictTypeCodeList = res.data.result;
 			state.dictDataAll = res.data.result;
 
-			res = await getDictDataDropdown('code_gen_query_type');
+			res = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_query_type');
 			state.queryTypeList = res.data.result;
 
-			res = await getAllConstSelector();
+			res = await getAPI(SysConstApi).sysConstListGet();
 			state.allConstSelector = res.data.result;
 
 			proxy.mittBus.on('submitRefreshFk', (data: any) => {
@@ -134,7 +134,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async (row: any) => {
 			state.loading = true;
-			var res = await getGenerateConfigList({ codeGenId: row.id });
+			var res = await getAPI(SysCodeGenConfigApi).sysCodeGenerateConfigListGet(undefined,row.id);
 			var data = res.data.result ?? [];
 			data.forEach((item: any) => {
 				for (const key in item) {
@@ -204,7 +204,7 @@ export default defineComponent({
 					}
 				}
 			});
-			await updateGenerateConfig(lst);
+			await getAPI(SysCodeGenConfigApi).sysCodeGenerateConfigEditPost(lst);
 			state.loading = false;
 			closeDialog();
 		};

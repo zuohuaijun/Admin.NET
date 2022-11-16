@@ -42,7 +42,7 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<CodeGenerateDialog :code-generate-type-list="codeGenerateTypeList" :menu-data="menudata" :title="editMenuTitle" ref="CodeGenerateRef" />
+		<EditCodeGenerateDialog :code-generate-type-list="codeGenerateTypeList" :menu-data="menudata" :title="editMenuTitle" ref="EditCodeGenerateRef" />
 		<CodeConfigDialog ref="CodeConfigRef" />
 	</div>
 </template>
@@ -50,18 +50,20 @@
 <script lang="ts">
 import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import CodeGenerateDialog from '/@/views/system/codeGen/component/codeGenerateDialog.vue';
+import EditCodeGenerateDialog from '/@/views/system/codeGen/component/editCodeGenerateDialog.vue';
 import CodeConfigDialog from '/@/views/system/codeGen/component/generateConfigDialog.vue';
 
-import { SysCodeGen, SysMenu } from '/@/api/system/interface';
-import { getGeneratePage, getMenuList, getDictDataDropdown, deleGenerate, generateRunLocal } from '/@/api/system/admin';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysCodeGenApi,SysMenuApi,SysDictDataApi } from '/@/api-services/api';
+
+import { SysCodeGen,SysMenu } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'codeGen',
-	components: { CodeGenerateDialog, CodeConfigDialog },
+	components: { EditCodeGenerateDialog,CodeConfigDialog },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-		const CodeGenerateRef = ref();
+		const EditCodeGenerateRef = ref();
 		const CodeConfigRef = ref();
 		const state = reactive({
 			loading: false,
@@ -73,6 +75,7 @@ export default defineComponent({
 			queryParams: {
 				name: undefined,
 				code: undefined,
+				tableName: undefined,
 			},
 			tableParams: {
 				page: 1,
@@ -86,10 +89,10 @@ export default defineComponent({
 
 		onMounted(async () => {
 			handleQuery();
-			let res = await getMenuList();
-			state.menudata = res.data.result;
+			let res = await getAPI(SysMenuApi).sysMenuListGet();
+			state.menudata = res.data.result ?? [];
 
-			let list = await getDictDataDropdown('code_gen_create_type');
+			let list = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_create_type');
 			state.codeGenerateTypeList = list.data.result;
 			proxy.mittBus.on('submitRefresh', () => {
 				handleQuery();
@@ -110,8 +113,9 @@ export default defineComponent({
 		// 表查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			let params = Object.assign(state.queryParams, state.tableParams);
-			let res = await getGeneratePage(params);
+			// let params = Object.assign(state.queryParams, state.tableParams);
+			let res = await getAPI(SysCodeGenApi).codeGeneratePageGet(undefined,undefined,undefined,undefined,undefined,undefined,undefined
+			,undefined,state.queryParams.tableName,undefined,undefined,undefined,undefined,undefined,state.tableParams.page, state.tableParams.pageSize);
 			state.tableData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -138,13 +142,12 @@ export default defineComponent({
 		// 打开表增加页面
 		const openAddDialog = () => {
 			state.editMenuTitle = '新增';
-			CodeGenerateRef.value.openDialog({ type: '1' });
+			EditCodeGenerateRef.value.openDialog({nameSpace:'Admin.NET.Application',authorName:'Admin.Net',generateType:'2'});
 		};
-		// 打开列编辑页面
+		// 打开表编辑页面
 		const openEditDialog = (row: any) => {
 			state.editMenuTitle = '编辑';
-			row.type = '2';
-			CodeGenerateRef.value.openDialog(row);
+			EditCodeGenerateRef.value.openDialog(row);
 		};
 
 		// 删除表
@@ -155,7 +158,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await deleGenerate([{ id: row.id }]);
+					await getAPI(SysCodeGenApi).codeGenerateDeletePost([{ id: row.id }]);
 					handleQuery();
 					ElMessage.success('操作成功');
 				})
@@ -170,7 +173,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await generateRunLocal(row);
+					await getAPI(SysCodeGenApi).codeGenerateRunLocalPost(row);
 					handleQuery();
 					ElMessage.success('操作成功');
 				})
@@ -182,7 +185,7 @@ export default defineComponent({
 			openAddDialog,
 			openEditDialog,
 			deleConfig,
-			CodeGenerateRef,
+			EditCodeGenerateRef,
 			handleSizeChange,
 			handleCurrentChange,
 			getGenerateTypeString,

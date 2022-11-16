@@ -4,7 +4,7 @@
     // 代码生成配置项-程序集名称集合
     "CodeGen": {
         "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application" ],
-        "FrontRootPath": "Vben2", //前端文件根目录
+        "FrontRootPath": "Web", //前端文件根目录
         "BackendApplicationNamespace": "Admin.NET.Application" //后端生成到的项目
     }
 }
