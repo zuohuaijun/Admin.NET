@@ -13,7 +13,7 @@
  */
 import { DbType } from './db-type';
 /**
- * 多库代码生成库列表输出
+ * 数据库
  * @export
  * @interface DatabaseOutput
  */

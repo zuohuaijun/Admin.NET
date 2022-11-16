@@ -44,7 +44,7 @@ public class CustomViewEngine : ViewEngineModel
 
     public bool IsUpload { get; set; }
 
-    private List<TableColumnOuput> ColumnList { get; set; }
+    private List<ColumnOuput> ColumnList { get; set; }
 
     public string GetColumnNetType(object tbName, object colName)
     {
@@ -53,9 +53,9 @@ public class CustomViewEngine : ViewEngineModel
         return col.NetType;
     }
 
-    public List<TableColumnOuput> GetColumnListByTableName(string tableName)
+    public List<ColumnOuput> GetColumnListByTableName(string tableName)
     {
-        //多库代码生成切换库
+        // 多库代码生成切换库
         var provider = _db.AsTenant().GetConnectionScope(ConfigId != SqlSugarConst.ConfigId ? ConfigId : SqlSugarConst.ConfigId);
 
         // 获取实体类型属性
@@ -63,7 +63,7 @@ public class CustomViewEngine : ViewEngineModel
         if (entityType == null) return null;
 
         // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
-        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new TableColumnOuput
+        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new ColumnOuput
         {
             ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),

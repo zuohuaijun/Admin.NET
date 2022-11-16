@@ -1,18 +1,18 @@
 <template>
-	<div class="sys-codeGenerate-container">
+	<div class="sys-editCodeGen-container">
 		<el-dialog v-model="isShowDialog" :title="title" draggable width="700px">
-			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="库定位器" prop="configId">
-							<el-select clearable v-model="ruleForm.configId" placeholder="库名" filterable @change="DbChanged()">
+							<el-select v-model="ruleForm.configId" placeholder="库名" filterable @change="DbChanged()" class="w100">
 								<el-option v-for="item in dbData" :key="item.configId" :label="item.configId" :value="item.configId" />
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="数据库类型" prop="dbType" :rules="[{ required: true, message: '描述不能为空', trigger: 'blur' }]">
-							<el-select v-model="ruleForm.dbType" placeholder="数据库类型" clearable disabled >
+						<el-form-item label="库类型" prop="dbType" :rules="[{ required: true, message: '描述不能为空', trigger: 'blur' }]">
+							<el-select v-model="ruleForm.dbType" placeholder="数据库类型" clearable disabled class="w100">
 								<el-option label="MySql" :value="'0'" />
 								<el-option label="SqlServer" :value="'1'" />
 								<el-option label="Sqlite" :value="'2'" />
@@ -32,14 +32,14 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="链接串" prop="connectionString">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="库地址" prop="connectionString">
 							<el-input v-model="ruleForm.connectionString" disabled clearable type="textarea" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="生成表" prop="tableName" :rules="[{ required: true, message: '生成表不能为空', trigger: 'blur' }]">
-							<el-select v-model="ruleForm.tableName" class="m-2" filterable clearable>
+							<el-select v-model="ruleForm.tableName" filterable clearable class="w100">
 								<el-option v-for="item in tableData" :key="item.entityName" :label="item.tableName" :value="item.entityName" />
 							</el-select>
 						</el-form-item>
@@ -78,8 +78,8 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="生成方式" prop="generateType">
-							<el-select v-model="ruleForm.generateType" class="m-2" filterable clearable>
-								<el-option v-for="item in codeGenerateTypeList" :key="item.value" :label="item.label" :value="item.value" />
+							<el-select v-model="ruleForm.generateType" filterable class="w100">
+								<el-option v-for="item in codeGenTypeList" :key="item.value" :label="item.label" :value="item.value" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -99,25 +99,16 @@
 import { reactive, toRefs, onMounted, defineComponent, getCurrentInstance, ref } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysCodeGenApi } from '/@/api-services/api';
-
-import { UpdateCodeGenInput,AddCodeGenInput } from '/@/api-services/models';
+import { SysCodeGenApi, SysDictDataApi, SysMenuApi } from '/@/api-services/api';
+import { UpdateCodeGenInput, AddCodeGenInput, SysMenu } from '/@/api-services/models';
 
 export default defineComponent({
-	name: 'codeGenerateDialog',
+	name: 'sysEditCodeGen',
 	components: {},
 	props: {
 		title: {
 			type: String,
 			default: '',
-		},
-		menuData: {
-			type: Array,
-			default: () => [],
-		},
-		codeGenerateTypeList: {
-			type: Array,
-			default: () => [] as any,
 		},
 	},
 	setup() {
@@ -128,24 +119,31 @@ export default defineComponent({
 			ruleForm: {} as UpdateCodeGenInput,
 			tableData: [] as any,
 			dbData: [] as any,
+			menuData: [] as Array<SysMenu>,
+			codeGenTypeList: [] as any,
 		});
 
 		onMounted(async () => {
-			var res = await getAPI(SysCodeGenApi).codeGenerateDatabaseListGet();
-			state.dbData = res.data.result;
+			var resDb = await getAPI(SysCodeGenApi).sysCodeGenDatabaseListGet();
+			state.dbData = resDb.data.result;
+
+			let resMenu = await getAPI(SysMenuApi).sysMenuListGet();
+			state.menuData = resMenu.data.result ?? [];
+
+			let resDicData = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_create_type');
+			state.codeGenTypeList = resDicData.data.result;
 		});
 
 		// DbChanged
 		const DbChanged = async () => {
 			if (state.ruleForm.configId === '') return;
-			let res = await getAPI(SysCodeGenApi).codeGenerateInformationListConfigIdGet(state.ruleForm.configId as string);
+			let res = await getAPI(SysCodeGenApi).sysCodeGenTableListConfigIdGet(state.ruleForm.configId as string);
 			state.tableData = res.data.result ?? [];
 
 			let db = state.dbData.filter((u: any) => u.configId == state.ruleForm.configId);
 			state.ruleForm.connectionString = db[0].connectionString;
 			state.ruleForm.dbType = db[0].dbType.toString();
 		};
-
 
 		// 打开弹窗
 		const openDialog = (row: any) => {
@@ -169,11 +167,10 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysCodeGenApi).codeGenerateEditPost(state.ruleForm as UpdateCodeGenInput);
+					await getAPI(SysCodeGenApi).sysCodeGenUpdatePost(state.ruleForm as UpdateCodeGenInput);
 				} else {
-					await getAPI(SysCodeGenApi).codeGenerateAddPost(state.ruleForm as AddCodeGenInput);
+					await getAPI(SysCodeGenApi).sysCodeGenAddPost(state.ruleForm as AddCodeGenInput);
 				}
-				
 				closeDialog();
 			});
 		};

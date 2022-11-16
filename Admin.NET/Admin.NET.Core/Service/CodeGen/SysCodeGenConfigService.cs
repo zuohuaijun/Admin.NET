@@ -18,25 +18,12 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysCodeGenerateConfig/list")]
+    [HttpGet("/sysCodeGenConfig/list")]
     public async Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>()
             .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesNoEnum.Y.ToString())
             .Select<CodeGenConfig>().ToListAsync();
-
-
-    }
-
-    /// <summary>
-    /// 增加
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    private async Task Add(CodeGenConfig input)
-    {
-        var codeGenConfig = input.Adapt<SysCodeGenConfig>();
-        await _db.Insertable(codeGenConfig).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -55,7 +42,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="inputList"></param>
     /// <returns></returns>
-    [HttpPost("/sysCodeGenerateConfig/edit")]
+    [HttpPost("/sysCodeGenConfig/update")]
     public async Task Update(List<CodeGenConfig> inputList)
     {
         if (inputList == null || inputList.Count < 1) return;
@@ -67,7 +54,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysCodeGenerateConfig/detail")]
+    [HttpGet("/sysCodeGenConfig/detail")]
     public async Task<SysCodeGenConfig> Detail([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>().FirstAsync(u => u.Id == input.Id);
@@ -79,7 +66,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// <param name="tableColumnOuputList"></param>
     /// <param name="codeGenerate"></param>
     [NonAction]
-    public void AddList(List<TableColumnOuput> tableColumnOuputList, SysCodeGen codeGenerate)
+    public void AddList(List<ColumnOuput> tableColumnOuputList, SysCodeGen codeGenerate)
     {
         if (tableColumnOuputList == null) return;
 

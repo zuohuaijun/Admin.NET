@@ -1,5 +1,5 @@
 <template>
-	<div class="sys-codegenerate-container">
+	<div class="sys-codeGen-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true" v-loading="loading">
 				<el-form-item>
@@ -18,7 +18,8 @@
 				<el-table-column prop="authorName" label="作者姓名" show-overflow-tooltip />
 				<el-table-column prop="generateType" label="生成方式" show-overflow-tooltip>
 					<template #default="scope">
-						<span>{{ getGenerateTypeString(scope.row.generateType) }}</span>
+						<el-tag v-if="scope.row.generateType === 1"> 下载压缩包 </el-tag>
+						<el-tag type="danger" v-else> 生成到本项目 </el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" width="200" fixed="right" align="center" show-overflow-tooltip>
@@ -42,7 +43,7 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditCodeGenerateDialog :code-generate-type-list="codeGenerateTypeList" :menu-data="menudata" :title="editMenuTitle" ref="EditCodeGenerateRef" />
+		<EditCodeGenDialog :title="editMenuTitle" ref="EditCodeGenRef" />
 		<CodeConfigDialog ref="CodeConfigRef" />
 	</div>
 </template>
@@ -50,20 +51,19 @@
 <script lang="ts">
 import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import EditCodeGenerateDialog from '/@/views/system/codeGen/component/editCodeGenerateDialog.vue';
-import CodeConfigDialog from '/@/views/system/codeGen/component/generateConfigDialog.vue';
+import EditCodeGenDialog from './component/editCodeGenDialog.vue';
+import CodeConfigDialog from './component/genConfigDialog.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysCodeGenApi,SysMenuApi,SysDictDataApi } from '/@/api-services/api';
-
-import { SysCodeGen,SysMenu } from '/@/api-services/models';
+import { SysCodeGenApi } from '/@/api-services/api';
+import { SysCodeGen } from '/@/api-services/models';
 
 export default defineComponent({
-	name: 'codeGen',
-	components: { EditCodeGenerateDialog,CodeConfigDialog },
+	name: 'sysCodeGen',
+	components: { EditCodeGenDialog, CodeConfigDialog },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
-		const EditCodeGenerateRef = ref();
+		const EditCodeGenRef = ref();
 		const CodeConfigRef = ref();
 		const state = reactive({
 			loading: false,
@@ -83,17 +83,11 @@ export default defineComponent({
 				total: 0 as any,
 			},
 			editMenuTitle: '',
-			menudata: [] as Array<SysMenu>,
-			codeGenerateTypeList: [] as any,
 		});
 
 		onMounted(async () => {
 			handleQuery();
-			let res = await getAPI(SysMenuApi).sysMenuListGet();
-			state.menudata = res.data.result ?? [];
 
-			let list = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_create_type');
-			state.codeGenerateTypeList = list.data.result;
 			proxy.mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
@@ -114,17 +108,27 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			// let params = Object.assign(state.queryParams, state.tableParams);
-			let res = await getAPI(SysCodeGenApi).codeGeneratePageGet(undefined,undefined,undefined,undefined,undefined,undefined,undefined
-			,undefined,state.queryParams.tableName,undefined,undefined,undefined,undefined,undefined,state.tableParams.page, state.tableParams.pageSize);
+			let res = await getAPI(SysCodeGenApi).sysCodeGenPageGet(
+				undefined,
+				undefined,
+				undefined,
+				undefined,
+				undefined,
+				undefined,
+				undefined,
+				undefined,
+				state.queryParams.tableName,
+				undefined,
+				undefined,
+				undefined,
+				undefined,
+				undefined,
+				state.tableParams.page,
+				state.tableParams.pageSize
+			);
 			state.tableData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
-		};
-
-		// 获取生成方式
-		const getGenerateTypeString = (val: string) => {
-			let lst = state.codeGenerateTypeList.filter((u: any) => u.value == val);
-			return lst[0]?.label;
 		};
 
 		// 改变页面容量
@@ -141,13 +145,13 @@ export default defineComponent({
 
 		// 打开表增加页面
 		const openAddDialog = () => {
-			state.editMenuTitle = '新增';
-			EditCodeGenerateRef.value.openDialog({nameSpace:'Admin.NET.Application',authorName:'Admin.Net',generateType:'2'});
+			state.editMenuTitle = '增加';
+			EditCodeGenRef.value.openDialog({ nameSpace: 'Admin.NET.Application', authorName: 'Admin.NET', generateType: '2' });
 		};
 		// 打开表编辑页面
 		const openEditDialog = (row: any) => {
 			state.editMenuTitle = '编辑';
-			EditCodeGenerateRef.value.openDialog(row);
+			EditCodeGenRef.value.openDialog(row);
 		};
 
 		// 删除表
@@ -158,7 +162,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysCodeGenApi).codeGenerateDeletePost([{ id: row.id }]);
+					await getAPI(SysCodeGenApi).sysCodeGenDeletePost([{ id: row.id }]);
 					handleQuery();
 					ElMessage.success('操作成功');
 				})
@@ -173,7 +177,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysCodeGenApi).codeGenerateRunLocalPost(row);
+					await getAPI(SysCodeGenApi).sysCodeGenRunLocalPost(row);
 					handleQuery();
 					ElMessage.success('操作成功');
 				})
@@ -181,18 +185,17 @@ export default defineComponent({
 		};
 
 		return {
+			EditCodeGenRef,
+			CodeConfigRef,
 			handleQuery,
 			openAddDialog,
 			openEditDialog,
 			deleConfig,
-			EditCodeGenerateRef,
 			handleSizeChange,
 			handleCurrentChange,
-			getGenerateTypeString,
-			...toRefs(state),
-			CodeConfigRef,
 			openConfigDialog,
 			handleGenerate,
+			...toRefs(state),
 		};
 	},
 });

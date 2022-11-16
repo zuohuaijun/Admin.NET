@@ -3,7 +3,7 @@
 /// <summary>
 /// 数据库表列
 /// </summary>
-public class TableColumnOuput
+public class ColumnOuput
 {
     /// <summary>
     /// 字段名

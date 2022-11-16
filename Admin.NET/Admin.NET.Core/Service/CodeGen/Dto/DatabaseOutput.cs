@@ -1,7 +1,7 @@
 ﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 多库代码生成库列表输出
+/// 数据库
 /// </summary>
 public class DatabaseOutput
 {

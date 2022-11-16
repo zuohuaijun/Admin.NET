@@ -1,5 +1,5 @@
 <template>
-	<div class="codeGenerateConfig-container">
+	<div class="sys-codeGenConfig-container">
 		<el-dialog v-model="isShowDialog" title="配置" draggable width="100%">
 			<el-table :data="tableData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
@@ -71,10 +71,10 @@ import fkDialog from '/@/views/system/codeGen/component/fkDialog.vue';
 import treeDialog from '/@/views/system/codeGen/component/treeDialog.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysCodeGenConfigApi,SysConstApi,SysDictDataApi,SysDictTypeApi } from '/@/api-services/api';
+import { SysCodeGenConfigApi, SysConstApi, SysDictDataApi, SysDictTypeApi } from '/@/api-services/api';
 
 export default defineComponent({
-	name: 'codeGenerateConfig',
+	name: 'sysCodeGenConfig',
 	components: { fkDialog, treeDialog },
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -134,7 +134,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async (row: any) => {
 			state.loading = true;
-			var res = await getAPI(SysCodeGenConfigApi).sysCodeGenerateConfigListGet(undefined,row.id);
+			var res = await getAPI(SysCodeGenConfigApi).sysCodeGenConfigListGet(undefined, row.id);
 			var data = res.data.result ?? [];
 			data.forEach((item: any) => {
 				for (const key in item) {
@@ -204,7 +204,7 @@ export default defineComponent({
 					}
 				}
 			});
-			await getAPI(SysCodeGenConfigApi).sysCodeGenerateConfigEditPost(lst);
+			await getAPI(SysCodeGenConfigApi).sysCodeGenConfigUpdatePost(lst);
 			state.loading = false;
 			closeDialog();
 		};
@@ -269,7 +269,6 @@ export default defineComponent({
 			closeDialog,
 			cancel,
 			submit,
-			...toRefs(state),
 			convertDbType,
 			isOrNotSelect,
 			handleQuery,
@@ -278,6 +277,7 @@ export default defineComponent({
 			openFkDialog,
 			openTreeDialog,
 			effectTypeChange,
+			...toRefs(state),
 		};
 	},
 });

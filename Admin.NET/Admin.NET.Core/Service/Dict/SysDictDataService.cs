@@ -140,10 +140,9 @@ public class SysDictDataService : IDynamicApiController, ITransient
     [HttpGet("/sysDictData/DictDataDropdown/{code}")]
     public async Task<dynamic> GetDictDataDropdown(string code)
     {
-        return await _sysDictDataRep.Context.Queryable<SysDictType, SysDictData>((a, b) =>
-            new JoinQueryInfos(JoinType.Left, a.Id == b.DictTypeId))
-            .Where(a => a.Code == code)
-            .Where((a, b) => a.Status == StatusEnum.Enable && b.Status == StatusEnum.Enable)
+        return await _sysDictDataRep.Context.Queryable<SysDictType>()
+            .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)
+            .Where((a, b) => a.Code == code && a.Status == StatusEnum.Enable && b.Status == StatusEnum.Enable)
             .Select((a, b) => new
             {
                 Label = b.Value,
@@ -159,8 +158,8 @@ public class SysDictDataService : IDynamicApiController, ITransient
     [HttpGet("/sysDictData/queryDictDataDropdown")]
     public async Task<dynamic> QueryDictDataDropdown([FromQuery] QueryDictDataInput input)
     {
-        return await _sysDictDataRep.Context.Queryable<SysDictType, SysDictData>((a, b) =>
-            new JoinQueryInfos(JoinType.Left, a.Id == b.DictTypeId))
+        return await _sysDictDataRep.Context.Queryable<SysDictType>()
+            .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)
             .Where((a, b) => a.Code == input.Code)
             .WhereIF(input.Status.HasValue, (a, b) => b.Status == (StatusEnum)input.Status.Value)
             .Select((a, b) => new

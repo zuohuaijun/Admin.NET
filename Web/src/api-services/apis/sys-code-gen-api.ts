@@ -17,8 +17,8 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AddCodeGenInput } from '../models';
+import { AdminResultListColumnOuput } from '../models';
 import { AdminResultListDatabaseOutput } from '../models';
-import { AdminResultListTableColumnOuput } from '../models';
 import { AdminResultListTableOutput } from '../models';
 import { AdminResultSqlSugarPagedListSysCodeGen } from '../models';
 import { AdminResultSysCodeGen } from '../models';
@@ -38,8 +38,8 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        codeGenerateAddPost: async (body?: AddCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/codeGenerate/add`;
+        sysCodeGenAddPost: async (body?: AddCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysCodeGen/add`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -80,16 +80,16 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        codeGenerateColumnListConfigIdTableNameGet: async (tableName: string, configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysCodeGenColumnListConfigIdTableNameGet: async (tableName: string, configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'tableName' is not null or undefined
             if (tableName === null || tableName === undefined) {
-                throw new RequiredError('tableName','Required parameter tableName was null or undefined when calling codeGenerateColumnListConfigIdTableNameGet.');
+                throw new RequiredError('tableName','Required parameter tableName was null or undefined when calling sysCodeGenColumnListConfigIdTableNameGet.');
             }
             // verify required parameter 'configId' is not null or undefined
             if (configId === null || configId === undefined) {
-                throw new RequiredError('configId','Required parameter configId was null or undefined when calling codeGenerateColumnListConfigIdTableNameGet.');
+                throw new RequiredError('configId','Required parameter configId was null or undefined when calling sysCodeGenColumnListConfigIdTableNameGet.');
             }
-            const localVarPath = `/codeGenerate/ColumnList/{configId}/{tableName}`
+            const localVarPath = `/sysCodeGen/columnList/{configId}/{tableName}`
                 .replace(`{${"tableName"}}`, encodeURIComponent(String(tableName)))
                 .replace(`{${"configId"}}`, encodeURIComponent(String(configId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -126,8 +126,8 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        codeGenerateDatabaseListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/codeGenerate/databaseList`;
+        sysCodeGenDatabaseListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysCodeGen/databaseList`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -163,8 +163,8 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        codeGenerateDeletePost: async (body?: Array<DeleteCodeGenInput>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/codeGenerate/delete`;
+        sysCodeGenDeletePost: async (body?: Array<DeleteCodeGenInput>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysCodeGen/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -204,12 +204,12 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        codeGenerateDetailGet: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysCodeGenDetailGet: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling codeGenerateDetailGet.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling sysCodeGenDetailGet.');
             }
-            const localVarPath = `/codeGenerate/detail`;
+            const localVarPath = `/sysCodeGen/detail`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -225,89 +225,6 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
             if (id !== undefined) {
                 localVarQueryParameter['Id'] = id;
             }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 更新
-         * @param {UpdateCodeGenInput} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        codeGenerateEditPost: async (body?: UpdateCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/codeGenerate/edit`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 获取数据库表(实体)集合
-         * @param {string} configId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        codeGenerateInformationListConfigIdGet: async (configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'configId' is not null or undefined
-            if (configId === null || configId === undefined) {
-                throw new RequiredError('configId','Required parameter configId was null or undefined when calling codeGenerateInformationListConfigIdGet.');
-            }
-            const localVarPath = `/codeGenerate/InformationList/{configId}`
-                .replace(`{${"configId"}}`, encodeURIComponent(String(configId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -350,8 +267,8 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        codeGeneratePageGet: async (authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/codeGenerate/page`;
+        sysCodeGenPageGet: async (authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysCodeGen/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -463,8 +380,91 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        codeGenerateRunLocalPost: async (body?: SysCodeGen, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/codeGenerate/runLocal`;
+        sysCodeGenRunLocalPost: async (body?: SysCodeGen, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysCodeGen/runLocal`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 获取数据库表(实体)集合
+         * @param {string} configId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysCodeGenTableListConfigIdGet: async (configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'configId' is not null or undefined
+            if (configId === null || configId === undefined) {
+                throw new RequiredError('configId','Required parameter configId was null or undefined when calling sysCodeGenTableListConfigIdGet.');
+            }
+            const localVarPath = `/sysCodeGen/tableList/{configId}`
+                .replace(`{${"configId"}}`, encodeURIComponent(String(configId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 更新
+         * @param {UpdateCodeGenInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysCodeGenUpdatePost: async (body?: UpdateCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysCodeGen/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -513,8 +513,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).codeGenerateAddPost(body, options);
+        async sysCodeGenAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenAddPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -528,8 +528,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateColumnListConfigIdTableNameGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListTableColumnOuput>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).codeGenerateColumnListConfigIdTableNameGet(tableName, configId, options);
+        async sysCodeGenColumnListConfigIdTableNameGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListColumnOuput>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenColumnListConfigIdTableNameGet(tableName, configId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -541,8 +541,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateDatabaseListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListDatabaseOutput>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).codeGenerateDatabaseListGet(options);
+        async sysCodeGenDatabaseListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListDatabaseOutput>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenDatabaseListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -555,8 +555,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).codeGenerateDeletePost(body, options);
+        async sysCodeGenDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenDeletePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -569,36 +569,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateDetailGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysCodeGen>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).codeGenerateDetailGet(id, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 更新
-         * @param {UpdateCodeGenInput} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async codeGenerateEditPost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).codeGenerateEditPost(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 获取数据库表(实体)集合
-         * @param {string} configId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async codeGenerateInformationListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListTableOutput>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).codeGenerateInformationListConfigIdGet(configId, options);
+        async sysCodeGenDetailGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysCodeGen>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenDetailGet(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -629,8 +601,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGeneratePageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).codeGeneratePageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options);
+        async sysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -643,8 +615,36 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).codeGenerateRunLocalPost(body, options);
+        async sysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenRunLocalPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取数据库表(实体)集合
+         * @param {string} configId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysCodeGenTableListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListTableOutput>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenTableListConfigIdGet(configId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 更新
+         * @param {UpdateCodeGenInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysCodeGenUpdatePost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -666,8 +666,8 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).codeGenerateAddPost(body, options).then((request) => request(axios, basePath));
+        async sysCodeGenAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).sysCodeGenAddPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -677,8 +677,8 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateColumnListConfigIdTableNameGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListTableColumnOuput>> {
-            return SysCodeGenApiFp(configuration).codeGenerateColumnListConfigIdTableNameGet(tableName, configId, options).then((request) => request(axios, basePath));
+        async sysCodeGenColumnListConfigIdTableNameGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListColumnOuput>> {
+            return SysCodeGenApiFp(configuration).sysCodeGenColumnListConfigIdTableNameGet(tableName, configId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -686,8 +686,8 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateDatabaseListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListDatabaseOutput>> {
-            return SysCodeGenApiFp(configuration).codeGenerateDatabaseListGet(options).then((request) => request(axios, basePath));
+        async sysCodeGenDatabaseListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListDatabaseOutput>> {
+            return SysCodeGenApiFp(configuration).sysCodeGenDatabaseListGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -696,8 +696,8 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).codeGenerateDeletePost(body, options).then((request) => request(axios, basePath));
+        async sysCodeGenDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).sysCodeGenDeletePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -706,28 +706,8 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateDetailGet(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysCodeGen>> {
-            return SysCodeGenApiFp(configuration).codeGenerateDetailGet(id, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 更新
-         * @param {UpdateCodeGenInput} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async codeGenerateEditPost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).codeGenerateEditPost(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 获取数据库表(实体)集合
-         * @param {string} configId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async codeGenerateInformationListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListTableOutput>> {
-            return SysCodeGenApiFp(configuration).codeGenerateInformationListConfigIdGet(configId, options).then((request) => request(axios, basePath));
+        async sysCodeGenDetailGet(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysCodeGen>> {
+            return SysCodeGenApiFp(configuration).sysCodeGenDetailGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -754,8 +734,8 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGeneratePageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
-            return SysCodeGenApiFp(configuration).codeGeneratePageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async sysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
+            return SysCodeGenApiFp(configuration).sysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -764,8 +744,28 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async codeGenerateRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).codeGenerateRunLocalPost(body, options).then((request) => request(axios, basePath));
+        async sysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).sysCodeGenRunLocalPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取数据库表(实体)集合
+         * @param {string} configId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysCodeGenTableListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListTableOutput>> {
+            return SysCodeGenApiFp(configuration).sysCodeGenTableListConfigIdGet(configId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 更新
+         * @param {UpdateCodeGenInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysCodeGenUpdatePost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).sysCodeGenUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -785,8 +785,8 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async codeGenerateAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).codeGenerateAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysCodeGenAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).sysCodeGenAddPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -797,8 +797,8 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async codeGenerateColumnListConfigIdTableNameGet(tableName: string, configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListTableColumnOuput>> {
-        return SysCodeGenApiFp(this.configuration).codeGenerateColumnListConfigIdTableNameGet(tableName, configId, options).then((request) => request(this.axios, this.basePath));
+    public async sysCodeGenColumnListConfigIdTableNameGet(tableName: string, configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListColumnOuput>> {
+        return SysCodeGenApiFp(this.configuration).sysCodeGenColumnListConfigIdTableNameGet(tableName, configId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -807,8 +807,8 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async codeGenerateDatabaseListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListDatabaseOutput>> {
-        return SysCodeGenApiFp(this.configuration).codeGenerateDatabaseListGet(options).then((request) => request(this.axios, this.basePath));
+    public async sysCodeGenDatabaseListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListDatabaseOutput>> {
+        return SysCodeGenApiFp(this.configuration).sysCodeGenDatabaseListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -818,8 +818,8 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async codeGenerateDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).codeGenerateDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysCodeGenDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).sysCodeGenDeletePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -829,30 +829,8 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async codeGenerateDetailGet(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysCodeGen>> {
-        return SysCodeGenApiFp(this.configuration).codeGenerateDetailGet(id, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 更新
-     * @param {UpdateCodeGenInput} [body] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysCodeGenApi
-     */
-    public async codeGenerateEditPost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).codeGenerateEditPost(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 获取数据库表(实体)集合
-     * @param {string} configId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysCodeGenApi
-     */
-    public async codeGenerateInformationListConfigIdGet(configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListTableOutput>> {
-        return SysCodeGenApiFp(this.configuration).codeGenerateInformationListConfigIdGet(configId, options).then((request) => request(this.axios, this.basePath));
+    public async sysCodeGenDetailGet(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysCodeGen>> {
+        return SysCodeGenApiFp(this.configuration).sysCodeGenDetailGet(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -880,8 +858,8 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async codeGeneratePageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
-        return SysCodeGenApiFp(this.configuration).codeGeneratePageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async sysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
+        return SysCodeGenApiFp(this.configuration).sysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -891,7 +869,29 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async codeGenerateRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).codeGenerateRunLocalPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).sysCodeGenRunLocalPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取数据库表(实体)集合
+     * @param {string} configId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysCodeGenApi
+     */
+    public async sysCodeGenTableListConfigIdGet(configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListTableOutput>> {
+        return SysCodeGenApiFp(this.configuration).sysCodeGenTableListConfigIdGet(configId, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 更新
+     * @param {UpdateCodeGenInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysCodeGenApi
+     */
+    public async sysCodeGenUpdatePost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).sysCodeGenUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

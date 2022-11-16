@@ -1,5 +1,5 @@
 <template>
-	<div class="fk-container">
+	<div class="sys-codeGenFk-container">
 		<el-dialog v-model="isShowDialog" title="外键配置" draggable width="600px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
@@ -43,7 +43,7 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysCodeGenApi } from '/@/api-services/api';
 
 export default defineComponent({
-	name: 'fk',
+	name: 'sysCodeGenFk',
 	components: {},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -58,7 +58,7 @@ export default defineComponent({
 		});
 
 		onMounted(async () => {
-			var res = await getAPI(SysCodeGenApi).codeGenerateDatabaseListGet();
+			var res = await getAPI(SysCodeGenApi).sysCodeGenDatabaseListGet();
 			state.dbData = res.data.result;
 		});
 
@@ -74,20 +74,20 @@ export default defineComponent({
 		};
 
 		const getDbList = async () => {
-			var res = await getAPI(SysCodeGenApi).codeGenerateDatabaseListGet();
+			var res = await getAPI(SysCodeGenApi).sysCodeGenDatabaseListGet();
 			state.dbData = res.data.result;
 		};
 
 		const getTableInfoList = async () => {
 			if (state.ruleForm.configId == '') return;
-			var res = await getAPI(SysCodeGenApi).codeGenerateInformationListConfigIdGet(state.ruleForm.configId);
+			var res = await getAPI(SysCodeGenApi).sysCodeGenTableListConfigIdGet(state.ruleForm.configId);
 			state.tableData = res.data.result;
 		};
 
 		const getColumnInfoList = async () => {
 			if (state.ruleForm.configId == '' || state.ruleForm.tableName == '') return;
 			console.log(state.ruleForm.configId, state.ruleForm.tableName);
-			var res = await getAPI(SysCodeGenApi).codeGenerateColumnListConfigIdTableNameGet(state.ruleForm.tableName,state.ruleForm.configId);
+			var res = await getAPI(SysCodeGenApi).sysCodeGenColumnListConfigIdTableNameGet(state.ruleForm.tableName, state.ruleForm.configId);
 			state.columnData = res.data.result;
 		};
 
@@ -126,12 +126,12 @@ export default defineComponent({
 			closeDialog,
 			cancel,
 			submit,
-			...toRefs(state),
 			DbChanged,
 			TableChanged,
 			getDbList,
 			getTableInfoList,
 			getColumnInfoList,
+			...toRefs(state),
 		};
 	},
 });

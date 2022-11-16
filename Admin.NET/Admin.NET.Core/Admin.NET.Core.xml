@@ -4345,9 +4345,39 @@
             菜单父级
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.Service.ColumnOuput">
+            <summary>
+            数据库表列
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.ColumnOuput.ColumnName">
+            <summary>
+            字段名
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.ColumnOuput.DataType">
+            <summary>
+            数据库中类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.ColumnOuput.NetType">
+            <summary>
+            .NET字段类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.ColumnOuput.ColumnComment">
+            <summary>
+            字段描述
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.ColumnOuput.ColumnKey">
+            <summary>
+            主外键
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.DatabaseOutput">
             <summary>
-            多库代码生成库列表输出
+            数据库
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.DatabaseOutput.ConfigId">
@@ -4365,39 +4395,9 @@
             数据库连接字符串
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.TableColumnOuput">
-            <summary>
-            数据库表列
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TableColumnOuput.ColumnName">
-            <summary>
-            字段名
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TableColumnOuput.DataType">
-            <summary>
-            数据库中类型
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TableColumnOuput.NetType">
-            <summary>
-            .NET字段类型
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TableColumnOuput.ColumnComment">
-            <summary>
-            字段描述
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TableColumnOuput.ColumnKey">
-            <summary>
-            主外键
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.Service.TableOutput">
             <summary>
-            数据库表列表参数
+            数据库表
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.TableOutput.ConfigId">
@@ -4442,13 +4442,6 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Add(Admin.NET.Core.Service.CodeGenConfig)">
-            <summary>
-            增加
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Delete(System.Int64)">
             <summary>
             删除
@@ -4470,7 +4463,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.AddList(System.Collections.Generic.List{Admin.NET.Core.Service.TableColumnOuput},Admin.NET.Core.SysCodeGen)">
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.AddList(System.Collections.Generic.List{Admin.NET.Core.Service.ColumnOuput},Admin.NET.Core.SysCodeGen)">
             <summary>
             批量增加
             </summary>

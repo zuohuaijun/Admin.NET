@@ -58,8 +58,179 @@ export const SysCodeGenConfigApiAxiosParamCreator = function (configuration?: Co
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenerateConfigDetailGet: async (id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysCodeGenerateConfig/detail`;
+        sysCodeGenConfigDetailGet: async (id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysCodeGenConfig/detail`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            if (id !== undefined) {
+                localVarQueryParameter['Id'] = id;
+            }
+
+            if (codeGenId !== undefined) {
+                localVarQueryParameter['CodeGenId'] = codeGenId;
+            }
+
+            if (columnName !== undefined) {
+                localVarQueryParameter['ColumnName'] = columnName;
+            }
+
+            if (lowerColumnName !== undefined) {
+                localVarQueryParameter['LowerColumnName'] = lowerColumnName;
+            }
+
+            if (columnComment !== undefined) {
+                localVarQueryParameter['ColumnComment'] = columnComment;
+            }
+
+            if (netType !== undefined) {
+                localVarQueryParameter['NetType'] = netType;
+            }
+
+            if (effectType !== undefined) {
+                localVarQueryParameter['EffectType'] = effectType;
+            }
+
+            if (fkEntityName !== undefined) {
+                localVarQueryParameter['FkEntityName'] = fkEntityName;
+            }
+
+            if (fkTableName !== undefined) {
+                localVarQueryParameter['FkTableName'] = fkTableName;
+            }
+
+            if (lowerFkEntityName !== undefined) {
+                localVarQueryParameter['LowerFkEntityName'] = lowerFkEntityName;
+            }
+
+            if (fkColumnName !== undefined) {
+                localVarQueryParameter['FkColumnName'] = fkColumnName;
+            }
+
+            if (lowerFkColumnName !== undefined) {
+                localVarQueryParameter['LowerFkColumnName'] = lowerFkColumnName;
+            }
+
+            if (fkColumnNetType !== undefined) {
+                localVarQueryParameter['FkColumnNetType'] = fkColumnNetType;
+            }
+
+            if (dictTypeCode !== undefined) {
+                localVarQueryParameter['DictTypeCode'] = dictTypeCode;
+            }
+
+            if (whetherRetract !== undefined) {
+                localVarQueryParameter['WhetherRetract'] = whetherRetract;
+            }
+
+            if (whetherRequired !== undefined) {
+                localVarQueryParameter['WhetherRequired'] = whetherRequired;
+            }
+
+            if (queryWhether !== undefined) {
+                localVarQueryParameter['QueryWhether'] = queryWhether;
+            }
+
+            if (queryType !== undefined) {
+                localVarQueryParameter['QueryType'] = queryType;
+            }
+
+            if (whetherTable !== undefined) {
+                localVarQueryParameter['WhetherTable'] = whetherTable;
+            }
+
+            if (whetherAddUpdate !== undefined) {
+                localVarQueryParameter['WhetherAddUpdate'] = whetherAddUpdate;
+            }
+
+            if (columnKey !== undefined) {
+                localVarQueryParameter['ColumnKey'] = columnKey;
+            }
+
+            if (dataType !== undefined) {
+                localVarQueryParameter['DataType'] = dataType;
+            }
+
+            if (whetherCommon !== undefined) {
+                localVarQueryParameter['WhetherCommon'] = whetherCommon;
+            }
+
+            if (tableNickName !== undefined) {
+                localVarQueryParameter['TableNickName'] = tableNickName;
+            }
+
+            if (displayColumn !== undefined) {
+                localVarQueryParameter['DisplayColumn'] = displayColumn;
+            }
+
+            if (valueColumn !== undefined) {
+                localVarQueryParameter['ValueColumn'] = valueColumn;
+            }
+
+            if (pidColumn !== undefined) {
+                localVarQueryParameter['PidColumn'] = pidColumn;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 代码生成详细配置列表
+         * @param {number} [id] 主键Id
+         * @param {number} [codeGenId] 代码生成主表ID
+         * @param {string} [columnName] 数据库字段名
+         * @param {string} [lowerColumnName] 数据库字段名(首字母小写)
+         * @param {string} [columnComment] 字段描述
+         * @param {string} [netType] .NET类型
+         * @param {string} [effectType] 作用类型（字典）
+         * @param {string} [fkEntityName] 外键实体名称
+         * @param {string} [fkTableName] 外键表名称
+         * @param {string} [lowerFkEntityName] 外键实体名称(首字母小写)
+         * @param {string} [fkColumnName] 外键显示字段
+         * @param {string} [lowerFkColumnName] 外键显示字段(首字母小写)
+         * @param {string} [fkColumnNetType] 外键显示字段.NET类型
+         * @param {string} [dictTypeCode] 字典code
+         * @param {string} [whetherRetract] 列表是否缩进（字典）
+         * @param {string} [whetherRequired] 是否必填（字典）
+         * @param {string} [queryWhether] 是否是查询条件
+         * @param {string} [queryType] 查询方式
+         * @param {string} [whetherTable] 列表显示
+         * @param {string} [whetherAddUpdate] 增改
+         * @param {string} [columnKey] 主外键
+         * @param {string} [dataType] 数据库中类型（物理类型）
+         * @param {string} [whetherCommon] 是否是通用字段
+         * @param {string} [tableNickName] 表的别名 Table as XXX
+         * @param {string} [displayColumn] 显示文本字段
+         * @param {string} [valueColumn] 选中值字段
+         * @param {string} [pidColumn] 父级字段
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysCodeGenConfigListGet: async (id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysCodeGenConfig/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -203,8 +374,8 @@ export const SysCodeGenConfigApiAxiosParamCreator = function (configuration?: Co
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenerateConfigEditPost: async (body?: Array<CodeGenConfig>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysCodeGenerateConfig/edit`;
+        sysCodeGenConfigUpdatePost: async (body?: Array<CodeGenConfig>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysCodeGenConfig/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -231,177 +402,6 @@ export const SysCodeGenConfigApiAxiosParamCreator = function (configuration?: Co
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 代码生成详细配置列表
-         * @param {number} [id] 主键Id
-         * @param {number} [codeGenId] 代码生成主表ID
-         * @param {string} [columnName] 数据库字段名
-         * @param {string} [lowerColumnName] 数据库字段名(首字母小写)
-         * @param {string} [columnComment] 字段描述
-         * @param {string} [netType] .NET类型
-         * @param {string} [effectType] 作用类型（字典）
-         * @param {string} [fkEntityName] 外键实体名称
-         * @param {string} [fkTableName] 外键表名称
-         * @param {string} [lowerFkEntityName] 外键实体名称(首字母小写)
-         * @param {string} [fkColumnName] 外键显示字段
-         * @param {string} [lowerFkColumnName] 外键显示字段(首字母小写)
-         * @param {string} [fkColumnNetType] 外键显示字段.NET类型
-         * @param {string} [dictTypeCode] 字典code
-         * @param {string} [whetherRetract] 列表是否缩进（字典）
-         * @param {string} [whetherRequired] 是否必填（字典）
-         * @param {string} [queryWhether] 是否是查询条件
-         * @param {string} [queryType] 查询方式
-         * @param {string} [whetherTable] 列表显示
-         * @param {string} [whetherAddUpdate] 增改
-         * @param {string} [columnKey] 主外键
-         * @param {string} [dataType] 数据库中类型（物理类型）
-         * @param {string} [whetherCommon] 是否是通用字段
-         * @param {string} [tableNickName] 表的别名 Table as XXX
-         * @param {string} [displayColumn] 显示文本字段
-         * @param {string} [valueColumn] 选中值字段
-         * @param {string} [pidColumn] 父级字段
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sysCodeGenerateConfigListGet: async (id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysCodeGenerateConfig/list`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            if (id !== undefined) {
-                localVarQueryParameter['Id'] = id;
-            }
-
-            if (codeGenId !== undefined) {
-                localVarQueryParameter['CodeGenId'] = codeGenId;
-            }
-
-            if (columnName !== undefined) {
-                localVarQueryParameter['ColumnName'] = columnName;
-            }
-
-            if (lowerColumnName !== undefined) {
-                localVarQueryParameter['LowerColumnName'] = lowerColumnName;
-            }
-
-            if (columnComment !== undefined) {
-                localVarQueryParameter['ColumnComment'] = columnComment;
-            }
-
-            if (netType !== undefined) {
-                localVarQueryParameter['NetType'] = netType;
-            }
-
-            if (effectType !== undefined) {
-                localVarQueryParameter['EffectType'] = effectType;
-            }
-
-            if (fkEntityName !== undefined) {
-                localVarQueryParameter['FkEntityName'] = fkEntityName;
-            }
-
-            if (fkTableName !== undefined) {
-                localVarQueryParameter['FkTableName'] = fkTableName;
-            }
-
-            if (lowerFkEntityName !== undefined) {
-                localVarQueryParameter['LowerFkEntityName'] = lowerFkEntityName;
-            }
-
-            if (fkColumnName !== undefined) {
-                localVarQueryParameter['FkColumnName'] = fkColumnName;
-            }
-
-            if (lowerFkColumnName !== undefined) {
-                localVarQueryParameter['LowerFkColumnName'] = lowerFkColumnName;
-            }
-
-            if (fkColumnNetType !== undefined) {
-                localVarQueryParameter['FkColumnNetType'] = fkColumnNetType;
-            }
-
-            if (dictTypeCode !== undefined) {
-                localVarQueryParameter['DictTypeCode'] = dictTypeCode;
-            }
-
-            if (whetherRetract !== undefined) {
-                localVarQueryParameter['WhetherRetract'] = whetherRetract;
-            }
-
-            if (whetherRequired !== undefined) {
-                localVarQueryParameter['WhetherRequired'] = whetherRequired;
-            }
-
-            if (queryWhether !== undefined) {
-                localVarQueryParameter['QueryWhether'] = queryWhether;
-            }
-
-            if (queryType !== undefined) {
-                localVarQueryParameter['QueryType'] = queryType;
-            }
-
-            if (whetherTable !== undefined) {
-                localVarQueryParameter['WhetherTable'] = whetherTable;
-            }
-
-            if (whetherAddUpdate !== undefined) {
-                localVarQueryParameter['WhetherAddUpdate'] = whetherAddUpdate;
-            }
-
-            if (columnKey !== undefined) {
-                localVarQueryParameter['ColumnKey'] = columnKey;
-            }
-
-            if (dataType !== undefined) {
-                localVarQueryParameter['DataType'] = dataType;
-            }
-
-            if (whetherCommon !== undefined) {
-                localVarQueryParameter['WhetherCommon'] = whetherCommon;
-            }
-
-            if (tableNickName !== undefined) {
-                localVarQueryParameter['TableNickName'] = tableNickName;
-            }
-
-            if (displayColumn !== undefined) {
-                localVarQueryParameter['DisplayColumn'] = displayColumn;
-            }
-
-            if (valueColumn !== undefined) {
-                localVarQueryParameter['ValueColumn'] = valueColumn;
-            }
-
-            if (pidColumn !== undefined) {
-                localVarQueryParameter['PidColumn'] = pidColumn;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -450,22 +450,8 @@ export const SysCodeGenConfigApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenerateConfigDetailGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysCodeGenConfig>>> {
-            const localVarAxiosArgs = await SysCodeGenConfigApiAxiosParamCreator(configuration).sysCodeGenerateConfigDetailGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 更新
-         * @param {Array<CodeGenConfig>} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysCodeGenerateConfigEditPost(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenConfigApiAxiosParamCreator(configuration).sysCodeGenerateConfigEditPost(body, options);
+        async sysCodeGenConfigDetailGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysCodeGenConfig>>> {
+            const localVarAxiosArgs = await SysCodeGenConfigApiAxiosParamCreator(configuration).sysCodeGenConfigDetailGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -504,8 +490,22 @@ export const SysCodeGenConfigApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenerateConfigListGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListCodeGenConfig>>> {
-            const localVarAxiosArgs = await SysCodeGenConfigApiAxiosParamCreator(configuration).sysCodeGenerateConfigListGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options);
+        async sysCodeGenConfigListGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListCodeGenConfig>>> {
+            const localVarAxiosArgs = await SysCodeGenConfigApiAxiosParamCreator(configuration).sysCodeGenConfigListGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 更新
+         * @param {Array<CodeGenConfig>} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysCodeGenConfigUpdatePost(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenConfigApiAxiosParamCreator(configuration).sysCodeGenConfigUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -553,18 +553,8 @@ export const SysCodeGenConfigApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenerateConfigDetailGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysCodeGenConfig>> {
-            return SysCodeGenConfigApiFp(configuration).sysCodeGenerateConfigDetailGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 更新
-         * @param {Array<CodeGenConfig>} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysCodeGenerateConfigEditPost(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenConfigApiFp(configuration).sysCodeGenerateConfigEditPost(body, options).then((request) => request(axios, basePath));
+        async sysCodeGenConfigDetailGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysCodeGenConfig>> {
+            return SysCodeGenConfigApiFp(configuration).sysCodeGenConfigDetailGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -599,8 +589,18 @@ export const SysCodeGenConfigApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenerateConfigListGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListCodeGenConfig>> {
-            return SysCodeGenConfigApiFp(configuration).sysCodeGenerateConfigListGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options).then((request) => request(axios, basePath));
+        async sysCodeGenConfigListGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListCodeGenConfig>> {
+            return SysCodeGenConfigApiFp(configuration).sysCodeGenConfigListGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 更新
+         * @param {Array<CodeGenConfig>} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysCodeGenConfigUpdatePost(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenConfigApiFp(configuration).sysCodeGenConfigUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -646,19 +646,8 @@ export class SysCodeGenConfigApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenConfigApi
      */
-    public async sysCodeGenerateConfigDetailGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysCodeGenConfig>> {
-        return SysCodeGenConfigApiFp(this.configuration).sysCodeGenerateConfigDetailGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 更新
-     * @param {Array<CodeGenConfig>} [body] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysCodeGenConfigApi
-     */
-    public async sysCodeGenerateConfigEditPost(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenConfigApiFp(this.configuration).sysCodeGenerateConfigEditPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysCodeGenConfigDetailGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysCodeGenConfig>> {
+        return SysCodeGenConfigApiFp(this.configuration).sysCodeGenConfigDetailGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -694,7 +683,18 @@ export class SysCodeGenConfigApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenConfigApi
      */
-    public async sysCodeGenerateConfigListGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListCodeGenConfig>> {
-        return SysCodeGenConfigApiFp(this.configuration).sysCodeGenerateConfigListGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options).then((request) => request(this.axios, this.basePath));
+    public async sysCodeGenConfigListGet(id?: number, codeGenId?: number, columnName?: string, lowerColumnName?: string, columnComment?: string, netType?: string, effectType?: string, fkEntityName?: string, fkTableName?: string, lowerFkEntityName?: string, fkColumnName?: string, lowerFkColumnName?: string, fkColumnNetType?: string, dictTypeCode?: string, whetherRetract?: string, whetherRequired?: string, queryWhether?: string, queryType?: string, whetherTable?: string, whetherAddUpdate?: string, columnKey?: string, dataType?: string, whetherCommon?: string, tableNickName?: string, displayColumn?: string, valueColumn?: string, pidColumn?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListCodeGenConfig>> {
+        return SysCodeGenConfigApiFp(this.configuration).sysCodeGenConfigListGet(id, codeGenId, columnName, lowerColumnName, columnComment, netType, effectType, fkEntityName, fkTableName, lowerFkEntityName, fkColumnName, lowerFkColumnName, fkColumnNetType, dictTypeCode, whetherRetract, whetherRequired, queryWhether, queryType, whetherTable, whetherAddUpdate, columnKey, dataType, whetherCommon, tableNickName, displayColumn, valueColumn, pidColumn, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 更新
+     * @param {Array<CodeGenConfig>} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysCodeGenConfigApi
+     */
+    public async sysCodeGenConfigUpdatePost(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenConfigApiFp(this.configuration).sysCodeGenConfigUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

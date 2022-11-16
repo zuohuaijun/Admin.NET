@@ -14,37 +14,37 @@
 /**
  * 数据库表列
  * @export
- * @interface TableColumnOuput
+ * @interface ColumnOuput
  */
-export interface TableColumnOuput {
+export interface ColumnOuput {
     /**
      * 字段名
      * @type {string}
-     * @memberof TableColumnOuput
+     * @memberof ColumnOuput
      */
     columnName?: string | null;
     /**
      * 数据库中类型
      * @type {string}
-     * @memberof TableColumnOuput
+     * @memberof ColumnOuput
      */
     dataType?: string | null;
     /**
      * .NET字段类型
      * @type {string}
-     * @memberof TableColumnOuput
+     * @memberof ColumnOuput
      */
     netType?: string | null;
     /**
      * 字段描述
      * @type {string}
-     * @memberof TableColumnOuput
+     * @memberof ColumnOuput
      */
     columnComment?: string | null;
     /**
      * 主外键
      * @type {string}
-     * @memberof TableColumnOuput
+     * @memberof ColumnOuput
      */
     columnKey?: string | null;
 }

@@ -1,5 +1,5 @@
 <template>
-	<div class="tree-container">
+	<div class="sys-codeGenTree-container">
 		<el-dialog v-model="isShowDialog" title="树选择配置" draggable width="600px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
@@ -53,13 +53,11 @@
 <script lang="ts">
 import { reactive, toRefs, defineComponent, getCurrentInstance, ref, onMounted } from 'vue';
 
-
 import { getAPI } from '/@/utils/axios-utils';
 import { SysCodeGenApi } from '/@/api-services/api';
 
-
 export default defineComponent({
-	name: 'tree',
+	name: 'sysCodeGenTree',
 	components: {},
 	setup() {
 		const { proxy } = getCurrentInstance() as any;
@@ -74,8 +72,7 @@ export default defineComponent({
 		});
 
 		onMounted(async () => {
-			var res = await getAPI(SysCodeGenApi).codeGenerateDatabaseListGet();
-			state.dbData = res.data.result;
+			await getDbList();
 		});
 
 		const DbChanged = async () => {
@@ -90,19 +87,19 @@ export default defineComponent({
 		};
 
 		const getDbList = async () => {
-			var res = await getAPI(SysCodeGenApi).codeGenerateDatabaseListGet();
+			var res = await getAPI(SysCodeGenApi).sysCodeGenDatabaseListGet();
 			state.dbData = res.data.result;
 		};
 
 		const getTableInfoList = async () => {
 			if (state.ruleForm.configId == '') return;
-			var res = await getAPI(SysCodeGenApi).codeGenerateInformationListConfigIdGet(state.ruleForm.configId);
+			var res = await getAPI(SysCodeGenApi).sysCodeGenTableListConfigIdGet(state.ruleForm.configId);
 			state.tableData = res.data.result;
 		};
 
 		const getColumnInfoList = async () => {
 			if (state.ruleForm.configId == '' || state.ruleForm.tableName == '') return;
-			var res = await getAPI(SysCodeGenApi).codeGenerateColumnListConfigIdTableNameGet(state.ruleForm.tableName,state.ruleForm.configId);
+			var res = await getAPI(SysCodeGenApi).sysCodeGenColumnListConfigIdTableNameGet(state.ruleForm.tableName, state.ruleForm.configId);
 			state.columnData = res.data.result;
 		};
 
@@ -129,6 +126,7 @@ export default defineComponent({
 		const cancel = () => {
 			state.isShowDialog = false;
 		};
+
 		// 提交
 		const submit = () => {
 			ruleFormRef.value.validate(async (valid: boolean) => {
@@ -144,12 +142,12 @@ export default defineComponent({
 			closeDialog,
 			cancel,
 			submit,
-			...toRefs(state),
 			DbChanged,
 			TableChanged,
 			getDbList,
 			getTableInfoList,
 			getColumnInfoList,
+			...toRefs(state),
 		};
 	},
 });

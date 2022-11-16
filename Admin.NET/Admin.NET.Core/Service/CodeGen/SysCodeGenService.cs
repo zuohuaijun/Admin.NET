@@ -31,7 +31,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/codeGenerate/page")]
+    [HttpGet("/sysCodeGen/page")]
     public async Task<SqlSugarPagedList<SysCodeGen>> GetCodeGenPage([FromQuery] CodeGenInput input)
     {
         return await _db.Queryable<SysCodeGen>()
@@ -44,7 +44,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/codeGenerate/add")]
+    [HttpPost("/sysCodeGen/add")]
     public async Task AddCodeGen(AddCodeGenInput input)
     {
         var isExist = await _db.Queryable<SysCodeGen>().Where(u => u.TableName == input.TableName).AnyAsync();
@@ -62,7 +62,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="inputs"></param>
     /// <returns></returns>
-    [HttpPost("/codeGenerate/delete")]
+    [HttpPost("/sysCodeGen/delete")]
     public async Task DeleteCodeGen(List<DeleteCodeGenInput> inputs)
     {
         if (inputs == null || inputs.Count < 1) return;
@@ -83,7 +83,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/codeGenerate/edit")]
+    [HttpPost("/sysCodeGen/update")]
     public async Task UpdateCodeGen(UpdateCodeGenInput input)
     {
         var isExist = await _db.Queryable<SysCodeGen>().AnyAsync(u => u.TableName == input.TableName && u.Id != input.Id);
@@ -98,7 +98,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/codeGenerate/detail")]
+    [HttpGet("/sysCodeGen/detail")]
     public async Task<SysCodeGen> GetCodeGen([FromQuery] QueryCodeGenInput input)
     {
         return await _db.Queryable<SysCodeGen>().SingleAsync(m => m.Id == input.Id);
@@ -108,7 +108,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取数据库库集合
     /// </summary>
     /// <returns></returns>
-    [HttpGet("codeGenerate/databaseList")]
+    [HttpGet("/sysCodeGen/databaseList")]
     public async Task<List<DatabaseOutput>> GetDatabaseList()
     {
         var dblist = await Task.FromResult(App.GetOptions<DbConnectionOptions>().ConnectionConfigs);
@@ -119,7 +119,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取数据库表(实体)集合
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/codeGenerate/InformationList/{configId}")]
+    [HttpGet("/sysCodeGen/tableList/{configId}")]
     public async Task<List<TableOutput>> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
         // 切库---多库代码生成用
@@ -148,8 +148,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 根据表名获取列
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/codeGenerate/ColumnList/{configId}/{tableName}")]
-    public List<TableColumnOuput> GetColumnListByTableName(string tableName, string configId = SqlSugarConst.ConfigId)
+    [HttpGet("/sysCodeGen/columnList/{configId}/{tableName}")]
+    public List<ColumnOuput> GetColumnListByTableName(string tableName, string configId = SqlSugarConst.ConfigId)
     {
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(configId);
@@ -158,7 +158,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var entityType = provider.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == tableName);
         if (entityType == null) return null;
         // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
-        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new TableColumnOuput
+        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new ColumnOuput
         {
             ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
@@ -172,7 +172,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取数据表列（实体属性）集合
     /// </summary>
     /// <returns></returns>
-    private List<TableColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
+    private List<ColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
     {
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.ConfigId);
@@ -181,7 +181,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         if (entityType == null)
             return null;
 
-        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.DbTableName, false).Select(u => new TableColumnOuput
+        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.DbTableName, false).Select(u => new ColumnOuput
         {
             ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
@@ -194,7 +194,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 代码生成_本地项目
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/codeGenerate/runLocal")]
+    [HttpPost("/sysCodeGen/runLocal")]
     public async Task RunLocal(SysCodeGen input)
     {
         // 先删除该表已生成的菜单列表

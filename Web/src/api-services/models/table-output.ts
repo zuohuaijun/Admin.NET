@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 /**
- * 数据库表列表参数
+ * 数据库表
  * @export
  * @interface TableOutput
  */

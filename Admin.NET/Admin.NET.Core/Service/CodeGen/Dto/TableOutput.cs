@@ -1,7 +1,7 @@
 ﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 数据库表列表参数
+/// 数据库表
 /// </summary>
 public class TableOutput
 {
