@@ -60,7 +60,7 @@ export default defineComponent({
 		const submit = () => {
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
-				await getAPI(SysDatabaseApi).sysDatabaseColumnUpdatePost(state.ruleForm);
+				await getAPI(SysDatabaseApi).sysDatabaseUpdateColumnPost(state.ruleForm);
 				closeDialog();
 			});
 		};

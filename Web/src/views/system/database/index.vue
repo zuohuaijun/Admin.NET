@@ -18,7 +18,7 @@
 					<el-button icon="ele-Delete" type="danger" @click="delTable"> 删除表 </el-button>
 					<el-button icon="ele-Plus" @click="openAddTable"> 增加表 </el-button>
 					<el-button icon="ele-Plus" @click="openAddColumn"> 增加列 </el-button>
-					<el-button icon="ele-Plus" type="primary" @click="openGenDialog"> 生成实体 </el-button>
+					<el-button icon="ele-Plus" @click="openGenDialog"> 生成实体 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -77,7 +77,7 @@ import GenEntity from '/@/views/system/database/component/genEntity.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
-import { DbColumnOutput, DbTableInfo,DbColumnInput,DeleteDbTableInput,DeleteDbColumnInput } from '/@/api-services/models';
+import { DbColumnOutput, DbTableInfo, DbColumnInput, DeleteDbTableInput, DeleteDbColumnInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysDatabase',
@@ -231,10 +231,9 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-
 					const deleteDbTableInput: DeleteDbTableInput = {
 						configId: state.configId,
-						tableName: state.tableName
+						tableName: state.tableName,
 					};
 					await getAPI(SysDatabaseApi).sysDatabaseDeleteTablePost(deleteDbTableInput);
 					handleQueryTable();
@@ -253,7 +252,7 @@ export default defineComponent({
 					const eleteDbColumnInput: DeleteDbColumnInput = {
 						configId: state.configId,
 						tableName: state.tableName,
-						dbColumnName: row.dbColumnName
+						dbColumnName: row.dbColumnName,
 					};
 					await getAPI(SysDatabaseApi).sysDatabaseDeleteColumnPost(eleteDbColumnInput);
 					handleQueryTable();
@@ -262,6 +261,11 @@ export default defineComponent({
 				.catch(() => {});
 		};
 		return {
+			editTableRef,
+			editColumnRef,
+			addTableRef,
+			addColumnRef,
+			genEntityRef,
 			handleQueryTable,
 			handleQueryColunm,
 			openEditTable,
@@ -271,11 +275,6 @@ export default defineComponent({
 			delTable,
 			delColumn,
 			openGenDialog,
-			editTableRef,
-			editColumnRef,
-			addTableRef,
-			addColumnRef,
-			genEntityRef,
 			...toRefs(state),
 		};
 	},

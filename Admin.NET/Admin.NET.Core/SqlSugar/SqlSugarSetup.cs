@@ -294,7 +294,7 @@ public static class SqlSugarSetup
         {
             // 获取基类实体数据表
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-                && (u.BaseType == typeof(EntityBase) || u.BaseType == typeof(EntityTenant) || u.BaseType == typeof(DataEntityBase)));
+                && (u.BaseType == typeof(EntityBase) || u.BaseType == typeof(EntityTenant) || u.BaseType == typeof(EntityBaseData)));
             if (!entityTypes.Any()) return;
 
             var tableFilterItems = new List<TableFilterItem<object>>();
@@ -306,7 +306,7 @@ public static class SqlSugarSetup
                     (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
                     continue;
 
-                Expression<Func<DataEntityBase, bool>> dynamicExpression = u => u.IsDelete == false;
+                Expression<Func<EntityBaseData, bool>> dynamicExpression = u => u.IsDelete == false;
                 var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);
                 tableFilterItems.Add(tableFilterItem);
                 db.QueryFilter.Add(tableFilterItem);
@@ -384,7 +384,7 @@ public static class SqlSugarSetup
 
             // 获取业务实体数据表
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-                && u.BaseType == typeof(DataEntityBase));
+                && u.BaseType == typeof(EntityBaseData));
             if (!entityTypes.Any()) return;
 
             var tableFilterItems = new List<TableFilterItem<object>>();
@@ -396,7 +396,7 @@ public static class SqlSugarSetup
                     (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
                     continue;
 
-                Expression<Func<DataEntityBase, bool>> dynamicExpression = u => orgIds.Contains((long)u.CreateOrgId);
+                Expression<Func<EntityBaseData, bool>> dynamicExpression = u => orgIds.Contains((long)u.CreateOrgId);
                 var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);
                 tableFilterItems.Add(tableFilterItem);
                 db.QueryFilter.Add(tableFilterItem);

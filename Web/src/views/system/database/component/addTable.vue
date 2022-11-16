@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-dbTable-container">
-		<el-dialog v-model="isShowDialog" title="表新增" draggable width="1400px">
+		<el-dialog v-model="isShowDialog" title="增加表" draggable :close-on-click-modal="false" width="1400px">
 			<el-divider content-position="left">数据表信息</el-divider>
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">
@@ -31,28 +31,28 @@
 				<el-table-column prop="isPrimarykey" label="主键">
 					<template #default="scope">
 						<el-select v-model="scope.row.isPrimarykey" class="m-2" placeholder="Select">
-							<el-option v-for="item in isOrNotSelect()" :key="item.value" :label="item.label" :value="item.value" />
+							<el-option v-for="item in yesNoSelect" :key="item.value" :label="item.label" :value="item.value" />
 						</el-select>
 					</template>
 				</el-table-column>
 				<el-table-column prop="isIdentity" label="自增">
 					<template #default="scope">
 						<el-select v-model="scope.row.isIdentity" class="m-2" placeholder="Select">
-							<el-option v-for="item in isOrNotSelect()" :key="item.value" :label="item.label" :value="item.value" />
+							<el-option v-for="item in yesNoSelect" :key="item.value" :label="item.label" :value="item.value" />
 						</el-select>
 					</template>
 				</el-table-column>
 				<el-table-column prop="dataType" label="类型">
 					<template #default="scope">
 						<el-select v-model="scope.row.dataType" class="m-2" placeholder="Select">
-							<el-option v-for="item in apiTypeSelect()" :key="item.value" :label="item.value" :value="item.value" />
+							<el-option v-for="item in dataTypeList" :key="item.value" :label="item.value" :value="item.value" />
 						</el-select>
 					</template>
 				</el-table-column>
 				<el-table-column prop="isNullable" label="可空">
 					<template #default="scope">
 						<el-select v-model="scope.row.isNullable" class="m-2" placeholder="Select">
-							<el-option v-for="item in isOrNotSelect()" :key="item.value" :label="item.label" :value="item.value" />
+							<el-option v-for="item in yesNoSelect" :key="item.value" :label="item.label" :value="item.value" />
 						</el-select>
 					</template>
 				</el-table-column>
@@ -66,10 +66,10 @@
 						<el-input-number v-model="scope.row.decimalDigits" size="small" />
 					</template>
 				</el-table-column>
-				<el-table-column fixed="right" label="操作" width="220">
+				<el-table-column fixed="right" label="操作" width="210" align="center">
 					<template #default="scope">
 						<el-button link type="primary" icon="el-icon-delete" size="small" @click.prevent="handleColDelete(scope.$index)">删除</el-button>
-						<el-button v-if="tableData.length > 1" link type="primary" icon="ele-Top" size="small" @click.prevent="handleColTop(scope.row, scope.$index)">上移</el-button>
+						<el-button v-if="tableData.length > 1" link type="primary" icon="ele-Top" size="small" @click.prevent="handleColUp(scope.row, scope.$index)">上移</el-button>
 						<el-button v-if="tableData.length > 1" link type="primary" icon="ele-Bottom" size="small" @click.prevent="handleColDown(scope.row, scope.$index)">下移</el-button>
 					</template>
 				</el-table-column>
@@ -93,11 +93,12 @@
 
 <script lang="ts">
 import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
-import { EditRecordRow, UpdateDbTableInput } from '/@/api-services/models'
+import { UpdateDbTableInput } from '/@/api-services/models';
 import { ElMessage } from 'element-plus';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
+import { dataTypeList, EditRecordRow, yesNoSelect } from '../database';
 
 export default defineComponent({
 	name: 'sysAddTable',
@@ -109,7 +110,7 @@ export default defineComponent({
 		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {} as UpdateDbTableInput,
-			tableData: [] as Array<EditRecordRow>,
+			tableData: [] as any,
 		});
 
 		// 打开弹窗
@@ -150,91 +151,9 @@ export default defineComponent({
 			});
 		};
 
-		const apiTypeSelect = () => {
-			return [
-				{
-					value: 'text',
-					hasLength: false,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'varchar',
-					hasLength: true,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'nvarchar',
-					hasLength: true,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'char',
-					hasLength: true,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'nchar',
-					hasLength: true,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'timestamp',
-					hasLength: false,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'int',
-					hasLength: false,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'smallint',
-					hasLength: false,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'tinyint',
-					hasLength: false,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'bigint',
-					hasLength: false,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'bit',
-					hasLength: false,
-					hasDecimalDigits: false,
-				},
-				{
-					value: 'decimal',
-					hasLength: true,
-					hasDecimalDigits: true,
-				},
-				{
-					value: 'datetime',
-					hasLength: false,
-					hasDecimalDigits: false,
-				},
-			];
-		};
-
-		const isOrNotSelect = () => {
-			return [
-				{
-					label: '是',
-					value: 1,
-				},
-				{
-					label: '否',
-					value: 0,
-				},
-			];
-		};
-
+		// 增加主键列
 		function addPrimaryColumn() {
-			const addRow: EditRecordRow = {
+			state.tableData.push({
 				columnDescription: '主键Id',
 				dataType: 'bigint',
 				dbColumnName: 'Id',
@@ -246,13 +165,13 @@ export default defineComponent({
 				key: colIndex,
 				editable: true,
 				isNew: true,
-			};
-			state.tableData.push(addRow);
+			});
 			colIndex++;
 		}
 
+		// 增加普通列
 		function addColumn() {
-			const addRow: EditRecordRow = {
+			state.tableData.push({
 				columnDescription: '',
 				dataType: '',
 				dbColumnName: '',
@@ -264,13 +183,13 @@ export default defineComponent({
 				key: colIndex,
 				editable: true,
 				isNew: true,
-			};
-			state.tableData.push(addRow);
+			});
 			colIndex++;
 		}
 
+		// 增加租户列
 		function addTenantColumn() {
-			const addRow: EditRecordRow = {
+			state.tableData.push({
 				columnDescription: '租户Id',
 				dataType: 'bigint',
 				dbColumnName: 'TenantId',
@@ -282,11 +201,11 @@ export default defineComponent({
 				key: colIndex,
 				editable: true,
 				isNew: true,
-			};
-			state.tableData.push(addRow);
+			});
 			colIndex++;
 		}
 
+		// 增加通用基础列
 		function addBaseColumn() {
 			const fileds = [
 				{
@@ -339,13 +258,15 @@ export default defineComponent({
 			state.tableData.splice(index, 1);
 		}
 
-		function handleColTop(record: EditRecordRow, index: number) {
+		// 上移
+		function handleColUp(record: EditRecordRow, index: number) {
 			if (record.isNew) {
 				var data1 = ChangeExForArray(index, index - 1, state.tableData);
 				return data1;
 			}
 		}
 
+		// 下移
 		function handleColDown(record: EditRecordRow, index: number) {
 			if (record.isNew) {
 				return ChangeExForArray(index, index + 1, state.tableData);
@@ -365,16 +286,16 @@ export default defineComponent({
 			closeDialog,
 			cancel,
 			submit,
-			...toRefs(state),
-			apiTypeSelect,
 			addPrimaryColumn,
 			addColumn,
 			addTenantColumn,
 			addBaseColumn,
-			isOrNotSelect,
-			handleColTop,
+			handleColUp,
 			handleColDown,
 			handleColDelete,
+			dataTypeList,
+			yesNoSelect,
+			...toRefs(state),
 		};
 	},
 });

@@ -144,7 +144,6 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         {
             db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
         });
-
     }
 
     /// <summary>

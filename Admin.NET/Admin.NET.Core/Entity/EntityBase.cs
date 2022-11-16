@@ -51,7 +51,7 @@ public abstract class EntityBase : EntityBaseId
 /// <summary>
 /// 业务数据实体基类(数据权限)
 /// </summary>
-public abstract class DataEntityBase : EntityBase
+public abstract class EntityBaseData : EntityBase
 {
     /// <summary>
     /// 创建者部门Id

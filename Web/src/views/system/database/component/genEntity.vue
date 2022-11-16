@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-dbEntity-container">
-		<el-dialog v-model="isShowDialog" title="配置实体" draggable width="600px">
+		<el-dialog v-model="isShowDialog" title="生成实体" draggable width="600px">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -15,16 +15,18 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="基类" prop="baseClassName">
-							<el-select v-model="ruleForm.baseClassName" clearable>
-								<el-option label="EntityBaseId" value="EntityBaseId" />
-								<el-option label="EntityBase" value="EntityBase" />
-								<el-option label="EntityTenant" value="EntityTenant" />
+							<el-select v-model="ruleForm.baseClassName" clearable class="w100">
+								<el-option label="EntityBaseId【基础实体Id】" value="EntityBaseId" />
+								<el-option label="EntityBase【基础实体】" value="EntityBase" />
+								<el-option label="EntityTenantId【租户实体Id】" value="EntityTenantId" />
+								<el-option label="EntityTenant【租户实体】" value="EntityTenant" />
+								<el-option label="EntityBaseData【业务实体】" value="EntityBaseData" />
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="存放位置" prop="position" clearable>
-							<el-select v-model="ruleForm.position">
+						<el-form-item label="存放位置" prop="position">
+							<el-select v-model="ruleForm.position" clearable class="w100">
 								<el-option label="Admin.NET.Application" value="Admin.NET.Application" />
 								<el-option label="Admin.NET.Core" value="Admin.NET.Core" />
 							</el-select>
@@ -47,7 +49,6 @@ import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue'
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
-
 
 export default defineComponent({
 	name: 'sysGenEntity',
@@ -81,7 +82,6 @@ export default defineComponent({
 		const submit = () => {
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
-
 				await getAPI(SysDatabaseApi).sysDatabaseCreateEntityPost(state.ruleForm);
 				closeDialog();
 			});

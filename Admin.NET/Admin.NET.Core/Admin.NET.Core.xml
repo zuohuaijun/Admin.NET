@@ -282,12 +282,12 @@
             软删除
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.DataEntityBase">
+        <member name="T:Admin.NET.Core.EntityBaseData">
             <summary>
             业务数据实体基类(数据权限)
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.DataEntityBase.CreateOrgId">
+        <member name="P:Admin.NET.Core.EntityBaseData.CreateOrgId">
             <summary>
             创建者部门Id
             </summary>
