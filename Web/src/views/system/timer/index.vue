@@ -16,8 +16,8 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="timerData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="timerName" label="任务名称" show-overflow-tooltip />
-				<el-table-column prop="requestUrl" label="请求地址" show-overflow-tooltip />
+				<el-table-column prop="timerName" label="任务名称" width="160" show-overflow-tooltip />
+				<el-table-column prop="requestUrl" label="请求地址" width="120" show-overflow-tooltip />
 				<el-table-column prop="requestType" label="请求类型" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="info" v-if="scope.row.requestType == 0"> {{ 'RUN' }} </el-tag>
@@ -27,7 +27,7 @@
 						<el-tag type="info" v-else-if="scope.row.requestType == 4"> {{ 'DELETE' }} </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="timerType" label="任务类型" align="center" show-overflow-tooltip>
+				<el-table-column prop="timerType" label="任务类型" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						{{ scope.row.timerType == 0 ? scope.row.interval : scope.row.cron }}
 					</template>

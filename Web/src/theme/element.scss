@@ -308,12 +308,12 @@
 		padding: 0;
 	}
 	// 表头背景色
-	//--el-table-header-bg-color: var(--el-text-color-secondary);// #fafafa;
+	--el-table-header-bg-color: #F5F7FA;
 	// 表头字体颜色
 	thead {
 		color: var(--el-text-color-regular);	
 		th {
-			font-weight: 600;
+			font-weight: 500;
 		}
 	}
 }

@@ -19,9 +19,9 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="tenantData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
-				<el-table-column prop="name" label="租户名称" show-overflow-tooltip />
-				<el-table-column prop="adminName" label="管理员" show-overflow-tooltip />
-				<el-table-column prop="phone" label="电话" show-overflow-tooltip />
+				<el-table-column prop="name" label="租户名称" width="160" show-overflow-tooltip />
+				<el-table-column prop="adminName" label="管理员" width="120" show-overflow-tooltip />
+				<el-table-column prop="phone" label="电话" width="120" show-overflow-tooltip />
 				<!-- <el-table-column prop="host" label="主机" show-overflow-tooltip /> -->
 				<el-table-column prop="email" label="邮箱" show-overflow-tooltip />
 				<el-table-column prop="tenantType" label="租户类型" align="center" show-overflow-tooltip>
@@ -36,7 +36,7 @@
 						<el-tag type="danger" v-else>禁用</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="dbType" label="数据库类型" align="center" show-overflow-tooltip>
+				<el-table-column prop="dbType" label="数据库类型" width="120" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.dbType === 0"> MySql </el-tag>
 						<el-tag v-else-if="scope.row.dbType === 1"> SqlServer </el-tag>
@@ -59,7 +59,7 @@
 				<!-- <el-table-column prop="configId" label="数据库标识" show-overflow-tooltip /> -->
 				<el-table-column prop="connection" label="数据库连接" width="300" show-overflow-tooltip />
 				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
-				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
+				<el-table-column prop="createTime" label="修改时间" width="160" align="center" show-overflow-tooltip />
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 				<el-table-column label="操作" width="180" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">

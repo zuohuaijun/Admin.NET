@@ -6,9 +6,9 @@
 					<el-form-item label="账号名称" prop="userName">
 						<el-input placeholder="账号名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.userName" />
 					</el-form-item>
-					<el-form-item label="真实姓名" prop="realName">
+					<!-- <el-form-item label="真实姓名" prop="realName">
 						<el-input placeholder="账号名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.realName" />
-					</el-form-item>
+					</el-form-item> -->
 					<el-form-item>
 						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
 						<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
