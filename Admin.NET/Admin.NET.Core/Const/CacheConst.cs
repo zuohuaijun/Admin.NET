@@ -63,5 +63,5 @@ public class CacheConst
     /// <summary>
     /// 租户缓存
     /// </summary>
-    public const string KeyTenant = "tenant:";
+    public const string KeyTenant = "tenant:list";
 }

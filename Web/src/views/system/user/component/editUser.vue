@@ -93,7 +93,7 @@
 										<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 											<el-form-item label="机构" :prop="`extOrgIdList[${k}].orgId`" :rules="[{ required: true, message: `机构不能为空`, trigger: 'blur' }]">
 												<template #label>
-													<el-button icon="ele-Delete" type="danger" circle plain size="small" @click="deleteExtOrgRow(k)"></el-button>
+													<el-button icon="ele-Delete" type="danger" circle plain size="small" @click="deleteExtOrgRow(k)" />
 													<span class="ml5">机构</span>
 												</template>
 												<el-cascader

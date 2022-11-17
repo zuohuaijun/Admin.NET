@@ -7,7 +7,7 @@
 					<template #header>
 						<div class="card-header">
 							<span>缓存列表</span>
-							<el-button icon="ele-Refresh" size="small" circle text @click="handleQuery" v-auth="'sysCache:page'" />
+							<el-button icon="ele-Refresh" size="small" circle text @click="handleQuery" v-auth="'sysCache:keyList'" />
 						</div>
 					</template>
 					<el-tree
