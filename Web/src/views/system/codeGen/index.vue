@@ -1,7 +1,7 @@
 <template>
 	<div class="sys-codeGen-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="queryParams" ref="queryForm" :inline="true" v-loading="loading">
+			<el-form :model="queryParams" ref="queryForm" :inline="true">
 				<el-form-item>
 					<el-button type="primary" icon="ele-Plus" @click="openAddDialog">增加</el-button>
 				</el-form-item>

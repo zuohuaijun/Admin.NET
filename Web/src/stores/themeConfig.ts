@@ -106,8 +106,8 @@ export const useThemeConfig = defineStore('themeConfig', {
 			// Tagsview 风格：可选值"<tags-style-one|tags-style-four|tags-style-five>"，默认 tags-style-five
 			// 定义的值与 `/src/layout/navBars/tagsView/tagsView.vue` 中的 class 同名
 			tagsStyle: 'tags-style-one',
-			// 主页面切换动画：可选值"<slide-right|slide-left|opacitys>"，默认 slide-right
-			animation: 'slide-right',
+			// 主页面切换动画: Animate.css
+			animation: 'lightSpeedLeft',
 			// 分栏高亮风格：可选值"<columns-round|columns-card>"，默认 columns-round
 			columnsAsideStyle: 'columns-round',
 			// 分栏布局风格：可选值"<columns-horizontal|columns-vertical>"，默认 columns-horizontal

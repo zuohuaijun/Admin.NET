@@ -16,6 +16,7 @@ import 'vform3-builds/dist/designer.style.css'; // VForm3表单设计样式
 import VueSignaturePad from 'vue-signature-pad'; // 电子签名
 import vue3TreeOrg from 'vue3-tree-org'; // 组织架构图
 import 'vue3-tree-org/lib/vue3-tree-org.css'; // 组织架构图样式
+import 'animate.css'; // 动画库
 
 const app = createApp(App);
 

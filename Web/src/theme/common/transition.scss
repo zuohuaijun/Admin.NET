@@ -1,38 +1,151 @@
 /* 页面切换动画
 ------------------------------- */
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-left-enter-active,
-.slide-left-leave-active {
-	will-change: transform;
-	transition: all 0.3s ease;
+.fade-enter-active{
+	animation: fadeIn;
+	animation-duration: 0.3s;
 }
-// slide-right
-.slide-right-enter-from {
-	opacity: 0;
-	transform: translateX(-20px);
+.fadeUp-enter-active{
+	animation: fadeInUp;
+	animation-duration: 0.3s;
 }
-.slide-right-leave-to {
-	opacity: 0;
-	transform: translateX(20px);
+.fadeDown-enter-active{
+	animation: fadeInDown;
+	animation-duration: 0.3s;
 }
-// slide-left
-.slide-left-enter-from {
-	@extend .slide-right-leave-to;
+.fadeLeft-enter-active{
+	animation: fadeInLeft;
+	animation-duration: 0.3s;
 }
-.slide-left-leave-to {
-	@extend .slide-right-enter-from;
+.fadeRight-enter-active{
+	animation: fadeInRight;
+	animation-duration: 0.3s;
 }
-// opacitys
-.opacitys-enter-active,
-.opacitys-leave-active {
-	will-change: transform;
-	transition: all 0.3s ease;
+
+.lightSpeedLeft-enter-active{
+	animation: lightSpeedInLeft;
+	animation-duration: 0.3s;
 }
-.opacitys-enter-from,
-.opacitys-leave-to {
-	opacity: 0;
+.lightSpeedRight-enter-active{
+	animation: lightSpeedInRight;
+	animation-duration: 0.3s;
 }
+
+.zoom-enter-active{
+	animation: zoomIn;
+	animation-duration: 0.3s;
+}
+.zoomUp-enter-active{
+	animation: zoomInUp;
+	animation-duration: 0.3s;
+}
+.zoomDown-enter-active{
+	animation: zoomInDown;
+	animation-duration: 0.3s;
+}
+.zoomLeft-enter-active{
+	animation: zoomInLeft;
+	animation-duration: 0.3s;
+}
+.zoomRight-enter-active{
+	animation: zoomInRight;
+	animation-duration: 0.3s;
+}
+
+.flip-enter-active{
+	animation: flip;
+	animation-duration: 0.3s;
+}
+.flipX-enter-active{
+	animation: flipInX;
+	animation-duration: 0.3s;
+}
+.flipY-enter-active{
+	animation: flipInY;
+	animation-duration: 0.3s;
+}
+
+.backUp-enter-active{
+	animation: backInUp;
+	animation-duration: 0.3s;
+}
+.backDown-enter-active{
+	animation: backInDown;
+	animation-duration: 0.3s;
+}
+.backLeft-enter-active{
+	animation: backInLeft;
+	animation-duration: 0.3s;
+}
+.backRight-enter-active{
+	animation: backInRight;
+	animation-duration: 0.3s;
+}
+
+.bounce-enter-active{
+	animation: bounceIn;
+	animation-duration: 0.3s;
+}
+.bounceUp-enter-active{
+	animation: bounceInUp;
+	animation-duration: 0.3s;
+}
+.bounceDown-enter-active{
+	animation: bounceInDown;
+	animation-duration: 0.3s;
+}
+.bounceLeft-enter-active{
+	animation: bounceInLeft;
+	animation-duration: 0.3s;
+}
+.bounceRight-enter-active{
+	animation: bounceInRight;
+	animation-duration: 0.3s;
+}
+
+// 自定义弹窗动画
+.dialog-fade-enter-active .el-dialog{
+	animation: bounceInDown;
+	animation-duration: 0.3s;
+}
+.dialog-fade-leave-active .el-dialog{
+	animation: bounceOutRight;
+	animation-duration: 0.3s;
+}
+
+
+// .slide-right-enter-active,
+// .slide-right-leave-active,
+// .slide-left-enter-active,
+// .slide-left-leave-active {
+// 	will-change: transform;
+// 	transition: all 0.3s ease;
+// }
+// // slide-right
+// .slide-right-enter-from {
+// 	opacity: 0;
+// 	transform: translateX(-20px);
+// }
+// .slide-right-leave-to {
+// 	opacity: 0;
+// 	transform: translateX(20px);
+// }
+// // slide-left
+// .slide-left-enter-from {
+// 	@extend .slide-right-leave-to;
+// }
+// .slide-left-leave-to {
+// 	@extend .slide-right-enter-from;
+// }
+// // opacitys
+// .opacitys-enter-active,
+// .opacitys-leave-active {
+// 	will-change: transform;
+// 	transition: all 0.3s ease;
+// }
+// .opacitys-enter-from,
+// .opacitys-leave-to {
+// 	opacity: 0;
+// }
 
 /* Breadcrumb 面包屑过渡动画
 ------------------------------- */

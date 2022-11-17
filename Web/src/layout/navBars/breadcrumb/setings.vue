@@ -1,13 +1,6 @@
 <template>
 	<div class="layout-breadcrumb-seting">
-		<el-drawer
-			:title="$t('message.layout.configTitle')"
-			v-model="getThemeConfig.isDrawer"
-			direction="rtl"
-			destroy-on-close
-			size="260px"
-			@close="onDrawerClose"
-		>
+		<el-drawer :title="$t('message.layout.configTitle')" v-model="getThemeConfig.isDrawer" direction="rtl" destroy-on-close size="300px" @close="onDrawerClose">
 			<el-scrollbar class="layout-breadcrumb-seting-bar">
 				<!-- 全局主题 -->
 				<el-divider content-position="left">{{ $t('message.layout.oneTitle') }}</el-divider>
@@ -67,53 +60,31 @@
 				</div>
 
 				<!-- 分栏设置 -->
-				<el-divider content-position="left" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">{{
-					$t('message.layout.twoColumnsTitle')
-				}}</el-divider>
+				<el-divider content-position="left" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">{{ $t('message.layout.twoColumnsTitle') }}</el-divider>
 				<div class="layout-breadcrumb-seting-bar-flex" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoColumnsMenuBar') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-color-picker
-							v-model="getThemeConfig.columnsMenuBar"
-							size="default"
-							@change="onBgColorPickerChange('columnsMenuBar')"
-							:disabled="getThemeConfig.layout !== 'columns'"
-						>
+						<el-color-picker v-model="getThemeConfig.columnsMenuBar" size="default" @change="onBgColorPickerChange('columnsMenuBar')" :disabled="getThemeConfig.layout !== 'columns'">
 						</el-color-picker>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoColumnsMenuBarColor') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-color-picker
-							v-model="getThemeConfig.columnsMenuBarColor"
-							size="default"
-							@change="onBgColorPickerChange('columnsMenuBarColor')"
-							:disabled="getThemeConfig.layout !== 'columns'"
-						>
+						<el-color-picker v-model="getThemeConfig.columnsMenuBarColor" size="default" @change="onBgColorPickerChange('columnsMenuBarColor')" :disabled="getThemeConfig.layout !== 'columns'">
 						</el-color-picker>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt14" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoIsColumnsMenuBarColorGradual') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch
-							v-model="getThemeConfig.isColumnsMenuBarColorGradual"
-							size="small"
-							@change="onColumnsMenuBarGradualChange"
-							:disabled="getThemeConfig.layout !== 'columns'"
-						></el-switch>
+						<el-switch v-model="getThemeConfig.isColumnsMenuBarColorGradual" size="small" @change="onColumnsMenuBarGradualChange" :disabled="getThemeConfig.layout !== 'columns'"></el-switch>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt14" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoIsColumnsMenuHoverPreload') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch
-							v-model="getThemeConfig.isColumnsMenuHoverPreload"
-							size="small"
-							@change="onColumnsMenuHoverPreloadChange"
-							:disabled="getThemeConfig.layout !== 'columns'"
-						></el-switch>
+						<el-switch v-model="getThemeConfig.isColumnsMenuHoverPreload" size="small" @change="onColumnsMenuHoverPreloadChange" :disabled="getThemeConfig.layout !== 'columns'"></el-switch>
 					</div>
 				</div>
 
@@ -122,23 +93,13 @@
 				<div class="layout-breadcrumb-seting-bar-flex" :style="{ opacity: getThemeConfig.layout === 'transverse' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeIsCollapse') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch
-							v-model="getThemeConfig.isCollapse"
-							:disabled="getThemeConfig.layout === 'transverse'"
-							size="small"
-							@change="onThemeConfigChange"
-						></el-switch>
+						<el-switch v-model="getThemeConfig.isCollapse" :disabled="getThemeConfig.layout === 'transverse'" size="small" @change="onThemeConfigChange"></el-switch>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt15" :style="{ opacity: getThemeConfig.layout === 'transverse' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeIsUniqueOpened') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch
-							v-model="getThemeConfig.isUniqueOpened"
-							:disabled="getThemeConfig.layout === 'transverse'"
-							size="small"
-							@change="setLocalThemeConfig"
-						></el-switch>
+						<el-switch v-model="getThemeConfig.isUniqueOpened" :disabled="getThemeConfig.layout === 'transverse'" size="small" @change="setLocalThemeConfig"></el-switch>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
@@ -150,13 +111,7 @@
 				<div class="layout-breadcrumb-seting-bar-flex mt15" :style="{ opacity: getThemeConfig.layout !== 'classic' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeIsClassicSplitMenu') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch
-							v-model="getThemeConfig.isClassicSplitMenu"
-							:disabled="getThemeConfig.layout !== 'classic'"
-							size="small"
-							@change="onClassicSplitMenuChange"
-						>
-						</el-switch>
+						<el-switch v-model="getThemeConfig.isClassicSplitMenu" :disabled="getThemeConfig.layout !== 'classic'" size="small" @change="onClassicSplitMenuChange"> </el-switch>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
@@ -168,16 +123,7 @@
 				<div class="layout-breadcrumb-seting-bar-flex mt11">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeLockScreenTime') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-input-number
-							v-model="getThemeConfig.lockScreenTime"
-							controls-position="right"
-							:min="1"
-							:max="9999"
-							@change="setLocalThemeConfig"
-							size="default"
-							style="width: 90px"
-						>
-						</el-input-number>
+						<el-input-number v-model="getThemeConfig.lockScreenTime" controls-position="right" :min="1" :max="9999" @change="setLocalThemeConfig" size="default" style="width: 90px"> </el-input-number>
 					</div>
 				</div>
 
@@ -189,10 +135,7 @@
 						<el-switch v-model="getThemeConfig.isShowLogo" size="small" @change="onIsShowLogoChange"></el-switch>
 					</div>
 				</div>
-				<div
-					class="layout-breadcrumb-seting-bar-flex mt15"
-					:style="{ opacity: getThemeConfig.layout === 'classic' || getThemeConfig.layout === 'transverse' ? 0.5 : 1 }"
-				>
+				<div class="layout-breadcrumb-seting-bar-flex mt15" :style="{ opacity: getThemeConfig.layout === 'classic' || getThemeConfig.layout === 'transverse' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fourIsBreadcrumb') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
 						<el-switch
@@ -230,12 +173,7 @@
 				<div class="layout-breadcrumb-seting-bar-flex mt15" :style="{ opacity: isMobile ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fourIsSortableTagsView') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch
-							v-model="getThemeConfig.isSortableTagsView"
-							:disabled="isMobile ? true : false"
-							size="small"
-							@change="onSortableTagsViewChange"
-						></el-switch>
+						<el-switch v-model="getThemeConfig.isSortableTagsView" :disabled="isMobile ? true : false" size="small" @change="onSortableTagsViewChange"></el-switch>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
@@ -291,9 +229,30 @@
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fiveAnimation') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
 						<el-select v-model="getThemeConfig.animation" placeholder="请选择" size="default" style="width: 90px" @change="setLocalThemeConfig">
-							<el-option label="slide-right" value="slide-right"></el-option>
-							<el-option label="slide-left" value="slide-left"></el-option>
-							<el-option label="opacitys" value="opacitys"></el-option>
+							<el-option label="fade" value="fade"></el-option>
+							<el-option label="fadeUp" value="fadeUp"></el-option>
+							<el-option label="fadeDown" value="fadeDown"></el-option>
+							<el-option label="fadeLeft" value="fadeLeft"></el-option>
+							<el-option label="fadeRight" value="fadeRight"></el-option>
+							<el-option label="lightSpeedLeft" value="lightSpeedLeft"></el-option>
+							<el-option label="lightSpeedRight" value="lightSpeedRight"></el-option>
+							<el-option label="zoom" value="zoom"></el-option>
+							<el-option label="zoomUp" value="zoomUp"></el-option>
+							<el-option label="zoomDown" value="zoomDown"></el-option>
+							<el-option label="zoomLeft" value="zoomLeft"></el-option>
+							<el-option label="zoomRight" value="zoomRight"></el-option>
+							<el-option label="flip" value="flip"></el-option>
+							<el-option label="flipX" value="flipX"></el-option>
+							<el-option label="flipY" value="flipY"></el-option>
+							<el-option label="backUp" value="backUp"></el-option>
+							<el-option label="backDown" value="backDown"></el-option>
+							<el-option label="backLeft" value="backLeft"></el-option>
+							<el-option label="backRight" value="backRight"></el-option>
+							<el-option label="bounce" value="bounce"></el-option>
+							<el-option label="bounceUp" value="bounceUp"></el-option>
+							<el-option label="bounceDown" value="bounceDown"></el-option>
+							<el-option label="bounceLeft" value="bounceLeft"></el-option>
+							<el-option label="bounceRight" value="bounceRight"></el-option>
 						</el-select>
 					</div>
 				</div>
@@ -541,8 +500,7 @@ export default defineComponent({
 			} else {
 				if (getThemeConfig.value.isInvert) getThemeConfig.value.isGrayscale = false;
 			}
-			const cssAttr =
-				attr === 'grayscale' ? `grayscale(${getThemeConfig.value.isGrayscale ? 1 : 0})` : `invert(${getThemeConfig.value.isInvert ? '80%' : '0%'})`;
+			const cssAttr = attr === 'grayscale' ? `grayscale(${getThemeConfig.value.isGrayscale ? 1 : 0})` : `invert(${getThemeConfig.value.isInvert ? '80%' : '0%'})`;
 			const appEle: any = document.body;
 			appEle.setAttribute('style', `filter: ${cssAttr}`);
 			setLocalThemeConfig();
