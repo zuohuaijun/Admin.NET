@@ -51,7 +51,8 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref, onMounted } from 'vue';
+import { reactive, toRefs, defineComponent, ref, onMounted } from 'vue';
+import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysCodeGenApi } from '/@/api-services/api';
@@ -60,7 +61,6 @@ export default defineComponent({
 	name: 'sysCodeGenTree',
 	components: {},
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const ruleFormRef = ref();
 		var rowdata = {} as any;
 		const state = reactive({
@@ -118,7 +118,7 @@ export default defineComponent({
 			rowdata.displayColumn = state.ruleForm.displayColumn;
 			rowdata.valueColumn = state.ruleForm.valueColumn;
 			rowdata.pidColumn = state.ruleForm.pidColumn;
-			proxy.mittBus.emit('submitRefreshFk', rowdata);
+			mittBus.emit('submitRefreshFk', rowdata);
 			state.isShowDialog = false;
 		};
 

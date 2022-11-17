@@ -72,8 +72,9 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
+import { ref, toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 import { auth } from '/@/utils/authFunction';
 import EditRole from '/@/views/system/role/component/editRole.vue';
 import GrantData from '/@/views/system/role/component/grantData.vue';
@@ -86,7 +87,6 @@ export default defineComponent({
 	name: 'sysRole',
 	components: { EditRole, GrantData },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const editRoleRef = ref();
 		const grantDataRef = ref();
 		const state = reactive({
@@ -106,12 +106,12 @@ export default defineComponent({
 		onMounted(async () => {
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', () => {
+			mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
+			mittBus.off('submitRefresh');
 		});
 		// 查询操作
 		const handleQuery = async () => {

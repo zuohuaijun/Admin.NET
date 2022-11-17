@@ -57,12 +57,12 @@ const { themeConfig } = storeToRefs(stores);
 // 导出语言国际化
 // https://vue-i18n.intlify.dev/guide/essentials/fallback.html#explicit-fallback-with-one-locale
 export const i18n = createI18n({
+	legacy: false,
 	silentTranslationWarn: true,
 	missingWarn: false,
 	silentFallbackWarn: true,
 	fallbackWarn: false,
 	locale: themeConfig.value.globalI18n,
 	fallbackLocale: zhcnLocale.name,
-	legacy: false,
 	messages,
 });

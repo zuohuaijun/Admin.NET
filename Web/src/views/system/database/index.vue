@@ -67,8 +67,9 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 import EditTable from '/@/views/system/database/component/editTable.vue';
 import EditColumn from '/@/views/system/database/component/editColumn.vue';
 import AddTable from '/@/views/system/database/component/addTable.vue';
@@ -83,7 +84,6 @@ export default defineComponent({
 	name: 'sysDatabase',
 	components: { EditTable, EditColumn, AddTable, AddColumn, GenEntity },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const editTableRef = ref();
 		const editColumnRef = ref();
 		const addTableRef = ref();
@@ -109,22 +109,22 @@ export default defineComponent({
 			state.dbData = res.data.result;
 			state.loading = false;
 
-			proxy.mittBus.on('submitRefreshTable', () => {
+			mittBus.on('submitRefreshTable', () => {
 				handleQueryTable();
 			});
-			proxy.mittBus.on('submitRefreshColumn', () => {
+			mittBus.on('submitRefreshColumn', () => {
 				handleQueryColunm();
 			});
-			proxy.mittBus.on('addTableSubmitted', (res: any) => {
+			mittBus.on('addTableSubmitted', (res: any) => {
 				handleQueryTable();
 				state.tableName = res;
 				handleQueryColunm();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefreshTable');
-			proxy.mittBus.off('submitRefreshColumn');
-			proxy.mittBus.off('addTableSubmitted');
+			mittBus.off('submitRefreshTable');
+			mittBus.off('submitRefreshColumn');
+			mittBus.off('addTableSubmitted');
 		});
 		// 表查询操作
 		const handleQueryTable = async () => {

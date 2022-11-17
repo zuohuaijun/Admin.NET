@@ -96,8 +96,9 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
+import { ref, toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 import EditTenant from '/@/views/system/tenant/component/editTenant.vue';
 import GrantMenu from '/@/views/system/tenant/component/grantMenu.vue';
 
@@ -109,7 +110,6 @@ export default defineComponent({
 	name: 'sysTenant',
 	components: { EditTenant, GrantMenu },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const editTenantRef = ref();
 		const grantMenuRef = ref();
 		const state = reactive({
@@ -129,12 +129,12 @@ export default defineComponent({
 		onMounted(async () => {
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', () => {
+			mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
+			mittBus.off('submitRefresh');
 		});
 		// 查询操作
 		const handleQuery = async () => {

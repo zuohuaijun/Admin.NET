@@ -1,11 +1,14 @@
 <template>
-	<div class="login-container">
-		<div class="login-icon-group">
-			<!-- <div class="login-icon-group-title">
+	<div class="login-container flex">
+		<div class="login-left flex-margin">
+			<div class="login-left-logo">
 				<img :src="logoMini" />
-				<div class="login-icon-group-title-text font25">{{ getThemeConfig.globalViceTitle }}</div>
-			</div> -->
-			<el-carousel height="550px" style="width: 100%; padding-right: 38%; top: 50%; transform: translateY(-50%) translate3d(0, 0, 0)">
+				<div class="login-left-logo-text">
+					<span>{{ getThemeConfig.globalViceTitle }}</span>
+					<span class="login-left-logo-text-msg">{{ getThemeConfig.globalViceTitleMsg }}</span>
+				</div>
+			</div>
+			<el-carousel height="500px">
 				<el-carousel-item>
 					<img :src="loginIconTwo" class="login-icon-group-icon" />
 				</el-carousel-item>
@@ -17,23 +20,29 @@
 				</el-carousel-item>
 			</el-carousel>
 		</div>
-		<div class="login-content">
-			<div class="login-content-main">
-				<h4 class="login-content-title">{{ getThemeConfig.globalTitle }}</h4>
-				<div v-if="!isScan">
-					<el-tabs v-model="tabsActiveName">
-						<el-tab-pane :label="$t('message.label.one1')" name="account">
-							<Account />
-						</el-tab-pane>
-						<el-tab-pane :label="$t('message.label.two2')" name="mobile">
-							<Mobile />
-						</el-tab-pane>
-					</el-tabs>
-				</div>
-				<Scan v-if="isScan" />
-				<div class="login-content-main-sacn" @click="isScan = !isScan">
-					<i class="iconfont" :class="isScan ? 'icon-diannao1' : 'icon-barcode-qr'"></i>
-					<div class="login-content-main-sacn-delta"></div>
+		<div class="login-right flex">
+			<div class="login-right-warp flex-margin">
+				<span class="login-right-warp-one"></span>
+				<span class="login-right-warp-two"></span>
+				<div class="login-right-warp-mian">
+					<div class="login-right-warp-main-title">{{ getThemeConfig.globalTitle }}</div>
+					<div class="login-right-warp-main-form">
+						<div v-if="!isScan">
+							<el-tabs v-model="tabsActiveName">
+								<el-tab-pane :label="$t('message.label.one1')" name="account">
+									<Account />
+								</el-tab-pane>
+								<el-tab-pane :label="$t('message.label.two2')" name="mobile">
+									<Mobile />
+								</el-tab-pane>
+							</el-tabs>
+						</div>
+						<Scan v-if="isScan" />
+						<div class="login-content-main-sacn" @click="isScan = !isScan">
+							<i class="iconfont" :class="isScan ? 'icon-diannao1' : 'icon-barcode-qr'"></i>
+							<div class="login-content-main-sacn-delta"></div>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -41,31 +50,26 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, computed, defineComponent, onMounted } from 'vue';
+import { defineAsyncComponent, defineComponent, onMounted, reactive, toRefs, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
+import { NextLoading } from '/@/utils/loading';
 import logoMini from '/@/assets/logo-mini.svg';
 import loginIconTwo from '/@/assets/login-icon-two.svg';
 import loginIconTwo1 from '/@/assets/login-icon-two1.svg';
 import loginIconTwo2 from '/@/assets/login-icon-two2.svg';
-import { NextLoading } from '/@/utils/loading';
-import Account from '/@/views/login/component/account.vue';
-import Mobile from '/@/views/login/component/mobile.vue';
-import Scan from '/@/views/login/component/scan.vue';
-
-// 定义接口来定义对象的类型
-interface LoginState {
-	tabsActiveName: string;
-	isScan: boolean;
-}
 
 export default defineComponent({
 	name: 'loginIndex',
-	components: { Account, Mobile, Scan },
+	components: {
+		Account: defineAsyncComponent(() => import('/@/views/login/component/account.vue')),
+		Mobile: defineAsyncComponent(() => import('/@/views/login/component/mobile.vue')),
+		Scan: defineAsyncComponent(() => import('/@/views/login/component/scan.vue')),
+	},
 	setup() {
 		const storesThemeConfig = useThemeConfig();
 		const { themeConfig } = storeToRefs(storesThemeConfig);
-		const state = reactive<LoginState>({
+		const state = reactive({
 			tabsActiveName: 'account',
 			isScan: false,
 		});
@@ -91,35 +95,41 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .login-container {
-	width: 100%;
 	height: 100%;
-	position: relative;
 	background: var(--el-color-white);
-
-	.login-icon-group {
-		width: 100%;
-		height: 100%;
-		position: relative;
-
-		.login-icon-group-title {
+	.login-left {
+		flex: 1;
+		// position: relative;
+		// background-color: rgba(211, 239, 255, 1);
+		// margin-right: 100px;
+		.login-left-logo {
+			display: flex;
+			align-items: center;
 			position: absolute;
 			top: 50px;
 			left: 80px;
-			display: flex;
-			align-items: center;
-
+			z-index: 1;
+			animation: logoAnimation 0.3s ease;
 			img {
 				width: 64px;
 				height: 64px;
 			}
-
-			// &-text {
-			// 	padding-left: 15px;
-			// 	color: var(--el-color-primary);
-			// }
+			.login-left-logo-text {
+				display: flex;
+				flex-direction: column;
+				span {
+					margin-left: 10px;
+					font-size: 30px;
+					font-weight: 700;
+					color: var(--el-color-primary);
+				}
+				.login-left-logo-text-msg {
+					font-size: 12px;
+					color: var(--el-color-primary);
+				}
+			}
 		}
-
-		&-icon {
+		.login-icon-group-icon {
 			width: 85%;
 			height: 85%;
 			position: absolute;
@@ -128,75 +138,126 @@ export default defineComponent({
 			transform: translateY(-50%) translate3d(0, 0, 0);
 		}
 	}
-
-	.login-content {
-		width: 500px;
-		height: 500px;
-		padding: 20px;
-		position: absolute;
-		right: 10%;
-		top: 50%;
-		transform: translateY(-50%) translate3d(0, 0, 0);
-		background-color: var(--el-color-white);
-		border: 1px solid var(--el-color-primary-light-8);
-		border-radius: 5px;
-		overflow: hidden;
-		z-index: 1;
-
-		.login-content-main {
-			margin: 0 auto;
-			width: 80%;
-
-			.login-content-title {
-				color: var(--el-text-color-primary);
-				font-weight: 800;
-				font-size: 32px;
-				text-align: center;
-				//letter-spacing: 4px;
-				margin: 5px 0 20px;
-				white-space: nowrap;
-				z-index: 5;
-				position: relative;
-				transition: all 0.3s ease;
-			}
-		}
-
-		.login-content-main-sacn {
-			position: absolute;
-			top: 0;
-			right: 0;
-			width: 50px;
-			height: 50px;
+	.login-right {
+		width: 700px;
+		.login-right-warp {
+			border: 1px solid var(--el-color-primary-light-3);
+			border-radius: 3px;
+			width: 500px;
+			height: 550px;
+			position: relative;
 			overflow: hidden;
-			cursor: pointer;
-			transition: all ease 0.3s;
-			color: var(--el-text-color-primary);
-
-			&-delta {
+			background-color: var(--el-color-white);
+			.login-right-warp-one,
+			.login-right-warp-two {
 				position: absolute;
-				width: 35px;
-				height: 70px;
-				z-index: 2;
-				top: 2px;
-				right: 21px;
-				background: var(--el-color-white);
-				transform: rotate(-45deg);
+				display: block;
+				width: inherit;
+				height: inherit;
+				&::before,
+				&::after {
+					content: '';
+					position: absolute;
+					z-index: 1;
+				}
 			}
-
-			&:hover {
-				opacity: 1;
-				transition: all ease 0.3s;
-				color: var(--el-color-primary) !important;
+			.login-right-warp-one {
+				&::before {
+					filter: hue-rotate(0deg);
+					top: 0px;
+					left: 0;
+					width: 100%;
+					height: 1px;
+					background: linear-gradient(90deg, transparent, var(--el-color-primary));
+					animation: loginLeft 3s linear infinite;
+				}
+				&::after {
+					filter: hue-rotate(0deg);
+					top: -100%;
+					right: 2px;
+					width: 1px;
+					height: 100%;
+					background: linear-gradient(180deg, transparent, var(--el-color-primary));
+					animation: loginTop 3s linear infinite;
+					animation-delay: 0.7s;
+				}
 			}
-
-			i {
-				width: 47px;
-				height: 50px;
-				display: inline-block;
-				font-size: 48px;
-				position: absolute;
-				right: 2px;
-				top: -1px;
+			.login-right-warp-two {
+				&::before {
+					filter: hue-rotate(0deg);
+					bottom: 2px;
+					right: -100%;
+					width: 100%;
+					height: 1px;
+					background: linear-gradient(270deg, transparent, var(--el-color-primary));
+					animation: loginRight 3s linear infinite;
+					animation-delay: 1.4s;
+				}
+				&::after {
+					filter: hue-rotate(0deg);
+					bottom: -100%;
+					left: 0px;
+					width: 1px;
+					height: 100%;
+					background: linear-gradient(360deg, transparent, var(--el-color-primary));
+					animation: loginBottom 3s linear infinite;
+					animation-delay: 2.1s;
+				}
+			}
+			.login-right-warp-mian {
+				display: flex;
+				flex-direction: column;
+				height: 100%;
+				.login-right-warp-main-title {
+					height: 130px;
+					line-height: 130px;
+					font-size: 32px;
+					font-weight: 800;
+					text-align: center;
+					//letter-spacing: 3px;
+					animation: logoAnimation 0.3s ease;
+					animation-delay: 0.3s;
+					color: var(--el-color-primary);
+				}
+				.login-right-warp-main-form {
+					flex: 1;
+					padding: 0 50px 50px;
+					.login-content-main-sacn {
+						position: absolute;
+						top: 0;
+						right: 0;
+						width: 50px;
+						height: 50px;
+						overflow: hidden;
+						cursor: pointer;
+						transition: all ease 0.3s;
+						color: var(--el-color-primary);
+						&-delta {
+							position: absolute;
+							width: 35px;
+							height: 70px;
+							z-index: 2;
+							top: 2px;
+							right: 21px;
+							background: var(--el-color-white);
+							transform: rotate(-45deg);
+						}
+						&:hover {
+							opacity: 1;
+							transition: all ease 0.3s;
+							color: var(--el-color-primary) !important;
+						}
+						i {
+							width: 47px;
+							height: 50px;
+							display: inline-block;
+							font-size: 48px;
+							position: absolute;
+							right: 1px;
+							top: 0px;
+						}
+					}
+				}
 			}
 		}
 	}

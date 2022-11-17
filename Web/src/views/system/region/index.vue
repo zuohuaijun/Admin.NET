@@ -56,8 +56,9 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
+import { ref, toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage, ElNotification } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 import RegionTree from '/@/views/system/region/component/regionTree.vue';
 import EditRegion from '/@/views/system/region/component/editRegion.vue';
 
@@ -69,7 +70,6 @@ export default defineComponent({
 	name: 'sysRegion',
 	components: { RegionTree, EditRegion },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const editRegionRef = ref();
 		const regionTreeRef = ref();
 		const state = reactive({
@@ -90,7 +90,7 @@ export default defineComponent({
 		onMounted(() => {
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', async () => {
+			mittBus.on('submitRefresh', async () => {
 				handleQuery();
 
 				// 编辑删除后更新机构数据
@@ -98,7 +98,7 @@ export default defineComponent({
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
+			mittBus.off('submitRefresh');
 		});
 		// 查询操作
 		const handleQuery = async () => {
@@ -135,7 +135,7 @@ export default defineComponent({
 				.then(async () => {
 					await getAPI(SysRegionApi).sysRegionDeletePost({ id: row.id });
 					ElMessage.success('删除成功');
-					proxy.mittBus.emit('submitRefresh');
+					mittBus.emit('submitRefresh');
 				})
 				.catch(() => {});
 		};

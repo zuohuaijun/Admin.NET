@@ -64,7 +64,8 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
+import { reactive, toRefs, defineComponent, ref } from 'vue';
+import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
@@ -75,7 +76,6 @@ export default defineComponent({
 	name: 'sysAddColumn',
 	components: {},
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
@@ -88,7 +88,7 @@ export default defineComponent({
 		};
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit('submitRefreshColumn');
+			mittBus.emit('submitRefreshColumn');
 			state.isShowDialog = false;
 		};
 		// 取消

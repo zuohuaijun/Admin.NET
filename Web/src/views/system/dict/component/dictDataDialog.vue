@@ -56,8 +56,9 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 import EditDictData from '/@/views/system/dict/component/editDictData.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -68,7 +69,6 @@ export default defineComponent({
 	name: 'sysDictData',
 	components: { EditDictData },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const editDictDataRef = ref();
 		const state = reactive({
 			isShowDialog: false,
@@ -87,12 +87,12 @@ export default defineComponent({
 			dictTypeId: 0, // 字典类型Id
 		});
 		onMounted(async () => {
-			proxy.mittBus.on('submitRefreshDictData', () => {
+			mittBus.on('submitRefreshDictData', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefreshDictData');
+			mittBus.off('submitRefreshDictData');
 		});
 		// 打开弹窗
 		const openDialog = async (row: any) => {

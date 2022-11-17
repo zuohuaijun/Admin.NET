@@ -98,8 +98,9 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage, UploadInstance } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 
 import { downloadByUrl } from '/@/utils/download';
 import { getAPI } from '/@/utils/axios-utils';
@@ -110,7 +111,6 @@ export default defineComponent({
 	name: 'sysFile',
 	components: {},
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const uploadRef = ref<UploadInstance>();
 		const state = reactive({
 			loading: false,
@@ -130,12 +130,12 @@ export default defineComponent({
 		onMounted(async () => {
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', () => {
+			mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
+			mittBus.off('submitRefresh');
 		});
 
 		// 查询操作

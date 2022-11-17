@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts">
-import { ref, getCurrentInstance, computed, reactive, toRefs, onMounted, defineComponent } from 'vue';
+import { ref, computed, reactive, toRefs, onMounted, defineComponent } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessageBox, ElMessage, ElNotification } from 'element-plus';
 import screenfull from 'screenfull';
@@ -83,6 +83,7 @@ import { storeToRefs } from 'pinia';
 import { useUserInfo } from '/@/stores/userInfo';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import other from '/@/utils/other';
+import mittBus from '/@/utils/mitt';
 import { Local } from '/@/utils/storage';
 import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
 import Search from '/@/layout/navBars/breadcrumb/search.vue';
@@ -91,12 +92,13 @@ import OnlineUser from '/@/views/system/onlineUser/index.vue';
 import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi, SysNoticeApi } from '/@/api-services/api';
 
+import { signalR } from '/@/views/system/onlineUser/signalR';
+
 export default defineComponent({
 	name: 'layoutBreadcrumbUser',
 	components: { UserNews, Search, OnlineUser },
 	setup() {
-		const { t } = useI18n();
-		const { proxy } = <any>getCurrentInstance();
+		const { locale, t } = useI18n();
 		const router = useRouter();
 		const stores = useUserInfo();
 		const storesThemeConfig = useThemeConfig();
@@ -133,7 +135,7 @@ export default defineComponent({
 		};
 		// 布局配置 icon 点击时
 		const onLayoutSetingClick = () => {
-			proxy.mittBus.emit('openSetingsDrawer');
+			mittBus.emit('openSetingsDrawer');
 		};
 		// 下拉菜单点击时
 		const onHandleCommandClick = (path: string) => {
@@ -183,7 +185,7 @@ export default defineComponent({
 			Local.remove('themeConfig');
 			themeConfig.value.globalComponentSize = size;
 			Local.set('themeConfig', themeConfig.value);
-			initComponentSize();
+			initI18nOrSize('globalComponentSize', 'disabledSize');
 			window.location.reload();
 		};
 		// 语言切换
@@ -191,57 +193,27 @@ export default defineComponent({
 			Local.remove('themeConfig');
 			themeConfig.value.globalI18n = lang;
 			Local.set('themeConfig', themeConfig.value);
-			proxy.$i18n.locale = lang;
-			initI18n();
+			locale.value = lang;
 			other.useTitle();
+			initI18nOrSize('globalI18n', 'disabledI18n');
 		};
-		// 设置 element plus 组件的国际化
-		const setI18nConfig = (locale: string) => {
-			proxy.mittBus.emit('getI18nConfig', proxy.i18n.global.messages.value[locale]);
-		};
-		// 初始化言语国际化
-		const initI18n = () => {
-			switch (Local.get('themeConfig').globalI18n) {
-				case 'zh-cn':
-					state.disabledI18n = 'zh-cn';
-					setI18nConfig('zh-cn');
-					break;
-				case 'en':
-					state.disabledI18n = 'en';
-					setI18nConfig('en');
-					break;
-				case 'zh-tw':
-					state.disabledI18n = 'zh-tw';
-					setI18nConfig('zh-tw');
-					break;
-			}
-		};
-		// 初始化全局组件大小
-		const initComponentSize = () => {
-			switch (Local.get('themeConfig').globalComponentSize) {
-				case 'large':
-					state.disabledSize = 'large';
-					break;
-				case 'default':
-					state.disabledSize = 'default';
-					break;
-				case 'small':
-					state.disabledSize = 'small';
-					break;
-			}
+		// 初始化组件大小/i18n
+		const initI18nOrSize = (value: string, attr: string) => {
+			(<any>state)[attr] = Local.get('themeConfig')[value];
 		};
 		// 页面加载时
 		onMounted(async () => {
 			if (Local.get('themeConfig')) {
-				initI18n();
-				initComponentSize();
+				initI18nOrSize('globalComponentSize', 'disabledSize');
+				initI18nOrSize('globalI18n', 'disabledI18n');
 			}
+
 			// 加载未读的站内信
 			var res = await getAPI(SysNoticeApi).sysNoticeUnReadListGet();
 			state.noticeList = res.data.result ?? [];
 
 			// 接收站内信
-			proxy.signalR.on('PublicNotice', reciveNotice);
+			signalR.on('PublicNotice', reciveNotice);
 		});
 		const reciveNotice = (msg: any) => {
 			state.noticeList.unshift(msg);

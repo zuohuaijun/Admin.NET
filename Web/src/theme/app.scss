@@ -22,7 +22,7 @@
 	--next-color-seting-main: #e9eef3;
 	--next-color-seting-aside: #d3dce6;
 	--next-color-seting-header: #b3c0d1;
-	// 重写全局样式
+    // 重写全局样式
 	//--el-text-color-primary: rgba(0, 0, 0, .75) !important;
     --el-text-color-regular: rgba(0, 0, 0, .75) !important;
 	//--el-text-color-secondary: var(--el-text-color-regular) !important;
@@ -50,6 +50,14 @@ body,
 .layout-container {
 	width: 100%;
 	height: 100%;
+	.layout-pd {
+		padding: 15px !important;
+	}
+	.layout-flex {
+		display: flex;
+		flex-direction: column;
+		flex: 1;
+	}
 	.layout-aside {
 		background: var(--next-bg-menuBar);
 		box-shadow: 2px 0 6px rgb(0 21 41 / 1%);
@@ -65,30 +73,70 @@ body,
 	}
 	.layout-header {
 		padding: 0 !important;
+		height: auto !important;
 	}
 	.layout-main {
 		padding: 0 !important;
 		overflow: hidden;
 		width: 100%;
 		background-color: var(--next-bg-main-color);
+		display: flex;
+		flex-direction: column;
+		// 内层 el-scrollbar样式，用于界面高度自适应（main.vue）
+		.layout-main-scroll {
+			@extend .layout-flex;
+			.layout-parent {
+				@extend .layout-flex;
+				position: relative;
+				padding: 8px; // 四周间隙
+			}
+		}
+	}
+	// 用于界面高度自适应
+	.layout-padding {
+		@extend .layout-pd;
+		position: absolute;
+		left: 0;
+		top: 0;
+		height: 100%;
+		overflow: hidden;
+		@extend .layout-flex;
+		&-auto {
+			height: inherit;
+			@extend .layout-flex;
+		}
+		&-view {
+			background: var(--el-color-white);
+			width: 100%;
+			height: 100%;
+			border-radius: 4px;
+			border: 1px solid var(--el-border-color-light, #ebeef5);
+			overflow: hidden;
+		}
+	}
+	// 用于界面高度自适应，主视图区 main 的内边距，用于 iframe
+	.layout-padding-unset {
+		padding: 0 !important;
+		&-view {
+			border-radius: 0 !important;
+			border: none !important;
+		}
+	}
+	// 用于设置 iframe loading 时的高度（loading 垂直居中显示）
+	.layout-iframe {
+		.el-loading-parent--relative {
+			height: 100%;
+		}
 	}
 	.el-scrollbar {
 		width: 100%;
-	}
-	// 此字段多次用到，建议不删除，如需修改，请重写覆盖样式
-	.layout-view-bg-white {
-		background: var(--el-color-white);
-		width: 100%;
-		height: 100%;
-		border-radius: 4px;
-		border: 1px solid var(--el-border-color-light, #ebeef5);
 	}
 	.layout-el-aside-br-color {
 		border-right: 1px solid var(--el-border-color-light, #ebeef5);
 	}
 	// pc端左侧导航样式
 	.layout-aside-pc-220 {
-		width: 200px !important;
+		width: 220px !important;
 		transition: width 0.3s ease;
 	}
 	.layout-aside-pc-64 {
@@ -103,12 +151,12 @@ body,
 	.layout-aside-mobile {
 		position: fixed;
 		top: 0;
-		left: -200px;
-		width: 200px;
+		left: -220px;
+		width: 220px;
 		z-index: 9999999;
 	}
 	.layout-aside-mobile-close {
-		left: -200px;
+		left: -220px;
 		transition: all 0.3s cubic-bezier(0.39, 0.58, 0.57, 1);
 	}
 	.layout-aside-mobile-open {
@@ -125,10 +173,6 @@ body,
 		background-color: rgba(0, 0, 0, 0.5);
 		z-index: 9999998;
 		animation: error-img 0.3s;
-	}
-	.layout-scrollbar {
-		@extend .el-scrollbar;
-		padding: 8px; // 四周间隙
 	}
 	.layout-mian-height-50 {
 		height: calc(100vh - 50px);

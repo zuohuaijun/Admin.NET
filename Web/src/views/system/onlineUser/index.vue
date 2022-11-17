@@ -48,14 +48,15 @@
 </template>
 
 <script setup lang="ts">
-import { getCurrentInstance, onMounted, reactive } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
 
 import { getAPI, clearAccessTokens } from '/@/utils/axios-utils';
 import { SysOnlineUserApi, SysAuthApi } from '/@/api-services/api';
 import { SysOnlineUser } from '/@/api-services/models';
 
-const { proxy } = getCurrentInstance() as any;
+import { signalR } from './signalR';
+
 const state = reactive({
 	loading: false,
 	isVisible: false,
@@ -75,8 +76,8 @@ onMounted(async () => {
 	handleQuery();
 
 	// 在线用户列表
-	proxy.signalR.off('OnlineUserList');
-	proxy.signalR.on('OnlineUserList', (data: any) => {
+	signalR.off('OnlineUserList');
+	signalR.on('OnlineUserList', (data: any) => {
 		state.onlineUserList = data.userList;
 		ElNotification({
 			title: '提示',
@@ -86,10 +87,10 @@ onMounted(async () => {
 		});
 	});
 	// 强制下线
-	proxy.signalR.off('ForceOffline');
-	proxy.signalR.on('ForceOffline', async (data: any) => {
+	signalR.off('ForceOffline');
+	signalR.on('ForceOffline', async (data: any) => {
 		console.log('强制下线', data);
-		await proxy.signalR.stop();
+		await signalR.stop();
 
 		await getAPI(SysAuthApi).logoutPost();
 		clearAccessTokens();
@@ -121,7 +122,7 @@ const forceOffline = async (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await proxy.signalR.send('ForceOffline', { connectionId: row.connectionId }).catch(function (err: any) {
+			await signalR.send('ForceOffline', { connectionId: row.connectionId }).catch(function (err: any) {
 				console.log(err);
 			});
 		})

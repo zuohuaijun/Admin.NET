@@ -1,6 +1,13 @@
 <template>
 	<div class="layout-breadcrumb-seting">
-		<el-drawer :title="$t('message.layout.configTitle')" v-model="getThemeConfig.isDrawer" direction="rtl" destroy-on-close size="260px" @close="onDrawerClose">
+		<el-drawer
+			:title="$t('message.layout.configTitle')"
+			v-model="getThemeConfig.isDrawer"
+			direction="rtl"
+			destroy-on-close
+			size="260px"
+			@close="onDrawerClose"
+		>
 			<el-scrollbar class="layout-breadcrumb-seting-bar">
 				<!-- 全局主题 -->
 				<el-divider content-position="left">{{ $t('message.layout.oneTitle') }}</el-divider>
@@ -60,25 +67,53 @@
 				</div>
 
 				<!-- 分栏设置 -->
-				<el-divider content-position="left" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">{{ $t('message.layout.twoColumnsTitle') }}</el-divider>
+				<el-divider content-position="left" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">{{
+					$t('message.layout.twoColumnsTitle')
+				}}</el-divider>
 				<div class="layout-breadcrumb-seting-bar-flex" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoColumnsMenuBar') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-color-picker v-model="getThemeConfig.columnsMenuBar" size="default" @change="onBgColorPickerChange('columnsMenuBar')" :disabled="getThemeConfig.layout !== 'columns'">
+						<el-color-picker
+							v-model="getThemeConfig.columnsMenuBar"
+							size="default"
+							@change="onBgColorPickerChange('columnsMenuBar')"
+							:disabled="getThemeConfig.layout !== 'columns'"
+						>
 						</el-color-picker>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoColumnsMenuBarColor') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-color-picker v-model="getThemeConfig.columnsMenuBarColor" size="default" @change="onBgColorPickerChange('columnsMenuBarColor')" :disabled="getThemeConfig.layout !== 'columns'">
+						<el-color-picker
+							v-model="getThemeConfig.columnsMenuBarColor"
+							size="default"
+							@change="onBgColorPickerChange('columnsMenuBarColor')"
+							:disabled="getThemeConfig.layout !== 'columns'"
+						>
 						</el-color-picker>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt14" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoIsColumnsMenuBarColorGradual') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch v-model="getThemeConfig.isColumnsMenuBarColorGradual" size="small" @change="onColumnsMenuBarGradualChange" :disabled="getThemeConfig.layout !== 'columns'"></el-switch>
+						<el-switch
+							v-model="getThemeConfig.isColumnsMenuBarColorGradual"
+							size="small"
+							@change="onColumnsMenuBarGradualChange"
+							:disabled="getThemeConfig.layout !== 'columns'"
+						></el-switch>
+					</div>
+				</div>
+				<div class="layout-breadcrumb-seting-bar-flex mt14" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">
+					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoIsColumnsMenuHoverPreload') }}</div>
+					<div class="layout-breadcrumb-seting-bar-flex-value">
+						<el-switch
+							v-model="getThemeConfig.isColumnsMenuHoverPreload"
+							size="small"
+							@change="onColumnsMenuHoverPreloadChange"
+							:disabled="getThemeConfig.layout !== 'columns'"
+						></el-switch>
 					</div>
 				</div>
 
@@ -87,13 +122,23 @@
 				<div class="layout-breadcrumb-seting-bar-flex" :style="{ opacity: getThemeConfig.layout === 'transverse' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeIsCollapse') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch v-model="getThemeConfig.isCollapse" :disabled="getThemeConfig.layout === 'transverse'" size="small" @change="onThemeConfigChange"></el-switch>
+						<el-switch
+							v-model="getThemeConfig.isCollapse"
+							:disabled="getThemeConfig.layout === 'transverse'"
+							size="small"
+							@change="onThemeConfigChange"
+						></el-switch>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt15" :style="{ opacity: getThemeConfig.layout === 'transverse' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeIsUniqueOpened') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch v-model="getThemeConfig.isUniqueOpened" :disabled="getThemeConfig.layout === 'transverse'" size="small" @change="setLocalThemeConfig"></el-switch>
+						<el-switch
+							v-model="getThemeConfig.isUniqueOpened"
+							:disabled="getThemeConfig.layout === 'transverse'"
+							size="small"
+							@change="setLocalThemeConfig"
+						></el-switch>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
@@ -105,7 +150,13 @@
 				<div class="layout-breadcrumb-seting-bar-flex mt15" :style="{ opacity: getThemeConfig.layout !== 'classic' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeIsClassicSplitMenu') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch v-model="getThemeConfig.isClassicSplitMenu" :disabled="getThemeConfig.layout !== 'classic'" size="small" @change="onClassicSplitMenuChange"> </el-switch>
+						<el-switch
+							v-model="getThemeConfig.isClassicSplitMenu"
+							:disabled="getThemeConfig.layout !== 'classic'"
+							size="small"
+							@change="onClassicSplitMenuChange"
+						>
+						</el-switch>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
@@ -117,7 +168,16 @@
 				<div class="layout-breadcrumb-seting-bar-flex mt11">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeLockScreenTime') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-input-number v-model="getThemeConfig.lockScreenTime" controls-position="right" :min="1" :max="9999" @change="setLocalThemeConfig" size="default" style="width: 90px"> </el-input-number>
+						<el-input-number
+							v-model="getThemeConfig.lockScreenTime"
+							controls-position="right"
+							:min="1"
+							:max="9999"
+							@change="setLocalThemeConfig"
+							size="default"
+							style="width: 90px"
+						>
+						</el-input-number>
 					</div>
 				</div>
 
@@ -129,7 +189,10 @@
 						<el-switch v-model="getThemeConfig.isShowLogo" size="small" @change="onIsShowLogoChange"></el-switch>
 					</div>
 				</div>
-				<div class="layout-breadcrumb-seting-bar-flex mt15" :style="{ opacity: getThemeConfig.layout === 'classic' || getThemeConfig.layout === 'transverse' ? 0.5 : 1 }">
+				<div
+					class="layout-breadcrumb-seting-bar-flex mt15"
+					:style="{ opacity: getThemeConfig.layout === 'classic' || getThemeConfig.layout === 'transverse' ? 0.5 : 1 }"
+				>
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fourIsBreadcrumb') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
 						<el-switch
@@ -167,7 +230,12 @@
 				<div class="layout-breadcrumb-seting-bar-flex mt15" :style="{ opacity: isMobile ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fourIsSortableTagsView') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-switch v-model="getThemeConfig.isSortableTagsView" :disabled="isMobile ? true : false" size="small" @change="onSortableTagsViewChange"></el-switch>
+						<el-switch
+							v-model="getThemeConfig.isSortableTagsView"
+							:disabled="isMobile ? true : false"
+							size="small"
+							@change="onSortableTagsViewChange"
+						></el-switch>
 					</div>
 				</div>
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
@@ -351,8 +419,9 @@
 </template>
 
 <script lang="ts">
-import { nextTick, onUnmounted, onMounted, getCurrentInstance, defineComponent, computed, reactive, toRefs } from 'vue';
+import { nextTick, onUnmounted, onMounted, defineComponent, computed, reactive, toRefs } from 'vue';
 import { ElMessage } from 'element-plus';
+import { useI18n } from 'vue-i18n';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { getLightColor, getDarkColor } from '/@/utils/theme';
@@ -361,11 +430,12 @@ import { Local } from '/@/utils/storage';
 import Watermark from '/@/utils/wartermark';
 import commonFunction from '/@/utils/commonFunction';
 import other from '/@/utils/other';
+import mittBus from '/@/utils/mitt';
 
 export default defineComponent({
 	name: 'layoutBreadcrumbSeting',
 	setup() {
-		const { proxy } = <any>getCurrentInstance();
+		const { locale } = useI18n();
 		const storesThemeConfig = useThemeConfig();
 		const { themeConfig } = storeToRefs(storesThemeConfig);
 		const { copyText } = commonFunction();
@@ -422,6 +492,11 @@ export default defineComponent({
 				setLocalThemeConfig();
 			}, 200);
 		};
+		// 2、分栏设置 ->
+		const onColumnsMenuHoverPreloadChange = () => {
+			mittBus.emit('setHoverPreload');
+			setLocalThemeConfig();
+		};
 		// 3、界面设置 --> 菜单水平折叠
 		const onThemeConfigChange = () => {
 			setDispatchThemeConfig();
@@ -435,7 +510,7 @@ export default defineComponent({
 		const onClassicSplitMenuChange = () => {
 			getThemeConfig.value.isBreadcrumb = false;
 			setLocalThemeConfig();
-			proxy.mittBus.emit('getBreadcrumbIndexSetFilterRoutes');
+			mittBus.emit('getBreadcrumbIndexSetFilterRoutes');
 		};
 		// 4、界面显示 --> 侧边栏 Logo
 		const onIsShowLogoChange = () => {
@@ -451,12 +526,12 @@ export default defineComponent({
 		};
 		// 4、界面显示 --> 开启 TagsView 拖拽
 		const onSortableTagsViewChange = () => {
-			proxy.mittBus.emit('openOrCloseSortable');
+			mittBus.emit('openOrCloseSortable');
 			setLocalThemeConfig();
 		};
 		// 4、界面显示 --> 开启 TagsView 共用
 		const onShareTagsViewChange = () => {
-			proxy.mittBus.emit('openShareTagsView');
+			mittBus.emit('openShareTagsView');
 			setLocalThemeConfig();
 		};
 		// 4、界面显示 --> 灰色模式/色弱模式
@@ -466,7 +541,8 @@ export default defineComponent({
 			} else {
 				if (getThemeConfig.value.isInvert) getThemeConfig.value.isGrayscale = false;
 			}
-			const cssAttr = attr === 'grayscale' ? `grayscale(${getThemeConfig.value.isGrayscale ? 1 : 0})` : `invert(${getThemeConfig.value.isInvert ? '80%' : '0%'})`;
+			const cssAttr =
+				attr === 'grayscale' ? `grayscale(${getThemeConfig.value.isGrayscale ? 1 : 0})` : `invert(${getThemeConfig.value.isInvert ? '80%' : '0%'})`;
 			const appEle: any = document.body;
 			appEle.setAttribute('style', `filter: ${cssAttr}`);
 			setLocalThemeConfig();
@@ -507,7 +583,7 @@ export default defineComponent({
 			onBgColorPickerChange('columnsMenuBar');
 			onBgColorPickerChange('columnsMenuBarColor');
 		};
-		// 关闭弹窗时，初始化变量。变量用于处理 proxy.$refs.layoutScrollbarRef.update()
+		// 关闭弹窗时，初始化变量。变量用于处理 layoutScrollbarRef.value.update() 更新滚动条高度
 		const onDrawerClose = () => {
 			getThemeConfig.value.isFixedHeaderChange = false;
 			getThemeConfig.value.isShowLogoChange = false;
@@ -560,7 +636,7 @@ export default defineComponent({
 				if (!Local.get('frequency')) initLayoutChangeFun();
 				Local.set('frequency', 1);
 				// 监听窗口大小改变，非默认布局，设置成默认布局（适配移动端）
-				proxy.mittBus.on('layoutMobileResize', (res: any) => {
+				mittBus.on('layoutMobileResize', (res: any) => {
 					getThemeConfig.value.layout = res.layout;
 					getThemeConfig.value.isDrawer = false;
 					initLayoutChangeFun();
@@ -578,14 +654,14 @@ export default defineComponent({
 					// 开启水印
 					onWartermarkChange();
 					// 语言国际化
-					if (Local.get('themeConfig')) proxy.$i18n.locale = Local.get('themeConfig').globalI18n;
+					if (Local.get('themeConfig')) locale.value = Local.get('themeConfig').globalI18n;
 					// 初始化菜单样式等
 					initSetStyle();
 				}, 100);
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('layoutMobileResize', () => {});
+			mittBus.off('layoutMobileResize', () => {});
 		});
 		return {
 			openDrawer,
@@ -594,6 +670,7 @@ export default defineComponent({
 			onTopBarGradualChange,
 			onMenuBarGradualChange,
 			onColumnsMenuBarGradualChange,
+			onColumnsMenuHoverPreloadChange,
 			onThemeConfigChange,
 			onIsFixedHeaderChange,
 			onIsShowLogoChange,

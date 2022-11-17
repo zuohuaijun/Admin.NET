@@ -50,8 +50,9 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
+import { ref, toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditOrg from '/@/views/system/org/component/editOrg.vue';
 
@@ -63,7 +64,6 @@ export default defineComponent({
 	name: 'sysOrg',
 	components: { OrgTree, EditOrg },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const editOrgRef = ref();
 		const orgTreeRef = ref();
 		const state = reactive({
@@ -80,7 +80,7 @@ export default defineComponent({
 		onMounted(() => {
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', async () => {
+			mittBus.on('submitRefresh', async () => {
 				handleQuery();
 
 				// 编辑删除后更新机构数据
@@ -88,7 +88,7 @@ export default defineComponent({
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
+			mittBus.off('submitRefresh');
 		});
 		// 查询操作
 		const handleQuery = async () => {
@@ -127,7 +127,7 @@ export default defineComponent({
 				.then(async () => {
 					await getAPI(SysOrgApi).sysOrgDeletePost({ id: row.id });
 					ElMessage.success('删除成功');
-					proxy.mittBus.emit('submitRefresh');
+					mittBus.emit('submitRefresh');
 				})
 				.catch(() => {});
 		};

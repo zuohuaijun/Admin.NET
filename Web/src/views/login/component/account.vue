@@ -1,7 +1,7 @@
 <template>
 	<el-form ref="ruleFormRef" :model="ruleForm" size="large" :rules="rules" class="login-content-form">
 		<el-form-item class="login-animation1" prop="account">
-			<el-input type="text" placeholder="请输入账号" v-model="ruleForm.account" clearable autocomplete="off">
+			<el-input text placeholder="请输入账号" v-model="ruleForm.account" clearable autocomplete="off">
 				<template #prefix>
 					<el-icon>
 						<ele-User />
@@ -23,7 +23,7 @@
 		</el-form-item>
 		<el-form-item class="login-animation3" prop="captcha" v-show="captchaEnabled">
 			<el-col :span="15">
-				<el-input type="text" maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="ruleForm.code" clearable autocomplete="off" @keyup.enter="openVerify">
+				<el-input text maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="ruleForm.code" clearable autocomplete="off" @keyup.enter="openVerify">
 					<template #prefix>
 						<el-icon>
 							<ele-Position />
@@ -39,7 +39,7 @@
 			</el-col>
 		</el-form-item>
 		<el-form-item class="login-animation4">
-			<el-button type="primary" class="login-content-submit" round @click="openVerify" :loading="loading.signIn">
+			<el-button type="primary" class="login-content-submit" round v-waves @click="openVerify" :loading="loading.signIn">
 				<span>{{ $t('message.account.accountBtnText') }}</span>
 			</el-button>
 		</el-form-item>
@@ -47,7 +47,7 @@
 	</el-form>
 
 	<div class="dialog-header">
-		<el-dialog v-model="verifyVisible" width="300px" center :show-close="false">
+		<el-dialog v-model="verifyVisible" width="290px" center :show-close="false" :modal-append-to-body="false">
 			<DragVerifyImgRotate
 				ref="dragRef"
 				:imgsrc="verifyImg"
@@ -209,6 +209,12 @@ export default defineComponent({
 	:deep(.el-dialog) {
 		.el-dialog__header {
 			display: none;
+		}
+		.el-dialog__wrapper {
+			position: absolute !important;
+		}
+		.v-modal {
+			position: absolute !important;
 		}
 	}
 }

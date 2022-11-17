@@ -92,12 +92,13 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, getCurrentInstance, ref } from 'vue';
-import { UpdateDbTableInput } from '/@/api-services/models';
+import { reactive, toRefs, defineComponent, ref } from 'vue';
 import { ElMessage } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
+import { UpdateDbTableInput } from '/@/api-services/models';
 import { dataTypeList, EditRecordRow, yesNoSelect } from '../database';
 
 export default defineComponent({
@@ -105,7 +106,6 @@ export default defineComponent({
 	components: {},
 	setup() {
 		var colIndex = 0;
-		const { proxy } = getCurrentInstance() as any;
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
@@ -121,7 +121,7 @@ export default defineComponent({
 
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit('addTableSubmitted', state.ruleForm.tableName);
+			mittBus.emit('addTableSubmitted', state.ruleForm.tableName);
 			state.tableData = [];
 			state.isShowDialog = false;
 		};

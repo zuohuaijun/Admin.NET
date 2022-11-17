@@ -43,8 +43,9 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 import EditPos from '/@/views/system/pos/component/editPos.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -55,7 +56,6 @@ export default defineComponent({
 	name: 'sysPos',
 	components: { EditPos },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const editPosRef = ref();
 		const state = reactive({
 			loading: false,
@@ -69,12 +69,12 @@ export default defineComponent({
 		onMounted(async () => {
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', () => {
+			mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
+			mittBus.off('submitRefresh');
 		});
 
 		// 查询操作

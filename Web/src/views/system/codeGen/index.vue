@@ -49,8 +49,9 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 import EditCodeGenDialog from './component/editCodeGenDialog.vue';
 import CodeConfigDialog from './component/genConfigDialog.vue';
 
@@ -62,7 +63,6 @@ export default defineComponent({
 	name: 'sysCodeGen',
 	components: { EditCodeGenDialog, CodeConfigDialog },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const EditCodeGenRef = ref();
 		const CodeConfigRef = ref();
 		const state = reactive({
@@ -88,17 +88,17 @@ export default defineComponent({
 		onMounted(async () => {
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', () => {
+			mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
-			proxy.mittBus.on('submitRefreshFk', () => {
+			mittBus.on('submitRefreshFk', () => {
 				state.tableData;
 			});
 		});
 
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
-			proxy.mittBus.off('submitRefreshFk');
+			mittBus.off('submitRefresh', () => {});
+			mittBus.off('submitRefreshFk', () => {});
 		});
 
 		const openConfigDialog = (row: any) => {

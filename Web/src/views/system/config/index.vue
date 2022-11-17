@@ -56,8 +56,9 @@
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, getCurrentInstance } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import mittBus from '/@/utils/mitt';
 import EditConfig from '/@/views/system/config/component/editConfig.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -68,7 +69,6 @@ export default defineComponent({
 	name: 'sysConfig',
 	components: { EditConfig },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const editConfigRef = ref();
 		const state = reactive({
 			loading: false,
@@ -87,12 +87,12 @@ export default defineComponent({
 		onMounted(async () => {
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', () => {
+			mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
+			mittBus.off('submitRefresh');
 		});
 		// 查询操作
 		const handleQuery = async () => {

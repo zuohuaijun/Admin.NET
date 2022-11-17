@@ -55,7 +55,7 @@
 						</el-table-column>
 						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
 						<el-table-column prop="createTime" label="修改时间" width="160" show-overflow-tooltip />
-						<el-table-column prop="remark" label="备注" width="200" show-overflow-tooltip />
+						<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 						<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditUser(scope.row)" v-auth="'sysUser:update'"> 编辑 </el-button>
@@ -90,10 +90,11 @@
 </template>
 
 <script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent, getCurrentInstance, onUnmounted } from 'vue';
+import { ref, toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { formatDate } from '/@/utils/formatTime';
 import { auth } from '/@/utils/authFunction';
+import mittBus from '/@/utils/mitt';
 import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditUser from '/@/views/system/user/component/editUser.vue';
 
@@ -105,7 +106,6 @@ export default defineComponent({
 	name: 'sysUser',
 	components: { OrgTree, EditUser },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const orgTreeRef = ref();
 		const editUserRef = ref();
 		const state = reactive({
@@ -129,12 +129,12 @@ export default defineComponent({
 			loadOrgData();
 			handleQuery();
 
-			proxy.mittBus.on('submitRefresh', () => {
+			mittBus.on('submitRefresh', () => {
 				handleQuery();
 			});
 		});
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
+			mittBus.off('submitRefresh');
 		});
 		// 查询机构数据
 		const loadOrgData = async () => {

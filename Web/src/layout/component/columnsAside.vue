@@ -21,22 +21,14 @@
 					<div :class="themeConfig.columnsAsideLayout" v-if="!v.meta.isLink || (v.meta.isLink && v.meta.isIframe)">
 						<SvgIcon :name="v.meta.icon" />
 						<div class="columns-vertical-title font12">
-							{{
-								$t(v.meta.title) && $t(v.meta.title).length >= 4
-									? $t(v.meta.title).substr(0, themeConfig.columnsAsideLayout === 'columns-vertical' ? 4 : 3)
-									: $t(v.meta.title)
-							}}
+							{{ $t(v.meta.title) && $t(v.meta.title).length >= 4 ? $t(v.meta.title).substr(0, themeConfig.columnsAsideLayout === 'columns-vertical' ? 4 : 3) : $t(v.meta.title) }}
 						</div>
 					</div>
 					<div :class="themeConfig.columnsAsideLayout" v-else>
 						<a :href="v.meta.isLink" target="_blank">
 							<SvgIcon :name="v.meta.icon" />
 							<div class="columns-vertical-title font12">
-								{{
-									$t(v.meta.title) && $t(v.meta.title).length >= 4
-										? $t(v.meta.title).substr(0, themeConfig.columnsAsideLayout === 'columns-vertical' ? 4 : 3)
-										: $t(v.meta.title)
-								}}
+								{{ $t(v.meta.title) && $t(v.meta.title).length >= 4 ? $t(v.meta.title).substr(0, themeConfig.columnsAsideLayout === 'columns-vertical' ? 4 : 3) : $t(v.meta.title) }}
 							</div>
 						</a>
 					</div>
@@ -48,12 +40,13 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, ref, onMounted, nextTick, getCurrentInstance, watch, onUnmounted, defineComponent } from 'vue';
+import { reactive, toRefs, ref, onMounted, nextTick, watch, onUnmounted, defineComponent } from 'vue';
 import { useRoute, useRouter, onBeforeRouteUpdate, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import pinia from '/@/stores/index';
 import { useRoutesList } from '/@/stores/routesList';
 import { useThemeConfig } from '/@/stores/themeConfig';
+import mittBus from '/@/utils/mitt';
 
 import logoMini from '/@/assets/logo-mini.svg';
 
@@ -73,7 +66,6 @@ export default defineComponent({
 	setup() {
 		const columnsAsideOffsetTopRefs: any = ref([]);
 		const columnsAsideActiveRef = ref();
-		const { proxy } = <any>getCurrentInstance();
 		const stores = useRoutesList();
 		const storesThemeConfig = useThemeConfig();
 		const { routesList, isColumnsMenuHover, isColumnsNavHover } = storeToRefs(stores);
@@ -103,11 +95,12 @@ export default defineComponent({
 		};
 		// 鼠标移入时，显示当前的子级菜单
 		const onColumnsAsideMenuMouseenter = (v: RouteRecordRaw, k: number) => {
+			if (!themeConfig.value.isColumnsMenuHoverPreload) return false;
 			let { path } = v;
 			state.liOldPath = path;
 			state.liOldIndex = k;
 			state.liHoverIndex = k;
-			// proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(path));
+			mittBus.emit('setSendColumnsChildren', setSendChildren(path));
 			stores.setColumnsMenuHover(false);
 			stores.setColumnsNavHover(true);
 		};
@@ -116,7 +109,7 @@ export default defineComponent({
 			await stores.setColumnsNavHover(false);
 			// 添加延时器，防止拿到的 store.state.routesList 值不是最新的
 			setTimeout(() => {
-				if (!isColumnsMenuHover && !isColumnsNavHover) proxy.mittBus.emit('restoreDefault');
+				if (!isColumnsMenuHover && !isColumnsNavHover) mittBus.emit('restoreDefault');
 			}, 100);
 		};
 		// 设置高亮动态位置
@@ -131,7 +124,7 @@ export default defineComponent({
 			const resData: any = setSendChildren(route.path);
 			if (Object.keys(resData).length <= 0) return false;
 			onColumnsAsideDown(resData.item[0].k);
-			proxy.mittBus.emit('setSendColumnsChildren', resData);
+			mittBus.emit('setSendColumnsChildren', resData);
 		};
 		// 传送当前子级数据到菜单中
 		const setSendChildren = (path: string) => {
@@ -176,11 +169,11 @@ export default defineComponent({
 				val.themeConfig.themeConfig.columnsAsideStyle === 'columnsRound' ? (state.difference = 3) : (state.difference = 0);
 				if (!val.routesList.isColumnsMenuHover && !val.routesList.isColumnsNavHover) {
 					state.liHoverIndex = null;
-					// proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(route.path));
+					mittBus.emit('setSendColumnsChildren', setSendChildren(route.path));
 				} else {
 					state.liHoverIndex = state.liOldIndex;
 					if (!state.liOldPath) return false;
-					// proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(state.liOldPath));
+					mittBus.emit('setSendColumnsChildren', setSendChildren(state.liOldPath));
 				}
 			},
 			{
@@ -191,19 +184,19 @@ export default defineComponent({
 		onMounted(() => {
 			setFilterRoutes();
 			// 销毁变量，防止鼠标再次移入时，保留了上次的记录
-			proxy.mittBus.on('restoreDefault', () => {
+			mittBus.on('restoreDefault', () => {
 				state.liOldIndex = null;
 				state.liOldPath = null;
 			});
 		});
 		// 页面卸载时
 		onUnmounted(() => {
-			proxy.mittBus.off('restoreDefault', () => {});
+			mittBus.off('restoreDefault', () => {});
 		});
 		// 路由更新时
 		onBeforeRouteUpdate((to) => {
 			setColumnsMenuHighlight(to.path);
-			proxy.mittBus.emit('setSendColumnsChildren', setSendChildren(to.path));
+			mittBus.emit('setSendColumnsChildren', setSendChildren(to.path));
 		});
 		return {
 			logoMini,
@@ -222,20 +215,33 @@ export default defineComponent({
 
 <style scoped lang="scss">
 .layout-columns-aside {
-	width: 80px;
+	width: 70px;
 	height: 100%;
 	background: var(--next-bg-columnsMenuBar);
 	ul {
 		position: relative;
+		.layout-columns-active {
+			color: var(--next-bg-columnsMenuBarColor) !important;
+			transition: 0.3s ease-in-out;
+		}
+		.layout-columns-hover {
+			color: var(--el-color-primary);
+			a {
+				color: var(--el-color-primary);
+			}
+		}
 		li {
 			color: var(--next-bg-columnsMenuBarColor);
 			width: 100%;
-			height: 55px;
+			height: 50px;
 			text-align: center;
 			display: flex;
 			cursor: pointer;
 			position: relative;
 			z-index: 1;
+			&:hover {
+				@extend .layout-columns-hover;
+			}
 			.columns-vertical {
 				margin: auto;
 				.columns-vertical-title {
@@ -263,23 +269,13 @@ export default defineComponent({
 				color: var(--next-bg-columnsMenuBarColor);
 			}
 		}
-		.layout-columns-active {
-			color: var(--next-bg-columnsMenuBarColor) !important;
-			transition: 0.3s ease-in-out;
-		}
-		.layout-columns-hover {
-			color: var(--el-color-primary);
-			a {
-				color: var(--el-color-primary);
-			}
-		}
 		.columns-round {
 			background: var(--el-color-primary);
 			color: var(--el-color-white);
 			position: absolute;
 			left: 50%;
 			top: 2px;
-			height: 50px;
+			height: 44px;
 			width: 65px;
 			transform: translateX(-50%);
 			z-index: 0;
@@ -296,7 +292,6 @@ export default defineComponent({
 	}
 }
 .layout-logo {
-	width: 80px;
 	height: 50px;
 	display: flex;
 	align-items: center;
@@ -304,6 +299,11 @@ export default defineComponent({
 	animation: logoAnimation 0.3s ease-in-out;
 	&-medium-img {
 		width: 35px;
+	}
+	&:hover {
+		img {
+			animation: logoAnimation 0.3s ease-in-out;
+		}
 	}
 }
 </style>

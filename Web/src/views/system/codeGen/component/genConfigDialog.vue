@@ -66,7 +66,8 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, onMounted, onUnmounted, defineComponent, getCurrentInstance, ref } from 'vue';
+import { reactive, toRefs, onMounted, onUnmounted, defineComponent, ref } from 'vue';
+import mittBus from '/@/utils/mitt';
 import fkDialog from '/@/views/system/codeGen/component/fkDialog.vue';
 import treeDialog from '/@/views/system/codeGen/component/treeDialog.vue';
 
@@ -77,7 +78,6 @@ export default defineComponent({
 	name: 'sysCodeGenConfig',
 	components: { fkDialog, treeDialog },
 	setup() {
-		const { proxy } = getCurrentInstance() as any;
 		const fkDialogRef = ref();
 		const treeDialogRef = ref();
 		const state = reactive({
@@ -106,14 +106,14 @@ export default defineComponent({
 			res = await getAPI(SysConstApi).sysConstListGet();
 			state.allConstSelector = res.data.result;
 
-			proxy.mittBus.on('submitRefreshFk', (data: any) => {
+			mittBus.on('submitRefreshFk', (data: any) => {
 				state.tableData[data.index] = data;
 			});
 		});
 
 		onUnmounted(() => {
-			proxy.mittBus.off('submitRefresh');
-			proxy.mittBus.off('submitRefreshFk');
+			mittBus.off('submitRefresh', () => {});
+			mittBus.off('submitRefreshFk', () => {});
 		});
 		// 控件类型改变
 		const effectTypeChange = (data: any, index: number) => {
@@ -180,7 +180,7 @@ export default defineComponent({
 
 		// 关闭弹窗
 		const closeDialog = () => {
-			proxy.mittBus.emit('submitRefresh');
+			mittBus.emit('submitRefresh');
 			state.isShowDialog = false;
 		};
 
