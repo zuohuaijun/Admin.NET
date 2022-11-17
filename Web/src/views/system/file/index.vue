@@ -75,7 +75,13 @@
 			/>
 		</el-card>
 
-		<el-dialog title="上传文件" v-model="dialogVisible" :lock-scroll="false" draggable width="400px">
+		<el-dialog v-model="dialogVisible" :lock-scroll="false" draggable width="400px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-UploadFilled /> </el-icon>
+					<span> 上传文件 </span>
+				</div>
+			</template>
 			<div>
 				<el-upload ref="uploadRef" drag :auto-upload="false" :limit="1" :file-list="fileList" action="" :on-change="handleChange" accept=".jpg,.png,.bmp,.gif,.txt,.pdf,.xlsx,.docx">
 					<el-icon class="el-icon--upload">

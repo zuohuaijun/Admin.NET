@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-onlineUser-container">
-		<el-drawer v-model="state.isVisible" title="在线用户列表" size="45%">
+		<el-drawer v-model="state.isVisible" title="在线用户列表" size="40%">
 			<el-card shadow="hover" :body-style="{ paddingBottom: '0' }" style="margin: 8px">
 				<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 					<el-form-item label="账号名称" prop="userName">

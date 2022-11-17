@@ -1,6 +1,12 @@
 <template>
 	<div class="sys-grantMenu-container">
-		<el-dialog v-model="isShowDialog" title="授权租户菜单" draggable width="769px">
+		<el-dialog v-model="isShowDialog" draggable width="769px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span> 授权租户菜单 </span>
+				</div>
+			</template>
 			<el-form :model="ruleForm" size="default">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24">

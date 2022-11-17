@@ -1,6 +1,12 @@
 <template>
 	<div class="sys-dbColumn-container">
-		<el-dialog v-model="isShowDialog" title="增加列" draggable :close-on-click-modal="false" width="600px">
+		<el-dialog v-model="isShowDialog" draggable :close-on-click-modal="false" width="600px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span> 增加列 </span>
+				</div>
+			</template>
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="60px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">

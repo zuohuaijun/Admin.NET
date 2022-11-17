@@ -112,7 +112,13 @@
 			</el-col>
 		</el-row>
 
-		<el-dialog title="电子签名" v-model="signDialogVisible" draggable width="600px">
+		<el-dialog v-model="signDialogVisible" draggable width="600px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-EditPen /> </el-icon>
+					<span> 电子签名 </span>
+				</div>
+			</template>
 			<div style="border: 1px dashed gray; width: 100%; height: 250px">
 				<VueSignaturePad ref="signaturePadRef" :options="signOptions" style="background-color: #fff" />
 			</div>

@@ -1,6 +1,12 @@
 <template>
 	<div class="sys-user-container">
-		<el-dialog v-model="isShowDialog" :title="title" draggable :close-on-click-modal="false" width="769px">
+		<el-dialog v-model="isShowDialog" draggable :close-on-click-modal="false" width="769px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span>{{ title }}</span>
+				</div>
+			</template>
 			<el-tabs v-loading="loading">
 				<el-tab-pane label="基础信息">
 					<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">

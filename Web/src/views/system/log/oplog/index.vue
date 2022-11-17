@@ -46,7 +46,13 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<el-dialog v-model="dialogVisible" title="日志详情" draggable width="769px">
+		<el-dialog v-model="dialogVisible" draggable width="769px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Document /> </el-icon>
+					<span> 日志详情 </span>
+				</div>
+			</template>
 			<pre>{{ content }}</pre>
 			<template #footer>
 				<span class="dialog-footer">

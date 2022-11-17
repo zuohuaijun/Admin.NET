@@ -1,6 +1,12 @@
 <template>
 	<div class="sys-grantData-container">
-		<el-dialog v-model="isShowDialog" title="授权数据范围" draggable width="450px">
+		<el-dialog v-model="isShowDialog" draggable width="450px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span> 授权数据范围 </span>
+				</div>
+			</template>
 			<el-form :model="ruleForm" size="default" label-position="top">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24" class="mb20">

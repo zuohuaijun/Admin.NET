@@ -1,6 +1,12 @@
 <template>
 	<div class="sys-dbTable-container">
-		<el-dialog v-model="isShowDialog" title="增加表" draggable :close-on-click-modal="false" width="1400px">
+		<el-dialog v-model="isShowDialog" draggable :close-on-click-modal="false" width="1400px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span> 增加表 </span>
+				</div>
+			</template>
 			<el-divider content-position="left">数据表信息</el-divider>
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="80px">
 				<el-row :gutter="35">

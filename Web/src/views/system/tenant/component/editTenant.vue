@@ -1,6 +1,12 @@
 <template>
 	<div class="sys-tenant-container">
-		<el-dialog v-model="isShowDialog" :title="title" draggable :close-on-click-modal="false" width="769px">
+		<el-dialog v-model="isShowDialog" draggable :close-on-click-modal="false" width="769px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span> {{ title }} </span>
+				</div>
+			</template>
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
