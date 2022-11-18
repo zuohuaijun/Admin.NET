@@ -20,8 +20,8 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/@Model.ClassName/page")]
-    public async Task<dynamic> Page(@(@Model.ClassName)Input input)
+    [HttpGet("/@Model.ClassName/page")]
+    public async Task<dynamic> Page([FromQuery] @(@Model.ClassName)Input input)
     {
         var query= _rep.Context.Queryable<@(@Model.ClassName)>()
 @if(Model.IsJoinTable){
