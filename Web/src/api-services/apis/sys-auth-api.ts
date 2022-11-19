@@ -30,42 +30,6 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @summary 是否启用验证码
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        captchaFlagGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/captchaFlag`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary 生成图片验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -228,6 +192,42 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 是否启用二次验证
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        secondVerFlagGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/secondVerFlag`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Swagger登录检查
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -359,19 +359,6 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary 是否启用验证码
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async captchaFlagGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
-            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).captchaFlagGet(options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
          * @summary 生成图片验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -419,6 +406,19 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
          */
         async refreshTokenPost(accessToken: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
             const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).refreshTokenPost(accessToken, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 是否启用二次验证
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async secondVerFlagGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).secondVerFlagGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -476,15 +476,6 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @summary 是否启用验证码
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async captchaFlagGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
-            return SysAuthApiFp(configuration).captchaFlagGet(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary 生成图片验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -520,6 +511,15 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
          */
         async refreshTokenPost(accessToken: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
             return SysAuthApiFp(configuration).refreshTokenPost(accessToken, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 是否启用二次验证
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async secondVerFlagGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
+            return SysAuthApiFp(configuration).secondVerFlagGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -562,16 +562,6 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
 export class SysAuthApi extends BaseAPI {
     /**
      * 
-     * @summary 是否启用验证码
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysAuthApi
-     */
-    public async captchaFlagGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
-        return SysAuthApiFp(this.configuration).captchaFlagGet(options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
      * @summary 生成图片验证码
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -611,6 +601,16 @@ export class SysAuthApi extends BaseAPI {
      */
     public async refreshTokenPost(accessToken: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
         return SysAuthApiFp(this.configuration).refreshTokenPost(accessToken, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 是否启用二次验证
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysAuthApi
+     */
+    public async secondVerFlagGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
+        return SysAuthApiFp(this.configuration).secondVerFlagGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

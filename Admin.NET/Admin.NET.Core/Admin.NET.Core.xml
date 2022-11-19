@@ -192,9 +192,9 @@
             默认密码
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CommonConst.SysCaptcha">
+        <member name="F:Admin.NET.Core.CommonConst.SysSecondVer">
             <summary>
-            验证码开关
+            登录二次验证
             </summary>
         </member>
         <member name="F:Admin.NET.Core.CommonConst.SysOpLog">
@@ -3931,9 +3931,9 @@
             退出系统
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysAuthService.GetCaptchaFlag">
+        <member name="M:Admin.NET.Core.Service.SysAuthService.GetSecondVerFlag">
             <summary>
-            是否启用验证码
+            是否启用二次验证
             </summary>
             <returns></returns>
         </member>

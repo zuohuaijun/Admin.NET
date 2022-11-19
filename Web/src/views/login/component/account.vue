@@ -21,9 +21,9 @@
 				</template>
 			</el-input>
 		</el-form-item>
-		<el-form-item class="login-animation3" prop="captcha" v-show="captchaEnabled">
+		<el-form-item class="login-animation3" prop="captcha">
 			<el-col :span="15">
-				<el-input text maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="ruleForm.code" clearable autocomplete="off" @keyup.enter="openVerify">
+				<el-input text maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="ruleForm.code" clearable autocomplete="off">
 					<template #prefix>
 						<el-icon>
 							<ele-Position />
@@ -39,7 +39,7 @@
 			</el-col>
 		</el-form-item>
 		<el-form-item class="login-animation4">
-			<el-button type="primary" class="login-content-submit" round v-waves @click="openVerify" :loading="loading.signIn">
+			<el-button type="primary" class="login-content-submit" round v-waves @click="secondVerEnabled ? openRotateVerify() : onSignIn()" :loading="loading.signIn">
 				<span>{{ $t('message.account.accountBtnText') }}</span>
 			</el-button>
 		</el-form-item>
@@ -47,16 +47,16 @@
 	</el-form>
 
 	<div class="dialog-header">
-		<el-dialog v-model="verifyVisible" width="290px" center :show-close="false" :modal-append-to-body="false">
+		<el-dialog v-model="rotateVerifyVisible" width="290px" center :show-close="false" :modal-append-to-body="false">
 			<DragVerifyImgRotate
 				ref="dragRef"
-				:imgsrc="verifyImg"
-				v-model:isPassing="isPass"
+				:imgsrc="rotateVerifyImg"
+				v-model:isPassing="isPassRotate"
 				text="请按住滑块拖动"
 				successText="验证通过"
 				handlerIcon="fa fa-angle-double-right"
 				successIcon="fa fa-hand-peace-o"
-				@passcallback="passVerify"
+				@passcallback="passRotateVerify"
 			/>
 		</el-dialog>
 	</div>
@@ -105,17 +105,17 @@ export default defineComponent({
 			loading: {
 				signIn: false,
 			},
-			verifyVisible: false,
-			isPass: false,
-			verifyImg: verifyImg,
 			captchaImage: '',
-			captchaEnabled: true,
+			secondVerEnabled: true,
+			rotateVerifyVisible: false,
+			rotateVerifyImg: verifyImg,
+			isPassRotate: false,
 		});
 		onMounted(async () => {
-			// 是否开启验证码验证
-			var res1 = await getAPI(SysAuthApi).captchaFlagGet();
-			state.captchaEnabled = res1.data.result ?? true;
-			if (!state.captchaEnabled) return;
+			// 是否开启二次验证
+			var res1 = await getAPI(SysAuthApi).secondVerFlagGet();
+			state.secondVerEnabled = res1.data.result ?? true;
+
 			getCaptcha();
 		});
 		// 获取验证码
@@ -131,26 +131,28 @@ export default defineComponent({
 		});
 		// 登录
 		const onSignIn = async () => {
-			// 先清空Token缓存
-			clearTokens();
+			ruleFormRef.value.validate(async (valid: boolean) => {
+				if (!valid) return false;
 
-			const [err, res] = await feature(getAPI(SysAuthApi).loginPost(state.ruleForm));
-			if (err) {
-				getCaptcha(); // 重新获取验证码
-				return;
-			}
-			if (res?.data.result?.accessToken == undefined) {
-				getCaptcha(); // 重新获取验证码
-				ElMessage.error('登录失败，请检查账号！');
-				return;
-			}
+				clearTokens(); // 先清空Token缓存
 
-			state.loading.signIn = true;
-			Session.set('token', res.data.result?.accessToken); // 缓存token
-			// 添加完动态路由再进行router跳转，否则可能报错 No match found for location with path "/"
-			await initBackEndControlRoutes();
-			// 再执行 signInSuccess
-			signInSuccess();
+				const [err, res] = await feature(getAPI(SysAuthApi).loginPost(state.ruleForm));
+				if (err) {
+					getCaptcha(); // 重新获取验证码
+					return;
+				}
+				if (res?.data.result?.accessToken == undefined) {
+					getCaptcha(); // 重新获取验证码
+					ElMessage.error('登录失败，请检查账号！');
+					return;
+				}
+
+				state.loading.signIn = true;
+				Session.set('token', res.data.result?.accessToken); // 缓存token
+				// 添加完动态路由再进行router跳转，否则可能报错 No match found for location with path "/"
+				await initBackEndControlRoutes();
+				signInSuccess(); // 再执行 signInSuccess
+			});
 		};
 		// 登录成功后的跳转
 		const signInSuccess = () => {
@@ -173,30 +175,23 @@ export default defineComponent({
 			NextLoading.start();
 		};
 		// 打开旋转验证
-		const openVerify = () => {
-			ruleFormRef.value.validate((valid: boolean) => {
-				if (!valid) return false;
-
-				if (!state.captchaEnabled) {
-					passVerify();
-				} else {
-					state.verifyVisible = true;
-					state.isPass = false;
-					dragRef.value?.reset();
-				}
-			});
+		const openRotateVerify = () => {
+			state.rotateVerifyVisible = true;
+			state.isPassRotate = false;
+			dragRef.value?.reset();
 		};
 		// 通过旋转验证
-		const passVerify = () => {
-			state.verifyVisible = false;
-			state.isPass = true;
+		const passRotateVerify = () => {
+			state.rotateVerifyVisible = false;
+			state.isPassRotate = true;
 			onSignIn();
 		};
 		return {
 			ruleFormRef,
 			dragRef,
-			openVerify,
-			passVerify,
+			onSignIn,
+			openRotateVerify,
+			passRotateVerify,
 			getCaptcha,
 			...toRefs(state),
 		};

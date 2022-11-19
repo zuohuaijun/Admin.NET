@@ -43,7 +43,7 @@
 						</el-table-column>
 						<el-table-column label="性别" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
-								<el-tag v-if="scope.row.sex === 1"> 男 </el-tag>
+								<el-tag type="success" v-if="scope.row.sex === 1"> 男 </el-tag>
 								<el-tag type="danger" v-else> 女 </el-tag>
 							</template>
 						</el-table-column>

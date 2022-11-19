@@ -17,9 +17,9 @@ public class CommonConst
     public const string SysPassword = "sys_password";
 
     /// <summary>
-    /// 验证码开关
+    /// 登录二次验证
     /// </summary>
-    public const string SysCaptcha = "sys_captcha";
+    public const string SysSecondVer = "sys_second_ver";
 
     /// <summary>
     /// 开启操作日志

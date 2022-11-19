@@ -59,8 +59,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         //var host = _httpContextAccessor.HttpContext.Request.Host;
 
         // 判断验证码
-        var captchaEnabled = await GetCaptchaFlag();
-        if (captchaEnabled && !_captcha.Validate(input.CodeId.ToString(), input.Code))
+        if (!_captcha.Validate(input.CodeId.ToString(), input.Code))
             throw Oops.Oh(ErrorCodeEnum.D0009);
 
         var encryptPasswod = MD5Encryption.Encrypt(input.Password);
@@ -189,15 +188,15 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 是否启用验证码
+    /// 是否启用二次验证
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/captchaFlag")]
+    [HttpGet("/secondVerFlag")]
     [AllowAnonymous]
     [SuppressMonitor]
-    public async Task<bool> GetCaptchaFlag()
+    public async Task<bool> GetSecondVerFlag()
     {
-        return await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha);
+        return await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSecondVer);
     }
 
     /// <summary>

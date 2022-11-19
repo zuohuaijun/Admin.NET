@@ -19,7 +19,7 @@ public class SysConfigSeedData : ISqlSugarEntitySeedData<SysConfig>
             new SysConfig{ Id=252885263003802, Name="Token过期时间", Code="sys_token_expire", Value="10080", SysFlag=YesNoEnum.Y, Remark="Token过期时间", Order=3, GroupCode="Default", CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysConfig{ Id=252885263003803, Name="操作日志", Code="sys_oplog", Value="True", SysFlag=YesNoEnum.Y, Remark="开启操作日志", Order=4, GroupCode="Default", CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysConfig{ Id=252885263003804, Name="单点登录", Code="sys_single_login", Value="True", SysFlag=YesNoEnum.Y, Remark="开启单点登录", Order=5, GroupCode="Default", CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysConfig{ Id=252885263003805, Name="验证码", Code="sys_captcha", Value="True", SysFlag=YesNoEnum.Y, Remark="开启验证码", Order=6, GroupCode="Default", CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysConfig{ Id=252885263003805, Name="登录二次验证", Code="sys_second_ver", Value="True", SysFlag=YesNoEnum.Y, Remark="登录二次验证", Order=6, GroupCode="Default", CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
         };
     }
 }
