@@ -36,8 +36,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="所属分类" prop="groupCode">
-							<el-input v-model="ruleForm.groupCode" placeholder="所属分类" clearable :disabled="ruleForm.sysFlag == 1" />
+						<el-form-item label="分组编码" prop="groupCode">
+							<el-input v-model="ruleForm.groupCode" placeholder="分组编码" clearable :disabled="ruleForm.sysFlag == 1" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">

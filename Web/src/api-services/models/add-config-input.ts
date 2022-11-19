@@ -79,7 +79,7 @@ export interface AddConfigInput {
      */
     sysFlag?: YesNoEnum;
     /**
-     * 常量所属分类的编码
+     * 分组编码
      * @type {string}
      * @memberof AddConfigInput
      */

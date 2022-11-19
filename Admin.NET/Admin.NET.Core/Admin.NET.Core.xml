@@ -509,7 +509,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysConfig.GroupCode">
             <summary>
-            常量所属分类的编码
+            分组编码
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysConfig.Order">
@@ -4591,6 +4591,11 @@
         <member name="P:Admin.NET.Core.Service.PageConfigInput.Code">
             <summary>
             编码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageConfigInput.GroupCode">
+            <summary>
+            分组编码
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysConfigService">

@@ -8,6 +8,9 @@
 				<el-form-item label="配置编码" prop="code">
 					<el-input placeholder="配置编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
 				</el-form-item>
+				<el-form-item label="分组编码" prop="groupCode">
+					<el-input placeholder="分组编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
+				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
 					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysConfig:page'"> 查询 </el-button>
@@ -28,7 +31,7 @@
 						<el-tag type="danger" v-else> 否 </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="groupCode" label="所属分类" show-overflow-tooltip />
+				<el-table-column prop="groupCode" label="分组编码" show-overflow-tooltip />
 				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
@@ -76,6 +79,7 @@ export default defineComponent({
 			queryParams: {
 				name: undefined,
 				code: undefined,
+				groupCode: undefined,
 			},
 			tableParams: {
 				page: 1,
@@ -97,7 +101,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysConfigApi).sysConfigPageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysConfigApi).sysConfigPageGet(state.queryParams.name, state.queryParams.code, state.queryParams.groupCode, state.tableParams.page, state.tableParams.pageSize);
 			state.configData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;

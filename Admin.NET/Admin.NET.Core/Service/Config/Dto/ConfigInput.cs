@@ -15,6 +15,11 @@ public class PageConfigInput : BasePageInput
     /// 编码
     /// </summary>
     public string Code { get; set; }
+
+    /// <summary>
+    /// 分组编码
+    /// </summary>
+    public string GroupCode { get; set; }
 }
 
 [NotTable]

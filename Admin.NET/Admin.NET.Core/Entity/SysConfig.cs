@@ -34,9 +34,9 @@ public class SysConfig : EntityBase
     public YesNoEnum SysFlag { get; set; }
 
     /// <summary>
-    /// 常量所属分类的编码
+    /// 分组编码
     /// </summary>
-    [SugarColumn(ColumnDescription = "常量所属分类的编码", Length = 64)]
+    [SugarColumn(ColumnDescription = "分组编码", Length = 64)]
     [MaxLength(64)]
     public string GroupCode { get; set; }
 

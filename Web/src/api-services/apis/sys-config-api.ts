@@ -196,6 +196,7 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
          * @summary 获取参数配置分页列表
          * @param {string} [name] 名称
          * @param {string} [code] 编码
+         * @param {string} [groupCode] 分组编码
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -204,7 +205,7 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysConfigPageGet: async (name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        sysConfigPageGet: async (name?: string, code?: string, groupCode?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysConfig/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -224,6 +225,10 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
 
             if (code !== undefined) {
                 localVarQueryParameter['Code'] = code;
+            }
+
+            if (groupCode !== undefined) {
+                localVarQueryParameter['GroupCode'] = groupCode;
             }
 
             if (page !== undefined) {
@@ -372,6 +377,7 @@ export const SysConfigApiFp = function(configuration?: Configuration) {
          * @summary 获取参数配置分页列表
          * @param {string} [name] 名称
          * @param {string} [code] 编码
+         * @param {string} [groupCode] 分组编码
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -380,8 +386,8 @@ export const SysConfigApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysConfigPageGet(name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>>> {
-            const localVarAxiosArgs = await SysConfigApiAxiosParamCreator(configuration).sysConfigPageGet(name, code, page, pageSize, field, order, descStr, options);
+        async sysConfigPageGet(name?: string, code?: string, groupCode?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>>> {
+            const localVarAxiosArgs = await SysConfigApiAxiosParamCreator(configuration).sysConfigPageGet(name, code, groupCode, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -454,6 +460,7 @@ export const SysConfigApiFactory = function (configuration?: Configuration, base
          * @summary 获取参数配置分页列表
          * @param {string} [name] 名称
          * @param {string} [code] 编码
+         * @param {string} [groupCode] 分组编码
          * @param {number} [page] 当前页码
          * @param {number} [pageSize] 页码容量
          * @param {string} [field] 排序字段
@@ -462,8 +469,8 @@ export const SysConfigApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysConfigPageGet(name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>> {
-            return SysConfigApiFp(configuration).sysConfigPageGet(name, code, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async sysConfigPageGet(name?: string, code?: string, groupCode?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>> {
+            return SysConfigApiFp(configuration).sysConfigPageGet(name, code, groupCode, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -533,6 +540,7 @@ export class SysConfigApi extends BaseAPI {
      * @summary 获取参数配置分页列表
      * @param {string} [name] 名称
      * @param {string} [code] 编码
+     * @param {string} [groupCode] 分组编码
      * @param {number} [page] 当前页码
      * @param {number} [pageSize] 页码容量
      * @param {string} [field] 排序字段
@@ -542,8 +550,8 @@ export class SysConfigApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysConfigApi
      */
-    public async sysConfigPageGet(name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>> {
-        return SysConfigApiFp(this.configuration).sysConfigPageGet(name, code, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async sysConfigPageGet(name?: string, code?: string, groupCode?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>> {
+        return SysConfigApiFp(this.configuration).sysConfigPageGet(name, code, groupCode, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
