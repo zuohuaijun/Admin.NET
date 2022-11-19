@@ -229,17 +229,12 @@
         </member>
         <member name="F:Admin.NET.Core.SqlSugarConst.ConfigId">
             <summary>
-            默认数据库标识
+            默认数据库标识（默认租户）
             </summary>
         </member>
         <member name="F:Admin.NET.Core.SqlSugarConst.PrimaryKey">
             <summary>
             默认表主键
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.SqlSugarConst.TenantId">
-            <summary>
-            默认租户Id
             </summary>
         </member>
         <member name="T:Admin.NET.Core.EntityBaseId">
@@ -6859,13 +6854,6 @@
             </summary>
             <param name="db"></param>
             <param name="config"></param>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.InitTenantConnection(SqlSugar.ITenant,System.Int64)">
-            <summary>
-            初始化租户库连接
-            </summary>
-            <param name="iTenant"></param>
-            <param name="tenantId"></param>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.InitTenantDatabase(SqlSugar.ITenant,Admin.NET.Core.DbConnectionConfig)">
             <summary>

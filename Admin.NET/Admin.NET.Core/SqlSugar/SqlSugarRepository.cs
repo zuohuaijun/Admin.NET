@@ -16,7 +16,21 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         if (typeof(T).IsDefined(typeof(TenantBusinessAttribute), false))
         {
             var tenantId = App.GetRequiredService<UserManager>().TenantId; // 根据租户Id切库
-            base.Context = SqlSugarSetup.InitTenantConnection(iTenant, tenantId);
+
+            if (!iTenant.IsAnyConnection(tenantId.ToString()))
+            {
+                var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant)
+                    .FirstOrDefault(u => u.Id == tenantId);
+                iTenant.AddConnection(new ConnectionConfig()
+                {
+                    ConfigId = tenant.Id,
+                    DbType = tenant.DbType,
+                    ConnectionString = tenant.Connection,
+                    IsAutoCloseConnection = true
+                });
+                SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()));
+            }
+            base.Context = iTenant.GetConnectionScope(tenantId.ToString());
         }
         else
         {

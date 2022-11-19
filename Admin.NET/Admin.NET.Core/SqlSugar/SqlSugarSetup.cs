@@ -39,6 +39,9 @@ public static class SqlSugarSetup
     /// <param name="config"></param>
     public static void SetDbConfig(DbConnectionConfig config)
     {
+        if (string.IsNullOrWhiteSpace(config.ConfigId))
+            config.ConfigId = SqlSugarConst.ConfigId;
+
         var configureExternalServices = new ConfigureExternalServices
         {
             EntityService = (type, column) => // 修改列可空-1、带?问号 2、String类型若没有Required
@@ -233,28 +236,6 @@ public static class SqlSugarSetup
     }
 
     /// <summary>
-    /// 初始化租户库连接
-    /// </summary>
-    /// <param name="iTenant"></param>
-    /// <param name="tenantId"></param>
-    public static SqlSugarScopeProvider InitTenantConnection(ITenant iTenant, long tenantId)
-    {
-        var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
-        if (!iTenant.IsAnyConnection(tenantId.ToString()))
-        {
-            iTenant.AddConnection(new ConnectionConfig()
-            {
-                ConfigId = tenantId.ToString(),
-                ConnectionString = tenant.Connection,
-                DbType = tenant.DbType,
-                IsAutoCloseConnection = true
-            });
-            SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()));
-        }
-        return iTenant.GetConnectionScope(tenantId.ToString());
-    }
-
-    /// <summary>
     /// 初始化租户业务数据库
     /// </summary>
     /// <param name="itenant"></param>
@@ -306,7 +287,7 @@ public static class SqlSugarSetup
                     (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
                     continue;
 
-                Expression<Func<EntityBaseData, bool>> dynamicExpression = u => u.IsDelete == false;
+                Expression<Func<EntityBase, bool>> dynamicExpression = u => u.IsDelete == false;
                 var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);
                 tableFilterItems.Add(tableFilterItem);
                 db.QueryFilter.Add(tableFilterItem);
@@ -337,17 +318,22 @@ public static class SqlSugarSetup
         {
             // 获取租户实体数据表
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-                && u.BaseType == typeof(EntityTenant));
+                && (u.BaseType == typeof(EntityTenant) || u.BaseType == typeof(EntityTenantId)));
             if (!entityTypes.Any()) return;
 
             var tableFilterItems = new List<TableFilterItem<object>>();
             foreach (var entityType in entityTypes)
             {
-                // 排除非当前数据库实体
-                var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-                if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
-                    (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
-                    continue;
+                // 获取库隔离租户业务实体
+                var tenantBusinessAtt = entityType.GetCustomAttribute<TenantBusinessAttribute>();
+                if (tenantBusinessAtt == null)
+                {
+                    // 排除非当前数据库实体
+                    var tenantAtt = entityType.GetCustomAttribute<TenantAttribute>();
+                    if ((tenantAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tenantAtt.configId.ToString()) ||
+                        (tenantAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                        continue;
+                }
 
                 Expression<Func<EntityTenant, bool>> dynamicExpression = u => u.TenantId == long.Parse(tenantId);
                 var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);

@@ -127,7 +127,7 @@ export default defineComponent({
 
 		// 关闭弹窗
 		const closeDialog = () => {
-			mittBus.emit('addTableSubmitted', state.ruleForm.tableName);
+			mittBus.emit('addTableSubmitted', state.ruleForm.tableName ?? '');
 			state.tableData = [];
 			state.isShowDialog = false;
 		};

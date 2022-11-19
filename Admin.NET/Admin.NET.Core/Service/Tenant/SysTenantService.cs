@@ -84,6 +84,10 @@ public class SysTenantService : IDynamicApiController, ITransient
         isExist = await _userRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.AdminName);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1301);
 
+        // ID隔离时设置与主库一致
+        if (input.TenantType == TenantTypeEnum.Id)
+            input.DbType = _tenantRep.AsSugarClient().CurrentConnectionConfig.DbType;
+
         var tenant = input.Adapt<SysTenant>();
         await _tenantRep.InsertAsync(tenant);
         await UpdateTenantCache();
@@ -196,15 +200,16 @@ public class SysTenantService : IDynamicApiController, ITransient
     [HttpPost("/sysTenant/delete")]
     public async Task DeleteTenant(DeleteTenantInput input)
     {
-        var users = await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
-        // 超级管理员所在租户为默认租户
-        if (users.Any(u => u.AccountType == AccountTypeEnum.SuperAdmin))
+        // 禁止删除默认租户
+        if (input.Id.ToString() == SqlSugarConst.ConfigId)
             throw Oops.Oh(ErrorCodeEnum.D1023);
+
         var entity = await _tenantRep.GetFirstAsync(u => u.Id == input.Id);
         await _tenantRep.DeleteAsync(entity);
         await UpdateTenantCache();
 
         // 删除与租户相关的表数据
+        var users = await _userRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
         var userIds = users.Select(u => u.Id).ToList();
         await _userRep.AsDeleteable().Where(u => userIds.Contains(u.Id)).ExecuteCommandAsync();
 
@@ -330,6 +335,20 @@ public class SysTenantService : IDynamicApiController, ITransient
         _sysCacheService.Remove(CacheConst.KeyTenant);
 
         var tenantList = await _tenantRep.GetListAsync();
+        var defautTenant = tenantList.FirstOrDefault(u => u.Id.ToString() == SqlSugarConst.ConfigId);
+        foreach (var tenant in tenantList)
+        {
+            if (tenant.Id.ToString() == SqlSugarConst.ConfigId) continue;
+
+            // Id模式隔离的租户数据库与主租户一致
+            if (tenant.TenantType == TenantTypeEnum.Id)
+            {
+                tenant.ConfigId = tenant.Id.ToString();
+                tenant.DbType = defautTenant.DbType;
+                tenant.Connection = defautTenant.Connection;
+            }
+        }
+
         _sysCacheService.Set(CacheConst.KeyTenant, tenantList);
     }
 

@@ -23,8 +23,8 @@
 				<el-table-column prop="adminName" label="管理员" width="120" show-overflow-tooltip />
 				<el-table-column prop="phone" label="电话" width="120" show-overflow-tooltip />
 				<!-- <el-table-column prop="host" label="主机" show-overflow-tooltip /> -->
-				<el-table-column prop="email" label="邮箱" show-overflow-tooltip />
-				<el-table-column prop="tenantType" label="租户类型" align="center" show-overflow-tooltip>
+				<!-- <el-table-column prop="email" label="邮箱" show-overflow-tooltip /> -->
+				<el-table-column prop="tenantType" label="租户类型" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.tenantType === 0"> ID隔离 </el-tag>
 						<el-tag type="danger" v-else> 库隔离 </el-tag>

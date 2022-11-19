@@ -19,7 +19,7 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="logData" style="width: 100%" v-loading="loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="logName" label="记录器类别名称" show-overflow-tooltip />
+				<el-table-column prop="logName" label="类别名称" show-overflow-tooltip />
 				<el-table-column prop="logLevel" label="日志级别" show-overflow-tooltip />
 				<el-table-column prop="eventId" label="事件Id" show-overflow-tooltip />
 				<el-table-column prop="message" label="日志消息" show-overflow-tooltip />
@@ -54,11 +54,6 @@
 				</div>
 			</template>
 			<pre>{{ content }}</pre>
-			<template #footer>
-				<span class="dialog-footer">
-					<el-button type="primary" @click="dialogVisible = false">确认</el-button>
-				</span>
-			</template>
 		</el-dialog>
 	</div>
 </template>

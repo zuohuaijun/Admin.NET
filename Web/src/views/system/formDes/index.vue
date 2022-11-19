@@ -13,7 +13,7 @@ export default defineComponent({
 	setup() {
 		const vFormDesignRef = ref(null);
 		const state = reactive({
-			loading: true,
+			loading: false,
 		});
 
 		return {

@@ -1,13 +1,7 @@
 <template>
 	<div class="sys-grantMenu-container">
-		<el-dialog v-model="isShowDialog" draggable width="769px">
-			<template #header>
-				<div style="color: #fff">
-					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
-					<span> 授权租户菜单 </span>
-				</div>
-			</template>
-			<el-form :model="ruleForm" size="default">
+		<el-dialog v-model="isShowDialog" title="授权租户菜单" draggable width="769px">
+			<el-form :model="ruleForm" size="default" v-loading="loading">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24">
 						<el-form-item prop="orgIdList" label="">
@@ -18,9 +12,8 @@
 								show-checkbox
 								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
 								:default-checked-keys="ownMenuData"
-								highlight-current
-								class="menu-data-tree"
 								icon="ele-Menu"
+								highlight-current
 								default-expand-all
 							/>
 						</el-form-item>
@@ -51,7 +44,7 @@ export default defineComponent({
 	setup() {
 		const treeRef = ref<InstanceType<typeof ElTree>>();
 		const state = reactive({
-			loading: true,
+			loading: false,
 			isShowDialog: false,
 			ruleForm: {
 				id: 0,
@@ -109,13 +102,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-.menu-data-tree {
-	width: 100%;
-	// border: 1px solid var(--el-border-color);
-	border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
-	padding: 5px;
-}
-
 :deep(.penultimate-node) {
 	.el-tree-node__children {
 		padding-left: 40px;
