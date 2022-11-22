@@ -1317,19 +1317,9 @@
             用户Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysTenant.SysUser">
-            <summary>
-            用户
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.SysTenant.OrgId">
             <summary>
             机构Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTenant.SysOrg">
-            <summary>
-            机构
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysTenant.Host">
@@ -3170,156 +3160,6 @@
             </summary>
             <param name="str"></param>
             <param name="defaultValue"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.RepositoryExtension">
-            <summary>
-            仓储拓展
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDelete``1(SqlSugar.ISugarRepository,``0)">
-            <summary>
-            实体假删除 _rep.FakeDelete(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="repository"></param>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDelete``1(SqlSugar.ISqlSugarClient,``0)">
-            <summary>
-            实体假删除 db.FakeDelete(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="db"></param>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISugarRepository,``0)">
-            <summary>
-            实体假删除异步 _rep.FakeDeleteAsync(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="repository"></param>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISqlSugarClient,``0)">
-            <summary>
-            实体假删除 db.FakeDelete(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="db"></param>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.OrderBuilder``1(SqlSugar.ISugarQueryable{``0},Admin.NET.Core.BasePageInput,System.String,System.Boolean)">
-            <summary>
-            排序方式(默认降序)
-            </summary>
-            <param name="queryable"></param>
-            <param name="pageInput"> </param>
-            <param name="defualtSortField"> 默认排序字段 </param>
-            <param name="descSort"> 是否降序 </param>
-            <returns> </returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLog``1(SqlSugar.ISugarRepository,``0,System.Boolean)">
-            <summary>
-            更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="repository"></param>
-            <param name="entity"></param>
-            <param name="ignoreAllNullColumns"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLog``1(SqlSugar.ISqlSugarClient,``0,System.Boolean)">
-            <summary>
-            更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="db"></param>
-            <param name="entity"></param>
-            <param name="ignoreAllNullColumns"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0,System.Boolean)">
-            <summary>
-            更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="repository"></param>
-            <param name="entity"></param>
-            <param name="ignoreAllNullColumns"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLogAsync``1(SqlSugar.ISqlSugarClient,``0,System.Boolean)">
-            <summary>
-            更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="db"></param>
-            <param name="entity"></param>
-            <param name="ignoreAllNullColumns"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLog``1(SqlSugar.ISugarRepository,``0)">
-            <summary>
-            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="repository"></param>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLog``1(SqlSugar.ISqlSugarClient,``0)">
-            <summary>
-            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="db"></param>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0)">
-            <summary>
-            新增实体并记录差异日志 _rep.InsertWithDiffLogAsync(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="repository"></param>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLogAsync``1(SqlSugar.ISqlSugarClient,``0)">
-            <summary>
-            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="db"></param>
-            <param name="entity"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.ISugarQueryable{``0})">
-            <summary>
-            多库查询
-            </summary>
-            <param name="queryable"></param>
-            <returns> </returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.AS``2(SqlSugar.ISugarQueryable{``0,``1})">
-            <summary>
-            多库查询
-            </summary>
-            <typeparam name="T"></typeparam>
-            <typeparam name="T2"></typeparam>
-            <param name="queryable"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.RepositoryExtension.GetTableName``1(SqlSugar.IAdo)">
-            <summary>
-            根据实体类型获取表信息
-            </summary>
-            <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.ResultFilter">
@@ -6036,6 +5876,11 @@
             状态
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.TenantInput.UserId">
+            <summary>
+            用户Id
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.PageTenantInput.Name">
             <summary>
             名称
@@ -6154,20 +5999,6 @@
             重置租户管理员密码
             </summary>
             <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenant(System.Int64)">
-            <summary>
-            获取租户
-            </summary>
-            <param name="tenantId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantAdminUser(System.Int64)">
-            <summary>
-            获取租户管理员用户
-            </summary>
-            <param name="tenantId"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.UpdateTenantCache">

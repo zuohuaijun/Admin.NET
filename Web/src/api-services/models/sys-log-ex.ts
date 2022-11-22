@@ -54,6 +54,12 @@ export interface SysLogEx {
      */
     isDelete?: boolean;
     /**
+     * 租户Id
+     * @type {number}
+     * @memberof SysLogEx
+     */
+    tenantId?: number | null;
+    /**
      * 记录器类别名称
      * @type {string}
      * @memberof SysLogEx

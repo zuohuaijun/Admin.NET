@@ -4,7 +4,7 @@
 /// 系统访问日志表
 /// </summary>
 [SugarTable("sys_log_vis", "系统访问日志表")]
-public class SysLogVis : EntityBase
+public class SysLogVis : EntityTenant
 {
     /// <summary>
     /// 是否执行成功（Y-是，N-否）

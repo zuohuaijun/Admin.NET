@@ -4,7 +4,7 @@
 /// 系统异常日志表
 /// </summary>
 [SugarTable("sys_log_ex", "系统异常日志表")]
-public class SysLogEx : EntityBase
+public class SysLogEx : EntityTenant
 {
     /// <summary>
     /// 记录器类别名称

@@ -13,8 +13,6 @@
  */
 import { DbType } from './db-type';
 import { StatusEnum } from './status-enum';
-import { SysOrg } from './sys-org';
-import { SysUser } from './sys-user';
 import { TenantTypeEnum } from './tenant-type-enum';
 /**
  * 
@@ -65,23 +63,11 @@ export interface AddTenantInput {
      */
     userId?: number;
     /**
-     * 
-     * @type {SysUser}
-     * @memberof AddTenantInput
-     */
-    sysUser?: SysUser;
-    /**
      * 机构Id
      * @type {number}
      * @memberof AddTenantInput
      */
     orgId?: number;
-    /**
-     * 
-     * @type {SysOrg}
-     * @memberof AddTenantInput
-     */
-    sysOrg?: SysOrg;
     /**
      * 主机
      * @type {string}

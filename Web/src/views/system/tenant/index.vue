@@ -104,7 +104,7 @@ import GrantMenu from '/@/views/system/tenant/component/grantMenu.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysTenantApi } from '/@/api-services/api';
-import { SysTenant } from '/@/api-services/models';
+import { TenantOutput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysTenant',
@@ -114,7 +114,7 @@ export default defineComponent({
 		const grantMenuRef = ref();
 		const state = reactive({
 			loading: false,
-			tenantData: [] as Array<SysTenant>,
+			tenantData: [] as Array<TenantOutput>,
 			queryParams: {
 				name: undefined,
 				phone: undefined,

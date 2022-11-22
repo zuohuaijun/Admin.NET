@@ -56,6 +56,12 @@ export interface SysLogVis {
      */
     isDelete?: boolean;
     /**
+     * 租户Id
+     * @type {number}
+     * @memberof SysLogVis
+     */
+    tenantId?: number | null;
+    /**
      * 
      * @type {YesNoEnum}
      * @memberof SysLogVis

@@ -4,7 +4,7 @@
 /// 系统操作日志表
 /// </summary>
 [SugarTable("sys_log_op", "系统操作日志表")]
-public class SysLogOp : EntityBase
+public class SysLogOp : EntityTenant
 {
     /// <summary>
     /// 记录器类别名称

@@ -13,24 +13,10 @@ public class SysTenant : EntityBase
     public long UserId { get; set; }
 
     /// <summary>
-    /// 用户
-    /// </summary>
-    [SugarColumn(IsIgnore = true)]
-    [Navigate(NavigateType.OneToOne, nameof(UserId))]
-    public SysUser SysUser { get; set; }
-
-    /// <summary>
     /// 机构Id
     /// </summary>
     [SugarColumn(ColumnDescription = "机构Id")]
     public long OrgId { get; set; }
-
-    /// <summary>
-    /// 机构
-    /// </summary>
-    [SugarColumn(IsIgnore = true)]
-    [Navigate(NavigateType.OneToOne, nameof(OrgId))]
-    public SysOrg SysOrg { get; set; }
 
     /// <summary>
     /// 主机

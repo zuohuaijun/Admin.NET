@@ -54,6 +54,12 @@ export interface SysLogOp {
      */
     isDelete?: boolean;
     /**
+     * 租户Id
+     * @type {number}
+     * @memberof SysLogOp
+     */
+    tenantId?: number | null;
+    /**
      * 记录器类别名称
      * @type {string}
      * @memberof SysLogOp
