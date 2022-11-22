@@ -13,6 +13,8 @@
  */
 import { DbType } from './db-type';
 import { StatusEnum } from './status-enum';
+import { SysOrg } from './sys-org';
+import { SysUser } from './sys-user';
 import { TenantTypeEnum } from './tenant-type-enum';
 /**
  * 
@@ -57,23 +59,35 @@ export interface AddTenantInput {
      */
     isDelete?: boolean;
     /**
+     * 用户Id
+     * @type {number}
+     * @memberof AddTenantInput
+     */
+    userId?: number;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof AddTenantInput
+     */
+    sysUser?: SysUser;
+    /**
+     * 机构Id
+     * @type {number}
+     * @memberof AddTenantInput
+     */
+    orgId?: number;
+    /**
+     * 
+     * @type {SysOrg}
+     * @memberof AddTenantInput
+     */
+    sysOrg?: SysOrg;
+    /**
      * 主机
      * @type {string}
      * @memberof AddTenantInput
      */
     host?: string | null;
-    /**
-     * 电子邮箱
-     * @type {string}
-     * @memberof AddTenantInput
-     */
-    email?: string | null;
-    /**
-     * 电话
-     * @type {string}
-     * @memberof AddTenantInput
-     */
-    phone?: string | null;
     /**
      * 
      * @type {TenantTypeEnum}
@@ -116,6 +130,18 @@ export interface AddTenantInput {
      * @memberof AddTenantInput
      */
     status?: StatusEnum;
+    /**
+     * 电子邮箱
+     * @type {string}
+     * @memberof AddTenantInput
+     */
+    email?: string | null;
+    /**
+     * 电话
+     * @type {string}
+     * @memberof AddTenantInput
+     */
+    phone?: string | null;
     /**
      * 租户名称
      * @type {string}

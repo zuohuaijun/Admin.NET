@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SqlSugarPagedListSysTenant } from './sql-sugar-paged-list-sys-tenant';
+import { SqlSugarPagedListTenantOutput } from './sql-sugar-paged-list-tenant-output';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultSqlSugarPagedListSysTenant
+ * @interface AdminResultSqlSugarPagedListTenantOutput
  */
-export interface AdminResultSqlSugarPagedListSysTenant {
+export interface AdminResultSqlSugarPagedListTenantOutput {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultSqlSugarPagedListSysTenant
+     * @memberof AdminResultSqlSugarPagedListTenantOutput
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListSysTenant
+     * @memberof AdminResultSqlSugarPagedListTenantOutput
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListSysTenant
+     * @memberof AdminResultSqlSugarPagedListTenantOutput
      */
     message?: string | null;
     /**
      * 
-     * @type {SqlSugarPagedListSysTenant}
-     * @memberof AdminResultSqlSugarPagedListSysTenant
+     * @type {SqlSugarPagedListTenantOutput}
+     * @memberof AdminResultSqlSugarPagedListTenantOutput
      */
-    result?: SqlSugarPagedListSysTenant;
+    result?: SqlSugarPagedListTenantOutput;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultSqlSugarPagedListSysTenant
+     * @memberof AdminResultSqlSugarPagedListTenantOutput
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultSqlSugarPagedListSysTenant
+     * @memberof AdminResultSqlSugarPagedListTenantOutput
      */
     time?: Date;
 }

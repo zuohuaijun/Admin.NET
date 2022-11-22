@@ -1312,29 +1312,29 @@
             系统租户表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysTenant.Name">
+        <member name="P:Admin.NET.Core.SysTenant.UserId">
             <summary>
-            租户名称
+            用户Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysTenant.AdminName">
+        <member name="P:Admin.NET.Core.SysTenant.SysUser">
             <summary>
-            管理员
+            用户
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.OrgId">
+            <summary>
+            机构Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysTenant.SysOrg">
+            <summary>
+            机构
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysTenant.Host">
             <summary>
             主机
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTenant.Email">
-            <summary>
-            电子邮箱
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTenant.Phone">
-            <summary>
-            电话
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysTenant.TenantType">
@@ -6056,6 +6056,26 @@
             管理员名称
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.TenantOutput.Name">
+            <summary>
+            租户名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantOutput.AdminName">
+            <summary>
+            管理员
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantOutput.Email">
+            <summary>
+            电子邮箱
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantOutput.Phone">
+            <summary>
+            电话
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.SysTenantService">
             <summary>
             系统租户管理服务
@@ -6088,9 +6108,9 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.InitNewTenant(Admin.NET.Core.SysTenant)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.InitNewTenant(Admin.NET.Core.Service.TenantOutput)">
             <summary>
-            新增租户初始化（Id隔离）
+            新增租户初始化
             </summary>
             <param name="newTenant"></param>
         </member>

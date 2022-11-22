@@ -20,7 +20,7 @@ import { AddTenantInput } from '../models';
 import { AdminResultInt32 } from '../models';
 import { AdminResultListInt64 } from '../models';
 import { AdminResultListSysMenu } from '../models';
-import { AdminResultSqlSugarPagedListSysTenant } from '../models';
+import { AdminResultSqlSugarPagedListTenantOutput } from '../models';
 import { DeleteTenantInput } from '../models';
 import { RoleMenuInput } from '../models';
 import { StatusEnum } from '../models';
@@ -598,7 +598,7 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysTenant>>> {
+        async sysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListTenantOutput>>> {
             const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantPageGet(name, phone, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -731,7 +731,7 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysTenant>> {
+        async sysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListTenantOutput>> {
             return SysTenantApiFp(configuration).sysTenantPageGet(name, phone, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
@@ -856,7 +856,7 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysTenant>> {
+    public async sysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListTenantOutput>> {
         return SysTenantApiFp(this.configuration).sysTenantPageGet(name, phone, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**

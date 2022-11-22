@@ -7,18 +7,30 @@
 public class SysTenant : EntityBase
 {
     /// <summary>
-    /// 租户名称
+    /// 用户Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "租户名称", Length = 64)]
-    [Required, MaxLength(64)]
-    public virtual string Name { get; set; }
+    [SugarColumn(ColumnDescription = "用户Id")]
+    public long UserId { get; set; }
 
     /// <summary>
-    /// 管理员
+    /// 用户
     /// </summary>
-    [SugarColumn(ColumnDescription = "管理员", Length = 32)]
-    [Required, MaxLength(32)]
-    public virtual string AdminName { get; set; }
+    [SugarColumn(IsIgnore = true)]
+    [Navigate(NavigateType.OneToOne, nameof(UserId))]
+    public SysUser SysUser { get; set; }
+
+    /// <summary>
+    /// 机构Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "机构Id")]
+    public long OrgId { get; set; }
+
+    /// <summary>
+    /// 机构
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    [Navigate(NavigateType.OneToOne, nameof(OrgId))]
+    public SysOrg SysOrg { get; set; }
 
     /// <summary>
     /// 主机
@@ -26,20 +38,6 @@ public class SysTenant : EntityBase
     [SugarColumn(ColumnDescription = "主机", Length = 128)]
     [MaxLength(128)]
     public string Host { get; set; }
-
-    /// <summary>
-    /// 电子邮箱
-    /// </summary>
-    [SugarColumn(ColumnDescription = "电子邮箱", Length = 64)]
-    [MaxLength(64)]
-    public string Email { get; set; }
-
-    /// <summary>
-    /// 电话
-    /// </summary>
-    [SugarColumn(ColumnDescription = "电话", Length = 16)]
-    [MaxLength(16)]
-    public string Phone { get; set; }
 
     /// <summary>
     /// 租户类型

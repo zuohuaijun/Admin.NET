@@ -22,7 +22,7 @@ public class PageTenantInput : BasePageInput
 }
 
 [NotTable]
-public class AddTenantInput : SysTenant
+public class AddTenantInput : TenantOutput
 {
     /// <summary>
     /// 租户名称

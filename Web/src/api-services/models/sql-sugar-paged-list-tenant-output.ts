@@ -11,53 +11,53 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SysTenant } from './sys-tenant';
+import { TenantOutput } from './tenant-output';
 /**
  * 分页泛型集合
  * @export
- * @interface SqlSugarPagedListSysTenant
+ * @interface SqlSugarPagedListTenantOutput
  */
-export interface SqlSugarPagedListSysTenant {
+export interface SqlSugarPagedListTenantOutput {
     /**
      * 页码
      * @type {number}
-     * @memberof SqlSugarPagedListSysTenant
+     * @memberof SqlSugarPagedListTenantOutput
      */
     page?: number;
     /**
      * 页容量
      * @type {number}
-     * @memberof SqlSugarPagedListSysTenant
+     * @memberof SqlSugarPagedListTenantOutput
      */
     pageSize?: number;
     /**
      * 总条数
      * @type {number}
-     * @memberof SqlSugarPagedListSysTenant
+     * @memberof SqlSugarPagedListTenantOutput
      */
     total?: number;
     /**
      * 总页数
      * @type {number}
-     * @memberof SqlSugarPagedListSysTenant
+     * @memberof SqlSugarPagedListTenantOutput
      */
     totalPages?: number;
     /**
      * 当前页集合
-     * @type {Array<SysTenant>}
-     * @memberof SqlSugarPagedListSysTenant
+     * @type {Array<TenantOutput>}
+     * @memberof SqlSugarPagedListTenantOutput
      */
-    items?: Array<SysTenant> | null;
+    items?: Array<TenantOutput> | null;
     /**
      * 是否有上一页
      * @type {boolean}
-     * @memberof SqlSugarPagedListSysTenant
+     * @memberof SqlSugarPagedListTenantOutput
      */
     hasPrevPage?: boolean;
     /**
      * 是否有下一页
      * @type {boolean}
-     * @memberof SqlSugarPagedListSysTenant
+     * @memberof SqlSugarPagedListTenantOutput
      */
     hasNextPage?: boolean;
 }
