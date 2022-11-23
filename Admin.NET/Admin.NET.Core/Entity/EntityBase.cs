@@ -83,3 +83,15 @@ public abstract class EntityTenantId : EntityBaseId
     [SugarColumn(ColumnDescription = "租户Id")]
     public virtual long? TenantId { get; set; }
 }
+
+/// <summary>
+/// 框架实体基类自增Id
+/// </summary>
+public abstract class BaseId
+{
+    /// <summary>
+    /// Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "Id", IsPrimaryKey = true, IsIdentity = true)]
+    public virtual int Id { get; set; }
+}

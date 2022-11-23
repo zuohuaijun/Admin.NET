@@ -1,6 +1,8 @@
 using Admin.NET.Core;
+using Admin.NET.Core.Service;
 using AspNetCoreRateLimit;
 using Furion;
+using Furion.Schedule;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +38,18 @@ public class Startup : AppStartup
         // 远程请求
         services.AddRemoteRequest();
         // 任务调度
-        services.AddTaskScheduler();
+        services.AddSchedule(options =>
+        {
+            // 添加作业-清理在线用户
+            options.AddJob(JobBuilder.Create<OnlineUserJob>().SetJobId("jId_onlineUser").SetIncludeAnnotations(true));
+            // 添加作业-清理操作日志
+            options.AddJob(JobBuilder.Create<LogJob>().SetJobId("jId_log").SetIncludeAnnotations(true));
+
+            // 添加作业执行器
+            options.AddExecutor<JobExecutor>();
+            // 作业持久化器
+            options.AddPersistence<DbJobPersistence>();
+        });
         // 脱敏检测
         services.AddSensitiveDetection();
         //// 结果拦截器

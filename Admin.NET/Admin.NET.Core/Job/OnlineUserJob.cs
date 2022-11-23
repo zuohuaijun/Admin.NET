@@ -1,27 +1,29 @@
-namespace Admin.NET.Core.Job;
+using Admin.NET.Core;
 
 /// <summary>
-/// 在线用户任务调度
+/// 清理在线用户作业任务
 /// </summary>
-public class OnlineUserJob : ISpareTimeWorker
+[PeriodSeconds(1, TriggerId = "tId_onlineUser", Description = "清理在线用户", MaxNumberOfRuns = 1, StartNow = true, RunOnStart = true)]
+public class OnlineUserJob : IJob
 {
-    /// <summary>
-    /// 服务重启清空在线用户（防止僵尸用户，掉线用户会自动重连）
-    /// </summary>
-    [SpareTime(1000, "服务重启清空在线用户", Description = "服务重启清空在线用户", DoOnce = true, StartNow = true, ExecuteType = SpareTimeExecuteTypes.Serial)]
-    public void ClearOnlineUser(SpareTimer timer, long count)
+    private readonly IServiceProvider _serviceProvider;
+
+    public OnlineUserJob(IServiceProvider serviceProvider)
     {
-        Scoped.CreateAsync(async (_, scope) =>
-        {
-            var services = scope.ServiceProvider;
-            var rep = services.GetService<SqlSugarRepository<SysOnlineUser>>();
-            await rep.AsDeleteable().ExecuteCommandAsync();
+        _serviceProvider = serviceProvider;
+    }
 
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("【" + DateTime.Now + "】服务重启清空在线用户");
+    public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
+    {
+        using var serviceScope = _serviceProvider.CreateScope();
 
-            // 缓存多租户
-            await services.GetService<SysTenantService>().UpdateTenantCache();
-        });
+        var rep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysOnlineUser>>();
+        await rep.AsDeleteable().ExecuteCommandAsync();
+
+        Console.ForegroundColor = ConsoleColor.Red;
+        Console.WriteLine("【" + DateTime.Now + "】服务重启清空在线用户");
+
+        // 缓存多租户
+        await serviceScope.ServiceProvider.GetService<SysTenantService>().UpdateTenantCache();
     }
 }

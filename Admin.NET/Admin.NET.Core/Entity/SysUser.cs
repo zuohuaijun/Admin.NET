@@ -205,7 +205,7 @@ public class SysUser : EntityTenant
     /// 职位
     /// </summary>
     [SugarColumn(IsIgnore = true)]
-    [Navigate(NavigateType.OneToMany, nameof(PosId))]
+    [Navigate(NavigateType.OneToOne, nameof(PosId))]
     public SysPos SysPos { get; set; }
 
     /// <summary>

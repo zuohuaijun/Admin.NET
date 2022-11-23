@@ -307,6 +307,16 @@
             租户Id
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.BaseId">
+            <summary>
+            框架实体基类自增Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.BaseId.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysCodeGen">
             <summary>
             代码生成表
@@ -635,6 +645,186 @@
         <member name="P:Admin.NET.Core.SysFile.Url">
             <summary>
             外链地址-OSS上传后生成外链地址方便前端预览
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysJobCluster">
+            <summary>
+            系统作业集群表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobCluster.ClusterId">
+            <summary>
+            作业集群Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobCluster.Description">
+            <summary>
+            描述信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobCluster.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobCluster.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysJobDetail">
+            <summary>
+            系统作业信息表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.JobId">
+            <summary>
+            作业Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.GroupName">
+            <summary>
+            组名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.JobType">
+            <summary>
+            作业类型FullName
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.AssemblyName">
+            <summary>
+            程序集Name
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.Description">
+            <summary>
+            描述信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.Concurrent">
+            <summary>
+            是否并行执行
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.IncludeAnnotations">
+            <summary>
+            是否扫描特性触发器
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.Properties">
+            <summary>
+            额外数据
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.UpdatedTime">
+            <summary>
+            更新时间
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SysJobTrigger">
+            <summary>
+            系统作业触发器表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.TriggerId">
+            <summary>
+            触发器Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.JobId">
+            <summary>
+            作业Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.TriggerType">
+            <summary>
+            触发器类型FullName
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.AssemblyName">
+            <summary>
+            程序集Name
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.Args">
+            <summary>
+            参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.Description">
+            <summary>
+            描述信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.StartTime">
+            <summary>
+            起始时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.LastRunTime">
+            <summary>
+            最近运行时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.NextRunTime">
+            <summary>
+            下一次运行时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.NumberOfRuns">
+            <summary>
+            触发次数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.MaxNumberOfRuns">
+            <summary>
+            最大触发次数（0:不限制，n:N次）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.NumberOfErrors">
+            <summary>
+            出错次数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.MaxNumberOfErrors">
+            <summary>
+            最大出错次数（0:不限制，n:N次）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.NumRetries">
+            <summary>
+            重试次数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.RetryTimeout">
+            <summary>
+            重试间隔时间（ms）
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.StartNow">
+            <summary>
+            是否立即启动
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.RunOnStart">
+            <summary>
+            是否启动时执行一次
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.UpdatedTime">
+            <summary>
+            更新时间
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysLogAudit">
@@ -1360,77 +1550,6 @@
         <member name="P:Admin.NET.Core.SysTenant.Status">
             <summary>
             状态
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.SysTimer">
-            <summary>
-            定时任务
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.TimerName">
-            <summary>
-            任务名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.DoOnce">
-            <summary>
-            是否只执行一次
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.StartNow">
-            <summary>
-            是否立即执行
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.ExecuteType">
-            <summary>
-            执行类型(串行并行)
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.Interval">
-            <summary>
-            执行间隔（单位秒）
-            </summary>
-            <example>5</example>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.Cron">
-            <summary>
-            Cron表达式
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.TimerType">
-            <summary>
-            定时器类型
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.RequestUrl">
-            <summary>
-            请求url
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.RequestType">
-            <summary>
-            请求类型
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.RequestPara">
-            <summary>
-            请求参数
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.Headers">
-            <summary>
-            Headers参数 比如{"Authorization":"userpassword"}
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysTimer.Remark">
-            <summary>
-            备注
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysUser">
@@ -3250,24 +3369,7 @@
         </member>
         <member name="T:Admin.NET.Core.LogJob">
             <summary>
-            任务调度
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.LogJob.ClearLogJob(Furion.TaskScheduler.SpareTimer,System.Int64)">
-            <summary>
-            日志删除定时器
-            </summary>
-            <param name="timer"></param>
-            <param name="count"></param>
-        </member>
-        <member name="T:Admin.NET.Core.Job.OnlineUserJob">
-            <summary>
-            在线用户任务调度
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Job.OnlineUserJob.ClearOnlineUser(Furion.TaskScheduler.SpareTimer,System.Int64)">
-            <summary>
-            服务重启清空在线用户（防止僵尸用户，掉线用户会自动重连）
+            清理日志作业任务
             </summary>
         </member>
         <member name="T:Admin.NET.Core.DatabaseLoggingWriter">
@@ -4956,6 +5058,100 @@
             <param name="file"></param>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.Service.DbJobPersistence">
+            <summary>
+            作业持久化（数据库）
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DbJobPersistence.OnChanged(Furion.Schedule.PersistenceContext)">
+            <summary>
+            作业计划Scheduler的JobDetail变化时
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DbJobPersistence.OnTriggerChanged(Furion.Schedule.PersistenceTriggerContext)">
+            <summary>
+            作业计划Scheduler的触发器Trigger变化时
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DbJobPersistence.Preload(System.String,Furion.Schedule.SchedulerBuilder)">
+            <summary>
+            作业调度器服务启动时（通常用来同步持久化数据到内存中）
+            </summary>
+            <param name="jobId"></param>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Admin.NET.Core.Service.JobInput.Name">
+            <summary>
+            作业任务名称
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.JobClusterServer">
+            <summary>
+            作业集群控制
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.JobClusterServer.Start(Furion.Schedule.JobClusterContext)">
+            <summary>
+            当前作业调度器启动通知
+            </summary>
+            <param name="context">作业集群服务上下文</param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.JobClusterServer.WaitingForAsync(Furion.Schedule.JobClusterContext)">
+            <summary>
+            等待被唤醒
+            </summary>
+            <param name="context">作业集群服务上下文</param>
+            <returns><see cref="T:System.Threading.Tasks.Task"/></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.JobClusterServer.Stop(Furion.Schedule.JobClusterContext)">
+            <summary>
+            当前作业调度器停止通知
+            </summary>
+            <param name="context">作业集群服务上下文</param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.JobClusterServer.Crash(Furion.Schedule.JobClusterContext)">
+            <summary>
+            当前作业调度器宕机
+            </summary>
+            <param name="context">作业集群服务上下文</param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.JobClusterServer.WorkNowAsync(System.String)">
+            <summary>
+            指示集群可以工作
+            </summary>
+            <param name="clusterId">集群 Id</param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.JobExecutor">
+            <summary>
+            作业执行器
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysJobService">
+            <summary>
+            系统作业任务服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.GetJobList">
+            <summary>
+            获取所有作业任务列表
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.AddJob">
+            <summary>
+            增加作业任务
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.DeleteJob(Admin.NET.Core.Service.JobInput)">
+            <summary>
+            删除作业任务
+            </summary>
+            <returns></returns>
+        </member>
         <member name="P:Admin.NET.Core.Service.PageLogInput.StartTime">
             <summary>
             开始时间
@@ -6012,103 +6208,6 @@
             创建租户数据库
             </summary>
             <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="P:Admin.NET.Core.Service.PageTimerInput.TimerName">
-            <summary>
-            任务名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.AddTimerInput.TimerName">
-            <summary>
-            任务名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.SetTimerStatusInput.TimerName">
-            <summary>
-            任务名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.SetTimerStatusInput.Status">
-            <summary>
-            任务状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TimerMethod.MethodName">
-            <summary>
-            方法名
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TimerMethod.DeclaringType">
-            <summary>
-            所属类
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TimerOutput.Tally">
-            <summary>
-            执行次数
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TimerOutput.Status">
-            <summary>
-            任务状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.TimerOutput.Exception">
-            <summary>
-            异常信息
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.Service.SysTimerService">
-            <summary>
-            系统定时任务服务
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTimerService.GetTimerPage(Admin.NET.Core.Service.PageTimerInput)">
-            <summary>
-            获取任务分页列表
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTimerService.AddTimer(Admin.NET.Core.Service.AddTimerInput)">
-            <summary>
-            增加任务
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTimerService.DeleteTimer(Admin.NET.Core.Service.DeleteTimerInput)">
-            <summary>
-            删除任务
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTimerService.UpdateTimber(Admin.NET.Core.Service.UpdateTimerInput)">
-            <summary>
-            更新任务
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTimerService.SetStatusTimer(Admin.NET.Core.Service.SetTimerStatusInput)">
-            <summary>
-            设置任务状态
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTimerService.CreateTimer(Admin.NET.Core.SysTimer)">
-            <summary>
-            创建定时任务
-            </summary>
-            <param name="input"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysTimerService.GetTimerMethodList">
-            <summary>
-            获取所有定时任务方法列表（贴spareTime特性）
-            </summary>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.UserExtOrgInput.OrgId">
@@ -7270,6 +7369,11 @@
         <member name="T:Admin.NET.Core.SMUtil">
             <summary>
             SM工具类
+            </summary>
+        </member>
+        <member name="T:OnlineUserJob">
+            <summary>
+            清理在线用户作业任务
             </summary>
         </member>
     </members>
