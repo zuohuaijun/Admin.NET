@@ -5063,6 +5063,20 @@
             作业持久化（数据库）
             </summary>
         </member>
+        <member name="M:Admin.NET.Core.Service.DbJobPersistence.Preload">
+            <summary>
+            作业调度器服务启动时
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.DbJobPersistence.OnLoaded(System.String,Furion.Schedule.SchedulerBuilder)">
+            <summary>
+            作业计划加载完成（通常用来同步存储介质（如数据库）数据到内存中）
+            </summary>
+            <param name="jobId"></param>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.Service.DbJobPersistence.OnChanged(Furion.Schedule.PersistenceContext)">
             <summary>
             作业计划Scheduler的JobDetail变化时
@@ -5074,14 +5088,6 @@
             作业计划Scheduler的触发器Trigger变化时
             </summary>
             <param name="context"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.DbJobPersistence.Preload(System.String,Furion.Schedule.SchedulerBuilder)">
-            <summary>
-            作业调度器服务启动时（通常用来同步持久化数据到内存中）
-            </summary>
-            <param name="jobId"></param>
-            <param name="builder"></param>
-            <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.JobInput.Name">
             <summary>
@@ -5124,11 +5130,6 @@
             </summary>
             <param name="clusterId">集群 Id</param>
             <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.Service.JobExecutor">
-            <summary>
-            作业执行器
-            </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysJobService">
             <summary>
@@ -6153,7 +6154,7 @@
             <summary>
             新增租户初始化
             </summary>
-            <param name="newTenant"></param>
+            <param name="tenant"></param>
         </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.DeleteTenant(Admin.NET.Core.Service.DeleteTenantInput)">
             <summary>

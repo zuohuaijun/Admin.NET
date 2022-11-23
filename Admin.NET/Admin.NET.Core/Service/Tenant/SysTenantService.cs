@@ -105,13 +105,17 @@ public class SysTenantService : IDynamicApiController, ITransient
 
         // ID隔离时设置与主库一致
         if (input.TenantType == TenantTypeEnum.Id)
-            input.DbType = _sysTenantRep.AsSugarClient().CurrentConnectionConfig.DbType;
+        {
+            var config = _sysTenantRep.AsSugarClient().CurrentConnectionConfig;
+            input.DbType = config.DbType;
+            input.Connection = config.ConnectionString;
+        }
 
         var tenant = input.Adapt<TenantOutput>();
         await _sysTenantRep.InsertAsync(tenant);
-        await UpdateTenantCache();
-
         await InitNewTenant(tenant);
+
+        await UpdateTenantCache();
     }
 
     /// <summary>
@@ -136,11 +140,11 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <summary>
     /// 新增租户初始化
     /// </summary>
-    /// <param name="newTenant"></param>
-    private async Task InitNewTenant(TenantOutput newTenant)
+    /// <param name="tenant"></param>
+    private async Task InitNewTenant(TenantOutput tenant)
     {
-        var tenantId = newTenant.Id;
-        var tenantName = newTenant.Name;
+        var tenantId = tenant.Id;
+        var tenantName = tenant.Name;
 
         // 初始化机构
         var newOrg = new SysOrg
@@ -179,11 +183,11 @@ public class SysTenantService : IDynamicApiController, ITransient
         var newUser = new SysUser
         {
             TenantId = tenantId,
-            Account = newTenant.AdminName,
+            Account = tenant.AdminName,
             Password = MD5Encryption.Encrypt(password),
-            NickName = newTenant.AdminName,
-            Email = newTenant.Email,
-            Phone = newTenant.Phone,
+            NickName = tenant.AdminName,
+            Email = tenant.Email,
+            Phone = tenant.Phone,
             AccountType = AccountTypeEnum.Admin,
             OrgId = newOrg.Id,
             PosId = newPos.Id,
@@ -193,12 +197,16 @@ public class SysTenantService : IDynamicApiController, ITransient
         };
         await _sysUserRep.InsertAsync(newUser);
 
+        // 关联用户及角色
         var newUserRole = new SysUserRole
         {
             RoleId = newRole.Id,
             UserId = newUser.Id
         };
         await _userRoleRep.InsertAsync(newUserRole);
+
+        // 关联租户组织机构和管理员用户
+        await _sysTenantRep.UpdateAsync(u => new SysTenant() { UserId = newUser.Id, OrgId = newOrg.Id }, u => u.Id == tenantId);
 
         // 默认租户管理员角色菜单集合
         var menuIdList = new List<long> { 252885263002100,252885263002110,252885263002111,

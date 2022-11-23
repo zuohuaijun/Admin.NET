@@ -40,15 +40,7 @@ public class Startup : AppStartup
         // 任务调度
         services.AddSchedule(options =>
         {
-            // 添加作业-清理在线用户
-            options.AddJob(JobBuilder.Create<OnlineUserJob>().SetJobId("jId_onlineUser").SetIncludeAnnotations(true));
-            // 添加作业-清理操作日志
-            options.AddJob(JobBuilder.Create<LogJob>().SetJobId("jId_log").SetIncludeAnnotations(true));
-
-            // 添加作业执行器
-            options.AddExecutor<JobExecutor>();
-            // 作业持久化器
-            options.AddPersistence<DbJobPersistence>();
+            options.AddPersistence<DbJobPersistence>(); // 添加作业持久化器
         });
         // 脱敏检测
         services.AddSensitiveDetection();
