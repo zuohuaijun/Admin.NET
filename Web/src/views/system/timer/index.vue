@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<div class="sys-timer-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
@@ -197,4 +197,4 @@ export default defineComponent({
 		};
 	},
 });
-</script>
+</script> -->

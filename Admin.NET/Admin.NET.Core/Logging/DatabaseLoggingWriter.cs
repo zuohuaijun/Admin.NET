@@ -29,6 +29,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 State = logMsg.State?.ToString(),
                 LogDateTime = logMsg.LogDateTime,
                 ThreadId = logMsg.ThreadId,
+                TraceId = logMsg.TraceId,
             });
         }
         else
@@ -43,6 +44,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 State = logMsg.State?.ToString(),
                 LogDateTime = logMsg.LogDateTime,
                 ThreadId = logMsg.ThreadId,
+                TraceId = logMsg.TraceId,
             });
         }
     }

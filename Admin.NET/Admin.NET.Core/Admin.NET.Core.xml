@@ -957,6 +957,11 @@
             线程Id
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysLogEx.TraceId">
+            <summary>
+            请求跟踪Id
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysLogOp">
             <summary>
             系统操作日志表
@@ -1000,6 +1005,11 @@
         <member name="P:Admin.NET.Core.SysLogOp.ThreadId">
             <summary>
             线程Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.TraceId">
+            <summary>
+            请求跟踪Id
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysLogVis">

@@ -125,7 +125,7 @@ axiosInstance.interceptors.response.use(
 		}
 
 		// 响应拦截及自定义处理
-		if (serve.code === 401) {
+		if (serve.code === 401 || serve.code === 400) {
 			clearAccessTokens();
 		} else if (serve.code === undefined) {
 			return Promise.resolve(res);

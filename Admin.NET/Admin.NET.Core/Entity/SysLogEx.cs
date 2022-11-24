@@ -55,4 +55,11 @@ public class SysLogEx : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "线程Id")]
     public int ThreadId { get; set; }
+
+    /// <summary>
+    /// 请求跟踪Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "请求跟踪Id", Length = 128)]
+    [MaxLength(128)]
+    public string TraceId { get; set; }
 }

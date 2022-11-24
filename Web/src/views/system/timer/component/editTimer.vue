@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<div class="sys-timer-container">
 		<el-dialog v-model="isShowDialog" draggable width="769px">
 			<template #header>
@@ -127,4 +127,4 @@ export default defineComponent({
 		};
 	},
 });
-</script>
+</script> -->
