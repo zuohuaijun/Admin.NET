@@ -78,7 +78,7 @@
 					}else if(@column.EffectType == "DatePicker"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-date-picker v-model="ruleForm.@(@column.LowerColumnName)" type="datetime" placeholder="@(@column.ColumnComment)"  />
+							@:<el-date-picker v-model="ruleForm.@(@column.LowerColumnName)" type="date" placeholder="@(@column.ColumnComment)"  />
 							@:
 						</el-form-item>
 						@:
@@ -107,7 +107,7 @@
 import { ref } from "vue";
 import { ElMessage } from "element-plus";
 import type { FormRules } from "element-plus";
-import { addComFund, updateComFund } from "/@@/api/main/@(@Model.ClassName)";
+import { add@(@Model.ClassName), update@(@Model.ClassName) } from "/@@/api/main/@(@Model.ClassName)";
 @foreach (var column in Model.TableField){
   if(@column.EffectType == "fk"){
     @:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.ClassName)';
@@ -165,9 +165,9 @@ const submit = async () => {
     if (isValid) {
       let values = ruleForm.value;
       if (ruleForm.value.id != undefined && ruleForm.value.id > 0) {
-        await updateComFund(values);
+        await update@(@Model.ClassName)(values);
       } else {
-        await addComFund(values);
+        await add@(@Model.ClassName)(values);
       }
       closeDialog();
     } else {

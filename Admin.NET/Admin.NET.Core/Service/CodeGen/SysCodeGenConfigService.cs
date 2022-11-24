@@ -107,11 +107,31 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
 
             codeGenConfig.DataType = tableColumn.DataType;
             codeGenConfig.EffectType = CodeGenUtil.DataTypeToEff(codeGenConfig.NetType);
-            codeGenConfig.QueryType = "=="; // QueryTypeEnum.eq.ToString();
+            codeGenConfig.QueryType = GetDefaultQueryType(codeGenConfig); // QueryTypeEnum.eq.ToString();
             codeGenConfigs.Add(codeGenConfig);
         }
         // 多库代码生成---这里要切回主库
         var provider = _db.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId);
         provider.Insertable(codeGenConfigs).ExecuteCommand();
+    }
+
+    /// <summary>
+    /// 默认查询类型
+    /// </summary>
+    /// <param name="codeGenConfig"></param>
+    /// <returns></returns>
+    private string GetDefaultQueryType(SysCodeGenConfig codeGenConfig)
+    {
+        switch (codeGenConfig.NetType)
+        {
+            case "string":
+                return "like";
+
+            case "DateTime":
+                return "~";
+
+            default:
+                return "==";
+        }
     }
 }

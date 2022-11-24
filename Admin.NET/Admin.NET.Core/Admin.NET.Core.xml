@@ -3281,6 +3281,172 @@
             <param name="defaultValue"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDelete``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            实体假删除 _rep.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDelete``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            实体假删除 db.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            实体假删除异步 _rep.FakeDeleteAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.FakeDeleteAsync``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            实体假删除 db.FakeDelete(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.OrderBuilder``1(SqlSugar.ISugarQueryable{``0},Admin.NET.Core.BasePageInput,System.String,System.Boolean)">
+            <summary>
+            排序方式(默认降序)
+            </summary>
+            <param name="queryable"></param>
+            <param name="pageInput"> </param>
+            <param name="defualtSortField"> 默认排序字段 </param>
+            <param name="descSort"> 是否降序 </param>
+            <returns> </returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLog``1(SqlSugar.ISugarRepository,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLog``1(SqlSugar.ISqlSugarClient,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.UpdateWithDiffLogAsync``1(SqlSugar.ISqlSugarClient,``0,System.Boolean)">
+            <summary>
+            更新实体并记录差异日志 _rep.UpdateWithDiffLogAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <param name="ignoreAllNullColumns"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLog``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLog``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLogAsync``1(SqlSugar.ISugarRepository,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLogAsync(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="repository"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.InsertWithDiffLogAsync``1(SqlSugar.ISqlSugarClient,``0)">
+            <summary>
+            新增实体并记录差异日志 _rep.InsertWithDiffLog(entity)
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="db"></param>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.ISugarQueryable{``0})">
+            <summary>
+            多库查询
+            </summary>
+            <param name="queryable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``2(SqlSugar.ISugarQueryable{``0,``1})">
+            <summary>
+            多库查询
+            </summary>
+            <typeparam name="T"></typeparam>
+            <typeparam name="T2"></typeparam>
+            <param name="queryable"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.IUpdateable{``0})">
+            <summary>
+            多库更新
+            </summary>
+            <param name="updateable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.IInsertable{``0})">
+            <summary>
+            多库新增
+            </summary>
+            <param name="insertable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.AS``1(SqlSugar.IDeleteable{``0})">
+            <summary>
+            多库删除
+            </summary>
+            <param name="deleteable"></param>
+            <returns> </returns>
+        </member>
+        <member name="M:Admin.NET.Core.RepositoryExtension.GetTableInfo``1">
+            <summary>
+            根据实体类型获取表信息
+            </summary>
+            <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.ResultFilter">
             <summary>
             结果筛选器
@@ -4364,7 +4530,7 @@
         </member>
         <member name="P:Admin.NET.Core.Service.TableOutput.TableComment">
             <summary>
-            表名称描述（注释）（功能名）
+            表名称描述（功能名）
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysCodeGenConfigService">
@@ -4406,6 +4572,13 @@
             </summary>
             <param name="tableColumnOuputList"></param>
             <param name="codeGenerate"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.GetDefaultQueryType(Admin.NET.Core.SysCodeGenConfig)">
+            <summary>
+            默认查询类型
+            </summary>
+            <param name="codeGenConfig"></param>
+            <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.SysCodeGenService">
             <summary>

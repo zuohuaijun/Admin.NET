@@ -36,6 +36,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     {
         return await _db.Queryable<SysCodeGen>()
             .WhereIF(!string.IsNullOrWhiteSpace(input.TableName), u => u.TableName.Contains(input.TableName.Trim()))
+            .WhereIF(!string.IsNullOrWhiteSpace(input.BusName), u => u.BusName.Contains(input.BusName.Trim()))
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
@@ -274,6 +275,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private async Task AddMenu(string className, string busName, long pid)
     {
+        string pPath = null;//父路径
         // 如果 pid 为 0 说明为顶级菜单, 需要创建顶级目录
         if (pid == 0)
         {
@@ -306,8 +308,16 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             pid = (await _db.Insertable(menuType0).ExecuteReturnEntityAsync()).Id;
         }
         // 由于后续菜单会有修改, 需要判断下 pid 是否存在, 不存在报错
-        else if (!await _db.Queryable<SysMenu>().AnyAsync(e => e.Id == pid))
-            throw Oops.Oh(ErrorCodeEnum.D1505);
+        else
+        {
+            var pMenu = await _db.Queryable<SysMenu>().FirstAsync(e => e.Id == pid);
+            if (pMenu == null)
+                throw Oops.Oh(ErrorCodeEnum.D1505);
+            else
+            {
+                pPath = pMenu.Path;
+            }
+        }
 
         // 菜单
         var menuType1 = new SysMenu
@@ -316,7 +326,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Title = busName + "管理",
             Name = className + "Management",
             Type = MenuTypeEnum.Menu,
-            Path = "/" + className.ToLower(),
+            Path = pPath + "/" + className.ToLower(),
             Component = "/main/" + className + "/index",
         };
         {   // 如果之前存在那么就删除本级和下级

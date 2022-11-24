@@ -58,11 +58,11 @@ if (@column.QueryWhether == "Y"){
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
     if(@column.NetType == "DateTime" && @column.QueryType == "~"){
-        @:if(input.@(@column.ColumnName)Range != null && input.@(@column.ColumnName)Range.Count == 2)
+        @:if(input.@(@column.ColumnName)Range != null && input.@(@column.ColumnName)Range.Count >0)
         @:{
                 @:DateTime? start= input.@(@column.ColumnName)Range[0]; 
                 @:query = query.WhereIF(start.HasValue, u => u.@column.ColumnName > start);
-                @:if (input.@(@column.ColumnName)Range[1].HasValue)
+                @:if (input.@(@column.ColumnName)Range.Count >1 && input.@(@column.ColumnName)Range[1].HasValue)
                 @:{
                     @:var end = input.@(@column.ColumnName)Range[1].Value.AddDays(1);
                     @:query = query.Where(u => u.@(@column.ColumnName) < end);
@@ -84,7 +84,7 @@ if (@column.QueryWhether == "Y"){
     public async Task Add(Add@(@Model.ClassName)Input input)
     {
         var entity = input.Adapt<@(@Model.ClassName)>();
-        await _rep.InsertWithDiffLogAsync(entity);
+        await _rep.InsertAsync(entity);
     }
 
     /// <summary>
@@ -100,7 +100,7 @@ if (@column.ColumnKey == "True"){
         @:var entity = await _rep.GetFirstAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
 }
 }
-        await _rep.FakeDeleteAsync(entity);   //假删除
+        await _rep.DeleteAsync(entity);   //假删除
     }
 
     /// <summary>
@@ -112,7 +112,7 @@ if (@column.ColumnKey == "True"){
     public async Task Update(Update@(@Model.ClassName)Input input)
     {
         var entity = input.Adapt<@(@Model.ClassName)>();
-        await _rep.UpdateWithDiffLogAsync(entity);
+        await _rep.UpdateAsync(entity);
     }
 
     /// <summary>

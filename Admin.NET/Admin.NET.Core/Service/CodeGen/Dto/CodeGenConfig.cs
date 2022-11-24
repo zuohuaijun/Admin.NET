@@ -24,8 +24,7 @@ public class CodeGenConfig
     /// 数据库字段名(首字母小写)
     /// </summary>
     public string LowerColumnName =>
-        string.IsNullOrWhiteSpace(ColumnName)
-        ? null : ColumnName[..1].ToLower() + ColumnName[1..];
+        string.IsNullOrWhiteSpace(ColumnName) ? null : ColumnName[..1].ToLower() + ColumnName[1..];
 
     /// <summary>
     /// 字段描述
@@ -56,8 +55,7 @@ public class CodeGenConfig
     /// 外键实体名称(首字母小写)
     /// </summary>
     public string LowerFkEntityName =>
-        string.IsNullOrWhiteSpace(FkEntityName)
-        ? null : FkEntityName[..1].ToLower() + FkEntityName[1..];
+        string.IsNullOrWhiteSpace(FkEntityName) ? null : FkEntityName[..1].ToLower() + FkEntityName[1..];
 
     /// <summary>
     /// 外键显示字段
@@ -68,8 +66,7 @@ public class CodeGenConfig
     /// 外键显示字段(首字母小写)
     /// </summary>
     public string LowerFkColumnName =>
-        string.IsNullOrWhiteSpace(FkColumnName)
-        ? null : FkColumnName[..1].ToLower() + FkColumnName[1..];
+        string.IsNullOrWhiteSpace(FkColumnName) ? null : FkColumnName[..1].ToLower() + FkColumnName[1..];
 
     /// <summary>
     /// 外键显示字段.NET类型

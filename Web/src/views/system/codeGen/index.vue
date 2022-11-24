@@ -2,7 +2,15 @@
 	<div class="sys-codeGen-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
+				<el-form-item label="业务名" prop="busName">
+					<el-input placeholder="业务名" clearable @keyup.enter="handleQuery" v-model="queryParams.busName" />
+				</el-form-item>
+				<el-form-item label="数据库表名" prop="tableName">
+					<el-input placeholder="数据库表名" clearable @keyup.enter="handleQuery" v-model="queryParams.tableName" />
+				</el-form-item>
 				<el-form-item>
+					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysMenu:list'"> 查询 </el-button>
 					<el-button type="primary" icon="ele-Plus" @click="openAddDialog">增加</el-button>
 				</el-form-item>
 			</el-form>
@@ -76,6 +84,7 @@ export default defineComponent({
 				name: undefined,
 				code: undefined,
 				tableName: undefined,
+				busName: undefined,
 			},
 			tableParams: {
 				page: 1,
@@ -84,7 +93,6 @@ export default defineComponent({
 			},
 			editMenuTitle: '',
 		});
-
 		onMounted(async () => {
 			handleQuery();
 
@@ -95,14 +103,18 @@ export default defineComponent({
 				state.tableData;
 			});
 		});
-
 		onUnmounted(() => {
 			mittBus.off('submitRefresh', () => {});
 			mittBus.off('submitRefreshFk', () => {});
 		});
-
 		const openConfigDialog = (row: any) => {
 			CodeConfigRef.value.openDialog(row);
+		};
+		// 重置操作
+		const resetQuery = () => {
+			state.queryParams.busName = undefined;
+			state.queryParams.tableName = undefined;
+			handleQuery();
 		};
 		// 表查询操作
 		const handleQuery = async () => {
@@ -130,19 +142,16 @@ export default defineComponent({
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
 		};
-
 		// 改变页面容量
 		const handleSizeChange = (val: number) => {
 			state.tableParams.pageSize = val;
 			handleQuery();
 		};
-
 		// 改变页码序号
 		const handleCurrentChange = (val: number) => {
 			state.tableParams.page = val;
 			handleQuery();
 		};
-
 		// 打开表增加页面
 		const openAddDialog = () => {
 			state.editMenuTitle = '增加';
@@ -153,7 +162,6 @@ export default defineComponent({
 			state.editMenuTitle = '编辑';
 			EditCodeGenRef.value.openDialog(row);
 		};
-
 		// 删除表
 		const deleConfig = (row: any) => {
 			ElMessageBox.confirm(`确定删除吗?`, '提示', {
@@ -168,7 +176,6 @@ export default defineComponent({
 				})
 				.catch(() => {});
 		};
-
 		// 开始生成代码
 		const handleGenerate = (row: any) => {
 			ElMessageBox.confirm(`确定要生成吗?`, '提示', {
@@ -183,11 +190,11 @@ export default defineComponent({
 				})
 				.catch(() => {});
 		};
-
 		return {
 			EditCodeGenRef,
 			CodeConfigRef,
 			handleQuery,
+			resetQuery,
 			openAddDialog,
 			openEditDialog,
 			deleConfig,

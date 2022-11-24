@@ -31,7 +31,7 @@ public class TableOutput
     public string UpdateTime { get; set; }
 
     /// <summary>
-    /// 表名称描述（注释）（功能名）
+    /// 表名称描述（功能名）
     /// </summary>
     public string TableComment { get; set; }
 }
