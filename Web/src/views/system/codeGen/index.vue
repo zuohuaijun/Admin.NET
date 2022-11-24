@@ -1,12 +1,22 @@
 <template>
 	<div class="sys-codeGen-container">
+		
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
+				<el-form-item label="业务名" prop="busName">
+					<el-input placeholder="业务名" clearable @keyup.enter="handleQuery" v-model="queryParams.busName" />
+				</el-form-item> 
+				<el-form-item label="数据库表名" prop="tableName">
+					<el-input placeholder="数据库表名" clearable @keyup.enter="handleQuery" v-model="queryParams.tableName" />
+				</el-form-item> 
 				<el-form-item>
-					<el-button type="primary" icon="ele-Plus" @click="openAddDialog">增加</el-button>
+					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysMenu:list'"> 查询 </el-button>
+					<el-button type="primary" icon="ele-Plus" @click="openAddDialog">增加</el-button> 
 				</el-form-item>
 			</el-form>
 		</el-card>
+ 
 
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="tableData" style="width: 100%" v-loading="loading" border>
@@ -76,6 +86,7 @@ export default defineComponent({
 				name: undefined,
 				code: undefined,
 				tableName: undefined,
+				busName:undefined
 			},
 			tableParams: {
 				page: 1,
@@ -103,6 +114,12 @@ export default defineComponent({
 
 		const openConfigDialog = (row: any) => {
 			CodeConfigRef.value.openDialog(row);
+		};
+		// 重置操作
+		const resetQuery = () => {
+			state.queryParams.busName = undefined;
+			state.queryParams.tableName = undefined;
+			handleQuery();
 		};
 		// 表查询操作
 		const handleQuery = async () => {
@@ -188,6 +205,7 @@ export default defineComponent({
 			EditCodeGenRef,
 			CodeConfigRef,
 			handleQuery,
+			resetQuery,
 			openAddDialog,
 			openEditDialog,
 			deleConfig,
