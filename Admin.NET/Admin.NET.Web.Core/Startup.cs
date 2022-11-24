@@ -2,7 +2,6 @@ using Admin.NET.Core;
 using Admin.NET.Core.Service;
 using AspNetCoreRateLimit;
 using Furion;
-using Furion.Schedule;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;

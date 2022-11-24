@@ -3,7 +3,8 @@
 /// <summary>
 /// 清理日志作业任务
 /// </summary>
-[Daily(TriggerId = "tId_log", Description = "清理操作日志")]
+[JobDetail("job_log", Description = "清理操作日志", GroupName = "default", Concurrent = false)]
+[Daily(TriggerId = "trigger_log", Description = "清理操作日志")]
 public class LogJob : IJob
 {
     private readonly IServiceProvider _serviceProvider;

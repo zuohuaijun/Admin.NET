@@ -13,32 +13,30 @@ public class DbJobPersistence : IJobPersistence
     }
 
     /// <summary>
-    /// 作业调度器服务启动时
+    /// 作业调度服务启动时
     /// </summary>
     /// <returns></returns>
     public IEnumerable<SchedulerBuilder> Preload()
     {
         // 扫描所有实现IJob的作业任务
-        return App.EffectiveTypes.Where(t => t.IsJobType())
-            .Select(t => SchedulerBuilder.Create(JobBuilder.Create(t), t.ScanTriggers()));
+        return App.EffectiveTypes.ScanToBuilders();
     }
 
     /// <summary>
-    /// 作业计划加载完成（通常用来同步存储介质（如数据库）数据到内存中）
+    /// 作业计划初始化通知
     /// </summary>
-    /// <param name="jobId"></param>
     /// <param name="builder"></param>
     /// <returns></returns>
-    public SchedulerBuilder OnLoaded(string jobId, SchedulerBuilder builder)
+    public SchedulerBuilder OnLoading(SchedulerBuilder builder)
     {
         using var serviceScope = _serviceProvider.CreateScope();
         var rep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysJobDetail>>();
-        //if (builder.Behavior == PersistenceBehavior.Removed)
-        //{
-        //    rep.Delete(u => u.JobId == jobId);
-        //    return builder.Removed();
-        //}
-        if (rep.IsAny(u => u.JobId == jobId))
+        if (builder.Behavior == PersistenceBehavior.Removed)
+        {
+            rep.Delete(u => u.JobId == builder.GetJobBuilder().JobId);
+            return builder.Removed();
+        }
+        if (rep.IsAny(u => u.JobId == builder.GetJobBuilder().JobId))
         {
             return builder.Updated();
         }
