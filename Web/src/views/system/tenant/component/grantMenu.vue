@@ -63,7 +63,7 @@ export default defineComponent({
 		const openDialog = async (row: any) => {
 			treeRef.value?.setCheckedKeys([]); // 先清空已选择节点
 			state.ruleForm = row;
-			var res = await getAPI(SysTenantApi).sysTenantOwnMenuListGet(row.userId);
+			var res = await getAPI(SysTenantApi).sysTenantOwnMenuListGet(row.id, 1, row.userId);
 			setTimeout(() => {
 				// 延迟传递数据
 				treeRef.value?.setCheckedKeys(res.data.result);
