@@ -47,7 +47,7 @@
 	</el-form>
 
 	<div class="dialog-header">
-		<el-dialog v-model="rotateVerifyVisible" width="290px" center :show-close="false" :modal-append-to-body="false">
+		<el-dialog v-model="rotateVerifyVisible" :show-close="false">
 			<DragVerifyImgRotate
 				ref="dragRef"
 				:imgsrc="rotateVerifyImg"
@@ -211,6 +211,8 @@ export default defineComponent({
 		.v-modal {
 			position: absolute !important;
 		}
+
+		width: unset !important;
 	}
 }
 
