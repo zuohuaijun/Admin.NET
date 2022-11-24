@@ -11,23 +11,17 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SpareTimeStatus } from './spare-time-status';
 /**
- * 
+ * <br />&nbsp; NotFound = 0<br />&nbsp; NotIdentify = 1<br />&nbsp; Exists = 2<br />&nbsp; Succeed = 3<br />&nbsp; Removed = 4<br />&nbsp; Failed = 5<br />
  * @export
- * @interface SetTimerStatusInput
+ * @enum {string}
  */
-export interface SetTimerStatusInput {
-    /**
-     * 任务名称
-     * @type {string}
-     * @memberof SetTimerStatusInput
-     */
-    timerName: string;
-    /**
-     * 
-     * @type {SpareTimeStatus}
-     * @memberof SetTimerStatusInput
-     */
-    status?: SpareTimeStatus;
+export enum ScheduleResult {
+    NUMBER_0 = 0,
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3,
+    NUMBER_4 = 4,
+    NUMBER_5 = 5
 }
+

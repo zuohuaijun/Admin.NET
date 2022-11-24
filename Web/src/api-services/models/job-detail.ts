@@ -12,45 +12,63 @@
  * Do not edit the class manually.
  */
 /**
- * 数据库表
+ * 
  * @export
- * @interface TableOutput
+ * @interface JobDetail
  */
-export interface TableOutput {
+export interface JobDetail {
     /**
-     * 库定位器名
+     * 
      * @type {string}
-     * @memberof TableOutput
+     * @memberof JobDetail
      */
-    configId?: string | null;
+    jobId?: string | null;
     /**
-     * 表名（字母形式的）
+     * 
      * @type {string}
-     * @memberof TableOutput
+     * @memberof JobDetail
      */
-    tableName?: string | null;
+    groupName?: string | null;
     /**
-     * 实体名称
+     * 
      * @type {string}
-     * @memberof TableOutput
+     * @memberof JobDetail
      */
-    entityName?: string | null;
+    jobType?: string | null;
     /**
-     * 创建时间
+     * 
      * @type {string}
-     * @memberof TableOutput
+     * @memberof JobDetail
      */
-    createTime?: string | null;
+    assemblyName?: string | null;
     /**
-     * 更新时间
+     * 
      * @type {string}
-     * @memberof TableOutput
+     * @memberof JobDetail
      */
-    updateTime?: string | null;
+    description?: string | null;
     /**
-     * 表名称描述（功能名）
-     * @type {string}
-     * @memberof TableOutput
+     * 
+     * @type {boolean}
+     * @memberof JobDetail
      */
-    tableComment?: string | null;
+    concurrent?: boolean;
+    /**
+     * 
+     * @type {boolean}
+     * @memberof JobDetail
+     */
+    includeAnnotations?: boolean;
+    /**
+     * 
+     * @type {string}
+     * @memberof JobDetail
+     */
+    properties?: string | null;
+    /**
+     * 
+     * @type {Date}
+     * @memberof JobDetail
+     */
+    updatedTime?: Date | null;
 }

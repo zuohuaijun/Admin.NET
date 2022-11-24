@@ -297,7 +297,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/ownMenuTree")]
-    public async Task<List<SysMenu>> OwnMenuTree([FromQuery] TenantInput input)
+    public async Task<List<SysMenu>> OwnMenuTree([FromQuery] TenantUserInput input)
     {
         var roleIds = await _sysUserRoleService.GetUserRoleIdList(input.UserId);
         return await _sysRoleMenuService.GetRoleMenuTree(new List<long> { roleIds[0] });
@@ -309,7 +309,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpGet("/sysTenant/ownMenuList")]
-    public async Task<List<long>> OwnMenuList([FromQuery] TenantInput input)
+    public async Task<List<long>> OwnMenuList([FromQuery] TenantUserInput input)
     {
         var roleIds = await _sysUserRoleService.GetUserRoleIdList(input.UserId);
         return await _sysRoleMenuService.GetRoleMenuList(new List<long> { roleIds[0] });
@@ -321,7 +321,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [HttpPost("/sysTenant/resetPwd")]
-    public async Task ResetTenantPwd(TenantInput input)
+    public async Task ResetTenantPwd(TenantUserInput input)
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
         var encryptPassword = MD5Encryption.Encrypt(password);

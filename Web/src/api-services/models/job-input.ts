@@ -14,13 +14,13 @@
 /**
  * 
  * @export
- * @interface DeleteTimerInput
+ * @interface JobInput
  */
-export interface DeleteTimerInput {
+export interface JobInput {
     /**
-     * 主键Id
-     * @type {number}
-     * @memberof DeleteTimerInput
+     * 作业任务名称
+     * @type {string}
+     * @memberof JobInput
      */
-    id: number;
+    name: string;
 }

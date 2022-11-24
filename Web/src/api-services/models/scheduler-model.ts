@@ -11,13 +11,24 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { JobDetail } from './job-detail';
+import { Trigger } from './trigger';
 /**
- * <br />&nbsp;并行执行 Parallel = 0<br />&nbsp;串行执行 Serial = 1<br />
+ * 
  * @export
- * @enum {string}
+ * @interface SchedulerModel
  */
-export enum SpareTimeExecuteTypes {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1
+export interface SchedulerModel {
+    /**
+     * 
+     * @type {JobDetail}
+     * @memberof SchedulerModel
+     */
+    jobDetail?: JobDetail;
+    /**
+     * 
+     * @type {Array<Trigger>}
+     * @memberof SchedulerModel
+     */
+    triggers?: Array<Trigger> | null;
 }
-

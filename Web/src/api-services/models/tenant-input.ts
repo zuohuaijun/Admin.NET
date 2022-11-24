@@ -30,10 +30,4 @@ export interface TenantInput {
      * @memberof TenantInput
      */
     status?: StatusEnum;
-    /**
-     * 用户Id
-     * @type {number}
-     * @memberof TenantInput
-     */
-    userId?: number;
 }

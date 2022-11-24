@@ -6245,11 +6245,6 @@
             状态
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.TenantInput.UserId">
-            <summary>
-            用户Id
-            </summary>
-        </member>
         <member name="P:Admin.NET.Core.Service.PageTenantInput.Name">
             <summary>
             名称
@@ -6268,6 +6263,11 @@
         <member name="P:Admin.NET.Core.Service.AddTenantInput.AdminName">
             <summary>
             管理员名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.TenantUserInput.UserId">
+            <summary>
+            用户Id
             </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.TenantOutput.Name">
@@ -6349,21 +6349,21 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuTree(Admin.NET.Core.Service.TenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuTree(Admin.NET.Core.Service.TenantUserInput)">
             <summary>
             获取租户管理员角色拥有菜单树
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuList(Admin.NET.Core.Service.TenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuList(Admin.NET.Core.Service.TenantUserInput)">
             <summary>
             获取租户管理员角色拥有菜单树
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.ResetTenantPwd(Admin.NET.Core.Service.TenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.ResetTenantPwd(Admin.NET.Core.Service.TenantUserInput)">
             <summary>
             重置租户管理员密码
             </summary>

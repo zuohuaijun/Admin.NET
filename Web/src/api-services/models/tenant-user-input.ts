@@ -12,12 +12,15 @@
  * Do not edit the class manually.
  */
 /**
- * <br />&nbsp;间隔方式 Interval = 0<br />&nbsp;Cron 表达式 Cron = 1<br />
+ * 
  * @export
- * @enum {string}
+ * @interface TenantUserInput
  */
-export enum SpareTimeTypes {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1
+export interface TenantUserInput {
+    /**
+     * 用户Id
+     * @type {number}
+     * @memberof TenantUserInput
+     */
+    userId?: number;
 }
-

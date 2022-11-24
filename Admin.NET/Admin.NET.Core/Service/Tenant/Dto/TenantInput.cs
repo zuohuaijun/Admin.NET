@@ -6,11 +6,6 @@ public class TenantInput : BaseIdInput
     /// 状态
     /// </summary>
     public StatusEnum Status { get; set; }
-
-    /// <summary>
-    /// 用户Id
-    /// </summary>
-    public long UserId { get; set; }
 }
 
 public class PageTenantInput : BasePageInput
@@ -49,4 +44,12 @@ public class UpdateTenantInput : AddTenantInput
 
 public class DeleteTenantInput : BaseIdInput
 {
+}
+
+public class TenantUserInput
+{
+    /// <summary>
+    /// 用户Id
+    /// </summary>
+    public long UserId { get; set; }
 }
