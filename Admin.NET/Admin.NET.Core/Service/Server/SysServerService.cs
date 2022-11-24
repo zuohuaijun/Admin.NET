@@ -49,7 +49,9 @@ public class SysServerService : IDynamicApiController, ITransient
     public dynamic GetServerUsed()
     {
         var programStartTime = Process.GetCurrentProcess().StartTime;
-        var programRunTime = DateTimeUtil.FormatTime((DateTime.Now - programStartTime).TotalMilliseconds.ToString().Split('.')[0].ParseToLong());
+        var totalMilliseconds = (DateTime.Now - programStartTime).TotalMilliseconds.ToString();
+        var ts = totalMilliseconds.Contains('.') ? totalMilliseconds.Split('.')[0] : totalMilliseconds;
+        var programRunTime = DateTimeUtil.FormatTime(ts.ParseToLong());
 
         var memoryMetrics = ComputerUtil.GetComputerInfo();
         return new
