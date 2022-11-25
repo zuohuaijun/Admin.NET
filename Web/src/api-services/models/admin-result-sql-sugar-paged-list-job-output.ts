@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SchedulerModel } from './scheduler-model';
+import { SqlSugarPagedListJobOutput } from './sql-sugar-paged-list-job-output';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultListSchedulerModel
+ * @interface AdminResultSqlSugarPagedListJobOutput
  */
-export interface AdminResultListSchedulerModel {
+export interface AdminResultSqlSugarPagedListJobOutput {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultListSchedulerModel
+     * @memberof AdminResultSqlSugarPagedListJobOutput
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultListSchedulerModel
+     * @memberof AdminResultSqlSugarPagedListJobOutput
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultListSchedulerModel
+     * @memberof AdminResultSqlSugarPagedListJobOutput
      */
     message?: string | null;
     /**
-     * 数据
-     * @type {Array<SchedulerModel>}
-     * @memberof AdminResultListSchedulerModel
+     * 
+     * @type {SqlSugarPagedListJobOutput}
+     * @memberof AdminResultSqlSugarPagedListJobOutput
      */
-    result?: Array<SchedulerModel> | null;
+    result?: SqlSugarPagedListJobOutput;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultListSchedulerModel
+     * @memberof AdminResultSqlSugarPagedListJobOutput
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultListSchedulerModel
+     * @memberof AdminResultSqlSugarPagedListJobOutput
      */
     time?: Date;
 }

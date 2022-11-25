@@ -5271,9 +5271,54 @@
             </summary>
             <param name="context"></param>
         </member>
-        <member name="P:Admin.NET.Core.Service.JobInput.Name">
+        <member name="P:Admin.NET.Core.Service.JobDetailInput.JobId">
             <summary>
-            作业任务名称
+            作业Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageJobInput.JobId">
+            <summary>
+            作业Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.PageJobInput.Description">
+            <summary>
+            描述信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddJobDetailInput.JobId">
+            <summary>
+            作业Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.JobOutput.JobDetail">
+            <summary>
+            作业信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.JobOutput.JobTriggers">
+            <summary>
+            触发器集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.JobTriggerInput.JobId">
+            <summary>
+            作业Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.JobTriggerInput.TriggerId">
+            <summary>
+            触发器Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddJobTriggerInput.JobId">
+            <summary>
+            作业Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddJobTriggerInput.TriggerId">
+            <summary>
+            触发器Id
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.JobClusterServer">
@@ -5318,22 +5363,56 @@
             系统作业任务服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysJobService.GetJobList">
+        <member name="M:Admin.NET.Core.Service.SysJobService.GetJobPage(Admin.NET.Core.Service.PageJobInput)">
             <summary>
-            获取所有作业任务列表
+            获取作业分页列表
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysJobService.AddJob">
+        <member name="M:Admin.NET.Core.Service.SysJobService.AddJobDetail(Admin.NET.Core.Service.AddJobDetailInput)">
             <summary>
-            增加作业任务
+            添加作业
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysJobService.DeleteJob(Admin.NET.Core.Service.JobInput)">
+        <member name="M:Admin.NET.Core.Service.SysJobService.UpdateJobDetail(Admin.NET.Core.Service.UpdateJobDetailInput)">
             <summary>
-            删除作业任务
+            更新作业
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.DeleteJobDetail(Admin.NET.Core.Service.DeleteJobDetailInput)">
+            <summary>
+            删除作业
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.GetJobTriggerList(Admin.NET.Core.Service.JobDetailInput)">
+            <summary>
+            获取触发器列表
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.AddJobTrigger(Admin.NET.Core.Service.AddJobTriggerInput)">
+            <summary>
+            添加作业
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.UpdateJobTrigger(Admin.NET.Core.Service.UpdateJobTriggerInput)">
+            <summary>
+            更新触发器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.DeleteJobTrigger(Admin.NET.Core.Service.DeleteJobTriggerInput)">
+            <summary>
+            删除触发器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.GetJobClusterList">
+            <summary>
+            获取集群列表
+            </summary>
         </member>
         <member name="P:Admin.NET.Core.Service.PageLogInput.StartTime">
             <summary>

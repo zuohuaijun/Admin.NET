@@ -14,13 +14,13 @@
 /**
  * 
  * @export
- * @interface JobInput
+ * @interface DeleteJobDetailInput
  */
-export interface JobInput {
+export interface DeleteJobDetailInput {
     /**
-     * 作业任务名称
+     * 作业Id
      * @type {string}
-     * @memberof JobInput
+     * @memberof DeleteJobDetailInput
      */
-    name: string;
+    jobId?: string | null;
 }

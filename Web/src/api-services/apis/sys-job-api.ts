@@ -16,9 +16,16 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { AdminResultListSchedulerModel } from '../models';
+import { AddJobDetailInput } from '../models';
+import { AddJobTriggerInput } from '../models';
+import { AdminResultListSysJobCluster } from '../models';
+import { AdminResultListSysJobTrigger } from '../models';
 import { AdminResultScheduleResult } from '../models';
-import { JobInput } from '../models';
+import { AdminResultSqlSugarPagedListJobOutput } from '../models';
+import { DeleteJobDetailInput } from '../models';
+import { DeleteJobTriggerInput } from '../models';
+import { UpdateJobDetailInput } from '../models';
+import { UpdateJobTriggerInput } from '../models';
 /**
  * SysJobApi - axios parameter creator
  * @export
@@ -27,19 +34,19 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
     return {
         /**
          * 
-         * @summary 增加作业任务
+         * @summary 获取集群列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysJobAddPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysJob/add`;
+        sysJobClusterListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysJob/clusterList`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -63,13 +70,13 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
-         * @summary 删除作业任务
-         * @param {JobInput} [body] 
+         * @summary 添加作业
+         * @param {AddJobDetailInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysJobDeletePost: async (body?: JobInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysJob/delete`;
+        sysJobDetailAddPost: async (body?: AddJobDetailInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysJob/detailAdd`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -104,12 +111,101 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
         },
         /**
          * 
-         * @summary 获取所有作业任务列表
+         * @summary 删除作业
+         * @param {DeleteJobDetailInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysJobListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysJob/list`;
+        sysJobDetailDeletePost: async (body?: DeleteJobDetailInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysJob/detailDelete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 更新作业
+         * @param {UpdateJobDetailInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysJobDetailUpdatePost: async (body?: UpdateJobDetailInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysJob/detailUpdate`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 获取作业分页列表
+         * @param {string} [jobId] 作业Id
+         * @param {string} [description] 描述信息
+         * @param {number} [page] 当前页码
+         * @param {number} [pageSize] 页码容量
+         * @param {string} [field] 排序字段
+         * @param {string} [order] 排序方向
+         * @param {string} [descStr] 降序排序
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysJobPageGet: async (jobId?: string, description?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysJob/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -121,6 +217,34 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+
+            if (jobId !== undefined) {
+                localVarQueryParameter['JobId'] = jobId;
+            }
+
+            if (description !== undefined) {
+                localVarQueryParameter['Description'] = description;
+            }
+
+            if (page !== undefined) {
+                localVarQueryParameter['Page'] = page;
+            }
+
+            if (pageSize !== undefined) {
+                localVarQueryParameter['PageSize'] = pageSize;
+            }
+
+            if (field !== undefined) {
+                localVarQueryParameter['Field'] = field;
+            }
+
+            if (order !== undefined) {
+                localVarQueryParameter['Order'] = order;
+            }
+
+            if (descStr !== undefined) {
+                localVarQueryParameter['DescStr'] = descStr;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -138,6 +262,170 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
                 options: localVarRequestOptions,
             };
         },
+        /**
+         * 
+         * @summary 添加作业
+         * @param {AddJobTriggerInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysJobTriggerAddPost: async (body?: AddJobTriggerInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysJob/triggerAdd`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 删除触发器
+         * @param {DeleteJobTriggerInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysJobTriggerDeletePost: async (body?: DeleteJobTriggerInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysJob/triggerDelete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 获取触发器列表
+         * @param {string} [jobId] 作业Id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysJobTriggerListGet: async (jobId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysJob/triggerList`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            if (jobId !== undefined) {
+                localVarQueryParameter['JobId'] = jobId;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 更新触发器
+         * @param {UpdateJobTriggerInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysJobTriggerUpdatePost: async (body?: UpdateJobTriggerInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysJob/triggerUpdate`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
     }
 };
 
@@ -149,12 +437,12 @@ export const SysJobApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary 增加作业任务
+         * @summary 获取集群列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysJobAddPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultScheduleResult>>> {
-            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobAddPost(options);
+        async sysJobClusterListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysJobCluster>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobClusterListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -162,13 +450,13 @@ export const SysJobApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 删除作业任务
-         * @param {JobInput} [body] 
+         * @summary 添加作业
+         * @param {AddJobDetailInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysJobDeletePost(body?: JobInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultScheduleResult>>> {
-            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobDeletePost(body, options);
+        async sysJobDetailAddPost(body?: AddJobDetailInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobDetailAddPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -176,12 +464,103 @@ export const SysJobApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取所有作业任务列表
+         * @summary 删除作业
+         * @param {DeleteJobDetailInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysJobListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSchedulerModel>>> {
-            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobListGet(options);
+        async sysJobDetailDeletePost(body?: DeleteJobDetailInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultScheduleResult>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobDetailDeletePost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 更新作业
+         * @param {UpdateJobDetailInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobDetailUpdatePost(body?: UpdateJobDetailInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobDetailUpdatePost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取作业分页列表
+         * @param {string} [jobId] 作业Id
+         * @param {string} [description] 描述信息
+         * @param {number} [page] 当前页码
+         * @param {number} [pageSize] 页码容量
+         * @param {string} [field] 排序字段
+         * @param {string} [order] 排序方向
+         * @param {string} [descStr] 降序排序
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobPageGet(jobId?: string, description?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobPageGet(jobId, description, page, pageSize, field, order, descStr, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 添加作业
+         * @param {AddJobTriggerInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobTriggerAddPost(body?: AddJobTriggerInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobTriggerAddPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 删除触发器
+         * @param {DeleteJobTriggerInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobTriggerDeletePost(body?: DeleteJobTriggerInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobTriggerDeletePost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取触发器列表
+         * @param {string} [jobId] 作业Id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobTriggerListGet(jobId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysJobTrigger>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobTriggerListGet(jobId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 更新触发器
+         * @param {UpdateJobTriggerInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobTriggerUpdatePost(body?: UpdateJobTriggerInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).sysJobTriggerUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -198,31 +577,98 @@ export const SysJobApiFactory = function (configuration?: Configuration, basePat
     return {
         /**
          * 
-         * @summary 增加作业任务
+         * @summary 获取集群列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysJobAddPost(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultScheduleResult>> {
-            return SysJobApiFp(configuration).sysJobAddPost(options).then((request) => request(axios, basePath));
+        async sysJobClusterListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysJobCluster>> {
+            return SysJobApiFp(configuration).sysJobClusterListGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 删除作业任务
-         * @param {JobInput} [body] 
+         * @summary 添加作业
+         * @param {AddJobDetailInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysJobDeletePost(body?: JobInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultScheduleResult>> {
-            return SysJobApiFp(configuration).sysJobDeletePost(body, options).then((request) => request(axios, basePath));
+        async sysJobDetailAddPost(body?: AddJobDetailInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysJobApiFp(configuration).sysJobDetailAddPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 获取所有作业任务列表
+         * @summary 删除作业
+         * @param {DeleteJobDetailInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysJobListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSchedulerModel>> {
-            return SysJobApiFp(configuration).sysJobListGet(options).then((request) => request(axios, basePath));
+        async sysJobDetailDeletePost(body?: DeleteJobDetailInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultScheduleResult>> {
+            return SysJobApiFp(configuration).sysJobDetailDeletePost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 更新作业
+         * @param {UpdateJobDetailInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobDetailUpdatePost(body?: UpdateJobDetailInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysJobApiFp(configuration).sysJobDetailUpdatePost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取作业分页列表
+         * @param {string} [jobId] 作业Id
+         * @param {string} [description] 描述信息
+         * @param {number} [page] 当前页码
+         * @param {number} [pageSize] 页码容量
+         * @param {string} [field] 排序字段
+         * @param {string} [order] 排序方向
+         * @param {string} [descStr] 降序排序
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobPageGet(jobId?: string, description?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>> {
+            return SysJobApiFp(configuration).sysJobPageGet(jobId, description, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 添加作业
+         * @param {AddJobTriggerInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobTriggerAddPost(body?: AddJobTriggerInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysJobApiFp(configuration).sysJobTriggerAddPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 删除触发器
+         * @param {DeleteJobTriggerInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobTriggerDeletePost(body?: DeleteJobTriggerInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysJobApiFp(configuration).sysJobTriggerDeletePost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取触发器列表
+         * @param {string} [jobId] 作业Id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobTriggerListGet(jobId?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysJobTrigger>> {
+            return SysJobApiFp(configuration).sysJobTriggerListGet(jobId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 更新触发器
+         * @param {UpdateJobTriggerInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysJobTriggerUpdatePost(body?: UpdateJobTriggerInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysJobApiFp(configuration).sysJobTriggerUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -236,33 +682,106 @@ export const SysJobApiFactory = function (configuration?: Configuration, basePat
 export class SysJobApi extends BaseAPI {
     /**
      * 
-     * @summary 增加作业任务
+     * @summary 获取集群列表
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysJobApi
      */
-    public async sysJobAddPost(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultScheduleResult>> {
-        return SysJobApiFp(this.configuration).sysJobAddPost(options).then((request) => request(this.axios, this.basePath));
+    public async sysJobClusterListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysJobCluster>> {
+        return SysJobApiFp(this.configuration).sysJobClusterListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 删除作业任务
-     * @param {JobInput} [body] 
+     * @summary 添加作业
+     * @param {AddJobDetailInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysJobApi
      */
-    public async sysJobDeletePost(body?: JobInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultScheduleResult>> {
-        return SysJobApiFp(this.configuration).sysJobDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysJobDetailAddPost(body?: AddJobDetailInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysJobApiFp(this.configuration).sysJobDetailAddPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 获取所有作业任务列表
+     * @summary 删除作业
+     * @param {DeleteJobDetailInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysJobApi
      */
-    public async sysJobListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSchedulerModel>> {
-        return SysJobApiFp(this.configuration).sysJobListGet(options).then((request) => request(this.axios, this.basePath));
+    public async sysJobDetailDeletePost(body?: DeleteJobDetailInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultScheduleResult>> {
+        return SysJobApiFp(this.configuration).sysJobDetailDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 更新作业
+     * @param {UpdateJobDetailInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysJobApi
+     */
+    public async sysJobDetailUpdatePost(body?: UpdateJobDetailInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysJobApiFp(this.configuration).sysJobDetailUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取作业分页列表
+     * @param {string} [jobId] 作业Id
+     * @param {string} [description] 描述信息
+     * @param {number} [page] 当前页码
+     * @param {number} [pageSize] 页码容量
+     * @param {string} [field] 排序字段
+     * @param {string} [order] 排序方向
+     * @param {string} [descStr] 降序排序
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysJobApi
+     */
+    public async sysJobPageGet(jobId?: string, description?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>> {
+        return SysJobApiFp(this.configuration).sysJobPageGet(jobId, description, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 添加作业
+     * @param {AddJobTriggerInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysJobApi
+     */
+    public async sysJobTriggerAddPost(body?: AddJobTriggerInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysJobApiFp(this.configuration).sysJobTriggerAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 删除触发器
+     * @param {DeleteJobTriggerInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysJobApi
+     */
+    public async sysJobTriggerDeletePost(body?: DeleteJobTriggerInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysJobApiFp(this.configuration).sysJobTriggerDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取触发器列表
+     * @param {string} [jobId] 作业Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysJobApi
+     */
+    public async sysJobTriggerListGet(jobId?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysJobTrigger>> {
+        return SysJobApiFp(this.configuration).sysJobTriggerListGet(jobId, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 更新触发器
+     * @param {UpdateJobTriggerInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysJobApi
+     */
+    public async sysJobTriggerUpdatePost(body?: UpdateJobTriggerInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysJobApiFp(this.configuration).sysJobTriggerUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

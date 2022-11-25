@@ -107,4 +107,10 @@ export interface SysLogEx {
      * @memberof SysLogEx
      */
     threadId?: number;
+    /**
+     * 请求跟踪Id
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    traceId?: string | null;
 }

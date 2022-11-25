@@ -107,4 +107,10 @@ export interface SysLogOp {
      * @memberof SysLogOp
      */
     threadId?: number;
+    /**
+     * 请求跟踪Id
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    traceId?: string | null;
 }

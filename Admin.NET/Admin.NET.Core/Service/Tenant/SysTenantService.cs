@@ -264,6 +264,13 @@ public class SysTenantService : IDynamicApiController, ITransient
     [HttpPost("/sysTenant/update")]
     public async Task UpdateTenant(UpdateTenantInput input)
     {
+        var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.OrgId);
+        if (isExist)
+            throw Oops.Oh(ErrorCodeEnum.D1300);
+        isExist = await _sysUserRep.IsAnyAsync(u => u.Account == input.AdminName && u.Id != input.UserId);
+        if (isExist)
+            throw Oops.Oh(ErrorCodeEnum.D1301);
+
         await _sysTenantRep.AsUpdateable(input.Adapt<TenantOutput>()).IgnoreColumns(true).ExecuteCommandAsync();
 
         // 更新系统机构
