@@ -30,7 +30,7 @@ public class AddJobTriggerInput : SysJobTrigger
 }
 
 [NotTable]
-public class UpdateJobTriggerInput : AddJobDetailInput
+public class UpdateJobTriggerInput : AddJobTriggerInput
 {
 }
 

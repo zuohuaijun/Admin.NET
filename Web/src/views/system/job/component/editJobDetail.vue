@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-jobDetail-container">
-		<el-dialog v-model="isShowDialog" draggable width="769px">
+		<el-dialog v-model="isShowDialog" draggable :close-on-click-modal="false" width="769px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>

@@ -822,6 +822,11 @@
             是否启动时执行一次
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysJobTrigger.ResetOnlyOnce">
+            <summary>
+            是否在启动时重置最大触发次数等于一次的作业
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.SysJobTrigger.UpdatedTime">
             <summary>
             更新时间
@@ -5393,7 +5398,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysJobService.AddJobTrigger(Admin.NET.Core.Service.AddJobTriggerInput)">
             <summary>
-            添加作业
+            添加触发器
             </summary>
             <returns></returns>
         </member>
@@ -5408,6 +5413,48 @@
             删除触发器
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.PauseAllJob">
+            <summary>
+            暂停所有作业
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.StartAllJob">
+            <summary>
+            启动所有作业
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.PauseJob(Admin.NET.Core.Service.JobDetailInput)">
+            <summary>
+            暂停作业
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.StartJob(Admin.NET.Core.Service.JobDetailInput)">
+            <summary>
+            启动作业
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.PauseTrigger(Admin.NET.Core.Service.JobTriggerInput)">
+            <summary>
+            暂停触发器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.StartTrigger(Admin.NET.Core.Service.JobTriggerInput)">
+            <summary>
+            启动触发器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.CancelSleep">
+            <summary>
+            强制唤醒作业调度器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysJobService.PersistAll">
+            <summary>
+            强制触发所有作业持久化
+            </summary>
         </member>
         <member name="M:Admin.NET.Core.Service.SysJobService.GetJobClusterList">
             <summary>

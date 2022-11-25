@@ -11,7 +11,26 @@
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
 					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysJob:page'"> 查询 </el-button>
-					<el-button icon="ele-Plus" @click="openAddJobDetail" v-auth="'sysJob:add'"> 新增作业 </el-button>
+					<el-button-group style="margin: 0px 12px">
+						<el-tooltip content="增加作业">
+							<el-button icon="ele-CirclePlus" @click="openAddJobDetail" v-auth="'sysJob:add'"> </el-button>
+						</el-tooltip>
+						<el-tooltip content="启动所有作业">
+							<el-button icon="ele-VideoPlay" @click="startAllJob" />
+						</el-tooltip>
+						<el-tooltip content="暂停所有作业">
+							<el-button icon="ele-VideoPause" @click="pauseAllJob" />
+						</el-tooltip>
+					</el-button-group>
+					<el-button-group style="margin: 0px 12px 0px 0px">
+						<el-tooltip content="强制唤醒作业调度器">
+							<el-button icon="ele-AlarmClock" @click="cancelSleep" />
+						</el-tooltip>
+						<el-tooltip content="强制触发所有作业持久化">
+							<el-button icon="ele-Connection" @click="persistAll" />
+						</el-tooltip>
+					</el-button-group>
+					<el-button icon="ele-Coin" @click="openJobCluster" type="danger" plain> 集群控制 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -46,31 +65,47 @@
 							</el-table-column>
 							<el-table-column prop="startTime" label="起始时间" width="100" align="center" show-overflow-tooltip />
 							<el-table-column prop="endTime" label="结束时间" width="100" align="center" show-overflow-tooltip />
-							<el-table-column prop="lastRunTime" label="最近运行时间" width="160" align="center" show-overflow-tooltip />
-							<el-table-column prop="nextRunTime" label="下一次运行时间" width="160" align="center" show-overflow-tooltip />
+							<el-table-column prop="lastRunTime" label="最近运行时间" width="140" align="center" show-overflow-tooltip />
+							<el-table-column prop="nextRunTime" label="下一次运行时间" width="140" align="center" show-overflow-tooltip />
 							<el-table-column prop="numberOfRuns" label="触发次数" width="100" align="center" show-overflow-tooltip />
-							<el-table-column prop="maxNumberOfRuns" label="最大触发次数" width="150" align="center" show-overflow-tooltip />
+							<el-table-column prop="maxNumberOfRuns" label="最大触发次数" width="120" align="center" show-overflow-tooltip />
 							<el-table-column prop="numberOfErrors" label="出错次数" width="100" align="center" show-overflow-tooltip />
-							<el-table-column prop="maxNumberOfErrors" label="最大出错次数" width="150" align="center" show-overflow-tooltip />
+							<el-table-column prop="maxNumberOfErrors" label="最大出错次数" width="120" align="center" show-overflow-tooltip />
 							<el-table-column prop="numRetries" label="重试次数" width="100" align="center" show-overflow-tooltip />
-							<el-table-column prop="retryTimeout" label="重试间隔ms" width="120" align="center" show-overflow-tooltip />
-							<el-table-column prop="startNow" label="是否立即启动" width="120" align="center" show-overflow-tooltip>
+							<el-table-column prop="retryTimeout" label="重试间隔ms" width="100" align="center" show-overflow-tooltip />
+							<el-table-column prop="startNow" label="是否立即启动" width="100" align="center" show-overflow-tooltip>
 								<template #default="scope">
 									<el-tag v-if="scope.row.startNow == true"> 是 </el-tag>
 									<el-tag v-else> 否 </el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column prop="runOnStart" label="是否启动时执行一次" width="160" align="center" show-overflow-tooltip>
+							<el-table-column prop="runOnStart" label="是否启动时执行一次" width="150" align="center" show-overflow-tooltip>
 								<template #default="scope">
 									<el-tag v-if="scope.row.runOnStart == true"> 是 </el-tag>
 									<el-tag v-else> 否 </el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column prop="updatedTime" label="更新时间" width="160" align="center" show-overflow-tooltip />
+							<el-table-column prop="resetOnlyOnce" label="是否只运行一次" width="120" align="center" show-overflow-tooltip>
+								<template #default="scope">
+									<el-tag v-if="scope.row.resetOnlyOnce == true"> 是 </el-tag>
+									<el-tag v-else> 否 </el-tag>
+								</template>
+							</el-table-column>
+							<el-table-column prop="updatedTime" label="更新时间" width="140" align="center" show-overflow-tooltip />
 							<el-table-column label="操作" width="140" align="center" show-overflow-tooltip>
 								<template #default="scope">
-									<el-button icon="ele-Edit" size="small" text type="primary"> 编辑 </el-button>
-									<el-button icon="ele-Delete" size="small" text type="danger"> 删除 </el-button>
+									<el-tooltip content="启动触发器">
+										<el-button size="small" type="primary" icon="ele-VideoPlay" text @click="startTrigger(scope.row)" />
+									</el-tooltip>
+									<el-tooltip content="暂停触发器">
+										<el-button size="small" type="primary" icon="ele-VideoPause" text @click="pauseTrigger(scope.row)" />
+									</el-tooltip>
+									<el-tooltip content="编辑触发器">
+										<el-button size="small" type="primary" icon="ele-Edit" text @click="openEditJobTrigger(scope.row)"> </el-button>
+									</el-tooltip>
+									<el-tooltip content="删除触发器">
+										<el-button size="small" type="danger" icon="ele-Delete" text @click="delJobTrigger(scope.row)"> </el-button>
+									</el-tooltip>
 								</template>
 							</el-table-column>
 						</el-table>
@@ -103,11 +138,23 @@
 				</el-table-column>
 				<el-table-column prop="jobDetail.properties" label="额外数据" show-overflow-tooltip />
 				<el-table-column prop="jobDetail.updatedTime" label="更新时间" width="160" align="center" show-overflow-tooltip />
-				<el-table-column label="操作" width="230" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="170" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Clock" size="small" text type="warning"> 新增触发器 </el-button>
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditJobDetail(scope.row)" v-auth="'sysJob:update'"> 编辑 </el-button>
-						<el-button icon="ele-Delete" size="small" text type="danger" @click="delJobDetail(scope.row)" v-auth="'sysJob:delete'"> 删除 </el-button>
+						<el-tooltip content="增加触发器">
+							<el-button size="small" type="primary" icon="ele-CirclePlus" text @click="openAddJobTrigger"> </el-button>
+						</el-tooltip>
+						<el-tooltip content="启动作业">
+							<el-button size="small" type="primary" icon="ele-VideoPlay" text @click="startJob(scope.row)" />
+						</el-tooltip>
+						<el-tooltip content="暂停作业">
+							<el-button size="small" type="primary" icon="ele-VideoPause" text @click="pauseJob(scope.row)" />
+						</el-tooltip>
+						<el-tooltip content="编辑作业">
+							<el-button size="small" type="primary" icon="ele-Edit" text @click="openEditJobDetail(scope.row)" v-auth="'sysJob:update'"> </el-button>
+						</el-tooltip>
+						<el-tooltip content="删除作业">
+							<el-button size="small" type="danger" icon="ele-Delete" text @click="delJobDetail(scope.row)" v-auth="'sysJob:delete'"> </el-button>
+						</el-tooltip>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -124,15 +171,19 @@
 			/>
 		</el-card>
 		<EditJobDetail ref="editJobDetailRef" :title="editJobDetailTitle" />
+		<EditJobTrigger ref="editJobTriggerRef" :title="editJobTriggerTitle" />
+		<JobCluster ref="editJobClusterRef" />
 	</div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted, onActivated, onDeactivated } from 'vue';
+import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import mittBus from '/@/utils/mitt';
 import { Timer } from '@element-plus/icons-vue';
 import EditJobDetail from '/@/views/system/job/component/editJobDetail.vue';
+import EditJobTrigger from '/@/views/system/job/component/editJobTrigger.vue';
+import JobCluster from '/@/views/system/job/component/jobCluster.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysJobApi } from '/@/api-services/api';
@@ -140,9 +191,11 @@ import { JobOutput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysJob',
-	components: { Timer, EditJobDetail },
+	components: { Timer, EditJobDetail, EditJobTrigger, JobCluster },
 	setup() {
 		const editJobDetailRef = ref();
+		const editJobTriggerRef = ref();
+		const editJobClusterRef = ref();
 		const state = reactive({
 			loading: false,
 			jobData: [] as Array<JobOutput>,
@@ -156,7 +209,7 @@ export default defineComponent({
 				total: 0 as any,
 			},
 			editJobDetailTitle: '',
-			timer: null as any,
+			editJobTriggerTitle: '',
 		});
 		onMounted(async () => {
 			handleQuery();
@@ -189,7 +242,6 @@ export default defineComponent({
 		};
 		// 打开编辑作业页面
 		const openEditJobDetail = (row: any) => {
-			console.log(row)
 			state.editJobDetailTitle = '编辑作业';
 			editJobDetailRef.value.openDialog(row.jobDetail);
 		};
@@ -207,6 +259,31 @@ export default defineComponent({
 				})
 				.catch(() => {});
 		};
+		// 打开新增触发器页面
+		const openAddJobTrigger = () => {
+			state.editJobTriggerTitle = '添加触发器';
+			editJobTriggerRef.value.openDialog({ retryTimeout: 1000, startNow: true, runOnStart: true, resetOnlyOnce: true });
+		};
+		// 打开编辑触发器页面
+		const openEditJobTrigger = (row: any) => {
+			console.log(row);
+			state.editJobTriggerTitle = '编辑触发器';
+			editJobTriggerRef.value.openDialog(row);
+		};
+		// 删除触发器
+		const delJobTrigger = (row: any) => {
+			ElMessageBox.confirm(`确定删除触发器：【${row.triggerId}】?`, '提示', {
+				confirmButtonText: '确定',
+				cancelButtonText: '取消',
+				type: 'warning',
+			})
+				.then(async () => {
+					await getAPI(SysJobApi).sysJobTriggerDeletePost({ triggerId: row.triggerId });
+					handleQuery();
+					ElMessage.success('删除成功');
+				})
+				.catch(() => {});
+		};
 		// 改变页面容量
 		const handleSizeChange = (val: number) => {
 			state.tableParams.pageSize = val;
@@ -217,20 +294,54 @@ export default defineComponent({
 			state.tableParams.page = val;
 			handleQuery();
 		};
-		// 修改状态
-		const changeStatus = async (row: any) => {
-			//await getAPI(SysJobApi).sysTimerSetStatusPost({ timerName: row.timerName, status: row.status });
+		// 启动所有作业
+		const startAllJob = async () => {
+			await getAPI(SysJobApi).sysJobStartAllPost();
+			ElMessage.success('启动所有作业');
 		};
-		onActivated(() => {
-			// state.timer = setInterval(() => {
-			// 	handleQuery();
-			// }, 10000);
-		});
-		onDeactivated(() => {
-			clearInterval(state.timer);
-		});
+		// 暂停所有作业
+		const pauseAllJob = async () => {
+			await getAPI(SysJobApi).sysJobPauseAllPost();
+			ElMessage.success('暂停所有作业');
+		};
+		// 启动某个作业
+		const startJob = async (row: any) => {
+			await getAPI(SysJobApi).sysJobStartJobPost({ jobId: row.jobDetail.jobId });
+			ElMessage.success('启动作业');
+		};
+		// 暂停某个作业
+		const pauseJob = async (row: any) => {
+			await getAPI(SysJobApi).sysJobPauseJobPost({ jobId: row.jobDetail.jobId });
+			ElMessage.success('暂停作业');
+		};
+		// 启动触发器
+		const startTrigger = async (row: any) => {
+			await getAPI(SysJobApi).sysJobStartTriggerPost({ jobId: row.jobId, triggerId: row.triggerId });
+			ElMessage.success('启动触发器');
+		};
+		// 暂停触发器
+		const pauseTrigger = async (row: any) => {
+			await getAPI(SysJobApi).sysJobPauseTriggerPost({ jobId: row.jobId, triggerId: row.triggerId });
+			ElMessage.success('暂停触发器');
+		};
+		// 强制唤醒作业调度器
+		const cancelSleep = async () => {
+			await getAPI(SysJobApi).sysJobCancelSleepPost();
+			ElMessage.success('强制唤醒作业调度器');
+		};
+		// 强制触发所有作业持久化
+		const persistAll = async () => {
+			await getAPI(SysJobApi).sysJobPersistAllPost();
+			ElMessage.success('强制触发所有作业持久化');
+		};
+		// 打开集群控制页面
+		const openJobCluster = () => {
+			editJobClusterRef.value.openDrawer();
+		};
 		return {
 			editJobDetailRef,
+			editJobTriggerRef,
+			editJobClusterRef,
 			handleQuery,
 			resetQuery,
 			openAddJobDetail,
@@ -238,7 +349,18 @@ export default defineComponent({
 			delJobDetail,
 			handleSizeChange,
 			handleCurrentChange,
-			changeStatus,
+			openAddJobTrigger,
+			openEditJobTrigger,
+			delJobTrigger,
+			startAllJob,
+			pauseAllJob,
+			startJob,
+			pauseJob,
+			startTrigger,
+			pauseTrigger,
+			cancelSleep,
+			persistAll,
+			openJobCluster,
 			...toRefs(state),
 		};
 	},

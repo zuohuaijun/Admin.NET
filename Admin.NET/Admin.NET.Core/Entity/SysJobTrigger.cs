@@ -127,6 +127,12 @@ public class SysJobTrigger : BaseId
     public bool RunOnStart { get; set; } = false;
 
     /// <summary>
+    /// 是否在启动时重置最大触发次数等于一次的作业
+    /// </summary>
+    [SugarColumn(ColumnDescription = "是否只运行一次")]
+    public bool ResetOnlyOnce { get; set; } = true;
+
+    /// <summary>
     /// 更新时间
     /// </summary>
     [SugarColumn(ColumnDescription = "更新时间")]

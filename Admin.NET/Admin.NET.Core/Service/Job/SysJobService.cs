@@ -75,13 +75,12 @@ public class SysJobService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [HttpPost("/sysJob/detailDelete")]
-    public async Task<ScheduleResult> DeleteJobDetail(DeleteJobDetailInput input)
+    public async Task DeleteJobDetail(DeleteJobDetailInput input)
     {
+        _schedulerFactory.RemoveJob(input.JobId);
+
         await _sysJobDetailRep.DeleteAsync(u => u.JobId == input.JobId);
         await _sysJobTriggerRep.DeleteAsync(u => u.JobId == input.JobId);
-
-        var schedulerResult = _schedulerFactory.TryRemoveJob(input.JobId, out _);
-        return await Task.FromResult(schedulerResult);
     }
 
     /// <summary>
@@ -96,17 +95,17 @@ public class SysJobService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 添加作业
+    /// 添加触发器
     /// </summary>
     /// <returns></returns>
     [HttpPost("/sysJob/triggerAdd")]
     public async Task AddJobTrigger(AddJobTriggerInput input)
     {
-        var isExist = await _sysJobDetailRep.IsAnyAsync(u => u.JobId == input.JobId && u.Id != input.Id);
+        var isExist = await _sysJobTriggerRep.IsAnyAsync(u => u.TriggerId == input.TriggerId && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        await _sysJobDetailRep.UpdateAsync(input.Adapt<SysJobDetail>());
+        await _sysJobTriggerRep.UpdateAsync(input.Adapt<SysJobTrigger>());
     }
 
     /// <summary>
@@ -116,11 +115,11 @@ public class SysJobService : IDynamicApiController, ITransient
     [HttpPost("/sysJob/triggerUpdate")]
     public async Task UpdateJobTrigger(UpdateJobTriggerInput input)
     {
-        var isExist = await _sysJobDetailRep.IsAnyAsync(u => u.JobId == input.JobId && u.Id != input.Id);
+        var isExist = await _sysJobTriggerRep.IsAnyAsync(u => u.TriggerId == input.TriggerId && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        await _sysJobDetailRep.UpdateAsync(input.Adapt<SysJobDetail>());
+        await _sysJobTriggerRep.UpdateAsync(input.Adapt<SysJobTrigger>());
     }
 
     /// <summary>
@@ -130,7 +129,85 @@ public class SysJobService : IDynamicApiController, ITransient
     [HttpPost("/sysJob/triggerDelete")]
     public async Task DeleteJobTrigger(DeleteJobTriggerInput input)
     {
-        await _sysJobTriggerRep.DeleteAsync(u => u.JobId == input.JobId);
+        await _sysJobTriggerRep.DeleteAsync(u => u.TriggerId == input.TriggerId);
+    }
+
+    /// <summary>
+    /// 暂停所有作业
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost("/sysJob/pauseAll")]
+    public void PauseAllJob()
+    {
+        _schedulerFactory.PauseAll();
+    }
+
+    /// <summary>
+    /// 启动所有作业
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost("/sysJob/startAll")]
+    public void StartAllJob()
+    {
+        _schedulerFactory.StartAll();
+    }
+
+    /// <summary>
+    /// 暂停作业
+    /// </summary>
+    [HttpPost("/sysJob/pauseJob")]
+    public void PauseJob(JobDetailInput input)
+    {
+        _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
+        _scheduler?.Pause();
+    }
+
+    /// <summary>
+    /// 启动作业
+    /// </summary>
+    [HttpPost("/sysJob/startJob")]
+    public void StartJob(JobDetailInput input)
+    {
+        _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
+        _scheduler?.Start();
+    }
+
+    /// <summary>
+    /// 暂停触发器
+    /// </summary>
+    [HttpPost("/sysJob/pauseTrigger")]
+    public void PauseTrigger(JobTriggerInput input)
+    {
+        _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
+        _scheduler?.PauseTrigger(input.TriggerId);
+    }
+
+    /// <summary>
+    /// 启动触发器
+    /// </summary>
+    [HttpPost("/sysJob/startTrigger")]
+    public void StartTrigger(JobTriggerInput input)
+    {
+        _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
+        _scheduler?.StartTrigger(input.TriggerId);
+    }
+
+    /// <summary>
+    /// 强制唤醒作业调度器
+    /// </summary>
+    [HttpPost("/sysJob/cancelSleep")]
+    public void CancelSleep()
+    {
+        _schedulerFactory.CancelSleep();
+    }
+
+    /// <summary>
+    /// 强制触发所有作业持久化
+    /// </summary>
+    [HttpPost("/sysJob/persistAll")]
+    public void PersistAll()
+    {
+        _schedulerFactory.PersistAll();
     }
 
     /// <summary>

@@ -40,10 +40,8 @@ public class DbJobPersistence : IJobPersistence
         {
             return builder.Updated();
         }
-        else
-        {
-            return builder.Appended();
-        }
+
+        return builder.Appended();
     }
 
     /// <summary>

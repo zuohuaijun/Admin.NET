@@ -12,16 +12,15 @@
  * Do not edit the class manually.
  */
 /**
- * <br />&nbsp; NotFound = 0<br />&nbsp; NotIdentify = 1<br />&nbsp; Exists = 2<br />&nbsp; Succeed = 3<br />&nbsp; Removed = 4<br />&nbsp; Failed = 5<br />
+ * 
  * @export
- * @enum {string}
+ * @interface JobDetailInput
  */
-export enum ScheduleResult {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_2 = 2,
-    NUMBER_3 = 3,
-    NUMBER_4 = 4,
-    NUMBER_5 = 5
+export interface JobDetailInput {
+    /**
+     * 作业Id
+     * @type {string}
+     * @memberof JobDetailInput
+     */
+    jobId?: string | null;
 }
-

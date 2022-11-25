@@ -127,6 +127,12 @@ export interface AddJobTriggerInput {
      */
     runOnStart?: boolean;
     /**
+     * 是否在启动时重置最大触发次数等于一次的作业
+     * @type {boolean}
+     * @memberof AddJobTriggerInput
+     */
+    resetOnlyOnce?: boolean;
+    /**
      * 更新时间
      * @type {Date}
      * @memberof AddJobTriggerInput
