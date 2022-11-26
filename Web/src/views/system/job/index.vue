@@ -238,7 +238,7 @@ export default defineComponent({
 		// 打开新增作业页面
 		const openAddJobDetail = () => {
 			state.editJobDetailTitle = '添加作业';
-			editJobDetailRef.value.openDialog({});
+			editJobDetailRef.value.openDialog({ concurrent: true, includeAnnotations: true, groupName: 'default' });
 		};
 		// 打开编辑作业页面
 		const openEditJobDetail = (row: any) => {
@@ -266,7 +266,6 @@ export default defineComponent({
 		};
 		// 打开编辑触发器页面
 		const openEditJobTrigger = (row: any) => {
-			console.log(row);
 			state.editJobTriggerTitle = '编辑触发器';
 			editJobTriggerRef.value.openDialog(row);
 		};

@@ -77,4 +77,10 @@ export interface SysJobDetail {
      * @memberof SysJobDetail
      */
     updatedTime?: Date | null;
+    /**
+     * 脚本代码
+     * @type {string}
+     * @memberof SysJobDetail
+     */
+    scriptCode?: string | null;
 }

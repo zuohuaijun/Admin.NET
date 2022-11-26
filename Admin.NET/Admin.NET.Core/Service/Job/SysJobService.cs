@@ -53,7 +53,15 @@ public class SysJobService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        await _sysJobDetailRep.UpdateAsync(input.Adapt<SysJobDetail>());
+        // 动态创建作业
+        NatashaInitializer.Preheating();
+        var oop = new AssemblyCSharpBuilder("Admin.NET.Core");
+        oop.Domain = DomainManagement.Random();
+        oop.Add(input.ScriptCode);
+        var jobType = oop.GetTypeFromShortName(input.JobId);
+        _schedulerFactory.AddJob(JobBuilder.Create(jobType).SetIncludeAnnotations(input.IncludeAnnotations));
+
+        await _sysJobDetailRep.InsertAsync(input.Adapt<SysJobDetail>());
     }
 
     /// <summary>

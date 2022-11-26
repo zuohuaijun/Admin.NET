@@ -39,7 +39,8 @@
 		"vue-json-pretty": "^2.2.2",
 		"vue-signature-pad": "^3.0.2",
 		"vue3-tree-org": "^4.1.1",
-		"animate.css": "^4.1.1"
+		"animate.css": "^4.1.1",
+		"monaco-editor": "^0.34.1"
 	},
 	"devDependencies": {
 		"@types/node": "^18.11.9",
