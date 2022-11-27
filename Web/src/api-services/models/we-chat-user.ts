@@ -11,8 +11,8 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { PlatformTypeEnum } from './platform-type-enum';
 import { SysUser } from './sys-user';
-import { WeChatUserTypeEnum } from './we-chat-user-type-enum';
 /**
  * 微信用户表
  * @export
@@ -56,7 +56,7 @@ export interface WeChatUser {
      */
     isDelete?: boolean;
     /**
-     * 关联系统用户Id
+     * 系统用户Id
      * @type {number}
      * @memberof WeChatUser
      */
@@ -69,10 +69,10 @@ export interface WeChatUser {
     sysUser?: SysUser;
     /**
      * 
-     * @type {WeChatUserTypeEnum}
+     * @type {PlatformTypeEnum}
      * @memberof WeChatUser
      */
-    type?: WeChatUserTypeEnum;
+    platformType?: PlatformTypeEnum;
     /**
      * OpenId
      * @type {string}
@@ -156,5 +156,5 @@ export interface WeChatUser {
      * @type {number}
      * @memberof WeChatUser
      */
-    expiresIn?: number;
+    expiresIn?: number | null;
 }

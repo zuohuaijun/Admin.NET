@@ -1,9 +1,9 @@
 ﻿namespace Admin.NET.Core;
 
 /// <summary>
-/// 微信用户类型枚举
+/// 平台类型枚举
 /// </summary>
-public enum WeChatUserTypeEnum
+public enum PlatformTypeEnum
 {
     /// <summary>
     /// 微信公众号

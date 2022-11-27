@@ -38,4 +38,5 @@ export * from './apis/sys-tenant-api';
 export * from './apis/sys-user-api';
 export * from './apis/we-chat-api';
 export * from './apis/we-chat-pay-api';
+export * from './apis/we-chat-user-api';
 
