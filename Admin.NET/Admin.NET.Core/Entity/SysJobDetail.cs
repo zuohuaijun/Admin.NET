@@ -64,4 +64,10 @@ public class SysJobDetail : BaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "更新时间")]
     public DateTime? UpdatedTime { get; set; }
+
+    /// <summary>
+    /// 脚本代码
+    /// </summary>
+    [SugarColumn(ColumnDescription = "脚本代码", ColumnDataType = "longtext,text,clob")]
+    public string ScriptCode { get; set; }
 }

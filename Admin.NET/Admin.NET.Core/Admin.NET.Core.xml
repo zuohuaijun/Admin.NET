@@ -722,6 +722,11 @@
             更新时间
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.ScriptCode">
+            <summary>
+            脚本代码
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysJobTrigger">
             <summary>
             系统作业触发器表

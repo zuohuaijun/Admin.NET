@@ -72,6 +72,12 @@ export interface AddJobDetailInput {
      */
     updatedTime?: Date | null;
     /**
+     * 脚本代码
+     * @type {string}
+     * @memberof AddJobDetailInput
+     */
+    scriptCode?: string | null;
+    /**
      * 作业Id
      * @type {string}
      * @memberof AddJobDetailInput
