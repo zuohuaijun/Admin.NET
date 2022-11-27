@@ -139,10 +139,10 @@ export default defineComponent({
 			handleQuery();
 		};
 		return {
-			handleQuery,
-			resetQuery,
 			editOrgRef,
 			orgTreeRef,
+			handleQuery,
+			resetQuery,
 			openAddOrg,
 			openEditOrg,
 			delOrg,

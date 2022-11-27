@@ -169,9 +169,9 @@ export default defineComponent({
 			handleQuery();
 		};
 		return {
+			editNoticeRef,
 			handleQuery,
 			resetQuery,
-			editNoticeRef,
 			openAddNotice,
 			openEditNotice,
 			delNotice,

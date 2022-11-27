@@ -155,10 +155,10 @@ export default defineComponent({
 			handleQuery();
 		};
 		return {
+			editDictDataRef,
 			openDialog,
 			handleQuery,
 			resetQuery,
-			editDictDataRef,
 			openAddDictData,
 			openEditDictData,
 			delDictData,

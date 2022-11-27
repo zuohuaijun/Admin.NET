@@ -172,7 +172,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysTenantApi).sysTenantResetPwdPost({ id: row.id });
+					await getAPI(SysTenantApi).sysTenantResetPwdPost({ userId: row.userId });
 					ElMessage.success('密码重置成功：123456');
 				})
 				.catch(() => {});
@@ -215,10 +215,10 @@ export default defineComponent({
 				.catch(() => {});
 		};
 		return {
-			handleQuery,
-			resetQuery,
 			editTenantRef,
 			grantMenuRef,
+			handleQuery,
+			resetQuery,
 			openAddTenant,
 			openEditTenant,
 			openGrantMenu,

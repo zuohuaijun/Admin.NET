@@ -233,9 +233,9 @@ export default defineComponent({
 			},
 		];
 		return {
+			uploadRef,
 			handleQuery,
 			resetQuery,
-			uploadRef,
 			openUploadDialog,
 			handleChange,
 			uploadFile,

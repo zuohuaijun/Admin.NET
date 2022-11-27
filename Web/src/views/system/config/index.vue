@@ -147,9 +147,9 @@ export default defineComponent({
 			handleQuery();
 		};
 		return {
+			editConfigRef,
 			handleQuery,
 			resetQuery,
-			editConfigRef,
 			openAddConfig,
 			openEditConfig,
 			delConfig,
