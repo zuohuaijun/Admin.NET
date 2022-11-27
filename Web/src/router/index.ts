@@ -68,6 +68,8 @@ export function formatTwoStageRoutes(arr: any) {
 	const newArr: any = [];
 	const cacheList: Array<string> = [];
 	arr.forEach((v: any) => {
+		if (v.path == null || v.path == undefined) return;
+
 		if (v.path === '/') {
 			newArr.push({ component: v.component, name: v.name, path: v.path, redirect: v.redirect, meta: v.meta, children: [] });
 		} else {
