@@ -52,8 +52,21 @@ public class DbJobPersistence : IJobPersistence
     {
         using var serviceScope = _serviceProvider.CreateScope();
         var db = serviceScope.ServiceProvider.GetService<ISqlSugarClient>();
-        var sql = context.ConvertToSQL(db.EntityMaintenance.GetEntityInfo<SysJobDetail>().DbTableName, NamingConventions.Pascal);
-        db.Ado.ExecuteCommand(sql);
+
+
+        var jobDetail = context.JobDetail.Adapt<SysJobDetail>();
+        if (context.Behavior == PersistenceBehavior.Appended)
+        {
+            db.Insertable(jobDetail).ExecuteCommand();
+        }
+        else if (context.Behavior == PersistenceBehavior.Updated)
+        {
+            db.Updateable(jobDetail).WhereColumns(u => new { u.JobId }).ExecuteCommand();
+        }
+        else if (context.Behavior == PersistenceBehavior.Removed)
+        {
+            db.Deleteable<SysJobDetail>().Where(u => u.JobId == jobDetail.JobId).ExecuteCommand();
+        }
     }
 
     /// <summary>
@@ -64,7 +77,19 @@ public class DbJobPersistence : IJobPersistence
     {
         using var serviceScope = _serviceProvider.CreateScope();
         var db = serviceScope.ServiceProvider.GetService<ISqlSugarClient>();
-        var sql = context.ConvertToSQL(db.EntityMaintenance.GetEntityInfo<SysJobTrigger>().DbTableName, NamingConventions.Pascal);
-        db.Ado.ExecuteCommand(sql);
+
+        var jobTrigger = context.Trigger.Adapt<SysJobTrigger>();
+        if (context.Behavior == PersistenceBehavior.Appended)
+        {
+            db.Insertable(jobTrigger).ExecuteCommand();
+        }
+        else if (context.Behavior == PersistenceBehavior.Updated)
+        {
+            db.Updateable(jobTrigger).WhereColumns(u => new { u.TriggerId }).ExecuteCommand();
+        }
+        else if (context.Behavior == PersistenceBehavior.Removed)
+        {
+            db.Deleteable<SysJobTrigger>().Where(u => u.TriggerId == jobTrigger.TriggerId).ExecuteCommand();
+        }
     }
 }
