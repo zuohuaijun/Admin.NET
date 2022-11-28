@@ -1,3 +1,4 @@
+import { AxiosResponseHeaders, RawAxiosResponseHeaders } from 'axios';
 import { dataURLtoBlob, urlToBase64 } from './base64Conver';
 
 /**
@@ -94,4 +95,14 @@ export function openWindow(url: string, opt?: { target?: TargetContext | string;
 	noreferrer && feature.push('noreferrer=yes');
 
 	window.open(url, target, feature.join(','));
+}
+
+export function getFileName(headers: RawAxiosResponseHeaders | AxiosResponseHeaders) {
+	var fileName = headers['content-disposition'].split(';')[1].split('filename=')[1];
+	var fileNameUnicode = headers['content-disposition'].split('filename*=')[1];
+	if (fileNameUnicode) {
+		//当存在 filename* 时，取filename* 并进行解码（为了解决中文乱码问题）
+		fileName = decodeURIComponent(fileNameUnicode.split("''")[1]);
+	}
+	return fileName;
 }

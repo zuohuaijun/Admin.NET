@@ -18,6 +18,7 @@ import { Configuration } from '../configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AdminResultBoolean } from '../models';
 import { AdminResultSqlSugarPagedListSysLogOp } from '../models';
+import { LogInput } from '../models';
 /**
  * SysLogOpApi - axios parameter creator
  * @export
@@ -54,6 +55,47 @@ export const SysLogOpApiAxiosParamCreator = function (configuration?: Configurat
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 导出操作日志
+         * @param {LogInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        sysLogOpExporPost: async (body?: LogInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysLogOp/expor`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -159,6 +201,20 @@ export const SysLogOpApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 导出操作日志
+         * @param {LogInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysLogOpExporPost(body?: LogInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysLogOpApiAxiosParamCreator(configuration).sysLogOpExporPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 获取操作日志分页列表
          * @param {Date} [startTime] 开始时间
          * @param {Date} [endTime] 结束时间
@@ -197,6 +253,16 @@ export const SysLogOpApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @summary 导出操作日志
+         * @param {LogInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async sysLogOpExporPost(body?: LogInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysLogOpApiFp(configuration).sysLogOpExporPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 获取操作日志分页列表
          * @param {Date} [startTime] 开始时间
          * @param {Date} [endTime] 结束时间
@@ -230,6 +296,17 @@ export class SysLogOpApi extends BaseAPI {
      */
     public async sysLogOpClearPost(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
         return SysLogOpApiFp(this.configuration).sysLogOpClearPost(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 导出操作日志
+     * @param {LogInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysLogOpApi
+     */
+    public async sysLogOpExporPost(body?: LogInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysLogOpApiFp(this.configuration).sysLogOpExporPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

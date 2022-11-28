@@ -12,6 +12,7 @@
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
 					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysExlog:page'"> 查询 </el-button>
 					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysExlog:clear'"> 清空 </el-button>
+					<el-button icon="ele-FolderOpened" @click="exportLog" v-auth="'sysExlog:export'"> 导出 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -48,6 +49,7 @@
 <script lang="ts">
 import { toRefs, reactive, onMounted, defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
+import { downloadByData, getFileName } from '/@/utils/download';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysLogExApi } from '/@/api-services/api';
@@ -98,6 +100,15 @@ export default defineComponent({
 			ElMessage.success('清空成功');
 			handleQuery();
 		};
+		// 导出日志
+		const exportLog = async () => {
+			state.loading = true;
+			var res = await getAPI(SysLogExApi).sysLogExExporPost(state.queryParams, { responseType: 'blob' });
+			state.loading = false;
+
+			var fileName = getFileName(res.headers);
+			downloadByData(res.data as any, fileName);
+		};
 		// 改变页面容量
 		const handleSizeChange = (val: number) => {
 			state.tableParams.pageSize = val;
@@ -134,6 +145,7 @@ export default defineComponent({
 			handleQuery,
 			resetQuery,
 			clearLog,
+			exportLog,
 			shortcuts,
 			handleSizeChange,
 			handleCurrentChange,

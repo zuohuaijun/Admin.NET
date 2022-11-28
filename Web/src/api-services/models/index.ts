@@ -116,6 +116,7 @@ export * from './iaction-result';
 export * from './job-detail-input';
 export * from './job-output';
 export * from './job-trigger-input';
+export * from './log-input';
 export * from './login-input';
 export * from './login-output';
 export * from './login-type-enum';

@@ -1,5 +1,5 @@
 <template>
-	<div class="sys-oplog-container">
+	<div class="sys-oplog-container" v-loading="loading">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="开始时间" prop="name">
@@ -12,12 +12,13 @@
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
 					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysOplog:page'"> 查询 </el-button>
 					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysOplog:clear'"> 清空 </el-button>
+					<el-button icon="ele-FolderOpened" @click="exportLog" v-auth="'sysOplog:export'"> 导出 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="logData" style="width: 100%" v-loading="loading" border>
+			<el-table :data="logData" style="width: 100%" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="logName" label="类别名称" show-overflow-tooltip />
 				<el-table-column prop="logLevel" label="日志级别" width="100" align="center" show-overflow-tooltip />
@@ -62,6 +63,7 @@
 <script lang="ts">
 import { toRefs, reactive, onMounted, defineComponent } from 'vue';
 import { ElMessage } from 'element-plus';
+import { downloadByData, getFileName } from '/@/utils/download';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysLogOpApi } from '/@/api-services/api';
@@ -114,6 +116,15 @@ export default defineComponent({
 			ElMessage.success('清空成功');
 			handleQuery();
 		};
+		// 导出日志
+		const exportLog = async () => {
+			state.loading = true;
+			var res = await getAPI(SysLogOpApi).sysLogOpExporPost(state.queryParams, { responseType: 'blob' });
+			state.loading = false;
+
+			var fileName = getFileName(res.headers);
+			downloadByData(res.data as any, fileName);
+		};
 		// 改变页面容量
 		const handleSizeChange = (val: number) => {
 			state.tableParams.pageSize = val;
@@ -155,6 +166,7 @@ export default defineComponent({
 			handleQuery,
 			resetQuery,
 			clearLog,
+			exportLog,
 			shortcuts,
 			handleSizeChange,
 			handleCurrentChange,

@@ -5476,6 +5476,16 @@
             结束时间
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.LogInput.StartTime">
+            <summary>
+            开始时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.LogInput.EndTime">
+            <summary>
+            结束时间
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.SysLogDiffService">
             <summary>
             系统差异日志服务
@@ -5510,6 +5520,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysLogExService.ExporLogOp(Admin.NET.Core.Service.LogInput)">
+            <summary>
+            导出异常日志
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.Service.SysLogOpService">
             <summary>
             系统操作日志服务
@@ -5524,6 +5540,12 @@
         <member name="M:Admin.NET.Core.Service.SysLogOpService.ClearLogOp">
             <summary>
             清空操作日志
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysLogOpService.ExporLogOp(Admin.NET.Core.Service.LogInput)">
+            <summary>
+            导出操作日志
             </summary>
             <returns></returns>
         </member>
@@ -7018,6 +7040,56 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.ExportLogOpDto">
+            <summary>
+            导出操作日志表
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ExportLogOpDto.LogName">
+            <summary>
+            记录器类别名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ExportLogOpDto.LogLevel">
+            <summary>
+            日志级别
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ExportLogOpDto.EventId">
+            <summary>
+            事件Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ExportLogOpDto.Message">
+            <summary>
+            日志消息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ExportLogOpDto.Exception">
+            <summary>
+            异常对象
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ExportLogOpDto.State">
+            <summary>
+            当前状态值
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ExportLogOpDto.LogDateTime">
+            <summary>
+            日志记录时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ExportLogOpDto.ThreadId">
+            <summary>
+            线程Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ExportLogOpDto.TraceId">
+            <summary>
+            请求跟踪Id
+            </summary>
         </member>
         <member name="P:Admin.NET.Core.MessageInput.UserId">
             <summary>
