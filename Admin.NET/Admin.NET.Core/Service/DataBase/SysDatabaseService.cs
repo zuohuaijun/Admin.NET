@@ -231,6 +231,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             input.TableName,
             input.EntityName,
             input.BaseClassName,
+            input.ConfigId,
             dbTableInfo.Description,
             TableField = dbColumnInfos
         });
