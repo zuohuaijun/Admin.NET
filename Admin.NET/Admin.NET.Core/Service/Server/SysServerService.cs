@@ -38,6 +38,8 @@ public class SysServerService : IDynamicApiController, ITransient
             LocalIp = App.HttpContext?.Connection?.LocalIpAddress.ToString(), // 本地地址
             FrameworkDescription = RuntimeInformation.FrameworkDescription, // NET框架
             Environment = App.HostEnvironment.IsDevelopment() ? "Development" : "Production",
+            Wwwroot = App.WebHostEnvironment.WebRootPath, // 网站根目录
+            Stage = App.HostEnvironment.IsStaging() ? "Stage环境" : "非Stage环境", // 是否Stage环境
         };
     }
 

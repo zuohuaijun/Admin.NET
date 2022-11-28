@@ -33,7 +33,7 @@
 				<el-table-column prop="nickName" label="昵称" show-overflow-tooltip />
 				<el-table-column prop="avatar" label="头像" width="70" align="center">
 					<template #default="scope">
-						<el-avatar :src="scope.row.avatar" :size="32" />
+						<el-avatar :src="scope.row.avatar" :size="24"  style="vertical-align: middle;"/>
 					</template>
 				</el-table-column>
 				<el-table-column prop="mobile" label="手机号码" show-overflow-tooltip />

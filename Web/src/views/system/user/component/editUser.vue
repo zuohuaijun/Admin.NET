@@ -126,7 +126,7 @@
 										</el-col>
 									</el-row>
 								</template>
-								<el-empty description="空" v-else></el-empty>
+								<el-empty description="空" image-size v-else></el-empty>
 							</el-col>
 						</el-row>
 					</el-form>

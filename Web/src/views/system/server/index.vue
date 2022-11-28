@@ -40,7 +40,38 @@
 				</el-card>
 			</el-col>
 			<el-col :md="12" :sm="24">
-				<el-card shadow="hover" header="使用信息" v-loading="loading">
+				<el-card shadow="hover" header="使用信息">
+					<el-row>
+						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
+							<el-progress
+								type="dashboard"
+								:percentage="parseInt(machineUseInfo.ramRate == undefined ? 0 : machineUseInfo.ramRate.substr(0, machineUseInfo.ramRate.length - 1))"
+								:color="'var(--el-color-primary)'"
+							>
+								<template #default>
+									<span>{{ machineUseInfo.ramRate }}<br /></span>
+									<span style="font-size: 10px">
+										已用:{{ machineUseInfo.usedRam }}<br />
+										剩余:{{ machineUseInfo.freeRam }}<br />
+										内存使用率
+									</span>
+								</template>
+							</el-progress>
+						</el-col>
+						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
+							<el-progress
+								type="dashboard"
+								:percentage="parseInt(machineUseInfo.cpuRate == undefined ? 0 : machineUseInfo.cpuRate.substr(0, machineUseInfo.cpuRate.length - 1))"
+								:color="'var(--el-color-primary)'"
+							>
+								<template #default>
+									<span>{{ machineUseInfo.cpuRate }}<br /></span>
+									<span style="font-size: 10px"> CPU使用率 </span>
+								</template>
+							</el-progress>
+						</el-col>
+					</el-row>
+
 					<table class="sysInfo_table">
 						<tr>
 							<td class="sysInfo_td">启动时间：</td>
@@ -51,32 +82,16 @@
 							<td class="sysInfo_td">{{ machineUseInfo.runTime }}</td>
 						</tr>
 						<tr>
-							<td class="sysInfo_td">内存总量：</td>
-							<td class="sysInfo_td">{{ machineUseInfo.totalRam }}</td>
+							<td class="sysInfo_td">网站目录：</td>
+							<td class="sysInfo_td">{{ machineBaseInfo.wwwroot }}</td>
 						</tr>
 						<tr>
-							<td class="sysInfo_td">使用内存：</td>
-							<td class="sysInfo_td">{{ machineUseInfo.usedRam }}</td>
-						</tr>
-						<tr>
-							<td class="sysInfo_td">空闲内存：</td>
-							<td class="sysInfo_td">{{ machineUseInfo.freeRam }}</td>
-						</tr>
-						<tr>
-							<td class="sysInfo_td">内存使用率：</td>
-							<td class="sysInfo_td">
-								<el-tag round>{{ machineUseInfo.ramRate }}</el-tag>
-							</td>
-						</tr>
-						<tr>
-							<td class="sysInfo_td">CPU使用率：</td>
-							<td class="sysInfo_td">
-								<el-tag round>{{ machineUseInfo.cpuRate }}</el-tag>
-							</td>
-						</tr>
-						<tr>
-							<td class="sysInfo_td">其他信息：</td>
+							<td class="sysInfo_td">开发环境：</td>
 							<td class="sysInfo_td">{{ machineBaseInfo.environment }}</td>
+						</tr>
+						<tr>
+							<td class="sysInfo_td">环境变量：</td>
+							<td class="sysInfo_td">{{ machineBaseInfo.stage }}</td>
 						</tr>
 					</table>
 				</el-card>
@@ -93,28 +108,29 @@
 			</div>
 		</el-card>
 		<el-card shadow="hover" header="磁盘信息" style="margin-top: 8px">
-			<el-table :data="machineDiskInfo" style="width: 100%">
-				<el-table-column prop="diskName" label="盘符">
-					<template #default="scope">
-						<el-tag round>{{ scope.row.diskName }}</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="typeName" label="类型" />
-				<el-table-column prop="totalSize" label="磁盘总量">
-					<template #default="scope">{{ scope.row.totalSize }} GB</template>
-				</el-table-column>
-				<el-table-column prop="used" label="已使用">
-					<template #default="scope">{{ scope.row.used }} GB</template>
-				</el-table-column>
-				<el-table-column prop="availableFreeSpace" label="剩余量">
-					<template #default="scope">{{ scope.row.availableFreeSpace }} GB</template>
-				</el-table-column>
-				<el-table-column prop="availablePercent" label="使用率">
-					<template #default="scope">
-						<el-tag>{{ scope.row.availablePercent }}%</el-tag>
-					</template>
-				</el-table-column>
-			</el-table>
+			<el-row>
+				<el-col
+					:xs="24"
+					:sm="24 / machineDiskInfo.length"
+					:md="24 / machineDiskInfo.length"
+					:lg="24 / machineDiskInfo.length"
+					:xl="24 / machineDiskInfo.length"
+					v-for="d in machineDiskInfo"
+					:key="d.diskName"
+					style="text-align: center"
+				>
+					<el-progress type="circle" :percentage="d.availablePercent" :color="'var(--el-color-primary)'">
+						<template #default>
+							<span>{{ d.availablePercent }}%<br /></span>
+							<span style="font-size: 10px">
+								已用:{{ d.used }}GB<br />
+								剩余:{{ d.availableFreeSpace }}GB<br />
+								{{ d.diskName }}
+							</span>
+						</template>
+					</el-progress>
+				</el-col>
+			</el-row>
 		</el-card>
 	</div>
 </template>
@@ -130,7 +146,6 @@ export default defineComponent({
 	components: {},
 	setup() {
 		const state = reactive({
-			loading: false,
 			machineBaseInfo: [] as any,
 			machineUseInfo: [] as any,
 			machineDiskInfo: [] as any,
@@ -150,10 +165,8 @@ export default defineComponent({
 		};
 		// 服务器内存信息
 		const loadMachineUseInfo = async () => {
-			state.loading = true;
 			var res = await getAPI(SysServerApi).serverUseGet();
 			state.machineUseInfo = res.data.result;
-			state.loading = false;
 		};
 		// 服务器磁盘信息
 		const loadMachineDiskInfo = async () => {
