@@ -53,7 +53,6 @@ public class DbJobPersistence : IJobPersistence
         using var serviceScope = _serviceProvider.CreateScope();
         var db = serviceScope.ServiceProvider.GetService<ISqlSugarClient>();
 
-
         var jobDetail = context.JobDetail.Adapt<SysJobDetail>();
         if (context.Behavior == PersistenceBehavior.Appended)
         {
@@ -85,11 +84,11 @@ public class DbJobPersistence : IJobPersistence
         }
         else if (context.Behavior == PersistenceBehavior.Updated)
         {
-            db.Updateable(jobTrigger).WhereColumns(u => new { u.TriggerId }).ExecuteCommand();
+            db.Updateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).ExecuteCommand();
         }
         else if (context.Behavior == PersistenceBehavior.Removed)
         {
-            db.Deleteable<SysJobTrigger>().Where(u => u.TriggerId == jobTrigger.TriggerId).ExecuteCommand();
+            db.Deleteable<SysJobTrigger>().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
         }
     }
 }

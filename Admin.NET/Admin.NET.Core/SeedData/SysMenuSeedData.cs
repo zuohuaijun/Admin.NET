@@ -66,7 +66,7 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
             new SysMenu{ Id=252885263005275, Pid=252885263005270, Title="发布", Permission="sysNotice:public", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },
             new SysMenu{ Id=252885263005276, Pid=252885263005270, Title="撤回", Permission="sysNotice:cancel", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },
                
-            new SysMenu{ Id=252885263005280, Pid=252885263005200, Title="微信账号", Path="/system/weChatUser", Name="weChatUser", Component="/system/weChatUser/index",Icon="ele-ChatDotRound", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=170 },
+            new SysMenu{ Id=252885263005280, Pid=252885263005200, Title="三方账号", Path="/system/weChatUser", Name="weChatUser", Component="/system/weChatUser/index",Icon="ele-ChatDotRound", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=170 },
             new SysMenu{ Id=252885263005281, Pid=252885263005280, Title="查询", Permission="weChatUser:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },
             new SysMenu{ Id=252885263005282, Pid=252885263005280, Title="编辑", Permission="weChatUser:update", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },
             new SysMenu{ Id=252885263005283, Pid=252885263005280, Title="删除", Permission="weChatUser:delete", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), Order=100 },
