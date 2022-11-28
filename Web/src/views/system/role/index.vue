@@ -166,10 +166,10 @@ export default defineComponent({
 			handleQuery();
 		};
 		return {
-			handleQuery,
-			resetQuery,
 			editRoleRef,
 			grantDataRef,
+			handleQuery,
+			resetQuery,
 			openAddRole,
 			openEditRole,
 			openGrantData,

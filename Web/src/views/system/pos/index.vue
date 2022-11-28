@@ -115,9 +115,9 @@ export default defineComponent({
 				.catch(() => {});
 		};
 		return {
+			editPosRef,
 			handleQuery,
 			resetQuery,
-			editPosRef,
 			openAddPos,
 			openEditPos,
 			delPos,

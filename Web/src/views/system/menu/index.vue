@@ -131,9 +131,9 @@ export default defineComponent({
 				.catch(() => {});
 		};
 		return {
+			editMenuRef,
 			handleQuery,
 			resetQuery,
-			editMenuRef,
 			openAddMenu,
 			openEditMenu,
 			delMenu,

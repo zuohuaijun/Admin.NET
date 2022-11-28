@@ -199,9 +199,9 @@ export default defineComponent({
 			closeDialog,
 			cancel,
 			submit,
-			...toRefs(state),
 			isOrNotSelect,
 			DbChanged,
+			...toRefs(state),
 		};
 	},
 });

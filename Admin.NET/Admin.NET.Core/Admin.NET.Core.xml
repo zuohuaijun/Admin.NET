@@ -1964,17 +1964,17 @@
         </member>
         <member name="P:Admin.NET.Core.WeChatUser.UserId">
             <summary>
-            关联系统用户Id
+            系统用户Id
             </summary>
         </member>
         <member name="P:Admin.NET.Core.WeChatUser.SysUser">
             <summary>
-            关联系统用户
+            系统用户
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.Type">
+        <member name="P:Admin.NET.Core.WeChatUser.PlatformType">
             <summary>
-            第三方登录类型
+            平台类型
             </summary>
         </member>
         <member name="P:Admin.NET.Core.WeChatUser.OpenId">
@@ -2872,6 +2872,41 @@
             已读
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.PlatformTypeEnum">
+            <summary>
+            平台类型枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.PlatformTypeEnum.微信公众号">
+            <summary>
+            微信公众号
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.PlatformTypeEnum.微信小程序">
+            <summary>
+            微信小程序
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.PlatformTypeEnum.支付宝小程序">
+            <summary>
+            支付宝小程序
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.PlatformTypeEnum.微信APP快捷登陆">
+            <summary>
+            微信APP快捷登陆
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.PlatformTypeEnum.QQ在APP中快捷登陆">
+            <summary>
+            QQ在APP中快捷登陆
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.PlatformTypeEnum.头条系小程序">
+            <summary>
+            头条系小程序
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.RequestTypeEnum">
             <summary>
             HTTP请求类型
@@ -2992,41 +3027,6 @@
         <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.签名错误">
             <summary>
             小程序为“签名错误”。对应公众号： 87009, “errmsg” : “reply is not exists” //该回复不存在
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.WeChatUserTypeEnum">
-            <summary>
-            微信用户类型枚举
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.微信公众号">
-            <summary>
-            微信公众号
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.微信小程序">
-            <summary>
-            微信小程序
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.支付宝小程序">
-            <summary>
-            支付宝小程序
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.微信APP快捷登陆">
-            <summary>
-            微信APP快捷登陆
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.QQ在APP中快捷登陆">
-            <summary>
-            QQ在APP中快捷登陆
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.WeChatUserTypeEnum.头条系小程序">
-            <summary>
-            头条系小程序
             </summary>
         </member>
         <member name="T:Admin.NET.Core.YesNoEnum">
@@ -6881,6 +6881,16 @@
             优惠标记
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.WeChatUserInput.NickName">
+            <summary>
+            昵称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WeChatUserInput.Mobile">
+            <summary>
+            手机号码
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.WeChatApiHttpClient">
             <summary>
             微信API客户端
@@ -6974,6 +6984,39 @@
             <summary>
             获取配置签名参数(wx.config)
             </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.WeChatUserService">
+            <summary>
+            微信账号服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatUserService.GetWeChatUserPage(Admin.NET.Core.Service.WeChatUserInput)">
+            <summary>
+            获取微信用户列表
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatUserService.AddWeChatUser(Admin.NET.Core.WeChatUser)">
+            <summary>
+            增加微信用户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatUserService.UpdateWeChatUser(Admin.NET.Core.WeChatUser)">
+            <summary>
+            更新微信用户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WeChatUserService.DeleteWeChatUser(Admin.NET.Core.Service.DeleteWeChatUserInput)">
+            <summary>
+            删除微信用户
+            </summary>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.MessageInput.UserId">

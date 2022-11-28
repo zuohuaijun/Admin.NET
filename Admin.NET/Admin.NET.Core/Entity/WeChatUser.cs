@@ -7,23 +7,23 @@
 public class WeChatUser : EntityBase
 {
     /// <summary>
-    /// 关联系统用户Id
+    /// 系统用户Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "关联系统用户Id")]
+    [SugarColumn(ColumnDescription = "系统用户Id")]
     public long UserId { get; set; }
 
     /// <summary>
-    /// 关联系统用户
+    /// 系统用户
     /// </summary>
     [SugarColumn(IsIgnore = true)]
     [Navigate(NavigateType.OneToOne, nameof(UserId))]
     public SysUser SysUser { get; set; }
 
     /// <summary>
-    /// 第三方登录类型
+    /// 平台类型
     /// </summary>
-    [SugarColumn(ColumnDescription = "第三方登录类型")]
-    public WeChatUserTypeEnum Type { get; set; } = WeChatUserTypeEnum.微信公众号;
+    [SugarColumn(ColumnDescription = "平台类型")]
+    public PlatformTypeEnum PlatformType { get; set; } = PlatformTypeEnum.微信公众号;
 
     /// <summary>
     /// OpenId
@@ -117,5 +117,5 @@ public class WeChatUser : EntityBase
     /// 过期时间
     /// </summary>
     [SugarColumn(ColumnDescription = "ExpiresIn")]
-    public int ExpiresIn { get; set; }
+    public int? ExpiresIn { get; set; }
 }

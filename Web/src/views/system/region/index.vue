@@ -175,10 +175,10 @@ export default defineComponent({
 			handleQuery();
 		};
 		return {
-			handleQuery,
-			resetQuery,
 			editRegionRef,
 			regionTreeRef,
+			handleQuery,
+			resetQuery,
 			openAddRegion,
 			openEditRegion,
 			delRegion,

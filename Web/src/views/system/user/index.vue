@@ -230,10 +230,10 @@ export default defineComponent({
 			handleQuery();
 		};
 		return {
-			handleQuery,
-			resetQuery,
 			orgTreeRef,
 			editUserRef,
+			handleQuery,
+			resetQuery,
 			openAddUser,
 			openEditUser,
 			delUser,

@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信公众号服务
 /// </summary>
-[ApiDescriptionSettings(Order = 100)]
+[ApiDescriptionSettings(Order = 101)]
 public class WeChatService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<WeChatUser> _weChatUserRep;

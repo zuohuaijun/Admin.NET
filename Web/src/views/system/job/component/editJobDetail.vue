@@ -50,7 +50,7 @@
 						</el-row>
 					</el-form>
 				</el-tab-pane>
-				<el-tab-pane label="作业代码">
+				<el-tab-pane label="脚本代码">
 					<div ref="monacoEditorRef" style="width: 100%; height: 500px"></div>
 				</el-tab-pane>
 			</el-tabs>
@@ -94,23 +94,6 @@ export default defineComponent({
 		// 初始化monacoEditor对象
 		var monacoEditor: any = null;
 		const initMonacoEditor = () => {
-			// self.MonacoEnvironment = {
-			// 	getWorkerUrl: function (moduleId, label) {
-			// 		if (label === 'json') {
-			// 			return './json.worker.bundle.js';
-			// 		}
-			// 		if (label === 'css') {
-			// 			return './css.worker.bundle.js';
-			// 		}
-			// 		if (label === 'html') {
-			// 			return './html.worker.bundle.js';
-			// 		}
-			// 		if (label === 'typescript' || label === 'javascript') {
-			// 			return './ts.worker.bundle.js';
-			// 		}
-			// 		return './editor.worker.bundle.js';
-			// 	},
-			// };
 			monacoEditor = monaco.editor.create(monacoEditorRef.value, {
 				theme: 'vs-dark', // 主题 vs vs-dark hc-black
 				value: JobScriptCode, // 默认显示的值
@@ -143,7 +126,6 @@ export default defineComponent({
 
 			// 延迟拿值防止取不到
 			setTimeout(() => {
-				console.log(monacoEditor)
 				if (monacoEditor == null) initMonacoEditor();
 				else monacoEditor.setValue(row.id == undefined ? JobScriptCode : state.ruleForm.scriptCode);
 			}, 1);
