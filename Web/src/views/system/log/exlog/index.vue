@@ -1,5 +1,5 @@
 <template>
-	<div class="sys-exlog-container">
+	<div class="sys-exlog-container" v-loading="loading">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="开始时间" prop="name">
@@ -18,7 +18,7 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="logData" style="width: 100%" v-loading="loading" border>
+			<el-table :data="logData" style="width: 100%" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="logName" label="类别名称" show-overflow-tooltip />
 				<el-table-column prop="logLevel" label="日志级别" width="100" align="center" show-overflow-tooltip />

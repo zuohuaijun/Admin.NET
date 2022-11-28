@@ -4,10 +4,10 @@ using Magicodes.ExporterAndImporter.Excel;
 namespace Admin.NET.Core;
 
 /// <summary>
-/// 导出操作日志表
+/// 导出日志数据
 /// </summary>
-[ExcelExporter(Name = "操作日志", TableStyle = OfficeOpenXml.Table.TableStyles.None, AutoFitAllColumn = true)]
-public class ExportLogOpDto
+[ExcelExporter(Name = "日志数据", TableStyle = OfficeOpenXml.Table.TableStyles.None, AutoFitAllColumn = true)]
+public class ExportLogDto
 {
     /// <summary>
     /// 记录器类别名称

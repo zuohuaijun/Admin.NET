@@ -7041,52 +7041,52 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.ExportLogOpDto">
+        <member name="T:Admin.NET.Core.ExportLogDto">
             <summary>
-            导出操作日志表
+            导出日志数据
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ExportLogOpDto.LogName">
+        <member name="P:Admin.NET.Core.ExportLogDto.LogName">
             <summary>
             记录器类别名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ExportLogOpDto.LogLevel">
+        <member name="P:Admin.NET.Core.ExportLogDto.LogLevel">
             <summary>
             日志级别
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ExportLogOpDto.EventId">
+        <member name="P:Admin.NET.Core.ExportLogDto.EventId">
             <summary>
             事件Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ExportLogOpDto.Message">
+        <member name="P:Admin.NET.Core.ExportLogDto.Message">
             <summary>
             日志消息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ExportLogOpDto.Exception">
+        <member name="P:Admin.NET.Core.ExportLogDto.Exception">
             <summary>
             异常对象
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ExportLogOpDto.State">
+        <member name="P:Admin.NET.Core.ExportLogDto.State">
             <summary>
             当前状态值
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ExportLogOpDto.LogDateTime">
+        <member name="P:Admin.NET.Core.ExportLogDto.LogDateTime">
             <summary>
             日志记录时间
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ExportLogOpDto.ThreadId">
+        <member name="P:Admin.NET.Core.ExportLogDto.ThreadId">
             <summary>
             线程Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ExportLogOpDto.TraceId">
+        <member name="P:Admin.NET.Core.ExportLogDto.TraceId">
             <summary>
             请求跟踪Id
             </summary>
