@@ -143,7 +143,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
         db.DbMaintenance.CreateTable(input.TableName, columns, false);
 
-        if (db.CurrentConnectionConfig.DbType != SqlSugar.DbType.Sqlite) return;
+        if (db.CurrentConnectionConfig.DbType == SqlSugar.DbType.Sqlite) return;
 
         db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
 
