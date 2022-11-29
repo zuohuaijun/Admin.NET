@@ -1,12 +1,12 @@
 <template>
 	<div class="notice-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="queryParams" ref="queryForm" :inline="true">
+			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="标题" prop="title">
-					<el-input placeholder="标题" clearable @keyup.enter="handleQuery" v-model="queryParams.title" />
+					<el-input placeholder="标题" clearable @keyup.enter="handleQuery" v-model="state.queryParams.title" />
 				</el-form-item>
 				<el-form-item label="类型" prop="type">
-					<el-select v-model="queryParams.type" placeholder="类型" clearable style="width: 100%">
+					<el-select v-model="state.queryParams.type" placeholder="类型" clearable style="width: 100%">
 						<el-option label="通知" :value="1" />
 						<el-option label="公告" :value="2" />
 					</el-select>
@@ -19,7 +19,7 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="noticeData" style="width: 100%" v-loading="loading" border :row-class-name="tableRowClassName">
+			<el-table :data="state.noticeData" style="width: 100%" v-loading="state.loading" border :row-class-name="tableRowClassName">
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="sysNotice.title" label="标题" show-overflow-tooltip />
 				<el-table-column prop="sysNotice.content" label="内容" show-overflow-tooltip>
@@ -47,9 +47,9 @@
 				</el-table-column>
 			</el-table>
 			<el-pagination
-				v-model:currentPage="tableParams.page"
-				v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total"
+				v-model:currentPage="state.tableParams.page"
+				v-model:page-size="state.tableParams.pageSize"
+				:total="state.tableParams.total"
 				:page-sizes="[10, 20, 50, 100]"
 				small
 				background
@@ -58,19 +58,19 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<el-dialog v-model="dialogVisible" title="消息详情" draggable width="769px">
-			<p v-html="content"></p>
+		<el-dialog v-model="state.dialogVisible" title="消息详情" draggable width="769px">
+			<p v-html="state.content"></p>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button type="primary" @click="dialogVisible = false">确认</el-button>
+					<el-button type="primary" @click="state.dialogVisible = false">确认</el-button>
 				</span>
 			</template>
 		</el-dialog>
 	</div>
 </template>
 
-<script lang="ts">
-import { toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
+<script setup lang="ts" name="notice">
+import { reactive, onMounted, onUnmounted } from 'vue';
 import commonFunction from '/@/utils/commonFunction';
 import mittBus from '/@/utils/mitt';
 
@@ -78,85 +78,70 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysNoticeApi } from '/@/api-services/api';
 import { SysNoticeUser } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'notice',
-	components: {},
-	setup() {
-		const { removeHtml } = commonFunction();
-		const state = reactive({
-			loading: false,
-			noticeData: [] as Array<SysNoticeUser>,
-			queryParams: {
-				title: undefined,
-				type: undefined,
-			},
-			tableParams: {
-				page: 1,
-				pageSize: 10,
-				total: 0 as any,
-			},
-			editNoticeTitle: '',
-			dialogVisible: false,
-			content: '',
-		});
-		onMounted(async () => {
-			handleQuery();
-
-			mittBus.on('submitRefresh', () => {
-				handleQuery();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh', () => {});
-		});
-		// 查询操作
-		const handleQuery = async () => {
-			state.loading = true;
-			var res = await getAPI(SysNoticeApi).sysNoticePageReceivedGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
-			state.noticeData = res.data.result?.items ?? [];
-			state.tableParams.total = res.data.result?.total;
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.title = undefined;
-			state.queryParams.type = undefined;
-			handleQuery();
-		};
-		// 改变页面容量
-		const handleSizeChange = (val: number) => {
-			state.tableParams.pageSize = val;
-			handleQuery();
-		};
-		// 改变页码序号
-		const handleCurrentChange = (val: number) => {
-			state.tableParams.page = val;
-			handleQuery();
-		};
-		// 查看详情
-		const viewDetail = async (row: any) => {
-			state.content = row.sysNotice.content;
-			state.dialogVisible = true;
-
-			row.readStatus = 1;
-			await getAPI(SysNoticeApi).sysNoticeSetReadPost({ id: row.sysNotice.id });
-		};
-		// eslint-disable-next-line no-unused-vars
-		const tableRowClassName = ({ row, rowIndex }: { row: SysNoticeUser; rowIndex: number }) => {
-			return row.readStatus === 1 ? 'info-row' : '';
-		};
-		return {
-			handleQuery,
-			resetQuery,
-			viewDetail,
-			handleSizeChange,
-			handleCurrentChange,
-			tableRowClassName,
-			removeHtml,
-			...toRefs(state),
-		};
+const { removeHtml } = commonFunction();
+const state = reactive({
+	loading: false,
+	noticeData: [] as Array<SysNoticeUser>,
+	queryParams: {
+		title: undefined,
+		type: undefined,
 	},
+	tableParams: {
+		page: 1,
+		pageSize: 10,
+		total: 0 as any,
+	},
+	editNoticeTitle: '',
+	dialogVisible: false,
+	content: '',
 });
+onMounted(async () => {
+	handleQuery();
+
+	mittBus.on('submitRefresh', () => {
+		handleQuery();
+	});
+});
+onUnmounted(() => {
+	mittBus.off('submitRefresh', () => {});
+});
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysNoticeApi).sysNoticePageReceivedGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
+	state.noticeData = res.data.result?.items ?? [];
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+};
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.title = undefined;
+	state.queryParams.type = undefined;
+	handleQuery();
+};
+// 改变页面容量
+const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+};
+// 改变页码序号
+const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+};
+// 查看详情
+const viewDetail = async (row: any) => {
+	state.content = row.sysNotice.content;
+	state.dialogVisible = true;
+
+	row.readStatus = 1;
+	await getAPI(SysNoticeApi).sysNoticeSetReadPost({ id: row.sysNotice.id });
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const tableRowClassName = ({ row, rowIndex }: { row: SysNoticeUser; rowIndex: number }) => {
+	return row.readStatus === 1 ? 'info-row' : '';
+};
 </script>
 
 <style lang="scss">

@@ -4,9 +4,19 @@
 			<el-col :span="8" :xs="24">
 				<el-card shadow="hover">
 					<div class="account-center-avatarHolder">
-						<el-upload class="h100" ref="uploadAvatarRef" action="" :limit="1" :show-file-list="false" :auto-upload="false" :on-change="uploadAvatarFile" accept=".jpg,.png,.bmp,.gif">
+						<!-- <el-upload class="h100" ref="uploadAvatarRef" action="" :limit="1" :show-file-list="false" :auto-upload="false" :on-change="uploadAvatarFile" accept=".jpg,.png,.bmp,.gif">
 							<el-avatar :size="100" :src="userInfos.avatar" />
-						</el-upload>
+						</el-upload> -->
+						<el-avatar
+							:size="100"
+							:src="userInfos.avatar"
+							@click="openCropperDialog"
+							v-loading="avatarLoading"
+							element-loading-spinner="el-icon-Upload"
+							element-loading-background="rgba(0, 0, 0, 0.2)"
+							@mouseenter="mouseEnterAvatar"
+							@mouseleave="mouseLeaveAvatar"
+						/>
 						<div class="username">{{ userInfos.realName }}</div>
 					</div>
 					<div class="account-center-org">
@@ -134,6 +144,8 @@
 				</span>
 			</template>
 		</el-dialog>
+
+		<CropperDialog ref="cropperDialogRef" />
 	</div>
 </template>
 
@@ -144,6 +156,7 @@ import { ElMessageBox, UploadInstance } from 'element-plus';
 import { useUserInfo } from '/@/stores/userInfo';
 import { base64ToFile } from '/@/utils/base64Conver';
 import OrgTree from '/@/views/system/user/component/orgTree.vue';
+import CropperDialog from '/@/components/cropper/index.vue';
 
 import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysFileApi, SysUserApi } from '/@/api-services/api';
@@ -151,7 +164,7 @@ import { ChangePwdInput, SysUser } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysUserCenter',
-	components: { OrgTree },
+	components: { OrgTree, CropperDialog },
 	setup() {
 		const stores = useUserInfo();
 		const { userInfos } = storeToRefs(stores);
@@ -160,8 +173,10 @@ export default defineComponent({
 		const signaturePadRef = ref();
 		const ruleFormBaseRef = ref();
 		const ruleFormPasswordRef = ref();
+		const cropperDialogRef = ref();
 		const state = reactive({
 			loading: false,
+			avatarLoading: false,
 			signDialogVisible: false,
 			ruleFormBase: {} as SysUser,
 			ruleFormPassword: {} as ChangePwdInput,
@@ -266,6 +281,17 @@ export default defineComponent({
 				});
 			});
 		};
+		// 打开裁剪弹窗
+		const openCropperDialog = () => {
+			cropperDialogRef.value.openDialog(userInfos.value.avatar);
+		};
+		// 鼠标进入和离开头像时
+		const mouseEnterAvatar = () => {
+			state.avatarLoading = true;
+		};
+		const mouseLeaveAvatar = () => {
+			state.avatarLoading = false;
+		};
 		return {
 			userInfos,
 			uploadSignRef,
@@ -273,6 +299,7 @@ export default defineComponent({
 			signaturePadRef,
 			ruleFormBaseRef,
 			ruleFormPasswordRef,
+			cropperDialogRef,
 			uploadAvatarFile,
 			openSignDialog,
 			saveUploadSign,
@@ -284,6 +311,9 @@ export default defineComponent({
 			resetPassword,
 			submitPassword,
 			submitUserBase,
+			openCropperDialog,
+			mouseEnterAvatar,
+			mouseLeaveAvatar,
 			...toRefs(state),
 		};
 	},
@@ -310,6 +340,18 @@ export default defineComponent({
 	}
 	span {
 		padding-left: 10px;
+	}
+}
+.avatar {
+	margin: 0 auto;
+	width: 104px;
+	height: 104px;
+	margin-bottom: 20px;
+	border-radius: 50%;
+	overflow: hidden;
+	img {
+		height: 100%;
+		width: 100%;
 	}
 }
 

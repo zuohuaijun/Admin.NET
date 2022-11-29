@@ -13,9 +13,6 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi } from '/@/api-services/api';
 import { ElMessage } from 'element-plus';
 
-const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
-const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
-
 // 后端控制路由
 
 /**
@@ -23,6 +20,8 @@ const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
  * @method import.meta.glob
  * @link 参考：https://cn.vitejs.dev/guide/features.html#json
  */
+const layouModules: any = import.meta.glob('../layout/routerView/*.{vue,tsx}');
+const viewsModules: any = import.meta.glob('../views/**/*.{vue,tsx}');
 const dynamicViewsModules: Record<string, Function> = Object.assign({}, { ...layouModules }, { ...viewsModules });
 
 /**
@@ -31,7 +30,7 @@ const dynamicViewsModules: Record<string, Function> = Object.assign({}, { ...lay
  * @method useUserInfo().setUserInfos() 触发初始化用户信息 pinia
  * @method useRequestOldRoutes().setRequestOldRoutes() 存储接口原始路由（未处理component），根据需求选择使用
  * @method setAddRoute 添加动态路由
- * @method setFilterMenuAndCacheTagsViewRoutes 设置路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
+ * @method setFilterMenuAndCacheTagsViewRoutes 设置路由到 pinia routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
  */
 export async function initBackEndControlRoutes() {
 	// 界面 loading 动画开始执行
@@ -49,12 +48,12 @@ export async function initBackEndControlRoutes() {
 	dynamicRoutes[0].children = await backEndComponent(res);
 	// 添加动态路由
 	await setAddRoute();
-	// 设置路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
+	// 设置路由到 pinia routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
 	await setFilterMenuAndCacheTagsViewRoutes();
 }
 
 /**
- * 设置路由到 vuex routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
+ * 设置路由到 pinia routesList 中（已处理成多级嵌套路由）及缓存多级嵌套数组处理后的一维数组
  * @description 用于左侧菜单、横向菜单的显示
  * @description 用于 tagsView、菜单搜索中：未过滤隐藏的(isHide)
  */
@@ -80,7 +79,7 @@ export function setCacheTagsViewRoutes() {
  */
 export function setFilterRouteEnd() {
 	let filterRouteEnd: any = formatTwoStageRoutes(formatFlatteningRoutes(dynamicRoutes));
-    // notFoundAndNoPower 防止 404、401 不在 layout 布局中，不设置的话，404、401 界面将全屏显示
+	// notFoundAndNoPower 防止 404、401 不在 layout 布局中，不设置的话，404、401 界面将全屏显示
 	// 关联问题 No match found for location with path 'xxx'
 	filterRouteEnd[0].children = [...filterRouteEnd[0].children, ...notFoundAndNoPower];
 	return filterRouteEnd;

@@ -1,19 +1,17 @@
 import { defineStore } from 'pinia';
-import { UserInfosState, UserInfosStates } from './interface';
 import { Session } from '/@/utils/storage';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi, SysConstApi } from '/@/api-services/api';
-import { ConstOutput } from '/@/api-services/models';
 
 /**
  * 用户信息
  * @methods setUserInfos 设置用户信息
  */
 export const useUserInfo = defineStore('userInfo', {
-	state: (): UserInfosStates => ({
-		userInfos: {} as UserInfosState,
-		constList: [] as Array<ConstOutput>,
+	state: (): UserInfosState => ({
+		userInfos: {} as any,
+		constList: [] as any,
 	}),
 	getters: {
 		// 获取系统常量列表

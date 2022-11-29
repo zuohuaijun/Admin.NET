@@ -40,13 +40,13 @@
 	</div>
 </template>
 
-<script lang="ts" setup>
+<script setup lang="ts" name="layoutBreadcrumbUserNews">
 import { reactive } from 'vue';
-import { SysNoticeApi } from '/@/api-services/api';
 import router from '/@/router';
 import commonFunction from '/@/utils/commonFunction';
 
 import { getAPI } from '/@/utils/axios-utils';
+import { SysNoticeApi } from '/@/api-services/api';
 
 defineProps({
 	noticeList: Array as any,

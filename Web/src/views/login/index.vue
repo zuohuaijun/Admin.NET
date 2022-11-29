@@ -27,8 +27,8 @@
 				<div class="login-right-warp-mian">
 					<div class="login-right-warp-main-title">{{ getThemeConfig.globalTitle }}</div>
 					<div class="login-right-warp-main-form">
-						<div v-if="!isScan">
-							<el-tabs v-model="tabsActiveName">
+						<div v-if="!state.isScan">
+							<el-tabs v-model="state.tabsActiveName">
 								<el-tab-pane :label="$t('message.label.one1')" name="account">
 									<Account />
 								</el-tab-pane>
@@ -37,9 +37,9 @@
 								</el-tab-pane>
 							</el-tabs>
 						</div>
-						<Scan v-if="isScan" />
-						<div class="login-content-main-sacn" @click="isScan = !isScan">
-							<i class="iconfont" :class="isScan ? 'icon-diannao1' : 'icon-barcode-qr'"></i>
+						<Scan v-if="state.isScan" />
+						<div class="login-content-main-sacn" @click="state.isScan = !state.isScan">
+							<i class="iconfont" :class="state.isScan ? 'icon-diannao1' : 'icon-barcode-qr'"></i>
 							<div class="login-content-main-sacn-delta"></div>
 						</div>
 					</div>
@@ -49,8 +49,8 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { defineAsyncComponent, defineComponent, onMounted, reactive, toRefs, computed } from 'vue';
+<script setup lang="ts" name="loginIndex">
+import { defineAsyncComponent, onMounted, reactive, computed } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { NextLoading } from '/@/utils/loading';
@@ -59,37 +59,24 @@ import loginIconTwo from '/@/assets/login-icon-two.svg';
 import loginIconTwo1 from '/@/assets/login-icon-two1.svg';
 import loginIconTwo2 from '/@/assets/login-icon-two2.svg';
 
-export default defineComponent({
-	name: 'loginIndex',
-	components: {
-		Account: defineAsyncComponent(() => import('/@/views/login/component/account.vue')),
-		Mobile: defineAsyncComponent(() => import('/@/views/login/component/mobile.vue')),
-		Scan: defineAsyncComponent(() => import('/@/views/login/component/scan.vue')),
-	},
-	setup() {
-		const storesThemeConfig = useThemeConfig();
-		const { themeConfig } = storeToRefs(storesThemeConfig);
-		const state = reactive({
-			tabsActiveName: 'account',
-			isScan: false,
-		});
-		// 获取布局配置信息
-		const getThemeConfig = computed(() => {
-			return themeConfig.value;
-		});
-		// 页面加载时
-		onMounted(() => {
-			NextLoading.done();
-		});
-		return {
-			logoMini,
-			loginIconTwo,
-			loginIconTwo1,
-			loginIconTwo2,
-			getThemeConfig,
-			...toRefs(state),
-		};
-	},
+// 引入组件
+const Account = defineAsyncComponent(() => import('/@/views/login/component/account.vue'));
+const Mobile = defineAsyncComponent(() => import('/@/views/login/component/mobile.vue'));
+const Scan = defineAsyncComponent(() => import('/@/views/login/component/scan.vue'));
+
+const storesThemeConfig = useThemeConfig();
+const { themeConfig } = storeToRefs(storesThemeConfig);
+const state = reactive({
+	tabsActiveName: 'account',
+	isScan: false,
+});
+// 获取布局配置信息
+const getThemeConfig = computed(() => {
+	return themeConfig.value;
+});
+// 页面加载时
+onMounted(() => {
+	NextLoading.done();
 });
 </script>
 

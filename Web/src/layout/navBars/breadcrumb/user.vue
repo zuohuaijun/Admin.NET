@@ -6,21 +6,21 @@
 			</div>
 			<template #dropdown>
 				<el-dropdown-menu>
-					<el-dropdown-item command="large" :disabled="disabledSize === 'large'">{{ $t('message.user.dropdownLarge') }}</el-dropdown-item>
-					<el-dropdown-item command="default" :disabled="disabledSize === 'default'">{{ $t('message.user.dropdownDefault') }}</el-dropdown-item>
-					<el-dropdown-item command="small" :disabled="disabledSize === 'small'">{{ $t('message.user.dropdownSmall') }}</el-dropdown-item>
+					<el-dropdown-item command="large" :disabled="state.disabledSize === 'large'">{{ $t('message.user.dropdownLarge') }}</el-dropdown-item>
+					<el-dropdown-item command="default" :disabled="state.disabledSize === 'default'">{{ $t('message.user.dropdownDefault') }}</el-dropdown-item>
+					<el-dropdown-item command="small" :disabled="state.disabledSize === 'small'">{{ $t('message.user.dropdownSmall') }}</el-dropdown-item>
 				</el-dropdown-menu>
 			</template>
 		</el-dropdown>
 		<el-dropdown :show-timeout="70" :hide-timeout="50" trigger="click" @command="onLanguageChange">
 			<div class="layout-navbars-breadcrumb-user-icon">
-				<i class="iconfont" :class="disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'" :title="$t('message.user.title1')"></i>
+				<i class="iconfont" :class="state.disabledI18n === 'en' ? 'icon-fuhao-yingwen' : 'icon-fuhao-zhongwen'" :title="$t('message.user.title1')"></i>
 			</div>
 			<template #dropdown>
 				<el-dropdown-menu>
-					<el-dropdown-item command="zh-cn" :disabled="disabledI18n === 'zh-cn'">简体中文</el-dropdown-item>
-					<el-dropdown-item command="en" :disabled="disabledI18n === 'en'">English</el-dropdown-item>
-					<el-dropdown-item command="zh-tw" :disabled="disabledI18n === 'zh-tw'">繁體中文</el-dropdown-item>
+					<el-dropdown-item command="zh-cn" :disabled="state.disabledI18n === 'zh-cn'">简体中文</el-dropdown-item>
+					<el-dropdown-item command="en" :disabled="state.disabledI18n === 'en'">English</el-dropdown-item>
+					<el-dropdown-item command="zh-tw" :disabled="state.disabledI18n === 'zh-tw'">繁體中文</el-dropdown-item>
 				</el-dropdown-menu>
 			</template>
 		</el-dropdown>
@@ -41,11 +41,11 @@
 						</el-icon>
 					</el-badge>
 				</template>
-				<UserNews :noticeList="noticeList" />
+				<UserNews :noticeList="state.noticeList" />
 			</el-popover>
 		</div>
 		<div class="layout-navbars-breadcrumb-user-icon" @click="onScreenfullClick">
-			<i class="iconfont" :title="isScreenfull ? $t('message.user.title6') : $t('message.user.title5')" :class="!isScreenfull ? 'icon-fullscreen' : 'icon-tuichuquanping'"></i>
+			<i class="iconfont" :title="state.isScreenfull ? $t('message.user.title6') : $t('message.user.title5')" :class="!state.isScreenfull ? 'icon-fullscreen' : 'icon-tuichuquanping'"></i>
 		</div>
 		<div class="layout-navbars-breadcrumb-user-icon mr10" @click="onOnlineUserClick">
 			<el-icon title="在线用户">
@@ -73,8 +73,8 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { ref, computed, reactive, toRefs, onMounted, defineComponent } from 'vue';
+<script setup lang="ts" name="layoutBreadcrumbUser">
+import { defineAsyncComponent, ref, computed, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessageBox, ElMessage, ElNotification } from 'element-plus';
 import screenfull from 'screenfull';
@@ -85,162 +85,145 @@ import { useThemeConfig } from '/@/stores/themeConfig';
 import other from '/@/utils/other';
 import mittBus from '/@/utils/mitt';
 import { Local } from '/@/utils/storage';
-import UserNews from '/@/layout/navBars/breadcrumb/userNews.vue';
-import Search from '/@/layout/navBars/breadcrumb/search.vue';
 
-import OnlineUser from '/@/views/system/onlineUser/index.vue';
 import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi, SysNoticeApi } from '/@/api-services/api';
 
 import { signalR } from '/@/views/system/onlineUser/signalR';
 
-export default defineComponent({
-	name: 'layoutBreadcrumbUser',
-	components: { UserNews, Search, OnlineUser },
-	setup() {
-		const { locale, t } = useI18n();
-		const router = useRouter();
-		const stores = useUserInfo();
-		const storesThemeConfig = useThemeConfig();
-		const { userInfos } = storeToRefs(stores);
-		const { themeConfig } = storeToRefs(storesThemeConfig);
-		const searchRef = ref();
-		const onlineUserRef = ref();
-		const state = reactive({
-			isScreenfull: false,
-			disabledI18n: 'zh-cn',
-			disabledSize: 'large',
-			noticeList: [] as any, // 站内信列表
-		});
-		// 设置分割样式
-		const layoutUserFlexNum = computed(() => {
-			let num: string | number = '';
-			const { layout, isClassicSplitMenu } = themeConfig.value;
-			const layoutArr: string[] = ['defaults', 'columns'];
-			if (layoutArr.includes(layout) || (layout === 'classic' && !isClassicSplitMenu)) num = '1';
-			else num = '';
-			return num;
-		});
-		// 全屏点击时
-		const onScreenfullClick = () => {
-			if (!screenfull.isEnabled) {
-				ElMessage.warning('暂不不支持全屏');
-				return false;
-			}
-			screenfull.toggle();
-			screenfull.on('change', () => {
-				if (screenfull.isFullscreen) state.isScreenfull = true;
-				else state.isScreenfull = false;
-			});
-		};
-		// 布局配置 icon 点击时
-		const onLayoutSetingClick = () => {
-			mittBus.emit('openSetingsDrawer');
-		};
-		// 下拉菜单点击时
-		const onHandleCommandClick = (path: string) => {
-			if (path === 'logOut') {
-				ElMessageBox({
-					closeOnClickModal: false,
-					closeOnPressEscape: false,
-					title: t('message.user.logOutTitle'),
-					message: t('message.user.logOutMessage'),
-					type: 'warning',
-					showCancelButton: true,
-					confirmButtonText: t('message.user.logOutConfirm'),
-					cancelButtonText: t('message.user.logOutCancel'),
-					buttonSize: 'default',
-					beforeClose: async (action, instance, done) => {
-						if (action === 'confirm') {
-							instance.confirmButtonLoading = true;
-							instance.confirmButtonText = t('message.user.logOutExit');
-							await getAPI(SysAuthApi).logoutPost();
-							instance.confirmButtonLoading = false;
-							done();
-						} else {
-							done();
-						}
-					},
-				})
-					.then(async () => {
-						clearAccessTokens();
-					})
-					.catch(() => {});
-			} else if (path === 'wareHouse') {
-				window.open('https://gitee.com/zuohuaijun/Admin.NET');
-			} else {
-				router.push(path);
-			}
-		};
-		// 菜单搜索点击
-		const onSearchClick = () => {
-			searchRef.value.openSearch();
-		};
-		// 在线用户列表
-		const onOnlineUserClick = () => {
-			onlineUserRef.value.openDrawer();
-		};
-		// 组件大小改变
-		const onComponentSizeChange = (size: string) => {
-			Local.remove('themeConfig');
-			themeConfig.value.globalComponentSize = size;
-			Local.set('themeConfig', themeConfig.value);
-			initI18nOrSize('globalComponentSize', 'disabledSize');
-			window.location.reload();
-		};
-		// 语言切换
-		const onLanguageChange = (lang: string) => {
-			Local.remove('themeConfig');
-			themeConfig.value.globalI18n = lang;
-			Local.set('themeConfig', themeConfig.value);
-			locale.value = lang;
-			other.useTitle();
-			initI18nOrSize('globalI18n', 'disabledI18n');
-		};
-		// 初始化组件大小/i18n
-		const initI18nOrSize = (value: string, attr: string) => {
-			(<any>state)[attr] = Local.get('themeConfig')[value];
-		};
-		// 页面加载时
-		onMounted(async () => {
-			if (Local.get('themeConfig')) {
-				initI18nOrSize('globalComponentSize', 'disabledSize');
-				initI18nOrSize('globalI18n', 'disabledI18n');
-			}
+// 引入组件
+const UserNews = defineAsyncComponent(() => import('/@/layout/navBars/breadcrumb/userNews.vue'));
+const Search = defineAsyncComponent(() => import('/@/layout/navBars/breadcrumb/search.vue'));
+const OnlineUser = defineAsyncComponent(() => import('/@/views/system/onlineUser/index.vue'));
 
-			// 加载未读的站内信
-			var res = await getAPI(SysNoticeApi).sysNoticeUnReadListGet();
-			state.noticeList = res.data.result ?? [];
-
-			// 接收站内信
-			signalR.on('PublicNotice', reciveNotice);
-		});
-		const reciveNotice = (msg: any) => {
-			state.noticeList.unshift(msg);
-
-			ElNotification({
-				title: '提示',
-				message: '您有一条新消息...',
-				type: 'info',
-				position: 'bottom-right',
-			});
-		};
-		return {
-			userInfos,
-			onLayoutSetingClick,
-			onHandleCommandClick,
-			onScreenfullClick,
-			onSearchClick,
-			onOnlineUserClick,
-			onComponentSizeChange,
-			onLanguageChange,
-			searchRef,
-			onlineUserRef,
-			layoutUserFlexNum,
-			...toRefs(state),
-		};
-	},
+// 定义变量内容
+const { locale, t } = useI18n();
+const router = useRouter();
+const stores = useUserInfo();
+const storesThemeConfig = useThemeConfig();
+const { userInfos } = storeToRefs(stores);
+const { themeConfig } = storeToRefs(storesThemeConfig);
+const searchRef = ref();
+const onlineUserRef = ref();
+const state = reactive({
+	isScreenfull: false,
+	disabledI18n: 'zh-cn',
+	disabledSize: 'large',
+	noticeList: [] as any, // 站内信列表
 });
+// 设置分割样式
+const layoutUserFlexNum = computed(() => {
+	let num: string | number = '';
+	const { layout, isClassicSplitMenu } = themeConfig.value;
+	const layoutArr: string[] = ['defaults', 'columns'];
+	if (layoutArr.includes(layout) || (layout === 'classic' && !isClassicSplitMenu)) num = '1';
+	else num = '';
+	return num;
+});
+// 全屏点击时
+const onScreenfullClick = () => {
+	if (!screenfull.isEnabled) {
+		ElMessage.warning('暂不不支持全屏');
+		return false;
+	}
+	screenfull.toggle();
+	screenfull.on('change', () => {
+		if (screenfull.isFullscreen) state.isScreenfull = true;
+		else state.isScreenfull = false;
+	});
+};
+// 布局配置 icon 点击时
+const onLayoutSetingClick = () => {
+	mittBus.emit('openSetingsDrawer');
+};
+// 下拉菜单点击时
+const onHandleCommandClick = (path: string) => {
+	if (path === 'logOut') {
+		ElMessageBox({
+			closeOnClickModal: false,
+			closeOnPressEscape: false,
+			title: t('message.user.logOutTitle'),
+			message: t('message.user.logOutMessage'),
+			type: 'warning',
+			showCancelButton: true,
+			confirmButtonText: t('message.user.logOutConfirm'),
+			cancelButtonText: t('message.user.logOutCancel'),
+			buttonSize: 'default',
+			beforeClose: async (action, instance, done) => {
+				if (action === 'confirm') {
+					instance.confirmButtonLoading = true;
+					instance.confirmButtonText = t('message.user.logOutExit');
+					await getAPI(SysAuthApi).logoutPost();
+					instance.confirmButtonLoading = false;
+					done();
+				} else {
+					done();
+				}
+			},
+		})
+			.then(async () => {
+				clearAccessTokens();
+			})
+			.catch(() => {});
+	} else if (path === 'wareHouse') {
+		window.open('https://gitee.com/zuohuaijun/Admin.NET');
+	} else {
+		router.push(path);
+	}
+};
+// 菜单搜索点击
+const onSearchClick = () => {
+	searchRef.value.openSearch();
+};
+// 在线用户列表
+const onOnlineUserClick = () => {
+	onlineUserRef.value.openDrawer();
+};
+// 组件大小改变
+const onComponentSizeChange = (size: string) => {
+	Local.remove('themeConfig');
+	themeConfig.value.globalComponentSize = size;
+	Local.set('themeConfig', themeConfig.value);
+	initI18nOrSize('globalComponentSize', 'disabledSize');
+	window.location.reload();
+};
+// 语言切换
+const onLanguageChange = (lang: string) => {
+	Local.remove('themeConfig');
+	themeConfig.value.globalI18n = lang;
+	Local.set('themeConfig', themeConfig.value);
+	locale.value = lang;
+	other.useTitle();
+	initI18nOrSize('globalI18n', 'disabledI18n');
+};
+// 初始化组件大小/i18n
+const initI18nOrSize = (value: string, attr: string) => {
+	(<any>state)[attr] = Local.get('themeConfig')[value];
+};
+// 页面加载时
+onMounted(async () => {
+	if (Local.get('themeConfig')) {
+		initI18nOrSize('globalComponentSize', 'disabledSize');
+		initI18nOrSize('globalI18n', 'disabledI18n');
+	}
+
+	// 加载未读的站内信
+	var res = await getAPI(SysNoticeApi).sysNoticeUnReadListGet();
+	state.noticeList = res.data.result ?? [];
+
+	// 接收站内信
+	signalR.on('PublicNotice', reciveNotice);
+});
+const reciveNotice = (msg: any) => {
+	state.noticeList.unshift(msg);
+
+	ElNotification({
+		title: '提示',
+		message: '您有一条新消息...',
+		type: 'info',
+		position: 'bottom-right',
+	});
+};
 </script>
 
 <style scoped lang="scss">
