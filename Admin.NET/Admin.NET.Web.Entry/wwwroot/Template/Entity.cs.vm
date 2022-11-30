@@ -7,8 +7,8 @@ namespace Admin.NET.Application.Entity
      /// <summary>
      /// @(@Model.Description)
      /// </summary>
-      [SugarTable("@(@Model.TableName)","@(@Model.Description)"))]
-      [Tenant(@(@Model.ConfigId)]
+      [SugarTable("@(@Model.TableName)","@(@Model.Description)")]
+      [Tenant("@(@Model.ConfigId)")]
       public class @(@Model.EntityName) @Model.BaseClassName
       {
 @foreach (var column in Model.TableField){
