@@ -4,17 +4,17 @@
 			<div class="error-flex">
 				<div class="left">
 					<div class="left-item">
-						<div class="left-item-animation left-item-num">401</div>
-						<div class="left-item-animation left-item-title">{{ $t('message.noAccess.accessTitle') }}</div>
-						<div class="left-item-animation left-item-msg">{{ $t('message.noAccess.accessMsg') }}</div>
+						<div class="left-item-animation left-item-num">404</div>
+						<div class="left-item-animation left-item-title">{{ $t('message.notFound.foundTitle') }}</div>
+						<div class="left-item-animation left-item-msg">{{ $t('message.notFound.foundMsg') }}</div>
 						<div class="left-item-animation left-item-btn">
-							<el-button type="primary" size="default" round @click="onSetAuth">{{ $t('message.noAccess.accessBtn') }}</el-button>
+							<el-button type="primary" size="default" round @click="onGoHome">{{ $t('message.notFound.foundBtn') }}</el-button>
 						</div>
 					</div>
 				</div>
 				<div class="right">
 					<img
-						src="https://img-blog.csdnimg.cn/3333f265772a4fa89287993500ecbf96.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAbHl0LXRvcA==,size_16,color_FFFFFF,t_70,g_se,x_16"
+						src="https://img-blog.csdnimg.cn/9eb1d85a417f4ed1ba7107f149ce3da1.png?x-oss-process=image/watermark,type_d3F5LXplbmhlaQ,shadow_50,text_Q1NETiBAbHl0LXRvcA==,size_16,color_FFFFFF,t_70,g_se,x_16"
 					/>
 				</div>
 			</div>
@@ -22,15 +22,15 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="noPower">
-import { Session } from '/@/utils/storage';
+<script setup lang="ts" name="notFound">
+import { useRouter } from 'vue-router';
 
-const onSetAuth = () => {
-	// https://gitee.com/lyt-top/vue-next-admin/issues/I5C3JS
-	// 清除缓存/token等
-	Session.clear();
-	// 使用 reload 时，不需要调用 resetRoute() 重置路由
-	window.location.reload();
+// 定义变量内容
+const router = useRouter();
+
+// 返回首页
+const onGoHome = () => {
+	router.push('/');
 };
 </script>
 

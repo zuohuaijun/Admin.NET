@@ -1,13 +1,6 @@
 <template>
 	<div class="icon-selector w100 h100">
-		<el-popover
-			placement="bottom"
-			:width="state.fontIconWidth"
-			trigger="click"
-			transition="el-zoom-in-top"
-			popper-class="icon-selector-popper"
-			@show="onPopoverShow"
-		>
+		<el-popover placement="bottom" :width="state.fontIconWidth" trigger="click" transition="el-zoom-in-top" popper-class="icon-selector-popper" @show="onPopoverShow">
 			<template #reference>
 				<el-input
 					v-model="state.fontIconSearch"
@@ -35,15 +28,9 @@
 					<div class="icon-selector-warp-title flex">
 						<div class="flex-auto">{{ title }}</div>
 						<div class="icon-selector-warp-title-tab" v-if="type === 'all'">
-							<span :class="{ 'span-active': state.fontIconType === 'ali' }" @click="onIconChange('ali')" class="ml10" title="iconfont 图标">
-								ali
-							</span>
-							<span :class="{ 'span-active': state.fontIconType === 'ele' }" @click="onIconChange('ele')" class="ml10" title="elementPlus 图标">
-								ele
-							</span>
-							<span :class="{ 'span-active': state.fontIconType === 'awe' }" @click="onIconChange('awe')" class="ml10" title="fontawesome 图标">
-								awe
-							</span>
+							<span :class="{ 'span-active': state.fontIconType === 'ali' }" @click="onIconChange('ali')" class="ml10" title="iconfont 图标"> ali </span>
+							<span :class="{ 'span-active': state.fontIconType === 'ele' }" @click="onIconChange('ele')" class="ml10" title="elementPlus 图标"> ele </span>
+							<span :class="{ 'span-active': state.fontIconType === 'awe' }" @click="onIconChange('awe')" class="ml10" title="fontawesome 图标"> awe </span>
 						</div>
 					</div>
 					<div class="icon-selector-warp-row">
@@ -71,6 +58,7 @@
 <script setup lang="ts" name="iconSelector">
 import { ref, reactive, onMounted, nextTick, computed, watch } from 'vue';
 import initIconfont from '/@/utils/getStyleSheets';
+import '/@/theme/iconSelector.scss';
 
 // 定义父组件传过来的值
 const props = defineProps({
