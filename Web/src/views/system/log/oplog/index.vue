@@ -19,17 +19,15 @@
 
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="logData" @sort-change="sortChange" style="width: 100%" border>
-				<!-- <el-table-column type="index" label="序号" width="55" align="center" /> -->
-        <el-table-column prop="rowIndex" label="序号" width="55" align="center" />
-				<el-table-column prop="logName" label="类别名称" sortable='custom' show-overflow-tooltip />
-				<el-table-column prop="logLevel" label="日志级别" sortable='custom' width="110" align="center" show-overflow-tooltip />
+				<el-table-column type="index" label="序号" width="55" align="center" />
+				<el-table-column prop="logName" label="类别名称" sortable="custom" show-overflow-tooltip />
+				<el-table-column prop="logLevel" label="日志级别" width="110" align="center" show-overflow-tooltip />
 				<el-table-column prop="eventId" label="事件Id" width="70" align="center" show-overflow-tooltip />
 				<el-table-column prop="message" label="日志消息" show-overflow-tooltip />
 				<el-table-column prop="state" label="当前状态值" show-overflow-tooltip />
-				<el-table-column prop="threadId" label="线程Id" sortable='custom' width="90" align="center" show-overflow-tooltip />
-				<el-table-column prop="traceId" label="请求跟踪Id" show-overflow-tooltip />
-				<el-table-column prop="logDateTime" label="记录时间" sortable='custom' align="center" show-overflow-tooltip />
-				<!-- <el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip /> -->
+				<el-table-column prop="threadId" label="线程Id" sortable="custom" width="90" align="center" show-overflow-tooltip />
+				<el-table-column prop="traceId" label="请求跟踪Id" sortable="custom" show-overflow-tooltip />
+				<el-table-column prop="logDateTime" label="记录时间" sortable="custom" align="center" show-overflow-tooltip />
 				<el-table-column prop="exception" label="异常对象" show-overflow-tooltip />
 				<el-table-column label="操作" width="80" align="center" fixed="right" show-overflow-tooltip>
 					<template #default="scope">
@@ -83,9 +81,9 @@ export default defineComponent({
 			tableParams: {
 				page: 1,
 				pageSize: 10,
-        field: 'createTime', //默认的排序字段
-        order: 'descending', //排序方向
-        descStr: 'descending',//降序排序的关键字符，element-plus是descending； ant-design是descend
+				field: 'createTime', //默认的排序字段
+				order: 'descending', //排序方向
+				descStr: 'descending', //降序排序的关键字符，element-plus是descending； ant-design是descend
 				total: 0 as any,
 			},
 			logData: [] as Array<SysLogOp>,
@@ -100,7 +98,15 @@ export default defineComponent({
 			if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
 			if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
 			state.loading = true;
-			var res = await getAPI(SysLogOpApi).sysLogOpPageGet(state.queryParams.startTime, state.queryParams.endTime, state.tableParams.page, state.tableParams.pageSize, state.tableParams.field, state.tableParams.order, state.tableParams.descStr);
+			var res = await getAPI(SysLogOpApi).sysLogOpPageGet(
+				state.queryParams.startTime,
+				state.queryParams.endTime,
+				state.tableParams.page,
+				state.tableParams.pageSize,
+				state.tableParams.field,
+				state.tableParams.order,
+				state.tableParams.descStr
+			);
 			state.logData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -166,11 +172,12 @@ export default defineComponent({
 				},
 			},
 		];
-    const sortChange = (column: any) => {
-      state.tableParams.field = column.prop;
-      state.tableParams.order = column.order;
-      handleQuery();
-    };
+		// 列排序
+		const sortChange = (column: any) => {
+			state.tableParams.field = column.prop;
+			state.tableParams.order = column.order;
+			handleQuery();
+		};
 		return {
 			handleQuery,
 			resetQuery,
@@ -180,7 +187,7 @@ export default defineComponent({
 			handleSizeChange,
 			handleCurrentChange,
 			viewDetail,
-      sortChange,
+			sortChange,
 			...toRefs(state),
 		};
 	},

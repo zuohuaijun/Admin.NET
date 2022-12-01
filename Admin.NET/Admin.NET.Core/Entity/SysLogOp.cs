@@ -7,12 +7,6 @@
 public class SysLogOp : EntityTenant
 {
     /// <summary>
-    /// 行号
-    /// </summary>
-    [SugarColumn(IsIgnore = true)]
-    public virtual int RowIndex { get; set; }
-
-    /// <summary>
     /// 记录器类别名称
     /// </summary>
     [SugarColumn(ColumnDescription = "记录器类别名称", Length = 256)]
