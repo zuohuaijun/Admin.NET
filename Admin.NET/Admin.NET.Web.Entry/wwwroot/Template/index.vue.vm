@@ -1,5 +1,5 @@
 <template>
-	<div class="@(@Model.ClassName)-container">
+	<div class="@(@Model.LowerClassName)-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			@if(Model.QueryWhetherList.Count > 0){
 			@:<el-form :model="queryParams" ref="queryForm" :inline="true">
@@ -56,8 +56,8 @@
           @:<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
           @:<div style="text-align:right">
           @:<el-button icon="ele-Refresh" @@click="() => queryParams = {}"> 重置 </el-button>
-          @:<el-button type="primary" icon="ele-Search" @@click="handleQuery" v-auth="'@(@Model.ClassName):page'"> 查询 </el-button>
-          @:<el-button icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.ClassName):add'"> 新增 </el-button>
+          @:<el-button type="primary" icon="ele-Search" @@click="handleQuery" v-auth="'@(@Model.LowerClassName):page'"> 查询 </el-button>
+          @:<el-button icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.LowerClassName):add'"> 新增 </el-button>
           @:</div>
           @:</el-col>
       @:</el-row>
@@ -107,10 +107,10 @@
 				}
 				}
 				}
-				<el-table-column label="操作" width="140" align="center" fixed="right" show-overflow-tooltip="" v-if="auth('@(@Model.ClassName):edit') || auth('@(@Model.ClassName):delete')">
+				<el-table-column label="操作" width="140" align="center" fixed="right" show-overflow-tooltip="" v-if="auth('@(@Model.LowerClassName):edit') || auth('@(@Model.LowerClassName):delete')">
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text="" type="primary" @@click="openEdit@(@Model.ClassName)(scope.row)" v-auth="'@(@Model.ClassName):edit'"> 编辑 </el-button>
-						<el-button icon="ele-Delete" size="small" text="" type="primary" @@click="del@(@Model.ClassName)(scope.row)" v-auth="'@(@Model.ClassName):delete'"> 删除 </el-button>
+						<el-button icon="ele-Edit" size="small" text="" type="primary" @@click="openEdit@(@Model.ClassName)(scope.row)" v-auth="'@(@Model.LowerClassName):edit'"> 编辑 </el-button>
+						<el-button icon="ele-Delete" size="small" text="" type="primary" @@click="del@(@Model.ClassName)(scope.row)" v-auth="'@(@Model.LowerClassName):delete'"> 删除 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -140,11 +140,11 @@ import { ElMessageBox, ElMessage } from "element-plus";
 import { auth } from '/@@/utils/authFunction';
 import { formatDate } from '/@@/utils/formatTime';
 
-import editDialog from '/@@/views/main/@(@Model.ClassName)/component/editDialog.vue'
-import { get@(@Model.ClassName)PageList, delete@(@Model.ClassName) } from '/@@/api/main/@(@Model.ClassName)';
+import editDialog from '/@@/views/main/@(@Model.LowerClassName)/component/editDialog.vue'
+import { get@(@Model.ClassName)PageList, delete@(@Model.ClassName) } from '/@@/api/main/@(@Model.LowerClassName)';
 	@foreach (var column in Model.QueryWhetherList){
 	if(@column.EffectType == "fk"){
-	@:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.ClassName)';
+	@:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
 	}
 	}
 	@foreach (var column in Model.QueryWhetherList){

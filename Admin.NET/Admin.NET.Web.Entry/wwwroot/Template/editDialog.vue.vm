@@ -1,6 +1,6 @@
 <template>
-	<div class="@(@Model.ClassName)-container">
-    <el-dialog v-model="isShowDialog" :title="props.title" :width="700" draggable>
+	<div class="@(@Model.LowerClassName)-container">
+		<el-dialog v-model="isShowDialog" :title="props.title" :width="700" draggable="">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px" :rules="rules">
 				<el-row :gutter="35">
 					@foreach (var column in Model.TableField){
@@ -24,7 +24,7 @@
 					}else if(@column.EffectType == "Input"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable=""/>
+							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable="" />
 							@:
 						</el-form-item>
 						@:
@@ -32,7 +32,7 @@
 					}else if(@column.EffectType == "InputNumber"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-input-number v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable=""/>
+							@:<el-input-number v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable="" />
 							@:
 						</el-form-item>
 						@:
@@ -40,7 +40,7 @@
 					}else if(@column.EffectType == "InputTextArea"){
 					@:<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" type="textarea" clearable=""/>
+							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" type="textarea" clearable="" />
 							@:
 						</el-form-item>
 						@:
@@ -78,7 +78,7 @@
 					}else if(@column.EffectType == "DatePicker"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-date-picker v-model="ruleForm.@(@column.LowerColumnName)" type="date" placeholder="@(@column.ColumnComment)"  />
+							@:<el-date-picker v-model="ruleForm.@(@column.LowerColumnName)" type="date" placeholder="@(@column.ColumnComment)" />
 							@:
 						</el-form-item>
 						@:
@@ -88,9 +88,9 @@
 					}else{
 
 					}
-        }
-      }
-    }
+					}
+					}
+					}
 				</el-row>
 			</el-form>
 			<template #footer="">
@@ -104,34 +104,34 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { ElMessage } from "element-plus";
-import type { FormRules } from "element-plus";
-import { add@(@Model.ClassName), update@(@Model.ClassName) } from "/@@/api/main/@(@Model.ClassName)";
-@foreach (var column in Model.TableField){
-  if(@column.EffectType == "fk"){
-    @:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.ClassName)';
-  }
-}
-@foreach (var column in Model.TableField){
-  if(@column.EffectType == "Select"){
-    @:import { getDictDataDropdown } from '/@@/api/system/admin';
-  }
-}
-//父级传递来的参数
-var props = defineProps({
-  title: {
-    type: String,
-    default: "",
-  },
-});
-//父级传递来的函数，用于回调
-const emit = defineEmits(["reloadTable"]);
-const ruleFormRef = ref();
-const isShowDialog = ref(false);
-const ruleForm = ref<any>({});
-//自行删除非必填规则
-const rules = ref<FormRules>({
+	import { ref } from "vue";
+	import { ElMessage } from "element-plus";
+	import type { FormRules } from "element-plus";
+	import { add@(@Model.ClassName), update@(@Model.ClassName) } from "/@@/api/main/@(@Model.LowerClassName)";
+	@foreach (var column in Model.TableField){
+	if(@column.EffectType == "fk"){
+	@:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
+	}
+	}
+	@foreach (var column in Model.TableField){
+	if(@column.EffectType == "Select"){
+	@:import { getDictDataDropdown } from '/@@/api/system/admin';
+	}
+	}
+	//父级传递来的参数
+	var props = defineProps({
+	title: {
+	type: String,
+	default: "",
+	},
+	});
+	//父级传递来的函数，用于回调
+	const emit = defineEmits(["reloadTable"]);
+	const ruleFormRef = ref();
+	const isShowDialog = ref(false);
+	const ruleForm = ref<any>({});
+		//自行删除非必填规则
+		const rules = ref<FormRules>({
   @foreach (var column in Model.TableField){
     if(@column.EffectType == "Input" || @column.EffectType == "InputNumber" ||@column.EffectType == "InputTextArea"){
   @:@column.LowerColumnName: [{required: true, message: '请输入@(@column.ColumnComment)！', trigger: 'blur',},],
@@ -140,7 +140,6 @@ const rules = ref<FormRules>({
     }
   }
 });
-
 
 // 打开弹窗
 const openDialog = (row: any) => {

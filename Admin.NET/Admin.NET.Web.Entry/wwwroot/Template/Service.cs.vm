@@ -20,7 +20,7 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/@Model.ClassName/page")]
+    [HttpGet("/@Model.LowerClassName/page")]
     public async Task<dynamic> Page([FromQuery] @(@Model.ClassName)Input input)
     {
         var query= _rep.Context.Queryable<@(@Model.ClassName)>()
@@ -80,7 +80,7 @@ if (@column.QueryWhether == "Y"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/@Model.ClassName/add")]
+    [HttpPost("/@Model.LowerClassName/add")]
     public async Task Add(Add@(@Model.ClassName)Input input)
     {
         var entity = input.Adapt<@(@Model.ClassName)>();
@@ -92,7 +92,7 @@ if (@column.QueryWhether == "Y"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/@Model.ClassName/delete")]
+    [HttpPost("/@Model.LowerClassName/delete")]
     public async Task Delete(Delete@(@Model.ClassName)Input input)
     {
 @foreach (var column in Model.TableField){
@@ -108,7 +108,7 @@ if (@column.ColumnKey == "True"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/@Model.ClassName/edit")]
+    [HttpPost("/@Model.LowerClassName/edit")]
     public async Task Update(Update@(@Model.ClassName)Input input)
     {
         var entity = input.Adapt<@(@Model.ClassName)>();
@@ -120,7 +120,7 @@ if (@column.ColumnKey == "True"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/@Model.ClassName/detail")]
+    [HttpGet("/@Model.LowerClassName/detail")]
     public async Task<@(@Model.ClassName)> Get([FromQuery] Querye@(@Model.ClassName)Input input)
     {
 @foreach (var column in Model.TableField){
@@ -135,14 +135,14 @@ if (@column.ColumnKey == "True"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/@Model.ClassName/list")]
+    [HttpGet("/@Model.LowerClassName/list")]
     public async Task<dynamic> List([FromQuery] @(@Model.ClassName)Input input)
     {
         return await _rep.AsQueryable().ToListAsync();
     }
 @foreach (var column in Model.TableField){
 if(@column.EffectType == "fk"){
-    @:[HttpGet("/@(@Model.ClassName)/@(@column.FkEntityName)Dropdown")]
+    @:[HttpGet("/@(@Model.LowerClassName)/@(@column.FkEntityName)Dropdown")]
     @:public async Task<dynamic> @(@column.FkEntityName)Dropdown()
     @:{
         @:return await _rep.Context.Queryable<@(@column.FkEntityName)>()
@@ -159,7 +159,7 @@ if(@column.EffectType == "fk"){
 
 @foreach (var column in Model.TableField){
 if(@column.EffectType == "ApiTreeSelect"){
-    @:[HttpGet("/@(@Model.ClassName)/@(@column.FkEntityName)Tree")]
+    @:[HttpGet("/@(@Model.LowerClassName)/@(@column.FkEntityName)Tree")]
     @:public async Task<dynamic> @(@column.FkEntityName)Tree()
     @:{
         @:return await _rep.Context.Queryable<@(@column.FkEntityName)TreeOutput>().ToTreeAsync(u => u.Children, u => u.@(@column.PidColumn), 0);

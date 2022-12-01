@@ -327,7 +327,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Name = className + "Management",
             Type = MenuTypeEnum.Menu,
             Path = pPath + "/" + className.ToLower(),
-            Component = "/main/" + className + "/index",
+            Component = "/main/" + className[..1].ToLower() + className[1..] + "/index",
         };
         {   // 如果之前存在那么就删除本级和下级
             var list = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType1.Title && e.Type == menuType1.Type).ToListAsync();
@@ -353,7 +353,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Pid = pid1,
             Title = busName + "查询",
             Type = MenuTypeEnum.Btn,
-            Permission = className + ":page",
+            Permission = className[..1].ToLower() + className[1..] + ":page",
         };
 
         // 按钮-detail
@@ -362,7 +362,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Pid = pid1,
             Title = busName + "详情",
             Type = MenuTypeEnum.Btn,
-            Permission = className + ":detail",
+            Permission = className[..1].ToLower() + className[1..] + ":detail",
         };
 
         // 按钮-add
@@ -371,7 +371,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Pid = pid1,
             Title = busName + "增加",
             Type = MenuTypeEnum.Btn,
-            Permission = className + ":add",
+            Permission = className[..1].ToLower() + className[1..] + ":add",
         };
 
         // 按钮-delete
@@ -380,7 +380,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Pid = pid1,
             Title = busName + "删除",
             Type = MenuTypeEnum.Btn,
-            Permission = className + ":delete",
+            Permission = className[..1].ToLower() + className[1..] + ":delete",
         };
 
         // 按钮-edit
@@ -389,7 +389,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Pid = pid1,
             Title = busName + "编辑",
             Type = MenuTypeEnum.Btn,
-            Permission = className + ":edit",
+            Permission = className[..1].ToLower() + className[1..] + ":edit",
         };
 
         var menuList = new List<SysMenu>() { menuType2, menuType2_1, menuType2_2, menuType2_3, menuType2_4 };
@@ -428,9 +428,9 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var outputPath = Path.Combine(backendPath, "Dto", input.TableName + "Output.cs");
         var viewPath = Path.Combine(backendPath, "Dto", input.TableName + "Dto.cs");
         var frontendPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, _codeGenOptions.FrontRootPath, "src", "views", "main");
-        var indexPath = Path.Combine(frontendPath, input.TableName, "index.vue");
-        var formModalPath = Path.Combine(frontendPath, input.TableName, "component", "editDialog.vue");
-        var apiJsPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, _codeGenOptions.FrontRootPath, "src", "api", "main", input.TableName + ".ts");
+        var indexPath = Path.Combine(frontendPath, input.TableName[..1].ToLower() + input.TableName[1..], "index.vue");//
+        var formModalPath = Path.Combine(frontendPath, input.TableName[..1].ToLower() + input.TableName[1..], "component", "editDialog.vue");
+        var apiJsPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, _codeGenOptions.FrontRootPath, "src", "api", "main", input.TableName[..1].ToLower() + input.TableName[1..] + ".ts");
 
         return new List<string>()
         {
