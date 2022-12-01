@@ -26,7 +26,8 @@ public class SysLogOpService : IDynamicApiController, ITransient
         return await _sysLogOpRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                 u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
-            .OrderBy(u => u.CreateTime, OrderByType.Desc)
+            //.OrderBy(u => u.CreateTime, OrderByType.Desc)
+            .OrderBuilder<SysLogOp>(input)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
