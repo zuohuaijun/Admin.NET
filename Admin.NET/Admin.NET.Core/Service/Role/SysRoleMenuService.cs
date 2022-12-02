@@ -50,13 +50,10 @@ public class SysRoleMenuService : ITransient
     /// <returns></returns>
     public async Task<List<long>> GetRoleMenuList(List<long> roleIdList)
     {
-        var menuIdList = await _sysRoleMenuRep.AsQueryable()
-            .Where(u => roleIdList.Contains(u.RoleId))
-            .Select(u => u.MenuId).ToListAsync();
-
-        return await _sysRoleMenuRep.ChangeRepository<SqlSugarRepository<SysMenu>>().AsQueryable()
-            .Where(u => menuIdList.Contains(u.Id))
-            .Select(u => u.Id).ToListAsync();
+        return await _sysRoleMenuRep.AsQueryable()
+            .InnerJoin<SysMenu>((a, b) => a.MenuId == b.Id)
+            .Where((a, b) => roleIdList.Contains(a.RoleId) && b.Type == MenuTypeEnum.Btn)
+            .Select((a, b) => b.Id).ToListAsync();
     }
 
     /// <summary>

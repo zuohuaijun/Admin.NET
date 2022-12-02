@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import { reactive, toRefs, defineComponent, ref, onMounted } from 'vue';
+import { ElMessage } from 'element-plus';
 import type { ElTree } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 
@@ -76,9 +77,13 @@ export default defineComponent({
 		};
 		// 提交
 		const submit = async () => {
-			state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys();
-			await getAPI(SysTenantApi).sysTenantGrantMenuPost(state.ruleForm);
+			//提交全选和半选的key
+			var allCheckedKeys = treeRef.value?.getCheckedKeys() as Array<number>;
+			var halfCheckedKeys = treeRef.value?.getHalfCheckedKeys() as Array<number>;
+			state.ruleForm.menuIdList = allCheckedKeys.concat(halfCheckedKeys);
+			var res = await getAPI(SysTenantApi).sysTenantGrantMenuPost(state.ruleForm);
 			state.isShowDialog = false;
+			if(res.data && res.data.code == 200) ElMessage.success('操作成功');
 		};
 		// 叶子节点同行显示样式
 		const treeNodeClass = (node: Node) => {
