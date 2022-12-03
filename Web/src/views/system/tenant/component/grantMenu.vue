@@ -1,6 +1,12 @@
 <template>
 	<div class="sys-grantMenu-container">
-		<el-dialog v-model="isShowDialog" title="授权租户菜单" draggable width="769px">
+		<el-dialog v-model="isShowDialog" draggable :close-on-click-modal="false" width="769px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span> 授权租户菜单 </span>
+				</div>
+			</template>
 			<el-form :model="ruleForm" size="default" v-loading="loading">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24">
@@ -11,7 +17,6 @@
 								node-key="id"
 								show-checkbox
 								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
-								:default-checked-keys="ownMenuData"
 								icon="ele-Menu"
 								highlight-current
 								default-expand-all
@@ -32,7 +37,6 @@
 
 <script lang="ts">
 import { reactive, toRefs, defineComponent, ref, onMounted } from 'vue';
-import { ElMessage } from 'element-plus';
 import type { ElTree } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 
@@ -52,7 +56,6 @@ export default defineComponent({
 				menuIdList: [] as any, // 菜单集合
 			},
 			menuData: [] as any, // 菜单数据
-			ownMenuData: [] as any, // 拥有菜单
 		});
 		onMounted(async () => {
 			state.loading = true;
@@ -77,13 +80,9 @@ export default defineComponent({
 		};
 		// 提交
 		const submit = async () => {
-			//提交全选和半选的key
-			var allCheckedKeys = treeRef.value?.getCheckedKeys() as Array<number>;
-			var halfCheckedKeys = treeRef.value?.getHalfCheckedKeys() as Array<number>;
-			state.ruleForm.menuIdList = allCheckedKeys.concat(halfCheckedKeys);
-			var res = await getAPI(SysTenantApi).sysTenantGrantMenuPost(state.ruleForm);
+			state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys() as Array<number>;
+			await getAPI(SysTenantApi).sysTenantGrantMenuPost(state.ruleForm);
 			state.isShowDialog = false;
-			if(res.data && res.data.code == 200) ElMessage.success('操作成功');
 		};
 		// 叶子节点同行显示样式
 		const treeNodeClass = (node: Node) => {

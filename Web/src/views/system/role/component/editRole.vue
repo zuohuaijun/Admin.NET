@@ -45,9 +45,9 @@
 								node-key="id"
 								show-checkbox
 								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
-								highlight-current
-								class="menu-data-tree"
 								icon="ele-Menu"
+								highlight-current
+								default-expand-all
 							/>
 						</el-form-item>
 					</el-col>
@@ -65,7 +65,6 @@
 
 <script lang="ts">
 import { reactive, toRefs, defineComponent, ref, onMounted } from 'vue';
-import { ElMessage } from 'element-plus';
 import type { ElTree } from 'element-plus';
 import type Node from 'element-plus/es/components/tree/src/model/node';
 import mittBus from '/@/utils/mitt';
@@ -122,18 +121,13 @@ export default defineComponent({
 		const submit = () => {
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
-				//提交全选和半选的key
-				var allCheckedKeys = treeRef.value?.getCheckedKeys() as Array<number>;
-				var halfCheckedKeys = treeRef.value?.getHalfCheckedKeys() as Array<number>;
-				state.ruleForm.menuIdList = allCheckedKeys.concat(halfCheckedKeys);
-				var res = null;
+				state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys() as Array<number>; //.concat(treeRef.value?.getHalfCheckedKeys());
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					res = await getAPI(SysRoleApi).sysRoleUpdatePost(state.ruleForm);
+					await getAPI(SysRoleApi).sysRoleUpdatePost(state.ruleForm);
 				} else {
-					res = await getAPI(SysRoleApi).sysRoleAddPost(state.ruleForm);
+					await getAPI(SysRoleApi).sysRoleAddPost(state.ruleForm);
 				}
 				closeDialog();
-				if(res.data && res.data.code == 200) ElMessage.success('操作成功');
 			});
 		};
 		// 叶子节点同行显示样式

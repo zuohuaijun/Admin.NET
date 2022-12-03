@@ -3558,6 +3558,11 @@
             清理日志作业任务
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.OnlineUserJob">
+            <summary>
+            清理在线用户作业任务
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.DatabaseLoggingWriter">
             <summary>
             数据库日志写入器
@@ -6218,20 +6223,6 @@
             <param name="roleIdList"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.GetRoleMenuTree(System.Collections.Generic.List{System.Int64})">
-            <summary>
-            根据角色Id集合获取菜单树
-            </summary>
-            <param name="roleIdList"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleMenuService.GetRoleMenuList(System.Collections.Generic.List{System.Int64})">
-            <summary>
-            根据角色Id集合获取菜单集合
-            </summary>
-            <param name="roleIdList"></param>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysRoleMenuService.GrantRoleMenu(Admin.NET.Core.Service.RoleMenuInput)">
             <summary>
             授权角色菜单
@@ -6342,13 +6333,6 @@
         <member name="M:Admin.NET.Core.Service.SysRoleService.GrantRoleDataScope(Admin.NET.Core.Service.RoleOrgInput)">
             <summary>
             授权角色数据范围
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleOwnMenuTree(Admin.NET.Core.Service.RoleInput)">
-            <summary>
-            根据角色Id获取菜单树(Antd)
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6512,16 +6496,9 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuTree(Admin.NET.Core.Service.TenantUserInput)">
-            <summary>
-            获取租户管理员角色拥有菜单树
-            </summary>
-            <param name="input"></param>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuList(Admin.NET.Core.Service.TenantUserInput)">
             <summary>
-            获取租户管理员角色拥有菜单树
+            获取租户管理员角色拥有菜单Id集合
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -7798,11 +7775,6 @@
         <member name="T:Admin.NET.Core.SMUtil">
             <summary>
             SM工具类
-            </summary>
-        </member>
-        <member name="T:OnlineUserJob">
-            <summary>
-            清理在线用户作业任务
             </summary>
         </member>
     </members>

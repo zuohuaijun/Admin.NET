@@ -42,12 +42,10 @@ public class SysMenuService : IDynamicApiController, ITransient
         else
         {
             var menuIdList = await GetMenuIdList();
-            var menuList = await _sysMenuRep.AsQueryable()
-                //.Where(u => u.Type != MenuTypeEnum.Btn)
-                //.Where(u => menuIdList.Contains(u.Id))
+            var menuTree = await _sysMenuRep.AsQueryable()
                 .OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0, menuIdList.Select(d => (object)d).ToArray());
-            DeleteBtnFromMenuTree(menuList);
-            return menuList.Adapt<List<MenuOutput>>();
+            DeleteBtnFromMenuTree(menuTree);
+            return menuTree.Adapt<List<MenuOutput>>();
         }
     }
 
@@ -74,23 +72,22 @@ public class SysMenuService : IDynamicApiController, ITransient
     [AllowAnonymous]
     public async Task<List<SysMenu>> GetMenuList([FromQuery] MenuInput input)
     {
-        var menuIdList = new List<long>();
-        if (!_userManager.SuperAdmin)
-            menuIdList = await GetMenuIdList();
+        var menuIdList = _userManager.SuperAdmin ? new List<long>() : await GetMenuIdList();
 
+        // 有筛选条件时返回list列表（防止构造不出树）
         if (!string.IsNullOrWhiteSpace(input.Title) || input.Type > 0)
         {
             return await _sysMenuRep.AsQueryable()
+                .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title))
                 .WhereIF(input.Type > 0, u => u.Type == input.Type)
                 .WhereIF(menuIdList.Count > 1, u => menuIdList.Contains(u.Id))
-                .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title))
                 .OrderBy(u => u.Order).ToListAsync();
         }
 
-        return await _sysMenuRep.AsQueryable()
-            .WhereIF(menuIdList.Count > 1, u => menuIdList.Contains(u.Id))
-            .OrderBy(u => u.Order)
-            .ToTreeAsync(u => u.Children, u => u.Pid, 0);
+        return _userManager.SuperAdmin ?
+            await _sysMenuRep.AsQueryable().OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0) :
+            await _sysMenuRep.AsQueryable()
+                .OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0, menuIdList.Select(d => (object)d).ToArray()); // 角色菜单授权时
     }
 
     /// <summary>

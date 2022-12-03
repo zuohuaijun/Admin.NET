@@ -182,17 +182,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 根据角色Id获取菜单树(Antd)
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    [HttpGet("/sysRole/ownMenuTree")]
-    public async Task<List<SysMenu>> GetRoleOwnMenuTree([FromQuery] RoleInput input)
-    {
-        return await _sysRoleMenuService.GetRoleMenuTree(new List<long> { input.Id });
-    }
-
-    /// <summary>
     /// 根据角色Id获取菜单集合(Element)
     /// </summary>
     /// <param name="input"></param>
@@ -200,7 +189,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpGet("/sysRole/ownMenuList")]
     public async Task<List<long>> GetRoleOwnMenuList([FromQuery] RoleInput input)
     {
-        return await _sysRoleMenuService.GetRoleMenuList(new List<long> { input.Id });
+        return await _sysRoleMenuService.GetRoleMenuIdList(new List<long> { input.Id });
     }
 
     /// <summary>

@@ -28,35 +28,6 @@ public class SysRoleMenuService : ITransient
     }
 
     /// <summary>
-    /// 根据角色Id集合获取菜单树
-    /// </summary>
-    /// <param name="roleIdList"></param>
-    /// <returns></returns>
-    public async Task<List<SysMenu>> GetRoleMenuTree(List<long> roleIdList)
-    {
-        var menuIdList = await _sysRoleMenuRep.AsQueryable()
-            .Where(u => roleIdList.Contains(u.RoleId))
-            .Select(u => u.MenuId).ToListAsync();
-
-        return await _sysRoleMenuRep.ChangeRepository<SqlSugarRepository<SysMenu>>().AsQueryable()
-            .Where(u => menuIdList.Contains(u.Id))
-            .ToTreeAsync(u => u.Children, u => u.Pid, 0);
-    }
-
-    /// <summary>
-    /// 根据角色Id集合获取菜单集合
-    /// </summary>
-    /// <param name="roleIdList"></param>
-    /// <returns></returns>
-    public async Task<List<long>> GetRoleMenuList(List<long> roleIdList)
-    {
-        return await _sysRoleMenuRep.AsQueryable()
-            .InnerJoin<SysMenu>((a, b) => a.MenuId == b.Id)
-            .Where((a, b) => roleIdList.Contains(a.RoleId) && b.Type == MenuTypeEnum.Btn)
-            .Select((a, b) => b.Id).ToListAsync();
-    }
-
-    /// <summary>
     /// 授权角色菜单
     /// </summary>
     /// <param name="input"></param>

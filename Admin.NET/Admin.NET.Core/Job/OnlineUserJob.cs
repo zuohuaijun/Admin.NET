@@ -1,4 +1,4 @@
-using Admin.NET.Core;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 清理在线用户作业任务

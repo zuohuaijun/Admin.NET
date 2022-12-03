@@ -299,19 +299,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取租户管理员角色拥有菜单树
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    [HttpGet("/sysTenant/ownMenuTree")]
-    public async Task<List<SysMenu>> OwnMenuTree([FromQuery] TenantUserInput input)
-    {
-        var roleIds = await _sysUserRoleService.GetUserRoleIdList(input.UserId);
-        return await _sysRoleMenuService.GetRoleMenuTree(new List<long> { roleIds[0] });
-    }
-
-    /// <summary>
-    /// 获取租户管理员角色拥有菜单树
+    /// 获取租户管理员角色拥有菜单Id集合
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
@@ -319,7 +307,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     public async Task<List<long>> OwnMenuList([FromQuery] TenantUserInput input)
     {
         var roleIds = await _sysUserRoleService.GetUserRoleIdList(input.UserId);
-        return await _sysRoleMenuService.GetRoleMenuList(new List<long> { roleIds[0] });
+        return await _sysRoleMenuService.GetRoleMenuIdList(new List<long> { roleIds[0] });
     }
 
     /// <summary>
