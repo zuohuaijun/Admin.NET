@@ -522,7 +522,7 @@
             分组编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysConfig.Order">
+        <member name="P:Admin.NET.Core.SysConfig.OrderNo">
             <summary>
             排序
             </summary>
@@ -557,7 +557,7 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysDictData.Order">
+        <member name="P:Admin.NET.Core.SysDictData.OrderNo">
             <summary>
             排序
             </summary>
@@ -587,7 +587,7 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysDictType.Order">
+        <member name="P:Admin.NET.Core.SysDictType.OrderNo">
             <summary>
             排序
             </summary>
@@ -1147,7 +1147,7 @@
             是否固定
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysMenu.Order">
+        <member name="P:Admin.NET.Core.SysMenu.OrderNo">
             <summary>
             排序
             </summary>
@@ -1317,7 +1317,7 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysOrg.Order">
+        <member name="P:Admin.NET.Core.SysOrg.OrderNo">
             <summary>
             排序
             </summary>
@@ -1352,7 +1352,7 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysPos.Order">
+        <member name="P:Admin.NET.Core.SysPos.OrderNo">
             <summary>
             排序
             </summary>
@@ -1427,7 +1427,7 @@
             维度
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysRegion.Order">
+        <member name="P:Admin.NET.Core.SysRegion.OrderNo">
             <summary>
             排序
             </summary>
@@ -1457,7 +1457,7 @@
             编码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysRole.Order">
+        <member name="P:Admin.NET.Core.SysRole.OrderNo">
             <summary>
             排序
             </summary>
@@ -1557,7 +1557,7 @@
             数据库标识
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysTenant.Order">
+        <member name="P:Admin.NET.Core.SysTenant.OrderNo">
             <summary>
             排序
             </summary>
@@ -1687,7 +1687,7 @@
             个人简介
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysUser.Order">
+        <member name="P:Admin.NET.Core.SysUser.OrderNo">
             <summary>
             排序
             </summary>
@@ -5631,6 +5631,21 @@
             重定向
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.OrderNo">
+            <summary>
+            排序
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Status">
+            <summary>
+            状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.MenuOutput.Remark">
+            <summary>
+            备注
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.Service.MenuOutput.Meta">
             <summary>
             菜单Meta
@@ -5679,21 +5694,6 @@
         <member name="P:Admin.NET.Core.Service.SysMenuMeta.IsAffix">
             <summary>
             是否固定
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.SysMenuMeta.Order">
-            <summary>
-            排序
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.SysMenuMeta.Status">
-            <summary>
-            状态
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.Service.SysMenuMeta.Remark">
-            <summary>
-            备注
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysMenuMapper">

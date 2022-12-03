@@ -11,7 +11,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { StatusEnum } from './status-enum';
 /**
  * 菜单Meta配置
  * @export
@@ -60,22 +59,4 @@ export interface SysMenuMeta {
      * @memberof SysMenuMeta
      */
     isAffix?: boolean;
-    /**
-     * 排序
-     * @type {number}
-     * @memberof SysMenuMeta
-     */
-    order?: number;
-    /**
-     * 
-     * @type {StatusEnum}
-     * @memberof SysMenuMeta
-     */
-    status?: StatusEnum;
-    /**
-     * 备注
-     * @type {string}
-     * @memberof SysMenuMeta
-     */
-    remark?: string | null;
 }

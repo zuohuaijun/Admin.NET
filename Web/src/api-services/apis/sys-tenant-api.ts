@@ -19,7 +19,6 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import { AddTenantInput } from '../models';
 import { AdminResultInt32 } from '../models';
 import { AdminResultListInt64 } from '../models';
-import { AdminResultListSysMenu } from '../models';
 import { AdminResultSqlSugarPagedListTenantOutput } from '../models';
 import { DeleteTenantInput } from '../models';
 import { RoleMenuInput } from '../models';
@@ -198,54 +197,13 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 获取租户管理员角色拥有菜单树
+         * @summary 获取租户管理员角色拥有菜单Id集合
          * @param {number} [userId] 用户Id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         sysTenantOwnMenuListGet: async (userId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/sysTenant/ownMenuList`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            if (userId !== undefined) {
-                localVarQueryParameter['UserId'] = userId;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 获取租户管理员角色拥有菜单树
-         * @param {number} [userId] 用户Id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sysTenantOwnMenuTreeGet: async (userId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/ownMenuTree`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -539,27 +497,13 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取租户管理员角色拥有菜单树
+         * @summary 获取租户管理员角色拥有菜单Id集合
          * @param {number} [userId] 用户Id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async sysTenantOwnMenuListGet(userId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
             const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantOwnMenuListGet(userId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 获取租户管理员角色拥有菜单树
-         * @param {number} [userId] 用户Id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysTenantOwnMenuTreeGet(userId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysMenu>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantOwnMenuTreeGet(userId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -678,23 +622,13 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary 获取租户管理员角色拥有菜单树
+         * @summary 获取租户管理员角色拥有菜单Id集合
          * @param {number} [userId] 用户Id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async sysTenantOwnMenuListGet(userId?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
             return SysTenantApiFp(configuration).sysTenantOwnMenuListGet(userId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 获取租户管理员角色拥有菜单树
-         * @param {number} [userId] 用户Id
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysTenantOwnMenuTreeGet(userId?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysMenu>> {
-            return SysTenantApiFp(configuration).sysTenantOwnMenuTreeGet(userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -798,7 +732,7 @@ export class SysTenantApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取租户管理员角色拥有菜单树
+     * @summary 获取租户管理员角色拥有菜单Id集合
      * @param {number} [userId] 用户Id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -806,17 +740,6 @@ export class SysTenantApi extends BaseAPI {
      */
     public async sysTenantOwnMenuListGet(userId?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
         return SysTenantApiFp(this.configuration).sysTenantOwnMenuListGet(userId, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 获取租户管理员角色拥有菜单树
-     * @param {number} [userId] 用户Id
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysTenantApi
-     */
-    public async sysTenantOwnMenuTreeGet(userId?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysMenu>> {
-        return SysTenantApiFp(this.configuration).sysTenantOwnMenuTreeGet(userId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

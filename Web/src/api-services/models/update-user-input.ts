@@ -186,7 +186,7 @@ export interface UpdateUserInput {
      * @type {number}
      * @memberof UpdateUserInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 
      * @type {StatusEnum}

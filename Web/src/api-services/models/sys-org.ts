@@ -84,7 +84,7 @@ export interface SysOrg {
      * @type {number}
      * @memberof SysOrg
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

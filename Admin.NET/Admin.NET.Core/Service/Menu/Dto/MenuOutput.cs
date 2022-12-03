@@ -46,6 +46,21 @@ public class MenuOutput
     public string Redirect { get; set; }
 
     /// <summary>
+    /// 排序
+    /// </summary>
+    public int OrderNo { get; set; }
+
+    /// <summary>
+    /// 状态
+    /// </summary>
+    public StatusEnum Status { get; set; }
+
+    /// <summary>
+    /// 备注
+    /// </summary>
+    public string Remark { get; set; }
+
+    /// <summary>
     /// 菜单Meta
     /// </summary>
     public SysMenuMeta Meta { get; set; }
@@ -95,21 +110,6 @@ public class SysMenuMeta
     /// 是否固定
     /// </summary>
     public bool IsAffix { get; set; }
-
-    /// <summary>
-    /// 排序
-    /// </summary>
-    public int Order { get; set; }
-
-    /// <summary>
-    /// 状态
-    /// </summary>
-    public StatusEnum Status { get; set; }
-
-    /// <summary>
-    /// 备注
-    /// </summary>
-    public string Remark { get; set; }
 }
 
 /// <summary>
@@ -126,9 +126,6 @@ public class SysMenuMapper : IRegister
             .Map(t => t.Meta.IsLink, o => o.OutLink)
             .Map(t => t.Meta.IsHide, o => o.IsHide)
             .Map(t => t.Meta.IsKeepAlive, o => o.IsKeepAlive)
-            .Map(t => t.Meta.IsAffix, o => o.IsAffix)
-            .Map(t => t.Meta.Order, o => o.Order)
-            .Map(t => t.Meta.Status, o => o.Status)
-            .Map(t => t.Meta.Remark, o => o.Remark);
+            .Map(t => t.Meta.IsAffix, o => o.IsAffix);
     }
 }

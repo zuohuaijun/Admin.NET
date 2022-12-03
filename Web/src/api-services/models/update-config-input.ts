@@ -89,7 +89,7 @@ export interface UpdateConfigInput {
      * @type {number}
      * @memberof UpdateConfigInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

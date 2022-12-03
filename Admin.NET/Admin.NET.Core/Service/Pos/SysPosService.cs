@@ -27,7 +27,7 @@ public class SysPosService : IDynamicApiController, ITransient
         return await _sysPosRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code))
-            .OrderBy(u => u.Order).ToListAsync();
+            .OrderBy(u => u.OrderNo).ToListAsync();
     }
 
     /// <summary>

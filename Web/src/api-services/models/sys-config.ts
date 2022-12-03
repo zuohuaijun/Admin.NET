@@ -89,7 +89,7 @@ export interface SysConfig {
      * @type {number}
      * @memberof SysConfig
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

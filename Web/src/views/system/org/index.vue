@@ -26,7 +26,7 @@
 					<el-table :data="orgData" style="width: 100%" v-loading="loading" row-key="id" default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
 						<el-table-column prop="name" label="机构名称" show-overflow-tooltip />
 						<el-table-column prop="code" label="机构编码" show-overflow-tooltip />
-						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
+						<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>

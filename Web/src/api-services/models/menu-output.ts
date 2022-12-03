@@ -13,6 +13,7 @@
  */
 import { MenuOutput } from './menu-output';
 import { MenuTypeEnum } from './menu-type-enum';
+import { StatusEnum } from './status-enum';
 import { SysMenuMeta } from './sys-menu-meta';
 /**
  * 系统菜单返回结果
@@ -68,6 +69,24 @@ export interface MenuOutput {
      * @memberof MenuOutput
      */
     redirect?: string | null;
+    /**
+     * 排序
+     * @type {number}
+     * @memberof MenuOutput
+     */
+    orderNo?: number;
+    /**
+     * 
+     * @type {StatusEnum}
+     * @memberof MenuOutput
+     */
+    status?: StatusEnum;
+    /**
+     * 备注
+     * @type {string}
+     * @memberof MenuOutput
+     */
+    remark?: string | null;
     /**
      * 
      * @type {SysMenuMeta}

@@ -78,7 +78,7 @@ export interface UpdateOrgInput {
      * @type {number}
      * @memberof UpdateOrgInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

@@ -84,7 +84,7 @@ export interface UpdateDictDataInput {
      * @type {number}
      * @memberof UpdateDictDataInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

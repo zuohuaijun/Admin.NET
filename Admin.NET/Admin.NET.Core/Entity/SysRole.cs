@@ -24,7 +24,7 @@ public class SysRole : EntityTenant
     /// 排序
     /// </summary>
     [SugarColumn(ColumnDescription = "排序")]
-    public int Order { get; set; } = 100;
+    public int OrderNo { get; set; } = 100;
 
     /// <summary>
     /// 数据范围（1全部数据 2本部门及以下数据 3本部门数据 4仅本人数据 5自定义数据）

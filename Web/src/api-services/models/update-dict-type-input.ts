@@ -71,7 +71,7 @@ export interface UpdateDictTypeInput {
      * @type {number}
      * @memberof UpdateDictTypeInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

@@ -42,7 +42,7 @@ public class SysRoleService : IDynamicApiController, ITransient
         return await _sysRoleRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code))
-            .OrderBy(u => u.Order)
+            .OrderBy(u => u.OrderNo)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
@@ -53,7 +53,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [HttpGet("/sysRole/list")]
     public async Task<List<RoleOutput>> GetRoleList()
     {
-        return await _sysRoleRep.AsQueryable().OrderBy(u => u.Order).Select<RoleOutput>().ToListAsync();
+        return await _sysRoleRep.AsQueryable().OrderBy(u => u.OrderNo).Select<RoleOutput>().ToListAsync();
     }
 
     /// <summary>

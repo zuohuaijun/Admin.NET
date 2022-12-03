@@ -7,8 +7,7 @@ const connection = new SignalR.HubConnectionBuilder()
 	.configureLogging(SignalR.LogLevel.Information)
 	.withUrl(`${import.meta.env.VITE_API_URL}/hubs/onlineUser?access_token=${getToken()}`)
 	.withAutomaticReconnect({
-		nextRetryDelayInMilliseconds: (a) => {
-			console.log(a);
+		nextRetryDelayInMilliseconds: () => {
 			return 5000; // 每5秒重连一次
 		},
 	})

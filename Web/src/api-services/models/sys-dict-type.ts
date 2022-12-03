@@ -71,7 +71,7 @@ export interface SysDictType {
      * @type {number}
      * @memberof SysDictType
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

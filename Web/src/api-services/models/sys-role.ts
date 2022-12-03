@@ -78,7 +78,7 @@ export interface SysRole {
      * @type {number}
      * @memberof SysRole
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 
      * @type {DataScopeEnum}

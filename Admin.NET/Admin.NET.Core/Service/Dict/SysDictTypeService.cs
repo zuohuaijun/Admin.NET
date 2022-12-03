@@ -29,7 +29,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
         return await _sysDictTypeRep.AsQueryable()
             .WhereIF(code, u => u.Code.Contains(input.Code))
             .WhereIF(name, u => u.Name.Contains(input.Name))
-            .OrderBy(u => u.Order)
+            .OrderBy(u => u.OrderNo)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
@@ -40,7 +40,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     [HttpGet("/sysDictType/list")]
     public async Task<List<SysDictType>> GetDictTypeList()
     {
-        return await _sysDictTypeRep.AsQueryable().OrderBy(u => u.Order).ToListAsync();
+        return await _sysDictTypeRep.AsQueryable().OrderBy(u => u.OrderNo).ToListAsync();
     }
 
     /// <summary>

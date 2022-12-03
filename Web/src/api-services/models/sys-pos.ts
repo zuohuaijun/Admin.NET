@@ -77,7 +77,7 @@ export interface SysPos {
      * @type {number}
      * @memberof SysPos
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

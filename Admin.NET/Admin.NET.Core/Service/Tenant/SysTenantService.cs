@@ -72,7 +72,7 @@ public class SysTenantService : IDynamicApiController, ITransient
                 DbType = t.DbType,
                 Connection = t.Connection,
                 ConfigId = t.ConfigId,
-                Order = t.Order,
+                OrderNo = t.OrderNo,
                 Remark = t.Remark,
                 Status = t.Status,
             })

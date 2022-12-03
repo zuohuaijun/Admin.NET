@@ -30,7 +30,7 @@
 						<el-tag effect="plain" v-else-if="scope.row.dataScope === 5">自定义数据</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
+				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>

@@ -37,7 +37,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     {
         var orgIdList = await GetUserOrgIdList();
 
-        var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.Order);
+        var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.OrderNo);
 
         // 条件筛选可能造成无法构造树（列表数据）
         if (!string.IsNullOrWhiteSpace(input.Name) || !string.IsNullOrWhiteSpace(input.Code))

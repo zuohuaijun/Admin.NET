@@ -95,7 +95,7 @@ export interface SysRegion {
      * @type {number}
      * @memberof SysRegion
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

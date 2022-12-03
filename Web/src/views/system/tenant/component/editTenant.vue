@@ -39,7 +39,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="排序">
-							<el-input-number v-model="ruleForm.order" placeholder="排序" class="w100" />
+							<el-input-number v-model="ruleForm.orderNo" placeholder="排序" class="w100" />
 						</el-form-item>
 					</el-col>
 					<!-- <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">

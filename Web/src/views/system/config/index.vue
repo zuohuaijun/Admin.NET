@@ -32,7 +32,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="groupCode" label="分组编码" show-overflow-tooltip />
-				<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
+				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
 				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>

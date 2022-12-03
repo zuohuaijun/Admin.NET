@@ -28,7 +28,7 @@
 						<el-table-column prop="name" label="行政名称" show-overflow-tooltip />
 						<el-table-column prop="code" label="行政代码" show-overflow-tooltip />
 						<el-table-column prop="cityCode" label="区号" show-overflow-tooltip />
-						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
+						<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 						<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 						<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 							<template #default="scope">

@@ -53,7 +53,7 @@
 								<el-switch v-model="scope.row.status" :active-value="1" :inactive-value="2" size="small" @change="changeStatus(scope.row)" v-auth="'sysUser:setStatus'" />
 							</template>
 						</el-table-column>
-						<el-table-column prop="order" label="排序" width="70" align="center" show-overflow-tooltip />
+						<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 						<el-table-column prop="createTime" label="修改时间" width="160" show-overflow-tooltip />
 						<el-table-column prop="remark" label="备注" show-overflow-tooltip />
 						<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>

@@ -84,7 +84,7 @@ export interface AddDictDataInput {
      * @type {number}
      * @memberof AddDictDataInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

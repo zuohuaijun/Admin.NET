@@ -71,7 +71,7 @@ export interface AddPosInput {
      * @type {number}
      * @memberof AddPosInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

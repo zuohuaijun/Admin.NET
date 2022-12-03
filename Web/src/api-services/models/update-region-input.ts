@@ -89,7 +89,7 @@ export interface UpdateRegionInput {
      * @type {number}
      * @memberof UpdateRegionInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

@@ -197,7 +197,7 @@ export interface SysUser {
      * @type {number}
      * @memberof SysUser
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 
      * @type {StatusEnum}

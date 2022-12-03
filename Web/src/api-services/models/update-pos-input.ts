@@ -71,7 +71,7 @@ export interface UpdatePosInput {
      * @type {number}
      * @memberof UpdatePosInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

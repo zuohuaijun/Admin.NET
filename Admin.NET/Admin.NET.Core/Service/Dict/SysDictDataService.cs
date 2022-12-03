@@ -28,7 +28,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
             .Where(u => u.DictTypeId == input.DictTypeId)
             .WhereIF(code, u => u.Code.Contains(input.Code))
             .WhereIF(value, u => u.Code.Contains(input.Value))
-            .OrderBy(u => u.Order)
+            .OrderBy(u => u.OrderNo)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
@@ -129,7 +129,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     {
         return await _sysDictDataRep.AsQueryable()
             .Where(u => u.DictTypeId == dictTypeId)
-            .OrderBy(u => u.Order).ToListAsync();
+            .OrderBy(u => u.OrderNo).ToListAsync();
     }
 
     /// <summary>

@@ -103,7 +103,7 @@ export interface AddTenantInput {
      * @type {number}
      * @memberof AddTenantInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 备注
      * @type {string}

@@ -72,7 +72,7 @@ export interface UpdateRoleInput {
      * @type {number}
      * @memberof UpdateRoleInput
      */
-    order?: number;
+    orderNo?: number;
     /**
      * 
      * @type {DataScopeEnum}

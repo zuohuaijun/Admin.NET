@@ -36,14 +36,14 @@ public class SysMenuService : IDynamicApiController, ITransient
         {
             var menuList = await _sysMenuRep.AsQueryable()
                 .Where(u => u.Type != MenuTypeEnum.Btn)
-                .OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0);
+                .OrderBy(u => u.OrderNo).ToTreeAsync(u => u.Children, u => u.Pid, 0);
             return menuList.Adapt<List<MenuOutput>>();
         }
         else
         {
             var menuIdList = await GetMenuIdList();
             var menuTree = await _sysMenuRep.AsQueryable()
-                .OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0, menuIdList.Select(d => (object)d).ToArray());
+                .OrderBy(u => u.OrderNo).ToTreeAsync(u => u.Children, u => u.Pid, 0, menuIdList.Select(d => (object)d).ToArray());
             DeleteBtnFromMenuTree(menuTree);
             return menuTree.Adapt<List<MenuOutput>>();
         }
@@ -81,13 +81,13 @@ public class SysMenuService : IDynamicApiController, ITransient
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title))
                 .WhereIF(input.Type > 0, u => u.Type == input.Type)
                 .WhereIF(menuIdList.Count > 1, u => menuIdList.Contains(u.Id))
-                .OrderBy(u => u.Order).ToListAsync();
+                .OrderBy(u => u.OrderNo).ToListAsync();
         }
 
         return _userManager.SuperAdmin ?
-            await _sysMenuRep.AsQueryable().OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0) :
+            await _sysMenuRep.AsQueryable().OrderBy(u => u.OrderNo).ToTreeAsync(u => u.Children, u => u.Pid, 0) :
             await _sysMenuRep.AsQueryable()
-                .OrderBy(u => u.Order).ToTreeAsync(u => u.Children, u => u.Pid, 0, menuIdList.Select(d => (object)d).ToArray()); // 角色菜单授权时
+                .OrderBy(u => u.OrderNo).ToTreeAsync(u => u.Children, u => u.Pid, 0, menuIdList.Select(d => (object)d).ToArray()); // 角色菜单授权时
     }
 
     /// <summary>
