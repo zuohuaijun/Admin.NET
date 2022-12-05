@@ -176,3 +176,29 @@ export function dragDirective(app: App) {
 		},
 	});
 }
+
+/**
+ * 防止重复点击提交按钮
+ * @directive 默认方式：v-reclick，如 `<el-button v-reclick></el-button>`
+ * @directive 参数方式：v-reclick="number"，如 `<el-button v-reclick="500"></el-button>`
+ */
+ export function reclickDirective(app: App) {
+	app.directive('reclick', {
+		mounted(el, time) {
+			el.addEventListener('click', () => {
+				if (!el.disabled) {
+					el.disabled = true;
+					setTimeout(
+						() => {
+							el.disabled = false;
+						},
+						time.value === undefined ? 500 : time.value
+					);
+				}
+			});
+		},
+		unmounted(el) {
+			el.disabled = false;
+		},
+	});
+}
