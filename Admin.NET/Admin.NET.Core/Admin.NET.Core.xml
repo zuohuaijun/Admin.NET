@@ -1834,7 +1834,7 @@
         </member>
         <member name="T:Admin.NET.Core.WeChatPay">
             <summary>
-            微信支付表
+            系统微信支付表
             </summary>
         </member>
         <member name="P:Admin.NET.Core.WeChatPay.MerchantId">
@@ -1959,7 +1959,7 @@
         </member>
         <member name="T:Admin.NET.Core.WeChatUser">
             <summary>
-            微信用户表
+            系统微信用户表
             </summary>
         </member>
         <member name="P:Admin.NET.Core.WeChatUser.UserId">
@@ -7208,6 +7208,13 @@
             配置Aop
             </summary>
             <param name="db"></param>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDbDiffLog(SqlSugar.SqlSugarScopeProvider,Admin.NET.Core.DbConnectionConfig)">
+            <summary>
+            开启库表差异化日志
+            </summary>
+            <param name="db"></param>
+            <param name="config"></param>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.InitDatabase(SqlSugar.SqlSugarScope,Admin.NET.Core.DbConnectionConfig)">
             <summary>

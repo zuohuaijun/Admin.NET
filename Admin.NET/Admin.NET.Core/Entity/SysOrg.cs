@@ -24,7 +24,7 @@ public class SysOrg : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "编码", Length = 64)]
     [MaxLength(64)]
-    public string Code { get; set; }
+    public string? Code { get; set; }
 
     /// <summary>
     /// 排序
@@ -37,7 +37,7 @@ public class SysOrg : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "备注", Length = 128)]
     [MaxLength(128)]
-    public string Remark { get; set; }
+    public string? Remark { get; set; }
 
     /// <summary>
     /// 状态

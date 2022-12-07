@@ -10,14 +10,14 @@ public class SysJobTrigger : BaseId
     /// 触发器Id
     /// </summary>
     [SugarColumn(ColumnDescription = "触发器Id", Length = 64)]
-    [MaxLength(64)]
+    [Required, MaxLength(64)]
     public virtual string TriggerId { get; set; }
 
     /// <summary>
     /// 作业Id
     /// </summary>
     [SugarColumn(ColumnDescription = "作业Id", Length = 64)]
-    [MaxLength(64)]
+    [Required, MaxLength(64)]
     public virtual string JobId { get; set; }
 
     /// <summary>
@@ -25,28 +25,28 @@ public class SysJobTrigger : BaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "触发器类型", Length = 128)]
     [MaxLength(128)]
-    public string TriggerType { get; set; }
+    public string? TriggerType { get; set; }
 
     /// <summary>
     /// 程序集Name
     /// </summary>
     [SugarColumn(ColumnDescription = "程序集", Length = 128)]
     [MaxLength(128)]
-    public string AssemblyName { get; set; }
+    public string? AssemblyName { get; set; }
 
     /// <summary>
     /// 参数
     /// </summary>
     [SugarColumn(ColumnDescription = "参数", Length = 128)]
     [MaxLength(128)]
-    public string Args { get; set; }
+    public string? Args { get; set; }
 
     /// <summary>
     /// 描述信息
     /// </summary>
     [SugarColumn(ColumnDescription = "描述信息", Length = 128)]
     [MaxLength(128)]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// 状态

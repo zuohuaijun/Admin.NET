@@ -37,7 +37,7 @@ public class SysNotice : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "发布人姓名", Length = 32)]
     [MaxLength(32)]
-    public string PublicUserName { get; set; }
+    public string? PublicUserName { get; set; }
 
     /// <summary>
     /// 发布机构Id
@@ -50,19 +50,19 @@ public class SysNotice : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "发布机构名称", Length = 64)]
     [MaxLength(64)]
-    public string PublicOrgName { get; set; }
+    public string? PublicOrgName { get; set; }
 
     /// <summary>
     /// 发布时间
     /// </summary>
     [SugarColumn(ColumnDescription = "发布时间")]
-    public DateTime PublicTime { get; set; }
+    public DateTime? PublicTime { get; set; }
 
     /// <summary>
     /// 撤回时间
     /// </summary>
     [SugarColumn(ColumnDescription = "撤回时间")]
-    public DateTime CancelTime { get; set; }
+    public DateTime? CancelTime { get; set; }
 
     /// <summary>
     /// 状态（0草稿 1发布 2撤回 3删除）

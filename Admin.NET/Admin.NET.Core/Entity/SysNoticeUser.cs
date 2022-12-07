@@ -29,7 +29,7 @@ public class SysNoticeUser
     /// 阅读时间
     /// </summary>
     [SugarColumn(ColumnDescription = "阅读时间")]
-    public DateTime ReadTime { get; set; }
+    public DateTime? ReadTime { get; set; }
 
     /// <summary>
     /// 状态（0未读 1已读）

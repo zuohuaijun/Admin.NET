@@ -1,9 +1,9 @@
 ﻿namespace Admin.NET.Core;
 
 /// <summary>
-/// 微信用户表
+/// 系统微信用户表
 /// </summary>
-[SugarTable("wechat_user", "微信用户表")]
+[SugarTable("sys_wechat_user", "系统微信用户表")]
 public class WeChatUser : EntityBase
 {
     /// <summary>
@@ -37,35 +37,35 @@ public class WeChatUser : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "缓存key", Length = 256)]
     [MaxLength(256)]
-    public string SessionKey { get; set; }
+    public string? SessionKey { get; set; }
 
     /// <summary>
     /// UnionId
     /// </summary>
     [SugarColumn(ColumnDescription = "UnionId", Length = 64)]
     [MaxLength(64)]
-    public string UnionId { get; set; }
+    public string? UnionId { get; set; }
 
     /// <summary>
     /// 昵称
     /// </summary>
     [SugarColumn(ColumnDescription = "昵称", Length = 64)]
     [MaxLength(64)]
-    public string NickName { get; set; }
+    public string? NickName { get; set; }
 
     /// <summary>
     /// 头像
     /// </summary>
     [SugarColumn(ColumnDescription = "头像", Length = 256)]
     [MaxLength(256)]
-    public string Avatar { get; set; }
+    public string? Avatar { get; set; }
 
     /// <summary>
     /// 手机号码
     /// </summary>
     [SugarColumn(ColumnDescription = "手机号码", Length = 16)]
     [MaxLength(16)]
-    public string Mobile { get; set; }
+    public string? Mobile { get; set; }
 
     /// <summary>
     /// 性别
@@ -78,40 +78,40 @@ public class WeChatUser : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "语言", Length = 64)]
     [MaxLength(64)]
-    public string Language { get; set; }
+    public string? Language { get; set; }
 
     /// <summary>
     /// 城市
     /// </summary>
     [SugarColumn(ColumnDescription = "城市", Length = 64)]
     [MaxLength(64)]
-    public string City { get; set; }
+    public string? City { get; set; }
 
     /// <summary>
     /// 省
     /// </summary>
     [SugarColumn(ColumnDescription = "省", Length = 64)]
     [MaxLength(64)]
-    public string Province { get; set; }
+    public string? Province { get; set; }
 
     /// <summary>
     /// 国家
     /// </summary>
     [SugarColumn(ColumnDescription = "国家", Length = 64)]
     [MaxLength(64)]
-    public string Country { get; set; }
+    public string? Country { get; set; }
 
     /// <summary>
     /// AccessToken
     /// </summary>
     [SugarColumn(ColumnDescription = "AccessToken", ColumnDataType = "longtext,text,clob")]
-    public string AccessToken { get; set; }
+    public string? AccessToken { get; set; }
 
     /// <summary>
     /// RefreshToken
     /// </summary>
     [SugarColumn(ColumnDescription = "RefreshToken", ColumnDataType = "longtext,text,clob")]
-    public string RefreshToken { get; set; }
+    public string? RefreshToken { get; set; }
 
     /// <summary>
     /// 过期时间

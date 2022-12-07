@@ -37,7 +37,7 @@ public class DbJobPersistence : IJobPersistence
             var jobDetail = JobBuilder.Create(dbJob.AssemblyName, dbJob.JobType).LoadFrom(dbJob);
 
             // 加载数据库的触发器
-            var triggerBuilders = new List<TriggerBuilder>();            
+            var triggerBuilders = new List<TriggerBuilder>();
             var dbTriggers = jobTriggerRep.GetList(u => u.JobId == dbJob.JobId)
                 .Select(u => Triggers.Create(u.AssemblyName, u.TriggerType).LoadFrom(u)).ToArray();
             triggerBuilders.AddRange(dbTriggers);
@@ -47,7 +47,7 @@ public class DbJobPersistence : IJobPersistence
             {
                 var triggerId = memTrigger.TriggerId;
                 // 若数据库中已包含这个触发器
-                if (!string.IsNullOrWhiteSpace(triggerId) && dbTriggers.Any(u => u.TriggerId == triggerId)) 
+                if (!string.IsNullOrWhiteSpace(triggerId) && dbTriggers.Any(u => u.TriggerId == triggerId))
                     continue;
                 triggerBuilders.Add(memTrigger);
             }
@@ -59,7 +59,7 @@ public class DbJobPersistence : IJobPersistence
         {
             var jobId = job.GetJobBuilder().JobId;
             // 若数据库中已包含这个作业
-            if (!string.IsNullOrWhiteSpace(jobId) && dbJobs.Any(u => u.JobId == jobId)) 
+            if (!string.IsNullOrWhiteSpace(jobId) && dbJobs.Any(u => u.JobId == jobId))
                 continue;
             schedulerBuilders.Add(job);
         }
@@ -74,18 +74,6 @@ public class DbJobPersistence : IJobPersistence
     /// <returns></returns>
     public SchedulerBuilder OnLoading(SchedulerBuilder builder)
     {
-        using var serviceScope = _serviceProvider.CreateScope();
-        var rep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysJobDetail>>();
-        if (builder.Behavior == PersistenceBehavior.Removed)
-        {
-            rep.Delete(u => u.JobId == builder.GetJobBuilder().JobId);
-            return builder.Removed();
-        }
-        if (rep.IsAny(u => u.JobId == builder.GetJobBuilder().JobId))
-        {
-            return builder.Updated();
-        }
-
         return builder;
     }
 

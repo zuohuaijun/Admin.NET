@@ -43,14 +43,14 @@ public class SysUserExtOrg : EntityBaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "工号", Length = 32)]
     [MaxLength(32)]
-    public string JobNum { get; set; }
+    public string? JobNum { get; set; }
 
     /// <summary>
     /// 职级
     /// </summary>
     [SugarColumn(ColumnDescription = "职级", Length = 32)]
     [MaxLength(32)]
-    public string PosLevel { get; set; }
+    public string? PosLevel { get; set; }
 
     /// <summary>
     /// 入职日期

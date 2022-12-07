@@ -18,14 +18,14 @@ public class SysConfig : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "编码", Length = 64)]
     [MaxLength(64)]
-    public string Code { get; set; }
+    public string? Code { get; set; }
 
     /// <summary>
     /// 属性值
     /// </summary>
     [SugarColumn(ColumnDescription = "属性值", Length = 64)]
     [MaxLength(64)]
-    public string Value { get; set; }
+    public string? Value { get; set; }
 
     /// <summary>
     /// 是否是内置参数（Y-是，N-否）
@@ -38,7 +38,7 @@ public class SysConfig : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "分组编码", Length = 64)]
     [MaxLength(64)]
-    public string GroupCode { get; set; }
+    public string? GroupCode { get; set; }
 
     /// <summary>
     /// 排序
@@ -51,5 +51,5 @@ public class SysConfig : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "备注", Length = 256)]
     [MaxLength(256)]
-    public string Remark { get; set; }
+    public string? Remark { get; set; }
 }

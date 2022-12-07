@@ -24,7 +24,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="内容" prop="content" :rules="[{ required: true, message: '内容不能为空', trigger: 'blur' }]">
-							<Editor v-model="ruleForm.content" />
+							<Editor v-model:get-html="ruleForm.content" />
 						</el-form-item>
 					</el-col>
 				</el-row>

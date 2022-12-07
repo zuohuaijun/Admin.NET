@@ -32,27 +32,17 @@ public class SysUserService : IDynamicApiController, ITransient
     /// 获取用户分页列表
     /// </summary>
     /// <param name="input"></param>
-    /// <param name="extorg">是否查询附加组织机构</param>
     /// <returns></returns>
     [HttpGet("/sysUser/page")]
-    public async Task<SqlSugarPagedList<SysUser>> GetUserPage([FromQuery] PageUserInput input, bool extorg = false)
+    public async Task<SqlSugarPagedList<SysUser>> GetUserPage([FromQuery] PageUserInput input)
     {
         var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) :
-           _userManager.SuperAdmin ? null : await _sysOrgService.GetUserOrgIdList(); // 各管理员只能看到自己机构下的用户列表
-        if (extorg)
-            return await _sysUserRep.AsQueryable()
-            .LeftJoin<SysUserExtOrg>((o, org) => o.Id == org.UserId)
-            .WhereIF(!_userManager.SuperAdmin, o => o.AccountType != AccountTypeEnum.SuperAdmin)
-            .WhereIF(orgList != null, (o, org) => orgList.Contains(o.OrgId) || orgList.Contains(org.OrgId)) // 查询附加组织机构
-            .WhereIF(!string.IsNullOrWhiteSpace(input.Account), u => u.Account.Contains(input.Account))
-            .WhereIF(!string.IsNullOrWhiteSpace(input.RealName), u => u.RealName.Contains(input.RealName))
-            .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
-            .OrderBy(u => u.OrderNo)
-            .ToPagedListAsync(input.Page, input.PageSize);
-        else
-            return await _sysUserRep.AsQueryable()
+            _userManager.SuperAdmin ? null : await _sysOrgService.GetUserOrgIdList(); // 各管理员只能看到自己机构下的用户列表
+
+        return await _sysUserRep.AsQueryable()
+            .LeftJoin<SysUserExtOrg>((u, o) => u.Id == o.UserId)
             .WhereIF(!_userManager.SuperAdmin, u => u.AccountType != AccountTypeEnum.SuperAdmin)
-            .WhereIF(orgList != null, u => orgList.Contains(u.OrgId))
+            .WhereIF(orgList != null, (u, o) => orgList.Contains(u.OrgId) || orgList.Contains(o.OrgId))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Account), u => u.Account.Contains(input.Account))
             .WhereIF(!string.IsNullOrWhiteSpace(input.RealName), u => u.RealName.Contains(input.RealName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))

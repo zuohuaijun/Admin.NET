@@ -10,7 +10,7 @@ public class SysJobCluster : BaseId
     /// 作业集群Id
     /// </summary>
     [SugarColumn(ColumnDescription = "作业集群Id", Length = 64)]
-    [MaxLength(64)]
+    [Required, MaxLength(64)]
     public virtual string ClusterId { get; set; }
 
     /// <summary>
@@ -18,7 +18,7 @@ public class SysJobCluster : BaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "描述信息", Length = 128)]
     [MaxLength(128)]
-    public string Description { get; set; }
+    public string? Description { get; set; }
 
     /// <summary>
     /// 状态

@@ -10,7 +10,7 @@ public class SysOnlineUser : EntityTenantId
     /// 连接Id
     /// </summary>
     [SugarColumn(ColumnDescription = "连接Id")]
-    public string ConnectionId { get; set; }
+    public string? ConnectionId { get; set; }
 
     /// <summary>
     /// 用户Id
@@ -30,32 +30,32 @@ public class SysOnlineUser : EntityTenantId
     /// </summary>
     [SugarColumn(ColumnDescription = "真实姓名", Length = 32)]
     [MaxLength(32)]
-    public string RealName { get; set; }
+    public string? RealName { get; set; }
 
     /// <summary>
     /// 连接时间
     /// </summary>
     [SugarColumn(ColumnDescription = "连接时间")]
-    public DateTime Time { get; set; }
+    public DateTime? Time { get; set; }
 
     /// <summary>
     /// 连接IP
     /// </summary>
     [SugarColumn(ColumnDescription = "连接IP", Length = 16)]
     [MaxLength(16)]
-    public string Ip { get; set; }
+    public string? Ip { get; set; }
 
     /// <summary>
     /// 浏览器
     /// </summary>
     [SugarColumn(ColumnDescription = "浏览器", Length = 128)]
     [MaxLength(128)]
-    public string Browser { get; set; }
+    public string? Browser { get; set; }
 
     /// <summary>
     /// 操作系统
     /// </summary>
     [SugarColumn(ColumnDescription = "操作系统", Length = 128)]
     [MaxLength(128)]
-    public string Os { get; set; }
+    public string? Os { get; set; }
 }

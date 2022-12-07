@@ -18,7 +18,9 @@ public static class SqlSugarSetup
         {
             dbOptions.ConnectionConfigs.ForEach(config =>
             {
-                SetDbAop(db.GetConnectionScope(config.ConfigId));
+                var dbProvider = db.GetConnectionScope(config.ConfigId);
+                SetDbAop(dbProvider);
+                SetDbDiffLog(dbProvider, config);
             });
         });
 
@@ -44,11 +46,15 @@ public static class SqlSugarSetup
 
         var configureExternalServices = new ConfigureExternalServices
         {
-            EntityService = (type, column) => // 修改列可空-1、带?问号 2、String类型若没有Required
+            EntityNameService = (type, entity) => // 处理表
             {
-                if ((type.PropertyType.IsGenericType && type.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                    || (type.PropertyType == typeof(string) && type.GetCustomAttribute<RequiredAttribute>() == null))
+                entity.DbTableName = UtilMethods.ToUnderLine(entity.DbTableName); // 驼峰转下划线
+            },
+            EntityService = (type, column) => // 处理列
+            {
+                if (new NullabilityInfoContext().Create(type).WriteState is NullabilityState.Nullable)
                     column.IsNullable = true;
+                // column.DbColumnName = UtilMethods.ToUnderLine(column.DbColumnName ?? column.PropertyName); // 驼峰转下划线
             },
             DataInfoCacheService = new SqlSugarCache(),
         };
@@ -96,7 +102,6 @@ public static class SqlSugarSetup
         // 数据审计
         db.Aop.DataExecuting = (oldValue, entityInfo) =>
         {
-            // 新增操作
             if (entityInfo.OperationType == DataFilterType.InsertByObject)
             {
                 // 主键(long类型)非自增且没有值的---赋值雪花Id
@@ -122,7 +127,6 @@ public static class SqlSugarSetup
                         entityInfo.SetValue(App.User.FindFirst(ClaimConst.OrgId)?.Value);
                 }
             }
-            // 更新操作
             if (entityInfo.OperationType == DataFilterType.UpdateByObject)
             {
                 if (entityInfo.PropertyName == "UpdateTime")
@@ -131,30 +135,6 @@ public static class SqlSugarSetup
                     entityInfo.SetValue(App.User?.FindFirst(ClaimConst.UserId)?.Value);
             }
         };
-
-        //// 差异日志
-        //db.Aop.OnDiffLogEvent = async u =>
-        //{
-        //    if (!config.EnableDiffLog) return;
-
-        //    var LogDiff = new SysLogDiff
-        //    {
-        //        // 操作后记录（字段描述、列名、值、表名、表描述）
-        //        AfterData = JsonConvert.SerializeObject(u.AfterData),
-        //        // 操作前记录（字段描述、列名、值、表名、表描述）
-        //        BeforeData = JsonConvert.SerializeObject(u.BeforeData),
-        //        // 传进来的对象
-        //        BusinessData = JsonConvert.SerializeObject(u.BusinessData),
-        //        // 枚举（insert、update、delete）
-        //        DiffType = u.DiffType.ToString(),
-        //        Sql = UtilMethods.GetSqlString(config.DbType, u.Sql, u.Parameters),
-        //        Parameters = JsonConvert.SerializeObject(u.Parameters),
-        //        Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
-        //    };
-        //    await db.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId).Insertable(LogDiff).ExecuteCommandAsync();
-        //    Console.ForegroundColor = ConsoleColor.Red;
-        //    Console.WriteLine(DateTime.Now + $"\r\n**********差异日志开始**********\r\n{Environment.NewLine}{JsonConvert.SerializeObject(LogDiff)}{Environment.NewLine}**********差异日志结束**********\r\n");
-        //};
 
         // 超管时排除各种过滤器
         if (App.User?.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString())
@@ -168,6 +148,37 @@ public static class SqlSugarSetup
         SetOrgEntityFilter(db);
         // 配置自定义过滤器
         SetCustomEntityFilter(db);
+    }
+
+    /// <summary>
+    /// 开启库表差异化日志
+    /// </summary>
+    /// <param name="db"></param>
+    /// <param name="config"></param>
+    private static void SetDbDiffLog(SqlSugarScopeProvider db, DbConnectionConfig config)
+    {
+        if (!config.EnableDiffLog) return;
+
+        db.Aop.OnDiffLogEvent = async u =>
+        {
+            var logDiff = new SysLogDiff
+            {
+                // 操作后记录（字段描述、列名、值、表名、表描述）
+                AfterData = JsonConvert.SerializeObject(u.AfterData),
+                // 操作前记录（字段描述、列名、值、表名、表描述）
+                BeforeData = JsonConvert.SerializeObject(u.BeforeData),
+                // 传进来的对象
+                BusinessData = JsonConvert.SerializeObject(u.BusinessData),
+                // 枚举（insert、update、delete）
+                DiffType = u.DiffType.ToString(),
+                Sql = UtilMethods.GetSqlString(config.DbType, u.Sql, u.Parameters),
+                Parameters = JsonConvert.SerializeObject(u.Parameters),
+                Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
+            };
+            await db.Insertable(logDiff).ExecuteCommandAsync();
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine(DateTime.Now + $"\r\n*****差异日志开始*****\r\n{Environment.NewLine}{JsonConvert.SerializeObject(logDiff)}{Environment.NewLine}*****差异日志结束*****\r\n");
+        };
     }
 
     /// <summary>

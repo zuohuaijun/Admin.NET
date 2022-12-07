@@ -16,35 +16,35 @@ public class SysLogVis : EntityTenant
     /// 具体消息
     /// </summary>
     [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = "longtext,text,clob")]
-    public string Message { get; set; }
+    public string? Message { get; set; }
 
     /// <summary>
     /// IP地址
     /// </summary>
     [SugarColumn(ColumnDescription = "IP地址", Length = 16)]
     [MaxLength(16)]
-    public string Ip { get; set; }
+    public string? Ip { get; set; }
 
     /// <summary>
     /// 地址
     /// </summary>
     [SugarColumn(ColumnDescription = "地址", Length = 128)]
     [MaxLength(128)]
-    public string Location { get; set; }
+    public string? Location { get; set; }
 
     /// <summary>
     /// 浏览器
     /// </summary>
     [SugarColumn(ColumnDescription = "浏览器", Length = 128)]
     [MaxLength(128)]
-    public string Browser { get; set; }
+    public string? Browser { get; set; }
 
     /// <summary>
     /// 操作系统
     /// </summary>
     [SugarColumn(ColumnDescription = "操作系统", Length = 128)]
     [MaxLength(128)]
-    public string Os { get; set; }
+    public string? Os { get; set; }
 
     /// <summary>
     /// 访问类型
@@ -57,12 +57,12 @@ public class SysLogVis : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "账号", Length = 32)]
     [MaxLength(32)]
-    public string Account { get; set; }
+    public string? Account { get; set; }
 
     /// <summary>
     /// 真实姓名
     /// </summary>
     [SugarColumn(ColumnDescription = "真实姓名", Length = 32)]
     [MaxLength(32)]
-    public string RealName { get; set; }
+    public string? RealName { get; set; }
 }

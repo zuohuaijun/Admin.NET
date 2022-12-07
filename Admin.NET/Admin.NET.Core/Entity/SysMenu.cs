@@ -23,35 +23,35 @@ public class SysMenu : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "名称", Length = 64)]
     [MaxLength(64)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
 
     /// <summary>
     /// 路由地址
     /// </summary>
     [SugarColumn(ColumnDescription = "路由地址", Length = 128)]
     [MaxLength(128)]
-    public string Path { get; set; }
+    public string? Path { get; set; }
 
     /// <summary>
     /// 组件路径
     /// </summary>
     [SugarColumn(ColumnDescription = "组件路径", Length = 128)]
     [MaxLength(128)]
-    public string Component { get; set; }
+    public string? Component { get; set; }
 
     /// <summary>
     /// 重定向
     /// </summary>
     [SugarColumn(ColumnDescription = "重定向", Length = 128)]
     [MaxLength(128)]
-    public string Redirect { get; set; }
+    public string? Redirect { get; set; }
 
     /// <summary>
     /// 权限标识
     /// </summary>
     [SugarColumn(ColumnDescription = "权限标识", Length = 128)]
     [MaxLength(128)]
-    public string Permission { get; set; }
+    public string? Permission { get; set; }
 
     /// <summary>
     /// 标题
@@ -65,7 +65,7 @@ public class SysMenu : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "图标", Length = 128)]
     [MaxLength(128)]
-    public string Icon { get; set; }
+    public string? Icon { get; set; }
 
     /// <summary>
     /// 是否内嵌
@@ -78,7 +78,7 @@ public class SysMenu : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "外链链接", Length = 256)]
     [MaxLength(256)]
-    public string OutLink { get; set; }
+    public string? OutLink { get; set; }
 
     /// <summary>
     /// 是否隐藏
@@ -115,7 +115,7 @@ public class SysMenu : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "备注", Length = 256)]
     [MaxLength(256)]
-    public string Remark { get; set; }
+    public string? Remark { get; set; }
 
     /// <summary>
     /// 菜单子项

@@ -31,7 +31,7 @@ public class SysDictType : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "备注", Length = 256)]
     [MaxLength(256)]
-    public string Remark { get; set; }
+    public string? Remark { get; set; }
 
     /// <summary>
     /// 状态

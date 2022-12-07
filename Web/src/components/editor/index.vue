@@ -1,14 +1,7 @@
 <template>
 	<div class="editor-container">
 		<Toolbar :editor="editorRef" :mode="mode" />
-		<Editor
-			:mode="mode"
-			:defaultConfig="state.editorConfig"
-			:style="{ height }"
-			v-model="state.editorVal"
-			@onCreated="handleCreated"
-			@onChange="handleChange"
-		/>
+		<Editor :mode="mode" :defaultConfig="state.editorConfig" :style="{ height }" v-model="state.editorVal" @onCreated="handleCreated" @onChange="handleChange" />
 	</div>
 </template>
 
@@ -83,6 +76,16 @@ watch(
 		const editor = editorRef.value;
 		if (editor == null) return;
 		bool ? editor.disable() : editor.enable();
+	},
+	{
+		deep: true,
+	}
+);
+// 监听双向绑定值改变
+watch(
+	() => props.getHtml,
+	(val) => {
+		state.editorVal = val;
 	},
 	{
 		deep: true,

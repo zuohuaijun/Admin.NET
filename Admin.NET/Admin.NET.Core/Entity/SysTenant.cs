@@ -23,7 +23,7 @@ public class SysTenant : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "主机", Length = 128)]
     [MaxLength(128)]
-    public string Host { get; set; }
+    public string? Host { get; set; }
 
     /// <summary>
     /// 租户类型
@@ -42,14 +42,14 @@ public class SysTenant : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "数据库连接", Length = 256)]
     [MaxLength(256)]
-    public string Connection { get; set; }
+    public string? Connection { get; set; }
 
     /// <summary>
     /// 数据库标识
     /// </summary>
     [SugarColumn(ColumnDescription = "数据库标识", Length = 64)]
     [MaxLength(64)]
-    public string ConfigId { get; set; }
+    public string? ConfigId { get; set; }
 
     /// <summary>
     /// 排序
@@ -62,7 +62,7 @@ public class SysTenant : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "备注", Length = 128)]
     [MaxLength(128)]
-    public string Remark { get; set; }
+    public string? Remark { get; set; }
 
     /// <summary>
     /// 状态

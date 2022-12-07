@@ -37,6 +37,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
         return await _sysNoticeRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title.Trim()))
             .WhereIF(input.Type > 0, u => u.Type == input.Type)
+            .WhereIF(!_userManager.SuperAdmin, u => u.CreateUserId == _userManager.UserId)
             .OrderBy(u => u.CreateTime, OrderByType.Desc)
             .ToPagedListAsync(input.Page, input.PageSize);
     }

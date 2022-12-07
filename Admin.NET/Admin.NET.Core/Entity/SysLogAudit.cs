@@ -10,27 +10,27 @@ public class SysLogAudit : EntityBase
     /// 表名
     /// </summary>
     [SugarColumn(ColumnDescription = "表名", Length = 64)]
-    [MaxLength(64)]
-    public string TableName { get; set; }
+    [Required, MaxLength(64)]
+    public virtual string TableName { get; set; }
 
     /// <summary>
     /// 列名
     /// </summary>
     [SugarColumn(ColumnDescription = "列名", Length = 64)]
-    [MaxLength(64)]
-    public string ColumnName { get; set; }
+    [Required, MaxLength(64)]
+    public virtual string ColumnName { get; set; }
 
     /// <summary>
     /// 新值
     /// </summary>
     [SugarColumn(ColumnDescription = "新值", ColumnDataType = "longtext,text,clob")]
-    public string NewValue { get; set; }
+    public string? NewValue { get; set; }
 
     /// <summary>
     /// 旧值
     /// </summary>
     [SugarColumn(ColumnDescription = "旧值", ColumnDataType = "longtext,text,clob")]
-    public string OldValue { get; set; }
+    public string? OldValue { get; set; }
 
     /// <summary>
     /// 操作方式（新增、更新、删除）
@@ -49,12 +49,12 @@ public class SysLogAudit : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "账号", Length = 32)]
     [MaxLength(32)]
-    public string Account { get; set; }
+    public string? Account { get; set; }
 
     /// <summary>
     /// 真实姓名
     /// </summary>
     [SugarColumn(ColumnDescription = "真实姓名", Length = 32)]
     [MaxLength(32)]
-    public string RealName { get; set; }
+    public string? RealName { get; set; }
 }
