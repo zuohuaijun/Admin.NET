@@ -188,12 +188,13 @@ public static class SqlSugarSetup
     /// <param name="config"></param>
     public static void InitDatabase(SqlSugarScope db, DbConnectionConfig config)
     {
-        if (!config.EnableInitDb || config.DbType == SqlSugar.DbType.Oracle) return;
+        if (!config.EnableInitDb) return;
 
         var dbProvider = db.GetConnectionScope(config.ConfigId);
 
         // 创建数据库
-        dbProvider.DbMaintenance.CreateDatabase();
+        if (config.DbType != SqlSugar.DbType.Oracle)
+            dbProvider.DbMaintenance.CreateDatabase();
 
         // 获取所有实体表-初始化表结构
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
