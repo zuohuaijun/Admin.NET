@@ -69,6 +69,11 @@ public class SysAuthService : IDynamicApiController, ITransient
             .FirstAsync(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod));
         _ = user ?? throw Oops.Oh(ErrorCodeEnum.D1000);
 
+        // 租户是否被禁用
+        var tenant = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysTenant>>().GetFirstAsync(u => u.Id == user.TenantId);
+        if (tenant.Status == StatusEnum.Disable)
+            throw Oops.Oh(ErrorCodeEnum.Z1003);
+
         // 账号是否被冻结
         if (user.Status == StatusEnum.Disable)
             throw Oops.Oh(ErrorCodeEnum.D1017);

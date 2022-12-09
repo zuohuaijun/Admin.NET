@@ -204,6 +204,9 @@ export default defineComponent({
 		const changeStatus = (row: any) => {
 			getAPI(SysUserApi)
 				.sysUserSetStatusPost({ id: row.id, status: row.status })
+				.then(() => {
+					ElMessage.success('账号状态设置成功');
+				})
 				.catch(() => {
 					row.status = row.status == 1 ? 2 : 1;
 				});

@@ -2702,6 +2702,11 @@
             禁止创建此类型的数据库
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.Z1003">
+            <summary>
+            租户已禁用
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.GenderEnum">
             <summary>
             性别枚举

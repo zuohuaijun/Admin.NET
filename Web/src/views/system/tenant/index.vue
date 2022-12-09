@@ -30,10 +30,9 @@
 						<el-tag type="danger" v-else> 库隔离 </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
+				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
-						<el-tag type="danger" v-else>禁用</el-tag>
+						<el-switch v-model="scope.row.status" :active-value="1" :inactive-value="2" size="small" @change="changeStatus(scope.row)" :disabled="scope.row.id == 123456780000000" />
 					</template>
 				</el-table-column>
 				<el-table-column prop="dbType" label="数据库类型" width="120" align="center" show-overflow-tooltip>
@@ -214,6 +213,17 @@ export default defineComponent({
 				})
 				.catch(() => {});
 		};
+		// 修改状态
+		const changeStatus = (row: any) => {
+			getAPI(SysTenantApi)
+				.sysTenantSetStatusPost({ id: row.id, status: row.status })
+				.then(() => {
+					ElMessage.success('租户状态设置成功');
+				})
+				.catch(() => {
+					row.status = row.status == 1 ? 2 : 1;
+				});
+		};
 		return {
 			editTenantRef,
 			grantMenuRef,
@@ -227,6 +237,7 @@ export default defineComponent({
 			handleSizeChange,
 			handleCurrentChange,
 			createTenant,
+			changeStatus,
 			...toRefs(state),
 		};
 	},

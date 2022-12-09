@@ -48,7 +48,7 @@ public static class SqlSugarSetup
         {
             EntityNameService = (type, entity) => // 处理表
             {
-                entity.DbTableName = UtilMethods.ToUnderLine(entity.DbTableName); // 驼峰转下划线
+                // entity.DbTableName = UtilMethods.ToUnderLine(entity.DbTableName); // 驼峰转下划线
             },
             EntityService = (type, column) => // 处理列
             {

@@ -527,4 +527,10 @@ public enum ErrorCodeEnum
     /// </summary>
     [ErrorCodeItemMetadata("禁止创建此类型的数据库")]
     Z1002,
+
+    /// <summary>
+    /// 租户已禁用
+    /// </summary>
+    [ErrorCodeItemMetadata("租户已禁用")]
+    Z1003,
 }
