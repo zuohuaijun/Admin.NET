@@ -4,7 +4,7 @@
 /// 系统作业信息表
 /// </summary>
 [SugarTable("sys_job_detail", "系统作业信息表")]
-public class SysJobDetail : BaseId
+public class SysJobDetail : EntityBaseId
 {
     /// <summary>
     /// 作业Id

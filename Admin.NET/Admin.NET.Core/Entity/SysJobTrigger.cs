@@ -4,7 +4,7 @@
 /// 系统作业触发器表
 /// </summary>
 [SugarTable("sys_job_trigger", "系统作业触发器表")]
-public class SysJobTrigger : BaseId
+public class SysJobTrigger : EntityBaseId
 {
     /// <summary>
     /// 触发器Id

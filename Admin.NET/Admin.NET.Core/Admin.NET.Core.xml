@@ -307,16 +307,6 @@
             租户Id
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.BaseId">
-            <summary>
-            框架实体基类自增Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.BaseId.Id">
-            <summary>
-            Id
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.SysCodeGen">
             <summary>
             代码生成表
