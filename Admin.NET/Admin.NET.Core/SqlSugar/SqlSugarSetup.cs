@@ -65,6 +65,13 @@ public static class SqlSugarSetup
         {
             IsAutoRemoveDataCache = true
         };
+
+        // PostgreSQL库-时间异常
+        if (config.DbType == SqlSugar.DbType.PostgreSQL)
+        {
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
+        }
     }
 
     /// <summary>
