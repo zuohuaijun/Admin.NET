@@ -67,13 +67,6 @@ public static class SqlSugarSetup
         {
             IsAutoRemoveDataCache = true
         };
-
-        // PostgreSQL库-时间异常
-        if (config.DbType == SqlSugar.DbType.PostgreSQL)
-        {
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-            AppContext.SetSwitch("Npgsql.DisableDateTimeInfinityConversions", true);
-        }
     }
 
     /// <summary>
@@ -242,7 +235,7 @@ public static class SqlSugarSetup
             var seedDataTable = seedData.ToList().ToDataTable();
             seedDataTable.TableName = dbProvider.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
             if (config.EnableUnderLine) // 驼峰转下划线
-            {                
+            {
                 foreach (DataColumn col in seedDataTable.Columns)
                 {
                     col.ColumnName = UtilMethods.ToUnderLine(col.ColumnName);
@@ -315,8 +308,9 @@ public static class SqlSugarSetup
                     (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
                     continue;
 
-                Expression<Func<EntityBase, bool>> dynamicExpression = u => u.IsDelete == false;
-                var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);
+                var lambda = DynamicExpressionParser.ParseLambda(new[] {
+                    Expression.Parameter(entityType, "u") }, typeof(bool), $"{nameof(EntityBase.IsDelete)} == @0", false);
+                var tableFilterItem = new TableFilterItem<object>(entityType, lambda);
                 tableFilterItems.Add(tableFilterItem);
                 db.QueryFilter.Add(tableFilterItem);
             }
@@ -363,8 +357,9 @@ public static class SqlSugarSetup
                         continue;
                 }
 
-                Expression<Func<EntityTenant, bool>> dynamicExpression = u => u.TenantId == long.Parse(tenantId);
-                var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);
+                var lambda = DynamicExpressionParser.ParseLambda(new[] {
+                    Expression.Parameter(entityType, "u") }, typeof(bool), $"{nameof(EntityTenant.TenantId)} == @0", long.Parse(tenantId));
+                var tableFilterItem = new TableFilterItem<object>(entityType, lambda);
                 tableFilterItems.Add(tableFilterItem);
                 db.QueryFilter.Add(tableFilterItem);
             }
@@ -410,8 +405,9 @@ public static class SqlSugarSetup
                     (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
                     continue;
 
-                Expression<Func<EntityBaseData, bool>> dynamicExpression = u => orgIds.Contains((long)u.CreateOrgId);
-                var tableFilterItem = new TableFilterItem<object>(entityType, dynamicExpression);
+                var lambda = DynamicExpressionParser.ParseLambda(new[] {
+                    Expression.Parameter(entityType, "u") }, typeof(bool), $"@0.Contains((long)u.{nameof(EntityBaseData.CreateOrgId)})", orgIds);
+                var tableFilterItem = new TableFilterItem<object>(entityType, lambda);
                 tableFilterItems.Add(tableFilterItem);
                 db.QueryFilter.Add(tableFilterItem);
             }

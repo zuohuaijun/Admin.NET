@@ -18,53 +18,7 @@ public class DbJobPersistence : IJobPersistence
     /// <returns></returns>
     public IEnumerable<SchedulerBuilder> Preload()
     {
-        using var serviceScope = _serviceProvider.CreateScope();
-        var jobDetailRep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysJobDetail>>();
-        var jobTriggerRep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysJobTrigger>>();
-
-        // 获取内存的作业
-        IEnumerable<SchedulerBuilder> memoryJobs = App.EffectiveTypes.ScanToBuilders();
-
-        // 若数据库不存在任何作业，则返回内存作业
-        if (!jobDetailRep.IsAny(u => true)) return memoryJobs;
-
-        var schedulerBuilders = new List<SchedulerBuilder>();
-
-        // 获取数据库所有作业
-        var dbJobs = jobDetailRep.GetList();
-        foreach (var dbJob in dbJobs)
-        {
-            var jobDetail = JobBuilder.Create(dbJob.AssemblyName, dbJob.JobType).LoadFrom(dbJob);
-
-            // 加载数据库的触发器
-            var triggerBuilders = new List<TriggerBuilder>();
-            var dbTriggers = jobTriggerRep.GetList(u => u.JobId == dbJob.JobId)
-                .Select(u => Triggers.Create(u.AssemblyName, u.TriggerType).LoadFrom(u)).ToArray();
-            triggerBuilders.AddRange(dbTriggers);
-
-            var memoryTriggers = memoryJobs.Where(u => u.GetJobBuilder().JobId == dbJob.JobId).SelectMany(u => u.GetTriggerBuilders());
-            foreach (var memTrigger in memoryTriggers)
-            {
-                var triggerId = memTrigger.TriggerId;
-                // 若数据库中已包含这个触发器
-                if (!string.IsNullOrWhiteSpace(triggerId) && dbTriggers.Any(u => u.TriggerId == triggerId))
-                    continue;
-                triggerBuilders.Add(memTrigger);
-            }
-            schedulerBuilders.Add(SchedulerBuilder.Create(jobDetail, triggerBuilders.ToArray()).Updated());
-        }
-
-        // 合并作业
-        foreach (var job in memoryJobs)
-        {
-            var jobId = job.GetJobBuilder().JobId;
-            // 若数据库中已包含这个作业
-            if (!string.IsNullOrWhiteSpace(jobId) && dbJobs.Any(u => u.JobId == jobId))
-                continue;
-            schedulerBuilders.Add(job);
-        }
-
-        return schedulerBuilders;
+        return App.EffectiveTypes.ScanToBuilders();
     }
 
     /// <summary>
