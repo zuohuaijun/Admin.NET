@@ -5,7 +5,7 @@ namespace Admin.NET.Application.Entity;
 /// <summary>
 /// 自己业务数据表
 /// </summary>
-[SugarTable("d_test", "自己业务数据表")]
+[SugarTable(null, "自己业务数据表")]
 [Tenant(ApplicationConst.ConfigId)]
 public class Test : EntityBase
 {

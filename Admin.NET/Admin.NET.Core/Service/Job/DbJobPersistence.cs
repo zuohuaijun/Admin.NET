@@ -93,7 +93,7 @@ public class DbJobPersistence : IJobPersistence
         }
         else if (context.Behavior == PersistenceBehavior.Updated)
         {
-            db.Updateable(jobDetail).IgnoreColumns(it => new { it.Id }).WhereColumns(u => new { u.JobId }).ExecuteCommand();
+            db.Updateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
         }
         else if (context.Behavior == PersistenceBehavior.Removed)
         {
@@ -117,7 +117,7 @@ public class DbJobPersistence : IJobPersistence
         }
         else if (context.Behavior == PersistenceBehavior.Updated)
         {
-            db.Updateable(jobTrigger).IgnoreColumns(it => new { it.Id }).WhereColumns(u => new { u.TriggerId, u.JobId }).ExecuteCommand();
+            db.Updateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
         }
         else if (context.Behavior == PersistenceBehavior.Removed)
         {

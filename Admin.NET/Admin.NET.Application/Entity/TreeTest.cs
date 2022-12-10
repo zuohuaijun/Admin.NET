@@ -5,7 +5,7 @@ namespace Admin.NET.Application.Entity;
 /// <summary>
 /// 多库代码生成树形测试表
 /// </summary>
-[SugarTable("d_treetest", "多库代码生成树形测试表")]
+[SugarTable(null, "多库代码生成树形测试表")]
 [Tenant(ApplicationConst.ConfigId)]
 public class TreeTest : EntityBase
 {

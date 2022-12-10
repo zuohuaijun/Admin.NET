@@ -3,7 +3,7 @@ namespace Admin.NET.Application.Entity;
 /// <summary>
 /// 租户业务分库表
 /// </summary>
-[SugarTable("d_tenant_business", "租户业务分库表")]
+[SugarTable(null, "租户业务分库表")]
 [TenantBusiness]
 public class TenantBusiness : EntityTenant
 {

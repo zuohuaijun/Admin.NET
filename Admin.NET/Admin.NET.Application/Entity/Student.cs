@@ -5,7 +5,7 @@ namespace Admin.NET.Application.Entity;
 /// <summary>
 /// 多库代码生成测试学生表
 /// </summary>
-[SugarTable("d_student", "多库代码生成测试学生表")]
+[SugarTable(null, "多库代码生成测试学生表")]
 [Tenant(ApplicationConst.ConfigId)]
 public class Student : EntityBase
 {
