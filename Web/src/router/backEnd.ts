@@ -11,7 +11,7 @@ import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi } from '/@/api-services/api';
-import { ElMessage } from 'element-plus';
+// import { ElMessage } from 'element-plus';
 
 // 后端控制路由
 
@@ -42,6 +42,9 @@ export async function initBackEndControlRoutes() {
 	await useUserInfo().setUserInfos();
 	// 获取路由菜单数据
 	const res = await getBackEndControlRoutes();
+	// 无登录权限时，添加判断
+	// https://gitee.com/lyt-top/vue-next-admin/issues/I64HVO
+	if (res == undefined || res.length <= 0) return Promise.resolve(true);
 	// 存储接口原始路由（未处理component），根据需求选择使用
 	useRequestOldRoutes().setRequestOldRoutes(res as string[]);
 	// 处理路由（component），替换 dynamicRoutes（/@/router/route）第一个顶级 children 的路由
@@ -57,7 +60,7 @@ export async function initBackEndControlRoutes() {
  * @description 用于左侧菜单、横向菜单的显示
  * @description 用于 tagsView、菜单搜索中：未过滤隐藏的(isHide)
  */
-export function setFilterMenuAndCacheTagsViewRoutes() {
+export async function setFilterMenuAndCacheTagsViewRoutes() {
 	const storesRoutesList = useRoutesList(pinia);
 	storesRoutesList.setRoutesList(dynamicRoutes[0].children as any);
 	setCacheTagsViewRoutes();
@@ -104,13 +107,13 @@ export async function setAddRoute() {
  */
 export async function getBackEndControlRoutes() {
 	var res = await getAPI(SysMenuApi).loginMenuGet();
-	if (res.data.result == undefined || res.data.result.length < 1) {
-		ElMessage.error('没有任何菜单权限，请联系管理员！');
-		setTimeout(() => {
-			Session.removeToken();
-			window.location.reload();
-		}, 3000);
-	}
+	// if (res.data.result == undefined || res.data.result.length < 1) {
+	// 	ElMessage.error('没有任何菜单权限，请联系管理员！');
+	// 	setTimeout(() => {
+	// 		Session.removeToken();
+	// 		window.location.reload();
+	// 	}, 3000);
+	// }
 	return res.data.result;
 }
 
@@ -119,8 +122,8 @@ export async function getBackEndControlRoutes() {
  * @description 用于菜单管理界面刷新菜单（未进行测试）
  * @description 路径：/src/views/system/menu/component/addMenu.vue
  */
-export function setBackEndControlRefreshRoutes() {
-	getBackEndControlRoutes();
+export async function setBackEndControlRefreshRoutes() {
+	await getBackEndControlRoutes();
 }
 
 /**

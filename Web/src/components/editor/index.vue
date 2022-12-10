@@ -1,7 +1,14 @@
 <template>
 	<div class="editor-container">
 		<Toolbar :editor="editorRef" :mode="mode" />
-		<Editor :mode="mode" :defaultConfig="state.editorConfig" :style="{ height }" v-model="state.editorVal" @onCreated="handleCreated" @onChange="handleChange" />
+		<Editor
+			:mode="mode"
+			:defaultConfig="state.editorConfig"
+			:style="{ height }"
+			v-model="state.editorVal"
+			@onCreated="handleCreated"
+			@onChange="handleChange"
+		/>
 	</div>
 </template>
 
@@ -81,7 +88,7 @@ watch(
 		deep: true,
 	}
 );
-// 监听双向绑定值改变
+// 监听双向绑定值改变，用于回显
 watch(
 	() => props.getHtml,
 	(val) => {

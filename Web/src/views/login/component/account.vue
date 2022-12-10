@@ -130,14 +130,12 @@ const onSignIn = async () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return false;
 
-		clearTokens(); // 先清空Token缓存
-
 		const [err, res] = await feature(getAPI(SysAuthApi).loginPost(state.ruleForm));
 		if (err) {
 			getCaptcha(); // 重新获取验证码
 			return;
 		}
-		if (res?.data.result?.accessToken == undefined) {
+		if (res.data.result?.accessToken == undefined) {
 			getCaptcha(); // 重新获取验证码
 			ElMessage.error('登录失败，请检查账号！');
 			return;
@@ -146,29 +144,34 @@ const onSignIn = async () => {
 		state.loading.signIn = true;
 		Session.set('token', res.data.result?.accessToken); // 缓存token
 		// 添加完动态路由再进行router跳转，否则可能报错 No match found for location with path "/"
-		await initBackEndControlRoutes();
-		signInSuccess(); // 再执行 signInSuccess
+		const isNoPower = await initBackEndControlRoutes();
+		signInSuccess(isNoPower); // 再执行 signInSuccess
 	});
 };
 // 登录成功后的跳转
-const signInSuccess = () => {
-	// 初始化登录成功时间问候语
-	let currentTimeInfo = currentTime.value;
-	// 登录成功跳到转首页，如果是复制粘贴的路径，非首页/登录页，那么登录成功后重定向到对应的路径中
-	if (route.query?.redirect) {
-		router.push({
-			path: <string>route.query?.redirect,
-			query: Object.keys(<string>route.query?.params).length > 0 ? JSON.parse(<string>route.query?.params) : '',
-		});
+const signInSuccess = (isNoPower: boolean | undefined) => {
+	if (isNoPower) {
+		ElMessage.warning('抱歉，您没有登录权限');
+		clearTokens(); // 清空Token缓存
 	} else {
-		router.push('/');
+		// 初始化登录成功时间问候语
+		let currentTimeInfo = currentTime.value;
+		// 登录成功，跳到转首页 如果是复制粘贴的路径，非首页/登录页，那么登录成功后重定向到对应的路径中
+		if (route.query?.redirect) {
+			router.push({
+				path: <string>route.query?.redirect,
+				query: Object.keys(<string>route.query?.params).length > 0 ? JSON.parse(<string>route.query?.params) : '',
+			});
+		} else {
+			router.push('/');
+		}
+		// 登录成功提示
+		const signInText = t('message.signInText');
+		ElMessage.success(`${currentTimeInfo}，${signInText}`);
+		// 添加 loading，防止第一次进入界面时出现短暂空白
+		NextLoading.start();
 	}
-	// 登录成功提示 关闭loading
-	state.loading.signIn = true;
-	const signInText = t('message.signInText');
-	ElMessage.success(`${currentTimeInfo}，${signInText}`);
-	// 添加loading，防止第一次进入界面时出现短暂空白
-	NextLoading.start();
+	state.loading.signIn = false;
 };
 // 打开旋转验证
 const openRotateVerify = () => {

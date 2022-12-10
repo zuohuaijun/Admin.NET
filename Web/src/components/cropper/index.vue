@@ -1,12 +1,6 @@
 <template>
 	<div>
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="769px">
-			<template #header>
-				<div style="color: #fff">
-					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
-					<span>更换头像</span>
-				</div>
-			</template>
+		<el-dialog title="更换头像" v-model="state.isShowDialog" width="769px">
 			<div class="cropper-warp">
 				<div class="cropper-warp-left">
 					<img :src="state.cropperImg" class="cropper-warp-left-img" />
@@ -30,7 +24,7 @@
 			<template #footer>
 				<span class="dialog-footer">
 					<el-button @click="onCancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" size="default">确 定</el-button>
+					<el-button type="primary" @click="onSubmit" size="default">更 换</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -79,7 +73,7 @@ const initCropper = () => {
 		initialAspectRatio: 1,
 		aspectRatio: 1,
 		preview: '.before',
-		background: true,
+		background: false,
 		autoCropArea: 0.6,
 		zoomOnWheel: false,
 		crop: () => {
@@ -88,7 +82,7 @@ const initCropper = () => {
 	});
 };
 
-// 导出变量
+// 暴露变量
 defineExpose({
 	openDialog,
 });
