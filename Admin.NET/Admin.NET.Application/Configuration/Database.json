@@ -2,10 +2,10 @@
     "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
 
     "DbConnection": {
-        // 具体配置见SqlSugar官网（第一个为默认库，不需要设置ConfigId）
+        // 具体配置见SqlSugar官网（第一个为默认库不需要设置ConfigId）
         "ConnectionConfigs": [
             {
-                "DbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access
+                "DbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access、OpenGauss、QuestDB、HG、ClickHouse、GBase、Odbc、Custom
                 "ConnectionString": "DataSource=./Admin.NET.db",
                 "EnableInitDb": true, // 启用库表初始化
                 "EnableDiffLog": false, // 启用库表差异日志
