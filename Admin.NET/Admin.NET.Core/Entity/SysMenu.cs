@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统菜单表
 /// </summary>
-[SugarTable("sys_menu", "系统菜单表")]
+[SugarTable(null, "系统菜单表")]
 public class SysMenu : EntityBase
 {
     /// <summary>

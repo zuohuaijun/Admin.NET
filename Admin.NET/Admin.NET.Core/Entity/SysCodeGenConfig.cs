@@ -3,7 +3,7 @@
 /// <summary>
 /// 代码生成字段配置表
 /// </summary>
-[SugarTable("sys_code_gen_config", "代码生成字段配置表")]
+[SugarTable(null, "代码生成字段配置表")]
 public class SysCodeGenConfig : EntityBase
 {
     /// <summary>

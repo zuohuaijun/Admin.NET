@@ -20,8 +20,8 @@ public static class ProjectOptions
         services.AddConfigurableOptions<CacheOptions>();
         services.AddConfigurableOptions<OSSProviderOptions>();
         services.AddConfigurableOptions<UploadOptions>();
-        services.AddConfigurableOptions<WeChatOptions>();
-        services.AddConfigurableOptions<WeChatPayOptions>();
+        services.AddConfigurableOptions<WechatOptions>();
+        services.AddConfigurableOptions<WechatPayOptions>();
         services.AddConfigurableOptions<PayCallBackOptions>();
         services.AddConfigurableOptions<CodeGenOptions>();
         services.AddConfigurableOptions<EmailOptions>();

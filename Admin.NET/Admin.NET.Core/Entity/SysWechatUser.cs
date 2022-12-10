@@ -3,8 +3,8 @@
 /// <summary>
 /// 系统微信用户表
 /// </summary>
-[SugarTable("sys_wechat_user", "系统微信用户表")]
-public class WeChatUser : EntityBase
+[SugarTable(null, "系统微信用户表")]
+public class SysWechatUser : EntityBase
 {
     /// <summary>
     /// 系统用户Id

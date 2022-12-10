@@ -13,7 +13,7 @@ public class GenAuthUrlInput
     public string Scope { get; set; }
 }
 
-public class WeChatOAuth2Input
+public class WechatOAuth2Input
 {
     /// <summary>
     /// Code
@@ -22,7 +22,7 @@ public class WeChatOAuth2Input
     public string Code { get; set; }
 }
 
-public class WeChatUserLogin
+public class WechatUserLogin
 {
     /// <summary>
     /// OpenId

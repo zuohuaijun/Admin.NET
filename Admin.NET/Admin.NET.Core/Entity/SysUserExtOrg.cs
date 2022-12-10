@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统用户扩展机构表
 /// </summary>
-[SugarTable("sys_user_extorg", "系统用户扩展机构表")]
+[SugarTable(null, "系统用户扩展机构表")]
 public class SysUserExtOrg : EntityBaseId
 {
     /// <summary>

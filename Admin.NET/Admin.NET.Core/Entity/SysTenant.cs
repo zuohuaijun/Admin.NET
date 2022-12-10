@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统租户表
 /// </summary>
-[SugarTable("sys_tenant", "系统租户表")]
+[SugarTable(null, "系统租户表")]
 public class SysTenant : EntityBase
 {
     /// <summary>

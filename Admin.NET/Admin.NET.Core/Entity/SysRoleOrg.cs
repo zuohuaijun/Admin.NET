@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统角色机构表
 /// </summary>
-[SugarTable("sys_role_org", "系统角色机构表")]
+[SugarTable(null, "系统角色机构表")]
 public class SysRoleOrg : EntityBaseId
 {
     /// <summary>

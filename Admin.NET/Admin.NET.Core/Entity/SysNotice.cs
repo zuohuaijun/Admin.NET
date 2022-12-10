@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统通知公告表
 /// </summary>
-[SugarTable("sys_notice", "系统通知公告表")]
+[SugarTable(null, "系统通知公告表")]
 public class SysNotice : EntityBase
 {
     /// <summary>

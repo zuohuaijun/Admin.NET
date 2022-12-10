@@ -1,6 +1,6 @@
 ﻿namespace Admin.NET.Core.Service;
 
-public class WeChatPayOutput
+public class WechatPayOutput
 {
     /// <summary>
     /// OpenId

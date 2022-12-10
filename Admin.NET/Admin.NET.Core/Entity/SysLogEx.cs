@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统异常日志表
 /// </summary>
-[SugarTable("sys_log_ex", "系统异常日志表")]
+[SugarTable(null, "系统异常日志表")]
 public class SysLogEx : EntityTenant
 {
     /// <summary>

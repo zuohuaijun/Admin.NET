@@ -3,7 +3,7 @@ namespace Admin.NET.Core;
 /// <summary>
 /// 系统用户表
 /// </summary>
-[SugarTable("sys_user", "系统用户表")]
+[SugarTable(null, "系统用户表")]
 public class SysUser : EntityTenant
 {
     /// <summary>

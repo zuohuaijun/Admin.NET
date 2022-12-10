@@ -8,12 +8,12 @@ public sealed class PayCallBackOptions : IConfigurableOptions
     /// <summary>
     /// 微信支付回调
     /// </summary>
-    public string WeChatPayUrl { get; set; }
+    public string WechatPayUrl { get; set; }
 
     /// <summary>
     /// 微信退款回调
     /// </summary>
-    public string WeChatRefundUrl { get; set; }
+    public string WechatRefundUrl { get; set; }
 
     /// <summary>
     /// 支付宝支付回调

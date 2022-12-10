@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统作业信息表
 /// </summary>
-[SugarTable("sys_job_detail", "系统作业信息表")]
+[SugarTable(null, "系统作业信息表")]
 public class SysJobDetail : EntityBaseId
 {
     /// <summary>

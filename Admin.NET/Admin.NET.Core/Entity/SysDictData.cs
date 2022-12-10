@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统字典值表
 /// </summary>
-[SugarTable("sys_dict_data", "系统字典值表")]
+[SugarTable(null, "系统字典值表")]
 public class SysDictData : EntityBase
 {
     /// <summary>

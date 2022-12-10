@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统字典类型表
 /// </summary>
-[SugarTable("sys_dict_type", "系统字典类型表")]
+[SugarTable(null, "系统字典类型表")]
 public class SysDictType : EntityBase
 {
     /// <summary>

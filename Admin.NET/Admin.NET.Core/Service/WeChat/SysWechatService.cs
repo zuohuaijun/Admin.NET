@@ -4,16 +4,16 @@
 /// 微信公众号服务
 /// </summary>
 [ApiDescriptionSettings(Order = 101)]
-public class WeChatService : IDynamicApiController, ITransient
+public class SysWechatService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<WeChatUser> _weChatUserRep;
-    private readonly WechatApiClient _weChatApiClient;
+    private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
+    private readonly WechatApiClient _wechatApiClient;
 
-    public WeChatService(SqlSugarRepository<WeChatUser> weChatUserRep,
-        WeChatApiHttpClient weChatApiHttpClient)
+    public SysWechatService(SqlSugarRepository<SysWechatUser> sysWechatUserRep,
+        WechatApiHttpClient wechatApiHttpClient)
     {
-        _weChatUserRep = weChatUserRep;
-        _weChatApiClient = weChatApiHttpClient.CreateWeChatClient();
+        _sysWechatUserRep = sysWechatUserRep;
+        _wechatApiClient = wechatApiHttpClient.CreateWechatClient();
     }
 
     /// <summary>
@@ -21,30 +21,30 @@ public class WeChatService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/weChat/genAuthUrl")]
+    [HttpPost("/sysWechat/genAuthUrl")]
     [AllowAnonymous]
     public string GenAuthUrl(GenAuthUrlInput input)
     {
-        return _weChatApiClient.GenerateParameterizedUrlForConnectOAuth2Authorize(input.RedirectUrl, input.Scope);
+        return _wechatApiClient.GenerateParameterizedUrlForConnectOAuth2Authorize(input.RedirectUrl, input.Scope);
     }
 
     /// <summary>
     /// 授权登录(Code换取OpenId)
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/weChat/snsOAuth2")]
+    [HttpPost("/sysWechat/snsOAuth2")]
     [AllowAnonymous]
-    public async Task<string> LoginOAuth2([Required] WeChatOAuth2Input input)
+    public async Task<string> LoginOAuth2([Required] WechatOAuth2Input input)
     {
         var reqOAuth2 = new SnsOAuth2AccessTokenRequest()
         {
             Code = input.Code,
         };
-        var resOAuth2 = await _weChatApiClient.ExecuteSnsOAuth2AccessTokenAsync(reqOAuth2);
-        if (resOAuth2.ErrorCode != (int)WeChatReturnCodeEnum.请求成功)
+        var resOAuth2 = await _wechatApiClient.ExecuteSnsOAuth2AccessTokenAsync(reqOAuth2);
+        if (resOAuth2.ErrorCode != (int)WechatReturnCodeEnum.请求成功)
             throw Oops.Oh(resOAuth2.ErrorMessage + resOAuth2.ErrorCode);
 
-        var wxUser = await _weChatUserRep.GetFirstAsync(p => p.OpenId == resOAuth2.OpenId);
+        var wxUser = await _sysWechatUserRep.GetFirstAsync(p => p.OpenId == resOAuth2.OpenId);
         if (wxUser == null)
         {
             var reqUserInfo = new SnsUserInfoRequest()
@@ -52,17 +52,17 @@ public class WeChatService : IDynamicApiController, ITransient
                 OpenId = resOAuth2.OpenId,
                 AccessToken = resOAuth2.AccessToken,
             };
-            var resUserInfo = await _weChatApiClient.ExecuteSnsUserInfoAsync(reqUserInfo);
-            wxUser = resUserInfo.Adapt<WeChatUser>();
+            var resUserInfo = await _wechatApiClient.ExecuteSnsUserInfoAsync(reqUserInfo);
+            wxUser = resUserInfo.Adapt<SysWechatUser>();
             wxUser.Avatar = resUserInfo.HeadImageUrl;
             wxUser.NickName = resUserInfo.Nickname;
-            wxUser = await _weChatUserRep.AsInsertable(wxUser).ExecuteReturnEntityAsync();
+            wxUser = await _sysWechatUserRep.AsInsertable(wxUser).ExecuteReturnEntityAsync();
         }
         else
         {
             wxUser.AccessToken = resOAuth2.AccessToken;
             wxUser.RefreshToken = resOAuth2.RefreshToken;
-            await _weChatUserRep.AsUpdateable(wxUser).IgnoreColumns(true).ExecuteCommandAsync();
+            await _sysWechatUserRep.AsUpdateable(wxUser).IgnoreColumns(true).ExecuteCommandAsync();
         }
 
         return resOAuth2.OpenId;
@@ -73,11 +73,11 @@ public class WeChatService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/weChat/openIdLogin")]
+    [HttpPost("/sysWechat/openIdLogin")]
     [AllowAnonymous]
-    public async Task<dynamic> WechatUserLogin(WeChatUserLogin input)
+    public async Task<dynamic> WechatUserLogin(WechatUserLogin input)
     {
-        var wxUser = await _weChatUserRep.GetFirstAsync(p => p.OpenId == input.OpenId);
+        var wxUser = await _sysWechatUserRep.GetFirstAsync(p => p.OpenId == input.OpenId);
         if (wxUser == null)
             throw Oops.Oh("微信登录");
         return new
@@ -97,17 +97,17 @@ public class WeChatService : IDynamicApiController, ITransient
     /// 获取配置签名参数(wx.config)
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/weChat/genConfigPara")]
+    [HttpPost("/sysWechat/genConfigPara")]
     public async Task<dynamic> GenConfigPara(SignatureInput input)
     {
-        var resCgibinToken = await _weChatApiClient.ExecuteCgibinTokenAsync(new CgibinTokenRequest());
+        var resCgibinToken = await _wechatApiClient.ExecuteCgibinTokenAsync(new CgibinTokenRequest());
         var request = new CgibinTicketGetTicketRequest()
         {
             AccessToken = resCgibinToken.AccessToken
         };
-        var response = await _weChatApiClient.ExecuteCgibinTicketGetTicketAsync(request);
+        var response = await _wechatApiClient.ExecuteCgibinTicketGetTicketAsync(request);
         if (!response.IsSuccessful())
             throw Oops.Oh(response.ErrorMessage);
-        return _weChatApiClient.GenerateParametersForJSSDKConfig(response.Ticket, input.Url);
+        return _wechatApiClient.GenerateParametersForJSSDKConfig(response.Ticket, input.Url);
     }
 }

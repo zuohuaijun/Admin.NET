@@ -22,4 +22,9 @@ public sealed class DbConnectionConfig : ConnectionConfig
     /// 启用库表差异日志
     /// </summary>
     public bool EnableDiffLog { get; set; }
+
+    /// <summary>
+    /// 启用驼峰转下划线
+    /// </summary>
+    public bool EnableUnderLine { get; set; }
 }

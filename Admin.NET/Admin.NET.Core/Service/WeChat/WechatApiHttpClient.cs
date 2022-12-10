@@ -4,28 +4,28 @@
 /// 微信API客户端
 /// </summary>
 [ApiDescriptionSettings(false)]
-public partial class WeChatApiHttpClient : ISingleton
+public partial class WechatApiHttpClient : ISingleton
 {
-    public readonly WeChatOptions _weChatOptions;
+    public readonly WechatOptions _wechatOptions;
 
-    public WeChatApiHttpClient(IOptions<WeChatOptions> weChatOptions)
+    public WechatApiHttpClient(IOptions<WechatOptions> wechatOptions)
     {
-        _weChatOptions = weChatOptions.Value;
+        _wechatOptions = wechatOptions.Value;
     }
 
     /// <summary>
     /// 微信公众号
     /// </summary>
     /// <returns></returns>
-    public WechatApiClient CreateWeChatClient()
+    public WechatApiClient CreateWechatClient()
     {
-        if (string.IsNullOrEmpty(_weChatOptions.WeChatAppId) || string.IsNullOrEmpty(_weChatOptions.WeChatAppSecret))
+        if (string.IsNullOrEmpty(_wechatOptions.WechatAppId) || string.IsNullOrEmpty(_wechatOptions.WechatAppSecret))
             throw Oops.Oh("微信公众号配置错误");
 
         var wechatApiClient = new WechatApiClient(new WechatApiClientOptions()
         {
-            AppId = _weChatOptions.WeChatAppId,
-            AppSecret = _weChatOptions.WeChatAppSecret,
+            AppId = _wechatOptions.WechatAppId,
+            AppSecret = _wechatOptions.WechatAppSecret,
         });
 
         wechatApiClient.Configure(settings =>
@@ -42,13 +42,13 @@ public partial class WeChatApiHttpClient : ISingleton
     /// <returns></returns>
     public WechatApiClient CreateWxOpenClient()
     {
-        if (string.IsNullOrEmpty(_weChatOptions.WxOpenAppId) || string.IsNullOrEmpty(_weChatOptions.WxOpenAppSecret))
+        if (string.IsNullOrEmpty(_wechatOptions.WxOpenAppId) || string.IsNullOrEmpty(_wechatOptions.WxOpenAppSecret))
             throw Oops.Oh("微信小程序配置错误");
 
         var WechatApiClient = new WechatApiClient(new WechatApiClientOptions()
         {
-            AppId = _weChatOptions.WxOpenAppId,
-            AppSecret = _weChatOptions.WxOpenAppSecret
+            AppId = _wechatOptions.WxOpenAppId,
+            AppSecret = _wechatOptions.WxOpenAppSecret
         });
 
         WechatApiClient.Configure(settings =>

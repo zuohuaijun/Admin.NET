@@ -1,6 +1,6 @@
 ﻿namespace Admin.NET.Core.Service;
 
-public class WeChatUserInput : BasePageInput
+public class WechatUserInput : BasePageInput
 {
     /// <summary>
     /// 昵称
@@ -13,6 +13,6 @@ public class WeChatUserInput : BasePageInput
     public string Mobile { get; set; }
 }
 
-public class DeleteWeChatUserInput : BaseIdInput
+public class DeleteWechatUserInput : BaseIdInput
 {
 }

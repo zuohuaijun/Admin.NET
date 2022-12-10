@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统审计日志表
 /// </summary>
-[SugarTable("sys_log_audit", "系统审计日志表")]
+[SugarTable(null, "系统审计日志表")]
 public class SysLogAudit : EntityBase
 {
     /// <summary>

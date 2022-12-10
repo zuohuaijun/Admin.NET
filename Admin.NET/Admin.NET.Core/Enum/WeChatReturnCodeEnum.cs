@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信开发返回码
 /// </summary>
-public enum WeChatReturnCodeEnum
+public enum WechatReturnCodeEnum
 {
     SenparcWeixinSDK配置错误 = -99, // 0xFFFFFF9D
     系统繁忙此时请开发者稍候再试 = -1, // 0xFFFFFFFF

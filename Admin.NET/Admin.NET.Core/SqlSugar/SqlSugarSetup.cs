@@ -48,13 +48,15 @@ public static class SqlSugarSetup
         {
             EntityNameService = (type, entity) => // 处理表
             {
-                // entity.DbTableName = UtilMethods.ToUnderLine(entity.DbTableName); // 驼峰转下划线
+                if (config.EnableUnderLine && !entity.DbTableName.Contains('_'))
+                    entity.DbTableName = UtilMethods.ToUnderLine(entity.DbTableName); // 驼峰转下划线
             },
             EntityService = (type, column) => // 处理列
             {
                 if (new NullabilityInfoContext().Create(type).WriteState is NullabilityState.Nullable)
                     column.IsNullable = true;
-                // column.DbColumnName = UtilMethods.ToUnderLine(column.DbColumnName ?? column.PropertyName); // 驼峰转下划线
+                if (config.EnableUnderLine && !column.IsIgnore && !column.DbColumnName.Contains('_'))
+                    column.DbColumnName = UtilMethods.ToUnderLine(column.DbColumnName); // 驼峰转下划线
             },
             DataInfoCacheService = new SqlSugarCache(),
         };
@@ -239,16 +241,23 @@ public static class SqlSugarSetup
 
             var seedDataTable = seedData.ToList().ToDataTable();
             seedDataTable.TableName = dbProvider.EntityMaintenance.GetEntityInfo(entityType).DbTableName;
+            if (config.EnableUnderLine) // 驼峰转下划线
+            {                
+                foreach (DataColumn col in seedDataTable.Columns)
+                {
+                    col.ColumnName = UtilMethods.ToUnderLine(col.ColumnName);
+                }
+            }
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
-                var storage = dbProvider.CopyNew().Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
+                var storage = dbProvider.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
                 var ignoreUpdate = hasDataMethod.GetCustomAttribute<IgnoreUpdateAttribute>();
                 if (ignoreUpdate == null) storage.AsUpdateable.ExecuteCommand();
             }
             else // 没有主键或者不是预定义的主键(有重复的可能)
             {
-                var storage = dbProvider.CopyNew().Storageable(seedDataTable).ToStorage();
+                var storage = dbProvider.Storageable(seedDataTable).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
             }
         }

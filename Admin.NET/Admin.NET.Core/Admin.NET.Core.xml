@@ -1822,217 +1822,217 @@
             角色
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WeChatPay">
+        <member name="T:Admin.NET.Core.SysWechatPay">
             <summary>
             系统微信支付表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.MerchantId">
+        <member name="P:Admin.NET.Core.SysWechatPay.MerchantId">
             <summary>
             微信商户号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.AppId">
+        <member name="P:Admin.NET.Core.SysWechatPay.AppId">
             <summary>
             服务商AppId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.OutTradeNumber">
+        <member name="P:Admin.NET.Core.SysWechatPay.OutTradeNumber">
             <summary>
             商户订单号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.TransactionId">
+        <member name="P:Admin.NET.Core.SysWechatPay.TransactionId">
             <summary>
             支付订单号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.TradeType">
+        <member name="P:Admin.NET.Core.SysWechatPay.TradeType">
             <summary>
             交易类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.TradeState">
+        <member name="P:Admin.NET.Core.SysWechatPay.TradeState">
             <summary>
             交易状态
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.TradeStateDescription">
+        <member name="P:Admin.NET.Core.SysWechatPay.TradeStateDescription">
             <summary>
             交易状态描述
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.BankType">
+        <member name="P:Admin.NET.Core.SysWechatPay.BankType">
             <summary>
             付款银行类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.Total">
+        <member name="P:Admin.NET.Core.SysWechatPay.Total">
             <summary>
             订单总金额
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.PayerTotal">
+        <member name="P:Admin.NET.Core.SysWechatPay.PayerTotal">
             <summary>
             用户支付金额
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.SuccessTime">
+        <member name="P:Admin.NET.Core.SysWechatPay.SuccessTime">
             <summary>
             支付完成时间
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.ExpireTime">
+        <member name="P:Admin.NET.Core.SysWechatPay.ExpireTime">
             <summary>
             交易结束时间
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.Description">
+        <member name="P:Admin.NET.Core.SysWechatPay.Description">
             <summary>
             商品描述
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.Scene">
+        <member name="P:Admin.NET.Core.SysWechatPay.Scene">
             <summary>
             场景信息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.Attachment">
+        <member name="P:Admin.NET.Core.SysWechatPay.Attachment">
             <summary>
             附加数据
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.GoodsTag">
+        <member name="P:Admin.NET.Core.SysWechatPay.GoodsTag">
             <summary>
             优惠标记
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.Settlement">
+        <member name="P:Admin.NET.Core.SysWechatPay.Settlement">
             <summary>
             结算信息
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.NotifyUrl">
+        <member name="P:Admin.NET.Core.SysWechatPay.NotifyUrl">
             <summary>
             回调通知地址
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.Remark">
+        <member name="P:Admin.NET.Core.SysWechatPay.Remark">
             <summary>
             备注
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.OpenId">
+        <member name="P:Admin.NET.Core.SysWechatPay.OpenId">
             <summary>
             微信OpenId标识
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.WeChatUser">
+        <member name="P:Admin.NET.Core.SysWechatPay.SysWechatUser">
             <summary>
             关联微信用户
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.SubMerchantId">
+        <member name="P:Admin.NET.Core.SysWechatPay.SubMerchantId">
             <summary>
             子商户号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.SubAppId">
+        <member name="P:Admin.NET.Core.SysWechatPay.SubAppId">
             <summary>
             子商户AppId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPay.SubOpenId">
+        <member name="P:Admin.NET.Core.SysWechatPay.SubOpenId">
             <summary>
             子商户唯一标识
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WeChatUser">
+        <member name="T:Admin.NET.Core.SysWechatUser">
             <summary>
             系统微信用户表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.UserId">
+        <member name="P:Admin.NET.Core.SysWechatUser.UserId">
             <summary>
             系统用户Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.SysUser">
+        <member name="P:Admin.NET.Core.SysWechatUser.SysUser">
             <summary>
             系统用户
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.PlatformType">
+        <member name="P:Admin.NET.Core.SysWechatUser.PlatformType">
             <summary>
             平台类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.OpenId">
+        <member name="P:Admin.NET.Core.SysWechatUser.OpenId">
             <summary>
             OpenId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.SessionKey">
+        <member name="P:Admin.NET.Core.SysWechatUser.SessionKey">
             <summary>
             缓存key
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.UnionId">
+        <member name="P:Admin.NET.Core.SysWechatUser.UnionId">
             <summary>
             UnionId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.NickName">
+        <member name="P:Admin.NET.Core.SysWechatUser.NickName">
             <summary>
             昵称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.Avatar">
+        <member name="P:Admin.NET.Core.SysWechatUser.Avatar">
             <summary>
             头像
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.Mobile">
+        <member name="P:Admin.NET.Core.SysWechatUser.Mobile">
             <summary>
             手机号码
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.Sex">
+        <member name="P:Admin.NET.Core.SysWechatUser.Sex">
             <summary>
             性别
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.Language">
+        <member name="P:Admin.NET.Core.SysWechatUser.Language">
             <summary>
             语言
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.City">
+        <member name="P:Admin.NET.Core.SysWechatUser.City">
             <summary>
             城市
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.Province">
+        <member name="P:Admin.NET.Core.SysWechatUser.Province">
             <summary>
             省
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.Country">
+        <member name="P:Admin.NET.Core.SysWechatUser.Country">
             <summary>
             国家
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.AccessToken">
+        <member name="P:Admin.NET.Core.SysWechatUser.AccessToken">
             <summary>
             AccessToken
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.RefreshToken">
+        <member name="P:Admin.NET.Core.SysWechatUser.RefreshToken">
             <summary>
             RefreshToken
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatUser.ExpiresIn">
+        <member name="P:Admin.NET.Core.SysWechatUser.ExpiresIn">
             <summary>
             过期时间
             </summary>
@@ -2977,49 +2977,49 @@
             库隔离
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WeChatReturnCodeEnum">
+        <member name="T:Admin.NET.Core.WechatReturnCodeEnum">
             <summary>
             微信开发返回码
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.不合法的凭证类型">
+        <member name="F:Admin.NET.Core.WechatReturnCodeEnum.不合法的凭证类型">
             <summary>
             <para>公众号：不合法的凭证类型</para>
             <para>小程序：暂无生成权限</para>
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.不合法的APPID">
+        <member name="F:Admin.NET.Core.WechatReturnCodeEnum.不合法的APPID">
             <summary>
             <para>微信：不合法的APPID</para>
             <para>小程序：生成权限被封禁</para>
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.输入参数有误">
+        <member name="F:Admin.NET.Core.WechatReturnCodeEnum.输入参数有误">
             <summary>
             <para>公众号：输入参数有误</para>
             <para>小程序：参数expire_time填写错误</para>
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.用户拒绝接受消息">
+        <member name="F:Admin.NET.Core.WechatReturnCodeEnum.用户拒绝接受消息">
             <summary>[小程序订阅消息]用户拒绝接受消息，如果用户之前曾经订阅过，则表示用户取消了订阅关系</summary>
         </member>
-        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.模板参数不准确">
+        <member name="F:Admin.NET.Core.WechatReturnCodeEnum.模板参数不准确">
             <summary>[小程序订阅消息]模板参数不准确，可能为空或者不满足规则，errmsg会提示具体是哪个字段出错</summary>
         </member>
-        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.客服帐号名长度超过限制">
+        <member name="F:Admin.NET.Core.WechatReturnCodeEnum.客服帐号名长度超过限制">
             <summary>
             客服帐号名长度超过限制(仅允许10个英文字符，不包括@及@后的公众号的微信号)(invalid kf_acount length)
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.客服帐号名包含非法字符">
+        <member name="F:Admin.NET.Core.WechatReturnCodeEnum.客服帐号名包含非法字符">
             <summary>
             客服帐号名包含非法字符(仅允许英文+数字)(illegal character in kf_account)
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.客服帐号个数超过限制">
+        <member name="F:Admin.NET.Core.WechatReturnCodeEnum.客服帐号个数超过限制">
             <summary>客服帐号个数超过限制(10个客服账号)(kf_account count exceeded)</summary>
         </member>
-        <member name="F:Admin.NET.Core.WeChatReturnCodeEnum.签名错误">
+        <member name="F:Admin.NET.Core.WechatReturnCodeEnum.签名错误">
             <summary>
             小程序为“签名错误”。对应公众号： 87009, “errmsg” : “reply is not exists” //该回复不存在
             </summary>
@@ -3628,6 +3628,11 @@
             启用库表差异日志
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.DbConnectionConfig.EnableUnderLine">
+            <summary>
+            启用驼峰转下划线
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.EmailOptions">
             <summary>
             邮件配置选项
@@ -3679,12 +3684,12 @@
             支付回调配置选项
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.PayCallBackOptions.WeChatPayUrl">
+        <member name="P:Admin.NET.Core.PayCallBackOptions.WechatPayUrl">
             <summary>
             微信支付回调
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.PayCallBackOptions.WeChatRefundUrl">
+        <member name="P:Admin.NET.Core.PayCallBackOptions.WechatRefundUrl">
             <summary>
             微信退款回调
             </summary>
@@ -3759,42 +3764,42 @@
             上传格式
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WeChatOptions">
+        <member name="T:Admin.NET.Core.WechatOptions">
             <summary>
             微信相关配置选项
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WeChatPayOptions">
+        <member name="T:Admin.NET.Core.WechatPayOptions">
             <summary>
             微信支付配置选项
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPayOptions.AppId">
+        <member name="P:Admin.NET.Core.WechatPayOptions.AppId">
             <summary>
             微信公众平台AppId、开放平台AppId、小程序AppId、企业微信CorpId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPayOptions.MerchantId">
+        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantId">
              <summary>
             商户平台的商户号
              </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPayOptions.MerchantV3Secret">
+        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantV3Secret">
             <summary>
             商户平台的APIv3密钥
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPayOptions.MerchantCertificateSerialNumber">
+        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantCertificateSerialNumber">
             <summary>
             商户平台的证书序列号
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPayOptions.MerchantCertificatePrivateKey">
+        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantCertificatePrivateKey">
             <summary>
             商户平台的API证书私钥(apiclient_key.pem文件内容)
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.WeChatPayOptions.RsaPublicKey">
+        <member name="P:Admin.NET.Core.WechatPayOptions.RsaPublicKey">
             <summary>
             RSA公钥 仅调用"企业付款到银行卡API"时使用
             </summary>
@@ -6810,12 +6815,12 @@
             Scope
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatOAuth2Input.Code">
+        <member name="P:Admin.NET.Core.Service.WechatOAuth2Input.Code">
             <summary>
             Code
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatUserLogin.OpenId">
+        <member name="P:Admin.NET.Core.Service.WechatUserLogin.OpenId">
             <summary>
             OpenId
             </summary>
@@ -6825,192 +6830,192 @@
             Url
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.OpenId">
+        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.OpenId">
             <summary>
             OpenId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.Total">
+        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.Total">
             <summary>
             订单金额
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.Description">
+        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.Description">
             <summary>
             商品描述
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.Attachment">
+        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.Attachment">
             <summary>
             附加数据
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayTransactionInput.GoodsTag">
+        <member name="P:Admin.NET.Core.Service.WechatPayTransactionInput.GoodsTag">
             <summary>
             优惠标记
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayParaInput.PrepayId">
+        <member name="P:Admin.NET.Core.Service.WechatPayParaInput.PrepayId">
             <summary>
             订单Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayOutput.OpenId">
+        <member name="P:Admin.NET.Core.Service.WechatPayOutput.OpenId">
             <summary>
             OpenId
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayOutput.Total">
+        <member name="P:Admin.NET.Core.Service.WechatPayOutput.Total">
             <summary>
             订单金额
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayOutput.Attachment">
+        <member name="P:Admin.NET.Core.Service.WechatPayOutput.Attachment">
             <summary>
             附加数据
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatPayOutput.GoodsTag">
+        <member name="P:Admin.NET.Core.Service.WechatPayOutput.GoodsTag">
             <summary>
             优惠标记
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatUserInput.NickName">
+        <member name="P:Admin.NET.Core.Service.WechatUserInput.NickName">
             <summary>
             昵称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WeChatUserInput.Mobile">
+        <member name="P:Admin.NET.Core.Service.WechatUserInput.Mobile">
             <summary>
             手机号码
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.WeChatApiHttpClient">
-            <summary>
-            微信API客户端
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.WeChatApiHttpClient.CreateWeChatClient">
-            <summary>
-            微信公众号
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.WeChatApiHttpClient.CreateWxOpenClient">
-            <summary>
-            微信小程序
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.Service.WeChatPayService">
+        <member name="T:Admin.NET.Core.Service.SysWechatPayService">
             <summary>
             微信支付服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreateTenpayClient">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.CreateTenpayClient">
             <summary>
             初始化微信支付客户端
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.GenerateParametersForJsapiPay(Admin.NET.Core.Service.WeChatPayParaInput)">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.GenerateParametersForJsapiPay(Admin.NET.Core.Service.WechatPayParaInput)">
             <summary>
             生成JSAPI调起支付所需参数
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreatePayTransaction(Admin.NET.Core.Service.WeChatPayTransactionInput)">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.CreatePayTransaction(Admin.NET.Core.Service.WechatPayTransactionInput)">
             <summary>
             微信支付统一下单获取Id(商户直连)
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.CreatePayPartnerTransaction(Admin.NET.Core.Service.WeChatPayTransactionInput)">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.CreatePayPartnerTransaction(Admin.NET.Core.Service.WechatPayTransactionInput)">
             <summary>
             微信支付统一下单获取Id(服务商模式)
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.GetWeChatPayInfo(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.GetWechatPayInfo(System.String)">
             <summary>
             获取支付订单详情
             </summary>
             <param name="tradeId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.WeChatPayCallBack">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.WechatPayCallBack">
             <summary>
             微信支付成功回调(商户直连)
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatPayService.WeChatPayPartnerCallBack">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.WechatPayPartnerCallBack">
             <summary>
             微信支付成功回调(服务商模式)
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.WeChatService">
+        <member name="T:Admin.NET.Core.Service.SysWechatService">
             <summary>
             微信公众号服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatService.GenAuthUrl(Admin.NET.Core.Service.GenAuthUrlInput)">
+        <member name="M:Admin.NET.Core.Service.SysWechatService.GenAuthUrl(Admin.NET.Core.Service.GenAuthUrlInput)">
             <summary>
             生成网页授权Url
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatService.LoginOAuth2(Admin.NET.Core.Service.WeChatOAuth2Input)">
+        <member name="M:Admin.NET.Core.Service.SysWechatService.LoginOAuth2(Admin.NET.Core.Service.WechatOAuth2Input)">
             <summary>
             授权登录(Code换取OpenId)
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatService.WechatUserLogin(Admin.NET.Core.Service.WeChatUserLogin)">
+        <member name="M:Admin.NET.Core.Service.SysWechatService.WechatUserLogin(Admin.NET.Core.Service.WechatUserLogin)">
             <summary>
             微信用户登录
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatService.GenConfigPara(Admin.NET.Core.Service.SignatureInput)">
+        <member name="M:Admin.NET.Core.Service.SysWechatService.GenConfigPara(Admin.NET.Core.Service.SignatureInput)">
             <summary>
             获取配置签名参数(wx.config)
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.WeChatUserService">
+        <member name="T:Admin.NET.Core.Service.SysWechatUserService">
             <summary>
             微信账号服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatUserService.GetWeChatUserPage(Admin.NET.Core.Service.WeChatUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysWechatUserService.GetWechatUserPage(Admin.NET.Core.Service.WechatUserInput)">
             <summary>
             获取微信用户列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatUserService.AddWeChatUser(Admin.NET.Core.WeChatUser)">
+        <member name="M:Admin.NET.Core.Service.SysWechatUserService.AddWechatUser(Admin.NET.Core.SysWechatUser)">
             <summary>
             增加微信用户
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatUserService.UpdateWeChatUser(Admin.NET.Core.WeChatUser)">
+        <member name="M:Admin.NET.Core.Service.SysWechatUserService.UpdateWechatUser(Admin.NET.Core.SysWechatUser)">
             <summary>
             更新微信用户
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.WeChatUserService.DeleteWeChatUser(Admin.NET.Core.Service.DeleteWeChatUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysWechatUserService.DeleteWechatUser(Admin.NET.Core.Service.DeleteWechatUserInput)">
             <summary>
             删除微信用户
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.WechatApiHttpClient">
+            <summary>
+            微信API客户端
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WechatApiHttpClient.CreateWechatClient">
+            <summary>
+            微信公众号
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.WechatApiHttpClient.CreateWxOpenClient">
+            <summary>
+            微信小程序
+            </summary>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.ExportLogDto">

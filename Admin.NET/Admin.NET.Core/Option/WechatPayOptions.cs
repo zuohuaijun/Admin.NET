@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信支付配置选项
 /// </summary>
-public sealed class WeChatPayOptions : IConfigurableOptions
+public sealed class WechatPayOptions : IConfigurableOptions
 {
     /// <summary>
     /// 微信公众平台AppId、开放平台AppId、小程序AppId、企业微信CorpId

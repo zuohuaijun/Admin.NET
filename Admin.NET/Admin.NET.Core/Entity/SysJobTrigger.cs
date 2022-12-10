@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统作业触发器表
 /// </summary>
-[SugarTable("sys_job_trigger", "系统作业触发器表")]
+[SugarTable(null, "系统作业触发器表")]
 public class SysJobTrigger : EntityBaseId
 {
     /// <summary>

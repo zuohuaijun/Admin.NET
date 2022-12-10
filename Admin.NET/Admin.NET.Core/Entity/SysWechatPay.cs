@@ -3,8 +3,8 @@
 /// <summary>
 /// 系统微信支付表
 /// </summary>
-[SugarTable("sys_wechat_pay", "系统微信支付表")]
-public class WeChatPay : EntityBase
+[SugarTable(null, "系统微信支付表")]
+public class SysWechatPay : EntityBase
 {
     /// <summary>
     /// 微信商户号
@@ -135,7 +135,7 @@ public class WeChatPay : EntityBase
     /// </summary>
     [SugarColumn(IsIgnore = true)]
     [Navigate(NavigateType.OneToOne, nameof(OpenId))]
-    public WeChatUser WeChatUser { get; set; }
+    public SysWechatUser SysWechatUser { get; set; }
 
     /// <summary>
     /// 子商户号

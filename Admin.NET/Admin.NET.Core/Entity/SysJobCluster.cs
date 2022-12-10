@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统作业集群表
 /// </summary>
-[SugarTable("sys_job_cluster", "系统作业集群表")]
+[SugarTable(null, "系统作业集群表")]
 public class SysJobCluster : EntityBaseId
 {
     /// <summary>

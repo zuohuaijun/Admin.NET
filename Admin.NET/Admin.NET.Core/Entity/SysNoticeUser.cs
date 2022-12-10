@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统通知公告用户表
 /// </summary>
-[SugarTable("sys_notice_user", "系统通知公告用户表")]
+[SugarTable(null, "系统通知公告用户表")]
 public class SysNoticeUser
 {
     /// <summary>

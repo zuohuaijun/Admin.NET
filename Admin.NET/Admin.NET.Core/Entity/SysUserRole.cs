@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统用户角色表
 /// </summary>
-[SugarTable("sys_user_role", "系统用户角色表")]
+[SugarTable(null, "系统用户角色表")]
 public class SysUserRole : EntityBaseId
 {
     /// <summary>

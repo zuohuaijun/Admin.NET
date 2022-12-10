@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统机构表
 /// </summary>
-[SugarTable("sys_org", "系统机构表")]
+[SugarTable(null, "系统机构表")]
 public class SysOrg : EntityTenant
 {
     /// <summary>

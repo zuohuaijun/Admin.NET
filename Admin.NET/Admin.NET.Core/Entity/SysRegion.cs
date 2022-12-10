@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统行政地区表
 /// </summary>
-[SugarTable("sys_region", "系统行政地区表")]
+[SugarTable(null, "系统行政地区表")]
 public class SysRegion : EntityBaseId
 {
     /// <summary>
