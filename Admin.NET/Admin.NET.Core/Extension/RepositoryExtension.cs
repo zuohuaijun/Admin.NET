@@ -76,14 +76,19 @@ public static class RepositoryExtension
         {
             orderStr = descSort ? defualtSortField + " Desc" : defualtSortField + " Asc";
         }
-        TypeAdapterConfig config = new();
-        config.ForType<T, BasePageInput>().IgnoreNullValues(true);
-        Mapper mapper = new(config); // 务必将mapper设为单实例
+        TypeAdapterConfig typeAdapterConfig = new();
+        typeAdapterConfig.ForType<T, BasePageInput>().IgnoreNullValues(true);
+        Mapper mapper = new(typeAdapterConfig); // 务必将mapper设为单实例
         var nowPagerInput = mapper.Map<BasePageInput>(pageInput);
         // 排序是否可用-排序字段和排序顺序都为非空才启用排序
         if (!string.IsNullOrEmpty(nowPagerInput.Field) && !string.IsNullOrEmpty(nowPagerInput.Order))
         {
-            orderStr = $"{nowPagerInput.Field} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}";
+            var conConfigs = App.GetOptions<DbConnectionOptions>().ConnectionConfigs;
+            var config = queryable.Context.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId ?
+                conConfigs.FirstOrDefault(u => u.ConfigId == queryable.Context.CurrentConnectionConfig.ConfigId) :
+                conConfigs.FirstOrDefault();
+            var field = config != null && config.EnableUnderLine ? UtilMethods.ToUnderLine(nowPagerInput.Field) : nowPagerInput.Field;
+            orderStr = $"{field} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}";
         }
         return queryable.OrderByIF(!string.IsNullOrWhiteSpace(orderStr), orderStr);
     }

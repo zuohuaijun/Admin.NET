@@ -1,3 +1,5 @@
+using System.Linq;
+
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -364,14 +366,17 @@ public class SysTenantService : IDynamicApiController, ITransient
         if (tenant.DbType == SqlSugar.DbType.Oracle)
             throw Oops.Oh(ErrorCodeEnum.Z1002);
 
+        // 默认数据库配置
+        var defautConfig = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault();
+
         var config = new DbConnectionConfig
         {
+            ConfigId = tenant.Id.ToString(),
+            DbType = tenant.DbType,
+            ConnectionString = tenant.Connection,
             EnableInitDb = true,
             EnableDiffLog = false,
-            DbType = tenant.DbType,
-            ConfigId = tenant.Id.ToString(),
-            ConnectionString = tenant.Connection,
-            IsAutoCloseConnection = true,
+            EnableUnderLine = defautConfig.EnableUnderLine,
         };
         SqlSugarSetup.InitTenantDatabase(App.GetRequiredService<ISqlSugarClient>().AsTenant(), config);
     }
