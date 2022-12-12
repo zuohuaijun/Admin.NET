@@ -113,7 +113,7 @@ public class SysJobService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        await _sysJobTriggerRep.UpdateAsync(input.Adapt<SysJobTrigger>());
+        await _sysJobTriggerRep.InsertAsync(input.Adapt<SysJobTrigger>());
     }
 
     /// <summary>

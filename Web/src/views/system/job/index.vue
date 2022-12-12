@@ -141,7 +141,7 @@
 				<el-table-column label="操作" width="170" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tooltip content="增加触发器">
-							<el-button size="small" type="primary" icon="ele-CirclePlus" text @click="openAddJobTrigger"> </el-button>
+							<el-button size="small" type="primary" icon="ele-CirclePlus" text @click="openAddJobTrigger(scope.row)"> </el-button>
 						</el-tooltip>
 						<el-tooltip content="启动作业">
 							<el-button size="small" type="primary" icon="ele-VideoPlay" text @click="startJob(scope.row)" />
@@ -260,9 +260,9 @@ export default defineComponent({
 				.catch(() => {});
 		};
 		// 打开新增触发器页面
-		const openAddJobTrigger = () => {
+		const openAddJobTrigger = (row: any) => {
 			state.editJobTriggerTitle = '添加触发器';
-			editJobTriggerRef.value.openDialog({ retryTimeout: 1000, startNow: true, runOnStart: true, resetOnlyOnce: true });
+			editJobTriggerRef.value.openDialog({ jobId: row.jobDetail.jobId, retryTimeout: 1000, startNow: true, runOnStart: true, resetOnlyOnce: true });
 		};
 		// 打开编辑触发器页面
 		const openEditJobTrigger = (row: any) => {
