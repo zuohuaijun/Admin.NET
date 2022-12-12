@@ -1,4 +1,3 @@
-using Masuit.Tools.Files.FileDetector;
 using OnceMi.AspNetCore.OSS;
 
 namespace Admin.NET.Core.Service;
@@ -218,21 +217,21 @@ public class SysFileService : IDynamicApiController, ITransient
                 Directory.CreateDirectory(filePath);
 
             var realFile = Path.Combine(filePath, finalName);
-            IDetector detector;
+            //IDetector detector;
             using (var stream = File.Create(realFile))
             {
                 await file.CopyToAsync(stream);
-                detector = stream.DetectFiletype();
+                //detector = stream.DetectFiletype();
             }
-            var realExt = detector.Extension; // 真实扩展名
-            // 二次校验扩展名
-            if (!string.Equals(realExt, suffix.Replace(".", ""), StringComparison.OrdinalIgnoreCase))
-            {
-                var delFilePath = Path.Combine(App.WebHostEnvironment.WebRootPath, realFile);
-                if (File.Exists(delFilePath))
-                    File.Delete(delFilePath);
-                throw Oops.Oh(ErrorCodeEnum.D8001);
-            }
+            //var realExt = detector.Extension; // 真实扩展名
+            //// 二次校验扩展名
+            //if (!string.Equals(realExt, suffix.Replace(".", ""), StringComparison.OrdinalIgnoreCase))
+            //{
+            //    var delFilePath = Path.Combine(App.WebHostEnvironment.WebRootPath, realFile);
+            //    if (File.Exists(delFilePath))
+            //        File.Delete(delFilePath);
+            //    throw Oops.Oh(ErrorCodeEnum.D8001);
+            //}
 
             // 生成外链
             newFile.Url = _commonService.GetFileUrl(newFile);
