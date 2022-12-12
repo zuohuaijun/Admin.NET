@@ -68,8 +68,8 @@
 ------------------------------- */
 // 鼠标 hover 时颜色
 .el-menu-hover-bg-color {
-	background-color: var(--el-color-primary-light-7) !important;
-	// border-right: solid 3px var(--el-color-primary);
+	background-color: var(--next-bg-menuBarActiveColor) !important;
+	//background-color: var(--el-color-primary-light-7) !important;
 }
 // 默认样式修改
 .el-menu {
@@ -111,16 +111,17 @@
 	@extend .el-menu-hover-bg-color;
 	color: var(--el-color-primary-dark-2);
 }
+// 鼠标 hover 时背景色
+.el-menu-item:hover {
+	//@extend .el-menu-hover-bg-color;
+	background-color: var(--el-color-primary-light-9);
+}
 .el-sub-menu.is-active.is-opened .el-sub-menu__title {
 	background-color: unset !important;
 }
 // 当前选中菜单右侧边框
 .el-menu-item.is-active {
 	border-right: solid 3px var(--el-color-primary);
-}
-// 鼠标 hover 时背景色
-.el-menu-item:hover {
-	background-color: var(--el-color-primary-light-9)
 }
 // 子级菜单背景颜色
 // .el-menu--inline {
@@ -311,6 +312,10 @@
 			font-weight: 500;
 		}
 	}
+}
+/*防止分栏布局二级菜单很多时，滚动条消失问题*/
+.layout-columns-warp .layout-aside .el-scrollbar__view {
+	height: unset !important;
 }
 
 /* Pagination 分页

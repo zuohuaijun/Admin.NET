@@ -158,6 +158,7 @@ const initModeValueEcho = () => {
 };
 // 处理 icon 类型，用于回显时，tab 高亮与初始化数据
 const initFontIconName = () => {
+	if(props.modelValue == undefined) return 'ele';
 	let name = 'ali';
 	if (props.modelValue!.indexOf('iconfont') > -1) name = 'ali';
 	else if (props.modelValue!.indexOf('ele-') > -1) name = 'ele';

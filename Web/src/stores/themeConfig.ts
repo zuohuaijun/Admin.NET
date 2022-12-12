@@ -23,10 +23,7 @@ export const useThemeConfig = defineStore('themeConfig', {
 			isIsDark: false,
 
 			/**
-			 * 菜单 / 顶栏
-			 * 注意：v1.0.17 版本去除设置布局切换，重置主题样式（initSetLayoutChange），
-			 * 切换布局需手动设置样式，设置的样式自动同步各布局，
-			 * 代码位置：/@/layout/navBars/breadcrumb/setings.vue
+			 * 顶栏设置
 			 */
 			// 默认顶栏导航背景颜色
 			topBar: '#FFFFFF',
@@ -34,12 +31,22 @@ export const useThemeConfig = defineStore('themeConfig', {
 			topBarColor: '#000000',
 			// 是否开启顶栏背景颜色渐变
 			isTopBarColorGradual: false,
+
+			/**
+			 * 菜单设置
+			 */
 			// 默认菜单导航背景颜色
 			menuBar: '#FFFFFF',
 			// 默认菜单导航字体颜色
 			menuBarColor: '#000000',
+			// 默认菜单高亮背景色
+			menuBarActiveColor: 'var(--el-color-primary-light-7)',
 			// 是否开启菜单背景颜色渐变
 			isMenuBarColorGradual: false,
+
+			/**
+			 * 分栏设置
+			 */
 			// 默认分栏菜单背景颜色
 			columnsMenuBar: '#2C3A49',
 			// 默认分栏菜单字体颜色
@@ -97,7 +104,7 @@ export const useThemeConfig = defineStore('themeConfig', {
 			// 是否开启水印
 			isWartermark: false,
 			// 水印文案
-			wartermarkText: 'Admin.NET',
+			wartermarkText: '运城市智慧民政',
 
 			/**
 			 * 其它设置

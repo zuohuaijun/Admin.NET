@@ -110,6 +110,7 @@
 		<el-card shadow="hover" header="磁盘信息" style="margin-top: 8px">
 			<el-row>
 				<el-col
+					:span="4"
 					:xs="24"
 					:sm="24 / machineDiskInfo.length"
 					:md="24 / machineDiskInfo.length"

@@ -5,20 +5,13 @@
 // 用户信息
 declare interface UserInfosState<T = any> {
 	userInfos: {
-		account: string;
-		realName: string;
-		avatar: string;
-		address: string;
-		signature: string;
-		orgId: string;
-		orgName: string;
-		posName: string;
-		roles: string[];
 		authBtnList: string[];
+		photo: string;
+		roles: string[];
 		time: number;
+		userName: string;
 		[key: string]: T;
 	};
-	constList: Array<ConstOutput>;
 }
 
 // 路由缓存列表
@@ -55,6 +48,7 @@ declare interface ThemeConfigState {
 		isTopBarColorGradual: boolean;
 		menuBar: string;
 		menuBarColor: string;
+		menuBarActiveColor: string;
 		isMenuBarColorGradual: boolean;
 		columnsMenuBar: string;
 		columnsMenuBarColor: string;

@@ -3,7 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@element-plus/icons-vue': ^2.0.10
   '@microsoft/signalr': ^6.0.10
-  '@types/node': ^18.11.12
+  '@types/node': ^18.11.13
   '@types/nprogress': ^0.2.0
   '@types/sortablejs': ^1.15.0
   '@typescript-eslint/eslint-plugin': ^5.46.0
@@ -16,7 +16,7 @@ specifiers:
   axios: ^1.2.1
   countup.js: ^2.3.2
   cropperjs: ^1.5.13
-  echarts: ^5.4.0
+  echarts: ^5.4.1
   echarts-gl: ^2.0.9
   echarts-wordcloud: ^2.1.0
   element-plus: ^2.2.26
@@ -88,7 +88,7 @@ dependencies:
   vue3-tree-org: registry.npmmirror.com/vue3-tree-org/4.1.1_vue@3.2.45
 
 devDependencies:
-  '@types/node': registry.npmmirror.com/@types/node/18.11.12
+  '@types/node': registry.npmmirror.com/@types/node/18.11.13
   '@types/nprogress': registry.npmmirror.com/@types/nprogress/0.2.0
   '@types/sortablejs': registry.npmmirror.com/@types/sortablejs/1.15.0
   '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.46.0_5mle7isnkfgjmrghnnczirv6iy
@@ -100,7 +100,7 @@ devDependencies:
   prettier: registry.npmmirror.com/prettier/2.8.1
   sass: registry.npmmirror.com/sass/1.56.2
   typescript: registry.npmmirror.com/typescript/4.9.4
-  vite: registry.npmmirror.com/vite/4.0.0_73lfsi4xmmmu3zhcuv45qpgb6a
+  vite: registry.npmmirror.com/vite/4.0.0_q6swpjbreachjowkqq6ci4femq
   vite-plugin-vue-setup-extend: registry.npmmirror.com/vite-plugin-vue-setup-extend/0.4.0_vite@4.0.0
   vue-eslint-parser: registry.npmmirror.com/vue-eslint-parser/9.1.0_eslint@8.29.0
 
@@ -855,10 +855,10 @@ packages:
     version: 4.14.191
     dev: false
 
-  registry.npmmirror.com/@types/node/18.11.12:
-    resolution: {integrity: sha512-FgD3NtTAKvyMmD44T07zz2fEf+OKwutgBCEVM8GcvMGVGaDktiLNTDvPwC/LUe3PinMW+X6CuLOF2Ui1mAlSXg==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-18.11.12.tgz}
+  registry.npmmirror.com/@types/node/18.11.13:
+    resolution: {integrity: sha512-IASpMGVcWpUsx5xBOrxMj7Bl8lqfuTY7FKAnPmu5cHkfQVWF8GulWS1jbRqA934qZL35xh5xN/+Xe/i26Bod4w==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/node/-/node-18.11.13.tgz}
     name: '@types/node'
-    version: 18.11.12
+    version: 18.11.13
     dev: true
 
   registry.npmmirror.com/@types/nprogress/0.2.0:
@@ -1097,7 +1097,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: registry.npmmirror.com/vite/4.0.0_73lfsi4xmmmu3zhcuv45qpgb6a
+      vite: registry.npmmirror.com/vite/4.0.0_q6swpjbreachjowkqq6ci4femq
       vue: registry.npmmirror.com/vue/3.2.45
     dev: true
 
@@ -3480,10 +3480,10 @@ packages:
     dependencies:
       '@vue/compiler-sfc': registry.npmmirror.com/@vue/compiler-sfc/3.2.45
       magic-string: registry.npmmirror.com/magic-string/0.25.9
-      vite: registry.npmmirror.com/vite/4.0.0_73lfsi4xmmmu3zhcuv45qpgb6a
+      vite: registry.npmmirror.com/vite/4.0.0_q6swpjbreachjowkqq6ci4femq
     dev: true
 
-  registry.npmmirror.com/vite/4.0.0_73lfsi4xmmmu3zhcuv45qpgb6a:
+  registry.npmmirror.com/vite/4.0.0_q6swpjbreachjowkqq6ci4femq:
     resolution: {integrity: sha512-ynad+4kYs8Jcnn8J7SacS9vAbk7eMy0xWg6E7bAhS1s79TK+D7tVFGXVZ55S7RNLRROU1rxoKlvZ/qjaB41DGA==, registry: http://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/vite/-/vite-4.0.0.tgz}
     id: registry.npmmirror.com/vite/4.0.0
     name: vite
@@ -3511,7 +3511,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': registry.npmmirror.com/@types/node/18.11.12
+      '@types/node': registry.npmmirror.com/@types/node/18.11.13
       esbuild: registry.npmmirror.com/esbuild/0.16.4
       postcss: registry.npmmirror.com/postcss/8.4.19
       resolve: registry.npmmirror.com/resolve/1.22.1

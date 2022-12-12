@@ -279,4 +279,8 @@ watch(
 		}
 	}
 }
+
+:deep(.el-scrollbar){
+	height: calc(100% - 50px);
+}
 </style>
