@@ -3,12 +3,21 @@
 /// <summary>
 /// 数据库配置选项
 /// </summary>
-public sealed class DbConnectionOptions : IConfigurableOptions
+public sealed class DbConnectionOptions : IConfigurableOptions<DbConnectionOptions>
 {
     /// <summary>
     /// 数据库集合
     /// </summary>
     public List<DbConnectionConfig> ConnectionConfigs { get; set; }
+
+    public void PostConfigure(DbConnectionOptions options, IConfiguration configuration)
+    {
+        foreach (var dbConfig in options.ConnectionConfigs)
+        {
+            if (string.IsNullOrWhiteSpace(dbConfig.ConfigId))
+                dbConfig.ConfigId = SqlSugarConst.ConfigId;
+        }
+    }
 }
 
 public sealed class DbConnectionConfig : ConnectionConfig

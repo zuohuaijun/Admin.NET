@@ -22,13 +22,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     [HttpGet("/sysDatabase/list")]
     public List<dynamic> GetDbList()
     {
-        var connectionConfigs = App.GetOptions<DbConnectionOptions>().ConnectionConfigs;
-        foreach (var config in connectionConfigs)
-        {
-            if (string.IsNullOrWhiteSpace(config.ConfigId))
-                config.ConfigId = SqlSugarConst.ConfigId;
-        }
-        return connectionConfigs.Select(u => u.ConfigId).ToList();
+        return App.GetOptions<DbConnectionOptions>().ConnectionConfigs.Select(u => u.ConfigId).ToList();
     }
 
     /// <summary>

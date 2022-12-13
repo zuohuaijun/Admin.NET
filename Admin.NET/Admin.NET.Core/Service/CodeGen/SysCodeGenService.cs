@@ -112,8 +112,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     [HttpGet("/sysCodeGen/databaseList")]
     public async Task<List<DatabaseOutput>> GetDatabaseList()
     {
-        var dblist = await Task.FromResult(App.GetOptions<DbConnectionOptions>().ConnectionConfigs);
-        return dblist.Adapt<List<DatabaseOutput>>();
+        var dbCongigs = App.GetOptions<DbConnectionOptions>().ConnectionConfigs;
+        return await Task.FromResult(dbCongigs.Adapt<List<DatabaseOutput>>());
     }
 
     /// <summary>
@@ -123,26 +123,18 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     [HttpGet("/sysCodeGen/tableList/{configId}")]
     public async Task<List<TableOutput>> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
-        // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(configId);
-        var dbTableInfos = provider.DbMaintenance.GetTableInfoList(false); // 这里不能走缓存,否则切库不起作用
+        var dbTableInfos = provider.DbMaintenance.GetTableInfoList(false); // 不能走缓存,否则切库不起作用
 
-        var dbTableNames = dbTableInfos.Select(x => x.Name).ToList();
-
+        var dbTableNames = dbTableInfos.Select(u => u.Name).ToList();
         IEnumerable<EntityInfo> entityInfos = await _commonService.GetEntityInfos();
-        entityInfos = entityInfos.Where(x => dbTableNames.Contains(x.DbTableName.ToLower()));
-        var result = new List<TableOutput>();
-        foreach (var item in entityInfos)
+        return entityInfos.Where(u => dbTableNames.Contains(u.DbTableName)).Select(u => new TableOutput()
         {
-            result.Add(new TableOutput()
-            {
-                ConfigId = configId,
-                EntityName = item.EntityName,
-                TableName = item.DbTableName.ToLower(),
-                TableComment = item.TableDescription
-            });
-        }
-        return result;
+            ConfigId = configId,
+            EntityName = u.EntityName,
+            TableName = u.DbTableName.ToLower(),
+            TableComment = u.TableDescription
+        }).ToList();
     }
 
     /// <summary>

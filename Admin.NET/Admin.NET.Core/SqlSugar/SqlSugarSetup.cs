@@ -41,9 +41,6 @@ public static class SqlSugarSetup
     /// <param name="config"></param>
     public static void SetDbConfig(DbConnectionConfig config)
     {
-        if (string.IsNullOrWhiteSpace(config.ConfigId))
-            config.ConfigId = SqlSugarConst.ConfigId;
-
         var configureExternalServices = new ConfigureExternalServices
         {
             EntityNameService = (type, entity) => // 处理表

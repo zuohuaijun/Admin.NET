@@ -11,7 +11,7 @@
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="库定位器" prop="configId">
-							<el-select v-model="ruleForm.configId" placeholder="库名" filterable @change="DbChanged()" class="w100">
+							<el-select v-model="ruleForm.configId" placeholder="库名" filterable @change="dbChanged()" class="w100">
 								<el-option v-for="item in dbData" :key="item.configId" :label="item.configId" :value="item.configId" />
 							</el-select>
 						</el-form-item>
@@ -140,8 +140,8 @@ export default defineComponent({
 			state.codeGenTypeList = resDicData.data.result;
 		});
 
-		// DbChanged
-		const DbChanged = async () => {
+		// dbChanged
+		const dbChanged = async () => {
 			if (state.ruleForm.configId === '') return;
 			let res = await getAPI(SysCodeGenApi).sysCodeGenTableListConfigIdGet(state.ruleForm.configId as string);
 			state.tableData = res.data.result ?? [];
@@ -200,7 +200,7 @@ export default defineComponent({
 			cancel,
 			submit,
 			isOrNotSelect,
-			DbChanged,
+			dbChanged,
 			...toRefs(state),
 		};
 	},
