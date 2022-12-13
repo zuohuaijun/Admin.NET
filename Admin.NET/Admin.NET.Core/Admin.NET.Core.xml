@@ -7487,9 +7487,9 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.ComputerUtil.GetIpFromPCOnline">
+        <member name="M:Admin.NET.Core.ComputerUtil.GetIpFromOnline">
             <summary>
-            IP地址信息
+            获取外网IP地址
             </summary>
             <returns></returns>
         </member>

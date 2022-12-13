@@ -68,20 +68,16 @@ public static class ComputerUtil
     }
 
     /// <summary>
-    /// IP地址信息
+    /// 获取外网IP地址
     /// </summary>
     /// <returns></returns>
-    public static string GetIpFromPCOnline()
+    public static string GetIpFromOnline()
     {
-        Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-        var url = "http://whois.pconline.com.cn/ipJson.jsp";
+        var url = "http://myip.ipip.net";
         var stream = url.GetAsStreamAsync().GetAwaiter().GetResult();
         var streamReader = new StreamReader(stream.Stream, stream.Encoding);
         var html = streamReader.ReadToEnd();
-        var tmp = html[(html.IndexOf("({") + 2)..].Split(",");
-        var ipAddr = tmp[0].Split(":")[1] + "【" + tmp[7].Split(":")[1] + "】";
-        return ipAddr.Replace("\"", "");
+        return html.Replace("当前 IP：", "").Replace("来自于：", "");
     }
 
     public static bool IsUnix()

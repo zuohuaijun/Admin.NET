@@ -34,7 +34,7 @@ public class SysServerService : IDynamicApiController, ITransient
             OsArchitecture = Environment.OSVersion.Platform.ToString() + " " + RuntimeInformation.OSArchitecture.ToString(), // 系统架构
             ProcessorCount = Environment.ProcessorCount + " 核", // CPU核心数
             SysRunTime = ComputerUtil.GetRunTime(), // 系统运行时间
-            RemoteIp = ComputerUtil.GetIpFromPCOnline(), // 外网地址
+            RemoteIp = ComputerUtil.GetIpFromOnline(), // 外网地址
             LocalIp = App.HttpContext?.Connection?.LocalIpAddress.ToString(), // 本地地址
             FrameworkDescription = RuntimeInformation.FrameworkDescription, // NET框架
             Environment = App.HostEnvironment.IsDevelopment() ? "Development" : "Production",
