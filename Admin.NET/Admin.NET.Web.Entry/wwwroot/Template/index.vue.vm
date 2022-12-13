@@ -27,7 +27,7 @@
               @:<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" >
               @:<el-form-item label="@column.ColumnComment">
               @:<el-select clearable v-model="queryParams.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-              @:<el-select-option v-for="(item,index) in get@(@column.FkEntityName)DropdownList" :key="index" :value="item.vaue">{{ item.label }}</el-select-option>
+              @:<el-option v-for="(item,index) in get@(@column.FkEntityName)DropdownList" :key="index" :value="item.vaue">{{ item.label }}</el-option>
               @:</el-select>
               @:</el-form-item>
               @:</el-col>
