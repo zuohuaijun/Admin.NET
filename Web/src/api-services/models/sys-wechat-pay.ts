@@ -11,191 +11,191 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { WeChatUser } from './we-chat-user';
+import { SysWechatUser } from './sys-wechat-user';
 /**
- * 微信支付表
+ * 系统微信支付表
  * @export
- * @interface WeChatPay
+ * @interface SysWechatPay
  */
-export interface WeChatPay {
+export interface SysWechatPay {
     /**
      * 雪花Id
      * @type {number}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     id?: number;
     /**
      * 创建时间
      * @type {Date}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     createTime?: Date | null;
     /**
      * 更新时间
      * @type {Date}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     updateTime?: Date | null;
     /**
      * 创建者Id
      * @type {number}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     createUserId?: number | null;
     /**
      * 修改者Id
      * @type {number}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     updateUserId?: number | null;
     /**
      * 软删除
      * @type {boolean}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     isDelete?: boolean;
     /**
      * 微信商户号
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
-    merchantId?: string | null;
+    merchantId: string;
     /**
      * 服务商AppId
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
-    appId?: string | null;
+    appId: string;
     /**
      * 商户订单号
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
-    outTradeNumber?: string | null;
+    outTradeNumber: string;
     /**
      * 支付订单号
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
-    transactionId?: string | null;
+    transactionId: string;
     /**
      * 交易类型
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     tradeType?: string | null;
     /**
      * 交易状态
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     tradeState?: string | null;
     /**
      * 交易状态描述
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     tradeStateDescription?: string | null;
     /**
      * 付款银行类型
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     bankType?: string | null;
     /**
      * 订单总金额
      * @type {number}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     total?: number;
     /**
      * 用户支付金额
      * @type {number}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     payerTotal?: number | null;
     /**
      * 支付完成时间
      * @type {Date}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     successTime?: Date | null;
     /**
      * 交易结束时间
      * @type {Date}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     expireTime?: Date | null;
     /**
      * 商品描述
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     description?: string | null;
     /**
      * 场景信息
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     scene?: string | null;
     /**
      * 附加数据
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     attachment?: string | null;
     /**
      * 优惠标记
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     goodsTag?: string | null;
     /**
      * 结算信息
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     settlement?: string | null;
     /**
      * 回调通知地址
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     notifyUrl?: string | null;
     /**
      * 备注
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     remark?: string | null;
     /**
      * 微信OpenId标识
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     openId?: string | null;
     /**
      * 
-     * @type {WeChatUser}
-     * @memberof WeChatPay
+     * @type {SysWechatUser}
+     * @memberof SysWechatPay
      */
-    weChatUser?: WeChatUser;
+    sysWechatUser?: SysWechatUser;
     /**
      * 子商户号
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     subMerchantId?: string | null;
     /**
      * 子商户AppId
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     subAppId?: string | null;
     /**
      * 子商户唯一标识
      * @type {string}
-     * @memberof WeChatPay
+     * @memberof SysWechatPay
      */
     subOpenId?: string | null;
 }

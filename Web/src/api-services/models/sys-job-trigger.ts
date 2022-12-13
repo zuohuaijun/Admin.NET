@@ -19,7 +19,7 @@ import { TriggerStatus } from './trigger-status';
  */
 export interface SysJobTrigger {
     /**
-     * Id
+     * 雪花Id
      * @type {number}
      * @memberof SysJobTrigger
      */
@@ -29,13 +29,13 @@ export interface SysJobTrigger {
      * @type {string}
      * @memberof SysJobTrigger
      */
-    triggerId?: string | null;
+    triggerId: string;
     /**
      * 作业Id
      * @type {string}
      * @memberof SysJobTrigger
      */
-    jobId?: string | null;
+    jobId: string;
     /**
      * 触发器类型FullName
      * @type {string}

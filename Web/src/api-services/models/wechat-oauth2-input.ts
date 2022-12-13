@@ -14,13 +14,13 @@
 /**
  * 
  * @export
- * @interface WeChatUserLogin
+ * @interface WechatOAuth2Input
  */
-export interface WeChatUserLogin {
+export interface WechatOAuth2Input {
     /**
-     * OpenId
+     * Code
      * @type {string}
-     * @memberof WeChatUserLogin
+     * @memberof WechatOAuth2Input
      */
-    openId: string;
+    code: string;
 }

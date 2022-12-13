@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { WeChatPayOutput } from './we-chat-pay-output';
+import { WechatPayOutput } from './wechat-pay-output';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultWeChatPayOutput
+ * @interface AdminResultWechatPayOutput
  */
-export interface AdminResultWeChatPayOutput {
+export interface AdminResultWechatPayOutput {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultWeChatPayOutput
+     * @memberof AdminResultWechatPayOutput
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultWeChatPayOutput
+     * @memberof AdminResultWechatPayOutput
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultWeChatPayOutput
+     * @memberof AdminResultWechatPayOutput
      */
     message?: string | null;
     /**
      * 
-     * @type {WeChatPayOutput}
-     * @memberof AdminResultWeChatPayOutput
+     * @type {WechatPayOutput}
+     * @memberof AdminResultWechatPayOutput
      */
-    result?: WeChatPayOutput;
+    result?: WechatPayOutput;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultWeChatPayOutput
+     * @memberof AdminResultWechatPayOutput
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultWeChatPayOutput
+     * @memberof AdminResultWechatPayOutput
      */
     time?: Date;
 }

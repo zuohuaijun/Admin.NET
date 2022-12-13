@@ -11,53 +11,53 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { WeChatUser } from './we-chat-user';
+import { SysWechatUser } from './sys-wechat-user';
 /**
  * 分页泛型集合
  * @export
- * @interface SqlSugarPagedListWeChatUser
+ * @interface SqlSugarPagedListSysWechatUser
  */
-export interface SqlSugarPagedListWeChatUser {
+export interface SqlSugarPagedListSysWechatUser {
     /**
      * 页码
      * @type {number}
-     * @memberof SqlSugarPagedListWeChatUser
+     * @memberof SqlSugarPagedListSysWechatUser
      */
     page?: number;
     /**
      * 页容量
      * @type {number}
-     * @memberof SqlSugarPagedListWeChatUser
+     * @memberof SqlSugarPagedListSysWechatUser
      */
     pageSize?: number;
     /**
      * 总条数
      * @type {number}
-     * @memberof SqlSugarPagedListWeChatUser
+     * @memberof SqlSugarPagedListSysWechatUser
      */
     total?: number;
     /**
      * 总页数
      * @type {number}
-     * @memberof SqlSugarPagedListWeChatUser
+     * @memberof SqlSugarPagedListSysWechatUser
      */
     totalPages?: number;
     /**
      * 当前页集合
-     * @type {Array<WeChatUser>}
-     * @memberof SqlSugarPagedListWeChatUser
+     * @type {Array<SysWechatUser>}
+     * @memberof SqlSugarPagedListSysWechatUser
      */
-    items?: Array<WeChatUser> | null;
+    items?: Array<SysWechatUser> | null;
     /**
      * 是否有上一页
      * @type {boolean}
-     * @memberof SqlSugarPagedListWeChatUser
+     * @memberof SqlSugarPagedListSysWechatUser
      */
     hasPrevPage?: boolean;
     /**
      * 是否有下一页
      * @type {boolean}
-     * @memberof SqlSugarPagedListWeChatUser
+     * @memberof SqlSugarPagedListSysWechatUser
      */
     hasNextPage?: boolean;
 }

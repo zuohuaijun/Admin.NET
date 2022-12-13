@@ -14,147 +14,147 @@
 import { PlatformTypeEnum } from './platform-type-enum';
 import { SysUser } from './sys-user';
 /**
- * 微信用户表
+ * 系统微信用户表
  * @export
- * @interface WeChatUser
+ * @interface SysWechatUser
  */
-export interface WeChatUser {
+export interface SysWechatUser {
     /**
      * 雪花Id
      * @type {number}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     id?: number;
     /**
      * 创建时间
      * @type {Date}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     createTime?: Date | null;
     /**
      * 更新时间
      * @type {Date}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     updateTime?: Date | null;
     /**
      * 创建者Id
      * @type {number}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     createUserId?: number | null;
     /**
      * 修改者Id
      * @type {number}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     updateUserId?: number | null;
     /**
      * 软删除
      * @type {boolean}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     isDelete?: boolean;
     /**
      * 系统用户Id
      * @type {number}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     userId?: number;
     /**
      * 
      * @type {SysUser}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     sysUser?: SysUser;
     /**
      * 
      * @type {PlatformTypeEnum}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     platformType?: PlatformTypeEnum;
     /**
      * OpenId
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     openId: string;
     /**
      * 缓存key
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     sessionKey?: string | null;
     /**
      * UnionId
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     unionId?: string | null;
     /**
      * 昵称
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     nickName?: string | null;
     /**
      * 头像
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     avatar?: string | null;
     /**
      * 手机号码
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     mobile?: string | null;
     /**
      * 性别
      * @type {number}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     sex?: number | null;
     /**
      * 语言
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     language?: string | null;
     /**
      * 城市
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     city?: string | null;
     /**
      * 省
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     province?: string | null;
     /**
      * 国家
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     country?: string | null;
     /**
      * AccessToken
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     accessToken?: string | null;
     /**
      * RefreshToken
      * @type {string}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     refreshToken?: string | null;
     /**
      * 过期时间
      * @type {number}
-     * @memberof WeChatUser
+     * @memberof SysWechatUser
      */
     expiresIn?: number | null;
 }

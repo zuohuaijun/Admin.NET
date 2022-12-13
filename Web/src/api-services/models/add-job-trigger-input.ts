@@ -19,7 +19,7 @@ import { TriggerStatus } from './trigger-status';
  */
 export interface AddJobTriggerInput {
     /**
-     * Id
+     * 雪花Id
      * @type {number}
      * @memberof AddJobTriggerInput
      */

@@ -18,7 +18,7 @@
  */
 export interface AddJobDetailInput {
     /**
-     * Id
+     * 雪花Id
      * @type {number}
      * @memberof AddJobDetailInput
      */

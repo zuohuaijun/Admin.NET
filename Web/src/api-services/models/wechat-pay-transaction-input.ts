@@ -14,37 +14,37 @@
 /**
  * 
  * @export
- * @interface WeChatPayTransactionInput
+ * @interface WechatPayTransactionInput
  */
-export interface WeChatPayTransactionInput {
+export interface WechatPayTransactionInput {
     /**
      * OpenId
      * @type {string}
-     * @memberof WeChatPayTransactionInput
+     * @memberof WechatPayTransactionInput
      */
     openId?: string | null;
     /**
      * 订单金额
      * @type {number}
-     * @memberof WeChatPayTransactionInput
+     * @memberof WechatPayTransactionInput
      */
     total?: number;
     /**
      * 商品描述
      * @type {string}
-     * @memberof WeChatPayTransactionInput
+     * @memberof WechatPayTransactionInput
      */
     description?: string | null;
     /**
      * 附加数据
      * @type {string}
-     * @memberof WeChatPayTransactionInput
+     * @memberof WechatPayTransactionInput
      */
     attachment?: string | null;
     /**
      * 优惠标记
      * @type {string}
-     * @memberof WeChatPayTransactionInput
+     * @memberof WechatPayTransactionInput
      */
     goodsTag?: string | null;
 }

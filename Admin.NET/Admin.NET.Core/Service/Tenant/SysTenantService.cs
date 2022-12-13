@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace Admin.NET.Core.Service;
 
 /// <summary>

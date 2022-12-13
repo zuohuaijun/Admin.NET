@@ -58,7 +58,7 @@ export interface SysOnlineUser {
      * @type {Date}
      * @memberof SysOnlineUser
      */
-    time?: Date;
+    time?: Date | null;
     /**
      * 连接IP
      * @type {string}

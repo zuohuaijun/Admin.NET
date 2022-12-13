@@ -16,24 +16,27 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { AdminResultSqlSugarPagedListWeChatUser } from '../models';
-import { DeleteWeChatUserInput } from '../models';
-import { WeChatUser } from '../models';
+import { AdminResultObject } from '../models';
+import { AdminResultString } from '../models';
+import { GenAuthUrlInput } from '../models';
+import { SignatureInput } from '../models';
+import { WechatOAuth2Input } from '../models';
+import { WechatUserLogin } from '../models';
 /**
- * WeChatUserApi - axios parameter creator
+ * SysWechatApi - axios parameter creator
  * @export
  */
-export const WeChatUserApiAxiosParamCreator = function (configuration?: Configuration) {
+export const SysWechatApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary 增加微信用户
-         * @param {WeChatUser} [body] 
+         * @summary 生成网页授权Url
+         * @param {GenAuthUrlInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        weChatUserAddPost: async (body?: WeChatUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/weChatUser/add`;
+        sysWechatGenAuthUrlPost: async (body?: GenAuthUrlInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysWechat/genAuthUrl`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -68,13 +71,13 @@ export const WeChatUserApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary 删除微信用户
-         * @param {DeleteWeChatUserInput} [body] 
+         * @summary 获取配置签名参数(wx.config)
+         * @param {SignatureInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        weChatUserDeletePost: async (body?: DeleteWeChatUserInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/weChatUser/delete`;
+        sysWechatGenConfigParaPost: async (body?: SignatureInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysWechat/genConfigPara`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -109,58 +112,26 @@ export const WeChatUserApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary 获取微信用户列表
-         * @param {string} [nickName] 昵称
-         * @param {string} [mobile] 手机号码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @summary 微信用户登录
+         * @param {WechatUserLogin} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        weChatUserPageGet: async (nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/weChatUser/page`;
+        sysWechatOpenIdLoginPost: async (body?: WechatUserLogin, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/sysWechat/openIdLogin`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (nickName !== undefined) {
-                localVarQueryParameter['NickName'] = nickName;
-            }
-
-            if (mobile !== undefined) {
-                localVarQueryParameter['Mobile'] = mobile;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -172,6 +143,8 @@ export const WeChatUserApiAxiosParamCreator = function (configuration?: Configur
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -180,13 +153,17 @@ export const WeChatUserApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary 更新微信用户
-         * @param {WeChatUser} [body] 
+         * @summary 授权登录(Code换取OpenId)
+         * @param {WechatOAuth2Input} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        weChatUserUpdatePost: async (body?: WeChatUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/weChatUser/update`;
+        sysWechatSnsOAuth2Post: async (body: WechatOAuth2Input, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'body' is not null or undefined
+            if (body === null || body === undefined) {
+                throw new RequiredError('body','Required parameter body was null or undefined when calling sysWechatSnsOAuth2Post.');
+            }
+            const localVarPath = `/sysWechat/snsOAuth2`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -223,20 +200,20 @@ export const WeChatUserApiAxiosParamCreator = function (configuration?: Configur
 };
 
 /**
- * WeChatUserApi - functional programming interface
+ * SysWechatApi - functional programming interface
  * @export
  */
-export const WeChatUserApiFp = function(configuration?: Configuration) {
+export const SysWechatApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary 增加微信用户
-         * @param {WeChatUser} [body] 
+         * @summary 生成网页授权Url
+         * @param {GenAuthUrlInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async weChatUserAddPost(body?: WeChatUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await WeChatUserApiAxiosParamCreator(configuration).weChatUserAddPost(body, options);
+        async sysWechatGenAuthUrlPost(body?: GenAuthUrlInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).sysWechatGenAuthUrlPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -244,13 +221,13 @@ export const WeChatUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 删除微信用户
-         * @param {DeleteWeChatUserInput} [body] 
+         * @summary 获取配置签名参数(wx.config)
+         * @param {SignatureInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async weChatUserDeletePost(body?: DeleteWeChatUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await WeChatUserApiAxiosParamCreator(configuration).weChatUserDeletePost(body, options);
+        async sysWechatGenConfigParaPost(body?: SignatureInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).sysWechatGenConfigParaPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -258,19 +235,13 @@ export const WeChatUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取微信用户列表
-         * @param {string} [nickName] 昵称
-         * @param {string} [mobile] 手机号码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @summary 微信用户登录
+         * @param {WechatUserLogin} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async weChatUserPageGet(nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListWeChatUser>>> {
-            const localVarAxiosArgs = await WeChatUserApiAxiosParamCreator(configuration).weChatUserPageGet(nickName, mobile, page, pageSize, field, order, descStr, options);
+        async sysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).sysWechatOpenIdLoginPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -278,13 +249,13 @@ export const WeChatUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 更新微信用户
-         * @param {WeChatUser} [body] 
+         * @summary 授权登录(Code换取OpenId)
+         * @param {WechatOAuth2Input} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async weChatUserUpdatePost(body?: WeChatUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await WeChatUserApiAxiosParamCreator(configuration).weChatUserUpdatePost(body, options);
+        async sysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).sysWechatSnsOAuth2Post(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -294,115 +265,103 @@ export const WeChatUserApiFp = function(configuration?: Configuration) {
 };
 
 /**
- * WeChatUserApi - factory interface
+ * SysWechatApi - factory interface
  * @export
  */
-export const WeChatUserApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const SysWechatApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     return {
         /**
          * 
-         * @summary 增加微信用户
-         * @param {WeChatUser} [body] 
+         * @summary 生成网页授权Url
+         * @param {GenAuthUrlInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async weChatUserAddPost(body?: WeChatUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return WeChatUserApiFp(configuration).weChatUserAddPost(body, options).then((request) => request(axios, basePath));
+        async sysWechatGenAuthUrlPost(body?: GenAuthUrlInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
+            return SysWechatApiFp(configuration).sysWechatGenAuthUrlPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 删除微信用户
-         * @param {DeleteWeChatUserInput} [body] 
+         * @summary 获取配置签名参数(wx.config)
+         * @param {SignatureInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async weChatUserDeletePost(body?: DeleteWeChatUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return WeChatUserApiFp(configuration).weChatUserDeletePost(body, options).then((request) => request(axios, basePath));
+        async sysWechatGenConfigParaPost(body?: SignatureInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysWechatApiFp(configuration).sysWechatGenConfigParaPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 获取微信用户列表
-         * @param {string} [nickName] 昵称
-         * @param {string} [mobile] 手机号码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @summary 微信用户登录
+         * @param {WechatUserLogin} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async weChatUserPageGet(nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListWeChatUser>> {
-            return WeChatUserApiFp(configuration).weChatUserPageGet(nickName, mobile, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async sysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysWechatApiFp(configuration).sysWechatOpenIdLoginPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 更新微信用户
-         * @param {WeChatUser} [body] 
+         * @summary 授权登录(Code换取OpenId)
+         * @param {WechatOAuth2Input} body 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async weChatUserUpdatePost(body?: WeChatUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return WeChatUserApiFp(configuration).weChatUserUpdatePost(body, options).then((request) => request(axios, basePath));
+        async sysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
+            return SysWechatApiFp(configuration).sysWechatSnsOAuth2Post(body, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * WeChatUserApi - object-oriented interface
+ * SysWechatApi - object-oriented interface
  * @export
- * @class WeChatUserApi
+ * @class SysWechatApi
  * @extends {BaseAPI}
  */
-export class WeChatUserApi extends BaseAPI {
+export class SysWechatApi extends BaseAPI {
     /**
      * 
-     * @summary 增加微信用户
-     * @param {WeChatUser} [body] 
+     * @summary 生成网页授权Url
+     * @param {GenAuthUrlInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof WeChatUserApi
+     * @memberof SysWechatApi
      */
-    public async weChatUserAddPost(body?: WeChatUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return WeChatUserApiFp(this.configuration).weChatUserAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysWechatGenAuthUrlPost(body?: GenAuthUrlInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
+        return SysWechatApiFp(this.configuration).sysWechatGenAuthUrlPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 删除微信用户
-     * @param {DeleteWeChatUserInput} [body] 
+     * @summary 获取配置签名参数(wx.config)
+     * @param {SignatureInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof WeChatUserApi
+     * @memberof SysWechatApi
      */
-    public async weChatUserDeletePost(body?: DeleteWeChatUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return WeChatUserApiFp(this.configuration).weChatUserDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysWechatGenConfigParaPost(body?: SignatureInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysWechatApiFp(this.configuration).sysWechatGenConfigParaPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 获取微信用户列表
-     * @param {string} [nickName] 昵称
-     * @param {string} [mobile] 手机号码
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
+     * @summary 微信用户登录
+     * @param {WechatUserLogin} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof WeChatUserApi
+     * @memberof SysWechatApi
      */
-    public async weChatUserPageGet(nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListWeChatUser>> {
-        return WeChatUserApiFp(this.configuration).weChatUserPageGet(nickName, mobile, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async sysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysWechatApiFp(this.configuration).sysWechatOpenIdLoginPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 更新微信用户
-     * @param {WeChatUser} [body] 
+     * @summary 授权登录(Code换取OpenId)
+     * @param {WechatOAuth2Input} body 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof WeChatUserApi
+     * @memberof SysWechatApi
      */
-    public async weChatUserUpdatePost(body?: WeChatUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return WeChatUserApiFp(this.configuration).weChatUserUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async sysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
+        return SysWechatApiFp(this.configuration).sysWechatSnsOAuth2Post(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

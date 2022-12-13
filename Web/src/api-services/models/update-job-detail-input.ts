@@ -18,7 +18,7 @@
  */
 export interface UpdateJobDetailInput {
     /**
-     * Id
+     * 雪花Id
      * @type {number}
      * @memberof UpdateJobDetailInput
      */

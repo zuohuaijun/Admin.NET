@@ -18,7 +18,7 @@
  */
 export interface SysJobDetail {
     /**
-     * Id
+     * 雪花Id
      * @type {number}
      * @memberof SysJobDetail
      */
@@ -28,7 +28,7 @@ export interface SysJobDetail {
      * @type {string}
      * @memberof SysJobDetail
      */
-    jobId?: string | null;
+    jobId: string;
     /**
      * 组名称
      * @type {string}

@@ -19,7 +19,7 @@ import { ClusterStatus } from './cluster-status';
  */
 export interface SysJobCluster {
     /**
-     * Id
+     * 雪花Id
      * @type {number}
      * @memberof SysJobCluster
      */
@@ -29,7 +29,7 @@ export interface SysJobCluster {
      * @type {string}
      * @memberof SysJobCluster
      */
-    clusterId?: string | null;
+    clusterId: string;
     /**
      * 描述信息
      * @type {string}

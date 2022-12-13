@@ -14,13 +14,13 @@
 /**
  * 
  * @export
- * @interface WeChatOAuth2Input
+ * @interface DeleteWechatUserInput
  */
-export interface WeChatOAuth2Input {
+export interface DeleteWechatUserInput {
     /**
-     * Code
-     * @type {string}
-     * @memberof WeChatOAuth2Input
+     * 主键Id
+     * @type {number}
+     * @memberof DeleteWechatUserInput
      */
-    code: string;
+    id: number;
 }

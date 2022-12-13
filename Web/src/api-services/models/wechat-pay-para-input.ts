@@ -14,31 +14,13 @@
 /**
  * 
  * @export
- * @interface WeChatPayOutput
+ * @interface WechatPayParaInput
  */
-export interface WeChatPayOutput {
+export interface WechatPayParaInput {
     /**
-     * OpenId
+     * 订单Id
      * @type {string}
-     * @memberof WeChatPayOutput
+     * @memberof WechatPayParaInput
      */
-    openId?: string | null;
-    /**
-     * 订单金额
-     * @type {number}
-     * @memberof WeChatPayOutput
-     */
-    total?: number;
-    /**
-     * 附加数据
-     * @type {string}
-     * @memberof WeChatPayOutput
-     */
-    attachment?: string | null;
-    /**
-     * 优惠标记
-     * @type {string}
-     * @memberof WeChatPayOutput
-     */
-    goodsTag?: string | null;
+    prepayId?: string | null;
 }

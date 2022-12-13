@@ -11,47 +11,47 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { SqlSugarPagedListWeChatUser } from './sql-sugar-paged-list-we-chat-user';
+import { SysWechatPay } from './sys-wechat-pay';
 /**
  * 全局返回结果
  * @export
- * @interface AdminResultSqlSugarPagedListWeChatUser
+ * @interface AdminResultSysWechatPay
  */
-export interface AdminResultSqlSugarPagedListWeChatUser {
+export interface AdminResultSysWechatPay {
     /**
      * 状态码
      * @type {number}
-     * @memberof AdminResultSqlSugarPagedListWeChatUser
+     * @memberof AdminResultSysWechatPay
      */
     code?: number;
     /**
      * 类型success、warning、error
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListWeChatUser
+     * @memberof AdminResultSysWechatPay
      */
     type?: string | null;
     /**
      * 错误信息
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListWeChatUser
+     * @memberof AdminResultSysWechatPay
      */
     message?: string | null;
     /**
      * 
-     * @type {SqlSugarPagedListWeChatUser}
-     * @memberof AdminResultSqlSugarPagedListWeChatUser
+     * @type {SysWechatPay}
+     * @memberof AdminResultSysWechatPay
      */
-    result?: SqlSugarPagedListWeChatUser;
+    result?: SysWechatPay;
     /**
      * 附加数据
      * @type {any}
-     * @memberof AdminResultSqlSugarPagedListWeChatUser
+     * @memberof AdminResultSysWechatPay
      */
     extras?: any | null;
     /**
      * 时间
      * @type {Date}
-     * @memberof AdminResultSqlSugarPagedListWeChatUser
+     * @memberof AdminResultSysWechatPay
      */
     time?: Date;
 }

@@ -42,7 +42,7 @@ export interface SysNoticeUser {
      * @type {Date}
      * @memberof SysNoticeUser
      */
-    readTime?: Date;
+    readTime?: Date | null;
     /**
      * 
      * @type {NoticeUserStatusEnum}

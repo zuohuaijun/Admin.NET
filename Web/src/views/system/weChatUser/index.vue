@@ -33,7 +33,7 @@
 				<el-table-column prop="nickName" label="昵称" show-overflow-tooltip />
 				<el-table-column prop="avatar" label="头像" width="70" align="center">
 					<template #default="scope">
-						<el-avatar :src="scope.row.avatar" :size="24"  style="vertical-align: middle;"/>
+						<el-avatar :src="scope.row.avatar" :size="24" style="vertical-align: middle" />
 					</template>
 				</el-table-column>
 				<el-table-column prop="mobile" label="手机号码" show-overflow-tooltip />
@@ -76,8 +76,8 @@ import mittBus from '/@/utils/mitt';
 import EditWeChatUser from '/@/views/system/weChatUser/component/editWeChatUser.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { WeChatUserApi } from '/@/api-services/api';
-import { WeChatUser } from '/@/api-services/models';
+import { SysWechatUserApi } from '/@/api-services/api';
+import { SysWechatUser } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'weChatUser',
@@ -86,7 +86,7 @@ export default defineComponent({
 		const editWeChatUserRef = ref();
 		const state = reactive({
 			loading: false,
-			weChatUserData: [] as Array<WeChatUser>,
+			weChatUserData: [] as Array<SysWechatUser>,
 			queryParams: {
 				nickName: undefined,
 				mobile: undefined,
@@ -111,7 +111,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(WeChatUserApi).weChatUserPageGet(state.queryParams.nickName, state.queryParams.mobile, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysWechatUserApi).sysWechatUserPageGet(state.queryParams.nickName, state.queryParams.mobile, state.tableParams.page, state.tableParams.pageSize);
 			state.weChatUserData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -135,7 +135,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(WeChatUserApi).weChatUserDeletePost({ id: row.id });
+					await getAPI(SysWechatUserApi).sysWechatUserDeletePost({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})

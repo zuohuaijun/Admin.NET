@@ -102,13 +102,13 @@ export interface UpdateNoticeInput {
      * @type {Date}
      * @memberof UpdateNoticeInput
      */
-    publicTime?: Date;
+    publicTime?: Date | null;
     /**
      * 撤回时间
      * @type {Date}
      * @memberof UpdateNoticeInput
      */
-    cancelTime?: Date;
+    cancelTime?: Date | null;
     /**
      * 
      * @type {NoticeStatusEnum}

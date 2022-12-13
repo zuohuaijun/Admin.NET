@@ -31,8 +31,8 @@ import { reactive, toRefs, defineComponent, ref } from 'vue';
 import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { WeChatUserApi } from '/@/api-services/api';
-import { WeChatUser } from '/@/api-services/models';
+import { SysWechatUserApi } from '/@/api-services/api';
+import { SysWechatUser } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditWeChatUser',
@@ -47,7 +47,7 @@ export default defineComponent({
 		const ruleFormRef = ref();
 		const state = reactive({
 			isShowDialog: false,
-			ruleForm: {} as WeChatUser,
+			ruleForm: {} as SysWechatUser,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
@@ -68,9 +68,9 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(WeChatUserApi).weChatUserUpdatePost(state.ruleForm);
+					await getAPI(SysWechatUserApi).sysWechatUserUpdatePost(state.ruleForm);
 				} else {
-					await getAPI(WeChatUserApi).weChatUserAddPost(state.ruleForm);
+					await getAPI(SysWechatUserApi).sysWechatUserAddPost(state.ruleForm);
 				}
 				closeDialog();
 			});

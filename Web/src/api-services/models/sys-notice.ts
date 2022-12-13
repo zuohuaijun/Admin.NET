@@ -102,13 +102,13 @@ export interface SysNotice {
      * @type {Date}
      * @memberof SysNotice
      */
-    publicTime?: Date;
+    publicTime?: Date | null;
     /**
      * 撤回时间
      * @type {Date}
      * @memberof SysNotice
      */
-    cancelTime?: Date;
+    cancelTime?: Date | null;
     /**
      * 
      * @type {NoticeStatusEnum}

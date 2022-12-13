@@ -36,7 +36,7 @@ export * from './apis/sys-role-api';
 export * from './apis/sys-server-api';
 export * from './apis/sys-tenant-api';
 export * from './apis/sys-user-api';
-export * from './apis/we-chat-api';
-export * from './apis/we-chat-pay-api';
-export * from './apis/we-chat-user-api';
+export * from './apis/sys-wechat-api';
+export * from './apis/sys-wechat-pay-api';
+export * from './apis/sys-wechat-user-api';
 
