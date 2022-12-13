@@ -39,6 +39,16 @@ public class SysJobService : IDynamicApiController, ITransient
         {
             u.JobTriggers = await _sysJobTriggerRep.GetListAsync(t => t.JobId == u.JobDetail.JobId);
         });
+
+        // 提取中括号里面的参数值
+        var rgx = new Regex(@"(?i)(?<=\[)(.*)(?=\])");
+        foreach (var job in jobDetails.Items)
+        {
+            foreach (var jobTrigger in job.JobTriggers)
+            {
+                jobTrigger.Args = rgx.Match(jobTrigger.Args).Value;
+            }
+        }
         return jobDetails;
     }
 
@@ -113,7 +123,9 @@ public class SysJobService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        await _sysJobTriggerRep.InsertAsync(input.Adapt<SysJobTrigger>());
+        var jobTrigger = input.Adapt<SysJobTrigger>();
+        jobTrigger.Args = "[" + jobTrigger.Args + "]";
+        await _sysJobTriggerRep.InsertAsync(jobTrigger);
     }
 
     /// <summary>
@@ -127,7 +139,9 @@ public class SysJobService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        await _sysJobTriggerRep.UpdateAsync(input.Adapt<SysJobTrigger>());
+        var jobTrigger = input.Adapt<SysJobTrigger>();
+        jobTrigger.Args = "[" + jobTrigger.Args + "]";
+        await _sysJobTriggerRep.UpdateAsync(jobTrigger);
     }
 
     /// <summary>

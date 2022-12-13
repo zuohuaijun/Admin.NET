@@ -32,7 +32,7 @@ public class SysJobTrigger : EntityBaseId
     /// </summary>
     [SugarColumn(ColumnDescription = "程序集", Length = 128)]
     [MaxLength(128)]
-    public string? AssemblyName { get; set; }
+    public string? AssemblyName { get; set; } = "Furion.Pure";
 
     /// <summary>
     /// 参数

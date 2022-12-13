@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace Admin.NET.Core.Service;
+﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 作业持久化（数据库）

@@ -9,14 +9,31 @@
 			</template>
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="110px">
 				<el-row :gutter="35">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="触发器编号" prop="triggerId" :rules="[{ required: true, message: '触发器编号不能为空', trigger: 'blur' }]">
 							<el-input v-model="ruleForm.triggerId" placeholder="触发器编号" clearable />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="触发器类型">
+							<el-select v-model="ruleForm.triggerType" style="width: 100%">
+								<el-option value="Furion.Schedule.PeriodTrigger" label="间隔"></el-option>
+								<el-option value="Furion.Schedule.CronTrigger" label="Cron表达式"></el-option>
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if="ruleForm.triggerType == 'Furion.Schedule.PeriodTrigger'">
 						<el-form-item label="参数">
-							<el-input v-model="ruleForm.args" placeholder="参数" clearable type="textarea" />
+							<el-input-number v-model="ruleForm.args" placeholder="间隔" class="w100" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-else>
+						<el-form-item label="参数">
+							<el-input v-model="ruleForm.args" placeholder="Cron表达式">
+								<template #append>
+									<el-button @click="showCronDialog = true">Cron表达式</el-button>
+								</template>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -87,6 +104,16 @@
 				</span>
 			</template>
 		</el-dialog>
+
+		<el-dialog v-model="showCronDialog" draggable :close-on-click-modal="false" class="scrollbar">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span> Cron表达式生成器 </span>
+				</div>
+			</template>
+			<cronTab @hide="showCronDialog = false" @fill="crontabFill" :expression="ruleForm.args"></cronTab>
+		</el-dialog>
 	</div>
 </template>
 
@@ -94,13 +121,14 @@
 import { reactive, toRefs, defineComponent, ref } from 'vue';
 import mittBus from '/@/utils/mitt';
 
+import cronTab from './cronTab/index.vue';
 import { getAPI } from '/@/utils/axios-utils';
 import { SysJobApi } from '/@/api-services/api';
 import { UpdateJobTriggerInput } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysEditJobTrigger',
-	components: {},
+	components: { cronTab },
 	props: {
 		title: {
 			type: String,
@@ -112,10 +140,10 @@ export default defineComponent({
 		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {} as UpdateJobTriggerInput,
+			showCronDialog: false,
 		});
 		// 打开弹窗
 		const openDialog = (row: any) => {
-			console.log(row)
 			state.ruleForm = JSON.parse(JSON.stringify(row));
 			state.isShowDialog = true;
 		};
@@ -140,12 +168,18 @@ export default defineComponent({
 				closeDialog();
 			});
 		};
+		// cron窗体确定后值
+		const crontabFill = (value: string | null | undefined) => {
+			state.ruleForm.args = value;
+		};
+
 		return {
 			ruleFormRef,
 			openDialog,
 			closeDialog,
 			cancel,
 			submit,
+			crontabFill,
 			...toRefs(state),
 		};
 	},
