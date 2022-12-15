@@ -962,6 +962,11 @@
             请求跟踪Id
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysLogEx.UseUtcTimestamp">
+            <summary>
+            是否使用UTC时间戳
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysLogOp">
             <summary>
             系统操作日志表
@@ -1010,6 +1015,11 @@
         <member name="P:Admin.NET.Core.SysLogOp.TraceId">
             <summary>
             请求跟踪Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.UseUtcTimestamp">
+            <summary>
+            是否使用UTC时间戳
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysLogVis">
@@ -3596,6 +3606,16 @@
         <member name="P:Admin.NET.Core.CodeGenOptions.EntityAssemblyNames">
             <summary>
             数据库实体程序集名称集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CodeGenOptions.BaseEntityNames">
+            <summary>
+            数据库基础实体名称集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CodeGenOptions.EntityBaseColumn">
+            <summary>
+            基础实体名
             </summary>
         </member>
         <member name="P:Admin.NET.Core.CodeGenOptions.FrontRootPath">
@@ -7426,6 +7446,14 @@
             <summary>
             代码生成帮助类
             </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Util.CodeGenUtil.CamelColumnName(System.String,System.String[])">
+            <summary>
+            转换大驼峰法命名
+            </summary>
+            <param name="columnName">字段名</param>
+            <param name="dbColumnNames">EntityBase 实体属性名称</param>
+            <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Util.CodeGenUtil.DataTypeToEff(System.String)">
             <summary>

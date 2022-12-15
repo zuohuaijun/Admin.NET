@@ -30,6 +30,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 LogDateTime = logMsg.LogDateTime,
                 ThreadId = logMsg.ThreadId,
                 TraceId = logMsg.TraceId,
+                UseUtcTimestamp = logMsg.UseUtcTimestamp,
             });
         }
         else
@@ -45,6 +46,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 LogDateTime = logMsg.LogDateTime,
                 ThreadId = logMsg.ThreadId,
                 TraceId = logMsg.TraceId,
+                UseUtcTimestamp = logMsg.UseUtcTimestamp,
             });
         }
     }

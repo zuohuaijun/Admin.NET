@@ -16,19 +16,18 @@ public class ElasticSearchLoggingWriter : IDatabaseLoggingWriter
 
     public void Write(LogMessage logMsg, bool flush)
     {
-        var document = new ElasticSearchLogMessage
+        var document = new SysLogOp
         {
-            EventId = logMsg.EventId.Id.ToString(),
             LogName = logMsg.LogName,
             LogLevel = logMsg.LogLevel.ToString(),
+            EventId = logMsg.EventId.Id.ToString(),
             Message = logMsg.Message,
             Exception = logMsg.Exception?.ToString(),
-            State = logMsg.State.ToString(),
+            State = logMsg.State?.ToString(),
             LogDateTime = logMsg.LogDateTime,
             ThreadId = logMsg.ThreadId,
-            UseUtcTimestamp = logMsg.UseUtcTimestamp,
             TraceId = logMsg.TraceId,
-            Monitor = logMsg.Context?.Get("loggingMonitor")?.ToString(),
+            UseUtcTimestamp = logMsg.UseUtcTimestamp,
         };
         _esClient.IndexDocument(document);
     }

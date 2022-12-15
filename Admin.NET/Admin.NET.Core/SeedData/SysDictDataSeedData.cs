@@ -49,12 +49,6 @@ public class SysDictDataSeedData : ISqlSugarEntitySeedData<SysDictData>
             new SysDictData{ Id=269037953130001, DictTypeId=269037954100004, Value="下载压缩包", Code="1", OrderNo=1, Remark="下载压缩包", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=269037953130002, DictTypeId=269037954100004, Value="生成到本项目", Code="2", OrderNo=1, Remark="生成到本项目", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
-            new SysDictData{ Id=269037953140001, DictTypeId=269037954200001, Value="省级", Code="省级", OrderNo=1, Remark="省级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysDictData{ Id=269037953140002, DictTypeId=269037954200001, Value="市级", Code="市级", OrderNo=2, Remark="市级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysDictData{ Id=269037953140003, DictTypeId=269037954200001, Value="区级", Code="区级", OrderNo=3, Remark="区级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysDictData{ Id=269037953140004, DictTypeId=269037954200001, Value="县级", Code="县级", OrderNo=4, Remark="县级", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysDictData{ Id=269037953140005, DictTypeId=269037954200001, Value="其他", Code="其他", OrderNo=5, Remark="其他", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-
             new SysDictData{ Id=269037953140001, DictTypeId=269037954100005, Value="EntityBaseId【基础实体Id】", Code="EntityBaseId", OrderNo=1, Remark="【基础实体Id】", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=269037953140002, DictTypeId=269037954100005, Value="EntityBase【基础实体】", Code="EntityBase", OrderNo=1, Remark="【基础实体】", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=269037953140003, DictTypeId=269037954100005, Value="EntityTenantId【租户实体Id】", Code="EntityTenantId", OrderNo=1, Remark="【租户实体Id】", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },

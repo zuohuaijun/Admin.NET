@@ -62,4 +62,9 @@ public class SysLogOp : EntityTenant
     [SugarColumn(ColumnDescription = "请求跟踪Id", Length = 128)]
     [MaxLength(128)]
     public string? TraceId { get; set; }
+
+    /// <summary>
+    /// 是否使用UTC时间戳
+    /// </summary>
+    public bool UseUtcTimestamp { get; set; }
 }

@@ -15,10 +15,10 @@ public static class CodeGenUtil
     /// <returns></returns>
     public static string CamelColumnName(string columnName, string[] dbColumnNames)
     {
-        if (columnName.Contains("_"))
+        if (columnName.Contains('_'))
         {
             var arrColName = columnName.Split('_');
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (var col in arrColName)
             {
                 sb.Append(col[..1].ToUpper() + col[1..].ToLower());
@@ -58,6 +58,7 @@ public static class CodeGenUtil
         {
             case "interval year to month":
                 return "int";
+
             case "interval day to second":
                 return "TimeSpan";
 
@@ -128,6 +129,7 @@ public static class CodeGenUtil
             case "blob":
             case "raw":
                 return "byte[]";
+
             default:
                 return "object";
         }
