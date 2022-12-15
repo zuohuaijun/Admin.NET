@@ -1,5 +1,3 @@
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-
 namespace Admin.NET.Core;
 
 /// <summary>
@@ -56,47 +54,6 @@ public static partial class ObjectExtension
     }
 
     /// <summary>
-    /// List转DataTable
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="list"></param>
-    /// <returns></returns>
-    public static DataTable ToDataTable<T>(this List<T> list)
-    {
-        DataTable dt = new();
-        if (list.Count <= 0) return dt;
-
-        // result.TableName = list[0].GetType().Name; // 表名赋值
-        PropertyInfo[] propertys = list[0].GetType().GetProperties();
-        foreach (PropertyInfo pi in propertys)
-        {
-            if (IsIgnoreColumn(pi))
-                continue;
-            var colType = pi.PropertyType.IsGenericType ? pi.PropertyType.GetGenericArguments()[0] : pi.PropertyType;
-            dt.Columns.Add(pi.Name, colType);
-        }
-        for (int i = 0; i < list.Count; i++)
-        {
-            ArrayList tempList = new();
-            foreach (PropertyInfo pi in propertys)
-            {
-                if (IsIgnoreColumn(pi))
-                    continue;
-                tempList.Add(pi.GetValue(list[i], null));
-            }
-            dt.LoadDataRow(tempList.ToArray(), true);
-        }
-
-        // 删除空列
-        foreach (var column in dt.Columns.Cast<DataColumn>().ToArray())
-        {
-            if (dt.AsEnumerable().All(dr => dr.IsNull(column)))
-                dt.Columns.Remove(column);
-        }
-        return dt;
-    }
-
-    /// <summary>
     /// 对象序列化成Json字符串
     /// </summary>
     /// <param name="obj"></param>
@@ -115,17 +72,6 @@ public static partial class ObjectExtension
     public static T ToObject<T>(this string json)
     {
         return JSON.GetJsonSerializer().Deserialize<T>(json);
-    }
-
-    /// <summary>
-    /// 排除SqlSugar忽略的列
-    /// </summary>
-    /// <param name="pi"></param>
-    /// <returns></returns>
-    private static bool IsIgnoreColumn(PropertyInfo pi)
-    {
-        var sc = pi.GetCustomAttributes<SugarColumn>(false).FirstOrDefault(u => u.IsIgnore == true);
-        return sc != null;
     }
 
     /// <summary>
@@ -211,7 +157,7 @@ public static partial class ObjectExtension
             {
                 return DateTime.MinValue;
             }
-            if (str.Contains("-") || str.Contains("/"))
+            if (str.Contains('-') || str.Contains('/'))
             {
                 return DateTime.Parse(str);
             }
@@ -263,7 +209,7 @@ public static partial class ObjectExtension
             {
                 return defaultValue.GetValueOrDefault();
             }
-            if (str.Contains("-") || str.Contains("/"))
+            if (str.Contains('-') || str.Contains('/'))
             {
                 return DateTime.Parse(str);
             }

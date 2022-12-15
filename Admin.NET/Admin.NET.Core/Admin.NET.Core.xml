@@ -3231,14 +3231,6 @@
             <param name="str"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.ObjectExtension.ToDataTable``1(System.Collections.Generic.List{``0})">
-            <summary>
-            List转DataTable
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="list"></param>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.ObjectExtension.ToJson(System.Object)">
             <summary>
             对象序列化成Json字符串
@@ -3252,13 +3244,6 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="json"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.ObjectExtension.IsIgnoreColumn(System.Reflection.PropertyInfo)">
-            <summary>
-            排除SqlSugar忽略的列
-            </summary>
-            <param name="pi"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.ObjectExtension.ParseToLong(System.Object)">
