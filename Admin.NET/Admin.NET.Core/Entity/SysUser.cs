@@ -20,7 +20,7 @@ public class SysUser : EntityTenant
     [Required, MaxLength(64)]
     [System.Text.Json.Serialization.JsonIgnore]
     [JsonIgnore]
-    public virtual string Password { get; set; }
+    public virtual string Password { get; set; } = "e10adc3949ba59abbe56e057f20f883e";
 
     /// <summary>
     /// 真实姓名
