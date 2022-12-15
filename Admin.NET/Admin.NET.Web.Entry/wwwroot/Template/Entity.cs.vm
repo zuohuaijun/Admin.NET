@@ -2,7 +2,7 @@
 using SqlSugar;
 using System.ComponentModel;
 using Admin.NET.Core;
-namespace Admin.NET.Application.Entity
+namespace @Model.NameSpace
 {
      /// <summary>
      /// @(@Model.Description)
