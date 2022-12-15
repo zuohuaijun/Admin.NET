@@ -1,3 +1,5 @@
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+
 namespace Admin.NET.Core;
 
 /// <summary>
@@ -61,37 +63,37 @@ public static partial class ObjectExtension
     /// <returns></returns>
     public static DataTable ToDataTable<T>(this List<T> list)
     {
-        DataTable result = new();
-        if (list.Count > 0)
+        DataTable dt = new();
+        if (list.Count <= 0) return dt;
+
+        // result.TableName = list[0].GetType().Name; // 表名赋值
+        PropertyInfo[] propertys = list[0].GetType().GetProperties();
+        foreach (PropertyInfo pi in propertys)
         {
-            // result.TableName = list[0].GetType().Name; // 表名赋值
-            PropertyInfo[] propertys = list[0].GetType().GetProperties();
+            if (IsIgnoreColumn(pi))
+                continue;
+            var colType = pi.PropertyType.IsGenericType ? pi.PropertyType.GetGenericArguments()[0] : pi.PropertyType;
+            dt.Columns.Add(pi.Name, colType);
+        }
+        for (int i = 0; i < list.Count; i++)
+        {
+            ArrayList tempList = new();
             foreach (PropertyInfo pi in propertys)
             {
-                Type colType = pi.PropertyType;
-                if (colType.IsGenericType && colType.GetGenericTypeDefinition() == typeof(Nullable<>))
-                {
-                    colType = colType.GetGenericArguments()[0];
-                }
                 if (IsIgnoreColumn(pi))
                     continue;
-                result.Columns.Add(pi.Name, colType);
+                tempList.Add(pi.GetValue(list[i], null));
             }
-            for (int i = 0; i < list.Count; i++)
-            {
-                ArrayList tempList = new();
-                foreach (PropertyInfo pi in propertys)
-                {
-                    if (IsIgnoreColumn(pi))
-                        continue;
-                    object obj = pi.GetValue(list[i], null);
-                    tempList.Add(obj);
-                }
-                object[] array = tempList.ToArray();
-                result.LoadDataRow(array, true);
-            }
+            dt.LoadDataRow(tempList.ToArray(), true);
         }
-        return result;
+
+        // 删除空列
+        foreach (var column in dt.Columns.Cast<DataColumn>().ToArray())
+        {
+            if (dt.AsEnumerable().All(dr => dr.IsNull(column)))
+                dt.Columns.Remove(column);
+        }
+        return dt;
     }
 
     /// <summary>

@@ -234,20 +234,18 @@ public static class SqlSugarSetup
             if (config.EnableUnderLine) // 驼峰转下划线
             {
                 foreach (DataColumn col in seedDataTable.Columns)
-                {
                     col.ColumnName = UtilMethods.ToUnderLine(col.ColumnName);
-                }
             }
             if (seedDataTable.Columns.Contains(SqlSugarConst.PrimaryKey))
             {
-                var storage = dbProvider.Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
+                var storage = dbProvider.CopyNew().Storageable(seedDataTable).WhereColumns(SqlSugarConst.PrimaryKey).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
                 var ignoreUpdate = hasDataMethod.GetCustomAttribute<IgnoreUpdateAttribute>();
                 if (ignoreUpdate == null) storage.AsUpdateable.ExecuteCommand();
             }
             else // 没有主键或者不是预定义的主键(有重复的可能)
             {
-                var storage = dbProvider.Storageable(seedDataTable).ToStorage();
+                var storage = dbProvider.CopyNew().Storageable(seedDataTable).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
             }
         }
