@@ -150,13 +150,14 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         // 获取实体类型属性
         var entityType = provider.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == tableName);
         if (entityType == null) return null;
+        var entityBasePropertyNames = _codeGenOptions.EntityBaseColumn[nameof(EntityTenant)];
         // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
         return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new ColumnOuput
         {
-            ColumnName = u.DbColumnName,
+            ColumnName = CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames),
             ColumnKey = u.IsPrimarykey.ToString(),
             DataType = u.DataType.ToString(),
-            NetType = CodeGenUtil.ConvertDataType(u.DataType.ToString()),
+            NetType = CodeGenUtil.ConvertDataType(u),
             ColumnComment = u.ColumnDescription
         }).ToList();
     }
@@ -174,11 +175,13 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         if (entityType == null)
             return null;
 
+        var entityBasePropertyNames = _codeGenOptions.EntityBaseColumn[nameof(EntityTenant)];
         return provider.DbMaintenance.GetColumnInfosByTableName(entityType.DbTableName, false).Select(u => new ColumnOuput
         {
-            ColumnName = u.DbColumnName,
+            ColumnName = CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames),
             ColumnKey = u.IsPrimarykey.ToString(),
-            DataType = u.DataType.ToString(),
+            NetType = CodeGenUtil.ConvertDataType(u),
+            DataType = CodeGenUtil.ConvertDataType(u),
             ColumnComment = string.IsNullOrWhiteSpace(u.ColumnDescription) ? u.DbColumnName : u.ColumnDescription
         }).ToList();
     }

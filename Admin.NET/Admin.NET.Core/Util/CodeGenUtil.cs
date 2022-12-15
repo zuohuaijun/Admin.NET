@@ -7,15 +7,130 @@ namespace Admin.NET.Core.Util;
 /// </summary>
 public static class CodeGenUtil
 {
+    /// <summary>
+    /// 转换大驼峰法命名
+    /// </summary>
+    /// <param name="columnName">字段名</param>
+    /// <param name="dbColumnNames">EntityBase 实体属性名称</param>
+    /// <returns></returns>
+    public static string CamelColumnName(string columnName, string[] dbColumnNames)
+    {
+        if (columnName.Contains("_"))
+        {
+            var arrColName = columnName.Split('_');
+            StringBuilder sb = new StringBuilder();
+            foreach (var col in arrColName)
+            {
+                sb.Append(col[..1].ToUpper() + col[1..].ToLower());
+            }
+            columnName = sb.ToString();
+        }
+        else
+        {
+            var propertyName = dbColumnNames.FirstOrDefault(c => c.ToLower() == columnName.ToLower());
+            if (!string.IsNullOrEmpty(propertyName))
+            {
+                columnName = propertyName;
+            }
+            else
+            {
+                columnName = columnName[..1].ToUpper() + columnName[1..].ToLower();
+            }
+        }
+        return columnName;
+    }
+
     // 根据数据库类型来处理对应的数据字段类型
-    public static string ConvertDataType(string dataType)
+    public static string ConvertDataType(DbColumnInfo dbColumnInfo)
     {
         var dbType = App.GetOptions<DbConnectionOptions>().ConnectionConfigs[0].DbType;
         return dbType switch
         {
-            DbType.PostgreSQL => ConvertDataType_PostgreSQL(dataType),
-            _ => ConvertDataType_Default(dataType),
+            DbType.Oracle => ConvertDataType_OracleSQL(string.IsNullOrEmpty(dbColumnInfo.OracleDataType) ? dbColumnInfo.DataType : dbColumnInfo.OracleDataType, dbColumnInfo.Length, dbColumnInfo.Scale),
+            DbType.PostgreSQL => ConvertDataType_PostgreSQL(dbColumnInfo.DataType),
+            _ => ConvertDataType_Default(dbColumnInfo.DataType),
         };
+    }
+
+    public static string ConvertDataType_OracleSQL(string dataType, int? length, int? scale)
+    {
+        switch (dataType.ToLower())
+        {
+            case "interval year to month":
+                return "int";
+            case "interval day to second":
+                return "TimeSpan";
+
+            case "smallint":
+                return "Int16";
+
+            case "int":
+            case "integer":
+                return "int";
+
+            case "long":
+                return "long";
+
+            case "float":
+                return "float";
+
+            case "decimal":
+                return "decimal";
+
+            case "number":
+                if (length != null)
+                {
+                    if (scale != null && scale > 0)
+                    {
+                        return "decimal";
+                    }
+                    else if ((scale != null && scale == 0) || scale == null)
+                    {
+                        if (length > 1 && length < 12)
+                        {
+                            return "int";
+                        }
+                        else if (length > 11)
+                        {
+                            return "long";
+                        }
+                    }
+                    if (length == 1)
+                    {
+                        return "bool";
+                    }
+                }
+                return "decimal";
+
+            case "char":
+            case "clob":
+            case "nclob":
+            case "nchar":
+            case "nvarchar":
+            case "varchar":
+            case "nvarchar2":
+            case "varchar2":
+            case "rowid":
+                return "string";
+
+            case "timestamp":
+            case "timestamp with time zone":
+            case "timestamptz":
+            case "timestamp without time zone":
+            case "date":
+            case "time":
+            case "time with time zone":
+            case "timetz":
+            case "time without time zone":
+                return "DateTime";
+
+            case "bfile":
+            case "blob":
+            case "raw":
+                return "byte[]";
+            default:
+                return "object";
+        }
     }
 
     //PostgreSQL数据类型对应的字段类型

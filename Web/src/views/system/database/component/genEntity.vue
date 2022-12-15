@@ -22,11 +22,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="基类" prop="baseClassName">
 							<el-select v-model="ruleForm.baseClassName" clearable class="w100">
-								<el-option label="EntityBaseId【基础实体Id】" value="EntityBaseId" />
-								<el-option label="EntityBase【基础实体】" value="EntityBase" />
-								<el-option label="EntityTenantId【租户实体Id】" value="EntityTenantId" />
-								<el-option label="EntityTenant【租户实体】" value="EntityTenant" />
-								<el-option label="EntityBaseData【业务实体】" value="EntityBaseData" />
+								<el-option v-for="item in codeGenBaseClassName" :key="item.value" :label="item.label" :value="item.value" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -51,11 +47,11 @@
 </template>
 
 <script lang="ts">
-import { reactive, toRefs, defineComponent, ref } from 'vue';
+import { reactive, toRefs, onMounted, defineComponent, ref } from 'vue';
 import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysDatabaseApi } from '/@/api-services/api';
+import { SysDatabaseApi ,SysDictDataApi } from '/@/api-services/api';
 
 export default defineComponent({
 	name: 'sysGenEntity',
@@ -65,6 +61,12 @@ export default defineComponent({
 		const state = reactive({
 			isShowDialog: false,
 			ruleForm: {} as any,
+			codeGenBaseClassName: [] as any,
+		});
+
+		onMounted(async () => {
+			let resDicData = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_base_class_name');
+			state.codeGenBaseClassName = resDicData.data.result;
 		});
 
 		// 打开弹窗

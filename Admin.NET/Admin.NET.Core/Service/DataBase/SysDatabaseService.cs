@@ -8,11 +8,15 @@ public class SysDatabaseService : IDynamicApiController, ITransient
 {
     private readonly ISqlSugarClient _db;
     private readonly IViewEngine _viewEngine;
+    private readonly CodeGenOptions _codeGenOptions;
 
-    public SysDatabaseService(ISqlSugarClient db, IViewEngine viewEngine)
+    public SysDatabaseService(ISqlSugarClient db,
+        IViewEngine viewEngine,
+        IOptions<CodeGenOptions> codeGenOptions)
     {
         _db = db;
         _viewEngine = viewEngine;
+        _codeGenOptions = codeGenOptions.Value;
     }
 
     /// <summary>
@@ -182,7 +186,9 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     public void CreateEntity(CreateEntityInput input)
     {
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
-        input.BaseClassName = string.IsNullOrWhiteSpace(input.BaseClassName) ? "" : $" : {input.BaseClassName}";
+        input.EntityName = (input.EntityName == input.TableName && input.EntityName.Contains("_")) ? CodeGenUtil.CamelColumnName(input.EntityName, null) : input.EntityName;
+        string[] dbColumnNames = _codeGenOptions.EntityBaseColumn[input.BaseClassName];
+
         var templatePath = GetEntityTemplatePath();
         var targetPath = GetEntityTargetPath(input);
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
@@ -190,40 +196,19 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         if (dbTableInfo == null)
             throw Oops.Oh(ErrorCodeEnum.db1001);
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
-
-        if (input.BaseClassName.Contains("EntityTenant"))
-        {
-            dbColumnInfos = dbColumnInfos.Where(c => c.DbColumnName != "Id"
-                && c.DbColumnName != "TenantId"
-                && c.DbColumnName != "CreateTime"
-                && c.DbColumnName != "UpdateTime"
-                && c.DbColumnName != "CreateUserId"
-                && c.DbColumnName != "UpdateUserId"
-                && c.DbColumnName != "IsDelete").ToList();
-        }
-        else if (input.BaseClassName.Contains("EntityBase"))
-        {
-            dbColumnInfos = dbColumnInfos.Where(c => c.DbColumnName != "Id"
-                && c.DbColumnName != "CreateTime"
-                && c.DbColumnName != "UpdateTime"
-                && c.DbColumnName != "CreateUserId"
-                && c.DbColumnName != "UpdateUserId"
-                && c.DbColumnName != "IsDelete").ToList();
-        }
-        else if (input.BaseClassName.Contains("EntityBaseId"))
-        {
-            dbColumnInfos = dbColumnInfos.Where(c => c.DbColumnName != "Id").ToList();
-        }
+        if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))
+            dbColumnInfos = dbColumnInfos.Where(c => !dbColumnNames.Contains(c.DbColumnName, StringComparer.OrdinalIgnoreCase)).ToList();
         dbColumnInfos.ForEach(m =>
         {
-            m.DataType = CodeGenUtil.ConvertDataType(m.DataType);
+            m.DataType = CodeGenUtil.ConvertDataType(m);
         });
         var tContent = File.ReadAllText(templatePath);
         var tResult = _viewEngine.RunCompileFromCached(tContent, new
         {
+            NameSpace = $"{input.Position}.Entity",
             input.TableName,
             input.EntityName,
-            input.BaseClassName,
+            BaseClassName = string.IsNullOrWhiteSpace(input.BaseClassName) ? "" : $" : {input.BaseClassName}",
             input.ConfigId,
             dbTableInfo.Description,
             TableField = dbColumnInfos

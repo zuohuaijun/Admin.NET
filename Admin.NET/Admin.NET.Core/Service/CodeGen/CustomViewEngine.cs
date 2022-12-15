@@ -68,7 +68,7 @@ public class CustomViewEngine : ViewEngineModel
             ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
             DataType = u.DataType.ToString(),
-            NetType = CodeGenUtil.ConvertDataType(u.DataType.ToString()),
+            NetType = CodeGenUtil.ConvertDataType(u),
             ColumnComment = u.ColumnDescription
         }).ToList();
     }
