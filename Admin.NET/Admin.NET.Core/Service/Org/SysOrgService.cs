@@ -84,6 +84,9 @@ public class SysOrgService : IDynamicApiController, ITransient
             }
             else
                 throw Oops.Oh(ErrorCodeEnum.D2006);
+
+            // 删除当前用户的机构缓存
+            _sysCacheService.Remove(CacheConst.KeyOrgIdList + _userManager.UserId);
         }
         var sysOrg = input.Adapt<SysOrg>();
         var newOrg = await _sysOrgRep.AsInsertable(sysOrg).ExecuteReturnEntityAsync();
