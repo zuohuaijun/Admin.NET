@@ -22,12 +22,10 @@ public class PageConfigInput : BasePageInput
     public string GroupCode { get; set; }
 }
 
-[NotTable]
 public class AddConfigInput : SysConfig
 {
 }
 
-[NotTable]
 public class UpdateConfigInput : AddConfigInput
 {
 }

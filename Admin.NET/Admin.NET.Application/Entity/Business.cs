@@ -4,7 +4,6 @@ namespace Admin.NET.Application.Entity;
 /// 租户业务分库表
 /// </summary>
 [SugarTable(null, "租户业务分库表")]
-[TenantBusiness]
 public class TenantBusiness : EntityTenant
 {
     /// <summary>

@@ -4,6 +4,7 @@
 /// 系统微信支付表
 /// </summary>
 [SugarTable(null, "系统微信支付表")]
+[SystemTable]
 public class SysWechatPay : EntityBase
 {
     /// <summary>

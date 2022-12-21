@@ -21,7 +21,6 @@ public class PageRoleInput : BasePageInput
     public virtual string Code { get; set; }
 }
 
-[NotTable]
 public class AddRoleInput : SysRole
 {
     /// <summary>
@@ -36,7 +35,6 @@ public class AddRoleInput : SysRole
     public List<long> MenuIdList { get; set; }
 }
 
-[NotTable]
 public class UpdateRoleInput : AddRoleInput
 {
 }

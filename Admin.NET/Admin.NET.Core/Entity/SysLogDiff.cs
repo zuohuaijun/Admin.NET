@@ -4,6 +4,7 @@
 /// 系统差异日志表
 /// </summary>
 [SugarTable(null, "系统差异日志表")]
+[SystemTable]
 public class SysLogDiff : EntityBase
 {
     /// <summary>

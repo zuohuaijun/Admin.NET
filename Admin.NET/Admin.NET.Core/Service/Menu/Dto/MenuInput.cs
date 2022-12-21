@@ -13,7 +13,6 @@ public class MenuInput
     public MenuTypeEnum Type { get; set; }
 }
 
-[NotTable]
 public class AddMenuInput : SysMenu
 {
     /// <summary>
@@ -23,7 +22,6 @@ public class AddMenuInput : SysMenu
     public override string Title { get; set; }
 }
 
-[NotTable]
 public class UpdateMenuInput : AddMenuInput
 {
 }

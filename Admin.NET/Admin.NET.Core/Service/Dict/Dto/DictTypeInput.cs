@@ -21,12 +21,10 @@ public class PageDictTypeInput : BasePageInput
     public string Code { get; set; }
 }
 
-[NotTable]
 public class AddDictTypeInput : SysDictType
 {
 }
 
-[NotTable]
 public class UpdateDictTypeInput : AddDictTypeInput
 {
 }

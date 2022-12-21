@@ -21,7 +21,6 @@ public class PageJobInput : BasePageInput
     public string Description { get; set; }
 }
 
-[NotTable]
 public class AddJobDetailInput : SysJobDetail
 {
     /// <summary>
@@ -31,7 +30,6 @@ public class AddJobDetailInput : SysJobDetail
     public override string JobId { get; set; }
 }
 
-[NotTable]
 public class UpdateJobDetailInput : AddJobDetailInput
 {
 }

@@ -4,6 +4,7 @@
 /// 系统角色机构表
 /// </summary>
 [SugarTable(null, "系统角色机构表")]
+[SystemTable]
 public class SysRoleOrg : EntityBaseId
 {
     /// <summary>

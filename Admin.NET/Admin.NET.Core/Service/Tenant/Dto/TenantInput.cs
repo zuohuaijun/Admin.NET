@@ -21,7 +21,6 @@ public class PageTenantInput : BasePageInput
     public virtual string Phone { get; set; }
 }
 
-[NotTable]
 public class AddTenantInput : TenantOutput
 {
     /// <summary>
@@ -37,7 +36,6 @@ public class AddTenantInput : TenantOutput
     public override string AdminName { get; set; }
 }
 
-[NotTable]
 public class UpdateTenantInput : AddTenantInput
 {
 }

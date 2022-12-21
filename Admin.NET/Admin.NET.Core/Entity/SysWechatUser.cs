@@ -4,6 +4,7 @@
 /// 系统微信用户表
 /// </summary>
 [SugarTable(null, "系统微信用户表")]
+[SystemTable]
 public class SysWechatUser : EntityBase
 {
     /// <summary>

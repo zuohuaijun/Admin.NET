@@ -31,7 +31,6 @@ public class PageUserInput : BasePageInput
     public long OrgId { get; set; }
 }
 
-[NotTable]
 public class AddUserInput : SysUser
 {
     /// <summary>
@@ -57,7 +56,6 @@ public class AddUserInput : SysUser
     public List<SysUserExtOrg> ExtOrgIdList { get; set; }
 }
 
-[NotTable]
 public class UpdateUserInput : AddUserInput
 {
 }

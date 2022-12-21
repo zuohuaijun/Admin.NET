@@ -4,6 +4,7 @@
 /// 系统菜单表
 /// </summary>
 [SugarTable(null, "系统菜单表")]
+[SystemTable]
 public class SysMenu : EntityBase
 {
     /// <summary>

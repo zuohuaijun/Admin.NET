@@ -4,6 +4,7 @@
 /// 系统在线用户表
 /// </summary>
 [SugarTable(null, "系统在线用户表")]
+[SystemTable]
 public class SysOnlineUser : EntityTenantId
 {
     /// <summary>

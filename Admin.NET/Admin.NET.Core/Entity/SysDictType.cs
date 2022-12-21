@@ -4,6 +4,7 @@
 /// 系统字典类型表
 /// </summary>
 [SugarTable(null, "系统字典类型表")]
+[SystemTable]
 public class SysDictType : EntityBase
 {
     /// <summary>

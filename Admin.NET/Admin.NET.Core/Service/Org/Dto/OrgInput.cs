@@ -13,7 +13,6 @@ public class OrgInput : BaseIdInput
     public string Code { get; set; }
 }
 
-[NotTable]
 public class AddOrgInput : SysOrg
 {
     /// <summary>
@@ -23,7 +22,6 @@ public class AddOrgInput : SysOrg
     public override string Name { get; set; }
 }
 
-[NotTable]
 public class UpdateOrgInput : AddOrgInput
 {
 }

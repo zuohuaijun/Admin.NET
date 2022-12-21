@@ -4,6 +4,7 @@
 /// 系统用户角色表
 /// </summary>
 [SugarTable(null, "系统用户角色表")]
+[SystemTable]
 public class SysUserRole : EntityBaseId
 {
     /// <summary>

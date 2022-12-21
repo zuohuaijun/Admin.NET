@@ -4,6 +4,7 @@
 /// 系统行政地区表
 /// </summary>
 [SugarTable(null, "系统行政地区表")]
+[SystemTable]
 public class SysRegion : EntityBaseId
 {
     /// <summary>

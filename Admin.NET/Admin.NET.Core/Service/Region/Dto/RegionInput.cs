@@ -22,7 +22,6 @@ public class RegionInput : BaseIdInput
 {
 }
 
-[NotTable]
 public class AddRegionInput : SysRegion
 {
     /// <summary>
@@ -32,7 +31,6 @@ public class AddRegionInput : SysRegion
     public override string Name { get; set; }
 }
 
-[NotTable]
 public class UpdateRegionInput : AddRegionInput
 {
 }

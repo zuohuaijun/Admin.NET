@@ -120,15 +120,15 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.db1000);
 
         if (input.DbColumnInfoList.GroupBy(q => q.DbColumnName).Any(q => q.Count() > 1))
-        {
             throw Oops.Oh(ErrorCodeEnum.db1002);
-        }
+
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
 
         input.DbColumnInfoList.ForEach(m =>
         {
             columns.Add(new DbColumnInfo
             {
-                DbColumnName = UtilMethods.ToUnderLine(m.DbColumnName.Trim()),
+                DbColumnName = config.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim(),
                 DataType = m.DataType,
                 Length = m.Length,
                 ColumnDescription = m.ColumnDescription,
@@ -149,7 +149,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
         input.DbColumnInfoList.ForEach(m =>
         {
-            m.DbColumnName = UtilMethods.ToUnderLine(m.DbColumnName);
+            m.DbColumnName = config.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName) : m.DbColumnName;
             db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
         });
     }
@@ -187,7 +187,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     public void CreateEntity(CreateEntityInput input)
     {
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
-        input.EntityName = (input.EntityName == input.TableName && input.EntityName.Contains("_")) ? CodeGenUtil.CamelColumnName(input.EntityName, null) : input.EntityName;
+        input.EntityName = (input.EntityName == input.TableName && input.EntityName.Contains('_')) ? CodeGenUtil.CamelColumnName(input.EntityName, null) : input.EntityName;
         string[] dbColumnNames = _codeGenOptions.EntityBaseColumn[input.BaseClassName];
 
         var templatePath = GetEntityTemplatePath();

@@ -4,6 +4,7 @@
 /// 系统操作日志表
 /// </summary>
 [SugarTable(null, "系统操作日志表")]
+[SystemTable]
 public class SysLogOp : EntityTenant
 {
     /// <summary>

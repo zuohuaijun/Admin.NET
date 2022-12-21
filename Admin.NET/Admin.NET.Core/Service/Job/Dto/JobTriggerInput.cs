@@ -13,7 +13,6 @@ public class JobTriggerInput
     public string TriggerId { get; set; }
 }
 
-[NotTable]
 public class AddJobTriggerInput : SysJobTrigger
 {
     /// <summary>
@@ -29,7 +28,6 @@ public class AddJobTriggerInput : SysJobTrigger
     public override string TriggerId { get; set; }
 }
 
-[NotTable]
 public class UpdateJobTriggerInput : AddJobTriggerInput
 {
 }

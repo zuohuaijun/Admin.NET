@@ -19,14 +19,9 @@
             忽略更新种子数据特性
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.NotTableAttribute">
+        <member name="T:Admin.NET.Core.SystemTableAttribute">
             <summary>
-            非实体表特性
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.TenantBusinessAttribute">
-            <summary>
-            租户业务表特性
+            系统表特性
             </summary>
         </member>
         <member name="M:Admin.NET.Core.CacheSetup.AddCache(Microsoft.Extensions.DependencyInjection.IServiceCollection)">

@@ -4,6 +4,7 @@
 /// 系统租户表
 /// </summary>
 [SugarTable(null, "系统租户表")]
+[SystemTable]
 public class SysTenant : EntityBase
 {
     /// <summary>

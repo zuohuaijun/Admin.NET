@@ -196,8 +196,7 @@ public static class SqlSugarSetup
             dbProvider.DbMaintenance.CreateDatabase();
 
         // 获取所有实体表-初始化表结构
-        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute), false));
+        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false));
         if (!entityTypes.Any()) return;
         foreach (var entityType in entityTypes)
         {
@@ -251,8 +250,7 @@ public static class SqlSugarSetup
 
         // 获取所有实体表-初始化租户业务表
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(NotTableAttribute), false)
-            && u.IsDefined(typeof(TenantBusinessAttribute), false));
+            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(SystemTableAttribute), false));
         if (!entityTypes.Any()) return;
         foreach (var entityType in entityTypes)
         {
@@ -327,8 +325,8 @@ public static class SqlSugarSetup
             foreach (var entityType in entityTypes)
             {
                 // 获取库隔离租户业务实体
-                var tenantBusinessAtt = entityType.GetCustomAttribute<TenantBusinessAttribute>();
-                if (tenantBusinessAtt == null)
+                var systemTableAtt = entityType.GetCustomAttribute<SystemTableAttribute>();
+                if (systemTableAtt != null)
                 {
                     // 排除非当前数据库实体
                     var tenantAtt = entityType.GetCustomAttribute<TenantAttribute>();

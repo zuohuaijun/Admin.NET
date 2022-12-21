@@ -13,12 +13,10 @@ public class PageNoticeInput : BasePageInput
     public virtual NoticeTypeEnum Type { get; set; }
 }
 
-[NotTable]
 public class AddNoticeInput : SysNotice
 {
 }
 
-[NotTable]
 public class UpdateNoticeInput : AddNoticeInput
 {
 }

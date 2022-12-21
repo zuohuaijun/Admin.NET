@@ -13,7 +13,6 @@ public class PosInput
     public string Code { get; set; }
 }
 
-[NotTable]
 public class AddPosInput : SysPos
 {
     /// <summary>
@@ -23,7 +22,6 @@ public class AddPosInput : SysPos
     public override string Name { get; set; }
 }
 
-[NotTable]
 public class UpdatePosInput : AddPosInput
 {
 }

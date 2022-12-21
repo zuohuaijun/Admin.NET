@@ -4,6 +4,7 @@
 /// 系统访问日志表
 /// </summary>
 [SugarTable(null, "系统访问日志表")]
+[SystemTable]
 public class SysLogVis : EntityTenant
 {
     /// <summary>

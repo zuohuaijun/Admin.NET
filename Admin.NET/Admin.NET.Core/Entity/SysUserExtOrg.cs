@@ -4,6 +4,7 @@
 /// 系统用户扩展机构表
 /// </summary>
 [SugarTable(null, "系统用户扩展机构表")]
+[SystemTable]
 public class SysUserExtOrg : EntityBaseId
 {
     /// <summary>

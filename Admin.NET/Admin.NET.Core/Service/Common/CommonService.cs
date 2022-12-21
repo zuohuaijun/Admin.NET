@@ -21,7 +21,6 @@ public class CommonService : ICommonService, IScoped
         var entityInfos = new List<EntityInfo>();
 
         var type = typeof(SugarTable);
-        var type1 = typeof(NotTableAttribute);
         var types = new List<Type>();
         if (_codeGenOptions.EntityAssemblyNames != null)
         {
@@ -33,10 +32,9 @@ public class CommonService : ICommonService, IScoped
         }
         Func<Attribute[], bool> IsMyAttribute = o =>
         {
-            if (o.Where(c => c.GetType() == type1).Any()) return false;
             foreach (Attribute a in o)
             {
-                if (a.GetType() == type && a.GetType() != type1)
+                if (a.GetType() == type)
                     return true;
             }
             return false;

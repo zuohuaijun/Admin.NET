@@ -13,7 +13,7 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         iTenant = App.GetRequiredService<ISqlSugarClient>().AsTenant();
 
         // 根据租户业务实体是否切库
-        if (typeof(T).IsDefined(typeof(TenantBusinessAttribute), false))
+        if (!typeof(T).IsDefined(typeof(SystemTableAttribute), false))
         {
             var tenantId = App.GetRequiredService<UserManager>().TenantId; // 根据租户Id切库
 
