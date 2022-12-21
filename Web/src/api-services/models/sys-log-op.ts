@@ -113,4 +113,10 @@ export interface SysLogOp {
      * @memberof SysLogOp
      */
     traceId?: string | null;
+    /**
+     * 是否使用UTC时间戳
+     * @type {boolean}
+     * @memberof SysLogOp
+     */
+    useUtcTimestamp?: boolean;
 }

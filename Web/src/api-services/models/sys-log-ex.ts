@@ -113,4 +113,10 @@ export interface SysLogEx {
      * @memberof SysLogEx
      */
     traceId?: string | null;
+    /**
+     * 是否使用UTC时间戳
+     * @type {boolean}
+     * @memberof SysLogEx
+     */
+    useUtcTimestamp?: boolean;
 }
