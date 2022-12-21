@@ -65,7 +65,7 @@ export default defineComponent({
 		});
 
 		onMounted(async () => {
-			let resDicData = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_base_class_name');
+			let resDicData = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_base_class');
 			state.codeGenBaseClassName = resDicData.data.result;
 		});
 

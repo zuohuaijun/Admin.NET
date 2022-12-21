@@ -128,7 +128,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         {
             columns.Add(new DbColumnInfo
             {
-                DbColumnName = m.DbColumnName.Trim(),
+                DbColumnName = UtilMethods.ToUnderLine(m.DbColumnName.Trim()),
                 DataType = m.DataType,
                 Length = m.Length,
                 ColumnDescription = m.ColumnDescription,
@@ -149,6 +149,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
         input.DbColumnInfoList.ForEach(m =>
         {
+            m.DbColumnName = UtilMethods.ToUnderLine(m.DbColumnName);
             db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
         });
     }
@@ -197,9 +198,10 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.db1001);
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
         if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))
-            dbColumnInfos = dbColumnInfos.Where(c => !dbColumnNames.Contains(c.DbColumnName, StringComparer.OrdinalIgnoreCase)).ToList();
+            dbColumnInfos = dbColumnInfos.Where(c => !dbColumnNames.Contains(CodeGenUtil.CamelColumnName(c.DbColumnName, dbColumnNames), StringComparer.OrdinalIgnoreCase)).ToList();
         dbColumnInfos.ForEach(m =>
         {
+            m.DbColumnName = CodeGenUtil.CamelColumnName(m.DbColumnName, dbColumnNames);
             m.DataType = CodeGenUtil.ConvertDataType(m);
         });
         var tContent = File.ReadAllText(templatePath);
