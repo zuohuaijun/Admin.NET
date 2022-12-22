@@ -23,7 +23,7 @@
 2.  前端运行步骤：1、安装依赖cnpm install 2、运行cnpm run dev 3、打包cnpm run build
 
 #### 演示环境
-http://118.190.161.209/index.html   (不定期重置数据库)
+https://demo.devqd.com/   (不定期重置数据库)
 ```
 如果对您有帮助，请点击右上角⭐Star⭐关注 ，感谢支持开源！
 ```
