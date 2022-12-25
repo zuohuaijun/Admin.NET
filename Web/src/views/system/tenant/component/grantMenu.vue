@@ -38,10 +38,10 @@
 <script lang="ts">
 import { reactive, toRefs, defineComponent, ref, onMounted } from 'vue';
 import type { ElTree } from 'element-plus';
-import type Node from 'element-plus/es/components/tree/src/model/node';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi, SysTenantApi } from '/@/api-services/api';
+import { SysMenu } from '/@/api-services/models';
 
 export default defineComponent({
 	name: 'sysGrantMenu',
@@ -85,11 +85,14 @@ export default defineComponent({
 			state.isShowDialog = false;
 		};
 		// 叶子节点同行显示样式
-		const treeNodeClass = (node: Node) => {
-			if (node.isLeaf) return '';
-			let addClass = true;
-			for (const key in node.childNodes) {
-				if (!node.childNodes[key].isLeaf) addClass = false;
+		const treeNodeClass = (node: SysMenu) => {
+			let addClass = true; // 添加叶子节点同行显示样式
+			for (const key in node.children) {
+				// 如果存在子节点非叶子节点，不添加样式
+				if (node.children[key].children?.length ?? 0 > 0) {
+					addClass = false;
+					break;
+				}
 			}
 			return addClass ? 'penultimate-node' : '';
 		};
