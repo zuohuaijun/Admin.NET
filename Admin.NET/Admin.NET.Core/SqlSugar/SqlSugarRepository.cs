@@ -12,29 +12,34 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
     {
         iTenant = App.GetRequiredService<ISqlSugarClient>().AsTenant();
 
-        // 根据租户业务实体是否切库
-        if (!typeof(T).IsDefined(typeof(SystemTableAttribute), false))
-        {
-            var tenantId = App.GetRequiredService<UserManager>().TenantId; // 根据租户Id切库
-
-            if (!iTenant.IsAnyConnection(tenantId.ToString()))
-            {
-                var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant)
-                    .FirstOrDefault(u => u.Id == tenantId);
-                iTenant.AddConnection(new ConnectionConfig()
-                {
-                    ConfigId = tenant.Id,
-                    DbType = tenant.DbType,
-                    ConnectionString = tenant.Connection,
-                    IsAutoCloseConnection = true
-                });
-                SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()));
-            }
-            base.Context = iTenant.GetConnectionScope(tenantId.ToString());
-        }
-        else
+        // 若实体贴有多库特性，则返回指定的连接
+        if (typeof(T).IsDefined(typeof(TenantAttribute), false))
         {
             base.Context = iTenant.GetConnectionScopeWithAttr<T>();
+            return;
         }
+
+        // 若实体贴有系统表特性，则返回默认的连接
+        if (typeof(T).IsDefined(typeof(SystemTableAttribute), false)) return;
+
+        // 若当前未登录或是默认租户Id，则返回默认的连接
+        var tenantId = App.GetRequiredService<UserManager>().TenantId;
+        if (tenantId < 1 || tenantId.ToString() == SqlSugarConst.ConfigId) return;
+
+        // 根据租户Id切库
+        if (!iTenant.IsAnyConnection(tenantId.ToString()))
+        {
+            var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant)
+                .FirstOrDefault(u => u.Id == tenantId);
+            iTenant.AddConnection(new ConnectionConfig()
+            {
+                ConfigId = tenant.Id,
+                DbType = tenant.DbType,
+                ConnectionString = tenant.Connection,
+                IsAutoCloseConnection = true
+            });
+            SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()));
+        }
+        base.Context = iTenant.GetConnectionScope(tenantId.ToString());
     }
 }
