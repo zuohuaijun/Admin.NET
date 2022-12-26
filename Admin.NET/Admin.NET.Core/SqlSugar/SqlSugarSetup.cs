@@ -228,10 +228,21 @@ public static class SqlSugarSetup
             if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
             if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
 
-            var storage = dbProvider.CopyNew().StorageableByObject(seedData.ToList()).ToStorage();
-            storage.AsInsertable.ExecuteCommand();
-            var ignoreUpdate = hasDataMethod.GetCustomAttribute<IgnoreUpdateAttribute>();
-            if (ignoreUpdate == null) storage.AsUpdateable.ExecuteCommand();
+            var entityInfo = dbProvider.EntityMaintenance.GetEntityInfo(entityType);
+            if (entityInfo.Columns.Any(u => u.IsPrimarykey))
+            {
+                // 按主键进行批量增加和更新
+                var storage = dbProvider.CopyNew().StorageableByObject(seedData.ToList()).ToStorage();
+                storage.AsInsertable.ExecuteCommand();
+                var ignoreUpdate = hasDataMethod.GetCustomAttribute<IgnoreUpdateAttribute>();
+                if (ignoreUpdate == null) storage.AsUpdateable.ExecuteCommand();
+            }
+            else
+            {
+                // 无主键则只进行插入
+                if (dbProvider.Queryable(entityInfo.DbTableName, entityInfo.DbTableName).Count() <= 0)
+                    dbProvider.InsertableByObject(seedData.ToList()).ExecuteCommand();
+            }
         }
     }
 
