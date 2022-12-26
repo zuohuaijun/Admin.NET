@@ -240,7 +240,7 @@ public static class SqlSugarSetup
             else
             {
                 // 无主键则只进行插入
-                if (dbProvider.Queryable(entityInfo.DbTableName, entityInfo.DbTableName).Count() <= 0)
+                if (!dbProvider.Queryable(entityInfo.DbTableName, entityInfo.DbTableName).Any())
                     dbProvider.InsertableByObject(seedData.ToList()).ExecuteCommand();
             }
         }
