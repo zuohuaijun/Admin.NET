@@ -128,11 +128,11 @@ public class SysCodeGenService : IDynamicApiController, ITransient
 
         var dbTableNames = dbTableInfos.Select(u => u.Name).ToList();
         IEnumerable<EntityInfo> entityInfos = await _commonService.GetEntityInfos();
-        return entityInfos.Where(u => dbTableNames.Contains(u.DbTableName)).Select(u => new TableOutput()
+        return entityInfos.Where(u => dbTableNames.Contains(UtilMethods.ToUnderLine(u.DbTableName))).Select(u => new TableOutput()
         {
             ConfigId = configId,
             EntityName = u.EntityName,
-            TableName = u.DbTableName.ToLower(),
+            TableName = UtilMethods.ToUnderLine(u.DbTableName),
             TableComment = u.TableDescription
         }).ToList();
     }
