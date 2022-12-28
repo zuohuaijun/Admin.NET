@@ -1,7 +1,7 @@
 {
     "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
 
-    //"Urls": "https://*:5005",
+    "Urls": "http://*:5050",
 
     "AllowedHosts": "*",
 

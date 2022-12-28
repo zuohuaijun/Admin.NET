@@ -126,13 +126,15 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var provider = _db.AsTenant().GetConnectionScope(configId);
         var dbTableInfos = provider.DbMaintenance.GetTableInfoList(false); // 不能走缓存,否则切库不起作用
 
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId);
+
         var dbTableNames = dbTableInfos.Select(u => u.Name).ToList();
         IEnumerable<EntityInfo> entityInfos = await _commonService.GetEntityInfos();
-        return entityInfos.Where(u => dbTableNames.Contains(UtilMethods.ToUnderLine(u.DbTableName))).Select(u => new TableOutput()
+        return entityInfos.Where(u => dbTableNames.Contains(config.EnableUnderLine ? UtilMethods.ToUnderLine(u.DbTableName) : u.DbTableName)).Select(u => new TableOutput()
         {
             ConfigId = configId,
             EntityName = u.EntityName,
-            TableName = UtilMethods.ToUnderLine(u.DbTableName),
+            TableName = config.EnableUnderLine ? UtilMethods.ToUnderLine(u.DbTableName) : u.DbTableName,
             TableComment = u.TableDescription
         }).ToList();
     }

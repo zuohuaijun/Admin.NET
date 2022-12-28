@@ -1,6 +1,7 @@
 ﻿using Lazy.Captcha.Core;
 using Lazy.Captcha.Core.Generator;
 using Lazy.Captcha.Core.Storage;
+using SkiaSharp;
 
 namespace Admin.NET.Core;
 
@@ -70,7 +71,7 @@ public class RandomCaptcha : DefaultCaptcha
         //options.ImageOption.BubbleMaxRadius = 15; // 气泡最大半径
         //options.ImageOption.BubbleThickness = 1; // 气泡边沿厚度
 
-        options.ImageOption.BackgroundColor = SixLabors.ImageSharp.Color.White; // 背景色
+        options.ImageOption.BackgroundColor = SKColors.White; // 背景色
 
         options.ImageOption.Width = 150; // 验证码宽度
         options.ImageOption.Height = 50; // 验证码高度
