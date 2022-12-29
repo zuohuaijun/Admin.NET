@@ -196,14 +196,15 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName);
         if (dbTableInfo == null)
             throw Oops.Oh(ErrorCodeEnum.db1001);
-        List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
-        if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))
-            dbColumnInfos = dbColumnInfos.Where(c => !dbColumnNames.Contains(CodeGenUtil.CamelColumnName(c.DbColumnName, dbColumnNames), StringComparer.OrdinalIgnoreCase)).ToList();
+        List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);        
         dbColumnInfos.ForEach(m =>
         {
             m.DbColumnName = CodeGenUtil.CamelColumnName(m.DbColumnName, dbColumnNames);
             m.DataType = CodeGenUtil.ConvertDataType(m);
         });
+        if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))
+            dbColumnInfos = dbColumnInfos.Where(c => !dbColumnNames.Contains(c.DbColumnName, StringComparer.OrdinalIgnoreCase)).ToList();
+
         var tContent = File.ReadAllText(templatePath);
         var tResult = _viewEngine.RunCompileFromCached(tContent, new
         {
