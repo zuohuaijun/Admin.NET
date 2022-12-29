@@ -196,7 +196,8 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName);
         if (dbTableInfo == null)
             throw Oops.Oh(ErrorCodeEnum.db1001);
-        List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);        
+
+        List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
         dbColumnInfos.ForEach(m =>
         {
             m.DbColumnName = CodeGenUtil.CamelColumnName(m.DbColumnName, dbColumnNames);
