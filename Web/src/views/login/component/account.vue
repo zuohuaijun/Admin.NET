@@ -21,7 +21,7 @@
 				</template>
 			</el-input>
 		</el-form-item>
-		<el-form-item class="login-animation3" prop="captcha">
+		<el-form-item class="login-animation3" prop="captcha" v-show="state.captchaEnabled">
 			<el-col :span="15">
 				<el-input text maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="state.ruleForm.code" clearable autocomplete="off">
 					<template #prefix>
@@ -105,12 +105,14 @@ const state = reactive({
 	secondVerEnabled: true,
 	rotateVerifyVisible: false,
 	rotateVerifyImg: verifyImg,
+	captchaEnabled: true,
 	isPassRotate: false,
 });
 onMounted(async () => {
-	// 是否开启二次验证
-	var res1 = await getAPI(SysAuthApi).secondVerFlagGet();
-	state.secondVerEnabled = res1.data.result ?? true;
+	// 登录配置
+	var res1 = await getAPI(SysAuthApi).loginConfigGet();
+	state.secondVerEnabled = res1.data.result.secondVerEnabled ?? true;
+	state.captchaEnabled = res1.data.result.captchaEnabled ?? true;
 
 	getCaptcha();
 });

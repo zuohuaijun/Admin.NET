@@ -22,6 +22,12 @@ public class CommonConst
     public const string SysSecondVer = "sys_second_ver";
 
     /// <summary>
+    /// 开启图形验证码
+
+    /// </summary>
+    public const string SysCaptcha = "sys_captcha";
+
+    /// <summary>
     /// 开启操作日志
     /// </summary>
     public const string SysOpLog = "sys_oplog";

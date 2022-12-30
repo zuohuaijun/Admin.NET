@@ -192,6 +192,7 @@
             登录二次验证
             </summary>
         </member>
+        <!-- Badly formed XML comment ignored for member "F:Admin.NET.Core.CommonConst.SysCaptcha" -->
         <member name="F:Admin.NET.Core.CommonConst.SysOpLog">
             <summary>
             开启操作日志
@@ -4064,9 +4065,9 @@
             退出系统
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysAuthService.GetSecondVerFlag">
+        <member name="M:Admin.NET.Core.Service.SysAuthService.GetLoginConfig">
             <summary>
-            是否启用二次验证
+            登录配置
             </summary>
             <returns></returns>
         </member>
