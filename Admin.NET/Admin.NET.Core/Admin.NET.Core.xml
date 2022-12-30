@@ -193,6 +193,11 @@
             </summary>
         </member>
         <!-- Badly formed XML comment ignored for member "F:Admin.NET.Core.CommonConst.SysCaptcha" -->
+        <member name="F:Admin.NET.Core.CommonConst.SysWartermarkText">
+            <summary>
+            开启水印
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.CommonConst.SysOpLog">
             <summary>
             开启操作日志

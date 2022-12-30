@@ -10,20 +10,24 @@
 			</el-input>
 		</el-form-item>
 		<el-form-item class="login-animation2" prop="password">
-			<el-input :type="state.isShowPassword ? 'text' : 'password'" placeholder="请输入密码" v-model="state.ruleForm.password" autocomplete="off">
+			<el-input :type="state.isShowPassword ? 'text' : 'password'" placeholder="请输入密码"
+				v-model="state.ruleForm.password" autocomplete="off">
 				<template #prefix>
 					<el-icon>
 						<ele-Unlock />
 					</el-icon>
 				</template>
 				<template #suffix>
-					<i class="iconfont el-input__icon login-content-password" :class="state.isShowPassword ? 'icon-yincangmima' : 'icon-xianshimima'" @click="state.isShowPassword = !state.isShowPassword"> </i>
+					<i class="iconfont el-input__icon login-content-password"
+						:class="state.isShowPassword ? 'icon-yincangmima' : 'icon-xianshimima'"
+						@click="state.isShowPassword = !state.isShowPassword"> </i>
 				</template>
 			</el-input>
 		</el-form-item>
 		<el-form-item class="login-animation3" prop="captcha" v-show="state.captchaEnabled">
 			<el-col :span="15">
-				<el-input text maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="state.ruleForm.code" clearable autocomplete="off">
+				<el-input text maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')"
+					v-model="state.ruleForm.code" clearable autocomplete="off">
 					<template #prefix>
 						<el-icon>
 							<ele-Position />
@@ -34,12 +38,14 @@
 			<el-col :span="1"></el-col>
 			<el-col :span="8">
 				<div class="login-content-code">
-					<img class="login-content-code-img" @click="getCaptcha" width="130px" height="38px" :src="state.captchaImage" style="cursor: pointer" />
+					<img class="login-content-code-img" @click="getCaptcha" width="130px" height="38px"
+						:src="state.captchaImage" style="cursor: pointer" />
 				</div>
 			</el-col>
 		</el-form-item>
 		<el-form-item class="login-animation4">
-			<el-button type="primary" class="login-content-submit" round v-waves @click="state.secondVerEnabled ? openRotateVerify() : onSignIn()" :loading="state.loading.signIn">
+			<el-button type="primary" class="login-content-submit" round v-waves
+				@click="state.secondVerEnabled ? openRotateVerify() : onSignIn()" :loading="state.loading.signIn">
 				<span>{{ $t('message.account.accountBtnText') }}</span>
 			</el-button>
 		</el-form-item>
@@ -48,16 +54,9 @@
 
 	<div class="dialog-header">
 		<el-dialog v-model="state.rotateVerifyVisible" :show-close="false">
-			<DragVerifyImgRotate
-				ref="dragRef"
-				:imgsrc="state.rotateVerifyImg"
-				v-model:isPassing="state.isPassRotate"
-				text="请按住滑块拖动"
-				successText="验证通过"
-				handlerIcon="fa fa-angle-double-right"
-				successIcon="fa fa-hand-peace-o"
-				@passcallback="passRotateVerify"
-			/>
+			<DragVerifyImgRotate ref="dragRef" :imgsrc="state.rotateVerifyImg" v-model:isPassing="state.isPassRotate"
+				text="请按住滑块拖动" successText="验证通过" handlerIcon="fa fa-angle-double-right"
+				successIcon="fa fa-hand-peace-o" @passcallback="passRotateVerify" />
 		</el-dialog>
 	</div>
 </template>
@@ -75,10 +74,16 @@ import { NextLoading } from '/@/utils/loading';
 import { clearTokens, feature, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/api';
 
+import { storeToRefs } from 'pinia';
+import { Local } from '/@/utils/storage';
+import { useThemeConfig } from '/@/stores/themeConfig';
+import Watermark from '/@/utils/wartermark';
 // 旋转图片滑块组件
 import verifyImg from '/@/assets/logo-mini.svg';
 const DragVerifyImgRotate = defineAsyncComponent(() => import('/@/components/dragVerify/dragVerifyImgRotate.vue'));
 
+const storesThemeConfig = useThemeConfig();
+const { themeConfig } = storeToRefs(storesThemeConfig);
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -106,6 +111,7 @@ const state = reactive({
 	rotateVerifyVisible: false,
 	rotateVerifyImg: verifyImg,
 	captchaEnabled: true,
+	wartermarkTextEnabled: true,
 	isPassRotate: false,
 });
 onMounted(async () => {
@@ -113,9 +119,19 @@ onMounted(async () => {
 	var res1 = await getAPI(SysAuthApi).loginConfigGet();
 	state.secondVerEnabled = res1.data.result.secondVerEnabled ?? true;
 	state.captchaEnabled = res1.data.result.captchaEnabled ?? true;
+	state.wartermarkTextEnabled = res1.data.result.wartermarkTextEnabled ?? true;
 
 	getCaptcha();
 });
+// 获取布局配置信息
+const getThemeConfig = computed(() => {
+	return themeConfig.value;
+});
+// 存储布局配置
+const setLocalThemeConfig = () => {
+	Local.remove('themeConfig');
+	Local.set('themeConfig', getThemeConfig.value);
+};
 // 获取验证码
 const getCaptcha = async () => {
 	state.ruleForm.code = '';
@@ -167,6 +183,13 @@ const signInSuccess = (isNoPower: boolean | undefined) => {
 		} else {
 			router.push('/');
 		}
+		// 设置水印
+		if (state.wartermarkTextEnabled) {
+			getThemeConfig.value.wartermarkText = state.ruleForm.account;
+			getThemeConfig.value.isWartermark = true;
+			if (getThemeConfig.value.isWartermark) Watermark.set(getThemeConfig.value.wartermarkText);
+			setLocalThemeConfig();
+		}
 		// 登录成功提示
 		const signInText = t('message.signInText');
 		ElMessage.success(`${currentTimeInfo}，${signInText}`);
@@ -195,9 +218,11 @@ const passRotateVerify = () => {
 		.el-dialog__header {
 			display: none;
 		}
+
 		.el-dialog__wrapper {
 			position: absolute !important;
 		}
+
 		.v-modal {
 			position: absolute !important;
 		}

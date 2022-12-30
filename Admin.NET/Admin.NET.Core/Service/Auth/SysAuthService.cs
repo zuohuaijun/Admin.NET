@@ -208,7 +208,8 @@ public class SysAuthService : IDynamicApiController, ITransient
     {
         var secondVerEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSecondVer);
         var captchaEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha);
-        return new { SecondVerEnabled = secondVerEnabled, CaptchaEnabled = captchaEnabled };
+        var wartermarkTextEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysWartermarkText);
+        return new { SecondVerEnabled = secondVerEnabled, CaptchaEnabled = captchaEnabled, WartermarkTextEnabled = wartermarkTextEnabled };
     }
 
     /// <summary>

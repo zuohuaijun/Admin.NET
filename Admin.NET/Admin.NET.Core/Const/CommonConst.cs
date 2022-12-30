@@ -28,6 +28,11 @@ public class CommonConst
     public const string SysCaptcha = "sys_captcha";
 
     /// <summary>
+    /// 开启水印
+    /// </summary>
+    public const string SysWartermarkText = "sys_wartermark_text";
+
+    /// <summary>
     /// 开启操作日志
     /// </summary>
     public const string SysOpLog = "sys_oplog";
