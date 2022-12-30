@@ -23,14 +23,13 @@ public class CommonConst
 
     /// <summary>
     /// 开启图形验证码
-
     /// </summary>
     public const string SysCaptcha = "sys_captcha";
 
     /// <summary>
     /// 开启水印
     /// </summary>
-    public const string SysWartermarkText = "sys_wartermark_text";
+    public const string SysWartermark = "sys_wartermark";
 
     /// <summary>
     /// 开启操作日志

@@ -58,9 +58,8 @@ public class SysAuthService : IDynamicApiController, ITransient
         //// 可以根据域名获取具体租户
         //var host = _httpContextAccessor.HttpContext.Request.Host;
 
-        // 判断验证码
-        var captchaConfig = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha);
-        if (captchaConfig == true)
+        // 是否开启验证码
+        if (await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha))
         {
             // 判断验证码
             if (!_captcha.Validate(input.CodeId.ToString(), input.Code))
@@ -208,8 +207,8 @@ public class SysAuthService : IDynamicApiController, ITransient
     {
         var secondVerEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSecondVer);
         var captchaEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha);
-        var wartermarkTextEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysWartermarkText);
-        return new { SecondVerEnabled = secondVerEnabled, CaptchaEnabled = captchaEnabled, WartermarkTextEnabled = wartermarkTextEnabled };
+        var wartermarkEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysWartermark);
+        return new { SecondVerEnabled = secondVerEnabled, CaptchaEnabled = captchaEnabled, WartermarkEnabled = wartermarkEnabled };
     }
 
     /// <summary>

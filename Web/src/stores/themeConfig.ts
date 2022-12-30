@@ -86,7 +86,7 @@ export const useThemeConfig = defineStore('themeConfig', {
 			// 是否开启 Tagsview
 			isTagsview: true,
 			// 是否开启 Breadcrumb 图标
-			isBreadcrumbIcon: true,
+			isBreadcrumbIcon: false,
 			// 是否开启 Tagsview 图标
 			isTagsviewIcon: false,
 			// 是否开启 TagsView 缓存
@@ -104,7 +104,7 @@ export const useThemeConfig = defineStore('themeConfig', {
 			// 是否开启水印
 			isWartermark: false,
 			// 水印文案
-			wartermarkText: '运城市智慧民政',
+			wartermarkText: 'Admin.NET',
 
 			/**
 			 * 其它设置

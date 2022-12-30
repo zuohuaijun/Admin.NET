@@ -192,8 +192,12 @@
             登录二次验证
             </summary>
         </member>
-        <!-- Badly formed XML comment ignored for member "F:Admin.NET.Core.CommonConst.SysCaptcha" -->
-        <member name="F:Admin.NET.Core.CommonConst.SysWartermarkText">
+        <member name="F:Admin.NET.Core.CommonConst.SysCaptcha">
+            <summary>
+            开启图形验证码
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CommonConst.SysWartermark">
             <summary>
             开启水印
             </summary>
