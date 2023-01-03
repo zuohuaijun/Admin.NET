@@ -30,7 +30,8 @@
 							<el-button icon="ele-Connection" @click="persistAll" />
 						</el-tooltip>
 					</el-button-group>
-					<el-button icon="ele-Coin" @click="openJobCluster" type="danger" plain> 集群控制 </el-button>
+					<el-button icon="ele-Coin" @click="openJobCluster" plain> 集群控制 </el-button>
+					<el-button icon="ele-Grid" @click="openJobDashboard" plain> 任务看板 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -179,6 +180,7 @@
 <script lang="ts">
 import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';
 import mittBus from '/@/utils/mitt';
 import { Timer } from '@element-plus/icons-vue';
 import EditJobDetail from '/@/views/system/job/component/editJobDetail.vue';
@@ -193,6 +195,7 @@ export default defineComponent({
 	name: 'sysJob',
 	components: { Timer, EditJobDetail, EditJobTrigger, JobCluster },
 	setup() {
+		const router = useRouter();
 		const editJobDetailRef = ref();
 		const editJobTriggerRef = ref();
 		const editJobClusterRef = ref();
@@ -337,6 +340,12 @@ export default defineComponent({
 		const openJobCluster = () => {
 			editJobClusterRef.value.openDrawer();
 		};
+		// 打开任务看板
+		const openJobDashboard = () => {
+			router.push({
+				path: '/platform/job/dashboard',
+			});
+		};
 		return {
 			editJobDetailRef,
 			editJobTriggerRef,
@@ -360,6 +369,7 @@ export default defineComponent({
 			cancelSleep,
 			persistAll,
 			openJobCluster,
+			openJobDashboard,
 			...toRefs(state),
 		};
 	},

@@ -48,6 +48,20 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 		},
 		children: [],
 	},
+	{
+		path: '/platform/job/dashboard',
+		name: 'jobDashboard',
+		component: () => import('/@/views/system/job/dashboard.vue'),
+		meta: {
+			title: '任务看板',
+			isLink: import.meta.env.VITE_API_URL + '/schedule',
+			isHide: true,
+			isKeepAlive: true,
+			isAffix: false,
+			isIframe: true,
+			icon: 'ele-Clock',
+		},
+	},
 ];
 
 /**
