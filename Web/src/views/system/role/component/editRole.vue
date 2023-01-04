@@ -44,7 +44,7 @@
 								:data="menuData"
 								node-key="id"
 								show-checkbox
-								:props="{ children: 'children', label: 'title', class: treeNodeClass, disabled: () => ruleForm.code == 'sys_admin' && ruleForm.id != undefined }"
+								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
 								icon="ele-Menu"
 								highlight-current
 								default-expand-all
