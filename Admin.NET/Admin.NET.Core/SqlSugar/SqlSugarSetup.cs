@@ -395,7 +395,7 @@ public static class SqlSugarSetup
                     continue;
 
                 var lambda = DynamicExpressionParser.ParseLambda(new[] {
-                    Expression.Parameter(entityType, "u") }, typeof(bool), $"@0.Contains((long)u.{nameof(EntityBaseData.CreateOrgId)})", orgIds);
+                    Expression.Parameter(entityType, "u") }, typeof(bool), $"@0.Contains(u.{nameof(EntityBaseData.CreateOrgId)}??{default(long)})", orgIds);
                 var tableFilterItem = new TableFilterItem<object>(entityType, lambda);
                 tableFilterItems.Add(tableFilterItem);
                 db.QueryFilter.Add(tableFilterItem);
