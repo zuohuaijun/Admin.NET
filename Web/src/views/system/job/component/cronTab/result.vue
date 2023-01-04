@@ -1,5 +1,5 @@
 <template>
-  <div class="popup-result">
+  <div class="popup-result" style="padding-left: 25px;">
     <p class="title">最近5次运行时间</p>
     <ul class="popup-result-scroll">
       <template v-if="isShow">
@@ -10,7 +10,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { onMounted, ref, watch } from 'vue';
+
 const props = defineProps({
   ex: {
     type: String,

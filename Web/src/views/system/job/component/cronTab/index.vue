@@ -101,7 +101,8 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import { computed, onMounted, ref, watch } from 'vue'
 import CrontabSecond from './second.vue'
 import CrontabMin from './min.vue'
 import CrontabHour from './hour.vue'
@@ -110,7 +111,7 @@ import CrontabMonth from './month.vue'
 import CrontabWeek from './week.vue'
 import CrontabYear from './year.vue'
 import CrontabResult from './result.vue'
-const { proxy } = getCurrentInstance()
+// const { proxy } = getCurrentInstance()
 const emit = defineEmits(['hide', 'fill'])
 const props = defineProps({
   hideComponent: {
@@ -140,7 +141,7 @@ const crontabValueString = computed(() => {
   return obj.second + ' ' + obj.min + ' ' + obj.hour + ' ' + obj.day + ' ' + obj.month + ' ' + obj.week + (obj.year === '' ? '' : ' ' + obj.year)
 })
 watch(expression, () => resolveExp())
-function shouldHide(key) {
+function shouldHide(key: any) {
   return !(hideComponent.value && hideComponent.value.includes(key))
 }
 function resolveExp() {
@@ -168,15 +169,15 @@ function resolveExp() {
   }
 }
 // tab切换值
-function tabCheck(index) {
+function tabCheck(index: number) {
   tabActive.value = index
 }
 // 由子组件触发，更改表达式组成的字段值
-function updateCrontabValue(name, value, from) {
+function updateCrontabValue(name: string | number, value: any, from: any) {
   crontabValueObj.value[name] = value
 }
 // 表单选项的子组件校验数字格式（通过-props传递）
-function checkNumber(value, minLimit, maxLimit) {
+function checkNumber(value: number, minLimit: number, maxLimit: number) {
   // 检查必须为整数
   value = Math.floor(value)
   if (value < minLimit) {
