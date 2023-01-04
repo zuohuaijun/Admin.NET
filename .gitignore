@@ -18,18 +18,17 @@ bin-release/
 # information for Eclipse / Flash Builder.
 /Admin.NET/.vs
 /Admin.NET/packages
-/Admin.NET/Admin.NET.Web.Entry/publish
-/Admin.NET/Admin.NET.Web.Entry/logs
 /Admin.NET/Admin.NET.Web.Entry/wwwroot/Upload
-
-# folders
-dist/
-.vs/
-node_modules/
 /Admin.NET/Admin.NET.Web.Entry/wwwroot/Avatar
 /Admin.NET/Admin.NET.Web.Entry/wwwroot/Signature
-/Admin.NET/Admin.NET.Web.Entry/*.db
 /Admin.NET/Admin.NET.Web.Core/Admin.NET.Web.Core.csproj.user
 /Admin.NET/Admin.NET.Web.Entry/Admin.NET.Web.Entry.csproj.user
 /Admin.NET/Admin.NET.Web.Entry/Properties/PublishProfiles
+/Admin.NET/Admin.NET.Web.Entry/publish
+/Admin.NET/Admin.NET.Web.Entry/logs
+/Admin.NET/Admin.NET.Web.Entry/*.db
+
+# folders
+dist/
+node_modules/
 /Web/package-lock.json
