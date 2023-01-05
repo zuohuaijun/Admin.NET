@@ -48,7 +48,7 @@ if (@column.WhetherRequired == "Y"){
     public class Delete@(@Model.ClassName)Input : BaseIdInput
     {
 @foreach (var column in Model.TableField){
-if (@column.ColumnKey == "True"){
+if (@column.ColumnKey == "True" && @column.ColumnName != "Id"){
         @:/// <summary>
         @:/// @column.ColumnComment
         @:/// </summary>
