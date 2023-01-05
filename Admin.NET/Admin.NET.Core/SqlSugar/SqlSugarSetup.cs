@@ -293,8 +293,8 @@ public static class SqlSugarSetup
             {
                 // 排除非当前数据库实体
                 var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-                if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
-                    (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                if ((tAtt != null && db.CurrentConnectionConfig.ConfigId.ToString() != tAtt.configId.ToString()) ||
+                    (tAtt == null && db.CurrentConnectionConfig.ConfigId.ToString() != SqlSugarConst.ConfigId))
                     continue;
 
                 var lambda = DynamicExpressionParser.ParseLambda(new[] {
@@ -341,8 +341,8 @@ public static class SqlSugarSetup
                 {
                     // 排除非当前数据库实体
                     var tenantAtt = entityType.GetCustomAttribute<TenantAttribute>();
-                    if ((tenantAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tenantAtt.configId.ToString()) ||
-                        (tenantAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                    if ((tenantAtt != null && db.CurrentConnectionConfig.ConfigId.ToString() != tenantAtt.configId.ToString()) ||
+                        (tenantAtt == null && db.CurrentConnectionConfig.ConfigId.ToString() != SqlSugarConst.ConfigId))
                         continue;
                 }
 
@@ -390,8 +390,8 @@ public static class SqlSugarSetup
             {
                 // 排除非当前数据库实体
                 var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-                if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
-                    (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                if ((tAtt != null && db.CurrentConnectionConfig.ConfigId.ToString() != tAtt.configId.ToString()) ||
+                    (tAtt == null && db.CurrentConnectionConfig.ConfigId.ToString() != SqlSugarConst.ConfigId))
                     continue;
 
                 var lambda = DynamicExpressionParser.ParseLambda(new[] {
@@ -440,8 +440,8 @@ public static class SqlSugarSetup
                     var entityType = tableFilterItem.GetType().GetProperty("type", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(tableFilterItem, null) as Type;
                     // 排除非当前数据库实体
                     var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-                    if ((tAtt != null && (string)db.CurrentConnectionConfig.ConfigId != tAtt.configId.ToString()) ||
-                        (tAtt == null && (string)db.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId))
+                    if ((tAtt != null && db.CurrentConnectionConfig.ConfigId.ToString() != tAtt.configId.ToString()) ||
+                        (tAtt == null && db.CurrentConnectionConfig.ConfigId.ToString() != SqlSugarConst.ConfigId))
                         return;
 
                     tableFilterItems.Add(tableFilterItem);

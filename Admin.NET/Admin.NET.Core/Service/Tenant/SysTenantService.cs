@@ -320,7 +320,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
         var encryptPassword = MD5Encryption.Encrypt(password);
-        await _sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Password = password }, u => u.Id == input.UserId);
+        await _sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Password = encryptPassword }, u => u.Id == input.UserId);
     }
 
     /// <summary>
