@@ -20,6 +20,7 @@ public static class ElasticSearchSetup
         var connectionPool = new SniffingConnectionPool(uris);
         var settings = new ConnectionSettings(connectionPool).DefaultIndex(defaultIndex);
         var client = new ElasticClient(settings);
+        client.Indices.Create(defaultIndex, i => i.Map<SysLogOp>(m => m.AutoMap()));
 
         services.AddSingleton(client); // 单例注册
     }
