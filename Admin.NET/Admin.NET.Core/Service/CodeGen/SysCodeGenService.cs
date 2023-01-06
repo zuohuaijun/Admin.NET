@@ -170,15 +170,17 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private List<ColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
     {
-        // 切库---多库代码生成用
-        var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.ConfigId);
-
         var entityType = _commonService.GetEntityInfos().Result.FirstOrDefault(m => m.EntityName == input.TableName);
         if (entityType == null)
             return null;
+
+        // 切库---多库代码生成用
+        var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.ConfigId);
+
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
+        var dbTableName = config.EnableUnderLine ? UtilMethods.ToUnderLine(entityType.DbTableName) : entityType.DbTableName;
         var entityBasePropertyNames = _codeGenOptions.EntityBaseColumn[nameof(EntityTenant)];
-        return provider.DbMaintenance.GetColumnInfosByTableName(config.EnableUnderLine ? UtilMethods.ToUnderLine(entityType.DbTableName) : entityType.DbTableName, false).Select(u => new ColumnOuput
+        return provider.DbMaintenance.GetColumnInfosByTableName(dbTableName, false).Select(u => new ColumnOuput
         {
             ColumnName = CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames),
             ColumnKey = u.IsPrimarykey.ToString(),
