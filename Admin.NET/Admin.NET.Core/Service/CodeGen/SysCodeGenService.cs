@@ -176,9 +176,9 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var entityType = _commonService.GetEntityInfos().Result.FirstOrDefault(m => m.EntityName == input.TableName);
         if (entityType == null)
             return null;
-
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         var entityBasePropertyNames = _codeGenOptions.EntityBaseColumn[nameof(EntityTenant)];
-        return provider.DbMaintenance.GetColumnInfosByTableName(entityType.DbTableName, false).Select(u => new ColumnOuput
+        return provider.DbMaintenance.GetColumnInfosByTableName(config.EnableUnderLine ? UtilMethods.ToUnderLine(entityType.DbTableName) : entityType.DbTableName, false).Select(u => new ColumnOuput
         {
             ColumnName = CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames),
             ColumnKey = u.IsPrimarykey.ToString(),
