@@ -23,7 +23,7 @@
         "DefaultCulture": "zh-CN" // 默认语言
     },
     "CorsAccessorSettings": {
-        "WithExposedHeaders": [ "Content-Disposition" ], // 如果前端不代理且是axios请求
+        "WithExposedHeaders": [ "Content-Disposition", "X-Pagination", "access-token", "x-access-token" ], // 如果前端不代理且是axios请求
         "SignalRSupport": true // 启用 SignalR 跨域支持
     }
 }

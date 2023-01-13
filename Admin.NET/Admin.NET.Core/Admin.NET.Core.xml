@@ -2572,6 +2572,11 @@
             文件超过允许大小
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D8003">
+            <summary>
+            文件后缀错误
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.D9000">
             <summary>
             已存在同名或同编码参数配置

@@ -31,6 +31,8 @@ declare type MittType<T = any> = {
 	submitRefreshColumn?: string; // 库表管理列刷新
 	addTableSubmitted?: string; // 库表管理增加表刷新
 	submitRefreshFk?: string; // 代码生成主键刷新
+
+	uploadCropperImg?: any; // 上传裁剪图片
 };
 
 // mitt 参数类型定义

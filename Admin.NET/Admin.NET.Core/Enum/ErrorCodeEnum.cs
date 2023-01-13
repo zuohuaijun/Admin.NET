@@ -367,6 +367,12 @@ public enum ErrorCodeEnum
     D8002,
 
     /// <summary>
+    /// 文件后缀错误
+    /// </summary>
+    [ErrorCodeItemMetadata("文件后缀错误")]
+    D8003,
+
+    /// <summary>
     /// 已存在同名或同编码参数配置
     /// </summary>
     [ErrorCodeItemMetadata("已存在同名或同编码参数配置")]

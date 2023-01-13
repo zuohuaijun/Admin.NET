@@ -34,8 +34,17 @@
 						<el-image :src="userInfos.signature" fit="contain" alt="电子签名" lazy style="width: 100%; height: 100%"> </el-image>
 					</div>
 					<el-button icon="ele-Edit" type="primary" @click="openSignDialog" v-auth="'sysUser:signature'"> 电子签名 </el-button>
-					<el-upload ref="uploadSignRef" action="" accept=".png" :limit="1" :show-file-list="false" :auto-upload="false" :on-change="uploadSignFile" style="display: inline-block; margin-left: 12px">
-						<el-button icon="ele-UploadFilled" style="display: inline-block">上传手写签名</el-button>
+					<el-upload
+						ref="uploadSignRef"
+						action=""
+						accept=".png"
+						:limit="1"
+						:show-file-list="false"
+						:auto-upload="false"
+						:on-change="uploadSignFile"
+						style="display: inline-block; margin-left: 12px; position: absolute"
+					>
+						<el-button icon="ele-UploadFilled">上传手写签名</el-button>
 					</el-upload>
 				</el-card>
 			</el-col>
@@ -145,18 +154,19 @@
 			</template>
 		</el-dialog>
 
-		<CropperDialog ref="cropperDialogRef" />
+		<CropperDialog ref="cropperDialogRef" :title="cropperTitle" />
 	</div>
 </template>
 
 <script lang="ts">
-import { toRefs, reactive, defineComponent, ref, onMounted, watch } from 'vue';
+import { toRefs, reactive, defineComponent, ref, onMounted, watch, onUnmounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { ElMessageBox, UploadInstance } from 'element-plus';
 import { useUserInfo } from '/@/stores/userInfo';
 import { base64ToFile } from '/@/utils/base64Conver';
 import OrgTree from '/@/views/system/user/component/orgTree.vue';
 import CropperDialog from '/@/components/cropper/index.vue';
+import mittBus from '/@/utils/mitt';
 
 import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysFileApi, SysUserApi } from '/@/api-services/api';
@@ -189,12 +199,21 @@ export default defineComponent({
 			},
 			signFileList: [] as any,
 			passwordNew2: '',
+			cropperTitle: '',
 		});
 		onMounted(async () => {
 			state.loading = true;
 			var res = await getAPI(SysUserApi).sysUserBaseGet();
 			state.ruleFormBase = res.data.result ?? { account: '' };
 			state.loading = false;
+
+			mittBus.on('uploadCropperImg', async (e) => {
+				var res = await getAPI(SysFileApi).sysFileUploadAvatarPostForm(e.img);
+				userInfos.value.avatar = res.data.result?.url + '';
+			});
+		});
+		onUnmounted(() => {
+			mittBus.off('uploadCropperImg', () => {});
 		});
 		watch(state.signOptions, () => {
 			signaturePadRef.value.signaturePad.penColor = state.signOptions.penColor;
@@ -218,7 +237,7 @@ export default defineComponent({
 		// 撤销电子签名
 		const unDoSign = () => {
 			signaturePadRef.value.undoSignature();
-			console.log(signaturePadRef.value.options);
+			// console.log(signaturePadRef.value.options);
 		};
 		// 清空电子签名
 		const clearSign = () => {
@@ -233,7 +252,7 @@ export default defineComponent({
 		const handleChangeSignFile = (_file: any, fileList: []) => {
 			state.signFileList = fileList;
 		};
-		// 上传头像文件
+		// 上传头像文件回调
 		const uploadAvatarFile = async (file: any) => {
 			var res = await getAPI(SysFileApi).sysFileUploadAvatarPostForm(file.raw);
 			userInfos.value.avatar = res.data.result?.url + '';
@@ -283,6 +302,7 @@ export default defineComponent({
 		};
 		// 打开裁剪弹窗
 		const openCropperDialog = () => {
+			state.cropperTitle = '更换头像';
 			cropperDialogRef.value.openDialog(userInfos.value.avatar);
 		};
 		// 鼠标进入和离开头像时

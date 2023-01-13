@@ -1,6 +1,12 @@
 <template>
 	<div>
-		<el-dialog title="更换头像" v-model="state.isShowDialog" width="769px">
+		<el-dialog v-model="state.isShowDialog" width="769px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span>{{ props.title }}</span>
+				</div>
+			</template>
 			<div class="cropper-warp">
 				<div class="cropper-warp-left">
 					<img :src="state.cropperImg" class="cropper-warp-left-img" />
@@ -23,8 +29,19 @@
 			</div>
 			<template #footer>
 				<span class="dialog-footer">
+					<el-upload
+						ref="uploadSignRef"
+						accept=".jpg,.png"
+						:limit="1"
+						:show-file-list="false"
+						:auto-upload="false"
+						:on-change="selectPicture"
+						style="display: inline-block; position: absolute; right: 172px"
+					>
+						<el-button icon="ele-Picture">选择图片</el-button>
+					</el-upload>
 					<el-button @click="onCancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" size="default">更 换</el-button>
+					<el-button type="primary" @click="onSubmit" size="default">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -33,8 +50,16 @@
 
 <script setup lang="ts" name="cropper">
 import { reactive, nextTick } from 'vue';
+import mittBus from '/@/utils/mitt';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
+
+const props = defineProps({
+	title: {
+		type: String,
+		default: () => '',
+	},
+});
 
 // 定义变量内容
 const state = reactive({
@@ -54,32 +79,44 @@ const openDialog = (imgs: string) => {
 };
 // 关闭弹窗
 const closeDialog = () => {
+	state.cropper.destroy();
 	state.isShowDialog = false;
 };
 // 取消
 const onCancel = () => {
 	closeDialog();
 };
-// 更换
-const onSubmit = () => {
-	// state.cropperImgBase64 = state.cropper.getCroppedCanvas().toDataURL('image/jpeg');
+// 更换/上传
+const onSubmit = async () => {
+	state.cropperImgBase64 = state.cropper.getCroppedCanvas().toBlob(async function (img: Blob | undefined) {
+		mittBus.emit('uploadCropperImg', { img: img });
+		closeDialog();
+	});
 };
 // 初始化cropperjs图片裁剪
 const initCropper = () => {
 	const letImg = <HTMLImageElement>document.querySelector('.cropper-warp-left-img');
+	console.log(letImg);
 	state.cropper = new Cropper(letImg, {
-		viewMode: 1,
+		viewMode: 0,
 		dragMode: 'none',
 		initialAspectRatio: 1,
 		aspectRatio: 1,
 		preview: '.before',
-		background: false,
-		autoCropArea: 0.6,
-		zoomOnWheel: false,
+		background: true,
+		autoCropArea: 1,
+		// zoomOnWheel: false,
+		checkCrossOrigin: false,
 		crop: () => {
-			state.cropperImgBase64 = state.cropper.getCroppedCanvas().toDataURL('image/jpeg');
+			state.cropperImgBase64 = state.cropper.getCroppedCanvas()!.toDataURL('image/jpeg');
 		},
 	});
+};
+// 选择图片
+const selectPicture = async (file: any) => {
+	let URL = window.URL || window.webkitURL;
+	state.cropperImg = URL.createObjectURL(file.raw);
+	state.cropper.replace(state.cropperImg);
 };
 
 // 暴露变量

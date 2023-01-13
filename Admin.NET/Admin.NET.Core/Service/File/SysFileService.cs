@@ -1,3 +1,5 @@
+using Furion.VirtualFileServer;
+using Microsoft.AspNetCore.StaticFiles;
 using OnceMi.AspNetCore.OSS;
 
 namespace Admin.NET.Core.Service;
@@ -175,6 +177,13 @@ public class SysFileService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D8002);
 
         var suffix = Path.GetExtension(file.FileName).ToLower(); // 后缀
+        if (string.IsNullOrWhiteSpace(suffix))
+        {
+            var contentTypeProvider = FS.GetFileExtensionContentTypeProvider();
+            suffix = contentTypeProvider.Mappings.FirstOrDefault(u => u.Value == file.ContentType).Key;
+        }
+        if (string.IsNullOrWhiteSpace(suffix))
+            throw Oops.Oh(ErrorCodeEnum.D8003);
 
         var newFile = new SysFile
         {
@@ -262,7 +271,7 @@ public class SysFileService : IDynamicApiController, ITransient
         var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();
         var user = sysUserRep.GetFirst(u => u.Id == _userManager.UserId);
         // 删除当前用户已有头像
-        if (!string.IsNullOrWhiteSpace(user.Avatar) && user.Avatar.EndsWith(".png"))
+        if (!string.IsNullOrWhiteSpace(user.Avatar))
         {
             var fileId = Path.GetFileNameWithoutExtension(user.Avatar);
             await DeleteFile(new DeleteFileInput { Id = long.Parse(fileId) });
