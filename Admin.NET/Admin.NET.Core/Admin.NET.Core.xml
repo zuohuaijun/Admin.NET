@@ -32,7 +32,7 @@
         </member>
         <member name="T:Admin.NET.Core.SqlSugarCache">
             <summary>
-            SqlSugar二级缓存（必须是内存缓存）
+            SqlSugar二级缓存
             </summary>
         </member>
         <member name="M:Admin.NET.Core.LazyCaptchaSetup.AddLazyCaptcha(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
@@ -7205,6 +7205,11 @@
             SqlSugar仓储类
             </summary>
             <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:Admin.NET.Core.SqlSugarSetup._cache">
+            <summary>
+            缓存全局查询过滤器（内存缓存）
+            </summary>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>

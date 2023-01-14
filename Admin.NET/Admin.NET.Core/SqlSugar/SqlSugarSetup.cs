@@ -3,6 +3,11 @@ namespace Admin.NET.Core;
 public static class SqlSugarSetup
 {
     /// <summary>
+    /// 缓存全局查询过滤器（内存缓存）
+    /// </summary>
+    private static readonly ICache _cache = Cache.Default;
+
+    /// <summary>
     /// Sqlsugar 上下文初始化
     /// </summary>
     /// <param name="services"></param>
@@ -278,17 +283,16 @@ public static class SqlSugarSetup
     /// </summary>
     private static void SetDeletedEntityFilter(SqlSugarScopeProvider db)
     {
-        // 配置实体假删除缓存
         var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:IsDelete";
-        var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
-        if (tableFilterItemList == null)
+        var deletedFilter = _cache.Get<ConcurrentDictionary<Type, LambdaExpression>>(cacheKey);
+        if (deletedFilter == null)
         {
             // 获取基类实体数据表
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
                 && (u.BaseType == typeof(EntityBase) || u.BaseType == typeof(EntityTenant) || u.BaseType == typeof(EntityBaseData)));
             if (!entityTypes.Any()) return;
 
-            var tableFilterItems = new List<TableFilterItem<object>>();
+            deletedFilter = new ConcurrentDictionary<Type, LambdaExpression>();
             foreach (var entityType in entityTypes)
             {
                 // 排除非当前数据库实体
@@ -299,18 +303,15 @@ public static class SqlSugarSetup
 
                 var lambda = DynamicExpressionParser.ParseLambda(new[] {
                     Expression.Parameter(entityType, "u") }, typeof(bool), $"{nameof(EntityBase.IsDelete)} == @0", false);
-                var tableFilterItem = new TableFilterItem<object>(entityType, lambda);
-                tableFilterItems.Add(tableFilterItem);
-                db.QueryFilter.Add(tableFilterItem);
+                db.QueryFilter.AddTableFilter(entityType, lambda);
+                deletedFilter.TryAdd(entityType, lambda);
             }
-            db.DataCache.Add(cacheKey, tableFilterItems);
+            _cache.Add(cacheKey, deletedFilter);
         }
         else
         {
-            tableFilterItemList.ForEach(u =>
-            {
-                db.QueryFilter.Add(u);
-            });
+            foreach (var filter in deletedFilter)
+                db.QueryFilter.AddTableFilter(filter.Key, filter.Value);
         }
     }
 
@@ -324,15 +325,15 @@ public static class SqlSugarSetup
 
         // 配置租户缓存
         var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:TenantId:{tenantId}";
-        var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
-        if (tableFilterItemList == null)
+        var tenantFilter = _cache.Get<ConcurrentDictionary<Type, LambdaExpression>>(cacheKey);
+        if (tenantFilter == null)
         {
             // 获取租户实体数据表
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
                 && (u.BaseType == typeof(EntityTenant) || u.BaseType == typeof(EntityTenantId)));
             if (!entityTypes.Any()) return;
 
-            var tableFilterItems = new List<TableFilterItem<object>>();
+            tenantFilter = new ConcurrentDictionary<Type, LambdaExpression>();
             foreach (var entityType in entityTypes)
             {
                 // 获取库隔离租户业务实体
@@ -348,18 +349,15 @@ public static class SqlSugarSetup
 
                 var lambda = DynamicExpressionParser.ParseLambda(new[] {
                     Expression.Parameter(entityType, "u") }, typeof(bool), $"{nameof(EntityTenant.TenantId)} == @0", long.Parse(tenantId));
-                var tableFilterItem = new TableFilterItem<object>(entityType, lambda);
-                tableFilterItems.Add(tableFilterItem);
-                db.QueryFilter.Add(tableFilterItem);
+                db.QueryFilter.AddTableFilter(entityType, lambda);
+                tenantFilter.TryAdd(entityType, lambda);
             }
-            db.DataCache.Add(cacheKey, tableFilterItems);
+            _cache.Add(cacheKey, tenantFilter);
         }
         else
         {
-            tableFilterItemList.ForEach(u =>
-            {
-                db.QueryFilter.Add(u);
-            });
+            foreach (var filter in tenantFilter)
+                db.QueryFilter.AddTableFilter(filter.Key, filter.Value);
         }
     }
 
@@ -373,8 +371,8 @@ public static class SqlSugarSetup
 
         // 配置用户机构范围缓存
         var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:UserId:{userId}";
-        var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
-        if (tableFilterItemList == null)
+        var orgFilter = _cache.Get<ConcurrentDictionary<Type, LambdaExpression>>(cacheKey);
+        if (orgFilter == null)
         {
             // 获取用户所属机构
             var orgIds = App.GetService<SysCacheService>().Get<List<long>>(CacheConst.KeyOrgIdList + userId);
@@ -385,7 +383,7 @@ public static class SqlSugarSetup
                 && u.BaseType == typeof(EntityBaseData));
             if (!entityTypes.Any()) return;
 
-            var tableFilterItems = new List<TableFilterItem<object>>();
+            orgFilter = new ConcurrentDictionary<Type, LambdaExpression>();
             foreach (var entityType in entityTypes)
             {
                 // 排除非当前数据库实体
@@ -396,18 +394,15 @@ public static class SqlSugarSetup
 
                 var lambda = DynamicExpressionParser.ParseLambda(new[] {
                     Expression.Parameter(entityType, "u") }, typeof(bool), $"@0.Contains(u.{nameof(EntityBaseData.CreateOrgId)}??{default(long)})", orgIds);
-                var tableFilterItem = new TableFilterItem<object>(entityType, lambda);
-                tableFilterItems.Add(tableFilterItem);
-                db.QueryFilter.Add(tableFilterItem);
+                db.QueryFilter.AddTableFilter(entityType, lambda);
+                orgFilter.TryAdd(entityType, lambda);
             }
-            db.DataCache.Add(cacheKey, tableFilterItems);
+            _cache.Add(cacheKey, orgFilter);
         }
         else
         {
-            tableFilterItemList.ForEach(u =>
-            {
-                db.QueryFilter.Add(u);
-            });
+            foreach (var filter in orgFilter)
+                db.QueryFilter.AddTableFilter(filter.Key, filter.Value);
         }
     }
 
@@ -418,7 +413,7 @@ public static class SqlSugarSetup
     {
         // 配置用户机构范围缓存
         var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:Custom";
-        var tableFilterItemList = db.DataCache.Get<List<TableFilterItem<object>>>(cacheKey);
+        var tableFilterItemList = _cache.Get<List<TableFilterItem<object>>>(cacheKey);
         if (tableFilterItemList == null)
         {
             // 获取自定义实体过滤器
@@ -448,7 +443,7 @@ public static class SqlSugarSetup
                     db.QueryFilter.Add(tableFilterItem);
                 }
             }
-            db.DataCache.Add(cacheKey, tableFilterItems);
+            _cache.Add(cacheKey, tableFilterItems);
         }
         else
         {

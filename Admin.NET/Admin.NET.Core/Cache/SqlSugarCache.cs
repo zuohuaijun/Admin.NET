@@ -1,13 +1,11 @@
-﻿using NewLife.Caching;
-
-namespace Admin.NET.Core;
+﻿namespace Admin.NET.Core;
 
 /// <summary>
-/// SqlSugar二级缓存（必须是内存缓存）
+/// SqlSugar二级缓存
 /// </summary>
-public class SqlSugarCache : ICacheService, ISingleton
+public class SqlSugarCache : ICacheService
 {
-    private static readonly ICache _cache = Cache.Default;
+    private static readonly ICache _cache = App.GetService(typeof(ICache)) as ICache;
 
     public void Add<V>(string key, V value)
     {

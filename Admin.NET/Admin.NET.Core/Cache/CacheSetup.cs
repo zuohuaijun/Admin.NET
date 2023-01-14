@@ -1,6 +1,4 @@
-﻿using NewLife.Caching;
-
-namespace Admin.NET.Core;
+﻿namespace Admin.NET.Core;
 
 public static class CacheSetup
 {
@@ -10,19 +8,16 @@ public static class CacheSetup
     /// <param name="services"></param>
     public static void AddCache(this IServiceCollection services)
     {
-        services.AddSingleton(options =>
+        ICache cache = Cache.Default;
+
+        var cacheOptions = App.GetOptions<CacheOptions>();
+        if (cacheOptions.CacheType == CacheTypeEnum.Redis.ToString())
         {
-            var cacheOptions = App.GetOptions<CacheOptions>();
-            if (cacheOptions.CacheType == CacheTypeEnum.Redis.ToString())
-            {
-                var redis = new FullRedis();
-                redis.Init(cacheOptions.RedisConnectionString);
-                return redis;
-            }
-            else
-            {
-                return Cache.Default;
-            }
-        });
+            var redis = new FullRedis();
+            redis.Init(cacheOptions.RedisConnectionString);
+            cache = redis;
+        }
+
+        services.AddSingleton(cache);
     }
 }
