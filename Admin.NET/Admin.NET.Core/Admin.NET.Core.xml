@@ -7136,6 +7136,31 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="F:Admin.NET.Core.SqlSugarFilter._cache">
+            <summary>
+            缓存全局查询过滤器（内存缓存）
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarFilter.SetDeletedEntityFilter(SqlSugar.SqlSugarScopeProvider)">
+            <summary>
+            配置实体假删除过滤器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarFilter.SetTenantEntityFilter(SqlSugar.SqlSugarScopeProvider)">
+            <summary>
+            配置租户过滤器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarFilter.SetOrgEntityFilter(SqlSugar.SqlSugarScopeProvider)">
+            <summary>
+            配置用户机构范围过滤器
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SqlSugarFilter.SetCustomEntityFilter(SqlSugar.SqlSugarScopeProvider)">
+            <summary>
+            配置自定义过滤器
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SqlSugarPagedList`1">
             <summary>
             分页泛型集合
@@ -7206,11 +7231,6 @@
             </summary>
             <typeparam name="T"></typeparam>
         </member>
-        <member name="F:Admin.NET.Core.SqlSugarSetup._cache">
-            <summary>
-            缓存全局查询过滤器（内存缓存）
-            </summary>
-        </member>
         <member name="M:Admin.NET.Core.SqlSugarSetup.AddSqlSugar(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             Sqlsugar 上下文初始化
@@ -7249,26 +7269,6 @@
             </summary>
             <param name="itenant"></param>
             <param name="config"></param>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetDeletedEntityFilter(SqlSugar.SqlSugarScopeProvider)">
-            <summary>
-            配置实体假删除过滤器
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetTenantEntityFilter(SqlSugar.SqlSugarScopeProvider)">
-            <summary>
-            配置租户过滤器
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetOrgEntityFilter(SqlSugar.SqlSugarScopeProvider)">
-            <summary>
-            配置用户机构范围过滤器
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarSetup.SetCustomEntityFilter(SqlSugar.SqlSugarScopeProvider)">
-            <summary>
-            配置自定义过滤器
-            </summary>
         </member>
         <member name="T:Admin.NET.Core.SqlSugarUnitOfWork">
             <summary>

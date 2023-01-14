@@ -39,7 +39,7 @@ public static class SqlSugarSetup
     /// 配置连接属性
     /// </summary>
     /// <param name="config"></param>
-    public static void SetDbConfig(DbConnectionConfig config)
+    private static void SetDbConfig(DbConnectionConfig config)
     {
         var configureExternalServices = new ConfigureExternalServices
         {
@@ -185,7 +185,7 @@ public static class SqlSugarSetup
     /// </summary>
     /// <param name="db"></param>
     /// <param name="config"></param>
-    public static void InitDatabase(SqlSugarScope db, DbConnectionConfig config)
+    private static void InitDatabase(SqlSugarScope db, DbConnectionConfig config)
     {
         if (!config.EnableInitDb) return;
 
