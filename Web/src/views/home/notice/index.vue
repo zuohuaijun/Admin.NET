@@ -97,14 +97,8 @@ const state = reactive({
 });
 onMounted(async () => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
 });
-onUnmounted(() => {
-	mittBus.off('submitRefresh', () => {});
-});
+onUnmounted(() => {});
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
@@ -135,6 +129,8 @@ const viewDetail = async (row: any) => {
 	state.dialogVisible = true;
 
 	row.readStatus = 1;
+
+	mittBus.emit('noticeRead', row.sysNotice.id);
 	await getAPI(SysNoticeApi).sysNoticeSetReadPost({ id: row.sysNotice.id });
 };
 
