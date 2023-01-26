@@ -2,14 +2,14 @@
 
 *   安装docker,docker-compose 环境
 
-*   使用vs编译后台Admin.NET复制发布文件到++docker/app/++&#x20;
+*   使用vs编译后台Admin.NET复制发布文件到*docker/app/*
 
-*   如果服务器有node环境使用build.sh编译前端文件到 <u>docker/nginx/dist</u>。或者将编译结果放进 <u>docker/nginx/dist</u>
+*   如果服务器有node环境使用build.sh编译前端文件到 *docker/nginx/dist*。或者将编译结果放进 *docker/nginx/dist*
 
 ## 注意事项
 
-1.  <u>docker/app/Configuration/Database.json</u> 文件不需要修改，不要覆盖掉了
-2.  <u>Web/.env.production</u> 文件配置接口地址配置为 VITE\_API\_URL = '/prod-api'
+1.  *docker/app/Configuration/Database.json* 文件不需要修改，不要覆盖掉了
+2.  *Web/.env.production* 文件配置接口地址配置为 VITE\_API\_URL = '/prod-api'
 3.  nginx，mysql配置文件无需修改
 
 ***
