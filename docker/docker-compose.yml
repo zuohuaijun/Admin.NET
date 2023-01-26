@@ -1,0 +1,46 @@
+version: "3"
+
+services:
+  nginx:
+    image: nginx:1.20.2
+    ports:
+      - "9100:80"
+    volumes:
+      - "./nginx/dist:/usr/share/nginx/html"
+      - "./nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro"
+    links:
+      - adminNet
+  mysql:
+    image: mysql:5.7
+    ports:
+      - 9101:3306
+    restart: unless-stopped
+    privileged: true
+    ulimits:
+       nproc: 655350
+       nofile:
+         soft: 131072
+         hard: 400000
+    #healthcheck:
+    #  test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+    #  interval: 10s # 间隔时间
+    #  timeout: 3s  # 超时时间
+    #  retries: 50   # 重试次数
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: admin
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - ./mysql/mysql:/var/lib/mysql
+      - ./mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf
+  adminNet:
+    image: mcr.microsoft.com/dotnet/aspnet:6.0
+    ports:
+      - "9102:5050"
+    volumes:
+      - "./app:/app"
+    working_dir: /app
+    command: ["/app/wait-for-it.sh", "mysql:3306", "-t", "120", "--","dotnet", "Admin.NET.Web.Entry.dll"]
+    depends_on:
+      - mysql
+
