@@ -52,4 +52,4 @@ const openDrawer = () => {
 defineExpose({ openDrawer });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped></style>

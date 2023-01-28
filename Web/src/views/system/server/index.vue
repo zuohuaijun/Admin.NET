@@ -203,7 +203,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .sysInfo_table {
 	width: 100%;
 	min-height: 40px;

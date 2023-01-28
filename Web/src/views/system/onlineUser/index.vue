@@ -143,4 +143,4 @@ const handleCurrentChange = (val: number) => {
 defineExpose({ openDrawer });
 </script>
 
-<style lang="scss"></style>
+<style lang="scss" scoped></style>
