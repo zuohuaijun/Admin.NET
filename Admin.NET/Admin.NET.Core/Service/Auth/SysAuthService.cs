@@ -144,7 +144,8 @@ public class SysAuthService : IDynamicApiController, ITransient
             Os = client.OS.Family + client.OS.Major,
             VisType = LoginTypeEnum.Login,
             Account = user.Account,
-            RealName = user.RealName
+            RealName = user.RealName,
+            TenantId = user.TenantId,
         });
 
         return new LoginUserOutput
