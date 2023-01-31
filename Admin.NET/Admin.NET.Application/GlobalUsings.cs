@@ -1,8 +1,8 @@
-﻿global using Admin.NET.Application.Entity;
-global using Admin.NET.Core;
+﻿global using Admin.NET.Core;
 global using Furion;
 global using Furion.DependencyInjection;
 global using Furion.DynamicApiController;
+global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.Extensions.DependencyInjection;
 global using SqlSugar;

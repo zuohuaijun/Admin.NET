@@ -1,11 +1,9 @@
-using Admin.NET.Application.Const;
-
-namespace Admin.NET.Application.Entity;
+namespace Admin.NET.Application;
 
 /// <summary>
-/// 自己业务数据表
+/// 测试表
 /// </summary>
-[SugarTable(null, "自己业务数据表")]
+[SugarTable(null, "测试表")]
 [Tenant(ApplicationConst.ConfigId)]
 public class Test : EntityBase
 {
@@ -26,5 +24,5 @@ public class Test : EntityBase
     /// 出生日期
     /// </summary>
     [SugarColumn(ColumnDescription = "出生日期")]
-    public DateTime BirthDate { get; set; }
+    public DateTime? BirthDate { get; set; }
 }
