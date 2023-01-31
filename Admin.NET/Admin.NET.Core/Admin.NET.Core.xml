@@ -312,6 +312,36 @@
             租户Id
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.IDeletedFilter">
+            <summary>
+            假删除接口过滤器
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.IDeletedFilter.IsDelete">
+            <summary>
+            软删除
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.ITenantIdFilter">
+            <summary>
+            租户Id接口过滤器
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.ITenantIdFilter.TenantId">
+            <summary>
+            租户Id
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.IOrgIdFilter">
+            <summary>
+            机构Id接口过滤器
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.IOrgIdFilter.CreateOrgId">
+            <summary>
+            创建者部门Id
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.SysCodeGen">
             <summary>
             代码生成表
@@ -7139,16 +7169,6 @@
         <member name="F:Admin.NET.Core.SqlSugarFilter._cache">
             <summary>
             缓存全局查询过滤器（内存缓存）
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarFilter.SetDeletedEntityFilter(SqlSugar.SqlSugarScopeProvider)">
-            <summary>
-            配置实体假删除过滤器
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SqlSugarFilter.SetTenantEntityFilter(SqlSugar.SqlSugarScopeProvider)">
-            <summary>
-            配置租户过滤器
             </summary>
         </member>
         <member name="M:Admin.NET.Core.SqlSugarFilter.SetOrgEntityFilter(SqlSugar.SqlSugarScopeProvider)">

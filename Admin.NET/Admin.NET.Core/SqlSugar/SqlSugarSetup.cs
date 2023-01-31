@@ -140,10 +140,13 @@ public static class SqlSugarSetup
             return;
 
         // 配置实体假删除过滤器
-        SqlSugarFilter.SetDeletedEntityFilter(db);
+        db.QueryFilter.AddTableFilter<IDeletedFilter>(u => u.IsDelete == false);
         // 配置租户过滤器
-        SqlSugarFilter.SetTenantEntityFilter(db);
-        // 配置用户机构范围过滤器
+        var tenantId = App.User?.FindFirst(ClaimConst.TenantId)?.Value;
+        if (!string.IsNullOrWhiteSpace(tenantId))
+            db.QueryFilter.AddTableFilter<ITenantIdFilter>(u => u.TenantId == long.Parse(tenantId));
+
+        // 配置用户机构（数据范围）过滤器
         SqlSugarFilter.SetOrgEntityFilter(db);
         // 配置自定义过滤器
         SqlSugarFilter.SetCustomEntityFilter(db);
@@ -232,7 +235,7 @@ public static class SqlSugarSetup
             if (entityInfo.Columns.Any(u => u.IsPrimarykey))
             {
                 // 按主键进行批量增加和更新
-                var storage = dbProvider.CopyNew().StorageableByObject(seedData.ToList()).ToStorage();
+                var storage = dbProvider.StorageableByObject(seedData.ToList()).ToStorage();
                 storage.AsInsertable.ExecuteCommand();
                 var ignoreUpdate = hasDataMethod.GetCustomAttribute<IgnoreUpdateAttribute>();
                 if (ignoreUpdate == null) storage.AsUpdateable.ExecuteCommand();

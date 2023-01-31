@@ -15,7 +15,7 @@ public abstract class EntityBaseId
 /// <summary>
 /// 框架实体基类
 /// </summary>
-public abstract class EntityBase : EntityBaseId
+public abstract class EntityBase : EntityBaseId, IDeletedFilter
 {
     /// <summary>
     /// 创建时间
@@ -51,7 +51,7 @@ public abstract class EntityBase : EntityBaseId
 /// <summary>
 /// 业务数据实体基类(数据权限)
 /// </summary>
-public abstract class EntityBaseData : EntityBase
+public abstract class EntityBaseData : EntityBase, IOrgIdFilter
 {
     /// <summary>
     /// 创建者部门Id
@@ -63,7 +63,7 @@ public abstract class EntityBaseData : EntityBase
 /// <summary>
 /// 租户基类实体
 /// </summary>
-public abstract class EntityTenant : EntityBase
+public abstract class EntityTenant : EntityBase, ITenantIdFilter
 {
     /// <summary>
     /// 租户Id
@@ -75,7 +75,7 @@ public abstract class EntityTenant : EntityBase
 /// <summary>
 /// 租户基类实体Id
 /// </summary>
-public abstract class EntityTenantId : EntityBaseId
+public abstract class EntityTenantId : EntityBaseId, ITenantIdFilter
 {
     /// <summary>
     /// 租户Id
