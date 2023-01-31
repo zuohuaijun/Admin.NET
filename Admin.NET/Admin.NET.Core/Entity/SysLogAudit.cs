@@ -24,13 +24,13 @@ public class SysLogAudit : EntityBase
     /// <summary>
     /// 新值
     /// </summary>
-    [SugarColumn(ColumnDescription = "新值", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "新值", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? NewValue { get; set; }
 
     /// <summary>
     /// 旧值
     /// </summary>
-    [SugarColumn(ColumnDescription = "旧值", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "旧值", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? OldValue { get; set; }
 
     /// <summary>

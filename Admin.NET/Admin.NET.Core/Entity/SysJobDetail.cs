@@ -57,7 +57,7 @@ public class SysJobDetail : EntityBaseId
     /// <summary>
     /// 额外数据
     /// </summary>
-    [SugarColumn(ColumnDescription = "额外数据", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "额外数据", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? Properties { get; set; } = "{}";
 
     /// <summary>
@@ -69,6 +69,6 @@ public class SysJobDetail : EntityBaseId
     /// <summary>
     /// 脚本代码
     /// </summary>
-    [SugarColumn(ColumnDescription = "脚本代码", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "脚本代码", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? ScriptCode { get; set; }
 }

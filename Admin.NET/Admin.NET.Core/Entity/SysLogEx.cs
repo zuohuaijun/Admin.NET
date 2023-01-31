@@ -24,25 +24,25 @@ public class SysLogEx : EntityTenant
     /// <summary>
     /// 事件Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "事件Id", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "事件Id", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? EventId { get; set; }
 
     /// <summary>
     /// 日志消息
     /// </summary>
-    [SugarColumn(ColumnDescription = "日志消息", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "日志消息", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? Message { get; set; }
 
     /// <summary>
     /// 异常对象
     /// </summary>
-    [SugarColumn(ColumnDescription = "异常对象", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "异常对象", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? Exception { get; set; }
 
     /// <summary>
     /// 当前状态值
     /// </summary>
-    [SugarColumn(ColumnDescription = "当前状态值", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "当前状态值", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? State { get; set; }
 
     /// <summary>

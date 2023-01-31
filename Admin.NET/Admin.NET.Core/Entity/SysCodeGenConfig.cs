@@ -142,7 +142,7 @@ public class SysCodeGenConfig : EntityBase
     /// <summary>
     /// 显示文本字段
     /// </summary>
-    [SugarColumn(ColumnDescription = "显示文本字段", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "显示文本字段", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? DisplayColumn { get; set; }
 
     /// <summary>

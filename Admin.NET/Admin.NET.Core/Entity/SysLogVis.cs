@@ -16,7 +16,7 @@ public class SysLogVis : EntityTenant
     /// <summary>
     /// 具体消息
     /// </summary>
-    [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? Message { get; set; }
 
     /// <summary>

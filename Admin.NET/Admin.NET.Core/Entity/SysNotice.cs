@@ -17,7 +17,7 @@ public class SysNotice : EntityBase
     /// <summary>
     /// 内容
     /// </summary>
-    [SugarColumn(ColumnDescription = "内容", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "内容", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     [Required]
     public virtual string Content { get; set; }
 

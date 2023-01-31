@@ -105,13 +105,13 @@ public class SysWechatUser : EntityBase
     /// <summary>
     /// AccessToken
     /// </summary>
-    [SugarColumn(ColumnDescription = "AccessToken", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "AccessToken", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? AccessToken { get; set; }
 
     /// <summary>
     /// RefreshToken
     /// </summary>
-    [SugarColumn(ColumnDescription = "RefreshToken", ColumnDataType = "longtext,text,clob")]
+    [SugarColumn(ColumnDescription = "RefreshToken", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? RefreshToken { get; set; }
 
     /// <summary>
