@@ -33,6 +33,8 @@ declare type MittType<T = any> = {
 	submitRefreshFk?: string; // 代码生成主键刷新
 
 	uploadCropperImg?: any; // 上传裁剪图片
+
+	noticeRead: number; // 消息已读事件
 };
 
 // mitt 参数类型定义

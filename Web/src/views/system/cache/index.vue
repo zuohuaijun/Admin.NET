@@ -135,7 +135,7 @@ export default defineComponent({
 </script>
 +
 
-<style lang="scss">
+<style lang="scss" scoped>
 .card-header {
 	display: flex;
 	justify-content: space-between;

@@ -24,7 +24,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 body {
 	margin: 0; // 去除页面垂直滚动条
 }

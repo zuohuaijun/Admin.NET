@@ -35,7 +35,7 @@
 		<div class="layout-navbars-breadcrumb-user-icon">
 			<el-popover placement="bottom" trigger="hover" transition="el-zoom-in-top" :width="300" :persistent="false">
 				<template #reference>
-					<el-badge :is-dot="true">
+					<el-badge :is-dot="hasUnreadNotice">
 						<el-icon :title="$t('message.user.title4')">
 							<ele-Bell />
 						</el-icon>
@@ -74,7 +74,7 @@
 </template>
 
 <script setup lang="ts" name="layoutBreadcrumbUser">
-import { defineAsyncComponent, ref, computed, reactive, onMounted } from 'vue';
+import { defineAsyncComponent, ref, computed, reactive, onMounted, onUnmounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessageBox, ElMessage, ElNotification } from 'element-plus';
 import screenfull from 'screenfull';
@@ -119,6 +119,10 @@ const layoutUserFlexNum = computed(() => {
 	if (layoutArr.includes(layout) || (layout === 'classic' && !isClassicSplitMenu)) num = '1';
 	else num = '';
 	return num;
+});
+// 是否有未读消息
+const hasUnreadNotice = computed(() => {
+	return state.noticeList.some((r: any) => r.readStatus == undefined || r.readStatus == 0);
 });
 // 全屏点击时
 const onScreenfullClick = () => {
@@ -212,9 +216,23 @@ onMounted(async () => {
 	state.noticeList = res.data.result ?? [];
 
 	// 接收站内信
-	signalR.on('PublicNotice', reciveNotice);
+	signalR.on('PublicNotice', receiveNotice);
+
+	// 处理消息已读
+	mittBus.on('noticeRead', (id) => {
+		const notice = state.noticeList.find((r: any) => r.id == id);
+		if (notice == undefined) return;
+
+		// 设置已读
+		notice.readStatus = 1;
+	});
 });
-const reciveNotice = (msg: any) => {
+// 页面卸载时
+onUnmounted(() => {
+	mittBus.off('noticeRead', () => {});
+});
+
+const receiveNotice = (msg: any) => {
 	state.noticeList.unshift(msg);
 
 	ElNotification({
