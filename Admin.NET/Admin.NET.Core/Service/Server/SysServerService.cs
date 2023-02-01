@@ -87,7 +87,7 @@ public class SysServerService : IDynamicApiController, ITransient
     {
         var furionAssembly = typeof(App).Assembly.GetName();
         var sqlSugarAssembly = typeof(ISqlSugarClient).Assembly.GetName();
-        var yitIdAssembly = typeof(Yitter.IdGenerator.YitIdHelper).Assembly.GetName();
+        var yitIdAssembly = typeof(YitIdHelper).Assembly.GetName();
         var redisAssembly = typeof(Redis).Assembly.GetName();
         var jsonAssembly = typeof(NewtonsoftJsonMvcCoreBuilderExtensions).Assembly.GetName();
         var excelAssembly = typeof(IExcelImporter).Assembly.GetName();

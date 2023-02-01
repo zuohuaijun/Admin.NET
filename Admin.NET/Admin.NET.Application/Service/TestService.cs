@@ -15,7 +15,7 @@ public class TestService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 测试
+    /// 接口测试
     /// </summary>
     public string GetName()
     {
@@ -23,7 +23,16 @@ public class TestService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取列表
+    /// 增加一条数据
+    /// </summary>
+    /// <returns></returns>
+    public async Task<bool> AddTest()
+    {
+        return await _testRep.InsertAsync(new Test() { Name = "王五" });
+    }
+
+    /// <summary>
+    /// 获取数据列表
     /// </summary>
     /// <returns></returns>
     [HttpGet("/test/list")]

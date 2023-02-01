@@ -3,10 +3,6 @@
 /// <summary>
 /// 雪花Id配置选项
 /// </summary>
-public sealed class SnowIdOptions : IConfigurableOptions
+public sealed class SnowIdOptions : IdGeneratorOptions, IConfigurableOptions
 {
-    /// <summary>
-    /// 机器码
-    /// </summary>
-    public ushort WorkerId { get; set; }
 }

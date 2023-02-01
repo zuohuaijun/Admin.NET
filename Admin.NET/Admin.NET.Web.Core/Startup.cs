@@ -170,11 +170,8 @@ public class Startup : AppStartup
             });
         }
 
-        // 配置雪花Id算法机器码
-        YitIdHelper.SetIdGenerator(new IdGeneratorOptions
-        {
-            WorkerId = App.GetOptions<SnowIdOptions>().WorkerId
-        });
+        // 雪花Id
+        YitIdHelper.SetIdGenerator(App.GetOptions<SnowIdOptions>());
 
         // 验证码
         services.AddLazyCaptcha();

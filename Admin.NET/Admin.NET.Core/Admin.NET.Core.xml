@@ -3784,11 +3784,6 @@
             雪花Id配置选项
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SnowIdOptions.WorkerId">
-            <summary>
-            机器码
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.UploadOptions">
             <summary>
             文件上传配置选项

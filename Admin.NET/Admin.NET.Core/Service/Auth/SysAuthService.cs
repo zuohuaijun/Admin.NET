@@ -221,7 +221,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     [SuppressMonitor]
     public dynamic GetCaptcha()
     {
-        var codeId = Yitter.IdGenerator.YitIdHelper.NextId();
+        var codeId = YitIdHelper.NextId();
         var captcha = _captcha.Generate(codeId.ToString());
         return new { Id = codeId, Img = captcha.Base64 };
     }

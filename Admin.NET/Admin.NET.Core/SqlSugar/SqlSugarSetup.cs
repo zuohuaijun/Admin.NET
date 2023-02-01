@@ -108,7 +108,7 @@ public static class SqlSugarSetup
                 {
                     var id = entityInfo.EntityColumnInfo.PropertyInfo.GetValue(entityInfo.EntityValue);
                     if (id == null || (long)id == 0)
-                        entityInfo.SetValue(Yitter.IdGenerator.YitIdHelper.NextId());
+                        entityInfo.SetValue(YitIdHelper.NextId());
                 }
                 if (entityInfo.PropertyName == "CreateTime")
                     entityInfo.SetValue(DateTime.Now);

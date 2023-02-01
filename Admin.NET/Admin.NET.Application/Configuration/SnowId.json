@@ -2,6 +2,8 @@
     "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
 
     "SnowId": {
-        "WorkerId": 5 // 取值范围0~63,默认1
+        "WorkerId": 1, // 机器码 全局唯一
+        "WorkerIdBitLength": 1, // 机器码位长 默认值6，取值范围 [1, 19]
+        "SeqBitLength": 6 // 序列数位长 默认值6，取值范围 [3, 21]（建议不小于4）
     }
 }
