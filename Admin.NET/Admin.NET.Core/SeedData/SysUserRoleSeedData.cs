@@ -14,11 +14,11 @@ public class SysUserRoleSeedData : ISqlSugarEntitySeedData<SysUserRole>
     {
         return new[]
         {
-            new SysUserRole{ Id=252885263003001, UserId=252885263003721, RoleId=252885263003721 },
-            new SysUserRole{ Id=252885263003002, UserId=252885263003722, RoleId=252885263003722 },
-            new SysUserRole{ Id=252885263003003, UserId=252885263003723, RoleId=252885263003723 },
-            new SysUserRole{ Id=252885263003004, UserId=252885263003724, RoleId=252885263003724 },
-            new SysUserRole{ Id=252885263003005, UserId=252885263003725, RoleId=252885263003725 },
+            new SysUserRole{ Id=1300000000101, UserId=1300000000111, RoleId=1300000000101 },
+            new SysUserRole{ Id=1300000000102, UserId=1300000000112, RoleId=1300000000102 },
+            new SysUserRole{ Id=1300000000103, UserId=1300000000113, RoleId=1300000000103 },
+            new SysUserRole{ Id=1300000000104, UserId=1300000000114, RoleId=1300000000104 },
+            new SysUserRole{ Id=1300000000105, UserId=1300000000115, RoleId=1300000000105 },
         };
     }
 }
