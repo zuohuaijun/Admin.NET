@@ -3698,16 +3698,6 @@
             微信配置
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.OAuthOptionItem.ClientId">
-            <summary>
-            ClientId
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.OAuthOptionItem.ClientSecret">
-            <summary>
-            ClientSecret
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.OSSProviderOptions">
             <summary>
             对象存储配置选项
@@ -3817,31 +3807,6 @@
         <member name="P:Admin.NET.Core.WechatPayOptions.AppId">
             <summary>
             微信公众平台AppId、开放平台AppId、小程序AppId、企业微信CorpId
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantId">
-             <summary>
-            商户平台的商户号
-             </summary>
-        </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantV3Secret">
-            <summary>
-            商户平台的APIv3密钥
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantCertificateSerialNumber">
-            <summary>
-            商户平台的证书序列号
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.MerchantCertificatePrivateKey">
-            <summary>
-            商户平台的API证书私钥(apiclient_key.pem文件内容)
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.WechatPayOptions.RsaPublicKey">
-            <summary>
-            RSA公钥 仅调用"企业付款到银行卡API"时使用
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysConfigSeedData">

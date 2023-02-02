@@ -8,18 +8,5 @@ public sealed class OAuthOptions : IConfigurableOptions
     /// <summary>
     /// 微信配置
     /// </summary>
-    public OAuthOptionItem Weixin { get; set; }
-}
-
-public class OAuthOptionItem
-{
-    /// <summary>
-    /// ClientId
-    /// </summary>
-    public string ClientId { get; set; }
-
-    /// <summary>
-    /// ClientSecret
-    /// </summary>
-    public string ClientSecret { get; set; }
+    public Microsoft.AspNetCore.Authentication.OAuth.OAuthOptions Weixin { get; set; }
 }

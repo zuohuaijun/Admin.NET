@@ -10,16 +10,8 @@ public sealed class WechatOptions : IConfigurableOptions
 
     public string WechatAppSecret { get; set; }
 
-    public string EncodingAESKey { get; set; }
-
-    public string Token { get; set; }
-
     //小程序
     public string WxOpenAppId { get; set; }
 
     public string WxOpenAppSecret { get; set; }
-
-    public string WxOpenToken { get; set; }
-
-    public string WxOpenEncodingAESKey { get; set; }
 }
