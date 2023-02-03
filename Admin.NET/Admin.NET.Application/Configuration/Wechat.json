@@ -5,13 +5,9 @@
         // 公众号
         "WechatAppId": "",
         "WechatAppSecret": "",
-        "EncodingAESKey": "",
-        "Token": "",
         // 小程序
         "WxOpenAppId": "",
-        "WxOpenAppSecret": "",
-        "WxOpenToken": "",
-        "WxOpenEncodingAESKey": ""
+        "WxOpenAppSecret": ""
     },
     // 微信支付
     "WechatPay": {
