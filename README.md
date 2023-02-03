@@ -16,13 +16,11 @@
 最好用的框架(Furion)配合性能最强的ORM(SqlSugar)加持，阅历痛点，相见恨晚！让 .NET 开发更简单，更通用，更流行！
 ```
 
-
 ## 🍁说明
 1.  支持各种数据库，后台配置文件自行修改（自动生成数据库及种子数据）
 2.  前端运行步骤：1、安装依赖pnpm install 2、运行pnpm run dev 3、打包pnpm run build
 3.  QQ群：[87333204](https://jq.qq.com/?_wv=1027&k=1t8iqf0G)  微信号：zuohuaijun
-4.  演示环境：https://demo.devqd.com/   (不定期重置数据库)
- 
+4.  演示环境：https://demo.devqd.com/   (不定期重置数据库) 
 
 ## 📙开发流程
 ```bash
@@ -34,9 +32,7 @@
 
 ```
 
-
 ## 🍎效果截图
-
 <table>
     <tr>
         <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/next/doc/img/1.png"/></td>
@@ -64,9 +60,7 @@
     </tr>
 </table>
 
-
 ## 🍖内置功能
-
  1. 主控面板：控制台页面，可进行工作台，分析页，统计等功能的展示。
  2. 用户管理：对企业用户和系统管理员用户的维护，可绑定用户职务，机构，角色，数据权限等。
  3. 机构管理：公司组织架构维护，支持多层级结构的树形结构。
@@ -92,14 +86,26 @@
 23. ES 日志：通过 NEST 组件实现日志存取到 Elasticsearch 日志系统。
 24. 开放授权：支持OAuth 2.0开放标准授权登录，比如微信。
 
+## 🛒应用商城
+```
+🎖️iMES工厂管家：一款基于.NetCore3.1和Vue3的MES管理系统。项目亮点：模版打印，Excel模版导出，自定义实体扩展，移动端精美设计，大屏设计等功能。地址：https://imes.625sc.com
+```
+<table>
+    <tr>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/next/doc/shop/1.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/next/doc/shop/2.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/next/doc/shop/3.png"/></td>
+        <td><img src="https://gitee.com/zuohuaijun/Admin.NET/raw/next/doc/shop/4.png"/></td>
+    </tr>
+</table>
+
 ## 🎀捐赠支持
 ```
 如果对您有帮助，请点击右上角⭐Star关注或扫码捐赠，感谢支持开源！
 ```
 <img src="https://gitee.com/zuohuaijun/Admin.NET/raw/next/doc/img/pay.png"/>
 
-
-### 开发教程 💐 特别鸣谢
+## 💐特别鸣谢
 - 👉 Furion：[https://dotnetchina.gitee.io/furion](https://dotnetchina.gitee.io/furion)
 - 👉 vue-next-admin：[https://lyt-top.gitee.io/vue-next-admin-doc-preview/](https://lyt-top.gitee.io/vue-next-admin-doc-preview/)
 - 👉 SqlSugar：[https://gitee.com/dotnetchina/SqlSugar](https://gitee.com/dotnetchina/SqlSugar)
