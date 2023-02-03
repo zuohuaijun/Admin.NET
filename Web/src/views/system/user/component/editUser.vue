@@ -260,9 +260,9 @@ export default defineComponent({
 		});
 		onMounted(async () => {
 			state.loading = true;
-			var res = await getAPI(SysPosApi).sysPosListGet();
+			var res = await getAPI(SysPosApi).apiSysPosListGet();
 			state.posData = res.data.result ?? [];
-			var res1 = await getAPI(SysRoleApi).sysRoleListGet();
+			var res1 = await getAPI(SysRoleApi).apiSysRoleListGet();
 			state.roleData = res1.data.result ?? [];
 			state.loading = false;
 		});
@@ -270,9 +270,9 @@ export default defineComponent({
 		const openDialog = async (row: any) => {
 			state.ruleForm = JSON.parse(JSON.stringify(row));
 			if (JSON.stringify(row) !== '{}') {
-				var resRole = await getAPI(SysUserApi).sysUserOwnRoleUserIdGet(row.id);
+				var resRole = await getAPI(SysUserApi).apiSysUserOwnRoleListUserIdGet(row.id);
 				state.ruleForm.roleIdList = resRole.data.result;
-				var resExtOrg = await getAPI(SysUserApi).sysUserOwnOrgUserIdGet(row.id);
+				var resExtOrg = await getAPI(SysUserApi).apiSysUserExtOrgListUserIdGet(row.id);
 				state.ruleForm.extOrgIdList = resExtOrg.data.result;
 				state.isShowDialog = true;
 			} else state.isShowDialog = true;
@@ -291,9 +291,9 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysUserApi).sysUserUpdatePost(state.ruleForm);
+					await getAPI(SysUserApi).apiSysUserUpdatePut(state.ruleForm);
 				} else {
-					await getAPI(SysUserApi).sysUserAddPost(state.ruleForm);
+					await getAPI(SysUserApi).apiSysUserAddPost(state.ruleForm);
 				}
 				closeDialog();
 			});

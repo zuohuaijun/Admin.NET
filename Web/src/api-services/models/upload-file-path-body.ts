@@ -14,13 +14,13 @@
 /**
  * 
  * @export
- * @interface SysFileUploadBody
+ * @interface UploadFilePathBody
  */
-export interface SysFileUploadBody {
+export interface UploadFilePathBody {
     /**
      * 
      * @type {Blob}
-     * @memberof SysFileUploadBody
+     * @memberof UploadFilePathBody
      */
     file: Blob;
 }

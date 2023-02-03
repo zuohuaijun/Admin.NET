@@ -5,7 +5,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统异常日志服务
 /// </summary>
-[ApiDescriptionSettings(Order = 178)]
+[ApiDescriptionSettings(Order = 340)]
 public class SysLogExService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysLogEx> _sysLogExRep;
@@ -19,9 +19,8 @@ public class SysLogExService : IDynamicApiController, ITransient
     /// 获取异常日志分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysLogEx/page")]
     [SuppressMonitor]
-    public async Task<SqlSugarPagedList<SysLogEx>> GetLogExPage([FromQuery] PageLogInput input)
+    public async Task<SqlSugarPagedList<SysLogEx>> GetPage([FromQuery] PageLogInput input)
     {
         return await _sysLogExRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
@@ -34,8 +33,8 @@ public class SysLogExService : IDynamicApiController, ITransient
     /// 清空异常日志
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysLogEx/clear")]
-    public async Task<bool> ClearLogEx()
+    [ApiDescriptionSettings(Name = "Clear")]
+    public async Task<bool> Clear()
     {
         return await _sysLogExRep.DeleteAsync(u => u.Id > 0);
     }
@@ -44,7 +43,7 @@ public class SysLogExService : IDynamicApiController, ITransient
     /// 导出异常日志
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysLogEx/expor"), NonUnify]
+    [ApiDescriptionSettings(Name = "Export"), NonUnify]
     public async Task<IActionResult> ExporLogOp(LogInput input)
     {
         var lopOpList = await _sysLogExRep.AsQueryable()

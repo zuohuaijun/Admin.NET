@@ -12,8 +12,9 @@
                 "TermsOfService": "https://dotnetchina.gitee.io/furion/",
                 "Contact": {
                     "Name": "zuohuaijun",
-                    "Url": "https://gitee.com/zuohuaijun/Admin.NET",
-                    "Email": "515096995@qq.com"
+                    "phone": "18020030720",
+                    "Email": "515096995@qq.com",
+                    "Url": "https://gitee.com/zuohuaijun/Admin.NET"
                 }
             },
             {
@@ -24,16 +25,17 @@
                 "TermsOfService": "https://dotnetchina.gitee.io/furion/",
                 "Contact": {
                     "Name": "zuohuaijun",
-                    "Url": "https://gitee.com/zuohuaijun/Admin.NET",
-                    "Email": "515096995@qq.com"
+                    "phone": "18020030720",
+                    "Email": "515096995@qq.com",
+                    "Url": "https://gitee.com/zuohuaijun/Admin.NET"
                 }
             }
         ],
         "EnableAllGroups": true,
         "LoginInfo": {
             "Enabled": false, // 是否开启Swagger登录
-            "CheckUrl": "/Swagger/CheckUrl",
-            "SubmitUrl": "/Swagger/SubmitUrl",
+            "CheckUrl": "/api/swagger/checkUrl",
+            "SubmitUrl": "/api/swagger/submitUrl",
             "UserName": "admin",
             "Password": "000000"
         }

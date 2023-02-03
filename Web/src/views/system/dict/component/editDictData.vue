@@ -98,9 +98,9 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysDictDataApi).sysDictDataUpdatePost(state.ruleForm);
+					await getAPI(SysDictDataApi).apiSysDictDataUpdatePut(state.ruleForm);
 				} else {
-					await getAPI(SysDictDataApi).sysDictDataAddPost(state.ruleForm);
+					await getAPI(SysDictDataApi).apiSysDictDataAddPost(state.ruleForm);
 				}
 				closeDialog();
 			});

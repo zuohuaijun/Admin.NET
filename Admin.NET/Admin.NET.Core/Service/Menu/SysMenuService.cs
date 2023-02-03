@@ -3,7 +3,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统菜单服务
 /// </summary>
-[ApiDescriptionSettings(Order = 195)]
+[ApiDescriptionSettings(Order = 450)]
 public class SysMenuService : IDynamicApiController, ITransient
 {
     private readonly UserManager _userManager;
@@ -29,7 +29,6 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取登录菜单树
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/loginMenu")]
     public async Task<List<MenuOutput>> GetLoginMenuTree()
     {
         if (_userManager.SuperAdmin)
@@ -69,9 +68,8 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取菜单列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysMenu/list")]
     [AllowAnonymous]
-    public async Task<List<SysMenu>> GetMenuList([FromQuery] MenuInput input)
+    public async Task<List<SysMenu>> GetList([FromQuery] MenuInput input)
     {
         var menuIdList = _userManager.SuperAdmin ? new List<long>() : await GetMenuIdList();
 
@@ -96,7 +94,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysMenu/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task AddMenu(AddMenuInput input)
     {
         var isExist = input.Type != MenuTypeEnum.Btn
@@ -120,7 +118,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysMenu/update"),]
+    [ApiDescriptionSettings(Name = "Update")]
     public async Task UpdateMenu(UpdateMenuInput input)
     {
         var isExist = input.Type != MenuTypeEnum.Btn
@@ -143,7 +141,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysMenu/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     [UnitOfWork]
     public async Task DeleteMenu(DeleteMenuInput input)
     {
@@ -176,11 +174,10 @@ public class SysMenuService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取按钮权限列表(登录)
+    /// 获取按钮权限列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/getPermCode")]
-    public async Task<List<string>> GetPermCodeList()
+    public async Task<List<string>> GetBtnPermissionList()
     {
         var userId = _userManager.UserId;
         var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyPermission + userId); // 取缓存
@@ -201,7 +198,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [NonAction]
-    public async Task<List<string>> GetAllPermCodeList()
+    public async Task<List<string>> GetAllBtnList()
     {
         var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyPermission + 0); // 先从缓存里面读取
         if (permissions == null || permissions.Count == 0)

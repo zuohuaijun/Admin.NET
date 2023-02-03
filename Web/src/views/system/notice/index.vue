@@ -109,7 +109,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysNoticeApi).sysNoticePageGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysNoticeApi).apiSysNoticePageGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
 			state.noticeData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -138,7 +138,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysNoticeApi).sysNoticeDeletePost({ id: row.id });
+					await getAPI(SysNoticeApi).apiSysNoticeDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})
@@ -152,7 +152,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysNoticeApi).sysNoticePublicPost({ id: row.id });
+					await getAPI(SysNoticeApi).apiSysNoticePublicPost({ id: row.id });
 					handleQuery();
 					ElMessage.success('发布成功');
 				})

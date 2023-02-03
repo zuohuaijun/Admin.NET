@@ -138,7 +138,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysTenantApi).sysTenantPageGet(state.queryParams.name, state.queryParams.phone, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysTenantApi).apiSysTenantPageGet(state.queryParams.name, state.queryParams.phone, state.tableParams.page, state.tableParams.pageSize);
 			state.tenantData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -171,7 +171,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysTenantApi).sysTenantResetPwdPost({ userId: row.userId });
+					await getAPI(SysTenantApi).apiSysTenantResetPwdPost({ userId: row.userId });
 					ElMessage.success('密码重置成功：123456');
 				})
 				.catch(() => {});
@@ -184,7 +184,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysTenantApi).sysTenantDeletePost({ id: row.id });
+					await getAPI(SysTenantApi).apiSysTenantDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})
@@ -208,7 +208,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysTenantApi).sysTenantCreateDbPost({ id: row.id });
+					await getAPI(SysTenantApi).apiSysTenantCreateDbPost({ id: row.id });
 					ElMessage.success('创建/更新租户数据库成功');
 				})
 				.catch(() => {});
@@ -216,7 +216,7 @@ export default defineComponent({
 		// 修改状态
 		const changeStatus = (row: any) => {
 			getAPI(SysTenantApi)
-				.sysTenantSetStatusPost({ id: row.id, status: row.status })
+				.apiSysTenantSetStatusPost({ id: row.id, status: row.status })
 				.then(() => {
 					ElMessage.success('租户状态设置成功');
 				})

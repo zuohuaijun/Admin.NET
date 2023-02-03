@@ -92,7 +92,7 @@ export default defineComponent({
 		});
 		onMounted(async () => {
 			state.loading = true;
-			var res = await getAPI(SysMenuApi).sysMenuListGet();
+			var res = await getAPI(SysMenuApi).apiSysMenuListGet();
 			state.menuData = res.data.result ?? [];
 			state.loading = false;
 		});
@@ -100,7 +100,7 @@ export default defineComponent({
 		const openDialog = async (row: any) => {
 			state.ruleForm = JSON.parse(JSON.stringify(row));
 			if (JSON.stringify(row) !== '{}') {
-				var res = await getAPI(SysRoleApi).sysRoleOwnMenuListGet(row.id);
+				var res = await getAPI(SysRoleApi).apiSysRoleOwnMenuListGet(row.id);
 				setTimeout(() => {
 					treeRef.value?.setCheckedKeys(res.data.result);
 				}, 100);
@@ -122,9 +122,9 @@ export default defineComponent({
 				if (!valid) return;
 				state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys() as Array<number>; //.concat(treeRef.value?.getHalfCheckedKeys());
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysRoleApi).sysRoleUpdatePost(state.ruleForm);
+					await getAPI(SysRoleApi).apiSysRoleUpdatePut(state.ruleForm);
 				} else {
-					await getAPI(SysRoleApi).sysRoleAddPost(state.ruleForm);
+					await getAPI(SysRoleApi).apiSysRoleAddPost(state.ruleForm);
 				}
 				closeDialog();
 			});

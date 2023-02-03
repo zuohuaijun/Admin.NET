@@ -70,12 +70,12 @@ namespace Admin.NET.Web.Core
             if (defalutRoutes.Contains(routeName)) return true;
 
             // 获取用户权限集合（按钮或API接口）
-            var permissionList = await App.GetService<SysMenuService>().GetPermCodeList();
-            var allPermissionList = await App.GetService<SysMenuService>().GetAllPermCodeList();
+            var btnPermissionList = await App.GetService<SysMenuService>().GetBtnPermissionList();
+            var allBtnList = await App.GetService<SysMenuService>().GetAllBtnList();
 
             // 检查授权（菜单中没有配置按钮权限，则不限制）
-            return permissionList.Exists(p => p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase)) ||
-                allPermissionList.TrueForAll(p => !p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase));
+            return btnPermissionList.Exists(p => p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase)) ||
+                allBtnList.TrueForAll(p => !p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase));
         }
     }
 }

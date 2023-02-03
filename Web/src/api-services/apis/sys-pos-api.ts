@@ -33,8 +33,8 @@ export const SysPosApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysPosAddPost: async (body?: AddPosInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysPos/add`;
+        apiSysPosAddPost: async (body?: AddPosInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysPos/add`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -74,15 +74,15 @@ export const SysPosApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysPosDeletePost: async (body?: DeletePosInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysPos/delete`;
+        apiSysPosDeleteDelete: async (body?: DeletePosInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysPos/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -116,8 +116,8 @@ export const SysPosApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysPosListGet: async (name?: string, code?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysPos/list`;
+        apiSysPosListGet: async (name?: string, code?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysPos/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -161,15 +161,15 @@ export const SysPosApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysPosUpdatePost: async (body?: UpdatePosInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysPos/update`;
+        apiSysPosUpdatePut: async (body?: UpdatePosInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysPos/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -211,8 +211,8 @@ export const SysPosApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosAddPost(body?: AddPosInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).sysPosAddPost(body, options);
+        async apiSysPosAddPost(body?: AddPosInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).apiSysPosAddPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -225,8 +225,8 @@ export const SysPosApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosDeletePost(body?: DeletePosInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).sysPosDeletePost(body, options);
+        async apiSysPosDeleteDelete(body?: DeletePosInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).apiSysPosDeleteDelete(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -240,8 +240,8 @@ export const SysPosApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosListGet(name?: string, code?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysPos>>> {
-            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).sysPosListGet(name, code, options);
+        async apiSysPosListGet(name?: string, code?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysPos>>> {
+            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).apiSysPosListGet(name, code, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -254,8 +254,8 @@ export const SysPosApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosUpdatePost(body?: UpdatePosInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).sysPosUpdatePost(body, options);
+        async apiSysPosUpdatePut(body?: UpdatePosInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysPosApiAxiosParamCreator(configuration).apiSysPosUpdatePut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -277,8 +277,8 @@ export const SysPosApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosAddPost(body?: AddPosInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysPosApiFp(configuration).sysPosAddPost(body, options).then((request) => request(axios, basePath));
+        async apiSysPosAddPost(body?: AddPosInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysPosApiFp(configuration).apiSysPosAddPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -287,8 +287,8 @@ export const SysPosApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosDeletePost(body?: DeletePosInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysPosApiFp(configuration).sysPosDeletePost(body, options).then((request) => request(axios, basePath));
+        async apiSysPosDeleteDelete(body?: DeletePosInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysPosApiFp(configuration).apiSysPosDeleteDelete(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -298,8 +298,8 @@ export const SysPosApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosListGet(name?: string, code?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysPos>> {
-            return SysPosApiFp(configuration).sysPosListGet(name, code, options).then((request) => request(axios, basePath));
+        async apiSysPosListGet(name?: string, code?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysPos>> {
+            return SysPosApiFp(configuration).apiSysPosListGet(name, code, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -308,8 +308,8 @@ export const SysPosApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysPosUpdatePost(body?: UpdatePosInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysPosApiFp(configuration).sysPosUpdatePost(body, options).then((request) => request(axios, basePath));
+        async apiSysPosUpdatePut(body?: UpdatePosInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysPosApiFp(configuration).apiSysPosUpdatePut(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -329,8 +329,8 @@ export class SysPosApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysPosApi
      */
-    public async sysPosAddPost(body?: AddPosInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysPosApiFp(this.configuration).sysPosAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysPosAddPost(body?: AddPosInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysPosApiFp(this.configuration).apiSysPosAddPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -340,8 +340,8 @@ export class SysPosApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysPosApi
      */
-    public async sysPosDeletePost(body?: DeletePosInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysPosApiFp(this.configuration).sysPosDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysPosDeleteDelete(body?: DeletePosInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysPosApiFp(this.configuration).apiSysPosDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -352,8 +352,8 @@ export class SysPosApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysPosApi
      */
-    public async sysPosListGet(name?: string, code?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysPos>> {
-        return SysPosApiFp(this.configuration).sysPosListGet(name, code, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysPosListGet(name?: string, code?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysPos>> {
+        return SysPosApiFp(this.configuration).apiSysPosListGet(name, code, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -363,7 +363,7 @@ export class SysPosApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysPosApi
      */
-    public async sysPosUpdatePost(body?: UpdatePosInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysPosApiFp(this.configuration).sysPosUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysPosUpdatePut(body?: UpdatePosInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysPosApiFp(this.configuration).apiSysPosUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

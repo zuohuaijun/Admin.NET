@@ -31,8 +31,8 @@ export const SysOnlineUserApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysOnlineUserForceOfflinePost: async (body?: SysOnlineUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysOnlineUser/forceOffline`;
+        apiSysOnlineUserForceOfflinePost: async (body?: SysOnlineUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysOnlineUser/forceOffline`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -78,8 +78,8 @@ export const SysOnlineUserApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysOnlineUserPageGet: async (userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysOnlineUser/page`;
+        apiSysOnlineUserPageGet: async (userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysOnlineUser/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -152,8 +152,8 @@ export const SysOnlineUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserForceOfflinePost(body?: SysOnlineUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysOnlineUserApiAxiosParamCreator(configuration).sysOnlineUserForceOfflinePost(body, options);
+        async apiSysOnlineUserForceOfflinePost(body?: SysOnlineUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysOnlineUserApiAxiosParamCreator(configuration).apiSysOnlineUserForceOfflinePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -172,8 +172,8 @@ export const SysOnlineUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysOnlineUser>>> {
-            const localVarAxiosArgs = await SysOnlineUserApiAxiosParamCreator(configuration).sysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options);
+        async apiSysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysOnlineUser>>> {
+            const localVarAxiosArgs = await SysOnlineUserApiAxiosParamCreator(configuration).apiSysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -195,8 +195,8 @@ export const SysOnlineUserApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserForceOfflinePost(body?: SysOnlineUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysOnlineUserApiFp(configuration).sysOnlineUserForceOfflinePost(body, options).then((request) => request(axios, basePath));
+        async apiSysOnlineUserForceOfflinePost(body?: SysOnlineUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysOnlineUserApiFp(configuration).apiSysOnlineUserForceOfflinePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -211,8 +211,8 @@ export const SysOnlineUserApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysOnlineUser>> {
-            return SysOnlineUserApiFp(configuration).sysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysOnlineUser>> {
+            return SysOnlineUserApiFp(configuration).apiSysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -232,8 +232,8 @@ export class SysOnlineUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysOnlineUserApi
      */
-    public async sysOnlineUserForceOfflinePost(body?: SysOnlineUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysOnlineUserApiFp(this.configuration).sysOnlineUserForceOfflinePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysOnlineUserForceOfflinePost(body?: SysOnlineUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysOnlineUserApiFp(this.configuration).apiSysOnlineUserForceOfflinePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -249,7 +249,7 @@ export class SysOnlineUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysOnlineUserApi
      */
-    public async sysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysOnlineUser>> {
-        return SysOnlineUserApiFp(this.configuration).sysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysOnlineUserPageGet(userName?: string, realName?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysOnlineUser>> {
+        return SysOnlineUserApiFp(this.configuration).apiSysOnlineUserPageGet(userName, realName, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
 }

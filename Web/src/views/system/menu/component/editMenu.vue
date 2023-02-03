@@ -193,9 +193,9 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysMenuApi).sysMenuUpdatePost(state.ruleForm);
+					await getAPI(SysMenuApi).apiSysMenuUpdatePut(state.ruleForm);
 				} else {
-					await getAPI(SysMenuApi).sysMenuAddPost(state.ruleForm);
+					await getAPI(SysMenuApi).apiSysMenuAddPost(state.ruleForm);
 				}
 				closeDialog();
 			});

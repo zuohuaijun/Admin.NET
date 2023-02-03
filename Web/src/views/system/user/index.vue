@@ -139,14 +139,14 @@ export default defineComponent({
 		// 查询机构数据
 		const loadOrgData = async () => {
 			state.loading = true;
-			var res = await getAPI(SysOrgApi).sysOrgListGet(0);
+			var res = await getAPI(SysOrgApi).apiSysOrgListGet(0);
 			state.orgTreeData = res.data.result ?? [];
 			state.loading = false;
 		};
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysUserApi).sysUserPageGet(
+			var res = await getAPI(SysUserApi).apiSysUserPageGet(
 				state.queryParams.account,
 				state.queryParams.realName,
 				state.queryParams.phone,
@@ -184,7 +184,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysUserApi).sysUserDeletePost({ id: row.id });
+					await getAPI(SysUserApi).apiSysUserDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})
@@ -203,7 +203,7 @@ export default defineComponent({
 		// 修改状态
 		const changeStatus = (row: any) => {
 			getAPI(SysUserApi)
-				.sysUserSetStatusPost({ id: row.id, status: row.status })
+				.apiSysUserSetStatusPost({ id: row.id, status: row.status })
 				.then(() => {
 					ElMessage.success('账号状态设置成功');
 				})
@@ -219,7 +219,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysUserApi).sysUserResetPwdPost({ id: row.id });
+					await getAPI(SysUserApi).apiSysUserResetPwdPost({ id: row.id });
 					ElMessage.success('密码重置成功：123456');
 				})
 				.catch(() => {});

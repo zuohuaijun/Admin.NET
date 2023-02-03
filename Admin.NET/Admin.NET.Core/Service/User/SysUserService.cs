@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统用户服务
 /// </summary>
-[ApiDescriptionSettings(Order = 199)]
+[ApiDescriptionSettings(Order = 490)]
 public class SysUserService : IDynamicApiController, ITransient
 {
     private readonly UserManager _userManager;
@@ -33,8 +33,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysUser/page")]
-    public async Task<SqlSugarPagedList<SysUser>> GetUserPage([FromQuery] PageUserInput input)
+    public async Task<SqlSugarPagedList<SysUser>> GetPage([FromQuery] PageUserInput input)
     {
         var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) :
             _userManager.SuperAdmin ? null : await _sysOrgService.GetUserOrgIdList(); // 各管理员只能看到自己机构下的用户列表
@@ -55,7 +54,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysUser/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     [UnitOfWork]
     public async Task AddUser(AddUserInput input)
     {
@@ -78,7 +77,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <returns></returns>
     private async Task UpdateRoleAndExtOrg(AddUserInput input)
     {
-        await GrantUserRole(new UserRoleInput { UserId = input.Id, RoleIdList = input.RoleIdList });
+        await GrantRole(new UserRoleInput { UserId = input.Id, RoleIdList = input.RoleIdList });
 
         await _sysUserExtOrgService.UpdateUserExtOrg(input.Id, input.ExtOrgIdList);
     }
@@ -88,7 +87,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysUser/update")]
+    [ApiDescriptionSettings(Name = "Update")]
     [UnitOfWork]
     public async Task UpdateUser(UpdateUserInput input)
     {
@@ -106,7 +105,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysUser/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     [UnitOfWork]
     public async Task DeleteUser(DeleteUserInput input)
     {
@@ -131,18 +130,16 @@ public class SysUserService : IDynamicApiController, ITransient
     /// 查看用户基本信息
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysUser/base")]
-    public async Task<SysUser> GetUserBase()
+    public async Task<SysUser> GetBaseInfo()
     {
         return await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
     }
 
     /// <summary>
-    /// 设置用户基本信息
+    /// 更新用户基本信息
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysUser/base")]
-    public async Task<int> UpdateUserBase(SysUser user)
+    public async Task<int> SetBaseInfo(SysUser user)
     {
         return await _sysUserRep.AsUpdateable(user)
             .IgnoreColumns(u => new { u.CreateTime, u.Account, u.Password, u.AccountType, u.OrgId, u.PosId }).ExecuteCommandAsync();
@@ -153,8 +150,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysUser/setStatus")]
-    public async Task<int> SetUserStatus(UserInput input)
+    public async Task<int> SetStatus(UserInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
         if (user.AccountType == AccountTypeEnum.SuperAdmin)
@@ -172,8 +168,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysUser/grantRole")]
-    public async Task GrantUserRole(UserRoleInput input)
+    public async Task GrantRole(UserRoleInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.UserId);
         if (user.AccountType == AccountTypeEnum.SuperAdmin)
@@ -187,8 +182,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysUser/changePwd")]
-    public async Task<int> ChangeUserPwd(ChangePwdInput input)
+    public async Task<int> ChangePwd(ChangePwdInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
         if (MD5Encryption.Encrypt(input.PasswordOld) != user.Password)
@@ -202,8 +196,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysUser/resetPwd")]
-    public async Task<int> ResetUserPwd(ResetPwdUserInput input)
+    public async Task<int> ResetPwd(ResetPwdUserInput input)
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
 
@@ -217,8 +210,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    [HttpGet("/sysUser/ownRole/{userId}")]
-    public async Task<List<long>> GetUserOwnRole(long userId)
+    public async Task<List<long>> GetOwnRoleList(long userId)
     {
         return await _sysUserRoleService.GetUserRoleIdList(userId);
     }
@@ -228,8 +220,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    [HttpGet("/sysUser/ownOrg/{userId}")]
-    public async Task<List<SysUserExtOrg>> GetUserOrgList(long userId)
+    public async Task<List<SysUserExtOrg>> GetExtOrgList(long userId)
     {
         return await _sysUserExtOrgService.GetUserExtOrgList(userId);
     }

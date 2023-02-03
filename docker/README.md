@@ -6,7 +6,7 @@
 
 *   如果服务器有node环境使用build.sh编译前端文件到 *docker/nginx/dist*。或者将编译结果放进 *docker/nginx/dist*
 
-## 注意事项
+# 注意事项
 
 1.  *docker/app/Configuration/Database.json* 文件不需要修改，不要覆盖掉了
 2.  *Web/.env.production* 文件配置接口地址配置为 VITE\_API\_URL = '/prod-api'

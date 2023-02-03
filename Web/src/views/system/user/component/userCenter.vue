@@ -203,12 +203,12 @@ export default defineComponent({
 		});
 		onMounted(async () => {
 			state.loading = true;
-			var res = await getAPI(SysUserApi).sysUserBaseGet();
+			var res = await getAPI(SysUserApi).apiSysUserBaseInfoGet();
 			state.ruleFormBase = res.data.result ?? { account: '' };
 			state.loading = false;
 
 			mittBus.on('uploadCropperImg', async (e) => {
-				var res = await getAPI(SysFileApi).sysFileUploadAvatarPostForm(e.img);
+				var res = await getAPI(SysFileApi).apiSysFileUploadAvatarPostForm(e.img);
 				userInfos.value.avatar = res.data.result?.url + '';
 			});
 		});
@@ -228,7 +228,7 @@ export default defineComponent({
 			const { isEmpty, data } = signaturePadRef.value.saveSignature();
 			if (isEmpty) return;
 
-			var res = await getAPI(SysFileApi).sysFileUploadSignaturePostForm(base64ToFile(data, userInfos.value.account + '.png'));
+			var res = await getAPI(SysFileApi).apiSysFileUploadSignaturePostForm(base64ToFile(data, userInfos.value.account + '.png'));
 			userInfos.value.signature = res.data.result?.url + '';
 
 			clearSign();
@@ -245,7 +245,7 @@ export default defineComponent({
 		};
 		// 上传手写电子签名
 		const uploadSignFile = async (file: any) => {
-			var res = await getAPI(SysFileApi).sysFileUploadSignaturePostForm(file.raw);
+			var res = await getAPI(SysFileApi).apiSysFileUploadSignaturePostForm(file.raw);
 			userInfos.value.signature = res.data.result?.url + '';
 		};
 		// 获得电子签名文件列表
@@ -254,7 +254,7 @@ export default defineComponent({
 		};
 		// 上传头像文件回调
 		const uploadAvatarFile = async (file: any) => {
-			var res = await getAPI(SysFileApi).sysFileUploadAvatarPostForm(file.raw);
+			var res = await getAPI(SysFileApi).apiSysFileUploadAvatarPostForm(file.raw);
 			userInfos.value.avatar = res.data.result?.url + '';
 			uploadAvatarRef.value?.clearFiles();
 		};
@@ -267,7 +267,7 @@ export default defineComponent({
 					cancelButtonText: '取消',
 					type: 'warning',
 				}).then(async () => {
-					await getAPI(SysUserApi).sysUserBasePost(state.ruleFormBase);
+					await getAPI(SysUserApi).apiSysUserSetBaseInfoPost(state.ruleFormBase);
 				});
 			});
 		};
@@ -289,7 +289,7 @@ export default defineComponent({
 		const submitPassword = () => {
 			ruleFormPasswordRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
-				await getAPI(SysUserApi).sysUserChangePwdPost(state.ruleFormPassword);
+				await getAPI(SysUserApi).apiSysUserChangePwdPost(state.ruleFormPassword);
 				// 退出系统
 				ElMessageBox.confirm('密码已修改，是否重新登录系统？', '提示', {
 					confirmButtonText: '确定',

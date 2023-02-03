@@ -37,8 +37,8 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticeAddPost: async (body?: AddNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/add`;
+        apiSysNoticeAddPost: async (body?: AddNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysNotice/add`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -78,15 +78,15 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticeDeletePost: async (body?: DeleteNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/delete`;
+        apiSysNoticeDeleteDelete: async (body?: DeleteNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysNotice/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -125,8 +125,8 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticePageGet: async (title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/page`;
+        apiSysNoticePageGet: async (title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysNotice/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -196,8 +196,8 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticePageReceivedGet: async (title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/pageReceived`;
+        apiSysNoticePageReceivedGet: async (title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysNotice/pageReceived`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -261,8 +261,8 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticePublicPost: async (body?: NoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/public`;
+        apiSysNoticePublicPost: async (body?: NoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysNotice/public`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -302,8 +302,8 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticeSetReadPost: async (body?: NoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/setRead`;
+        apiSysNoticeSetReadPost: async (body?: NoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysNotice/setRead`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -342,8 +342,8 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticeUnReadListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/unReadList`;
+        apiSysNoticeUnReadListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysNotice/unReadList`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -379,15 +379,15 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysNoticeUpdatePost: async (body?: UpdateNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysNotice/update`;
+        apiSysNoticeUpdatePut: async (body?: UpdateNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysNotice/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -429,8 +429,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeAddPost(body?: AddNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeAddPost(body, options);
+        async apiSysNoticeAddPost(body?: AddNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticeAddPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -443,8 +443,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeDeletePost(body?: DeleteNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeDeletePost(body, options);
+        async apiSysNoticeDeleteDelete(body?: DeleteNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticeDeleteDelete(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -463,8 +463,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticePageGet(title, type, page, pageSize, field, order, descStr, options);
+        async apiSysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticePageGet(title, type, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -483,8 +483,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticePageReceivedGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNoticeUser>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticePageReceivedGet(title, type, page, pageSize, field, order, descStr, options);
+        async apiSysNoticePageReceivedGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNoticeUser>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticePageReceivedGet(title, type, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -497,8 +497,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticePublicPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticePublicPost(body, options);
+        async apiSysNoticePublicPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticePublicPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -511,8 +511,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeSetReadPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeSetReadPost(body, options);
+        async apiSysNoticeSetReadPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticeSetReadPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -524,8 +524,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysNotice>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeUnReadListGet(options);
+        async apiSysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysNotice>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticeUnReadListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -538,8 +538,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeUpdatePost(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).sysNoticeUpdatePost(body, options);
+        async apiSysNoticeUpdatePut(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticeUpdatePut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -561,8 +561,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeAddPost(body?: AddNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysNoticeApiFp(configuration).sysNoticeAddPost(body, options).then((request) => request(axios, basePath));
+        async apiSysNoticeAddPost(body?: AddNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).apiSysNoticeAddPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -571,8 +571,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeDeletePost(body?: DeleteNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysNoticeApiFp(configuration).sysNoticeDeletePost(body, options).then((request) => request(axios, basePath));
+        async apiSysNoticeDeleteDelete(body?: DeleteNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).apiSysNoticeDeleteDelete(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -587,8 +587,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
-            return SysNoticeApiFp(configuration).sysNoticePageGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
+            return SysNoticeApiFp(configuration).apiSysNoticePageGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -603,8 +603,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticePageReceivedGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNoticeUser>> {
-            return SysNoticeApiFp(configuration).sysNoticePageReceivedGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysNoticePageReceivedGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNoticeUser>> {
+            return SysNoticeApiFp(configuration).apiSysNoticePageReceivedGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -613,8 +613,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticePublicPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysNoticeApiFp(configuration).sysNoticePublicPost(body, options).then((request) => request(axios, basePath));
+        async apiSysNoticePublicPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).apiSysNoticePublicPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -623,8 +623,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeSetReadPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysNoticeApiFp(configuration).sysNoticeSetReadPost(body, options).then((request) => request(axios, basePath));
+        async apiSysNoticeSetReadPost(body?: NoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).apiSysNoticeSetReadPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -632,8 +632,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysNotice>> {
-            return SysNoticeApiFp(configuration).sysNoticeUnReadListGet(options).then((request) => request(axios, basePath));
+        async apiSysNoticeUnReadListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysNotice>> {
+            return SysNoticeApiFp(configuration).apiSysNoticeUnReadListGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -642,8 +642,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysNoticeUpdatePost(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysNoticeApiFp(configuration).sysNoticeUpdatePost(body, options).then((request) => request(axios, basePath));
+        async apiSysNoticeUpdatePut(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).apiSysNoticeUpdatePut(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -663,8 +663,8 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticeAddPost(body?: AddNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticeAddPost(body?: AddNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticeAddPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -674,8 +674,8 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticeDeletePost(body?: DeleteNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticeDeleteDelete(body?: DeleteNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticeDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -691,8 +691,8 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
-        return SysNoticeApiFp(this.configuration).sysNoticePageGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticePageGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -708,8 +708,8 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticePageReceivedGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNoticeUser>> {
-        return SysNoticeApiFp(this.configuration).sysNoticePageReceivedGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticePageReceivedGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNoticeUser>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticePageReceivedGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -719,8 +719,8 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticePublicPost(body?: NoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysNoticeApiFp(this.configuration).sysNoticePublicPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticePublicPost(body?: NoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticePublicPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -730,8 +730,8 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticeSetReadPost(body?: NoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeSetReadPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticeSetReadPost(body?: NoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticeSetReadPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -740,8 +740,8 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticeUnReadListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysNotice>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeUnReadListGet(options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticeUnReadListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysNotice>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticeUnReadListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -751,7 +751,7 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async sysNoticeUpdatePost(body?: UpdateNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysNoticeApiFp(this.configuration).sysNoticeUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticeUpdatePut(body?: UpdateNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticeUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

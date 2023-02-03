@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统代码生成配置服务
 /// </summary>
-[ApiDescriptionSettings(Order = 149)]
+[ApiDescriptionSettings(Order = 260)]
 public class SysCodeGenConfigService : IDynamicApiController, ITransient
 {
     private readonly ISqlSugarClient _db;
@@ -14,12 +14,11 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 代码生成详细配置列表
+    /// 获取代码生成配置列表
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysCodeGenConfig/list")]
-    public async Task<List<CodeGenConfig>> List([FromQuery] CodeGenConfig input)
+    public async Task<List<CodeGenConfig>> GetList([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>()
             .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesNoEnum.Y.ToString())
@@ -27,7 +26,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 删除
+    /// 删除代码生成配置
     /// </summary>
     /// <param name="codeGenId"></param>
     /// <returns></returns>
@@ -38,30 +37,29 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 更新
+    /// 更新代码生成配置
     /// </summary>
     /// <param name="inputList"></param>
     /// <returns></returns>
-    [HttpPost("/sysCodeGenConfig/update")]
-    public async Task Update(List<CodeGenConfig> inputList)
+    [ApiDescriptionSettings(Name = "Update")]
+    public async Task UpdateCodeGenConfig(List<CodeGenConfig> inputList)
     {
         if (inputList == null || inputList.Count < 1) return;
         await _db.Updateable(inputList.Adapt<List<SysCodeGenConfig>>()).ExecuteCommandAsync();
     }
 
     /// <summary>
-    /// 详情
+    /// 获取代码生成配置详情
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysCodeGenConfig/detail")]
-    public async Task<SysCodeGenConfig> Detail([FromQuery] CodeGenConfig input)
+    public async Task<SysCodeGenConfig> GetDetail([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>().FirstAsync(u => u.Id == input.Id);
     }
 
     /// <summary>
-    /// 批量增加
+    /// 批量增加代码生成配置
     /// </summary>
     /// <param name="tableColumnOuputList"></param>
     /// <param name="codeGenerate"></param>

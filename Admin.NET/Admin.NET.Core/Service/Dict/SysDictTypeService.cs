@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统字典类型服务
 /// </summary>
-[ApiDescriptionSettings(Order = 192)]
+[ApiDescriptionSettings(Order = 430)]
 [AllowAnonymous]
 public class SysDictTypeService : IDynamicApiController, ITransient
 {
@@ -21,8 +21,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// 获取字典类型分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysDictType/page")]
-    public async Task<SqlSugarPagedList<SysDictType>> GetDictTypePage([FromQuery] PageDictTypeInput input)
+    public async Task<SqlSugarPagedList<SysDictType>> GetPage([FromQuery] PageDictTypeInput input)
     {
         var code = !string.IsNullOrEmpty(input.Code?.Trim());
         var name = !string.IsNullOrEmpty(input.Name?.Trim());
@@ -37,8 +36,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// 获取字典类型列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysDictType/list")]
-    public async Task<List<SysDictType>> GetDictTypeList()
+    public async Task<List<SysDictType>> GetList()
     {
         return await _sysDictTypeRep.AsQueryable().OrderBy(u => u.OrderNo).ToListAsync();
     }
@@ -48,9 +46,8 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysDictType/dataList")]
     [AllowAnonymous]
-    public async Task<List<SysDictData>> GetDictTypeDataList([FromQuery] GetDataDictTypeInput input)
+    public async Task<List<SysDictData>> GetDataList([FromQuery] GetDataDictTypeInput input)
     {
         var dictType = await _sysDictTypeRep.GetFirstAsync(u => u.Code == input.Code);
         if (dictType == null)
@@ -63,7 +60,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysDictType/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task AddDictType(AddDictTypeInput input)
     {
         var isExist = await _sysDictTypeRep.IsAnyAsync(u => u.Name == input.Name || u.Code == input.Code);
@@ -78,7 +75,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysDictType/update"),]
+    [ApiDescriptionSettings(Name = "Update")]
     public async Task UpdateDictType(UpdateDictTypeInput input)
     {
         var isExist = await _sysDictTypeRep.IsAnyAsync(u => u.Id == input.Id);
@@ -97,8 +94,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysDictType/detail")]
-    public async Task<SysDictType> GetDictType([FromQuery] DictTypeInput input)
+    public async Task<SysDictType> GetDetail([FromQuery] DictTypeInput input)
     {
         return await _sysDictTypeRep.GetFirstAsync(u => u.Id == input.Id);
     }
@@ -108,7 +104,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysDictType/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     public async Task DeleteDictType(DeleteDictTypeInput input)
     {
         var dictType = await _sysDictTypeRep.GetFirstAsync(u => u.Id == input.Id);
@@ -123,8 +119,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysDictType/changeStatus")]
-    public async Task ChangeDictTypeStatus(DictTypeInput input)
+    public async Task SetStatus(DictTypeInput input)
     {
         var dictType = await _sysDictTypeRep.GetFirstAsync(u => u.Id == input.Id);
         if (dictType == null)

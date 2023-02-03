@@ -1,11 +1,9 @@
-using NewLife.Caching;
-
 namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 系统缓存服务
 /// </summary>
-[ApiDescriptionSettings(Order = 190)]
+[ApiDescriptionSettings(Order = 400)]
 public class SysCacheService : IDynamicApiController, ISingleton
 {
     private readonly ICache _cache;
@@ -19,8 +17,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// 获取所有缓存键名
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysCache/keyList")]
-    public List<string> GetCacheKeys()
+    public List<string> GetKeyList()
     {
         return _cache.Keys.ToList();
     }
@@ -31,7 +28,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="key"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    [HttpPost("/sysCache/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public void Set(string key, object value)
     {
         _cache.Set(key, value);
@@ -44,7 +41,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="value"></param>
     /// <param name="expire"></param>
     /// <returns></returns>
-    [HttpPost("/sysCache/add/expire")]
+    [ApiDescriptionSettings(Name = "AddAndSetExp")]
     public void Set(string key, object value, TimeSpan expire)
     {
         _cache.Set(key, value, expire);
@@ -67,7 +64,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    [HttpPost("/sysCache/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     public void Remove(string key)
     {
         _cache.Remove(key);
@@ -89,7 +86,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="prefixKey">键名前缀</param>
     /// <returns></returns>
-    [HttpPost("/sysCache/delByParentKey")]
+    [ApiDescriptionSettings(Name = "DeleteByPreKey")]
     public int RemoveByPrefixKey(string prefixKey)
     {
         var delKeys = _cache.Keys.Where(u => u.StartsWith(prefixKey)).ToArray();
@@ -102,8 +99,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    [HttpGet("/sysCache/value")]
-    public dynamic GetCacheValue(string key)
+    public dynamic GetValue(string key)
     {
         return _cache.Get<dynamic>(key);
     }

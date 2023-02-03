@@ -101,7 +101,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysConfigApi).sysConfigPageGet(state.queryParams.name, state.queryParams.code, state.queryParams.groupCode, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysConfigApi).apiSysConfigPageGet(state.queryParams.name, state.queryParams.code, state.queryParams.groupCode, state.tableParams.page, state.tableParams.pageSize);
 			state.configData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -130,7 +130,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysConfigApi).sysConfigDeletePost({ id: row.id });
+					await getAPI(SysConfigApi).apiSysConfigDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})

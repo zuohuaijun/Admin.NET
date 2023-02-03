@@ -60,7 +60,7 @@ export default defineComponent({
 		// 打开弹窗
 		const openDialog = async (row: any) => {
 			state.ruleForm = row;
-			var res = await getAPI(SysRoleApi).sysRoleOwnOrgGet(row.id);
+			var res = await getAPI(SysRoleApi).apiSysRoleOwnOrgListGet(row.id);
 			setTimeout(() => {
 				orgTreeRef.value?.setCheckedKeys(res.data.result);
 			}, 100);
@@ -73,7 +73,7 @@ export default defineComponent({
 		// 提交
 		const submit = async () => {
 			if (state.ruleForm.dataScope === 5) state.ruleForm.orgIdList = orgTreeRef.value?.getCheckedKeys();
-			await getAPI(SysRoleApi).sysRoleGrantDataPost(state.ruleForm);
+			await getAPI(SysRoleApi).apiSysRoleGrantDataScopePost(state.ruleForm);
 			state.isShowDialog = false;
 		};
 		return {

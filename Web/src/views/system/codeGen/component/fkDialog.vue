@@ -58,7 +58,7 @@ export default defineComponent({
 		});
 
 		onMounted(async () => {
-			var res = await getAPI(SysCodeGenApi).sysCodeGenDatabaseListGet();
+			var res = await getAPI(SysCodeGenApi).apiSysCodeGenDatabaseListGet();
 			state.dbData = res.data.result;
 		});
 
@@ -74,20 +74,20 @@ export default defineComponent({
 		};
 
 		const getDbList = async () => {
-			var res = await getAPI(SysCodeGenApi).sysCodeGenDatabaseListGet();
+			var res = await getAPI(SysCodeGenApi).apiSysCodeGenDatabaseListGet();
 			state.dbData = res.data.result;
 		};
 
 		const getTableInfoList = async () => {
 			if (state.ruleForm.configId == '') return;
-			var res = await getAPI(SysCodeGenApi).sysCodeGenTableListConfigIdGet(state.ruleForm.configId);
+			var res = await getAPI(SysCodeGenApi).apiSysCodeGenTableListConfigIdGet(state.ruleForm.configId);
 			state.tableData = res.data.result;
 		};
 
 		const getColumnInfoList = async () => {
 			if (state.ruleForm.configId == '' || state.ruleForm.tableName == '') return;
 			console.log(state.ruleForm.configId, state.ruleForm.tableName);
-			var res = await getAPI(SysCodeGenApi).sysCodeGenColumnListConfigIdTableNameGet(state.ruleForm.tableName, state.ruleForm.configId);
+			var res = await getAPI(SysCodeGenApi).apiSysCodeGenColumnListByTableNameTableNameConfigIdGet(state.ruleForm.tableName, state.ruleForm.configId);
 			state.columnData = res.data.result;
 		};
 

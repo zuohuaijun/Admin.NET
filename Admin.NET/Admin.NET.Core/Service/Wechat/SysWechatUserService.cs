@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信账号服务
 /// </summary>
-[ApiDescriptionSettings(Order = 100)]
+[ApiDescriptionSettings(Order = 230)]
 public class SysWechatUserService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
@@ -18,8 +18,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysWechatUser/page")]
-    public async Task<SqlSugarPagedList<SysWechatUser>> GetWechatUserPage([FromQuery] WechatUserInput input)
+    public async Task<SqlSugarPagedList<SysWechatUser>> GetPage([FromQuery] WechatUserInput input)
     {
         return await _sysWechatUserRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.NickName), u => u.NickName.Contains(input.NickName))
@@ -33,7 +32,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysWechatUser/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task AddWechatUser(SysWechatUser input)
     {
         await _sysWechatUserRep.InsertAsync(input.Adapt<SysWechatUser>());
@@ -44,7 +43,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysWechatUser/update")]
+    [ApiDescriptionSettings(Name = "Update")]
     public async Task UpdateWechatUser(SysWechatUser input)
     {
         var weChatUser = input.Adapt<SysWechatUser>();
@@ -56,7 +55,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysWechatUser/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     public async Task DeleteWechatUser(DeleteWechatUserInput input)
     {
         await _sysWechatUserRep.DeleteAsync(u => u.Id == input.Id);

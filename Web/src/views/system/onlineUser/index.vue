@@ -92,7 +92,7 @@ onMounted(async () => {
 		console.log('强制下线', data);
 		await signalR.stop();
 
-		await getAPI(SysAuthApi).logoutPost();
+		await getAPI(SysAuthApi).apiSysAuthLogoutPost();
 		clearAccessTokens();
 	});
 });
@@ -103,7 +103,7 @@ const openDrawer = () => {
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
-	var res = await getAPI(SysOnlineUserApi).sysOnlineUserPageGet(state.queryParams.userName, state.queryParams.realName, state.tableParams.page, state.tableParams.pageSize);
+	var res = await getAPI(SysOnlineUserApi).apiSysOnlineUserPageGet(state.queryParams.userName, state.queryParams.realName, state.tableParams.page, state.tableParams.pageSize);
 	state.onlineUserList = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;

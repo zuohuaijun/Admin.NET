@@ -31,15 +31,15 @@ export const SysLogOpApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysLogOpClearPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysLogOp/clear`;
+        apiSysLogOpClearDelete: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysLogOp/clear`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -68,8 +68,8 @@ export const SysLogOpApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysLogOpExporPost: async (body?: LogInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysLogOp/expor`;
+        apiSysLogOpExportPost: async (body?: LogInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysLogOp/export`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -115,8 +115,8 @@ export const SysLogOpApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysLogOpPageGet: async (startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysLogOp/page`;
+        apiSysLogOpPageGet: async (startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysLogOp/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -192,8 +192,8 @@ export const SysLogOpApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogOpClearPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
-            const localVarAxiosArgs = await SysLogOpApiAxiosParamCreator(configuration).sysLogOpClearPost(options);
+        async apiSysLogOpClearDelete(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
+            const localVarAxiosArgs = await SysLogOpApiAxiosParamCreator(configuration).apiSysLogOpClearDelete(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -206,8 +206,8 @@ export const SysLogOpApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogOpExporPost(body?: LogInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysLogOpApiAxiosParamCreator(configuration).sysLogOpExporPost(body, options);
+        async apiSysLogOpExportPost(body?: LogInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysLogOpApiAxiosParamCreator(configuration).apiSysLogOpExportPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -226,8 +226,8 @@ export const SysLogOpApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogOpPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogOp>>> {
-            const localVarAxiosArgs = await SysLogOpApiAxiosParamCreator(configuration).sysLogOpPageGet(startTime, endTime, page, pageSize, field, order, descStr, options);
+        async apiSysLogOpPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogOp>>> {
+            const localVarAxiosArgs = await SysLogOpApiAxiosParamCreator(configuration).apiSysLogOpPageGet(startTime, endTime, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -248,8 +248,8 @@ export const SysLogOpApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogOpClearPost(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
-            return SysLogOpApiFp(configuration).sysLogOpClearPost(options).then((request) => request(axios, basePath));
+        async apiSysLogOpClearDelete(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
+            return SysLogOpApiFp(configuration).apiSysLogOpClearDelete(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -258,8 +258,8 @@ export const SysLogOpApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogOpExporPost(body?: LogInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysLogOpApiFp(configuration).sysLogOpExporPost(body, options).then((request) => request(axios, basePath));
+        async apiSysLogOpExportPost(body?: LogInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysLogOpApiFp(configuration).apiSysLogOpExportPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -274,8 +274,8 @@ export const SysLogOpApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogOpPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogOp>> {
-            return SysLogOpApiFp(configuration).sysLogOpPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysLogOpPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogOp>> {
+            return SysLogOpApiFp(configuration).apiSysLogOpPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -294,8 +294,8 @@ export class SysLogOpApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysLogOpApi
      */
-    public async sysLogOpClearPost(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
-        return SysLogOpApiFp(this.configuration).sysLogOpClearPost(options).then((request) => request(this.axios, this.basePath));
+    public async apiSysLogOpClearDelete(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
+        return SysLogOpApiFp(this.configuration).apiSysLogOpClearDelete(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -305,8 +305,8 @@ export class SysLogOpApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysLogOpApi
      */
-    public async sysLogOpExporPost(body?: LogInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysLogOpApiFp(this.configuration).sysLogOpExporPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysLogOpExportPost(body?: LogInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysLogOpApiFp(this.configuration).apiSysLogOpExportPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -322,7 +322,7 @@ export class SysLogOpApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysLogOpApi
      */
-    public async sysLogOpPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogOp>> {
-        return SysLogOpApiFp(this.configuration).sysLogOpPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysLogOpPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogOp>> {
+        return SysLogOpApiFp(this.configuration).apiSysLogOpPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
 }

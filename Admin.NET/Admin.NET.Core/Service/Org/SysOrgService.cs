@@ -3,7 +3,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统机构服务
 /// </summary>
-[ApiDescriptionSettings(Order = 197)]
+[ApiDescriptionSettings(Order = 470)]
 public class SysOrgService : IDynamicApiController, ITransient
 {
     private readonly UserManager _userManager;
@@ -32,8 +32,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// 获取机构列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysOrg/list")]
-    public async Task<List<SysOrg>> GetOrgList([FromQuery] OrgInput input)
+    public async Task<List<SysOrg>> GetList([FromQuery] OrgInput input)
     {
         var orgIdList = await GetUserOrgIdList();
 
@@ -65,7 +64,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysOrg/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task<long> AddOrg(AddOrgInput input)
     {
         var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
@@ -98,7 +97,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysOrg/update")]
+    [ApiDescriptionSettings(Name = "Update")]
     [UnitOfWork]
     public async Task UpdateOrg(UpdateOrgInput input)
     {
@@ -133,7 +132,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysOrg/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     [UnitOfWork]
     public async Task DeleteOrg(DeleteOrgInput input)
     {

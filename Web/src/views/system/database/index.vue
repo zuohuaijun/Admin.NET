@@ -105,7 +105,7 @@ export default defineComponent({
 		});
 		onMounted(async () => {
 			state.loading = true;
-			var res = await getAPI(SysDatabaseApi).sysDatabaseListGet();
+			var res = await getAPI(SysDatabaseApi).apiSysDatabaseListGet();
 			state.dbData = res.data.result;
 			state.loading = false;
 
@@ -132,14 +132,14 @@ export default defineComponent({
 			state.columnData = [];
 			state.loading = true;
 
-			var res = await getAPI(SysDatabaseApi).sysDatabaseTableListGet(state.configId);
+			var res = await getAPI(SysDatabaseApi).apiSysDatabaseTableListConfigIdGet(state.configId);
 			state.tableData = res.data.result ?? [];
 			state.loading = false;
 		};
 		// 列查询操作
 		const handleQueryColunm = async () => {
 			state.loading1 = true;
-			var res = await getAPI(SysDatabaseApi).sysDatabaseColumnListGet(state.tableName, state.configId);
+			var res = await getAPI(SysDatabaseApi).apiSysDatabaseColumnListTableNameConfigIdGet(state.tableName, state.configId);
 			state.columnData = res.data.result ?? [];
 			state.loading1 = false;
 		};
@@ -235,7 +235,7 @@ export default defineComponent({
 						configId: state.configId,
 						tableName: state.tableName,
 					};
-					await getAPI(SysDatabaseApi).sysDatabaseDeleteTablePost(deleteDbTableInput);
+					await getAPI(SysDatabaseApi).apiSysDatabaseDeleteTableDelete(deleteDbTableInput);
 					handleQueryTable();
 					ElMessage.success('表删除成功');
 				})
@@ -254,7 +254,7 @@ export default defineComponent({
 						tableName: state.tableName,
 						dbColumnName: row.dbColumnName,
 					};
-					await getAPI(SysDatabaseApi).sysDatabaseDeleteColumnPost(eleteDbColumnInput);
+					await getAPI(SysDatabaseApi).apiSysDatabaseDeleteColumnDelete(eleteDbColumnInput);
 					handleQueryTable();
 					ElMessage.success('列删除成功');
 				})

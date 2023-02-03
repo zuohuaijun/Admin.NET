@@ -38,8 +38,8 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantAddPost: async (body?: AddTenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/add`;
+        apiSysTenantAddPost: async (body?: AddTenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysTenant/add`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -79,8 +79,8 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantCreateDbPost: async (body?: TenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/createDb`;
+        apiSysTenantCreateDbPost: async (body?: TenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysTenant/createDb`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -120,15 +120,15 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantDeletePost: async (body?: DeleteTenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/delete`;
+        apiSysTenantDeleteDelete: async (body?: DeleteTenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysTenant/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -161,8 +161,8 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantGrantMenuPost: async (body?: RoleMenuInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/grantMenu`;
+        apiSysTenantGrantMenuPost: async (body?: RoleMenuInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysTenant/grantMenu`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -202,8 +202,8 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantOwnMenuListGet: async (userId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/ownMenuList`;
+        apiSysTenantOwnMenuListGet: async (userId?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysTenant/ownMenuList`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -249,8 +249,8 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantPageGet: async (name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/page`;
+        apiSysTenantPageGet: async (name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysTenant/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -314,8 +314,8 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantResetPwdPost: async (body?: TenantUserInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/resetPwd`;
+        apiSysTenantResetPwdPost: async (body?: TenantUserInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysTenant/resetPwd`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -355,8 +355,8 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantSetStatusPost: async (body?: TenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/setStatus`;
+        apiSysTenantSetStatusPost: async (body?: TenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysTenant/setStatus`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -396,15 +396,15 @@ export const SysTenantApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysTenantUpdatePost: async (body?: UpdateTenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysTenant/update`;
+        apiSysTenantUpdatePut: async (body?: UpdateTenantInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysTenant/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -446,8 +446,8 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantAddPost(body?: AddTenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantAddPost(body, options);
+        async apiSysTenantAddPost(body?: AddTenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantAddPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -460,8 +460,8 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantCreateDbPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantCreateDbPost(body, options);
+        async apiSysTenantCreateDbPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantCreateDbPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -474,8 +474,8 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantDeletePost(body?: DeleteTenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantDeletePost(body, options);
+        async apiSysTenantDeleteDelete(body?: DeleteTenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantDeleteDelete(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -488,8 +488,8 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantGrantMenuPost(body?: RoleMenuInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantGrantMenuPost(body, options);
+        async apiSysTenantGrantMenuPost(body?: RoleMenuInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantGrantMenuPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -502,8 +502,8 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantOwnMenuListGet(userId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantOwnMenuListGet(userId, options);
+        async apiSysTenantOwnMenuListGet(userId?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListInt64>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantOwnMenuListGet(userId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -522,8 +522,8 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListTenantOutput>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantPageGet(name, phone, page, pageSize, field, order, descStr, options);
+        async apiSysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListTenantOutput>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantPageGet(name, phone, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -536,8 +536,8 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantResetPwdPost(body, options);
+        async apiSysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantResetPwdPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -550,8 +550,8 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantSetStatusPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantSetStatusPost(body, options);
+        async apiSysTenantSetStatusPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantSetStatusPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -564,8 +564,8 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantUpdatePost(body?: UpdateTenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).sysTenantUpdatePost(body, options);
+        async apiSysTenantUpdatePut(body?: UpdateTenantInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantUpdatePut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -587,8 +587,8 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantAddPost(body?: AddTenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysTenantApiFp(configuration).sysTenantAddPost(body, options).then((request) => request(axios, basePath));
+        async apiSysTenantAddPost(body?: AddTenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysTenantApiFp(configuration).apiSysTenantAddPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -597,8 +597,8 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantCreateDbPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysTenantApiFp(configuration).sysTenantCreateDbPost(body, options).then((request) => request(axios, basePath));
+        async apiSysTenantCreateDbPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysTenantApiFp(configuration).apiSysTenantCreateDbPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -607,8 +607,8 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantDeletePost(body?: DeleteTenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysTenantApiFp(configuration).sysTenantDeletePost(body, options).then((request) => request(axios, basePath));
+        async apiSysTenantDeleteDelete(body?: DeleteTenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysTenantApiFp(configuration).apiSysTenantDeleteDelete(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -617,8 +617,8 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantGrantMenuPost(body?: RoleMenuInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysTenantApiFp(configuration).sysTenantGrantMenuPost(body, options).then((request) => request(axios, basePath));
+        async apiSysTenantGrantMenuPost(body?: RoleMenuInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysTenantApiFp(configuration).apiSysTenantGrantMenuPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -627,8 +627,8 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantOwnMenuListGet(userId?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
-            return SysTenantApiFp(configuration).sysTenantOwnMenuListGet(userId, options).then((request) => request(axios, basePath));
+        async apiSysTenantOwnMenuListGet(userId?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListInt64>> {
+            return SysTenantApiFp(configuration).apiSysTenantOwnMenuListGet(userId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -643,8 +643,8 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListTenantOutput>> {
-            return SysTenantApiFp(configuration).sysTenantPageGet(name, phone, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListTenantOutput>> {
+            return SysTenantApiFp(configuration).apiSysTenantPageGet(name, phone, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -653,8 +653,8 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysTenantApiFp(configuration).sysTenantResetPwdPost(body, options).then((request) => request(axios, basePath));
+        async apiSysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysTenantApiFp(configuration).apiSysTenantResetPwdPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -663,8 +663,8 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantSetStatusPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
-            return SysTenantApiFp(configuration).sysTenantSetStatusPost(body, options).then((request) => request(axios, basePath));
+        async apiSysTenantSetStatusPost(body?: TenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
+            return SysTenantApiFp(configuration).apiSysTenantSetStatusPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -673,8 +673,8 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysTenantUpdatePost(body?: UpdateTenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysTenantApiFp(configuration).sysTenantUpdatePost(body, options).then((request) => request(axios, basePath));
+        async apiSysTenantUpdatePut(body?: UpdateTenantInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysTenantApiFp(configuration).apiSysTenantUpdatePut(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -694,8 +694,8 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantAddPost(body?: AddTenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysTenantApiFp(this.configuration).sysTenantAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysTenantAddPost(body?: AddTenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysTenantApiFp(this.configuration).apiSysTenantAddPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -705,8 +705,8 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantCreateDbPost(body?: TenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysTenantApiFp(this.configuration).sysTenantCreateDbPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysTenantCreateDbPost(body?: TenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysTenantApiFp(this.configuration).apiSysTenantCreateDbPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -716,8 +716,8 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantDeletePost(body?: DeleteTenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysTenantApiFp(this.configuration).sysTenantDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysTenantDeleteDelete(body?: DeleteTenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysTenantApiFp(this.configuration).apiSysTenantDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -727,8 +727,8 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantGrantMenuPost(body?: RoleMenuInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysTenantApiFp(this.configuration).sysTenantGrantMenuPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysTenantGrantMenuPost(body?: RoleMenuInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysTenantApiFp(this.configuration).apiSysTenantGrantMenuPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -738,8 +738,8 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantOwnMenuListGet(userId?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
-        return SysTenantApiFp(this.configuration).sysTenantOwnMenuListGet(userId, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysTenantOwnMenuListGet(userId?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListInt64>> {
+        return SysTenantApiFp(this.configuration).apiSysTenantOwnMenuListGet(userId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -755,8 +755,8 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListTenantOutput>> {
-        return SysTenantApiFp(this.configuration).sysTenantPageGet(name, phone, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysTenantPageGet(name?: string, phone?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListTenantOutput>> {
+        return SysTenantApiFp(this.configuration).apiSysTenantPageGet(name, phone, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -766,8 +766,8 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysTenantApiFp(this.configuration).sysTenantResetPwdPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysTenantApiFp(this.configuration).apiSysTenantResetPwdPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -777,8 +777,8 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantSetStatusPost(body?: TenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
-        return SysTenantApiFp(this.configuration).sysTenantSetStatusPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysTenantSetStatusPost(body?: TenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
+        return SysTenantApiFp(this.configuration).apiSysTenantSetStatusPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -788,7 +788,7 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async sysTenantUpdatePost(body?: UpdateTenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysTenantApiFp(this.configuration).sysTenantUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysTenantUpdatePut(body?: UpdateTenantInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysTenantApiFp(this.configuration).apiSysTenantUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

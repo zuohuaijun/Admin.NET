@@ -12,6 +12,7 @@ declare interface UserInfosState<T = any> {
 		userName: string;
 		[key: string]: T;
 	};
+	constList: T[],
 }
 
 // 路由缓存列表

@@ -33,13 +33,13 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
     return {
         /**
          * 
-         * @summary 增加
+         * @summary 增加代码生成
          * @param {AddCodeGenInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenAddPost: async (body?: AddCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysCodeGen/add`;
+        apiSysCodeGenAddPost: async (body?: AddCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysCodeGen/add`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -74,22 +74,22 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary 根据表名获取列
+         * @summary 根据表名获取列集合
          * @param {string} tableName 
          * @param {string} configId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenColumnListConfigIdTableNameGet: async (tableName: string, configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysCodeGenColumnListByTableNameTableNameConfigIdGet: async (tableName: string, configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'tableName' is not null or undefined
             if (tableName === null || tableName === undefined) {
-                throw new RequiredError('tableName','Required parameter tableName was null or undefined when calling sysCodeGenColumnListConfigIdTableNameGet.');
+                throw new RequiredError('tableName','Required parameter tableName was null or undefined when calling apiSysCodeGenColumnListByTableNameTableNameConfigIdGet.');
             }
             // verify required parameter 'configId' is not null or undefined
             if (configId === null || configId === undefined) {
-                throw new RequiredError('configId','Required parameter configId was null or undefined when calling sysCodeGenColumnListConfigIdTableNameGet.');
+                throw new RequiredError('configId','Required parameter configId was null or undefined when calling apiSysCodeGenColumnListByTableNameTableNameConfigIdGet.');
             }
-            const localVarPath = `/sysCodeGen/columnList/{configId}/{tableName}`
+            const localVarPath = `/api/sysCodeGen/columnListByTableName/{tableName}/{configId}`
                 .replace(`{${"tableName"}}`, encodeURIComponent(String(tableName)))
                 .replace(`{${"configId"}}`, encodeURIComponent(String(configId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -126,8 +126,8 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenDatabaseListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysCodeGen/databaseList`;
+        apiSysCodeGenDatabaseListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysCodeGen/databaseList`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -158,20 +158,20 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary 删除
+         * @summary 删除代码生成
          * @param {Array<DeleteCodeGenInput>} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenDeletePost: async (body?: Array<DeleteCodeGenInput>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysCodeGen/delete`;
+        apiSysCodeGenDeleteDelete: async (body?: Array<DeleteCodeGenInput>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysCodeGen/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -199,17 +199,17 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary 详情
+         * @summary 获取代码生成详情
          * @param {number} id 代码生成器Id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenDetailGet: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysCodeGenDetailGet: async (id: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling sysCodeGenDetailGet.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiSysCodeGenDetailGet.');
             }
-            const localVarPath = `/sysCodeGen/detail`;
+            const localVarPath = `/api/sysCodeGen/detail`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -244,7 +244,7 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary 分页查询
+         * @summary 获取代码生成分页列表
          * @param {string} [authorName] 作者姓名
          * @param {string} [className] 类名
          * @param {string} [tablePrefix] 是否移除表前缀
@@ -267,8 +267,8 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenPageGet: async (authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysCodeGen/page`;
+        apiSysCodeGenPageGet: async (authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysCodeGen/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -375,13 +375,13 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary 代码生成_本地项目
+         * @summary 代码生成到本地
          * @param {SysCodeGen} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenRunLocalPost: async (body?: SysCodeGen, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysCodeGen/runLocal`;
+        apiSysCodeGenRunLocalPost: async (body?: SysCodeGen, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysCodeGen/runLocal`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -421,12 +421,12 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenTableListConfigIdGet: async (configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysCodeGenTableListConfigIdGet: async (configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'configId' is not null or undefined
             if (configId === null || configId === undefined) {
-                throw new RequiredError('configId','Required parameter configId was null or undefined when calling sysCodeGenTableListConfigIdGet.');
+                throw new RequiredError('configId','Required parameter configId was null or undefined when calling apiSysCodeGenTableListConfigIdGet.');
             }
-            const localVarPath = `/sysCodeGen/tableList/{configId}`
+            const localVarPath = `/api/sysCodeGen/tableList/{configId}`
                 .replace(`{${"configId"}}`, encodeURIComponent(String(configId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -458,20 +458,20 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
-         * @summary 更新
+         * @summary 更新代码生成
          * @param {UpdateCodeGenInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysCodeGenUpdatePost: async (body?: UpdateCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysCodeGen/update`;
+        apiSysCodeGenUpdatePut: async (body?: UpdateCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysCodeGen/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -508,13 +508,13 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary 增加
+         * @summary 增加代码生成
          * @param {AddCodeGenInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenAddPost(body, options);
+        async apiSysCodeGenAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenAddPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -522,14 +522,14 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 根据表名获取列
+         * @summary 根据表名获取列集合
          * @param {string} tableName 
          * @param {string} configId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenColumnListConfigIdTableNameGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListColumnOuput>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenColumnListConfigIdTableNameGet(tableName, configId, options);
+        async apiSysCodeGenColumnListByTableNameTableNameConfigIdGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListColumnOuput>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenColumnListByTableNameTableNameConfigIdGet(tableName, configId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -541,8 +541,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenDatabaseListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListDatabaseOutput>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenDatabaseListGet(options);
+        async apiSysCodeGenDatabaseListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListDatabaseOutput>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenDatabaseListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -550,13 +550,13 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 删除
+         * @summary 删除代码生成
          * @param {Array<DeleteCodeGenInput>} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenDeletePost(body, options);
+        async apiSysCodeGenDeleteDelete(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenDeleteDelete(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -564,13 +564,13 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 详情
+         * @summary 获取代码生成详情
          * @param {number} id 代码生成器Id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenDetailGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysCodeGen>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenDetailGet(id, options);
+        async apiSysCodeGenDetailGet(id: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysCodeGen>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenDetailGet(id, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -578,7 +578,7 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 分页查询
+         * @summary 获取代码生成分页列表
          * @param {string} [authorName] 作者姓名
          * @param {string} [className] 类名
          * @param {string} [tablePrefix] 是否移除表前缀
@@ -601,8 +601,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options);
+        async apiSysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -610,13 +610,13 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 代码生成_本地项目
+         * @summary 代码生成到本地
          * @param {SysCodeGen} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenRunLocalPost(body, options);
+        async apiSysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenRunLocalPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -629,8 +629,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenTableListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListTableOutput>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenTableListConfigIdGet(configId, options);
+        async apiSysCodeGenTableListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListTableOutput>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenTableListConfigIdGet(configId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -638,13 +638,13 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 更新
+         * @summary 更新代码生成
          * @param {UpdateCodeGenInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenUpdatePost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).sysCodeGenUpdatePost(body, options);
+        async apiSysCodeGenUpdatePut(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenUpdatePut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -661,24 +661,24 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
     return {
         /**
          * 
-         * @summary 增加
+         * @summary 增加代码生成
          * @param {AddCodeGenInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).sysCodeGenAddPost(body, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenAddPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 根据表名获取列
+         * @summary 根据表名获取列集合
          * @param {string} tableName 
          * @param {string} configId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenColumnListConfigIdTableNameGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListColumnOuput>> {
-            return SysCodeGenApiFp(configuration).sysCodeGenColumnListConfigIdTableNameGet(tableName, configId, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenColumnListByTableNameTableNameConfigIdGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListColumnOuput>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenColumnListByTableNameTableNameConfigIdGet(tableName, configId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -686,32 +686,32 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenDatabaseListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListDatabaseOutput>> {
-            return SysCodeGenApiFp(configuration).sysCodeGenDatabaseListGet(options).then((request) => request(axios, basePath));
+        async apiSysCodeGenDatabaseListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListDatabaseOutput>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenDatabaseListGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 删除
+         * @summary 删除代码生成
          * @param {Array<DeleteCodeGenInput>} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).sysCodeGenDeletePost(body, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenDeleteDelete(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenDeleteDelete(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 详情
+         * @summary 获取代码生成详情
          * @param {number} id 代码生成器Id
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenDetailGet(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysCodeGen>> {
-            return SysCodeGenApiFp(configuration).sysCodeGenDetailGet(id, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenDetailGet(id: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysCodeGen>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenDetailGet(id, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 分页查询
+         * @summary 获取代码生成分页列表
          * @param {string} [authorName] 作者姓名
          * @param {string} [className] 类名
          * @param {string} [tablePrefix] 是否移除表前缀
@@ -734,18 +734,18 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
-            return SysCodeGenApiFp(configuration).sysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 代码生成_本地项目
+         * @summary 代码生成到本地
          * @param {SysCodeGen} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).sysCodeGenRunLocalPost(body, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenRunLocalPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -754,18 +754,18 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenTableListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListTableOutput>> {
-            return SysCodeGenApiFp(configuration).sysCodeGenTableListConfigIdGet(configId, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenTableListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListTableOutput>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenTableListConfigIdGet(configId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 更新
+         * @summary 更新代码生成
          * @param {UpdateCodeGenInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysCodeGenUpdatePost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).sysCodeGenUpdatePost(body, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenUpdatePut(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenUpdatePut(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -779,26 +779,26 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
 export class SysCodeGenApi extends BaseAPI {
     /**
      * 
-     * @summary 增加
+     * @summary 增加代码生成
      * @param {AddCodeGenInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async sysCodeGenAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).sysCodeGenAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenAddPost(body?: AddCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenAddPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 根据表名获取列
+     * @summary 根据表名获取列集合
      * @param {string} tableName 
      * @param {string} configId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async sysCodeGenColumnListConfigIdTableNameGet(tableName: string, configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListColumnOuput>> {
-        return SysCodeGenApiFp(this.configuration).sysCodeGenColumnListConfigIdTableNameGet(tableName, configId, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenColumnListByTableNameTableNameConfigIdGet(tableName: string, configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListColumnOuput>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenColumnListByTableNameTableNameConfigIdGet(tableName, configId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -807,34 +807,34 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async sysCodeGenDatabaseListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListDatabaseOutput>> {
-        return SysCodeGenApiFp(this.configuration).sysCodeGenDatabaseListGet(options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenDatabaseListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListDatabaseOutput>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenDatabaseListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 删除
+     * @summary 删除代码生成
      * @param {Array<DeleteCodeGenInput>} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async sysCodeGenDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).sysCodeGenDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenDeleteDelete(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 详情
+     * @summary 获取代码生成详情
      * @param {number} id 代码生成器Id
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async sysCodeGenDetailGet(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysCodeGen>> {
-        return SysCodeGenApiFp(this.configuration).sysCodeGenDetailGet(id, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenDetailGet(id: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysCodeGen>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenDetailGet(id, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 分页查询
+     * @summary 获取代码生成分页列表
      * @param {string} [authorName] 作者姓名
      * @param {string} [className] 类名
      * @param {string} [tablePrefix] 是否移除表前缀
@@ -858,19 +858,19 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async sysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
-        return SysCodeGenApiFp(this.configuration).sysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 代码生成_本地项目
+     * @summary 代码生成到本地
      * @param {SysCodeGen} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async sysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).sysCodeGenRunLocalPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenRunLocalPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -880,18 +880,18 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async sysCodeGenTableListConfigIdGet(configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListTableOutput>> {
-        return SysCodeGenApiFp(this.configuration).sysCodeGenTableListConfigIdGet(configId, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenTableListConfigIdGet(configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListTableOutput>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenTableListConfigIdGet(configId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 更新
+     * @summary 更新代码生成
      * @param {UpdateCodeGenInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async sysCodeGenUpdatePost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).sysCodeGenUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenUpdatePut(body?: UpdateCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

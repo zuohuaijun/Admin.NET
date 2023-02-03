@@ -4099,7 +4099,7 @@
             系统缓存服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.GetCacheKeys">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetKeyList">
             <summary>
             获取所有缓存键名
             </summary>
@@ -4151,7 +4151,7 @@
             <param name="prefixKey">键名前缀</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCacheService.GetCacheValue(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysCacheService.GetValue(System.String)">
             <summary>
             获取缓存值
             </summary>
@@ -4568,37 +4568,37 @@
             系统代码生成配置服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.List(Admin.NET.Core.Service.CodeGenConfig)">
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.GetList(Admin.NET.Core.Service.CodeGenConfig)">
             <summary>
-            代码生成详细配置列表
+            获取代码生成配置列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Delete(System.Int64)">
             <summary>
-            删除
+            删除代码生成配置
             </summary>
             <param name="codeGenId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Update(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.UpdateCodeGenConfig(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
             <summary>
-            更新
+            更新代码生成配置
             </summary>
             <param name="inputList"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Detail(Admin.NET.Core.Service.CodeGenConfig)">
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.GetDetail(Admin.NET.Core.Service.CodeGenConfig)">
             <summary>
-            详情
+            获取代码生成配置详情
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.AddList(System.Collections.Generic.List{Admin.NET.Core.Service.ColumnOuput},Admin.NET.Core.SysCodeGen)">
             <summary>
-            批量增加
+            批量增加代码生成配置
             </summary>
             <param name="tableColumnOuputList"></param>
             <param name="codeGenerate"></param>
@@ -4615,37 +4615,37 @@
             系统代码生成器服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetCodeGenPage(Admin.NET.Core.Service.CodeGenInput)">
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetPage(Admin.NET.Core.Service.CodeGenInput)">
             <summary>
-            分页查询
+            获取代码生成分页列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.AddCodeGen(Admin.NET.Core.Service.AddCodeGenInput)">
             <summary>
-            增加
+            增加代码生成
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.DeleteCodeGen(System.Collections.Generic.List{Admin.NET.Core.Service.DeleteCodeGenInput})">
             <summary>
-            删除
+            删除代码生成
             </summary>
             <param name="inputs"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.UpdateCodeGen(Admin.NET.Core.Service.UpdateCodeGenInput)">
             <summary>
-            更新
+            更新代码生成
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetCodeGen(Admin.NET.Core.Service.QueryCodeGenInput)">
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetDetail(Admin.NET.Core.Service.QueryCodeGenInput)">
             <summary>
-            详情
+            获取代码生成详情
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -4664,7 +4664,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetColumnListByTableName(System.String,System.String)">
             <summary>
-            根据表名获取列
+            根据表名获取列集合
             </summary>
             <returns></returns>
         </member>
@@ -4676,7 +4676,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.RunLocal(Admin.NET.Core.SysCodeGen)">
             <summary>
-            代码生成_本地项目
+            代码生成到本地
             </summary>
             <returns></returns>
         </member>
@@ -4748,14 +4748,14 @@
             系统参数配置服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfigPage(Admin.NET.Core.Service.PageConfigInput)">
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetPage(Admin.NET.Core.Service.PageConfigInput)">
             <summary>
             获取参数配置分页列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfigList">
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetList">
             <summary>
             获取参数配置列表
             </summary>
@@ -4775,7 +4775,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.GetConfig(Admin.NET.Core.Service.ConfigInput)">
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetDetail(Admin.NET.Core.Service.ConfigInput)">
             <summary>
             获取参数配置详情
             </summary>
@@ -4816,13 +4816,13 @@
             系统常量服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConstService.GetConstList">
+        <member name="M:Admin.NET.Core.Service.SysConstService.GetList">
             <summary>
             获取所有常量列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConstService.GetConstData(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysConstService.GetData(System.String)">
             <summary>
             根据类名获取常量数据
             </summary>
@@ -4869,7 +4869,7 @@
             系统数据库管理服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetDbList">
+        <member name="M:Admin.NET.Core.Service.SysDatabaseService.GetList">
             <summary>
             获取库列表
             </summary>
@@ -5005,14 +5005,14 @@
             系统字典值服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataPage(Admin.NET.Core.Service.PageDictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetPage(Admin.NET.Core.Service.PageDictDataInput)">
             <summary>
             获取字典值分页列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataList(Admin.NET.Core.Service.GetDataDictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetList(Admin.NET.Core.Service.GetDataDictDataInput)">
             <summary>
             获取字典值列表
             </summary>
@@ -5032,7 +5032,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictData(Admin.NET.Core.Service.DictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDetail(Admin.NET.Core.Service.DictDataInput)">
             <summary>
             获取字典值详情
             </summary>
@@ -5046,7 +5046,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.ChangeDictDataStatus(Admin.NET.Core.Service.DictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.SetStatus(Admin.NET.Core.Service.DictDataInput)">
             <summary>
             修改字典值状态
             </summary>
@@ -5060,18 +5060,18 @@
             <param name="dictTypeId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataDropdown(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataList(System.String)">
             <summary>
-            根据字典唯一编码获取下拉框集合
+            根据字典类型编码获取字典值集合
             </summary>
             <param name="code"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.QueryDictDataDropdown(Admin.NET.Core.Service.QueryDictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataList(Admin.NET.Core.Service.QueryDictDataInput)">
             <summary>
-            根据条件查询字典获取下拉框集合
+            根据查询条件获取字典值集合
             </summary>
-            <param name="input">查询参数</param>
+            <param name="input"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.SysDictTypeService">
@@ -5079,19 +5079,19 @@
             系统字典类型服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictTypePage(Admin.NET.Core.Service.PageDictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetPage(Admin.NET.Core.Service.PageDictTypeInput)">
             <summary>
             获取字典类型分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictTypeList">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetList">
             <summary>
             获取字典类型列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictTypeDataList(Admin.NET.Core.Service.GetDataDictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDataList(Admin.NET.Core.Service.GetDataDictTypeInput)">
             <summary>
             获取字典类型-值列表
             </summary>
@@ -5112,7 +5112,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDictType(Admin.NET.Core.Service.DictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDetail(Admin.NET.Core.Service.DictTypeInput)">
             <summary>
             获取字典类型详情
             </summary>
@@ -5126,7 +5126,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.ChangeDictTypeStatus(Admin.NET.Core.Service.DictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.SetStatus(Admin.NET.Core.Service.DictTypeInput)">
             <summary>
             修改字典类型状态
             </summary>
@@ -5188,7 +5188,7 @@
             系统文件服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysFileService.GetFilePage(Admin.NET.Core.Service.PageFileInput)">
+        <member name="M:Admin.NET.Core.Service.SysFileService.GetPage(Admin.NET.Core.Service.PageFileInput)">
             <summary>
             获取文件分页列表
             </summary>
@@ -5383,7 +5383,7 @@
             系统作业任务服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysJobService.GetJobPage(Admin.NET.Core.Service.PageJobInput)">
+        <member name="M:Admin.NET.Core.Service.SysJobService.GetPageJobDetail(Admin.NET.Core.Service.PageJobInput)">
             <summary>
             获取作业分页列表
             </summary>
@@ -5501,13 +5501,13 @@
             系统差异日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogDiffService.GetLogDiffPage(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogDiffService.GetPage(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取差异日志分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogDiffService.ClearLogDiff">
+        <member name="M:Admin.NET.Core.Service.SysLogDiffService.Clear">
             <summary>
             清空差异日志
             </summary>
@@ -5518,13 +5518,13 @@
             系统异常日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogExService.GetLogExPage(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogExService.GetPage(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取异常日志分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogExService.ClearLogEx">
+        <member name="M:Admin.NET.Core.Service.SysLogExService.Clear">
             <summary>
             清空异常日志
             </summary>
@@ -5541,19 +5541,19 @@
             系统操作日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogOpService.GetLogOpPage(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogOpService.GetPage(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取操作日志分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogOpService.ClearLogOp">
+        <member name="M:Admin.NET.Core.Service.SysLogOpService.Clear">
             <summary>
             清空操作日志
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogOpService.ExporLogOp(Admin.NET.Core.Service.LogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogOpService.ExportLogOp(Admin.NET.Core.Service.LogInput)">
             <summary>
             导出操作日志
             </summary>
@@ -5564,13 +5564,13 @@
             系统访问日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogVisService.GetLogVisPage(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogVisService.GetPage(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取访问日志分页列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogVisService.ClearLogVis">
+        <member name="M:Admin.NET.Core.Service.SysLogVisService.Clear">
             <summary>
             清空访问日志
             </summary>
@@ -5722,7 +5722,7 @@
             删除登录菜单树里面的按钮
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMenuService.GetMenuList(Admin.NET.Core.Service.MenuInput)">
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetList(Admin.NET.Core.Service.MenuInput)">
             <summary>
             获取菜单列表
             </summary>
@@ -5755,13 +5755,13 @@
             </summary>
             <param name="menu"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMenuService.GetPermCodeList">
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetBtnPermissionList">
             <summary>
-            获取按钮权限列表(登录)
+            获取按钮权限列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMenuService.GetAllPermCodeList">
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetAllBtnList">
             <summary>
             获取所有按钮权限集合
             </summary>
@@ -5783,28 +5783,28 @@
             系统消息发送服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMessageService.SendMessageToAllUser(Admin.NET.Core.MessageInput)">
+        <member name="M:Admin.NET.Core.Service.SysMessageService.SendAllUser(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给所有人
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMessageService.SendMessageToOtherUser(Admin.NET.Core.MessageInput)">
+        <member name="M:Admin.NET.Core.Service.SysMessageService.SendOtherUser(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给除了发送人的其他人
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMessageService.SendMessageToUser(Admin.NET.Core.MessageInput)">
+        <member name="M:Admin.NET.Core.Service.SysMessageService.SendUser(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给某个人
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMessageService.SendMessageToUsers(Admin.NET.Core.MessageInput)">
+        <member name="M:Admin.NET.Core.Service.SysMessageService.SendUsers(Admin.NET.Core.MessageInput)">
             <summary>
             发送消息给某些人
             </summary>
@@ -5833,7 +5833,7 @@
             系统通知公告服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetPageNotice(Admin.NET.Core.Service.PageNoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetPage(Admin.NET.Core.Service.PageNoticeInput)">
             <summary>
             获取通知公告分页列表
             </summary>
@@ -5861,28 +5861,28 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.PublicNotice(Admin.NET.Core.Service.NoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.Public(Admin.NET.Core.Service.NoticeInput)">
             <summary>
             发布通知公告
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.SetNoticeRead(Admin.NET.Core.Service.NoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.SetRead(Admin.NET.Core.Service.NoticeInput)">
             <summary>
             设置通知公告已读状态
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetPageReceivedNotice(Admin.NET.Core.Service.PageNoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetPageReceived(Admin.NET.Core.Service.PageNoticeInput)">
             <summary>
             获取接收的通知公告（当前用户）
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetUnReadNoticeList">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetUnReadList">
             <summary>
             获取未读的通知公告（当前用户）
             </summary>
@@ -5909,7 +5909,7 @@
             系统在线用户服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.GetOnlineUserPage(Admin.NET.Core.Service.PageOnlineUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.GetPage(Admin.NET.Core.Service.PageOnlineUserInput)">
             <summary>
             获取在线用户分页列表
             </summary>
@@ -5956,7 +5956,7 @@
             系统机构服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOrgService.GetOrgList(Admin.NET.Core.Service.OrgInput)">
+        <member name="M:Admin.NET.Core.Service.SysOrgService.GetList(Admin.NET.Core.Service.OrgInput)">
             <summary>
             获取机构列表
             </summary>
@@ -6037,7 +6037,7 @@
             系统职位服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysPosService.GetPosList(Admin.NET.Core.Service.PosInput)">
+        <member name="M:Admin.NET.Core.Service.SysPosService.GetList(Admin.NET.Core.Service.PosInput)">
             <summary>
             获取职位列表
             </summary>
@@ -6090,14 +6090,14 @@
             系统行政区域服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRegionService.GetRegionPage(Admin.NET.Core.Service.PageRegionInput)">
+        <member name="M:Admin.NET.Core.Service.SysRegionService.GetPage(Admin.NET.Core.Service.PageRegionInput)">
             <summary>
             获取行政区域列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRegionService.GetRegionList(Admin.NET.Core.Service.RegionInput)">
+        <member name="M:Admin.NET.Core.Service.SysRegionService.GetList(Admin.NET.Core.Service.RegionInput)">
             <summary>
             获取行政区域列表
             </summary>
@@ -6287,14 +6287,14 @@
             系统角色服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRolePage(Admin.NET.Core.Service.PageRoleInput)">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetPage(Admin.NET.Core.Service.PageRoleInput)">
             <summary>
             获取角色分页列表
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleList">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetList">
             <summary>
             获取角色列表
             </summary>
@@ -6328,35 +6328,35 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GrantRoleMenu(Admin.NET.Core.Service.RoleMenuInput)">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GrantMenu(Admin.NET.Core.Service.RoleMenuInput)">
             <summary>
             授权角色菜单
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GrantRoleDataScope(Admin.NET.Core.Service.RoleOrgInput)">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GrantDataScope(Admin.NET.Core.Service.RoleOrgInput)">
             <summary>
             授权角色数据范围
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleOwnMenuList(Admin.NET.Core.Service.RoleInput)">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetOwnMenuList(Admin.NET.Core.Service.RoleInput)">
             <summary>
-            根据角色Id获取菜单集合(Element)
+            根据角色Id获取菜单集合
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GetRoleOwnOrg(Admin.NET.Core.Service.RoleInput)">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.GetOwnOrgList(Admin.NET.Core.Service.RoleInput)">
             <summary>
             根据角色Id获取机构Id集合
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.SetRoleStatus(Admin.NET.Core.Service.RoleInput)">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.SetStatus(Admin.NET.Core.Service.RoleInput)">
             <summary>
             设置角色状态
             </summary>
@@ -6370,25 +6370,25 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysServerService.GetServerBase">
             <summary>
-            服务器配置信息
+            获取服务器配置信息
             </summary>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysServerService.GetServerUsed">
             <summary>
-            服务器内存信息
+            获取服务器内存信息
             </summary>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysServerService.GetServerDisk">
             <summary>
-            服务器磁盘信息
+            获取服务器磁盘信息
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysServerService.GetAssembly">
+        <member name="M:Admin.NET.Core.Service.SysServerService.GetAssemblyList">
             <summary>
-            框架主要程序集
+            获取框架主要程序集
             </summary>
             <returns></returns>
         </member>
@@ -6447,7 +6447,7 @@
             系统租户管理服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetTenantPage(Admin.NET.Core.Service.PageTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetPage(Admin.NET.Core.Service.PageTenantInput)">
             <summary>
             获取租户分页列表
             </summary>
@@ -6467,7 +6467,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.SetTenantStatus(Admin.NET.Core.Service.TenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.SetStatus(Admin.NET.Core.Service.TenantInput)">
             <summary>
             设置租户状态
             </summary>
@@ -6501,14 +6501,14 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.OwnMenuList(Admin.NET.Core.Service.TenantUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.GetOwnMenuList(Admin.NET.Core.Service.TenantUserInput)">
             <summary>
             获取租户管理员角色拥有菜单Id集合
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.ResetTenantPwd(Admin.NET.Core.Service.TenantUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.ResetPwd(Admin.NET.Core.Service.TenantUserInput)">
             <summary>
             重置租户管理员密码
             </summary>
@@ -6521,7 +6521,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.CreateTenantDb(Admin.NET.Core.Service.TenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.CreateDb(Admin.NET.Core.Service.TenantInput)">
             <summary>
             创建租户数据库
             </summary>
@@ -6721,7 +6721,7 @@
             系统用户服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserPage(Admin.NET.Core.Service.PageUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetPage(Admin.NET.Core.Service.PageUserInput)">
             <summary>
             获取用户分页列表
             </summary>
@@ -6756,54 +6756,54 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserBase">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetBaseInfo">
             <summary>
             查看用户基本信息
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateUserBase(Admin.NET.Core.SysUser)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.SetBaseInfo(Admin.NET.Core.SysUser)">
             <summary>
-            设置用户基本信息
+            更新用户基本信息
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.SetUserStatus(Admin.NET.Core.Service.UserInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.SetStatus(Admin.NET.Core.Service.UserInput)">
             <summary>
             设置用户状态
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GrantUserRole(Admin.NET.Core.Service.UserRoleInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GrantRole(Admin.NET.Core.Service.UserRoleInput)">
             <summary>
             授权用户角色
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.ChangeUserPwd(Admin.NET.Core.Service.ChangePwdInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.ChangePwd(Admin.NET.Core.Service.ChangePwdInput)">
             <summary>
             修改用户密码
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.ResetUserPwd(Admin.NET.Core.Service.ResetPwdUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.ResetPwd(Admin.NET.Core.Service.ResetPwdUserInput)">
             <summary>
             重置用户密码
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOwnRole(System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetOwnRoleList(System.Int64)">
             <summary>
             获取用户拥有角色
             </summary>
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetUserOrgList(System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetExtOrgList(System.Int64)">
             <summary>
             获取用户扩展机构
             </summary>
@@ -6923,20 +6923,20 @@
             微信支付统一下单获取Id(服务商模式)
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysWechatPayService.GetWechatPayInfo(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.GetPayInfo(System.String)">
             <summary>
             获取支付订单详情
             </summary>
             <param name="tradeId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysWechatPayService.WechatPayCallBack">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.PayCallBack">
             <summary>
             微信支付成功回调(商户直连)
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysWechatPayService.WechatPayPartnerCallBack">
+        <member name="M:Admin.NET.Core.Service.SysWechatPayService.PayPartnerCallBack">
             <summary>
             微信支付成功回调(服务商模式)
             </summary>
@@ -6954,13 +6954,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysWechatService.LoginOAuth2(Admin.NET.Core.Service.WechatOAuth2Input)">
+        <member name="M:Admin.NET.Core.Service.SysWechatService.SnsOAuth2(Admin.NET.Core.Service.WechatOAuth2Input)">
             <summary>
             授权登录(Code换取OpenId)
             </summary>
             <param name="input"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysWechatService.WechatUserLogin(Admin.NET.Core.Service.WechatUserLogin)">
+        <member name="M:Admin.NET.Core.Service.SysWechatService.OpenIdLogin(Admin.NET.Core.Service.WechatUserLogin)">
             <summary>
             微信用户登录
             </summary>
@@ -6978,7 +6978,7 @@
             微信账号服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysWechatUserService.GetWechatUserPage(Admin.NET.Core.Service.WechatUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysWechatUserService.GetPage(Admin.NET.Core.Service.WechatUserInput)">
             <summary>
             获取微信用户列表
             </summary>

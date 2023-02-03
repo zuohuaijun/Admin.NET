@@ -98,7 +98,7 @@ export default defineComponent({
 			if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
 			if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
 			state.loading = true;
-			var res = await getAPI(SysLogOpApi).sysLogOpPageGet(
+			var res = await getAPI(SysLogOpApi).apiSysLogOpPageGet(
 				state.queryParams.startTime,
 				state.queryParams.endTime,
 				state.tableParams.page,
@@ -120,7 +120,7 @@ export default defineComponent({
 		// 清空日志
 		const clearLog = async () => {
 			state.loading = true;
-			await getAPI(SysLogOpApi).sysLogOpClearPost();
+			await getAPI(SysLogOpApi).apiSysLogOpClearDelete();
 			state.loading = false;
 
 			ElMessage.success('清空成功');
@@ -129,7 +129,7 @@ export default defineComponent({
 		// 导出日志
 		const exportLog = async () => {
 			state.loading = true;
-			var res = await getAPI(SysLogOpApi).sysLogOpExporPost(state.queryParams, { responseType: 'blob' });
+			var res = await getAPI(SysLogOpApi).apiSysLogOpExportPost(state.queryParams, { responseType: 'blob' });
 			state.loading = false;
 
 			var fileName = getFileName(res.headers);

@@ -3,7 +3,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统参数配置服务
 /// </summary>
-[ApiDescriptionSettings(Order = 193)]
+[ApiDescriptionSettings(Order = 440)]
 public class SysConfigService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysConfig> _sysConfigRep;
@@ -21,8 +21,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysConfig/page")]
-    public async Task<SqlSugarPagedList<SysConfig>> GetConfigPage([FromQuery] PageConfigInput input)
+    public async Task<SqlSugarPagedList<SysConfig>> GetPage([FromQuery] PageConfigInput input)
     {
         return await _sysConfigRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name?.Trim()), u => u.Name.Contains(input.Name))
@@ -35,8 +34,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// 获取参数配置列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysConfig/list")]
-    public async Task<List<SysConfig>> GetConfigList()
+    public async Task<List<SysConfig>> GetList()
     {
         return await _sysConfigRep.GetListAsync();
     }
@@ -46,7 +44,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysConfig/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task AddConfig(AddConfigInput input)
     {
         var isExist = await _sysConfigRep.IsAnyAsync(u => u.Name == input.Name || u.Code == input.Code);
@@ -61,7 +59,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysConfig/update")]
+    [ApiDescriptionSettings(Name = "Update")]
     public async Task UpdateConfig(UpdateConfigInput input)
     {
         var isExist = await _sysConfigRep.IsAnyAsync(u => (u.Name == input.Name || u.Code == input.Code) && u.Id != input.Id);
@@ -79,8 +77,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysConfig/detail")]
-    public async Task<SysConfig> GetConfig([FromQuery] ConfigInput input)
+    public async Task<SysConfig> GetDetail([FromQuery] ConfigInput input)
     {
         return await _sysConfigRep.GetFirstAsync(u => u.Id == input.Id);
     }
@@ -90,7 +87,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysConfig/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     public async Task DeleteConfig(DeleteConfigInput input)
     {
         var config = await _sysConfigRep.GetFirstAsync(u => u.Id == input.Id);

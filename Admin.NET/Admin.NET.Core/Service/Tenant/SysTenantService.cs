@@ -3,7 +3,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统租户管理服务
 /// </summary>
-[ApiDescriptionSettings(Order = 140)]
+[ApiDescriptionSettings(Order = 390)]
 public class SysTenantService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysTenant> _sysTenantRep;
@@ -51,8 +51,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysTenant/page")]
-    public async Task<SqlSugarPagedList<TenantOutput>> GetTenantPage([FromQuery] PageTenantInput input)
+    public async Task<SqlSugarPagedList<TenantOutput>> GetPage([FromQuery] PageTenantInput input)
     {
         return await _sysTenantRep.AsQueryable()
             .LeftJoin<SysUser>((t, u) => t.UserId == u.Id)
@@ -94,7 +93,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysTenant/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task AddTenant(AddTenantInput input)
     {
         var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name);
@@ -123,8 +122,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysTenant/setStatus")]
-    public async Task<int> SetTenantStatus(TenantInput input)
+    public async Task<int> SetStatus(TenantInput input)
     {
         var tenant = await _sysTenantRep.GetFirstAsync(u => u.Id == input.Id);
         if (tenant.ConfigId == SqlSugarConst.ConfigId)
@@ -209,13 +207,13 @@ public class SysTenantService : IDynamicApiController, ITransient
         await _sysTenantRep.UpdateAsync(u => new SysTenant() { UserId = newUser.Id, OrgId = newOrg.Id }, u => u.Id == tenantId);
 
         // 默认租户管理员角色菜单集合
-        var menuIdList = new List<long> { 252885263002100,252885263002110,252885263002111,
-            252885263055200,252885263055210,252885263055211,252885263055212,252885263055213,252885263055214,252885263055215,252885263055216,252885263055217,252885263055218,252885263055219,252885263055220,
-            252885263055230,252885263055231,252885263055232,252885263055233,252885263055234,252885263055235,252885263055236,252885263055237,
-            252885263055240,252885263055241,252885263055242,252885263055243,252885263055244,
-            252885263055250,252885263055251,252885263055252,252885263055253,252885263055254,
-            252885263055260,252885263055261,252885263055262,252885263055263,
-            252885263055270,252885263055271,252885263055272,252885263055273,252885263055274,252885263055275,252885263055276
+        var menuIdList = new List<long> { 1300000000101,1300000000111,1300000000121,
+            1310000000101,1310000000111,1310000000112,1310000000113,1310000000114,1310000000115,1310000000116,1310000000117,1310000000118,1310000000119,1310000000120,1310000000121,
+            1310000000131,1310000000132,1310000000133,1310000000134,1310000000135,1310000000136,1310000000137,1310000000138,
+            1310000000141,1310000000142,1310000000143,1310000000144,1310000000145,
+            1310000000151,1310000000152,1310000000153,1310000000154,1310000000155,
+            1310000000161,1310000000162,1310000000163,1310000000164,
+            1310000000171,1310000000172,1310000000173,1310000000174,1310000000175,1310000000176,1310000000177
         };
         await _sysRoleMenuService.GrantRoleMenu(new RoleMenuInput() { Id = newRole.Id, MenuIdList = menuIdList });
     }
@@ -225,7 +223,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysTenant/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     public async Task DeleteTenant(DeleteTenantInput input)
     {
         // 禁止删除默认租户
@@ -261,7 +259,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysTenant/update")]
+    [ApiDescriptionSettings(Name = "Update")]
     public async Task UpdateTenant(UpdateTenantInput input)
     {
         var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.OrgId);
@@ -287,7 +285,6 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysTenant/grantMenu")]
     public async Task GrantMenu(RoleMenuInput input)
     {
         var tenantAdminUser = await _sysUserRep.GetFirstAsync(u => u.TenantId == input.Id && u.AccountType == AccountTypeEnum.Admin);
@@ -303,8 +300,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysTenant/ownMenuList")]
-    public async Task<List<long>> OwnMenuList([FromQuery] TenantUserInput input)
+    public async Task<List<long>> GetOwnMenuList([FromQuery] TenantUserInput input)
     {
         var roleIds = await _sysUserRoleService.GetUserRoleIdList(input.UserId);
         return await _sysRoleMenuService.GetRoleMenuIdList(new List<long> { roleIds[0] });
@@ -315,8 +311,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysTenant/resetPwd")]
-    public async Task ResetTenantPwd(TenantUserInput input)
+    public async Task ResetPwd(TenantUserInput input)
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
         var encryptPassword = MD5Encryption.Encrypt(password);
@@ -355,8 +350,8 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysTenant/createDb")]
-    public async Task CreateTenantDb(TenantInput input)
+    [ApiDescriptionSettings(Name = "CreateDb")]
+    public async Task CreateDb(TenantInput input)
     {
         var tenant = await _sysTenantRep.GetFirstAsync(u => u.Id == input.Id);
         if (tenant == null) return;

@@ -120,7 +120,7 @@ export default defineComponent({
 		const handleQuery = async () => {
 			state.loading = true;
 			// let params = Object.assign(state.queryParams, state.tableParams);
-			let res = await getAPI(SysCodeGenApi).sysCodeGenPageGet(
+			let res = await getAPI(SysCodeGenApi).apiSysCodeGenPageGet(
 				undefined,
 				undefined,
 				undefined,
@@ -170,7 +170,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysCodeGenApi).sysCodeGenDeletePost([{ id: row.id }]);
+					await getAPI(SysCodeGenApi).apiSysCodeGenDeleteDelete([{ id: row.id }]);
 					handleQuery();
 					ElMessage.success('操作成功');
 				})
@@ -184,7 +184,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysCodeGenApi).sysCodeGenRunLocalPost(row);
+					await getAPI(SysCodeGenApi).apiSysCodeGenRunLocalPost(row);
 					handleQuery();
 					ElMessage.success('操作成功');
 				})

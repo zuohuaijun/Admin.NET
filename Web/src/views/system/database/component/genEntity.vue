@@ -65,7 +65,7 @@ export default defineComponent({
 		});
 
 		onMounted(async () => {
-			let resDicData = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_base_class');
+			let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDictDataListCodeGet('code_gen_base_class');
 			state.codeGenBaseClassName = resDicData.data.result;
 		});
 
@@ -90,7 +90,7 @@ export default defineComponent({
 		const submit = () => {
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
-				await getAPI(SysDatabaseApi).sysDatabaseCreateEntityPost(state.ruleForm);
+				await getAPI(SysDatabaseApi).apiSysDatabaseCreateEntityPost(state.ruleForm);
 				closeDialog();
 			});
 		};

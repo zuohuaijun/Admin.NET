@@ -26,12 +26,17 @@ export const SysConstApiAxiosParamCreator = function (configuration?: Configurat
         /**
          * 
          * @summary 根据类名获取常量数据
-         * @param {string} [typeName] 
+         * @param {string} typeName 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysConstDataGet: async (typeName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysConst/data`;
+        apiSysConstDataTypeNameGet: async (typeName: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'typeName' is not null or undefined
+            if (typeName === null || typeName === undefined) {
+                throw new RequiredError('typeName','Required parameter typeName was null or undefined when calling apiSysConstDataTypeNameGet.');
+            }
+            const localVarPath = `/api/sysConst/data/{typeName}`
+                .replace(`{${"typeName"}}`, encodeURIComponent(String(typeName)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -43,10 +48,6 @@ export const SysConstApiAxiosParamCreator = function (configuration?: Configurat
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
-
-            if (typeName !== undefined) {
-                localVarQueryParameter['typeName'] = typeName;
-            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -70,8 +71,8 @@ export const SysConstApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysConstListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysConst/list`;
+        apiSysConstListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysConst/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -112,12 +113,12 @@ export const SysConstApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 根据类名获取常量数据
-         * @param {string} [typeName] 
+         * @param {string} typeName 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysConstDataGet(typeName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListConstOutput>>> {
-            const localVarAxiosArgs = await SysConstApiAxiosParamCreator(configuration).sysConstDataGet(typeName, options);
+        async apiSysConstDataTypeNameGet(typeName: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListConstOutput>>> {
+            const localVarAxiosArgs = await SysConstApiAxiosParamCreator(configuration).apiSysConstDataTypeNameGet(typeName, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -129,8 +130,8 @@ export const SysConstApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysConstListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListConstOutput>>> {
-            const localVarAxiosArgs = await SysConstApiAxiosParamCreator(configuration).sysConstListGet(options);
+        async apiSysConstListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListConstOutput>>> {
+            const localVarAxiosArgs = await SysConstApiAxiosParamCreator(configuration).apiSysConstListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -148,12 +149,12 @@ export const SysConstApiFactory = function (configuration?: Configuration, baseP
         /**
          * 
          * @summary 根据类名获取常量数据
-         * @param {string} [typeName] 
+         * @param {string} typeName 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysConstDataGet(typeName?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListConstOutput>> {
-            return SysConstApiFp(configuration).sysConstDataGet(typeName, options).then((request) => request(axios, basePath));
+        async apiSysConstDataTypeNameGet(typeName: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListConstOutput>> {
+            return SysConstApiFp(configuration).apiSysConstDataTypeNameGet(typeName, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -161,8 +162,8 @@ export const SysConstApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysConstListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListConstOutput>> {
-            return SysConstApiFp(configuration).sysConstListGet(options).then((request) => request(axios, basePath));
+        async apiSysConstListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListConstOutput>> {
+            return SysConstApiFp(configuration).apiSysConstListGet(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -177,13 +178,13 @@ export class SysConstApi extends BaseAPI {
     /**
      * 
      * @summary 根据类名获取常量数据
-     * @param {string} [typeName] 
+     * @param {string} typeName 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysConstApi
      */
-    public async sysConstDataGet(typeName?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListConstOutput>> {
-        return SysConstApiFp(this.configuration).sysConstDataGet(typeName, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysConstDataTypeNameGet(typeName: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListConstOutput>> {
+        return SysConstApiFp(this.configuration).apiSysConstDataTypeNameGet(typeName, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -192,7 +193,7 @@ export class SysConstApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysConstApi
      */
-    public async sysConstListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListConstOutput>> {
-        return SysConstApiFp(this.configuration).sysConstListGet(options).then((request) => request(this.axios, this.basePath));
+    public async apiSysConstListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListConstOutput>> {
+        return SysConstApiFp(this.configuration).apiSysConstListGet(options).then((request) => request(this.axios, this.basePath));
     }
 }

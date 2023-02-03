@@ -225,7 +225,7 @@ public class Startup : AppStartup
             }
         });
 
-        app.UseInject();
+        app.UseInject(string.Empty);
 
         app.UseEndpoints(endpoints =>
         {

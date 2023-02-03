@@ -103,7 +103,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysRegionApi).sysRegionPageGet(state.queryParams.id, state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysRegionApi).apiSysRegionPageGet(state.queryParams.id, state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
 			state.regionData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -133,7 +133,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysRegionApi).sysRegionDeletePost({ id: row.id });
+					await getAPI(SysRegionApi).apiSysRegionDeleteDelete({ id: row.id });
 					ElMessage.success('删除成功');
 					mittBus.emit('submitRefresh');
 				})
@@ -160,7 +160,7 @@ export default defineComponent({
 						type: 'success',
 						position: 'bottom-right',
 					});
-					await getAPI(SysRegionApi).sysRegionSyncPost({ timeout: 1000 * 60 * 30 });
+					await getAPI(SysRegionApi).apiSysRegionSyncPost({ timeout: 1000 * 60 * 30 });
 				})
 				.catch(() => {});
 		};

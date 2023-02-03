@@ -161,22 +161,22 @@ export default defineComponent({
 		});
 		// 服务器配置信息
 		const loadMachineBaseInfo = async () => {
-			var res = await getAPI(SysServerApi).serverBaseGet();
+			var res = await getAPI(SysServerApi).apiSysServerServerBaseGet();
 			state.machineBaseInfo = res.data.result;
 		};
 		// 服务器内存信息
 		const loadMachineUseInfo = async () => {
-			var res = await getAPI(SysServerApi).serverUseGet();
+			var res = await getAPI(SysServerApi).apiSysServerServerUsedGet();
 			state.machineUseInfo = res.data.result;
 		};
 		// 服务器磁盘信息
 		const loadMachineDiskInfo = async () => {
-			var res = await getAPI(SysServerApi).serverDiskGet();
+			var res = await getAPI(SysServerApi).apiSysServerServerDiskGet();
 			state.machineDiskInfo = res.data.result;
 		};
 		// 框架程序集信息
 		const loadAssemblyInfo = async () => {
-			var res = await getAPI(SysServerApi).serverAssemblyGet();
+			var res = await getAPI(SysServerApi).apiSysServerAssemblyListGet();
 			state.assemblyInfo = res.data.result;
 		};
 		// 实时刷新内存

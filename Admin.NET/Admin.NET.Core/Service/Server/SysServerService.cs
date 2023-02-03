@@ -5,7 +5,6 @@ using Magicodes.ExporterAndImporter.Excel;
 using Magicodes.ExporterAndImporter.Pdf;
 using Microsoft.Extensions.Hosting;
 using Nest;
-using NewLife.Caching;
 using OnceMi.AspNetCore.OSS;
 
 namespace Admin.NET.Core.Service;
@@ -13,7 +12,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统服务器监控服务
 /// </summary>
-[ApiDescriptionSettings(Order = 185)]
+[ApiDescriptionSettings(Order = 290)]
 public class SysServerService : IDynamicApiController, ITransient
 {
     public SysServerService()
@@ -21,10 +20,9 @@ public class SysServerService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 服务器配置信息
+    /// 获取服务器配置信息
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/server/base")]
     public dynamic GetServerBase()
     {
         return new
@@ -44,10 +42,9 @@ public class SysServerService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 服务器内存信息
+    /// 获取服务器内存信息
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/server/use")]
     public dynamic GetServerUsed()
     {
         var programStartTime = Process.GetCurrentProcess().StartTime;
@@ -69,21 +66,19 @@ public class SysServerService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 服务器磁盘信息
+    /// 获取服务器磁盘信息
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/server/disk")]
     public dynamic GetServerDisk()
     {
         return ComputerUtil.GetDiskInfos();
     }
 
     /// <summary>
-    /// 框架主要程序集
+    /// 获取框架主要程序集
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/server/assembly")]
-    public dynamic GetAssembly()
+    public dynamic GetAssemblyList()
     {
         var furionAssembly = typeof(App).Assembly.GetName();
         var sqlSugarAssembly = typeof(ISqlSugarClient).Assembly.GetName();

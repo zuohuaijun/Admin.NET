@@ -70,7 +70,7 @@ export default defineComponent({
 			state.cacheData = [];
 
 			state.loading = true;
-			var res = await getAPI(SysCacheApi).sysCacheKeyListGet();
+			var res = await getAPI(SysCacheApi).apiSysCacheKeyListGet();
 			let keyList: any = res.data.result;
 
 			// 构造树（以分号分割）
@@ -106,7 +106,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysCacheApi).sysCacheDeletePost(currentNode.value.id);
+					await getAPI(SysCacheApi).apiSysCacheDeleteKeyDelete(currentNode.value.id);
 					handleQuery();
 					state.cacheValue = undefined;
 					ElMessage.success('删除成功');
@@ -119,7 +119,7 @@ export default defineComponent({
 
 			currentNode.value = node;
 			state.loading1 = true;
-			var res = await getAPI(SysCacheApi).sysCacheValueGet(node.id);
+			var res = await getAPI(SysCacheApi).apiSysCacheValueKeyGet(node.id);
 			state.cacheValue = res.data.result;
 			state.loading1 = false;
 		};

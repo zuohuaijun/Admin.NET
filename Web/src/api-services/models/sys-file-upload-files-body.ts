@@ -14,13 +14,13 @@
 /**
  * 
  * @export
- * @interface SysFileUploadsBody
+ * @interface SysFileUploadFilesBody
  */
-export interface SysFileUploadsBody {
+export interface SysFileUploadFilesBody {
     /**
      * 
      * @type {Array<Blob>}
-     * @memberof SysFileUploadsBody
+     * @memberof SysFileUploadFilesBody
      */
     files: Array<Blob>;
 }

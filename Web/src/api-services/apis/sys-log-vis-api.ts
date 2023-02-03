@@ -30,15 +30,15 @@ export const SysLogVisApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysLogVisClearPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysLogVis/clear`;
+        apiSysLogVisClearDelete: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysLogVis/clear`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -73,8 +73,8 @@ export const SysLogVisApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysLogVisPageGet: async (startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysLogVis/page`;
+        apiSysLogVisPageGet: async (startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysLogVis/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -150,8 +150,8 @@ export const SysLogVisApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogVisClearPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
-            const localVarAxiosArgs = await SysLogVisApiAxiosParamCreator(configuration).sysLogVisClearPost(options);
+        async apiSysLogVisClearDelete(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
+            const localVarAxiosArgs = await SysLogVisApiAxiosParamCreator(configuration).apiSysLogVisClearDelete(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -170,8 +170,8 @@ export const SysLogVisApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogVisPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogVis>>> {
-            const localVarAxiosArgs = await SysLogVisApiAxiosParamCreator(configuration).sysLogVisPageGet(startTime, endTime, page, pageSize, field, order, descStr, options);
+        async apiSysLogVisPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogVis>>> {
+            const localVarAxiosArgs = await SysLogVisApiAxiosParamCreator(configuration).apiSysLogVisPageGet(startTime, endTime, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -192,8 +192,8 @@ export const SysLogVisApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogVisClearPost(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
-            return SysLogVisApiFp(configuration).sysLogVisClearPost(options).then((request) => request(axios, basePath));
+        async apiSysLogVisClearDelete(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
+            return SysLogVisApiFp(configuration).apiSysLogVisClearDelete(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -208,8 +208,8 @@ export const SysLogVisApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogVisPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogVis>> {
-            return SysLogVisApiFp(configuration).sysLogVisPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysLogVisPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogVis>> {
+            return SysLogVisApiFp(configuration).apiSysLogVisPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -228,8 +228,8 @@ export class SysLogVisApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysLogVisApi
      */
-    public async sysLogVisClearPost(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
-        return SysLogVisApiFp(this.configuration).sysLogVisClearPost(options).then((request) => request(this.axios, this.basePath));
+    public async apiSysLogVisClearDelete(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
+        return SysLogVisApiFp(this.configuration).apiSysLogVisClearDelete(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -245,7 +245,7 @@ export class SysLogVisApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysLogVisApi
      */
-    public async sysLogVisPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogVis>> {
-        return SysLogVisApiFp(this.configuration).sysLogVisPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysLogVisPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogVis>> {
+        return SysLogVisApiFp(this.configuration).apiSysLogVisPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -62,7 +62,8 @@ public static class SqlSugarSetup
         config.IsAutoCloseConnection = true;
         config.MoreSettings = new ConnMoreSettings
         {
-            IsAutoRemoveDataCache = true
+            IsAutoRemoveDataCache = true,
+            SqlServerCodeFirstNvarchar = true // 采用Nvarchar
         };
     }
 

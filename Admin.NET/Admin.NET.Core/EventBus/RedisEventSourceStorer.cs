@@ -1,5 +1,4 @@
-﻿using NewLife.Caching;
-using System.Threading.Channels;
+﻿using System.Threading.Channels;
 
 namespace Admin.NET.Core;
 

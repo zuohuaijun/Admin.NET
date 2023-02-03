@@ -117,7 +117,7 @@ const state = reactive({
 });
 onMounted(async () => {
 	// 获取登录配置
-	var res1 = await getAPI(SysAuthApi).loginConfigGet();
+	var res1 = await getAPI(SysAuthApi).apiSysAuthLoginConfigGet();
 	state.secondVerEnabled = res1.data.result.secondVerEnabled ?? true;
 	state.captchaEnabled = res1.data.result.captchaEnabled ?? true;
 	state.wartermarkEnabled = res1.data.result.wartermarkEnabled ?? true;
@@ -143,7 +143,7 @@ const setLocalThemeConfig = () => {
 // 获取验证码
 const getCaptcha = async () => {
 	state.ruleForm.code = '';
-	var res = await getAPI(SysAuthApi).captchaGet();
+	var res = await getAPI(SysAuthApi).apiSysAuthCaptchaGet();
 	state.captchaImage = 'data:text/html;base64,' + res.data.result?.img;
 	state.ruleForm.codeId = res.data.result?.id;
 };
@@ -156,7 +156,7 @@ const onSignIn = async () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return false;
 
-		const [err, res] = await feature(getAPI(SysAuthApi).loginPost(state.ruleForm));
+		const [err, res] = await feature(getAPI(SysAuthApi).apiSysAuthLoginPost(state.ruleForm));
 		if (err) {
 			getCaptcha(); // 重新获取验证码
 			return;

@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统职位服务
 /// </summary>
-[ApiDescriptionSettings(Order = 196)]
+[ApiDescriptionSettings(Order = 460)]
 public class SysPosService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysPos> _sysPosRep;
@@ -21,8 +21,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysPos/list")]
-    public async Task<List<SysPos>> GetPosList([FromQuery] PosInput input)
+    public async Task<List<SysPos>> GetList([FromQuery] PosInput input)
     {
         return await _sysPosRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
@@ -35,7 +34,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysPos/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task AddPos(AddPosInput input)
     {
         var isExist = await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
@@ -50,7 +49,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysPos/update")]
+    [ApiDescriptionSettings(Name = "Update")]
     public async Task UpdatePos(UpdatePosInput input)
     {
         var isExist = await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
@@ -65,7 +64,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysPos/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     public async Task DeletePos(DeletePosInput input)
     {
         // 该职位下是否有用户

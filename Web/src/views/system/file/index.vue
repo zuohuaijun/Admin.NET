@@ -154,7 +154,7 @@ export default defineComponent({
 			}
 
 			state.loading = true;
-			var res = await getAPI(SysFileApi).sysFilePageGet(state.queryParams.fileName, startTime, endTime, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysFileApi).apiSysFilePageGet(state.queryParams.fileName, startTime, endTime, state.tableParams.page, state.tableParams.pageSize);
 			state.fileData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -176,7 +176,7 @@ export default defineComponent({
 		// 上传
 		const uploadFile = async () => {
 			if (state.fileList.length < 1) return;
-			await getAPI(SysFileApi).sysFileUploadPostForm(state.fileList[0].raw);
+			await getAPI(SysFileApi).apiSysFileUploadFilePathPostForm(state.fileList[0].raw);
 			handleQuery();
 			ElMessage.success('上传成功');
 			state.dialogVisible = false;
@@ -194,7 +194,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysFileApi).sysFileDeletePost({ id: row.id });
+					await getAPI(SysFileApi).apiSysFileDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})

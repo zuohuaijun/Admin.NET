@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统访问日志服务
 /// </summary>
-[ApiDescriptionSettings(Order = 180)]
+[ApiDescriptionSettings(Order = 350)]
 public class SysLogVisService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysLogVis> _sysLogVisRep;
@@ -17,9 +17,8 @@ public class SysLogVisService : IDynamicApiController, ITransient
     /// 获取访问日志分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysLogVis/page")]
     [SuppressMonitor]
-    public async Task<SqlSugarPagedList<SysLogVis>> GetLogVisPage([FromQuery] PageLogInput input)
+    public async Task<SqlSugarPagedList<SysLogVis>> GetPage([FromQuery] PageLogInput input)
     {
         return await _sysLogVisRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
@@ -32,8 +31,8 @@ public class SysLogVisService : IDynamicApiController, ITransient
     /// 清空访问日志
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysLogVis/clear")]
-    public async Task<bool> ClearLogVis()
+    [ApiDescriptionSettings(Name = "Clear")]
+    public async Task<bool> Clear()
     {
         return await _sysLogVisRep.DeleteAsync(u => u.Id > 0);
     }

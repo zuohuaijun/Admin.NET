@@ -6,7 +6,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统消息发送服务
 /// </summary>
-[ApiDescriptionSettings(Order = 101)]
+[ApiDescriptionSettings(Order = 370)]
 public class SysMessageService : IDynamicApiController, ITransient
 {
     private readonly SysCacheService _sysCacheService;
@@ -30,8 +30,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("sysMessage/allUser")]
-    public async Task SendMessageToAllUser(MessageInput input)
+    public async Task SendAllUser(MessageInput input)
     {
         await _chatHubContext.Clients.All.ReceiveMessage(input);
     }
@@ -41,8 +40,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("sysMessage/otherUser")]
-    public async Task SendMessageToOtherUser(MessageInput input)
+    public async Task SendOtherUser(MessageInput input)
     {
         var onlineuserlist = _sysCacheService.Get<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
 
@@ -58,8 +56,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("sysMessage/user")]
-    public async Task SendMessageToUser(MessageInput input)
+    public async Task SendUser(MessageInput input)
     {
         var onlineuserlist = _sysCacheService.Get<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
 
@@ -77,8 +74,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("sysMessage/users")]
-    public async Task SendMessageToUsers(MessageInput input)
+    public async Task SendUsers(MessageInput input)
     {
         var onlineuserlist = _sysCacheService.Get<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
 
@@ -96,7 +92,6 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    [HttpPost("/sysEmail/send")]
     public async Task SendEmail(string message)
     {
         //// 设置发送人邮件地址和名称

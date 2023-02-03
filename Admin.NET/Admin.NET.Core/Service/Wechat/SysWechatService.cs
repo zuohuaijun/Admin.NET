@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信公众号服务
 /// </summary>
-[ApiDescriptionSettings(Order = 101)]
+[ApiDescriptionSettings(Order = 240)]
 public class SysWechatService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
@@ -21,7 +21,6 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysWechat/genAuthUrl")]
     [AllowAnonymous]
     public string GenAuthUrl(GenAuthUrlInput input)
     {
@@ -32,9 +31,8 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// 授权登录(Code换取OpenId)
     /// </summary>
     /// <param name="input"></param>
-    [HttpPost("/sysWechat/snsOAuth2")]
     [AllowAnonymous]
-    public async Task<string> LoginOAuth2([Required] WechatOAuth2Input input)
+    public async Task<string> SnsOAuth2([Required] WechatOAuth2Input input)
     {
         var reqOAuth2 = new SnsOAuth2AccessTokenRequest()
         {
@@ -73,9 +71,8 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysWechat/openIdLogin")]
     [AllowAnonymous]
-    public async Task<dynamic> WechatUserLogin(WechatUserLogin input)
+    public async Task<dynamic> OpenIdLogin(WechatUserLogin input)
     {
         var wxUser = await _sysWechatUserRep.GetFirstAsync(p => p.OpenId == input.OpenId);
         if (wxUser == null)
@@ -97,7 +94,6 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// 获取配置签名参数(wx.config)
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysWechat/genConfigPara")]
     public async Task<dynamic> GenConfigPara(SignatureInput input)
     {
         var resCgibinToken = await _wechatApiClient.ExecuteCgibinTokenAsync(new CgibinTokenRequest());

@@ -35,8 +35,8 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysWechatGenAuthUrlPost: async (body?: GenAuthUrlInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysWechat/genAuthUrl`;
+        apiSysWechatGenAuthUrlPost: async (body?: GenAuthUrlInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechat/genAuthUrl`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -76,8 +76,8 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysWechatGenConfigParaPost: async (body?: SignatureInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysWechat/genConfigPara`;
+        apiSysWechatGenConfigParaPost: async (body?: SignatureInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechat/genConfigPara`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -117,8 +117,8 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysWechatOpenIdLoginPost: async (body?: WechatUserLogin, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysWechat/openIdLogin`;
+        apiSysWechatOpenIdLoginPost: async (body?: WechatUserLogin, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechat/openIdLogin`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -158,12 +158,12 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysWechatSnsOAuth2Post: async (body: WechatOAuth2Input, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysWechatSnsOAuth2Post: async (body: WechatOAuth2Input, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'body' is not null or undefined
             if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling sysWechatSnsOAuth2Post.');
+                throw new RequiredError('body','Required parameter body was null or undefined when calling apiSysWechatSnsOAuth2Post.');
             }
-            const localVarPath = `/sysWechat/snsOAuth2`;
+            const localVarPath = `/api/sysWechat/snsOAuth2`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -212,8 +212,8 @@ export const SysWechatApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatGenAuthUrlPost(body?: GenAuthUrlInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
-            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).sysWechatGenAuthUrlPost(body, options);
+        async apiSysWechatGenAuthUrlPost(body?: GenAuthUrlInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatGenAuthUrlPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -226,8 +226,8 @@ export const SysWechatApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatGenConfigParaPost(body?: SignatureInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).sysWechatGenConfigParaPost(body, options);
+        async apiSysWechatGenConfigParaPost(body?: SignatureInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatGenConfigParaPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -240,8 +240,8 @@ export const SysWechatApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).sysWechatOpenIdLoginPost(body, options);
+        async apiSysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatOpenIdLoginPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -254,8 +254,8 @@ export const SysWechatApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
-            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).sysWechatSnsOAuth2Post(body, options);
+        async apiSysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatSnsOAuth2Post(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -277,8 +277,8 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatGenAuthUrlPost(body?: GenAuthUrlInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
-            return SysWechatApiFp(configuration).sysWechatGenAuthUrlPost(body, options).then((request) => request(axios, basePath));
+        async apiSysWechatGenAuthUrlPost(body?: GenAuthUrlInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
+            return SysWechatApiFp(configuration).apiSysWechatGenAuthUrlPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -287,8 +287,8 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatGenConfigParaPost(body?: SignatureInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
-            return SysWechatApiFp(configuration).sysWechatGenConfigParaPost(body, options).then((request) => request(axios, basePath));
+        async apiSysWechatGenConfigParaPost(body?: SignatureInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysWechatApiFp(configuration).apiSysWechatGenConfigParaPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -297,8 +297,8 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
-            return SysWechatApiFp(configuration).sysWechatOpenIdLoginPost(body, options).then((request) => request(axios, basePath));
+        async apiSysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysWechatApiFp(configuration).apiSysWechatOpenIdLoginPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -307,8 +307,8 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
-            return SysWechatApiFp(configuration).sysWechatSnsOAuth2Post(body, options).then((request) => request(axios, basePath));
+        async apiSysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
+            return SysWechatApiFp(configuration).apiSysWechatSnsOAuth2Post(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -328,8 +328,8 @@ export class SysWechatApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysWechatApi
      */
-    public async sysWechatGenAuthUrlPost(body?: GenAuthUrlInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
-        return SysWechatApiFp(this.configuration).sysWechatGenAuthUrlPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatGenAuthUrlPost(body?: GenAuthUrlInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
+        return SysWechatApiFp(this.configuration).apiSysWechatGenAuthUrlPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -339,8 +339,8 @@ export class SysWechatApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysWechatApi
      */
-    public async sysWechatGenConfigParaPost(body?: SignatureInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
-        return SysWechatApiFp(this.configuration).sysWechatGenConfigParaPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatGenConfigParaPost(body?: SignatureInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysWechatApiFp(this.configuration).apiSysWechatGenConfigParaPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -350,8 +350,8 @@ export class SysWechatApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysWechatApi
      */
-    public async sysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
-        return SysWechatApiFp(this.configuration).sysWechatOpenIdLoginPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysWechatApiFp(this.configuration).apiSysWechatOpenIdLoginPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -361,7 +361,7 @@ export class SysWechatApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysWechatApi
      */
-    public async sysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
-        return SysWechatApiFp(this.configuration).sysWechatSnsOAuth2Post(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
+        return SysWechatApiFp(this.configuration).apiSysWechatSnsOAuth2Post(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

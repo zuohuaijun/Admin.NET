@@ -152,7 +152,7 @@ export default defineComponent({
 					dbColumnInfoList: state.tableData,
 					...state.ruleForm,
 				};
-				await getAPI(SysDatabaseApi).sysDatabaseAddTablePost(params);
+				await getAPI(SysDatabaseApi).apiSysDatabaseAddTablePost(params);
 				closeDialog();
 			});
 		};

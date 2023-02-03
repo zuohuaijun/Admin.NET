@@ -72,7 +72,7 @@ watch(filterText, (val) => {
 
 const initTreeData = async () => {
 	state.loading = true;
-	var res = await getAPI(SysRegionApi).sysRegionListGet(0);
+	var res = await getAPI(SysRegionApi).apiSysRegionListGet(0);
 	state.regionData = res.data.result ?? [];
 	state.loading = false;
 };
@@ -81,7 +81,7 @@ const loadNode = async (node: any, resolve: any) => {
 	if (node.data == undefined || Array.isArray(node.data)) return;
 
 	state.loading = true;
-	var res = await getAPI(SysRegionApi).sysRegionListGet(node.data.id);
+	var res = await getAPI(SysRegionApi).apiSysRegionListGet(node.data.id);
 	var data = res.data.result ?? [];
 	state.loading = false;
 	resolve(data);

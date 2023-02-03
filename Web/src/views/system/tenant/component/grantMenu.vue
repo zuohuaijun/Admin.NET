@@ -59,7 +59,7 @@ export default defineComponent({
 		});
 		onMounted(async () => {
 			state.loading = true;
-			var res = await getAPI(SysMenuApi).sysMenuListGet();
+			var res = await getAPI(SysMenuApi).apiSysMenuListGet();
 			state.menuData = res.data.result;
 			state.loading = false;
 		});
@@ -67,7 +67,7 @@ export default defineComponent({
 		const openDialog = async (row: any) => {
 			treeRef.value?.setCheckedKeys([]); // 先清空已选择节点
 			state.ruleForm = row;
-			var res = await getAPI(SysTenantApi).sysTenantOwnMenuListGet(row.userId);
+			var res = await getAPI(SysTenantApi).apiSysTenantOwnMenuListGet(row.userId);
 			setTimeout(() => {
 				// 延迟传递数据
 				treeRef.value?.setCheckedKeys(res.data.result);
@@ -81,7 +81,7 @@ export default defineComponent({
 		// 提交
 		const submit = async () => {
 			state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys() as Array<number>;
-			await getAPI(SysTenantApi).sysTenantGrantMenuPost(state.ruleForm);
+			await getAPI(SysTenantApi).apiSysTenantGrantMenuPost(state.ruleForm);
 			state.isShowDialog = false;
 		};
 		// 叶子节点同行显示样式

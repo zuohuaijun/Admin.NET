@@ -73,7 +73,7 @@ watch(filterText, (val) => {
 
 const initTreeData = async () => {
 	state.loading = true;
-	var res = await getAPI(SysOrgApi).sysOrgListGet(0);
+	var res = await getAPI(SysOrgApi).apiSysOrgListGet(0);
 	state.orgData = res.data.result ?? [];
 	state.loading = false;
 };

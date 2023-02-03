@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统角色服务
 /// </summary>
-[ApiDescriptionSettings(Order = 198)]
+[ApiDescriptionSettings(Order = 480)]
 public class SysRoleService : IDynamicApiController, ITransient
 {
     private readonly UserManager _userManager;
@@ -36,8 +36,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysRole/page")]
-    public async Task<SqlSugarPagedList<SysRole>> GetRolePage([FromQuery] PageRoleInput input)
+    public async Task<SqlSugarPagedList<SysRole>> GetPage([FromQuery] PageRoleInput input)
     {
         return await _sysRoleRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
@@ -50,8 +49,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// 获取角色列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysRole/list")]
-    public async Task<List<RoleOutput>> GetRoleList()
+    public async Task<List<RoleOutput>> GetList()
     {
         return await _sysRoleRep.AsQueryable().OrderBy(u => u.OrderNo).Select<RoleOutput>().ToListAsync();
     }
@@ -61,7 +59,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysRole/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task AddRole(AddRoleInput input)
     {
         var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
@@ -82,7 +80,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     {
         if (input.MenuIdList == null || input.MenuIdList.Count < 1)
             return;
-        await GrantRoleMenu(new RoleMenuInput()
+        await GrantMenu(new RoleMenuInput()
         {
             Id = input.Id,
             MenuIdList = input.MenuIdList
@@ -94,7 +92,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysRole/update")]
+    [ApiDescriptionSettings(Name = "Update")]
     public async Task UpdateRole(UpdateRoleInput input)
     {
         var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
@@ -112,7 +110,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysRole/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     [UnitOfWork]
     public async Task DeleteRole(DeleteRoleInput input)
     {
@@ -137,8 +135,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysRole/grantMenu")]
-    public async Task GrantRoleMenu(RoleMenuInput input)
+    public async Task GrantMenu(RoleMenuInput input)
     {
         await _sysRoleMenuService.GrantRoleMenu(input);
     }
@@ -148,8 +145,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysRole/grantData")]
-    public async Task GrantRoleDataScope(RoleOrgInput input)
+    public async Task GrantDataScope(RoleOrgInput input)
     {
         // 删除所有用户机构缓存
         _sysCacheService.RemoveByPrefixKey(CacheConst.KeyOrgIdList);
@@ -182,12 +178,11 @@ public class SysRoleService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 根据角色Id获取菜单集合(Element)
+    /// 根据角色Id获取菜单集合
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysRole/ownMenuList")]
-    public async Task<List<long>> GetRoleOwnMenuList([FromQuery] RoleInput input)
+    public async Task<List<long>> GetOwnMenuList([FromQuery] RoleInput input)
     {
         return await _sysRoleMenuService.GetRoleMenuIdList(new List<long> { input.Id });
     }
@@ -197,8 +192,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysRole/ownOrg")]
-    public async Task<List<long>> GetRoleOwnOrg([FromQuery] RoleInput input)
+    public async Task<List<long>> GetOwnOrgList([FromQuery] RoleInput input)
     {
         return await _sysRoleOrgService.GetRoleOrgIdList(new List<long> { input.Id });
     }
@@ -208,8 +202,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysRole/setStatus")]
-    public async Task<int> SetRoleStatus(RoleInput input)
+    public async Task<int> SetStatus(RoleInput input)
     {
         if (!Enum.IsDefined(typeof(StatusEnum), input.Status))
             throw Oops.Oh(ErrorCodeEnum.D3005);

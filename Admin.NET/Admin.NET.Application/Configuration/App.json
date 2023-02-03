@@ -1,7 +1,7 @@
 {
     "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
 
-    "Urls": "http://*:5050",
+    "Urls": "http://*:5050", // 配置默认端口
 
     "AllowedHosts": "*",
 
@@ -9,14 +9,17 @@
         "InjectSpecificationDocument": true // 生产环境是否开启Swagger
     },
     "DynamicApiControllerSettings": {
-        "LowercaseRoute": false,
-        "KeepName": true,
-        "AsLowerCamelCase": true // 小驼峰路由路径
+        "DefaultRoutePrefix": "api", // 默认路由前缀
+        "CamelCaseSeparator": "", // 骆驼(驼峰)/帕斯卡命名分隔符
+        "LowercaseRoute": false, // 小写路由格式
+        "AsLowerCamelCase": true, // 启用小驼峰命名（首字母小写）
+        "KeepVerb": false // 保留动作谓词
+        //"KeepName": true // 保留默认名称
     },
     "FriendlyExceptionSettings": {
         "DefaultErrorMessage": "系统异常，请联系管理员",
-        "ThrowBah": true,
-        "LogError": false // 是否输出异常日志，默认true
+        "ThrowBah": true, // 是否将 Oops.Oh 默认抛出为业务异常
+        "LogError": false // 是否输出异常日志
     },
     "LocalizationSettings": {
         "SupportedCultures": [ "zh-CN", "en-US" ], // 语言列表

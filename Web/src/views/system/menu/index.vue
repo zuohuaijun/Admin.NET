@@ -96,7 +96,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysMenuApi).sysMenuListGet(state.queryParams.title, state.queryParams.type);
+			var res = await getAPI(SysMenuApi).apiSysMenuListGet(state.queryParams.title, state.queryParams.type);
 			state.menuData = res.data.result ?? [];
 			state.loading = false;
 		};
@@ -124,7 +124,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysMenuApi).sysMenuDeletePost({ id: row.id });
+					await getAPI(SysMenuApi).apiSysMenuDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})

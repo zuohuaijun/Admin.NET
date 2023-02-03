@@ -161,9 +161,9 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysJobApi).sysJobTriggerUpdatePost(state.ruleForm);
+					await getAPI(SysJobApi).apiSysJobUpdateJobTriggerPut(state.ruleForm);
 				} else {
-					await getAPI(SysJobApi).sysJobTriggerAddPost(state.ruleForm);
+					await getAPI(SysJobApi).apiSysJobAddJobTriggerPost(state.ruleForm);
 				}
 				closeDialog();
 			});

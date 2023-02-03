@@ -102,7 +102,7 @@ onUnmounted(() => {});
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
-	var res = await getAPI(SysNoticeApi).sysNoticePageReceivedGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
+	var res = await getAPI(SysNoticeApi).apiSysNoticePageReceivedGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
 	state.noticeData = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;
@@ -131,7 +131,7 @@ const viewDetail = async (row: any) => {
 	row.readStatus = 1;
 
 	mittBus.emit('noticeRead', row.sysNotice.id);
-	await getAPI(SysNoticeApi).sysNoticeSetReadPost({ id: row.sysNotice.id });
+	await getAPI(SysNoticeApi).apiSysNoticeSetReadPost({ id: row.sysNotice.id });
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

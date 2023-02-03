@@ -67,7 +67,7 @@ const viewNoticeDetail = async (notice: any) => {
 
 	// 设置已读
 	notice.readStatus = 1;
-	await getAPI(SysNoticeApi).sysNoticeSetReadPost({ id: notice.id });
+	await getAPI(SysNoticeApi).apiSysNoticeSetReadPost({ id: notice.id });
 };
 </script>
 

@@ -100,9 +100,9 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysOrgApi).sysOrgUpdatePost(state.ruleForm);
+					await getAPI(SysOrgApi).apiSysOrgUpdatePut(state.ruleForm);
 				} else {
-					await getAPI(SysOrgApi).sysOrgAddPost(state.ruleForm);
+					await getAPI(SysOrgApi).apiSysOrgAddPost(state.ruleForm);
 				}
 				mittBus.emit('submitRefresh');
 				state.isShowDialog = false;

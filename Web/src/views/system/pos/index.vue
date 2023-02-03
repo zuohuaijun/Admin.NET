@@ -80,7 +80,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysPosApi).sysPosListGet(state.queryParams.name, state.queryParams.code);
+			var res = await getAPI(SysPosApi).apiSysPosListGet(state.queryParams.name, state.queryParams.code);
 			state.posData = res.data.result ?? [];
 			state.loading = false;
 		};
@@ -108,7 +108,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysPosApi).sysPosDeletePost({ id: row.id });
+					await getAPI(SysPosApi).apiSysPosDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})

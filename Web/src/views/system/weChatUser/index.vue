@@ -111,7 +111,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysWechatUserApi).sysWechatUserPageGet(state.queryParams.nickName, state.queryParams.mobile, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysWechatUserApi).apiSysWechatUserPageGet(state.queryParams.nickName, state.queryParams.mobile, state.tableParams.page, state.tableParams.pageSize);
 			state.weChatUserData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -135,7 +135,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysWechatUserApi).sysWechatUserDeletePost({ id: row.id });
+					await getAPI(SysWechatUserApi).apiSysWechatUserDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})

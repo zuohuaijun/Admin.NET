@@ -103,7 +103,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     /// <returns></returns>
     public async Task ClientsSendMessage(MessageInput message)
     {
-        await _sysMessageService.SendMessageToUser(message);
+        await _sysMessageService.SendUser(message);
     }
 
     /// <summary>
@@ -113,7 +113,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     /// <returns></returns>
     public async Task ClientsSendMessagetoAll(MessageInput message)
     {
-        await _sysMessageService.SendMessageToAllUser(message);
+        await _sysMessageService.SendAllUser(message);
     }
 
     /// <summary>
@@ -123,7 +123,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     /// <returns></returns>
     public async Task ClientsSendMessagetoOther(MessageInput message)
     {
-        await _sysMessageService.SendMessageToOtherUser(message);
+        await _sysMessageService.SendOtherUser(message);
     }
 
     /// <summary>
@@ -133,6 +133,6 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     /// <returns></returns>
     public async Task ClientsSendMessagetoUsers(MessageInput message)
     {
-        await _sysMessageService.SendMessageToUsers(message);
+        await _sysMessageService.SendUsers(message);
     }
 }

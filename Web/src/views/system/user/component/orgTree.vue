@@ -60,7 +60,7 @@ const state = reactive({
 
 onMounted(async () => {
 	state.loading = true;
-	var res = await getAPI(SysOrgApi).sysOrgListGet(0);
+	var res = await getAPI(SysOrgApi).apiSysOrgListGet(0);
 	var d = res.data.result ?? [];
 	state.orgData = d[0] ?? []; // 默认第一个树分支
 	if (state.orgData.id == userInfos.value.orgId) state.orgData.style = currentNodeStyle;

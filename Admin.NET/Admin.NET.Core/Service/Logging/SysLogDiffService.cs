@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统差异日志服务
 /// </summary>
-[ApiDescriptionSettings(Order = 180)]
+[ApiDescriptionSettings(Order = 330)]
 public class SysLogDiffService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysLogDiff> _sysLogDiffRep;
@@ -17,9 +17,8 @@ public class SysLogDiffService : IDynamicApiController, ITransient
     /// 获取差异日志分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysLogDiff/page")]
     [SuppressMonitor]
-    public async Task<SqlSugarPagedList<SysLogDiff>> GetLogDiffPage([FromQuery] PageLogInput input)
+    public async Task<SqlSugarPagedList<SysLogDiff>> GetPage([FromQuery] PageLogInput input)
     {
         return await _sysLogDiffRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
@@ -32,8 +31,8 @@ public class SysLogDiffService : IDynamicApiController, ITransient
     /// 清空差异日志
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysLogDiff/clear")]
-    public async Task<bool> ClearLogDiff()
+    [ApiDescriptionSettings(Name = "Clear")]
+    public async Task<bool> Clear()
     {
         return await _sysLogDiffRep.DeleteAsync(u => u.Id > 0);
     }

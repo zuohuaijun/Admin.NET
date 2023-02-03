@@ -68,9 +68,9 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysWechatUserApi).sysWechatUserUpdatePost(state.ruleForm);
+					await getAPI(SysWechatUserApi).apiSysWechatUserUpdatePut(state.ruleForm);
 				} else {
-					await getAPI(SysWechatUserApi).sysWechatUserAddPost(state.ruleForm);
+					await getAPI(SysWechatUserApi).apiSysWechatUserAddPost(state.ruleForm);
 				}
 				closeDialog();
 			});

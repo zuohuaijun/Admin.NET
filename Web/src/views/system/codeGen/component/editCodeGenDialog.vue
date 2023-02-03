@@ -130,20 +130,20 @@ export default defineComponent({
 		});
 
 		onMounted(async () => {
-			var resDb = await getAPI(SysCodeGenApi).sysCodeGenDatabaseListGet();
+			var resDb = await getAPI(SysCodeGenApi).apiSysCodeGenDatabaseListGet();
 			state.dbData = resDb.data.result;
 
-			let resMenu = await getAPI(SysMenuApi).sysMenuListGet();
+			let resMenu = await getAPI(SysMenuApi).apiSysMenuListGet();
 			state.menuData = resMenu.data.result ?? [];
 
-			let resDicData = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_create_type');
+			let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDictDataListCodeGet('code_gen_create_type');
 			state.codeGenTypeList = resDicData.data.result;
 		});
 
 		// dbChanged
 		const dbChanged = async () => {
 			if (state.ruleForm.configId === '') return;
-			let res = await getAPI(SysCodeGenApi).sysCodeGenTableListConfigIdGet(state.ruleForm.configId as string);
+			let res = await getAPI(SysCodeGenApi).apiSysCodeGenTableListConfigIdGet(state.ruleForm.configId as string);
 			state.tableData = res.data.result ?? [];
 
 			let db = state.dbData.filter((u: any) => u.configId == state.ruleForm.configId);
@@ -173,9 +173,9 @@ export default defineComponent({
 			ruleFormRef.value.validate(async (valid: boolean) => {
 				if (!valid) return;
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysCodeGenApi).sysCodeGenUpdatePost(state.ruleForm as UpdateCodeGenInput);
+					await getAPI(SysCodeGenApi).apiSysCodeGenUpdatePut(state.ruleForm as UpdateCodeGenInput);
 				} else {
-					await getAPI(SysCodeGenApi).sysCodeGenAddPost(state.ruleForm as AddCodeGenInput);
+					await getAPI(SysCodeGenApi).apiSysCodeGenAddPost(state.ruleForm as AddCodeGenInput);
 				}
 				closeDialog();
 			});

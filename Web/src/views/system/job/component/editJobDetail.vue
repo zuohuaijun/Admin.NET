@@ -145,9 +145,9 @@ export default defineComponent({
 				if (!valid) return;
 				state.ruleForm.scriptCode = monacoEditor.getValue();
 				if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-					await getAPI(SysJobApi).sysJobDetailUpdatePost(state.ruleForm);
+					await getAPI(SysJobApi).apiSysJobUpdateJobDetailPut(state.ruleForm);
 				} else {
-					await getAPI(SysJobApi).sysJobDetailAddPost(state.ruleForm);
+					await getAPI(SysJobApi).apiSysJobAddJobDetailPost(state.ruleForm);
 				}
 				closeDialog();
 			});

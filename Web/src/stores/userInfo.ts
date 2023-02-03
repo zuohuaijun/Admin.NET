@@ -16,7 +16,7 @@ export const useUserInfo = defineStore('userInfo', {
 	getters: {
 		// 获取系统常量列表
 		async getSysConstList(): Promise<any[]> {
-			var res = await getAPI(SysConstApi).sysConstListGet();
+			var res = await getAPI(SysConstApi).apiSysConstListGet();
 			this.constList = res.data.result ?? [];
 			return this.constList;
 		},
@@ -35,7 +35,7 @@ export const useUserInfo = defineStore('userInfo', {
 		async getApiUserInfo() {
 			return new Promise((resolve) => {
 				getAPI(SysAuthApi)
-					.userInfoGet()
+					.apiSysAuthUserInfoGet()
 					.then((res: any) => {
 						if (res.data.result == null) return;
 						var d = res.data.result;

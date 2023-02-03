@@ -106,7 +106,7 @@ export async function setAddRoute() {
  * @returns 返回后端路由菜单数据
  */
 export async function getBackEndControlRoutes() {
-	var res = await getAPI(SysMenuApi).loginMenuGet();
+	var res = await getAPI(SysMenuApi).apiSysMenuLoginMenuTreeGet();
 	// if (res.data.result == undefined || res.data.result.length < 1) {
 	// 	ElMessage.error('没有任何菜单权限，请联系管理员！');
 	// 	setTimeout(() => {

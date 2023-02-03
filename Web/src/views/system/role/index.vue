@@ -116,7 +116,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysRoleApi).sysRolePageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysRoleApi).apiSysRolePageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
 			state.roleData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -149,7 +149,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysRoleApi).sysRoleDeletePost({ id: row.id });
+					await getAPI(SysRoleApi).apiSysRoleDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})

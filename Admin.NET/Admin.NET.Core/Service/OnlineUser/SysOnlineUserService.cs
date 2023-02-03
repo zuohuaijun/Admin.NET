@@ -5,7 +5,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统在线用户服务
 /// </summary>
-[ApiDescriptionSettings(Order = 100)]
+[ApiDescriptionSettings(Order = 300)]
 public class SysOnlineUserService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
@@ -25,8 +25,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// 获取在线用户分页列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysOnlineUser/page")]
-    public async Task<SqlSugarPagedList<SysOnlineUser>> GetOnlineUserPage([FromQuery] PageOnlineUserInput input)
+    public async Task<SqlSugarPagedList<SysOnlineUser>> GetPage([FromQuery] PageOnlineUserInput input)
     {
         return await _sysOnlineUerRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.UserName), u => u.UserName.Contains(input.UserName))
@@ -39,7 +38,6 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    [HttpPost("/sysOnlineUser/forceOffline")]
     [NonValidation]
     public async Task ForceOffline(SysOnlineUser user)
     {

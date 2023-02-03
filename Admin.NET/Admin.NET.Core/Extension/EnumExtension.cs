@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-
-namespace Admin.NET.Core;
+﻿namespace Admin.NET.Core;
 
 /// <summary>
 /// 枚举拓展

@@ -6,7 +6,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统行政区域服务
 /// </summary>
-[ApiDescriptionSettings(Order = 100)]
+[ApiDescriptionSettings(Order = 310)]
 public class SysRegionService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysRegion> _sysRegionRep;
@@ -21,8 +21,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysRegion/page")]
-    public async Task<SqlSugarPagedList<SysRegion>> GetRegionPage([FromQuery] PageRegionInput input)
+    public async Task<SqlSugarPagedList<SysRegion>> GetPage([FromQuery] PageRegionInput input)
     {
         return await _sysRegionRep.AsQueryable()
             .WhereIF(input.Pid > 0, u => u.Pid == input.Pid || u.Id == input.Pid)
@@ -36,8 +35,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysRegion/list")]
-    public async Task<List<SysRegion>> GetRegionList([FromQuery] RegionInput input)
+    public async Task<List<SysRegion>> GetList([FromQuery] RegionInput input)
     {
         return await _sysRegionRep.GetListAsync(u => u.Pid == input.Id);
     }
@@ -47,7 +45,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysRegion/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task<long> AddRegion(AddRegionInput input)
     {
         var isExist = await _sysRegionRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
@@ -64,7 +62,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysRegion/update")]
+    [ApiDescriptionSettings(Name = "Update")]
     public async Task UpdateRegion(UpdateRegionInput input)
     {
         if (input.Pid != 0)
@@ -94,7 +92,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysRegion/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     public async Task DeleteRegion(DeleteRegionInput input)
     {
         var regionTreeList = await _sysRegionRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id, true);
@@ -106,7 +104,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// 同步行政区域
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/sysRegion/sync")]
+    [ApiDescriptionSettings(Name = "Sync")]
     public async Task SyncRegion()
     {
         await _sysRegionRep.DeleteAsync(u => u.Id > 0);

@@ -19,8 +19,8 @@
     },
     // 支付回调
     "PayCallBack": {
-        "WechatPayUrl": "/notify/weChatPay/unifiedorder", // 微信支付回调
-        "WechatRefundUrl": "/notify/weChatPay/refund", // 微信退款回调
+        "WechatPayUrl": "https://xxx/api/sysWechatPay/payCallBack", // 微信支付回调
+        "WechatRefundUrl": "", // 微信退款回调
         "AlipayUrl": "", // 支付宝支付回调
         "AlipayRefundUrl": "" // 支付宝退款回调
     }

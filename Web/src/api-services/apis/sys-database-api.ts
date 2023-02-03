@@ -39,8 +39,8 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseAddColumnPost: async (body?: DbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/addColumn`;
+        apiSysDatabaseAddColumnPost: async (body?: DbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysDatabase/addColumn`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -80,8 +80,8 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseAddTablePost: async (body?: DbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/addTable`;
+        apiSysDatabaseAddTablePost: async (body?: DbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysDatabase/addTable`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -117,13 +117,23 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 
          * @summary 获取字段列表
-         * @param {string} [tableName] 表名
-         * @param {string} [configId] ConfigId
+         * @param {string} tableName 表名
+         * @param {string} configId ConfigId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseColumnListGet: async (tableName?: string, configId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/columnList`;
+        apiSysDatabaseColumnListTableNameConfigIdGet: async (tableName: string, configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'tableName' is not null or undefined
+            if (tableName === null || tableName === undefined) {
+                throw new RequiredError('tableName','Required parameter tableName was null or undefined when calling apiSysDatabaseColumnListTableNameConfigIdGet.');
+            }
+            // verify required parameter 'configId' is not null or undefined
+            if (configId === null || configId === undefined) {
+                throw new RequiredError('configId','Required parameter configId was null or undefined when calling apiSysDatabaseColumnListTableNameConfigIdGet.');
+            }
+            const localVarPath = `/api/sysDatabase/columnList/{tableName}/{configId}`
+                .replace(`{${"tableName"}}`, encodeURIComponent(String(tableName)))
+                .replace(`{${"configId"}}`, encodeURIComponent(String(configId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -135,14 +145,6 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
-
-            if (tableName !== undefined) {
-                localVarQueryParameter['tableName'] = tableName;
-            }
-
-            if (configId !== undefined) {
-                localVarQueryParameter['configId'] = configId;
-            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -167,8 +169,8 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseCreateEntityPost: async (body?: CreateEntityInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/createEntity`;
+        apiSysDatabaseCreateEntityPost: async (body?: CreateEntityInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysDatabase/createEntity`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -208,15 +210,15 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseDeleteColumnPost: async (body?: DeleteDbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/deleteColumn`;
+        apiSysDatabaseDeleteColumnDelete: async (body?: DeleteDbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysDatabase/deleteColumn`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -249,15 +251,15 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseDeleteTablePost: async (body?: DeleteDbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/deleteTable`;
+        apiSysDatabaseDeleteTableDelete: async (body?: DeleteDbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysDatabase/deleteTable`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -289,8 +291,8 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/list`;
+        apiSysDatabaseListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysDatabase/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -322,12 +324,17 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 
          * @summary 获取表列表
-         * @param {string} [configId] ConfigId
+         * @param {string} configId ConfigId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseTableListGet: async (configId?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/tableList`;
+        apiSysDatabaseTableListConfigIdGet: async (configId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'configId' is not null or undefined
+            if (configId === null || configId === undefined) {
+                throw new RequiredError('configId','Required parameter configId was null or undefined when calling apiSysDatabaseTableListConfigIdGet.');
+            }
+            const localVarPath = `/api/sysDatabase/tableList/{configId}`
+                .replace(`{${"configId"}}`, encodeURIComponent(String(configId)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -339,10 +346,6 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
-
-            if (configId !== undefined) {
-                localVarQueryParameter['configId'] = configId;
-            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -367,15 +370,15 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseUpdateColumnPost: async (body?: UpdateDbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/updateColumn`;
+        apiSysDatabaseUpdateColumnPut: async (body?: UpdateDbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysDatabase/updateColumn`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -408,15 +411,15 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysDatabaseUpdateTablePost: async (body?: UpdateDbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysDatabase/updateTable`;
+        apiSysDatabaseUpdateTablePut: async (body?: UpdateDbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysDatabase/updateTable`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -458,8 +461,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseAddColumnPost(body?: DbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseAddColumnPost(body, options);
+        async apiSysDatabaseAddColumnPost(body?: DbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseAddColumnPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -472,8 +475,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseAddTablePost(body?: DbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseAddTablePost(body, options);
+        async apiSysDatabaseAddTablePost(body?: DbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseAddTablePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -482,13 +485,13 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取字段列表
-         * @param {string} [tableName] 表名
-         * @param {string} [configId] ConfigId
+         * @param {string} tableName 表名
+         * @param {string} configId ConfigId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseColumnListGet(tableName?: string, configId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListDbColumnOutput>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseColumnListGet(tableName, configId, options);
+        async apiSysDatabaseColumnListTableNameConfigIdGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListDbColumnOutput>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseColumnListTableNameConfigIdGet(tableName, configId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -501,8 +504,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseCreateEntityPost(body?: CreateEntityInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseCreateEntityPost(body, options);
+        async apiSysDatabaseCreateEntityPost(body?: CreateEntityInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseCreateEntityPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -515,8 +518,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseDeleteColumnPost(body?: DeleteDbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseDeleteColumnPost(body, options);
+        async apiSysDatabaseDeleteColumnDelete(body?: DeleteDbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseDeleteColumnDelete(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -529,8 +532,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseDeleteTablePost(body?: DeleteDbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseDeleteTablePost(body, options);
+        async apiSysDatabaseDeleteTableDelete(body?: DeleteDbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseDeleteTableDelete(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -542,8 +545,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListObject>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseListGet(options);
+        async apiSysDatabaseListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListObject>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -552,12 +555,12 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取表列表
-         * @param {string} [configId] ConfigId
+         * @param {string} configId ConfigId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseTableListGet(configId?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListDbTableInfo>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseTableListGet(configId, options);
+        async apiSysDatabaseTableListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListDbTableInfo>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseTableListConfigIdGet(configId, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -570,8 +573,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseUpdateColumnPost(body?: UpdateDbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseUpdateColumnPost(body, options);
+        async apiSysDatabaseUpdateColumnPut(body?: UpdateDbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseUpdateColumnPut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -584,8 +587,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseUpdateTablePost(body?: UpdateDbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).sysDatabaseUpdateTablePost(body, options);
+        async apiSysDatabaseUpdateTablePut(body?: UpdateDbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseUpdateTablePut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -607,8 +610,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseAddColumnPost(body?: DbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseAddColumnPost(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseAddColumnPost(body?: DbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseAddColumnPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -617,19 +620,19 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseAddTablePost(body?: DbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseAddTablePost(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseAddTablePost(body?: DbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseAddTablePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary 获取字段列表
-         * @param {string} [tableName] 表名
-         * @param {string} [configId] ConfigId
+         * @param {string} tableName 表名
+         * @param {string} configId ConfigId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseColumnListGet(tableName?: string, configId?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListDbColumnOutput>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseColumnListGet(tableName, configId, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseColumnListTableNameConfigIdGet(tableName: string, configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListDbColumnOutput>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseColumnListTableNameConfigIdGet(tableName, configId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -638,8 +641,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseCreateEntityPost(body?: CreateEntityInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseCreateEntityPost(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseCreateEntityPost(body?: CreateEntityInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseCreateEntityPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -648,8 +651,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseDeleteColumnPost(body?: DeleteDbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseDeleteColumnPost(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseDeleteColumnDelete(body?: DeleteDbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseDeleteColumnDelete(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -658,8 +661,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseDeleteTablePost(body?: DeleteDbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseDeleteTablePost(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseDeleteTableDelete(body?: DeleteDbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseDeleteTableDelete(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -667,18 +670,18 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListObject>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseListGet(options).then((request) => request(axios, basePath));
+        async apiSysDatabaseListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListObject>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseListGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
          * @summary 获取表列表
-         * @param {string} [configId] ConfigId
+         * @param {string} configId ConfigId
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseTableListGet(configId?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListDbTableInfo>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseTableListGet(configId, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseTableListConfigIdGet(configId: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListDbTableInfo>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseTableListConfigIdGet(configId, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -687,8 +690,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseUpdateColumnPost(body?: UpdateDbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseUpdateColumnPost(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseUpdateColumnPut(body?: UpdateDbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseUpdateColumnPut(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -697,8 +700,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysDatabaseUpdateTablePost(body?: UpdateDbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).sysDatabaseUpdateTablePost(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseUpdateTablePut(body?: UpdateDbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseUpdateTablePut(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -718,8 +721,8 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseAddColumnPost(body?: DbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseAddColumnPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseAddColumnPost(body?: DbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseAddColumnPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -729,20 +732,20 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseAddTablePost(body?: DbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseAddTablePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseAddTablePost(body?: DbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseAddTablePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
      * @summary 获取字段列表
-     * @param {string} [tableName] 表名
-     * @param {string} [configId] ConfigId
+     * @param {string} tableName 表名
+     * @param {string} configId ConfigId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseColumnListGet(tableName?: string, configId?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListDbColumnOutput>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseColumnListGet(tableName, configId, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseColumnListTableNameConfigIdGet(tableName: string, configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListDbColumnOutput>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseColumnListTableNameConfigIdGet(tableName, configId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -752,8 +755,8 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseCreateEntityPost(body?: CreateEntityInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseCreateEntityPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseCreateEntityPost(body?: CreateEntityInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseCreateEntityPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -763,8 +766,8 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseDeleteColumnPost(body?: DeleteDbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseDeleteColumnPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseDeleteColumnDelete(body?: DeleteDbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseDeleteColumnDelete(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -774,8 +777,8 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseDeleteTablePost(body?: DeleteDbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseDeleteTablePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseDeleteTableDelete(body?: DeleteDbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseDeleteTableDelete(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -784,19 +787,19 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListObject>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseListGet(options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListObject>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
      * @summary 获取表列表
-     * @param {string} [configId] ConfigId
+     * @param {string} configId ConfigId
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseTableListGet(configId?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListDbTableInfo>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseTableListGet(configId, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseTableListConfigIdGet(configId: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListDbTableInfo>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseTableListConfigIdGet(configId, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -806,8 +809,8 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseUpdateColumnPost(body?: UpdateDbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseUpdateColumnPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseUpdateColumnPut(body?: UpdateDbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseUpdateColumnPut(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -817,7 +820,7 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async sysDatabaseUpdateTablePost(body?: UpdateDbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).sysDatabaseUpdateTablePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseUpdateTablePut(body?: UpdateDbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseUpdateTablePut(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

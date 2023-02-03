@@ -3,7 +3,7 @@
 /// <summary>
 /// 系统常量服务
 /// </summary>
-[ApiDescriptionSettings(Order = 189)]
+[ApiDescriptionSettings(Order = 280)]
 [AllowAnonymous]
 public class SysConstService : IDynamicApiController, ITransient
 {
@@ -18,8 +18,7 @@ public class SysConstService : IDynamicApiController, ITransient
     /// 获取所有常量列表
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysConst/list")]
-    public async Task<List<ConstOutput>> GetConstList()
+    public async Task<List<ConstOutput>> GetList()
     {
         var key = $"{CacheConst.KeyConst}list";
         var constlist = _sysCacheService.Get<List<ConstOutput>>(key);
@@ -30,7 +29,7 @@ public class SysConstService : IDynamicApiController, ITransient
             {
                 Name = x.CustomAttributes.ToList().FirstOrDefault()?.ConstructorArguments.ToList().FirstOrDefault().Value?.ToString() ?? x.Name,
                 Code = x.Name,
-                Data = GetConstData(Convert.ToString(x.Name))
+                Data = GetData(Convert.ToString(x.Name))
             }).ToList();
             _sysCacheService.Set(key, constlist);
         }
@@ -42,8 +41,7 @@ public class SysConstService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="typeName"></param>
     /// <returns></returns>
-    [HttpGet("/sysConst/data")]
-    public async Task<List<ConstOutput>> GetConstData(string typeName)
+    public async Task<List<ConstOutput>> GetData(string typeName)
     {
         var key = $"{CacheConst.KeyConst}{typeName.ToUpper()}";
         var constlist = _sysCacheService.Get<List<ConstOutput>>(key);

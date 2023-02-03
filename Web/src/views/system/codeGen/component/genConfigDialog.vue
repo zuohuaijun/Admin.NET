@@ -93,17 +93,17 @@ export default defineComponent({
 		});
 
 		onMounted(async () => {
-			let res = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_effect_type');
+			let res = await getAPI(SysDictDataApi).apiSysDictDataDictDataListCodeGet('code_gen_effect_type');
 			state.effectTypeList = res.data.result;
 
-			res = await getAPI(SysDictTypeApi).sysDictTypeListGet();
+			res = await getAPI(SysDictTypeApi).apiSysDictTypeListGet();
 			state.dictTypeCodeList = res.data.result;
 			state.dictDataAll = res.data.result;
 
-			res = await getAPI(SysDictDataApi).sysDictDataDictDataDropdownCodeGet('code_gen_query_type');
+			res = await getAPI(SysDictDataApi).apiSysDictDataDictDataListCodeGet('code_gen_query_type');
 			state.queryTypeList = res.data.result;
 
-			res = await getAPI(SysConstApi).sysConstListGet();
+			res = await getAPI(SysConstApi).apiSysConstListGet();
 			state.allConstSelector = res.data.result;
 
 			mittBus.on('submitRefreshFk', (data: any) => {
@@ -134,7 +134,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async (row: any) => {
 			state.loading = true;
-			var res = await getAPI(SysCodeGenConfigApi).sysCodeGenConfigListGet(undefined, row.id);
+			var res = await getAPI(SysCodeGenConfigApi).apiSysCodeGenConfigListGet(undefined, row.id);
 			var data = res.data.result ?? [];
 			data.forEach((item: any) => {
 				for (const key in item) {
@@ -204,7 +204,7 @@ export default defineComponent({
 					}
 				}
 			});
-			await getAPI(SysCodeGenConfigApi).sysCodeGenConfigUpdatePost(lst);
+			await getAPI(SysCodeGenConfigApi).apiSysCodeGenConfigUpdatePut(lst);
 			state.loading = false;
 			closeDialog();
 		};

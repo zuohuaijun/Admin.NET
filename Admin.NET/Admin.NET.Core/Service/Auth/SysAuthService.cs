@@ -7,7 +7,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统登录授权服务
 /// </summary>
-[ApiDescriptionSettings(Order = 200)]
+[ApiDescriptionSettings(Order = 500)]
 public class SysAuthService : IDynamicApiController, ITransient
 {
     private readonly UserManager _userManager;
@@ -50,7 +50,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <remarks>用户名/密码：superadmin/123456</remarks>
     /// <returns></returns>
-    [HttpPost("/login")]
     [AllowAnonymous]
     [SuppressMonitor]
     public async Task<LoginOutput> Login([Required] LoginInput input)
@@ -116,7 +115,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// 获取用户信息
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/userInfo")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
@@ -127,7 +125,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         var pos = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysPos>>().GetFirstAsync(u => u.Id == user.PosId);
 
         // 按钮权限集合
-        var buttons = await _sysMenuService.GetPermCodeList();
+        var buttons = await _sysMenuService.GetBtnPermissionList();
 
         // 登录日志
         var ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4();
@@ -167,7 +165,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="accessToken"></param>
     /// <returns></returns>
-    [HttpPost("/refreshToken")]
     public string RefreshToken([Required] string accessToken)
     {
         return JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
@@ -176,7 +173,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <summary>
     /// 退出系统
     /// </summary>
-    [HttpPost("/logout")]
     public async void Logout()
     {
         if (string.IsNullOrWhiteSpace(_userManager.Account))
@@ -201,7 +197,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// 登录配置
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/loginConfig")]
     [AllowAnonymous]
     [SuppressMonitor]
     public async Task<dynamic> GetLoginConfig()
@@ -216,7 +211,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// 生成图片验证码
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/captcha")]
     [AllowAnonymous]
     [SuppressMonitor]
     public dynamic GetCaptcha()
@@ -230,7 +224,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// Swagger登录检查
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/Swagger/CheckUrl"), NonUnify]
+    [HttpPost("/api/swagger/checkUrl"), NonUnify]
     [AllowAnonymous]
     public int SwaggerCheckUrl()
     {
@@ -242,7 +236,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="auth"></param>
     /// <returns></returns>
-    [HttpPost("/Swagger/SubmitUrl"), NonUnify]
+    [HttpPost("/api/swagger/submitUrl"), NonUnify]
     [AllowAnonymous]
     public int SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
     {

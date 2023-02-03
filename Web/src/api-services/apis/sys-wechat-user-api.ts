@@ -32,8 +32,8 @@ export const SysWechatUserApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysWechatUserAddPost: async (body?: SysWechatUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysWechatUser/add`;
+        apiSysWechatUserAddPost: async (body?: SysWechatUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechatUser/add`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -73,15 +73,15 @@ export const SysWechatUserApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysWechatUserDeletePost: async (body?: DeleteWechatUserInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysWechatUser/delete`;
+        apiSysWechatUserDeleteDelete: async (body?: DeleteWechatUserInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechatUser/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -120,8 +120,8 @@ export const SysWechatUserApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysWechatUserPageGet: async (nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysWechatUser/page`;
+        apiSysWechatUserPageGet: async (nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechatUser/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -185,15 +185,15 @@ export const SysWechatUserApiAxiosParamCreator = function (configuration?: Confi
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysWechatUserUpdatePost: async (body?: SysWechatUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysWechatUser/update`;
+        apiSysWechatUserUpdatePut: async (body?: SysWechatUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechatUser/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -235,8 +235,8 @@ export const SysWechatUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatUserAddPost(body?: SysWechatUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).sysWechatUserAddPost(body, options);
+        async apiSysWechatUserAddPost(body?: SysWechatUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).apiSysWechatUserAddPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -249,8 +249,8 @@ export const SysWechatUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatUserDeletePost(body?: DeleteWechatUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).sysWechatUserDeletePost(body, options);
+        async apiSysWechatUserDeleteDelete(body?: DeleteWechatUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).apiSysWechatUserDeleteDelete(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -269,8 +269,8 @@ export const SysWechatUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatUserPageGet(nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>>> {
-            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).sysWechatUserPageGet(nickName, mobile, page, pageSize, field, order, descStr, options);
+        async apiSysWechatUserPageGet(nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>>> {
+            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).apiSysWechatUserPageGet(nickName, mobile, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -283,8 +283,8 @@ export const SysWechatUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatUserUpdatePost(body?: SysWechatUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).sysWechatUserUpdatePost(body, options);
+        async apiSysWechatUserUpdatePut(body?: SysWechatUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).apiSysWechatUserUpdatePut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -306,8 +306,8 @@ export const SysWechatUserApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatUserAddPost(body?: SysWechatUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysWechatUserApiFp(configuration).sysWechatUserAddPost(body, options).then((request) => request(axios, basePath));
+        async apiSysWechatUserAddPost(body?: SysWechatUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysWechatUserApiFp(configuration).apiSysWechatUserAddPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -316,8 +316,8 @@ export const SysWechatUserApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatUserDeletePost(body?: DeleteWechatUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysWechatUserApiFp(configuration).sysWechatUserDeletePost(body, options).then((request) => request(axios, basePath));
+        async apiSysWechatUserDeleteDelete(body?: DeleteWechatUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysWechatUserApiFp(configuration).apiSysWechatUserDeleteDelete(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -332,8 +332,8 @@ export const SysWechatUserApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatUserPageGet(nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>> {
-            return SysWechatUserApiFp(configuration).sysWechatUserPageGet(nickName, mobile, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysWechatUserPageGet(nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>> {
+            return SysWechatUserApiFp(configuration).apiSysWechatUserPageGet(nickName, mobile, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -342,8 +342,8 @@ export const SysWechatUserApiFactory = function (configuration?: Configuration, 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysWechatUserUpdatePost(body?: SysWechatUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysWechatUserApiFp(configuration).sysWechatUserUpdatePost(body, options).then((request) => request(axios, basePath));
+        async apiSysWechatUserUpdatePut(body?: SysWechatUser, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysWechatUserApiFp(configuration).apiSysWechatUserUpdatePut(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -363,8 +363,8 @@ export class SysWechatUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysWechatUserApi
      */
-    public async sysWechatUserAddPost(body?: SysWechatUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysWechatUserApiFp(this.configuration).sysWechatUserAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatUserAddPost(body?: SysWechatUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysWechatUserApiFp(this.configuration).apiSysWechatUserAddPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -374,8 +374,8 @@ export class SysWechatUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysWechatUserApi
      */
-    public async sysWechatUserDeletePost(body?: DeleteWechatUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysWechatUserApiFp(this.configuration).sysWechatUserDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatUserDeleteDelete(body?: DeleteWechatUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysWechatUserApiFp(this.configuration).apiSysWechatUserDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -391,8 +391,8 @@ export class SysWechatUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysWechatUserApi
      */
-    public async sysWechatUserPageGet(nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>> {
-        return SysWechatUserApiFp(this.configuration).sysWechatUserPageGet(nickName, mobile, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatUserPageGet(nickName?: string, mobile?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>> {
+        return SysWechatUserApiFp(this.configuration).apiSysWechatUserPageGet(nickName, mobile, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -402,7 +402,7 @@ export class SysWechatUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysWechatUserApi
      */
-    public async sysWechatUserUpdatePost(body?: SysWechatUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysWechatUserApiFp(this.configuration).sysWechatUserUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatUserUpdatePut(body?: SysWechatUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysWechatUserApiFp(this.configuration).apiSysWechatUserUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

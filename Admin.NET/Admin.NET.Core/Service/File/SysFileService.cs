@@ -1,5 +1,4 @@
 using Furion.VirtualFileServer;
-using Microsoft.AspNetCore.StaticFiles;
 using OnceMi.AspNetCore.OSS;
 
 namespace Admin.NET.Core.Service;
@@ -7,7 +6,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统文件服务
 /// </summary>
-[ApiDescriptionSettings(Order = 194)]
+[ApiDescriptionSettings(Order = 410)]
 public class SysFileService : IDynamicApiController, ITransient
 {
     private readonly UserManager _userManager;
@@ -38,8 +37,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysFile/page")]
-    public async Task<SqlSugarPagedList<SysFile>> GetFilePage([FromQuery] PageFileInput input)
+    public async Task<SqlSugarPagedList<SysFile>> GetPage([FromQuery] PageFileInput input)
     {
         return await _sysFileRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.FileName), u => u.FileName.Contains(input.FileName.Trim()))
@@ -55,7 +53,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file"></param>
     /// <param name="path"></param>
     /// <returns></returns>
-    [HttpPost("/sysFile/upload")]
     public async Task<FileOutput> UploadFile([Required] IFormFile file, string path = "")
     {
         var sysFile = await HandleUploadFile(file, path);
@@ -74,7 +71,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="files"></param>
     /// <returns></returns>
-    [HttpPost("/sysFile/uploads")]
     public async Task<List<FileOutput>> UploadFiles([Required] List<IFormFile> files)
     {
         var filelist = new List<FileOutput>();
@@ -90,7 +86,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysFile/download")]
     public async Task<IActionResult> DownloadFile(FileInput input)
     {
         var file = await GetFile(input);
@@ -114,7 +109,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysFile/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     public async Task DeleteFile(DeleteFileInput input)
     {
         var file = await _sysFileRep.GetFirstAsync(u => u.Id == input.Id);
@@ -265,7 +260,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="file"></param>
     /// <returns></returns>
-    [HttpPost("/sysFile/uploadAvatar")]
     public async Task<FileOutput> UploadAvatar([Required] IFormFile file)
     {
         var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();
@@ -287,7 +281,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="file"></param>
     /// <returns></returns>
-    [HttpPost("/sysFile/uploadSignature")]
     public async Task<FileOutput> UploadSignature([Required] IFormFile file)
     {
         var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();

@@ -25,54 +25,13 @@ export const SysMessageApiAxiosParamCreator = function (configuration?: Configur
     return {
         /**
          * 
-         * @summary 发送邮件
-         * @param {string} [message] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        sysEmailSendPost: async (message?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysEmail/send`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            if (message !== undefined) {
-                localVarQueryParameter['message'] = message;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary 发送消息给所有人
          * @param {MessageInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysMessageAllUserPost: async (body?: MessageInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysMessage/allUser`;
+        apiSysMessageSendAllUserPost: async (body?: MessageInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysMessage/sendAllUser`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -107,13 +66,55 @@ export const SysMessageApiAxiosParamCreator = function (configuration?: Configur
         },
         /**
          * 
+         * @summary 发送邮件
+         * @param {string} message 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysMessageSendEmailMessagePost: async (message: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'message' is not null or undefined
+            if (message === null || message === undefined) {
+                throw new RequiredError('message','Required parameter message was null or undefined when calling apiSysMessageSendEmailMessagePost.');
+            }
+            const localVarPath = `/api/sysMessage/sendEmail/{message}`
+                .replace(`{${"message"}}`, encodeURIComponent(String(message)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 发送消息给除了发送人的其他人
          * @param {MessageInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysMessageOtherUserPost: async (body?: MessageInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysMessage/otherUser`;
+        apiSysMessageSendOtherUserPost: async (body?: MessageInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysMessage/sendOtherUser`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -153,8 +154,8 @@ export const SysMessageApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysMessageUserPost: async (body?: MessageInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysMessage/user`;
+        apiSysMessageSendUserPost: async (body?: MessageInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysMessage/sendUser`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -194,8 +195,8 @@ export const SysMessageApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysMessageUsersPost: async (body?: MessageInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysMessage/users`;
+        apiSysMessageSendUsersPost: async (body?: MessageInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysMessage/sendUsers`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -239,13 +240,13 @@ export const SysMessageApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary 发送邮件
-         * @param {string} [message] 
+         * @summary 发送消息给所有人
+         * @param {MessageInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysEmailSendPost(message?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).sysEmailSendPost(message, options);
+        async apiSysMessageSendAllUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).apiSysMessageSendAllUserPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -253,13 +254,13 @@ export const SysMessageApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 发送消息给所有人
-         * @param {MessageInput} [body] 
+         * @summary 发送邮件
+         * @param {string} message 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMessageAllUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).sysMessageAllUserPost(body, options);
+        async apiSysMessageSendEmailMessagePost(message: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).apiSysMessageSendEmailMessagePost(message, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -272,8 +273,8 @@ export const SysMessageApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMessageOtherUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).sysMessageOtherUserPost(body, options);
+        async apiSysMessageSendOtherUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).apiSysMessageSendOtherUserPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -286,8 +287,8 @@ export const SysMessageApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMessageUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).sysMessageUserPost(body, options);
+        async apiSysMessageSendUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).apiSysMessageSendUserPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -300,8 +301,8 @@ export const SysMessageApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMessageUsersPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).sysMessageUsersPost(body, options);
+        async apiSysMessageSendUsersPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).apiSysMessageSendUsersPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -318,23 +319,23 @@ export const SysMessageApiFactory = function (configuration?: Configuration, bas
     return {
         /**
          * 
-         * @summary 发送邮件
-         * @param {string} [message] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async sysEmailSendPost(message?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysMessageApiFp(configuration).sysEmailSendPost(message, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary 发送消息给所有人
          * @param {MessageInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMessageAllUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysMessageApiFp(configuration).sysMessageAllUserPost(body, options).then((request) => request(axios, basePath));
+        async apiSysMessageSendAllUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysMessageApiFp(configuration).apiSysMessageSendAllUserPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 发送邮件
+         * @param {string} message 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysMessageSendEmailMessagePost(message: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysMessageApiFp(configuration).apiSysMessageSendEmailMessagePost(message, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -343,8 +344,8 @@ export const SysMessageApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMessageOtherUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysMessageApiFp(configuration).sysMessageOtherUserPost(body, options).then((request) => request(axios, basePath));
+        async apiSysMessageSendOtherUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysMessageApiFp(configuration).apiSysMessageSendOtherUserPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -353,8 +354,8 @@ export const SysMessageApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMessageUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysMessageApiFp(configuration).sysMessageUserPost(body, options).then((request) => request(axios, basePath));
+        async apiSysMessageSendUserPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysMessageApiFp(configuration).apiSysMessageSendUserPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -363,8 +364,8 @@ export const SysMessageApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysMessageUsersPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysMessageApiFp(configuration).sysMessageUsersPost(body, options).then((request) => request(axios, basePath));
+        async apiSysMessageSendUsersPost(body?: MessageInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysMessageApiFp(configuration).apiSysMessageSendUsersPost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -378,25 +379,25 @@ export const SysMessageApiFactory = function (configuration?: Configuration, bas
 export class SysMessageApi extends BaseAPI {
     /**
      * 
-     * @summary 发送邮件
-     * @param {string} [message] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysMessageApi
-     */
-    public async sysEmailSendPost(message?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysMessageApiFp(this.configuration).sysEmailSendPost(message, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
      * @summary 发送消息给所有人
      * @param {MessageInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysMessageApi
      */
-    public async sysMessageAllUserPost(body?: MessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysMessageApiFp(this.configuration).sysMessageAllUserPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysMessageSendAllUserPost(body?: MessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysMessageApiFp(this.configuration).apiSysMessageSendAllUserPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 发送邮件
+     * @param {string} message 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysMessageApi
+     */
+    public async apiSysMessageSendEmailMessagePost(message: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysMessageApiFp(this.configuration).apiSysMessageSendEmailMessagePost(message, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -406,8 +407,8 @@ export class SysMessageApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysMessageApi
      */
-    public async sysMessageOtherUserPost(body?: MessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysMessageApiFp(this.configuration).sysMessageOtherUserPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysMessageSendOtherUserPost(body?: MessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysMessageApiFp(this.configuration).apiSysMessageSendOtherUserPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -417,8 +418,8 @@ export class SysMessageApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysMessageApi
      */
-    public async sysMessageUserPost(body?: MessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysMessageApiFp(this.configuration).sysMessageUserPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysMessageSendUserPost(body?: MessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysMessageApiFp(this.configuration).apiSysMessageSendUserPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -428,7 +429,7 @@ export class SysMessageApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysMessageApi
      */
-    public async sysMessageUsersPost(body?: MessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysMessageApiFp(this.configuration).sysMessageUsersPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysMessageSendUsersPost(body?: MessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysMessageApiFp(this.configuration).apiSysMessageSendUsersPost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

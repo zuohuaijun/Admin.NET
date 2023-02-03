@@ -157,7 +157,7 @@ const onHandleCommandClick = (path: string) => {
 				if (action === 'confirm') {
 					instance.confirmButtonLoading = true;
 					instance.confirmButtonText = t('message.user.logOutExit');
-					await getAPI(SysAuthApi).logoutPost();
+					await getAPI(SysAuthApi).apiSysAuthLogoutPost();
 					instance.confirmButtonLoading = false;
 					done();
 				} else {
@@ -212,7 +212,7 @@ onMounted(async () => {
 	}
 
 	// 加载未读的站内信
-	var res = await getAPI(SysNoticeApi).sysNoticeUnReadListGet();
+	var res = await getAPI(SysNoticeApi).apiSysNoticeUnReadListGet();
 	state.noticeList = res.data.result ?? [];
 
 	// 接收站内信

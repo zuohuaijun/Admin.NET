@@ -34,8 +34,8 @@ export const SysOrgApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysOrgAddPost: async (body?: AddOrgInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysOrg/add`;
+        apiSysOrgAddPost: async (body?: AddOrgInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysOrg/add`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -75,15 +75,15 @@ export const SysOrgApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysOrgDeletePost: async (body?: DeleteOrgInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysOrg/delete`;
+        apiSysOrgDeleteDelete: async (body?: DeleteOrgInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysOrg/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -118,12 +118,12 @@ export const SysOrgApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysOrgListGet: async (id: number, name?: string, code?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysOrgListGet: async (id: number, name?: string, code?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'id' is not null or undefined
             if (id === null || id === undefined) {
-                throw new RequiredError('id','Required parameter id was null or undefined when calling sysOrgListGet.');
+                throw new RequiredError('id','Required parameter id was null or undefined when calling apiSysOrgListGet.');
             }
-            const localVarPath = `/sysOrg/list`;
+            const localVarPath = `/api/sysOrg/list`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -171,15 +171,15 @@ export const SysOrgApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysOrgUpdatePost: async (body?: UpdateOrgInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysOrg/update`;
+        apiSysOrgUpdatePut: async (body?: UpdateOrgInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysOrg/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -221,8 +221,8 @@ export const SysOrgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOrgAddPost(body?: AddOrgInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt64>>> {
-            const localVarAxiosArgs = await SysOrgApiAxiosParamCreator(configuration).sysOrgAddPost(body, options);
+        async apiSysOrgAddPost(body?: AddOrgInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt64>>> {
+            const localVarAxiosArgs = await SysOrgApiAxiosParamCreator(configuration).apiSysOrgAddPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -235,8 +235,8 @@ export const SysOrgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOrgDeletePost(body?: DeleteOrgInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysOrgApiAxiosParamCreator(configuration).sysOrgDeletePost(body, options);
+        async apiSysOrgDeleteDelete(body?: DeleteOrgInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysOrgApiAxiosParamCreator(configuration).apiSysOrgDeleteDelete(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -251,8 +251,8 @@ export const SysOrgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOrgListGet(id: number, name?: string, code?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysOrg>>> {
-            const localVarAxiosArgs = await SysOrgApiAxiosParamCreator(configuration).sysOrgListGet(id, name, code, options);
+        async apiSysOrgListGet(id: number, name?: string, code?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysOrg>>> {
+            const localVarAxiosArgs = await SysOrgApiAxiosParamCreator(configuration).apiSysOrgListGet(id, name, code, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -265,8 +265,8 @@ export const SysOrgApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOrgUpdatePost(body?: UpdateOrgInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysOrgApiAxiosParamCreator(configuration).sysOrgUpdatePost(body, options);
+        async apiSysOrgUpdatePut(body?: UpdateOrgInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysOrgApiAxiosParamCreator(configuration).apiSysOrgUpdatePut(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -288,8 +288,8 @@ export const SysOrgApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOrgAddPost(body?: AddOrgInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt64>> {
-            return SysOrgApiFp(configuration).sysOrgAddPost(body, options).then((request) => request(axios, basePath));
+        async apiSysOrgAddPost(body?: AddOrgInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt64>> {
+            return SysOrgApiFp(configuration).apiSysOrgAddPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -298,8 +298,8 @@ export const SysOrgApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOrgDeletePost(body?: DeleteOrgInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysOrgApiFp(configuration).sysOrgDeletePost(body, options).then((request) => request(axios, basePath));
+        async apiSysOrgDeleteDelete(body?: DeleteOrgInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysOrgApiFp(configuration).apiSysOrgDeleteDelete(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -310,8 +310,8 @@ export const SysOrgApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOrgListGet(id: number, name?: string, code?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysOrg>> {
-            return SysOrgApiFp(configuration).sysOrgListGet(id, name, code, options).then((request) => request(axios, basePath));
+        async apiSysOrgListGet(id: number, name?: string, code?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysOrg>> {
+            return SysOrgApiFp(configuration).apiSysOrgListGet(id, name, code, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -320,8 +320,8 @@ export const SysOrgApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysOrgUpdatePost(body?: UpdateOrgInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysOrgApiFp(configuration).sysOrgUpdatePost(body, options).then((request) => request(axios, basePath));
+        async apiSysOrgUpdatePut(body?: UpdateOrgInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysOrgApiFp(configuration).apiSysOrgUpdatePut(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -341,8 +341,8 @@ export class SysOrgApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysOrgApi
      */
-    public async sysOrgAddPost(body?: AddOrgInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt64>> {
-        return SysOrgApiFp(this.configuration).sysOrgAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysOrgAddPost(body?: AddOrgInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt64>> {
+        return SysOrgApiFp(this.configuration).apiSysOrgAddPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -352,8 +352,8 @@ export class SysOrgApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysOrgApi
      */
-    public async sysOrgDeletePost(body?: DeleteOrgInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysOrgApiFp(this.configuration).sysOrgDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysOrgDeleteDelete(body?: DeleteOrgInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysOrgApiFp(this.configuration).apiSysOrgDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -365,8 +365,8 @@ export class SysOrgApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysOrgApi
      */
-    public async sysOrgListGet(id: number, name?: string, code?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysOrg>> {
-        return SysOrgApiFp(this.configuration).sysOrgListGet(id, name, code, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysOrgListGet(id: number, name?: string, code?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysOrg>> {
+        return SysOrgApiFp(this.configuration).apiSysOrgListGet(id, name, code, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -376,7 +376,7 @@ export class SysOrgApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysOrgApi
      */
-    public async sysOrgUpdatePost(body?: UpdateOrgInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysOrgApiFp(this.configuration).sysOrgUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysOrgUpdatePut(body?: UpdateOrgInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysOrgApiFp(this.configuration).apiSysOrgUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

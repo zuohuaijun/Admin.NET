@@ -30,15 +30,15 @@ export const SysLogDiffApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysLogDiffClearPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysLogDiff/clear`;
+        apiSysLogDiffClearDelete: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysLogDiff/clear`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -73,8 +73,8 @@ export const SysLogDiffApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        sysLogDiffPageGet: async (startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/sysLogDiff/page`;
+        apiSysLogDiffPageGet: async (startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysLogDiff/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -150,8 +150,8 @@ export const SysLogDiffApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogDiffClearPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
-            const localVarAxiosArgs = await SysLogDiffApiAxiosParamCreator(configuration).sysLogDiffClearPost(options);
+        async apiSysLogDiffClearDelete(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
+            const localVarAxiosArgs = await SysLogDiffApiAxiosParamCreator(configuration).apiSysLogDiffClearDelete(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -170,8 +170,8 @@ export const SysLogDiffApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogDiffPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogDiff>>> {
-            const localVarAxiosArgs = await SysLogDiffApiAxiosParamCreator(configuration).sysLogDiffPageGet(startTime, endTime, page, pageSize, field, order, descStr, options);
+        async apiSysLogDiffPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogDiff>>> {
+            const localVarAxiosArgs = await SysLogDiffApiAxiosParamCreator(configuration).apiSysLogDiffPageGet(startTime, endTime, page, pageSize, field, order, descStr, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -192,8 +192,8 @@ export const SysLogDiffApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogDiffClearPost(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
-            return SysLogDiffApiFp(configuration).sysLogDiffClearPost(options).then((request) => request(axios, basePath));
+        async apiSysLogDiffClearDelete(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
+            return SysLogDiffApiFp(configuration).apiSysLogDiffClearDelete(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -208,8 +208,8 @@ export const SysLogDiffApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async sysLogDiffPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogDiff>> {
-            return SysLogDiffApiFp(configuration).sysLogDiffPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysLogDiffPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogDiff>> {
+            return SysLogDiffApiFp(configuration).apiSysLogDiffPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -228,8 +228,8 @@ export class SysLogDiffApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysLogDiffApi
      */
-    public async sysLogDiffClearPost(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
-        return SysLogDiffApiFp(this.configuration).sysLogDiffClearPost(options).then((request) => request(this.axios, this.basePath));
+    public async apiSysLogDiffClearDelete(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
+        return SysLogDiffApiFp(this.configuration).apiSysLogDiffClearDelete(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -245,7 +245,7 @@ export class SysLogDiffApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysLogDiffApi
      */
-    public async sysLogDiffPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogDiff>> {
-        return SysLogDiffApiFp(this.configuration).sysLogDiffPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysLogDiffPageGet(startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysLogDiff>> {
+        return SysLogDiffApiFp(this.configuration).apiSysLogDiffPageGet(startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
     }
 }

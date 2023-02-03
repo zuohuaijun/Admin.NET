@@ -109,7 +109,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysDictDataApi).sysDictDataPageGet(state.dictTypeId, state.queryParams.value, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
+			var res = await getAPI(SysDictDataApi).apiSysDictDataPageGet(state.dictTypeId, state.queryParams.value, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
 			state.dictDataData = res.data.result?.items ?? [];
 			state.tableParams.total = res.data.result?.total;
 			state.loading = false;
@@ -138,7 +138,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysDictDataApi).sysDictDataDeletePost({ id: row.id });
+					await getAPI(SysDictDataApi).apiSysDictDataDeleteDelete({ id: row.id });
 					handleQuery();
 					ElMessage.success('删除成功');
 				})

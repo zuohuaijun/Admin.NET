@@ -93,7 +93,7 @@ export default defineComponent({
 		// 查询操作
 		const handleQuery = async () => {
 			state.loading = true;
-			var res = await getAPI(SysOrgApi).sysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code);
+			var res = await getAPI(SysOrgApi).apiSysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code);
 			state.orgData = res.data.result ?? [];
 			state.loading = false;
 
@@ -125,7 +125,7 @@ export default defineComponent({
 				type: 'warning',
 			})
 				.then(async () => {
-					await getAPI(SysOrgApi).sysOrgDeletePost({ id: row.id });
+					await getAPI(SysOrgApi).apiSysOrgDeleteDelete({ id: row.id });
 					ElMessage.success('删除成功');
 					mittBus.emit('submitRefresh');
 				})

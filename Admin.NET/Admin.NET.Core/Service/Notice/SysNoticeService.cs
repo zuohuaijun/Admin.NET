@@ -3,7 +3,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 系统通知公告服务
 /// </summary>
-[ApiDescriptionSettings(Order = 100)]
+[ApiDescriptionSettings(Order = 380)]
 public class SysNoticeService : IDynamicApiController, ITransient
 {
     private readonly UserManager _userManager;
@@ -31,8 +31,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysNotice/page")]
-    public async Task<SqlSugarPagedList<SysNotice>> GetPageNotice([FromQuery] PageNoticeInput input)
+    public async Task<SqlSugarPagedList<SysNotice>> GetPage([FromQuery] PageNoticeInput input)
     {
         return await _sysNoticeRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title.Trim()))
@@ -47,7 +46,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysNotice/add")]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task AddNotice(AddNoticeInput input)
     {
         var notice = input.Adapt<SysNotice>();
@@ -60,7 +59,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysNotice/update")]
+    [ApiDescriptionSettings(Name = "Update")]
     [UnitOfWork]
     public async Task UpdateNotice(UpdateNoticeInput input)
     {
@@ -74,7 +73,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysNotice/delete")]
+    [ApiDescriptionSettings(Name = "Delete")]
     [UnitOfWork]
     public async Task DeleteNotice(DeleteNoticeInput input)
     {
@@ -88,8 +87,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysNotice/public")]
-    public async Task PublicNotice(NoticeInput input)
+    public async Task Public(NoticeInput input)
     {
         // 更新发布状态和时间
         await _sysNoticeRep.UpdateAsync(u => new SysNotice() { Status = NoticeStatusEnum.PUBLIC, PublicTime = DateTime.Now }, u => u.Id == input.Id);
@@ -116,8 +114,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/sysNotice/setRead")]
-    public async Task SetNoticeRead(NoticeInput input)
+    public async Task SetRead(NoticeInput input)
     {
         await _sysNoticeUserRep.UpdateAsync(u => new SysNoticeUser
         {
@@ -131,8 +128,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/sysNotice/pageReceived")]
-    public async Task<SqlSugarPagedList<SysNoticeUser>> GetPageReceivedNotice([FromQuery] PageNoticeInput input)
+    public async Task<SqlSugarPagedList<SysNoticeUser>> GetPageReceived([FromQuery] PageNoticeInput input)
     {
         return await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
             .Where(u => u.UserId == _userManager.UserId)
@@ -146,8 +142,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// 获取未读的通知公告（当前用户）
     /// </summary>
     /// <returns></returns>
-    [HttpGet("/sysNotice/unReadList")]
-    public async Task<List<SysNotice>> GetUnReadNoticeList()
+    public async Task<List<SysNotice>> GetUnReadList()
     {
         var noticeUserList = await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
             .Where(u => u.UserId == _userManager.UserId && u.ReadStatus == NoticeUserStatusEnum.UNREAD)
