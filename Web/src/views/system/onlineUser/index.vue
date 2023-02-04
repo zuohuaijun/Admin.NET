@@ -47,7 +47,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
 
@@ -96,10 +96,12 @@ onMounted(async () => {
 		clearAccessTokens();
 	});
 });
+
 // 打开页面
 const openDrawer = () => {
 	state.isVisible = true;
 };
+
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
@@ -108,12 +110,14 @@ const handleQuery = async () => {
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;
 };
+
 // 重置操作
 const resetQuery = () => {
 	state.queryParams.userName = undefined;
 	state.queryParams.realName = undefined;
 	handleQuery();
 };
+
 // 强制下线
 const forceOffline = async (row: any) => {
 	ElMessageBox.confirm(`确定踢掉账号：【${row.realName}】?`, '提示', {
@@ -128,11 +132,13 @@ const forceOffline = async (row: any) => {
 		})
 		.catch(() => {});
 };
+
 // 改变页面容量
 const handleSizeChange = (val: number) => {
 	state.tableParams.pageSize = val;
 	handleQuery();
 };
+
 // 改变页码序号
 const handleCurrentChange = (val: number) => {
 	state.tableParams.page = val;
@@ -142,5 +148,3 @@ const handleCurrentChange = (val: number) => {
 // 导出
 defineExpose({ openDrawer });
 </script>
-
-<style lang="scss" scoped></style>

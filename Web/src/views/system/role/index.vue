@@ -1,12 +1,12 @@
 <template>
 	<div class="sys-role-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="queryParams" ref="queryForm" :inline="true">
+			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="角色名称" prop="name">
-					<el-input placeholder="角色名称" clearable @keyup.enter="handleQuery" v-model="queryParams.name" />
+					<el-input placeholder="角色名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
 				</el-form-item>
 				<el-form-item label="角色编码" prop="code">
-					<el-input placeholder="角色编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
+					<el-input placeholder="角色编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
@@ -17,7 +17,7 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="roleData" style="width: 100%" v-loading="loading" border>
+			<el-table :data="state.roleData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
 				<el-table-column prop="name" label="角色名称" show-overflow-tooltip />
 				<el-table-column prop="code" label="角色编码" show-overflow-tooltip />
@@ -55,9 +55,9 @@
 				</el-table-column>
 			</el-table>
 			<el-pagination
-				v-model:currentPage="tableParams.page"
-				v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total"
+				v-model:currentPage="state.tableParams.page"
+				v-model:page-size="state.tableParams.pageSize"
+				:total="state.tableParams.total"
 				:page-sizes="[10, 20, 50, 100]"
 				small
 				background
@@ -66,13 +66,13 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditRole ref="editRoleRef" :title="editRoleTitle" />
+		<EditRole ref="editRoleRef" :title="state.editRoleTitle" />
 		<GrantData ref="grantDataRef" />
 	</div>
 </template>
 
-<script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
+<script lang="ts" setup name="sysRole">
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import mittBus from '/@/utils/mitt';
 import { auth } from '/@/utils/authFunction';
@@ -83,102 +83,92 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysRoleApi } from '/@/api-services/api';
 import { SysRole } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysRole',
-	components: { EditRole, GrantData },
-	setup() {
-		const editRoleRef = ref();
-		const grantDataRef = ref();
-		const state = reactive({
-			loading: false,
-			roleData: [] as Array<SysRole>,
-			queryParams: {
-				name: undefined,
-				code: undefined,
-			},
-			tableParams: {
-				page: 1,
-				pageSize: 10,
-				total: 0 as any,
-			},
-			editRoleTitle: '',
-		});
-		onMounted(async () => {
-			handleQuery();
-
-			mittBus.on('submitRefresh', () => {
-				handleQuery();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh');
-		});
-		// 查询操作
-		const handleQuery = async () => {
-			state.loading = true;
-			var res = await getAPI(SysRoleApi).apiSysRolePageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
-			state.roleData = res.data.result?.items ?? [];
-			state.tableParams.total = res.data.result?.total;
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.name = undefined;
-			state.queryParams.code = undefined;
-			handleQuery();
-		};
-		// 打开新增页面
-		const openAddRole = () => {
-			state.editRoleTitle = '添加角色';
-			editRoleRef.value.openDialog({});
-		};
-		// 打开编辑页面
-		const openEditRole = async (row: any) => {
-			state.editRoleTitle = '编辑角色';
-			editRoleRef.value.openDialog(row);
-		};
-		// 打开授权数据范围页面
-		const openGrantData = (row: any) => {
-			grantDataRef.value.openDialog(row);
-		};
-		// 删除
-		const delRole = (row: any) => {
-			ElMessageBox.confirm(`确定删角色：【${row.name}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysRoleApi).apiSysRoleDeleteDelete({ id: row.id });
-					handleQuery();
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		// 改变页面容量
-		const handleSizeChange = (val: number) => {
-			state.tableParams.pageSize = val;
-			handleQuery();
-		};
-		// 改变页码序号
-		const handleCurrentChange = (val: number) => {
-			state.tableParams.page = val;
-			handleQuery();
-		};
-		return {
-			editRoleRef,
-			grantDataRef,
-			handleQuery,
-			resetQuery,
-			openAddRole,
-			openEditRole,
-			openGrantData,
-			delRole,
-			handleSizeChange,
-			handleCurrentChange,
-			auth,
-			...toRefs(state),
-		};
+const editRoleRef = ref();
+const grantDataRef = ref();
+const state = reactive({
+	loading: false,
+	roleData: [] as Array<SysRole>,
+	queryParams: {
+		name: undefined,
+		code: undefined,
 	},
+	tableParams: {
+		page: 1,
+		pageSize: 10,
+		total: 0 as any,
+	},
+	editRoleTitle: '',
 });
+
+onMounted(async () => {
+	handleQuery();
+
+	mittBus.on('submitRefresh', () => {
+		handleQuery();
+	});
+});
+
+onUnmounted(() => {
+	mittBus.off('submitRefresh');
+});
+
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysRoleApi).apiSysRolePageGet(state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
+	state.roleData = res.data.result?.items ?? [];
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.name = undefined;
+	state.queryParams.code = undefined;
+	handleQuery();
+};
+
+// 打开新增页面
+const openAddRole = () => {
+	state.editRoleTitle = '添加角色';
+	editRoleRef.value.openDialog({});
+};
+
+// 打开编辑页面
+const openEditRole = async (row: any) => {
+	state.editRoleTitle = '编辑角色';
+	editRoleRef.value.openDialog(row);
+};
+
+// 打开授权数据范围页面
+const openGrantData = (row: any) => {
+	grantDataRef.value.openDialog(row);
+};
+
+// 删除
+const delRole = (row: any) => {
+	ElMessageBox.confirm(`确定删角色：【${row.name}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysRoleApi).apiSysRoleDeleteDelete({ id: row.id });
+			handleQuery();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
+
+// 改变页面容量
+const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+};
+
+// 改变页码序号
+const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+};
 </script>

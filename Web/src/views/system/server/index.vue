@@ -6,35 +6,35 @@
 					<table class="sysInfo_table">
 						<tr>
 							<td class="sysInfo_td">主机名称：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.hostName }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.hostName }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">操作系统：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.systemOs }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.systemOs }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">系统架构：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.osArchitecture }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.osArchitecture }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">CPU核数：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.processorCount }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.processorCount }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">运行时长：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.sysRunTime }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.sysRunTime }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">外网地址：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.remoteIp }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.remoteIp }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">内网地址：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.localIp }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.localIp }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">运行框架：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.frameworkDescription }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.frameworkDescription }}</td>
 						</tr>
 					</table>
 				</el-card>
@@ -45,14 +45,14 @@
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
 							<el-progress
 								type="dashboard"
-								:percentage="parseInt(machineUseInfo.ramRate == undefined ? 0 : machineUseInfo.ramRate.substr(0, machineUseInfo.ramRate.length - 1))"
+								:percentage="parseInt(state.machineUseInfo.ramRate == undefined ? 0 : state.machineUseInfo.ramRate.substr(0, state.machineUseInfo.ramRate.length - 1))"
 								:color="'var(--el-color-primary)'"
 							>
 								<template #default>
-									<span>{{ machineUseInfo.ramRate }}<br /></span>
+									<span>{{ state.machineUseInfo.ramRate }}<br /></span>
 									<span style="font-size: 10px">
-										已用:{{ machineUseInfo.usedRam }}<br />
-										剩余:{{ machineUseInfo.freeRam }}<br />
+										已用:{{ state.machineUseInfo.usedRam }}<br />
+										剩余:{{ state.machineUseInfo.freeRam }}<br />
 										内存使用率
 									</span>
 								</template>
@@ -61,11 +61,11 @@
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
 							<el-progress
 								type="dashboard"
-								:percentage="parseInt(machineUseInfo.cpuRate == undefined ? 0 : machineUseInfo.cpuRate.substr(0, machineUseInfo.cpuRate.length - 1))"
+								:percentage="parseInt(state.machineUseInfo.cpuRate == undefined ? 0 : state.machineUseInfo.cpuRate.substr(0, state.machineUseInfo.cpuRate.length - 1))"
 								:color="'var(--el-color-primary)'"
 							>
 								<template #default>
-									<span>{{ machineUseInfo.cpuRate }}<br /></span>
+									<span>{{ state.machineUseInfo.cpuRate }}<br /></span>
 									<span style="font-size: 10px"> CPU使用率 </span>
 								</template>
 							</el-progress>
@@ -75,30 +75,30 @@
 					<table class="sysInfo_table">
 						<tr>
 							<td class="sysInfo_td">启动时间：</td>
-							<td class="sysInfo_td">{{ machineUseInfo.startTime }}</td>
+							<td class="sysInfo_td">{{ state.machineUseInfo.startTime }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">运行时长：</td>
-							<td class="sysInfo_td">{{ machineUseInfo.runTime }}</td>
+							<td class="sysInfo_td">{{ state.machineUseInfo.runTime }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">网站目录：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.wwwroot }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.wwwroot }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">开发环境：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.environment }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.environment }}</td>
 						</tr>
 						<tr>
 							<td class="sysInfo_td">环境变量：</td>
-							<td class="sysInfo_td">{{ machineBaseInfo.stage }}</td>
+							<td class="sysInfo_td">{{ state.machineBaseInfo.stage }}</td>
 						</tr>
 					</table>
 				</el-card>
 			</el-col>
 		</el-row>
 		<el-card shadow="hover" header="程序集信息" style="margin-top: 8px">
-			<div v-for="d in assemblyInfo" :key="d.name" style="display: inline-flex; margin: 4px">
+			<div v-for="d in state.assemblyInfo" :key="d.name" style="display: inline-flex; margin: 4px">
 				<el-tag round>
 					<div style="display: inline-flex">
 						<div style="">{{ d.name }}</div>
@@ -112,11 +112,11 @@
 				<el-col
 					:span="4"
 					:xs="24"
-					:sm="24 / machineDiskInfo.length"
-					:md="24 / machineDiskInfo.length"
-					:lg="24 / machineDiskInfo.length"
-					:xl="24 / machineDiskInfo.length"
-					v-for="d in machineDiskInfo"
+					:sm="24 / state.machineDiskInfo.length"
+					:md="24 / state.machineDiskInfo.length"
+					:lg="24 / state.machineDiskInfo.length"
+					:xl="24 / state.machineDiskInfo.length"
+					v-for="d in state.machineDiskInfo"
 					:key="d.diskName"
 					style="text-align: center"
 				>
@@ -136,70 +136,64 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { toRefs, reactive, defineComponent, onActivated, onDeactivated, onMounted } from 'vue';
+<script lang="ts" setup name="sysServer">
+import { onActivated, onDeactivated, onMounted, reactive } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysServerApi } from '/@/api-services';
 
-export default defineComponent({
-	name: 'sysServer',
-	components: {},
-	setup() {
-		const state = reactive({
-			machineBaseInfo: [] as any,
-			machineUseInfo: [] as any,
-			machineDiskInfo: [] as any,
-			assemblyInfo: [] as any,
-			timer: null as any,
-		});
-		onMounted(async () => {
-			loadMachineBaseInfo();
-			loadMachineUseInfo();
-			loadMachineDiskInfo();
-			loadAssemblyInfo();
-		});
-		// 服务器配置信息
-		const loadMachineBaseInfo = async () => {
-			var res = await getAPI(SysServerApi).apiSysServerServerBaseGet();
-			state.machineBaseInfo = res.data.result;
-		};
-		// 服务器内存信息
-		const loadMachineUseInfo = async () => {
-			var res = await getAPI(SysServerApi).apiSysServerServerUsedGet();
-			state.machineUseInfo = res.data.result;
-		};
-		// 服务器磁盘信息
-		const loadMachineDiskInfo = async () => {
-			var res = await getAPI(SysServerApi).apiSysServerServerDiskGet();
-			state.machineDiskInfo = res.data.result;
-		};
-		// 框架程序集信息
-		const loadAssemblyInfo = async () => {
-			var res = await getAPI(SysServerApi).apiSysServerAssemblyListGet();
-			state.assemblyInfo = res.data.result;
-		};
-		// 实时刷新内存
-		const refreshData = () => {
-			loadMachineUseInfo();
-		};
-		onActivated(() => {
-			state.timer = setInterval(() => {
-				refreshData();
-			}, 10000);
-		});
-		onDeactivated(() => {
-			clearInterval(state.timer);
-		});
-		return {
-			loadMachineBaseInfo,
-			loadMachineUseInfo,
-			loadMachineDiskInfo,
-			loadAssemblyInfo,
-			refreshData,
-			...toRefs(state),
-		};
-	},
+const state = reactive({
+	machineBaseInfo: [] as any,
+	machineUseInfo: [] as any,
+	machineDiskInfo: [] as any,
+	assemblyInfo: [] as any,
+	timer: null as any,
+});
+
+onMounted(async () => {
+	loadMachineBaseInfo();
+	loadMachineUseInfo();
+	loadMachineDiskInfo();
+	loadAssemblyInfo();
+});
+
+// 服务器配置信息
+const loadMachineBaseInfo = async () => {
+	var res = await getAPI(SysServerApi).apiSysServerServerBaseGet();
+	state.machineBaseInfo = res.data.result;
+};
+
+// 服务器内存信息
+const loadMachineUseInfo = async () => {
+	var res = await getAPI(SysServerApi).apiSysServerServerUsedGet();
+	state.machineUseInfo = res.data.result;
+};
+
+// 服务器磁盘信息
+const loadMachineDiskInfo = async () => {
+	var res = await getAPI(SysServerApi).apiSysServerServerDiskGet();
+	state.machineDiskInfo = res.data.result;
+};
+
+// 框架程序集信息
+const loadAssemblyInfo = async () => {
+	var res = await getAPI(SysServerApi).apiSysServerAssemblyListGet();
+	state.assemblyInfo = res.data.result;
+};
+
+// 实时刷新内存
+const refreshData = () => {
+	loadMachineUseInfo();
+};
+
+onActivated(() => {
+	state.timer = setInterval(() => {
+		refreshData();
+	}, 10000);
+});
+
+onDeactivated(() => {
+	clearInterval(state.timer);
 });
 </script>
 

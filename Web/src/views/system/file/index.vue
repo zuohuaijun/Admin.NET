@@ -1,17 +1,13 @@
 <template>
 	<div class="sys-file-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="queryParams" ref="queryForm" :inline="true">
+			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="文件名称" prop="fileName">
-					<el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="queryParams.fileName" />
+					<el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.fileName" />
 				</el-form-item>
 				<el-form-item label="时间范围" prop="timeRange">
-					<!-- <el-date-picker v-model="queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
-				</el-form-item>
-				<el-form-item label="结束时间" prop="code">
-					<el-date-picker v-model="queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" /> -->
 					<el-date-picker
-						v-model="queryParams.timeRange"
+						v-model="state.queryParams.timeRange"
 						type="datetimerange"
 						start-placeholder="开始时间"
 						end-placeholder="结束时间"
@@ -28,7 +24,7 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="fileData" style="width: 100%" v-loading="loading" border>
+			<el-table :data="state.fileData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="fileName" label="名称" show-overflow-tooltip />
 				<el-table-column prop="suffix" label="后缀" align="center" show-overflow-tooltip>
@@ -63,9 +59,9 @@
 				</el-table-column>
 			</el-table>
 			<el-pagination
-				v-model:currentPage="tableParams.page"
-				v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total"
+				v-model:currentPage="state.tableParams.page"
+				v-model:page-size="state.tableParams.pageSize"
+				:total="state.tableParams.total"
 				:page-sizes="[10, 20, 50, 100]"
 				small
 				background
@@ -75,7 +71,7 @@
 			/>
 		</el-card>
 
-		<el-dialog v-model="dialogVisible" :lock-scroll="false" draggable width="400px">
+		<el-dialog v-model="state.dialogVisible" :lock-scroll="false" draggable width="400px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-UploadFilled /> </el-icon>
@@ -83,7 +79,7 @@
 				</div>
 			</template>
 			<div>
-				<el-upload ref="uploadRef" drag :auto-upload="false" :limit="1" :file-list="fileList" action="" :on-change="handleChange" accept=".jpg,.png,.bmp,.gif,.txt,.pdf,.xlsx,.docx">
+				<el-upload ref="uploadRef" drag :auto-upload="false" :limit="1" :file-list="state.fileList" action="" :on-change="handleChange" accept=".jpg,.png,.bmp,.gif,.txt,.pdf,.xlsx,.docx">
 					<el-icon class="el-icon--upload">
 						<ele-UploadFilled />
 					</el-icon>
@@ -95,7 +91,7 @@
 			</div>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="dialogVisible = false">取消</el-button>
+					<el-button @click="state.dialogVisible = false">取消</el-button>
 					<el-button type="primary" @click="uploadFile">确定</el-button>
 				</span>
 			</template>
@@ -103,8 +99,8 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
+<script lang="ts" setup name="sysFile">
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage, UploadInstance } from 'element-plus';
 import mittBus from '/@/utils/mitt';
 
@@ -113,139 +109,107 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysFileApi } from '/@/api-services/api';
 import { SysFile } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysFile',
-	components: {},
-	setup() {
-		const uploadRef = ref<UploadInstance>();
-		const state = reactive({
-			loading: false,
-			fileData: [] as Array<SysFile>,
-			queryParams: {
-				fileName: undefined,
-				timeRange: [] as any,
-			},
-			tableParams: {
-				page: 1,
-				pageSize: 10,
-				total: 0 as any,
-			},
-			dialogVisible: false,
-			fileList: [] as any,
-		});
-		onMounted(async () => {
-			handleQuery();
-
-			mittBus.on('submitRefresh', () => {
-				handleQuery();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh');
-		});
-
-		// 查询操作
-		const handleQuery = async () => {
-			let startTime = undefined;
-			let endTime = undefined;
-			if (state.queryParams.timeRange != undefined) {
-				startTime = state.queryParams.timeRange[0];
-				endTime = state.queryParams.timeRange[1];
-			}
-
-			state.loading = true;
-			var res = await getAPI(SysFileApi).apiSysFilePageGet(state.queryParams.fileName, startTime, endTime, state.tableParams.page, state.tableParams.pageSize);
-			state.fileData = res.data.result?.items ?? [];
-			state.tableParams.total = res.data.result?.total;
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.fileName = undefined;
-			state.queryParams.timeRange = undefined;
-			handleQuery();
-		};
-		// 打开上传页面
-		const openUploadDialog = () => {
-			state.dialogVisible = true;
-		};
-		// 通过onChanne方法获得文件列表
-		const handleChange = (file: any, fileList: []) => {
-			state.fileList = fileList;
-		};
-		// 上传
-		const uploadFile = async () => {
-			if (state.fileList.length < 1) return;
-			await getAPI(SysFileApi).apiSysFileUploadFilePathPostForm(state.fileList[0].raw);
-			handleQuery();
-			ElMessage.success('上传成功');
-			state.dialogVisible = false;
-		};
-		// 下载
-		const downloadFile = async (row: any) => {
-			// var res = await getAPI(SysFileApi).sysFileDownloadPost({ id: row.id });
-			downloadByUrl({ url: row.url });
-		};
-		// 删除
-		const delFile = (row: any) => {
-			ElMessageBox.confirm(`确定删除文件：【${row.fileName}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysFileApi).apiSysFileDeleteDelete({ id: row.id });
-					handleQuery();
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		// 改变页面容量
-		const handleSizeChange = (val: number) => {
-			state.tableParams.pageSize = val;
-			handleQuery();
-		};
-		// 改变页码序号
-		const handleCurrentChange = (val: number) => {
-			state.tableParams.page = val;
-			handleQuery();
-		};
-		const shortcuts = [
-			{
-				text: '今天',
-				value: new Date(),
-			},
-			{
-				text: '昨天',
-				value: () => {
-					const date = new Date();
-					date.setTime(date.getTime() - 3600 * 1000 * 24);
-					return date;
-				},
-			},
-			{
-				text: '上周',
-				value: () => {
-					const date = new Date();
-					date.setTime(date.getTime() - 3600 * 1000 * 24 * 7);
-					return date;
-				},
-			},
-		];
-		return {
-			uploadRef,
-			handleQuery,
-			resetQuery,
-			openUploadDialog,
-			handleChange,
-			uploadFile,
-			downloadFile,
-			delFile,
-			handleSizeChange,
-			handleCurrentChange,
-			shortcuts,
-			...toRefs(state),
-		};
+const uploadRef = ref<UploadInstance>();
+const state = reactive({
+	loading: false,
+	fileData: [] as Array<SysFile>,
+	queryParams: {
+		fileName: undefined,
+		timeRange: [] as any,
 	},
+	tableParams: {
+		page: 1,
+		pageSize: 10,
+		total: 0 as any,
+	},
+	dialogVisible: false,
+	fileList: [] as any,
 });
+
+onMounted(async () => {
+	handleQuery();
+
+	mittBus.on('submitRefresh', () => {
+		handleQuery();
+	});
+});
+
+onUnmounted(() => {
+	mittBus.off('submitRefresh');
+});
+
+// 查询操作
+const handleQuery = async () => {
+	let startTime = undefined;
+	let endTime = undefined;
+	if (state.queryParams.timeRange != undefined) {
+		startTime = state.queryParams.timeRange[0];
+		endTime = state.queryParams.timeRange[1];
+	}
+
+	state.loading = true;
+	var res = await getAPI(SysFileApi).apiSysFilePageGet(state.queryParams.fileName, startTime, endTime, state.tableParams.page, state.tableParams.pageSize);
+	state.fileData = res.data.result?.items ?? [];
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.fileName = undefined;
+	state.queryParams.timeRange = undefined;
+	handleQuery();
+};
+
+// 打开上传页面
+const openUploadDialog = () => {
+	state.dialogVisible = true;
+};
+
+// 通过onChanne方法获得文件列表
+const handleChange = (file: any, fileList: []) => {
+	state.fileList = fileList;
+};
+
+// 上传
+const uploadFile = async () => {
+	if (state.fileList.length < 1) return;
+	await getAPI(SysFileApi).apiSysFileUploadFilePathPostForm(state.fileList[0].raw);
+	handleQuery();
+	ElMessage.success('上传成功');
+	state.dialogVisible = false;
+};
+
+// 下载
+const downloadFile = async (row: any) => {
+	// var res = await getAPI(SysFileApi).sysFileDownloadPost({ id: row.id });
+	downloadByUrl({ url: row.url });
+};
+
+// 删除
+const delFile = (row: any) => {
+	ElMessageBox.confirm(`确定删除文件：【${row.fileName}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysFileApi).apiSysFileDeleteDelete({ id: row.id });
+			handleQuery();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
+
+// 改变页面容量
+const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+};
+
+// 改变页码序号
+const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+};
 </script>

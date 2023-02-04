@@ -20,7 +20,7 @@
 	</div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -36,6 +36,7 @@ const state = reactive({
 onMounted(async () => {
 	handleQuery();
 });
+
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
@@ -43,6 +44,7 @@ const handleQuery = async () => {
 	state.jobClusterList = res.data.result ?? [];
 	state.loading = false;
 };
+
 // 打开页面
 const openDrawer = () => {
 	state.isVisible = true;
@@ -51,5 +53,3 @@ const openDrawer = () => {
 // 导出
 defineExpose({ openDrawer });
 </script>
-
-<style lang="scss" scoped></style>

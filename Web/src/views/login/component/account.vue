@@ -62,7 +62,7 @@
 	</div>
 </template>
 
-<script setup lang="ts" name="loginAccount">
+<script lang="ts" setup name="loginAccount">
 import { reactive, computed, ref, onMounted, defineAsyncComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
@@ -216,7 +216,7 @@ const passRotateVerify = () => {
 };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 .dialog-header {
 	:deep(.el-dialog) {
 		.el-dialog__header {

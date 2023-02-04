@@ -1,12 +1,12 @@
 <template>
 	<div class="sys-job-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="queryParams" ref="queryForm" :inline="true">
+			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="作业编号" prop="jobId">
-					<el-input placeholder="作业编号" clearable @keyup.enter="handleQuery" v-model="queryParams.jobId" />
+					<el-input placeholder="作业编号" clearable @keyup.enter="handleQuery" v-model="state.queryParams.jobId" />
 				</el-form-item>
 				<el-form-item label="描述信息" prop="description">
-					<el-input placeholder="描述信息" clearable @keyup.enter="handleQuery" v-model="queryParams.description" />
+					<el-input placeholder="描述信息" clearable @keyup.enter="handleQuery" v-model="state.queryParams.description" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
@@ -37,7 +37,7 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="jobData" style="width: 100%" v-loading="loading" border>
+			<el-table :data="state.jobData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="expand" fixed>
 					<template #default="scope">
 						<el-table :data="scope.row.jobTriggers" border size="small">
@@ -160,9 +160,9 @@
 				</el-table-column>
 			</el-table>
 			<el-pagination
-				v-model:currentPage="tableParams.page"
-				v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total"
+				v-model:currentPage="state.tableParams.page"
+				v-model:page-size="state.tableParams.pageSize"
+				:total="state.tableParams.total"
 				:page-sizes="[10, 20, 50, 100]"
 				small
 				background
@@ -171,14 +171,14 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditJobDetail ref="editJobDetailRef" :title="editJobDetailTitle" />
-		<EditJobTrigger ref="editJobTriggerRef" :title="editJobTriggerTitle" />
+		<EditJobDetail ref="editJobDetailRef" :title="state.editJobDetailTitle" />
+		<EditJobTrigger ref="editJobTriggerRef" :title="state.editJobTriggerTitle" />
 		<JobCluster ref="editJobClusterRef" />
 	</div>
 </template>
 
-<script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
+<script lang="ts" setup name="sysJob">
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
 import mittBus from '/@/utils/mitt';
@@ -191,187 +191,177 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysJobApi } from '/@/api-services/api';
 import { JobOutput } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysJob',
-	components: { Timer, EditJobDetail, EditJobTrigger, JobCluster },
-	setup() {
-		const router = useRouter();
-		const editJobDetailRef = ref();
-		const editJobTriggerRef = ref();
-		const editJobClusterRef = ref();
-		const state = reactive({
-			loading: false,
-			jobData: [] as Array<JobOutput>,
-			queryParams: {
-				jobId: undefined,
-				description: undefined,
-			},
-			tableParams: {
-				page: 1,
-				pageSize: 10,
-				total: 0 as any,
-			},
-			editJobDetailTitle: '',
-			editJobTriggerTitle: '',
-		});
-		onMounted(async () => {
-			handleQuery();
-
-			mittBus.on('submitRefresh', () => {
-				handleQuery();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh');
-		});
-		// 查询操作
-		const handleQuery = async () => {
-			state.loading = true;
-			var res = await getAPI(SysJobApi).apiSysJobPageJobDetailGet(state.queryParams.jobId, state.queryParams.description, state.tableParams.page, state.tableParams.pageSize);
-			state.jobData = res.data.result?.items ?? [];
-			state.tableParams.total = res.data.result?.total;
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.jobId = undefined;
-			state.queryParams.description = undefined;
-			handleQuery();
-		};
-		// 打开新增作业页面
-		const openAddJobDetail = () => {
-			state.editJobDetailTitle = '添加作业';
-			editJobDetailRef.value.openDialog({ concurrent: true, includeAnnotations: true, groupName: 'default' });
-		};
-		// 打开编辑作业页面
-		const openEditJobDetail = (row: any) => {
-			state.editJobDetailTitle = '编辑作业';
-			editJobDetailRef.value.openDialog(row.jobDetail);
-		};
-		// 删除作业
-		const delJobDetail = (row: any) => {
-			ElMessageBox.confirm(`确定删除作业：【${row.jobDetail.jobId}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysJobApi).apiSysJobDeleteJobDetailDelete({ jobId: row.jobDetail.jobId });
-					handleQuery();
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		// 打开新增触发器页面
-		const openAddJobTrigger = (row: any) => {
-			state.editJobTriggerTitle = '添加触发器';
-			editJobTriggerRef.value.openDialog({ jobId: row.jobDetail.jobId, retryTimeout: 1000, startNow: true, runOnStart: true, resetOnlyOnce: true, triggerType: 'Furion.Schedule.PeriodTrigger' });
-		};
-		// 打开编辑触发器页面
-		const openEditJobTrigger = (row: any) => {
-			state.editJobTriggerTitle = '编辑触发器';
-			editJobTriggerRef.value.openDialog(row);
-		};
-		// 删除触发器
-		const delJobTrigger = (row: any) => {
-			ElMessageBox.confirm(`确定删除触发器：【${row.triggerId}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysJobApi).apiSysJobDeleteJobTriggerDelete({ triggerId: row.triggerId });
-					handleQuery();
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		// 改变页面容量
-		const handleSizeChange = (val: number) => {
-			state.tableParams.pageSize = val;
-			handleQuery();
-		};
-		// 改变页码序号
-		const handleCurrentChange = (val: number) => {
-			state.tableParams.page = val;
-			handleQuery();
-		};
-		// 启动所有作业
-		const startAllJob = async () => {
-			await getAPI(SysJobApi).apiSysJobStartAllJobPost();
-			ElMessage.success('启动所有作业');
-		};
-		// 暂停所有作业
-		const pauseAllJob = async () => {
-			await getAPI(SysJobApi).apiSysJobPauseAllJobPost();
-			ElMessage.success('暂停所有作业');
-		};
-		// 启动某个作业
-		const startJob = async (row: any) => {
-			await getAPI(SysJobApi).apiSysJobStartJobPost({ jobId: row.jobDetail.jobId });
-			ElMessage.success('启动作业');
-		};
-		// 暂停某个作业
-		const pauseJob = async (row: any) => {
-			await getAPI(SysJobApi).apiSysJobPauseJobPost({ jobId: row.jobDetail.jobId });
-			ElMessage.success('暂停作业');
-		};
-		// 启动触发器
-		const startTrigger = async (row: any) => {
-			await getAPI(SysJobApi).apiSysJobStartTriggerPost({ jobId: row.jobId, triggerId: row.triggerId });
-			ElMessage.success('启动触发器');
-		};
-		// 暂停触发器
-		const pauseTrigger = async (row: any) => {
-			await getAPI(SysJobApi).apiSysJobPauseTriggerPost({ jobId: row.jobId, triggerId: row.triggerId });
-			ElMessage.success('暂停触发器');
-		};
-		// 强制唤醒作业调度器
-		const cancelSleep = async () => {
-			await getAPI(SysJobApi).apiSysJobCancelSleepPost();
-			ElMessage.success('强制唤醒作业调度器');
-		};
-		// 强制触发所有作业持久化
-		const persistAll = async () => {
-			await getAPI(SysJobApi).apiSysJobPersistAllPost();
-			ElMessage.success('强制触发所有作业持久化');
-		};
-		// 打开集群控制页面
-		const openJobCluster = () => {
-			editJobClusterRef.value.openDrawer();
-		};
-		// 打开任务看板
-		const openJobDashboard = () => {
-			router.push({
-				path: '/platform/job/dashboard',
-			});
-		};
-		return {
-			editJobDetailRef,
-			editJobTriggerRef,
-			editJobClusterRef,
-			handleQuery,
-			resetQuery,
-			openAddJobDetail,
-			openEditJobDetail,
-			delJobDetail,
-			handleSizeChange,
-			handleCurrentChange,
-			openAddJobTrigger,
-			openEditJobTrigger,
-			delJobTrigger,
-			startAllJob,
-			pauseAllJob,
-			startJob,
-			pauseJob,
-			startTrigger,
-			pauseTrigger,
-			cancelSleep,
-			persistAll,
-			openJobCluster,
-			openJobDashboard,
-			...toRefs(state),
-		};
+const router = useRouter();
+const editJobDetailRef = ref();
+const editJobTriggerRef = ref();
+const editJobClusterRef = ref();
+const state = reactive({
+	loading: false,
+	jobData: [] as Array<JobOutput>,
+	queryParams: {
+		jobId: undefined,
+		description: undefined,
 	},
+	tableParams: {
+		page: 1,
+		pageSize: 10,
+		total: 0 as any,
+	},
+	editJobDetailTitle: '',
+	editJobTriggerTitle: '',
 });
+
+onMounted(async () => {
+	handleQuery();
+
+	mittBus.on('submitRefresh', () => {
+		handleQuery();
+	});
+});
+
+onUnmounted(() => {
+	mittBus.off('submitRefresh');
+});
+
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysJobApi).apiSysJobPageJobDetailGet(state.queryParams.jobId, state.queryParams.description, state.tableParams.page, state.tableParams.pageSize);
+	state.jobData = res.data.result?.items ?? [];
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.jobId = undefined;
+	state.queryParams.description = undefined;
+	handleQuery();
+};
+
+// 打开新增作业页面
+const openAddJobDetail = () => {
+	state.editJobDetailTitle = '添加作业';
+	editJobDetailRef.value.openDialog({ concurrent: true, includeAnnotations: true, groupName: 'default' });
+};
+
+// 打开编辑作业页面
+const openEditJobDetail = (row: any) => {
+	state.editJobDetailTitle = '编辑作业';
+	editJobDetailRef.value.openDialog(row.jobDetail);
+};
+
+// 删除作业
+const delJobDetail = (row: any) => {
+	ElMessageBox.confirm(`确定删除作业：【${row.jobDetail.jobId}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysJobApi).apiSysJobDeleteJobDetailDelete({ jobId: row.jobDetail.jobId });
+			handleQuery();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
+
+// 打开新增触发器页面
+const openAddJobTrigger = (row: any) => {
+	state.editJobTriggerTitle = '添加触发器';
+	editJobTriggerRef.value.openDialog({ jobId: row.jobDetail.jobId, retryTimeout: 1000, startNow: true, runOnStart: true, resetOnlyOnce: true, triggerType: 'Furion.Schedule.PeriodTrigger' });
+};
+
+// 打开编辑触发器页面
+const openEditJobTrigger = (row: any) => {
+	state.editJobTriggerTitle = '编辑触发器';
+	editJobTriggerRef.value.openDialog(row);
+};
+
+// 删除触发器
+const delJobTrigger = (row: any) => {
+	ElMessageBox.confirm(`确定删除触发器：【${row.triggerId}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysJobApi).apiSysJobDeleteJobTriggerDelete({ triggerId: row.triggerId });
+			handleQuery();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
+
+// 改变页面容量
+const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+};
+
+// 改变页码序号
+const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+};
+
+// 启动所有作业
+const startAllJob = async () => {
+	await getAPI(SysJobApi).apiSysJobStartAllJobPost();
+	ElMessage.success('启动所有作业');
+};
+
+// 暂停所有作业
+const pauseAllJob = async () => {
+	await getAPI(SysJobApi).apiSysJobPauseAllJobPost();
+	ElMessage.success('暂停所有作业');
+};
+
+// 启动某个作业
+const startJob = async (row: any) => {
+	await getAPI(SysJobApi).apiSysJobStartJobPost({ jobId: row.jobDetail.jobId });
+	ElMessage.success('启动作业');
+};
+
+// 暂停某个作业
+const pauseJob = async (row: any) => {
+	await getAPI(SysJobApi).apiSysJobPauseJobPost({ jobId: row.jobDetail.jobId });
+	ElMessage.success('暂停作业');
+};
+
+// 启动触发器
+const startTrigger = async (row: any) => {
+	await getAPI(SysJobApi).apiSysJobStartTriggerPost({ jobId: row.jobId, triggerId: row.triggerId });
+	ElMessage.success('启动触发器');
+};
+
+// 暂停触发器
+const pauseTrigger = async (row: any) => {
+	await getAPI(SysJobApi).apiSysJobPauseTriggerPost({ jobId: row.jobId, triggerId: row.triggerId });
+	ElMessage.success('暂停触发器');
+};
+
+// 强制唤醒作业调度器
+const cancelSleep = async () => {
+	await getAPI(SysJobApi).apiSysJobCancelSleepPost();
+	ElMessage.success('强制唤醒作业调度器');
+};
+
+// 强制触发所有作业持久化
+const persistAll = async () => {
+	await getAPI(SysJobApi).apiSysJobPersistAllPost();
+	ElMessage.success('强制触发所有作业持久化');
+};
+
+// 打开集群控制页面
+const openJobCluster = () => {
+	editJobClusterRef.value.openDrawer();
+};
+
+// 打开任务看板
+const openJobDashboard = () => {
+	router.push({
+		path: '/platform/job/dashboard',
+	});
+};
 </script>

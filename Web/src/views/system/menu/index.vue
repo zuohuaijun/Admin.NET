@@ -1,12 +1,12 @@
 <template>
 	<div class="sys-menu-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="queryParams" ref="queryForm" :inline="true">
+			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="菜单名称" prop="title">
-					<el-input placeholder="菜单名称" clearable @keyup.enter="handleQuery" v-model="queryParams.title" />
+					<el-input placeholder="菜单名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.title" />
 				</el-form-item>
 				<el-form-item label="类型" prop="type">
-					<el-select v-model="queryParams.type" placeholder="类型" clearable>
+					<el-select v-model="state.queryParams.type" placeholder="类型" clearable>
 						<el-option label="目录" :value="1" />
 						<el-option label="菜单" :value="2" />
 						<el-option label="按钮" :value="3" />
@@ -21,7 +21,7 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="menuData" v-loading="loading" row-key="id" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
+			<el-table :data="state.menuData" v-loading="state.loading" row-key="id" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
 				<el-table-column label="菜单名称" show-overflow-tooltip>
 					<template #default="scope">
 						<SvgIcon :name="scope.row.icon" />
@@ -54,12 +54,12 @@
 				</el-table-column>
 			</el-table>
 		</el-card>
-		<EditMenu ref="editMenuRef" :title="editMenuTitle" :menuData="menuData" />
+		<EditMenu ref="editMenuRef" :title="state.editMenuTitle" :menuData="state.menuData" />
 	</div>
 </template>
 
-<script lang="ts">
-import { ref, toRefs, reactive, defineComponent, onMounted, onUnmounted } from 'vue';
+<script lang="ts" setup name="sysMenu">
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import mittBus from '/@/utils/mitt';
 import EditMenu from '/@/views/system/menu/component/editMenu.vue';
@@ -68,77 +68,68 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi } from '/@/api-services/api';
 import { SysMenu } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysMenu',
-	components: { EditMenu },
-	setup() {
-		const editMenuRef = ref();
-		const state = reactive({
-			loading: false,
-			menuData: [] as Array<SysMenu>,
-			queryParams: {
-				title: undefined,
-				type: undefined,
-			},
-			editMenuTitle: '',
-		});
-		onMounted(async () => {
-			handleQuery();
-
-			mittBus.on('submitRefresh', () => {
-				handleQuery();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh');
-		});
-
-		// 查询操作
-		const handleQuery = async () => {
-			state.loading = true;
-			var res = await getAPI(SysMenuApi).apiSysMenuListGet(state.queryParams.title, state.queryParams.type);
-			state.menuData = res.data.result ?? [];
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.title = undefined;
-			state.queryParams.type = undefined;
-			handleQuery();
-		};
-		// 打开新增页面
-		const openAddMenu = () => {
-			state.editMenuTitle = '添加菜单';
-			editMenuRef.value.openDialog({ type: 2 });
-		};
-		// 打开编辑页面
-		const openEditMenu = (row: any) => {
-			state.editMenuTitle = '编辑菜单';
-			editMenuRef.value.openDialog(row);
-		};
-		// 删除当前行
-		const delMenu = (row: any) => {
-			ElMessageBox.confirm(`确定删除菜单：【${row.title}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysMenuApi).apiSysMenuDeleteDelete({ id: row.id });
-					handleQuery();
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		return {
-			editMenuRef,
-			handleQuery,
-			resetQuery,
-			openAddMenu,
-			openEditMenu,
-			delMenu,
-			...toRefs(state),
-		};
+const editMenuRef = ref();
+const state = reactive({
+	loading: false,
+	menuData: [] as Array<SysMenu>,
+	queryParams: {
+		title: undefined,
+		type: undefined,
 	},
+	editMenuTitle: '',
 });
+
+onMounted(async () => {
+	handleQuery();
+
+	mittBus.on('submitRefresh', () => {
+		handleQuery();
+	});
+});
+
+onUnmounted(() => {
+	mittBus.off('submitRefresh');
+});
+
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysMenuApi).apiSysMenuListGet(state.queryParams.title, state.queryParams.type);
+	state.menuData = res.data.result ?? [];
+	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.title = undefined;
+	state.queryParams.type = undefined;
+	handleQuery();
+};
+
+// 打开新增页面
+const openAddMenu = () => {
+	state.editMenuTitle = '添加菜单';
+	editMenuRef.value.openDialog({ type: 2 });
+};
+
+// 打开编辑页面
+const openEditMenu = (row: any) => {
+	state.editMenuTitle = '编辑菜单';
+	editMenuRef.value.openDialog(row);
+};
+
+// 删除当前行
+const delMenu = (row: any) => {
+	ElMessageBox.confirm(`确定删除菜单：【${row.title}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysMenuApi).apiSysMenuDeleteDelete({ id: row.id });
+			handleQuery();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
 </script>

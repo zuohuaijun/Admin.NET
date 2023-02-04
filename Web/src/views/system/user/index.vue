@@ -7,15 +7,15 @@
 
 			<el-col :span="20" :xs="24">
 				<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-					<el-form :model="queryParams" ref="queryForm" :inline="true">
+					<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 						<el-form-item label="账号" prop="account">
-							<el-input placeholder="账号" clearable @keyup.enter="handleQuery" v-model="queryParams.account" />
+							<el-input placeholder="账号" clearable @keyup.enter="handleQuery" v-model="state.queryParams.account" />
 						</el-form-item>
 						<!-- <el-form-item label="姓名" prop="realName">
 							<el-input placeholder="姓名" clearable @keyup.enter="handleQuery" v-model="queryParams.realName" />
 						</el-form-item> -->
 						<el-form-item label="手机号码" prop="phone">
-							<el-input placeholder="手机号码" clearable @keyup.enter="handleQuery" v-model="queryParams.phone" />
+							<el-input placeholder="手机号码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.phone" />
 						</el-form-item>
 						<el-form-item>
 							<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
@@ -26,7 +26,7 @@
 				</el-card>
 
 				<el-card shadow="hover" style="margin-top: 8px">
-					<el-table :data="userData" style="width: 100%" v-loading="loading" border>
+					<el-table :data="state.userData" style="width: 100%" v-loading="state.loading" border>
 						<el-table-column type="index" label="序号" width="55" align="center" fixed />
 						<el-table-column prop="account" label="账号" width="120" fixed show-overflow-tooltip />
 						<el-table-column prop="nickName" label="昵称" width="120" show-overflow-tooltip />
@@ -72,9 +72,9 @@
 						</el-table-column>
 					</el-table>
 					<el-pagination
-						v-model:currentPage="tableParams.page"
-						v-model:page-size="tableParams.pageSize"
-						:total="tableParams.total"
+						v-model:currentPage="state.tableParams.page"
+						v-model:page-size="state.tableParams.pageSize"
+						:total="state.tableParams.total"
 						:page-sizes="[10, 20, 50, 100]"
 						small
 						background
@@ -85,12 +85,12 @@
 				</el-card>
 			</el-col>
 		</el-row>
-		<EditUser ref="editUserRef" :title="editUserTitle" :orgData="orgTreeData" />
+		<EditUser ref="editUserRef" :title="state.editUserTitle" :orgData="state.orgTreeData" />
 	</div>
 </template>
 
-<script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
+<script lang="ts" setup name="sysUser">
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { formatDate } from '/@/utils/formatTime';
 import { auth } from '/@/utils/authFunction';
@@ -102,153 +102,143 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysUserApi, SysOrgApi } from '/@/api-services/api';
 import { SysUser, SysOrg } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysUser',
-	components: { OrgTree, EditUser },
-	setup() {
-		const orgTreeRef = ref();
-		const editUserRef = ref();
-		const state = reactive({
-			loading: false,
-			userData: [] as Array<SysUser>,
-			orgTreeData: [] as Array<SysOrg>,
-			queryParams: {
-				orgId: -1,
-				account: undefined,
-				realName: undefined,
-				phone: undefined,
-			},
-			tableParams: {
-				page: 1,
-				pageSize: 10,
-				total: 0 as any,
-			},
-			editUserTitle: '',
-		});
-		onMounted(async () => {
-			loadOrgData();
-			handleQuery();
-
-			mittBus.on('submitRefresh', () => {
-				handleQuery();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh');
-		});
-		// 查询机构数据
-		const loadOrgData = async () => {
-			state.loading = true;
-			var res = await getAPI(SysOrgApi).apiSysOrgListGet(0);
-			state.orgTreeData = res.data.result ?? [];
-			state.loading = false;
-		};
-		// 查询操作
-		const handleQuery = async () => {
-			state.loading = true;
-			var res = await getAPI(SysUserApi).apiSysUserPageGet(
-				state.queryParams.account,
-				state.queryParams.realName,
-				state.queryParams.phone,
-				state.queryParams.orgId,
-				state.tableParams.page,
-				state.tableParams.pageSize
-			);
-			state.userData = res.data.result?.items ?? [];
-			state.tableParams.total = res.data.result?.total;
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.orgId = -1;
-			state.queryParams.account = undefined;
-			state.queryParams.realName = undefined;
-			state.queryParams.phone = undefined;
-			handleQuery();
-		};
-		// 打开新增页面
-		const openAddUser = () => {
-			state.editUserTitle = '添加账号';
-			editUserRef.value.openDialog({});
-		};
-		// 打开编辑页面
-		const openEditUser = (row: any) => {
-			state.editUserTitle = '编辑账号';
-			editUserRef.value.openDialog(row);
-		};
-		// 删除
-		const delUser = (row: any) => {
-			ElMessageBox.confirm(`确定删除账号：【${row.account}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysUserApi).apiSysUserDeleteDelete({ id: row.id });
-					handleQuery();
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		// 改变页面容量
-		const handleSizeChange = (val: number) => {
-			state.tableParams.pageSize = val;
-			handleQuery();
-		};
-		// 改变页码序号
-		const handleCurrentChange = (val: number) => {
-			state.tableParams.page = val;
-			handleQuery();
-		};
-		// 修改状态
-		const changeStatus = (row: any) => {
-			getAPI(SysUserApi)
-				.apiSysUserSetStatusPost({ id: row.id, status: row.status })
-				.then(() => {
-					ElMessage.success('账号状态设置成功');
-				})
-				.catch(() => {
-					row.status = row.status == 1 ? 2 : 1;
-				});
-		};
-		// 重置密码
-		const resetUserPwd = async (row: any) => {
-			ElMessageBox.confirm(`确定重置密码：【${row.account}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysUserApi).apiSysUserResetPwdPost({ id: row.id });
-					ElMessage.success('密码重置成功：123456');
-				})
-				.catch(() => {});
-		};
-		// 树组件点击
-		const nodeClick = async (node: any) => {
-			state.queryParams.orgId = node.id;
-			state.queryParams.account = undefined;
-			state.queryParams.realName = undefined;
-			state.queryParams.phone = undefined;
-			handleQuery();
-		};
-		return {
-			orgTreeRef,
-			editUserRef,
-			handleQuery,
-			resetQuery,
-			openAddUser,
-			openEditUser,
-			delUser,
-			handleSizeChange,
-			handleCurrentChange,
-			changeStatus,
-			resetUserPwd,
-			nodeClick,
-			formatDate,
-			auth,
-			...toRefs(state),
-		};
+const orgTreeRef = ref();
+const editUserRef = ref();
+const state = reactive({
+	loading: false,
+	userData: [] as Array<SysUser>,
+	orgTreeData: [] as Array<SysOrg>,
+	queryParams: {
+		orgId: -1,
+		account: undefined,
+		realName: undefined,
+		phone: undefined,
 	},
+	tableParams: {
+		page: 1,
+		pageSize: 10,
+		total: 0 as any,
+	},
+	editUserTitle: '',
 });
+
+onMounted(async () => {
+	loadOrgData();
+	handleQuery();
+
+	mittBus.on('submitRefresh', () => {
+		handleQuery();
+	});
+});
+
+onUnmounted(() => {
+	mittBus.off('submitRefresh');
+});
+
+// 查询机构数据
+const loadOrgData = async () => {
+	state.loading = true;
+	var res = await getAPI(SysOrgApi).apiSysOrgListGet(0);
+	state.orgTreeData = res.data.result ?? [];
+	state.loading = false;
+};
+
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysUserApi).apiSysUserPageGet(
+		state.queryParams.account,
+		state.queryParams.realName,
+		state.queryParams.phone,
+		state.queryParams.orgId,
+		state.tableParams.page,
+		state.tableParams.pageSize
+	);
+	state.userData = res.data.result?.items ?? [];
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.orgId = -1;
+	state.queryParams.account = undefined;
+	state.queryParams.realName = undefined;
+	state.queryParams.phone = undefined;
+	handleQuery();
+};
+
+// 打开新增页面
+const openAddUser = () => {
+	state.editUserTitle = '添加账号';
+	editUserRef.value.openDialog({});
+};
+
+// 打开编辑页面
+const openEditUser = (row: any) => {
+	state.editUserTitle = '编辑账号';
+	editUserRef.value.openDialog(row);
+};
+
+// 删除
+const delUser = (row: any) => {
+	ElMessageBox.confirm(`确定删除账号：【${row.account}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysUserApi).apiSysUserDeleteDelete({ id: row.id });
+			handleQuery();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
+
+// 改变页面容量
+const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+};
+
+// 改变页码序号
+const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+};
+
+// 修改状态
+const changeStatus = (row: any) => {
+	getAPI(SysUserApi)
+		.apiSysUserSetStatusPost({ id: row.id, status: row.status })
+		.then(() => {
+			ElMessage.success('账号状态设置成功');
+		})
+		.catch(() => {
+			row.status = row.status == 1 ? 2 : 1;
+		});
+};
+
+// 重置密码
+const resetUserPwd = async (row: any) => {
+	ElMessageBox.confirm(`确定重置密码：【${row.account}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysUserApi).apiSysUserResetPwdPost({ id: row.id });
+			ElMessage.success('密码重置成功：123456');
+		})
+		.catch(() => {});
+};
+
+// 树组件点击
+const nodeClick = async (node: any) => {
+	state.queryParams.orgId = node.id;
+	state.queryParams.account = undefined;
+	state.queryParams.realName = undefined;
+	state.queryParams.phone = undefined;
+	handleQuery();
+};
 </script>

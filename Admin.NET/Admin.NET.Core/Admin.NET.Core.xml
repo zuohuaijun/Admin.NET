@@ -7103,17 +7103,6 @@
             当前登录用户
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.IEntityFilter">
-            <summary>
-            自定义实体过滤器接口
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.IEntityFilter.AddEntityFilter">
-            <summary>
-            实体过滤器
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:Admin.NET.Core.ISqlSugarEntitySeedData`1">
             <summary>
             实体种子数据接口
@@ -7140,6 +7129,17 @@
             <summary>
             配置自定义过滤器
             </summary>
+        </member>
+        <member name="T:Admin.NET.Core.IEntityFilter">
+            <summary>
+            自定义实体过滤器接口
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.IEntityFilter.AddEntityFilter">
+            <summary>
+            实体过滤器
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.SqlSugarPagedList`1">
             <summary>

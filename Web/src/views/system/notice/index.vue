@@ -1,12 +1,12 @@
 <template>
 	<div class="sys-notice-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="queryParams" ref="queryForm" :inline="true">
+			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="标题" prop="title">
-					<el-input placeholder="标题" clearable @keyup.enter="handleQuery" v-model="queryParams.title" />
+					<el-input placeholder="标题" clearable @keyup.enter="handleQuery" v-model="state.queryParams.title" />
 				</el-form-item>
 				<el-form-item label="类型" prop="type">
-					<el-select v-model="queryParams.type" placeholder="类型" style="width: 100%">
+					<el-select v-model="state.queryParams.type" placeholder="类型" style="width: 100%">
 						<el-option label="通知" :value="1" />
 						<el-option label="公告" :value="2" />
 					</el-select>
@@ -20,7 +20,7 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="noticeData" style="width: 100%" v-loading="loading" border>
+			<el-table :data="state.noticeData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="title" label="标题" show-overflow-tooltip />
 				<el-table-column prop="content" label="内容" show-overflow-tooltip>
@@ -50,9 +50,9 @@
 				</el-table-column>
 			</el-table>
 			<el-pagination
-				v-model:currentPage="tableParams.page"
-				v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total"
+				v-model:currentPage="state.tableParams.page"
+				v-model:page-size="state.tableParams.pageSize"
+				:total="state.tableParams.total"
 				:page-sizes="[10, 20, 50, 100]"
 				small
 				background
@@ -61,12 +61,12 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditNotice ref="editNoticeRef" :title="editNoticeTitle" />
+		<EditNotice ref="editNoticeRef" :title="state.editNoticeTitle" />
 	</div>
 </template>
 
-<script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
+<script lang="ts" setup name="sysNotice">
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import commonFunction from '/@/utils/commonFunction';
 import mittBus from '/@/utils/mitt';
@@ -76,111 +76,102 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysNoticeApi } from '/@/api-services/api';
 import { SysNotice } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysNotice',
-	components: { EditNotice },
-	setup() {
-		const editNoticeRef = ref();
-		const { removeHtml } = commonFunction();
-		const state = reactive({
-			loading: false,
-			noticeData: [] as Array<SysNotice>,
-			queryParams: {
-				title: undefined,
-				type: undefined,
-			},
-			tableParams: {
-				page: 1,
-				pageSize: 10,
-				total: 0 as any,
-			},
-			editNoticeTitle: '',
-		});
-		onMounted(async () => {
-			handleQuery();
-
-			mittBus.on('submitRefresh', () => {
-				handleQuery();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh');
-		});
-		// 查询操作
-		const handleQuery = async () => {
-			state.loading = true;
-			var res = await getAPI(SysNoticeApi).apiSysNoticePageGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
-			state.noticeData = res.data.result?.items ?? [];
-			state.tableParams.total = res.data.result?.total;
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.title = undefined;
-			state.queryParams.type = undefined;
-			handleQuery();
-		};
-		// 打开新增页面
-		const openAddNotice = () => {
-			state.editNoticeTitle = '添加通知公告';
-			editNoticeRef.value.openDialog({});
-		};
-		// 打开编辑页面
-		const openEditNotice = (row: any) => {
-			state.editNoticeTitle = '编辑通知公告';
-			editNoticeRef.value.openDialog(row);
-		};
-		// 删除
-		const delNotice = (row: any) => {
-			ElMessageBox.confirm(`确定删除通知公告：【${row.title}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysNoticeApi).apiSysNoticeDeleteDelete({ id: row.id });
-					handleQuery();
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		// 发布
-		const publicNotice = (row: any) => {
-			ElMessageBox.confirm(`确定发布通知公告：【${row.title}】，不可撤销?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysNoticeApi).apiSysNoticePublicPost({ id: row.id });
-					handleQuery();
-					ElMessage.success('发布成功');
-				})
-				.catch(() => {});
-		};
-		// 改变页面容量
-		const handleSizeChange = (val: number) => {
-			state.tableParams.pageSize = val;
-			handleQuery();
-		};
-		// 改变页码序号
-		const handleCurrentChange = (val: number) => {
-			state.tableParams.page = val;
-			handleQuery();
-		};
-		return {
-			editNoticeRef,
-			handleQuery,
-			resetQuery,
-			openAddNotice,
-			openEditNotice,
-			delNotice,
-			publicNotice,
-			handleSizeChange,
-			handleCurrentChange,
-			removeHtml,
-			...toRefs(state),
-		};
+const editNoticeRef = ref();
+const { removeHtml } = commonFunction();
+const state = reactive({
+	loading: false,
+	noticeData: [] as Array<SysNotice>,
+	queryParams: {
+		title: undefined,
+		type: undefined,
 	},
+	tableParams: {
+		page: 1,
+		pageSize: 10,
+		total: 0 as any,
+	},
+	editNoticeTitle: '',
 });
+
+onMounted(async () => {
+	handleQuery();
+
+	mittBus.on('submitRefresh', () => {
+		handleQuery();
+	});
+});
+
+onUnmounted(() => {
+	mittBus.off('submitRefresh');
+});
+
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysNoticeApi).apiSysNoticePageGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
+	state.noticeData = res.data.result?.items ?? [];
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.title = undefined;
+	state.queryParams.type = undefined;
+	handleQuery();
+};
+
+// 打开新增页面
+const openAddNotice = () => {
+	state.editNoticeTitle = '添加通知公告';
+	editNoticeRef.value.openDialog({});
+};
+
+// 打开编辑页面
+const openEditNotice = (row: any) => {
+	state.editNoticeTitle = '编辑通知公告';
+	editNoticeRef.value.openDialog(row);
+};
+
+// 删除
+const delNotice = (row: any) => {
+	ElMessageBox.confirm(`确定删除通知公告：【${row.title}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysNoticeApi).apiSysNoticeDeleteDelete({ id: row.id });
+			handleQuery();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
+
+// 发布
+const publicNotice = (row: any) => {
+	ElMessageBox.confirm(`确定发布通知公告：【${row.title}】，不可撤销?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysNoticeApi).apiSysNoticePublicPost({ id: row.id });
+			handleQuery();
+			ElMessage.success('发布成功');
+		})
+		.catch(() => {});
+};
+
+// 改变页面容量
+const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+};
+
+// 改变页码序号
+const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+};
 </script>

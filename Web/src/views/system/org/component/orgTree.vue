@@ -55,7 +55,6 @@ import { SysOrg } from '/@/api-services/models';
 
 const filterText = ref('');
 const treeRef = ref<InstanceType<typeof ElTree>>();
-
 const state = reactive({
 	loading: false,
 	orgData: [] as Array<SysOrg>,
@@ -122,7 +121,7 @@ const nodeClick = (node: any) => {
 defineExpose({ initTreeData, setCheckedKeys, getCheckedKeys });
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .tree-h-flex {
 	display: flex;
 }

@@ -1,19 +1,19 @@
 <template>
 	<div class="sys-grantMenu-container">
-		<el-dialog v-model="isShowDialog" draggable :close-on-click-modal="false" width="769px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="769px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
 					<span> 授权租户菜单 </span>
 				</div>
 			</template>
-			<el-form :model="ruleForm" size="default" v-loading="loading">
+			<el-form :model="state.ruleForm" size="default" v-loading="state.loading">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24">
 						<el-form-item prop="orgIdList" label="">
 							<el-tree
 								ref="treeRef"
-								:data="menuData"
+								:data="state.menuData"
 								node-key="id"
 								show-checkbox
 								:props="{ children: 'children', label: 'title', class: treeNodeClass }"
@@ -35,80 +35,71 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { reactive, toRefs, defineComponent, ref, onMounted } from 'vue';
+<script lang="ts" setup name="sysGrantMenu">
+import { onMounted, reactive, ref } from 'vue';
 import type { ElTree } from 'element-plus';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi, SysTenantApi } from '/@/api-services/api';
 import { SysMenu } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysGrantMenu',
-	components: {},
-	setup() {
-		const treeRef = ref<InstanceType<typeof ElTree>>();
-		const state = reactive({
-			loading: false,
-			isShowDialog: false,
-			ruleForm: {
-				id: 0,
-				menuIdList: [] as any, // 菜单集合
-			},
-			menuData: [] as any, // 菜单数据
-		});
-		onMounted(async () => {
-			state.loading = true;
-			var res = await getAPI(SysMenuApi).apiSysMenuListGet();
-			state.menuData = res.data.result;
-			state.loading = false;
-		});
-		// 打开弹窗
-		const openDialog = async (row: any) => {
-			treeRef.value?.setCheckedKeys([]); // 先清空已选择节点
-			state.ruleForm = row;
-			var res = await getAPI(SysTenantApi).apiSysTenantOwnMenuListGet(row.userId);
-			setTimeout(() => {
-				// 延迟传递数据
-				treeRef.value?.setCheckedKeys(res.data.result);
-			}, 100);
-			state.isShowDialog = true;
-		};
-		// 取消
-		const cancel = () => {
-			state.isShowDialog = false;
-		};
-		// 提交
-		const submit = async () => {
-			state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys() as Array<number>;
-			await getAPI(SysTenantApi).apiSysTenantGrantMenuPost(state.ruleForm);
-			state.isShowDialog = false;
-		};
-		// 叶子节点同行显示样式
-		const treeNodeClass = (node: SysMenu) => {
-			let addClass = true; // 添加叶子节点同行显示样式
-			for (const key in node.children) {
-				// 如果存在子节点非叶子节点，不添加样式
-				if (node.children[key].children?.length ?? 0 > 0) {
-					addClass = false;
-					break;
-				}
-			}
-			return addClass ? 'penultimate-node' : '';
-		};
-		return {
-			treeRef,
-			openDialog,
-			cancel,
-			submit,
-			treeNodeClass,
-			...toRefs(state),
-		};
+const treeRef = ref<InstanceType<typeof ElTree>>();
+const state = reactive({
+	loading: false,
+	isShowDialog: false,
+	ruleForm: {
+		id: 0,
+		menuIdList: [] as any, // 菜单集合
 	},
+	menuData: [] as any, // 菜单数据
 });
+
+onMounted(async () => {
+	state.loading = true;
+	var res = await getAPI(SysMenuApi).apiSysMenuListGet();
+	state.menuData = res.data.result;
+	state.loading = false;
+});
+
+// 打开弹窗
+const openDialog = async (row: any) => {
+	treeRef.value?.setCheckedKeys([]); // 先清空已选择节点
+	state.ruleForm = row;
+	var res = await getAPI(SysTenantApi).apiSysTenantOwnMenuListGet(row.userId);
+	setTimeout(() => {
+		// 延迟传递数据
+		treeRef.value?.setCheckedKeys(res.data.result);
+	}, 100);
+	state.isShowDialog = true;
+};
+
+// 取消
+const cancel = () => {
+	state.isShowDialog = false;
+};
+
+// 提交
+const submit = async () => {
+	state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys() as Array<number>;
+	await getAPI(SysTenantApi).apiSysTenantGrantMenuPost(state.ruleForm);
+	state.isShowDialog = false;
+};
+
+// 叶子节点同行显示样式
+const treeNodeClass = (node: SysMenu) => {
+	let addClass = true; // 添加叶子节点同行显示样式
+	for (const key in node.children) {
+		// 如果存在子节点非叶子节点，不添加样式
+		if (node.children[key].children?.length ?? 0 > 0) {
+			addClass = false;
+			break;
+		}
+	}
+	return addClass ? 'penultimate-node' : '';
+};
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 :deep(.penultimate-node) {
 	.el-tree-node__children {
 		padding-left: 40px;

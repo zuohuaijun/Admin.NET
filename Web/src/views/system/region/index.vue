@@ -7,12 +7,12 @@
 
 			<el-col :span="18" :xs="24">
 				<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-					<el-form :model="queryParams" ref="queryForm" :inline="true">
+					<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 						<el-form-item label="行政名称" prop="name">
-							<el-input placeholder="行政名称" clearable @keyup.enter="handleQuery" v-model="queryParams.name" />
+							<el-input placeholder="行政名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
 						</el-form-item>
 						<el-form-item label="行政代码" prop="code">
-							<el-input placeholder="行政代码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
+							<el-input placeholder="行政代码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
 						</el-form-item>
 						<el-form-item>
 							<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
@@ -24,7 +24,7 @@
 				</el-card>
 
 				<el-card shadow="hover" style="margin-top: 8px">
-					<el-table :data="regionData" style="width: 100%" v-loading="loading" row-key="id" default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
+					<el-table :data="state.regionData" style="width: 100%" v-loading="state.loading" row-key="id" default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
 						<el-table-column prop="name" label="行政名称" show-overflow-tooltip />
 						<el-table-column prop="code" label="行政代码" show-overflow-tooltip />
 						<el-table-column prop="cityCode" label="区号" show-overflow-tooltip />
@@ -38,9 +38,9 @@
 						</el-table-column>
 					</el-table>
 					<el-pagination
-						v-model:currentPage="tableParams.page"
-						v-model:page-size="tableParams.pageSize"
-						:total="tableParams.total"
+						v-model:currentPage="state.tableParams.page"
+						v-model:page-size="state.tableParams.pageSize"
+						:total="state.tableParams.total"
 						:page-sizes="[10, 20, 50, 100]"
 						small
 						background
@@ -51,12 +51,12 @@
 				</el-card>
 			</el-col>
 		</el-row>
-		<EditRegion ref="editRegionRef" :title="editRegionTitle" />
+		<EditRegion ref="editRegionRef" :title="state.editRegionTitle" />
 	</div>
 </template>
 
-<script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
+<script lang="ts" setup name="sysRegion">
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage, ElNotification } from 'element-plus';
 import mittBus from '/@/utils/mitt';
 import RegionTree from '/@/views/system/region/component/regionTree.vue';
@@ -66,128 +66,119 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysRegionApi } from '/@/api-services/api';
 import { SysRegion } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysRegion',
-	components: { RegionTree, EditRegion },
-	setup() {
-		const editRegionRef = ref();
-		const regionTreeRef = ref();
-		const state = reactive({
-			loading: false,
-			regionData: [] as Array<SysRegion>, // 列表数据
-			queryParams: {
-				id: -1,
-				name: undefined,
-				code: undefined,
-			},
-			tableParams: {
-				page: 1,
-				pageSize: 10,
-				total: 0 as any,
-			},
-			editRegionTitle: '',
-		});
-		onMounted(() => {
-			handleQuery();
-
-			mittBus.on('submitRefresh', async () => {
-				handleQuery();
-
-				// 编辑删除后更新机构数据
-				regionTreeRef.value.initTreeData();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh');
-		});
-		// 查询操作
-		const handleQuery = async () => {
-			state.loading = true;
-			var res = await getAPI(SysRegionApi).apiSysRegionPageGet(state.queryParams.id, state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
-			state.regionData = res.data.result?.items ?? [];
-			state.tableParams.total = res.data.result?.total;
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.id = -1;
-			state.queryParams.name = undefined;
-			state.queryParams.code = undefined;
-			handleQuery();
-		};
-		// 打开新增页面
-		const openAddRegion = () => {
-			state.editRegionTitle = '添加行政区域';
-			editRegionRef.value.openDialog({});
-		};
-		// 打开编辑页面
-		const openEditRegion = (row: any) => {
-			state.editRegionTitle = '编辑行政区域';
-			editRegionRef.value.openDialog(row);
-		};
-		// 删除
-		const delRegion = (row: any) => {
-			ElMessageBox.confirm(`确定删除行政区域：【${row.name}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysRegionApi).apiSysRegionDeleteDelete({ id: row.id });
-					ElMessage.success('删除成功');
-					mittBus.emit('submitRefresh');
-				})
-				.catch(() => {});
-		};
-		// 树组件点击
-		const nodeClick = async (node: any) => {
-			state.queryParams.id = node.id;
-			state.queryParams.name = undefined;
-			state.queryParams.code = undefined;
-			handleQuery();
-		};
-		// 同步国家统计局操作
-		const handlSync = async () => {
-			ElMessageBox.confirm('确认同步国家统计局行政区域数据？', '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					ElNotification({
-						title: '提示',
-						message: '后台努力同步中...',
-						type: 'success',
-						position: 'bottom-right',
-					});
-					await getAPI(SysRegionApi).apiSysRegionSyncPost({ timeout: 1000 * 60 * 30 });
-				})
-				.catch(() => {});
-		};
-		// 改变页面容量
-		const handleSizeChange = (val: number) => {
-			state.tableParams.pageSize = val;
-			handleQuery();
-		};
-		// 改变页码序号
-		const handleCurrentChange = (val: number) => {
-			state.tableParams.page = val;
-			handleQuery();
-		};
-		return {
-			editRegionRef,
-			regionTreeRef,
-			handleQuery,
-			resetQuery,
-			openAddRegion,
-			openEditRegion,
-			delRegion,
-			nodeClick,
-			handlSync,
-			handleSizeChange,
-			handleCurrentChange,
-			...toRefs(state),
-		};
+const editRegionRef = ref();
+const regionTreeRef = ref();
+const state = reactive({
+	loading: false,
+	regionData: [] as Array<SysRegion>, // 列表数据
+	queryParams: {
+		id: -1,
+		name: undefined,
+		code: undefined,
 	},
+	tableParams: {
+		page: 1,
+		pageSize: 10,
+		total: 0 as any,
+	},
+	editRegionTitle: '',
 });
+
+onMounted(() => {
+	handleQuery();
+
+	mittBus.on('submitRefresh', async () => {
+		handleQuery();
+
+		// 编辑删除后更新机构数据
+		regionTreeRef.value.initTreeData();
+	});
+});
+
+onUnmounted(() => {
+	mittBus.off('submitRefresh');
+});
+
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysRegionApi).apiSysRegionPageGet(state.queryParams.id, state.queryParams.name, state.queryParams.code, state.tableParams.page, state.tableParams.pageSize);
+	state.regionData = res.data.result?.items ?? [];
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.id = -1;
+	state.queryParams.name = undefined;
+	state.queryParams.code = undefined;
+	handleQuery();
+};
+
+// 打开新增页面
+const openAddRegion = () => {
+	state.editRegionTitle = '添加行政区域';
+	editRegionRef.value.openDialog({});
+};
+
+// 打开编辑页面
+const openEditRegion = (row: any) => {
+	state.editRegionTitle = '编辑行政区域';
+	editRegionRef.value.openDialog(row);
+};
+
+// 删除
+const delRegion = (row: any) => {
+	ElMessageBox.confirm(`确定删除行政区域：【${row.name}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysRegionApi).apiSysRegionDeleteDelete({ id: row.id });
+			ElMessage.success('删除成功');
+			mittBus.emit('submitRefresh');
+		})
+		.catch(() => {});
+};
+
+// 树组件点击
+const nodeClick = async (node: any) => {
+	state.queryParams.id = node.id;
+	state.queryParams.name = undefined;
+	state.queryParams.code = undefined;
+	handleQuery();
+};
+
+// 同步国家统计局操作
+const handlSync = async () => {
+	ElMessageBox.confirm('确认同步国家统计局行政区域数据？', '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			ElNotification({
+				title: '提示',
+				message: '后台努力同步中...',
+				type: 'success',
+				position: 'bottom-right',
+			});
+			await getAPI(SysRegionApi).apiSysRegionSyncPost({ timeout: 1000 * 60 * 30 });
+		})
+		.catch(() => {});
+};
+
+// 改变页面容量
+const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+};
+
+// 改变页码序号
+const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+};
 </script>

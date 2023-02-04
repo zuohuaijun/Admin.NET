@@ -4,24 +4,10 @@
 	</div>
 </template>
 
-<script lang="ts">
-import { toRefs, reactive, defineComponent, ref } from 'vue';
+<script lang="ts" setup name="sysFormDes">
+import { ref } from 'vue';
 
-export default defineComponent({
-	name: 'sysFormDes',
-	components: {},
-	setup() {
-		const vFormDesignRef = ref(null);
-		const state = reactive({
-			loading: false,
-		});
-
-		return {
-			vFormDesignRef,
-			...toRefs(state),
-		};
-	},
-});
+const vFormDesignRef = ref(null);
 </script>
 
 <style lang="scss" scoped>

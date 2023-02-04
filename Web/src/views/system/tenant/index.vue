@@ -1,12 +1,12 @@
 <template>
 	<div class="sys-tenant-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="queryParams" ref="queryForm" :inline="true">
+			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="租户名称" prop="name">
-					<el-input placeholder="租户名称" clearable @keyup.enter="handleQuery" v-model="queryParams.name" />
+					<el-input placeholder="租户名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
 				</el-form-item>
 				<el-form-item label="联系电话" prop="phone">
-					<el-input placeholder="联系电话" clearable @keyup.enter="handleQuery" v-model="queryParams.phone" />
+					<el-input placeholder="联系电话" clearable @keyup.enter="handleQuery" v-model="state.queryParams.phone" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
@@ -17,7 +17,7 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="tenantData" style="width: 100%" v-loading="loading" border>
+			<el-table :data="state.tenantData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
 				<el-table-column prop="name" label="租户名称" width="160" show-overflow-tooltip />
 				<el-table-column prop="adminName" label="管理员" width="120" show-overflow-tooltip />
@@ -78,9 +78,9 @@
 				</el-table-column>
 			</el-table>
 			<el-pagination
-				v-model:currentPage="tableParams.page"
-				v-model:page-size="tableParams.pageSize"
-				:total="tableParams.total"
+				v-model:currentPage="state.tableParams.page"
+				v-model:page-size="state.tableParams.pageSize"
+				:total="state.tableParams.total"
 				:page-sizes="[10, 20, 50, 100]"
 				small
 				background
@@ -89,13 +89,13 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditTenant ref="editTenantRef" :title="editTenantTitle" />
+		<EditTenant ref="editTenantRef" :title="state.editTenantTitle" />
 		<GrantMenu ref="grantMenuRef" />
 	</div>
 </template>
 
-<script lang="ts">
-import { ref, toRefs, reactive, onMounted, defineComponent, onUnmounted } from 'vue';
+<script lang="ts" setup name="sysTenant">
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import mittBus from '/@/utils/mitt';
 import EditTenant from '/@/views/system/tenant/component/editTenant.vue';
@@ -105,141 +105,132 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysTenantApi } from '/@/api-services/api';
 import { TenantOutput } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysTenant',
-	components: { EditTenant, GrantMenu },
-	setup() {
-		const editTenantRef = ref();
-		const grantMenuRef = ref();
-		const state = reactive({
-			loading: false,
-			tenantData: [] as Array<TenantOutput>,
-			queryParams: {
-				name: undefined,
-				phone: undefined,
-			},
-			tableParams: {
-				page: 1,
-				pageSize: 10,
-				total: 0 as any,
-			},
-			editTenantTitle: '',
-		});
-		onMounted(async () => {
-			handleQuery();
-
-			mittBus.on('submitRefresh', () => {
-				handleQuery();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh');
-		});
-		// 查询操作
-		const handleQuery = async () => {
-			state.loading = true;
-			var res = await getAPI(SysTenantApi).apiSysTenantPageGet(state.queryParams.name, state.queryParams.phone, state.tableParams.page, state.tableParams.pageSize);
-			state.tenantData = res.data.result?.items ?? [];
-			state.tableParams.total = res.data.result?.total;
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.name = undefined;
-			state.queryParams.phone = undefined;
-			handleQuery();
-		};
-		// 打开新增页面
-		const openAddTenant = () => {
-			state.editTenantTitle = '添加租户';
-			editTenantRef.value.openDialog({ tenantType: 0 });
-		};
-		// 打开编辑页面
-		const openEditTenant = (row: any) => {
-			state.editTenantTitle = '编辑租户';
-			editTenantRef.value.openDialog(row);
-		};
-		// 打开授权菜单页面
-		const openGrantMenu = async (row: any) => {
-			grantMenuRef.value.openDialog(row);
-		};
-		// 重置密码
-		const resetTenantPwd = async (row: any) => {
-			ElMessageBox.confirm(`确定重置密码：【${row.name}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysTenantApi).apiSysTenantResetPwdPost({ userId: row.userId });
-					ElMessage.success('密码重置成功：123456');
-				})
-				.catch(() => {});
-		};
-		// 删除
-		const delTenant = (row: any) => {
-			ElMessageBox.confirm(`确定删除租户：【${row.name}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysTenantApi).apiSysTenantDeleteDelete({ id: row.id });
-					handleQuery();
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		// 改变页面容量
-		const handleSizeChange = (val: number) => {
-			state.tableParams.pageSize = val;
-			handleQuery();
-		};
-		// 改变页码序号
-		const handleCurrentChange = (val: number) => {
-			state.tableParams.page = val;
-			handleQuery();
-		};
-		// 创建租户库
-		const createTenant = (row: any) => {
-			ElMessageBox.confirm(`确定创建/更新租户数据库：【${row.name}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysTenantApi).apiSysTenantCreateDbPost({ id: row.id });
-					ElMessage.success('创建/更新租户数据库成功');
-				})
-				.catch(() => {});
-		};
-		// 修改状态
-		const changeStatus = (row: any) => {
-			getAPI(SysTenantApi)
-				.apiSysTenantSetStatusPost({ id: row.id, status: row.status })
-				.then(() => {
-					ElMessage.success('租户状态设置成功');
-				})
-				.catch(() => {
-					row.status = row.status == 1 ? 2 : 1;
-				});
-		};
-		return {
-			editTenantRef,
-			grantMenuRef,
-			handleQuery,
-			resetQuery,
-			openAddTenant,
-			openEditTenant,
-			openGrantMenu,
-			resetTenantPwd,
-			delTenant,
-			handleSizeChange,
-			handleCurrentChange,
-			createTenant,
-			changeStatus,
-			...toRefs(state),
-		};
+const editTenantRef = ref();
+const grantMenuRef = ref();
+const state = reactive({
+	loading: false,
+	tenantData: [] as Array<TenantOutput>,
+	queryParams: {
+		name: undefined,
+		phone: undefined,
 	},
+	tableParams: {
+		page: 1,
+		pageSize: 10,
+		total: 0 as any,
+	},
+	editTenantTitle: '',
 });
+
+onMounted(async () => {
+	handleQuery();
+
+	mittBus.on('submitRefresh', () => {
+		handleQuery();
+	});
+});
+
+onUnmounted(() => {
+	mittBus.off('submitRefresh');
+});
+
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysTenantApi).apiSysTenantPageGet(state.queryParams.name, state.queryParams.phone, state.tableParams.page, state.tableParams.pageSize);
+	state.tenantData = res.data.result?.items ?? [];
+	state.tableParams.total = res.data.result?.total;
+	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.name = undefined;
+	state.queryParams.phone = undefined;
+	handleQuery();
+};
+
+// 打开新增页面
+const openAddTenant = () => {
+	state.editTenantTitle = '添加租户';
+	editTenantRef.value.openDialog({ tenantType: 0 });
+};
+
+// 打开编辑页面
+const openEditTenant = (row: any) => {
+	state.editTenantTitle = '编辑租户';
+	editTenantRef.value.openDialog(row);
+};
+
+// 打开授权菜单页面
+const openGrantMenu = async (row: any) => {
+	grantMenuRef.value.openDialog(row);
+};
+
+// 重置密码
+const resetTenantPwd = async (row: any) => {
+	ElMessageBox.confirm(`确定重置密码：【${row.name}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysTenantApi).apiSysTenantResetPwdPost({ userId: row.userId });
+			ElMessage.success('密码重置成功：123456');
+		})
+		.catch(() => {});
+};
+
+// 删除
+const delTenant = (row: any) => {
+	ElMessageBox.confirm(`确定删除租户：【${row.name}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysTenantApi).apiSysTenantDeleteDelete({ id: row.id });
+			handleQuery();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
+
+// 改变页面容量
+const handleSizeChange = (val: number) => {
+	state.tableParams.pageSize = val;
+	handleQuery();
+};
+
+// 改变页码序号
+const handleCurrentChange = (val: number) => {
+	state.tableParams.page = val;
+	handleQuery();
+};
+
+// 创建租户库
+const createTenant = (row: any) => {
+	ElMessageBox.confirm(`确定创建/更新租户数据库：【${row.name}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysTenantApi).apiSysTenantCreateDbPost({ id: row.id });
+			ElMessage.success('创建/更新租户数据库成功');
+		})
+		.catch(() => {});
+};
+
+// 修改状态
+const changeStatus = (row: any) => {
+	getAPI(SysTenantApi)
+		.apiSysTenantSetStatusPost({ id: row.id, status: row.status })
+		.then(() => {
+			ElMessage.success('租户状态设置成功');
+		})
+		.catch(() => {
+			row.status = row.status == 1 ? 2 : 1;
+		});
+};
 </script>

@@ -1,12 +1,12 @@
 <template>
 	<div class="sys-pos-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="queryParams" ref="queryForm" :inline="true">
+			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="职位名称" prop="name">
-					<el-input placeholder="职位名称" clearable @keyup.enter="handleQuery" v-model="queryParams.name" />
+					<el-input placeholder="职位名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
 				</el-form-item>
 				<el-form-item label="职位编码" prop="code">
-					<el-input placeholder="职位编码" clearable @keyup.enter="handleQuery" v-model="queryParams.code" />
+					<el-input placeholder="职位编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
@@ -17,7 +17,7 @@
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="posData" style="width: 100%" v-loading="loading" border>
+			<el-table :data="state.posData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="name" label="职位名称" show-overflow-tooltip />
 				<el-table-column prop="code" label="职位编码" show-overflow-tooltip />
@@ -38,12 +38,12 @@
 				</el-table-column>
 			</el-table>
 		</el-card>
-		<EditPos ref="editPosRef" :title="editPosTitle" />
+		<EditPos ref="editPosRef" :title="state.editPosTitle" />
 	</div>
 </template>
 
-<script lang="ts">
-import { toRefs, reactive, onMounted, ref, defineComponent, onUnmounted } from 'vue';
+<script lang="ts" setup name="sysPos">
+import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import mittBus from '/@/utils/mitt';
 import EditPos from '/@/views/system/pos/component/editPos.vue';
@@ -52,77 +52,68 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysPosApi } from '/@/api-services/api';
 import { SysPos } from '/@/api-services/models';
 
-export default defineComponent({
-	name: 'sysPos',
-	components: { EditPos },
-	setup() {
-		const editPosRef = ref();
-		const state = reactive({
-			loading: false,
-			posData: [] as Array<SysPos>,
-			queryParams: {
-				name: undefined,
-				code: undefined,
-			},
-			editPosTitle: '',
-		});
-		onMounted(async () => {
-			handleQuery();
-
-			mittBus.on('submitRefresh', () => {
-				handleQuery();
-			});
-		});
-		onUnmounted(() => {
-			mittBus.off('submitRefresh');
-		});
-
-		// 查询操作
-		const handleQuery = async () => {
-			state.loading = true;
-			var res = await getAPI(SysPosApi).apiSysPosListGet(state.queryParams.name, state.queryParams.code);
-			state.posData = res.data.result ?? [];
-			state.loading = false;
-		};
-		// 重置操作
-		const resetQuery = () => {
-			state.queryParams.name = undefined;
-			state.queryParams.code = undefined;
-			handleQuery();
-		};
-		// 打开新增页面
-		const openAddPos = () => {
-			state.editPosTitle = '添加职位';
-			editPosRef.value.openDialog({ status: 1 });
-		};
-		// 打开编辑页面
-		const openEditPos = (row: any) => {
-			state.editPosTitle = '编辑职位';
-			editPosRef.value.openDialog(row);
-		};
-		// 删除
-		const delPos = (row: any) => {
-			ElMessageBox.confirm(`确定删除职位：【${row.name}】?`, '提示', {
-				confirmButtonText: '确定',
-				cancelButtonText: '取消',
-				type: 'warning',
-			})
-				.then(async () => {
-					await getAPI(SysPosApi).apiSysPosDeleteDelete({ id: row.id });
-					handleQuery();
-					ElMessage.success('删除成功');
-				})
-				.catch(() => {});
-		};
-		return {
-			editPosRef,
-			handleQuery,
-			resetQuery,
-			openAddPos,
-			openEditPos,
-			delPos,
-			...toRefs(state),
-		};
+const editPosRef = ref();
+const state = reactive({
+	loading: false,
+	posData: [] as Array<SysPos>,
+	queryParams: {
+		name: undefined,
+		code: undefined,
 	},
+	editPosTitle: '',
 });
+
+onMounted(async () => {
+	handleQuery();
+
+	mittBus.on('submitRefresh', () => {
+		handleQuery();
+	});
+});
+
+onUnmounted(() => {
+	mittBus.off('submitRefresh');
+});
+
+// 查询操作
+const handleQuery = async () => {
+	state.loading = true;
+	var res = await getAPI(SysPosApi).apiSysPosListGet(state.queryParams.name, state.queryParams.code);
+	state.posData = res.data.result ?? [];
+	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.name = undefined;
+	state.queryParams.code = undefined;
+	handleQuery();
+};
+
+// 打开新增页面
+const openAddPos = () => {
+	state.editPosTitle = '添加职位';
+	editPosRef.value.openDialog({ status: 1 });
+};
+
+// 打开编辑页面
+const openEditPos = (row: any) => {
+	state.editPosTitle = '编辑职位';
+	editPosRef.value.openDialog(row);
+};
+
+// 删除
+const delPos = (row: any) => {
+	ElMessageBox.confirm(`确定删除职位：【${row.name}】?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	})
+		.then(async () => {
+			await getAPI(SysPosApi).apiSysPosDeleteDelete({ id: row.id });
+			handleQuery();
+			ElMessage.success('删除成功');
+		})
+		.catch(() => {});
+};
 </script>
