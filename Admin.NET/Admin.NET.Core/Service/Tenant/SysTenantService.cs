@@ -58,6 +58,7 @@ public class SysTenantService : IDynamicApiController, ITransient
             .LeftJoin<SysOrg>((t, u, o) => t.OrgId == o.Id)
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), (t, u) => u.Phone.Contains(input.Phone.Trim()))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), (t, u, o) => o.Name.Contains(input.Name.Trim()))
+            .OrderBy(t => t.OrderNo)
             .Select((t, u, o) => new TenantOutput
             {
                 Id = t.Id,
