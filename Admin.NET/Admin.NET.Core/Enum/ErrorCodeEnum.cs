@@ -79,7 +79,7 @@ public enum ErrorCodeEnum
     D1010,
 
     /// <summary>
-    /// 非法数据
+    /// 非法操作，未登录
     /// </summary>
     [ErrorCodeItemMetadata("非法操作，未登录")]
     D1011,
