@@ -32,20 +32,7 @@ public class SysJobService : IDynamicApiController, ITransient
             .WhereIF(!string.IsNullOrWhiteSpace(input.Description), u => u.Description.Contains(input.Description))
             .Select(d => new JobOutput
             {
-                JobDetail = new SysJobDetail
-                {
-                    AssemblyName = d.AssemblyName,
-                    Concurrent = d.Concurrent,
-                    Description = d.Description,
-                    GroupName = d.GroupName,
-                    Id = d.Id,
-                    IncludeAnnotations = d.IncludeAnnotations,
-                    JobId = d.JobId,
-                    JobType = d.JobType,
-                    Properties = d.Properties,
-                    ScriptCode = d.ScriptCode,
-                    UpdatedTime = d.UpdatedTime
-                }
+                JobDetail = d,
             }).ToPagedListAsync(input.Page, input.PageSize);
         await _sysJobDetailRep.AsSugarClient().ThenMapperAsync(jobDetails.Items, async u =>
         {
