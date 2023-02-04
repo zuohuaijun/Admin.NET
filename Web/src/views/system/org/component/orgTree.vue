@@ -116,13 +116,8 @@ const nodeClick = (node: any) => {
 	emits('node-click', { id: node.id, name: node.name });
 };
 
-//const orgTreeData = state.orgData; // 异步数据导出不了？
-// 暴露给父组件的数据或对象
-defineExpose({
-	initTreeData,
-	setCheckedKeys,
-	getCheckedKeys,
-});
+// 导出对象
+defineExpose({ initTreeData, setCheckedKeys, getCheckedKeys });
 </script>
 
 <style lang="scss" scoped>

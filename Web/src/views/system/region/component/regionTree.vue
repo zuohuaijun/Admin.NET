@@ -118,11 +118,8 @@ const nodeClick = (node: any) => {
 	emits('node-click', { id: node.id, name: node.name });
 };
 
-// 暴露给父组件的数据或对象
-defineExpose({
-	initTreeData,
-	getCheckedKeys,
-});
+// 导出对象
+defineExpose({ initTreeData, getCheckedKeys });
 </script>
 
 <style lang="scss" scoped>

@@ -145,8 +145,6 @@ const handleCurrentChange = (val: number) => {
 	handleQuery();
 };
 
-// 暴露给父组件的数据或对象
-defineExpose({
-	openDrawer,
-});
+// 导出对象
+defineExpose({ openDrawer });
 </script>

@@ -14,7 +14,6 @@ public class SysTenantService : IDynamicApiController, ITransient
     private readonly SqlSugarRepository<SysUserExtOrg> _sysUserExtOrgRep;
     private readonly SqlSugarRepository<SysRoleMenu> _sysRoleMenuRep;
     private readonly SqlSugarRepository<SysUserRole> _userRoleRep;
-    private readonly SqlSugarRepository<SysMenu> _menuRep;
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysRoleMenuService _sysRoleMenuService;
     private readonly SysConfigService _sysConfigService;
@@ -28,7 +27,6 @@ public class SysTenantService : IDynamicApiController, ITransient
         SqlSugarRepository<SysUserExtOrg> sysUserExtOrgRep,
         SqlSugarRepository<SysRoleMenu> sysRoleMenuRep,
         SqlSugarRepository<SysUserRole> userRoleRep,
-        SqlSugarRepository<SysMenu> menuRep,
         SysUserRoleService sysUserRoleService,
         SysRoleMenuService sysRoleMenuService,
         SysConfigService sysConfigService,
@@ -42,7 +40,6 @@ public class SysTenantService : IDynamicApiController, ITransient
         _sysUserExtOrgRep = sysUserExtOrgRep;
         _sysRoleMenuRep = sysRoleMenuRep;
         _userRoleRep = userRoleRep;
-        _menuRep = menuRep;
         _sysUserRoleService = sysUserRoleService;
         _sysRoleMenuService = sysRoleMenuService;
         _sysConfigService = sysConfigService;
@@ -210,24 +207,14 @@ public class SysTenantService : IDynamicApiController, ITransient
         await _sysTenantRep.UpdateAsync(u => new SysTenant() { UserId = newUser.Id, OrgId = newOrg.Id }, u => u.Id == tenantId);
 
         // 默认租户管理员角色菜单集合
-        var menuIdList = await _menuRep.AsQueryable()
-            .Where(u =>
-                new[]
-                {
-                    "dashboard", "home", "notice", "system", "sysUser", "sysRole",
-                    "sysOrg", "sysPos", "sysUserCenter", "sysNotice"
-                }.Contains(u.Name) ||
-                new[]
-                {
-                    "sysUser:page", "sysUser:update", "sysUser:add", "sysUser:delete", "sysUser:detail", "sysUser:grantRole", "sysUser:resetPwd", "sysUser:setStatus",
-                    "sysUser:changePwd", "sysUser:forceOffline",
-                    "sysRole:page", "sysRole:update", "sysRole:add", "sysRole:delete", "sysRole:grantMenu", "sysRole:grantData", "sysRole:setStatus",
-                    "sysOrg:list", "sysOrg:update", "sysOrg:add", "sysOrg:delete",
-                    "sysPos:list", "sysPos:update", "sysPos:add", "sysPos:delete",
-                    "sysUser:changePwd", "sysUser:updateBase", "sysUser:signature",
-                    "sysNotice:page", "sysNotice:update", "sysNotice:add", "sysNotice:delete", "sysNotice:public", "sysNotice:cancel"
-                }.Contains(u.Permission))
-            .Select(u => u.Id).ToListAsync();
+        var menuIdList = new List<long> { 1300000000101,1300000000111,1300000000121, // 工作台
+            1310000000101,1310000000111,1310000000112,1310000000113,1310000000114,1310000000115,1310000000116,1310000000117,1310000000118,1310000000119,1310000000120,1310000000121, // 账号
+            1310000000131,1310000000132,1310000000133,1310000000134,1310000000135,1310000000136,1310000000137,1310000000138, // 角色
+            1310000000141,1310000000142,1310000000143,1310000000144,1310000000145, // 机构
+            1310000000151,1310000000152,1310000000153,1310000000154,1310000000155, // 职位
+            1310000000161,1310000000162,1310000000163,1310000000164, // 个人中心
+            1310000000171,1310000000172,1310000000173,1310000000174,1310000000175,1310000000176,1310000000177 // 通知公告
+        };
         await _sysRoleMenuService.GrantRoleMenu(new RoleMenuInput() { Id = newRole.Id, MenuIdList = menuIdList });
     }
 

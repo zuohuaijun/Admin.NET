@@ -61,7 +61,14 @@
 							</el-divider>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="所属机构" prop="orgId" :rules="[{ required: true, message: '所属机构不能为空', trigger: 'blur' }]">
-									<el-cascader :options="props.orgData" :props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'name' }" placeholder="所属机构" clearable class="w100" v-model="state.ruleForm.orgId">
+									<el-cascader
+										:options="props.orgData"
+										:props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'name' }"
+										placeholder="所属机构"
+										clearable
+										class="w100"
+										v-model="state.ruleForm.orgId"
+									>
 										<template #default="{ node, data }">
 											<span>{{ data.name }}</span>
 											<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
@@ -306,8 +313,6 @@ const deleteExtOrgRow = (k: number) => {
 	state.ruleForm.extOrgIdList?.splice(k, 1);
 };
 
-// 暴露给父组件的数据或对象
-defineExpose({
-	openDialog,
-});
+// 导出对象
+defineExpose({ openDialog });
 </script>

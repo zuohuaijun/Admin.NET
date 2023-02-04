@@ -76,8 +76,6 @@ const submit = async () => {
 	state.isShowDialog = false;
 };
 
-// 暴露给父组件的数据或对象
-defineExpose({
-	openDialog,
-});
+// 导出对象
+defineExpose({ openDialog });
 </script>
