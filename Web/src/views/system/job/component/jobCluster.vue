@@ -50,6 +50,8 @@ const openDrawer = () => {
 	state.isVisible = true;
 };
 
-// 导出
-defineExpose({ openDrawer });
+// 暴露给父组件的数据或对象
+defineExpose({
+	openDrawer,
+});
 </script>

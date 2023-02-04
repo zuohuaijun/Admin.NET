@@ -171,4 +171,9 @@ const submit = () => {
 const crontabFill = (value: string | null | undefined) => {
 	state.ruleForm.args = value;
 };
+
+// 暴露给父组件的数据或对象
+defineExpose({
+	openDialog,
+});
 </script>

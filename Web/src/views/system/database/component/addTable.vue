@@ -281,4 +281,9 @@ function ChangeExForArray(index1: number, index2: number, array: Array<EditRecor
 	array[index2] = temp;
 	return array;
 }
+
+// 暴露给父组件的数据或对象
+defineExpose({
+	openDialog,
+});
 </script>
