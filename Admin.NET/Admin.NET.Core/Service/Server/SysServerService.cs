@@ -1,5 +1,6 @@
 ﻿using AngleSharp.Html.Parser;
 using AspNetCoreRateLimit;
+using FluentEmail.Core;
 using Lazy.Captcha.Core;
 using Magicodes.ExporterAndImporter.Excel;
 using Magicodes.ExporterAndImporter.Pdf;
@@ -95,6 +96,7 @@ public class SysServerService : IDynamicApiController, ITransient
         var nestAssembly = typeof(IElasticClient).Assembly.GetName();
         var limitAssembly = typeof(IpRateLimitMiddleware).Assembly.GetName();
         var htmlParserAssembly = typeof(HtmlParser).Assembly.GetName();
+        var fluentEmailAssembly = typeof(IFluentEmail).Assembly.GetName();
 
         return new[]
         {
@@ -113,6 +115,7 @@ public class SysServerService : IDynamicApiController, ITransient
             new { nestAssembly.Name, nestAssembly.Version },
             new { limitAssembly.Name, limitAssembly.Version },
             new { htmlParserAssembly.Name, htmlParserAssembly.Version },
+            new { fluentEmailAssembly.Name, fluentEmailAssembly.Version },
         };
     }
 }

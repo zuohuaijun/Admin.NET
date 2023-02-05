@@ -10,12 +10,14 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NETCore.MailKit.Extensions;
+using NewLife.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
 using System;
 using System.IO;
+using System.Net;
+using System.Net.Mail;
 using Yitter.IdGenerator;
 
 namespace Admin.NET.Web.Core;
@@ -58,28 +60,28 @@ public class Startup : AppStartup
         });
 
         services.AddControllersWithViews()
-            .AddAppLocalization()
-            .AddNewtonsoftJson(options =>
-            {
-                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 首字母小写（驼峰样式）
-                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
-                // options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
-                // options.SerializerSettings.DateParseHandling = DateParseHandling.None;
-                // options.SerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
-                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
-                // options.SerializerSettings.Converters.Add(new LongJsonConverter()); // long转string（防止js精度溢出） 超过16位开启
-                // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
-            })
-            .AddInjectWithUnifyResult<AdminResultProvider>();
+                .AddAppLocalization()
+                .AddNewtonsoftJson(options =>
+                {
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 首字母小写（驼峰样式）
+                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
+                    // options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
+                    // options.SerializerSettings.DateParseHandling = DateParseHandling.None;
+                    // options.SerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
+                    // options.SerializerSettings.Converters.Add(new LongJsonConverter()); // long转string（防止js精度溢出） 超过16位开启
+                    // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
+                })
+                .AddInjectWithUnifyResult<AdminResultProvider>();
 
         // 第三方授权登录
         services.AddAuthentication()
-            .AddWeixin(options =>
-            {
-                var opt = App.GetOptions<OAuthOptions>();
-                options.ClientId = opt.Weixin.ClientId;
-                options.ClientSecret = opt.Weixin.ClientSecret;
-            });
+                .AddWeixin(options =>
+                {
+                    var opt = App.GetOptions<OAuthOptions>();
+                    options.ClientId = opt.Weixin.ClientId;
+                    options.ClientSecret = opt.Weixin.ClientSecret;
+                });
 
         // ElasticSearch
         services.AddElasticSearch();
@@ -128,10 +130,14 @@ public class Startup : AppStartup
         });
 
         // 电子邮件
-        services.AddMailKit(options =>
-        {
-            options.UseMailKit(App.GetOptions<EmailOptions>());
-        });
+        var emailOpt = App.GetOptions<EmailOptions>();
+        services.AddFluentEmail(emailOpt.DefaultFromEmail, emailOpt.DefaultFromName)
+                .AddSmtpSender(new SmtpClient(emailOpt.Host, emailOpt.Port)
+                {
+                    EnableSsl = emailOpt.EnableSsl,
+                    UseDefaultCredentials = emailOpt.UseDefaultCredentials,
+                    Credentials = new NetworkCredential(emailOpt.UserName, emailOpt.Password)
+                });
 
         // 模板引擎
         services.AddViewEngine();

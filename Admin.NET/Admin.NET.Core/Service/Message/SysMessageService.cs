@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using NETCore.MailKit.Core;
+﻿using FluentEmail.Core;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Admin.NET.Core.Service;
 
@@ -11,17 +11,17 @@ public class SysMessageService : IDynamicApiController, ITransient
 {
     private readonly SysCacheService _sysCacheService;
     private readonly EmailOptions _emailOptions;
-    private readonly IEmailService _emailService;
+    private readonly IFluentEmail _fluentEmail;
     private readonly IHubContext<OnlineUserHub, IOnlineUserHub> _chatHubContext;
 
     public SysMessageService(SysCacheService sysCacheService,
         IOptions<EmailOptions> emailOptions,
-        IEmailService emailService,
+        IFluentEmail fluentEmail,
         IHubContext<OnlineUserHub, IOnlineUserHub> chatHubContext)
     {
         _sysCacheService = sysCacheService;
         _emailOptions = emailOptions.Value;
-        _emailService = emailService;
+        _fluentEmail = fluentEmail;
         _chatHubContext = chatHubContext;
     }
 
@@ -94,12 +94,6 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// <returns></returns>
     public async Task SendEmail(string message)
     {
-        //// 设置发送人邮件地址和名称
-        //var sendInfo = new SenderInfo
-        //{
-        //    SenderEmail = _emailOptions.SenderEmail,
-        //    SenderName = _emailOptions.SenderName,
-        //};
-        await _emailService.SendAsync(_emailOptions.ToEmail, _emailOptions.SenderName, message);
+        await _fluentEmail.To(_emailOptions.DefaultToEmail).Body(message).SendAsync();
     }
 }

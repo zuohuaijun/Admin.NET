@@ -2,13 +2,14 @@
     "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
 
     "Email": {
-        "Server": "smtp.163.com", // 主机
-        "Port": 465, // 端口 465/994 25
-        "SenderName": "系统邮件", // 发送者名称
-        "SenderEmail": "zuohuaijun@163.com", // 发件者邮箱
-        "ToEmail": "515096995@qq.com", // 接收人邮箱
-        "Account": "", // 发件邮箱账号
-        "Password": "", // 发件邮箱密码
-        "Security": true // 启用SSL和TLS
+        "Host": "smtp.163.com", // 主机
+        "Port": 465, // 端口 465、994、25
+        "DefaultFromEmail": "zuohuaijun@163.com", // 默认发件者邮箱
+        "DefaultToEmail": "515096995@qq.com", // 默认接收人邮箱
+        "EnableSsl": true, // 启用SSL
+        "UseDefaultCredentials": false, //是否使用默认凭据
+        "UserName": "", // 邮箱账号
+        "Password": "", // 邮箱密码
+        "DefaultFromName": "系统邮件" // 默认邮件标题
     }
 }

@@ -3683,9 +3683,49 @@
             邮件配置选项
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.EmailOptions.ToEmail">
+        <member name="P:Admin.NET.Core.EmailOptions.Host">
             <summary>
-            接收人邮箱
+            主机
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EmailOptions.Port">
+            <summary>
+            端口
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EmailOptions.DefaultFromEmail">
+            <summary>
+            默认发件者邮箱
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EmailOptions.DefaultToEmail">
+            <summary>
+            默认接收人邮箱
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EmailOptions.EnableSsl">
+            <summary>
+            启用SSL
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EmailOptions.UseDefaultCredentials">
+            <summary>
+            是否使用默认凭据
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EmailOptions.UserName">
+            <summary>
+            邮箱账号
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EmailOptions.Password">
+            <summary>
+            邮箱密码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EmailOptions.DefaultFromName">
+            <summary>
+            默认邮件标题
             </summary>
         </member>
         <member name="T:Admin.NET.Core.OAuthOptions">
