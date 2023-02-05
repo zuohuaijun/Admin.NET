@@ -15,10 +15,10 @@ public class SysUser : EntityTenant
     public virtual string Account { get; set; }
 
     /// <summary>
-    /// 密码（MD5加密）
+    /// 密码
     /// </summary>
-    [SugarColumn(ColumnDescription = "密码", Length = 64)]
-    [Required, MaxLength(64)]
+    [SugarColumn(ColumnDescription = "密码", Length = 256)]
+    [Required, MaxLength(256)]
     [System.Text.Json.Serialization.JsonIgnore]
     [JsonIgnore]
     public virtual string Password { get; set; } = "e10adc3949ba59abbe56e057f20f883e";

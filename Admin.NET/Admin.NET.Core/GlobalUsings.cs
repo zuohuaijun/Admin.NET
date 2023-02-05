@@ -1,5 +1,4 @@
 ﻿global using Admin.NET.Core.Service;
-global using Admin.NET.Core.Util;
 global using Furion;
 global using Furion.ConfigurableOptions;
 global using Furion.DatabaseAccessor;

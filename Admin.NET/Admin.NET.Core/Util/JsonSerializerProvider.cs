@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Util;
+﻿namespace Admin.NET.Core;
 
 /// <summary>
 /// Newtonsoft.Json 实现

@@ -1,6 +1,6 @@
 ﻿using DbType = SqlSugar.DbType;
 
-namespace Admin.NET.Core.Util;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 代码生成帮助类

@@ -1619,7 +1619,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysUser.Password">
             <summary>
-            密码（MD5加密）
+            密码
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysUser.RealName">
@@ -3651,6 +3651,26 @@
         <member name="P:Admin.NET.Core.CodeGenOptions.BackendApplicationNamespace">
             <summary>
             后端生成到的项目
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.CryptoOptions">
+            <summary>
+            密码配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CryptoOptions.CryptoType">
+            <summary>
+            密码类型
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CryptoOptions.PublicKey">
+            <summary>
+            公钥
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.CryptoOptions.PrivateKey">
+            <summary>
+            私钥
             </summary>
         </member>
         <member name="T:Admin.NET.Core.DbConnectionOptions">
@@ -7462,12 +7482,12 @@
             降序排序
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Util.CodeGenUtil">
+        <member name="T:Admin.NET.Core.CodeGenUtil">
             <summary>
             代码生成帮助类
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Util.CodeGenUtil.CamelColumnName(System.String,System.String[])">
+        <member name="M:Admin.NET.Core.CodeGenUtil.CamelColumnName(System.String,System.String[])">
             <summary>
             转换大驼峰法命名
             </summary>
@@ -7475,39 +7495,11 @@
             <param name="dbColumnNames">EntityBase 实体属性名称</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Util.CodeGenUtil.DataTypeToEff(System.String)">
+        <member name="M:Admin.NET.Core.CodeGenUtil.DataTypeToEff(System.String)">
             <summary>
             数据类型转显示类型
             </summary>
             <param name="dataType"></param>
-            <returns></returns>
-        </member>
-        <member name="T:Admin.NET.Core.Util.JsonSerializerProvider">
-            <summary>
-            Newtonsoft.Json 实现
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Util.JsonSerializerProvider.Serialize(System.Object,System.Object)">
-            <summary>
-            序列化对象
-            </summary>
-            <param name="value"></param>
-            <param name="jsonSerializerOptions"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Util.JsonSerializerProvider.Deserialize``1(System.String,System.Object)">
-            <summary>
-            反序列化字符串
-            </summary>
-            <typeparam name="T"></typeparam>
-            <param name="json"></param>
-            <param name="jsonSerializerOptions"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Util.JsonSerializerProvider.GetSerializerOptions">
-            <summary>
-            返回读取全局配置的 JSON 选项
-            </summary>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.CommonUtil">
@@ -7727,6 +7719,34 @@
             <param name="daytime"></param>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.JsonSerializerProvider">
+            <summary>
+            Newtonsoft.Json 实现
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.JsonSerializerProvider.Serialize(System.Object,System.Object)">
+            <summary>
+            序列化对象
+            </summary>
+            <param name="value"></param>
+            <param name="jsonSerializerOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.JsonSerializerProvider.Deserialize``1(System.String,System.Object)">
+            <summary>
+            反序列化字符串
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="json"></param>
+            <param name="jsonSerializerOptions"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.JsonSerializerProvider.GetSerializerOptions">
+            <summary>
+            返回读取全局配置的 JSON 选项
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.LongJsonConverter">
             <summary>
             序列化时long转string（防止js精度溢出）
@@ -7743,6 +7763,135 @@
             </summary>
             <param name="field"></param>
             <typeparam name="T"></typeparam>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.ByteUtil">
+            <summary>
+            字节数组操作扩展类
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SM2Util">
+            <summary>
+            SM2工具类
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SM2Util.Encrypt(System.String,System.String)">
+            <summary>
+            加密
+            </summary>
+            <param name="publicKey_string"></param>
+            <param name="data_string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.SM2Util.Decrypt(System.String,System.String)">
+            <summary>
+            解密
+            </summary>
+            <param name="privateKey_string"></param>
+            <param name="encryptedData_string"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.SM2Util.加密(System.String)">
+            <summary>
+            SM2加密
+            </summary>
+            <param name="plainText">明文</param>
+            <returns>密文</returns>
+        </member>
+        <member name="M:Admin.NET.Core.SM2Util.解密(System.String)">
+            <summary>
+            SM2解密
+            </summary>
+            <param name="cipherText">密文</param>
+            <returns>明文</returns>
+        </member>
+        <member name="M:Admin.NET.Core.SupportClass.URShift(System.Int32,System.Int32)">
+            <summary>
+            Performs an unsigned bitwise right shift with the specified number
+            </summary>
+            <param name="number">Number to operate on</param>
+            <param name="bits">Ammount of bits to shift</param>
+            <returns>The resulting number from the shift operation</returns>
+        </member>
+        <member name="M:Admin.NET.Core.SupportClass.URShift(System.Int32,System.Int64)">
+            <summary>
+            Performs an unsigned bitwise right shift with the specified number
+            </summary>
+            <param name="number">Number to operate on</param>
+            <param name="bits">Ammount of bits to shift</param>
+            <returns>The resulting number from the shift operation</returns>
+        </member>
+        <member name="M:Admin.NET.Core.SupportClass.URShift(System.Int64,System.Int32)">
+            <summary>
+            Performs an unsigned bitwise right shift with the specified number
+            </summary>
+            <param name="number">Number to operate on</param>
+            <param name="bits">Ammount of bits to shift</param>
+            <returns>The resulting number from the shift operation</returns>
+        </member>
+        <member name="M:Admin.NET.Core.SupportClass.URShift(System.Int64,System.Int64)">
+            <summary>
+            Performs an unsigned bitwise right shift with the specified number
+            </summary>
+            <param name="number">Number to operate on</param>
+            <param name="bits">Ammount of bits to shift</param>
+            <returns>The resulting number from the shift operation</returns>
+        </member>
+        <member name="T:Admin.NET.Core.SM3Util">
+            <summary>
+            SM3工具类
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SM4Util">
+            <summary>
+            SM4工具类
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.SMUtil">
+            <summary>
+            SM工具类
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.SMUtil.SM2Encrypt(System.String)">
+            <summary>
+            SM2加密
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.SMUtil.SM2Decrypt(System.String)">
+            <summary>
+            SM2解密
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.SMUtil.SM4EncryptECB(System.String)">
+            <summary>
+            SM4加密（ECB）
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.SMUtil.SM4DecryptECB(System.String)">
+            <summary>
+            SM4解密（ECB）
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.SMUtil.SM4EncryptCBC(System.String)">
+            <summary>
+            SM4加密（CBC）
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.SMUtil.SM4DecryptCBC(System.String)">
+            <summary>
+            SM4解密（CBC）
+            </summary>
+            <param name="cipherText"></param>
             <returns></returns>
         </member>
     </members>

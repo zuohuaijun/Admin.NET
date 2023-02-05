@@ -28,5 +28,10 @@
     "CorsAccessorSettings": {
         "WithExposedHeaders": [ "Content-Disposition", "X-Pagination", "access-token", "x-access-token" ], // 如果前端不代理且是axios请求
         "SignalRSupport": true // 启用 SignalR 跨域支持
+    },
+    "Crypto": {
+        "CryptoType": "MD5", // 密码加密算法 MD5、SM
+        "PublicKey": "04F6E0C3345AE42B51E06BF50B98834988D54EBC7460FE135A48171BC0629EAE205EEDE253A530608178A98F1E19BB737302813BA39ED3FA3C51639D7A20C7391A", // 公钥
+        "PrivateKey": "3690655E33D5EA3D9A4AE1A1ADD766FDEA045CDEAA43A9206FB8C430CEFE0D94" // 私钥
     }
 }
