@@ -53,7 +53,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file"></param>
     /// <param name="path"></param>
     /// <returns></returns>
-    public async Task<FileOutput> UploadFile([Required] IFormFile file, string path = "")
+    public async Task<FileOutput> UploadFile([Required] IFormFile file, [FromQuery] string? path)
     {
         var sysFile = await HandleUploadFile(file, path);
         return new FileOutput
@@ -76,7 +76,7 @@ public class SysFileService : IDynamicApiController, ITransient
         var filelist = new List<FileOutput>();
         foreach (var file in files)
         {
-            filelist.Add(await UploadFile(file));
+            filelist.Add(await UploadFile(file, ""));
         }
         return filelist;
     }
@@ -147,7 +147,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file">文件</param>
     /// <param name="savePath">路径</param>
     /// <returns></returns>
-    private async Task<SysFile> HandleUploadFile(IFormFile file, string savePath = "")
+    private async Task<SysFile> HandleUploadFile(IFormFile file, string savePath)
     {
         if (file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
 

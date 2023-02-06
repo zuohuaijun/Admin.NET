@@ -174,7 +174,7 @@ const handleChange = (file: any, fileList: []) => {
 // 上传
 const uploadFile = async () => {
 	if (state.fileList.length < 1) return;
-	await getAPI(SysFileApi).apiSysFileUploadFilePathPostForm(state.fileList[0].raw);
+	await getAPI(SysFileApi).apiSysFileUploadFilePostForm(state.fileList[0].raw);
 	handleQuery();
 	ElMessage.success('上传成功');
 	state.dialogVisible = false;
