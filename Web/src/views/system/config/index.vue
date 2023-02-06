@@ -9,7 +9,7 @@
 					<el-input placeholder="配置编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
 				</el-form-item>
 				<el-form-item label="分组编码" prop="groupCode">
-					<el-input placeholder="分组编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
+					<el-input placeholder="分组编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.groupCode" />
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
