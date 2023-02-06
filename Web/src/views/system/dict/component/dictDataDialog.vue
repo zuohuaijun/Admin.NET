@@ -136,7 +136,7 @@ const openEditDictData = (row: any) => {
 
 // 删除
 const delDictData = (row: any) => {
-	ElMessageBox.confirm(`确定删除字典值：【${row.name}】?`, '提示', {
+	ElMessageBox.confirm(`确定删除字典值：【${row.value}】?`, '提示', {
 		confirmButtonText: '确定',
 		cancelButtonText: '取消',
 		type: 'warning',
