@@ -17,11 +17,11 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 密码
     /// </summary>
-    [SugarColumn(ColumnDescription = "密码", Length = 256)]
-    [Required, MaxLength(256)]
+    [SugarColumn(ColumnDescription = "密码", Length = 512)]
+    [Required, MaxLength(512)]
     [System.Text.Json.Serialization.JsonIgnore]
     [JsonIgnore]
-    public virtual string Password { get; set; } = "e10adc3949ba59abbe56e057f20f883e";
+    public virtual string Password { get; set; }
 
     /// <summary>
     /// 真实姓名

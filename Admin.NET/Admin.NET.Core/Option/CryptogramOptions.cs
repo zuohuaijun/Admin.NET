@@ -3,7 +3,7 @@
 /// <summary>
 /// 密码配置选项
 /// </summary>
-public sealed class CryptoOptions : IConfigurableOptions
+public sealed class CryptogramOptions : IConfigurableOptions
 {
     /// <summary>
     /// 密码类型

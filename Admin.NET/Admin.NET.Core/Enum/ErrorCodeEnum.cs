@@ -10,12 +10,18 @@ public enum ErrorCodeEnum
     /// 验证码错误
     /// </summary>
     [ErrorCodeItemMetadata("验证码错误")]
+    D0008,
+
+    /// <summary>
+    /// 账号不存在
+    /// </summary>
+    [ErrorCodeItemMetadata("账号不存在")]
     D0009,
 
     /// <summary>
-    /// 用户名或密码不正确
+    /// 密码不正确
     /// </summary>
-    [ErrorCodeItemMetadata("用户名或密码不正确")]
+    [ErrorCodeItemMetadata("密码不正确")]
     D1000,
 
     /// <summary>

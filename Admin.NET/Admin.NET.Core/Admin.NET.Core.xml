@@ -2152,6 +2152,21 @@
             外国人居留证
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.CryptogramEnum">
+            <summary>
+            密码加密枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CryptogramEnum.MD5">
+            <summary>
+            MD5
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.CryptogramEnum.SM2">
+            <summary>
+            SM2（国密）
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.CultureLevelEnum">
             <summary>
             文化程度枚举
@@ -2302,14 +2317,19 @@
             系统错误码
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.ErrorCodeEnum.D0009">
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D0008">
             <summary>
             验证码错误
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D0009">
+            <summary>
+            账号不存在
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.D1000">
             <summary>
-            用户名或密码不正确
+            密码不正确
             </summary>
         </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.D1001">
@@ -3653,22 +3673,22 @@
             后端生成到的项目
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.CryptoOptions">
+        <member name="T:Admin.NET.Core.CryptogramOptions">
             <summary>
             密码配置选项
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.CryptoOptions.CryptoType">
+        <member name="P:Admin.NET.Core.CryptogramOptions.CryptoType">
             <summary>
             密码类型
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.CryptoOptions.PublicKey">
+        <member name="P:Admin.NET.Core.CryptogramOptions.PublicKey">
             <summary>
             公钥
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.CryptoOptions.PrivateKey">
+        <member name="P:Admin.NET.Core.CryptogramOptions.PrivateKey">
             <summary>
             私钥
             </summary>
@@ -7636,6 +7656,62 @@
             <param name="args"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.CryptogramUtil.Encrypt(System.String)">
+            <summary>
+            加密
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.CryptogramUtil.Decrypt(System.String)">
+            <summary>
+            解密
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.CryptogramUtil.SM2Encrypt(System.String)">
+            <summary>
+            SM2加密
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.CryptogramUtil.SM2Decrypt(System.String)">
+            <summary>
+            SM2解密
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.CryptogramUtil.SM4EncryptECB(System.String)">
+            <summary>
+            SM4加密（ECB）
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.CryptogramUtil.SM4DecryptECB(System.String)">
+            <summary>
+            SM4解密（ECB）
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.CryptogramUtil.SM4EncryptCBC(System.String)">
+            <summary>
+            SM4加密（CBC）
+            </summary>
+            <param name="plainText"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.CryptogramUtil.SM4DecryptCBC(System.String)">
+            <summary>
+            SM4解密（CBC）
+            </summary>
+            <param name="cipherText"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.DateTimeUtil.GetBeginTime(System.Nullable{System.DateTime},System.Int32)">
             <summary>
             获取开始时间
@@ -7851,48 +7927,6 @@
             <summary>
             SM工具类
             </summary>
-        </member>
-        <member name="M:Admin.NET.Core.SMUtil.SM2Encrypt(System.String)">
-            <summary>
-            SM2加密
-            </summary>
-            <param name="plainText"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.SMUtil.SM2Decrypt(System.String)">
-            <summary>
-            SM2解密
-            </summary>
-            <param name="cipherText"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.SMUtil.SM4EncryptECB(System.String)">
-            <summary>
-            SM4加密（ECB）
-            </summary>
-            <param name="plainText"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.SMUtil.SM4DecryptECB(System.String)">
-            <summary>
-            SM4解密（ECB）
-            </summary>
-            <param name="cipherText"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.SMUtil.SM4EncryptCBC(System.String)">
-            <summary>
-            SM4加密（CBC）
-            </summary>
-            <param name="plainText"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.SMUtil.SM4DecryptCBC(System.String)">
-            <summary>
-            SM4解密（CBC）
-            </summary>
-            <param name="cipherText"></param>
-            <returns></returns>
         </member>
     </members>
 </doc>

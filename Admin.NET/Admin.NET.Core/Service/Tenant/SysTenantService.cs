@@ -183,7 +183,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         {
             TenantId = tenantId,
             Account = tenant.AdminName,
-            Password = MD5Encryption.Encrypt(password),
+            Password = CryptogramUtil.Encrypt(password),
             NickName = tenant.AdminName,
             Email = tenant.Email,
             Phone = tenant.Phone,
@@ -315,7 +315,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     public async Task ResetPwd(TenantUserInput input)
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
-        var encryptPassword = MD5Encryption.Encrypt(password);
+        var encryptPassword = CryptogramUtil.Encrypt(password);
         await _sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Password = encryptPassword }, u => u.Id == input.UserId);
     }
 

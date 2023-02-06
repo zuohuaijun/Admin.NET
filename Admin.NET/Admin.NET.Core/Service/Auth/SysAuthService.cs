@@ -62,24 +62,33 @@ public class SysAuthService : IDynamicApiController, ITransient
         {
             // 判断验证码
             if (!_captcha.Validate(input.CodeId.ToString(), input.Code))
-                throw Oops.Oh(ErrorCodeEnum.D0009);
+                throw Oops.Oh(ErrorCodeEnum.D0008);
         }
 
-        var encryptPasswod = MD5Encryption.Encrypt(input.Password);
+        // 账号是否存在
+        var user = await _sysUserRep.AsQueryable().Filter(null, true).FirstAsync(u => u.Account.Equals(input.Account));
+        _ = user ?? throw Oops.Oh(ErrorCodeEnum.D0009);
 
-        // 判断用户名密码
-        var user = await _sysUserRep.AsQueryable().Filter(null, true)
-            .FirstAsync(u => u.Account.Equals(input.Account) && u.Password.Equals(encryptPasswod));
-        _ = user ?? throw Oops.Oh(ErrorCodeEnum.D1000);
+        // 账号是否被冻结
+        if (user.Status == StatusEnum.Disable)
+            throw Oops.Oh(ErrorCodeEnum.D1017);
 
         // 租户是否被禁用
         var tenant = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysTenant>>().GetFirstAsync(u => u.Id == user.TenantId);
         if (tenant.Status == StatusEnum.Disable)
             throw Oops.Oh(ErrorCodeEnum.Z1003);
 
-        // 账号是否被冻结
-        if (user.Status == StatusEnum.Disable)
-            throw Oops.Oh(ErrorCodeEnum.D1017);
+        // 密码是否正确
+        if (CryptogramUtil.CryptoType == CryptogramEnum.MD5.ToString())
+        {
+            if (user.Password != MD5Encryption.Encrypt(input.Password))
+                throw Oops.Oh(ErrorCodeEnum.D1000);
+        }
+        else
+        {
+            if (CryptogramUtil.Decrypt(user.Password) != input.Password)
+                throw Oops.Oh(ErrorCodeEnum.D1000);
+        }
 
         // 单用户登录
         await _sysOnlineUserService.SignleLogin(user.Id);

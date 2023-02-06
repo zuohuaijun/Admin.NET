@@ -64,7 +64,7 @@ public class SysUserService : IDynamicApiController, ITransient
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
 
         var user = input.Adapt<SysUser>();
-        user.Password = MD5Encryption.Encrypt(password);
+        user.Password = CryptogramUtil.Encrypt(password);
         var newUser = await _sysUserRep.AsInsertable(user).ExecuteReturnEntityAsync();
         input.Id = newUser.Id;
         await UpdateRoleAndExtOrg(input);
@@ -185,9 +185,18 @@ public class SysUserService : IDynamicApiController, ITransient
     public async Task<int> ChangePwd(ChangePwdInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
-        if (MD5Encryption.Encrypt(input.PasswordOld) != user.Password)
-            throw Oops.Oh(ErrorCodeEnum.D1004);
-        user.Password = MD5Encryption.Encrypt(input.PasswordNew);
+        if (CryptogramUtil.CryptoType == CryptogramEnum.MD5.ToString())
+        {
+            if (user.Password != MD5Encryption.Encrypt(input.PasswordOld))
+                throw Oops.Oh(ErrorCodeEnum.D1004);
+        }
+        else
+        {
+            if (CryptogramUtil.Decrypt(user.Password) != input.PasswordOld)
+                throw Oops.Oh(ErrorCodeEnum.D1004);
+        }
+
+        user.Password = CryptogramUtil.Encrypt(input.PasswordNew);
         return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
     }
 
@@ -201,7 +210,7 @@ public class SysUserService : IDynamicApiController, ITransient
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
 
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
-        user.Password = MD5Encryption.Encrypt(password);
+        user.Password = CryptogramUtil.Encrypt(password);
         return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
     }
 

@@ -26,6 +26,7 @@ public static class ProjectOptions
         services.AddConfigurableOptions<CodeGenOptions>();
         services.AddConfigurableOptions<EmailOptions>();
         services.AddConfigurableOptions<OAuthOptions>();
+        services.AddConfigurableOptions<CryptogramOptions>();
         //services.AddConfigurableOptions<IpRateLimitingOptions>();
         //services.AddConfigurableOptions<IpRateLimitPoliciesOptions>();
         //services.AddConfigurableOptions<ClientRateLimitingOptions>();
