@@ -21,6 +21,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysConfig>> GetPage([FromQuery] PageConfigInput input)
     {
         return await _sysConfigRep.AsQueryable()
@@ -34,6 +35,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// 获取参数配置列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "List")]
     public async Task<List<SysConfig>> GetList()
     {
         return await _sysConfigRep.GetListAsync();
@@ -73,16 +75,6 @@ public class SysConfigService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取参数配置详情
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public async Task<SysConfig> GetDetail([FromQuery] ConfigInput input)
-    {
-        return await _sysConfigRep.GetFirstAsync(u => u.Id == input.Id);
-    }
-
-    /// <summary>
     /// 删除参数配置
     /// </summary>
     /// <param name="input"></param>
@@ -100,11 +92,22 @@ public class SysConfigService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取参数配置详情
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Detail")]
+    public async Task<SysConfig> GetDetail([FromQuery] ConfigInput input)
+    {
+        return await _sysConfigRep.GetFirstAsync(u => u.Id == input.Id);
+    }
+
+    /// <summary>
     /// 获取参数配置值
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public async Task<T> GetConfigValue<T>(string code)
     {
         var value = _sysCacheService.Get<string>(code);

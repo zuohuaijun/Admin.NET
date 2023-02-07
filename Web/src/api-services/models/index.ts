@@ -191,7 +191,6 @@ export * from './tenant-input';
 export * from './tenant-output';
 export * from './tenant-type-enum';
 export * from './tenant-user-input';
-export * from './time-span';
 export * from './trigger-status';
 export * from './update-code-gen-input';
 export * from './update-config-input';

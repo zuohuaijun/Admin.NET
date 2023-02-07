@@ -272,7 +272,7 @@ const openDialog = async (row: any) => {
 	if (JSON.stringify(row) !== '{}') {
 		var resRole = await getAPI(SysUserApi).apiSysUserOwnRoleListUserIdGet(row.id);
 		state.ruleForm.roleIdList = resRole.data.result;
-		var resExtOrg = await getAPI(SysUserApi).apiSysUserExtOrgListUserIdGet(row.id);
+		var resExtOrg = await getAPI(SysUserApi).apiSysUserOwnExtOrgListUserIdGet(row.id);
 		state.ruleForm.extOrgIdList = resExtOrg.data.result;
 		state.isShowDialog = true;
 	} else state.isShowDialog = true;

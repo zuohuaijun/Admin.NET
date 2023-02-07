@@ -31,6 +31,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysCodeGen>> GetPage([FromQuery] CodeGenInput input)
     {
         return await _db.Queryable<SysCodeGen>()
@@ -58,27 +59,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 删除代码生成
-    /// </summary>
-    /// <param name="inputs"></param>
-    /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
-    public async Task DeleteCodeGen(List<DeleteCodeGenInput> inputs)
-    {
-        if (inputs == null || inputs.Count < 1) return;
-
-        var codeGenConfigTaskList = new List<Task>();
-        inputs.ForEach(u =>
-        {
-            _db.Deleteable<SysCodeGen>().In(u.Id).ExecuteCommand();
-
-            // 删除配置表中
-            codeGenConfigTaskList.Add(_codeGenConfigService.Delete(u.Id));
-        });
-        await Task.WhenAll(codeGenConfigTaskList);
-    }
-
-    /// <summary>
     /// 更新代码生成
     /// </summary>
     /// <param name="input"></param>
@@ -94,10 +74,32 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 删除代码生成
+    /// </summary>
+    /// <param name="inputs"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Delete")]
+    public async Task DeleteCodeGen(List<DeleteCodeGenInput> inputs)
+    {
+        if (inputs == null || inputs.Count < 1) return;
+
+        var codeGenConfigTaskList = new List<Task>();
+        inputs.ForEach(u =>
+        {
+            _db.Deleteable<SysCodeGen>().In(u.Id).ExecuteCommand();
+
+            // 删除配置表中
+            codeGenConfigTaskList.Add(_codeGenConfigService.DeleteCodeGenConfig(u.Id));
+        });
+        await Task.WhenAll(codeGenConfigTaskList);
+    }
+
+    /// <summary>
     /// 获取代码生成详情
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Detail")]
     public async Task<SysCodeGen> GetDetail([FromQuery] QueryCodeGenInput input)
     {
         return await _db.Queryable<SysCodeGen>().SingleAsync(m => m.Id == input.Id);
@@ -107,6 +109,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取数据库库集合
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "DatabaseList")]
     public async Task<List<DatabaseOutput>> GetDatabaseList()
     {
         var dbCongigs = App.GetOptions<DbConnectionOptions>().ConnectionConfigs;
@@ -117,6 +120,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取数据库表(实体)集合
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "TableList")]
     public async Task<List<TableOutput>> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
         var provider = _db.AsTenant().GetConnectionScope(configId);
@@ -139,7 +143,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 根据表名获取列集合
     /// </summary>
     /// <returns></returns>
-    public List<ColumnOuput> GetColumnListByTableName(string tableName, string configId = SqlSugarConst.ConfigId)
+    [ApiDescriptionSettings(Name = "ColumnListByTableName")]
+    public List<ColumnOuput> GetColumnListByTableName([Required] string tableName, string configId = SqlSugarConst.ConfigId)
     {
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(configId);
@@ -189,6 +194,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 代码生成到本地
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "RunLocal")]
     public async Task RunLocal(SysCodeGen input)
     {
         // 先删除该表已生成的菜单列表

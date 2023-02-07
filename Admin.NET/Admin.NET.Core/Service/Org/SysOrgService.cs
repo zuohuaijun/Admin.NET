@@ -32,6 +32,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// 获取机构列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "List")]
     public async Task<List<SysOrg>> GetList([FromQuery] OrgInput input)
     {
         var orgIdList = await GetUserOrgIdList();
@@ -169,7 +170,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// 根据用户Id获取机构Id集合
     /// </summary>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public async Task<List<long>> GetUserOrgIdList()
     {
         if (_userManager.SuperAdmin)
@@ -274,7 +275,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="pid"></param>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public async Task<List<long>> GetChildIdListWithSelfById(long pid)
     {
         var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, pid, true);

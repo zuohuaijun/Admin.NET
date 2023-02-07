@@ -31,6 +31,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysNotice>> GetPage([FromQuery] PageNoticeInput input)
     {
         return await _sysNoticeRep.AsQueryable()
@@ -87,7 +88,8 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task Public(NoticeInput input)
+    [ApiDescriptionSettings(Name = "Public")]
+    public async Task PublicNotice(NoticeInput input)
     {
         // 更新发布状态和时间
         await _sysNoticeRep.UpdateAsync(u => new SysNotice() { Status = NoticeStatusEnum.PUBLIC, PublicTime = DateTime.Now }, u => u.Id == input.Id);
@@ -114,6 +116,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "SetRead")]
     public async Task SetRead(NoticeInput input)
     {
         await _sysNoticeUserRep.UpdateAsync(u => new SysNoticeUser
@@ -128,6 +131,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "PageReceived")]
     public async Task<SqlSugarPagedList<SysNoticeUser>> GetPageReceived([FromQuery] PageNoticeInput input)
     {
         return await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
@@ -142,6 +146,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// 获取未读的通知公告（当前用户）
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "UnReadList")]
     public async Task<List<SysNotice>> GetUnReadList()
     {
         var noticeUserList = await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
@@ -154,7 +159,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// 初始化通知公告信息
     /// </summary>
     /// <param name="notice"></param>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     private void InitNoticeInfo(SysNotice notice)
     {
         notice.PublicUserId = _userManager.UserId;

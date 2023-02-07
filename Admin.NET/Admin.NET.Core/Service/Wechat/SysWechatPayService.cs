@@ -44,6 +44,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "GenerateParametersForJsapiPay")]
     public dynamic GenerateParametersForJsapiPay(WechatPayParaInput input)
     {
         return WechatTenpayClient.GenerateParametersForJsapiPayRequest(_wechatPayOptions.AppId, input.PrepayId);
@@ -52,6 +53,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// <summary>
     /// 微信支付统一下单获取Id(商户直连)
     /// </summary>
+    [ApiDescriptionSettings(Name = "CreatePayTransaction")]
     public async Task<dynamic> CreatePayTransaction([FromBody] WechatPayTransactionInput input)
     {
         var request = new CreatePayTransactionJsapiRequest()
@@ -93,6 +95,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// <summary>
     /// 微信支付统一下单获取Id(服务商模式)
     /// </summary>
+    [ApiDescriptionSettings(Name = "CreatePayPartnerTransaction")]
     public async Task<dynamic> CreatePayPartnerTransaction([FromBody] WechatPayTransactionInput input)
     {
         var request = new CreatePayPartnerTransactionJsapiRequest()
@@ -142,6 +145,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="tradeId"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "PayInfo")]
     public async Task<SysWechatPay> GetPayInfo(string tradeId)
     {
         return await _sysWechatPayUserRep.GetFirstAsync(u => u.OutTradeNumber == tradeId);
@@ -151,6 +155,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// 微信支付成功回调(商户直连)
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "PayCallBack")]
     [AllowAnonymous]
     public async Task<WechatPayOutput> PayCallBack()
     {
@@ -197,6 +202,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// 微信支付成功回调(服务商模式)
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "PayPartnerCallBack")]
     [AllowAnonymous]
     public async Task PayPartnerCallBack()
     {

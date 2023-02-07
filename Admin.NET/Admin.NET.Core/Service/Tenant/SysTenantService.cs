@@ -51,6 +51,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<TenantOutput>> GetPage([FromQuery] PageTenantInput input)
     {
         return await _sysTenantRep.AsQueryable()
@@ -83,7 +84,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// 获取库隔离的租户列表
     /// </summary>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public async Task<List<SysTenant>> GetTenantDbList()
     {
         return await _sysTenantRep.GetListAsync(u => u.TenantType == TenantTypeEnum.Db && u.Status == StatusEnum.Enable);
@@ -123,6 +124,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "SetStatus")]
     public async Task<int> SetStatus(TenantInput input)
     {
         var tenant = await _sysTenantRep.GetFirstAsync(u => u.Id == input.Id);
@@ -286,6 +288,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "GrantMenu")]
     public async Task GrantMenu(RoleMenuInput input)
     {
         var tenantAdminUser = await _sysUserRep.GetFirstAsync(u => u.TenantId == input.Id && u.AccountType == AccountTypeEnum.Admin);
@@ -301,6 +304,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "OwnMenuList")]
     public async Task<List<long>> GetOwnMenuList([FromQuery] TenantUserInput input)
     {
         var roleIds = await _sysUserRoleService.GetUserRoleIdList(input.UserId);
@@ -312,6 +316,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "ResetPwd")]
     public async Task ResetPwd(TenantUserInput input)
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
@@ -323,7 +328,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// 缓存所有租户
     /// </summary>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public async Task UpdateTenantCache()
     {
         _sysCacheService.Remove(CacheConst.KeyTenant);

@@ -18,6 +18,7 @@ public class SysConstService : IDynamicApiController, ITransient
     /// 获取所有常量列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "List")]
     public async Task<List<ConstOutput>> GetList()
     {
         var key = $"{CacheConst.KeyConst}list";
@@ -41,7 +42,8 @@ public class SysConstService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="typeName"></param>
     /// <returns></returns>
-    public async Task<List<ConstOutput>> GetData(string typeName)
+    [ApiDescriptionSettings(Name = "Data")]
+    public async Task<List<ConstOutput>> GetData([Required] string typeName)
     {
         var key = $"{CacheConst.KeyConst}{typeName.ToUpper()}";
         var constlist = _sysCacheService.Get<List<ConstOutput>>(key);

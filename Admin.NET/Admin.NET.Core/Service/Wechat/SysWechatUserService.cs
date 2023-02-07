@@ -18,6 +18,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysWechatUser>> GetPage([FromQuery] WechatUserInput input)
     {
         return await _sysWechatUserRep.AsQueryable()

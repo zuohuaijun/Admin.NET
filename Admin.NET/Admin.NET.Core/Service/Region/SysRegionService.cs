@@ -21,6 +21,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysRegion>> GetPage([FromQuery] PageRegionInput input)
     {
         return await _sysRegionRep.AsQueryable()
@@ -35,6 +36,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "List")]
     public async Task<List<SysRegion>> GetList([FromQuery] RegionInput input)
     {
         return await _sysRegionRep.GetListAsync(u => u.Pid == input.Id);

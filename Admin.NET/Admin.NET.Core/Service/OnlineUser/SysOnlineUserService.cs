@@ -25,6 +25,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// 获取在线用户分页列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysOnlineUser>> GetPage([FromQuery] PageOnlineUserInput input)
     {
         return await _sysOnlineUerRep.AsQueryable()
@@ -38,6 +39,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "ForceOffline")]
     [NonValidation]
     public async Task ForceOffline(SysOnlineUser user)
     {
@@ -51,7 +53,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// <param name="notice"></param>
     /// <param name="userIds"></param>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public async Task PublicNotice(SysNotice notice, List<long> userIds)
     {
         var userList = await _sysOnlineUerRep.GetListAsync(m => userIds.Contains(m.UserId));
@@ -67,7 +69,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// 单用户登录
     /// </summary>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public async Task SignleLogin(long userId)
     {
         if (await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSingleLogin))

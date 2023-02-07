@@ -4133,11 +4133,11 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.GetUserInfo">
             <summary>
-            获取用户信息
+            获取登录账号信息
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysAuthService.RefreshToken(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysAuthService.GetRefreshToken(System.String)">
             <summary>
             获取刷新Token
             </summary>
@@ -4151,25 +4151,25 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.GetLoginConfig">
             <summary>
-            登录配置
+            获取登录配置
             </summary>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.GetCaptcha">
             <summary>
-            生成图片验证码
+            获取验证码
             </summary>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.SwaggerCheckUrl">
             <summary>
-            Swagger登录检查
+            swagger登录检查
             </summary>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.SwaggerSubmitUrl(Furion.SpecificationDocument.SpecificationAuth)">
             <summary>
-            Swagger登录
+            swagger登录提交
             </summary>
             <param name="auth"></param>
             <returns></returns>
@@ -4181,7 +4181,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysCacheService.GetKeyList">
             <summary>
-            获取所有缓存键名
+            获取缓存键名集合
             </summary>
             <returns></returns>
         </member>
@@ -4655,18 +4655,18 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.Delete(System.Int64)">
-            <summary>
-            删除代码生成配置
-            </summary>
-            <param name="codeGenId"></param>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.UpdateCodeGenConfig(System.Collections.Generic.List{Admin.NET.Core.Service.CodeGenConfig})">
             <summary>
             更新代码生成配置
             </summary>
             <param name="inputList"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.DeleteCodeGenConfig(System.Int64)">
+            <summary>
+            删除代码生成配置
+            </summary>
+            <param name="codeGenId"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenConfigService.GetDetail(Admin.NET.Core.Service.CodeGenConfig)">
@@ -4709,18 +4709,18 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenService.DeleteCodeGen(System.Collections.Generic.List{Admin.NET.Core.Service.DeleteCodeGenInput})">
-            <summary>
-            删除代码生成
-            </summary>
-            <param name="inputs"></param>
-            <returns></returns>
-        </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.UpdateCodeGen(Admin.NET.Core.Service.UpdateCodeGenInput)">
             <summary>
             更新代码生成
             </summary>
             <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.DeleteCodeGen(System.Collections.Generic.List{Admin.NET.Core.Service.DeleteCodeGenInput})">
+            <summary>
+            删除代码生成
+            </summary>
+            <param name="inputs"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetDetail(Admin.NET.Core.Service.QueryCodeGenInput)">
@@ -4855,16 +4855,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.GetDetail(Admin.NET.Core.Service.ConfigInput)">
+        <member name="M:Admin.NET.Core.Service.SysConfigService.DeleteConfig(Admin.NET.Core.Service.DeleteConfigInput)">
             <summary>
-            获取参数配置详情
+            删除参数配置
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.DeleteConfig(Admin.NET.Core.Service.DeleteConfigInput)">
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetDetail(Admin.NET.Core.Service.ConfigInput)">
             <summary>
-            删除参数配置
+            获取参数配置详情
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5112,16 +5112,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDetail(Admin.NET.Core.Service.DictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.DeleteDictData(Admin.NET.Core.Service.DeleteDictDataInput)">
             <summary>
-            获取字典值详情
+            删除字典值
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.DeleteDictData(Admin.NET.Core.Service.DeleteDictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDetail(Admin.NET.Core.Service.DictDataInput)">
             <summary>
-            删除字典值
+            获取字典值详情
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5140,14 +5140,14 @@
             <param name="dictTypeId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataList(System.String)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDataList(System.String)">
             <summary>
             根据字典类型编码获取字典值集合
             </summary>
             <param name="code"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDictDataList(Admin.NET.Core.Service.QueryDictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetDataList(Admin.NET.Core.Service.QueryDictDataInput)">
             <summary>
             根据查询条件获取字典值集合
             </summary>
@@ -5192,16 +5192,16 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDetail(Admin.NET.Core.Service.DictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.DeleteDictType(Admin.NET.Core.Service.DeleteDictTypeInput)">
             <summary>
-            获取字典类型详情
+            删除字典类型
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.DeleteDictType(Admin.NET.Core.Service.DeleteDictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetDetail(Admin.NET.Core.Service.DictTypeInput)">
             <summary>
-            删除字典类型
+            获取字典类型详情
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -5837,7 +5837,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysMenuService.GetBtnPermissionList">
             <summary>
-            获取按钮权限列表
+            获取按钮权限集合
             </summary>
             <returns></returns>
         </member>
@@ -5941,7 +5941,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.Public(Admin.NET.Core.Service.NoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.PublicNotice(Admin.NET.Core.Service.NoticeInput)">
             <summary>
             发布通知公告
             </summary>
@@ -6424,7 +6424,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysRoleService.GetOwnMenuList(Admin.NET.Core.Service.RoleInput)">
             <summary>
-            根据角色Id获取菜单集合
+            根据角色Id获取菜单Id集合
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6842,7 +6842,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.SetBaseInfo(Admin.NET.Core.SysUser)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.UpdateBaseInfo(Admin.NET.Core.SysUser)">
             <summary>
             更新用户基本信息
             </summary>
@@ -6878,14 +6878,14 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysUserService.GetOwnRoleList(System.Int64)">
             <summary>
-            获取用户拥有角色
+            获取用户拥有角色集合
             </summary>
             <param name="userId"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetExtOrgList(System.Int64)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.GetOwnExtOrgList(System.Int64)">
             <summary>
-            获取用户扩展机构
+            获取用户扩展机构集合
             </summary>
             <param name="userId"></param>
             <returns></returns>

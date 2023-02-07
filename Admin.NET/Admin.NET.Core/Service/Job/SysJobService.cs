@@ -25,6 +25,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 获取作业分页列表
     /// </summary>
+    [ApiDescriptionSettings(Name = "PageJobDetail")]
     public async Task<SqlSugarPagedList<JobOutput>> GetPageJobDetail([FromQuery] PageJobInput input)
     {
         var jobDetails = await _sysJobDetailRep.AsQueryable()
@@ -103,6 +104,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 获取触发器列表
     /// </summary>
+    [ApiDescriptionSettings(Name = "JobTriggerList")]
     public async Task<List<SysJobTrigger>> GetJobTriggerList([FromQuery] JobDetailInput input)
     {
         return await _sysJobTriggerRep.AsQueryable()
@@ -156,6 +158,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 暂停所有作业
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "PauseAllJob")]
     public void PauseAllJob()
     {
         _schedulerFactory.PauseAll();
@@ -165,6 +168,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 启动所有作业
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "StartAllJob")]
     public void StartAllJob()
     {
         _schedulerFactory.StartAll();
@@ -173,6 +177,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 暂停作业
     /// </summary>
+    [ApiDescriptionSettings(Name = "PauseJob")]
     public void PauseJob(JobDetailInput input)
     {
         _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
@@ -182,6 +187,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 启动作业
     /// </summary>
+    [ApiDescriptionSettings(Name = "StartJob")]
     public void StartJob(JobDetailInput input)
     {
         _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
@@ -191,6 +197,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 暂停触发器
     /// </summary>
+    [ApiDescriptionSettings(Name = "PauseTrigger")]
     public void PauseTrigger(JobTriggerInput input)
     {
         _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
@@ -200,6 +207,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 启动触发器
     /// </summary>
+    [ApiDescriptionSettings(Name = "StartTrigger")]
     public void StartTrigger(JobTriggerInput input)
     {
         _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
@@ -209,6 +217,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 强制唤醒作业调度器
     /// </summary>
+    [ApiDescriptionSettings(Name = "CancelSleep")]
     public void CancelSleep()
     {
         _schedulerFactory.CancelSleep();
@@ -217,6 +226,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 强制触发所有作业持久化
     /// </summary>
+    [ApiDescriptionSettings(Name = "PersistAll")]
     public void PersistAll()
     {
         _schedulerFactory.PersistAll();
@@ -225,6 +235,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 获取集群列表
     /// </summary>
+    [ApiDescriptionSettings(Name = "JobClusterList")]
     public async Task<List<SysJobCluster>> GetJobClusterList()
     {
         return await _sysJobClusterRep.GetListAsync();

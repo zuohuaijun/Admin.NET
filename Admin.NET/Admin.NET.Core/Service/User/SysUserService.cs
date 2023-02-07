@@ -33,6 +33,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysUser>> GetPage([FromQuery] PageUserInput input)
     {
         var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) :
@@ -130,6 +131,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// 查看用户基本信息
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "BaseInfo")]
     public async Task<SysUser> GetBaseInfo()
     {
         return await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
@@ -139,7 +141,8 @@ public class SysUserService : IDynamicApiController, ITransient
     /// 更新用户基本信息
     /// </summary>
     /// <returns></returns>
-    public async Task<int> SetBaseInfo(SysUser user)
+    [ApiDescriptionSettings(Name = "BaseInfo")]
+    public async Task<int> UpdateBaseInfo(SysUser user)
     {
         return await _sysUserRep.AsUpdateable(user)
             .IgnoreColumns(u => new { u.CreateTime, u.Account, u.Password, u.AccountType, u.OrgId, u.PosId }).ExecuteCommandAsync();
@@ -150,6 +153,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "SetStatus")]
     public async Task<int> SetStatus(UserInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
@@ -168,6 +172,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "GrantRole")]
     public async Task GrantRole(UserRoleInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.UserId);
@@ -182,6 +187,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "ChangePwd")]
     public async Task<int> ChangePwd(ChangePwdInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
@@ -205,6 +211,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "ResetPwd")]
     public async Task<int> ResetPwd(ResetPwdUserInput input)
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
@@ -215,21 +222,23 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取用户拥有角色
+    /// 获取用户拥有角色集合
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    public async Task<List<long>> GetOwnRoleList(long userId)
+    [ApiDescriptionSettings(Name = "OwnRoleList")]
+    public async Task<List<long>> GetOwnRoleList([Required] long userId)
     {
         return await _sysUserRoleService.GetUserRoleIdList(userId);
     }
 
     /// <summary>
-    /// 获取用户扩展机构
+    /// 获取用户扩展机构集合
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    public async Task<List<SysUserExtOrg>> GetExtOrgList(long userId)
+    [ApiDescriptionSettings(Name = "OwnExtOrgList")]
+    public async Task<List<SysUserExtOrg>> GetOwnExtOrgList([Required] long userId)
     {
         return await _sysUserExtOrgService.GetUserExtOrgList(userId);
     }

@@ -235,7 +235,7 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 根据角色Id获取菜单集合
+         * @summary 根据角色Id获取菜单Id集合
          * @param {number} id 主键Id
          * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
@@ -566,7 +566,7 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 根据角色Id获取菜单集合
+         * @summary 根据角色Id获取菜单Id集合
          * @param {number} id 主键Id
          * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
@@ -702,7 +702,7 @@ export const SysRoleApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 根据角色Id获取菜单集合
+         * @summary 根据角色Id获取菜单Id集合
          * @param {number} id 主键Id
          * @param {StatusEnum} [status] 状态
          * @param {*} [options] Override http request option.
@@ -824,7 +824,7 @@ export class SysRoleApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 根据角色Id获取菜单集合
+     * @summary 根据角色Id获取菜单Id集合
      * @param {number} id 主键Id
      * @param {StatusEnum} [status] 状态
      * @param {*} [options] Override http request option.

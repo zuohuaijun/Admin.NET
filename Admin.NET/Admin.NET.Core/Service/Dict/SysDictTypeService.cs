@@ -21,6 +21,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// 获取字典类型分页列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysDictType>> GetPage([FromQuery] PageDictTypeInput input)
     {
         var code = !string.IsNullOrEmpty(input.Code?.Trim());
@@ -36,6 +37,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// 获取字典类型列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "List")]
     public async Task<List<SysDictType>> GetList()
     {
         return await _sysDictTypeRep.AsQueryable().OrderBy(u => u.OrderNo).ToListAsync();
@@ -46,6 +48,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "DataList")]
     [AllowAnonymous]
     public async Task<List<SysDictData>> GetDataList([FromQuery] GetDataDictTypeInput input)
     {
@@ -90,16 +93,6 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取字典类型详情
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public async Task<SysDictType> GetDetail([FromQuery] DictTypeInput input)
-    {
-        return await _sysDictTypeRep.GetFirstAsync(u => u.Id == input.Id);
-    }
-
-    /// <summary>
     /// 删除字典类型
     /// </summary>
     /// <param name="input"></param>
@@ -115,10 +108,22 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取字典类型详情
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Detail")]
+    public async Task<SysDictType> GetDetail([FromQuery] DictTypeInput input)
+    {
+        return await _sysDictTypeRep.GetFirstAsync(u => u.Id == input.Id);
+    }
+
+    /// <summary>
     /// 修改字典类型状态
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "SetStatus")]
     public async Task SetStatus(DictTypeInput input)
     {
         var dictType = await _sysDictTypeRep.GetFirstAsync(u => u.Id == input.Id);

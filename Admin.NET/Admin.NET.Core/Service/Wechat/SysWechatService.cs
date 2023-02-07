@@ -21,6 +21,7 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "GenAuthUrl")]
     [AllowAnonymous]
     public string GenAuthUrl(GenAuthUrlInput input)
     {
@@ -31,6 +32,7 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// 授权登录(Code换取OpenId)
     /// </summary>
     /// <param name="input"></param>
+    [ApiDescriptionSettings(Name = "SnsOAuth2")]
     [AllowAnonymous]
     public async Task<string> SnsOAuth2([Required] WechatOAuth2Input input)
     {
@@ -71,6 +73,7 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "OpenIdLogin")]
     [AllowAnonymous]
     public async Task<dynamic> OpenIdLogin(WechatUserLogin input)
     {
@@ -94,6 +97,7 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// 获取配置签名参数(wx.config)
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "GenConfigPara")]
     public async Task<dynamic> GenConfigPara(SignatureInput input)
     {
         var resCgibinToken = await _wechatApiClient.ExecuteCgibinTokenAsync(new CgibinTokenRequest());

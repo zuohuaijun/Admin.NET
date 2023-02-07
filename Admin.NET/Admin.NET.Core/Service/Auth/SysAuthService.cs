@@ -50,6 +50,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <remarks>用户名/密码：superadmin/123456</remarks>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Login")]
     [AllowAnonymous]
     [SuppressMonitor]
     public async Task<LoginOutput> Login([Required] LoginInput input)
@@ -121,9 +122,10 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取用户信息
+    /// 获取登录账号信息
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "UserInfo")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
@@ -174,7 +176,8 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="accessToken"></param>
     /// <returns></returns>
-    public string RefreshToken([Required] string accessToken)
+    [ApiDescriptionSettings(Name = "RefreshToken")]
+    public string GetRefreshToken([Required] string accessToken)
     {
         return JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
     }
@@ -182,6 +185,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <summary>
     /// 退出系统
     /// </summary>
+    [ApiDescriptionSettings(Name = "Logout")]
     public async void Logout()
     {
         if (string.IsNullOrWhiteSpace(_userManager.Account))
@@ -203,9 +207,10 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 登录配置
+    /// 获取登录配置
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "LoginConfig")]
     [AllowAnonymous]
     [SuppressMonitor]
     public async Task<dynamic> GetLoginConfig()
@@ -217,9 +222,10 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 生成图片验证码
+    /// 获取验证码
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Captcha")]
     [AllowAnonymous]
     [SuppressMonitor]
     public dynamic GetCaptcha()
@@ -230,7 +236,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// Swagger登录检查
+    /// swagger登录检查
     /// </summary>
     /// <returns></returns>
     [HttpPost("/api/swagger/checkUrl"), NonUnify]
@@ -241,7 +247,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// Swagger登录
+    /// swagger登录提交
     /// </summary>
     /// <param name="auth"></param>
     /// <returns></returns>

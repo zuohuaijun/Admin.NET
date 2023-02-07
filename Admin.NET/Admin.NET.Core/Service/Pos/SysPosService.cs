@@ -21,6 +21,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "List")]
     public async Task<List<SysPos>> GetList([FromQuery] PosInput input)
     {
         return await _sysPosRep.AsQueryable()

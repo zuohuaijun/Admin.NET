@@ -18,7 +18,7 @@ public class SysUser : EntityTenant
     /// 密码
     /// </summary>
     [SugarColumn(ColumnDescription = "密码", Length = 512)]
-    [Required, MaxLength(512)]
+    [MaxLength(512)]
     [System.Text.Json.Serialization.JsonIgnore]
     [JsonIgnore]
     public virtual string Password { get; set; }

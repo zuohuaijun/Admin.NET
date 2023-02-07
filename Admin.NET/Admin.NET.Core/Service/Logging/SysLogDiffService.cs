@@ -17,6 +17,7 @@ public class SysLogDiffService : IDynamicApiController, ITransient
     /// 获取差异日志分页列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     [SuppressMonitor]
     public async Task<SqlSugarPagedList<SysLogDiff>> GetPage([FromQuery] PageLogInput input)
     {

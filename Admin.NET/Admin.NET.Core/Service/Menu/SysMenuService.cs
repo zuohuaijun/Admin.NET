@@ -29,6 +29,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取登录菜单树
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "LoginMenuTree")]
     public async Task<List<MenuOutput>> GetLoginMenuTree()
     {
         if (_userManager.SuperAdmin)
@@ -68,6 +69,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取菜单列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "List")]
     [AllowAnonymous]
     public async Task<List<SysMenu>> GetList([FromQuery] MenuInput input)
     {
@@ -174,9 +176,10 @@ public class SysMenuService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取按钮权限列表
+    /// 获取按钮权限集合
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "BtnPermissionList")]
     public async Task<List<string>> GetBtnPermissionList()
     {
         var userId = _userManager.UserId;
@@ -197,7 +200,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取所有按钮权限集合
     /// </summary>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public async Task<List<string>> GetAllBtnList()
     {
         var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyPermission + 0); // 先从缓存里面读取

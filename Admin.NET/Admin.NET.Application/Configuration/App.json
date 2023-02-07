@@ -14,7 +14,7 @@
         "CamelCaseSeparator": "", // 骆驼(驼峰)/帕斯卡命名分隔符
         "LowercaseRoute": false, // 小写路由格式
         "AsLowerCamelCase": true, // 启用小驼峰命名（首字母小写）
-        "KeepVerb": false // 保留动作谓词
+        //"KeepVerb": false // 保留动作谓词
         //"KeepName": true // 保留默认名称
     },
     "FriendlyExceptionSettings": {

@@ -89,14 +89,14 @@ const state = reactive({
 });
 
 onMounted(async () => {
-	let res = await getAPI(SysDictDataApi).apiSysDictDataDictDataListCodeGet('code_gen_effect_type');
+	let res = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_effect_type');
 	state.effectTypeList = res.data.result;
 
 	res = await getAPI(SysDictTypeApi).apiSysDictTypeListGet();
 	state.dictTypeCodeList = res.data.result;
 	state.dictDataAll = res.data.result;
 
-	res = await getAPI(SysDictDataApi).apiSysDictDataDictDataListCodeGet('code_gen_query_type');
+	res = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_query_type');
 	state.queryTypeList = res.data.result;
 
 	res = await getAPI(SysConstApi).apiSysConstListGet();

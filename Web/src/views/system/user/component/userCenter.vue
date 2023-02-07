@@ -265,7 +265,7 @@ const uploadAvatarFile = async (file: any) => {
 	uploadAvatarRef.value?.clearFiles();
 };
 
-// 密码提交
+// 修改个人信息
 const submitUserBase = () => {
 	ruleFormBaseRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
@@ -274,7 +274,7 @@ const submitUserBase = () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}).then(async () => {
-			await getAPI(SysUserApi).apiSysUserSetBaseInfoPost(state.ruleFormBase);
+			await getAPI(SysUserApi).apiSysUserBaseInfoPut(state.ruleFormBase);
 		});
 	});
 };
@@ -325,6 +325,9 @@ const mouseEnterAvatar = () => {
 const mouseLeaveAvatar = () => {
 	state.avatarLoading = false;
 };
+
+// 导出对象
+defineExpose({ uploadAvatarFile, handleChangeSignFile });
 </script>
 
 <style lang="scss" scoped>

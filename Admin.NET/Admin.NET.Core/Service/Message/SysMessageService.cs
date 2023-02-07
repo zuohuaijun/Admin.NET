@@ -30,6 +30,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "SendAllUser")]
     public async Task SendAllUser(MessageInput input)
     {
         await _chatHubContext.Clients.All.ReceiveMessage(input);
@@ -40,6 +41,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "SendOtherUser")]
     public async Task SendOtherUser(MessageInput input)
     {
         var onlineuserlist = _sysCacheService.Get<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
@@ -56,6 +58,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "SendUser")]
     public async Task SendUser(MessageInput input)
     {
         var onlineuserlist = _sysCacheService.Get<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
@@ -74,6 +77,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "SendUsers")]
     public async Task SendUsers(MessageInput input)
     {
         var onlineuserlist = _sysCacheService.Get<List<SysOnlineUser>>(CacheConst.KeyOnlineUser);
@@ -92,7 +96,8 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    public async Task SendEmail(string message)
+    [ApiDescriptionSettings(Name = "SendEmail")]
+    public async Task SendEmail([Required] string message)
     {
         await _fluentEmail.To(_emailOptions.DefaultToEmail).Body(message).SendAsync();
     }

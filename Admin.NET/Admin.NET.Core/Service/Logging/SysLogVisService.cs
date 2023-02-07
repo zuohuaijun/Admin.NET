@@ -17,6 +17,7 @@ public class SysLogVisService : IDynamicApiController, ITransient
     /// 获取访问日志分页列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     [SuppressMonitor]
     public async Task<SqlSugarPagedList<SysLogVis>> GetPage([FromQuery] PageLogInput input)
     {

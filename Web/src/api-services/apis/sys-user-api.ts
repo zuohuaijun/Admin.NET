@@ -114,6 +114,47 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 更新用户基本信息
+         * @param {SysUser} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysUserBaseInfoPut: async (body?: SysUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysUser/baseInfo`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 修改用户密码
          * @param {ChangePwdInput} [body] 
          * @param {*} [options] Override http request option.
@@ -196,48 +237,6 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 获取用户扩展机构
-         * @param {number} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSysUserExtOrgListUserIdGet: async (userId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'userId' is not null or undefined
-            if (userId === null || userId === undefined) {
-                throw new RequiredError('userId','Required parameter userId was null or undefined when calling apiSysUserExtOrgListUserIdGet.');
-            }
-            const localVarPath = `/api/sysUser/extOrgList/{userId}`
-                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary 授权用户角色
          * @param {UserRoleInput} [body] 
          * @param {*} [options] Override http request option.
@@ -279,7 +278,49 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 获取用户拥有角色
+         * @summary 获取用户扩展机构集合
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysUserOwnExtOrgListUserIdGet: async (userId: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'userId' is not null or undefined
+            if (userId === null || userId === undefined) {
+                throw new RequiredError('userId','Required parameter userId was null or undefined when calling apiSysUserOwnExtOrgListUserIdGet.');
+            }
+            const localVarPath = `/api/sysUser/ownExtOrgList/{userId}`
+                .replace(`{${"userId"}}`, encodeURIComponent(String(userId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 获取用户拥有角色集合
          * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -443,47 +484,6 @@ export const SysUserApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 更新用户基本信息
-         * @param {SysUser} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSysUserSetBaseInfoPost: async (body?: SysUser, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/sysUser/setBaseInfo`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-
-            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
          * @summary 设置用户状态
          * @param {UserInput} [body] 
          * @param {*} [options] Override http request option.
@@ -602,6 +602,20 @@ export const SysUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 更新用户基本信息
+         * @param {SysUser} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysUserBaseInfoPut(body?: SysUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
+            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).apiSysUserBaseInfoPut(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 修改用户密码
          * @param {ChangePwdInput} [body] 
          * @param {*} [options] Override http request option.
@@ -630,20 +644,6 @@ export const SysUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取用户扩展机构
-         * @param {number} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysUserExtOrgListUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysUserExtOrg>>> {
-            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).apiSysUserExtOrgListUserIdGet(userId, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
          * @summary 授权用户角色
          * @param {UserRoleInput} [body] 
          * @param {*} [options] Override http request option.
@@ -658,7 +658,21 @@ export const SysUserApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取用户拥有角色
+         * @summary 获取用户扩展机构集合
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysUserOwnExtOrgListUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysUserExtOrg>>> {
+            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).apiSysUserOwnExtOrgListUserIdGet(userId, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取用户拥有角色集合
          * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -701,20 +715,6 @@ export const SysUserApiFp = function(configuration?: Configuration) {
          */
         async apiSysUserResetPwdPost(body?: ResetPwdUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
             const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).apiSysUserResetPwdPost(body, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
-         * @summary 更新用户基本信息
-         * @param {SysUser} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysUserSetBaseInfoPost(body?: SysUser, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
-            const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).apiSysUserSetBaseInfoPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -778,6 +778,16 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 更新用户基本信息
+         * @param {SysUser} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysUserBaseInfoPut(body?: SysUser, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
+            return SysUserApiFp(configuration).apiSysUserBaseInfoPut(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 修改用户密码
          * @param {ChangePwdInput} [body] 
          * @param {*} [options] Override http request option.
@@ -798,16 +808,6 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 获取用户扩展机构
-         * @param {number} userId 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysUserExtOrgListUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysUserExtOrg>> {
-            return SysUserApiFp(configuration).apiSysUserExtOrgListUserIdGet(userId, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary 授权用户角色
          * @param {UserRoleInput} [body] 
          * @param {*} [options] Override http request option.
@@ -818,7 +818,17 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 获取用户拥有角色
+         * @summary 获取用户扩展机构集合
+         * @param {number} userId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysUserOwnExtOrgListUserIdGet(userId: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysUserExtOrg>> {
+            return SysUserApiFp(configuration).apiSysUserOwnExtOrgListUserIdGet(userId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取用户拥有角色集合
          * @param {number} userId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -853,16 +863,6 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
          */
         async apiSysUserResetPwdPost(body?: ResetPwdUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
             return SysUserApiFp(configuration).apiSysUserResetPwdPost(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 更新用户基本信息
-         * @param {SysUser} [body] 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysUserSetBaseInfoPost(body?: SysUser, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
-            return SysUserApiFp(configuration).apiSysUserSetBaseInfoPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -917,6 +917,17 @@ export class SysUserApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 更新用户基本信息
+     * @param {SysUser} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysUserApi
+     */
+    public async apiSysUserBaseInfoPut(body?: SysUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
+        return SysUserApiFp(this.configuration).apiSysUserBaseInfoPut(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
      * @summary 修改用户密码
      * @param {ChangePwdInput} [body] 
      * @param {*} [options] Override http request option.
@@ -939,17 +950,6 @@ export class SysUserApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取用户扩展机构
-     * @param {number} userId 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysUserApi
-     */
-    public async apiSysUserExtOrgListUserIdGet(userId: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysUserExtOrg>> {
-        return SysUserApiFp(this.configuration).apiSysUserExtOrgListUserIdGet(userId, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
      * @summary 授权用户角色
      * @param {UserRoleInput} [body] 
      * @param {*} [options] Override http request option.
@@ -961,7 +961,18 @@ export class SysUserApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取用户拥有角色
+     * @summary 获取用户扩展机构集合
+     * @param {number} userId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysUserApi
+     */
+    public async apiSysUserOwnExtOrgListUserIdGet(userId: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysUserExtOrg>> {
+        return SysUserApiFp(this.configuration).apiSysUserOwnExtOrgListUserIdGet(userId, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取用户拥有角色集合
      * @param {number} userId 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -999,17 +1010,6 @@ export class SysUserApi extends BaseAPI {
      */
     public async apiSysUserResetPwdPost(body?: ResetPwdUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
         return SysUserApiFp(this.configuration).apiSysUserResetPwdPost(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 更新用户基本信息
-     * @param {SysUser} [body] 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysUserApi
-     */
-    public async apiSysUserSetBaseInfoPost(body?: SysUser, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
-        return SysUserApiFp(this.configuration).apiSysUserSetBaseInfoPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

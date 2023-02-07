@@ -18,22 +18,12 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "List")]
     public async Task<List<CodeGenConfig>> GetList([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>()
             .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesNoEnum.Y.ToString())
             .Select<CodeGenConfig>().ToListAsync();
-    }
-
-    /// <summary>
-    /// 删除代码生成配置
-    /// </summary>
-    /// <param name="codeGenId"></param>
-    /// <returns></returns>
-    [NonAction]
-    public async Task Delete(long codeGenId)
-    {
-        await _db.Deleteable<SysCodeGenConfig>().Where(u => u.CodeGenId == codeGenId).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -49,10 +39,22 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 删除代码生成配置
+    /// </summary>
+    /// <param name="codeGenId"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(false)]
+    public async Task DeleteCodeGenConfig(long codeGenId)
+    {
+        await _db.Deleteable<SysCodeGenConfig>().Where(u => u.CodeGenId == codeGenId).ExecuteCommandAsync();
+    }
+
+    /// <summary>
     /// 获取代码生成配置详情
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Detail")]
     public async Task<SysCodeGenConfig> GetDetail([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>().FirstAsync(u => u.Id == input.Id);
@@ -63,7 +65,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="tableColumnOuputList"></param>
     /// <param name="codeGenerate"></param>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public void AddList(List<ColumnOuput> tableColumnOuputList, SysCodeGen codeGenerate)
     {
         if (tableColumnOuputList == null) return;

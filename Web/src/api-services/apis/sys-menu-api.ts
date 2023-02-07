@@ -72,7 +72,7 @@ export const SysMenuApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 获取按钮权限列表
+         * @summary 获取按钮权限集合
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -295,7 +295,7 @@ export const SysMenuApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取按钮权限列表
+         * @summary 获取按钮权限集合
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -383,7 +383,7 @@ export const SysMenuApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 获取按钮权限列表
+         * @summary 获取按钮权限集合
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -453,7 +453,7 @@ export class SysMenuApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取按钮权限列表
+     * @summary 获取按钮权限集合
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysMenuApi

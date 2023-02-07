@@ -37,6 +37,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysFile>> GetPage([FromQuery] PageFileInput input)
     {
         return await _sysFileRep.AsQueryable()
@@ -53,6 +54,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file"></param>
     /// <param name="path"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "UploadFile")]
     public async Task<FileOutput> UploadFile([Required] IFormFile file, [FromQuery] string? path)
     {
         var sysFile = await HandleUploadFile(file, path);
@@ -71,6 +73,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="files"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "UploadFiles")]
     public async Task<List<FileOutput>> UploadFiles([Required] List<IFormFile> files)
     {
         var filelist = new List<FileOutput>();
@@ -86,6 +89,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "DownloadFile")]
     public async Task<IActionResult> DownloadFile(FileInput input)
     {
         var file = await GetFile(input);
@@ -260,6 +264,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="file"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "UploadAvatar")]
     public async Task<FileOutput> UploadAvatar([Required] IFormFile file)
     {
         var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();
@@ -281,6 +286,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="file"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "UploadSignature")]
     public async Task<FileOutput> UploadSignature([Required] IFormFile file)
     {
         var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();

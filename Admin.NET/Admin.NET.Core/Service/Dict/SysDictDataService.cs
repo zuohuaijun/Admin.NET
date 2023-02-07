@@ -19,6 +19,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<SysDictData>> GetPage([FromQuery] PageDictDataInput input)
     {
         var code = !string.IsNullOrEmpty(input.Code?.Trim());
@@ -35,6 +36,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// 获取字典值列表
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "List")]
     public async Task<List<SysDictData>> GetList([FromQuery] GetDataDictDataInput input)
     {
         return await GetDictDataListByDictTypeId(input.DictTypeId);
@@ -73,16 +75,6 @@ public class SysDictDataService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取字典值详情
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    public async Task<SysDictData> GetDetail([FromQuery] DictDataInput input)
-    {
-        return await _sysDictDataRep.GetFirstAsync(u => u.Id == input.Id);
-    }
-
-    /// <summary>
     /// 删除字典值
     /// </summary>
     /// <param name="input"></param>
@@ -98,10 +90,22 @@ public class SysDictDataService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取字典值详情
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Detail")]
+    public async Task<SysDictData> GetDetail([FromQuery] DictDataInput input)
+    {
+        return await _sysDictDataRep.GetFirstAsync(u => u.Id == input.Id);
+    }
+
+    /// <summary>
     /// 修改字典值状态
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "SetStatus")]
     public async Task SetStatus(DictDataInput input)
     {
         var dictData = await _sysDictDataRep.GetFirstAsync(u => u.Id == input.Id);
@@ -120,7 +124,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="dictTypeId"></param>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public async Task<List<SysDictData>> GetDictDataListByDictTypeId(long dictTypeId)
     {
         return await _sysDictDataRep.AsQueryable()
@@ -133,7 +137,8 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
-    public async Task<dynamic> GetDictDataList(string code)
+    [ApiDescriptionSettings(Name = "DataList")]
+    public async Task<dynamic> GetDataList([Required] string code)
     {
         return await _sysDictDataRep.Context.Queryable<SysDictType>()
             .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)
@@ -150,7 +155,8 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    public async Task<dynamic> GetDictDataList([FromQuery] QueryDictDataInput input)
+    [ApiDescriptionSettings(Name = "DataList")]
+    public async Task<dynamic> GetDataList([FromQuery] QueryDictDataInput input)
     {
         return await _sysDictDataRep.Context.Queryable<SysDictType>()
             .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)

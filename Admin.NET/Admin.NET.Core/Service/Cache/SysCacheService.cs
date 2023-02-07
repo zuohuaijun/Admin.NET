@@ -14,9 +14,10 @@ public class SysCacheService : IDynamicApiController, ISingleton
     }
 
     /// <summary>
-    /// 获取所有缓存键名
+    /// 获取缓存键名集合
     /// </summary>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "KeyList")]
     public List<string> GetKeyList()
     {
         return _cache.Keys.ToList();
@@ -28,7 +29,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="key"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(false)]
     public void Set(string key, object value)
     {
         _cache.Set(key, value);
@@ -41,7 +42,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="value"></param>
     /// <param name="expire"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "AddAndSetExp")]
+    [ApiDescriptionSettings(false)]
     public void Set(string key, object value, TimeSpan expire)
     {
         _cache.Set(key, value, expire);
@@ -53,7 +54,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <typeparam name="T"></typeparam>
     /// <param name="key"></param>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public T Get<T>(string key)
     {
         return _cache.Get<T>(key);
@@ -75,7 +76,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="key">键</param>
     /// <returns></returns>
-    [NonAction]
+    [ApiDescriptionSettings(false)]
     public bool ExistKey(string key)
     {
         return _cache.ContainsKey(key);
@@ -99,6 +100,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Value")]
     public dynamic GetValue(string key)
     {
         return _cache.Get<dynamic>(key);

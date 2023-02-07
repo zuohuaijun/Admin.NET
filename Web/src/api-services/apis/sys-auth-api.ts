@@ -29,7 +29,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @summary Swagger登录检查
+         * @summary swagger登录检查
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -65,7 +65,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary Swagger登录
+         * @summary swagger登录提交
          * @param {string} [userName] 
          * @param {string} [password] 
          * @param {*} [options] Override http request option.
@@ -115,7 +115,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 生成图片验证码
+         * @summary 获取验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -151,7 +151,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 登录配置
+         * @summary 获取登录配置
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -273,10 +273,10 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysAuthRefreshTokenAccessTokenPost: async (accessToken: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysAuthRefreshTokenAccessTokenGet: async (accessToken: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'accessToken' is not null or undefined
             if (accessToken === null || accessToken === undefined) {
-                throw new RequiredError('accessToken','Required parameter accessToken was null or undefined when calling apiSysAuthRefreshTokenAccessTokenPost.');
+                throw new RequiredError('accessToken','Required parameter accessToken was null or undefined when calling apiSysAuthRefreshTokenAccessTokenGet.');
             }
             const localVarPath = `/api/sysAuth/refreshToken/{accessToken}`
                 .replace(`{${"accessToken"}}`, encodeURIComponent(String(accessToken)));
@@ -286,7 +286,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -310,7 +310,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 获取用户信息
+         * @summary 获取登录账号信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -355,7 +355,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary Swagger登录检查
+         * @summary swagger登录检查
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -368,7 +368,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary Swagger登录
+         * @summary swagger登录提交
          * @param {string} [userName] 
          * @param {string} [password] 
          * @param {*} [options] Override http request option.
@@ -383,7 +383,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 生成图片验证码
+         * @summary 获取验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -396,7 +396,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 登录配置
+         * @summary 获取登录配置
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -441,8 +441,8 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysAuthRefreshTokenAccessTokenPost(accessToken: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
-            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).apiSysAuthRefreshTokenAccessTokenPost(accessToken, options);
+        async apiSysAuthRefreshTokenAccessTokenGet(accessToken: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).apiSysAuthRefreshTokenAccessTokenGet(accessToken, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -450,7 +450,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取用户信息
+         * @summary 获取登录账号信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -472,7 +472,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @summary Swagger登录检查
+         * @summary swagger登录检查
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -481,7 +481,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary Swagger登录
+         * @summary swagger登录提交
          * @param {string} [userName] 
          * @param {string} [password] 
          * @param {*} [options] Override http request option.
@@ -492,7 +492,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 生成图片验证码
+         * @summary 获取验证码
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -501,7 +501,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 登录配置
+         * @summary 获取登录配置
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -534,12 +534,12 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysAuthRefreshTokenAccessTokenPost(accessToken: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
-            return SysAuthApiFp(configuration).apiSysAuthRefreshTokenAccessTokenPost(accessToken, options).then((request) => request(axios, basePath));
+        async apiSysAuthRefreshTokenAccessTokenGet(accessToken: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
+            return SysAuthApiFp(configuration).apiSysAuthRefreshTokenAccessTokenGet(accessToken, options).then((request) => request(axios, basePath));
         },
         /**
          * 
-         * @summary 获取用户信息
+         * @summary 获取登录账号信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -558,7 +558,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
 export class SysAuthApi extends BaseAPI {
     /**
      * 
-     * @summary Swagger登录检查
+     * @summary swagger登录检查
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysAuthApi
@@ -568,7 +568,7 @@ export class SysAuthApi extends BaseAPI {
     }
     /**
      * 
-     * @summary Swagger登录
+     * @summary swagger登录提交
      * @param {string} [userName] 
      * @param {string} [password] 
      * @param {*} [options] Override http request option.
@@ -580,7 +580,7 @@ export class SysAuthApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 生成图片验证码
+     * @summary 获取验证码
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysAuthApi
@@ -590,7 +590,7 @@ export class SysAuthApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 登录配置
+     * @summary 获取登录配置
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysAuthApi
@@ -627,12 +627,12 @@ export class SysAuthApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysAuthApi
      */
-    public async apiSysAuthRefreshTokenAccessTokenPost(accessToken: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
-        return SysAuthApiFp(this.configuration).apiSysAuthRefreshTokenAccessTokenPost(accessToken, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysAuthRefreshTokenAccessTokenGet(accessToken: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
+        return SysAuthApiFp(this.configuration).apiSysAuthRefreshTokenAccessTokenGet(accessToken, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
-     * @summary 获取用户信息
+     * @summary 获取登录账号信息
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysAuthApi
