@@ -21,8 +21,10 @@ public class OnlineUserJob : IJob
         var rep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysOnlineUser>>();
         await rep.AsDeleteable().ExecuteCommandAsync();
 
+        var originColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("【" + DateTime.Now + "】服务重启清空在线用户");
+        Console.ForegroundColor = originColor;
 
         // 缓存多租户
         await serviceScope.ServiceProvider.GetService<SysTenantService>().UpdateTenantCache();

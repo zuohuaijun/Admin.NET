@@ -81,21 +81,25 @@ public static class SqlSugarSetup
         // 打印SQL语句
         db.Aop.OnLogExecuting = (sql, pars) =>
         {
+            var originColor = Console.ForegroundColor;
             if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                 Console.ForegroundColor = ConsoleColor.Green;
             if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
-                Console.ForegroundColor = ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.Yellow;
             if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase))
                 Console.ForegroundColor = ConsoleColor.Blue;
             Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
+            Console.ForegroundColor = originColor;
             App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
         };
         db.Aop.OnError = (ex) =>
         {
             if (ex.Parametres == null) return;
+            var originColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Red;
             var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
             Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
+            Console.ForegroundColor = originColor;
             App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
         };
 
