@@ -2,7 +2,7 @@
     "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
 
     "Urls": "https://*:44326;http://*:44325", // 配置默认端口
-    "https_port": 44326, // 指定 https 端口
+    "https_port": 44326,
 
     "AllowedHosts": "*",
 
