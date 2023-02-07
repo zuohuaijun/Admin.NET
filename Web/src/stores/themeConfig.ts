@@ -113,7 +113,7 @@ export const useThemeConfig = defineStore('themeConfig', {
 			// 定义的值与 `/src/layout/navBars/tagsView/tagsView.vue` 中的 class 同名
 			tagsStyle: 'tags-style-one',
 			// 主页面切换动画: Animate.css
-			animation: 'lightSpeedLeft',
+			animation: 'fadeLeft',
 			// 分栏高亮风格：可选值"<columns-round|columns-card>"，默认 columns-round
 			columnsAsideStyle: 'columns-round',
 			// 分栏布局风格：可选值"<columns-horizontal|columns-vertical>"，默认 columns-horizontal
