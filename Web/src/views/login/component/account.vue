@@ -23,7 +23,7 @@
 		</el-form-item>
 		<el-form-item class="login-animation3" prop="captcha" v-show="state.captchaEnabled">
 			<el-col :span="15">
-				<el-input text maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="state.ruleForm.code" clearable autocomplete="off">
+				<el-input text maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="state.ruleForm.code" clearable autocomplete="off" @keyup.enter.native="onSignIn">
 					<template #prefix>
 						<el-icon>
 							<ele-Position />
