@@ -29,7 +29,7 @@
 				<el-card shadow="hover" header="缓存数据" v-loading="state.loading1" class="mt8">
 					<template #header>
 						<div class="card-header">
-							<span>缓存数据</span>
+							<span>{{ `缓存数据${state.cacheKey ? ` - ${state.cacheKey}` : ''}` }}</span>
 							<el-button icon="ele-Delete" size="small" type="danger" @click="delCache" v-auth="'sysCache:delete'"> 删除缓存 </el-button>
 						</div>
 					</template>
@@ -57,6 +57,7 @@ const state = reactive({
 	loading1: false,
 	cacheData: [] as any,
 	cacheValue: undefined,
+	cacheKey: undefined,
 });
 
 onMounted(async () => {
@@ -66,6 +67,8 @@ onMounted(async () => {
 // 查询操作
 const handleQuery = async () => {
 	state.cacheData = [];
+	state.cacheValue = undefined;
+	state.cacheKey = undefined;
 
 	state.loading = true;
 	var res = await getAPI(SysCacheApi).apiSysCacheKeyListGet();
@@ -77,7 +80,7 @@ const handleQuery = async () => {
 		let pName = keyNames[0];
 		if (state.cacheData.filter((x: any) => x.name == pName).length === 0) {
 			state.cacheData.push({
-				id: 0,
+				id: keyNames.length > 1 ? 0 : keyList[i],
 				name: pName,
 				children: [],
 			});
@@ -108,6 +111,7 @@ const delCache = () => {
 			await getAPI(SysCacheApi).apiSysCacheDeleteKeyDelete(currentNode.value.id);
 			handleQuery();
 			state.cacheValue = undefined;
+			state.cacheKey = undefined;
 			ElMessage.success('删除成功');
 		})
 		.catch(() => {});
@@ -121,6 +125,7 @@ const nodeClick = async (node: any) => {
 	state.loading1 = true;
 	var res = await getAPI(SysCacheApi).apiSysCacheValueKeyGet(node.id);
 	state.cacheValue = res.data.result;
+	state.cacheKey = node.id;
 	state.loading1 = false;
 };
 </script>
