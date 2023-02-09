@@ -50,7 +50,7 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditDictTpye ref="editDictTypeRef" :title="state.editDictTypeTitle" />
+		<EditDictType ref="editDictTypeRef" :title="state.editDictTypeTitle" />
 		<DictDataDialog ref="dictDataDialogRef" />
 	</div>
 </template>
@@ -59,15 +59,15 @@
 import { onMounted, onUnmounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import mittBus from '/@/utils/mitt';
-import EditDictTpye from '/@/views/system/dict/component/editDictType.vue';
+import EditDictType from '/@/views/system/dict/component/editDictType.vue';
 import DictDataDialog from '/@/views/system/dict/component/dictDataDialog.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDictTypeApi } from '/@/api-services/api';
 import { SysDictType } from '/@/api-services/models';
 
-const editDictTypeRef = ref();
-const dictDataDialogRef = ref();
+const editDictTypeRef = ref<InstanceType<typeof EditDictType>>();
+const dictDataDialogRef = ref<InstanceType<typeof DictDataDialog>>();
 const state = reactive({
 	loading: false,
 	dictTypeData: [] as Array<SysDictType>,
@@ -114,18 +114,18 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddDictType = () => {
 	state.editDictTypeTitle = '添加字典';
-	editDictTypeRef.value.openDialog({});
+	editDictTypeRef.value?.openDialog({});
 };
 
 // 打开编辑页面
 const openEditDictType = (row: any) => {
 	state.editDictTypeTitle = '编辑字典';
-	editDictTypeRef.value.openDialog(row);
+	editDictTypeRef.value?.openDialog(row);
 };
 
 // 打开字典值页面
 const openDictDataDialog = (row: any) => {
-	dictDataDialogRef.value.openDialog(row);
+	dictDataDialogRef.value?.openDialog(row);
 };
 
 // 删除

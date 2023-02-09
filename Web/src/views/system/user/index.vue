@@ -102,8 +102,8 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysUserApi, SysOrgApi } from '/@/api-services/api';
 import { SysUser, SysOrg } from '/@/api-services/models';
 
-const orgTreeRef = ref();
-const editUserRef = ref();
+const orgTreeRef = ref<InstanceType<typeof OrgTree>>();
+const editUserRef = ref<InstanceType<typeof EditUser>>();
 const state = reactive({
 	loading: false,
 	userData: [] as Array<SysUser>,
@@ -171,13 +171,13 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddUser = () => {
 	state.editUserTitle = '添加账号';
-	editUserRef.value.openDialog({});
+	editUserRef.value?.openDialog({});
 };
 
 // 打开编辑页面
 const openEditUser = (row: any) => {
 	state.editUserTitle = '编辑账号';
-	editUserRef.value.openDialog(row);
+	editUserRef.value?.openDialog(row);
 };
 
 // 删除

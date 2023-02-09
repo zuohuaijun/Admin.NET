@@ -80,11 +80,11 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
 import { DbColumnOutput, DbTableInfo, DbColumnInput, DeleteDbTableInput, DeleteDbColumnInput } from '/@/api-services/models';
 
-const editTableRef = ref();
-const editColumnRef = ref();
-const addTableRef = ref();
-const addColumnRef = ref();
-const genEntityRef = ref();
+const editTableRef = ref<InstanceType<typeof EditTable>>();
+const editColumnRef = ref<InstanceType<typeof EditColumn>>();
+const addTableRef = ref<InstanceType<typeof AddTable>>();
+const addColumnRef = ref<InstanceType<typeof AddColumn>>();
+const genEntityRef = ref<InstanceType<typeof GenEntity>>();
 const state = reactive({
 	loading: false,
 	loading1: false,
@@ -158,7 +158,7 @@ const openEditTable = () => {
 		oldTableName: state.tableName,
 		description: res[0].description,
 	};
-	editTableRef.value.openDialog(table);
+	editTableRef.value?.openDialog(table);
 };
 
 // 打开实体生成页面
@@ -170,7 +170,7 @@ const openGenDialog = () => {
 		configId: state.configId,
 		tableName: state.tableName,
 	};
-	genEntityRef.value.openDialog(table);
+	genEntityRef.value?.openDialog(table);
 };
 
 // 打开表增加页面
@@ -189,7 +189,7 @@ const openAddTable = () => {
 		oldTableName: '',
 		description: '',
 	};
-	addTableRef.value.openDialog(table);
+	addTableRef.value?.openDialog(table);
 };
 
 // 打开列编辑页面
@@ -201,7 +201,7 @@ const openEditColumn = (row: any) => {
 		oldColumnName: row.dbColumnName,
 		description: row.columnDescription,
 	};
-	editColumnRef.value.openDialog(column);
+	editColumnRef.value?.openDialog(column);
 };
 
 // 打开列增加页面
@@ -228,7 +228,7 @@ const openAddColumn = () => {
 		// editable: true,
 		// isNew: true,
 	};
-	addColumnRef.value.openDialog(addRow);
+	addColumnRef.value?.openDialog(addRow);
 };
 
 // 删除表

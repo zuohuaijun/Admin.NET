@@ -67,8 +67,8 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysCodeGenApi } from '/@/api-services/api';
 import { SysCodeGen } from '/@/api-services/models';
 
-const EditCodeGenRef = ref();
-const CodeConfigRef = ref();
+const EditCodeGenRef = ref<InstanceType<typeof EditCodeGenDialog>>();
+const CodeConfigRef = ref<InstanceType<typeof CodeConfigDialog>>();
 const state = reactive({
 	loading: false,
 	loading1: false,
@@ -107,7 +107,7 @@ onUnmounted(() => {
 });
 
 const openConfigDialog = (row: any) => {
-	CodeConfigRef.value.openDialog(row);
+	CodeConfigRef.value?.openDialog(row);
 };
 
 // 重置操作
@@ -159,13 +159,13 @@ const handleCurrentChange = (val: number) => {
 // 打开表增加页面
 const openAddDialog = () => {
 	state.editMenuTitle = '增加';
-	EditCodeGenRef.value.openDialog({ nameSpace: 'Admin.NET.Application', authorName: 'Admin.NET', generateType: '2' });
+	EditCodeGenRef.value?.openDialog({ nameSpace: 'Admin.NET.Application', authorName: 'Admin.NET', generateType: '2' });
 };
 
 // 打开表编辑页面
 const openEditDialog = (row: any) => {
 	state.editMenuTitle = '编辑';
-	EditCodeGenRef.value.openDialog(row);
+	EditCodeGenRef.value?.openDialog(row);
 };
 
 // 删除表

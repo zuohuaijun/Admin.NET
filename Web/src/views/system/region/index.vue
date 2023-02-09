@@ -66,8 +66,8 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysRegionApi } from '/@/api-services/api';
 import { SysRegion } from '/@/api-services/models';
 
-const editRegionRef = ref();
-const regionTreeRef = ref();
+const editRegionRef = ref<InstanceType<typeof EditRegion>>();
+const regionTreeRef = ref<InstanceType<typeof RegionTree>>();
 const state = reactive({
 	loading: false,
 	regionData: [] as Array<SysRegion>, // 列表数据
@@ -91,7 +91,7 @@ onMounted(() => {
 		handleQuery();
 
 		// 编辑删除后更新机构数据
-		regionTreeRef.value.initTreeData();
+		regionTreeRef.value?.initTreeData();
 	});
 });
 
@@ -119,13 +119,13 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddRegion = () => {
 	state.editRegionTitle = '添加行政区域';
-	editRegionRef.value.openDialog({});
+	editRegionRef.value?.openDialog({});
 };
 
 // 打开编辑页面
 const openEditRegion = (row: any) => {
 	state.editRegionTitle = '编辑行政区域';
-	editRegionRef.value.openDialog(row);
+	editRegionRef.value?.openDialog(row);
 };
 
 // 删除

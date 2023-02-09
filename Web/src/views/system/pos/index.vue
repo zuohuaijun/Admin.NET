@@ -52,7 +52,7 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysPosApi } from '/@/api-services/api';
 import { SysPos } from '/@/api-services/models';
 
-const editPosRef = ref();
+const editPosRef = ref<InstanceType<typeof EditPos>>();
 const state = reactive({
 	loading: false,
 	posData: [] as Array<SysPos>,
@@ -93,13 +93,13 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddPos = () => {
 	state.editPosTitle = '添加职位';
-	editPosRef.value.openDialog({ status: 1 });
+	editPosRef.value?.openDialog({ status: 1 });
 };
 
 // 打开编辑页面
 const openEditPos = (row: any) => {
 	state.editPosTitle = '编辑职位';
-	editPosRef.value.openDialog(row);
+	editPosRef.value?.openDialog(row);
 };
 
 // 删除

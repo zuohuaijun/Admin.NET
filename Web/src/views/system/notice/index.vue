@@ -76,7 +76,7 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysNoticeApi } from '/@/api-services/api';
 import { SysNotice } from '/@/api-services/models';
 
-const editNoticeRef = ref();
+const editNoticeRef = ref<InstanceType<typeof EditNotice>>();
 const { removeHtml } = commonFunction();
 const state = reactive({
 	loading: false,
@@ -124,13 +124,13 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddNotice = () => {
 	state.editNoticeTitle = '添加通知公告';
-	editNoticeRef.value.openDialog({});
+	editNoticeRef.value?.openDialog({});
 };
 
 // 打开编辑页面
 const openEditNotice = (row: any) => {
 	state.editNoticeTitle = '编辑通知公告';
-	editNoticeRef.value.openDialog(row);
+	editNoticeRef.value?.openDialog(row);
 };
 
 // 删除

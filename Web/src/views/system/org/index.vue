@@ -60,8 +60,8 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysOrgApi } from '/@/api-services/api';
 import { SysOrg } from '/@/api-services/models';
 
-const editOrgRef = ref();
-const orgTreeRef = ref();
+const editOrgRef = ref<InstanceType<typeof EditOrg>>();
+const orgTreeRef = ref<InstanceType<typeof OrgTree>>();
 const state = reactive({
 	loading: false,
 	orgData: [] as Array<SysOrg>, // 机构列表数据
@@ -81,7 +81,7 @@ onMounted(() => {
 		handleQuery();
 
 		// 编辑删除后更新机构数据
-		orgTreeRef.value.initTreeData();
+		orgTreeRef.value?.initTreeData();
 	});
 });
 
@@ -111,13 +111,13 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddOrg = () => {
 	state.editOrgTitle = '添加机构';
-	editOrgRef.value.openDialog({ status: 1 });
+	editOrgRef.value?.openDialog({ status: 1 });
 };
 
 // 打开编辑页面
 const openEditOrg = (row: any) => {
 	state.editOrgTitle = '编辑机构';
-	editOrgRef.value.openDialog(row);
+	editOrgRef.value?.openDialog(row);
 };
 
 // 删除

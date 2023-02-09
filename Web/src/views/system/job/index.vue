@@ -192,9 +192,9 @@ import { SysJobApi } from '/@/api-services/api';
 import { JobOutput } from '/@/api-services/models';
 
 const router = useRouter();
-const editJobDetailRef = ref();
-const editJobTriggerRef = ref();
-const editJobClusterRef = ref();
+const editJobDetailRef = ref<InstanceType<typeof EditJobDetail>>();
+const editJobTriggerRef = ref<InstanceType<typeof EditJobTrigger>>();
+const editJobClusterRef = ref<InstanceType<typeof JobCluster>>();
 const state = reactive({
 	loading: false,
 	jobData: [] as Array<JobOutput>,
@@ -242,13 +242,13 @@ const resetQuery = () => {
 // 打开新增作业页面
 const openAddJobDetail = () => {
 	state.editJobDetailTitle = '添加作业';
-	editJobDetailRef.value.openDialog({ concurrent: true, includeAnnotations: true, groupName: 'default' });
+	editJobDetailRef.value?.openDialog({ concurrent: true, includeAnnotations: true, groupName: 'default' });
 };
 
 // 打开编辑作业页面
 const openEditJobDetail = (row: any) => {
 	state.editJobDetailTitle = '编辑作业';
-	editJobDetailRef.value.openDialog(row.jobDetail);
+	editJobDetailRef.value?.openDialog(row.jobDetail);
 };
 
 // 删除作业
@@ -269,13 +269,13 @@ const delJobDetail = (row: any) => {
 // 打开新增触发器页面
 const openAddJobTrigger = (row: any) => {
 	state.editJobTriggerTitle = '添加触发器';
-	editJobTriggerRef.value.openDialog({ jobId: row.jobDetail.jobId, retryTimeout: 1000, startNow: true, runOnStart: true, resetOnlyOnce: true, triggerType: 'Furion.Schedule.PeriodTrigger' });
+	editJobTriggerRef.value?.openDialog({ jobId: row.jobDetail.jobId, retryTimeout: 1000, startNow: true, runOnStart: true, resetOnlyOnce: true, triggerType: 'Furion.Schedule.PeriodTrigger' });
 };
 
 // 打开编辑触发器页面
 const openEditJobTrigger = (row: any) => {
 	state.editJobTriggerTitle = '编辑触发器';
-	editJobTriggerRef.value.openDialog(row);
+	editJobTriggerRef.value?.openDialog(row);
 };
 
 // 删除触发器
@@ -355,7 +355,7 @@ const persistAll = async () => {
 
 // 打开集群控制页面
 const openJobCluster = () => {
-	editJobClusterRef.value.openDrawer();
+	editJobClusterRef.value?.openDrawer();
 };
 
 // 打开任务看板

@@ -79,7 +79,7 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysWechatUserApi } from '/@/api-services/api';
 import { SysWechatUser } from '/@/api-services/models';
 
-const editWeChatUserRef = ref();
+const editWeChatUserRef = ref<InstanceType<typeof EditWeChatUser>>();
 const state = reactive({
 	loading: false,
 	weChatUserData: [] as Array<SysWechatUser>,
@@ -126,7 +126,7 @@ const resetQuery = () => {
 // 打开编辑页面
 const openEditWeChatUser = (row: any) => {
 	state.editWeChatUserTitle = '编辑微信账号';
-	editWeChatUserRef.value.openDialog(row);
+	editWeChatUserRef.value?.openDialog(row);
 };
 
 // 删除

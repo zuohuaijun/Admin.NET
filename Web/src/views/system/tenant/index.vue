@@ -105,8 +105,8 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysTenantApi } from '/@/api-services/api';
 import { TenantOutput } from '/@/api-services/models';
 
-const editTenantRef = ref();
-const grantMenuRef = ref();
+const editTenantRef = ref<InstanceType<typeof EditTenant>>();
+const grantMenuRef = ref<InstanceType<typeof GrantMenu>>();
 const state = reactive({
 	loading: false,
 	tenantData: [] as Array<TenantOutput>,
@@ -153,18 +153,18 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddTenant = () => {
 	state.editTenantTitle = '添加租户';
-	editTenantRef.value.openDialog({ tenantType: 0 });
+	editTenantRef.value?.openDialog({ tenantType: 0 });
 };
 
 // 打开编辑页面
 const openEditTenant = (row: any) => {
 	state.editTenantTitle = '编辑租户';
-	editTenantRef.value.openDialog(row);
+	editTenantRef.value?.openDialog(row);
 };
 
 // 打开授权菜单页面
 const openGrantMenu = async (row: any) => {
-	grantMenuRef.value.openDialog(row);
+	grantMenuRef.value?.openDialog(row);
 };
 
 // 重置密码

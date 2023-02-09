@@ -68,7 +68,7 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi } from '/@/api-services/api';
 import { SysMenu } from '/@/api-services/models';
 
-const editMenuRef = ref();
+const editMenuRef = ref<InstanceType<typeof EditMenu>>();
 const state = reactive({
 	loading: false,
 	menuData: [] as Array<SysMenu>,
@@ -109,13 +109,13 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddMenu = () => {
 	state.editMenuTitle = '添加菜单';
-	editMenuRef.value.openDialog({ type: 2 });
+	editMenuRef.value?.openDialog({ type: 2 });
 };
 
 // 打开编辑页面
 const openEditMenu = (row: any) => {
 	state.editMenuTitle = '编辑菜单';
-	editMenuRef.value.openDialog(row);
+	editMenuRef.value?.openDialog(row);
 };
 
 // 删除当前行

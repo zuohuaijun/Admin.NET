@@ -83,8 +83,8 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysRoleApi } from '/@/api-services/api';
 import { SysRole } from '/@/api-services/models';
 
-const editRoleRef = ref();
-const grantDataRef = ref();
+const editRoleRef = ref<InstanceType<typeof EditRole>>();
+const grantDataRef = ref<InstanceType<typeof GrantData>>();
 const state = reactive({
 	loading: false,
 	roleData: [] as Array<SysRole>,
@@ -131,18 +131,18 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddRole = () => {
 	state.editRoleTitle = '添加角色';
-	editRoleRef.value.openDialog({});
+	editRoleRef.value?.openDialog({});
 };
 
 // 打开编辑页面
 const openEditRole = async (row: any) => {
 	state.editRoleTitle = '编辑角色';
-	editRoleRef.value.openDialog(row);
+	editRoleRef.value?.openDialog(row);
 };
 
 // 打开授权数据范围页面
 const openGrantData = (row: any) => {
-	grantDataRef.value.openDialog(row);
+	grantDataRef.value?.openDialog(row);
 };
 
 // 删除
