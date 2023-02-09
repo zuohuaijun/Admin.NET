@@ -40,7 +40,7 @@
 			<el-table :data="state.jobData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="expand" fixed>
 					<template #default="scope">
-						<el-table :data="scope.row.jobTriggers" border size="small">
+						<el-table style="margin-left: 48px; width: calc(100% - 48px)" :data="scope.row.jobTriggers" border size="small">
 							<el-table-column type="index" label="序号" width="55" align="center" fixed />
 							<el-table-column prop="triggerId" label="触发器编号" width="120" fixed show-overflow-tooltip />
 							<el-table-column prop="triggerType" label="类型" show-overflow-tooltip />
