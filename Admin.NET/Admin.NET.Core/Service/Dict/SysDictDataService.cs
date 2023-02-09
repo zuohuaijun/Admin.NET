@@ -168,4 +168,15 @@ public class SysDictDataService : IDynamicApiController, ITransient
                 Value = b.Code
             }).ToListAsync();
     }
+
+    /// <summary>
+    /// 根据字典类型Id删除字典值
+    /// </summary>
+    /// <param name="dictTypeId"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(false)]
+    public async Task DeleteDictData(long dictTypeId)
+    {
+        await _sysDictDataRep.DeleteAsync(u => u.DictTypeId == dictTypeId);
+    }
 }

@@ -40,7 +40,7 @@ public class SysUserService : IDynamicApiController, ITransient
             _userManager.SuperAdmin ? null : await _sysOrgService.GetUserOrgIdList(); // 各管理员只能看到自己机构下的用户列表
 
         return await _sysUserRep.AsQueryable()
-            .LeftJoin<SysUserExtOrg>((u, o) => u.Id == o.UserId)
+            .InnerJoin<SysUserExtOrg>((u, o) => u.Id == o.UserId)
             .WhereIF(!_userManager.SuperAdmin, u => u.AccountType != AccountTypeEnum.SuperAdmin)
             .WhereIF(orgList != null, (u, o) => orgList.Contains(u.OrgId) || orgList.Contains(o.OrgId))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Account), u => u.Account.Contains(input.Account))

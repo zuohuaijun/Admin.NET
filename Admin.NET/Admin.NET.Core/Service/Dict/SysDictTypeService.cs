@@ -8,15 +8,12 @@
 public class SysDictTypeService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysDictType> _sysDictTypeRep;
-    private readonly SqlSugarRepository<SysDictData> _sysDictDataRep;
     private readonly SysDictDataService _sysDictDataService;
 
     public SysDictTypeService(SqlSugarRepository<SysDictType> sysDictTypeRep,
-        SqlSugarRepository<SysDictData> sysDictDataRep,
         SysDictDataService sysDictDataService)
     {
         _sysDictTypeRep = sysDictTypeRep;
-        _sysDictDataRep = sysDictDataRep;
         _sysDictDataService = sysDictDataService;
     }
 
@@ -108,8 +105,8 @@ public class SysDictTypeService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D3000);
 
         //删除字典值
-        await _sysDictDataRep.AsDeleteable().Where(u => u.DictTypeId == input.Id).ExecuteCommandAsync();
         await _sysDictTypeRep.DeleteAsync(dictType);
+        await _sysDictDataService.DeleteDictData(input.Id);
     }
 
     /// <summary>

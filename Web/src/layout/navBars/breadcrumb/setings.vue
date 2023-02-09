@@ -235,6 +235,9 @@
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fiveAnimation') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
 						<el-select v-model="getThemeConfig.animation" placeholder="请选择" size="default" style="width: 90px" @change="setLocalThemeConfig">
+							<el-option label="slide-right" value="slide-right"></el-option>
+							<el-option label="slide-left" value="slide-left"></el-option>
+							<el-option label="opacitys" value="opacitys"></el-option>
 							<el-option label="fade" value="fade"></el-option>
 							<el-option label="fadeUp" value="fadeUp"></el-option>
 							<el-option label="fadeDown" value="fadeDown"></el-option>

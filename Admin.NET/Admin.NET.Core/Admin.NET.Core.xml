@@ -5154,6 +5154,13 @@
             <param name="input"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.DeleteDictData(System.Int64)">
+            <summary>
+            根据字典类型Id删除字典值
+            </summary>
+            <param name="dictTypeId"></param>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.Service.SysDictTypeService">
             <summary>
             系统字典类型服务
