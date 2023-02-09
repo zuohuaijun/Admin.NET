@@ -110,6 +110,7 @@ const handleQuery = async () => {
 const resetQuery = () => {
 	state.queryParams.name = undefined;
 	state.queryParams.code = undefined;
+	state.queryParams.groupCode = undefined;
 	handleQuery();
 };
 

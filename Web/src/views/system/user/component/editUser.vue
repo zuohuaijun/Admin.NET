@@ -7,7 +7,7 @@
 					<span>{{ props.title }}</span>
 				</div>
 			</template>
-			<el-tabs v-loading="state.loading">
+			<el-tabs v-loading="state.loading" v-model="state.selectedTabName">
 				<el-tab-pane label="基础信息">
 					<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 						<el-row :gutter="35">
@@ -252,6 +252,7 @@ const ruleFormRef = ref();
 const state = reactive({
 	loading: false,
 	isShowDialog: false,
+	selectedTabName: '0', // 选中的 tab 页
 	ruleForm: {} as UpdateUserInput,
 	posData: [] as Array<SysPos>, // 职位数据
 	roleData: [] as Array<RoleOutput>, // 角色数据
@@ -268,6 +269,7 @@ onMounted(async () => {
 
 // 打开弹窗
 const openDialog = async (row: any) => {
+	state.selectedTabName = '0'; // 重置为第一个 tab 页
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	if (JSON.stringify(row) !== '{}') {
 		var resRole = await getAPI(SysUserApi).apiSysUserOwnRoleListUserIdGet(row.id);

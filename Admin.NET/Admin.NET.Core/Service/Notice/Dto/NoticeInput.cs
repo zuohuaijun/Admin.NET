@@ -10,7 +10,7 @@ public class PageNoticeInput : BasePageInput
     /// <summary>
     /// 类型（1通知 2公告）
     /// </summary>
-    public virtual NoticeTypeEnum Type { get; set; }
+    public virtual NoticeTypeEnum? Type { get; set; }
 }
 
 public class AddNoticeInput : SysNotice

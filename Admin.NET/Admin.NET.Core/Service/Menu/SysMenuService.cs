@@ -76,11 +76,11 @@ public class SysMenuService : IDynamicApiController, ITransient
         var menuIdList = _userManager.SuperAdmin ? new List<long>() : await GetMenuIdList();
 
         // 有筛选条件时返回list列表（防止构造不出树）
-        if (!string.IsNullOrWhiteSpace(input.Title) || input.Type > 0)
+        if (!string.IsNullOrWhiteSpace(input.Title) || input.Type is > 0)
         {
             return await _sysMenuRep.AsQueryable()
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title))
-                .WhereIF(input.Type > 0, u => u.Type == input.Type)
+                .WhereIF(input.Type is > 0, u => u.Type == input.Type)
                 .WhereIF(menuIdList.Count > 1, u => menuIdList.Contains(u.Id))
                 .OrderBy(u => u.OrderNo).ToListAsync();
         }

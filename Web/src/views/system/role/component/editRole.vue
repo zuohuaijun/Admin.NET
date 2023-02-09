@@ -94,6 +94,7 @@ onMounted(async () => {
 
 // 打开弹窗
 const openDialog = async (row: any) => {
+	treeRef.value?.setCheckedKeys([]); // 清空选中值
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	if (JSON.stringify(row) !== '{}') {
 		var res = await getAPI(SysRoleApi).apiSysRoleOwnMenuListGet(row.id);

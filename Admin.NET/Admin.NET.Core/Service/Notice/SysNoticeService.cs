@@ -137,7 +137,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
         return await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
             .Where(u => u.UserId == _userManager.UserId)
             .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.SysNotice.Title.Contains(input.Title.Trim()))
-            .WhereIF(input.Type > 0, u => u.SysNotice.Type == input.Type)
+            .WhereIF(input.Type is > 0, u => u.SysNotice.Type == input.Type)
             .OrderBy(u => u.SysNotice.CreateTime, OrderByType.Desc)
             .ToPagedListAsync(input.Page, input.PageSize);
     }

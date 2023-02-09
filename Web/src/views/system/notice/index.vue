@@ -6,7 +6,7 @@
 					<el-input placeholder="标题" clearable @keyup.enter="handleQuery" v-model="state.queryParams.title" />
 				</el-form-item>
 				<el-form-item label="类型" prop="type">
-					<el-select v-model="state.queryParams.type" placeholder="类型" style="width: 100%">
+					<el-select v-model="state.queryParams.type" placeholder="类型" clearable style="width: 100%">
 						<el-option label="通知" :value="1" />
 						<el-option label="公告" :value="2" />
 					</el-select>

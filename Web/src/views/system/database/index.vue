@@ -8,7 +8,7 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item label="表名" prop="tableName">
-					<el-select v-model="state.tableName" placeholder="表名" filterable clearable @change="handleQueryColunm">
+					<el-select v-model="state.tableName" placeholder="表名" filterable clearable @change="handleQueryColumn">
 						<el-option v-for="item in state.tableData" :key="item.name" :label="item.name + '[' + item.description + ']'" :value="item.name" />
 					</el-select>
 				</el-form-item>
@@ -110,12 +110,12 @@ onMounted(async () => {
 		handleQueryTable();
 	});
 	mittBus.on('submitRefreshColumn', () => {
-		handleQueryColunm();
+		handleQueryColumn();
 	});
 	mittBus.on('addTableSubmitted', (res: any) => {
 		handleQueryTable();
 		state.tableName = res;
-		handleQueryColunm();
+		handleQueryColumn();
 	});
 });
 
@@ -137,7 +137,10 @@ const handleQueryTable = async () => {
 };
 
 // 列查询操作
-const handleQueryColunm = async () => {
+const handleQueryColumn = async () => {
+	state.columnData = [];
+	if (state.tableName == '') return;
+
 	state.loading1 = true;
 	var res = await getAPI(SysDatabaseApi).apiSysDatabaseColumnListTableNameConfigIdGet(state.tableName, state.configId);
 	state.columnData = res.data.result ?? [];

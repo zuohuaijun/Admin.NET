@@ -10,7 +10,7 @@ public class MenuInput
     /// <summary>
     /// 菜单类型（1目录 2菜单 3按钮）
     /// </summary>
-    public MenuTypeEnum Type { get; set; }
+    public MenuTypeEnum? Type { get; set; }
 }
 
 public class AddMenuInput : SysMenu
