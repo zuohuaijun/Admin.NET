@@ -126,9 +126,18 @@ public static class SqlSugarSetup
                             entityInfo.SetValue(App.User.FindFirst(ClaimConst.TenantId)?.Value);
                     }
                     if (entityInfo.PropertyName == "CreateUserId")
-                        entityInfo.SetValue(App.User.FindFirst(ClaimConst.UserId)?.Value);
+                    {
+                        var createUserId = ((dynamic)entityInfo.EntityValue).CreateUserId;
+                        if (createUserId == 0 || createUserId == null)
+                            entityInfo.SetValue(App.User.FindFirst(ClaimConst.UserId)?.Value);
+                    }
+
                     if (entityInfo.PropertyName == "CreateOrgId")
-                        entityInfo.SetValue(App.User.FindFirst(ClaimConst.OrgId)?.Value);
+                    {
+                        var createOrgId = ((dynamic)entityInfo.EntityValue).CreateOrgId;
+                        if (createOrgId == 0 || createOrgId == null)
+                            entityInfo.SetValue(App.User.FindFirst(ClaimConst.OrgId)?.Value);
+                    }
                 }
             }
             if (entityInfo.OperationType == DataFilterType.UpdateByObject)
