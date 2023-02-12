@@ -401,7 +401,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private static List<string> GetTemplatePathList()
     {
-        var templatePath = App.WebHostEnvironment.WebRootPath + @"\Template\";
+        var templatePath = Path.Combine(App.WebHostEnvironment.WebRootPath, "Template");
         return new List<string>()
         {
             Path.Combine(templatePath , "Service.cs.vm"),
