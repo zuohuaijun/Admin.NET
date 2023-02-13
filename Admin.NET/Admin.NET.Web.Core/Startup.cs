@@ -1,20 +1,27 @@
 using Admin.NET.Core;
 using Admin.NET.Core.Service;
+using Admin.NET.Core.Service.ApiJson;
+using APIJSON.NET.Services;
 using AspNetCoreRateLimit;
 using Furion;
 using Furion.SpecificationDocument;
 using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using NewLife.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Net.Mail;
@@ -181,6 +188,44 @@ public class Startup : AppStartup
 
         // 验证码
         services.AddLazyCaptcha();
+
+        #region ApiJson
+        //services.Configure<List<Role>>(App.GetConfig<List<Role>>("ApiJson:RoleList"));
+        //services.Configure<Dictionary<string, string>>(Configuration.GetSection("tablempper"));
+        //services.Configure<TokenAuthConfiguration>(tokenAuthConfig =>
+        //{
+        //    tokenAuthConfig.SecurityKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Authentication:JwtBearer:SecurityKey"]));
+        //    tokenAuthConfig.Issuer = Configuration["Authentication:JwtBearer:Issuer"];
+        //    tokenAuthConfig.Audience = Configuration["Authentication:JwtBearer:Audience"];
+        //    tokenAuthConfig.SigningCredentials = new SigningCredentials(tokenAuthConfig.SecurityKey, SecurityAlgorithms.HmacSha256);
+        //    tokenAuthConfig.Expiration = TimeSpan.FromDays(1);
+        //});
+        //AuthConfigurer.Configure(services, Configuration);
+
+        //var origins = Configuration.GetSection("CorsUrls").Value.Split(",");
+        //services.AddCors(options => options.AddPolicy(_defaultCorsPolicyName,
+        //   builder =>
+        //   builder.WithOrigins(origins)
+        //     .AllowAnyHeader()
+        //     .AllowAnyMethod().AllowCredentials()
+        //     ));
+        //services.AddControllers()
+        //    .AddNewtonsoftJson(options =>
+        //    {
+        //        options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+        //        options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+        //    }); ;
+        //services.AddSwaggerGen(c =>
+        //{
+        //    c.SwaggerDoc("v1", new OpenApiInfo { Title = "APIJSON.NET", Version = "v1" });
+        //});
+        //services.AddSingleton<DbContext>();
+        services.AddSingleton<SelectTable>();
+        //services.AddSingleton<TokenAuthConfiguration>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddTransient<IIdentityService, IdentityService>();
+        services.AddTransient<ITableMapper, TableMapper>();
+        #endregion
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
