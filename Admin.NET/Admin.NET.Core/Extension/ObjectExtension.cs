@@ -246,4 +246,14 @@ public static partial class ObjectExtension
             return defaultValue.GetValueOrDefault();
         }
     }
+
+    /// <summary>
+    /// 判断是否有值
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public static bool IsNullOrEmpty(this object obj)
+    {
+        return obj == null || string.IsNullOrEmpty(obj.ToString());
+    }
 }

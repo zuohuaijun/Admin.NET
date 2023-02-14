@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-	  <None Update="Configuration\ApiJson.json">
+	  <None Update="Configuration\APIJSON.json">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Configuration\App.json">

@@ -3351,6 +3351,13 @@
             <param name="defaultValue"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.ObjectExtension.IsNullOrEmpty(System.Object)">
+            <summary>
+            判断是否有值
+            </summary>
+            <param name="obj"></param>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.RepositoryExtension.FakeDelete``1(SqlSugar.ISugarRepository,``0)">
             <summary>
             实体假删除 _rep.FakeDelete(entity)
@@ -3628,14 +3635,64 @@
             ES服务注册
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.ApiJsonOptions">
+        <member name="T:Admin.NET.Core.APIJSONOptions">
             <summary>
-            ApiJson配置选项
+            APIJSON配置选项
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.ApiJsonOptions.RoleList">
+        <member name="P:Admin.NET.Core.APIJSONOptions.Roles">
             <summary>
-            ApiJson集合RoleList
+            角色集合
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.APIJSON_Role">
+            <summary>
+            APIJSON角色权限
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.APIJSON_Role.RoleName">
+            <summary>
+            角色名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.APIJSON_Role.Select">
+            <summary>
+            查询
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.APIJSON_Role.Insert">
+            <summary>
+            增加
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.APIJSON_Role.Update">
+            <summary>
+            更新
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.APIJSON_Role.Delete">
+            <summary>
+            删除
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.APIJSON_RoleItem">
+            <summary>
+            APIJSON角色权限内容
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.APIJSON_RoleItem.Table">
+            <summary>
+            表集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.APIJSON_RoleItem.Column">
+            <summary>
+            列集合
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.APIJSON_RoleItem.Filter">
+            <summary>
+            过滤器
             </summary>
         </member>
         <member name="T:Admin.NET.Core.CacheOptions">
@@ -4031,107 +4088,101 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.ApiJson.ApiJsonService">
+        <member name="T:Admin.NET.Core.Service.APIJSONService">
             <summary>
-            系统数据库管理服务
+            APIJSON服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.ApiJsonService.Post(Newtonsoft.Json.Linq.JObject)">
+        <member name="M:Admin.NET.Core.Service.APIJSONService.Post(Newtonsoft.Json.Linq.JObject)">
             <summary>
-            ApiJson 统一入口
+            统一入口
             </summary>
             <param name="jobject"></param>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.ApiJson.FuncList">
+        <member name="T:Admin.NET.Core.Service.FuncList">
             <summary>
             自定义方法
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.FuncList.Merge(System.Object,System.Object)">
+        <member name="M:Admin.NET.Core.Service.FuncList.Merge(System.Object,System.Object)">
             <summary>
-            
+            字符串相加
             </summary>
             <param name="a"></param>
             <param name="b"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.FuncList.MergeObj(System.Object,System.Object)">
+        <member name="M:Admin.NET.Core.Service.FuncList.MergeObj(System.Object,System.Object)">
             <summary>
-            
+            对象合并
             </summary>
             <param name="a"></param>
             <param name="b"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.FuncList.isContain(System.Object,System.Object)">
+        <member name="M:Admin.NET.Core.Service.FuncList.IsContain(System.Object,System.Object)">
             <summary>
-            
+            是否包含
             </summary>
             <param name="a"></param>
             <param name="b"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.IIdentityService.GetUserIdentity">
+        <member name="M:Admin.NET.Core.Service.IdentityService.GetUserIdentity">
             <summary>
-            获取当前用户id
+            获取当前用户Id
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.IIdentityService.GetUserRoleName">
+        <member name="M:Admin.NET.Core.Service.IdentityService.GetUserRoleName">
             <summary>
-            获取当前用户权限组名称
+            获取当前用户权限名称
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.IIdentityService.GetRole">
+        <member name="M:Admin.NET.Core.Service.IdentityService.GetRole">
             <summary>
             获取当前用户权限
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.IIdentityService.GetSelectRole(System.String)">
+        <member name="M:Admin.NET.Core.Service.IdentityService.GetSelectRole(System.String)">
             <summary>
             获取当前表的可查询字段
             </summary>
             <param name="table"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.StringExtensions.IsValue(System.Object)">
+        <member name="M:Admin.NET.Core.Service.IdentityService.ColIsRole(System.String,System.String[])">
             <summary>
-            是否有值
+            当前列是否在角色里面
             </summary>
-            <param name="str"></param>
+            <param name="col"></param>
+            <param name="selectrole"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.StringExtensions.GetParamName(System.String)">
-            <summary>
+        <member name="T:Admin.NET.Core.Service.SelectTable">
+             <summary>
             
-            </summary>
-            <param name="param"></param>
-            <returns></returns>
+             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.ApiJson.SelectTable">
-            <summary>
+        <member name="M:Admin.NET.Core.Service.SelectTable.#ctor(Admin.NET.Core.Service.IdentityService,Admin.NET.Core.Service.TableMapper,SqlSugar.ISqlSugarClient)">
+             <summary>
             
-            </summary>
+             </summary>
+             <param name="identityService"></param>
+             <param name="tableMapper"></param>
+             <param name="dbClient"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.#ctor(Admin.NET.Core.Service.ApiJson.IIdentityService,APIJSON.NET.Services.ITableMapper,SqlSugar.ISqlSugarClient)">
-            <summary>
-            
-            </summary>
-            <param name="identityService"></param>
-            <param name="tableMapper"></param>
-            <param name="dbClient"></param>
-        </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.IsTable(System.String)">
+        <member name="M:Admin.NET.Core.Service.SelectTable.IsTable(System.String)">
             <summary>
             判断表名是否正确
             </summary>
             <param name="table"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.IsCol(System.String,System.String)">
+        <member name="M:Admin.NET.Core.Service.SelectTable.IsCol(System.String,System.String)">
             <summary>
             判断表的列名是否正确
             </summary>
@@ -4139,7 +4190,7 @@
             <param name="col"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.ExecFunc(System.String,System.Object[],System.Type[])">
+        <member name="M:Admin.NET.Core.Service.SelectTable.ExecFunc(System.String,System.Object[],System.Type[])">
             <summary>
             动态调用方法
             </summary>
@@ -4148,34 +4199,34 @@
             <param name="types"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.GetTableData(System.String,System.Int32,System.Int32,System.Int32,System.String,Newtonsoft.Json.Linq.JObject)">
-            <summary>
+        <member name="M:Admin.NET.Core.Service.SelectTable.GetTableData(System.String,System.Int32,System.Int32,System.Int32,System.String,Newtonsoft.Json.Linq.JObject)">
+             <summary>
             
-            </summary>
-            <param name="subtable"></param>
-            <param name="page"></param>
-            <param name="count"></param>
-            <param name="json"></param>
-            <param name="dd"></param>
-            <returns></returns>
+             </summary>
+             <param name="subtable"></param>
+             <param name="page"></param>
+             <param name="count"></param>
+             <param name="json"></param>
+             <param name="dd"></param>
+             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.GetFirstData(System.String,System.String,Newtonsoft.Json.Linq.JObject)">
-            <summary>
+        <member name="M:Admin.NET.Core.Service.SelectTable.GetFirstData(System.String,System.String,Newtonsoft.Json.Linq.JObject)">
+             <summary>
             
-            </summary>
-            <param name="subtable"></param>
-            <param name="json"></param>
-            <param name="dd"></param>
-            <returns></returns>
+             </summary>
+             <param name="subtable"></param>
+             <param name="json"></param>
+             <param name="dd"></param>
+             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.Query(System.String)">
+        <member name="M:Admin.NET.Core.Service.SelectTable.Query(System.String)">
             <summary>
             解析并查询
             </summary>
-            <param name="query"></param>
+            <param name="queryJson"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.QuerySingle(Newtonsoft.Json.Linq.JObject,System.String)">
+        <member name="M:Admin.NET.Core.Service.SelectTable.QuerySingle(Newtonsoft.Json.Linq.JObject,System.String)">
             <summary>
             单表查询
             </summary>
@@ -4183,18 +4234,30 @@
             <param name="nodeName">返回数据的节点名称  默认为 infos</param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.ToSql(Newtonsoft.Json.Linq.JObject)">
+        <member name="M:Admin.NET.Core.Service.SelectTable.ToSql(Newtonsoft.Json.Linq.JObject)">
             <summary>
             获取查询语句
             </summary>
             <param name="queryObj"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.ApiJson.SelectTable.Query(Newtonsoft.Json.Linq.JObject)">
+        <member name="M:Admin.NET.Core.Service.SelectTable.Query(Newtonsoft.Json.Linq.JObject)">
             <summary>
             解析并查询
             </summary>
-            <param name="query"></param>
+            <param name="queryObj"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.TableMapper">
+            <summary>
+            表名映射
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.TableMapper.GetTableName(System.String)">
+            <summary>
+            获取表别名
+            </summary>
+            <param name="oldname"></param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.LoginInput">
@@ -8110,13 +8173,6 @@
             <summary>
             SM工具类
             </summary>
-        </member>
-        <member name="M:APIJSON.NET.Services.ITableMapper.GetTableName(System.String)">
-            <summary>
-            表别名获取
-            </summary>
-            <param name="oldname"></param>
-            <returns></returns>
         </member>
     </members>
 </doc>

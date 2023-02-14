@@ -1,49 +1,33 @@
-﻿using APIJSON.NET.Services;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 
-namespace Admin.NET.Core.Service.ApiJson;
+namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 系统数据库管理服务
+/// APIJSON服务
 /// </summary>
-[ApiDescriptionSettings(Order = 251)]
-public class ApiJsonService : IDynamicApiController, ITransient
+[ApiDescriptionSettings(Order = 100)]
+public class APIJSONService : IDynamicApiController, ITransient
 {
-    private SelectTable selectTable;
     private readonly ISqlSugarClient _db;
-    private readonly IViewEngine _viewEngine;
-    private readonly CodeGenOptions _codeGenOptions;
-    //private readonly ApiJsnOptions _roles;
-    private readonly IIdentityService _identitySvc;
-    private ITableMapper _tableMapper;
+    private readonly IdentityService _identityService;
+    private readonly TableMapper _tableMapper;
 
-    public ApiJsonService(ISqlSugarClient db,
-        IViewEngine viewEngine,
-        IOptions<CodeGenOptions> codeGenOptions,
-        IOptions<ApiJsonOptions> adaOptions,
-        IIdentityService identityService,
-        ITableMapper tableMapper)
+    public APIJSONService(ISqlSugarClient db,
+        IdentityService identityService,
+        TableMapper tableMapper)
     {
         _db = db;
-        _viewEngine = viewEngine;
-        //_codeGenOptions = codeGenOptions.Value;
-        //_roles = roles.Value;
-
-
         _tableMapper = tableMapper;
-        _identitySvc = identityService;
-        selectTable = new SelectTable(_identitySvc, _tableMapper, _db);
+        _identityService = identityService;
     }
 
     /// <summary>
-    /// ApiJson 统一入口
+    /// 统一入口
     /// </summary>
     /// <param name="jobject"></param>
     /// <returns></returns>
     public JObject Post([FromBody] JObject jobject)
     {
-        JObject resultJobj = new SelectTable(_identitySvc, _tableMapper, _db).Query(jobject);
-        return resultJobj;
+        return new SelectTable(_identityService, _tableMapper, _db).Query(jobject);
     }
-
 }

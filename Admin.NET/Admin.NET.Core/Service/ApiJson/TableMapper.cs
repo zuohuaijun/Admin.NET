@@ -1,26 +1,31 @@
-﻿using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
+﻿namespace Admin.NET.Core.Service;
 
-namespace APIJSON.NET.Services
+/// <summary>
+/// 表名映射
+/// </summary>
+public class TableMapper : ITransient
 {
-    public class TableMapper : ITableMapper
+    private readonly Dictionary<string, string> _options = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+
+    public TableMapper(IOptions<Dictionary<string, string>> options)
     {
-        private readonly Dictionary<string, string> _options= new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
-        public TableMapper(IOptions<Dictionary<string, string>> options)
+        foreach (var item in options.Value)
         {
-            foreach (var item in options.Value)
-            {
-                _options.Add(item.Key, item.Value);
-            }
+            _options.Add(item.Key, item.Value);
         }
-        public string GetTableName(string oldname)
+    }
+
+    /// <summary>
+    /// 获取表别名
+    /// </summary>
+    /// <param name="oldname"></param>
+    /// <returns></returns>
+    public string GetTableName(string oldname)
+    {
+        if (_options.ContainsKey(oldname))
         {
-            if (_options.ContainsKey(oldname))
-            {
-                return _options[oldname];
-            }
-            return oldname;
+            return _options[oldname];
         }
+        return oldname;
     }
 }

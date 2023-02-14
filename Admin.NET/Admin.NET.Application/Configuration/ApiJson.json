@@ -1,34 +1,34 @@
 {
-  "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
-  // 代码生成配置项-程序集名称集合
-  "ApiJson": {
-    "RoleList": [
-      {
-        "name": "role1", //权限名称 唯一
-        "select": { //查询权限
-          "table": [ "*" ], //可操作的表
-          "column": [ "tb.*" ], //可操作的字段
-          "where": []
-        },
-        "update": { //修改权限
-          "table": [ "moment", "User", "Comment" ],
-          "column": [ "tb.*", "tb.*", "tb.*" ]
-        },
-        "insert": { //添加权限
-          "table": [ "moment", "User", "Comment" ],
-          "column": [ "tb.*", "tb.*", "tb.*" ]
-        },
-        "delete": { //删除权限
-          "table": [ "moment", "User", "Comment" ]
-        }
-      },
-      {
-        "name": "role2",
-        "select": {
-          "table": [ "monent" ],
-          "column": [ "*" ]
-        }
-      }
-    ]
-  }
+    "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+
+    "APIJSON": {
+        "Roles": [
+            {
+                "RoleName": "Role1", // 权限名称 唯一
+                "Select": { // 查询
+                    "Table": [ "*" ], // 可操作的表
+                    "Column": [ "tb.*" ], // 可操作的字段
+                    "Filter": []
+                },
+                "Insert": { // 添加
+                    "Table": [ "table1", "table2", "table3" ],
+                    "Column": [ "tb.*", "tb.*", "tb.*" ]
+                },
+                "Update": { // 修改
+                    "Table": [ "table1", "table2", "table3" ],
+                    "Column": [ "tb.*", "tb.*", "tb.*" ]
+                },
+                "Delete": { // 删除
+                    "Table": [ "table1", "table2", "table3" ]
+                }
+            },
+            {
+                "RoleName": "Role2",
+                "Select": {
+                    "Table": [ "table1" ],
+                    "Column": [ "*" ]
+                }
+            }
+        ]
+    }
 }

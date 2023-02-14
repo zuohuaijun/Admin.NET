@@ -1,90 +1,100 @@
 ﻿using System.Security.Claims;
 
-namespace Admin.NET.Core.Service.ApiJson
+namespace Admin.NET.Core.Service;
+
+public class IdentityService : ITransient
 {
-    public class IdentityService : IIdentityService
+    private readonly IHttpContextAccessor _context;
+    private readonly List<APIJSON_Role> _roles;
+
+    public IdentityService(IHttpContextAccessor context, IOptions<APIJSONOptions> roles)
     {
-        private IHttpContextAccessor _context;
-        private List<Role> _roles;
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+        _roles = roles.Value.Roles;
+    }
 
-        public IdentityService(IHttpContextAccessor context, IOptions<ApiJsonOptions> roles)
-        {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            //roles = App.GetConfig<List<Role>>("ApiJson:RoleList");
-            _roles = roles.Value.RoleList;
-        }
-        public string GetUserIdentity()
-        {
-            return _context.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
-        }
+    /// <summary>
+    /// 获取当前用户Id
+    /// </summary>
+    /// <returns></returns>
+    public string GetUserIdentity()
+    {
+        return _context.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+    }
 
-        public string GetUserRoleName()
+    /// <summary>
+    /// 获取当前用户权限名称
+    /// </summary>
+    /// <returns></returns>
+    public string GetUserRoleName()
+    {
+        return _context.HttpContext.User.FindFirstValue(ClaimTypes.Role);
+    }
+
+    /// <summary>
+    /// 获取当前用户权限
+    /// </summary>
+    /// <returns></returns>
+    public APIJSON_Role GetRole()
+    {
+        var role = new APIJSON_Role();
+        if (string.IsNullOrEmpty(GetUserRoleName())) // 若没登录默认取第一个
         {
-            return _context.HttpContext.User.FindFirstValue(ClaimTypes.Role);
+            role = _roles.FirstOrDefault();
         }
-        public Role GetRole()
+        else
         {
-            var role = new Role();
-            if (string.IsNullOrEmpty(GetUserRoleName()))//没登录默认取第一个
+            role = _roles.FirstOrDefault(it => it.RoleName.Equals(GetUserRoleName(), StringComparison.CurrentCultureIgnoreCase));
+        }
+        return role;
+    }
+
+    /// <summary>
+    /// 获取当前表的可查询字段
+    /// </summary>
+    /// <param name="table"></param>
+    /// <returns></returns>
+    public (bool, string) GetSelectRole(string table)
+    {
+        var role = GetRole();
+        if (role == null || role.Select == null || role.Select.Table == null)
+        {
+            return (false, $"appsettings.json权限配置不正确！");
+        }
+        string tablerole = role.Select.Table.FirstOrDefault(it => it == "*" || it.Equals(table, StringComparison.CurrentCultureIgnoreCase));
+
+        if (string.IsNullOrEmpty(tablerole))
+        {
+            return (false, $"表名{table}没权限查询！");
+        }
+        int index = Array.IndexOf(role.Select.Table, tablerole);
+        string selectrole = role.Select.Column[index];
+        return (true, selectrole);
+    }
+
+    /// <summary>
+    /// 当前列是否在角色里面
+    /// </summary>
+    /// <param name="col"></param>
+    /// <param name="selectrole"></param>
+    /// <returns></returns>
+    public bool ColIsRole(string col, string[] selectrole)
+    {
+        if (selectrole.Contains("*"))
+        {
+            return true;
+        }
+        else
+        {
+            if (col.Contains("(") && col.Contains(")"))
             {
-                role = _roles.FirstOrDefault();
-
+                Regex reg = new Regex(@"\(([^)]*)\)");
+                Match m = reg.Match(col);
+                return selectrole.Contains(m.Result("$1"), StringComparer.CurrentCultureIgnoreCase);
             }
             else
             {
-                role = _roles.FirstOrDefault(it => it.Name.Equals(GetUserRoleName(), StringComparison.CurrentCultureIgnoreCase));
-            }
-            return role;
-        }
-        public (bool, string) GetSelectRole(string table)
-        {
-            var role = GetRole();
-            if (role == null || role.Select == null || role.Select.Table == null)
-            {
-                return (false, $"appsettings.json权限配置不正确！");
-            }
-            string tablerole = role.Select.Table.FirstOrDefault(it => it == "*" || it.Equals(table, StringComparison.CurrentCultureIgnoreCase));
-
-            if (string.IsNullOrEmpty(tablerole))
-            {
-                return (false, $"表名{table}没权限查询！");
-            }
-            int index = Array.IndexOf(role.Select.Table, tablerole);
-            string selectrole = role.Select.Column[index];
-            return (true, selectrole);
-        }
-        public bool ColIsRole(string col, string[] selectrole)
-        {
-            if (selectrole.Contains("*"))
-            {
-                return true;
-            }
-            else
-            {
-                if (col.Contains("(") && col.Contains(")"))
-                {
-                    Regex reg = new Regex(@"\(([^)]*)\)");
-                    Match m = reg.Match(col);
-                    if (selectrole.Contains(m.Result("$1"), StringComparer.CurrentCultureIgnoreCase))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
-                else
-                {
-                    if (selectrole.Contains(col, StringComparer.CurrentCultureIgnoreCase))
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
+                return selectrole.Contains(col, StringComparer.CurrentCultureIgnoreCase);
             }
         }
     }
