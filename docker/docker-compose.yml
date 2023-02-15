@@ -18,6 +18,8 @@ services:
     image: mysql:5.7
     ports:
       - 9101:3306
+    environment:
+      - TZ=Asia/Shanghai
     restart: unless-stopped
     privileged: true
     ulimits:
@@ -31,7 +33,6 @@ services:
     #  timeout: 3s  # 超时时间
     #  retries: 50   # 重试次数
     environment:
-      - TZ=Asia/Shanghai
       MYSQL_ROOT_HOST: "%"
       MYSQL_DATABASE: admin
       MYSQL_ROOT_PASSWORD: root
