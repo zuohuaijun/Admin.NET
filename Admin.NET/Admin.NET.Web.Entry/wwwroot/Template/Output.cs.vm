@@ -1,10 +1,5 @@
-﻿using SqlSugar;
-using Admin.NET.Core;
-using Admin.NET.Core.Service;
-using System.Collections.Generic;
-using System;
-namespace @Model.NameSpace
-{
+﻿namespace @Model.NameSpace;
+
     /// <summary>
     /// @(@Model.BusName)输出参数
     /// </summary>
@@ -56,6 +51,4 @@ if (@column.EffectType == "ApiTreeSelect"){
         @:public List<@(@column.FkEntityName)TreeOutput> Children { get; set; }
     @:}
 }
-}
-
 }

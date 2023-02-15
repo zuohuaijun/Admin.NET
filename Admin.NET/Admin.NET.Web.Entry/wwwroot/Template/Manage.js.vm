@@ -1,9 +1,9 @@
 import request from '/@@/utils/request';
 enum Api {
-  Add@(@Model.ClassName) = '/@(@Model.LowerClassName)/add',
-  Delete@(@Model.ClassName) = '/@(@Model.LowerClassName)/delete',
-  Update@(@Model.ClassName) = '/@(@Model.LowerClassName)/edit',
-  Get@(@Model.ClassName)Page = '/@(@Model.LowerClassName)/page',
+  Add@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/add',
+  Delete@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/delete',
+  Update@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/edit',
+  Get@(@Model.ClassName)Page = '/api/@(@Model.LowerClassName)/page',
   @foreach (var column in Model.TableField){
 if(@column.EffectType == "fk"){
   @:Get@(@column.FkEntityName)Dropdown = '/@(@Model.LowerClassName)/@(@column.FkEntityName)Dropdown',

@@ -4,5 +4,15 @@
         <name>Admin.NET.Application</name>
     </assembly>
     <members>
+        <member name="T:Admin.NET.Application.Const.ApplicationConst">
+            <summary>
+            业务应用相关常量
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Application.Const.ApplicationConst.GroupName">
+            <summary>
+            API分组名称
+            </summary>
+        </member>
     </members>
 </doc>

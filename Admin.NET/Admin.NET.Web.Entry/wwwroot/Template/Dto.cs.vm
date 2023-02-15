@@ -1,7 +1,5 @@
-﻿using System;
+﻿namespace @Model.NameSpace;
 
-namespace @Model.NameSpace
-{
     /// <summary>
     /// @(@Model.BusName)输出参数
     /// </summary>
@@ -24,4 +22,3 @@ if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnN
         @:
 }
     }
-}
