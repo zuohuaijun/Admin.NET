@@ -6,6 +6,8 @@ services:
     ports:
       - "9100:80"
       - "9103:443"
+    environment:
+      - TZ=Asia/Shanghai
     volumes:
       - "./nginx/dist:/usr/share/nginx/html"
       - "./nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro"
@@ -29,6 +31,7 @@ services:
     #  timeout: 3s  # 超时时间
     #  retries: 50   # 重试次数
     environment:
+      - TZ=Asia/Shanghai
       MYSQL_ROOT_HOST: "%"
       MYSQL_DATABASE: admin
       MYSQL_ROOT_PASSWORD: root
@@ -39,6 +42,8 @@ services:
     image: mcr.microsoft.com/dotnet/aspnet:6.0
     ports:
       - "9102:5050"
+    environment:
+      - TZ=Asia/Shanghai
     volumes:
       - "./app:/app"
     working_dir: /app
