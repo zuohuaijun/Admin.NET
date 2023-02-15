@@ -205,6 +205,7 @@ public class Startup : AppStartup
 
         // 启用HTTPS
         app.UseHttpsRedirection();
+
         app.UseStaticFiles();
 
         app.UseRouting();
