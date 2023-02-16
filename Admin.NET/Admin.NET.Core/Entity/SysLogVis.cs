@@ -22,8 +22,8 @@ public class SysLogVis : EntityTenant
     /// <summary>
     /// IP地址
     /// </summary>
-    [SugarColumn(ColumnDescription = "IP地址", Length = 16)]
-    [MaxLength(16)]
+    [SugarColumn(ColumnDescription = "IP地址", Length = 256)]
+    [MaxLength(256)]
     public string? Ip { get; set; }
 
     /// <summary>

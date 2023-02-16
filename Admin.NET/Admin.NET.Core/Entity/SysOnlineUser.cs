@@ -42,8 +42,8 @@ public class SysOnlineUser : EntityTenantId
     /// <summary>
     /// 连接IP
     /// </summary>
-    [SugarColumn(ColumnDescription = "连接IP", Length = 16)]
-    [MaxLength(16)]
+    [SugarColumn(ColumnDescription = "连接IP", Length = 256)]
+    [MaxLength(256)]
     public string? Ip { get; set; }
 
     /// <summary>

@@ -232,8 +232,8 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 最新登录Ip
     /// </summary>
-    [SugarColumn(ColumnDescription = "最新登录Ip", Length = 16)]
-    [MaxLength(16)]
+    [SugarColumn(ColumnDescription = "最新登录Ip", Length = 256)]
+    [MaxLength(256)]
     public string? LastLoginIp { get; set; }
 
     /// <summary>
