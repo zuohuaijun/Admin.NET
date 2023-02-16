@@ -21,7 +21,7 @@
 ## 🍁说明
 1.  支持各种数据库，后台配置文件自行修改（自动生成数据库及种子数据）
 2.  前端运行步骤：1、安装依赖pnpm install 2、运行pnpm run dev 3、打包pnpm run build
-3.  QQ群：[87333204](https://jq.qq.com/?_wv=1027&k=1t8iqf0G)  微信号：zuohuaijun
+3.  微信号：zuohuaijun  QQ群1：[87333204](https://jq.qq.com/?_wv=1027&k=1t8iqf0G)  QQ群2：[252381476](https://jq.qq.com/?_wv=1027&k=IkzihDcL)  
 4.  演示环境：https://demo.devqd.com/   (不定期重置数据库) 
 
 ## 📙开发流程
