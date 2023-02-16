@@ -175,4 +175,4 @@ tab_width = 4
 dotnet_style_operator_placement_when_wrapping = beginning_of_line
 
 # Add copyright file header
-file_header_template = Apache-2.0 License\nCopyright (c) 2021-2022 zuohuaijun\n电话/微信：18020030720  QQ群：87333204
+file_header_template = MIT License\n\nCopyright (c) 2021-present zuohuaijun, Daming Co.,Ltd and Contributors\n\n电话/微信：18020030720 QQ群1：87333204 QQ群2：252381476
