@@ -179,4 +179,22 @@ public class SysDictDataService : IDynamicApiController, ITransient
     {
         await _sysDictDataRep.DeleteAsync(u => u.DictTypeId == dictTypeId);
     }
+    /// <summary>
+    /// 根据字典唯一编码获取下拉框集合
+    /// </summary>
+    /// <param name="code"></param>
+    /// <returns></returns>
+    [HttpGet("/sysDictData/DictDataDropdown/{code}")]
+    public async Task<dynamic> GetDictDataDropdown(string code)
+    {
+        return await _sysDictDataRep.Context.Queryable<SysDictType, SysDictData>((a, b) =>
+            new JoinQueryInfos(JoinType.Left, a.Id == b.DictTypeId))
+            .Where(a => a.Code == code)
+            .Where((a, b) => a.Status == StatusEnum.Enable && b.Status == StatusEnum.Enable)
+            .Select((a, b) => new
+            {
+                Label = b.Value,
+                Value = b.Code
+            }).ToListAsync();
+    }
 }
