@@ -157,7 +157,7 @@ export const SysRegionApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 获取行政区域列表
+         * @summary 获取行政区域分页列表
          * @param {number} [pid] 父节点Id
          * @param {string} [name] 名称
          * @param {string} [code] 编码
@@ -361,7 +361,7 @@ export const SysRegionApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取行政区域列表
+         * @summary 获取行政区域分页列表
          * @param {number} [pid] 父节点Id
          * @param {string} [name] 名称
          * @param {string} [code] 编码
@@ -448,7 +448,7 @@ export const SysRegionApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary 获取行政区域列表
+         * @summary 获取行政区域分页列表
          * @param {number} [pid] 父节点Id
          * @param {string} [name] 名称
          * @param {string} [code] 编码
@@ -527,7 +527,7 @@ export class SysRegionApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取行政区域列表
+     * @summary 获取行政区域分页列表
      * @param {number} [pid] 父节点Id
      * @param {string} [name] 名称
      * @param {string} [code] 编码

@@ -84,7 +84,7 @@ public class SysJobService : IDynamicApiController, ITransient
             JobBuilder.Create(jobType).SetIncludeAnnotations(input.IncludeAnnotations)
                 .LoadFrom(input.Adapt<SysJobDetail>()).SetJobType(jobType));
 
-        //延迟一下等待持久化写入，再执行其他字段的更新
+        // 延迟一下等待持久化写入，再执行其他字段的更新
         await Task.Delay(500);
         await _sysJobDetailRep.AsUpdateable()
             .SetColumns(u => new SysJobDetail { CreateFromScript = input.CreateFromScript, ScriptCode = input.ScriptCode })
@@ -134,8 +134,8 @@ public class SysJobService : IDynamicApiController, ITransient
             scheduler?.UpdateDetail(scheduler.GetJobBuilder().LoadFrom(sysJobDetail));
         }
 
-        //tip: 假如这次更新有变更了 JobId，变更 JobId 后触发的持久化更新执行，会由于找不到 JobId 而更新不到数据
-        //延迟一下等待持久化写入，再执行其他字段的更新
+        // Tip: 假如这次更新有变更了 JobId，变更 JobId 后触发的持久化更新执行，会由于找不到 JobId 而更新不到数据
+        // 延迟一下等待持久化写入，再执行其他字段的更新
         await Task.Delay(500);
         await _sysJobDetailRep.UpdateAsync(sysJobDetail);
     }
@@ -150,7 +150,7 @@ public class SysJobService : IDynamicApiController, ITransient
     {
         _schedulerFactory.RemoveJob(input.JobId);
 
-        //如果 _schedulerFactory 中不存在 JodId，则无法触发持久化，下面的代码确保作业和触发器能被删除
+        // 如果 _schedulerFactory 中不存在 JodId，则无法触发持久化，下面的代码确保作业和触发器能被删除
         await _sysJobDetailRep.DeleteAsync(u => u.JobId == input.JobId);
         await _sysJobTriggerRep.DeleteAsync(u => u.JobId == input.JobId);
     }
@@ -216,7 +216,7 @@ public class SysJobService : IDynamicApiController, ITransient
         var scheduler = _schedulerFactory.GetJob(input.JobId);
         scheduler?.RemoveTrigger(input.TriggerId);
 
-        //如果 _schedulerFactory 中不存在 JodId，则无法触发持久化，下行代码确保触发器能被删除
+        // 如果 _schedulerFactory 中不存在 JodId，则无法触发持久化，下行代码确保触发器能被删除
         await _sysJobTriggerRep.DeleteAsync(u => u.JobId == input.JobId && u.TriggerId == input.TriggerId);
     }
 

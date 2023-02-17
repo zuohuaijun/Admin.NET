@@ -11,8 +11,6 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { LoginTypeEnum } from './login-type-enum';
-import { YesNoEnum } from './yes-no-enum';
 /**
  * 系统访问日志表
  * @export
@@ -62,29 +60,53 @@ export interface SysLogVis {
      */
     tenantId?: number | null;
     /**
-     * 
-     * @type {YesNoEnum}
-     * @memberof SysLogVis
-     */
-    success?: YesNoEnum;
-    /**
-     * 具体消息
+     * 模块名称
      * @type {string}
      * @memberof SysLogVis
      */
-    message?: string | null;
+    controllerName?: string | null;
+    /**
+     * 方法名称
+     * @type {string}
+     * @memberof SysLogVis
+     */
+    actionName?: string | null;
+    /**
+     * 显示名称
+     * @type {string}
+     * @memberof SysLogVis
+     */
+    displayTitle?: string | null;
+    /**
+     * 执行状态
+     * @type {string}
+     * @memberof SysLogVis
+     */
+    status?: string | null;
     /**
      * IP地址
      * @type {string}
      * @memberof SysLogVis
      */
-    ip?: string | null;
+    remoteIp?: string | null;
     /**
-     * 地址
+     * 登录地点
      * @type {string}
      * @memberof SysLogVis
      */
     location?: string | null;
+    /**
+     * 经度
+     * @type {number}
+     * @memberof SysLogVis
+     */
+    longitude?: number | null;
+    /**
+     * 维度
+     * @type {number}
+     * @memberof SysLogVis
+     */
+    latitude?: number | null;
     /**
      * 浏览器
      * @type {string}
@@ -98,11 +120,17 @@ export interface SysLogVis {
      */
     os?: string | null;
     /**
-     * 
-     * @type {LoginTypeEnum}
+     * 操作用时
+     * @type {number}
      * @memberof SysLogVis
      */
-    visType?: LoginTypeEnum;
+    elapsed?: number;
+    /**
+     * 日志时间
+     * @type {Date}
+     * @memberof SysLogVis
+     */
+    logDateTime?: Date;
     /**
      * 账号
      * @type {string}

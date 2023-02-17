@@ -94,5 +94,5 @@ export interface SysLogDiff {
      * @type {number}
      * @memberof SysLogDiff
      */
-    duration?: number;
+    elapsed?: number;
 }

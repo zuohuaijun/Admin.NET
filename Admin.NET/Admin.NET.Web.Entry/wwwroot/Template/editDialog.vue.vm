@@ -115,7 +115,7 @@
 	}
 	@foreach (var column in Model.TableField){
 	if(@column.EffectType == "Select"){
-	@:import { getDictDataDropdown } from '/@@/api/system/admin';
+	@:import { getDictDataList } from '/@@/api/system/admin';
 
 	}
 	}
@@ -186,8 +186,8 @@ const submit = async () => {
 
 @foreach (var column in Model.TableField){
   if(@column.EffectType == "Select"){
-    @:const getDictDataDropdownList = async (val: any) => {
-      @:let list = await getDictDataDropdown(val);
+    @:const dictTypeDataList = async (val: any) => {
+      @:let list = await getDictDataList(val);
       @:return list.data.result ?? [];
     @:};
     break;
@@ -197,7 +197,7 @@ const submit = async () => {
 onMounted(async () => {
 	@foreach (var column in Model.TableField){
 	if(@column.EffectType == "Select"){
-	     @:getEdit@(@column.LowerColumnName)Data.value= await getDictDataDropdownList('@(@column.DictTypeCode)');
+	     @:getEdit@(@column.LowerColumnName)Data.value= await dictTypeDataList('@(@column.DictTypeCode)');
 	 }
 	}
 });

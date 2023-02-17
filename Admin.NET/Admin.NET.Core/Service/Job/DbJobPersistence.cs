@@ -47,7 +47,7 @@ public class DbJobPersistence : IJobPersistence
                 jobDetail = JobBuilder.Create(dbJob.AssemblyName, dbJob.JobType).LoadFrom(dbJob);
             }
 
-            //强行设置为不扫描 IJob 实现类 [Trigger] 特性触发器，否则 SchedulerBuilder.Create 会再次扫描，导致重复添加同名触发器
+            // 强行设置为不扫描 IJob 实现类 [Trigger] 特性触发器，否则 SchedulerBuilder.Create 会再次扫描，导致重复添加同名触发器
             jobDetail.SetIncludeAnnotations(false);
 
             // 加载数据库的触发器
@@ -119,7 +119,6 @@ public class DbJobPersistence : IJobPersistence
         }
         else if (context.Behavior == PersistenceBehavior.Updated)
         {
-            //忽略 Id 和额外自定义的列
             db.Updateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id, u.CreateFromScript, u.ScriptCode }).ExecuteCommand();
         }
         else if (context.Behavior == PersistenceBehavior.Removed)
@@ -144,7 +143,6 @@ public class DbJobPersistence : IJobPersistence
         }
         else if (context.Behavior == PersistenceBehavior.Updated)
         {
-            //忽略 Id 和额外自定义的列
             db.Updateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
         }
         else if (context.Behavior == PersistenceBehavior.Removed)

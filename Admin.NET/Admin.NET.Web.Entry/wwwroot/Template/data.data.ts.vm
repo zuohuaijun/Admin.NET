@@ -6,7 +6,7 @@ if(@column.EffectType == "Upload"){
 }else if(@column.EffectType == "fk"){
 @:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.ClassName)';
 }else if(@column.EffectType == "Select"){
-@:import { getDictDataDropdown } from '/@@/api/sys/admin';
+@:import { getDataList } from '/@@/api/sys/admin';
 }else if(@column.EffectType == "ApiTreeSelect"){
 @:import { get@(@column.FkEntityName)Tree } from '/@@/api/main/@(@Model.ClassName)';
 }else if(@column.EffectType == "ConstSelector"){
@@ -59,7 +59,7 @@ if(@column.EffectType == "fk"){
 }else if(@column.EffectType == "Select"){
     @:component: 'ApiSelect',
     @:componentProps: {
-      @:api: getDictDataDropdown,
+      @:api: getDataList,
       @:params: '@(@column.DictTypeCode)',
       @:fieldNames: {
         @:label: 'label',
@@ -110,7 +110,7 @@ if(@column.EffectType == "fk"){
 }else if(@column.EffectType == "Select"){
     @:component: 'ApiSelect',
     @:componentProps: {
-      @:api: getDictDataDropdown,
+      @:api: getDataList,
       @:params: '@(@column.DictTypeCode)',
       @:fieldNames: {
         @:label: 'label',

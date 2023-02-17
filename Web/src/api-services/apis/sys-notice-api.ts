@@ -185,7 +185,7 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 获取接收的通知公告（当前用户）
+         * @summary 获取接收的通知公告
          * @param {string} [title] 标题
          * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
          * @param {number} [page] 当前页码
@@ -338,7 +338,7 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 获取未读的通知公告（当前用户）
+         * @summary 获取未读的通知公告
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -472,7 +472,7 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取接收的通知公告（当前用户）
+         * @summary 获取接收的通知公告
          * @param {string} [title] 标题
          * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
          * @param {number} [page] 当前页码
@@ -520,7 +520,7 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取未读的通知公告（当前用户）
+         * @summary 获取未读的通知公告
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -592,7 +592,7 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary 获取接收的通知公告（当前用户）
+         * @summary 获取接收的通知公告
          * @param {string} [title] 标题
          * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
          * @param {number} [page] 当前页码
@@ -628,7 +628,7 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary 获取未读的通知公告（当前用户）
+         * @summary 获取未读的通知公告
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -696,7 +696,7 @@ export class SysNoticeApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取接收的通知公告（当前用户）
+     * @summary 获取接收的通知公告
      * @param {string} [title] 标题
      * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
      * @param {number} [page] 当前页码
@@ -735,7 +735,7 @@ export class SysNoticeApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取未读的通知公告（当前用户）
+     * @summary 获取未读的通知公告
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysNoticeApi

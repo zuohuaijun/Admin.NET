@@ -149,7 +149,7 @@
 	}
 	@foreach (var column in Model.QueryWhetherList){
 	if(@column.EffectType == "Select"){
-	@:import { getDictDataDropdown } from '/@@/api/system/admin';
+	@:import { getDictDataList } from '/@@/api/system/admin';
 	break;
 	}
 	}
@@ -182,7 +182,7 @@ const queryParams = ref<any>
 	loading.value = false;
 	@foreach (var column in Model.QueryWhetherList){
 	if(@column.EffectType == "Select"){
-	@:get@(@column.LowerColumnName)Data.value = await getDictDataDropdownList('@(@column.DictTypeCode)');
+	@:get@(@column.LowerColumnName)Data.value = await dictTypeDataList('@(@column.DictTypeCode)');
 		}
 	}
 };
@@ -238,8 +238,8 @@ const handleCurrentChange = (val: number) => {
 
 @foreach (var column in Model.QueryWhetherList){
   if(@column.EffectType == "Select"){
-    @:const getDictDataDropdownList = async (val: any) => {
-      @:let list = await getDictDataDropdown(val);
+    @:const dictTypeDataList = async (val: any) => {
+      @:let list = await getDictDataList(val);
       @:return list.data.result ?? [];
     @:};
     break;

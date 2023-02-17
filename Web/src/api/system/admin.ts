@@ -1,10 +1,10 @@
 import request from '/@/utils/request';
 enum Api {
-    DictTypeDataList = '/sysDictData/DictDataDropdown',
+    DictTypeDataList = '/sysDictData/DataList',
 }
 
-// 增加配置金蝶云信息
-export const getDictDataDropdown = (params?: any) =>
+// 根据字典类型编码获取字典值集合
+export const getDictDataList = (params?: any) =>
 	request({
 		url: `${Api.DictTypeDataList}/${params}`,
 		method: 'get'

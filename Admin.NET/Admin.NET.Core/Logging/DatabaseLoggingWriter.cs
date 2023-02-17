@@ -31,12 +31,15 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
         // 获取当前操作者
         var account = "";
         var realName = "";
-        foreach (var item in loggingMonitor.authorizationClaims)
+        if (!string.IsNullOrWhiteSpace(loggingMonitor.authorizationClaims))
         {
-            if (item.type == ClaimConst.Account)
-                account = item.value;
-            if (item.type == ClaimConst.RealName)
-                realName = item.value;
+            foreach (var item in loggingMonitor.authorizationClaims)
+            {
+                if (item.type == ClaimConst.Account)
+                    account = item.value;
+                if (item.type == ClaimConst.RealName)
+                    realName = item.value;
+            }
         }
 
         if (loggingMonitor.actionName == "login")

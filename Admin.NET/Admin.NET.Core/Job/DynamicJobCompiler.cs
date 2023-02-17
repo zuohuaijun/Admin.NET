@@ -12,7 +12,7 @@ public class DynamicJobCompiler : ISingleton
     /// <returns></returns>
     public Type BuildJob(string script)
     {
-        //动态创建作业
+        // 动态创建作业
         var builder = new AssemblyCSharpBuilder("Admin.NET.Core")
         {
             Domain = DomainManagement.Random()
@@ -20,8 +20,6 @@ public class DynamicJobCompiler : ISingleton
 
         builder.Add(script);
 
-        var assembly = builder.GetAssembly();
-        var jobType = assembly.GetTypes().FirstOrDefault(u => typeof(IJob).IsAssignableFrom(u));
-        return jobType;
+        return builder.GetAssembly().GetTypes().FirstOrDefault(u => typeof(IJob).IsAssignableFrom(u));
     }
 }

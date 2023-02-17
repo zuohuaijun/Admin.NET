@@ -133,7 +133,7 @@ export const SysServerApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 获取服务器内存信息
+         * @summary 获取服务器使用信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -217,7 +217,7 @@ export const SysServerApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取服务器内存信息
+         * @summary 获取服务器使用信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -266,7 +266,7 @@ export const SysServerApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary 获取服务器内存信息
+         * @summary 获取服务器使用信息
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -315,7 +315,7 @@ export class SysServerApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取服务器内存信息
+     * @summary 获取服务器使用信息
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysServerApi

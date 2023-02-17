@@ -60,53 +60,125 @@ export interface SysLogOp {
      */
     tenantId?: number | null;
     /**
-     * 记录器类别名称
+     * 模块名称
      * @type {string}
      * @memberof SysLogOp
      */
-    logName?: string | null;
+    controllerName?: string | null;
     /**
-     * 日志级别
+     * 方法名称
      * @type {string}
      * @memberof SysLogOp
      */
-    logLevel?: string | null;
+    actionName?: string | null;
     /**
-     * 事件Id
+     * 显示名称
      * @type {string}
      * @memberof SysLogOp
      */
-    eventId?: string | null;
+    displayTitle?: string | null;
     /**
-     * 日志消息
+     * 执行状态
      * @type {string}
      * @memberof SysLogOp
      */
-    message?: string | null;
+    status?: string | null;
     /**
-     * 异常对象
+     * IP地址
      * @type {string}
      * @memberof SysLogOp
      */
-    exception?: string | null;
+    remoteIp?: string | null;
     /**
-     * 当前状态值
+     * 登录地点
      * @type {string}
      * @memberof SysLogOp
      */
-    state?: string | null;
+    location?: string | null;
     /**
-     * 日志记录时间
+     * 经度
+     * @type {number}
+     * @memberof SysLogOp
+     */
+    longitude?: number | null;
+    /**
+     * 维度
+     * @type {number}
+     * @memberof SysLogOp
+     */
+    latitude?: number | null;
+    /**
+     * 浏览器
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    browser?: string | null;
+    /**
+     * 操作系统
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    os?: string | null;
+    /**
+     * 操作用时
+     * @type {number}
+     * @memberof SysLogOp
+     */
+    elapsed?: number;
+    /**
+     * 日志时间
      * @type {Date}
      * @memberof SysLogOp
      */
     logDateTime?: Date;
     /**
+     * 账号
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    account?: string | null;
+    /**
+     * 真实姓名
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    realName?: string | null;
+    /**
+     * 请求方式
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    httpMethod?: string | null;
+    /**
+     * 请求地址
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    requestUrl?: string | null;
+    /**
+     * 请求参数
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    requestParam?: string | null;
+    /**
+     * 返回结果
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    returnResult?: string | null;
+    /**
+     * 事件Id
+     * @type {number}
+     * @memberof SysLogOp
+     */
+    eventId?: number | null;
+    /**
      * 线程Id
      * @type {number}
      * @memberof SysLogOp
      */
-    threadId?: number;
+    threadId?: number | null;
     /**
      * 请求跟踪Id
      * @type {string}
@@ -114,9 +186,15 @@ export interface SysLogOp {
      */
     traceId?: string | null;
     /**
-     * 是否使用UTC时间戳
-     * @type {boolean}
+     * 异常信息
+     * @type {string}
      * @memberof SysLogOp
      */
-    useUtcTimestamp?: boolean;
+    exception?: string | null;
+    /**
+     * 日志消息Json
+     * @type {string}
+     * @memberof SysLogOp
+     */
+    message?: string | null;
 }
