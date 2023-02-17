@@ -86,7 +86,7 @@
 									<el-tag v-else> 否 </el-tag>
 								</template>
 							</el-table-column>
-							<el-table-column prop="resetOnlyOnce" label="是否只运行一次" width="120" align="center" show-overflow-tooltip>
+							<el-table-column prop="resetOnlyOnce" label="是否重置触发次数" width="120" align="center" show-overflow-tooltip>
 								<template #default="scope">
 									<el-tag v-if="scope.row.resetOnlyOnce == true"> 是 </el-tag>
 									<el-tag v-else> 否 </el-tag>
@@ -131,12 +131,18 @@
 						<el-tag v-else> 串行 </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="jobDetail.includeAnnotations" label="扫描特性触发器" align="center" show-overflow-tooltip>
+				<el-table-column prop="jobDetail.createFromScript" label="脚本创建" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag v-if="scope.row.includeAnnotations == true"> 是 </el-tag>
+						<el-tag v-if="scope.row.jobDetail.createFromScript == true"> 是 </el-tag>
 						<el-tag v-else> 否 </el-tag>
 					</template>
 				</el-table-column>
+				<!-- <el-table-column prop="jobDetail.includeAnnotations" label="扫描特性触发器" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag v-if="scope.row.jobDetail.includeAnnotations == true"> 是 </el-tag>
+						<el-tag v-else> 否 </el-tag>
+					</template>
+				</el-table-column> -->
 				<el-table-column prop="jobDetail.properties" label="额外数据" show-overflow-tooltip />
 				<el-table-column prop="jobDetail.updatedTime" label="更新时间" width="160" align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="170" fixed="right" align="center" show-overflow-tooltip>
@@ -242,7 +248,7 @@ const resetQuery = () => {
 // 打开新增作业页面
 const openAddJobDetail = () => {
 	state.editJobDetailTitle = '添加作业';
-	editJobDetailRef.value?.openDialog({ concurrent: true, includeAnnotations: true, groupName: 'default' });
+	editJobDetailRef.value?.openDialog({ concurrent: true, includeAnnotations: true, groupName: 'default', createFromScript: true });
 };
 
 // 打开编辑作业页面
@@ -286,7 +292,7 @@ const delJobTrigger = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysJobApi).apiSysJobDeleteJobTriggerDelete({ triggerId: row.triggerId });
+			await getAPI(SysJobApi).apiSysJobDeleteJobTriggerDelete({ jobId: row.jobId, triggerId: row.triggerId });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

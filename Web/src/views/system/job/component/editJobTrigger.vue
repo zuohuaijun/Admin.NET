@@ -7,7 +7,7 @@
 					<span> {{ props.title }} </span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="110px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="130px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="触发器编号" prop="triggerId" :rules="[{ required: true, message: '触发器编号不能为空', trigger: 'blur' }]">
@@ -23,8 +23,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if="state.ruleForm.triggerType == 'Furion.Schedule.PeriodTrigger'">
-						<el-form-item label="参数">
-							<el-input-number v-model="state.ruleForm.args" placeholder="间隔" class="w100" />
+						<el-form-item label="参数(ms)">
+							<el-input-number v-model="state.ruleForm.args" placeholder="间隔" :min="100" :step="100" class="w100" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-else>
@@ -83,7 +83,15 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="仅执行一次">
+						<el-form-item>
+							<template v-slot:label>
+								<div>
+									重置触发次数
+									<el-tooltip raw-content content="是否在启动时重置最大触发次数等于一次的作业<br/>解决因持久化数据已完成一次触发但启动时不再执行的问题" placement="top">
+										<SvgIcon name="fa fa-question-circle-o" :size="16" style="vertical-align: middle" />
+									</el-tooltip>
+								</div>
+							</template>
 							<el-radio-group v-model="state.ruleForm.resetOnlyOnce">
 								<el-radio :label="true">是</el-radio>
 								<el-radio :label="false">否</el-radio>

@@ -78,6 +78,12 @@ export interface SysJobDetail {
      */
     updatedTime?: Date | null;
     /**
+     * 是否为脚本创建的作业
+     * @type {boolean}
+     * @memberof SysJobDetail
+     */
+    createFromScript?: boolean;
+    /**
      * 脚本代码
      * @type {string}
      * @memberof SysJobDetail

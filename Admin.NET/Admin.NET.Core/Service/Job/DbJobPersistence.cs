@@ -21,6 +21,7 @@ public class DbJobPersistence : IJobPersistence
         using var serviceScope = _serviceProvider.CreateScope();
         var jobDetailRep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysJobDetail>>();
         var jobTriggerRep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysJobTrigger>>();
+        var dynamicJobCompiler = serviceScope.ServiceProvider.GetService<DynamicJobCompiler>();
 
         // 获取内存的作业
         IEnumerable<SchedulerBuilder> memoryJobs = App.EffectiveTypes.ScanToBuilders();
@@ -34,7 +35,20 @@ public class DbJobPersistence : IJobPersistence
         var dbJobs = jobDetailRep.GetList();
         foreach (var dbJob in dbJobs)
         {
-            var jobDetail = JobBuilder.Create(dbJob.AssemblyName, dbJob.JobType).LoadFrom(dbJob);
+            JobBuilder jobDetail;
+            if (dbJob.CreateFromScript)
+            {
+                // 动态创建作业
+                var jobType = dynamicJobCompiler.BuildJob(dbJob.ScriptCode);
+                jobDetail = JobBuilder.Create(jobType).LoadFrom(dbJob);
+            }
+            else
+            {
+                jobDetail = JobBuilder.Create(dbJob.AssemblyName, dbJob.JobType).LoadFrom(dbJob);
+            }
+
+            //强行设置为不扫描 IJob 实现类 [Trigger] 特性触发器，否则 SchedulerBuilder.Create 会再次扫描，导致重复添加同名触发器
+            jobDetail.SetIncludeAnnotations(false);
 
             // 加载数据库的触发器
             var triggerBuilders = new List<TriggerBuilder>();
@@ -105,7 +119,8 @@ public class DbJobPersistence : IJobPersistence
         }
         else if (context.Behavior == PersistenceBehavior.Updated)
         {
-            db.Updateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
+            //忽略 Id 和额外自定义的列
+            db.Updateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id, u.CreateFromScript, u.ScriptCode }).ExecuteCommand();
         }
         else if (context.Behavior == PersistenceBehavior.Removed)
         {
@@ -129,6 +144,7 @@ public class DbJobPersistence : IJobPersistence
         }
         else if (context.Behavior == PersistenceBehavior.Updated)
         {
+            //忽略 Id 和额外自定义的列
             db.Updateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
         }
         else if (context.Behavior == PersistenceBehavior.Removed)
