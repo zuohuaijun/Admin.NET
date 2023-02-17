@@ -166,7 +166,15 @@ public class Startup : AppStartup
         }
         if (App.GetConfig<bool>("Logging:Database:Enabled")) // 日志写入数据库
         {
-            services.AddDatabaseLogging<DatabaseLoggingWriter>();
+            services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
+            {
+                options.WithTraceId = true; // 显示线程Id
+                options.IgnoreReferenceLoop = false; // 忽略循环检测
+                options.WriteFilter = (logMsg) =>
+                {
+                    return logMsg.LogName == "System.Logging.LoggingMonitor"; // 只写LoggingMonitor日志
+                };
+            });
         }
         if (App.GetConfig<bool>("Logging:ElasticSearch:Enabled")) // 日志写入ElasticSearch
         {

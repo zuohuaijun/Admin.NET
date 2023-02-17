@@ -942,64 +942,9 @@
             差异操作
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogDiff.Duration">
+        <member name="P:Admin.NET.Core.SysLogDiff.Elapsed">
             <summary>
             耗时
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.SysLogEx">
-            <summary>
-            系统异常日志表
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.LogName">
-            <summary>
-            记录器类别名称
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.LogLevel">
-            <summary>
-            日志级别
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.EventId">
-            <summary>
-            事件Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.Message">
-            <summary>
-            日志消息
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.Exception">
-            <summary>
-            异常对象
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.State">
-            <summary>
-            当前状态值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.LogDateTime">
-            <summary>
-            日志记录时间
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.ThreadId">
-            <summary>
-            线程Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.TraceId">
-            <summary>
-            请求跟踪Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogEx.UseUtcTimestamp">
-            <summary>
-            是否使用UTC时间戳
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysLogOp">
@@ -1007,39 +952,29 @@
             系统操作日志表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogOp.LogName">
+        <member name="P:Admin.NET.Core.SysLogOp.HttpMethod">
             <summary>
-            记录器类别名称
+            请求方式
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogOp.LogLevel">
+        <member name="P:Admin.NET.Core.SysLogOp.RequestUrl">
             <summary>
-            日志级别
+            请求地址
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.RequestParam">
+            <summary>
+            请求参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.ReturnResult">
+            <summary>
+            返回结果
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogOp.EventId">
             <summary>
             事件Id
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Message">
-            <summary>
-            日志消息
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.Exception">
-            <summary>
-            异常对象
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.State">
-            <summary>
-            当前状态值
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.SysLogOp.LogDateTime">
-            <summary>
-            日志记录时间
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogOp.ThreadId">
@@ -1052,9 +987,14 @@
             请求跟踪Id
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogOp.UseUtcTimestamp">
+        <member name="P:Admin.NET.Core.SysLogOp.Exception">
             <summary>
-            是否使用UTC时间戳
+            异常信息
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogOp.Message">
+            <summary>
+            日志消息Json
             </summary>
         </member>
         <member name="T:Admin.NET.Core.SysLogVis">
@@ -1062,24 +1002,44 @@
             系统访问日志表
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogVis.Success">
+        <member name="P:Admin.NET.Core.SysLogVis.ControllerName">
             <summary>
-            是否执行成功（Y-是，N-否）
+            模块名称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogVis.Message">
-            <summary>
-            具体消息
+        <member name="P:Admin.NET.Core.SysLogVis.ActionName">
+             <summary>
+             方法名称 
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogVis.Ip">
+        <member name="P:Admin.NET.Core.SysLogVis.DisplayTitle">
+             <summary>
+             显示名称 
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.Status">
+            <summary>
+            执行状态
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.RemoteIp">
             <summary>
             IP地址
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogVis.Location">
             <summary>
-            地址
+            登录地点
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.Longitude">
+            <summary>
+            经度
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.Latitude">
+            <summary>
+            维度
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogVis.Browser">
@@ -1092,9 +1052,14 @@
             操作系统
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.SysLogVis.VisType">
+        <member name="P:Admin.NET.Core.SysLogVis.Elapsed">
             <summary>
-            访问类型
+            操作用时
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysLogVis.LogDateTime">
+            <summary>
+            日志时间
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogVis.Account">
@@ -2814,27 +2779,17 @@
         </member>
         <member name="F:Admin.NET.Core.LoginTypeEnum.Login">
             <summary>
-            登录
+            PC登录
             </summary>
         </member>
         <member name="F:Admin.NET.Core.LoginTypeEnum.Logout">
             <summary>
-            退出
+            PC退出
             </summary>
         </member>
         <member name="F:Admin.NET.Core.LoginTypeEnum.Register">
             <summary>
-            注册
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.LoginTypeEnum.ChangePassword">
-            <summary>
-            改密
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.LoginTypeEnum.AuthorizedLogin">
-            <summary>
-            三方授权登陆
+            PC注册
             </summary>
         </member>
         <member name="T:Admin.NET.Core.MenuTypeEnum">
@@ -3109,31 +3064,10 @@
             否
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.LogEventSubscriber">
+        <member name="T:Admin.NET.Core.AppEventSubscriber">
             <summary>
-            日志事件订阅
+            事件订阅
             </summary>
-        </member>
-        <member name="M:Admin.NET.Core.LogEventSubscriber.CreateOpLog(Furion.EventBus.EventHandlerExecutingContext)">
-            <summary>
-            增加操作日志
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.LogEventSubscriber.CreateExLog(Furion.EventBus.EventHandlerExecutingContext)">
-            <summary>
-            增加异常日志
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.LogEventSubscriber.CreateVisLog(Furion.EventBus.EventHandlerExecutingContext)">
-            <summary>
-            增加访问日志
-            </summary>
-            <param name="context"></param>
-            <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.RedisEventSourceStorer">
             <summary>
@@ -3624,6 +3558,13 @@
             <summary>
             数据库日志写入器
             </summary>
+        </member>
+        <member name="M:Admin.NET.Core.DatabaseLoggingWriter.GetIpAddress(System.String)">
+            <summary>
+            解析IP地址
+            </summary>
+            <param name="ip"></param>
+            <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.ElasticSearchLoggingWriter">
             <summary>
@@ -4200,15 +4141,17 @@
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SelectTable.GetTableData(System.String,System.Int32,System.Int32,System.Int32,System.String,Newtonsoft.Json.Linq.JObject)">
-             <summary>
+            <summary>
             
-             </summary>
-             <param name="subtable"></param>
-             <param name="page"></param>
-             <param name="count"></param>
-             <param name="json"></param>
-             <param name="dd"></param>
-             <returns></returns>
+            </summary>
+            <param name="subtable"></param>
+            <param name="page"></param>
+            <param name="count"></param>
+            <param name="query"></param>
+            <param name="json"></param>
+            <param name="dd"></param>
+            <returns></returns>
+            <exception cref="T:System.Exception"></exception>
         </member>
         <member name="M:Admin.NET.Core.Service.SelectTable.GetFirstData(System.String,System.String,Newtonsoft.Json.Linq.JObject)">
              <summary>
@@ -5839,29 +5782,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysLogExService">
-            <summary>
-            系统异常日志服务
-            </summary>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysLogExService.GetPage(Admin.NET.Core.Service.PageLogInput)">
-            <summary>
-            获取异常日志分页列表
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysLogExService.Clear">
-            <summary>
-            清空异常日志
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:Admin.NET.Core.Service.SysLogExService.ExporLogOp(Admin.NET.Core.Service.LogInput)">
-            <summary>
-            导出异常日志
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:Admin.NET.Core.Service.SysLogOpService">
             <summary>
             系统操作日志服务
@@ -6203,14 +6123,14 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysNoticeService.GetPageReceived(Admin.NET.Core.Service.PageNoticeInput)">
             <summary>
-            获取接收的通知公告（当前用户）
+            获取接收的通知公告
             </summary>
             <param name="input"></param>
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysNoticeService.GetUnReadList">
             <summary>
-            获取未读的通知公告（当前用户）
+            获取未读的通知公告
             </summary>
             <returns></returns>
         </member>
@@ -6418,7 +6338,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysRegionService.GetPage(Admin.NET.Core.Service.PageRegionInput)">
             <summary>
-            获取行政区域列表
+            获取行政区域分页列表
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -6702,7 +6622,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysServerService.GetServerUsed">
             <summary>
-            获取服务器内存信息
+            获取服务器使用信息
             </summary>
             <returns></returns>
         </member>

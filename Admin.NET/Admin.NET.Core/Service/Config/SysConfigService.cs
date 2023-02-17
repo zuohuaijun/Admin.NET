@@ -22,6 +22,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Page")]
+    [DisplayName("获取参数配置分页列表")]
     public async Task<SqlSugarPagedList<SysConfig>> GetPage([FromQuery] PageConfigInput input)
     {
         return await _sysConfigRep.AsQueryable()
@@ -36,6 +37,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "List")]
+    [DisplayName("获取参数配置列表")]
     public async Task<List<SysConfig>> GetList()
     {
         return await _sysConfigRep.GetListAsync();
@@ -47,6 +49,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Add")]
+    [DisplayName("增加参数配置")]
     public async Task AddConfig(AddConfigInput input)
     {
         var isExist = await _sysConfigRep.IsAnyAsync(u => u.Name == input.Name || u.Code == input.Code);
@@ -62,6 +65,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update")]
+    [DisplayName("更新参数配置")]
     public async Task UpdateConfig(UpdateConfigInput input)
     {
         var isExist = await _sysConfigRep.IsAnyAsync(u => (u.Name == input.Name || u.Code == input.Code) && u.Id != input.Id);
@@ -80,6 +84,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Delete")]
+    [DisplayName("删除参数配置")]
     public async Task DeleteConfig(DeleteConfigInput input)
     {
         var config = await _sysConfigRep.GetFirstAsync(u => u.Id == input.Id);
@@ -97,6 +102,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Detail")]
+    [DisplayName("获取参数配置详情")]
     public async Task<SysConfig> GetDetail([FromQuery] ConfigInput input)
     {
         return await _sysConfigRep.GetFirstAsync(u => u.Id == input.Id);

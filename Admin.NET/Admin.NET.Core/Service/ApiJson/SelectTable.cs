@@ -83,14 +83,16 @@ public class SelectTable : ISingleton
     }
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     /// <param name="subtable"></param>
     /// <param name="page"></param>
     /// <param name="count"></param>
+    /// <param name="query"></param>
     /// <param name="json"></param>
     /// <param name="dd"></param>
     /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     public Tuple<dynamic, int> GetTableData(string subtable, int page, int count, int query, string json, JObject dd)
     {
         var role = _identitySvc.GetSelectRole(subtable);
@@ -179,7 +181,7 @@ public class SelectTable : ISingleton
     /// <returns></returns>
     public JObject Query(string queryJson)
     {
-        JObject resultObj = new JObject();
+        JObject resultObj = new();
 
         try
         {
@@ -203,7 +205,7 @@ public class SelectTable : ISingleton
     /// <returns></returns>
     public JObject QuerySingle(JObject queryObj, string nodeName = "infos")
     {
-        JObject resultObj = new JObject();
+        JObject resultObj = new();
         resultObj.Add("code", "200");
         resultObj.Add("msg", "success");
         try
@@ -261,7 +263,7 @@ public class SelectTable : ISingleton
     /// <returns></returns>
     public JObject Query(JObject queryObj)
     {
-        JObject resultObj = new JObject();
+        JObject resultObj = new();
         resultObj.Add("code", "200");
         resultObj.Add("msg", "success");
         try
@@ -376,7 +378,7 @@ public class SelectTable : ISingleton
         var query = jb["query"] == null ? 0 : int.Parse(jb["query"].ToString());
         jb.Remove("page"); jb.Remove("count"); jb.Remove("query");
         var htt = new JArray();
-        List<string> tables = new List<string>(), where = new List<string>();
+        List<string> tables = new(), where = new();
         foreach (var t in jb)
         {
             tables.Add(t.Key); where.Add(t.Value.ToString());
@@ -468,7 +470,7 @@ public class SelectTable : ISingleton
             tb.Select(selectrole);
         }
 
-        List<IConditionalModel> conModels = new List<IConditionalModel>();
+        List<IConditionalModel> conModels = new();
         if (!values["identity"].IsNullOrEmpty())
         {
             conModels.Add(new ConditionalModel() { FieldName = values["identity"].ToString(), ConditionalType = ConditionalType.Equal, FieldValue = _identitySvc.GetUserIdentity() });
@@ -566,8 +568,8 @@ public class SelectTable : ISingleton
     {
         if (!values["@having"].IsNullOrEmpty())
         {
-            List<IConditionalModel> hw = new List<IConditionalModel>();
-            List<string> havingItems = new List<string>();
+            List<IConditionalModel> hw = new();
+            List<string> havingItems = new();
             if (values["@having"].HasValues)
             {
                 havingItems = values["@having"].Select(p => p.ToString()).ToList();
@@ -592,13 +594,13 @@ public class SelectTable : ISingleton
                     model.ConditionalType = ConditionalType.LessThanOrEqual;
                     model.FieldValue = and.Split(new string[] { "<=" }, StringSplitOptions.RemoveEmptyEntries)[1];
                 }
-                else if (and.Contains(">"))
+                else if (and.Contains('>'))
                 {
                     model.FieldName = and.Split(new string[] { ">" }, StringSplitOptions.RemoveEmptyEntries)[0];
                     model.ConditionalType = ConditionalType.GreaterThan;
                     model.FieldValue = and.Split(new string[] { ">" }, StringSplitOptions.RemoveEmptyEntries)[1];
                 }
-                else if (and.Contains("<"))
+                else if (and.Contains('<'))
                 {
                     model.FieldName = and.Split(new string[] { "<" }, StringSplitOptions.RemoveEmptyEntries)[0];
                     model.ConditionalType = ConditionalType.LessThan;
@@ -610,7 +612,7 @@ public class SelectTable : ISingleton
                     model.ConditionalType = ConditionalType.NoEqual;
                     model.FieldValue = and.Split(new string[] { "!=" }, StringSplitOptions.RemoveEmptyEntries)[1];
                 }
-                else if (and.Contains("="))
+                else if (and.Contains('='))
                 {
                     model.FieldName = and.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries)[0];
                     model.ConditionalType = ConditionalType.Equal;
@@ -681,7 +683,7 @@ public class SelectTable : ISingleton
         string field = vakey.TrimEnd("{}".ToCharArray());
         if (va.Value.HasValues)
         {
-            List<string> inValues = new List<string>();
+            List<string> inValues = new();
             foreach (var cm in va.Value)
             {
                 inValues.Add(cm.ToString());
@@ -727,7 +729,7 @@ public class SelectTable : ISingleton
     {
         string vakey = va.Key.Trim();
         string field = vakey.TrimEnd("%".ToCharArray());
-        List<string> inValues = new List<string>();
+        List<string> inValues = new();
 
         if (va.Value.HasValues)
         {
@@ -792,7 +794,7 @@ public class SelectTable : ISingleton
         }
     }
 
-    public string ReplaceSQLChar(string str)
+    public static string ReplaceSQLChar(string str)
     {
         if (str == String.Empty)
             return String.Empty;

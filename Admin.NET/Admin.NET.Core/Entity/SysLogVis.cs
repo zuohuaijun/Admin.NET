@@ -8,30 +8,58 @@
 public class SysLogVis : EntityTenant
 {
     /// <summary>
-    /// 是否执行成功（Y-是，N-否）
+    /// 模块名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "是否执行成功")]
-    public YesNoEnum Success { get; set; }
+    [SugarColumn(ColumnDescription = "模块名称", Length = 256)]
+    [MaxLength(256)]
+    public string ControllerName { get; set; }
 
     /// <summary>
-    /// 具体消息
+    /// 方法名称 
+    ///</summary>
+    [SugarColumn(ColumnDescription = "方法名称", Length = 256)]
+    [MaxLength(256)]
+    public string ActionName { get; set; }
+
+    /// <summary>
+    /// 显示名称 
+    ///</summary>
+    [SugarColumn(ColumnDescription = "显示名称", Length = 256)]
+    [MaxLength(256)]
+    public string DisplayTitle { get; set; }
+
+    /// <summary>
+    /// 执行状态
     /// </summary>
-    [SugarColumn(ColumnDescription = "具体消息", ColumnDataType = StaticConfig.CodeFirst_BigString)]
-    public string? Message { get; set; }
+    [SugarColumn(ColumnDescription = "执行状态", Length = 32)]
+    [MaxLength(32)]
+    public string Status { get; set; }
 
     /// <summary>
     /// IP地址
     /// </summary>
     [SugarColumn(ColumnDescription = "IP地址", Length = 256)]
     [MaxLength(256)]
-    public string? Ip { get; set; }
+    public string? RemoteIp { get; set; }
 
     /// <summary>
-    /// 地址
+    /// 登录地点
     /// </summary>
-    [SugarColumn(ColumnDescription = "地址", Length = 128)]
+    [SugarColumn(ColumnDescription = "登录地点", Length = 128)]
     [MaxLength(128)]
     public string? Location { get; set; }
+
+    /// <summary>
+    /// 经度
+    /// </summary>
+    [SugarColumn(ColumnDescription = "经度")]
+    public double? Longitude { get; set; }
+
+    /// <summary>
+    /// 维度
+    /// </summary>
+    [SugarColumn(ColumnDescription = "维度")]
+    public double? Latitude { get; set; }
 
     /// <summary>
     /// 浏览器
@@ -48,10 +76,16 @@ public class SysLogVis : EntityTenant
     public string? Os { get; set; }
 
     /// <summary>
-    /// 访问类型
+    /// 操作用时
     /// </summary>
-    [SugarColumn(ColumnDescription = "访问类型")]
-    public LoginTypeEnum VisType { get; set; }
+    [SugarColumn(ColumnDescription = "操作用时")]
+    public long Elapsed { get; set; }
+
+    /// <summary>
+    /// 日志时间
+    /// </summary>
+    [SugarColumn(ColumnDescription = "日志时间")]
+    public DateTime LogDateTime { get; set; }
 
     /// <summary>
     /// 账号

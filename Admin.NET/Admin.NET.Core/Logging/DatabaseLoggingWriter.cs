@@ -1,53 +1,113 @@
-﻿namespace Admin.NET.Core;
+﻿using IPTools.Core;
+
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 数据库日志写入器
 /// </summary>
 public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 {
-    private readonly SqlSugarRepository<SysLogOp> _sysLogOpRep; // 操作日志
-    private readonly SqlSugarRepository<SysLogEx> _sysLogExRep; // 异常日志
+    private readonly SqlSugarRepository<SysLogVis> _sysLogVisRep; // 访问日志
+    private readonly SqlSugarRepository<SysLogOp> _sysLogOpRep;   // 操作日志
 
-    public DatabaseLoggingWriter(SqlSugarRepository<SysLogOp> sysLogOpRep,
-        SqlSugarRepository<SysLogEx> sysLogExRep)
+    public DatabaseLoggingWriter(SqlSugarRepository<SysLogVis> sysLogVisRep,
+        SqlSugarRepository<SysLogOp> sysLogOpRep)
     {
+        _sysLogVisRep = sysLogVisRep;
         _sysLogOpRep = sysLogOpRep;
-        _sysLogExRep = sysLogExRep;
     }
 
-    public void Write(LogMessage logMsg, bool flush)
+    public async void Write(LogMessage logMsg, bool flush)
     {
-        if (logMsg.LogLevel == Microsoft.Extensions.Logging.LogLevel.Information)
+        var jsonStr = logMsg.Context.Get("loggingMonitor").ToString();
+        dynamic loggingMonitor = JsonConvert.DeserializeObject(jsonStr);
+
+        // 不记录数据校验日志
+        if (loggingMonitor.Validation != null) return;
+
+        string remoteIPv4 = loggingMonitor.remoteIPv4;
+        (string ipLocation, double? longitude, double? latitude) = GetIpAddress(remoteIPv4);
+
+        // 获取当前操作者
+        var account = "";
+        var realName = "";
+        foreach (var item in loggingMonitor.authorizationClaims)
         {
-            _sysLogOpRep.Insert(new SysLogOp
+            if (item.type == ClaimConst.Account)
+                account = item.value;
+            if (item.type == ClaimConst.RealName)
+                realName = item.value;
+        }
+
+        if (loggingMonitor.actionName == "login")
+        {
+            _sysLogVisRep.Insert(new SysLogVis
             {
-                LogName = logMsg.LogName,
-                LogLevel = logMsg.LogLevel.ToString(),
-                EventId = logMsg.EventId.Id.ToString(),
-                Message = logMsg.Message,
-                Exception = logMsg.Exception?.ToString(),
-                State = logMsg.State?.ToString(),
+                ControllerName = loggingMonitor.controllerName,
+                ActionName = loggingMonitor.actionName,
+                DisplayTitle = loggingMonitor.displayTitle,
+                Status = loggingMonitor.returnInformation.httpStatusCode,
+                RemoteIp = remoteIPv4,
+                Location = ipLocation,
+                Longitude = longitude,
+                Latitude = latitude,
+                Browser = loggingMonitor.userAgent,
+                Os = loggingMonitor.osDescription + " " + loggingMonitor.osArchitecture,
+                Elapsed = loggingMonitor.timeOperationElapsedMilliseconds,
                 LogDateTime = logMsg.LogDateTime,
-                ThreadId = logMsg.ThreadId,
-                TraceId = logMsg.TraceId,
-                UseUtcTimestamp = logMsg.UseUtcTimestamp,
+                Account = account,
+                RealName = realName
             });
         }
         else
         {
-            _sysLogExRep.Insert(new SysLogEx
+            _sysLogOpRep.Insert(new SysLogOp
             {
-                LogName = logMsg.LogName,
-                LogLevel = logMsg.LogLevel.ToString(),
-                EventId = logMsg.EventId.Id.ToString(),
-                Message = logMsg.Message,
-                Exception = logMsg.Exception?.ToString(),
-                State = logMsg.State?.ToString(),
+                ControllerName = loggingMonitor.controllerName,
+                ActionName = loggingMonitor.actionName,
+                DisplayTitle = loggingMonitor.displayTitle,
+                Status = loggingMonitor.returnInformation.httpStatusCode,
+                RemoteIp = remoteIPv4,
+                Location = ipLocation,
+                Longitude = longitude,
+                Latitude = latitude,
+                Browser = loggingMonitor.userAgent,
+                Os = loggingMonitor.osDescription + " " + loggingMonitor.osArchitecture,
+                Elapsed = loggingMonitor.timeOperationElapsedMilliseconds,
                 LogDateTime = logMsg.LogDateTime,
+                Account = account,
+                RealName = realName,
+                HttpMethod = loggingMonitor.httpMethod,
+                RequestUrl = loggingMonitor.requestUrl,
+                RequestParam = (loggingMonitor.parameters == null || loggingMonitor.parameters.Count == 0) ? null : JsonConvert.SerializeObject(loggingMonitor.parameters[0].value),
+                ReturnResult = JsonConvert.SerializeObject(loggingMonitor.returnInformation.value),
+                EventId = logMsg.EventId.Id,
                 ThreadId = logMsg.ThreadId,
                 TraceId = logMsg.TraceId,
-                UseUtcTimestamp = logMsg.UseUtcTimestamp,
+                Exception = loggingMonitor.exception,
+                Message = logMsg.Message
             });
         }
+
+        // 异常时发送邮件
+        if (logMsg.Exception != null)
+            await App.GetRequiredService<SysMessageService>().SendEmail(loggingMonitor.exception);
+    }
+
+    /// <summary>
+    /// 解析IP地址
+    /// </summary>
+    /// <param name="ip"></param>
+    /// <returns></returns>
+    private static (string ipLocation, double? longitude, double? latitude) GetIpAddress(string ip)
+    {
+        try
+        {
+            var ipInfo = IpTool.Search(ip);
+            var addressList = new List<string>() { ipInfo.Country, ipInfo.Province, ipInfo.City, ipInfo.NetworkOperator };
+            return (string.Join("|", addressList.Where(it => it != "0").ToList()), ipInfo.Longitude, ipInfo.Latitude); // 去掉0并用|连接
+        }
+        catch { }
+        return ("未知", 0, 0);
     }
 }

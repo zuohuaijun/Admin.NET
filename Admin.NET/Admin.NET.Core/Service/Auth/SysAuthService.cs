@@ -14,7 +14,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
     private readonly RefreshTokenOptions _refreshTokenOptions;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    private readonly IEventPublisher _eventPublisher;
     private readonly SysMenuService _sysMenuService;
     private readonly SysOnlineUserService _sysOnlineUserService;
     private readonly SysConfigService _sysConfigService;
@@ -25,7 +24,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         SqlSugarRepository<SysUser> sysUserRep,
         IOptions<RefreshTokenOptions> refreshTokenOptions,
         IHttpContextAccessor httpContextAccessor,
-        IEventPublisher eventPublisher,
         SysMenuService sysMenuService,
         SysOnlineUserService sysOnlineUserService,
         SysConfigService sysConfigService,
@@ -36,7 +34,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         _sysUserRep = sysUserRep;
         _httpContextAccessor = httpContextAccessor;
         _refreshTokenOptions = refreshTokenOptions.Value;
-        _eventPublisher = eventPublisher;
         _sysMenuService = sysMenuService;
         _sysOnlineUserService = sysOnlineUserService;
         _sysConfigService = sysConfigService;
@@ -50,9 +47,9 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <remarks>用户名/密码：superadmin/123456</remarks>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Login")]
     [AllowAnonymous]
-    [SuppressMonitor]
+    [ApiDescriptionSettings(Name = "Login")]
+    [DisplayName("登录系统")]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
         //// 可以根据域名获取具体租户
@@ -126,6 +123,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "UserInfo")]
+    [DisplayName("获取登录账号信息")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
@@ -137,25 +135,6 @@ public class SysAuthService : IDynamicApiController, ITransient
 
         // 按钮权限集合
         var buttons = await _sysMenuService.GetBtnPermissionList();
-
-        // 登录日志
-        var ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4();
-        var client = Parser.GetDefault().Parse(_httpContextAccessor.HttpContext.Request.Headers["User-Agent"]);
-        //var ipInfo = IpTool.Search(ip);
-        //var address = ipInfo.Country + ipInfo.Province + ipInfo.City + "[" + ipInfo.NetworkOperator + "][" + ipInfo.Latitude + ipInfo.Longitude + "]";
-        await _eventPublisher.PublishAsync("Add:VisLog", new SysLogVis
-        {
-            Success = YesNoEnum.Y,
-            Message = "登录",
-            Ip = ip,
-            //Location = address,
-            Browser = client.UA.Family + client.UA.Major,
-            Os = client.OS.Family + client.OS.Major,
-            VisType = LoginTypeEnum.Login,
-            Account = user.Account,
-            RealName = user.RealName,
-            TenantId = user.TenantId,
-        });
 
         return new LoginUserOutput
         {
@@ -177,6 +156,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <param name="accessToken"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "RefreshToken")]
+    [DisplayName("获取刷新Token")]
     public string GetRefreshToken([Required] string accessToken)
     {
         return JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
@@ -186,33 +166,23 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// 退出系统
     /// </summary>
     [ApiDescriptionSettings(Name = "Logout")]
-    public async void Logout()
+    [DisplayName("退出系统")]
+    public void Logout()
     {
         if (string.IsNullOrWhiteSpace(_userManager.Account))
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
-        // 设置响应报文头
+        // 置空响应报文头
         _httpContextAccessor.HttpContext.SetTokensOfResponseHeaders(null, null);
-
-        // 退出日志
-        await _eventPublisher.PublishAsync("Add:VisLog", new SysLogVis
-        {
-            Success = YesNoEnum.Y,
-            Message = "退出",
-            VisType = LoginTypeEnum.Logout,
-            Ip = _httpContextAccessor.HttpContext.GetRemoteIpAddressToIPv4(),
-            Account = _userManager.Account,
-            RealName = _userManager.RealName
-        });
     }
 
     /// <summary>
     /// 获取登录配置
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "LoginConfig")]
     [AllowAnonymous]
-    [SuppressMonitor]
+    [ApiDescriptionSettings(Name = "LoginConfig")]
+    [DisplayName("获取登录配置")]
     public async Task<dynamic> GetLoginConfig()
     {
         var secondVerEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSecondVer);
@@ -225,9 +195,10 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// 获取验证码
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Captcha")]
     [AllowAnonymous]
     [SuppressMonitor]
+    [ApiDescriptionSettings(Name = "Captcha")]
+    [DisplayName("获取验证码")]
     public dynamic GetCaptcha()
     {
         var codeId = YitIdHelper.NextId();
@@ -239,8 +210,9 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// swagger登录检查
     /// </summary>
     /// <returns></returns>
-    [HttpPost("/api/swagger/checkUrl"), NonUnify]
     [AllowAnonymous]
+    [HttpPost("/api/swagger/checkUrl"), NonUnify]
+    [DisplayName("swagger登录检查")]
     public int SwaggerCheckUrl()
     {
         return _cache.Get<bool>(CacheConst.SwaggerLogin) ? 200 : 401;
@@ -251,8 +223,9 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="auth"></param>
     /// <returns></returns>
-    [HttpPost("/api/swagger/submitUrl"), NonUnify]
     [AllowAnonymous]
+    [HttpPost("/api/swagger/submitUrl"), NonUnify]
+    [DisplayName("swagger登录提交")]
     public int SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
     {
         var userName = App.GetConfig<string>("SpecificationDocumentSettings:LoginInfo:UserName");

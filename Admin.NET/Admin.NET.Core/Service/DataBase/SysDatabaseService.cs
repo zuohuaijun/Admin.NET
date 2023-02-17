@@ -24,6 +24,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "List")]
+    [DisplayName("获取库列表")]
     public List<dynamic> GetList()
     {
         return App.GetOptions<DbConnectionOptions>().ConnectionConfigs.Select(u => u.ConfigId).ToList();
@@ -35,8 +36,9 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// <param name="tableName">表名</param>
     /// <param name="configId">ConfigId</param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "ColumnList")]
     [AllowAnonymous]
+    [ApiDescriptionSettings(Name = "ColumnList")]
+    [DisplayName("获取字段列表")]
     public List<DbColumnOutput> GetColumnList(string tableName, string configId = SqlSugarConst.ConfigId)
     {
         var db = _db.AsTenant().GetConnectionScope(configId);
@@ -51,6 +53,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     [ApiDescriptionSettings(Name = "AddColumn")]
+    [DisplayName("增加列")]
     public void AddColumn(DbColumnInput input)
     {
         var column = new DbColumnInfo
@@ -76,6 +79,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     [ApiDescriptionSettings(Name = "DeleteColumn")]
+    [DisplayName("删除列")]
     public void DeleteColumn(DeleteDbColumnInput input)
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
@@ -87,6 +91,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     [ApiDescriptionSettings(Name = "UpdateColumn")]
+    [DisplayName("编辑列")]
     public void UpdateColumn(UpdateDbColumnInput input)
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
@@ -102,6 +107,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// <param name="configId">ConfigId</param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "TableList")]
+    [DisplayName("获取表列表")]
     public List<DbTableInfo> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
         var db = _db.AsTenant().GetConnectionScope(configId);
@@ -113,6 +119,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     [ApiDescriptionSettings(Name = "AddTable")]
+    [DisplayName("增加表")]
     public void AddTable(DbTableInput input)
     {
         var columns = new List<DbColumnInfo>();
@@ -159,6 +166,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     [ApiDescriptionSettings(Name = "DeleteTable")]
+    [DisplayName("删除表")]
     public void DeleteTable(DeleteDbTableInput input)
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
@@ -170,6 +178,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     [ApiDescriptionSettings(Name = "UpdateTable")]
+    [DisplayName("编辑表")]
     public void UpdateTable(UpdateDbTableInput input)
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
@@ -184,6 +193,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     [ApiDescriptionSettings(Name = "CreateEntity")]
+    [DisplayName("创建实体")]
     public void CreateEntity(CreateEntityInput input)
     {
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;

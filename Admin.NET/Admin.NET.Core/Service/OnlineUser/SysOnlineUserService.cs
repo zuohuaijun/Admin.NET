@@ -26,6 +26,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Page")]
+    [DisplayName("获取在线用户分页列表")]
     public async Task<SqlSugarPagedList<SysOnlineUser>> GetPage([FromQuery] PageOnlineUserInput input)
     {
         return await _sysOnlineUerRep.AsQueryable()
@@ -39,8 +40,9 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "ForceOffline")]
     [NonValidation]
+    [ApiDescriptionSettings(Name = "ForceOffline")]
+    [DisplayName("强制下线")]
     public async Task ForceOffline(SysOnlineUser user)
     {
         await _onlineUserHubContext.Clients.Client(user.ConnectionId).ForceOffline("强制下线");

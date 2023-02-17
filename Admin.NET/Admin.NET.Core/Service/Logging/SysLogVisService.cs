@@ -17,8 +17,9 @@ public class SysLogVisService : IDynamicApiController, ITransient
     /// 获取访问日志分页列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [SuppressMonitor]
+    [ApiDescriptionSettings(Name = "Page")]
+    [DisplayName("获取访问日志分页列表")]
     public async Task<SqlSugarPagedList<SysLogVis>> GetPage([FromQuery] PageLogInput input)
     {
         return await _sysLogVisRep.AsQueryable()
@@ -33,6 +34,7 @@ public class SysLogVisService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Clear")]
+    [DisplayName("清空访问日志")]
     public async Task<bool> Clear()
     {
         return await _sysLogVisRep.DeleteAsync(u => u.Id > 0);

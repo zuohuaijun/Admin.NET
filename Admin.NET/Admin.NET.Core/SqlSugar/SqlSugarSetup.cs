@@ -189,7 +189,7 @@ public static class SqlSugarSetup
                 DiffType = u.DiffType.ToString(),
                 Sql = UtilMethods.GetSqlString(config.DbType, u.Sql, u.Parameters),
                 Parameters = JsonConvert.SerializeObject(u.Parameters),
-                Duration = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
+                Elapsed = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
             };
             await db.Insertable(logDiff).ExecuteCommandAsync();
             Console.ForegroundColor = ConsoleColor.Red;

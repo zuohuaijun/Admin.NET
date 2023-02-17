@@ -45,6 +45,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "GenerateParametersForJsapiPay")]
+    [DisplayName("生成JSAPI调起支付所需参数")]
     public dynamic GenerateParametersForJsapiPay(WechatPayParaInput input)
     {
         return WechatTenpayClient.GenerateParametersForJsapiPayRequest(_wechatPayOptions.AppId, input.PrepayId);
@@ -54,6 +55,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// 微信支付统一下单获取Id(商户直连)
     /// </summary>
     [ApiDescriptionSettings(Name = "CreatePayTransaction")]
+    [DisplayName("微信支付统一下单获取Id(商户直连)")]
     public async Task<dynamic> CreatePayTransaction([FromBody] WechatPayTransactionInput input)
     {
         var request = new CreatePayTransactionJsapiRequest()
@@ -96,6 +98,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// 微信支付统一下单获取Id(服务商模式)
     /// </summary>
     [ApiDescriptionSettings(Name = "CreatePayPartnerTransaction")]
+    [DisplayName("微信支付统一下单获取Id(服务商模式)")]
     public async Task<dynamic> CreatePayPartnerTransaction([FromBody] WechatPayTransactionInput input)
     {
         var request = new CreatePayPartnerTransactionJsapiRequest()
@@ -146,6 +149,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// <param name="tradeId"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "PayInfo")]
+    [DisplayName("获取支付订单详情")]
     public async Task<SysWechatPay> GetPayInfo(string tradeId)
     {
         return await _sysWechatPayUserRep.GetFirstAsync(u => u.OutTradeNumber == tradeId);
@@ -155,8 +159,9 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// 微信支付成功回调(商户直连)
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "PayCallBack")]
     [AllowAnonymous]
+    [ApiDescriptionSettings(Name = "PayCallBack")]
+    [DisplayName("微信支付成功回调(商户直连)")]
     public async Task<WechatPayOutput> PayCallBack()
     {
         using var ms = new MemoryStream();
@@ -202,8 +207,9 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     /// 微信支付成功回调(服务商模式)
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "PayPartnerCallBack")]
     [AllowAnonymous]
+    [ApiDescriptionSettings(Name = "PayPartnerCallBack")]
+    [DisplayName("微信支付成功回调(服务商模式)")]
     public async Task PayPartnerCallBack()
     {
         using var ms = new MemoryStream();

@@ -19,6 +19,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Page")]
+    [DisplayName("获取微信用户列表")]
     public async Task<SqlSugarPagedList<SysWechatUser>> GetPage([FromQuery] WechatUserInput input)
     {
         return await _sysWechatUserRep.AsQueryable()
@@ -34,6 +35,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Add")]
+    [DisplayName("增加微信用户")]
     public async Task AddWechatUser(SysWechatUser input)
     {
         await _sysWechatUserRep.InsertAsync(input.Adapt<SysWechatUser>());
@@ -45,6 +47,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update")]
+    [DisplayName("更新微信用户")]
     public async Task UpdateWechatUser(SysWechatUser input)
     {
         var weChatUser = input.Adapt<SysWechatUser>();
@@ -57,6 +60,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Delete")]
+    [DisplayName("删除微信用户")]
     public async Task DeleteWechatUser(DeleteWechatUserInput input)
     {
         await _sysWechatUserRep.DeleteAsync(u => u.Id == input.Id);

@@ -33,6 +33,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "List")]
+    [DisplayName("获取机构列表")]
     public async Task<List<SysOrg>> GetList([FromQuery] OrgInput input)
     {
         var orgIdList = await GetUserOrgIdList();
@@ -66,6 +67,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Add")]
+    [DisplayName("增加机构")]
     public async Task<long> AddOrg(AddOrgInput input)
     {
         var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
@@ -98,8 +100,9 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
     [UnitOfWork]
+    [ApiDescriptionSettings(Name = "Update")]
+    [DisplayName("更新机构")]
     public async Task UpdateOrg(UpdateOrgInput input)
     {
         if (input.Pid != 0)
@@ -133,8 +136,9 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
     [UnitOfWork]
+    [ApiDescriptionSettings(Name = "Delete")]
+    [DisplayName("删除机构")]
     public async Task DeleteOrg(DeleteOrgInput input)
     {
         var sysOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Id);

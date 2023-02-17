@@ -30,6 +30,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "LoginMenuTree")]
+    [DisplayName("获取登录菜单树")]
     public async Task<List<MenuOutput>> GetLoginMenuTree()
     {
         if (_userManager.SuperAdmin)
@@ -69,8 +70,9 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取菜单列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "List")]
     [AllowAnonymous]
+    [ApiDescriptionSettings(Name = "List")]
+    [DisplayName("获取菜单列表")]
     public async Task<List<SysMenu>> GetList([FromQuery] MenuInput input)
     {
         var menuIdList = _userManager.SuperAdmin ? new List<long>() : await GetMenuIdList();
@@ -97,6 +99,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Add")]
+    [DisplayName("增加菜单")]
     public async Task AddMenu(AddMenuInput input)
     {
         var isExist = input.Type != MenuTypeEnum.Btn
@@ -121,6 +124,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update")]
+    [DisplayName("更新菜单")]
     public async Task UpdateMenu(UpdateMenuInput input)
     {
         var isExist = input.Type != MenuTypeEnum.Btn
@@ -143,8 +147,9 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
     [UnitOfWork]
+    [ApiDescriptionSettings(Name = "Delete")]
+    [DisplayName("删除菜单")]
     public async Task DeleteMenu(DeleteMenuInput input)
     {
         var menuTreeList = await _sysMenuRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id, true);
@@ -180,6 +185,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "BtnPermissionList")]
+    [DisplayName("获取按钮权限集合")]
     public async Task<List<string>> GetBtnPermissionList()
     {
         var userId = _userManager.UserId;

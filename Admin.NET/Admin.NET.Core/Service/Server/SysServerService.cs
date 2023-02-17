@@ -25,6 +25,7 @@ public class SysServerService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "ServerBase")]
+    [DisplayName("获取服务器配置信息")]
     public dynamic GetServerBase()
     {
         return new
@@ -44,10 +45,11 @@ public class SysServerService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取服务器内存信息
+    /// 获取服务器使用信息
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "ServerUsed")]
+    [DisplayName("获取服务器使用信息")]
     public dynamic GetServerUsed()
     {
         var programStartTime = Process.GetCurrentProcess().StartTime;
@@ -73,6 +75,7 @@ public class SysServerService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "ServerDisk")]
+    [DisplayName("获取服务器磁盘信息")]
     public dynamic GetServerDisk()
     {
         return ComputerUtil.GetDiskInfos();
@@ -83,6 +86,7 @@ public class SysServerService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "AssemblyList")]
+    [DisplayName("获取框架主要程序集")]
     public dynamic GetAssemblyList()
     {
         var furionAssembly = typeof(App).Assembly.GetName();

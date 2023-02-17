@@ -38,6 +38,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Page")]
+    [DisplayName("获取文件分页列表")]
     public async Task<SqlSugarPagedList<SysFile>> GetPage([FromQuery] PageFileInput input)
     {
         return await _sysFileRep.AsQueryable()
@@ -55,6 +56,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="path"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "UploadFile")]
+    [DisplayName("上传文件")]
     public async Task<FileOutput> UploadFile([Required] IFormFile file, [FromQuery] string? path)
     {
         var sysFile = await HandleUploadFile(file, path);
@@ -74,6 +76,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="files"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "UploadFiles")]
+    [DisplayName("上传多文件")]
     public async Task<List<FileOutput>> UploadFiles([Required] List<IFormFile> files)
     {
         var filelist = new List<FileOutput>();
@@ -90,6 +93,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "DownloadFile")]
+    [DisplayName("下载文件(文件流)")]
     public async Task<IActionResult> DownloadFile(FileInput input)
     {
         var file = await GetFile(input);
@@ -114,6 +118,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Delete")]
+    [DisplayName("删除文件")]
     public async Task DeleteFile(DeleteFileInput input)
     {
         var file = await _sysFileRep.GetFirstAsync(u => u.Id == input.Id);
@@ -265,6 +270,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "UploadAvatar")]
+    [DisplayName("上传头像")]
     public async Task<FileOutput> UploadAvatar([Required] IFormFile file)
     {
         var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();
@@ -287,6 +293,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "UploadSignature")]
+    [DisplayName("上传电子签名")]
     public async Task<FileOutput> UploadSignature([Required] IFormFile file)
     {
         var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();

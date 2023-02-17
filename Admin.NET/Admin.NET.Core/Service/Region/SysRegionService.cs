@@ -17,11 +17,12 @@ public class SysRegionService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取行政区域列表
+    /// 获取行政区域分页列表
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Page")]
+    [DisplayName("获取行政区域分页列表")]
     public async Task<SqlSugarPagedList<SysRegion>> GetPage([FromQuery] PageRegionInput input)
     {
         return await _sysRegionRep.AsQueryable()
@@ -37,6 +38,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "List")]
+    [DisplayName("获取行政区域列表")]
     public async Task<List<SysRegion>> GetList([FromQuery] RegionInput input)
     {
         return await _sysRegionRep.GetListAsync(u => u.Pid == input.Id);
@@ -48,6 +50,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Add")]
+    [DisplayName("增加行政区域")]
     public async Task<long> AddRegion(AddRegionInput input)
     {
         var isExist = await _sysRegionRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
@@ -65,6 +68,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update")]
+    [DisplayName("更新行政区域")]
     public async Task UpdateRegion(UpdateRegionInput input)
     {
         if (input.Pid != 0)
@@ -95,6 +99,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Delete")]
+    [DisplayName("删除行政区域")]
     public async Task DeleteRegion(DeleteRegionInput input)
     {
         var regionTreeList = await _sysRegionRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id, true);
@@ -107,6 +112,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Sync")]
+    [DisplayName("同步行政区域")]
     public async Task SyncRegion()
     {
         await _sysRegionRep.DeleteAsync(u => u.Id > 0);

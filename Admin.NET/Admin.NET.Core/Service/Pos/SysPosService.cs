@@ -22,6 +22,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "List")]
+    [DisplayName("获取职位列表")]
     public async Task<List<SysPos>> GetList([FromQuery] PosInput input)
     {
         return await _sysPosRep.AsQueryable()
@@ -36,6 +37,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Add")]
+    [DisplayName("增加职位")]
     public async Task AddPos(AddPosInput input)
     {
         var isExist = await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
@@ -51,6 +53,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update")]
+    [DisplayName("更新职位")]
     public async Task UpdatePos(UpdatePosInput input)
     {
         var isExist = await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
@@ -66,6 +69,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Delete")]
+    [DisplayName("删除职位")]
     public async Task DeletePos(DeletePosInput input)
     {
         // 该职位下是否有用户

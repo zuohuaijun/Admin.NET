@@ -6,32 +6,20 @@
 public enum LoginTypeEnum
 {
     /// <summary>
-    /// 登录
+    /// PC登录
     /// </summary>
-    [Description("登录")]
+    [Description("PC登录")]
     Login = 1,
 
     /// <summary>
-    /// 退出
+    /// PC退出
     /// </summary>
-    [Description("退出")]
+    [Description("PC退出")]
     Logout = 2,
 
     /// <summary>
-    /// 注册
+    /// PC注册
     /// </summary>
-    [Description("注册")]
-    Register = 3,
-
-    /// <summary>
-    /// 改密
-    /// </summary>
-    [Description("改密")]
-    ChangePassword = 4,
-
-    /// <summary>
-    /// 三方授权登陆
-    /// </summary>
-    [Description("授权登陆")]
-    AuthorizedLogin = 5
+    [Description("PC注册")]
+    Register = 3
 }

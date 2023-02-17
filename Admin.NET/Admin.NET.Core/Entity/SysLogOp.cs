@@ -5,57 +5,44 @@
 /// </summary>
 [SugarTable(null, "系统操作日志表")]
 [SystemTable]
-public class SysLogOp : EntityTenant
+public class SysLogOp : SysLogVis
 {
     /// <summary>
-    /// 记录器类别名称
+    /// 请求方式
     /// </summary>
-    [SugarColumn(ColumnDescription = "记录器类别名称", Length = 256)]
-    [MaxLength(256)]
-    public string? LogName { get; set; }
+    [SugarColumn(ColumnDescription = "请求方式", Length = 32)]
+    [MaxLength(32)]
+    public string HttpMethod { get; set; }
 
     /// <summary>
-    /// 日志级别
+    /// 请求地址
     /// </summary>
-    [SugarColumn(ColumnDescription = "日志级别", Length = 16)]
-    [MaxLength(16)]
-    public string? LogLevel { get; set; }
+    [SugarColumn(ColumnDescription = "请求地址", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+    public string RequestUrl { get; set; }
+
+    /// <summary>
+    /// 请求参数
+    /// </summary>
+    [SugarColumn(ColumnDescription = "请求参数", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+    public string? RequestParam { get; set; }
+
+    /// <summary>
+    /// 返回结果
+    /// </summary>
+    [SugarColumn(ColumnDescription = "返回结果", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+    public string? ReturnResult { get; set; }
 
     /// <summary>
     /// 事件Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "事件Id", ColumnDataType = StaticConfig.CodeFirst_BigString)]
-    public string? EventId { get; set; }
-
-    /// <summary>
-    /// 日志消息
-    /// </summary>
-    [SugarColumn(ColumnDescription = "日志消息", ColumnDataType = StaticConfig.CodeFirst_BigString)]
-    public string? Message { get; set; }
-
-    /// <summary>
-    /// 异常对象
-    /// </summary>
-    [SugarColumn(ColumnDescription = "异常对象", ColumnDataType = StaticConfig.CodeFirst_BigString)]
-    public string? Exception { get; set; }
-
-    /// <summary>
-    /// 当前状态值
-    /// </summary>
-    [SugarColumn(ColumnDescription = "当前状态值", ColumnDataType = StaticConfig.CodeFirst_BigString)]
-    public string? State { get; set; }
-
-    /// <summary>
-    /// 日志记录时间
-    /// </summary>
-    [SugarColumn(ColumnDescription = "日志记录时间")]
-    public DateTime LogDateTime { get; set; }
+    [SugarColumn(ColumnDescription = "事件Id")]
+    public int? EventId { get; set; }
 
     /// <summary>
     /// 线程Id
     /// </summary>
     [SugarColumn(ColumnDescription = "线程Id")]
-    public int ThreadId { get; set; }
+    public int? ThreadId { get; set; }
 
     /// <summary>
     /// 请求跟踪Id
@@ -65,7 +52,14 @@ public class SysLogOp : EntityTenant
     public string? TraceId { get; set; }
 
     /// <summary>
-    /// 是否使用UTC时间戳
+    /// 异常信息
     /// </summary>
-    public bool UseUtcTimestamp { get; set; }
+    [SugarColumn(ColumnDescription = "异常信息", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+    public string? Exception { get; set; }
+
+    /// <summary>
+    /// 日志消息Json
+    /// </summary>
+    [SugarColumn(ColumnDescription = "日志消息Json", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+    public string? Message { get; set; }
 }

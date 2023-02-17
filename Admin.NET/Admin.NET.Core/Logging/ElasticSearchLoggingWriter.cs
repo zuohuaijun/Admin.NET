@@ -16,19 +16,8 @@ public class ElasticSearchLoggingWriter : IDatabaseLoggingWriter
 
     public void Write(LogMessage logMsg, bool flush)
     {
-        var document = new SysLogOp
-        {
-            LogName = logMsg.LogName,
-            LogLevel = logMsg.LogLevel.ToString(),
-            EventId = logMsg.EventId.Id.ToString(),
-            Message = logMsg.Message,
-            Exception = logMsg.Exception?.ToString(),
-            State = logMsg.State?.ToString(),
-            LogDateTime = logMsg.LogDateTime,
-            ThreadId = logMsg.ThreadId,
-            TraceId = logMsg.TraceId,
-            UseUtcTimestamp = logMsg.UseUtcTimestamp,
-        };
-        _esClient.IndexDocument(document);
+        var jsonStr = logMsg.Context.Get("loggingMonitor").ToString();
+        // dynamic loggingMonitor = JsonConvert.DeserializeObject(jsonStr);
+        _esClient.IndexDocument(jsonStr);
     }
 }

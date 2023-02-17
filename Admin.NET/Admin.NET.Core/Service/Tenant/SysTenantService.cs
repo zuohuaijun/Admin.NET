@@ -52,6 +52,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Page")]
+    [DisplayName("获取租户分页列表")]
     public async Task<SqlSugarPagedList<TenantOutput>> GetPage([FromQuery] PageTenantInput input)
     {
         return await _sysTenantRep.AsQueryable()
@@ -96,6 +97,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Add")]
+    [DisplayName("增加租户")]
     public async Task AddTenant(AddTenantInput input)
     {
         var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name);
@@ -125,6 +127,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "SetStatus")]
+    [DisplayName("设置租户状态")]
     public async Task<int> SetStatus(TenantInput input)
     {
         var tenant = await _sysTenantRep.GetFirstAsync(u => u.Id == input.Id);
@@ -227,6 +230,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Delete")]
+    [DisplayName("删除租户")]
     public async Task DeleteTenant(DeleteTenantInput input)
     {
         // 禁止删除默认租户
@@ -263,6 +267,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update")]
+    [DisplayName("更新租户")]
     public async Task UpdateTenant(UpdateTenantInput input)
     {
         var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.OrgId);
@@ -289,6 +294,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "GrantMenu")]
+    [DisplayName("授权租户管理员角色菜单")]
     public async Task GrantMenu(RoleMenuInput input)
     {
         var tenantAdminUser = await _sysUserRep.GetFirstAsync(u => u.TenantId == input.Id && u.AccountType == AccountTypeEnum.Admin);
@@ -305,6 +311,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "OwnMenuList")]
+    [DisplayName("获取租户管理员角色拥有菜单Id集合")]
     public async Task<List<long>> GetOwnMenuList([FromQuery] TenantUserInput input)
     {
         var roleIds = await _sysUserRoleService.GetUserRoleIdList(input.UserId);
@@ -317,6 +324,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "ResetPwd")]
+    [DisplayName("重置租户管理员密码")]
     public async Task ResetPwd(TenantUserInput input)
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
@@ -357,6 +365,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "CreateDb")]
+    [DisplayName("创建租户数据库")]
     public async Task CreateDb(TenantInput input)
     {
         var tenant = await _sysTenantRep.GetFirstAsync(u => u.Id == input.Id);

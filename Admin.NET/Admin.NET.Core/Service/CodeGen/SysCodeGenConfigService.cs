@@ -19,6 +19,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "List")]
+    [DisplayName("获取代码生成配置列表")]
     public async Task<List<CodeGenConfig>> GetList([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>()
@@ -32,6 +33,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// <param name="inputList"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update")]
+    [DisplayName("更新代码生成配置")]
     public async Task UpdateCodeGenConfig(List<CodeGenConfig> inputList)
     {
         if (inputList == null || inputList.Count < 1) return;
@@ -55,6 +57,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Detail")]
+    [DisplayName("获取代码生成配置详情")]
     public async Task<SysCodeGenConfig> GetDetail([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>().FirstAsync(u => u.Id == input.Id);

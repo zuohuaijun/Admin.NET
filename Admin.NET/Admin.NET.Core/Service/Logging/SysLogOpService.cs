@@ -19,8 +19,9 @@ public class SysLogOpService : IDynamicApiController, ITransient
     /// 获取操作日志分页列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [SuppressMonitor]
+    [ApiDescriptionSettings(Name = "Page")]
+    [DisplayName("获取操作日志分页列表")]
     public async Task<SqlSugarPagedList<SysLogOp>> GetPage([FromQuery] PageLogInput input)
     {
         return await _sysLogOpRep.AsQueryable()
@@ -36,6 +37,7 @@ public class SysLogOpService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Clear")]
+    [DisplayName("清空操作日志")]
     public async Task<bool> Clear()
     {
         return await _sysLogOpRep.DeleteAsync(u => u.Id > 0);
@@ -46,6 +48,7 @@ public class SysLogOpService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Export"), NonUnify]
+    [DisplayName("导出操作日志")]
     public async Task<IActionResult> ExportLogOp(LogInput input)
     {
         var lopOpList = await _sysLogOpRep.AsQueryable()
