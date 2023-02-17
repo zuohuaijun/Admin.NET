@@ -17,6 +17,7 @@
     <PackageReference Include="AngleSharp" Version="1.0.1" />
     <PackageReference Include="AspectCore.Extensions.Reflection" Version="2.3.0" />
     <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
+    <PackageReference Include="DotNetCore.Compile.Environment" Version="3.2.0" />
     <PackageReference Include="DotNetCore.Natasha.CSharp" Version="5.0.2" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
     <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.6.4" />

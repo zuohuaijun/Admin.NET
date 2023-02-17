@@ -7,13 +7,13 @@
 					<span> {{ props.title }} </span>
 				</div>
 			</template>
-			<el-tabs>
+			<el-tabs v-model="state.selectedTabName">
 				<el-tab-pane label="作业信息">
-					<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="110px">
+					<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="130px">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 								<el-form-item label="作业编号" prop="jobId" :rules="[{ required: true, message: '作业编号不能为空', trigger: 'blur' }]">
-									<el-input v-model="state.ruleForm.jobId" placeholder="作业编号" clearable />
+									<el-input v-model="state.ruleForm.jobId" placeholder="作业编号" :disabled="isEdit" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -29,8 +29,16 @@
 									</el-radio-group>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="扫描特性触发器" prop="includeAnnotations">
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-show="!isEdit">
+								<el-form-item prop="includeAnnotations">
+									<template v-slot:label>
+										<div>
+											扫描特性触发器
+											<el-tooltip raw-content content="此参数只在新增作业时生效<br/>扫描定义在作业上的触发器" placement="top">
+												<SvgIcon name="fa fa-question-circle-o" :size="16" style="vertical-align: middle" />
+											</el-tooltip>
+										</div>
+									</template>
 									<el-radio-group v-model="state.ruleForm.includeAnnotations">
 										<el-radio :label="true">是</el-radio>
 										<el-radio :label="false">否</el-radio>
@@ -50,7 +58,7 @@
 						</el-row>
 					</el-form>
 				</el-tab-pane>
-				<el-tab-pane label="脚本代码">
+				<el-tab-pane label="脚本代码" :disabled="!state.ruleForm.createFromScript">
 					<div ref="monacoEditorRef" style="width: 100%; height: 500px"></div>
 				</el-tab-pane>
 			</el-tabs>
@@ -65,7 +73,7 @@
 </template>
 
 <script lang="ts" setup name="sysEditJobDetail">
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
 import mittBus from '/@/utils/mitt';
 import * as monaco from 'monaco-editor';
 import { JobScriptCode } from './JobScriptCode';
@@ -82,8 +90,14 @@ const ruleFormRef = ref();
 const monacoEditorRef = ref();
 const state = reactive({
 	isShowDialog: false,
+	selectedTabName: '0', // 选中的 tab 页
 	ruleForm: {} as UpdateJobDetailInput,
 	monacoEditor: null as any,
+});
+
+// 是否编辑状态
+const isEdit = computed(() => {
+	return state.ruleForm.id != undefined && state.ruleForm.id > 0;
 });
 
 // 初始化monacoEditor对象
@@ -91,7 +105,7 @@ var monacoEditor: any = null;
 const initMonacoEditor = () => {
 	monacoEditor = monaco.editor.create(monacoEditorRef.value, {
 		theme: 'vs-dark', // 主题 vs vs-dark hc-black
-		value: JobScriptCode, // 默认显示的值
+		value: '', // 默认显示的值
 		language: 'csharp',
 		formatOnPaste: true,
 		wordWrap: 'on', //自动换行，注意大小写
@@ -117,13 +131,14 @@ const initMonacoEditor = () => {
 
 // 打开弹窗
 const openDialog = (row: any) => {
+	state.selectedTabName = '0'; // 重置为第一个 tab 页
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	state.isShowDialog = true;
 
 	// 延迟拿值防止取不到
 	setTimeout(() => {
 		if (monacoEditor == null) initMonacoEditor();
-		else monacoEditor.setValue(row.id == undefined ? JobScriptCode : state.ruleForm.scriptCode);
+		monacoEditor.setValue(row.id == undefined ? JobScriptCode : state.ruleForm.scriptCode);
 	}, 1);
 };
 

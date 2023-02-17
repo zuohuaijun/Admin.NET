@@ -130,7 +130,7 @@ public class SysJobTrigger : EntityBaseId
     /// <summary>
     /// 是否在启动时重置最大触发次数等于一次的作业
     /// </summary>
-    [SugarColumn(ColumnDescription = "是否只运行一次")]
+    [SugarColumn(ColumnDescription = "是否重置触发次数")]
     public bool ResetOnlyOnce { get; set; } = true;
 
     /// <summary>

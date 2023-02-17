@@ -67,6 +67,12 @@ public class SysJobDetail : EntityBaseId
     public DateTime? UpdatedTime { get; set; }
 
     /// <summary>
+    /// 是否为脚本创建的作业
+    /// </summary>
+    [SugarColumn(ColumnDescription = "是否为脚本创建的作业")]
+    public bool CreateFromScript { get; set; } = false;
+
+    /// <summary>
     /// 脚本代码
     /// </summary>
     [SugarColumn(ColumnDescription = "脚本代码", ColumnDataType = StaticConfig.CodeFirst_BigString)]

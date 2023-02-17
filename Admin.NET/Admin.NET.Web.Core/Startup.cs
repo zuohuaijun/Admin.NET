@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NewLife.Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
@@ -189,6 +188,9 @@ public class Startup : AppStartup
 
         // 验证码
         services.AddLazyCaptcha();
+
+        // 动态编译预热
+        NatashaInitializer.Preheating();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

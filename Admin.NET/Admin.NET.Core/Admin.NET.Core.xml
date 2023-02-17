@@ -747,6 +747,11 @@
             更新时间
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.SysJobDetail.CreateFromScript">
+            <summary>
+            是否为脚本创建的作业
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.SysJobDetail.ScriptCode">
             <summary>
             脚本代码
@@ -2672,6 +2677,26 @@
             已有相同编码或名称
             </summary>
         </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1701">
+            <summary>
+            脚本代码不能为空
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1702">
+            <summary>
+            脚本代码中的作业类，需要定义 [JobDetail] 特性
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1703">
+            <summary>
+            作业编号需要与脚本代码中的作业类 [JobDetail('jobId')] 一致
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.ErrorCodeEnum.D1704">
+            <summary>
+            禁止修改作业编号
+            </summary>
+        </member>
         <member name="F:Admin.NET.Core.ErrorCodeEnum.xg1000">
             <summary>
             已存在同名或同编码项目
@@ -3542,6 +3567,18 @@
             前端调用发送方法（发送消息给某些人）
             </summary>
             <param name="message"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.DynamicJobCompiler">
+            <summary>
+            动态作业编译
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.DynamicJobCompiler.BuildJob(System.String)">
+            <summary>
+            编译代码并返回其中实现 IJob 的类型
+            </summary>
+            <param name="script">动态编译的作业代码</param>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.LogJob">

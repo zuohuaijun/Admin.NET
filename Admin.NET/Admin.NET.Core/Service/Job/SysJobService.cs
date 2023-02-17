@@ -10,16 +10,19 @@ public class SysJobService : IDynamicApiController, ITransient
     private readonly SqlSugarRepository<SysJobTrigger> _sysJobTriggerRep;
     private readonly SqlSugarRepository<SysJobCluster> _sysJobClusterRep;
     private readonly ISchedulerFactory _schedulerFactory;
+    private readonly DynamicJobCompiler _dynamicJobCompiler;
 
     public SysJobService(SqlSugarRepository<SysJobDetail> sysJobDetailRep,
         SqlSugarRepository<SysJobTrigger> sysJobTriggerRep,
         SqlSugarRepository<SysJobCluster> sysJobClusterRep,
-        ISchedulerFactory schedulerFactory)
+        ISchedulerFactory schedulerFactory,
+        DynamicJobCompiler dynamicJobCompiler)
     {
         _sysJobDetailRep = sysJobDetailRep;
         _sysJobTriggerRep = sysJobTriggerRep;
         _sysJobClusterRep = sysJobClusterRep;
         _schedulerFactory = schedulerFactory;
+        _dynamicJobCompiler = dynamicJobCompiler;
     }
 
     /// <summary>
@@ -47,7 +50,7 @@ public class SysJobService : IDynamicApiController, ITransient
         {
             foreach (var jobTrigger in job.JobTriggers)
             {
-                jobTrigger.Args = rgx.Match(jobTrigger.Args).Value;
+                jobTrigger.Args = rgx.Match(jobTrigger.Args ?? "").Value;
             }
         }
         return jobDetails;
@@ -65,15 +68,27 @@ public class SysJobService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        // 动态创建作业
-        NatashaInitializer.Preheating();
-        var oop = new AssemblyCSharpBuilder("Admin.NET.Core");
-        oop.Domain = DomainManagement.Random();
-        oop.Add(input.ScriptCode);
-        var jobType = oop.GetTypeFromShortName(input.JobId);
-        _schedulerFactory.AddJob(JobBuilder.Create(jobType).SetIncludeAnnotations(input.IncludeAnnotations));
+        if (string.IsNullOrEmpty(input.ScriptCode))
+            throw Oops.Oh(ErrorCodeEnum.D1701);
 
-        await _sysJobDetailRep.InsertAsync(input.Adapt<SysJobDetail>());
+        input.CreateFromScript = true;//确保为true
+        // 动态创建作业
+        var jobType = _dynamicJobCompiler.BuildJob(input.ScriptCode);
+
+        if (jobType.GetCustomAttributes(typeof(JobDetailAttribute)).FirstOrDefault() is not JobDetailAttribute jobDetailAttribute)
+            throw Oops.Oh(ErrorCodeEnum.D1702);
+        if (jobDetailAttribute.JobId != input.JobId)
+            throw Oops.Oh(ErrorCodeEnum.D1703);
+
+        _schedulerFactory.AddJob(
+            JobBuilder.Create(jobType).SetIncludeAnnotations(input.IncludeAnnotations)
+                .LoadFrom(input.Adapt<SysJobDetail>()).SetJobType(jobType));
+
+        //延迟一下等待持久化写入，再执行其他字段的更新
+        await Task.Delay(500);
+        await _sysJobDetailRep.AsUpdateable()
+            .SetColumns(u => new SysJobDetail { CreateFromScript = input.CreateFromScript, ScriptCode = input.ScriptCode })
+            .Where(u => u.JobId == input.JobId).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -88,7 +103,41 @@ public class SysJobService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        await _sysJobDetailRep.UpdateAsync(input.Adapt<SysJobDetail>());
+        var sysJobDetail = await _sysJobDetailRep.GetFirstAsync(u => u.Id == input.Id);
+        if (sysJobDetail.JobId != input.JobId)
+            throw Oops.Oh(ErrorCodeEnum.D1704);
+
+        var scheduler = _schedulerFactory.GetJob(sysJobDetail.JobId);
+        var oldScriptCode = sysJobDetail.ScriptCode;//旧脚本代码
+        input.Adapt(sysJobDetail);
+
+        if (input.CreateFromScript)
+        {
+            if (string.IsNullOrEmpty(input.ScriptCode))
+                throw Oops.Oh(ErrorCodeEnum.D1701);
+
+            if (input.ScriptCode != oldScriptCode)
+            {
+                // 动态创建作业
+                var jobType = _dynamicJobCompiler.BuildJob(input.ScriptCode);
+
+                if (jobType.GetCustomAttributes(typeof(JobDetailAttribute)).FirstOrDefault() is not JobDetailAttribute jobDetailAttribute)
+                    throw Oops.Oh(ErrorCodeEnum.D1702);
+                if (jobDetailAttribute.JobId != input.JobId)
+                    throw Oops.Oh(ErrorCodeEnum.D1703);
+
+                scheduler?.UpdateDetail(JobBuilder.Create(jobType).LoadFrom(sysJobDetail).SetJobType(jobType));
+            }
+        }
+        else
+        {
+            scheduler?.UpdateDetail(scheduler.GetJobBuilder().LoadFrom(sysJobDetail));
+        }
+
+        //tip: 假如这次更新有变更了 JobId，变更 JobId 后触发的持久化更新执行，会由于找不到 JobId 而更新不到数据
+        //延迟一下等待持久化写入，再执行其他字段的更新
+        await Task.Delay(500);
+        await _sysJobDetailRep.UpdateAsync(sysJobDetail);
     }
 
     /// <summary>
@@ -101,6 +150,7 @@ public class SysJobService : IDynamicApiController, ITransient
     {
         _schedulerFactory.RemoveJob(input.JobId);
 
+        //如果 _schedulerFactory 中不存在 JodId，则无法触发持久化，下面的代码确保作业和触发器能被删除
         await _sysJobDetailRep.DeleteAsync(u => u.JobId == input.JobId);
         await _sysJobTriggerRep.DeleteAsync(u => u.JobId == input.JobId);
     }
@@ -131,7 +181,9 @@ public class SysJobService : IDynamicApiController, ITransient
 
         var jobTrigger = input.Adapt<SysJobTrigger>();
         jobTrigger.Args = "[" + jobTrigger.Args + "]";
-        await _sysJobTriggerRep.InsertAsync(jobTrigger);
+
+        var scheduler = _schedulerFactory.GetJob(input.JobId);
+        scheduler?.AddTrigger(Triggers.Create(input.AssemblyName, input.TriggerType).LoadFrom(jobTrigger));
     }
 
     /// <summary>
@@ -148,7 +200,9 @@ public class SysJobService : IDynamicApiController, ITransient
 
         var jobTrigger = input.Adapt<SysJobTrigger>();
         jobTrigger.Args = "[" + jobTrigger.Args + "]";
-        await _sysJobTriggerRep.UpdateAsync(jobTrigger);
+
+        var scheduler = _schedulerFactory.GetJob(input.JobId);
+        scheduler?.UpdateTrigger(Triggers.Create(input.AssemblyName, input.TriggerType).LoadFrom(jobTrigger));
     }
 
     /// <summary>
@@ -159,7 +213,11 @@ public class SysJobService : IDynamicApiController, ITransient
     [DisplayName("删除触发器")]
     public async Task DeleteJobTrigger(DeleteJobTriggerInput input)
     {
-        await _sysJobTriggerRep.DeleteAsync(u => u.TriggerId == input.TriggerId);
+        var scheduler = _schedulerFactory.GetJob(input.JobId);
+        scheduler?.RemoveTrigger(input.TriggerId);
+
+        //如果 _schedulerFactory 中不存在 JodId，则无法触发持久化，下行代码确保触发器能被删除
+        await _sysJobTriggerRep.DeleteAsync(u => u.JobId == input.JobId && u.TriggerId == input.TriggerId);
     }
 
     /// <summary>
@@ -191,8 +249,8 @@ public class SysJobService : IDynamicApiController, ITransient
     [DisplayName("暂停作业")]
     public void PauseJob(JobDetailInput input)
     {
-        _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
-        _scheduler?.Pause();
+        var scheduler = _schedulerFactory.GetJob(input.JobId);
+        scheduler?.Pause();
     }
 
     /// <summary>
@@ -202,8 +260,8 @@ public class SysJobService : IDynamicApiController, ITransient
     [DisplayName("启动作业")]
     public void StartJob(JobDetailInput input)
     {
-        _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
-        _scheduler?.Start();
+        var scheduler = _schedulerFactory.GetJob(input.JobId);
+        scheduler?.Start();
     }
 
     /// <summary>
@@ -213,8 +271,8 @@ public class SysJobService : IDynamicApiController, ITransient
     [DisplayName("暂停触发器")]
     public void PauseTrigger(JobTriggerInput input)
     {
-        _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
-        _scheduler?.PauseTrigger(input.TriggerId);
+        var scheduler = _schedulerFactory.GetJob(input.JobId);
+        scheduler?.PauseTrigger(input.TriggerId);
     }
 
     /// <summary>
@@ -224,8 +282,8 @@ public class SysJobService : IDynamicApiController, ITransient
     [DisplayName("启动触发器")]
     public void StartTrigger(JobTriggerInput input)
     {
-        _ = _schedulerFactory.TryGetJob(input.JobId, out var _scheduler);
-        _scheduler?.StartTrigger(input.TriggerId);
+        var scheduler = _schedulerFactory.GetJob(input.JobId);
+        scheduler?.StartTrigger(input.TriggerId);
     }
 
     /// <summary>

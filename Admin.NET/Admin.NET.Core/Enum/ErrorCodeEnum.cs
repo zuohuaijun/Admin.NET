@@ -475,6 +475,30 @@ public enum ErrorCodeEnum
     D1602,
 
     /// <summary>
+    /// 脚本代码不能为空
+    /// </summary>
+    [ErrorCodeItemMetadata("脚本代码不能为空")]
+    D1701,
+
+    /// <summary>
+    /// 脚本代码中的作业类，需要定义 [JobDetail] 特性
+    /// </summary>
+    [ErrorCodeItemMetadata("脚本代码中的作业类，需要定义 [JobDetail] 特性")]
+    D1702,
+
+    /// <summary>
+    /// 作业编号需要与脚本代码中的作业类 [JobDetail('jobId')] 一致
+    /// </summary>
+    [ErrorCodeItemMetadata("作业编号需要与脚本代码中的作业类 [JobDetail('jobId')] 一致")]
+    D1703,
+
+    /// <summary>
+    /// 禁止修改作业编号
+    /// </summary>
+    [ErrorCodeItemMetadata("禁止修改作业编号")]
+    D1704,
+
+    /// <summary>
     /// 已存在同名或同编码项目
     /// </summary>
     [ErrorCodeItemMetadata("已存在同名或同编码项目")]

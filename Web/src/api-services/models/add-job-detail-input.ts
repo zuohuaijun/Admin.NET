@@ -72,6 +72,12 @@ export interface AddJobDetailInput {
      */
     updatedTime?: Date | null;
     /**
+     * 是否为脚本创建的作业
+     * @type {boolean}
+     * @memberof AddJobDetailInput
+     */
+    createFromScript?: boolean;
+    /**
      * 脚本代码
      * @type {string}
      * @memberof AddJobDetailInput
