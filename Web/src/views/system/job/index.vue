@@ -49,19 +49,19 @@
 							<el-table-column prop="description" label="描述" width="120" show-overflow-tooltip />
 							<el-table-column prop="status" label="状态" width="100" align="center" show-overflow-tooltip>
 								<template #default="scope">
-									<el-tag v-if="scope.row.status == 0"> 积压 </el-tag>
-									<el-tag v-if="scope.row.status == 1"> 就绪 </el-tag>
-									<el-tag v-if="scope.row.status == 2"> 正在运行 </el-tag>
-									<el-tag v-if="scope.row.status == 3"> 暂停 </el-tag>
-									<el-tag v-if="scope.row.status == 4"> 阻塞 </el-tag>
-									<el-tag v-if="scope.row.status == 5"> 由失败进入就绪 </el-tag>
-									<el-tag v-if="scope.row.status == 6"> 归档 </el-tag>
-									<el-tag v-if="scope.row.status == 7"> 崩溃 </el-tag>
-									<el-tag v-if="scope.row.status == 8"> 超限 </el-tag>
-									<el-tag v-if="scope.row.status == 9"> 无触发时间 </el-tag>
-									<el-tag v-if="scope.row.status == 10"> 未启动 </el-tag>
-									<el-tag v-if="scope.row.status == 11"> 未知作业触发器 </el-tag>
-									<el-tag v-if="scope.row.status == 12"> 未知作业处理程序 </el-tag>
+									<el-tag type="warning" effect="plain" v-if="scope.row.status == 0"> 积压 </el-tag>
+									<el-tag type="" effect="plain" v-if="scope.row.status == 1"> 就绪 </el-tag>
+									<el-tag type="success" effect="plain" v-if="scope.row.status == 2"> 正在运行 </el-tag>
+									<el-tag type="danger" effect="plain" v-if="scope.row.status == 3"> 暂停 </el-tag>
+									<el-tag type="danger" effect="plain" v-if="scope.row.status == 4"> 阻塞 </el-tag>
+									<el-tag type="" effect="plain" v-if="scope.row.status == 5"> 由失败进入就绪 </el-tag>
+									<el-tag type="danger" effect="plain" v-if="scope.row.status == 6"> 归档 </el-tag>
+									<el-tag type="danger" effect="plain" v-if="scope.row.status == 7"> 崩溃 </el-tag>
+									<el-tag type="danger" effect="plain" v-if="scope.row.status == 8"> 超限 </el-tag>
+									<el-tag type="danger" effect="plain" v-if="scope.row.status == 9"> 无触发时间 </el-tag>
+									<el-tag type="danger" effect="plain" v-if="scope.row.status == 10"> 未启动 </el-tag>
+									<el-tag type="danger" effect="plain" v-if="scope.row.status == 11"> 未知作业触发器 </el-tag>
+									<el-tag type="danger" effect="plain" v-if="scope.row.status == 12"> 未知作业处理程序 </el-tag>
 								</template>
 							</el-table-column>
 							<el-table-column prop="startTime" label="起始时间" width="100" align="center" show-overflow-tooltip />
@@ -77,19 +77,19 @@
 							<el-table-column prop="startNow" label="是否立即启动" width="100" align="center" show-overflow-tooltip>
 								<template #default="scope">
 									<el-tag v-if="scope.row.startNow == true"> 是 </el-tag>
-									<el-tag v-else> 否 </el-tag>
+									<el-tag type="info" v-else> 否 </el-tag>
 								</template>
 							</el-table-column>
 							<el-table-column prop="runOnStart" label="是否启动时执行一次" width="150" align="center" show-overflow-tooltip>
 								<template #default="scope">
 									<el-tag v-if="scope.row.runOnStart == true"> 是 </el-tag>
-									<el-tag v-else> 否 </el-tag>
+									<el-tag type="info" v-else> 否 </el-tag>
 								</template>
 							</el-table-column>
 							<el-table-column prop="resetOnlyOnce" label="是否重置触发次数" width="120" align="center" show-overflow-tooltip>
 								<template #default="scope">
 									<el-tag v-if="scope.row.resetOnlyOnce == true"> 是 </el-tag>
-									<el-tag v-else> 否 </el-tag>
+									<el-tag type="info" v-else> 否 </el-tag>
 								</template>
 							</el-table-column>
 							<el-table-column prop="updatedTime" label="更新时间" width="140" align="center" show-overflow-tooltip />
@@ -127,14 +127,14 @@
 				<el-table-column prop="jobDetail.description" label="描述" show-overflow-tooltip />
 				<el-table-column prop="jobDetail.concurrent" label="执行方式" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag v-if="scope.row.jobDetail.concurrent == true"> 并行 </el-tag>
-						<el-tag v-else> 串行 </el-tag>
+						<el-tag type="success" v-if="scope.row.jobDetail.concurrent == true"> 并行 </el-tag>
+						<el-tag type="warning" v-else> 串行 </el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="jobDetail.createFromScript" label="脚本创建" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.jobDetail.createFromScript == true"> 是 </el-tag>
-						<el-tag v-else> 否 </el-tag>
+						<el-tag type="info" v-else> 否 </el-tag>
 					</template>
 				</el-table-column>
 				<!-- <el-table-column prop="jobDetail.includeAnnotations" label="扫描特性触发器" align="center" show-overflow-tooltip>
