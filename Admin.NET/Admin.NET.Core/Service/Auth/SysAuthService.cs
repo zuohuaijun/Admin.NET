@@ -1,6 +1,7 @@
 ﻿using Furion.SpecificationDocument;
 using Lazy.Captcha.Core;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.Extensions.Logging;
 
 namespace Admin.NET.Core.Service;
 
@@ -19,6 +20,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly SysConfigService _sysConfigService;
     private readonly IMemoryCache _cache;
     private readonly ICaptcha _captcha;
+    private readonly ILogger<SysAuthService> _logger;
 
     public SysAuthService(UserManager userManager,
         SqlSugarRepository<SysUser> sysUserRep,
@@ -28,7 +30,8 @@ public class SysAuthService : IDynamicApiController, ITransient
         SysOnlineUserService sysOnlineUserService,
         SysConfigService sysConfigService,
         IMemoryCache cache,
-        ICaptcha captcha)
+        ICaptcha captcha,
+        ILogger<SysAuthService> logger)
     {
         _userManager = userManager;
         _sysUserRep = sysUserRep;
@@ -39,6 +42,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         _sysConfigService = sysConfigService;
         _cache = cache;
         _captcha = captcha;
+        _logger = logger;
     }
 
     /// <summary>
@@ -111,6 +115,10 @@ public class SysAuthService : IDynamicApiController, ITransient
         // Swagger Knife4UI-AfterScript登录脚本
         // ke.global.setAllHeader('Authorization', 'Bearer ' + ke.response.headers['access-token']);
 
+        // 设置日志额外数据
+        using var scope = _logger.ScopeContext(u => u.Set(ClaimConst.Account, user.Account).Set(ClaimConst.RealName, user.RealName));
+        // _logger.LogInformation("登录日志");
+
         return new LoginOutput
         {
             AccessToken = accessToken,
@@ -181,6 +189,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
+    [SuppressMonitor]
     [ApiDescriptionSettings(Name = "LoginConfig")]
     [DisplayName("获取登录配置")]
     public async Task<dynamic> GetLoginConfig()

@@ -22,7 +22,7 @@
 				<el-table-column prop="diffType" label="差异操作" show-overflow-tooltip />
 				<el-table-column prop="sql" label="Sql语句" show-overflow-tooltip />
 				<el-table-column prop="parameters" label="参数" show-overflow-tooltip />
-				<el-table-column prop="duration" label="耗时(ms)" show-overflow-tooltip />
+				<el-table-column prop="elapsed" label="耗时(ms)" show-overflow-tooltip />
 				<el-table-column prop="message" label="日志消息" show-overflow-tooltip />
 				<el-table-column prop="beforeData" label="操作前记录" show-overflow-tooltip />
 				<el-table-column prop="afterData" label="操作后记录" show-overflow-tooltip />

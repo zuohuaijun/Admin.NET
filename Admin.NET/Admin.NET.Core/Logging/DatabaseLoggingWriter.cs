@@ -25,13 +25,9 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
         // 不记录数据校验日志
         if (loggingMonitor.Validation != null) return;
 
-        string remoteIPv4 = loggingMonitor.remoteIPv4;
-        (string ipLocation, double? longitude, double? latitude) = GetIpAddress(remoteIPv4);
-
         // 获取当前操作者
-        var account = "";
-        var realName = "";
-        if (!string.IsNullOrWhiteSpace(loggingMonitor.authorizationClaims))
+        string account = "", realName = "";
+        if (loggingMonitor.authorizationClaims != null)
         {
             foreach (var item in loggingMonitor.authorizationClaims)
             {
@@ -42,12 +38,21 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
             }
         }
 
-        if (loggingMonitor.actionName == "login")
+        string remoteIPv4 = loggingMonitor.remoteIPv4;
+        (string ipLocation, double? longitude, double? latitude) = GetIpAddress(remoteIPv4);
+
+        if (loggingMonitor.actionName == "login" || loggingMonitor.actionName == "logout")
         {
+            if (loggingMonitor.authorizationClaims == null)
+            {
+                account = logMsg.Context?.Get(ClaimConst.Account)?.ToString();
+                realName = logMsg.Context?.Get(ClaimConst.RealName)?.ToString();
+            }
+
             _sysLogVisRep.Insert(new SysLogVis
             {
                 ControllerName = loggingMonitor.controllerName,
-                ActionName = loggingMonitor.actionName,
+                ActionName = loggingMonitor.actionTypeName,
                 DisplayTitle = loggingMonitor.displayTitle,
                 Status = loggingMonitor.returnInformation.httpStatusCode,
                 RemoteIp = remoteIPv4,
@@ -67,7 +72,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
             _sysLogOpRep.Insert(new SysLogOp
             {
                 ControllerName = loggingMonitor.controllerName,
-                ActionName = loggingMonitor.actionName,
+                ActionName = loggingMonitor.actionTypeName,
                 DisplayTitle = loggingMonitor.displayTitle,
                 Status = loggingMonitor.returnInformation.httpStatusCode,
                 RemoteIp = remoteIPv4,

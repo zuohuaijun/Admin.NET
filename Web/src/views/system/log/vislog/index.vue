@@ -19,25 +19,22 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.logData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="account" label="账号名称" show-overflow-tooltip />
-				<el-table-column prop="realName" label="真实姓名" show-overflow-tooltip />
-				<el-table-column prop="success" label="状态" width="70" show-overflow-tooltip>
+				<el-table-column prop="displayTitle" label="显示名称" width="150" show-overflow-tooltip />
+				<el-table-column prop="actionName" label="方法名称" width="100" show-overflow-tooltip />
+				<el-table-column prop="account" label="账号名称" width="100" show-overflow-tooltip />
+				<el-table-column prop="realName" label="真实姓名" width="100" show-overflow-tooltip />
+				<el-table-column prop="remoteIp" label="IP地址" width="120" show-overflow-tooltip />
+				<el-table-column prop="location" label="登录地点" width="150" show-overflow-tooltip />
+				<el-table-column prop="browser" label="浏览器" show-overflow-tooltip />
+				<el-table-column prop="os" label="操作系统" width="150" show-overflow-tooltip />
+				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.success === 1">成功</el-tag>
+						<el-tag type="success" v-if="scope.row.status === '200'">成功</el-tag>
 						<el-tag type="danger" v-else>失败</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="ip" label="IP地址" show-overflow-tooltip />
-				<el-table-column prop="browser" label="浏览器" show-overflow-tooltip />
-				<el-table-column prop="os" label="操作系统" show-overflow-tooltip />
-				<el-table-column prop="visType" label="类型" width="70" align="center" show-overflow-tooltip>
-					<template #default="scope">
-						<el-tag type="success" v-if="scope.row.visType === 1">登录</el-tag>
-						<el-tag type="danger" v-else>退出</el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="location" label="地址" show-overflow-tooltip />
-				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip />
+				<el-table-column prop="elapsed" label="耗时(ms)" width="100" align="center" show-overflow-tooltip />
+				<el-table-column prop="logDateTime" label="日志时间" width="160" align="center" fixed="right" show-overflow-tooltip />
 			</el-table>
 			<el-pagination
 				v-model:currentPage="state.tableParams.page"

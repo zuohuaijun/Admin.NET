@@ -20,15 +20,32 @@
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.logData" @sort-change="sortChange" style="width: 100%" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="logName" label="类别名称" sortable="custom" show-overflow-tooltip />
-				<el-table-column prop="logLevel" label="日志级别" width="110" align="center" show-overflow-tooltip />
+				<el-table-column prop="controllerName" label="模块名称" width="100" show-overflow-tooltip />
+				<el-table-column prop="displayTitle" label="显示名称" width="150" show-overflow-tooltip />
+				<el-table-column prop="actionName" label="方法名称" width="100" show-overflow-tooltip />
+				<el-table-column prop="httpMethod" label="请求方式" width="90" align="center" show-overflow-tooltip />
+				<el-table-column prop="requestUrl" label="请求地址" width="200" show-overflow-tooltip />
+				<!-- <el-table-column prop="requestParam" label="请求参数" show-overflow-tooltip />
+				<el-table-column prop="returnResult" label="返回结果" show-overflow-tooltip /> -->
 				<el-table-column prop="eventId" label="事件Id" width="70" align="center" show-overflow-tooltip />
-				<el-table-column prop="message" label="日志消息" show-overflow-tooltip />
-				<el-table-column prop="state" label="当前状态值" show-overflow-tooltip />
 				<el-table-column prop="threadId" label="线程Id" sortable="custom" width="90" align="center" show-overflow-tooltip />
-				<el-table-column prop="traceId" label="请求跟踪Id" sortable="custom" show-overflow-tooltip />
-				<el-table-column prop="logDateTime" label="记录时间" sortable="custom" align="center" show-overflow-tooltip />
-				<el-table-column prop="exception" label="异常对象" show-overflow-tooltip />
+				<el-table-column prop="traceId" label="请求跟踪Id" width="150" sortable="custom" show-overflow-tooltip />
+				<el-table-column prop="account" label="账号名称" width="100" show-overflow-tooltip />
+				<el-table-column prop="realName" label="真实姓名" width="100" show-overflow-tooltip />
+				<el-table-column prop="remoteIp" label="IP地址" width="120" show-overflow-tooltip />
+				<el-table-column prop="location" label="登录地点" width="150" show-overflow-tooltip />
+				<el-table-column prop="browser" label="浏览器" show-overflow-tooltip />
+				<el-table-column prop="os" label="操作系统" width="150" show-overflow-tooltip />
+				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" v-if="scope.row.status === '200'">成功</el-tag>
+						<el-tag type="danger" v-else>失败</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="elapsed" label="耗时(ms)" width="100" align="center" show-overflow-tooltip />
+				<el-table-column prop="exception" label="异常对象" width="150" show-overflow-tooltip />
+				<!-- <el-table-column prop="message" label="日志消息" width="160" fixed="right" show-overflow-tooltip /> -->
+				<el-table-column prop="logDateTime" label="日志时间" width="160" align="center" fixed="right" show-overflow-tooltip />
 				<el-table-column label="操作" width="80" align="center" fixed="right" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-InfoFilled" size="small" text type="primary" @click="viewDetail(scope.row)" v-auth="'sysOplog:page'">详情 </el-button>
@@ -47,7 +64,7 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<el-dialog v-model="state.dialogVisible" draggable width="769px">
+		<el-dialog v-model="state.dialogVisible" draggable width="1000px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Document /> </el-icon>
