@@ -47,5 +47,5 @@ public class SysLogDiff : EntityBase
     /// 耗时
     /// </summary>
     [SugarColumn(ColumnDescription = "耗时")]
-    public long Elapsed { get; set; }
+    public long? Elapsed { get; set; }
 }

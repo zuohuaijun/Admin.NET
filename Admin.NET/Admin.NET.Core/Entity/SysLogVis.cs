@@ -12,28 +12,28 @@ public class SysLogVis : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "模块名称", Length = 256)]
     [MaxLength(256)]
-    public string ControllerName { get; set; }
+    public string? ControllerName { get; set; }
 
     /// <summary>
     /// 方法名称
     ///</summary>
     [SugarColumn(ColumnDescription = "方法名称", Length = 256)]
     [MaxLength(256)]
-    public string ActionName { get; set; }
+    public string? ActionName { get; set; }
 
     /// <summary>
     /// 显示名称
     ///</summary>
     [SugarColumn(ColumnDescription = "显示名称", Length = 256)]
     [MaxLength(256)]
-    public string DisplayTitle { get; set; }
+    public string? DisplayTitle { get; set; }
 
     /// <summary>
     /// 执行状态
     /// </summary>
     [SugarColumn(ColumnDescription = "执行状态", Length = 32)]
     [MaxLength(32)]
-    public string Status { get; set; }
+    public string? Status { get; set; }
 
     /// <summary>
     /// IP地址
@@ -79,13 +79,13 @@ public class SysLogVis : EntityTenant
     /// 操作用时
     /// </summary>
     [SugarColumn(ColumnDescription = "操作用时")]
-    public long Elapsed { get; set; }
+    public long? Elapsed { get; set; }
 
     /// <summary>
     /// 日志时间
     /// </summary>
     [SugarColumn(ColumnDescription = "日志时间")]
-    public DateTime LogDateTime { get; set; }
+    public DateTime? LogDateTime { get; set; }
 
     /// <summary>
     /// 账号

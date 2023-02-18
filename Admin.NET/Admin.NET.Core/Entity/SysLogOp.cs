@@ -12,13 +12,13 @@ public class SysLogOp : SysLogVis
     /// </summary>
     [SugarColumn(ColumnDescription = "请求方式", Length = 32)]
     [MaxLength(32)]
-    public string HttpMethod { get; set; }
+    public string? HttpMethod { get; set; }
 
     /// <summary>
     /// 请求地址
     /// </summary>
     [SugarColumn(ColumnDescription = "请求地址", ColumnDataType = StaticConfig.CodeFirst_BigString)]
-    public string RequestUrl { get; set; }
+    public string? RequestUrl { get; set; }
 
     /// <summary>
     /// 请求参数
