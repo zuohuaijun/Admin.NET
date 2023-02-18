@@ -23,7 +23,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
         var loggingMonitor = JSON.Deserialize<dynamic>(jsonStr);
 
         // 不记录数据校验日志
-        if (loggingMonitor.Validation != null) return;
+        if (loggingMonitor.validation != null) return;
 
         // 获取当前操作者
         string account = "", realName = "", userId = "", tenantId = "";
