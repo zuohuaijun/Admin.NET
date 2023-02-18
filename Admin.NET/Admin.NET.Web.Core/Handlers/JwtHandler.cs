@@ -5,7 +5,6 @@ using Furion.Authorization;
 using Furion.DataEncryption;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Admin.NET.Web.Core
@@ -42,40 +41,28 @@ namespace Admin.NET.Web.Core
         }
 
         /// <summary>
-        /// 检查权限
+        /// 权限校验核心逻辑
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
         private static async Task<bool> CheckAuthorzieAsync(DefaultHttpContext httpContext)
         {
-            // 第三方授权模式
-            if (App.User.FindFirst(ClaimConst.RunMode)?.Value == ((int)RunModeEnum.OpenID).ToString())
-                return true;
-
             // 排除超管
             if (App.User.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString())
                 return true;
 
-            // 路由名称
+            // 路由/按钮名称
             var routeName = httpContext.Request.Path.Value[1..].Replace("/", ":");
-            if (httpContext.Request.Path.StartsWithSegments("/api"))
-                routeName = httpContext.Request.Path.Value[5..].Replace("/", ":");
 
-            // 默认路由
-            var defalutRoutes = new List<string>()
-            {
-                "userInfo",  // 获取用户信息
-                "loginMenu", // 获取登录菜单
-            };
-            if (defalutRoutes.Contains(routeName)) return true;
+            // 获取用户拥有按钮权限集合
+            var ownBtnPermList = await App.GetService<SysMenuService>().GetOwnBtnPermList();
+            // 获取系统所有按钮权限集合
+            var allBtnPermList = await App.GetService<SysMenuService>().GetAllBtnPermList();
 
-            // 获取用户权限集合（按钮或API接口）
-            var btnPermissionList = await App.GetService<SysMenuService>().GetBtnPermissionList();
-            var allBtnList = await App.GetService<SysMenuService>().GetAllBtnList();
-
-            // 检查授权（菜单中没有配置按钮权限，则不限制）
-            return btnPermissionList.Exists(p => p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase)) ||
-                allBtnList.TrueForAll(p => !p.Equals(routeName, System.StringComparison.CurrentCultureIgnoreCase));
+            // 已拥有该按钮权限或者所有按钮集合里面不存在
+            var exist1 = ownBtnPermList.Exists(u => routeName.Contains(u, System.StringComparison.CurrentCultureIgnoreCase));
+            var exist2 = allBtnPermList.TrueForAll(u => !routeName.Contains(u, System.StringComparison.CurrentCultureIgnoreCase));
+            return exist1 || exist2;
         }
     }
 }

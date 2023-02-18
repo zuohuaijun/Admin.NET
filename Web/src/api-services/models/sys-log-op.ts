@@ -124,13 +124,13 @@ export interface SysLogOp {
      * @type {number}
      * @memberof SysLogOp
      */
-    elapsed?: number;
+    elapsed?: number | null;
     /**
      * 日志时间
      * @type {Date}
      * @memberof SysLogOp
      */
-    logDateTime?: Date;
+    logDateTime?: Date | null;
     /**
      * 账号
      * @type {string}

@@ -17,7 +17,7 @@ public class ElasticSearchLoggingWriter : IDatabaseLoggingWriter
     public void Write(LogMessage logMsg, bool flush)
     {
         var jsonStr = logMsg.Context.Get("loggingMonitor").ToString();
-        // dynamic loggingMonitor = JsonConvert.DeserializeObject(jsonStr);
+        // var loggingMonitor = JSON.Deserialize<dynamic>(jsonStr);
         _esClient.IndexDocument(jsonStr);
     }
 }

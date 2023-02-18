@@ -78,6 +78,16 @@ public class AdminResultProvider : IUnifyResultProvider
     /// <returns></returns>
     private static AdminResult<object> RESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
     {
+        // 统一返回值脱敏处理
+        if (data?.GetType() == typeof(String))
+        {
+            data = App.GetRequiredService<ISensitiveDetectionProvider>().ReplaceAsync(data.ToString(), '*').GetAwaiter().GetResult();
+        }
+        else if (data?.GetType() == typeof(JsonResult))
+        {
+            data = App.GetRequiredService<ISensitiveDetectionProvider>().ReplaceAsync(JSON.Serialize(data), '*').GetAwaiter().GetResult();
+        }
+
         return new AdminResult<object>
         {
             Code = statusCode,

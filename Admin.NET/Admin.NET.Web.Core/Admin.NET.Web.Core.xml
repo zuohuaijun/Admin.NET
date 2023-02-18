@@ -13,7 +13,7 @@
         </member>
         <member name="M:Admin.NET.Web.Core.JwtHandler.CheckAuthorzieAsync(Microsoft.AspNetCore.Http.DefaultHttpContext)">
             <summary>
-            检查权限
+            权限校验核心逻辑
             </summary>
             <param name="httpContext"></param>
             <returns></returns>

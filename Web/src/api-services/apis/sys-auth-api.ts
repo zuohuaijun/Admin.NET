@@ -310,7 +310,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 获取登录账号信息
+         * @summary 获取登录账号
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -450,7 +450,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取登录账号信息
+         * @summary 获取登录账号
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -539,7 +539,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 获取登录账号信息
+         * @summary 获取登录账号
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -632,7 +632,7 @@ export class SysAuthApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取登录账号信息
+     * @summary 获取登录账号
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysAuthApi

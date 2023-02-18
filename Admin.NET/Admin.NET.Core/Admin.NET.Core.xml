@@ -3483,11 +3483,6 @@
             <typeparam name="T"></typeparam>
             <returns></returns>
         </member>
-        <member name="T:Admin.NET.Core.ResultFilter">
-            <summary>
-            结果筛选器
-            </summary>
-        </member>
         <member name="M:Admin.NET.Core.IOnlineUserHub.OnlineUserList(Admin.NET.Core.OnlineUserList)">
             <summary>
             在线用户列表
@@ -6043,15 +6038,15 @@
             </summary>
             <param name="menu"></param>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMenuService.GetBtnPermissionList">
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetOwnBtnPermList">
             <summary>
-            获取按钮权限集合
+            获取用户拥有按钮权限集合（缓存）
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysMenuService.GetAllBtnList">
+        <member name="M:Admin.NET.Core.Service.SysMenuService.GetAllBtnPermList">
             <summary>
-            获取所有按钮权限集合
+            获取系统所有按钮权限集合（缓存）
             </summary>
             <returns></returns>
         </member>

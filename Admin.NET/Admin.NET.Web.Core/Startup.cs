@@ -44,8 +44,6 @@ public class Startup : AppStartup
         });
         // 脱敏检测
         services.AddSensitiveDetection();
-        //// 结果拦截器
-        //services.AddMvcFilter<ResultFilter>();
         // 控制台格式化
         services.AddConsoleFormatter(options =>
         {

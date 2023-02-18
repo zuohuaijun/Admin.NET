@@ -20,7 +20,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
     public async void Write(LogMessage logMsg, bool flush)
     {
         var jsonStr = logMsg.Context.Get("loggingMonitor").ToString();
-        dynamic loggingMonitor = JsonConvert.DeserializeObject(jsonStr);
+        var loggingMonitor = JSON.Deserialize<dynamic>(jsonStr);
 
         // 不记录数据校验日志
         if (loggingMonitor.Validation != null) return;
@@ -87,12 +87,12 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 RealName = realName,
                 HttpMethod = loggingMonitor.httpMethod,
                 RequestUrl = loggingMonitor.requestUrl,
-                RequestParam = (loggingMonitor.parameters == null || loggingMonitor.parameters.Count == 0) ? null : JsonConvert.SerializeObject(loggingMonitor.parameters[0].value),
-                ReturnResult = JsonConvert.SerializeObject(loggingMonitor.returnInformation.value),
+                RequestParam = (loggingMonitor.parameters == null || loggingMonitor.parameters.Count == 0) ? null : JSON.Serialize(loggingMonitor.parameters[0].value),
+                ReturnResult = JSON.Serialize(loggingMonitor.returnInformation.value),
                 EventId = logMsg.EventId.Id,
                 ThreadId = logMsg.ThreadId,
                 TraceId = logMsg.TraceId,
-                Exception = (loggingMonitor.exception == null ) ? null : JsonConvert.SerializeObject(loggingMonitor.exception.value),
+                Exception = (loggingMonitor.exception == null) ? null : JSON.Serialize(loggingMonitor.exception.value),
                 Message = logMsg.Message,
                 CreateUserId = string.IsNullOrWhiteSpace(userId) ? 0 : long.Parse(userId),
                 TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : long.Parse(tenantId)
@@ -101,7 +101,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 
         // 异常时发送邮件
         if (logMsg.Exception != null)
-            await App.GetRequiredService<SysMessageService>().SendEmail(loggingMonitor.exception);
+            await App.GetRequiredService<SysMessageService>().SendEmail(JSON.Serialize(loggingMonitor.exception.value));
     }
 
     /// <summary>

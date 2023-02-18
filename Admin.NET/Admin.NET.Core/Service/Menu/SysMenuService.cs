@@ -181,15 +181,15 @@ public class SysMenuService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取按钮权限集合
+    /// 获取用户拥有按钮权限集合（缓存）
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "BtnPermissionList")]
+    [ApiDescriptionSettings(Name = "OwnBtnPermList")]
     [DisplayName("获取按钮权限集合")]
-    public async Task<List<string>> GetBtnPermissionList()
+    public async Task<List<string>> GetOwnBtnPermList()
     {
         var userId = _userManager.UserId;
-        var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyPermission + userId); // 取缓存
+        var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyPermission + userId);
         if (permissions == null || permissions.Count == 0)
         {
             var menuIdList = _userManager.SuperAdmin ? new List<long>() : await GetMenuIdList();
@@ -197,25 +197,25 @@ public class SysMenuService : IDynamicApiController, ITransient
                 .Where(u => u.Type == MenuTypeEnum.Btn)
                 .WhereIF(menuIdList.Count > 0, u => menuIdList.Contains(u.Id))
                 .Select(u => u.Permission).ToListAsync();
-            _sysCacheService.Set(CacheConst.KeyPermission + userId, permissions); // 缓存结果
+            _sysCacheService.Set(CacheConst.KeyPermission + userId, permissions);
         }
         return permissions;
     }
 
     /// <summary>
-    /// 获取所有按钮权限集合
+    /// 获取系统所有按钮权限集合（缓存）
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(false)]
-    public async Task<List<string>> GetAllBtnList()
+    public async Task<List<string>> GetAllBtnPermList()
     {
-        var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyPermission + 0); // 先从缓存里面读取
+        var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyPermission + 0);
         if (permissions == null || permissions.Count == 0)
         {
             permissions = await _sysMenuRep.AsQueryable()
                 .Where(u => u.Type == MenuTypeEnum.Btn)
                 .Select(u => u.Permission).ToListAsync();
-            _sysCacheService.Set(CacheConst.KeyPermission + 0, permissions); // 缓存结果
+            _sysCacheService.Set(CacheConst.KeyPermission + 0, permissions);
         }
         return permissions;
     }

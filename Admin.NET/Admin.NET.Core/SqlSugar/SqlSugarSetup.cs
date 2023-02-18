@@ -180,20 +180,20 @@ public static class SqlSugarSetup
             var logDiff = new SysLogDiff
             {
                 // 操作后记录（字段描述、列名、值、表名、表描述）
-                AfterData = JsonConvert.SerializeObject(u.AfterData),
+                AfterData = JSON.Serialize(u.AfterData),
                 // 操作前记录（字段描述、列名、值、表名、表描述）
-                BeforeData = JsonConvert.SerializeObject(u.BeforeData),
+                BeforeData = JSON.Serialize(u.BeforeData),
                 // 传进来的对象
-                BusinessData = JsonConvert.SerializeObject(u.BusinessData),
+                BusinessData = JSON.Serialize(u.BusinessData),
                 // 枚举（insert、update、delete）
                 DiffType = u.DiffType.ToString(),
                 Sql = UtilMethods.GetSqlString(config.DbType, u.Sql, u.Parameters),
-                Parameters = JsonConvert.SerializeObject(u.Parameters),
+                Parameters = JSON.Serialize(u.Parameters),
                 Elapsed = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
             };
             await db.Insertable(logDiff).ExecuteCommandAsync();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(DateTime.Now + $"\r\n*****差异日志开始*****\r\n{Environment.NewLine}{JsonConvert.SerializeObject(logDiff)}{Environment.NewLine}*****差异日志结束*****\r\n");
+            Console.WriteLine(DateTime.Now + $"\r\n*****差异日志开始*****\r\n{Environment.NewLine}{JSON.Serialize(logDiff)}{Environment.NewLine}*****差异日志结束*****\r\n");
         };
     }
 

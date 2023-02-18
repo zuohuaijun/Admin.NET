@@ -130,11 +130,12 @@ public class SysAuthService : IDynamicApiController, ITransient
         if (user == null)
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
+        // 获取机构
         var org = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysOrg>>().GetFirstAsync(u => u.Id == user.OrgId);
+        // 获取职位
         var pos = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysPos>>().GetFirstAsync(u => u.Id == user.PosId);
-
-        // 按钮权限集合
-        var buttons = await _sysMenuService.GetBtnPermissionList();
+        // 获取拥有按钮权限集合
+        var buttons = await _sysMenuService.GetOwnBtnPermList();
 
         return new LoginUserOutput
         {
