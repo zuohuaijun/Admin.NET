@@ -76,7 +76,7 @@
 				@foreach (var column in Model.TableField){
 				if(@column.WhetherTable == "Y"){
 				if(@column.EffectType == "Upload"||@column.EffectType == "fk"||@column.EffectType == "Switch"||@column.EffectType == "ConstSelector"){
-				@: <el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" fixed="" show-overflow-tooltip="">
+				@:<el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" fixed="" show-overflow-tooltip="">
 					@:<template #default="scope">
 						if(@column.EffectType == "Upload"){
 						@:<el-image
@@ -126,9 +126,9 @@
 				layout="total, sizes, prev, pager, next, jumper"
 	/>
 			<editDialog
-			  ref="editDialogRef"
-			  :title="edit@(@Model.ClassName)Title"
-			  @@reloadTable="handleQuery"
+			    ref="editDialogRef"
+			    :title="edit@(@Model.ClassName)Title"
+			    @@reloadTable="handleQuery"
       />
 		</el-card>
 	</div>
