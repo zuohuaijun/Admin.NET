@@ -1014,12 +1014,12 @@
         </member>
         <member name="P:Admin.NET.Core.SysLogVis.ActionName">
              <summary>
-             方法名称 
+             方法名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogVis.DisplayTitle">
              <summary>
-             显示名称 
+             显示名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysLogVis.Status">
@@ -3753,6 +3753,11 @@
             启用库表初始化
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.DbConnectionConfig.EnableInitSeed">
+            <summary>
+            启用种子初始化
+            </summary>
+        </member>
         <member name="P:Admin.NET.Core.DbConnectionConfig.EnableDiffLog">
             <summary>
             启用库表差异日志
@@ -4178,17 +4183,17 @@
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SelectTable.GetTableData(System.String,System.Int32,System.Int32,System.Int32,System.String,Newtonsoft.Json.Linq.JObject)">
-            <summary>
+             <summary>
             
-            </summary>
-            <param name="subtable"></param>
-            <param name="page"></param>
-            <param name="count"></param>
-            <param name="query"></param>
-            <param name="json"></param>
-            <param name="dd"></param>
-            <returns></returns>
-            <exception cref="T:System.Exception"></exception>
+             </summary>
+             <param name="subtable"></param>
+             <param name="page"></param>
+             <param name="count"></param>
+             <param name="query"></param>
+             <param name="json"></param>
+             <param name="dd"></param>
+             <returns></returns>
+             <exception cref="T:System.Exception"></exception>
         </member>
         <member name="M:Admin.NET.Core.Service.SelectTable.GetFirstData(System.String,System.String,Newtonsoft.Json.Linq.JObject)">
              <summary>

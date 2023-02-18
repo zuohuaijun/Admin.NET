@@ -8,6 +8,7 @@
                 "DbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access、OpenGauss、QuestDB、HG、ClickHouse、GBase、Odbc、Custom
                 "ConnectionString": "DataSource=./Admin.NET.db", // 库连接字符串
                 "EnableInitDb": true, // 启用库表初始化
+                "EnableInitSeed": true, // 启用种子初始化
                 "EnableDiffLog": false, // 启用库表差异日志
                 "EnableUnderLine": false // 启用驼峰转下划线
             }
@@ -17,6 +18,7 @@
             //    "DbType": "Sqlite",
             //    "ConnectionString": "DataSource=./test.db", // 库连接字符串
             //    "EnableInitDb": true, // 启用库表初始化
+            //    "EnableInitSeed": true, // 启用种子初始化
             //    "EnableDiffLog": false, // 启用库表差异日志
             //    "EnableUnderLine": false // 启用驼峰转下划线
             //}

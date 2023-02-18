@@ -15,14 +15,14 @@ public class SysLogVis : EntityTenant
     public string ControllerName { get; set; }
 
     /// <summary>
-    /// 方法名称 
+    /// 方法名称
     ///</summary>
     [SugarColumn(ColumnDescription = "方法名称", Length = 256)]
     [MaxLength(256)]
     public string ActionName { get; set; }
 
     /// <summary>
-    /// 显示名称 
+    /// 显示名称
     ///</summary>
     [SugarColumn(ColumnDescription = "显示名称", Length = 256)]
     [MaxLength(256)]

@@ -28,6 +28,11 @@ public sealed class DbConnectionConfig : ConnectionConfig
     public bool EnableInitDb { get; set; }
 
     /// <summary>
+    /// 启用种子初始化
+    /// </summary>
+    public bool EnableInitSeed { get; set; }
+
+    /// <summary>
     /// 启用库表差异日志
     /// </summary>
     public bool EnableDiffLog { get; set; }

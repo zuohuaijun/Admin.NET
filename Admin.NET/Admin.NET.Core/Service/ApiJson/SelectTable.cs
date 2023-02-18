@@ -83,7 +83,7 @@ public class SelectTable : ISingleton
     }
 
     /// <summary>
-    /// 
+    ///
     /// </summary>
     /// <param name="subtable"></param>
     /// <param name="page"></param>

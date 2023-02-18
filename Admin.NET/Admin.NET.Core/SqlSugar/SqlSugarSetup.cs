@@ -63,7 +63,6 @@ public static class SqlSugarSetup
         config.MoreSettings = new ConnMoreSettings
         {
             IsAutoRemoveDataCache = true,
-            DisableNvarchar = config.DbType == SqlSugar.DbType.MySql,
             SqlServerCodeFirstNvarchar = true // 采用Nvarchar
         };
     }
@@ -228,6 +227,8 @@ public static class SqlSugarSetup
             else
                 dbProvider.CodeFirst.SplitTables().InitTables(entityType);
         }
+
+        if (!config.EnableInitSeed) return;
 
         // 获取所有种子配置-初始化数据
         var seedDataTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass

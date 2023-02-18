@@ -1,7 +1,6 @@
 ﻿using Furion.SpecificationDocument;
 using Lazy.Captcha.Core;
 using Microsoft.Extensions.Caching.Memory;
-using Microsoft.Extensions.Logging;
 
 namespace Admin.NET.Core.Service;
 
