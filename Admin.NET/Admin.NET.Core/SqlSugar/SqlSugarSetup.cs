@@ -63,6 +63,7 @@ public static class SqlSugarSetup
         config.MoreSettings = new ConnMoreSettings
         {
             IsAutoRemoveDataCache = true,
+            DisableNvarchar = config.DbType == SqlSugar.DbType.MySql,
             SqlServerCodeFirstNvarchar = true // 采用Nvarchar
         };
     }

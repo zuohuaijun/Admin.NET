@@ -20,7 +20,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly SysConfigService _sysConfigService;
     private readonly IMemoryCache _cache;
     private readonly ICaptcha _captcha;
-    private readonly ILogger<SysAuthService> _logger;
 
     public SysAuthService(UserManager userManager,
         SqlSugarRepository<SysUser> sysUserRep,
