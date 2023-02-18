@@ -1,4 +1,4 @@
-﻿using IPTools.Core;
+using IPTools.Core;
 
 namespace Admin.NET.Core;
 
@@ -92,7 +92,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 EventId = logMsg.EventId.Id,
                 ThreadId = logMsg.ThreadId,
                 TraceId = logMsg.TraceId,
-                Exception = loggingMonitor.exception,
+                Exception = (loggingMonitor.exception == null ) ? null : JsonConvert.SerializeObject(loggingMonitor.exception.value),
                 Message = logMsg.Message,
                 CreateUserId = string.IsNullOrWhiteSpace(userId) ? 0 : long.Parse(userId),
                 TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : long.Parse(tenantId)
