@@ -30,8 +30,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         SysOnlineUserService sysOnlineUserService,
         SysConfigService sysConfigService,
         IMemoryCache cache,
-        ICaptcha captcha,
-        ILogger<SysAuthService> logger)
+        ICaptcha captcha)
     {
         _userManager = userManager;
         _sysUserRep = sysUserRep;
@@ -42,7 +41,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         _sysConfigService = sysConfigService;
         _cache = cache;
         _captcha = captcha;
-        _logger = logger;
     }
 
     /// <summary>
@@ -115,10 +113,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         // Swagger Knife4UI-AfterScript登录脚本
         // ke.global.setAllHeader('Authorization', 'Bearer ' + ke.response.headers['access-token']);
 
-        // 设置日志额外数据
-        using var scope = _logger.ScopeContext(u => u.Set(ClaimConst.Account, user.Account).Set(ClaimConst.RealName, user.RealName));
-        // _logger.LogInformation("登录日志");
-
         return new LoginOutput
         {
             AccessToken = accessToken,
@@ -127,11 +121,11 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取登录账号信息
+    /// 获取登录账号
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "UserInfo")]
-    [DisplayName("获取登录账号信息")]
+    [DisplayName("登录系统")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);

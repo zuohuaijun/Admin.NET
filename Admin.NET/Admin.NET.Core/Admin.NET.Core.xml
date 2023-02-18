@@ -4352,7 +4352,7 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysAuthService.GetUserInfo">
             <summary>
-            获取登录账号信息
+            获取登录账号
             </summary>
             <returns></returns>
         </member>

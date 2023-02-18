@@ -26,7 +26,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
         if (loggingMonitor.Validation != null) return;
 
         // 获取当前操作者
-        string account = "", realName = "";
+        string account = "", realName = "", userId = "", tenantId = "";
         if (loggingMonitor.authorizationClaims != null)
         {
             foreach (var item in loggingMonitor.authorizationClaims)
@@ -35,20 +35,18 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                     account = item.value;
                 if (item.type == ClaimConst.RealName)
                     realName = item.value;
+                if (item.type == ClaimConst.TenantId)
+                    tenantId = item.value;
+                if (item.type == ClaimConst.UserId)
+                    userId = item.value;
             }
         }
 
         string remoteIPv4 = loggingMonitor.remoteIPv4;
         (string ipLocation, double? longitude, double? latitude) = GetIpAddress(remoteIPv4);
 
-        if (loggingMonitor.actionName == "login" || loggingMonitor.actionName == "logout")
+        if (loggingMonitor.actionName == "userInfo" || loggingMonitor.actionName == "logout")
         {
-            if (loggingMonitor.authorizationClaims == null)
-            {
-                account = logMsg.Context?.Get(ClaimConst.Account)?.ToString();
-                realName = logMsg.Context?.Get(ClaimConst.RealName)?.ToString();
-            }
-
             _sysLogVisRep.Insert(new SysLogVis
             {
                 ControllerName = loggingMonitor.controllerName,
@@ -64,7 +62,9 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 Elapsed = loggingMonitor.timeOperationElapsedMilliseconds,
                 LogDateTime = logMsg.LogDateTime,
                 Account = account,
-                RealName = realName
+                RealName = realName,
+                CreateUserId = string.IsNullOrWhiteSpace(userId) ? 0 : long.Parse(userId),
+                TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : long.Parse(tenantId)
             });
         }
         else
@@ -93,7 +93,9 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 ThreadId = logMsg.ThreadId,
                 TraceId = logMsg.TraceId,
                 Exception = loggingMonitor.exception,
-                Message = logMsg.Message
+                Message = logMsg.Message,
+                CreateUserId = string.IsNullOrWhiteSpace(userId) ? 0 : long.Parse(userId),
+                TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : long.Parse(tenantId)
             });
         }
 

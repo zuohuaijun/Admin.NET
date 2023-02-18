@@ -64,15 +64,15 @@ public class SysLogVis : EntityTenant
     /// <summary>
     /// 浏览器
     /// </summary>
-    [SugarColumn(ColumnDescription = "浏览器", Length = 128)]
-    [MaxLength(128)]
+    [SugarColumn(ColumnDescription = "浏览器", Length = 256)]
+    [MaxLength(256)]
     public string? Browser { get; set; }
 
     /// <summary>
     /// 操作系统
     /// </summary>
-    [SugarColumn(ColumnDescription = "操作系统", Length = 128)]
-    [MaxLength(128)]
+    [SugarColumn(ColumnDescription = "操作系统", Length = 256)]
+    [MaxLength(256)]
     public string? Os { get; set; }
 
     /// <summary>
