@@ -7306,6 +7306,46 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:Admin.NET.Core.BaseService`1">
+            <summary>
+            实体操作基服务
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="M:Admin.NET.Core.BaseService`1.GetDetail(System.Int64)">
+            <summary>
+            获取实体详情
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.BaseService`1.GetList">
+            <summary>
+            获取实体集合
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.BaseService`1.Add(`0)">
+            <summary>
+            增加实体
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.BaseService`1.Update(`0)">
+            <summary>
+            更新实体
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.BaseService`1.Delete(System.Int64)">
+            <summary>
+            删除实体
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:Admin.NET.Core.ExportLogDto">
             <summary>
             导出日志数据

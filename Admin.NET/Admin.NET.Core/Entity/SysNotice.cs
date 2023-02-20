@@ -12,6 +12,7 @@ public class SysNotice : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "标题", Length = 32)]
     [Required, MaxLength(32)]
+    [SensitiveDetection('*')]
     public virtual string Title { get; set; }
 
     /// <summary>
@@ -19,6 +20,7 @@ public class SysNotice : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "内容", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     [Required]
+    [SensitiveDetection('*')]
     public virtual string Content { get; set; }
 
     /// <summary>
