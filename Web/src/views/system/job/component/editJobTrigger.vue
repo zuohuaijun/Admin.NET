@@ -23,15 +23,28 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if="state.ruleForm.triggerType == 'Furion.Schedule.PeriodTrigger'">
-						<el-form-item label="参数(ms)">
-							<el-input-number v-model="state.ruleForm.args" placeholder="间隔" :min="100" :step="100" class="w100" />
+						<el-form-item label="间隔时间(ms)">
+							<el-input-number v-model="periodValue" placeholder="间隔" :min="100" :step="100" class="w100" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-else>
-						<el-form-item label="参数">
-							<el-input v-model="state.ruleForm.args" placeholder="Cron表达式">
+						<el-form-item label="Cron表达式">
+							<el-input v-model="cronValue" placeholder="Cron表达式">
 								<template #append>
-									<el-button @click="state.showCronDialog = true">Cron表达式</el-button>
+									<el-dropdown style="color: inherit" trigger="click" @command="macroDropDownCommand">
+										<el-button style="margin: 0px -10px 0px -20px; color: inherit"> Macro </el-button>
+										<template #dropdown>
+											<el-dropdown-menu>
+												<el-dropdown-item v-for="(item, index) in macroData" :key="index" :command="item">
+													<el-row style="width: 240px">
+														<el-col :span="9">{{ item.key }}</el-col>
+														<el-col :span="15">{{ item.description }}</el-col>
+													</el-row>
+												</el-dropdown-item>
+											</el-dropdown-menu>
+										</template>
+									</el-dropdown>
+									<el-button style="margin: 0px -20px 0px -10px" @click="state.showCronDialog = true">Cron表达式</el-button>
 								</template>
 							</el-input>
 						</el-form-item>
@@ -120,19 +133,27 @@
 					<span> Cron表达式生成器 </span>
 				</div>
 			</template>
-			<cronTab @hide="state.showCronDialog = false" @fill="crontabFill" :expression="state.ruleForm.args"></cronTab>
+			<cronTab @hide="state.showCronDialog = false" @fill="crontabFill" :expression="cronValue"></cronTab>
 		</el-dialog>
 	</div>
 </template>
 
 <script lang="ts" setup name="sysEditJobTrigger">
-import { reactive, ref } from 'vue';
+import { reactive, ref, computed } from 'vue';
+import type { WritableComputedRef } from 'vue';
+import { ElMessage } from 'element-plus';
 import mittBus from '/@/utils/mitt';
 
 import cronTab from './cronTab/index.vue';
 import { getAPI } from '/@/utils/axios-utils';
 import { SysJobApi } from '/@/api-services/api';
 import { UpdateJobTriggerInput } from '/@/api-services/models';
+
+// Macro 标识符数据结构
+interface MacroData {
+	key: string;
+	description: string;
+}
 
 const props = defineProps({
 	title: String,
@@ -143,6 +164,69 @@ const state = reactive({
 	isShowDialog: false,
 	ruleForm: {} as UpdateJobTriggerInput,
 	showCronDialog: false,
+});
+
+const macroData: MacroData[] = reactive([
+	{ key: '@secondly', description: '每秒 .0000000' },
+	{ key: '@minutely', description: '每分钟 00' },
+	{ key: '@hourly', description: '每小时 00:00' },
+	{ key: '@daily', description: '每天 00:00:00' },
+	{ key: '@monthly', description: '每月 1 号 00:00:00' },
+	{ key: '@weekly', description: '每周日 00：00：00' },
+	{ key: '@yearly', description: '每年 1 月 1 号 00:00:00' },
+	{ key: '@workday', description: '每周一至周五 00:00:00' },
+]);
+
+// 间隔周期值
+const periodValue: WritableComputedRef<number | undefined> = computed({
+	get() {
+		const defaultValue: number | undefined = undefined;
+		// 触发器周期不是周期，返回默认值
+		if (state.ruleForm.triggerType != 'Furion.Schedule.PeriodTrigger') return defaultValue;
+		if (!state.ruleForm.args) return defaultValue;
+
+		const value: number | undefined = Number(state.ruleForm.args);
+		if (Number.isNaN(value)) return defaultValue;
+
+		return value;
+	},
+	set(value: number | undefined) {
+		state.ruleForm.args = String(value);
+	},
+});
+
+// cron 表达式值
+const cronValue: WritableComputedRef<string> = computed({
+	get() {
+		const defaultValue = '';
+		// 触发器周期不是周期，返回默认值
+		if (state.ruleForm.triggerType != 'Furion.Schedule.CronTrigger') return defaultValue;
+		if (!state.ruleForm.args) return defaultValue;
+
+		// Furion 的 cron 表达式有2个入参
+		const value = String(state.ruleForm.args);
+		const parameters = value.split(',');
+		if (parameters.length != 2) return defaultValue;
+
+		const cron = parameters[0].replace(new RegExp('"', 'gm'), '').trim();
+		return cron;
+	},
+	set(value: string) {
+		if (state.ruleForm.args == value) return;
+
+		const newValue = value.trim();
+		// 第二个参数值参阅 https://furion.baiqian.ltd/docs/cron#2624-cronstringformat-%E6%A0%BC%E5%BC%8F%E5%8C%96
+		let cronStringFormatValue = -1;
+
+		// 如果是 Macro 标识符，使用默认格式
+		if (newValue.startsWith('@')) cronStringFormatValue = 0; // 默认格式，书写顺序：分 时 天 月 周
+		else {
+			if (newValue.split(' ').length == 6) cronStringFormatValue = 2; // 带秒格式，书写顺序：秒 分 时 天 月 周
+			else cronStringFormatValue = 3; // 带秒和年格式，书写顺序：秒 分 时 天 月 周 年
+		}
+
+		state.ruleForm.args = `"${newValue}",${cronStringFormatValue}`;
+	},
 });
 
 // 打开弹窗
@@ -166,6 +250,14 @@ const cancel = () => {
 const submit = () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
+		if (state.ruleForm.triggerType == 'Furion.Schedule.PeriodTrigger' && !periodValue.value) {
+			ElMessage.warning('间隔时间不能为空');
+			return;
+		} else if (state.ruleForm.triggerType == 'Furion.Schedule.CronTrigger' && !cronValue.value) {
+			ElMessage.warning('Cron表达式不能为空');
+			return;
+		}
+
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 			await getAPI(SysJobApi).apiSysJobUpdateJobTriggerPut(state.ruleForm);
 		} else {
@@ -177,7 +269,12 @@ const submit = () => {
 
 // cron窗体确定后值
 const crontabFill = (value: string | null | undefined) => {
-	state.ruleForm.args = value;
+	cronValue.value = value == null || value == undefined ? '' : value;
+};
+
+// macro 下拉选中回调
+const macroDropDownCommand = (item: MacroData) => {
+	cronValue.value = item.key;
 };
 
 // 导出对象

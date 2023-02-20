@@ -140,6 +140,10 @@ const crontabValueString = computed(() => {
   const obj = crontabValueObj.value
   return obj.second + ' ' + obj.min + ' ' + obj.hour + ' ' + obj.day + ' ' + obj.month + ' ' + obj.week + (obj.year === '' ? '' : ' ' + obj.year)
 })
+watch(
+	() => props.expression,
+	(newValue) => (expression.value = newValue)
+);
 watch(expression, () => resolveExp())
 function shouldHide(key: any) {
   return !(hideComponent.value && hideComponent.value.includes(key))
