@@ -1,6 +1,6 @@
 import request from '/@/utils/request';
 enum Api {
-    DictTypeDataList = '/sysDictData/DataList',
+    DictTypeDataList = '/api/sysDictData/DataList',
 }
 
 // 根据字典类型编码获取字典值集合
