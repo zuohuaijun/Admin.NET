@@ -4363,7 +4363,7 @@
             <param name="accessToken"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysAuthService.Logout">
+        <member name="M:Admin.NET.Core.Service.SysAuthService.LogoutAsync">
             <summary>
             退出系统
             </summary>

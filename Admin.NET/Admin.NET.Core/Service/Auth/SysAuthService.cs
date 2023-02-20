@@ -1,5 +1,6 @@
 ﻿using Furion.SpecificationDocument;
 using Lazy.Captcha.Core;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Admin.NET.Core.Service;
@@ -168,13 +169,13 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     [ApiDescriptionSettings(Name = "Logout")]
     [DisplayName("退出系统")]
-    public void Logout()
+    public async Task LogoutAsync()
     {
         if (string.IsNullOrWhiteSpace(_userManager.Account))
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
-        // 置空响应报文头
-        _httpContextAccessor.HttpContext.SetTokensOfResponseHeaders(null, null);
+        _httpContextAccessor.HttpContext.SignoutToSwagger();
+        await _httpContextAccessor.HttpContext.SignOutAsync();
     }
 
     /// <summary>

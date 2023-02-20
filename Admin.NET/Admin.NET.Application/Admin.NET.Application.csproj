@@ -26,6 +26,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\项目列表\万人调查\Daming.WanrenDC.App\Daming.WanrenDC.App.csproj" />
     <ProjectReference Include="..\Admin.NET.Core\Admin.NET.Core.csproj" />
   </ItemGroup>
 
@@ -55,9 +56,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Configuration\OSS.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Configuration\SnowId.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Configuration\Swagger.json">
