@@ -148,11 +148,12 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
         db.DbMaintenance.CreateTable(input.TableName, columns, false);
 
+        if (db.CurrentConnectionConfig.DbType == SqlSugar.DbType.Sqlite || db.CurrentConnectionConfig.DbType == SqlSugar.DbType.MySql)
+            return;
+
         if (columns.Any(m => m.IsPrimarykey))
             db.DbMaintenance.AddPrimaryKey(input.TableName, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
 
-        if (db.CurrentConnectionConfig.DbType == SqlSugar.DbType.Sqlite || db.CurrentConnectionConfig.DbType == SqlSugar.DbType.MySql)
-            return;
         db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
         input.DbColumnInfoList.ForEach(m =>
         {
@@ -197,7 +198,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     public void CreateEntity(CreateEntityInput input)
     {
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
-        input.EntityName = (input.EntityName == input.TableName && input.EntityName.Contains('_')) ? CodeGenUtil.CamelColumnName(input.EntityName, null) : input.EntityName;
+        input.EntityName = input.EntityName;
         string[] dbColumnNames = _codeGenOptions.EntityBaseColumn[input.BaseClassName];
 
         var templatePath = GetEntityTemplatePath();
@@ -210,7 +211,6 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
         dbColumnInfos.ForEach(m =>
         {
-            m.DbColumnName = CodeGenUtil.CamelColumnName(m.DbColumnName, dbColumnNames);
             m.DataType = CodeGenUtil.ConvertDataType(m);
         });
         if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))
@@ -248,6 +248,8 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     private static string GetEntityTargetPath(CreateEntityInput input)
     {
         var backendPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName, input.Position, "Entity");
+        if (!Directory.Exists(backendPath))
+            Directory.CreateDirectory(backendPath);
         return Path.Combine(backendPath, input.EntityName + ".cs");
     }
 }
