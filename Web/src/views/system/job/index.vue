@@ -93,7 +93,7 @@
 								</template>
 							</el-table-column>
 							<el-table-column prop="updatedTime" label="更新时间" width="140" align="center" show-overflow-tooltip />
-							<el-table-column label="操作" width="140" align="center" show-overflow-tooltip>
+							<el-table-column label="操作" width="140" align="center" show-overflow-tooltip fixed="right">
 								<template #default="scope">
 									<el-tooltip content="启动触发器">
 										<el-button size="small" type="primary" icon="ele-VideoPlay" text @click="startTrigger(scope.row)" />
