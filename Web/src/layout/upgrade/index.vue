@@ -21,7 +21,7 @@
 						CHANGELOG.md
 					</el-link>
 				</div>
-				<div class="upgrade-content-desc mt5">{{ $t('message.upgrade.desc') }}</div>
+        <!-- <div class="upgrade-content-desc mt5">{{ $t("message.upgrade.desc") }}</div> -->
 			</div>
 			<div class="upgrade-btn">
 				<el-button round size="default" type="info" text @click="onCancel">{{ $t('message.upgrade.btnOne') }}</el-button>
@@ -63,9 +63,9 @@ const onUpgrade = () => {
 	state.isLoading = true;
 	state.btnTxt = t('message.upgrade.btnTwoLoading');
 	setTimeout(() => {
-		Local.clear();
+		// Local.clear();
 		window.location.reload();
-		Local.set('version', state.version);
+		// Local.set('version', state.version);
 	}, 2000);
 };
 // 延迟显示，防止刷新时界面显示太快
