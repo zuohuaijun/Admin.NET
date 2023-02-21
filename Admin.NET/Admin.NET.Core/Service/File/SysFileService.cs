@@ -128,7 +128,7 @@ public class SysFileService : IDynamicApiController, ITransient
 
             if (_OSSProviderOptions.IsEnable)
             {
-                await _OSSService.RemoveObjectAsync(file.BucketName.ToString(), string.Concat(file.FilePath, "/", input.Id.ToString()));
+                await _OSSService.RemoveObjectAsync(file.BucketName.ToString(), string.Concat(file.FilePath, "/", $"{input.Id}{file.Suffix}"));
             }
             else
             {
