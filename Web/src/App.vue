@@ -4,7 +4,7 @@
 		<LockScreen v-if="themeConfig.isLockScreen" />
 		<Setings ref="setingsRef" v-show="themeConfig.lockScreenTime > 1" />
 		<CloseFull v-if="!themeConfig.isLockScreen" />
-		<Upgrade v-if="getVersion" />
+        <Upgrade v-if="needUpdate" />
 	</el-config-provider>
 </template>
 
@@ -19,6 +19,7 @@ import other from '/@/utils/other';
 import { Local, Session } from '/@/utils/storage';
 import mittBus from '/@/utils/mitt';
 import setIntroduction from '/@/utils/setIconfont';
+import checkUpdate from "/@/utils/auto-update";
 
 // 引入组件
 const LockScreen = defineAsyncComponent(() => import('/@/layout/lockScreen/index.vue'));
@@ -33,16 +34,22 @@ const route = useRoute();
 const stores = useTagsViewRoutes();
 const storesThemeConfig = useThemeConfig();
 const { themeConfig } = storeToRefs(storesThemeConfig);
+const needUpdate = ref(false);
 
-// 获取版本号
-const getVersion = computed(() => {
-	let isVersion = false;
-	if (route.path !== '/login') {
-		// @ts-ignore
-		if ((Local.get('version') && Local.get('version') !== __VERSION__) || !Local.get('version')) isVersion = true;
-	}
-	return isVersion;
-});
+// // 获取版本号
+// const getVersion = computed(() => {
+// 	let isVersion = false;
+// 	if (route.path !== '/login') {
+// 		// @ts-ignore
+// 		if ((Local.get('version') && Local.get('version') !== __VERSION__) || !Local.get('version')) isVersion = true;
+// 	}
+// 	return isVersion;
+// });
+
+checkUpdate(() => {
+  needUpdate.value = true;
+}, 60000);
+
 // 获取全局组件大小
 const getGlobalComponentSize = computed(() => {
 	return other.globalComponentSize();
