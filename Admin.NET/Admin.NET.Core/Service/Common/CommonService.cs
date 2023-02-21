@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Service;
+namespace Admin.NET.Core.Service;
 
 public class CommonService : ICommonService, IScoped
 {
@@ -71,7 +71,10 @@ public class CommonService : ICommonService, IScoped
     /// <returns></returns>
     public string GetHost()
     {
-        return $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.Value}";
+         var localhost=$"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.Value}";
+        if(_httpContextAccessor.HttpContext.Request.Headers.Referer.Count>0)
+            localhost = _httpContextAccessor.HttpContext.Request.Headers.Referer[0].TrimEnd('/');
+        return localhost;
     }
 
     /// <summary>
