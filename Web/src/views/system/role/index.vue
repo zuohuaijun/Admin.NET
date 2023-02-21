@@ -46,7 +46,7 @@
 							<el-button icon="ele-MoreFilled" size="small" text type="primary" style="padding-left: 12px" />
 							<template #dropdown>
 								<el-dropdown-menu>
-									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantData(scope.row)" :disabled="!auth('sysRole:grantData')"> 数据范围 </el-dropdown-item>
+									<el-dropdown-item icon="ele-OfficeBuilding" @click="openGrantData(scope.row)" :disabled="!auth('sysRole:grantDataScope')"> 数据范围 </el-dropdown-item>
 									<el-dropdown-item icon="ele-Delete" @click="delRole(scope.row)" divided :disabled="!auth('sysRole:delete')"> 删除角色 </el-dropdown-item>
 								</el-dropdown-menu>
 							</template>
