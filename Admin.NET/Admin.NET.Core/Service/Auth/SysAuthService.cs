@@ -169,13 +169,12 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     [ApiDescriptionSettings(Name = "Logout")]
     [DisplayName("退出系统")]
-    public async Task LogoutAsync()
+    public void Logout()
     {
         if (string.IsNullOrWhiteSpace(_userManager.Account))
             throw Oops.Oh(ErrorCodeEnum.D1011);
 
         _httpContextAccessor.HttpContext.SignoutToSwagger();
-        await _httpContextAccessor.HttpContext.SignOutAsync();
     }
 
     /// <summary>

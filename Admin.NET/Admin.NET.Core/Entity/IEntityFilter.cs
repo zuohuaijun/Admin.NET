@@ -3,7 +3,7 @@
 /// <summary>
 /// 假删除接口过滤器
 /// </summary>
-public interface IDeletedFilter
+internal interface IDeletedFilter
 {
     /// <summary>
     /// 软删除
@@ -14,7 +14,7 @@ public interface IDeletedFilter
 /// <summary>
 /// 租户Id接口过滤器
 /// </summary>
-public interface ITenantIdFilter
+internal interface ITenantIdFilter
 {
     /// <summary>
     /// 租户Id
@@ -25,7 +25,7 @@ public interface ITenantIdFilter
 /// <summary>
 /// 机构Id接口过滤器
 /// </summary>
-public interface IOrgIdFilter
+internal interface IOrgIdFilter
 {
     /// <summary>
     /// 创建者部门Id
