@@ -11,9 +11,10 @@
 	},
 	"dependencies": {
 		"@element-plus/icons-vue": "^2.0.10",
+		"@microsoft/signalr": "^6.0.10",
 		"@wangeditor/editor": "^5.1.23",
 		"@wangeditor/editor-for-vue": "^5.1.12",
-		"@microsoft/signalr": "^6.0.10",
+		"animate.css": "^4.1.1",
 		"axios": "^1.2.1",
 		"countup.js": "^2.3.2",
 		"cropperjs": "^1.5.13",
@@ -25,6 +26,7 @@
 		"js-table2excel": "^1.0.3",
 		"jsplumb": "^2.15.6",
 		"mitt": "^3.0.0",
+		"monaco-editor": "^0.34.1",
 		"nprogress": "^0.2.0",
 		"pinia": "^2.0.28",
 		"print-js": "^1.6.0",
@@ -38,12 +40,10 @@
 		"vue-clipboard3": "^2.0.0",
 		"vue-grid-layout": "^3.0.0-beta1",
 		"vue-i18n": "^9.2.2",
-		"vue-router": "^4.1.6",
 		"vue-json-pretty": "^2.2.3",
+		"vue-router": "^4.1.6",
 		"vue-signature-pad": "^3.0.2",
-		"vue3-tree-org": "^4.1.1",
-		"animate.css": "^4.1.1",
-		"monaco-editor": "^0.34.1"
+		"vue3-tree-org": "^4.1.1"
 	},
 	"devDependencies": {
 		"@types/node": "^18.11.13",
