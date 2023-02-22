@@ -18,6 +18,9 @@ import '@wangeditor/editor/dist/css/style.css';
 import { reactive, shallowRef, watch, onBeforeUnmount } from 'vue';
 import { IDomEditor } from '@wangeditor/editor';
 import { Toolbar, Editor } from '@wangeditor/editor-for-vue';
+import { ElMessage } from 'element-plus';
+import { getAPI } from '/@/utils/axios-utils';
+import { SysFileApi } from '/@/api-services/api';
 
 // 定义父组件传过来的值
 const props = defineProps({
@@ -56,6 +59,32 @@ const editorRef = shallowRef();
 const state = reactive({
 	editorConfig: {
 		placeholder: props.placeholder,
+		// 菜单配置
+		MENU_CONF: {
+			uploadImage: {
+				fieldName: 'file',
+				customUpload(file, insertFn) {
+					// console.log('customUpload', file);
+					const uploadFun = async () => {
+						const rps = await getAPI(SysFileApi).apiSysFileUploadFilePostForm(file);
+						if (rps.data.type == 'success' && rps.data.result != null) {
+							insertFn(rps.data.result.url, rps.data.result.name, rps.data.result.url);
+						} else {
+							ElMessage.error('上传失败！');
+						}
+					};
+					uploadFun();
+				},
+			},
+			insertImage: {
+				checkImage(src: string, alt: string, href: string): boolean | string | undefined {
+					if (src.indexOf('http') !== 0) {
+						return '图片网址必须以 http/https 开头';
+					}
+					return true;
+				},
+			},
+		},
 	},
 	editorVal: props.getHtml,
 });
