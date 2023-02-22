@@ -36,6 +36,7 @@
 						:show-file-list="false"
 						:auto-upload="false"
 						:on-change="selectPicture"
+						:on-exceed="selectPictureExceed"
 						style="display: inline-block; position: absolute; right: 172px"
 					>
 						<el-button icon="ele-Picture">选择图片</el-button>
@@ -49,10 +50,12 @@
 </template>
 
 <script setup lang="ts" name="cropper">
-import { reactive, nextTick } from 'vue';
+import { reactive, nextTick, ref } from 'vue';
 import mittBus from '/@/utils/mitt';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
+import { genFileId } from 'element-plus';
+import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 
 const props = defineProps({
 	title: {
@@ -61,6 +64,7 @@ const props = defineProps({
 	},
 });
 
+const uploadSignRef = ref<UploadInstance>();
 // 定义变量内容
 const state = reactive({
 	isShowDialog: false,
@@ -119,6 +123,13 @@ const selectPicture = async (file: any) => {
 	state.cropper.replace(state.cropperImg);
 };
 
+// 选择图片超出数量限制时执行
+const selectPictureExceed: UploadProps['onExceed'] = (files) => {
+	uploadSignRef.value!.clearFiles();
+	const file = files[0] as UploadRawFile;
+	file.uid = genFileId();
+	uploadSignRef.value!.handleStart(file);
+};
 // 暴露变量
 defineExpose({
 	openDialog,
