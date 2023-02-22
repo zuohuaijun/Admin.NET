@@ -172,7 +172,7 @@ const macroData: MacroData[] = reactive([
 	{ key: '@hourly', description: '每小时 00:00' },
 	{ key: '@daily', description: '每天 00:00:00' },
 	{ key: '@monthly', description: '每月 1 号 00:00:00' },
-	{ key: '@weekly', description: '每周日 00：00：00' },
+	{ key: '@weekly', description: '每周日 00:00:00' },
 	{ key: '@yearly', description: '每年 1 月 1 号 00:00:00' },
 	{ key: '@workday', description: '每周一至周五 00:00:00' },
 ]);
