@@ -33,7 +33,7 @@
 					<div class="image-signature">
 						<el-image :src="userInfos.signature" fit="contain" alt="电子签名" lazy style="width: 100%; height: 100%"> </el-image>
 					</div>
-					<el-button icon="ele-Edit" type="primary" @click="openSignDialog" v-auth="'sysUser:signature'"> 电子签名 </el-button>
+					<el-button icon="ele-Edit" type="primary" @click="openSignDialog" v-auth="'sysFile:uploadSignature'"> 电子签名 </el-button>
 					<el-upload
 						ref="uploadSignRef"
 						action=""
@@ -44,7 +44,7 @@
 						:on-change="uploadSignFile"
 						style="display: inline-block; margin-left: 12px; position: absolute"
 					>
-						<el-button icon="ele-UploadFilled">上传手写签名</el-button>
+						<el-button icon="ele-UploadFilled" v-auth="'sysFile:uploadSignature'">上传手写签名</el-button>
 					</el-upload>
 				</el-card>
 			</el-col>
@@ -100,7 +100,7 @@
 									</el-col>
 									<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 										<el-form-item>
-											<el-button icon="ele-SuccessFilled" type="primary" @click="submitUserBase" v-auth="'sysUser:updateBase'"> 保存基本信息 </el-button>
+											<el-button icon="ele-SuccessFilled" type="primary" @click="submitUserBase" v-auth="'sysUser:baseInfo'"> 保存基本信息 </el-button>
 										</el-form-item>
 									</el-col>
 								</el-row>
