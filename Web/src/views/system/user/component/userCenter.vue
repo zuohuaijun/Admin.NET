@@ -42,6 +42,7 @@
 						:show-file-list="false"
 						:auto-upload="false"
 						:on-change="uploadSignFile"
+						:on-exceed="uploadSignFileExceed"
 						style="display: inline-block; margin-left: 12px; position: absolute"
 					>
 						<el-button icon="ele-UploadFilled" v-auth="'sysFile:uploadSignature'">上传手写签名</el-button>
@@ -161,11 +162,13 @@
 <script lang="ts" setup name="sysUserCenter">
 import { onMounted, onUnmounted, watch, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
-import { ElMessageBox, UploadInstance } from 'element-plus';
+import { ElForm, ElMessageBox, genFileId } from 'element-plus';
+import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
 import { useUserInfo } from '/@/stores/userInfo';
 import { base64ToFile } from '/@/utils/base64Conver';
 import OrgTree from '/@/views/system/user/component/orgTree.vue';
 import CropperDialog from '/@/components/cropper/index.vue';
+import VueGridLayout from 'vue-grid-layout';
 import mittBus from '/@/utils/mitt';
 
 import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
@@ -176,10 +179,10 @@ const stores = useUserInfo();
 const { userInfos } = storeToRefs(stores);
 const uploadSignRef = ref<UploadInstance>();
 const uploadAvatarRef = ref<UploadInstance>();
-const signaturePadRef = ref();
-const ruleFormBaseRef = ref();
-const ruleFormPasswordRef = ref();
-const cropperDialogRef = ref();
+const signaturePadRef = ref<InstanceType<typeof VueGridLayout>>();
+const ruleFormBaseRef = ref<InstanceType<typeof ElForm>>();
+const ruleFormPasswordRef = ref<InstanceType<typeof ElForm>>();
+const cropperDialogRef = ref<InstanceType<typeof CropperDialog>>();
 const state = reactive({
 	loading: false,
 	avatarLoading: false,
@@ -267,7 +270,7 @@ const uploadAvatarFile = async (file: any) => {
 
 // 修改个人信息
 const submitUserBase = () => {
-	ruleFormBaseRef.value.validate(async (valid: boolean) => {
+	ruleFormBaseRef.value?.validate(async (valid: boolean) => {
 		if (!valid) return;
 		ElMessageBox.confirm('确定修改个人基础信息？', '提示', {
 			confirmButtonText: '确定',
@@ -297,7 +300,7 @@ const resetPassword = () => {
 
 // 密码提交
 const submitPassword = () => {
-	ruleFormPasswordRef.value.validate(async (valid: boolean) => {
+	ruleFormPasswordRef.value?.validate(async (valid: boolean) => {
 		if (!valid) return;
 		await getAPI(SysUserApi).apiSysUserChangePwdPost(state.ruleFormPassword);
 		// 退出系统
@@ -314,7 +317,7 @@ const submitPassword = () => {
 // 打开裁剪弹窗
 const openCropperDialog = () => {
 	state.cropperTitle = '更换头像';
-	cropperDialogRef.value.openDialog(userInfos.value.avatar);
+	cropperDialogRef.value?.openDialog(userInfos.value.avatar);
 };
 
 // 鼠标进入和离开头像时
@@ -324,6 +327,14 @@ const mouseEnterAvatar = () => {
 
 const mouseLeaveAvatar = () => {
 	state.avatarLoading = false;
+};
+
+// 上传签名超出数量限制时执行
+const uploadSignFileExceed: UploadProps['onExceed'] = (files) => {
+	uploadSignRef.value!.clearFiles();
+	const file = files[0] as UploadRawFile;
+	file.uid = genFileId();
+	uploadSignRef.value!.handleStart(file);
 };
 
 // 导出对象
