@@ -225,7 +225,7 @@ public static class CodeGenUtil
 
     public static string ConvertDataType_Default(string dataType)
     {
-        return dataType switch
+        return dataType.ToLower() switch
         {
             "text" or "varchar" or "char" or "nvarchar" or "nchar" or "timestamp" => "string",
             "int" => "int",
