@@ -23,13 +23,13 @@ const getAlicdnIconfont = () => {
 					}
 				}
 			}
-			// vue-next-admin 原代码之外增加的代码，从本地读取阿里字体
+			// 从本地读取阿里字体
 			if (sheetsIconList.length == 0) {
 				for (let i = 0; i < iconfonntClassList.length; i++) {
 					sheetsIconList.push(iconfonntClassList[i]);
 				}
 			}
-			// vue-next-admin 原代码之外增加的代码
+
 			if (sheetsIconList.length > 0) resolve(sheetsIconList);
 			else reject('未获取到值，请刷新重试');
 		});
@@ -72,13 +72,13 @@ const getAwesomeIconfont = () => {
 					}
 				}
 			}
-			// vue-next-admin 原代码之外增加的代码，从本地读取阿里字体
+			// 从本地读取阿里字体
 			if (sheetsIconList.length == 0) {
 				for (let i = 0; i < fontAwesomeClassList.length; i++) {
 					sheetsIconList.push(fontAwesomeClassList[i]);
 				}
 			}
-			// vue-next-admin 原代码之外增加的代码
+
 			if (sheetsIconList.length > 0) resolve(sheetsIconList.reverse());
 			else reject('未获取到值，请刷新重试');
 		});

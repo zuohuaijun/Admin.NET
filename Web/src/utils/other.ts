@@ -53,7 +53,7 @@ export function useTitle() {
 export function setTagsViewNameI18n(item: any) {
 	let tagsViewName: string = '';
 	const { query, params, meta } = item;
-	//修复tagsViewName匹配到其他含下列单词的路由
+	// 修复tagsViewName匹配到其他含下列单词的路由
 	const pattern = /^\{("(zh-cn|en|zh-tw)":"[^,]+",?){1,3}}$/;
 	if (query?.tagsViewName || params?.tagsViewName) {
 		if (pattern.test(query?.tagsViewName) || pattern.test(params?.tagsViewName)) {
@@ -131,11 +131,7 @@ export function deepClone(obj: EmptyObjectType) {
  * 判断是否是移动端
  */
 export function isMobile() {
-	if (
-		navigator.userAgent.match(
-			/('phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone')/i
-		)
-	) {
+	if (navigator.userAgent.match(/('phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone')/i)) {
 		return true;
 	} else {
 		return false;
