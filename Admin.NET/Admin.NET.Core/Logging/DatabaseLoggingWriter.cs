@@ -88,20 +88,28 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 HttpMethod = loggingMonitor.httpMethod,
                 RequestUrl = loggingMonitor.requestUrl,
                 RequestParam = (loggingMonitor.parameters == null || loggingMonitor.parameters.Count == 0) ? null : JSON.Serialize(loggingMonitor.parameters[0].value),
-                ReturnResult = JSON.Serialize(loggingMonitor.returnInformation.value),
+                ReturnResult = JSON.Serialize(loggingMonitor.returnInformation),
                 EventId = logMsg.EventId.Id,
                 ThreadId = logMsg.ThreadId,
                 TraceId = logMsg.TraceId,
-                Exception = (loggingMonitor.exception == null) ? null : JSON.Serialize(loggingMonitor.exception.value),
+                Exception = (loggingMonitor.exception == null) ? null : JSON.Serialize(loggingMonitor.exception),
                 Message = logMsg.Message,
                 CreateUserId = string.IsNullOrWhiteSpace(userId) ? 0 : long.Parse(userId),
                 TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : long.Parse(tenantId)
             });
         }
 
-        // 异常时发送邮件
+        // 异常时发送邮件，发送邮件有异常捕获一下，不然导致程序退出！！！
         if (logMsg.Exception != null)
-            await App.GetRequiredService<SysMessageService>().SendEmail(JSON.Serialize(loggingMonitor.exception.value));
+        {
+            try
+            {
+                await App.GetRequiredService<SysMessageService>().SendEmail(JSON.Serialize(loggingMonitor.exception));
+            }
+            catch (Exception)
+            { }
+        }
+            
     }
 
     /// <summary>
