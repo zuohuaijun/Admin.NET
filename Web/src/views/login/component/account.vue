@@ -74,7 +74,7 @@ import { NextLoading } from '/@/utils/loading';
 
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
-import Watermark from '/@/utils/wartermark';
+import Watermark from '/@/utils/watermark';
 
 import { clearTokens, feature, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/api';

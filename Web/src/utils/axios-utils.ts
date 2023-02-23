@@ -38,7 +38,7 @@ export const clearAccessTokens = () => {
 export const clearTokens = () => {
 	Local.remove(accessTokenKey);
 	Local.remove(refreshAccessTokenKey);
-	Session.removeToken();
+	Session.clear();
 };
 
 // axios 默认实例
