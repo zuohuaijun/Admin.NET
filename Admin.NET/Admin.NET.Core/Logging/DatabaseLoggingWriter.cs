@@ -99,17 +99,15 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
             });
         }
 
-        // 异常时发送邮件，发送邮件有异常捕获一下，不然导致程序退出！！！
+        // 若有异常时则发送邮件
         if (logMsg.Exception != null)
         {
             try
             {
                 await App.GetRequiredService<SysMessageService>().SendEmail(JSON.Serialize(loggingMonitor.exception));
             }
-            catch (Exception)
-            { }
+            catch { }
         }
-            
     }
 
     /// <summary>

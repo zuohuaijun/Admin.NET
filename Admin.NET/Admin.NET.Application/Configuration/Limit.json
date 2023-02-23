@@ -1,4 +1,6 @@
 {
+    "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+
     // IP限流配置
     "IpRateLimiting": {
         // 例如:设置每分钟5次访问限流

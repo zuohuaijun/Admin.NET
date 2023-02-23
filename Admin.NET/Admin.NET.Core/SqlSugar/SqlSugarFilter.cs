@@ -21,7 +21,7 @@ public static class SqlSugarFilter
         if (orgFilter == null)
         {
             // 获取用户所属机构
-            var orgIds = App.GetService<SysOrgService>().GetUserOrgIdList().Result;
+            var orgIds = App.GetService<SysOrgService>().GetUserOrgIdList().GetAwaiter().GetResult();
             if (orgIds == null || orgIds.Count == 0) return;
 
             // 获取业务实体数据表

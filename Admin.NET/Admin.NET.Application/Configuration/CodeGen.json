@@ -1,5 +1,5 @@
 {
-    "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+    "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
 
     // 代码生成配置项-程序集名称集合
     "CodeGen": {

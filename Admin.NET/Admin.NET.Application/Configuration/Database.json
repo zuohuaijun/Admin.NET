@@ -1,5 +1,5 @@
 {
-    "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+    "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
 
     "DbConnection": {
         // 具体配置见SqlSugar官网（第一个为默认库不需要设置ConfigId）
