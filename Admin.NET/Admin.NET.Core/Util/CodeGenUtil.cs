@@ -15,28 +15,28 @@ public static class CodeGenUtil
     /// <returns></returns>
     public static string CamelColumnName(string columnName, string[] dbColumnNames)
     {
-        if (columnName.Contains('_'))
-        {
-            var arrColName = columnName.Split('_');
-            var sb = new StringBuilder();
-            foreach (var col in arrColName)
-            {
-                sb.Append(col[..1].ToUpper() + col[1..].ToLower());
-            }
-            columnName = sb.ToString();
-        }
-        else
-        {
-            var propertyName = dbColumnNames.FirstOrDefault(c => c.ToLower() == columnName.ToLower());
-            if (!string.IsNullOrEmpty(propertyName))
-            {
-                columnName = propertyName;
-            }
-            else
-            {
-                columnName = columnName[..1].ToUpper() + columnName[1..].ToLower();
-            }
-        }
+        //if (columnName.Contains('_'))
+        //{
+        //    var arrColName = columnName.Split('_');
+        //    var sb = new StringBuilder();
+        //    foreach (var col in arrColName)
+        //    {
+        //        sb.Append(col[..1].ToUpper() + col[1..].ToLower());
+        //    }
+        //    columnName = sb.ToString();
+        //}
+        //else
+        //{
+        //    var propertyName = dbColumnNames.FirstOrDefault(c => c.ToLower() == columnName.ToLower());
+        //    if (!string.IsNullOrEmpty(propertyName))
+        //    {
+        //        columnName = propertyName;
+        //    }
+        //    else
+        //    {
+        //        columnName = columnName[..1].ToUpper() + columnName[1..].ToLower();
+        //    }
+        //}
         return columnName;
     }
 
