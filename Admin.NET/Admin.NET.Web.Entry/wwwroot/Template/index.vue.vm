@@ -93,7 +93,7 @@
 						@:<span>{{scope.row.fk@(@column.ColumnName).@(@column.LowerFkColumnName)}}</span>
 						}else if(@column.EffectType == "Switch"){
 						@:<el-tag v-if="scope.row.@(@column.LowerColumnName)"> 是 </el-tag>
-						@:<el-tag type="danger" v-else=""> 否 </el-tag>
+						@:<el-tag type="danger" v-else> 否 </el-tag>
 						}else if(@column.EffectType == "ConstSelector"){
 						@:<span>{{codeToName(scope.row.@(@column.LowerColumnName), '@(@column.DictTypeCode)')}</span>
 						}
