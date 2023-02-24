@@ -1,4 +1,4 @@
-﻿using DbType = SqlSugar.DbType;
+using DbType = SqlSugar.DbType;
 
 namespace Admin.NET.Core;
 
@@ -230,7 +230,8 @@ public static class CodeGenUtil
             "text" or "varchar" or "char" or "nvarchar" or "nchar" or "timestamp" => "string",
             "int" => "int",
             "smallint" => "Int16",
-            "tinyint" => "byte",
+            //"tinyint" => "byte",
+            "tinyint" => "bool",    // MYSQL  
             "bigint" or "integer" => "long",
             "bit" => "bool",
             "money" or "smallmoney" or "numeric" or "decimal" => "decimal",
