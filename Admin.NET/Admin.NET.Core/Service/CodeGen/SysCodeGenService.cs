@@ -190,7 +190,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var entityBasePropertyNames = _codeGenOptions.EntityBaseColumn[nameof(EntityTenant)];
         return provider.DbMaintenance.GetColumnInfosByTableName(dbTableName, false).Select(u => new ColumnOuput
         {
-            ColumnName = CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames),
+            //转下划线后的列名 需要转回来
+            ColumnName = config.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
             NetType = CodeGenUtil.ConvertDataType(u),
             DataType = CodeGenUtil.ConvertDataType(u),
