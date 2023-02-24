@@ -2,7 +2,7 @@ import request from '/@@/utils/request';
 enum Api {
   Add@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/add',
   Delete@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/delete',
-  Update@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/edit',
+  Update@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/update',
   Get@(@Model.ClassName)Page = '/api/@(@Model.LowerClassName)/page',
   @foreach (var column in Model.TableField){
 if(@column.EffectType == "fk"){
