@@ -10,10 +10,10 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysJob:page'"> 查询 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysJob:pageJobDetail'"> 查询 </el-button>
 					<el-button-group style="margin: 0px 12px">
 						<el-tooltip content="增加作业">
-							<el-button icon="ele-CirclePlus" @click="openAddJobDetail" v-auth="'sysJob:add'"> </el-button>
+							<el-button icon="ele-CirclePlus" @click="openAddJobDetail" v-auth="'sysJob:addJobDetail'"> </el-button>
 						</el-tooltip>
 						<el-tooltip content="启动所有作业">
 							<el-button icon="ele-VideoPlay" @click="startAllJob" />
@@ -157,10 +157,10 @@
 							<el-button size="small" type="primary" icon="ele-VideoPause" text @click="pauseJob(scope.row)" />
 						</el-tooltip>
 						<el-tooltip content="编辑作业">
-							<el-button size="small" type="primary" icon="ele-Edit" text @click="openEditJobDetail(scope.row)" v-auth="'sysJob:update'"> </el-button>
+							<el-button size="small" type="primary" icon="ele-Edit" text @click="openEditJobDetail(scope.row)" v-auth="'sysJob:updateJobDetail'"> </el-button>
 						</el-tooltip>
 						<el-tooltip content="删除作业">
-							<el-button size="small" type="danger" icon="ele-Delete" text @click="delJobDetail(scope.row)" v-auth="'sysJob:delete'"> </el-button>
+							<el-button size="small" type="danger" icon="ele-Delete" text @click="delJobDetail(scope.row)" v-auth="'sysJob:deleteJobDetail'"> </el-button>
 						</el-tooltip>
 					</template>
 				</el-table-column>

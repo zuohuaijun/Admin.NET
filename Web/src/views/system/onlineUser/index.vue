@@ -27,7 +27,7 @@
 					<el-table-column prop="time" label="登录时间" show-overflow-tooltip />
 					<el-table-column label="操作" width="70" fixed="right" align="center" show-overflow-tooltip>
 						<template #default="scope">
-							<el-button icon="ele-CircleClose" size="small" text type="danger" v-auth="'sysUser:forceOffline'" @click="forceOffline(scope.row)"> 下线 </el-button>
+							<el-button icon="ele-CircleClose" size="small" text type="danger" v-auth="'sysOnlineUser:forceOffline'" @click="forceOffline(scope.row)"> 下线 </el-button>
 						</template>
 					</el-table-column>
 				</el-table>
