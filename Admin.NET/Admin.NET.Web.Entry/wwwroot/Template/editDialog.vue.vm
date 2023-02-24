@@ -149,7 +149,7 @@
 
 // 打开弹窗
 const openDialog = (row: any) => {
-  ruleForm.value = row;
+  ruleForm.value = JSON.parse(JSON.stringify(row));
   isShowDialog.value = true;
 };
 
