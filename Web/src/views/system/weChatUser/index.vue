@@ -10,7 +10,7 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'weChatUser:page'"> 查询 </el-button>
+					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysWechatUser:page'"> 查询 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -48,8 +48,8 @@
 				<el-table-column prop="country" label="国家" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditWeChatUser(scope.row)" v-auth="'weChatUser:update'"> 编辑 </el-button>
-						<el-button icon="ele-Delete" size="small" text type="danger" @click="delWeChatUser(scope.row)" v-auth="'weChatUser:delete'"> 删除 </el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditWeChatUser(scope.row)" v-auth="'sysWechatUser:update'"> 编辑 </el-button>
+						<el-button icon="ele-Delete" size="small" text type="danger" @click="delWeChatUser(scope.row)" v-auth="'sysWechatUser:delete'"> 删除 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>
