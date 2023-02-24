@@ -135,9 +135,9 @@ public class SysCodeGenService : IDynamicApiController, ITransient
 
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId);
 
-        var dbTableNames = dbTableInfos.Select(u => u.Name).ToList();
+        var dbTableNames = dbTableInfos.Select(u => u.Name.ToLower()).ToList();
         IEnumerable<EntityInfo> entityInfos = await _commonService.GetEntityInfos();
-        return entityInfos.Where(u => dbTableNames.Contains(config.EnableUnderLine ? UtilMethods.ToUnderLine(u.DbTableName) : u.DbTableName)).Select(u => new TableOutput()
+        return entityInfos.Where(u => dbTableNames.Contains(config.EnableUnderLine ? UtilMethods.ToUnderLine(u.DbTableName) : u.DbTableName.ToLower())).Select(u => new TableOutput()
         {
             ConfigId = configId,
             EntityName = u.EntityName,
