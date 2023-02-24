@@ -19,7 +19,8 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/@Model.LowerClassName/page")]
+    [HttpGet]
+    [ApiDescriptionSettings(Name = "Page")]
     public async Task<dynamic> Page([FromQuery] @(@Model.ClassName)Input input)
     {
         var query= _rep.Context.Queryable<@(@Model.ClassName)>()
@@ -79,7 +80,8 @@ if (@column.QueryWhether == "Y"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/@Model.LowerClassName/add")]
+    [HttpPost]
+    [ApiDescriptionSettings(Name = "Add")]
     public async Task Add(Add@(@Model.ClassName)Input input)
     {
         var entity = input.Adapt<@(@Model.ClassName)>();
@@ -91,7 +93,8 @@ if (@column.QueryWhether == "Y"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/@Model.LowerClassName/delete")]
+    [HttpPost]
+    [ApiDescriptionSettings(Name = "Delete")]
     public async Task Delete(Delete@(@Model.ClassName)Input input)
     {
 @foreach (var column in Model.TableField){
@@ -99,7 +102,7 @@ if (@column.ColumnKey == "True"){
         @:var entity = await _rep.GetFirstAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
 }
 }
-        await _rep.DeleteAsync(entity);   //假删除
+        await _rep.FakeDeleteAsync(entity);   //假删除
     }
 
     /// <summary>
@@ -107,7 +110,8 @@ if (@column.ColumnKey == "True"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpPost("/@Model.LowerClassName/edit")]
+    [HttpPost]
+    [ApiDescriptionSettings(Name = "Update")]
     public async Task Update(Update@(@Model.ClassName)Input input)
     {
         var entity = input.Adapt<@(@Model.ClassName)>();
@@ -119,7 +123,8 @@ if (@column.ColumnKey == "True"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/@Model.LowerClassName/detail")]
+    [HttpGet]
+    [ApiDescriptionSettings(Name = "Detail")]
     public async Task<@(@Model.ClassName)> Get([FromQuery] Querye@(@Model.ClassName)Input input)
     {
 @foreach (var column in Model.TableField){
@@ -134,7 +139,8 @@ if (@column.ColumnKey == "True"){
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet("/@Model.LowerClassName/list")]
+    [HttpGet]
+    [ApiDescriptionSettings(Name = "List")]
     public async Task<dynamic> List([FromQuery] @(@Model.ClassName)Input input)
     {
         return await _rep.AsQueryable().ToListAsync();
