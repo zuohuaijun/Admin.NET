@@ -1,5 +1,5 @@
 using @(@Model.NameSpace).Const;
-using @(@Model.NameSpace).Entity;
+//using @(@Model.NameSpace).Entity;
 
 namespace @Model.NameSpace;
 /// <summary>
@@ -23,22 +23,7 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
     [ApiDescriptionSettings(Name = "Page")]
     public async Task<dynamic> Page([FromQuery] @(@Model.ClassName)Input input)
     {
-        var query= _rep.Context.Queryable<@(@Model.ClassName)>()
-@if(Model.IsJoinTable){
-                    @:.Select(u=> new @(@Model.ClassName)Output{
-@foreach (var column in Model.TableField){
-                        @:@(@column.ColumnName) = u.@(@column.ColumnName),        
-}
-                    @:})
-@foreach (var column in Model.TableField){
-    if(@column.EffectType == "fk"){   
-                    @:.Mapper(u => u.Fk@(@column.ColumnName), u => u.@(@column.ColumnName))
-    }else if(@column.EffectType == "Upload"){
-                    @:.Mapper(c => c.@(@column.ColumnName)Attachment, c => c.@(@column.ColumnName))
-    }
-}
-}
-
+        var query= _rep.AsQueryable()
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
     if (@column.NetType == "string"){
@@ -53,8 +38,6 @@ if (@column.QueryWhether == "Y"){
     }
 } 
 }          
-;
-
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
     if(@column.NetType == "DateTime" && @column.QueryType == "~"){
@@ -71,6 +54,25 @@ if (@column.QueryWhether == "Y"){
     }
 }
 }
+@if(Model.IsJoinTable){
+                    @:.Select(u=> new @(@Model.ClassName)Output{
+@foreach (var column in Model.TableField){
+                        @:@(@column.ColumnName) = u.@(@column.ColumnName), 
+                        if(@column.EffectType == "fk"){   
+                        @:@(@column.FkEntityName)@(@column.FkColumnName) = u.@(@column.FkEntityName).@(@column.FkColumnName),
+                        }
+}
+                    @:})
+@foreach (var column in Model.TableField){
+    if(@column.EffectType == "fk"){   
+ 
+    }else if(@column.EffectType == "Upload"){
+                    @:.Mapper(c => c.@(@column.ColumnName)Attachment, c => c.@(@column.ColumnName))
+    }
+}
+}
+;
+
         query = query.OrderBuilder(input);
         return await query.ToPagedListAsync(input.Page, input.PageSize);
     }
@@ -145,9 +147,16 @@ if (@column.ColumnKey == "True"){
     {
         return await _rep.AsQueryable().ToListAsync();
     }
+
 @foreach (var column in Model.TableField){
-if(@column.EffectType == "fk"){
-    @:[HttpGet("/@(@Model.LowerClassName)/@(@column.FkEntityName)Dropdown")]
+if(@column.EffectType == "fk"){  
+    /// <summary>
+    /// 获取@(@Model.ColumnComment)列表
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    @:[HttpGet]
+    @:[ApiDescriptionSettings(Name = "@(@column.FkEntityName)Dropdown")]
     @:public async Task<dynamic> @(@column.FkEntityName)Dropdown()
     @:{
         @:return await _rep.Context.Queryable<@(@column.FkEntityName)>()
@@ -173,3 +182,4 @@ if(@column.EffectType == "ApiTreeSelect"){
 }
 
 }
+
