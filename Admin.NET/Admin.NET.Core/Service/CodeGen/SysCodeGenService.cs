@@ -147,7 +147,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             {
                 ConfigId = configId,
                 EntityName = item.EntityName,
-                TableName = table.Name, //返回实际表名，避免后面接口获取不到列名
+                TableName = table.Name,
                 TableComment = item.TableDescription
             });
         }
@@ -167,11 +167,12 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "ColumnListByTableName")]
     [DisplayName("根据表名获取列集合")]
-    public List<ColumnOuput> GetColumnListByTableName([Required] string tableName, string configId = SqlSugarConst.ConfigId)
+    public  List<ColumnOuput> GetColumnListByTableName([Required] string tableName, string configId = SqlSugarConst.ConfigId)
     {
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(configId);
 
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId);
         // 获取实体类型属性
         var entityType = provider.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == tableName);
         if (entityType == null) return null;
@@ -179,11 +180,11 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
         return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new ColumnOuput
         {
-            ColumnName = CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames),
+            ColumnName = config.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
             DataType = u.DataType.ToString(),
             NetType = CodeGenUtil.ConvertDataType(u),
-            ColumnComment = u.ColumnDescription
+            ColumnComment = u.ColumnDescription            
         }).ToList();
     }
 
