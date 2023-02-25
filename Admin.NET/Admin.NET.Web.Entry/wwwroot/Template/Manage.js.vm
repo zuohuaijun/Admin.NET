@@ -6,7 +6,7 @@ enum Api {
   Get@(@Model.ClassName)Page = '/api/@(@Model.LowerClassName)/page',
   @foreach (var column in Model.TableField){
 if(@column.EffectType == "fk"){
-  @:Get@(@column.FkEntityName)Dropdown = '/@(@Model.LowerClassName)/@(@column.FkEntityName)Dropdown',
+  @:Get@(@column.FkEntityName)Dropdown = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)Dropdown',
 }else if(@column.EffectType == "ApiTreeSelect"){
   @:Get@(@column.FkEntityName)Tree = '/@(@Model.LowerClassName)/@(@column.FkEntityName)Tree',
 }
@@ -47,13 +47,13 @@ export const get@(@Model.ClassName)PageList = (params?: any) =>
 
 @foreach (var column in Model.TableField){
 	if(@column.EffectType == "fk"){
-		@:export const get@(@column.FkEntityName)Dropdown = () =>
+@:export const get@(@column.FkEntityName)Dropdown = () =>
 		@:request({
 		@:url: Api.Get@(@column.FkEntityName)Dropdown,
 		@:method: 'get'
 		@:});
 	}else if(@column.EffectType == "ApiTreeSelect"){
-		@:export const get@(@column.FkEntityName)Tree = () =>
+@:export const get@(@column.FkEntityName)Tree = () =>
 		@:request({
 		@:url: Api.Get@(@column.FkEntityName)Tree,
 		@:method: 'get'
