@@ -1,4 +1,4 @@
-﻿namespace @Model.NameSpace;
+namespace @Model.NameSpace;
 
     /// <summary>
     /// @(@Model.BusName)输出参数
@@ -11,9 +11,13 @@
        @:/// </summary>
 if(column.EffectType == "fk")
 {
-       @:public @column.NetType @column.ColumnName { get; set; }
+       @:public @column.NetType @column.ColumnName { get; set; } 
+       @:
+       @:/// <summary>
+       @:/// @column.ColumnComment
+       @:/// </summary>
+       @:public @(@column.FkColumnNetType) @(@column.FkEntityName)@(@column.FkColumnName) { get; set; } 
 
-       @:public @(@column.ColumnName)Fk@(@column.FkEntityName)Output Fk@(@column.ColumnName) { get; set; }
 }else if(column.EffectType == "Upload"){
         @:public @column.NetType @column.ColumnName { get; set; }
         @:public SysFile @(@column.ColumnName)Attachment { get; set; }
@@ -23,15 +27,7 @@ if(column.EffectType == "fk")
     @:
 }
     }
-@foreach (var column in Model.TableField){
-if (@column.EffectType == "fk"){
-    @:[SugarTable("@(@column.FkTableName)")]
-    @:public class @(@column.ColumnName)Fk@(@column.FkEntityName)Output: EntityBaseId
-    @:{
-        @:public @column.FkColumnNetType @column.FkColumnName { get; set; }
-    @:}
-}
-}
+ 
 
 @foreach (var column in Model.TableField){
 if (@column.EffectType == "ApiTreeSelect"){
