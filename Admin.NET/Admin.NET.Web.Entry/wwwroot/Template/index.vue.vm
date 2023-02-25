@@ -26,7 +26,7 @@
             }else if(@column.EffectType == "fk"){
               @:<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" >
               @:<el-form-item label="@column.ColumnComment">
-              @:<el-select clearable v-model="queryParams.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
+              @:<el-select clearable filterable v-model="queryParams.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
               @:<el-option v-for="(item,index) in @LowerFirstLetter(@column.FkEntityName)DropdownList" :key="index" :value="item.value" :label="item.label" /> 
               @:</el-select>
               @:</el-form-item>
