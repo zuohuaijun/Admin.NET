@@ -14,7 +14,7 @@
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
 							@:<el-select clearable="" v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-								@:<el-option v-for="(item,index) in get@(@column.FkEntityName)DropdownList" :key="index" :value="item.code">{{ item.name }}</el-option>
+								@:<el-option v-for="(item,index) in @LowerFirstLetter(@column.FkEntityName)DropdownList" :key="index" :value="item.value" :label="item.label" />
 								@:
 							</el-select>
 							@:
@@ -193,6 +193,19 @@ const submit = async () => {
     break;
   }
 }
+
+@foreach (var column in Model.QueryWhetherList){
+  if(@column.EffectType == "fk"){
+@:const @LowerFirstLetter(@column.FkEntityName)DropdownList = ref<any>([]); 
+@:const get@(@column.FkEntityName)DropdownList = async () => {
+    @:let list = await get@(@column.FkEntityName)Dropdown();
+    @:@LowerFirstLetter(@column.FkEntityName)DropdownList.value = list.data.result ?? [];
+@:};
+@:get@(@column.FkEntityName)DropdownList();
+@:
+  }
+}
+
 // 页面加载时
 onMounted(async () => {
 	@foreach (var column in Model.TableField){
@@ -205,3 +218,13 @@ onMounted(async () => {
 //将属性或者函数暴露给父组件
 defineExpose({ openDialog });
 </script>
+
+
+
+
+@{
+string LowerFirstLetter(string text)
+{
+return text.ToString()[..1].ToLower() + text[1..]; // 首字母小写
+}
+}
