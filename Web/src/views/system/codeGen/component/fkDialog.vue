@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-codeGenFk-container">
-		<el-dialog v-model="state.isShowDialog" title="外键配置" draggable width="600px">
+		<el-dialog v-model="state.isShowDialog" title="外键配置" draggable width="600px" destroy-on-close>
 			<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
@@ -96,9 +96,11 @@ const openDialog = (row: any) => {
 // 关闭弹窗
 const closeDialog = () => {
 	rowdata.fkTableName = state.ruleForm.tableName;
-	// rowdata.fkEntityName = state.ruleForm.entityName;
+    let tableData = state.tableData.filter(x=>x.tableName==state.ruleForm.tableName)
+    rowdata.fkEntityName = tableData.length == 0? "" : tableData[0].entityName;
 	rowdata.fkColumnName = state.ruleForm.columnName;
-	// rowdata.fkColumnNetType = state.ruleForm.columnNetType;
+    let columnData = state.columnData.filter(x=>x.columnName==state.ruleForm.columnName)
+	rowdata.fkColumnNetType = columnData.length == 0? "" : columnData[0].netType;
 	mittBus.emit('submitRefreshFk', rowdata);
 	state.isShowDialog = false;
 };
