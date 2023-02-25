@@ -137,13 +137,28 @@ public class SysCodeGenService : IDynamicApiController, ITransient
 
         var dbTableNames = dbTableInfos.Select(u => u.Name.ToLower()).ToList();
         IEnumerable<EntityInfo> entityInfos = await _commonService.GetEntityInfos();
-        return entityInfos.Where(u => dbTableNames.Contains(config.EnableUnderLine ? UtilMethods.ToUnderLine(u.DbTableName) : u.DbTableName.ToLower())).Select(u => new TableOutput()
+
+        var tableOutputList = new List<TableOutput>();
+        foreach (var item in entityInfos)
         {
-            ConfigId = configId,
-            EntityName = u.EntityName,
-            TableName = config.EnableUnderLine ? UtilMethods.ToUnderLine(u.DbTableName) : u.DbTableName,
-            TableComment = u.TableDescription
-        }).ToList();
+            var table = dbTableInfos.FirstOrDefault(x => x.Name.ToLower() == (config.EnableUnderLine ? UtilMethods.ToUnderLine(item.DbTableName) : item.DbTableName.ToLower()));
+            if (table == null) continue;
+            tableOutputList.Add(new TableOutput
+            {
+                ConfigId = configId,
+                EntityName = item.EntityName,
+                TableName = table.Name, //返回实际表名，避免后面接口获取不到列名
+                TableComment = item.TableDescription
+            });
+        }
+        return tableOutputList;
+        //return entityInfos.Where(u => dbTableNames.Contains(config.EnableUnderLine ? UtilMethods.ToUnderLine(u.DbTableName) : u.DbTableName.ToLower())).Select(u => new TableOutput()
+        //{
+        //    ConfigId = configId,
+        //    EntityName = u.EntityName,
+        //    TableName = config.EnableUnderLine ? UtilMethods.ToUnderLine(u.DbTableName) : u.DbTableName,
+        //    TableComment = u.TableDescription
+        //}).ToList();
     }
 
     /// <summary>
