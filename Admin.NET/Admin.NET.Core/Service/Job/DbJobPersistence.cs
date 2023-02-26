@@ -11,11 +11,11 @@ public class DbJobPersistence : IJobPersistence
     private readonly SqlSugarRepository<SysJobTrigger> _triggerRepository;
     private readonly DynamicJobCompiler _dynamicJobCompiler;
 
-    public DbJobPersistence(IServiceProvider serviceProvider, DynamicJobCompiler dynamicJobCompiler)
+    public DbJobPersistence(IServiceProvider serviceProvider)
     {
         _serviceScope = serviceProvider.CreateScope();
         var services = _serviceScope.ServiceProvider;
-        _dynamicJobCompiler = dynamicJobCompiler;
+        _dynamicJobCompiler = services.GetService<DynamicJobCompiler>();
         _sqlSugarClient = services.GetService<ISqlSugarClient>();
         _jobRepository = services.GetService<SqlSugarRepository<SysJobDetail>>();
         _triggerRepository = services.GetService<SqlSugarRepository<SysJobTrigger>>();
@@ -27,9 +27,8 @@ public class DbJobPersistence : IJobPersistence
     /// <returns></returns>
     public IEnumerable<SchedulerBuilder> Preload()
     {
-
         // 获取所有定义的作业
-        var allJobs = App.EffectiveTypes.ScanToBuilders();
+        var allJobs = App.EffectiveTypes.ScanToBuilders().ToList();
         // 若数据库不存在任何作业，则直接返回
         if (!_jobRepository.IsAny(u => true)) return allJobs;
 
@@ -46,19 +45,51 @@ public class DbJobPersistence : IJobPersistence
             // 同步数据库数据
             jobBuilder.LoadFrom(dbDetail);
 
+            // 获取作业的所有数据库的触发器
+            var dbTriggers = _triggerRepository.GetList(u => u.JobId == jobBuilder.JobId).ToArray();
             // 遍历所有作业触发器
             foreach (var (_, triggerBuilder) in schedulerBuilder.GetEnumerable())
             {
                 // 加载数据库数据
-                var dbTrigger = _triggerRepository.GetFirst(u => u.JobId == jobBuilder.JobId && u.TriggerId == triggerBuilder.TriggerId);
+                var dbTrigger = dbTriggers.FirstOrDefault(u => u.JobId == jobBuilder.JobId && u.TriggerId == triggerBuilder.TriggerId);
                 if (dbTrigger == null) continue;
 
                 triggerBuilder.LoadFrom(dbTrigger)
                               .Updated();   // 标记更新
             }
+            // 遍历所有非编译时定义的触发器加入到作业中
+            foreach (var dbTrigger in dbTriggers)
+            {
+                if (schedulerBuilder.GetTriggerBuilder(dbTrigger.TriggerId)?.JobId == jobBuilder.JobId) continue;
+                var triggerBuilder = TriggerBuilder.Create(dbTrigger.TriggerId).LoadFrom(dbTrigger);
+                schedulerBuilder.AddTriggerBuilder(triggerBuilder); // 先添加
+                triggerBuilder.Updated(); // 再标记更新
+            }
 
             // 标记更新
             schedulerBuilder.Updated();
+        }
+
+        // 获取数据库所有通过脚本创建的作业
+        var allDbScriptJobs = _jobRepository.GetList(u => u.CreateFromScript);
+        foreach (var dbDetail in allDbScriptJobs)
+        {
+            // 动态创建作业
+            var jobType = _dynamicJobCompiler.BuildJob(dbDetail.ScriptCode);
+            var jobBuilder = JobBuilder.Create(jobType).LoadFrom(dbDetail);
+
+            // 强行设置为不扫描 IJob 实现类 [Trigger] 特性触发器，否则 SchedulerBuilder.Create 会再次扫描，导致重复添加同名触发器
+            jobBuilder.SetIncludeAnnotations(false);
+
+            // 获取作业的所有数据库的触发器加入到作业中
+            var dbTriggers = _triggerRepository.GetList(u => u.JobId == jobBuilder.JobId).ToArray();
+            var triggerBuilders = dbTriggers.Select(u => TriggerBuilder.Create(u.TriggerId).LoadFrom(u).Updated());
+            var schedulerBuilder = SchedulerBuilder.Create(jobBuilder, triggerBuilders.ToArray());
+
+            // 标记更新
+            schedulerBuilder.Updated();
+
+            allJobs.Add(schedulerBuilder);
         }
 
         return allJobs;
@@ -87,7 +118,7 @@ public class DbJobPersistence : IJobPersistence
         }
         else if (context.Behavior == PersistenceBehavior.Updated)
         {
-            _sqlSugarClient.Updateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
+            _sqlSugarClient.Updateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id, u.CreateFromScript, u.ScriptCode }).ExecuteCommand();
         }
         else if (context.Behavior == PersistenceBehavior.Removed)
         {
@@ -115,7 +146,7 @@ public class DbJobPersistence : IJobPersistence
             _sqlSugarClient.Deleteable<SysJobTrigger>().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
         }
     }
-   
+
     public void Dispose()
     {
         _serviceScope?.Dispose();

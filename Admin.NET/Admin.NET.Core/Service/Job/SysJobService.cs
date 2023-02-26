@@ -81,7 +81,7 @@ public class SysJobService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D1703);
 
         _schedulerFactory.AddJob(
-            JobBuilder.Create(jobType).SetIncludeAnnotations(input.IncludeAnnotations)
+            JobBuilder.Create(jobType)
                 .LoadFrom(input.Adapt<SysJobDetail>()).SetJobType(jobType));
 
         // 延迟一下等待持久化写入，再执行其他字段的更新
