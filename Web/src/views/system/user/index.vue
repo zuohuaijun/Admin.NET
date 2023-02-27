@@ -188,7 +188,7 @@ const delUser = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysUserApi).apiSysUserDeleteDelete({ id: row.id });
+			await getAPI(SysUserApi).apiSysUserDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

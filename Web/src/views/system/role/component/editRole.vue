@@ -122,7 +122,7 @@ const submit = () => {
 		if (!valid) return;
 		state.ruleForm.menuIdList = treeRef.value?.getCheckedKeys() as Array<number>; //.concat(treeRef.value?.getHalfCheckedKeys());
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-			await getAPI(SysRoleApi).apiSysRoleUpdatePut(state.ruleForm);
+			await getAPI(SysRoleApi).apiSysRoleUpdatePost(state.ruleForm);
 		} else {
 			await getAPI(SysRoleApi).apiSysRoleAddPost(state.ruleForm);
 		}

@@ -243,7 +243,7 @@ const delTable = () => {
 				configId: state.configId,
 				tableName: state.tableName,
 			};
-			await getAPI(SysDatabaseApi).apiSysDatabaseDeleteTableDelete(deleteDbTableInput);
+			await getAPI(SysDatabaseApi).apiSysDatabaseDeleteTablePost(deleteDbTableInput);
 			handleQueryTable();
 			ElMessage.success('表删除成功');
 		})
@@ -263,7 +263,7 @@ const delColumn = (row: any) => {
 				tableName: state.tableName,
 				dbColumnName: row.dbColumnName,
 			};
-			await getAPI(SysDatabaseApi).apiSysDatabaseDeleteColumnDelete(eleteDbColumnInput);
+			await getAPI(SysDatabaseApi).apiSysDatabaseDeleteColumnPost(eleteDbColumnInput);
 			handleQueryTable();
 			ElMessage.success('列删除成功');
 		})

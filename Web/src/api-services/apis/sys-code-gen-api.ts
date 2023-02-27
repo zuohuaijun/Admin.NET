@@ -163,7 +163,7 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysCodeGenDeleteDelete: async (body?: Array<DeleteCodeGenInput>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysCodeGenDeletePost: async (body?: Array<DeleteCodeGenInput>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysCodeGen/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -171,7 +171,7 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -463,7 +463,7 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysCodeGenUpdatePut: async (body?: UpdateCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysCodeGenUpdatePost: async (body?: UpdateCodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysCodeGen/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -471,7 +471,7 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -555,8 +555,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenDeleteDelete(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenDeleteDelete(body, options);
+        async apiSysCodeGenDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenDeletePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -643,8 +643,8 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenUpdatePut(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenUpdatePut(body, options);
+        async apiSysCodeGenUpdatePost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -696,8 +696,8 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenDeleteDelete(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).apiSysCodeGenDeleteDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenDeletePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -764,8 +764,8 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenUpdatePut(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenApiFp(configuration).apiSysCodeGenUpdatePut(body, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenUpdatePost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -818,8 +818,8 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async apiSysCodeGenDeleteDelete(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).apiSysCodeGenDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenDeletePost(body?: Array<DeleteCodeGenInput>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenDeletePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -891,7 +891,7 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async apiSysCodeGenUpdatePut(body?: UpdateCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenApiFp(this.configuration).apiSysCodeGenUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenUpdatePost(body?: UpdateCodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

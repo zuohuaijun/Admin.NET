@@ -81,7 +81,7 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRoleDeleteDelete: async (body?: DeleteRoleInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysRoleDeletePost: async (body?: DeleteRoleInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysRole/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -89,7 +89,7 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -452,7 +452,7 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRoleUpdatePut: async (body?: UpdateRoleInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysRoleUpdatePost: async (body?: UpdateRoleInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysRole/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -460,7 +460,7 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -516,8 +516,8 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleDeleteDelete(body?: DeleteRoleInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleDeleteDelete(body, options);
+        async apiSysRoleDeletePost(body?: DeleteRoleInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleDeletePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -635,8 +635,8 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleUpdatePut(body?: UpdateRoleInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleUpdatePut(body, options);
+        async apiSysRoleUpdatePost(body?: UpdateRoleInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRoleUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -668,8 +668,8 @@ export const SysRoleApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleDeleteDelete(body?: DeleteRoleInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysRoleApiFp(configuration).apiSysRoleDeleteDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysRoleDeletePost(body?: DeleteRoleInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysRoleApiFp(configuration).apiSysRoleDeletePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -755,8 +755,8 @@ export const SysRoleApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRoleUpdatePut(body?: UpdateRoleInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysRoleApiFp(configuration).apiSysRoleUpdatePut(body, options).then((request) => request(axios, basePath));
+        async apiSysRoleUpdatePost(body?: UpdateRoleInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysRoleApiFp(configuration).apiSysRoleUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -787,8 +787,8 @@ export class SysRoleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysRoleApi
      */
-    public async apiSysRoleDeleteDelete(body?: DeleteRoleInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysRoleDeletePost(body?: DeleteRoleInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysRoleApiFp(this.configuration).apiSysRoleDeletePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -882,7 +882,7 @@ export class SysRoleApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysRoleApi
      */
-    public async apiSysRoleUpdatePut(body?: UpdateRoleInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysRoleApiFp(this.configuration).apiSysRoleUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysRoleUpdatePost(body?: UpdateRoleInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysRoleApiFp(this.configuration).apiSysRoleUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

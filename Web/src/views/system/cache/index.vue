@@ -108,7 +108,7 @@ const delCache = () => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysCacheApi).apiSysCacheDeleteKeyDelete(currentNode.value.id);
+			await getAPI(SysCacheApi).apiSysCacheDeleteKeyPost(currentNode.value.id);
 			handleQuery();
 			state.cacheValue = undefined;
 			state.cacheKey = undefined;

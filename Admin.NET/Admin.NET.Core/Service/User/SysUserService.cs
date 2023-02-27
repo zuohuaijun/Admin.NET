@@ -33,7 +33,6 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取用户分页列表")]
     public async Task<SqlSugarPagedList<SysUser>> GetPage([FromQuery] PageUserInput input)
     {
@@ -56,7 +55,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加用户")]
     public async Task AddUser(AddUserInput input)
     {
@@ -90,7 +89,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新用户")]
     public async Task UpdateUser(UpdateUserInput input)
     {
@@ -109,7 +108,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除用户")]
     public async Task DeleteUser(DeleteUserInput input)
     {
@@ -134,7 +133,6 @@ public class SysUserService : IDynamicApiController, ITransient
     /// 查看用户基本信息
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "BaseInfo")]
     [DisplayName("查看用户基本信息")]
     public async Task<SysUser> GetBaseInfo()
     {
@@ -145,7 +143,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// 更新用户基本信息
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "BaseInfo")]
+    [ApiDescriptionSettings(Name = "BaseInfo"), HttpPost]
     [DisplayName("更新用户基本信息")]
     public async Task<int> UpdateBaseInfo(SysUser user)
     {
@@ -158,7 +156,6 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "SetStatus")]
     [DisplayName("设置用户状态")]
     public async Task<int> SetStatus(UserInput input)
     {
@@ -178,7 +175,6 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "GrantRole")]
     [DisplayName("授权用户角色")]
     public async Task GrantRole(UserRoleInput input)
     {
@@ -194,7 +190,6 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "ChangePwd")]
     [DisplayName("修改用户密码")]
     public async Task<int> ChangePwd(ChangePwdInput input)
     {
@@ -219,7 +214,6 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "ResetPwd")]
     [DisplayName("重置用户密码")]
     public async Task<int> ResetPwd(ResetPwdUserInput input)
     {
@@ -235,9 +229,8 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "OwnRoleList")]
     [DisplayName("获取用户拥有角色集合")]
-    public async Task<List<long>> GetOwnRoleList([Required] long userId)
+    public async Task<List<long>> GetOwnRoleList(long userId)
     {
         return await _sysUserRoleService.GetUserRoleIdList(userId);
     }
@@ -247,9 +240,8 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "OwnExtOrgList")]
     [DisplayName("获取用户扩展机构集合")]
-    public async Task<List<SysUserExtOrg>> GetOwnExtOrgList([Required] long userId)
+    public async Task<List<SysUserExtOrg>> GetOwnExtOrgList(long userId)
     {
         return await _sysUserExtOrgService.GetUserExtOrgList(userId);
     }

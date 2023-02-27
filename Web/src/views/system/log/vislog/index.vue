@@ -98,7 +98,7 @@ const resetQuery = () => {
 // 清空日志
 const clearLog = async () => {
 	state.loading = true;
-	await getAPI(SysLogVisApi).apiSysLogVisClearDelete();
+	await getAPI(SysLogVisApi).apiSysLogVisClearPost();
 	state.loading = false;
 
 	ElMessage.success('清空成功');

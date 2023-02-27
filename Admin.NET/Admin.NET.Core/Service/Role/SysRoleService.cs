@@ -36,7 +36,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取角色分页列表")]
     public async Task<SqlSugarPagedList<SysRole>> GetPage([FromQuery] PageRoleInput input)
     {
@@ -51,7 +50,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// 获取角色列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "List")]
     [DisplayName("获取角色列表")]
     public async Task<List<RoleOutput>> GetList()
     {
@@ -63,7 +61,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加角色")]
     public async Task AddRole(AddRoleInput input)
     {
@@ -97,7 +95,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新角色")]
     public async Task UpdateRole(UpdateRoleInput input)
     {
@@ -117,7 +115,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除角色")]
     public async Task DeleteRole(DeleteRoleInput input)
     {
@@ -142,7 +140,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "GrantMenu")]
     [DisplayName("授权角色菜单")]
     public async Task GrantMenu(RoleMenuInput input)
     {
@@ -154,7 +151,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "GrantDataScope")]
     [DisplayName("授权角色数据范围")]
     public async Task GrantDataScope(RoleOrgInput input)
     {
@@ -193,7 +189,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "OwnMenuList")]
     [DisplayName("根据角色Id获取菜单Id集合")]
     public async Task<List<long>> GetOwnMenuList([FromQuery] RoleInput input)
     {
@@ -205,7 +200,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "OwnOrgList")]
     [DisplayName("根据角色Id获取机构Id集合")]
     public async Task<List<long>> GetOwnOrgList([FromQuery] RoleInput input)
     {
@@ -217,7 +211,6 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "SetStatus")]
     [DisplayName("设置角色状态")]
     public async Task<int> SetStatus(RoleInput input)
     {

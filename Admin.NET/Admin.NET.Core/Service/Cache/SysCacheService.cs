@@ -17,7 +17,6 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// 获取缓存键名集合
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "KeyList")]
     [DisplayName("获取缓存键名集合")]
     public List<string> GetKeyList()
     {
@@ -66,7 +65,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除缓存")]
     public void Remove(string key)
     {
@@ -89,7 +88,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="prefixKey">键名前缀</param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "DeleteByPreKey")]
+    [ApiDescriptionSettings(Name = "DeleteByPreKey"), HttpPost]
     [DisplayName("根据键名前缀删除缓存")]
     public int RemoveByPrefixKey(string prefixKey)
     {
@@ -103,7 +102,6 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Value")]
     [DisplayName("获取缓存值")]
     public dynamic GetValue(string key)
     {

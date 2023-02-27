@@ -28,7 +28,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 获取作业分页列表
     /// </summary>
-    [ApiDescriptionSettings(Name = "PageJobDetail")]
     [DisplayName("获取作业分页列表")]
     public async Task<SqlSugarPagedList<JobOutput>> GetPageJobDetail([FromQuery] PageJobInput input)
     {
@@ -60,7 +59,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 添加作业
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "AddJobDetail")]
+    [ApiDescriptionSettings(Name = "AddJobDetail"), HttpPost]
     [DisplayName("添加作业")]
     public async Task AddJobDetail(AddJobDetailInput input)
     {
@@ -95,7 +94,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 更新作业
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "UpdateJobDetail")]
+    [ApiDescriptionSettings(Name = "UpdateJobDetail"), HttpPost]
     [DisplayName("更新作业")]
     public async Task UpdateJobDetail(UpdateJobDetailInput input)
     {
@@ -144,7 +143,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 删除作业
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "DeleteJobDetail")]
+    [ApiDescriptionSettings(Name = "DeleteJobDetail"), HttpPost]
     [DisplayName("删除作业")]
     public async Task DeleteJobDetail(DeleteJobDetailInput input)
     {
@@ -158,7 +157,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 获取触发器列表
     /// </summary>
-    [ApiDescriptionSettings(Name = "JobTriggerList")]
     [DisplayName("获取触发器列表")]
     public async Task<List<SysJobTrigger>> GetJobTriggerList([FromQuery] JobDetailInput input)
     {
@@ -171,7 +169,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 添加触发器
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "AddJobTrigger")]
+    [ApiDescriptionSettings(Name = "AddJobTrigger"), HttpPost]
     [DisplayName("添加触发器")]
     public async Task AddJobTrigger(AddJobTriggerInput input)
     {
@@ -190,7 +188,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 更新触发器
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "UpdateJobTrigger")]
+    [ApiDescriptionSettings(Name = "UpdateJobTrigger"), HttpPost]
     [DisplayName("更新触发器")]
     public async Task UpdateJobTrigger(UpdateJobTriggerInput input)
     {
@@ -209,7 +207,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 删除触发器
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "DeleteJobTrigger")]
+    [ApiDescriptionSettings(Name = "DeleteJobTrigger"), HttpPost]
     [DisplayName("删除触发器")]
     public async Task DeleteJobTrigger(DeleteJobTriggerInput input)
     {
@@ -224,7 +222,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 暂停所有作业
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "PauseAllJob")]
     [DisplayName("暂停所有作业")]
     public void PauseAllJob()
     {
@@ -235,7 +232,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 启动所有作业
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "StartAllJob")]
     [DisplayName("启动所有作业")]
     public void StartAllJob()
     {
@@ -245,7 +241,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 暂停作业
     /// </summary>
-    [ApiDescriptionSettings(Name = "PauseJob")]
     [DisplayName("暂停作业")]
     public void PauseJob(JobDetailInput input)
     {
@@ -256,7 +251,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 启动作业
     /// </summary>
-    [ApiDescriptionSettings(Name = "StartJob")]
     [DisplayName("启动作业")]
     public void StartJob(JobDetailInput input)
     {
@@ -267,7 +261,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 暂停触发器
     /// </summary>
-    [ApiDescriptionSettings(Name = "PauseTrigger")]
     [DisplayName("暂停触发器")]
     public void PauseTrigger(JobTriggerInput input)
     {
@@ -278,7 +271,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 启动触发器
     /// </summary>
-    [ApiDescriptionSettings(Name = "StartTrigger")]
     [DisplayName("启动触发器")]
     public void StartTrigger(JobTriggerInput input)
     {
@@ -289,7 +281,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 强制唤醒作业调度器
     /// </summary>
-    [ApiDescriptionSettings(Name = "CancelSleep")]
     [DisplayName("强制唤醒作业调度器")]
     public void CancelSleep()
     {
@@ -299,7 +290,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 强制触发所有作业持久化
     /// </summary>
-    [ApiDescriptionSettings(Name = "PersistAll")]
     [DisplayName("强制触发所有作业持久化")]
     public void PersistAll()
     {
@@ -309,7 +299,6 @@ public class SysJobService : IDynamicApiController, ITransient
     /// <summary>
     /// 获取集群列表
     /// </summary>
-    [ApiDescriptionSettings(Name = "JobClusterList")]
     [DisplayName("获取集群列表")]
     public async Task<List<SysJobCluster>> GetJobClusterList()
     {

@@ -136,7 +136,7 @@ const delRegion = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysRegionApi).apiSysRegionDeleteDelete({ id: row.id });
+			await getAPI(SysRegionApi).apiSysRegionDeletePost({ id: row.id });
 			ElMessage.success('删除成功');
 			mittBus.emit('submitRefresh');
 		})

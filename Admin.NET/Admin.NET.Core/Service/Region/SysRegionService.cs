@@ -21,7 +21,6 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取行政区域分页列表")]
     public async Task<SqlSugarPagedList<SysRegion>> GetPage([FromQuery] PageRegionInput input)
     {
@@ -37,7 +36,6 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "List")]
     [DisplayName("获取行政区域列表")]
     public async Task<List<SysRegion>> GetList([FromQuery] RegionInput input)
     {
@@ -49,7 +47,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加行政区域")]
     public async Task<long> AddRegion(AddRegionInput input)
     {
@@ -67,7 +65,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新行政区域")]
     public async Task UpdateRegion(UpdateRegionInput input)
     {
@@ -98,7 +96,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除行政区域")]
     public async Task DeleteRegion(DeleteRegionInput input)
     {
@@ -111,9 +109,8 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// 同步行政区域
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Sync")]
     [DisplayName("同步行政区域")]
-    public async Task SyncRegion()
+    public async Task Sync()
     {
         await _sysRegionRep.DeleteAsync(u => u.Id > 0);
 

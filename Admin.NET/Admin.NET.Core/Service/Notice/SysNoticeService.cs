@@ -31,7 +31,6 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取通知公告分页列表")]
     public async Task<SqlSugarPagedList<SysNotice>> GetPage([FromQuery] PageNoticeInput input)
     {
@@ -48,7 +47,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加通知公告")]
     public async Task AddNotice(AddNoticeInput input)
     {
@@ -63,7 +62,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新通知公告")]
     public async Task UpdateNotice(UpdateNoticeInput input)
     {
@@ -78,7 +77,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除通知公告")]
     public async Task DeleteNotice(DeleteNoticeInput input)
     {
@@ -92,9 +91,8 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Public")]
     [DisplayName("发布通知公告")]
-    public async Task PublicNotice(NoticeInput input)
+    public async Task Public(NoticeInput input)
     {
         // 更新发布状态和时间
         await _sysNoticeRep.UpdateAsync(u => new SysNotice() { Status = NoticeStatusEnum.PUBLIC, PublicTime = DateTime.Now }, u => u.Id == input.Id);
@@ -121,7 +119,6 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "SetRead")]
     [DisplayName("设置通知公告已读状态")]
     public async Task SetRead(NoticeInput input)
     {
@@ -137,7 +134,6 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "PageReceived")]
     [DisplayName("获取接收的通知公告")]
     public async Task<SqlSugarPagedList<SysNoticeUser>> GetPageReceived([FromQuery] PageNoticeInput input)
     {
@@ -153,7 +149,6 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// 获取未读的通知公告
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "UnReadList")]
     [DisplayName("获取未读的通知公告")]
     public async Task<List<SysNotice>> GetUnReadList()
     {

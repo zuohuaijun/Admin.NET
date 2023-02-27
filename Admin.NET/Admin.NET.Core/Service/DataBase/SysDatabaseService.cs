@@ -23,7 +23,6 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 获取库列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "List")]
     [DisplayName("获取库列表")]
     public List<dynamic> GetList()
     {
@@ -37,7 +36,6 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// <param name="configId">ConfigId</param>
     /// <returns></returns>
     [AllowAnonymous]
-    [ApiDescriptionSettings(Name = "ColumnList")]
     [DisplayName("获取字段列表")]
     public List<DbColumnOutput> GetColumnList(string tableName, string configId = SqlSugarConst.ConfigId)
     {
@@ -52,7 +50,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 增加列
     /// </summary>
     /// <param name="input"></param>
-    [ApiDescriptionSettings(Name = "AddColumn")]
+    [ApiDescriptionSettings(Name = "AddColumn"), HttpPost]
     [DisplayName("增加列")]
     public void AddColumn(DbColumnInput input)
     {
@@ -78,7 +76,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 删除列
     /// </summary>
     /// <param name="input"></param>
-    [ApiDescriptionSettings(Name = "DeleteColumn")]
+    [ApiDescriptionSettings(Name = "DeleteColumn"), HttpPost]
     [DisplayName("删除列")]
     public void DeleteColumn(DeleteDbColumnInput input)
     {
@@ -90,7 +88,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 编辑列
     /// </summary>
     /// <param name="input"></param>
-    [ApiDescriptionSettings(Name = "UpdateColumn")]
+    [ApiDescriptionSettings(Name = "UpdateColumn"), HttpPost]
     [DisplayName("编辑列")]
     public void UpdateColumn(UpdateDbColumnInput input)
     {
@@ -106,7 +104,6 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="configId">ConfigId</param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "TableList")]
     [DisplayName("获取表列表")]
     public List<DbTableInfo> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
@@ -118,7 +115,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 增加表
     /// </summary>
     /// <param name="input"></param>
-    [ApiDescriptionSettings(Name = "AddTable")]
+    [ApiDescriptionSettings(Name = "AddTable"), HttpPost]
     [DisplayName("增加表")]
     public void AddTable(DbTableInput input)
     {
@@ -166,7 +163,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 删除表
     /// </summary>
     /// <param name="input"></param>
-    [ApiDescriptionSettings(Name = "DeleteTable")]
+    [ApiDescriptionSettings(Name = "DeleteTable"), HttpPost]
     [DisplayName("删除表")]
     public void DeleteTable(DeleteDbTableInput input)
     {
@@ -178,7 +175,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 编辑表
     /// </summary>
     /// <param name="input"></param>
-    [ApiDescriptionSettings(Name = "UpdateTable")]
+    [ApiDescriptionSettings(Name = "UpdateTable"), HttpPost]
     [DisplayName("编辑表")]
     public void UpdateTable(UpdateDbTableInput input)
     {
@@ -193,7 +190,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// 创建实体
     /// </summary>
     /// <param name="input"></param>
-    [ApiDescriptionSettings(Name = "CreateEntity")]
+    [ApiDescriptionSettings(Name = "CreateEntity"), HttpPost]
     [DisplayName("创建实体")]
     public void CreateEntity(CreateEntityInput input)
     {

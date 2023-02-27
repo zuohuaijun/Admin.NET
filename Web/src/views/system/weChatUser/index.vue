@@ -137,7 +137,7 @@ const delWeChatUser = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysWechatUserApi).apiSysWechatUserDeleteDelete({ id: row.id });
+			await getAPI(SysWechatUserApi).apiSysWechatUserDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

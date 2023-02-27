@@ -35,7 +35,7 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysFileDeleteDelete: async (body?: DeleteFileInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysFileDeletePost: async (body?: DeleteFileInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysFile/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -43,7 +43,7 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -392,8 +392,8 @@ export const SysFileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileDeleteDelete(body?: DeleteFileInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFileDeleteDelete(body, options);
+        async apiSysFileDeletePost(body?: DeleteFileInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFileDeletePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -507,8 +507,8 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileDeleteDelete(body?: DeleteFileInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysFileApiFp(configuration).apiSysFileDeleteDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysFileDeletePost(body?: DeleteFileInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysFileApiFp(configuration).apiSysFileDeletePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -596,8 +596,8 @@ export class SysFileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysFileApi
      */
-    public async apiSysFileDeleteDelete(body?: DeleteFileInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysFileApiFp(this.configuration).apiSysFileDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysFileDeletePost(body?: DeleteFileInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysFileApiFp(this.configuration).apiSysFileDeletePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

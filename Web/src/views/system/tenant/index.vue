@@ -189,7 +189,7 @@ const delTenant = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysTenantApi).apiSysTenantDeleteDelete({ id: row.id });
+			await getAPI(SysTenantApi).apiSysTenantDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

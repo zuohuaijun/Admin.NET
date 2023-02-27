@@ -30,7 +30,7 @@ export const SysLogVisApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysLogVisClearDelete: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysLogVisClearPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysLogVis/clear`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -38,7 +38,7 @@ export const SysLogVisApiAxiosParamCreator = function (configuration?: Configura
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -150,8 +150,8 @@ export const SysLogVisApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysLogVisClearDelete(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
-            const localVarAxiosArgs = await SysLogVisApiAxiosParamCreator(configuration).apiSysLogVisClearDelete(options);
+        async apiSysLogVisClearPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
+            const localVarAxiosArgs = await SysLogVisApiAxiosParamCreator(configuration).apiSysLogVisClearPost(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -192,8 +192,8 @@ export const SysLogVisApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysLogVisClearDelete(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
-            return SysLogVisApiFp(configuration).apiSysLogVisClearDelete(options).then((request) => request(axios, basePath));
+        async apiSysLogVisClearPost(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
+            return SysLogVisApiFp(configuration).apiSysLogVisClearPost(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -228,8 +228,8 @@ export class SysLogVisApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysLogVisApi
      */
-    public async apiSysLogVisClearDelete(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
-        return SysLogVisApiFp(this.configuration).apiSysLogVisClearDelete(options).then((request) => request(this.axios, this.basePath));
+    public async apiSysLogVisClearPost(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
+        return SysLogVisApiFp(this.configuration).apiSysLogVisClearPost(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

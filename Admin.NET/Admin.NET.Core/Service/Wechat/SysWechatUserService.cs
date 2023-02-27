@@ -18,7 +18,6 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取微信用户列表")]
     public async Task<SqlSugarPagedList<SysWechatUser>> GetPage([FromQuery] WechatUserInput input)
     {
@@ -34,7 +33,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加微信用户")]
     public async Task AddWechatUser(SysWechatUser input)
     {
@@ -46,7 +45,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新微信用户")]
     public async Task UpdateWechatUser(SysWechatUser input)
     {
@@ -59,7 +58,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除微信用户")]
     public async Task DeleteWechatUser(DeleteWechatUserInput input)
     {

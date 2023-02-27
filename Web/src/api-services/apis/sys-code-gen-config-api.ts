@@ -374,7 +374,7 @@ export const SysCodeGenConfigApiAxiosParamCreator = function (configuration?: Co
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysCodeGenConfigUpdatePut: async (body?: Array<CodeGenConfig>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysCodeGenConfigUpdatePost: async (body?: Array<CodeGenConfig>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysCodeGenConfig/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -382,7 +382,7 @@ export const SysCodeGenConfigApiAxiosParamCreator = function (configuration?: Co
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -504,8 +504,8 @@ export const SysCodeGenConfigApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenConfigUpdatePut(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCodeGenConfigApiAxiosParamCreator(configuration).apiSysCodeGenConfigUpdatePut(body, options);
+        async apiSysCodeGenConfigUpdatePost(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCodeGenConfigApiAxiosParamCreator(configuration).apiSysCodeGenConfigUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -599,8 +599,8 @@ export const SysCodeGenConfigApiFactory = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenConfigUpdatePut(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCodeGenConfigApiFp(configuration).apiSysCodeGenConfigUpdatePut(body, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenConfigUpdatePost(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCodeGenConfigApiFp(configuration).apiSysCodeGenConfigUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -694,7 +694,7 @@ export class SysCodeGenConfigApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenConfigApi
      */
-    public async apiSysCodeGenConfigUpdatePut(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCodeGenConfigApiFp(this.configuration).apiSysCodeGenConfigUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenConfigUpdatePost(body?: Array<CodeGenConfig>, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCodeGenConfigApiFp(this.configuration).apiSysCodeGenConfigUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

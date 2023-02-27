@@ -30,7 +30,7 @@ export const SysLogDiffApiAxiosParamCreator = function (configuration?: Configur
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysLogDiffClearDelete: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysLogDiffClearPost: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysLogDiff/clear`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -38,7 +38,7 @@ export const SysLogDiffApiAxiosParamCreator = function (configuration?: Configur
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -150,8 +150,8 @@ export const SysLogDiffApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysLogDiffClearDelete(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
-            const localVarAxiosArgs = await SysLogDiffApiAxiosParamCreator(configuration).apiSysLogDiffClearDelete(options);
+        async apiSysLogDiffClearPost(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
+            const localVarAxiosArgs = await SysLogDiffApiAxiosParamCreator(configuration).apiSysLogDiffClearPost(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -192,8 +192,8 @@ export const SysLogDiffApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysLogDiffClearDelete(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
-            return SysLogDiffApiFp(configuration).apiSysLogDiffClearDelete(options).then((request) => request(axios, basePath));
+        async apiSysLogDiffClearPost(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
+            return SysLogDiffApiFp(configuration).apiSysLogDiffClearPost(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -228,8 +228,8 @@ export class SysLogDiffApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysLogDiffApi
      */
-    public async apiSysLogDiffClearDelete(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
-        return SysLogDiffApiFp(this.configuration).apiSysLogDiffClearDelete(options).then((request) => request(this.axios, this.basePath));
+    public async apiSysLogDiffClearPost(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
+        return SysLogDiffApiFp(this.configuration).apiSysLogDiffClearPost(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

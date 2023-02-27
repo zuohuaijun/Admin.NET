@@ -110,7 +110,7 @@ const delPos = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysPosApi).apiSysPosDeleteDelete({ id: row.id });
+			await getAPI(SysPosApi).apiSysPosDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

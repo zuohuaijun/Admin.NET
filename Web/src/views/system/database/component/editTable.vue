@@ -66,7 +66,7 @@ const cancel = () => {
 const submit = () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
-		await getAPI(SysDatabaseApi).apiSysDatabaseUpdateTablePut(state.ruleForm);
+		await getAPI(SysDatabaseApi).apiSysDatabaseUpdateTablePost(state.ruleForm);
 		closeDialog();
 	});
 };

@@ -142,7 +142,7 @@ const delDictData = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysDictDataApi).apiSysDictDataDeleteDelete({ id: row.id });
+			await getAPI(SysDictDataApi).apiSysDictDataDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

@@ -32,10 +32,10 @@ export const SysCacheApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysCacheDeleteByPreKeyPrefixKeyDelete: async (prefixKey: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysCacheDeleteByPreKeyPrefixKeyPost: async (prefixKey: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'prefixKey' is not null or undefined
             if (prefixKey === null || prefixKey === undefined) {
-                throw new RequiredError('prefixKey','Required parameter prefixKey was null or undefined when calling apiSysCacheDeleteByPreKeyPrefixKeyDelete.');
+                throw new RequiredError('prefixKey','Required parameter prefixKey was null or undefined when calling apiSysCacheDeleteByPreKeyPrefixKeyPost.');
             }
             const localVarPath = `/api/sysCache/deleteByPreKey/{prefixKey}`
                 .replace(`{${"prefixKey"}}`, encodeURIComponent(String(prefixKey)));
@@ -45,7 +45,7 @@ export const SysCacheApiAxiosParamCreator = function (configuration?: Configurat
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -74,10 +74,10 @@ export const SysCacheApiAxiosParamCreator = function (configuration?: Configurat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysCacheDeleteKeyDelete: async (key: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysCacheDeleteKeyPost: async (key: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'key' is not null or undefined
             if (key === null || key === undefined) {
-                throw new RequiredError('key','Required parameter key was null or undefined when calling apiSysCacheDeleteKeyDelete.');
+                throw new RequiredError('key','Required parameter key was null or undefined when calling apiSysCacheDeleteKeyPost.');
             }
             const localVarPath = `/api/sysCache/delete/{key}`
                 .replace(`{${"key"}}`, encodeURIComponent(String(key)));
@@ -87,7 +87,7 @@ export const SysCacheApiAxiosParamCreator = function (configuration?: Configurat
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -203,8 +203,8 @@ export const SysCacheApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCacheDeleteByPreKeyPrefixKeyDelete(prefixKey: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
-            const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).apiSysCacheDeleteByPreKeyPrefixKeyDelete(prefixKey, options);
+        async apiSysCacheDeleteByPreKeyPrefixKeyPost(prefixKey: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
+            const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).apiSysCacheDeleteByPreKeyPrefixKeyPost(prefixKey, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -217,8 +217,8 @@ export const SysCacheApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCacheDeleteKeyDelete(key: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).apiSysCacheDeleteKeyDelete(key, options);
+        async apiSysCacheDeleteKeyPost(key: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).apiSysCacheDeleteKeyPost(key, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -267,8 +267,8 @@ export const SysCacheApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCacheDeleteByPreKeyPrefixKeyDelete(prefixKey: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
-            return SysCacheApiFp(configuration).apiSysCacheDeleteByPreKeyPrefixKeyDelete(prefixKey, options).then((request) => request(axios, basePath));
+        async apiSysCacheDeleteByPreKeyPrefixKeyPost(prefixKey: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
+            return SysCacheApiFp(configuration).apiSysCacheDeleteByPreKeyPrefixKeyPost(prefixKey, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -277,8 +277,8 @@ export const SysCacheApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCacheDeleteKeyDelete(key: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysCacheApiFp(configuration).apiSysCacheDeleteKeyDelete(key, options).then((request) => request(axios, basePath));
+        async apiSysCacheDeleteKeyPost(key: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysCacheApiFp(configuration).apiSysCacheDeleteKeyPost(key, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -317,8 +317,8 @@ export class SysCacheApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCacheApi
      */
-    public async apiSysCacheDeleteByPreKeyPrefixKeyDelete(prefixKey: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
-        return SysCacheApiFp(this.configuration).apiSysCacheDeleteByPreKeyPrefixKeyDelete(prefixKey, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCacheDeleteByPreKeyPrefixKeyPost(prefixKey: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
+        return SysCacheApiFp(this.configuration).apiSysCacheDeleteByPreKeyPrefixKeyPost(prefixKey, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -328,8 +328,8 @@ export class SysCacheApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCacheApi
      */
-    public async apiSysCacheDeleteKeyDelete(key: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysCacheApiFp(this.configuration).apiSysCacheDeleteKeyDelete(key, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCacheDeleteKeyPost(key: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysCacheApiFp(this.configuration).apiSysCacheDeleteKeyPost(key, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

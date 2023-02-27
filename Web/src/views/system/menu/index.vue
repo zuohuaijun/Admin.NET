@@ -126,7 +126,7 @@ const delMenu = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysMenuApi).apiSysMenuDeleteDelete({ id: row.id });
+			await getAPI(SysMenuApi).apiSysMenuDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

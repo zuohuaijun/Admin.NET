@@ -78,7 +78,7 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysNoticeDeleteDelete: async (body?: DeleteNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysNoticeDeletePost: async (body?: DeleteNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysNotice/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -86,7 +86,7 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -379,7 +379,7 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysNoticeUpdatePut: async (body?: UpdateNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysNoticeUpdatePost: async (body?: UpdateNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysNotice/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -387,7 +387,7 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -443,8 +443,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysNoticeDeleteDelete(body?: DeleteNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticeDeleteDelete(body, options);
+        async apiSysNoticeDeletePost(body?: DeleteNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticeDeletePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -538,8 +538,8 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysNoticeUpdatePut(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticeUpdatePut(body, options);
+        async apiSysNoticeUpdatePost(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticeUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -571,8 +571,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysNoticeDeleteDelete(body?: DeleteNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysNoticeApiFp(configuration).apiSysNoticeDeleteDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysNoticeDeletePost(body?: DeleteNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).apiSysNoticeDeletePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -642,8 +642,8 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysNoticeUpdatePut(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysNoticeApiFp(configuration).apiSysNoticeUpdatePut(body, options).then((request) => request(axios, basePath));
+        async apiSysNoticeUpdatePost(body?: UpdateNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysNoticeApiFp(configuration).apiSysNoticeUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -674,8 +674,8 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async apiSysNoticeDeleteDelete(body?: DeleteNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysNoticeApiFp(this.configuration).apiSysNoticeDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticeDeletePost(body?: DeleteNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticeDeletePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -751,7 +751,7 @@ export class SysNoticeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async apiSysNoticeUpdatePut(body?: UpdateNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysNoticeApiFp(this.configuration).apiSysNoticeUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticeUpdatePost(body?: UpdateNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticeUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

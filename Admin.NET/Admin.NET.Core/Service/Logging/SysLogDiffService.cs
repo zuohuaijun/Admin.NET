@@ -18,7 +18,6 @@ public class SysLogDiffService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [SuppressMonitor]
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取差异日志分页列表")]
     public async Task<SqlSugarPagedList<SysLogDiff>> GetPage([FromQuery] PageLogInput input)
     {
@@ -33,7 +32,7 @@ public class SysLogDiffService : IDynamicApiController, ITransient
     /// 清空差异日志
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Clear")]
+    [ApiDescriptionSettings(Name = "Clear"), HttpPost]
     [DisplayName("清空差异日志")]
     public async Task<bool> Clear()
     {

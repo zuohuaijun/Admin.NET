@@ -32,7 +32,6 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// 获取机构列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "List")]
     [DisplayName("获取机构列表")]
     public async Task<List<SysOrg>> GetList([FromQuery] OrgInput input)
     {
@@ -66,7 +65,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加机构")]
     public async Task<long> AddOrg(AddOrgInput input)
     {
@@ -101,7 +100,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新机构")]
     public async Task UpdateOrg(UpdateOrgInput input)
     {
@@ -137,7 +136,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除机构")]
     public async Task DeleteOrg(DeleteOrgInput input)
     {

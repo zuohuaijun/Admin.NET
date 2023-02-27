@@ -22,7 +22,6 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [ApiDescriptionSettings(Name = "GenAuthUrl")]
     [DisplayName("生成网页授权Url")]
     public string GenAuthUrl(GenAuthUrlInput input)
     {
@@ -34,7 +33,6 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     [AllowAnonymous]
-    [ApiDescriptionSettings(Name = "SnsOAuth2")]
     [DisplayName("授权登录(Code换取OpenId)")]
     public async Task<string> SnsOAuth2([Required] WechatOAuth2Input input)
     {
@@ -76,7 +74,6 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [ApiDescriptionSettings(Name = "OpenIdLogin")]
     [DisplayName("微信用户登录")]
     public async Task<dynamic> OpenIdLogin(WechatUserLogin input)
     {
@@ -100,7 +97,6 @@ public class SysWechatService : IDynamicApiController, ITransient
     /// 获取配置签名参数(wx.config)
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "GenConfigPara")]
     [DisplayName("获取配置签名参数(wx.config)")]
     public async Task<dynamic> GenConfigPara(SignatureInput input)
     {

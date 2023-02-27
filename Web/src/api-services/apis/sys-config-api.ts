@@ -76,7 +76,7 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysConfigDeleteDelete: async (body?: DeleteConfigInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysConfigDeletePost: async (body?: DeleteConfigInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysConfig/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -84,7 +84,7 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -274,7 +274,7 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysConfigUpdatePut: async (body?: UpdateConfigInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysConfigUpdatePost: async (body?: UpdateConfigInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysConfig/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -282,7 +282,7 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -338,8 +338,8 @@ export const SysConfigApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysConfigDeleteDelete(body?: DeleteConfigInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysConfigApiAxiosParamCreator(configuration).apiSysConfigDeleteDelete(body, options);
+        async apiSysConfigDeletePost(body?: DeleteConfigInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysConfigApiAxiosParamCreator(configuration).apiSysConfigDeletePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -400,8 +400,8 @@ export const SysConfigApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysConfigUpdatePut(body?: UpdateConfigInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysConfigApiAxiosParamCreator(configuration).apiSysConfigUpdatePut(body, options);
+        async apiSysConfigUpdatePost(body?: UpdateConfigInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysConfigApiAxiosParamCreator(configuration).apiSysConfigUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -433,8 +433,8 @@ export const SysConfigApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysConfigDeleteDelete(body?: DeleteConfigInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysConfigApiFp(configuration).apiSysConfigDeleteDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysConfigDeletePost(body?: DeleteConfigInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysConfigApiFp(configuration).apiSysConfigDeletePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -479,8 +479,8 @@ export const SysConfigApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysConfigUpdatePut(body?: UpdateConfigInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysConfigApiFp(configuration).apiSysConfigUpdatePut(body, options).then((request) => request(axios, basePath));
+        async apiSysConfigUpdatePost(body?: UpdateConfigInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysConfigApiFp(configuration).apiSysConfigUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -511,8 +511,8 @@ export class SysConfigApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysConfigApi
      */
-    public async apiSysConfigDeleteDelete(body?: DeleteConfigInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysConfigApiFp(this.configuration).apiSysConfigDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysConfigDeletePost(body?: DeleteConfigInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysConfigApiFp(this.configuration).apiSysConfigDeletePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -561,7 +561,7 @@ export class SysConfigApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysConfigApi
      */
-    public async apiSysConfigUpdatePut(body?: UpdateConfigInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysConfigApiFp(this.configuration).apiSysConfigUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysConfigUpdatePost(body?: UpdateConfigInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysConfigApiFp(this.configuration).apiSysConfigUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

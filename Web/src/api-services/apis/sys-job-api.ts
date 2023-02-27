@@ -158,7 +158,7 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysJobDeleteJobDetailDelete: async (body?: DeleteJobDetailInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysJobDeleteJobDetailPost: async (body?: DeleteJobDetailInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysJob/deleteJobDetail`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -166,7 +166,7 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -199,7 +199,7 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysJobDeleteJobTriggerDelete: async (body?: DeleteJobTriggerInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysJobDeleteJobTriggerPost: async (body?: DeleteJobTriggerInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysJob/deleteJobTrigger`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -207,7 +207,7 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -660,7 +660,7 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysJobUpdateJobDetailPut: async (body?: UpdateJobDetailInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysJobUpdateJobDetailPost: async (body?: UpdateJobDetailInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysJob/updateJobDetail`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -668,7 +668,7 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -701,7 +701,7 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysJobUpdateJobTriggerPut: async (body?: UpdateJobTriggerInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysJobUpdateJobTriggerPost: async (body?: UpdateJobTriggerInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysJob/updateJobTrigger`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -709,7 +709,7 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -792,8 +792,8 @@ export const SysJobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobDeleteJobDetailDelete(body?: DeleteJobDetailInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobDeleteJobDetailDelete(body, options);
+        async apiSysJobDeleteJobDetailPost(body?: DeleteJobDetailInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobDeleteJobDetailPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -806,8 +806,8 @@ export const SysJobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobDeleteJobTriggerDelete(body?: DeleteJobTriggerInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobDeleteJobTriggerDelete(body, options);
+        async apiSysJobDeleteJobTriggerPost(body?: DeleteJobTriggerInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobDeleteJobTriggerPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -962,8 +962,8 @@ export const SysJobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobUpdateJobDetailPut(body?: UpdateJobDetailInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobUpdateJobDetailPut(body, options);
+        async apiSysJobUpdateJobDetailPost(body?: UpdateJobDetailInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobUpdateJobDetailPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -976,8 +976,8 @@ export const SysJobApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobUpdateJobTriggerPut(body?: UpdateJobTriggerInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobUpdateJobTriggerPut(body, options);
+        async apiSysJobUpdateJobTriggerPost(body?: UpdateJobTriggerInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobUpdateJobTriggerPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1028,8 +1028,8 @@ export const SysJobApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobDeleteJobDetailDelete(body?: DeleteJobDetailInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysJobApiFp(configuration).apiSysJobDeleteJobDetailDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysJobDeleteJobDetailPost(body?: DeleteJobDetailInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysJobApiFp(configuration).apiSysJobDeleteJobDetailPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1038,8 +1038,8 @@ export const SysJobApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobDeleteJobTriggerDelete(body?: DeleteJobTriggerInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysJobApiFp(configuration).apiSysJobDeleteJobTriggerDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysJobDeleteJobTriggerPost(body?: DeleteJobTriggerInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysJobApiFp(configuration).apiSysJobDeleteJobTriggerPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1150,8 +1150,8 @@ export const SysJobApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobUpdateJobDetailPut(body?: UpdateJobDetailInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysJobApiFp(configuration).apiSysJobUpdateJobDetailPut(body, options).then((request) => request(axios, basePath));
+        async apiSysJobUpdateJobDetailPost(body?: UpdateJobDetailInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysJobApiFp(configuration).apiSysJobUpdateJobDetailPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1160,8 +1160,8 @@ export const SysJobApiFactory = function (configuration?: Configuration, basePat
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobUpdateJobTriggerPut(body?: UpdateJobTriggerInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysJobApiFp(configuration).apiSysJobUpdateJobTriggerPut(body, options).then((request) => request(axios, basePath));
+        async apiSysJobUpdateJobTriggerPost(body?: UpdateJobTriggerInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysJobApiFp(configuration).apiSysJobUpdateJobTriggerPost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -1213,8 +1213,8 @@ export class SysJobApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysJobApi
      */
-    public async apiSysJobDeleteJobDetailDelete(body?: DeleteJobDetailInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysJobApiFp(this.configuration).apiSysJobDeleteJobDetailDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysJobDeleteJobDetailPost(body?: DeleteJobDetailInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysJobApiFp(this.configuration).apiSysJobDeleteJobDetailPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -1224,8 +1224,8 @@ export class SysJobApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysJobApi
      */
-    public async apiSysJobDeleteJobTriggerDelete(body?: DeleteJobTriggerInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysJobApiFp(this.configuration).apiSysJobDeleteJobTriggerDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysJobDeleteJobTriggerPost(body?: DeleteJobTriggerInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysJobApiFp(this.configuration).apiSysJobDeleteJobTriggerPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -1347,8 +1347,8 @@ export class SysJobApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysJobApi
      */
-    public async apiSysJobUpdateJobDetailPut(body?: UpdateJobDetailInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysJobApiFp(this.configuration).apiSysJobUpdateJobDetailPut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysJobUpdateJobDetailPost(body?: UpdateJobDetailInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysJobApiFp(this.configuration).apiSysJobUpdateJobDetailPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -1358,7 +1358,7 @@ export class SysJobApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysJobApi
      */
-    public async apiSysJobUpdateJobTriggerPut(body?: UpdateJobTriggerInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysJobApiFp(this.configuration).apiSysJobUpdateJobTriggerPut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysJobUpdateJobTriggerPost(body?: UpdateJobTriggerInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysJobApiFp(this.configuration).apiSysJobUpdateJobTriggerPost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

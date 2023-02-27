@@ -134,7 +134,7 @@ const delConfig = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysConfigApi).apiSysConfigDeleteDelete({ id: row.id });
+			await getAPI(SysConfigApi).apiSysConfigDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

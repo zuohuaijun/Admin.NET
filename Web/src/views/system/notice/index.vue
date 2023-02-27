@@ -141,7 +141,7 @@ const delNotice = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysNoticeApi).apiSysNoticeDeleteDelete({ id: row.id });
+			await getAPI(SysNoticeApi).apiSysNoticeDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

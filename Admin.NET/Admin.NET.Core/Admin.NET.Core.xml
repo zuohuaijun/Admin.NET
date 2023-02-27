@@ -6144,7 +6144,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.PublicNotice(Admin.NET.Core.Service.NoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.Public(Admin.NET.Core.Service.NoticeInput)">
             <summary>
             发布通知公告
             </summary>
@@ -6408,7 +6408,7 @@
             <param name="input"></param>
             <returns></returns>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRegionService.SyncRegion">
+        <member name="M:Admin.NET.Core.Service.SysRegionService.Sync">
             <summary>
             同步行政区域
             </summary>

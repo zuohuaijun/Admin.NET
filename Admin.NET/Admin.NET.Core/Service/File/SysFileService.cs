@@ -37,7 +37,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取文件分页列表")]
     public async Task<SqlSugarPagedList<SysFile>> GetPage([FromQuery] PageFileInput input)
     {
@@ -55,7 +54,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file"></param>
     /// <param name="path"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "UploadFile")]
     [DisplayName("上传文件")]
     public async Task<FileOutput> UploadFile([Required] IFormFile file, [FromQuery] string? path)
     {
@@ -75,7 +73,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="files"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "UploadFiles")]
     [DisplayName("上传多文件")]
     public async Task<List<FileOutput>> UploadFiles([Required] List<IFormFile> files)
     {
@@ -92,7 +89,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "DownloadFile")]
     [DisplayName("下载文件(文件流)")]
     public async Task<IActionResult> DownloadFile(FileInput input)
     {
@@ -117,7 +113,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除文件")]
     public async Task DeleteFile(DeleteFileInput input)
     {
@@ -269,7 +265,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="file"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "UploadAvatar")]
     [DisplayName("上传头像")]
     public async Task<FileOutput> UploadAvatar([Required] IFormFile file)
     {
@@ -292,7 +287,6 @@ public class SysFileService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="file"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "UploadSignature")]
     [DisplayName("上传电子签名")]
     public async Task<FileOutput> UploadSignature([Required] IFormFile file)
     {

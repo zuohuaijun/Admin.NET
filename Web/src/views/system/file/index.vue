@@ -195,7 +195,7 @@ const delFile = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysFileApi).apiSysFileDeleteDelete({ id: row.id });
+			await getAPI(SysFileApi).apiSysFileDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

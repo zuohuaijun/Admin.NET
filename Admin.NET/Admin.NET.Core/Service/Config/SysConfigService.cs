@@ -21,7 +21,6 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取参数配置分页列表")]
     public async Task<SqlSugarPagedList<SysConfig>> GetPage([FromQuery] PageConfigInput input)
     {
@@ -36,7 +35,6 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// 获取参数配置列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "List")]
     [DisplayName("获取参数配置列表")]
     public async Task<List<SysConfig>> GetList()
     {
@@ -48,7 +46,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加参数配置")]
     public async Task AddConfig(AddConfigInput input)
     {
@@ -64,7 +62,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新参数配置")]
     public async Task UpdateConfig(UpdateConfigInput input)
     {
@@ -83,7 +81,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除参数配置")]
     public async Task DeleteConfig(DeleteConfigInput input)
     {
@@ -101,7 +99,6 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Detail")]
     [DisplayName("获取参数配置详情")]
     public async Task<SysConfig> GetDetail([FromQuery] ConfigInput input)
     {

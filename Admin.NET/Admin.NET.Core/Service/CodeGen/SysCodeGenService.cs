@@ -31,7 +31,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取代码生成分页列表")]
     public async Task<SqlSugarPagedList<SysCodeGen>> GetPage([FromQuery] CodeGenInput input)
     {
@@ -46,7 +45,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加代码生成")]
     public async Task AddCodeGen(AddCodeGenInput input)
     {
@@ -65,7 +64,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新代码生成")]
     public async Task UpdateCodeGen(UpdateCodeGenInput input)
     {
@@ -81,7 +80,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="inputs"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除代码生成")]
     public async Task DeleteCodeGen(List<DeleteCodeGenInput> inputs)
     {
@@ -103,7 +102,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Detail")]
     [DisplayName("获取代码生成详情")]
     public async Task<SysCodeGen> GetDetail([FromQuery] QueryCodeGenInput input)
     {
@@ -114,7 +112,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取数据库库集合
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "DatabaseList")]
     [DisplayName("获取数据库库集合")]
     public async Task<List<DatabaseOutput>> GetDatabaseList()
     {
@@ -126,7 +123,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取数据库表(实体)集合
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "TableList")]
     [DisplayName("获取数据库表(实体)集合")]
     public async Task<List<TableOutput>> GetTableList(string configId = SqlSugarConst.ConfigId)
     {
@@ -165,7 +161,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 根据表名获取列集合
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "ColumnListByTableName")]
     [DisplayName("根据表名获取列集合")]
     public  List<ColumnOuput> GetColumnListByTableName([Required] string tableName, string configId = SqlSugarConst.ConfigId)
     {
@@ -219,7 +214,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 代码生成到本地
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "RunLocal")]
     [DisplayName("代码生成到本地")]
     public async Task RunLocal(SysCodeGen input)
     {

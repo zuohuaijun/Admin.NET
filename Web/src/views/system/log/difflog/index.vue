@@ -91,7 +91,7 @@ const resetQuery = () => {
 // 清空日志
 const clearLog = async () => {
 	state.loading = true;
-	await getAPI(SysLogDiffApi).apiSysLogDiffClearDelete();
+	await getAPI(SysLogDiffApi).apiSysLogDiffClearPost();
 	state.loading = false;
 
 	ElMessage.success('清空成功');

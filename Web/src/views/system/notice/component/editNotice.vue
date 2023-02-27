@@ -80,7 +80,7 @@ const submit = () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-			await getAPI(SysNoticeApi).apiSysNoticeUpdatePut(state.ruleForm);
+			await getAPI(SysNoticeApi).apiSysNoticeUpdatePost(state.ruleForm);
 		} else {
 			await getAPI(SysNoticeApi).apiSysNoticeAddPost(state.ruleForm);
 		}

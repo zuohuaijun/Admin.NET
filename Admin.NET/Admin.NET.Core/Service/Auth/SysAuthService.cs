@@ -1,6 +1,5 @@
 ﻿using Furion.SpecificationDocument;
 using Lazy.Captcha.Core;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Admin.NET.Core.Service;
@@ -49,7 +48,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <remarks>用户名/密码：superadmin/123456</remarks>
     /// <returns></returns>
     [AllowAnonymous]
-    [ApiDescriptionSettings(Name = "Login")]
     [DisplayName("登录系统")]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
@@ -123,7 +121,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// 获取登录账号
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "UserInfo")]
     [DisplayName("登录系统")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
@@ -157,9 +154,8 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="accessToken"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "RefreshToken")]
     [DisplayName("获取刷新Token")]
-    public string GetRefreshToken([Required] string accessToken)
+    public string GetRefreshToken(string accessToken)
     {
         return JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
     }
@@ -167,7 +163,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <summary>
     /// 退出系统
     /// </summary>
-    [ApiDescriptionSettings(Name = "Logout")]
     [DisplayName("退出系统")]
     public void Logout()
     {
@@ -183,7 +178,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <returns></returns>
     [AllowAnonymous]
     [SuppressMonitor]
-    [ApiDescriptionSettings(Name = "LoginConfig")]
     [DisplayName("获取登录配置")]
     public async Task<dynamic> GetLoginConfig()
     {
@@ -199,7 +193,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <returns></returns>
     [AllowAnonymous]
     [SuppressMonitor]
-    [ApiDescriptionSettings(Name = "Captcha")]
     [DisplayName("获取验证码")]
     public dynamic GetCaptcha()
     {

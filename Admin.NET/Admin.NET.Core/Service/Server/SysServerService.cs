@@ -24,7 +24,6 @@ public class SysServerService : IDynamicApiController, ITransient
     /// 获取服务器配置信息
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "ServerBase")]
     [DisplayName("获取服务器配置信息")]
     public dynamic GetServerBase()
     {
@@ -48,7 +47,6 @@ public class SysServerService : IDynamicApiController, ITransient
     /// 获取服务器使用信息
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "ServerUsed")]
     [DisplayName("获取服务器使用信息")]
     public dynamic GetServerUsed()
     {
@@ -74,7 +72,6 @@ public class SysServerService : IDynamicApiController, ITransient
     /// 获取服务器磁盘信息
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "ServerDisk")]
     [DisplayName("获取服务器磁盘信息")]
     public dynamic GetServerDisk()
     {
@@ -85,7 +82,6 @@ public class SysServerService : IDynamicApiController, ITransient
     /// 获取框架主要程序集
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "AssemblyList")]
     [DisplayName("获取框架主要程序集")]
     public dynamic GetAssemblyList()
     {

@@ -30,7 +30,6 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "SendAllUser")]
     [DisplayName("发送消息给所有人")]
     public async Task SendAllUser(MessageInput input)
     {
@@ -42,7 +41,6 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "SendOtherUser")]
     [DisplayName("发送消息给除了发送人的其他人")]
     public async Task SendOtherUser(MessageInput input)
     {
@@ -60,7 +58,6 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "SendUser")]
     [DisplayName("发送消息给某个人")]
     public async Task SendUser(MessageInput input)
     {
@@ -80,7 +77,6 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "SendUsers")]
     [DisplayName("发送消息给某些人")]
     public async Task SendUsers(MessageInput input)
     {
@@ -100,7 +96,6 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "SendEmail")]
     [DisplayName("发送邮件")]
     public async Task SendEmail([Required] string message)
     {

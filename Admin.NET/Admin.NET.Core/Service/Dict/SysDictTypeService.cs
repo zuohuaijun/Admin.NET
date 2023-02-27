@@ -21,7 +21,6 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// 获取字典类型分页列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取字典类型分页列表")]
     public async Task<SqlSugarPagedList<SysDictType>> GetPage([FromQuery] PageDictTypeInput input)
     {
@@ -38,7 +37,6 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// 获取字典类型列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "List")]
     [DisplayName("获取字典类型列表")]
     public async Task<List<SysDictType>> GetList()
     {
@@ -51,7 +49,6 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [ApiDescriptionSettings(Name = "DataList")]
     [DisplayName("获取字典类型-值列表")]
     public async Task<List<SysDictData>> GetDataList([FromQuery] GetDataDictTypeInput input)
     {
@@ -66,7 +63,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("添加字典类型")]
     public async Task AddDictType(AddDictTypeInput input)
     {
@@ -82,7 +79,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新字典类型")]
     public async Task UpdateDictType(UpdateDictTypeInput input)
     {
@@ -102,7 +99,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除字典类型")]
     public async Task DeleteDictType(DeleteDictTypeInput input)
     {
@@ -120,7 +117,6 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Detail")]
     [DisplayName("获取字典类型详情")]
     public async Task<SysDictType> GetDetail([FromQuery] DictTypeInput input)
     {
@@ -132,7 +128,6 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "SetStatus")]
     [DisplayName("修改字典类型状态")]
     public async Task SetStatus(DictTypeInput input)
     {

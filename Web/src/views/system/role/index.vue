@@ -153,7 +153,7 @@ const delRole = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysRoleApi).apiSysRoleDeleteDelete({ id: row.id });
+			await getAPI(SysRoleApi).apiSysRoleDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

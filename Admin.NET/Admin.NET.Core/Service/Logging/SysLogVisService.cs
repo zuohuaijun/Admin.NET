@@ -18,7 +18,6 @@ public class SysLogVisService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [SuppressMonitor]
-    [ApiDescriptionSettings(Name = "Page")]
     [DisplayName("获取访问日志分页列表")]
     public async Task<SqlSugarPagedList<SysLogVis>> GetPage([FromQuery] PageLogInput input)
     {
@@ -33,7 +32,7 @@ public class SysLogVisService : IDynamicApiController, ITransient
     /// 清空访问日志
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Clear")]
+    [ApiDescriptionSettings(Name = "Clear"), HttpPost]
     [DisplayName("清空访问日志")]
     public async Task<bool> Clear()
     {

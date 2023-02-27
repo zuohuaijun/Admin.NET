@@ -136,7 +136,7 @@ const submit = () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-			await getAPI(SysTenantApi).apiSysTenantUpdatePut(state.ruleForm);
+			await getAPI(SysTenantApi).apiSysTenantUpdatePost(state.ruleForm);
 		} else {
 			await getAPI(SysTenantApi).apiSysTenantAddPost(state.ruleForm);
 		}

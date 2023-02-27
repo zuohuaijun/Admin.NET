@@ -76,7 +76,7 @@ export const SysRegionApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRegionDeleteDelete: async (body?: DeleteRegionInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysRegionDeletePost: async (body?: DeleteRegionInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysRegion/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -84,7 +84,7 @@ export const SysRegionApiAxiosParamCreator = function (configuration?: Configura
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -274,7 +274,7 @@ export const SysRegionApiAxiosParamCreator = function (configuration?: Configura
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRegionUpdatePut: async (body?: UpdateRegionInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysRegionUpdatePost: async (body?: UpdateRegionInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysRegion/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -282,7 +282,7 @@ export const SysRegionApiAxiosParamCreator = function (configuration?: Configura
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -338,8 +338,8 @@ export const SysRegionApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRegionDeleteDelete(body?: DeleteRegionInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysRegionApiAxiosParamCreator(configuration).apiSysRegionDeleteDelete(body, options);
+        async apiSysRegionDeletePost(body?: DeleteRegionInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysRegionApiAxiosParamCreator(configuration).apiSysRegionDeletePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -400,8 +400,8 @@ export const SysRegionApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRegionUpdatePut(body?: UpdateRegionInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysRegionApiAxiosParamCreator(configuration).apiSysRegionUpdatePut(body, options);
+        async apiSysRegionUpdatePost(body?: UpdateRegionInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysRegionApiAxiosParamCreator(configuration).apiSysRegionUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -433,8 +433,8 @@ export const SysRegionApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRegionDeleteDelete(body?: DeleteRegionInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysRegionApiFp(configuration).apiSysRegionDeleteDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysRegionDeletePost(body?: DeleteRegionInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysRegionApiFp(configuration).apiSysRegionDeletePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -479,8 +479,8 @@ export const SysRegionApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRegionUpdatePut(body?: UpdateRegionInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysRegionApiFp(configuration).apiSysRegionUpdatePut(body, options).then((request) => request(axios, basePath));
+        async apiSysRegionUpdatePost(body?: UpdateRegionInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysRegionApiFp(configuration).apiSysRegionUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -511,8 +511,8 @@ export class SysRegionApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysRegionApi
      */
-    public async apiSysRegionDeleteDelete(body?: DeleteRegionInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysRegionApiFp(this.configuration).apiSysRegionDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysRegionDeletePost(body?: DeleteRegionInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysRegionApiFp(this.configuration).apiSysRegionDeletePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -561,7 +561,7 @@ export class SysRegionApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysRegionApi
      */
-    public async apiSysRegionUpdatePut(body?: UpdateRegionInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysRegionApiFp(this.configuration).apiSysRegionUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysRegionUpdatePost(body?: UpdateRegionInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysRegionApiFp(this.configuration).apiSysRegionUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -124,7 +124,7 @@ export const SysDictTypeApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysDictTypeDeleteDelete: async (body?: DeleteDictTypeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysDictTypeDeletePost: async (body?: DeleteDictTypeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysDictType/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -132,7 +132,7 @@ export const SysDictTypeApiAxiosParamCreator = function (configuration?: Configu
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -363,7 +363,7 @@ export const SysDictTypeApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysDictTypeUpdatePut: async (body?: UpdateDictTypeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysDictTypeUpdatePost: async (body?: UpdateDictTypeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysDictType/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -371,7 +371,7 @@ export const SysDictTypeApiAxiosParamCreator = function (configuration?: Configu
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -441,8 +441,8 @@ export const SysDictTypeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictTypeDeleteDelete(body?: DeleteDictTypeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDictTypeApiAxiosParamCreator(configuration).apiSysDictTypeDeleteDelete(body, options);
+        async apiSysDictTypeDeletePost(body?: DeleteDictTypeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDictTypeApiAxiosParamCreator(configuration).apiSysDictTypeDeletePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -517,8 +517,8 @@ export const SysDictTypeApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictTypeUpdatePut(body?: UpdateDictTypeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDictTypeApiAxiosParamCreator(configuration).apiSysDictTypeUpdatePut(body, options);
+        async apiSysDictTypeUpdatePost(body?: UpdateDictTypeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDictTypeApiAxiosParamCreator(configuration).apiSysDictTypeUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -560,8 +560,8 @@ export const SysDictTypeApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictTypeDeleteDelete(body?: DeleteDictTypeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDictTypeApiFp(configuration).apiSysDictTypeDeleteDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysDictTypeDeletePost(body?: DeleteDictTypeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDictTypeApiFp(configuration).apiSysDictTypeDeletePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -616,8 +616,8 @@ export const SysDictTypeApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictTypeUpdatePut(body?: UpdateDictTypeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDictTypeApiFp(configuration).apiSysDictTypeUpdatePut(body, options).then((request) => request(axios, basePath));
+        async apiSysDictTypeUpdatePost(body?: UpdateDictTypeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDictTypeApiFp(configuration).apiSysDictTypeUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -659,8 +659,8 @@ export class SysDictTypeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDictTypeApi
      */
-    public async apiSysDictTypeDeleteDelete(body?: DeleteDictTypeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDictTypeApiFp(this.configuration).apiSysDictTypeDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDictTypeDeletePost(body?: DeleteDictTypeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDictTypeApiFp(this.configuration).apiSysDictTypeDeletePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -720,7 +720,7 @@ export class SysDictTypeApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDictTypeApi
      */
-    public async apiSysDictTypeUpdatePut(body?: UpdateDictTypeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDictTypeApiFp(this.configuration).apiSysDictTypeUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDictTypeUpdatePost(body?: UpdateDictTypeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDictTypeApiFp(this.configuration).apiSysDictTypeUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -21,7 +21,6 @@ public class SysPosService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "List")]
     [DisplayName("获取职位列表")]
     public async Task<List<SysPos>> GetList([FromQuery] PosInput input)
     {
@@ -36,7 +35,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加职位")]
     public async Task AddPos(AddPosInput input)
     {
@@ -52,7 +51,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新职位")]
     public async Task UpdatePos(UpdatePosInput input)
     {
@@ -68,7 +67,7 @@ public class SysPosService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除职位")]
     public async Task DeletePos(DeletePosInput input)
     {

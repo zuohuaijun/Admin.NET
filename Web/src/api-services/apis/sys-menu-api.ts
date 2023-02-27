@@ -77,7 +77,7 @@ export const SysMenuApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysMenuDeleteDelete: async (body?: DeleteMenuInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysMenuDeletePost: async (body?: DeleteMenuInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysMenu/delete`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -85,7 +85,7 @@ export const SysMenuApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -236,7 +236,7 @@ export const SysMenuApiAxiosParamCreator = function (configuration?: Configurati
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysMenuUpdatePut: async (body?: UpdateMenuInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysMenuUpdatePost: async (body?: UpdateMenuInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysMenu/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -244,7 +244,7 @@ export const SysMenuApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -300,8 +300,8 @@ export const SysMenuApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysMenuDeleteDelete(body?: DeleteMenuInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysMenuApiAxiosParamCreator(configuration).apiSysMenuDeleteDelete(body, options);
+        async apiSysMenuDeletePost(body?: DeleteMenuInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysMenuApiAxiosParamCreator(configuration).apiSysMenuDeletePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -355,8 +355,8 @@ export const SysMenuApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysMenuUpdatePut(body?: UpdateMenuInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysMenuApiAxiosParamCreator(configuration).apiSysMenuUpdatePut(body, options);
+        async apiSysMenuUpdatePost(body?: UpdateMenuInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysMenuApiAxiosParamCreator(configuration).apiSysMenuUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -388,8 +388,8 @@ export const SysMenuApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysMenuDeleteDelete(body?: DeleteMenuInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysMenuApiFp(configuration).apiSysMenuDeleteDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysMenuDeletePost(body?: DeleteMenuInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysMenuApiFp(configuration).apiSysMenuDeletePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -427,8 +427,8 @@ export const SysMenuApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysMenuUpdatePut(body?: UpdateMenuInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysMenuApiFp(configuration).apiSysMenuUpdatePut(body, options).then((request) => request(axios, basePath));
+        async apiSysMenuUpdatePost(body?: UpdateMenuInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysMenuApiFp(configuration).apiSysMenuUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -459,8 +459,8 @@ export class SysMenuApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysMenuApi
      */
-    public async apiSysMenuDeleteDelete(body?: DeleteMenuInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysMenuApiFp(this.configuration).apiSysMenuDeleteDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysMenuDeletePost(body?: DeleteMenuInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysMenuApiFp(this.configuration).apiSysMenuDeletePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -502,7 +502,7 @@ export class SysMenuApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysMenuApi
      */
-    public async apiSysMenuUpdatePut(body?: UpdateMenuInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysMenuApiFp(this.configuration).apiSysMenuUpdatePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysMenuUpdatePost(body?: UpdateMenuInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysMenuApiFp(this.configuration).apiSysMenuUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

@@ -136,7 +136,7 @@ const delDictType = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysDictTypeApi).apiSysDictTypeDeleteDelete({ id: row.id });
+			await getAPI(SysDictTypeApi).apiSysDictTypeDeletePost({ id: row.id });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

@@ -29,7 +29,6 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取登录菜单树
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "LoginMenuTree")]
     [DisplayName("获取登录菜单树")]
     public async Task<List<MenuOutput>> GetLoginMenuTree()
     {
@@ -71,7 +70,6 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
-    [ApiDescriptionSettings(Name = "List")]
     [DisplayName("获取菜单列表")]
     public async Task<List<SysMenu>> GetList([FromQuery] MenuInput input)
     {
@@ -98,7 +96,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加菜单")]
     public async Task AddMenu(AddMenuInput input)
     {
@@ -123,7 +121,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新菜单")]
     public async Task UpdateMenu(UpdateMenuInput input)
     {
@@ -148,7 +146,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除菜单")]
     public async Task DeleteMenu(DeleteMenuInput input)
     {
@@ -184,7 +182,6 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取用户拥有按钮权限集合（缓存）
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "OwnBtnPermList")]
     [DisplayName("获取按钮权限集合")]
     public async Task<List<string>> GetOwnBtnPermList()
     {

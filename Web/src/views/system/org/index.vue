@@ -128,7 +128,7 @@ const delOrg = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysOrgApi).apiSysOrgDeleteDelete({ id: row.id });
+			await getAPI(SysOrgApi).apiSysOrgDeletePost({ id: row.id });
 			ElMessage.success('删除成功');
 			mittBus.emit('submitRefresh');
 		})

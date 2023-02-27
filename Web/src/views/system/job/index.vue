@@ -265,7 +265,7 @@ const delJobDetail = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysJobApi).apiSysJobDeleteJobDetailDelete({ jobId: row.jobDetail.jobId });
+			await getAPI(SysJobApi).apiSysJobDeleteJobDetailPost({ jobId: row.jobDetail.jobId });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})
@@ -292,7 +292,7 @@ const delJobTrigger = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysJobApi).apiSysJobDeleteJobTriggerDelete({ jobId: row.jobId, triggerId: row.triggerId });
+			await getAPI(SysJobApi).apiSysJobDeleteJobTriggerPost({ jobId: row.jobId, triggerId: row.triggerId });
 			handleQuery();
 			ElMessage.success('删除成功');
 		})

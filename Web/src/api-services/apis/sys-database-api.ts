@@ -210,7 +210,7 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysDatabaseDeleteColumnDelete: async (body?: DeleteDbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysDatabaseDeleteColumnPost: async (body?: DeleteDbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysDatabase/deleteColumn`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -218,7 +218,7 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -251,7 +251,7 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysDatabaseDeleteTableDelete: async (body?: DeleteDbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysDatabaseDeleteTablePost: async (body?: DeleteDbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysDatabase/deleteTable`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -259,7 +259,7 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -370,7 +370,7 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysDatabaseUpdateColumnPut: async (body?: UpdateDbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysDatabaseUpdateColumnPost: async (body?: UpdateDbColumnInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysDatabase/updateColumn`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -378,7 +378,7 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -411,7 +411,7 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysDatabaseUpdateTablePut: async (body?: UpdateDbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysDatabaseUpdateTablePost: async (body?: UpdateDbTableInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysDatabase/updateTable`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -419,7 +419,7 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'PUT', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
@@ -518,8 +518,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseDeleteColumnDelete(body?: DeleteDbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseDeleteColumnDelete(body, options);
+        async apiSysDatabaseDeleteColumnPost(body?: DeleteDbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseDeleteColumnPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -532,8 +532,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseDeleteTableDelete(body?: DeleteDbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseDeleteTableDelete(body, options);
+        async apiSysDatabaseDeleteTablePost(body?: DeleteDbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseDeleteTablePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -573,8 +573,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseUpdateColumnPut(body?: UpdateDbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseUpdateColumnPut(body, options);
+        async apiSysDatabaseUpdateColumnPost(body?: UpdateDbColumnInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseUpdateColumnPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -587,8 +587,8 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseUpdateTablePut(body?: UpdateDbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseUpdateTablePut(body, options);
+        async apiSysDatabaseUpdateTablePost(body?: UpdateDbTableInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseUpdateTablePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -651,8 +651,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseDeleteColumnDelete(body?: DeleteDbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).apiSysDatabaseDeleteColumnDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseDeleteColumnPost(body?: DeleteDbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseDeleteColumnPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -661,8 +661,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseDeleteTableDelete(body?: DeleteDbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).apiSysDatabaseDeleteTableDelete(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseDeleteTablePost(body?: DeleteDbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseDeleteTablePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -690,8 +690,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseUpdateColumnPut(body?: UpdateDbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).apiSysDatabaseUpdateColumnPut(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseUpdateColumnPost(body?: UpdateDbColumnInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseUpdateColumnPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -700,8 +700,8 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseUpdateTablePut(body?: UpdateDbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysDatabaseApiFp(configuration).apiSysDatabaseUpdateTablePut(body, options).then((request) => request(axios, basePath));
+        async apiSysDatabaseUpdateTablePost(body?: UpdateDbTableInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseUpdateTablePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -766,8 +766,8 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async apiSysDatabaseDeleteColumnDelete(body?: DeleteDbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).apiSysDatabaseDeleteColumnDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseDeleteColumnPost(body?: DeleteDbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseDeleteColumnPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -777,8 +777,8 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async apiSysDatabaseDeleteTableDelete(body?: DeleteDbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).apiSysDatabaseDeleteTableDelete(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseDeleteTablePost(body?: DeleteDbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseDeleteTablePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -809,8 +809,8 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async apiSysDatabaseUpdateColumnPut(body?: UpdateDbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).apiSysDatabaseUpdateColumnPut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseUpdateColumnPost(body?: UpdateDbColumnInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseUpdateColumnPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
@@ -820,7 +820,7 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async apiSysDatabaseUpdateTablePut(body?: UpdateDbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysDatabaseApiFp(this.configuration).apiSysDatabaseUpdateTablePut(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDatabaseUpdateTablePost(body?: UpdateDbTableInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysDatabaseApiFp(this.configuration).apiSysDatabaseUpdateTablePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }

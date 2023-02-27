@@ -259,7 +259,7 @@ const submit = () => {
 		}
 
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-			await getAPI(SysJobApi).apiSysJobUpdateJobTriggerPut(state.ruleForm);
+			await getAPI(SysJobApi).apiSysJobUpdateJobTriggerPost(state.ruleForm);
 		} else {
 			await getAPI(SysJobApi).apiSysJobAddJobTriggerPost(state.ruleForm);
 		}

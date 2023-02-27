@@ -96,11 +96,11 @@ const openDialog = (row: any) => {
 // 关闭弹窗
 const closeDialog = () => {
 	rowdata.fkTableName = state.ruleForm.tableName;
-    let tableData = state.tableData.filter(x=>x.tableName==state.ruleForm.tableName)
-    rowdata.fkEntityName = tableData.length == 0? "" : tableData[0].entityName;
+	let tableData = state.tableData.filter((x) => x.tableName == state.ruleForm.tableName);
+	rowdata.fkEntityName = tableData.length == 0 ? '' : tableData[0].entityName;
 	rowdata.fkColumnName = state.ruleForm.columnName;
-    let columnData = state.columnData.filter(x=>x.columnName==state.ruleForm.columnName)
-	rowdata.fkColumnNetType = columnData.length == 0? "" : columnData[0].netType;
+	let columnData = state.columnData.filter((x) => x.columnName == state.ruleForm.columnName);
+	rowdata.fkColumnNetType = columnData.length == 0 ? '' : columnData[0].netType;
 	mittBus.emit('submitRefreshFk', rowdata);
 	state.isShowDialog = false;
 };

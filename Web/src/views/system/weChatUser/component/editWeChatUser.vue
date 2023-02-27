@@ -65,7 +65,7 @@ const submit = () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-			await getAPI(SysWechatUserApi).apiSysWechatUserUpdatePut(state.ruleForm);
+			await getAPI(SysWechatUserApi).apiSysWechatUserUpdatePost(state.ruleForm);
 		} else {
 			await getAPI(SysWechatUserApi).apiSysWechatUserAddPost(state.ruleForm);
 		}

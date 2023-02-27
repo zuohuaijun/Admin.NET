@@ -89,7 +89,7 @@ const submit = () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-			await getAPI(SysDictTypeApi).apiSysDictTypeUpdatePut(state.ruleForm);
+			await getAPI(SysDictTypeApi).apiSysDictTypeUpdatePost(state.ruleForm);
 		} else {
 			await getAPI(SysDictTypeApi).apiSysDictTypeAddPost(state.ruleForm);
 		}

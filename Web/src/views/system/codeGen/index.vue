@@ -176,7 +176,7 @@ const deleConfig = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysCodeGenApi).apiSysCodeGenDeleteDelete([{ id: row.id }]);
+			await getAPI(SysCodeGenApi).apiSysCodeGenDeletePost([{ id: row.id }]);
 			handleQuery();
 			ElMessage.success('操作成功');
 		})

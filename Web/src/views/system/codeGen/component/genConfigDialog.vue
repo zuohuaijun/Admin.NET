@@ -200,7 +200,7 @@ const submit = async () => {
 			}
 		}
 	});
-	await getAPI(SysCodeGenConfigApi).apiSysCodeGenConfigUpdatePut(lst);
+	await getAPI(SysCodeGenConfigApi).apiSysCodeGenConfigUpdatePost(lst);
 	state.loading = false;
 	closeDialog();
 };
