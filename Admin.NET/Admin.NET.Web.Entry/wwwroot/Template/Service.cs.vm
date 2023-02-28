@@ -38,22 +38,7 @@ if (@column.QueryWhether == "Y"){
     }
 } 
 }          
-@foreach (var column in Model.TableField){
-if (@column.QueryWhether == "Y"){
-    if(@column.NetType == "DateTime" && @column.QueryType == "~"){
-        @:if(input.@(@column.ColumnName)Range != null && input.@(@column.ColumnName)Range.Count >0)
-        @:{
-                @:DateTime? start= input.@(@column.ColumnName)Range[0]; 
-                @:query = query.WhereIF(start.HasValue, u => u.@column.ColumnName > start);
-                @:if (input.@(@column.ColumnName)Range.Count >1 && input.@(@column.ColumnName)Range[1].HasValue)
-                @:{
-                    @:var end = input.@(@column.ColumnName)Range[1].Value.AddDays(1);
-                    @:query = query.Where(u => u.@(@column.ColumnName) < end);
-                @:}
-        @:} 
-    }
-}
-}
+
 @if(Model.IsJoinTable){
                     @:.Select(u=> new @(@Model.ClassName)Output{
 @foreach (var column in Model.TableField){
@@ -72,7 +57,22 @@ if (@column.QueryWhether == "Y"){
 }
 }
 ;
-
+@foreach (var column in Model.TableField){
+if (@column.QueryWhether == "Y"){
+    if(@column.NetType == "DateTime" && @column.QueryType == "~"){
+        @:if(input.@(@column.ColumnName)Range != null && input.@(@column.ColumnName)Range.Count >0)
+        @:{
+                @:DateTime? start= input.@(@column.ColumnName)Range[0]; 
+                @:query = query.WhereIF(start.HasValue, u => u.@column.ColumnName > start);
+                @:if (input.@(@column.ColumnName)Range.Count >1 && input.@(@column.ColumnName)Range[1].HasValue)
+                @:{
+                    @:var end = input.@(@column.ColumnName)Range[1].Value.AddDays(1);
+                    @:query = query.Where(u => u.@(@column.ColumnName) < end);
+                @:}
+        @:} 
+    }
+}
+}
         query = query.OrderBuilder(input);
         return await query.ToPagedListAsync(input.Page, input.PageSize);
     }
