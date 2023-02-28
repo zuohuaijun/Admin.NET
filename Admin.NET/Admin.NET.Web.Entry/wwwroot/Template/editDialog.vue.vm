@@ -13,7 +13,7 @@
 					if(@column.EffectType == "fk"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-select clearabl filterable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
+							@:<el-select clearable filterable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
 								@:<el-option v-for="(item,index) in @LowerFirstLetter(@column.FkEntityName)DropdownList" :key="index" :value="item.value" :label="item.label" />
 								@:
 							</el-select>
@@ -24,7 +24,7 @@
 					}else if(@column.EffectType == "Input"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable="" />
+							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable />
 							@:
 						</el-form-item>
 						@:
@@ -32,7 +32,7 @@
 					}else if(@column.EffectType == "InputNumber"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-input-number v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable="" />
+							@:<el-input-number v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable />
 							@:
 						</el-form-item>
 						@:
@@ -40,7 +40,7 @@
 					}else if(@column.EffectType == "InputTextArea"){
 					@:<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" type="textarea" clearable="" />
+							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" type="textarea" clearable />
 							@:
 						</el-form-item>
 						@:
@@ -48,7 +48,7 @@
 					}else if(@column.EffectType == "Select"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-select clearable="" v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
+							@:<el-select clearable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
 								@:<el-option v-for="(item,index) in  getEdit@(@column.LowerColumnName)Data"  :key="index" :value="item.value" :label="item.label">{{ item.label }}</el-option>
 								@:
 							</el-select>
@@ -59,7 +59,7 @@
 					}else if(@column.EffectType == "ConstSelector"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-select clearable="" v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
+							@:<el-select clearable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
 								@:<el-option v-for="(item,index) in getSelectorList('@column.DictTypeCode')" :key="index" :value="item.code">{{ item.name }}</el-option>
 								@:
 							</el-select>
