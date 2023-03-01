@@ -81,14 +81,13 @@
 						if(@column.EffectType == "Upload"){
 						@:<el-image
 						  @:style="width: 60px; height: 60px"
-						  @::src="scope.row.url"
+						  @::src="scope.row.@column.LowerColumnName"
 						  @::lazy="true"
 						  @::hide-on-click-modal="true"
-						  @::preview-src-list="[scope.row.url]"
+						  @::preview-src-list="[scope.row.@column.LowerColumnName]"
 						  @::initial-index="0"
 						  @:fit="scale-down"
-						  @:preview-teleported=""
-					   @:=""/>
+						  @:preview-teleported/>
 						}else if(@column.EffectType == "fk"){
 						@:<span>{{scope.row.@LowerFirstLetter(@column.FkEntityName)@(@column.FkColumnName)}}</span>
 						}else if(@column.EffectType == "Switch"){
