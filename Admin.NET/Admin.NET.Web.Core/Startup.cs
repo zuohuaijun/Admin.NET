@@ -186,9 +186,6 @@ public class Startup : AppStartup
 
         // 验证码
         services.AddLazyCaptcha();
-
-        // 动态编译预热
-        NatashaInitializer.Preheating();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

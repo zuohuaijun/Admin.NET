@@ -12,6 +12,9 @@ public class DynamicJobCompiler : ISingleton
     /// <returns></returns>
     public Type BuildJob(string script)
     {
+        // 初始化
+        NatashaInitializer.Preheating();
+
         // 动态创建作业
         var builder = new AssemblyCSharpBuilder("Admin.NET.Core")
         {

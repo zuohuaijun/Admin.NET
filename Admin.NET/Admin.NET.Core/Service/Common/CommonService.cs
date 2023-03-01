@@ -71,10 +71,7 @@ public class CommonService : ICommonService, IScoped
     /// <returns></returns>
     public string GetHost()
     {
-         var localhost=$"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.Value}";
-        // 20230301 skywolf627 返回文件外链  使用服务的域名 
-        //if(_httpContextAccessor.HttpContext.Request.Headers.Referer.Count>0)
-        //    localhost = _httpContextAccessor.HttpContext.Request.Headers.Referer[0].TrimEnd('/');
+        var localhost = $"{_httpContextAccessor.HttpContext.Request.Scheme}://{_httpContextAccessor.HttpContext.Request.Host.Value}";
         return localhost;
     }
 

@@ -18,9 +18,8 @@ public class BaseService<TEntity> : IDynamicApiController where TEntity : class,
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Detail")]
     [DisplayName("获取实体详情")]
-    public async Task<TEntity> GetDetail(long id)
+    public virtual async Task<TEntity> GetDetail(long id)
     {
         return await _rep.GetByIdAsync(id);
     }
@@ -29,7 +28,6 @@ public class BaseService<TEntity> : IDynamicApiController where TEntity : class,
     /// 获取实体集合
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "List")]
     [DisplayName("获取实体集合")]
     public async Task<List<TEntity>> GetList()
     {
@@ -53,9 +51,9 @@ public class BaseService<TEntity> : IDynamicApiController where TEntity : class,
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Add")]
+    [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加实体")]
-    public async Task<bool> Add(TEntity entity)
+    public virtual async Task<bool> Add(TEntity entity)
     {
         return await _rep.InsertAsync(entity);
     }
@@ -65,9 +63,9 @@ public class BaseService<TEntity> : IDynamicApiController where TEntity : class,
     /// </summary>
     /// <param name="entity"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Update")]
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新实体")]
-    public async Task<bool> Update(TEntity entity)
+    public virtual async Task<bool> Update(TEntity entity)
     {
         return await _rep.UpdateAsync(entity);
     }
@@ -77,9 +75,9 @@ public class BaseService<TEntity> : IDynamicApiController where TEntity : class,
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(Name = "Delete")]
+    [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除实体")]
-    public async Task<bool> Delete(long id)
+    public virtual async Task<bool> Delete(long id)
     {
         return await _rep.DeleteByIdAsync(id);
     }

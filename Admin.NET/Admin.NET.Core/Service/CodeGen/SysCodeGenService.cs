@@ -162,7 +162,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [DisplayName("根据表名获取列集合")]
-    public  List<ColumnOuput> GetColumnListByTableName([Required] string tableName, string configId = SqlSugarConst.ConfigId)
+    public List<ColumnOuput> GetColumnListByTableName([Required] string tableName, string configId = SqlSugarConst.ConfigId)
     {
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(configId);
@@ -179,7 +179,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             ColumnKey = u.IsPrimarykey.ToString(),
             DataType = u.DataType.ToString(),
             NetType = CodeGenUtil.ConvertDataType(u),
-            ColumnComment = u.ColumnDescription            
+            ColumnComment = u.ColumnDescription
         }).ToList();
     }
 
