@@ -52,7 +52,7 @@ if (@column.QueryWhether == "Y"){
     if(@column.EffectType == "fk"){   
  
     }else if(@column.EffectType == "Upload"){
-                    @:.Mapper(c => c.@(@column.ColumnName)Attachment, c => c.@(@column.ColumnName))
+                    @://.Mapper(c => c.@(@column.ColumnName)Attachment, c => c.@(@column.ColumnName))
     }
 }
 }
@@ -150,13 +150,12 @@ if (@column.ColumnKey == "True"){
 
 @foreach (var column in Model.TableField){
 if(@column.EffectType == "fk"){  
-    /// <summary>
-    /// 获取@(@Model.ColumnComment)列表
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    @:[HttpGet]
-    @:[ApiDescriptionSettings(Name = "@(@column.FkEntityName)Dropdown")]
+    @:/// <summary>
+    @:/// 获取@(@column.ColumnComment)列表
+    @:/// </summary>
+    @:/// <param name="input"></param>
+    @:/// <returns></returns>
+    @:[ApiDescriptionSettings(Name = "@(@column.FkEntityName)Dropdown"), HttpGet]
     @:public async Task<dynamic> @(@column.FkEntityName)Dropdown()
     @:{
         @:return await _rep.Context.Queryable<@(@column.FkEntityName)>()
@@ -167,6 +166,22 @@ if(@column.EffectType == "fk"){
                 @:}
                 @:).ToListAsync();
     @:}
+}
+}
+
+@foreach (var column in Model.TableField){
+if(@column.EffectType == "Upload"){  
+    @:/// <summary>
+    @:/// 上传@(@column.ColumnComment)
+    @:/// </summary>
+    @:/// <param name="file"></param>
+    @:/// <returns></returns>
+    @:[ApiDescriptionSettings(Name = "Upload@(@column.ColumnName)"), HttpPost]
+    @:public async Task<FileOutput> Upload@(@column.ColumnName)([Required] IFormFile file)
+    @:{
+            @:var service = App.GetService<SysFileService>();
+            @:return await service.UploadFile(file, "upload/@(@column.ColumnName)"); 
+    @:} 
 }
 }
 
