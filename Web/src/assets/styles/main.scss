@@ -1,0 +1,20 @@
+// Table页自动撑满页面
+.layout-parent {
+  height: 0;
+  >div:first-child {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .el-card:nth-child(2) {
+      flex: 1;
+      .el-card__body {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        .el-table {
+          flex: 1;
+        }
+      }
+    }
+  }
+}
