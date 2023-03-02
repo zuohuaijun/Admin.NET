@@ -41,4 +41,13 @@
   .el-form-item {
     width: 100%
   }
+
+  //搜索区域按钮布局
+  .search-actions {
+    display: flex;
+
+    >div:first-child {
+      flex: 1;
+    }
+  }
 }
