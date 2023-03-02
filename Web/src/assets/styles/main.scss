@@ -1,7 +1,8 @@
-// Table页自动撑满页面
+//hack列表页
 .layout-parent {
   height: 0;
 
+  // Table页自动撑满页面
   >div:first-child {
     display: flex;
     flex-direction: column;
@@ -29,5 +30,15 @@
         }
       }
     }
+  }
+
+  //搜索区域Label固定宽度
+  .el-form-item__label {
+    width: 70px;
+  }
+
+  //搜索区域控件宽度默认撑满
+  .el-form-item {
+    width: 100%
   }
 }
