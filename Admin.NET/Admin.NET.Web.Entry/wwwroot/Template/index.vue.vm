@@ -53,13 +53,14 @@
             }
 					}
 
-          @:<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-          @:<div style="text-align:right">
+          @:<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
+          @:<div><el-button type="primary" icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.LowerClassName):add'"> 新增 </el-button></div>
+          @:<div>
           @:<el-button icon="ele-Refresh" @@click="() => queryParams = {}"> 重置 </el-button>
-          @:<el-button type="primary" icon="ele-Search" @@click="handleQuery" v-auth="'@(@Model.LowerClassName):page'"> 查询 </el-button>
-          @:<el-button icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.LowerClassName):add'"> 新增 </el-button>
+          @:<el-button type="primary" plain icon="ele-Search" @@click="handleQuery" v-auth="'@(@Model.LowerClassName):page'"> 查询 </el-button>
           @:</div>
           @:</el-col>
+
       @:</el-row>
       @:</el-form>
 			}
