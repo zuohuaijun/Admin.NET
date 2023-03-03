@@ -34,7 +34,7 @@
 
   //搜索区域Label固定宽度
   .el-form-item__label {
-    width: 70px;
+    width: 70px;    //适合4个字，5个字90px
   }
 
   //搜索区域控件宽度默认撑满
@@ -55,3 +55,13 @@
     }
   }
 }
+
+// 某个页面的搜索条件文字太长导致换行的解决办法，页面下方添加以下样式
+// <style lang="scss" scoped>
+//   //搜索区域Label固定宽度
+//   .sys-codeGen-container{  //根据实际情况改成 当前页面顶级的className  参考代码生成页面   
+//     ::v-deep(.el-form-item__label) {
+//       width: 90px;   //根据实际情况自行调整文本宽度
+//     }
+//   }
+// </style>
