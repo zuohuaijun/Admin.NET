@@ -2,24 +2,33 @@
 	<div class="sys-database-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true" v-loading="state.loading">
-				<el-form-item label="库名" prop="configId">
-					<el-select v-model="state.configId" placeholder="库名" filterable @change="handleQueryTable">
-						<el-option v-for="item in state.dbData" :key="item" :label="item" :value="item" />
-					</el-select>
-				</el-form-item>
-				<el-form-item label="表名" prop="tableName">
-					<el-select v-model="state.tableName" placeholder="表名" filterable clearable @change="handleQueryColumn">
-						<el-option v-for="item in state.tableData" :key="item.name" :label="item.name + '[' + item.description + ']'" :value="item.name" />
-					</el-select>
-				</el-form-item>
-				<el-form-item>
-					<!-- <el-button type="primary" icon="ele-Search" @click="handleQueryTable"> 查看 </el-button> -->
-					<el-button icon="ele-Edit" type="primary" @click="openEditTable"> 编辑表 </el-button>
-					<el-button icon="ele-Delete" type="danger" @click="delTable"> 删除表 </el-button>
-					<el-button icon="ele-Plus" @click="openAddTable"> 增加表 </el-button>
-					<el-button icon="ele-Plus" @click="openAddColumn"> 增加列 </el-button>
-					<el-button icon="ele-Plus" @click="openGenDialog"> 生成实体 </el-button>
-				</el-form-item>
+        <el-row :gutter="35">
+          <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">
+            <el-form-item label="库名" prop="configId">
+              <el-select v-model="state.configId" placeholder="库名" filterable @change="handleQueryTable">
+                <el-option v-for="item in state.dbData" :key="item" :label="item" :value="item" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="8" :lg="8" :xl="8">  
+            <el-form-item label="表名" prop="tableName">
+              <el-select v-model="state.tableName" placeholder="表名" filterable clearable @change="handleQueryColumn">
+                <el-option v-for="item in state.tableData" :key="item.name" :label="item.name + '[' + item.description + ']'" :value="item.name" />
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
+            <div>
+              <el-button icon="ele-Edit" type="primary" @click="openEditTable"> 编辑表 </el-button>
+              <el-button icon="ele-Delete" type="danger" @click="delTable"> 删除表 </el-button>
+              <el-button icon="ele-Plus" @click="openAddTable"> 增加表 </el-button>
+              <el-button icon="ele-Plus" @click="openAddColumn"> 增加列 </el-button>
+              <el-button icon="ele-Plus" @click="openGenDialog"> 生成实体 </el-button>
+            </div>
+            <div> 
+            </div>
+          </el-col>
+        </el-row>
 			</el-form>
 		</el-card>
 

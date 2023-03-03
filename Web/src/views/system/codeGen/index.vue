@@ -2,17 +2,29 @@
 	<div class="sys-codeGen-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="业务名" prop="busName">
-					<el-input placeholder="业务名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.busName" />
-				</el-form-item>
-				<el-form-item label="数据库表名" prop="tableName">
-					<el-input placeholder="数据库表名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.tableName" />
-				</el-form-item>
-				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysMenu:list'"> 查询 </el-button>
-					<el-button type="primary" icon="ele-Plus" @click="openAddDialog">增加</el-button>
-				</el-form-item>
+        <el-row :gutter="35">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+            <el-form-item label="业务名" prop="busName">
+              <el-input placeholder="业务名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.busName" />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
+            <el-form-item label="数据库表名" prop="tableName">
+              <el-input placeholder="数据库表名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.tableName" />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
+            <div>
+              <el-button type="primary" icon="ele-Plus" @click="openAddDialog"> 增加 </el-button>
+            </div>
+            <div>
+              <el-form-item>
+                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysMenu:list'" plain> 查询 </el-button>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
 			</el-form>
 		</el-card>
 
@@ -198,3 +210,12 @@ const handleGenerate = (row: any) => {
 		.catch(() => {});
 };
 </script>
+
+<style lang="scss" scoped>
+  //搜索区域Label固定宽度
+  .sys-codeGen-container{
+    ::v-deep(.el-form-item__label) {
+      width: 90px;
+    }
+  }
+</style>

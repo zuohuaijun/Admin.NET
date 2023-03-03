@@ -8,18 +8,30 @@
 			<el-col :span="18" :xs="24">
 				<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 					<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-						<el-form-item label="行政名称" prop="name">
-							<el-input placeholder="行政名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
-						</el-form-item>
-						<el-form-item label="行政代码" prop="code">
-							<el-input placeholder="行政代码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
-						</el-form-item>
-						<el-form-item>
-							<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-							<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysRegion:page'"> 查询 </el-button>
-							<el-button icon="ele-Plus" @click="openAddRegion" v-auth="'sysRegion:add'"> 新增 </el-button>
-							<el-button type="danger" icon="ele-Lightning" @click="handlSync" v-auth="'sysRegion:sync'"> 同步国家统计局 </el-button>
-						</el-form-item>
+            <el-row :gutter="35">
+              <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+                <el-form-item label="行政名称" prop="name">
+                  <el-input placeholder="行政名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+                <el-form-item label="行政代码" prop="code">
+                  <el-input placeholder="行政代码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
+                </el-form-item>
+              </el-col>
+              <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
+                <div>
+                  <el-button type="primary"  icon="ele-Plus" @click="openAddRegion" v-auth="'sysRegion:add'"> 新增 </el-button>
+                    <el-button type="danger" icon="ele-Lightning" @click="handlSync" v-auth="'sysRegion:sync'"> 同步国家统计局 </el-button>
+                </div>
+                <div>
+                  <el-form-item>
+                    <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+                    <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysRegion:page'" plain> 查询 </el-button> 
+                  </el-form-item>
+                </div>
+              </el-col>
+            </el-row>
 					</el-form>
 				</el-card>
 

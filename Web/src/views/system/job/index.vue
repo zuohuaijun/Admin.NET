@@ -2,37 +2,49 @@
 	<div class="sys-job-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="作业编号" prop="jobId">
-					<el-input placeholder="作业编号" clearable @keyup.enter="handleQuery" v-model="state.queryParams.jobId" />
-				</el-form-item>
-				<el-form-item label="描述信息" prop="description">
-					<el-input placeholder="描述信息" clearable @keyup.enter="handleQuery" v-model="state.queryParams.description" />
-				</el-form-item>
-				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysJob:pageJobDetail'"> 查询 </el-button>
-					<el-button-group style="margin: 0px 12px">
-						<el-tooltip content="增加作业">
-							<el-button icon="ele-CirclePlus" @click="openAddJobDetail" v-auth="'sysJob:addJobDetail'"> </el-button>
-						</el-tooltip>
-						<el-tooltip content="启动所有作业">
-							<el-button icon="ele-VideoPlay" @click="startAllJob" />
-						</el-tooltip>
-						<el-tooltip content="暂停所有作业">
-							<el-button icon="ele-VideoPause" @click="pauseAllJob" />
-						</el-tooltip>
-					</el-button-group>
-					<el-button-group style="margin: 0px 12px 0px 0px">
-						<el-tooltip content="强制唤醒作业调度器">
-							<el-button icon="ele-AlarmClock" @click="cancelSleep" />
-						</el-tooltip>
-						<el-tooltip content="强制触发所有作业持久化">
-							<el-button icon="ele-Connection" @click="persistAll" />
-						</el-tooltip>
-					</el-button-group>
-					<el-button icon="ele-Coin" @click="openJobCluster" plain> 集群控制 </el-button>
-					<el-button icon="ele-Grid" @click="openJobDashboard" plain> 任务看板 </el-button>
-				</el-form-item>
+        <el-row :gutter="35">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+            <el-form-item label="作业编号" prop="jobId">
+              <el-input placeholder="作业编号" clearable @keyup.enter="handleQuery" v-model="state.queryParams.jobId" />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
+            <el-form-item label="描述信息" prop="description">
+              <el-input placeholder="描述信息" clearable @keyup.enter="handleQuery" v-model="state.queryParams.description" />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
+            <div>
+              <el-button-group style="margin: 0px 12px">
+                <el-tooltip content="增加作业">
+                  <el-button icon="ele-CirclePlus" @click="openAddJobDetail" v-auth="'sysJob:addJobDetail'"> </el-button>
+                </el-tooltip>
+                <el-tooltip content="启动所有作业">
+                  <el-button icon="ele-VideoPlay" @click="startAllJob" />
+                </el-tooltip>
+                <el-tooltip content="暂停所有作业">
+                  <el-button icon="ele-VideoPause" @click="pauseAllJob" />
+                </el-tooltip>
+              </el-button-group>
+              <el-button-group style="margin: 0px 12px 0px 0px">
+                <el-tooltip content="强制唤醒作业调度器">
+                  <el-button icon="ele-AlarmClock" @click="cancelSleep" />
+                </el-tooltip>
+                <el-tooltip content="强制触发所有作业持久化">
+                  <el-button icon="ele-Connection" @click="persistAll" />
+                </el-tooltip>
+              </el-button-group>
+              <el-button icon="ele-Coin" @click="openJobCluster" plain> 集群控制 </el-button>
+              <el-button icon="ele-Grid" @click="openJobDashboard" plain> 任务看板 </el-button>
+            </div>
+            <div>
+              <el-form-item>
+                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysJob:pageJobDetail'" plain> 查询 </el-button>
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
 			</el-form>
 		</el-card>
 

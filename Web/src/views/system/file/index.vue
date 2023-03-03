@@ -2,24 +2,36 @@
 	<div class="sys-file-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="文件名称" prop="fileName">
-					<el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.fileName" />
-				</el-form-item>
-				<el-form-item label="时间范围" prop="timeRange">
-					<el-date-picker
-						v-model="state.queryParams.timeRange"
-						type="datetimerange"
-						start-placeholder="开始时间"
-						end-placeholder="结束时间"
-						format="YYYY-MM-DD HH:mm:ss"
-						value-format="YYYY-MM-DD HH:mm:ss"
-					/>
-				</el-form-item>
-				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysFile:page'"> 查询 </el-button>
-					<el-button icon="ele-UploadFilled" @click="openUploadDialog" v-auth="'sysFile:uploadFile'"> 上传 </el-button>
-				</el-form-item>
+        <el-row :gutter="35">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+            <el-form-item label="文件名称" prop="fileName">
+              <el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.fileName" />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
+            <el-form-item label="时间范围" prop="timeRange">
+              <el-date-picker
+                v-model="state.queryParams.timeRange"
+                type="datetimerange"
+                start-placeholder="开始时间"
+                end-placeholder="结束时间"
+                format="YYYY-MM-DD HH:mm:ss"
+                value-format="YYYY-MM-DD HH:mm:ss"
+              />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
+            <div>
+              <el-button type="primary"  icon="ele-Plus" @click="openUploadDialog" v-auth="'sysFile:uploadFile'"> 上传 </el-button>
+            </div>
+            <div>
+              <el-form-item>
+                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysFile:page'" plain> 查询 </el-button> 
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
 			</el-form>
 		</el-card>
 

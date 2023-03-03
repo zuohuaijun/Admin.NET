@@ -2,20 +2,34 @@
 	<div class="sys-config-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="配置名称" prop="name">
-					<el-input placeholder="配置名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
-				</el-form-item>
-				<el-form-item label="配置编码" prop="code">
-					<el-input placeholder="配置编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
-				</el-form-item>
-				<el-form-item label="分组编码" prop="groupCode">
-					<el-input placeholder="分组编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.groupCode" />
-				</el-form-item>
-				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysConfig:page'"> 查询 </el-button>
-					<el-button icon="ele-Plus" @click="openAddConfig" v-auth="'sysConfig:add'"> 新增 </el-button>
-				</el-form-item>
+        <el-row :gutter="35">
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
+            <el-form-item label="配置名称" prop="name">
+              <el-input placeholder="配置名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
+            <el-form-item label="配置编码" prop="code">
+              <el-input placeholder="配置编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
+            <el-form-item label="分组编码" prop="groupCode">
+              <el-input placeholder="分组编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.groupCode" />
+            </el-form-item>
+          </el-col>
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
+            <div>
+              <el-button type="primary"  icon="ele-Plus" @click="openAddConfig" v-auth="'sysConfig:add'"> 新增 </el-button>
+            </div>
+            <div>
+              <el-form-item>
+                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysConfig:page'" plain> 查询 </el-button> 
+              </el-form-item>
+            </div>
+          </el-col>
+        </el-row>
 			</el-form>
 		</el-card>
 
