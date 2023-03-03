@@ -24,7 +24,7 @@
 			<div class="login-right-warp flex-margin">
 				<span class="login-right-warp-one"></span>
 				<span class="login-right-warp-two"></span>
-				<div class="login-right-warp-mian">
+				<div class="login-right-warp-main">
 					<div class="login-right-warp-main-title">{{ getThemeConfig.globalTitle }}</div>
 					<div class="login-right-warp-main-form">
 						<div v-if="!state.isScan">
@@ -38,9 +38,9 @@
 							</el-tabs>
 						</div>
 						<Scan v-if="state.isScan" />
-						<div class="login-content-main-sacn" @click="state.isScan = !state.isScan">
+						<div class="login-content-main-scan" @click="state.isScan = !state.isScan">
 							<i class="iconfont" :class="state.isScan ? 'icon-diannao1' : 'icon-barcode-qr'"></i>
-							<div class="login-content-main-sacn-delta"></div>
+							<div class="login-content-main-scan-delta"></div>
 						</div>
 					</div>
 				</div>
@@ -191,7 +191,7 @@ onMounted(() => {
 					animation-delay: 2.1s;
 				}
 			}
-			.login-right-warp-mian {
+			.login-right-warp-main {
 				display: flex;
 				flex-direction: column;
 				height: 100%;
@@ -209,7 +209,7 @@ onMounted(() => {
 				.login-right-warp-main-form {
 					flex: 1;
 					padding: 0 50px 50px;
-					.login-content-main-sacn {
+					.login-content-main-scan {
 						position: absolute;
 						top: 0;
 						right: 0;
