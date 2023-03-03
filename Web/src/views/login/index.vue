@@ -38,9 +38,9 @@
 							</el-tabs>
 						</div>
 						<Scan v-if="state.isScan" />
-						<div class="login-content-main-sacn" @click="state.isScan = !state.isScan">
+						<div class="login-content-main-scan" @click="state.isScan = !state.isScan">
 							<i class="iconfont" :class="state.isScan ? 'icon-diannao1' : 'icon-barcode-qr'"></i>
-							<div class="login-content-main-sacn-delta"></div>
+							<div class="login-content-main-scan-delta"></div>
 						</div>
 					</div>
 				</div>
@@ -209,7 +209,7 @@ onMounted(() => {
 				.login-right-warp-main-form {
 					flex: 1;
 					padding: 0 50px 50px;
-					.login-content-main-sacn {
+					.login-content-main-scan {
 						position: absolute;
 						top: 0;
 						right: 0;
