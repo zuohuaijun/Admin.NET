@@ -24,7 +24,7 @@
 			<div class="login-right-warp flex-margin">
 				<span class="login-right-warp-one"></span>
 				<span class="login-right-warp-two"></span>
-				<div class="login-right-warp-mian">
+				<div class="login-right-warp-main">
 					<div class="login-right-warp-main-title">{{ getThemeConfig.globalTitle }}</div>
 					<div class="login-right-warp-main-form">
 						<div v-if="!state.isScan">
@@ -191,7 +191,7 @@ onMounted(() => {
 					animation-delay: 2.1s;
 				}
 			}
-			.login-right-warp-mian {
+			.login-right-warp-main {
 				display: flex;
 				flex-direction: column;
 				height: 100%;
