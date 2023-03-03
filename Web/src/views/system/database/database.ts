@@ -89,4 +89,19 @@ export const dataTypeList = [
 		hasLength: false,
 		hasDecimalDigits: false,
 	},
+	{
+		value: 'date',
+		hasLength: false,
+		hasDecimalDigits: false,
+	},
+    {
+		value: 'blob',
+		hasLength: false,
+		hasDecimalDigits: false,
+	},
+    {
+		value: 'clob',
+		hasLength: false,
+		hasDecimalDigits: false,
+	},
 ];
