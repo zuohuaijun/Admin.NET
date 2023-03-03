@@ -39,7 +39,11 @@
 
   //搜索区域控件宽度默认撑满
   .el-form-item {
-    width: 100%
+    width: 100%;
+
+    .el-select {
+      width: 100%
+    }
   }
 
   //搜索区域按钮布局
