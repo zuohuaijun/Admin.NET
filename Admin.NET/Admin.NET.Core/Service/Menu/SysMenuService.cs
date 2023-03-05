@@ -55,6 +55,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     private void DeleteBtnFromMenuTree(List<SysMenu> menuList)
     {
+        if (menuList == null) return;
         for (var i = menuList.Count - 1; i >= 0; i--)
         {
             var menu = menuList[i];
