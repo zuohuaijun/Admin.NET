@@ -135,11 +135,9 @@
 	@:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
 	}
 	}
-	@foreach (var column in Model.TableField){
-	if(@column.EffectType == "Select"){
+	@if(@Model.TableField.Any(x=>x.EffectType == "Select")){
 	@:import { getDictDataList } from '/@@/api/system/admin';
 
-	}
 	}
 	@foreach (var column in Model.TableField){
 	if(@column.EffectType == "Select"){
