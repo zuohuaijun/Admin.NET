@@ -272,7 +272,7 @@ public static class CodeGenUtil
     {
         var columnList = new List<string>()
         {
-            "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete"
+            "TenantId", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete"
         };
         return columnList.Contains(columnName);
     }
