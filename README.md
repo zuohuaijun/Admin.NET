@@ -87,6 +87,7 @@
 22. 限流控制：采用 AspNetCoreRateLimit 组件实现对接口访问限制。
 23. ES 日志：通过 NEST 组件实现日志存取到 Elasticsearch 日志系统。
 24. 开放授权：支持OAuth 2.0开放标准授权登录，比如微信。
+25. APIJSON：适配腾讯APIJSON协议，支持后端0代码，[使用文档](https://github.com/liaozb/APIJSON.NET)。
 
 ## 🛒应用商城
 
@@ -125,3 +126,4 @@
 - 👉 IGeekFan.AspNetCore.Knife4jUI：[https://github.com/luoyunchong/IGeekFan.AspNetCore.Knife4jUI](https://github.com/luoyunchong/IGeekFan.AspNetCore.Knife4jUI)
 - 👉 AspNet.Security.OAuth.Providers：[https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers](https://github.com/aspnet-contrib/AspNet.Security.OAuth.Providers)
 - 👉 System.Linq.Dynamic.Core：[https://github.com/zzzprojects/System.Linq.Dynamic.Core](https://github.com/zzzprojects/System.Linq.Dynamic.Core)
+- 👉 APIJSON.NET：[https://github.com/liaozb/APIJSON.NET](https://github.com/liaozb/APIJSON.NET)
