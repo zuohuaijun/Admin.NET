@@ -112,7 +112,7 @@ const state = reactive({
 	rotateVerifyImg: verifyImg,
 	secondVerEnabled: true,
 	captchaEnabled: true,
-	wartermarkEnabled: true,
+	watermarkEnabled: true,
 	isPassRotate: false,
 });
 onMounted(async () => {
@@ -120,7 +120,7 @@ onMounted(async () => {
 	var res1 = await getAPI(SysAuthApi).apiSysAuthLoginConfigGet();
 	state.secondVerEnabled = res1.data.result.secondVerEnabled ?? true;
 	state.captchaEnabled = res1.data.result.captchaEnabled ?? true;
-	state.wartermarkEnabled = res1.data.result.wartermarkEnabled ?? true;
+	state.watermarkEnabled = res1.data.result.watermarkEnabled ?? true;
 
 	getCaptcha();
 });
@@ -131,11 +131,11 @@ const getThemeConfig = computed(() => {
 // 存储布局配置
 const setLocalThemeConfig = () => {
 	// 是否显示水印
-	if (!state.wartermarkEnabled) return;
+	if (!state.watermarkEnabled) return;
 
-	// getThemeConfig.value.wartermarkText = state.ruleForm.account;
-	getThemeConfig.value.isWartermark = true;
-	Watermark.set(getThemeConfig.value.wartermarkText);
+	// getThemeConfig.value.watermarkText = state.ruleForm.account;
+	getThemeConfig.value.isWatermark = true;
+	Watermark.set(getThemeConfig.value.watermarkText);
 
 	Local.remove('themeConfig');
 	Local.set('themeConfig', getThemeConfig.value);
