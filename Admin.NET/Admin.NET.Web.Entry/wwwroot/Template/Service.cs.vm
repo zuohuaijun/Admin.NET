@@ -21,7 +21,7 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
     /// <returns></returns>
     [HttpGet]
     [ApiDescriptionSettings(Name = "Page")]
-    public async Task<dynamic> Page([FromQuery] @(@Model.ClassName)Input input)
+    public async Task<SqlSugarPagedList<@(@Model.ClassName)Output>> Page([FromQuery] @(@Model.ClassName)Input input)
     {
         var query= _rep.AsQueryable()
 @foreach (var column in Model.TableField){
@@ -55,6 +55,8 @@ if (@column.QueryWhether == "Y"){
                     @://.Mapper(c => c.@(@column.ColumnName)Attachment, c => c.@(@column.ColumnName))
     }
 }
+} else {
+                    @:.Select<@(@Model.ClassName)Output>()
 }
 ;
 @foreach (var column in Model.TableField){
@@ -102,6 +104,8 @@ if (@column.QueryWhether == "Y"){
 @foreach (var column in Model.TableField){
 if (@column.ColumnKey == "True"){
         @:var entity = await _rep.GetFirstAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
+        @:if (entity == null)
+        @:    throw Oops.Oh(ErrorCodeEnum.D1002);
 }
 }
         await _rep.FakeDeleteAsync(entity);   //假删除
@@ -143,9 +147,9 @@ if (@column.ColumnKey == "True"){
     /// <returns></returns>
     [HttpGet]
     [ApiDescriptionSettings(Name = "List")]
-    public async Task<dynamic> List([FromQuery] @(@Model.ClassName)Input input)
+    public async Task<List<@(@Model.ClassName)Output>> List([FromQuery] @(@Model.ClassName)Input input)
     {
-        return await _rep.AsQueryable().ToListAsync();
+        return await _rep.AsQueryable().Select<@(@Model.ClassName)Output>().ToListAsync();
     }
 
 @foreach (var column in Model.TableField){
