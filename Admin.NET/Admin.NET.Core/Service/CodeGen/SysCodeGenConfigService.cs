@@ -21,8 +21,9 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     [DisplayName("获取代码生成配置列表")]
     public async Task<List<CodeGenConfig>> GetList([FromQuery] CodeGenConfig input)
     {
+		var whetherCommon = YesNoEnum.Y.ToString();
         return await _db.Queryable<SysCodeGenConfig>()
-            .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesNoEnum.Y.ToString())
+            .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != whetherCommon)
             .Select<CodeGenConfig>().ToListAsync();
     }
 
