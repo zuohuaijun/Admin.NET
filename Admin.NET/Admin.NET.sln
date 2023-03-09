@@ -16,10 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daming.WanrenDC.App", "..\..\项目列表\万人调查\backend\Daming.WanrenDC.App\Daming.WanrenDC.App.csproj", "{A936557C-CC25-4FBC-8795-16FF99EF5C28}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Daming.Hotel.App", "..\..\项目列表\酒店管理\Daming.Hotel.App\Daming.Hotel.App.csproj", "{A39DF2EA-D650-4055-8A5F-2C253A282636}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,14 +38,6 @@ Global
 		{11EA630B-4600-4236-A117-CE6C6CD67586}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{11EA630B-4600-4236-A117-CE6C6CD67586}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{11EA630B-4600-4236-A117-CE6C6CD67586}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A936557C-CC25-4FBC-8795-16FF99EF5C28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A936557C-CC25-4FBC-8795-16FF99EF5C28}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A936557C-CC25-4FBC-8795-16FF99EF5C28}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A936557C-CC25-4FBC-8795-16FF99EF5C28}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A39DF2EA-D650-4055-8A5F-2C253A282636}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A39DF2EA-D650-4055-8A5F-2C253A282636}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A39DF2EA-D650-4055-8A5F-2C253A282636}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A39DF2EA-D650-4055-8A5F-2C253A282636}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
