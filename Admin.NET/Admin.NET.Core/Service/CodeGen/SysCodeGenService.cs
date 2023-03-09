@@ -1,3 +1,5 @@
+using System.IO.Compression;
+
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -215,11 +217,24 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [DisplayName("代码生成到本地")]
-    public async Task RunLocal(SysCodeGen input)
+    public async Task<dynamic> RunLocal(SysCodeGen input)
     {
+        if (string.IsNullOrEmpty(input.GenerateType))
+        {
+            input.GenerateType = "200";
+        }
         // 先删除该表已生成的菜单列表
         var templatePathList = GetTemplatePathList();
-        var targetPathList = GetTargetPathList(input);
+        List<string> targetPathList;
+        var zipPath = App.WebHostEnvironment.WebRootPath + $@"\CodeGen\{input.TableName}";
+        if (input.GenerateType.StartsWith('1'))
+        {
+            targetPathList = GetZipPathList(input);
+            if (Directory.Exists(zipPath))
+                Directory.Delete(zipPath, true);
+        }
+        else
+            targetPathList = GetTargetPathList(input);
 
         var tableFieldList = await _codeGenConfigService.GetList(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
 
@@ -258,7 +273,23 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             File.WriteAllText(targetPathList[i], tResult, Encoding.UTF8);
         }
 
-        await AddMenu(input.TableName, input.BusName, input.MenuPid);
+        //最后一位代码为0则添加栏目
+        if (input.GenerateType.EndsWith('0'))
+            await AddMenu(input.TableName, input.BusName, input.MenuPid);
+        //非ZIP压缩返回空
+        if (!input.GenerateType.StartsWith('1'))
+            return null;
+        else
+        {
+            string downloadPath = zipPath + ".zip";
+            //判断是否存在同名称文件
+            if (File.Exists(downloadPath))
+            {
+                File.Delete(downloadPath);
+            }
+            ZipFile.CreateFromDirectory(zipPath, downloadPath);
+            return new { url = $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Host}/sysCodeGen/downCode/{input.TableName}.zip" };
+        }
     }
 
     /// <summary>
@@ -419,6 +450,41 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// 获取模板文件路径集合
     /// </summary>
     /// <returns></returns>
+    private static List<string> GetTemplatePathList(SysCodeGen input)
+    {
+        var templatePath = App.WebHostEnvironment.WebRootPath + @"\Template\";
+        if (input.GenerateType.Substring(1, 1).Contains('1'))
+            return new List<string>()
+        {
+            Path.Combine(templatePath , "index.vue.vm"),
+            Path.Combine(templatePath , "editDialog.vue.vm"),
+            Path.Combine(templatePath , "manage.js.vm"),
+        };
+        else if (input.GenerateType.Substring(1, 1).Contains("2"))
+            return new List<string>()
+            {
+            Path.Combine(templatePath , "Service.cs.vm"),
+            Path.Combine(templatePath , "Input.cs.vm"),
+            Path.Combine(templatePath , "Output.cs.vm"),
+            Path.Combine(templatePath , "Dto.cs.vm"),
+        };
+        else
+            return new List<string>()
+        {
+            Path.Combine(templatePath , "Service.cs.vm"),
+            Path.Combine(templatePath , "Input.cs.vm"),
+            Path.Combine(templatePath , "Output.cs.vm"),
+            Path.Combine(templatePath , "Dto.cs.vm"),
+            Path.Combine(templatePath , "index.vue.vm"),
+            Path.Combine(templatePath , "editDialog.vue.vm"),
+            Path.Combine(templatePath , "manage.js.vm"),
+        };
+    }
+
+    /// <summary>
+    /// 获取模板文件路径集合
+    /// </summary>
+    /// <returns></returns>
     private static List<string> GetTemplatePathList()
     {
         var templatePath = Path.Combine(App.WebHostEnvironment.WebRootPath, "Template");
@@ -452,6 +518,52 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var apiJsPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, _codeGenOptions.FrontRootPath, "src", "api", "main", input.TableName[..1].ToLower() + input.TableName[1..] + ".ts");
 
         return new List<string>()
+        {
+            servicePath,
+            inputPath,
+            outputPath,
+            viewPath,
+            indexPath,
+            formModalPath,
+            apiJsPath
+        };
+    }
+
+    /// <summary>
+    /// 设置生成文件路径
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    private List<string> GetZipPathList(SysCodeGen input)
+    {
+        var zipPath = App.WebHostEnvironment.WebRootPath + $@"\CodeGen\{input.TableName}";
+
+        var backendPath = Path.Combine(zipPath, _codeGenOptions.BackendApplicationNamespace, "Service", input.TableName);
+        var servicePath = Path.Combine(backendPath, input.TableName + "Service.cs");
+        var inputPath = Path.Combine(backendPath, "Dto", input.TableName + "Input.cs");
+        var outputPath = Path.Combine(backendPath, "Dto", input.TableName + "Output.cs");
+        var viewPath = Path.Combine(backendPath, "Dto", input.TableName + "Dto.cs");
+        var frontendPath = Path.Combine(zipPath, _codeGenOptions.FrontRootPath, "src", "views", "main");
+        var indexPath = Path.Combine(frontendPath, input.TableName[..1].ToLower() + input.TableName[1..], "index.vue");
+        var formModalPath = Path.Combine(frontendPath, input.TableName[..1].ToLower() + input.TableName[1..], "component", "editDialog.vue");
+        var apiJsPath = Path.Combine(zipPath, _codeGenOptions.FrontRootPath, "src", "api", "main", input.TableName[..1].ToLower() + input.TableName[1..] + ".ts");
+        if (input.GenerateType.StartsWith("11"))
+            return new List<string>()
+        {
+            indexPath,
+            formModalPath,
+            apiJsPath
+        };
+        else if (input.GenerateType.StartsWith("12"))
+            return new List<string>()
+        {
+            servicePath,
+            inputPath,
+            outputPath,
+            viewPath
+        };
+        else
+            return new List<string>()
         {
             servicePath,
             inputPath,
