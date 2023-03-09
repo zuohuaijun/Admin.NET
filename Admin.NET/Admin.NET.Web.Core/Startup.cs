@@ -71,14 +71,14 @@ public class Startup : AppStartup
                 })
                 .AddInjectWithUnifyResult<AdminResultProvider>();
 
-        // 第三方授权登录
-        services.AddAuthentication()
-                .AddWeixin(options =>
-                {
-                    var opt = App.GetOptions<OAuthOptions>();
-                    options.ClientId = opt.Weixin.ClientId;
-                    options.ClientSecret = opt.Weixin.ClientSecret;
-                });
+        //// 第三方授权登录
+        //services.AddAuthentication()
+        //        .AddWeixin(options =>
+        //        {
+        //            var opt = App.GetOptions<OAuthOptions>();
+        //            options.ClientId = opt.Weixin.ClientId;
+        //            options.ClientSecret = opt.Weixin.ClientSecret;
+        //        });
 
         // ElasticSearch
         services.AddElasticSearch();
@@ -208,8 +208,8 @@ public class Startup : AppStartup
         // 配置多语言
         app.UseAppLocalization();
 
-        // 启用HTTPS
-        app.UseHttpsRedirection();
+        //// 启用HTTPS
+        //app.UseHttpsRedirection();
 
         app.UseStaticFiles();
 

@@ -34,9 +34,9 @@ public class SysWechatUser : EntityBase
     public virtual string OpenId { get; set; }
 
     /// <summary>
-    /// 缓存key
+    /// 会话密钥
     /// </summary>
-    [SugarColumn(ColumnDescription = "缓存key", Length = 256)]
+    [SugarColumn(ColumnDescription = "会话密钥", Length = 256)]
     [MaxLength(256)]
     public string? SessionKey { get; set; }
 
@@ -119,4 +119,11 @@ public class SysWechatUser : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "ExpiresIn")]
     public int? ExpiresIn { get; set; }
+
+    /// <summary>
+    /// 用户授权的作用域，使用逗号分隔
+    /// </summary>
+    [SugarColumn(ColumnDescription = "授权作用域", Length = 64)]
+    [MaxLength(64)]
+    public string? Scope { get; set; }
 }

@@ -18,7 +18,6 @@ import { Configuration } from '../configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AddDictDataInput } from '../models';
 import { AdminResultListSysDictData } from '../models';
-import { AdminResultObject } from '../models';
 import { AdminResultSqlSugarPagedListSysDictData } from '../models';
 import { AdminResultSysDictData } from '../models';
 import { DeleteDictDataInput } from '../models';
@@ -488,7 +487,7 @@ export const SysDictDataApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictDataDataListCodeGet(code: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+        async apiSysDictDataDataListCodeGet(code: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysDictData>>> {
             const localVarAxiosArgs = await SysDictDataApiAxiosParamCreator(configuration).apiSysDictDataDataListCodeGet(code, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -503,7 +502,7 @@ export const SysDictDataApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictDataDataListGet(code: string, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+        async apiSysDictDataDataListGet(code: string, status?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysDictData>>> {
             const localVarAxiosArgs = await SysDictDataApiAxiosParamCreator(configuration).apiSysDictDataDataListGet(code, status, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -628,7 +627,7 @@ export const SysDictDataApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictDataDataListCodeGet(code: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+        async apiSysDictDataDataListCodeGet(code: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysDictData>> {
             return SysDictDataApiFp(configuration).apiSysDictDataDataListCodeGet(code, options).then((request) => request(axios, basePath));
         },
         /**
@@ -639,7 +638,7 @@ export const SysDictDataApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictDataDataListGet(code: string, status?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+        async apiSysDictDataDataListGet(code: string, status?: number, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysDictData>> {
             return SysDictDataApiFp(configuration).apiSysDictDataDataListGet(code, status, options).then((request) => request(axios, basePath));
         },
         /**
@@ -739,7 +738,7 @@ export class SysDictDataApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDictDataApi
      */
-    public async apiSysDictDataDataListCodeGet(code: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+    public async apiSysDictDataDataListCodeGet(code: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysDictData>> {
         return SysDictDataApiFp(this.configuration).apiSysDictDataDataListCodeGet(code, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -751,7 +750,7 @@ export class SysDictDataApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDictDataApi
      */
-    public async apiSysDictDataDataListGet(code: string, status?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+    public async apiSysDictDataDataListGet(code: string, status?: number, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysDictData>> {
         return SysDictDataApiFp(this.configuration).apiSysDictDataDataListGet(code, status, options).then((request) => request(this.axios, this.basePath));
     }
     /**

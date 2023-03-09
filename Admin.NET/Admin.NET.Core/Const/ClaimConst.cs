@@ -51,7 +51,7 @@ public class ClaimConst
     public const string OpenId = "OpenId";
 
     /// <summary>
-    /// 运行模式（账号和三方授权）
+    /// 登录模式PC、APP
     /// </summary>
-    public const string RunMode = "RunMode";
+    public const string LoginMode = "LoginMode";
 }

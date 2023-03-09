@@ -72,7 +72,7 @@ public class SysAuthService : IDynamicApiController, ITransient
 
         // 租户是否被禁用
         var tenant = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysTenant>>().GetFirstAsync(u => u.Id == user.TenantId);
-        if (tenant.Status == StatusEnum.Disable)
+        if (tenant?.Status == StatusEnum.Disable)
             throw Oops.Oh(ErrorCodeEnum.Z1003);
 
         // 密码是否正确
@@ -93,12 +93,12 @@ public class SysAuthService : IDynamicApiController, ITransient
         // 生成Token令牌
         var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
         {
-            {ClaimConst.UserId, user.Id},
-            {ClaimConst.TenantId, user.TenantId},
-            {ClaimConst.Account, user.Account},
-            {ClaimConst.RealName, user.RealName},
-            {ClaimConst.AccountType, user.AccountType },
-            {ClaimConst.OrgId, user.OrgId},
+            { ClaimConst.UserId, user.Id },
+            { ClaimConst.TenantId, user.TenantId },
+            { ClaimConst.Account, user.Account },
+            { ClaimConst.RealName, user.RealName },
+            { ClaimConst.AccountType, user.AccountType },
+            { ClaimConst.OrgId, user.OrgId },
         });
 
         // 生成刷新Token令牌

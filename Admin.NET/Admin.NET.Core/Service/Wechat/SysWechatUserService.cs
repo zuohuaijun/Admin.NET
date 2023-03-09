@@ -23,7 +23,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     {
         return await _sysWechatUserRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.NickName), u => u.NickName.Contains(input.NickName))
-            .WhereIF(!string.IsNullOrWhiteSpace(input.Mobile), u => u.Mobile.Contains(input.Mobile))
+            .WhereIF(!string.IsNullOrWhiteSpace(input.PhoneNumber), u => u.Mobile.Contains(input.PhoneNumber))
             .OrderBy(u => u.Id, OrderByType.Desc)
             .ToPagedListAsync(input.Page, input.PageSize);
     }

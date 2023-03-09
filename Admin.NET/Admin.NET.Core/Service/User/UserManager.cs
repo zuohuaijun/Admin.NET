@@ -1,4 +1,6 @@
-﻿namespace Admin.NET.Core;
+﻿using System;
+
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 当前登录用户
@@ -17,8 +19,8 @@ public class UserManager : IScoped
     {
         get
         {
-            var tId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.TenantId);
-            return tId == null ? _tenantId : long.Parse(tId.Value);
+            var tId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.TenantId)?.Value;
+            return string.IsNullOrWhiteSpace(tId) ? _tenantId : long.Parse(tId);
         }
         set => _tenantId = value;
     }

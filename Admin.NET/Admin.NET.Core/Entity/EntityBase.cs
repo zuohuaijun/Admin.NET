@@ -68,7 +68,7 @@ public abstract class EntityTenant : EntityBase, ITenantIdFilter
     /// <summary>
     /// 租户Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "租户Id")]
+    [SugarColumn(ColumnDescription = "租户Id", IsOnlyIgnoreUpdate = true)]
     public virtual long? TenantId { get; set; }
 }
 
@@ -80,6 +80,6 @@ public abstract class EntityTenantId : EntityBaseId, ITenantIdFilter
     /// <summary>
     /// 租户Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "租户Id")]
+    [SugarColumn(ColumnDescription = "租户Id", IsOnlyIgnoreUpdate = true)]
     public virtual long? TenantId { get; set; }
 }

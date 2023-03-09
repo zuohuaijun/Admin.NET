@@ -141,16 +141,12 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// <param name="code"></param>
     /// <returns></returns>
     [DisplayName("根据字典类型编码获取字典值集合")]
-    public async Task<dynamic> GetDataList(string code)
+    public async Task<List<SysDictData>> GetDataList(string code)
     {
         return await _sysDictDataRep.Context.Queryable<SysDictType>()
             .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)
             .Where((a, b) => a.Code == code && a.Status == StatusEnum.Enable && b.Status == StatusEnum.Enable)
-            .Select((a, b) => new
-            {
-                Label = b.Value,
-                Value = b.Code
-            }).ToListAsync();
+            .Select((a, b) => b).ToListAsync();
     }
 
     /// <summary>
@@ -159,17 +155,13 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("根据查询条件获取字典值集合")]
-    public async Task<dynamic> GetDataList([FromQuery] QueryDictDataInput input)
+    public async Task<List<SysDictData>> GetDataList([FromQuery] QueryDictDataInput input)
     {
         return await _sysDictDataRep.Context.Queryable<SysDictType>()
             .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)
             .Where((a, b) => a.Code == input.Code)
             .WhereIF(input.Status.HasValue, (a, b) => b.Status == (StatusEnum)input.Status.Value)
-            .Select((a, b) => new
-            {
-                Label = b.Value,
-                Value = b.Code
-            }).ToListAsync();
+            .Select((a, b) => b).ToListAsync();
     }
 
     /// <summary>

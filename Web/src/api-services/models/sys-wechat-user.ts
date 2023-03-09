@@ -80,7 +80,7 @@ export interface SysWechatUser {
      */
     openId: string;
     /**
-     * 缓存key
+     * 会话密钥
      * @type {string}
      * @memberof SysWechatUser
      */
@@ -157,4 +157,10 @@ export interface SysWechatUser {
      * @memberof SysWechatUser
      */
     expiresIn?: number | null;
+    /**
+     * 用户授权的作用域，使用逗号分隔
+     * @type {string}
+     * @memberof SysWechatUser
+     */
+    scope?: string | null;
 }

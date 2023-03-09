@@ -167,9 +167,9 @@
             微信OpenId
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.ClaimConst.RunMode">
+        <member name="F:Admin.NET.Core.ClaimConst.LoginMode">
             <summary>
-            运行模式（账号和三方授权）
+            登录模式PC、APP
             </summary>
         </member>
         <member name="T:Admin.NET.Core.CommonConst">
@@ -1989,7 +1989,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysWechatUser.SessionKey">
             <summary>
-            缓存key
+            会话密钥
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysWechatUser.UnionId">
@@ -2050,6 +2050,11 @@
         <member name="P:Admin.NET.Core.SysWechatUser.ExpiresIn">
             <summary>
             过期时间
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.SysWechatUser.Scope">
+            <summary>
+            用户授权的作用域，使用逗号分隔
             </summary>
         </member>
         <member name="T:Admin.NET.Core.AccountTypeEnum">
@@ -2797,6 +2802,21 @@
             其他
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.LoginModeEnum">
+            <summary>
+            登录模式枚举
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.LoginModeEnum.PC">
+            <summary>
+            PC模式
+            </summary>
+        </member>
+        <member name="F:Admin.NET.Core.LoginModeEnum.APP">
+            <summary>
+            APP
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.LoginTypeEnum">
             <summary>
             登录类型枚举
@@ -2980,21 +3000,6 @@
         <member name="F:Admin.NET.Core.RequestTypeEnum.Delete">
             <summary>
             DELETE
-            </summary>
-        </member>
-        <member name="T:Admin.NET.Core.RunModeEnum">
-            <summary>
-            运行模式枚举
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.RunModeEnum.Account">
-            <summary>
-            账号模式
-            </summary>
-        </member>
-        <member name="F:Admin.NET.Core.RunModeEnum.OpenID">
-            <summary>
-            三方授权
             </summary>
         </member>
         <member name="T:Admin.NET.Core.StatusEnum">
@@ -4076,6 +4081,7 @@
             统一入口
             </summary>
             <param name="jobject"></param>
+            <remarks>参数：{"[]":{"SYS_LOG_OP":{}}}</remarks>
             <returns></returns>
         </member>
         <member name="T:Admin.NET.Core.Service.FuncList">
@@ -7173,9 +7179,29 @@
             昵称
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.WechatUserInput.Mobile">
+        <member name="P:Admin.NET.Core.Service.WechatUserInput.PhoneNumber">
             <summary>
             手机号码
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.JsCode2SessionInput.JsCode">
+            <summary>
+            JsCode
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WxPhoneInput.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WxOpenIdLoginInput.OpenId">
+            <summary>
+            OpenId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.WxPhoneLoginInput.PhoneNumber">
+            <summary>
+            电话号码
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysWechatPayService">
@@ -7239,13 +7265,13 @@
         </member>
         <member name="M:Admin.NET.Core.Service.SysWechatService.SnsOAuth2(Admin.NET.Core.Service.WechatOAuth2Input)">
             <summary>
-            授权登录(Code换取OpenId)
+            获取微信用户OpenId
             </summary>
             <param name="input"></param>
         </member>
         <member name="M:Admin.NET.Core.Service.SysWechatService.OpenIdLogin(Admin.NET.Core.Service.WechatUserLogin)">
             <summary>
-            微信用户登录
+            微信用户登录OpenId
             </summary>
             <param name="input"></param>
             <returns></returns>
@@ -7285,6 +7311,30 @@
         <member name="M:Admin.NET.Core.Service.SysWechatUserService.DeleteWechatUser(Admin.NET.Core.Service.DeleteWechatUserInput)">
             <summary>
             删除微信用户
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysWxOpenService">
+            <summary>
+            微信小程序服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysWxOpenService.GetWxOpenId(Admin.NET.Core.Service.JsCode2SessionInput)">
+            <summary>
+            获取微信用户OpenId
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysWxOpenService.GetWxPhone(Admin.NET.Core.Service.WxPhoneInput)">
+            <summary>
+            获取微信用户电话号码
+            </summary>
+            <param name="input"></param>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysWxOpenService.WxOpenIdLogin(Admin.NET.Core.Service.WxOpenIdLoginInput)">
+            <summary>
+            微信小程序登录OpenId
             </summary>
             <param name="input"></param>
             <returns></returns>

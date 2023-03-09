@@ -25,16 +25,16 @@ public class SysWechatService : IDynamicApiController, ITransient
     [DisplayName("生成网页授权Url")]
     public string GenAuthUrl(GenAuthUrlInput input)
     {
-        return _wechatApiClient.GenerateParameterizedUrlForConnectOAuth2Authorize(input.RedirectUrl, input.Scope);
+        return _wechatApiClient.GenerateParameterizedUrlForConnectOAuth2Authorize(input.RedirectUrl, input.Scope, null);
     }
 
     /// <summary>
-    /// 授权登录(Code换取OpenId)
+    /// 获取微信用户OpenId
     /// </summary>
     /// <param name="input"></param>
     [AllowAnonymous]
-    [DisplayName("授权登录(Code换取OpenId)")]
-    public async Task<string> SnsOAuth2([Required] WechatOAuth2Input input)
+    [DisplayName("获取微信用户OpenId")]
+    public async Task<string> SnsOAuth2([FromQuery] WechatOAuth2Input input)
     {
         var reqOAuth2 = new SnsOAuth2AccessTokenRequest()
         {
@@ -42,7 +42,7 @@ public class SysWechatService : IDynamicApiController, ITransient
         };
         var resOAuth2 = await _wechatApiClient.ExecuteSnsOAuth2AccessTokenAsync(reqOAuth2);
         if (resOAuth2.ErrorCode != (int)WechatReturnCodeEnum.请求成功)
-            throw Oops.Oh(resOAuth2.ErrorMessage + resOAuth2.ErrorCode);
+            throw Oops.Oh(resOAuth2.ErrorMessage + " " + resOAuth2.ErrorCode);
 
         var wxUser = await _sysWechatUserRep.GetFirstAsync(p => p.OpenId == resOAuth2.OpenId);
         if (wxUser == null)
@@ -69,17 +69,17 @@ public class SysWechatService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 微信用户登录
+    /// 微信用户登录OpenId
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [DisplayName("微信用户登录")]
+    [DisplayName("微信用户登录OpenId")]
     public async Task<dynamic> OpenIdLogin(WechatUserLogin input)
     {
         var wxUser = await _sysWechatUserRep.GetFirstAsync(p => p.OpenId == input.OpenId);
         if (wxUser == null)
-            throw Oops.Oh("微信登录");
+            throw Oops.Oh("微信用户登录OpenId错误");
         return new
         {
             wxUser.Avatar,
@@ -88,7 +88,7 @@ public class SysWechatService : IDynamicApiController, ITransient
                 { ClaimConst.UserId, wxUser.Id },
                 { ClaimConst.OpenId, wxUser.OpenId },
                 { ClaimConst.NickName, wxUser.NickName },
-                { ClaimConst.RunMode, RunModeEnum.OpenID },
+                { ClaimConst.LoginMode, LoginModeEnum.APP },
             })
         };
     }

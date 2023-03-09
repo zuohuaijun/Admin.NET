@@ -231,7 +231,7 @@ public static class CodeGenUtil
             "int" => "int",
             "smallint" => "Int16",
             //"tinyint" => "byte",
-            "tinyint" => "bool",    // MYSQL  
+            "tinyint" => "bool",    // MYSQL
             "bigint" or "integer" => "long",
             "bit" => "bool",
             "money" or "smallmoney" or "numeric" or "decimal" => "decimal",

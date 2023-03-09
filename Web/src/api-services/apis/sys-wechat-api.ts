@@ -20,7 +20,6 @@ import { AdminResultObject } from '../models';
 import { AdminResultString } from '../models';
 import { GenAuthUrlInput } from '../models';
 import { SignatureInput } from '../models';
-import { WechatOAuth2Input } from '../models';
 import { WechatUserLogin } from '../models';
 /**
  * SysWechatApi - axios parameter creator
@@ -112,7 +111,7 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 微信用户登录
+         * @summary 微信用户登录OpenId
          * @param {WechatUserLogin} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -153,15 +152,15 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
-         * @summary 授权登录(Code换取OpenId)
-         * @param {WechatOAuth2Input} body 
+         * @summary 获取微信用户OpenId
+         * @param {string} code Code
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysWechatSnsOAuth2Post: async (body: WechatOAuth2Input, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'body' is not null or undefined
-            if (body === null || body === undefined) {
-                throw new RequiredError('body','Required parameter body was null or undefined when calling apiSysWechatSnsOAuth2Post.');
+        apiSysWechatSnsOAuth2Post: async (code: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'code' is not null or undefined
+            if (code === null || code === undefined) {
+                throw new RequiredError('code','Required parameter code was null or undefined when calling apiSysWechatSnsOAuth2Post.');
             }
             const localVarPath = `/api/sysWechat/snsOAuth2`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
@@ -176,7 +175,9 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
 
             // authentication Bearer required
 
-            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+            if (code !== undefined) {
+                localVarQueryParameter['Code'] = code;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -188,8 +189,6 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -235,7 +234,7 @@ export const SysWechatApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 微信用户登录
+         * @summary 微信用户登录OpenId
          * @param {WechatUserLogin} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -249,13 +248,13 @@ export const SysWechatApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 授权登录(Code换取OpenId)
-         * @param {WechatOAuth2Input} body 
+         * @summary 获取微信用户OpenId
+         * @param {string} code Code
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
-            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatSnsOAuth2Post(body, options);
+        async apiSysWechatSnsOAuth2Post(code: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatSnsOAuth2Post(code, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -292,7 +291,7 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary 微信用户登录
+         * @summary 微信用户登录OpenId
          * @param {WechatUserLogin} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -302,13 +301,13 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
-         * @summary 授权登录(Code换取OpenId)
-         * @param {WechatOAuth2Input} body 
+         * @summary 获取微信用户OpenId
+         * @param {string} code Code
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
-            return SysWechatApiFp(configuration).apiSysWechatSnsOAuth2Post(body, options).then((request) => request(axios, basePath));
+        async apiSysWechatSnsOAuth2Post(code: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
+            return SysWechatApiFp(configuration).apiSysWechatSnsOAuth2Post(code, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -344,7 +343,7 @@ export class SysWechatApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 微信用户登录
+     * @summary 微信用户登录OpenId
      * @param {WechatUserLogin} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -355,13 +354,13 @@ export class SysWechatApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 授权登录(Code换取OpenId)
-     * @param {WechatOAuth2Input} body 
+     * @summary 获取微信用户OpenId
+     * @param {string} code Code
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysWechatApi
      */
-    public async apiSysWechatSnsOAuth2Post(body: WechatOAuth2Input, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
-        return SysWechatApiFp(this.configuration).apiSysWechatSnsOAuth2Post(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatSnsOAuth2Post(code: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
+        return SysWechatApiFp(this.configuration).apiSysWechatSnsOAuth2Post(code, options).then((request) => request(this.axios, this.basePath));
     }
 }

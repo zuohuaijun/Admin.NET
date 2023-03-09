@@ -25,6 +25,7 @@ public class APIJSONService : IDynamicApiController, ITransient
     /// 统一入口
     /// </summary>
     /// <param name="jobject"></param>
+    /// <remarks>参数：{"[]":{"SYS_LOG_OP":{}}}</remarks>
     /// <returns></returns>
     public JObject Post([FromBody] JObject jobject)
     {
