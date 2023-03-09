@@ -102,9 +102,7 @@ if (@column.QueryWhether == "Y"){
     {
 @foreach (var column in Model.TableField){
 if (@column.ColumnKey == "True"){
-        @:var entity = await _rep.GetFirstAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
-        @:if (entity == null)
-        @:    throw Oops.Oh(ErrorCodeEnum.D1002);
+        @:var entity = await _rep.GetFirstAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName)) ?? throw Oops.Oh(ErrorCodeEnum.D1002);
 }
 }
         await _rep.FakeDeleteAsync(entity);   //假删除
@@ -120,7 +118,7 @@ if (@column.ColumnKey == "True"){
     public async Task Update(Update@(@Model.ClassName)Input input)
     {
         var entity = input.Adapt<@(@Model.ClassName)>();
-        await _rep.UpdateAsync(entity);
+        await _rep.AsUpdateable(entity).IgnoreColumns(ignoreAllNullColumns: true).ExecuteCommandAsync();
     }
 
     /// <summary>
