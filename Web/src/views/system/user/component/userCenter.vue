@@ -31,7 +31,7 @@
 						</p>
 					</div>
 					<div class="image-signature">
-						<el-image :src="userInfos.signature" fit="contain" alt="电子签名" lazy style="width: 100%; height: 100%"> </el-image>
+						<el-image :src="userInfos.signature" fit="contain" alt="电子签名" loading="lazy" style="width: 100%; height: 100%"> </el-image>
 					</div>
 					<el-button icon="ele-Edit" type="primary" @click="openSignDialog" v-auth="'sysFile:uploadSignature'"> 电子签名 </el-button>
 					<el-upload
