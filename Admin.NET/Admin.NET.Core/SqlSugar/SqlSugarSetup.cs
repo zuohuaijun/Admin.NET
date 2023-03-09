@@ -62,9 +62,6 @@ public static class SqlSugarSetup
                     if (type.PropertyType == typeof(bool) || type.PropertyType == typeof(bool?))
                         column.DataType = "number(1)";
                 }
-
-                if(column.PropertyName == "TenantId") ///租户Id列更新时强制忽略更新
-                    column.IsOnlyIgnoreUpdate = true;
             },
             DataInfoCacheService = new SqlSugarCache(),
         };

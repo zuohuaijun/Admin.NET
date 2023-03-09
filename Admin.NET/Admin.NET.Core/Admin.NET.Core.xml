@@ -5001,6 +5001,12 @@
             <param name="pid"></param>
             <returns></returns>
         </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetTemplatePathList(Admin.NET.Core.SysCodeGen)">
+            <summary>
+            获取模板文件路径集合
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetTemplatePathList">
             <summary>
             获取模板文件路径集合
@@ -5008,6 +5014,13 @@
             <returns></returns>
         </member>
         <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetTargetPathList(Admin.NET.Core.SysCodeGen)">
+            <summary>
+            设置生成文件路径
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetZipPathList(Admin.NET.Core.SysCodeGen)">
             <summary>
             设置生成文件路径
             </summary>

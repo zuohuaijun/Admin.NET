@@ -220,9 +220,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     public async Task<dynamic> RunLocal(SysCodeGen input)
     {
         if (string.IsNullOrEmpty(input.GenerateType))
-        {
             input.GenerateType = "200";
-        }
+
         // 先删除该表已生成的菜单列表
         var templatePathList = GetTemplatePathList();
         List<string> targetPathList;
@@ -239,8 +238,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var tableFieldList = await _codeGenConfigService.GetList(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
 
         var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesNoEnum.Y.ToString()).ToList(); // 前端查询集合
-        var joinTableList = tableFieldList.Where(u => u.EffectType == "Upload" || u.EffectType == "fk").ToList();// 需要连表查询的字段
-        (string joinTableNames, string lowerJoinTableNames) = GetJoinTableStr(joinTableList);// 获取连表的实体名和别名
+        var joinTableList = tableFieldList.Where(u => u.EffectType == "Upload" || u.EffectType == "fk").ToList(); // 需要连表查询的字段
+        (string joinTableNames, string lowerJoinTableNames) = GetJoinTableStr(joinTableList); // 获取连表的实体名和别名
 
         var data = new CustomViewEngine(_db)
         {
@@ -259,7 +258,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         for (var i = 0; i < templatePathList.Count; i++)
         {
             var tContent = File.ReadAllText(templatePathList[i]);
-
             var tResult = _viewEngine.RunCompile<CustomViewEngine>(tContent, data, builderAction: builder =>
             {
                 builder.AddAssemblyReferenceByName("System.Linq");
@@ -273,20 +271,18 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             File.WriteAllText(targetPathList[i], tResult, Encoding.UTF8);
         }
 
-        //最后一位代码为0则添加栏目
+        // 最后一位代码为0则添加栏目
         if (input.GenerateType.EndsWith('0'))
             await AddMenu(input.TableName, input.BusName, input.MenuPid);
-        //非ZIP压缩返回空
+        // 非ZIP压缩返回空
         if (!input.GenerateType.StartsWith('1'))
             return null;
         else
         {
             string downloadPath = zipPath + ".zip";
-            //判断是否存在同名称文件
+            // 判断是否存在同名称文件
             if (File.Exists(downloadPath))
-            {
                 File.Delete(downloadPath);
-            }
             ZipFile.CreateFromDirectory(zipPath, downloadPath);
             return new { url = $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Host}/sysCodeGen/downCode/{input.TableName}.zip" };
         }
