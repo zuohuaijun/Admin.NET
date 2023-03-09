@@ -29,7 +29,7 @@ public class CommonConst
     /// <summary>
     /// 开启水印
     /// </summary>
-    public const string SysWartermark = "sys_wartermark";
+    public const string SysWatermark = "sys_watermark";
 
     /// <summary>
     /// 开启操作日志

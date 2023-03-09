@@ -197,7 +197,7 @@
             开启图形验证码
             </summary>
         </member>
-        <member name="F:Admin.NET.Core.CommonConst.SysWartermark">
+        <member name="F:Admin.NET.Core.CommonConst.SysWatermark">
             <summary>
             开启水印
             </summary>
