@@ -128,7 +128,7 @@ if (@column.ColumnKey == "True"){
     /// <returns></returns>
     [HttpGet]
     [ApiDescriptionSettings(Name = "Detail")]
-    public async Task<@(@Model.ClassName)> Get([FromQuery] Querye@(@Model.ClassName)Input input)
+    public async Task<@(@Model.ClassName)> Get([FromQuery] QueryById@(@Model.ClassName)Input input)
     {
 @foreach (var column in Model.TableField){
 if (@column.ColumnKey == "True"){
