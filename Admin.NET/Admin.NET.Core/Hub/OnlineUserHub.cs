@@ -33,17 +33,20 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
         var token = Context.GetHttpContext().Request.Query["access_token"];
         var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
         var client = Parser.GetDefault().Parse(Context.GetHttpContext().Request.Headers["User-Agent"]);
+
+        var userId = claims.FirstOrDefault(u => u.Type == ClaimConst.UserId)?.Value;
+        var tenantId = claims.FirstOrDefault(u => u.Type == ClaimConst.TenantId)?.Value;
         var user = new SysOnlineUser
         {
             ConnectionId = Context.ConnectionId,
-            UserId = long.Parse(claims.FirstOrDefault(u => u.Type == ClaimConst.UserId)?.Value),
+            UserId = string.IsNullOrWhiteSpace(userId) ? 0 : long.Parse(userId),
             UserName = claims.FirstOrDefault(u => u.Type == ClaimConst.Account)?.Value,
             RealName = claims.FirstOrDefault(u => u.Type == ClaimConst.RealName)?.Value,
             Time = DateTime.Now,
             Ip = App.HttpContext.GetRemoteIpAddressToIPv4(),
             Browser = client.UA.Family + client.UA.Major,
             Os = client.OS.Family + client.OS.Major,
-            TenantId = Convert.ToInt64(claims.FirstOrDefault(u => u.Type == ClaimConst.TenantId)?.Value),
+            TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : Convert.ToInt64(tenantId),
         };
         await _sysOnlineUerRep.InsertAsync(user);
 

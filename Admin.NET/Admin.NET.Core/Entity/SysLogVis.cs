@@ -64,8 +64,8 @@ public class SysLogVis : EntityTenant
     /// <summary>
     /// 浏览器
     /// </summary>
-    [SugarColumn(ColumnDescription = "浏览器", Length = 256)]
-    [MaxLength(256)]
+    [SugarColumn(ColumnDescription = "浏览器", Length = 1024)]
+    [MaxLength(1024)]
     public string? Browser { get; set; }
 
     /// <summary>

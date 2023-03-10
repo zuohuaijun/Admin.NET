@@ -72,7 +72,7 @@ public class SysAuthService : IDynamicApiController, ITransient
 
         // 租户是否被禁用
         var tenant = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysTenant>>().GetFirstAsync(u => u.Id == user.TenantId);
-        if (tenant?.Status == StatusEnum.Disable)
+        if (tenant != null && tenant.Status == StatusEnum.Disable)
             throw Oops.Oh(ErrorCodeEnum.Z1003);
 
         // 密码是否正确
