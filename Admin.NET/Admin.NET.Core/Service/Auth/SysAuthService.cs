@@ -99,7 +99,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             { ClaimConst.RealName, user.RealName },
             { ClaimConst.AccountType, user.AccountType },
             { ClaimConst.OrgId, user.OrgId },
-            {ClaimConst.OrgName, user.SysOrg.Name},
+            { ClaimConst.OrgName, user.SysOrg?.Name },
         });
 
         // 生成刷新Token令牌
