@@ -6,13 +6,13 @@ public class WebComponent : IWebComponent
 {
     public void Load(WebApplicationBuilder builder, ComponentContext componentContext)
     {
-        // ÉèÖÃÈÕÖ¾¹ıÂË
+        // è®¾ç½®æ—¥å¿—è¿‡æ»¤
         builder.Logging.AddFilter((provider, category, logLevel) =>
         {
             return !new[] { "Microsoft.Hosting", "Microsoft.AspNetCore" }.Any(u => category.StartsWith(u)) && logLevel >= LogLevel.Information;
         });
 
-        // ÉèÖÃ½Ó¿Ú³¬Ê±Ê±¼äºÍÉÏ´«´óĞ¡
+        // è®¾ç½®æ¥å£è¶…æ—¶æ—¶é—´å’Œä¸Šä¼ å¤§å°
         builder.Configuration.Get<WebHostBuilder>().ConfigureKestrel(u =>
         {
             //u.Limits.KeepAliveTimeout = TimeSpan.FromMinutes(30);
