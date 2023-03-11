@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 框架实体基类Id
@@ -56,7 +56,7 @@ public abstract class EntityBaseData : EntityBase, IOrgIdFilter
     /// <summary>
     /// 创建者部门Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "创建者部门Id")]
+    [SugarColumn(ColumnDescription = "创建者部门Id", IsOnlyIgnoreUpdate = true)]
     public virtual long? CreateOrgId { get; set; }
 }
 
