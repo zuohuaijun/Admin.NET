@@ -13,7 +13,7 @@
 				<el-table-column prop="effectType" label="作用类型" show-overflow-tooltip>
 					<template #default="scope">
 						<el-select v-model="scope.row.effectType" class="m-2" placeholder="Select" :disabled="judgeColumns(scope.row)" @change="effectTypeChange(scope.row, scope.$index)">
-							<el-option v-for="item in state.effectTypeList" :key="item.value" :label="item.label" :value="item.value" />
+							<el-option v-for="item in state.effectTypeList" :key="item.code" :label="item.value" :value="item.code" />
 						</el-select>
 					</template>
 				</el-table-column>
