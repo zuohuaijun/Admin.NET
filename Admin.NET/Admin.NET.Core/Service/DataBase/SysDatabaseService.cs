@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Service;
+namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 系统数据库管理服务
@@ -181,7 +181,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
         db.DbMaintenance.RenameTable(input.OldTableName, input.TableName);
-        if (db.DbMaintenance.IsAnyTableRemark(input.TableName))
+        if (db.DbMaintenance.IsAnyTable(input.TableName))
             db.DbMaintenance.DeleteTableRemark(input.TableName);
         db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
     }
