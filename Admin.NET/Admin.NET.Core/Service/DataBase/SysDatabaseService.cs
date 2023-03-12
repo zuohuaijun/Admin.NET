@@ -201,7 +201,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var templatePath = GetEntityTemplatePath();
         var targetPath = GetEntityTargetPath(input);
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName);
+        DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName || m.Name == input.TableName.ToLower());
         if (dbTableInfo == null)
             throw Oops.Oh(ErrorCodeEnum.db1001);
 
