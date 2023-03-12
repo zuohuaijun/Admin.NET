@@ -25,7 +25,7 @@ import { JToken } from '../models';
 export const APIJSONApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 
+         * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
          * @summary 统一入口
          * @param {{ [key: string]: JToken; }} [body] 
          * @param {*} [options] Override http request option.
@@ -75,7 +75,7 @@ export const APIJSONApiAxiosParamCreator = function (configuration?: Configurati
 export const APIJSONApiFp = function(configuration?: Configuration) {
     return {
         /**
-         * 
+         * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
          * @summary 统一入口
          * @param {{ [key: string]: JToken; }} [body] 
          * @param {*} [options] Override http request option.
@@ -98,7 +98,7 @@ export const APIJSONApiFp = function(configuration?: Configuration) {
 export const APIJSONApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     return {
         /**
-         * 
+         * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
          * @summary 统一入口
          * @param {{ [key: string]: JToken; }} [body] 
          * @param {*} [options] Override http request option.
@@ -118,7 +118,7 @@ export const APIJSONApiFactory = function (configuration?: Configuration, basePa
  */
 export class APIJSONApi extends BaseAPI {
     /**
-     * 
+     * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
      * @summary 统一入口
      * @param {{ [key: string]: JToken; }} [body] 
      * @param {*} [options] Override http request option.

@@ -1,72 +1,22 @@
 <template>
 	<div class="table-container">
-		<el-table
-			:data="data"
-			:border="setBorder"
-			v-bind="$attrs"
-			row-key="id"
-			stripe
-			style="width: 100%"
-			v-loading="config.loading"
-			@selection-change="onSelectionChange"
-		>
-			<el-table-column type="selection" :reserve-selection="true" width="30" v-if="config.isSelection" />
-			<el-table-column type="index" label="序号" width="60" v-if="config.isSerialNo" />
-			<el-table-column
-				v-for="(item, index) in setHeader"
-				:key="index"
-				show-overflow-tooltip
-				:prop="item.key"
-				:width="item.colWidth"
-				:label="item.title"
-			>
-				<template v-slot="scope">
-					<template v-if="item.type === 'image'">
-						<img :src="scope.row[item.key]" :width="item.width" :height="item.height" />
-					</template>
-					<template v-else>
-						{{ scope.row[item.key] }}
-					</template>
-				</template>
-			</el-table-column>
-			<el-table-column label="操作" width="100" v-if="config.isOperate">
-				<template v-slot="scope">
-					<el-popconfirm title="确定删除吗？" @confirm="onDelRow(scope.row)">
-						<template #reference>
-							<el-button text type="primary">删除</el-button>
-						</template>
-					</el-popconfirm>
-				</template>
-			</el-table-column>
-			<template #empty>
-				<el-empty description="暂无数据" />
-			</template>
-		</el-table>
-		<div class="table-footer mt15">
-			<el-pagination
-				v-model:current-page="state.page.pageNum"
-				v-model:page-size="state.page.pageSize"
-				:pager-count="5"
-				:page-sizes="[10, 20, 30]"
-				:total="config.total"
-				layout="total, sizes, prev, pager, next, jumper"
-				background
-				@size-change="onHandleSizeChange"
-				@current-change="onHandleCurrentChange"
-			>
-			</el-pagination>
-			<div class="table-footer-tool">
-				<SvgIcon name="iconfont icon-yunxiazai_o" :size="22" title="导出" @click="onImportTable" />
+		<div class="table-header mb15">
+			<div>
+				<slot name="command"></slot>
+			</div>
+			<div v-loading="state.importLoading" class="table-footer-tool">
+				<!-- <SvgIcon name="iconfont icon-yunxiazai_o" :size="22" title="导出" @click="onImportTable" /> -->
 				<SvgIcon name="iconfont icon-shuaxin" :size="22" title="刷新" @click="onRefreshTable" />
-				<el-popover
-					placement="top-end"
-					trigger="click"
-					transition="el-zoom-in-top"
-					popper-class="table-tool-popper"
-					:width="300"
-					:persistent="false"
-					@show="onSetTable"
-				>
+				<el-dropdown v-if="!config.hideExport" trigger="click">
+					<SvgIcon name="iconfont icon-yunxiazai_o" :size="22" title="导出" />
+					<template #dropdown>
+						<el-dropdown-menu>
+							<el-dropdown-item @click="onImportTable">导出本页数据</el-dropdown-item>
+							<el-dropdown-item @click="onImportTableAll">导出全部数据</el-dropdown-item>
+						</el-dropdown-menu>
+					</template>
+				</el-dropdown>
+				<el-popover placement="top-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper" :width="300" :persistent="false" @show="onSetTable">
 					<template #reference>
 						<SvgIcon name="iconfont icon-quanjushezhi_o" :size="22" title="设置" />
 					</template>
@@ -75,15 +25,9 @@
 							<el-tooltip content="拖动进行排序" placement="top-start">
 								<SvgIcon name="fa fa-question-circle-o" :size="17" class="ml11" color="#909399" />
 							</el-tooltip>
-							<el-checkbox
-								v-model="state.checkListAll"
-								:indeterminate="state.checkListIndeterminate"
-								class="ml10 mr1"
-								label="列显示"
-								@change="onCheckAllChange"
-							/>
+							<el-checkbox v-model="state.checkListAll" :indeterminate="state.checkListIndeterminate" class="ml10 mr1" label="列显示" @change="onCheckAllChange" />
 							<el-checkbox v-model="getConfig.isSerialNo" class="ml12 mr1" label="序号" />
-							<el-checkbox v-model="getConfig.isSelection" class="ml12 mr1" label="多选" />
+							<el-checkbox v-if="getConfig.showSelection" v-model="getConfig.isSelection" class="ml12 mr1" label="多选" />
 						</div>
 						<el-scrollbar>
 							<div ref="toolSetRef" class="tool-sortable">
@@ -97,24 +41,93 @@
 				</el-popover>
 			</div>
 		</div>
+		<el-table
+			ref="tableRef"
+			:data="state.data"
+			:border="setBorder"
+			v-bind="$attrs"
+			row-key="id"
+			style="width: 100%"
+			v-loading="state.loading"
+			:default-sort="defaultSort"
+			@selection-change="onSelectionChange"
+			@sort-change="sortChange"
+		>
+			<el-table-column type="selection" :reserve-selection="true" width="30" v-if="config.isSelection && config.showSelection" />
+			<el-table-column type="index" label="序号" align="center" width="60" v-if="config.isSerialNo" />
+			<el-table-column
+				v-for="(item, index) in setHeader"
+				:key="index"
+				:show-overflow-tooltip="item.toolTip"
+				:prop="item.key"
+				:width="item.colWidth"
+				:label="item.title"
+				:align="item.align"
+				:header-align="item.headerAlign"
+				:sortable="item.key == 'action' ? false : item.sortable"
+			>
+				<template #default="scope" v-if="$slots[item.key]">
+					<slot :name="item.key" v-bind="scope"></slot>
+				</template>
+				<template v-else v-slot="scope">
+					<template v-if="item.type === 'image'">
+						<img :src="scope.row[item.key]" :width="item.width" :height="item.height" />
+					</template>
+					<template v-else>
+						{{ scope.row[item.key] }}
+					</template>
+				</template>
+			</el-table-column>
+			<!-- <el-table-column label="操作" width="100" v-if="config.isOperate">
+        <template v-slot="scope">
+          <el-popconfirm title="确定删除吗？" @confirm="onDelRow(scope.row)">
+            <template #reference>
+              <el-button text type="primary">删除</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column> -->
+			<template #empty>
+				<el-empty description="暂无数据" />
+			</template>
+		</el-table>
+		<div class="table-footer mt15">
+			<el-pagination
+				small
+				v-model:current-page="state.page.page"
+				v-model:page-size="state.page.pageSize"
+				:pager-count="5"
+				:page-sizes="[10, 30, 50, 100]"
+				:total="state.total"
+				layout="total, sizes, prev, pager, next, jumper"
+				background
+				@size-change="onHandleSizeChange"
+				@current-change="onHandleCurrentChange"
+			>
+			</el-pagination>
+		</div>
 	</div>
 </template>
 
 <script setup lang="ts" name="netxTable">
-import { reactive, computed, nextTick, ref } from 'vue';
+import { reactive, computed, nextTick, ref, onMounted } from 'vue';
 import { ElMessage } from 'element-plus';
-import table2excel from 'js-table2excel';
 import Sortable from 'sortablejs';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
-import '/@/theme/tableTool.scss';
+import { exportExcel } from '/@/utils/exportExcel';
+// import '/@/theme/tableTool.scss';
 
 // 定义父组件传过来的值
 const props = defineProps({
 	// 列表内容
-	data: {
-		type: Array<EmptyObjectType>,
-		default: () => [],
+	// data: {
+	//   type: Array<EmptyObjectType>,
+	//   default: () => [],
+	// },
+	getData: {
+		type: Function,
+		required: true,
 	},
 	// 表头内容
 	header: {
@@ -126,19 +139,37 @@ const props = defineProps({
 		type: Object,
 		default: () => {},
 	},
+	param: {
+		type: Object,
+		default: () => {},
+	},
+	defaultSort: {
+		type: Object,
+		default: () => {},
+	},
+	exportChangeData: {
+		type: Function,
+	},
 });
 
 // 定义子组件向父组件传值/事件
-const emit = defineEmits(['delRow', 'pageChange', 'sortHeader']);
+const emit = defineEmits(['delRow', 'pageChange', 'selectionChange', 'sortHeader']);
 
 // 定义变量内容
 const toolSetRef = ref();
+const tableRef = ref();
 const storesThemeConfig = useThemeConfig();
 const { themeConfig } = storeToRefs(storesThemeConfig);
 const state = reactive({
+	data: [] as Array<EmptyObjectType>,
+	loading: false,
+	importLoading: false,
+	total: 0,
 	page: {
-		pageNum: 1,
+		page: 1,
 		pageSize: 10,
+		field: '',
+		order: '',
 	},
 	selectlist: [] as EmptyObjectType[],
 	checkListAll: true,
@@ -169,38 +200,73 @@ const onCheckChange = () => {
 	state.checkListAll = headers === props.header.length;
 	state.checkListIndeterminate = headers > 0 && headers < props.header.length;
 };
-// 表格多选改变时，用于导出
+// 表格多选改变时
 const onSelectionChange = (val: EmptyObjectType[]) => {
 	state.selectlist = val;
-};
-// 删除当前项
-const onDelRow = (row: EmptyObjectType) => {
-	emit('delRow', row);
+	emit('selectionChange', state.selectlist);
 };
 // 分页改变
 const onHandleSizeChange = (val: number) => {
 	state.page.pageSize = val;
-	emit('pageChange', state.page);
+	handleList();
+	// emit('pageChange', state.page);
 };
-// 分页改变
+// 改变当前页
 const onHandleCurrentChange = (val: number) => {
-	state.page.pageNum = val;
-	emit('pageChange', state.page);
+	state.page.page = val;
+	handleList();
+	// emit('pageChange', state.page);
+};
+// 列排序
+const sortChange = (column: any) => {
+	state.page.field = column.prop;
+	state.page.order = column.order;
+	handleList();
 };
 // 搜索时，分页还原成默认
 const pageReset = () => {
-	state.page.pageNum = 1;
-	state.page.pageSize = 10;
-	emit('pageChange', state.page);
+	tableRef.value.clearSelection();
+	state.page.page = 1;
+	handleList();
+	// state.page.pageSize = 10;
+	// emit('pageChange', state.page);
 };
 // 导出
 const onImportTable = () => {
-	if (state.selectlist.length <= 0) return ElMessage.warning('请先选择要导出的数据');
-	table2excel(props.header, state.selectlist, `${themeConfig.value.globalTitle} ${new Date().toLocaleString()}`);
+	if (setHeader.value.length <= 0) return ElMessage.error('没有勾选要导出的列');
+	importData(state.data);
+};
+// 全部导出
+const onImportTableAll = async () => {
+	if (setHeader.value.length <= 0) return ElMessage.error('没有勾选要导出的列');
+	state.importLoading = true;
+	const param = Object.assign({}, props.param, { page: 1, pageSize: 99999 });
+	const res = await props.getData(param);
+	state.importLoading = false;
+	const data = res.result?.items ?? [];
+	importData(data);
+};
+const importData = (data: Array<EmptyObjectType>) => {
+	if (data.length <= 0) return ElMessage.error('没有数据可以导出');
+	state.importLoading = true;
+	let exportData = JSON.parse(JSON.stringify(data));
+	if (props.exportChangeData) {
+		exportData = props.exportChangeData(exportData);
+	}
+	exportExcel(
+		exportData,
+		`${props.config.exportFileName ? props.config.exportFileName : themeConfig.value.globalTitle}_${new Date().toLocaleString()}.xlsx`,
+		setHeader.value.filter((item) => {
+			return item.type != 'action';
+		}),
+		'导出数据'
+	);
+	state.importLoading = false;
 };
 // 刷新
 const onRefreshTable = () => {
-	emit('pageChange', state.page);
+	handleList();
+	// emit('pageChange', state.page);
 };
 // 设置
 const onSetTable = () => {
@@ -211,7 +277,7 @@ const onSetTable = () => {
 			animation: 150,
 			onEnd: () => {
 				const headerList: EmptyObjectType[] = [];
-				sortable.toArray().forEach((val) => {
+				sortable.toArray().forEach((val: any) => {
 					props.header.forEach((v) => {
 						if (v.key === val) headerList.push({ ...v });
 					});
@@ -222,9 +288,28 @@ const onSetTable = () => {
 	});
 };
 
+const handleList = async () => {
+	state.loading = true;
+	const param = Object.assign({}, props.param, { ...state.page });
+	const res = await props.getData(param);
+	state.loading = false;
+	state.data = res.result?.items ?? [];
+	state.total = res.result?.total ?? 0;
+};
+
+onMounted(() => {
+	if (props.defaultSort) {
+		state.page.field = props.defaultSort.prop;
+		state.page.order = props.defaultSort.order;
+	}
+	state.page.pageSize = props.config.pageSize;
+	handleList();
+});
+
 // 暴露变量
 defineExpose({
 	pageReset,
+	handleList,
 });
 </script>
 
@@ -232,22 +317,40 @@ defineExpose({
 .table-container {
 	display: flex;
 	flex-direction: column;
+	height: 100%;
+
 	.el-table {
 		flex: 1;
 	}
+
 	.table-footer {
 		display: flex;
+		justify-content: flex-end;
+	}
+
+	.table-header {
+		display: flex;
+
 		.table-footer-tool {
 			flex: 1;
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
+
 			i {
 				margin-right: 10px;
 				cursor: pointer;
 				color: var(--el-text-color-regular);
+
 				&:last-of-type {
 					margin-right: 0;
+				}
+			}
+
+			.el-dropdown {
+				i {
+					margin-right: 10px;
+					color: var(--el-text-color-regular);
 				}
 			}
 		}

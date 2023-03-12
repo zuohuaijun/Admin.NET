@@ -131,6 +131,7 @@ export * from './notice-input';
 export * from './notice-status-enum';
 export * from './notice-type-enum';
 export * from './notice-user-status-enum';
+export * from './page-config-input';
 export * from './platform-type-enum';
 export * from './reset-pwd-user-input';
 export * from './role-input';

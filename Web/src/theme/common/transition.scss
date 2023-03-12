@@ -102,15 +102,15 @@
 	animation-duration: 0.3s;
 }
 
-// 自定义弹窗动画
-.dialog-fade-enter-active .el-dialog{
-	animation: bounceInDown;
-	animation-duration: 0.3s;
-}
-.dialog-fade-leave-active .el-dialog{
-	animation: bounceOutRight;
-	animation-duration: 0.3s;
-}
+// // 自定义弹窗动画
+// .dialog-fade-enter-active .el-dialog{
+// 	animation: bounceInDown;
+// 	animation-duration: 0.3s;
+// }
+// .dialog-fade-leave-active .el-dialog{
+// 	animation: bounceOutRight;
+// 	animation-duration: 0.3s;
+// }
 
 
 /* 页面切换动画

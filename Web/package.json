@@ -43,7 +43,8 @@
 		"vue-json-pretty": "^2.2.3",
 		"vue-router": "^4.1.6",
 		"vue-signature-pad": "^3.0.2",
-		"vue3-tree-org": "^4.1.1"
+		"vue3-tree-org": "^4.1.1",
+		"xlsx-js-style": "^1.2.0"
 	},
 	"devDependencies": {
 		"@types/node": "^18.15.0",

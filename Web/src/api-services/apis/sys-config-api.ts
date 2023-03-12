@@ -17,10 +17,12 @@ import { Configuration } from '../configuration';
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AddConfigInput } from '../models';
+import { AdminResultListString } from '../models';
 import { AdminResultListSysConfig } from '../models';
 import { AdminResultSqlSugarPagedListSysConfig } from '../models';
 import { AdminResultSysConfig } from '../models';
 import { DeleteConfigInput } from '../models';
+import { PageConfigInput } from '../models';
 import { UpdateConfigInput } from '../models';
 /**
  * SysConfigApi - axios parameter creator
@@ -157,6 +159,42 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @summary 获取分组列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysConfigGroupListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysConfig/groupList`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 获取参数配置列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -194,18 +232,11 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @summary 获取参数配置分页列表
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {string} [groupCode] 分组编码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageConfigInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysConfigPageGet: async (name?: string, code?: string, groupCode?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysConfigPagePost: async (body?: PageConfigInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysConfig/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -213,43 +244,13 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (name !== undefined) {
-                localVarQueryParameter['Name'] = name;
-            }
-
-            if (code !== undefined) {
-                localVarQueryParameter['Code'] = code;
-            }
-
-            if (groupCode !== undefined) {
-                localVarQueryParameter['GroupCode'] = groupCode;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -261,6 +262,8 @@ export const SysConfigApiAxiosParamCreator = function (configuration?: Configura
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -361,6 +364,19 @@ export const SysConfigApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 获取分组列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysConfigGroupListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListString>>> {
+            const localVarAxiosArgs = await SysConfigApiAxiosParamCreator(configuration).apiSysConfigGroupListGet(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 获取参数配置列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -375,19 +391,12 @@ export const SysConfigApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取参数配置分页列表
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {string} [groupCode] 分组编码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageConfigInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysConfigPageGet(name?: string, code?: string, groupCode?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>>> {
-            const localVarAxiosArgs = await SysConfigApiAxiosParamCreator(configuration).apiSysConfigPageGet(name, code, groupCode, page, pageSize, field, order, descStr, options);
+        async apiSysConfigPagePost(body?: PageConfigInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>>> {
+            const localVarAxiosArgs = await SysConfigApiAxiosParamCreator(configuration).apiSysConfigPagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -448,6 +457,15 @@ export const SysConfigApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
+         * @summary 获取分组列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysConfigGroupListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListString>> {
+            return SysConfigApiFp(configuration).apiSysConfigGroupListGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 获取参数配置列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -458,19 +476,12 @@ export const SysConfigApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @summary 获取参数配置分页列表
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {string} [groupCode] 分组编码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageConfigInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysConfigPageGet(name?: string, code?: string, groupCode?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>> {
-            return SysConfigApiFp(configuration).apiSysConfigPageGet(name, code, groupCode, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysConfigPagePost(body?: PageConfigInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>> {
+            return SysConfigApiFp(configuration).apiSysConfigPagePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -527,6 +538,16 @@ export class SysConfigApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 获取分组列表
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysConfigApi
+     */
+    public async apiSysConfigGroupListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListString>> {
+        return SysConfigApiFp(this.configuration).apiSysConfigGroupListGet(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
      * @summary 获取参数配置列表
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -538,20 +559,13 @@ export class SysConfigApi extends BaseAPI {
     /**
      * 
      * @summary 获取参数配置分页列表
-     * @param {string} [name] 名称
-     * @param {string} [code] 编码
-     * @param {string} [groupCode] 分组编码
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
+     * @param {PageConfigInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysConfigApi
      */
-    public async apiSysConfigPageGet(name?: string, code?: string, groupCode?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>> {
-        return SysConfigApiFp(this.configuration).apiSysConfigPageGet(name, code, groupCode, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysConfigPagePost(body?: PageConfigInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysConfig>> {
+        return SysConfigApiFp(this.configuration).apiSysConfigPagePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

@@ -20,6 +20,7 @@ import { AddCodeGenInput } from '../models';
 import { AdminResultListColumnOuput } from '../models';
 import { AdminResultListDatabaseOutput } from '../models';
 import { AdminResultListTableOutput } from '../models';
+import { AdminResultObject } from '../models';
 import { AdminResultSqlSugarPagedListSysCodeGen } from '../models';
 import { AdminResultSysCodeGen } from '../models';
 import { DeleteCodeGenInput } from '../models';
@@ -615,7 +616,7 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+        async apiSysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
             const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenRunLocalPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -744,7 +745,7 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+        async apiSysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
             return SysCodeGenApiFp(configuration).apiSysCodeGenRunLocalPost(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -869,7 +870,7 @@ export class SysCodeGenApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async apiSysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+    public async apiSysCodeGenRunLocalPost(body?: SysCodeGen, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
         return SysCodeGenApiFp(this.configuration).apiSysCodeGenRunLocalPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**

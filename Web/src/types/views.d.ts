@@ -287,7 +287,7 @@ declare type WorkflowDrawerState<T = any> = {
  */
 // tableDemo
 declare type TableDemoPageType = {
-	pageNum: number;
+	page: number;
 	pageSize: number;
 };
 
@@ -300,6 +300,10 @@ declare type TableHeaderType = {
 	width?: string | number;
 	height?: string | number;
 	isCheck: boolean;
+	align: string;
+	headerAlign: string;
+	toolTip: boolean;
+	sortable: boolean;
 };
 
 declare type TableSearchType = {
@@ -313,17 +317,23 @@ declare type TableSearchType = {
 
 declare type TableDemoState = {
 	tableData: {
-		data: EmptyObjectType[];
+		// data: EmptyObjectType[];
 		header: TableHeaderType[];
 		config: {
-			total: number;
-			loading: boolean;
+			// total: number;
+			// loading: boolean;
 			isBorder: boolean;
 			isSelection: boolean;
+			showSelection: boolean;
 			isSerialNo: boolean;
-			isOperate: boolean;
+			pageSize: number;
+			hideExport: boolean;
+			exportFileName: string;
+			// isOperate: boolean;
 		};
+		// actions: WorkflowDrawerLabelType[];
 		search: TableSearchType[];
 		param: EmptyObjectType;
+		defaultSort: EmptyObjectType;
 	};
 };

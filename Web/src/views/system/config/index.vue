@@ -1,132 +1,138 @@
 <template>
 	<div class="sys-config-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
-			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-        <el-row :gutter="35">
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <el-form-item label="配置名称" prop="name">
-              <el-input placeholder="配置名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
-            <el-form-item label="配置编码" prop="code">
-              <el-input placeholder="配置编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
-            <el-form-item label="分组编码" prop="groupCode">
-              <el-input placeholder="分组编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.groupCode" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
-            <div>
-              <el-button type="primary"  icon="ele-Plus" @click="openAddConfig" v-auth="'sysConfig:add'"> 新增 </el-button>
-            </div>
-            <div>
-              <el-form-item>
-                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysConfig:page'" plain> 查询 </el-button> 
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
-			</el-form>
+			<TableSearch :search="tb.tableData.search" @search="onSearch" />
 		</el-card>
-
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="state.configData" style="width: 100%" v-loading="state.loading" border>
-				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="name" label="配置名称" show-overflow-tooltip />
-				<el-table-column prop="code" label="配置编码" show-overflow-tooltip />
-				<el-table-column prop="value" label="属性值" show-overflow-tooltip />
-				<el-table-column prop="sysFlag" label="内置参数" width="100" align="center" show-overflow-tooltip>
-					<template #default="scope">
-						<el-tag v-if="scope.row.sysFlag === 1"> 是 </el-tag>
-						<el-tag type="danger" v-else> 否 </el-tag>
-					</template>
-				</el-table-column>
-				<el-table-column prop="groupCode" label="分组编码" show-overflow-tooltip />
-				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
-				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
-				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
-				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
-					<template #default="scope">
-						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditConfig(scope.row)" v-auth="'sysConfig:update'"> 编辑 </el-button>
-						<el-button icon="ele-Delete" size="small" text type="danger" @click="delConfig(scope.row)" v-auth="'sysConfig:delete'"> 删除 </el-button>
-					</template>
-				</el-table-column>
-			</el-table>
-			<el-pagination
-				v-model:currentPage="state.tableParams.page"
-				v-model:page-size="state.tableParams.pageSize"
-				:total="state.tableParams.total"
-				:page-sizes="[10, 20, 50, 100]"
-				small
-				background
-				@size-change="handleSizeChange"
-				@current-change="handleCurrentChange"
-				layout="total, sizes, prev, pager, next, jumper"
-			/>
+			<Table ref="tableRef" v-bind="tb.tableData" :getData="getData" :exportChangeData="exportChangeData" @sortHeader="onSortHeader" @selectionChange="tableSelection">
+				<template #command>
+					<el-button type="primary" icon="ele-Plus" @click="openAddConfig" v-auth="'sysConfig:add'"> 新增 </el-button>
+					<el-button v-if="state.selectlist.length > 0" type="danger" icon="ele-Delete" @click="bacthDelete" v-auth="'sysConfig:delete'"> 批量删除 </el-button>
+				</template>
+				<template #sysFlag="scope">
+					<el-tag v-if="scope.row.sysFlag === 1"> 是 </el-tag>
+					<el-tag type="danger" v-else> 否 </el-tag>
+				</template>
+				<template #action="scope">
+					<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditConfig(scope.row)" v-auth="'sysConfig:update'"> 编辑 </el-button>
+					<el-button icon="ele-Delete" size="small" text type="danger" @click="delConfig(scope.row)" v-auth="'sysConfig:delete'"> 删除 </el-button>
+				</template>
+			</Table>
 		</el-card>
 		<EditConfig ref="editConfigRef" :title="state.editConfigTitle" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysConfig">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, onUnmounted, reactive, ref, defineAsyncComponent, nextTick } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import mittBus from '/@/utils/mitt';
 import EditConfig from '/@/views/system/config/component/editConfig.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysConfigApi } from '/@/api-services/api';
-import { SysConfig } from '/@/api-services/models';
 
+// 引入组件
+const Table = defineAsyncComponent(() => import('/@/components/table/index.vue'));
+const TableSearch = defineAsyncComponent(() => import('/@/components/table/search.vue'));
 const editConfigRef = ref<InstanceType<typeof EditConfig>>();
+const tableRef = ref<RefType>();
+
 const state = reactive({
-	loading: false,
-	configData: [] as Array<SysConfig>,
-	queryParams: {
-		name: undefined,
-		code: undefined,
-		groupCode: undefined,
-	},
-	tableParams: {
-		page: 1,
-		pageSize: 10,
-		total: 0 as any,
-	},
 	editConfigTitle: '',
+	selectlist: [] as EmptyObjectType[],
 });
 
-onMounted(async () => {
-	handleQuery();
+const tb = reactive<TableDemoState>({
+	tableData: {
+		// 表头内容（必传，注意格式）
+		header: [
+			{ key: 'name', colWidth: '180', title: '配置名称', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: true, isCheck: true },
+			{ key: 'code', colWidth: '180', title: '配置编码', type: 'text', align: 'center', headerAlign: '', toolTip: true, sortable: true, isCheck: true },
+			{ key: 'value', colWidth: '120', title: '属性值', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
+			{ key: 'sysFlag', colWidth: '120', title: '内置参数', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
+			{ key: 'groupCode', colWidth: '120', title: '分组编码', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
+			{ key: 'orderNo', colWidth: '80', title: '排序', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
+			{ key: 'remark', colWidth: '', title: '备注', type: 'text', align: '', headerAlign: 'center', toolTip: false, sortable: false, isCheck: true },
+			{ key: 'action', colWidth: '150', title: '操作', type: 'action', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
+		],
+		// 配置项（必传）
+		config: {
+			isBorder: true, // 是否显示表格边框
+			isSerialNo: true, // 是否显示表格序号
+			isSelection: false, // 是否勾选表格多选
+			showSelection: false, //是否显示表格多选
+			pageSize: 20, // 每页条数
+			hideExport: false, //是否隐藏导出按钮
+			exportFileName: '参数配置', //导出报表的文件名，不填写取应用名称
+		},
+		// 搜索表单，动态生成（传空数组时，将不显示搜索，type有3种类型：input,date,select）
+		search: [
+			{ label: '配置名称', prop: 'name', placeholder: '配置名称', required: false, type: 'input' },
+			{ label: '配置编码', prop: 'code', placeholder: '配置编码', required: false, type: 'input' },
+			// { label: '分组编码', prop: 'groupCode', placeholder: '分组编码', required: false, type: 'input' },
+			// { label: '创建时间', prop: 'time', placeholder: '请选择', required: false, type: 'date' },
+		],
+		param: {},
+		defaultSort: {
+			prop: 'orderNo',
+			order: 'ascending',
+		},
+	},
+});
+const getData = async (param: any) => {
+	var res = await getAPI(SysConfigApi).apiSysConfigPagePost(param);
+	return res.data;
+};
+const exportChangeData = (data: Array<EmptyObjectType>) => {
+	data.forEach((item) => {
+		item.sysFlag = item.sysFlag == 1 ? '是' : '否';
+	});
+	return data;
+};
+// 拖动显示列排序回调
+const onSortHeader = (data: TableHeaderType[]) => {
+	tb.tableData.header = data;
+};
+// 搜索点击时表单回调
+const onSearch = (data: EmptyObjectType) => {
+	tb.tableData.param = Object.assign({}, tb.tableData.param, { ...data });
+	nextTick(() => {
+		tableRef.value.pageReset();
+	});
+};
 
+const getGroupList = async () => {
+	const res = await getAPI(SysConfigApi).apiSysConfigGroupListGet();
+	const groupSearch = {
+		label: '分组编码',
+		prop: 'groupCode',
+		placeholder: '请选择',
+		required: false,
+		type: 'select',
+		options: [],
+	} as TableSearchType;
+	res.data.result?.forEach((item) => {
+		groupSearch.options?.push({ label: item, value: item });
+	});
+	tb.tableData.search.push(groupSearch);
+};
+//表格多选事件
+const tableSelection = (data: EmptyObjectType[]) => {
+	console.log('表格多选事件', data);
+	state.selectlist = data;
+};
+
+onMounted(async () => {
+	getGroupList();
 	mittBus.on('submitRefresh', () => {
-		handleQuery();
+		tableRef.value.handleList();
 	});
 });
 
 onUnmounted(() => {
 	mittBus.off('submitRefresh');
 });
-
-// 查询操作
-const handleQuery = async () => {
-	state.loading = true;
-	var res = await getAPI(SysConfigApi).apiSysConfigPageGet(state.queryParams.name, state.queryParams.code, state.queryParams.groupCode, state.tableParams.page, state.tableParams.pageSize);
-	state.configData = res.data.result?.items ?? [];
-	state.tableParams.total = res.data.result?.total;
-	state.loading = false;
-};
-
-// 重置操作
-const resetQuery = () => {
-	state.queryParams.name = undefined;
-	state.queryParams.code = undefined;
-	state.queryParams.groupCode = undefined;
-	handleQuery();
-};
 
 // 打开新增页面
 const openAddConfig = () => {
@@ -149,21 +155,19 @@ const delConfig = (row: any) => {
 	})
 		.then(async () => {
 			await getAPI(SysConfigApi).apiSysConfigDeletePost({ id: row.id });
-			handleQuery();
+			tableRef.value.handleList();
 			ElMessage.success('删除成功');
 		})
 		.catch(() => {});
 };
-
-// 改变页面容量
-const handleSizeChange = (val: number) => {
-	state.tableParams.pageSize = val;
-	handleQuery();
-};
-
-// 改变页码序号
-const handleCurrentChange = (val: number) => {
-	state.tableParams.page = val;
-	handleQuery();
+//批量删除
+const bacthDelete = () => {
+	if (state.selectlist.length == 0) return false;
+	ElMessageBox.confirm(`确定批量删除【${state.selectlist[0].name}】等${state.selectlist.length}个配置?`, '提示', {
+		confirmButtonText: '确定',
+		cancelButtonText: '取消',
+		type: 'warning',
+	});
+	console.log('批量删除了');
 };
 </script>

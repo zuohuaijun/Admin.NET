@@ -277,7 +277,7 @@
 	background: var(--el-color-primary);
 }
 .el-dialog__footer {
-	border-top: 1px solid var(--el-color-primary-light-7);
+	border-top: 1px solid var(--el-color-info-light-7);
 	padding-bottom: 10px;
   }
 .el-dialog__headerbtn{
@@ -320,9 +320,9 @@
 
 /* Pagination 分页
 ------------------------------- */
-.el-pagination__editor {
-	margin-right: 8px;
-}
+// .el-pagination__editor {
+// 	margin-right: 8px;
+// }
 /*深色模式时分页高亮问题*/
 .el-pagination.is-background .btn-next.is-active,
 .el-pagination.is-background .btn-prev.is-active,
@@ -330,11 +330,11 @@
 	background-color: var(--el-color-primary) !important;
 	color: var(--el-color-white) !important;
 }
-// 分页组件靠右显示
-.el-pagination {
-	float: right;
-	margin: 15px 0 15px 0 !important;
-}
+// // 分页组件靠右显示
+// .el-pagination {
+// 	float: right;
+// 	margin: 5px 0 5px 0 !important;
+// }
 
 /* scrollbar
 ------------------------------- */
