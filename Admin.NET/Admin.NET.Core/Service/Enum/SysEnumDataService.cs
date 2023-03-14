@@ -1,7 +1,7 @@
 ﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 枚举值服务
+/// 枚举服务
 /// </summary>
 [ApiDescriptionSettings(Order = 1000)]
 [AllowAnonymous]
@@ -15,7 +15,7 @@ public class SysEnumDataService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取所有枚举值
+    /// 获取所有枚举类型
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -68,7 +68,7 @@ public class SysEnumDataService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 通过实体字段类型获取相关集合（目前仅支持枚举类型）
+    /// 通过实体的字段名获取相关枚举值集合（目前仅支持枚举类型）
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
