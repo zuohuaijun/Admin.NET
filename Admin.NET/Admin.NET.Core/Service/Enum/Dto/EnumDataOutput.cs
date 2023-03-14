@@ -1,17 +1,22 @@
 ﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 枚举输出参数
+/// 枚举类型输出参数
 /// </summary>
-public class EnumDataOutput
+public class EnumTypeOutput
 {
     /// <summary>
-    /// 字典Id
+    /// 枚举类型描述
     /// </summary>
-    public int Code { get; set; }
+    public string TypeDescribe { get; set; }
 
     /// <summary>
-    /// 字典值
+    /// 枚举类型名称
     /// </summary>
-    public string Value { get; set; }
+    public string TypeName { get; set; }
+
+    /// <summary>
+    /// 枚举类型备注
+    /// </summary>
+    public string TypeRemark { get; set; }
 }

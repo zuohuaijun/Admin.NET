@@ -5470,19 +5470,24 @@
             字段名称
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.EnumDataOutput">
+        <member name="T:Admin.NET.Core.Service.EnumTypeOutput">
             <summary>
-            枚举输出参数
+            枚举类型输出参数
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.EnumDataOutput.Code">
+        <member name="P:Admin.NET.Core.Service.EnumTypeOutput.TypeDescribe">
             <summary>
-            字典Id
+            枚举类型描述
             </summary>
         </member>
-        <member name="P:Admin.NET.Core.Service.EnumDataOutput.Value">
+        <member name="P:Admin.NET.Core.Service.EnumTypeOutput.TypeName">
             <summary>
-            字典值
+            枚举类型名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.EnumTypeOutput.TypeRemark">
+            <summary>
+            枚举类型备注
             </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.SysEnumDataService">
