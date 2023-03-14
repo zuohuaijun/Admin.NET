@@ -176,7 +176,7 @@ public static class EnumExtension
             return new EnumEntity
             {
                 Name = item.ToString(),
-                Describe = item.GetDescription(),
+                Describe = item.GetDescription() ?? item.ToString(),
                 Value = item.GetHashCode()
             };
         }).ToList();
