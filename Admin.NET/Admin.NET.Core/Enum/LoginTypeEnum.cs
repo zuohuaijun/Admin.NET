@@ -3,6 +3,7 @@
 /// <summary>
 /// 登录类型枚举
 /// </summary>
+[Description("登录类型枚举")]
 public enum LoginTypeEnum
 {
     /// <summary>

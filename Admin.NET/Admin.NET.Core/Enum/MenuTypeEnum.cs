@@ -3,6 +3,7 @@
 /// <summary>
 /// 系统菜单类型枚举
 /// </summary>
+[Description("系统菜单类型枚举")]
 public enum MenuTypeEnum
 {
     /// <summary>

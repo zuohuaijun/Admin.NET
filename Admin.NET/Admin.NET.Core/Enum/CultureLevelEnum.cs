@@ -3,6 +3,7 @@
 /// <summary>
 /// 文化程度枚举
 /// </summary>
+[Description("文化程度枚举")]
 public enum CultureLevelEnum
 {
     /// <summary>

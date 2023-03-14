@@ -3,6 +3,7 @@
 /// <summary>
 /// 是否枚举
 /// </summary>
+[Description("是否枚举")]
 public enum YesNoEnum
 {
     /// <summary>

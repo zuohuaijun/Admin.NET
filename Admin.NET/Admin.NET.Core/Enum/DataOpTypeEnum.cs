@@ -3,6 +3,7 @@
 /// <summary>
 /// 数据操作类型枚举
 /// </summary>
+[Description("数据操作类型枚举")]
 public enum DataOpTypeEnum
 {
     /// <summary>

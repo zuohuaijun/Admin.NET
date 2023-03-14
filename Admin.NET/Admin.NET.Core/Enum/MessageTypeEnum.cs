@@ -3,6 +3,7 @@
 /// <summary>
 /// 消息类型枚举
 /// </summary>
+[Description("消息类型枚举")]
 public enum MessageTypeEnum
 {
     /// <summary>

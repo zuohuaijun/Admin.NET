@@ -3,6 +3,7 @@
 /// <summary>
 /// 角色数据范围枚举
 /// </summary>
+[Description("角色数据范围枚举")]
 public enum DataScopeEnum
 {
     /// <summary>

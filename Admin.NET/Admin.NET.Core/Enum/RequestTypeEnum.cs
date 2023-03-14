@@ -3,6 +3,7 @@
 /// <summary>
 /// HTTP请求类型
 /// </summary>
+[Description("HTTP请求类型")]
 public enum RequestTypeEnum
 {
     /// <summary>

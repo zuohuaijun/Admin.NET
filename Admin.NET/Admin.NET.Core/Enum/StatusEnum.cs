@@ -3,6 +3,7 @@
 /// <summary>
 /// 通用状态枚举
 /// </summary>
+[Description("通用状态枚举")]
 public enum StatusEnum
 {
     /// <summary>
