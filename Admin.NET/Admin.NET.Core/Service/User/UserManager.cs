@@ -42,7 +42,11 @@ public class UserManager : IScoped
 
     public long OrgId
     {
-        get => long.Parse(_httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.OrgId)?.Value);
+        get
+        {
+            var orgId = _httpContextAccessor.HttpContext?.User.FindFirst(ClaimConst.OrgId)?.Value;
+            return string.IsNullOrWhiteSpace(orgId) ? 0 : long.Parse(orgId);
+        }
     }
 
     public string OpenId
