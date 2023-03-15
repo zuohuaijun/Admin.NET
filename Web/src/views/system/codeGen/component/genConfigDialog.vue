@@ -72,7 +72,7 @@ import fkDialog from '/@/views/system/codeGen/component/fkDialog.vue';
 import treeDialog from '/@/views/system/codeGen/component/treeDialog.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysCodeGenConfigApi, SysConstApi, SysDictDataApi, SysDictTypeApi } from '/@/api-services/api';
+import { SysCodeGenConfigApi, SysConstApi, SysDictDataApi, SysDictTypeApi, SysEnumApi } from '/@/api-services/api';
 
 const fkDialogRef = ref();
 const treeDialogRef = ref();
@@ -86,6 +86,7 @@ const state = reactive({
 	dictDataAll: [] as any,
 	queryTypeList: [] as any,
 	allConstSelector: [] as any,
+    allEnumSelector: [] as any,
 });
 
 onMounted(async () => {
@@ -101,6 +102,9 @@ onMounted(async () => {
 
 	var res3 = await getAPI(SysConstApi).apiSysConstListGet();
 	state.allConstSelector = res3.data.result;
+
+    let resEnum = await getAPI(SysEnumApi).apiSysEnumEnumTypeListGet();
+    state.allEnumSelector = resEnum.data.result?.map(item => ({...item, name: item.typeDescribe, code: item.typeName}));
 
 	mittBus.on('submitRefreshFk', (data: any) => {
 		state.tableData[data.index] = data;
@@ -124,7 +128,10 @@ const effectTypeChange = (data: any, index: number) => {
 	} else if (value === 'ConstSelector') {
 		data.dictTypeCode = '';
 		state.dictTypeCodeList = state.allConstSelector;
-	}
+	} else if (value == 'EnumSelector') {
+        data.dictTypeCode = '';
+        state.dictTypeCodeList = state.allEnumSelector;
+    }
 };
 
 // 查询操作
@@ -153,7 +160,7 @@ function judgeColumns(data: any) {
 }
 
 function effectTypeEnable(data: any) {
-	var lst = ['Radio', 'Select', 'Checkbox', 'ConstSelector'];
+	var lst = ['Radio', 'Select', 'Checkbox', 'ConstSelector', 'EnumSelector'];
 	return lst.indexOf(data.effectType) === -1;
 }
 
