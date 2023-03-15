@@ -3,6 +3,7 @@
 /// <summary>
 /// 通知公告状类型枚举
 /// </summary>
+[Description("通知公告状类型枚举")]
 public enum NoticeTypeEnum
 {
     /// <summary>

@@ -3,6 +3,7 @@ namespace Admin.NET.Core;
 /// <summary>
 /// 账号类型枚举
 /// </summary>
+[Description("账号类型枚举")]
 public enum AccountTypeEnum
 {
     /// <summary>

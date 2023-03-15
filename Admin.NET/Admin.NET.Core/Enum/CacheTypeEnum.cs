@@ -3,6 +3,7 @@
 /// <summary>
 /// 缓存类型枚举
 /// </summary>
+[Description("缓存类型枚举")]
 public enum CacheTypeEnum
 {
     /// <summary>

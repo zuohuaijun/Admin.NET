@@ -25,6 +25,7 @@ public static class ProjectOptions
         services.AddConfigurableOptions<WechatMessageOptions>();
         services.AddConfigurableOptions<PayCallBackOptions>();
         services.AddConfigurableOptions<CodeGenOptions>();
+        services.AddConfigurableOptions<EnumOptions>();
         services.AddConfigurableOptions<APIJSONOptions>();
         services.AddConfigurableOptions<EmailOptions>();
         services.AddConfigurableOptions<OAuthOptions>();

@@ -3818,6 +3818,16 @@
             默认邮件标题
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.EnumOptions">
+            <summary>
+            枚举配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.EnumOptions.EntityAssemblyNames">
+            <summary>
+            枚举实体程序集名称集合
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.OAuthOptions">
             <summary>
             第三方登录授权配置选项
@@ -5470,6 +5480,74 @@
         <member name="M:Admin.NET.Core.Service.SysDictTypeService.SetStatus(Admin.NET.Core.Service.DictTypeInput)">
             <summary>
             修改字典类型状态
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Admin.NET.Core.Service.EnumInput">
+            <summary>
+            枚举输入参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.EnumInput.EnumName">
+            <summary>
+            枚举类型名称
+            </summary>
+            <example>AccountTypeEnum</example>
+        </member>
+        <member name="P:Admin.NET.Core.Service.QueryEnumDataInput.EntityName">
+            <summary>
+            实体名称
+            </summary>
+            <example>SysUser</example>
+        </member>
+        <member name="P:Admin.NET.Core.Service.QueryEnumDataInput.FieldName">
+            <summary>
+            字段名称
+            </summary>
+            <example>AccountType</example>
+        </member>
+        <member name="T:Admin.NET.Core.Service.EnumTypeOutput">
+            <summary>
+            枚举类型输出参数
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.EnumTypeOutput.TypeDescribe">
+            <summary>
+            枚举类型描述
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.EnumTypeOutput.TypeName">
+            <summary>
+            枚举类型名称
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.EnumTypeOutput.TypeRemark">
+            <summary>
+            枚举类型备注
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysEnumService">
+            <summary>
+            系统枚举服务
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysEnumService.GetEnumTypeList">
+            <summary>
+            获取所有枚举类型
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysEnumService.GetEnumDataList(Admin.NET.Core.Service.EnumInput)">
+            <summary>
+            通过枚举类型获取枚举值集合
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysEnumService.GetEnumDataListByField(Admin.NET.Core.Service.QueryEnumDataInput)">
+            <summary>
+            通过实体的字段名获取相关枚举值集合（目前仅支持枚举类型）
             </summary>
             <param name="input"></param>
             <returns></returns>

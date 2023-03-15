@@ -3,6 +3,7 @@
 /// <summary>
 /// 通知公告用户状态枚举
 /// </summary>
+[Description("通知公告用户状态枚举")]
 public enum NoticeUserStatusEnum
 {
     /// <summary>

@@ -4,6 +4,7 @@
 /// 系统错误码
 /// </summary>
 [ErrorCodeType]
+[Description("系统错误码")]
 public enum ErrorCodeEnum
 {
     /// <summary>

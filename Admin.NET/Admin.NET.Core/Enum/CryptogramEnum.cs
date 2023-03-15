@@ -3,6 +3,7 @@
 /// <summary>
 /// 密码加密枚举
 /// </summary>
+[Description("密码加密枚举")]
 public enum CryptogramEnum
 {
     /// <summary>

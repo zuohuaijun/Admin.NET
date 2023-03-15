@@ -3,6 +3,7 @@
 /// <summary>
 /// 性别枚举
 /// </summary>
+[Description("性别枚举")]
 public enum GenderEnum
 {
     /// <summary>

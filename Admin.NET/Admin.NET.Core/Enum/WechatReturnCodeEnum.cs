@@ -3,6 +3,7 @@
 /// <summary>
 /// 微信开发返回码
 /// </summary>
+[Description("微信开发返回码")]
 public enum WechatReturnCodeEnum
 {
     SenparcWeixinSDK配置错误 = -99, // 0xFFFFFF9D

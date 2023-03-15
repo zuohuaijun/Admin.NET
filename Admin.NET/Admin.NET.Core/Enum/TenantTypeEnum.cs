@@ -3,6 +3,7 @@ namespace Admin.NET.Core;
 /// <summary>
 /// 租户类型枚举
 /// </summary>
+[Description("租户类型枚举")]
 public enum TenantTypeEnum
 {
     /// <summary>

@@ -3,6 +3,7 @@
 /// <summary>
 /// 登录模式枚举
 /// </summary>
+[Description("登录模式枚举")]
 public enum LoginModeEnum
 {
     /// <summary>

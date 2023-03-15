@@ -3,6 +3,7 @@
 /// <summary>
 /// 岗位状态枚举
 /// </summary>
+[Description("岗位状态枚举")]
 public enum JobStatusEnum
 {
     /// <summary>

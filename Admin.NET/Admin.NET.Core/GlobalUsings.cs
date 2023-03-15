@@ -12,7 +12,6 @@ global using Furion.JsonSerialization;
 global using Furion.Logging;
 global using Furion.RemoteRequest.Extensions;
 global using Furion.Schedule;
-global using Furion.SensitiveDetection;
 global using Furion.UnifyResult;
 global using Furion.ViewEngine;
 global using Mapster;

@@ -3,6 +3,7 @@
 /// <summary>
 /// 证件类型枚举
 /// </summary>
+[Description("证件类型枚举")]
 public enum CardTypeEnum
 {
     /// <summary>

@@ -3,6 +3,7 @@
 /// <summary>
 /// 平台类型枚举
 /// </summary>
+[Description("平台类型枚举")]
 public enum PlatformTypeEnum
 {
     /// <summary>
