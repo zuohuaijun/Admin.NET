@@ -22,6 +22,7 @@ import { AdminResultListInt64 } from '../models';
 import { AdminResultListRoleOutput } from '../models';
 import { AdminResultSqlSugarPagedListSysRole } from '../models';
 import { DeleteRoleInput } from '../models';
+import { PageRoleInput } from '../models';
 import { RoleInput } from '../models';
 import { RoleMenuInput } from '../models';
 import { RoleOrgInput } from '../models';
@@ -336,17 +337,11 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary 获取角色分页列表
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageRoleInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysRolePageGet: async (name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysRolePagePost: async (body?: PageRoleInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysRole/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -354,39 +349,13 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (name !== undefined) {
-                localVarQueryParameter['Name'] = name;
-            }
-
-            if (code !== undefined) {
-                localVarQueryParameter['Code'] = code;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -398,6 +367,8 @@ export const SysRoleApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -597,18 +568,12 @@ export const SysRoleApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取角色分页列表
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageRoleInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRolePageGet(name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>>> {
-            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRolePageGet(name, code, page, pageSize, field, order, descStr, options);
+        async apiSysRolePagePost(body?: PageRoleInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>>> {
+            const localVarAxiosArgs = await SysRoleApiAxiosParamCreator(configuration).apiSysRolePagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -725,18 +690,12 @@ export const SysRoleApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary 获取角色分页列表
-         * @param {string} [name] 名称
-         * @param {string} [code] 编码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageRoleInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysRolePageGet(name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>> {
-            return SysRoleApiFp(configuration).apiSysRolePageGet(name, code, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysRolePagePost(body?: PageRoleInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>> {
+            return SysRoleApiFp(configuration).apiSysRolePagePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -849,19 +808,13 @@ export class SysRoleApi extends BaseAPI {
     /**
      * 
      * @summary 获取角色分页列表
-     * @param {string} [name] 名称
-     * @param {string} [code] 编码
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
+     * @param {PageRoleInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysRoleApi
      */
-    public async apiSysRolePageGet(name?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>> {
-        return SysRoleApiFp(this.configuration).apiSysRolePageGet(name, code, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysRolePagePost(body?: PageRoleInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysRole>> {
+        return SysRoleApiFp(this.configuration).apiSysRolePagePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

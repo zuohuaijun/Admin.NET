@@ -2,32 +2,24 @@
 	<div class="sys-notice-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-        <el-row :gutter="35">
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">   
-            <el-form-item label="标题" prop="title">
-              <el-input placeholder="标题" clearable @keyup.enter="handleQuery" v-model="state.queryParams.title" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
-            <el-form-item label="类型" prop="type">
-              <el-select v-model="state.queryParams.type" placeholder="类型" clearable style="width: 100%">
-                <el-option label="通知" :value="1" />
-                <el-option label="公告" :value="2" />
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
-            <div>
-              <el-button type="primary"  icon="ele-Plus" @click="openAddNotice" v-auth="'sysNotice:add'"> 新增 </el-button>
-            </div>
-            <div>
-              <el-form-item>
-                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysNotice:page'"> 查询 </el-button> 
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>  
+				<el-form-item label="标题" prop="title">
+					<el-input placeholder="标题" clearable @keyup.enter="handleQuery" v-model="state.queryParams.title" />
+				</el-form-item>
+				<el-form-item label="类型" prop="type">
+					<el-select v-model="state.queryParams.type" placeholder="类型" clearable style="width: 100%">
+						<el-option label="通知" :value="1" />
+						<el-option label="公告" :value="2" />
+					</el-select>
+				</el-form-item>
+				<el-form-item>
+					<el-button-group>
+						<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysNotice:page'"> 查询 </el-button>
+						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					</el-button-group>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" icon="ele-Plus" @click="openAddNotice" v-auth="'sysNotice:add'"> 新增 </el-button>
+				</el-form-item>
 			</el-form>
 		</el-card>
 
@@ -120,7 +112,8 @@ onUnmounted(() => {
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
-	var res = await getAPI(SysNoticeApi).apiSysNoticePageGet(state.queryParams.title, state.queryParams.type, state.tableParams.page, state.tableParams.pageSize);
+	let params = Object.assign(state.queryParams, state.tableParams);
+	var res = await getAPI(SysNoticeApi).apiSysNoticePagePost(params);
 	state.noticeData = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;

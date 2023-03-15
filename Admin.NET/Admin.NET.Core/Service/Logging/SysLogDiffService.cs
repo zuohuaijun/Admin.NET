@@ -19,7 +19,7 @@ public class SysLogDiffService : IDynamicApiController, ITransient
     /// <returns></returns>
     [SuppressMonitor]
     [DisplayName("获取差异日志分页列表")]
-    public async Task<SqlSugarPagedList<SysLogDiff>> GetPage([FromQuery] PageLogInput input)
+    public async Task<SqlSugarPagedList<SysLogDiff>> Page(PageLogInput input)
     {
         return await _sysLogDiffRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),

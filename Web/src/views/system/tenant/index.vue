@@ -2,29 +2,21 @@
 	<div class="sys-tenant-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-        <el-row :gutter="35">
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <el-form-item label="租户名称" prop="name">
-              <el-input placeholder="租户名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
-            <el-form-item label="联系电话" prop="phone">
-              <el-input placeholder="联系电话" clearable @keyup.enter="handleQuery" v-model="state.queryParams.phone" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
-            <div>
-              <el-button type="primary"  icon="ele-Plus" @click="openAddTenant" v-auth="'sysTenant:add'"> 新增 </el-button>
-            </div>
-            <div>
-              <el-form-item>
-                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysTenant:page'" plain> 查询 </el-button> 
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
+				<el-form-item label="租户名称" prop="name">
+					<el-input placeholder="租户名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
+				</el-form-item>
+				<el-form-item label="联系电话" prop="phone">
+					<el-input placeholder="联系电话" clearable @keyup.enter="handleQuery" v-model="state.queryParams.phone" />
+				</el-form-item>
+				<el-form-item>
+					<el-button-group>
+						<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysTenant:page'"> 查询 </el-button>
+						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					</el-button-group>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" icon="ele-Plus" @click="openAddTenant" v-auth="'sysTenant:add'"> 新增 </el-button>
+				</el-form-item>
 			</el-form>
 		</el-card>
 
@@ -149,7 +141,8 @@ onUnmounted(() => {
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
-	var res = await getAPI(SysTenantApi).apiSysTenantPageGet(state.queryParams.name, state.queryParams.phone, state.tableParams.page, state.tableParams.pageSize);
+	let params = Object.assign(state.queryParams, state.tableParams);
+	var res = await getAPI(SysTenantApi).apiSysTenantPagePost(params);
 	state.tenantData = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;

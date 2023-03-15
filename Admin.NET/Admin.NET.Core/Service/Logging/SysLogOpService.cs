@@ -21,7 +21,7 @@ public class SysLogOpService : IDynamicApiController, ITransient
     /// <returns></returns>
     [SuppressMonitor]
     [DisplayName("获取操作日志分页列表")]
-    public async Task<SqlSugarPagedList<SysLogOp>> GetPage([FromQuery] PageLogInput input)
+    public async Task<SqlSugarPagedList<SysLogOp>> Page(PageLogInput input)
     {
         return await _sysLogOpRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),

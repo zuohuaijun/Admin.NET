@@ -34,7 +34,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取代码生成分页列表")]
-    public async Task<SqlSugarPagedList<SysCodeGen>> GetPage([FromQuery] CodeGenInput input)
+    public async Task<SqlSugarPagedList<SysCodeGen>> Page(CodeGenInput input)
     {
         return await _db.Queryable<SysCodeGen>()
             .WhereIF(!string.IsNullOrWhiteSpace(input.TableName), u => u.TableName.Contains(input.TableName.Trim()))

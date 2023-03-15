@@ -2,35 +2,27 @@
 	<div class="sys-oplog-container" v-loading="state.loading">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-        <el-row :gutter="35">
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <el-form-item label="开始时间" prop="name">
-              <el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
-            <el-form-item label="结束时间" prop="code">
-              <el-date-picker v-model="state.queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
-            <div>
-              <el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysOplog:clear'"> 清空 </el-button>
-              <el-button icon="ele-FolderOpened" @click="exportLog" v-auth="'sysOplog:export'"> 导出 </el-button>
-            </div>
-            <div>
-              <el-form-item>
-                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysOplog:page'" plain> 查询 </el-button> 
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>  
+				<el-form-item label="开始时间" prop="name">
+					<el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
+				</el-form-item>
+				<el-form-item label="结束时间" prop="code">
+					<el-date-picker v-model="state.queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" />
+				</el-form-item>
+				<el-form-item>
+					<el-button-group>
+						<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysOplog:page'"> 查询 </el-button>
+						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					</el-button-group>
+				</el-form-item>
+				<el-form-item>
+					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysOplog:clear'"> 清空 </el-button>
+					<el-button icon="ele-FolderOpened" @click="exportLog" v-auth="'sysOplog:export'"> 导出 </el-button>
+				</el-form-item>
 			</el-form>
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
-			<el-table :data="state.logData" @sort-change="sortChange" style="width: 100%" border>
+			<el-table :data="state.logData" @sort-change="sortChange" style="width: 100%" border :row-class-name="tableRowClassName">
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="controllerName" label="模块名称" width="100" show-overflow-tooltip />
 				<el-table-column prop="displayTitle" label="显示名称" width="150" show-overflow-tooltip />
@@ -105,10 +97,10 @@ const state = reactive({
 	},
 	tableParams: {
 		page: 1,
-		pageSize: 10,
-		field: 'createTime', //默认的排序字段
-		order: 'descending', //排序方向
-		descStr: 'descending', //降序排序的关键字符，element-plus是descending； ant-design是descend
+		pageSize: 20,
+		field: 'createTime', // 默认的排序字段
+		order: 'descending', // 排序方向
+		descStr: 'descending', // 降序排序的关键字符
 		total: 0 as any,
 	},
 	logData: [] as Array<SysLogOp>,
@@ -124,16 +116,10 @@ onMounted(async () => {
 const handleQuery = async () => {
 	if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
 	if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
+
 	state.loading = true;
-	var res = await getAPI(SysLogOpApi).apiSysLogOpPageGet(
-		state.queryParams.startTime,
-		state.queryParams.endTime,
-		state.tableParams.page,
-		state.tableParams.pageSize,
-		state.tableParams.field,
-		state.tableParams.order,
-		state.tableParams.descStr
-	);
+	let params = Object.assign(state.queryParams, state.tableParams);
+	var res = await getAPI(SysLogOpApi).apiSysLogOpPagePost(params);
 	state.logData = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;
@@ -184,6 +170,11 @@ const viewDetail = (row: any) => {
 	state.dialogVisible = true;
 };
 
+// 设置行颜色
+const tableRowClassName = (row: any) => {
+	return row.row.exception != null ? 'warning-row' : '';
+};
+
 const shortcuts = [
 	{
 		text: '今天',
@@ -219,9 +210,14 @@ const sortChange = (column: any) => {
 .el-popper {
 	max-width: 60%;
 }
-
 pre {
 	white-space: break-spaces;
 	line-height: 20px;
+}
+.el-table .warning-row {
+	--el-table-tr-bg-color: var(--el-color-warning-light-9);
+}
+.el-table .success-row {
+	--el-table-tr-bg-color: var(--el-color-success-light-9);
 }
 </style>

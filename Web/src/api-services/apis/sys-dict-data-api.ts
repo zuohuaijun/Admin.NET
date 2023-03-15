@@ -22,6 +22,7 @@ import { AdminResultSqlSugarPagedListSysDictData } from '../models';
 import { AdminResultSysDictData } from '../models';
 import { DeleteDictDataInput } from '../models';
 import { DictDataInput } from '../models';
+import { PageDictDataInput } from '../models';
 import { StatusEnum } from '../models';
 import { UpdateDictDataInput } from '../models';
 /**
@@ -302,18 +303,11 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
         /**
          * 
          * @summary 获取字典值分页列表
-         * @param {number} [dictTypeId] 字典类型Id
-         * @param {string} [value] 值
-         * @param {string} [code] 编码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageDictDataInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysDictDataPageGet: async (dictTypeId?: number, value?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysDictDataPagePost: async (body?: PageDictDataInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysDictData/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -321,43 +315,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (dictTypeId !== undefined) {
-                localVarQueryParameter['DictTypeId'] = dictTypeId;
-            }
-
-            if (value !== undefined) {
-                localVarQueryParameter['Value'] = value;
-            }
-
-            if (code !== undefined) {
-                localVarQueryParameter['Code'] = code;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -369,6 +333,8 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -555,19 +521,12 @@ export const SysDictDataApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取字典值分页列表
-         * @param {number} [dictTypeId] 字典类型Id
-         * @param {string} [value] 值
-         * @param {string} [code] 编码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageDictDataInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictDataPageGet(dictTypeId?: number, value?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysDictData>>> {
-            const localVarAxiosArgs = await SysDictDataApiAxiosParamCreator(configuration).apiSysDictDataPageGet(dictTypeId, value, code, page, pageSize, field, order, descStr, options);
+        async apiSysDictDataPagePost(body?: PageDictDataInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysDictData>>> {
+            const localVarAxiosArgs = await SysDictDataApiAxiosParamCreator(configuration).apiSysDictDataPagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -675,19 +634,12 @@ export const SysDictDataApiFactory = function (configuration?: Configuration, ba
         /**
          * 
          * @summary 获取字典值分页列表
-         * @param {number} [dictTypeId] 字典类型Id
-         * @param {string} [value] 值
-         * @param {string} [code] 编码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageDictDataInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDictDataPageGet(dictTypeId?: number, value?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysDictData>> {
-            return SysDictDataApiFp(configuration).apiSysDictDataPageGet(dictTypeId, value, code, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysDictDataPagePost(body?: PageDictDataInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysDictData>> {
+            return SysDictDataApiFp(configuration).apiSysDictDataPagePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -790,20 +742,13 @@ export class SysDictDataApi extends BaseAPI {
     /**
      * 
      * @summary 获取字典值分页列表
-     * @param {number} [dictTypeId] 字典类型Id
-     * @param {string} [value] 值
-     * @param {string} [code] 编码
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
+     * @param {PageDictDataInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysDictDataApi
      */
-    public async apiSysDictDataPageGet(dictTypeId?: number, value?: string, code?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysDictData>> {
-        return SysDictDataApiFp(this.configuration).apiSysDictDataPageGet(dictTypeId, value, code, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysDictDataPagePost(body?: PageDictDataInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysDictData>> {
+        return SysDictDataApiFp(this.configuration).apiSysDictDataPagePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

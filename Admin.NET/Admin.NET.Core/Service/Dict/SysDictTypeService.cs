@@ -22,7 +22,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [DisplayName("获取字典类型分页列表")]
-    public async Task<SqlSugarPagedList<SysDictType>> GetPage([FromQuery] PageDictTypeInput input)
+    public async Task<SqlSugarPagedList<SysDictType>> Page(PageDictTypeInput input)
     {
         var code = !string.IsNullOrEmpty(input.Code?.Trim());
         var name = !string.IsNullOrEmpty(input.Name?.Trim());

@@ -7,7 +7,7 @@
 			<Table ref="tableRef" v-bind="tb.tableData" :getData="getData" :exportChangeData="exportChangeData" @sortHeader="onSortHeader" @selectionChange="tableSelection">
 				<template #command>
 					<el-button type="primary" icon="ele-Plus" @click="openAddConfig" v-auth="'sysConfig:add'"> 新增 </el-button>
-					<el-button v-if="state.selectlist.length > 0" type="danger" icon="ele-Delete" @click="bacthDelete" v-auth="'sysConfig:delete'"> 批量删除 </el-button>
+					<el-button v-if="state.selectlist.length > 0" type="danger" icon="ele-Delete" @click="bacthDelete" v-auth="'sysConfig:batchDelete'"> 批量删除 </el-button>
 				</template>
 				<template #sysFlag="scope">
 					<el-tag v-if="scope.row.sysFlag === 1"> 是 </el-tag>
@@ -19,7 +19,7 @@
 				</template>
 			</Table>
 		</el-card>
-		<EditConfig ref="editConfigRef" :title="state.editConfigTitle" />
+		<EditConfig ref="editConfigRef" :title="state.editConfigTitle" :groupList="state.groupList" />
 	</div>
 </template>
 
@@ -31,8 +31,8 @@ import EditConfig from '/@/views/system/config/component/editConfig.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysConfigApi } from '/@/api-services/api';
+import { auth } from '/@/utils/authFunction';
 
-// 引入组件
 const Table = defineAsyncComponent(() => import('/@/components/table/index.vue'));
 const TableSearch = defineAsyncComponent(() => import('/@/components/table/search.vue'));
 const editConfigRef = ref<InstanceType<typeof EditConfig>>();
@@ -41,36 +41,33 @@ const tableRef = ref<RefType>();
 const state = reactive({
 	editConfigTitle: '',
 	selectlist: [] as EmptyObjectType[],
+	groupList: [] as Array<String>,
 });
 
 const tb = reactive<TableDemoState>({
 	tableData: {
-		// 表头内容（必传，注意格式）
-		header: [
-			{ key: 'name', colWidth: '180', title: '配置名称', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: true, isCheck: true },
-			{ key: 'code', colWidth: '180', title: '配置编码', type: 'text', align: 'center', headerAlign: '', toolTip: true, sortable: true, isCheck: true },
-			{ key: 'value', colWidth: '120', title: '属性值', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
-			{ key: 'sysFlag', colWidth: '120', title: '内置参数', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
-			{ key: 'groupCode', colWidth: '120', title: '分组编码', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
-			{ key: 'orderNo', colWidth: '80', title: '排序', type: 'text', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
-			{ key: 'remark', colWidth: '', title: '备注', type: 'text', align: '', headerAlign: 'center', toolTip: false, sortable: false, isCheck: true },
-			{ key: 'action', colWidth: '150', title: '操作', type: 'action', align: 'center', headerAlign: '', toolTip: false, sortable: false, isCheck: true },
+		columns: [
+			{ prop: 'name', label: '配置名称', width: '180', align: 'center', sortable: 'custom', isCheck: true, hideCheck: true },
+			{ prop: 'code', label: '配置编码', width: '180', align: 'center', toolTip: true, sortable: 'custom', isCheck: true },
+			{ prop: 'value', label: '属性值', width: '120', align: 'center', isCheck: true },
+			{ prop: 'sysFlag', label: '内置参数', width: '120', align: 'center', isCheck: true },
+			{ prop: 'groupCode', label: '分组编码', width: '120', align: 'center', isCheck: true },
+			{ prop: 'orderNo', label: '排序', width: '80', align: 'center', isCheck: true },
+			{ prop: 'remark', label: '备注', width: '', align: '', headerAlign: 'center', showOverflowTooltip: true, isCheck: true },
+			{ prop: 'action', label: '操作', width: '140', align: 'center', type: 'action', fixed: 'right', isCheck: true, hideCheck: true },
 		],
-		// 配置项（必传）
 		config: {
-			isBorder: true, // 是否显示表格边框
-			isSerialNo: true, // 是否显示表格序号
-			isSelection: false, // 是否勾选表格多选
-			showSelection: false, //是否显示表格多选
-			pageSize: 20, // 每页条数
-			hideExport: false, //是否隐藏导出按钮
-			exportFileName: '参数配置', //导出报表的文件名，不填写取应用名称
+			isBorder: true, // 表格边框
+			isSerialNo: true, // 表格序号
+			isSelection: true, // 勾选多选
+			showSelection: auth('sysConfig:batchDelete'), // 显示多选
+			pageSize: 10, // 每页条数
+			hideExport: false, // 隐藏导出按钮
+			exportFileName: '参数配置', // 导出报表的文件名（不填写取应用名称）
 		},
-		// 搜索表单，动态生成（传空数组时，将不显示搜索，type有3种类型：input,date,select）
 		search: [
 			{ label: '配置名称', prop: 'name', placeholder: '配置名称', required: false, type: 'input' },
 			{ label: '配置编码', prop: 'code', placeholder: '配置编码', required: false, type: 'input' },
-			// { label: '分组编码', prop: 'groupCode', placeholder: '分组编码', required: false, type: 'input' },
 			// { label: '创建时间', prop: 'time', placeholder: '请选择', required: false, type: 'date' },
 		],
 		param: {},
@@ -80,53 +77,12 @@ const tb = reactive<TableDemoState>({
 		},
 	},
 });
-const getData = async (param: any) => {
-	var res = await getAPI(SysConfigApi).apiSysConfigPagePost(param);
-	return res.data;
-};
-const exportChangeData = (data: Array<EmptyObjectType>) => {
-	data.forEach((item) => {
-		item.sysFlag = item.sysFlag == 1 ? '是' : '否';
-	});
-	return data;
-};
-// 拖动显示列排序回调
-const onSortHeader = (data: TableHeaderType[]) => {
-	tb.tableData.header = data;
-};
-// 搜索点击时表单回调
-const onSearch = (data: EmptyObjectType) => {
-	tb.tableData.param = Object.assign({}, tb.tableData.param, { ...data });
-	nextTick(() => {
-		tableRef.value.pageReset();
-	});
-};
-
-const getGroupList = async () => {
-	const res = await getAPI(SysConfigApi).apiSysConfigGroupListGet();
-	const groupSearch = {
-		label: '分组编码',
-		prop: 'groupCode',
-		placeholder: '请选择',
-		required: false,
-		type: 'select',
-		options: [],
-	} as TableSearchType;
-	res.data.result?.forEach((item) => {
-		groupSearch.options?.push({ label: item, value: item });
-	});
-	tb.tableData.search.push(groupSearch);
-};
-//表格多选事件
-const tableSelection = (data: EmptyObjectType[]) => {
-	console.log('表格多选事件', data);
-	state.selectlist = data;
-};
 
 onMounted(async () => {
 	getGroupList();
 	mittBus.on('submitRefresh', () => {
 		tableRef.value.handleList();
+		getGroupList();
 	});
 });
 
@@ -134,10 +90,41 @@ onUnmounted(() => {
 	mittBus.off('submitRefresh');
 });
 
+const getData = async (param: any) => {
+	var res = await getAPI(SysConfigApi).apiSysConfigPagePost(param);
+	return res.data;
+};
+
+// 导出处理
+const exportChangeData = (data: Array<EmptyObjectType>) => {
+	data.forEach((item) => {
+		item.sysFlag = item.sysFlag == 1 ? '是' : '否';
+	});
+	return data;
+};
+
+// 拖动列排序
+const onSortHeader = (data: TableHeaderType[]) => {
+	tb.tableData.columns = data;
+};
+
+// 搜索查询
+const onSearch = (data: EmptyObjectType) => {
+	tb.tableData.param = Object.assign({}, tb.tableData.param, { ...data });
+	nextTick(() => {
+		tableRef.value.pageReset();
+	});
+};
+
+// 表格行多选
+const tableSelection = (data: EmptyObjectType[]) => {
+	state.selectlist = data;
+};
+
 // 打开新增页面
 const openAddConfig = () => {
 	state.editConfigTitle = '添加配置';
-	editConfigRef.value?.openDialog({});
+	editConfigRef.value?.openDialog({ sysFlag: 2 });
 };
 
 // 打开编辑页面
@@ -160,14 +147,48 @@ const delConfig = (row: any) => {
 		})
 		.catch(() => {});
 };
-//批量删除
+
+// 批量删除
 const bacthDelete = () => {
-	if (state.selectlist.length == 0) return false;
-	ElMessageBox.confirm(`确定批量删除【${state.selectlist[0].name}】等${state.selectlist.length}个配置?`, '提示', {
-		confirmButtonText: '确定',
-		cancelButtonText: '取消',
-		type: 'warning',
+	// if (state.selectlist.length == 0) return false;
+	// ElMessageBox.confirm(`确定批量删除【${state.selectlist[0].name}】等${state.selectlist.length}个配置?`, '提示', {
+	// 	confirmButtonText: '确定',
+	// 	cancelButtonText: '取消',
+	// 	type: 'warning',
+	// })
+	// 	.then(async () => {
+	// 		const ids = state.selectlist.map((item) => {
+	// 			return item.id;
+	// 		});
+	// 		var res = await getAPI(SysConfigApi).apiSysConfigBatchDeletePost({ ids: ids });
+	// 		tableRef.value.pageReset();
+	// 		ElMessage.success(res.data.result?.toString());
+	// 	})
+	// 	.catch(() => {});
+};
+
+// 获取分组列表
+const getGroupList = async () => {
+	var res = await getAPI(SysConfigApi).apiSysConfigGroupListGet();
+	var groupSearch = {
+		label: '分组编码',
+		prop: 'groupCode',
+		placeholder: '请选择',
+		required: false,
+		type: 'select',
+		options: [],
+	} as TableSearchType;
+	state.groupList = res.data.result ?? [];
+	res.data.result?.forEach((item) => {
+		groupSearch.options?.push({ label: item, value: item });
 	});
-	console.log('批量删除了');
+	let group = tb.tableData.search.filter((item) => {
+		return item.prop == 'groupCode';
+	});
+	if (group.length == 0) {
+		tb.tableData.search.push(groupSearch);
+	} else {
+		group[0] = groupSearch;
+	}
 };
 </script>

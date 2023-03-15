@@ -29,7 +29,7 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 获取作业分页列表
     /// </summary>
     [DisplayName("获取作业分页列表")]
-    public async Task<SqlSugarPagedList<JobOutput>> GetPageJobDetail([FromQuery] PageJobInput input)
+    public async Task<SqlSugarPagedList<JobOutput>> PageJobDetail(PageJobInput input)
     {
         var jobDetails = await _sysJobDetailRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.JobId), u => u.JobId.Contains(input.JobId))

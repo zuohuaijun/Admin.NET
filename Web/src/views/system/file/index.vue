@@ -2,43 +2,31 @@
 	<div class="sys-file-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-        <el-row :gutter="35">
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <el-form-item label="文件名称" prop="fileName">
-              <el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.fileName" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
-            <el-form-item label="时间范围" prop="timeRange">
-              <el-date-picker
-                v-model="state.queryParams.timeRange"
-                type="datetimerange"
-                start-placeholder="开始时间"
-                end-placeholder="结束时间"
-                format="YYYY-MM-DD HH:mm:ss"
-                value-format="YYYY-MM-DD HH:mm:ss"
-              />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
-            <div>
-              <el-button type="primary"  icon="ele-Plus" @click="openUploadDialog" v-auth="'sysFile:uploadFile'"> 上传 </el-button>
-            </div>
-            <div>
-              <el-form-item>
-                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysFile:page'" plain> 查询 </el-button> 
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
+				<el-form-item label="文件名称" prop="fileName">
+					<el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.fileName" />
+				</el-form-item>
+				<el-form-item label="开始时间" prop="name">
+					<el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" />
+				</el-form-item>
+				<el-form-item label="结束时间" prop="code">
+					<el-date-picker v-model="state.queryParams.endTime" type="datetime" placeholder="结束时间" />
+				</el-form-item>
+				<el-form-item>
+					<el-button-group>
+						<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysFile:page'"> 查询 </el-button>
+						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					</el-button-group>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" icon="ele-Plus" @click="openUploadDialog" v-auth="'sysFile:uploadFile'"> 上传 </el-button>
+				</el-form-item>
 			</el-form>
 		</el-card>
 
 		<el-card shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.fileData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="fileName" label="名称" show-overflow-tooltip />
+				<el-table-column prop="fileName" label="名称" />
 				<el-table-column prop="suffix" label="后缀" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag round>{{ scope.row.suffix }}</el-tag>
@@ -127,7 +115,8 @@ const state = reactive({
 	fileData: [] as Array<SysFile>,
 	queryParams: {
 		fileName: undefined,
-		timeRange: [] as any,
+		startTime: undefined,
+		endTime: undefined,
 	},
 	tableParams: {
 		page: 1,
@@ -152,15 +141,12 @@ onUnmounted(() => {
 
 // 查询操作
 const handleQuery = async () => {
-	let startTime = undefined;
-	let endTime = undefined;
-	if (state.queryParams.timeRange != undefined) {
-		startTime = state.queryParams.timeRange[0];
-		endTime = state.queryParams.timeRange[1];
-	}
+	if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
+	if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
 
 	state.loading = true;
-	var res = await getAPI(SysFileApi).apiSysFilePageGet(state.queryParams.fileName, startTime, endTime, state.tableParams.page, state.tableParams.pageSize);
+	let params = Object.assign(state.queryParams, state.tableParams);
+	var res = await getAPI(SysFileApi).apiSysFilePagePost(params);
 	state.fileData = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;
@@ -169,7 +155,8 @@ const handleQuery = async () => {
 // 重置操作
 const resetQuery = () => {
 	state.queryParams.fileName = undefined;
-	state.queryParams.timeRange = undefined;
+	state.queryParams.startTime = undefined;
+	state.queryParams.endTime = undefined;
 	handleQuery();
 };
 

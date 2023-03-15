@@ -52,7 +52,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取租户分页列表")]
-    public async Task<SqlSugarPagedList<TenantOutput>> GetPage([FromQuery] PageTenantInput input)
+    public async Task<SqlSugarPagedList<TenantOutput>> Page(PageTenantInput input)
     {
         return await _sysTenantRep.AsQueryable()
             .LeftJoin<SysUser>((t, u) => t.UserId == u.Id)
@@ -129,7 +129,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     public async Task<int> SetStatus(TenantInput input)
     {
         var tenant = await _sysTenantRep.GetFirstAsync(u => u.Id == input.Id);
-        if (tenant.ConfigId == SqlSugarConst.ConfigId)
+        if (tenant == null || tenant.ConfigId == SqlSugarConst.ConfigId)
             throw Oops.Oh(ErrorCodeEnum.Z1001);
 
         if (!Enum.IsDefined(typeof(StatusEnum), input.Status))

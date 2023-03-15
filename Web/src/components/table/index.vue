@@ -5,7 +5,6 @@
 				<slot name="command"></slot>
 			</div>
 			<div v-loading="state.importLoading" class="table-footer-tool">
-				<!-- <SvgIcon name="iconfont icon-yunxiazai_o" :size="22" title="导出" @click="onImportTable" /> -->
 				<SvgIcon name="iconfont icon-shuaxin" :size="22" title="刷新" @click="onRefreshTable" />
 				<el-dropdown v-if="!config.hideExport" trigger="click">
 					<SvgIcon name="iconfont icon-yunxiazai_o" :size="22" title="导出" />
@@ -16,7 +15,7 @@
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>
-				<el-popover placement="top-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper" :width="300" :persistent="false" @show="onSetTable">
+				<el-popover placement="top-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper" :width="300" :persistent="false" @show="onSetTable" @hide="closePop">
 					<template #reference>
 						<SvgIcon name="iconfont icon-quanjushezhi_o" :size="22" title="设置" />
 					</template>
@@ -31,9 +30,9 @@
 						</div>
 						<el-scrollbar>
 							<div ref="toolSetRef" class="tool-sortable">
-								<div class="tool-sortable-item" v-for="v in header" :key="v.key" :data-key="v.key">
+								<div class="tool-sortable-item" v-for="v in state.listColumn" :key="v.prop" v-show="!v.hideCheck && !v.fixed" :data-key="v.prop">
 									<i class="fa fa-arrows-alt handle cursor-pointer"></i>
-									<el-checkbox v-model="v.isCheck" size="default" class="ml12 mr8" :label="v.title" @change="onCheckChange" />
+									<el-checkbox v-model="v.isCheck" size="default" class="ml12 mr8" :label="v.label" @change="onCheckChange" />
 								</div>
 							</div>
 						</el-scrollbar>
@@ -47,6 +46,7 @@
 			:border="setBorder"
 			v-bind="$attrs"
 			row-key="id"
+			default-expand-all
 			style="width: 100%"
 			v-loading="state.loading"
 			:default-sort="defaultSort"
@@ -55,38 +55,20 @@
 		>
 			<el-table-column type="selection" :reserve-selection="true" width="30" v-if="config.isSelection && config.showSelection" />
 			<el-table-column type="index" label="序号" align="center" width="60" v-if="config.isSerialNo" />
-			<el-table-column
-				v-for="(item, index) in setHeader"
-				:key="index"
-				:show-overflow-tooltip="item.toolTip"
-				:prop="item.key"
-				:width="item.colWidth"
-				:label="item.title"
-				:align="item.align"
-				:header-align="item.headerAlign"
-				:sortable="item.key == 'action' ? false : item.sortable"
-			>
-				<template #default="scope" v-if="$slots[item.key]">
-					<slot :name="item.key" v-bind="scope"></slot>
+			<el-table-column v-for="(item, index) in setHeader" :key="index" v-bind="item">
+				<!-- 自定义列插槽，插槽名为columns属性的prop -->
+				<template #default="scope" v-if="$slots[item.prop]">
+					<slot :name="item.prop" v-bind="scope"></slot>
 				</template>
 				<template v-else v-slot="scope">
 					<template v-if="item.type === 'image'">
-						<img :src="scope.row[item.key]" :width="item.width" :height="item.height" />
+						<img :src="scope.row[item.prop]" class="w100" />
 					</template>
 					<template v-else>
-						{{ scope.row[item.key] }}
+						{{ scope.row[item.prop] }}
 					</template>
 				</template>
 			</el-table-column>
-			<!-- <el-table-column label="操作" width="100" v-if="config.isOperate">
-        <template v-slot="scope">
-          <el-popconfirm title="确定删除吗？" @confirm="onDelRow(scope.row)">
-            <template #reference>
-              <el-button text type="primary">删除</el-button>
-            </template>
-          </el-popconfirm>
-        </template>
-      </el-table-column> -->
 			<template #empty>
 				<el-empty description="暂无数据" />
 			</template>
@@ -120,40 +102,39 @@ import { exportExcel } from '/@/utils/exportExcel';
 
 // 定义父组件传过来的值
 const props = defineProps({
-	// 列表内容
-	// data: {
-	//   type: Array<EmptyObjectType>,
-	//   default: () => [],
-	// },
+	// 获取数据的方法，由父组件传递
 	getData: {
 		type: Function,
 		required: true,
 	},
-	// 表头内容
-	header: {
-		type: Array<EmptyObjectType>,
+	// 列属性，和elementUI的Table-column 属性相同，附加属性：isCheck-是否默认勾选展示，hideCheck-是否隐藏该列的可勾选和拖拽
+	columns: {
+		type: Array<any>,
 		default: () => [],
 	},
-	// 配置项
+	// 配置项：isBorder-是否显示表格边框，isSerialNo-是否显示表格序号，showSelection-是否显示表格可多选，isSelection-是否默认选中表格多选，pageSize-每页条数，hideExport-是否隐藏导出按钮，exportFileName-导出表格的文件名，空值默认用应用名称作为文件名
 	config: {
 		type: Object,
 		default: () => {},
 	},
+	// 筛选参数
 	param: {
 		type: Object,
 		default: () => {},
 	},
+	// 默认排序方式，{prop:"排序字段",order:"ascending or descending"}
 	defaultSort: {
 		type: Object,
 		default: () => {},
 	},
+	// 导出报表自定义数据转换方法，不传按字段值导出
 	exportChangeData: {
 		type: Function,
 	},
 });
 
-// 定义子组件向父组件传值/事件
-const emit = defineEmits(['delRow', 'pageChange', 'selectionChange', 'sortHeader']);
+// 定义子组件向父组件传值/事件，pageChange-翻页事件，selectionChange-表格多选事件，可以在父组件处理批量删除/修改等功能，sortHeader-拖拽列顺序事件
+const emit = defineEmits(['pageChange', 'selectionChange', 'sortHeader']);
 
 // 定义变量内容
 const toolSetRef = ref();
@@ -174,6 +155,7 @@ const state = reactive({
 	selectlist: [] as EmptyObjectType[],
 	checkListAll: true,
 	checkListIndeterminate: false,
+	listColumn: [] as Array<any>,
 });
 
 // 设置边框显示/隐藏
@@ -186,19 +168,27 @@ const getConfig = computed(() => {
 });
 // 设置 tool header 数据
 const setHeader = computed(() => {
-	return props.header.filter((v) => v.isCheck);
+	return props.columns.filter((v) => v.isCheck);
 });
 // tool 列显示全选改变时
 const onCheckAllChange = <T>(val: T) => {
-	if (val) props.header.forEach((v) => (v.isCheck = true));
-	else props.header.forEach((v) => (v.isCheck = false));
+	if (val)
+		state.listColumn.forEach((v) => {
+			if (!v.hideCheck) v.isCheck = true;
+		});
+	else
+		state.listColumn.forEach((v) => {
+			if (!v.hideCheck) v.isCheck = false;
+		});
 	state.checkListIndeterminate = false;
+	emit('sortHeader', state.listColumn);
 };
 // tool 列显示当前项改变时
 const onCheckChange = () => {
-	const headers = props.header.filter((v) => v.isCheck).length;
-	state.checkListAll = headers === props.header.length;
-	state.checkListIndeterminate = headers > 0 && headers < props.header.length;
+	const headers = state.listColumn.filter((v) => v.isCheck).length;
+	state.checkListAll = headers === props.columns.length;
+	state.checkListIndeterminate = headers > 0 && headers < props.columns.length;
+	emit('sortHeader', state.listColumn);
 };
 // 表格多选改变时
 const onSelectionChange = (val: EmptyObjectType[]) => {
@@ -209,13 +199,13 @@ const onSelectionChange = (val: EmptyObjectType[]) => {
 const onHandleSizeChange = (val: number) => {
 	state.page.pageSize = val;
 	handleList();
-	// emit('pageChange', state.page);
+	emit('pageChange', state.page);
 };
 // 改变当前页
 const onHandleCurrentChange = (val: number) => {
 	state.page.page = val;
 	handleList();
-	// emit('pageChange', state.page);
+	emit('pageChange', state.page);
 };
 // 列排序
 const sortChange = (column: any) => {
@@ -223,15 +213,13 @@ const sortChange = (column: any) => {
 	state.page.order = column.order;
 	handleList();
 };
-// 搜索时，分页还原成默认
+// 重置列表
 const pageReset = () => {
 	tableRef.value.clearSelection();
 	state.page.page = 1;
 	handleList();
-	// state.page.pageSize = 10;
-	// emit('pageChange', state.page);
 };
-// 导出
+// 导出当前页
 const onImportTable = () => {
 	if (setHeader.value.length <= 0) return ElMessage.error('没有勾选要导出的列');
 	importData(state.data);
@@ -246,6 +234,7 @@ const onImportTableAll = async () => {
 	const data = res.result?.items ?? [];
 	importData(data);
 };
+// 导出方法
 const importData = (data: Array<EmptyObjectType>) => {
 	if (data.length <= 0) return ElMessage.error('没有数据可以导出');
 	state.importLoading = true;
@@ -268,7 +257,7 @@ const onRefreshTable = () => {
 	handleList();
 	// emit('pageChange', state.page);
 };
-// 设置
+// 拖拽设置
 const onSetTable = () => {
 	nextTick(() => {
 		const sortable = Sortable.create(toolSetRef.value, {
@@ -278,8 +267,8 @@ const onSetTable = () => {
 			onEnd: () => {
 				const headerList: EmptyObjectType[] = [];
 				sortable.toArray().forEach((val: any) => {
-					props.header.forEach((v) => {
-						if (v.key === val) headerList.push({ ...v });
+					state.listColumn.forEach((v) => {
+						if (v.prop === val) headerList.push({ ...v });
 					});
 				});
 				emit('sortHeader', headerList);
@@ -288,13 +277,26 @@ const onSetTable = () => {
 	});
 };
 
+const closePop = () => {
+	state.listColumn = JSON.parse(JSON.stringify(props.columns));
+};
+
 const handleList = async () => {
 	state.loading = true;
-	const param = Object.assign({}, props.param, { ...state.page });
+	let param = Object.assign({}, props.param, { ...state.page });
+	Object.keys(param).forEach((key) => !param[key] && delete param[key]);
 	const res = await props.getData(param);
 	state.loading = false;
-	state.data = res.result?.items ?? [];
-	state.total = res.result?.total ?? 0;
+	if (res.result.items) {
+		state.data = res.result?.items ?? [];
+		state.total = res.result?.total ?? 0;
+	} else {
+		state.data = res.result ?? [];
+	}
+};
+
+const toggleSelection = (row: any, statu?: boolean) => {
+	tableRef.value!.toggleRowSelection(row, statu);
 };
 
 onMounted(() => {
@@ -303,13 +305,15 @@ onMounted(() => {
 		state.page.order = props.defaultSort.order;
 	}
 	state.page.pageSize = props.config.pageSize;
+	state.listColumn = JSON.parse(JSON.stringify(props.columns));
 	handleList();
 });
 
-// 暴露变量
+// 导出对象
 defineExpose({
 	pageReset,
 	handleList,
+	toggleSelection,
 });
 </script>
 

@@ -5,25 +5,55 @@
 				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" class="mb20" v-for="(val, key) in search" :key="key" v-show="key < 3 || state.isToggle">
 					<template v-if="val.type !== ''">
 						<el-form-item :label="val.label" :prop="val.prop" :rules="[{ required: val.required, message: `${val.label}不能为空`, trigger: val.type === 'input' ? 'blur' : 'change' }]">
-							<el-input v-model="state.form[val.prop]" :placeholder="val.placeholder" clearable v-if="val.type === 'input'" @keyup.enter="onSearch(tableSearchRef)" style="width: 100%" />
-							<el-date-picker v-model="state.form[val.prop]" type="date" :placeholder="val.placeholder" v-else-if="val.type === 'date'" style="width: 100%" />
-							<el-select v-model="state.form[val.prop]" clearable :placeholder="val.placeholder" v-else-if="val.type === 'select'" style="width: 100%">
+							<el-input
+								v-model="state.form[val.prop]"
+								v-bind="$attrs"
+								:placeholder="val.placeholder"
+								:clearable="!val.required"
+								v-if="val.type === 'input'"
+								@keyup.enter="onSearch(tableSearchRef)"
+								style="width: 100%"
+							/>
+							<el-date-picker
+								v-model="state.form[val.prop]"
+								v-bind="$attrs"
+								type="date"
+								:placeholder="val.placeholder"
+								:clearable="!val.required"
+								v-else-if="val.type === 'date'"
+								style="width: 100%"
+							/>
+							<el-select v-model="state.form[val.prop]" v-bind="$attrs" :clearable="!val.required" :placeholder="val.placeholder" v-else-if="val.type === 'select'" style="width: 100%">
 								<el-option v-for="item in val.options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
 							</el-select>
+							<el-cascader
+								v-else-if="val.type === 'cascader' && val.cascaderData"
+								:options="val.cascaderData"
+								:clearable="!val.required"
+								filterable
+								:props="val.cascaderProps ? val.cascaderProps : state.cascaderProps"
+								:placeholder="val.placeholder"
+								class="w100"
+								v-bind="$attrs"
+								v-model="state.form[val.prop]"
+							>
+							</el-cascader>
 						</el-form-item>
 					</template>
 				</el-col>
 				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" class="mb20">
-					<el-form-item class="table-form-btn" :label-width="search.length <= 1 ? '10px' : '100px'">
-						<template #label v-if="search.length > 3">
-							<div class="table-form-btn-toggle ml10" @click="state.isToggle = !state.isToggle">
-								<span>{{ state.isToggle ? '收起' : '展开' }}</span>
-								<SvgIcon :name="state.isToggle ? 'ele-ArrowUp' : 'ele-ArrowDown'" />
+					<el-form-item class="table-form-btn" :label-width="search.length <= 3 ? '10px' : '100px'">
+						<template #label>
+							<div v-if="search.length > 3">
+								<div class="table-form-btn-toggle ml10" @click="state.isToggle = !state.isToggle">
+									<span>{{ state.isToggle ? '收起' : '展开' }}</span>
+									<SvgIcon :name="state.isToggle ? 'ele-ArrowUp' : 'ele-ArrowDown'" />
+								</div>
 							</div>
 						</template>
 						<div>
-							<el-button size="default" type="primary" icon="ele-Search" plain @click="onSearch(tableSearchRef)"> 查询 </el-button>
-							<el-button size="default" plain icon="ele-Refresh" @click="onReset(tableSearchRef)"> 重置 </el-button>
+							<el-button size="default" type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)" plain>查询 </el-button>
+							<el-button size="default" icon="ele-Refresh" class="ml10" @click="onReset(tableSearchRef)"> 重置 </el-button>
 						</div>
 					</el-form-item>
 				</el-col>
@@ -33,15 +63,19 @@
 </template>
 
 <script setup lang="ts" name="makeTableDemoSearch">
-import { reactive, ref, onMounted } from 'vue';
+import { reactive, ref, onMounted, watch } from 'vue';
 import type { FormInstance } from 'element-plus';
 
 // 定义父组件传过来的值
 const props = defineProps({
-	// 搜索表单
+	// 搜索表单,type-控件类型（input,select,cascader,date）,options-type为selct时需传值，cascaderData,cascaderProps-type为cascader时需传值，属性同elementUI,cascaderProps不传则使用state默认
 	search: {
 		type: Array<TableSearchType>,
 		default: () => [],
+	},
+	param: {
+		type: Object,
+		default: () => {},
 	},
 });
 
@@ -53,8 +87,20 @@ const tableSearchRef = ref<FormInstance>();
 const state = reactive({
 	form: {},
 	isToggle: false,
+	cascaderProps: { checkStrictly: true, emitPath: false, value: 'id', label: 'name', expandTrigger: 'hover' },
 });
-
+watch(
+	() => props.param,
+	(value) => {
+		if (value) {
+			state.form = Object.assign({}, { ...value });
+		}
+	},
+	{
+		immediate: true,
+		deep: true,
+	}
+);
 // 查询
 const onSearch = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;

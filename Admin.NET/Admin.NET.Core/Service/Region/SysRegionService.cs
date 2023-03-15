@@ -22,7 +22,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取行政区域分页列表")]
-    public async Task<SqlSugarPagedList<SysRegion>> GetPage([FromQuery] PageRegionInput input)
+    public async Task<SqlSugarPagedList<SysRegion>> Page(PageRegionInput input)
     {
         return await _sysRegionRep.AsQueryable()
             .WhereIF(input.Pid > 0, u => u.Pid == input.Pid || u.Id == input.Pid)

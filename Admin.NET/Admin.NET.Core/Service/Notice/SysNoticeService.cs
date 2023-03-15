@@ -32,7 +32,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取通知公告分页列表")]
-    public async Task<SqlSugarPagedList<SysNotice>> GetPage([FromQuery] PageNoticeInput input)
+    public async Task<SqlSugarPagedList<SysNotice>> Page(PageNoticeInput input)
     {
         return await _sysNoticeRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.Title.Contains(input.Title.Trim()))

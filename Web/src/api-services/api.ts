@@ -20,6 +20,7 @@ export * from './apis/sys-const-api';
 export * from './apis/sys-database-api';
 export * from './apis/sys-dict-data-api';
 export * from './apis/sys-dict-type-api';
+export * from './apis/sys-enum-api';
 export * from './apis/sys-file-api';
 export * from './apis/sys-job-api';
 export * from './apis/sys-log-diff-api';

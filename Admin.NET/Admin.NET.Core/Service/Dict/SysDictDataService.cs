@@ -20,7 +20,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取字典值分页列表")]
-    public async Task<SqlSugarPagedList<SysDictData>> GetPage([FromQuery] PageDictDataInput input)
+    public async Task<SqlSugarPagedList<SysDictData>> Page(PageDictDataInput input)
     {
         var code = !string.IsNullOrEmpty(input.Code?.Trim());
         var value = !string.IsNullOrEmpty(input.Value?.Trim());

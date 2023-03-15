@@ -2,29 +2,21 @@
 	<div class="sys-difflog-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-        <el-row :gutter="35">
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <el-form-item label="开始时间" prop="name">
-              <el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
-            <el-form-item label="结束时间" prop="code">
-              <el-date-picker v-model="state.queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
-            <div>
-              <el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysDifflog:clear'"> 清空 </el-button>
-            </div>
-            <div>
-              <el-form-item>
-                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysDifflog:page'" plain> 查询 </el-button> 
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
+				<el-form-item label="开始时间" prop="name">
+					<el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" :shortcuts="shortcuts" />
+				</el-form-item>
+				<el-form-item label="结束时间" prop="code">
+					<el-date-picker v-model="state.queryParams.endTime" type="datetime" placeholder="结束时间" :shortcuts="shortcuts" />
+				</el-form-item>
+				<el-form-item>
+					<el-button-group>
+						<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysDifflog:page'"> 查询 </el-button>
+						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					</el-button-group>
+				</el-form-item>
+				<el-form-item>
+					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysDifflog:clear'"> 清空 </el-button>
+				</el-form-item>
 			</el-form>
 		</el-card>
 
@@ -86,8 +78,10 @@ onMounted(async () => {
 const handleQuery = async () => {
 	if (state.queryParams.startTime == null) state.queryParams.startTime = undefined;
 	if (state.queryParams.endTime == null) state.queryParams.endTime = undefined;
+
 	state.loading = true;
-	var res = await getAPI(SysLogDiffApi).apiSysLogDiffPageGet(state.queryParams.startTime, state.queryParams.endTime, state.tableParams.page, state.tableParams.pageSize);
+	let params = Object.assign(state.queryParams, state.tableParams);
+	var res = await getAPI(SysLogDiffApi).apiSysLogDiffPagePost(params);
 	state.logData = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;

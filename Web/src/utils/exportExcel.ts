@@ -42,16 +42,16 @@ export function exportExcel(jsonarr: Array<EmptyObjectType>, name: string, heade
 	var headrow = new Array();
 	header.forEach((item) => {
 		let width = 200;
-		if (item.colWidth && !isNaN(item.colWidth)) {
-			width = parseInt(item.colWidth) * 0.7;
+		if (item.width && !isNaN(item.width)) {
+			width = parseInt(item.width) * 0.7;
 		}
 		wpxArr.push({ wpx: width });
 		headrow.push({
-			v: item.title,
+			v: item.label,
 			t: 's',
 			s: {
 				font: { bold: true },
-				alignment: { wrapText: true, horizontal: item.headerAlign ? item.headerAlign : item.align, vertical: 'center' },
+				alignment: { wrapText: true, horizontal: item.headerAlign ? item.headerAlign : item.align ? item.align : '', vertical: 'center' },
 				border: borderStyle,
 			},
 		});
@@ -60,14 +60,14 @@ export function exportExcel(jsonarr: Array<EmptyObjectType>, name: string, heade
 	jsonarr.forEach((json) => {
 		var row = new Array();
 		header.forEach((item) => {
-			if (json.hasOwnProperty(item.key)) {
+			if (json.hasOwnProperty(item.prop)) {
 				let val = '';
-				if (json[item.key] != null) val = json[item.key];
+				if (json[item.prop] != null) val = json[item.prop];
 				row.push({
 					v: val,
 					t: 's',
 					s: {
-						alignment: { wrapText: true, horizontal: item.align, vertical: 'center' },
+						alignment: { wrapText: true, horizontal: item.align ? item.align : '', vertical: 'center' },
 						border: borderStyle,
 					},
 				});
@@ -75,7 +75,6 @@ export function exportExcel(jsonarr: Array<EmptyObjectType>, name: string, heade
 		});
 		data.push(row);
 	});
-	console.log(data);
 	const ws = XLSXS.utils.aoa_to_sheet(data);
 	const wb = XLSXS.utils.book_new();
 	ws['!cols'] = wpxArr;

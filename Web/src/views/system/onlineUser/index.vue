@@ -10,8 +10,10 @@
 						<el-input placeholder="账号名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.realName" />
 					</el-form-item> -->
 					<el-form-item>
-						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-						<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
+						<el-button-group>
+							<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
+							<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+						</el-button-group>
 					</el-form-item>
 				</el-form>
 			</el-card>
@@ -105,7 +107,8 @@ const openDrawer = () => {
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
-	var res = await getAPI(SysOnlineUserApi).apiSysOnlineUserPageGet(state.queryParams.userName, state.queryParams.realName, state.tableParams.page, state.tableParams.pageSize);
+	let params = Object.assign(state.queryParams, state.tableParams);
+	var res = await getAPI(SysOnlineUserApi).apiSysOnlineUserPagePost(params);
 	state.onlineUserList = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;

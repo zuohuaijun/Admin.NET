@@ -2,29 +2,21 @@
 	<div class="sys-codeGen-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-        <el-row :gutter="35">
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">
-            <el-form-item label="业务名" prop="busName">
-              <el-input placeholder="业务名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.busName" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6">  
-            <el-form-item label="数据库表名" prop="tableName">
-              <el-input placeholder="数据库表名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.tableName" />
-            </el-form-item>
-          </el-col>
-          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20 search-actions">
-            <div>
-              <el-button type="primary" icon="ele-Plus" @click="openAddDialog"> 增加 </el-button>
-            </div>
-            <div>
-              <el-form-item>
-                <el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-                <el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysMenu:list'" plain> 查询 </el-button>
-              </el-form-item>
-            </div>
-          </el-col>
-        </el-row>
+				<el-form-item label="业务名" prop="busName">
+					<el-input placeholder="业务名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.busName" />
+				</el-form-item>
+				<el-form-item label="数据库表名" prop="tableName">
+					<el-input placeholder="数据库表名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.tableName" />
+				</el-form-item>
+				<el-form-item>
+					<el-button-group>
+						<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysMenu:list'"> 查询 </el-button>
+						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					</el-button-group>
+				</el-form-item>
+				<el-form-item>
+					<el-button type="primary" icon="ele-Plus" @click="openAddDialog"> 增加 </el-button>
+				</el-form-item>
 			</el-form>
 		</el-card>
 
@@ -39,11 +31,11 @@
 				<el-table-column prop="generateType" label="生成方式" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.generateType === 100"> 下载压缩包 </el-tag>
-                        <el-tag v-else-if="scope.row.generateType === 111"> 下载压缩包(前端) </el-tag>
-                        <el-tag v-else-if="scope.row.generateType === 121"> 下载压缩包(后端) </el-tag>
-                        <el-tag v-else-if="scope.row.generateType === 211"> 生成到本项目(前端) </el-tag>
-                        <el-tag v-else-if="scope.row.generateType === 221"> 生成到本项目(后端) </el-tag>
-                        <el-tag type="danger" v-else> 生成到本项目 </el-tag>
+						<el-tag v-else-if="scope.row.generateType === 111"> 下载压缩包(前端) </el-tag>
+						<el-tag v-else-if="scope.row.generateType === 121"> 下载压缩包(后端) </el-tag>
+						<el-tag v-else-if="scope.row.generateType === 211"> 生成到本项目(前端) </el-tag>
+						<el-tag v-else-if="scope.row.generateType === 221"> 生成到本项目(后端) </el-tag>
+						<el-tag type="danger" v-else> 生成到本项目 </el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column label="操作" width="200" fixed="right" align="center" show-overflow-tooltip>
@@ -137,25 +129,8 @@ const resetQuery = () => {
 // 表查询操作
 const handleQuery = async () => {
 	state.loading = true;
-	// let params = Object.assign(state.queryParams, state.tableParams);
-	let res = await getAPI(SysCodeGenApi).apiSysCodeGenPageGet(
-		undefined,
-		undefined,
-		undefined,
-		undefined,
-		undefined,
-		undefined,
-		undefined,
-		undefined,
-		state.queryParams.tableName,
-		undefined,
-		undefined,
-		undefined,
-		undefined,
-		undefined,
-		state.tableParams.page,
-		state.tableParams.pageSize
-	);
+	let params = Object.assign(state.queryParams, state.tableParams);
+	let res = await getAPI(SysCodeGenApi).apiSysCodeGenPagePost(params);
 	state.tableData = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;
@@ -208,9 +183,8 @@ const handleGenerate = (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			var res=await getAPI(SysCodeGenApi).apiSysCodeGenRunLocalPost(row);
-			if (res.data.result != null && res.data.result.url != null)
-			    downloadByUrl({ url: res.data.result.url });
+			var res = await getAPI(SysCodeGenApi).apiSysCodeGenRunLocalPost(row);
+			if (res.data.result != null && res.data.result.url != null) downloadByUrl({ url: res.data.result.url });
 			handleQuery();
 			ElMessage.success('操作成功');
 		})
@@ -219,10 +193,10 @@ const handleGenerate = (row: any) => {
 </script>
 
 <style lang="scss" scoped>
-  //搜索区域Label固定宽度
-  .sys-codeGen-container{
-    ::v-deep(.el-form-item__label) {
-      width: 90px;
-    }
-  }
+//搜索区域Label固定宽度
+.sys-codeGen-container {
+	::v-deep(.el-form-item__label) {
+		width: 90px;
+	}
+}
 </style>

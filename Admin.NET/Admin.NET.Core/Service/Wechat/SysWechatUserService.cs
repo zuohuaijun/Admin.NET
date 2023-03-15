@@ -19,7 +19,7 @@ public class SysWechatUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取微信用户列表")]
-    public async Task<SqlSugarPagedList<SysWechatUser>> GetPage([FromQuery] WechatUserInput input)
+    public async Task<SqlSugarPagedList<SysWechatUser>> Page(WechatUserInput input)
     {
         return await _sysWechatUserRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.NickName), u => u.NickName.Contains(input.NickName))

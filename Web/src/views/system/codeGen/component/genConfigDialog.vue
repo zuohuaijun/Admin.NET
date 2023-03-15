@@ -89,18 +89,18 @@ const state = reactive({
 });
 
 onMounted(async () => {
-	let res = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_effect_type');
+	var res = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_effect_type');
 	state.effectTypeList = res.data.result;
 
-	res = await getAPI(SysDictTypeApi).apiSysDictTypeListGet();
-	state.dictTypeCodeList = res.data.result;
-	state.dictDataAll = res.data.result;
+	var res1 = await getAPI(SysDictTypeApi).apiSysDictTypeListGet();
+	state.dictTypeCodeList = res1.data.result;
+	state.dictDataAll = res1.data.result;
 
-	res = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_query_type');
-	state.queryTypeList = res.data.result;
+	var res2 = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_query_type');
+	state.queryTypeList = res2.data.result;
 
-	res = await getAPI(SysConstApi).apiSysConstListGet();
-	state.allConstSelector = res.data.result;
+	var res3 = await getAPI(SysConstApi).apiSysConstListGet();
+	state.allConstSelector = res3.data.result;
 
 	mittBus.on('submitRefreshFk', (data: any) => {
 		state.tableData[data.index] = data;

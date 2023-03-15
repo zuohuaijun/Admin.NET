@@ -38,7 +38,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取文件分页列表")]
-    public async Task<SqlSugarPagedList<SysFile>> GetPage([FromQuery] PageFileInput input)
+    public async Task<SqlSugarPagedList<SysFile>> Page(PageFileInput input)
     {
         return await _sysFileRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.FileName), u => u.FileName.Contains(input.FileName.Trim()))

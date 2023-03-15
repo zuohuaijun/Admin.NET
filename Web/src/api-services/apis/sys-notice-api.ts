@@ -23,6 +23,7 @@ import { AdminResultSqlSugarPagedListSysNoticeUser } from '../models';
 import { DeleteNoticeInput } from '../models';
 import { NoticeInput } from '../models';
 import { NoticeTypeEnum } from '../models';
+import { PageNoticeInput } from '../models';
 import { UpdateNoticeInput } from '../models';
 /**
  * SysNoticeApi - axios parameter creator
@@ -115,17 +116,11 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
         /**
          * 
          * @summary 获取通知公告分页列表
-         * @param {string} [title] 标题
-         * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageNoticeInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysNoticePageGet: async (title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysNoticePagePost: async (body?: PageNoticeInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysNotice/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -133,39 +128,13 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (title !== undefined) {
-                localVarQueryParameter['Title'] = title;
-            }
-
-            if (type !== undefined) {
-                localVarQueryParameter['Type'] = type;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -177,6 +146,8 @@ export const SysNoticeApiAxiosParamCreator = function (configuration?: Configura
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -453,18 +424,12 @@ export const SysNoticeApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取通知公告分页列表
-         * @param {string} [title] 标题
-         * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageNoticeInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>>> {
-            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticePageGet(title, type, page, pageSize, field, order, descStr, options);
+        async apiSysNoticePagePost(body?: PageNoticeInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>>> {
+            const localVarAxiosArgs = await SysNoticeApiAxiosParamCreator(configuration).apiSysNoticePagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -577,18 +542,12 @@ export const SysNoticeApiFactory = function (configuration?: Configuration, base
         /**
          * 
          * @summary 获取通知公告分页列表
-         * @param {string} [title] 标题
-         * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageNoticeInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
-            return SysNoticeApiFp(configuration).apiSysNoticePageGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysNoticePagePost(body?: PageNoticeInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
+            return SysNoticeApiFp(configuration).apiSysNoticePagePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -680,19 +639,13 @@ export class SysNoticeApi extends BaseAPI {
     /**
      * 
      * @summary 获取通知公告分页列表
-     * @param {string} [title] 标题
-     * @param {NoticeTypeEnum} [type] 类型（1通知 2公告）
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
+     * @param {PageNoticeInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysNoticeApi
      */
-    public async apiSysNoticePageGet(title?: string, type?: NoticeTypeEnum, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
-        return SysNoticeApiFp(this.configuration).apiSysNoticePageGet(title, type, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysNoticePagePost(body?: PageNoticeInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysNotice>> {
+        return SysNoticeApiFp(this.configuration).apiSysNoticePagePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

@@ -4940,7 +4940,7 @@
             系统代码生成器服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysCodeGenService.GetPage(Admin.NET.Core.Service.CodeGenInput)">
+        <member name="M:Admin.NET.Core.Service.SysCodeGenService.Page(Admin.NET.Core.Service.CodeGenInput)">
             <summary>
             获取代码生成分页列表
             </summary>
@@ -5349,7 +5349,7 @@
             系统字典值服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictDataService.GetPage(Admin.NET.Core.Service.PageDictDataInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictDataService.Page(Admin.NET.Core.Service.PageDictDataInput)">
             <summary>
             获取字典值分页列表
             </summary>
@@ -5430,7 +5430,7 @@
             系统字典类型服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysDictTypeService.GetPage(Admin.NET.Core.Service.PageDictTypeInput)">
+        <member name="M:Admin.NET.Core.Service.SysDictTypeService.Page(Admin.NET.Core.Service.PageDictTypeInput)">
             <summary>
             获取字典类型分页列表
             </summary>
@@ -5607,7 +5607,7 @@
             系统文件服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysFileService.GetPage(Admin.NET.Core.Service.PageFileInput)">
+        <member name="M:Admin.NET.Core.Service.SysFileService.Page(Admin.NET.Core.Service.PageFileInput)">
             <summary>
             获取文件分页列表
             </summary>
@@ -5802,7 +5802,7 @@
             系统作业任务服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysJobService.GetPageJobDetail(Admin.NET.Core.Service.PageJobInput)">
+        <member name="M:Admin.NET.Core.Service.SysJobService.PageJobDetail(Admin.NET.Core.Service.PageJobInput)">
             <summary>
             获取作业分页列表
             </summary>
@@ -5920,7 +5920,7 @@
             系统差异日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogDiffService.GetPage(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogDiffService.Page(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取差异日志分页列表
             </summary>
@@ -5937,7 +5937,7 @@
             系统操作日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogOpService.GetPage(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogOpService.Page(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取操作日志分页列表
             </summary>
@@ -5960,7 +5960,7 @@
             系统访问日志服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysLogVisService.GetPage(Admin.NET.Core.Service.PageLogInput)">
+        <member name="M:Admin.NET.Core.Service.SysLogVisService.Page(Admin.NET.Core.Service.PageLogInput)">
             <summary>
             获取访问日志分页列表
             </summary>
@@ -6229,7 +6229,7 @@
             系统通知公告服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysNoticeService.GetPage(Admin.NET.Core.Service.PageNoticeInput)">
+        <member name="M:Admin.NET.Core.Service.SysNoticeService.Page(Admin.NET.Core.Service.PageNoticeInput)">
             <summary>
             获取通知公告分页列表
             </summary>
@@ -6305,7 +6305,7 @@
             系统在线用户服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.GetPage(Admin.NET.Core.Service.PageOnlineUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysOnlineUserService.Page(Admin.NET.Core.Service.PageOnlineUserInput)">
             <summary>
             获取在线用户分页列表
             </summary>
@@ -6486,7 +6486,7 @@
             系统行政区域服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRegionService.GetPage(Admin.NET.Core.Service.PageRegionInput)">
+        <member name="M:Admin.NET.Core.Service.SysRegionService.Page(Admin.NET.Core.Service.PageRegionInput)">
             <summary>
             获取行政区域分页列表
             </summary>
@@ -6683,7 +6683,7 @@
             系统角色服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysRoleService.GetPage(Admin.NET.Core.Service.PageRoleInput)">
+        <member name="M:Admin.NET.Core.Service.SysRoleService.Page(Admin.NET.Core.Service.PageRoleInput)">
             <summary>
             获取角色分页列表
             </summary>
@@ -6843,7 +6843,7 @@
             系统租户管理服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysTenantService.GetPage(Admin.NET.Core.Service.PageTenantInput)">
+        <member name="M:Admin.NET.Core.Service.SysTenantService.Page(Admin.NET.Core.Service.PageTenantInput)">
             <summary>
             获取租户分页列表
             </summary>
@@ -7117,7 +7117,7 @@
             系统用户服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysUserService.GetPage(Admin.NET.Core.Service.PageUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysUserService.Page(Admin.NET.Core.Service.PageUserInput)">
             <summary>
             获取用户分页列表
             </summary>
@@ -7341,11 +7341,6 @@
             服务场景描述，15个字以内
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.Service.SysWechatNotifyService">
-            <summary>
-            微信通知服务
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.Service.SysWechatPayService">
             <summary>
             微信支付服务
@@ -7429,7 +7424,7 @@
             微信账号服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysWechatUserService.GetPage(Admin.NET.Core.Service.WechatUserInput)">
+        <member name="M:Admin.NET.Core.Service.SysWechatUserService.Page(Admin.NET.Core.Service.WechatUserInput)">
             <summary>
             获取微信用户列表
             </summary>

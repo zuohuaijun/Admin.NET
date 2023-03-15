@@ -22,6 +22,7 @@ import { AdminResultListFileOutput } from '../models';
 import { AdminResultSqlSugarPagedListSysFile } from '../models';
 import { DeleteFileInput } from '../models';
 import { FileInput } from '../models';
+import { PageFileInput } from '../models';
 /**
  * SysFileApi - axios parameter creator
  * @export
@@ -113,18 +114,11 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
         /**
          * 
          * @summary 获取文件分页列表
-         * @param {string} [fileName] 文件名称
-         * @param {Date} [startTime] 开始时间
-         * @param {Date} [endTime] 结束时间
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageFileInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysFilePageGet: async (fileName?: string, startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysFilePagePost: async (body?: PageFileInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysFile/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -132,47 +126,13 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (fileName !== undefined) {
-                localVarQueryParameter['FileName'] = fileName;
-            }
-
-            if (startTime !== undefined) {
-                localVarQueryParameter['StartTime'] = (startTime as any instanceof Date) ?
-                    (startTime as any).toISOString() :
-                    startTime;
-            }
-
-            if (endTime !== undefined) {
-                localVarQueryParameter['EndTime'] = (endTime as any instanceof Date) ?
-                    (endTime as any).toISOString() :
-                    endTime;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -184,6 +144,8 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -416,19 +378,12 @@ export const SysFileApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取文件分页列表
-         * @param {string} [fileName] 文件名称
-         * @param {Date} [startTime] 开始时间
-         * @param {Date} [endTime] 结束时间
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageFileInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFilePageGet(fileName?: string, startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysFile>>> {
-            const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFilePageGet(fileName, startTime, endTime, page, pageSize, field, order, descStr, options);
+        async apiSysFilePagePost(body?: PageFileInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysFile>>> {
+            const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFilePagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -523,19 +478,12 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
         /**
          * 
          * @summary 获取文件分页列表
-         * @param {string} [fileName] 文件名称
-         * @param {Date} [startTime] 开始时间
-         * @param {Date} [endTime] 结束时间
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageFileInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFilePageGet(fileName?: string, startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysFile>> {
-            return SysFileApiFp(configuration).apiSysFilePageGet(fileName, startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysFilePagePost(body?: PageFileInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysFile>> {
+            return SysFileApiFp(configuration).apiSysFilePagePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -613,20 +561,13 @@ export class SysFileApi extends BaseAPI {
     /**
      * 
      * @summary 获取文件分页列表
-     * @param {string} [fileName] 文件名称
-     * @param {Date} [startTime] 开始时间
-     * @param {Date} [endTime] 结束时间
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
+     * @param {PageFileInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysFileApi
      */
-    public async apiSysFilePageGet(fileName?: string, startTime?: Date, endTime?: Date, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysFile>> {
-        return SysFileApiFp(this.configuration).apiSysFilePageGet(fileName, startTime, endTime, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysFilePagePost(body?: PageFileInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysFile>> {
+        return SysFileApiFp(this.configuration).apiSysFilePagePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

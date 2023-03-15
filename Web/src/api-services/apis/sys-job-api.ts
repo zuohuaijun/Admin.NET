@@ -25,6 +25,7 @@ import { DeleteJobDetailInput } from '../models';
 import { DeleteJobTriggerInput } from '../models';
 import { JobDetailInput } from '../models';
 import { JobTriggerInput } from '../models';
+import { PageJobInput } from '../models';
 import { UpdateJobDetailInput } from '../models';
 import { UpdateJobTriggerInput } from '../models';
 /**
@@ -313,17 +314,11 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @summary 获取作业分页列表
-         * @param {string} [jobId] 作业Id
-         * @param {string} [description] 描述信息
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageJobInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysJobPageJobDetailGet: async (jobId?: string, description?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysJobPageJobDetailPost: async (body?: PageJobInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysJob/pageJobDetail`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -331,39 +326,13 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (jobId !== undefined) {
-                localVarQueryParameter['JobId'] = jobId;
-            }
-
-            if (description !== undefined) {
-                localVarQueryParameter['Description'] = description;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -375,6 +344,8 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -843,18 +814,12 @@ export const SysJobApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取作业分页列表
-         * @param {string} [jobId] 作业Id
-         * @param {string} [description] 描述信息
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageJobInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobPageJobDetailGet(jobId?: string, description?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>>> {
-            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobPageJobDetailGet(jobId, description, page, pageSize, field, order, descStr, options);
+        async apiSysJobPageJobDetailPost(body?: PageJobInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobPageJobDetailPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1063,18 +1028,12 @@ export const SysJobApiFactory = function (configuration?: Configuration, basePat
         /**
          * 
          * @summary 获取作业分页列表
-         * @param {string} [jobId] 作业Id
-         * @param {string} [description] 描述信息
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {PageJobInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobPageJobDetailGet(jobId?: string, description?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>> {
-            return SysJobApiFp(configuration).apiSysJobPageJobDetailGet(jobId, description, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysJobPageJobDetailPost(body?: PageJobInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>> {
+            return SysJobApiFp(configuration).apiSysJobPageJobDetailPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1251,19 +1210,13 @@ export class SysJobApi extends BaseAPI {
     /**
      * 
      * @summary 获取作业分页列表
-     * @param {string} [jobId] 作业Id
-     * @param {string} [description] 描述信息
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
+     * @param {PageJobInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysJobApi
      */
-    public async apiSysJobPageJobDetailGet(jobId?: string, description?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>> {
-        return SysJobApiFp(this.configuration).apiSysJobPageJobDetailGet(jobId, description, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysJobPageJobDetailPost(body?: PageJobInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>> {
+        return SysJobApiFp(this.configuration).apiSysJobPageJobDetailPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

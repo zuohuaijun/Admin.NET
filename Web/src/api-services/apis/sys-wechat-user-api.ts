@@ -19,6 +19,7 @@ import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } fr
 import { AdminResultSqlSugarPagedListSysWechatUser } from '../models';
 import { DeleteWechatUserInput } from '../models';
 import { SysWechatUser } from '../models';
+import { WechatUserInput } from '../models';
 /**
  * SysWechatUserApi - axios parameter creator
  * @export
@@ -110,17 +111,11 @@ export const SysWechatUserApiAxiosParamCreator = function (configuration?: Confi
         /**
          * 
          * @summary 获取微信用户列表
-         * @param {string} [nickName] 昵称
-         * @param {string} [phoneNumber] 手机号码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {WechatUserInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysWechatUserPageGet: async (nickName?: string, phoneNumber?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysWechatUserPagePost: async (body?: WechatUserInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysWechatUser/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -128,39 +123,13 @@ export const SysWechatUserApiAxiosParamCreator = function (configuration?: Confi
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (nickName !== undefined) {
-                localVarQueryParameter['NickName'] = nickName;
-            }
-
-            if (phoneNumber !== undefined) {
-                localVarQueryParameter['PhoneNumber'] = phoneNumber;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -172,6 +141,8 @@ export const SysWechatUserApiAxiosParamCreator = function (configuration?: Confi
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -259,18 +230,12 @@ export const SysWechatUserApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取微信用户列表
-         * @param {string} [nickName] 昵称
-         * @param {string} [phoneNumber] 手机号码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {WechatUserInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysWechatUserPageGet(nickName?: string, phoneNumber?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>>> {
-            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).apiSysWechatUserPageGet(nickName, phoneNumber, page, pageSize, field, order, descStr, options);
+        async apiSysWechatUserPagePost(body?: WechatUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>>> {
+            const localVarAxiosArgs = await SysWechatUserApiAxiosParamCreator(configuration).apiSysWechatUserPagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -322,18 +287,12 @@ export const SysWechatUserApiFactory = function (configuration?: Configuration, 
         /**
          * 
          * @summary 获取微信用户列表
-         * @param {string} [nickName] 昵称
-         * @param {string} [phoneNumber] 手机号码
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {WechatUserInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysWechatUserPageGet(nickName?: string, phoneNumber?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>> {
-            return SysWechatUserApiFp(configuration).apiSysWechatUserPageGet(nickName, phoneNumber, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysWechatUserPagePost(body?: WechatUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>> {
+            return SysWechatUserApiFp(configuration).apiSysWechatUserPagePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -380,19 +339,13 @@ export class SysWechatUserApi extends BaseAPI {
     /**
      * 
      * @summary 获取微信用户列表
-     * @param {string} [nickName] 昵称
-     * @param {string} [phoneNumber] 手机号码
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
+     * @param {WechatUserInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysWechatUserApi
      */
-    public async apiSysWechatUserPageGet(nickName?: string, phoneNumber?: string, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>> {
-        return SysWechatUserApiFp(this.configuration).apiSysWechatUserPageGet(nickName, phoneNumber, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysWechatUserPagePost(body?: WechatUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysWechatUser>> {
+        return SysWechatUserApiFp(this.configuration).apiSysWechatUserPagePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

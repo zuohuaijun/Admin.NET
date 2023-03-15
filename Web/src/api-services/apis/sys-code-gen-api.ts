@@ -23,6 +23,7 @@ import { AdminResultListTableOutput } from '../models';
 import { AdminResultObject } from '../models';
 import { AdminResultSqlSugarPagedListSysCodeGen } from '../models';
 import { AdminResultSysCodeGen } from '../models';
+import { CodeGenInput } from '../models';
 import { DeleteCodeGenInput } from '../models';
 import { SysCodeGen } from '../models';
 import { UpdateCodeGenInput } from '../models';
@@ -246,29 +247,11 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
         /**
          * 
          * @summary 获取代码生成分页列表
-         * @param {string} [authorName] 作者姓名
-         * @param {string} [className] 类名
-         * @param {string} [tablePrefix] 是否移除表前缀
-         * @param {string} [configId] 库定位器名
-         * @param {string} [dbName] 数据库名(保留字段)
-         * @param {string} [dbType] 数据库类型
-         * @param {string} [connectionString] 数据库链接
-         * @param {string} [generateType] 生成方式
-         * @param {string} [tableName] 数据库表名
-         * @param {string} [nameSpace] 命名空间
-         * @param {string} [busName] 业务名（业务代码包名称）
-         * @param {string} [tableComment] 功能名（数据库表名称）
-         * @param {string} [menuApplication] 菜单应用分类（应用编码）
-         * @param {number} [menuPid] 菜单父级
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {CodeGenInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysCodeGenPageGet: async (authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysCodeGenPagePost: async (body?: CodeGenInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysCodeGen/page`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -276,87 +259,13 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
             if (configuration) {
                 baseOptions = configuration.baseOptions;
             }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
             const localVarHeaderParameter = {} as any;
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
 
-            if (authorName !== undefined) {
-                localVarQueryParameter['AuthorName'] = authorName;
-            }
-
-            if (className !== undefined) {
-                localVarQueryParameter['ClassName'] = className;
-            }
-
-            if (tablePrefix !== undefined) {
-                localVarQueryParameter['TablePrefix'] = tablePrefix;
-            }
-
-            if (configId !== undefined) {
-                localVarQueryParameter['ConfigId'] = configId;
-            }
-
-            if (dbName !== undefined) {
-                localVarQueryParameter['DbName'] = dbName;
-            }
-
-            if (dbType !== undefined) {
-                localVarQueryParameter['DbType'] = dbType;
-            }
-
-            if (connectionString !== undefined) {
-                localVarQueryParameter['ConnectionString'] = connectionString;
-            }
-
-            if (generateType !== undefined) {
-                localVarQueryParameter['GenerateType'] = generateType;
-            }
-
-            if (tableName !== undefined) {
-                localVarQueryParameter['TableName'] = tableName;
-            }
-
-            if (nameSpace !== undefined) {
-                localVarQueryParameter['NameSpace'] = nameSpace;
-            }
-
-            if (busName !== undefined) {
-                localVarQueryParameter['BusName'] = busName;
-            }
-
-            if (tableComment !== undefined) {
-                localVarQueryParameter['TableComment'] = tableComment;
-            }
-
-            if (menuApplication !== undefined) {
-                localVarQueryParameter['MenuApplication'] = menuApplication;
-            }
-
-            if (menuPid !== undefined) {
-                localVarQueryParameter['MenuPid'] = menuPid;
-            }
-
-            if (page !== undefined) {
-                localVarQueryParameter['Page'] = page;
-            }
-
-            if (pageSize !== undefined) {
-                localVarQueryParameter['PageSize'] = pageSize;
-            }
-
-            if (field !== undefined) {
-                localVarQueryParameter['Field'] = field;
-            }
-
-            if (order !== undefined) {
-                localVarQueryParameter['Order'] = order;
-            }
-
-            if (descStr !== undefined) {
-                localVarQueryParameter['DescStr'] = descStr;
-            }
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -368,6 +277,8 @@ export const SysCodeGenApiAxiosParamCreator = function (configuration?: Configur
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -580,30 +491,12 @@ export const SysCodeGenApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取代码生成分页列表
-         * @param {string} [authorName] 作者姓名
-         * @param {string} [className] 类名
-         * @param {string} [tablePrefix] 是否移除表前缀
-         * @param {string} [configId] 库定位器名
-         * @param {string} [dbName] 数据库名(保留字段)
-         * @param {string} [dbType] 数据库类型
-         * @param {string} [connectionString] 数据库链接
-         * @param {string} [generateType] 生成方式
-         * @param {string} [tableName] 数据库表名
-         * @param {string} [nameSpace] 命名空间
-         * @param {string} [busName] 业务名（业务代码包名称）
-         * @param {string} [tableComment] 功能名（数据库表名称）
-         * @param {string} [menuApplication] 菜单应用分类（应用编码）
-         * @param {number} [menuPid] 菜单父级
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {CodeGenInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>>> {
-            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options);
+        async apiSysCodeGenPagePost(body?: CodeGenInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>>> {
+            const localVarAxiosArgs = await SysCodeGenApiAxiosParamCreator(configuration).apiSysCodeGenPagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -713,30 +606,12 @@ export const SysCodeGenApiFactory = function (configuration?: Configuration, bas
         /**
          * 
          * @summary 获取代码生成分页列表
-         * @param {string} [authorName] 作者姓名
-         * @param {string} [className] 类名
-         * @param {string} [tablePrefix] 是否移除表前缀
-         * @param {string} [configId] 库定位器名
-         * @param {string} [dbName] 数据库名(保留字段)
-         * @param {string} [dbType] 数据库类型
-         * @param {string} [connectionString] 数据库链接
-         * @param {string} [generateType] 生成方式
-         * @param {string} [tableName] 数据库表名
-         * @param {string} [nameSpace] 命名空间
-         * @param {string} [busName] 业务名（业务代码包名称）
-         * @param {string} [tableComment] 功能名（数据库表名称）
-         * @param {string} [menuApplication] 菜单应用分类（应用编码）
-         * @param {number} [menuPid] 菜单父级
-         * @param {number} [page] 当前页码
-         * @param {number} [pageSize] 页码容量
-         * @param {string} [field] 排序字段
-         * @param {string} [order] 排序方向
-         * @param {string} [descStr] 降序排序
+         * @param {CodeGenInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
-            return SysCodeGenApiFp(configuration).apiSysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(axios, basePath));
+        async apiSysCodeGenPagePost(body?: CodeGenInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
+            return SysCodeGenApiFp(configuration).apiSysCodeGenPagePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -836,31 +711,13 @@ export class SysCodeGenApi extends BaseAPI {
     /**
      * 
      * @summary 获取代码生成分页列表
-     * @param {string} [authorName] 作者姓名
-     * @param {string} [className] 类名
-     * @param {string} [tablePrefix] 是否移除表前缀
-     * @param {string} [configId] 库定位器名
-     * @param {string} [dbName] 数据库名(保留字段)
-     * @param {string} [dbType] 数据库类型
-     * @param {string} [connectionString] 数据库链接
-     * @param {string} [generateType] 生成方式
-     * @param {string} [tableName] 数据库表名
-     * @param {string} [nameSpace] 命名空间
-     * @param {string} [busName] 业务名（业务代码包名称）
-     * @param {string} [tableComment] 功能名（数据库表名称）
-     * @param {string} [menuApplication] 菜单应用分类（应用编码）
-     * @param {number} [menuPid] 菜单父级
-     * @param {number} [page] 当前页码
-     * @param {number} [pageSize] 页码容量
-     * @param {string} [field] 排序字段
-     * @param {string} [order] 排序方向
-     * @param {string} [descStr] 降序排序
+     * @param {CodeGenInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysCodeGenApi
      */
-    public async apiSysCodeGenPageGet(authorName?: string, className?: string, tablePrefix?: string, configId?: string, dbName?: string, dbType?: string, connectionString?: string, generateType?: string, tableName?: string, nameSpace?: string, busName?: string, tableComment?: string, menuApplication?: string, menuPid?: number, page?: number, pageSize?: number, field?: string, order?: string, descStr?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
-        return SysCodeGenApiFp(this.configuration).apiSysCodeGenPageGet(authorName, className, tablePrefix, configId, dbName, dbType, connectionString, generateType, tableName, nameSpace, busName, tableComment, menuApplication, menuPid, page, pageSize, field, order, descStr, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysCodeGenPagePost(body?: CodeGenInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysCodeGen>> {
+        return SysCodeGenApiFp(this.configuration).apiSysCodeGenPagePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
