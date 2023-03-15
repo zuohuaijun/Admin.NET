@@ -9,8 +9,8 @@
 			</template>
 			<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 				<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-					<el-form-item label="值" prop="value">
-						<el-input placeholder="值" clearable @keyup.enter="handleQuery" v-model="state.queryParams.value" />
+					<el-form-item label="字典值" prop="value">
+						<el-input placeholder="字典值" clearable @keyup.enter="handleQuery" v-model="state.queryParams.value" />
 					</el-form-item>
 					<el-form-item label="编码" prop="code">
 						<el-input placeholder="编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
@@ -83,6 +83,7 @@ const state = reactive({
 	queryParams: {
 		value: undefined,
 		code: undefined,
+		dictTypeId: 0, // 字典类型Id
 	},
 	tableParams: {
 		page: 1,
@@ -90,7 +91,6 @@ const state = reactive({
 		total: 0 as any,
 	},
 	editDictDataTitle: '',
-	dictTypeId: 0, // 字典类型Id
 });
 
 onMounted(async () => {
@@ -105,7 +105,7 @@ onUnmounted(() => {
 
 // 打开弹窗
 const openDialog = async (row: any) => {
-	state.dictTypeId = row.id;
+	state.queryParams.dictTypeId = row.id;
 	handleQuery();
 	state.isShowDialog = true;
 };
