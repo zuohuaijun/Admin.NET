@@ -22,7 +22,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取参数配置分页列表")]
-    public async Task<SqlSugarPagedList<SysConfig>> GetPage([FromQuery] PageConfigInput input)
+    public async Task<SqlSugarPagedList<SysConfig>> Page(PageConfigInput input)
     {
         return await _sysConfigRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name?.Trim()), u => u.Name.Contains(input.Name))
@@ -121,5 +121,15 @@ public class SysConfigService : IDynamicApiController, ITransient
             _sysCacheService.Set(code, value);
         }
         return (T)Convert.ChangeType(value, typeof(T));
+    }
+
+    /// <summary>
+    /// 获取分组列表
+    /// </summary>
+    /// <returns></returns>
+    [DisplayName("获取分组列表")]
+    public async Task<List<string>> GetGroupList()
+    {
+        return await _sysConfigRep.AsQueryable().GroupBy(u => u.GroupCode).Select(u => u.GroupCode).ToListAsync();
     }
 }

@@ -3924,6 +3924,16 @@
             上传格式
             </summary>
         </member>
+        <member name="T:Admin.NET.Core.WechatMessageOptions">
+            <summary>
+            微信通知配置选项
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.WechatMessageOptions.TemplateId">
+            <summary>
+            订阅消息模板Id
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.WechatOptions">
             <summary>
             微信相关配置选项
@@ -5066,7 +5076,7 @@
             系统参数配置服务
             </summary>
         </member>
-        <member name="M:Admin.NET.Core.Service.SysConfigService.GetPage(Admin.NET.Core.Service.PageConfigInput)">
+        <member name="M:Admin.NET.Core.Service.SysConfigService.Page(Admin.NET.Core.Service.PageConfigInput)">
             <summary>
             获取参数配置分页列表
             </summary>
@@ -5112,6 +5122,12 @@
             获取参数配置值
             </summary>
             <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysConfigService.GetGroupList">
+            <summary>
+            获取分组列表
+            </summary>
             <returns></returns>
         </member>
         <member name="P:Admin.NET.Core.Service.ConstOutput.Name">
@@ -7217,6 +7233,41 @@
             电话号码
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.SendSubscribeMessageInput.TemplateId">
+            <summary>
+            订阅模板Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SendSubscribeMessageInput.ToUserOpenId">
+            <summary>
+            接收者的OpenId
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.SendSubscribeMessageInput.Data">
+            <summary>
+            模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }的object
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddSubscribeMessageTemplateInput.TemplateTitleId">
+            <summary>
+            模板标题Id
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddSubscribeMessageTemplateInput.KeyworkIdList">
+            <summary>
+            模板关键词列表,例如 [3,5,4]
+            </summary>
+        </member>
+        <member name="P:Admin.NET.Core.Service.AddSubscribeMessageTemplateInput.SceneDescription">
+            <summary>
+            服务场景描述，15个字以内
+            </summary>
+        </member>
+        <member name="T:Admin.NET.Core.Service.SysWechatNotifyService">
+            <summary>
+            微信通知服务
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.SysWechatPayService">
             <summary>
             微信支付服务
@@ -7351,6 +7402,30 @@
             </summary>
             <param name="input"></param>
             <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysWxOpenService.GetSubscribeMessageTemplateList">
+            <summary>
+            获取订阅消息模板列表
+            </summary>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysWxOpenService.SendSubscribeMessage(Admin.NET.Core.Service.SendSubscribeMessageInput)">
+            <summary>
+            发送订阅消息
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysWxOpenService.AddSubscribeMessageTemplate(Admin.NET.Core.Service.AddSubscribeMessageTemplateInput)">
+            <summary>
+            增加订阅消息模板
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Admin.NET.Core.Service.SysWxOpenService.GetCgibinToken">
+            <summary>
+            获取Access_token
+            </summary>
         </member>
         <member name="T:Admin.NET.Core.Service.WechatApiHttpClient">
             <summary>

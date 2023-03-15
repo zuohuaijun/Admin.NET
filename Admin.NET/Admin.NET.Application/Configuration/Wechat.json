@@ -23,5 +23,9 @@
         "WechatRefundUrl": "", // 微信退款回调
         "AlipayUrl": "", // 支付宝支付回调
         "AlipayRefundUrl": "" // 支付宝退款回调
+    },
+    // 微信通知
+    "WechatMessage": {
+        "TemplateId": "hjI1gFWmwsIwB1AdcdXjZsJwKtw7uNRSmvJlB9H35EQ" // 订阅消息模板Id
     }
 }

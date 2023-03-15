@@ -1,4 +1,6 @@
-﻿namespace Admin.NET.Core.Service;
+﻿using Microsoft.AspNetCore.Components.Forms;
+
+namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 微信小程序服务
@@ -63,15 +65,11 @@ public class SysWxOpenService : IDynamicApiController, ITransient
     [DisplayName("获取微信用户电话号码")]
     public async Task<WxPhoneOutput> GetWxPhone([FromQuery] WxPhoneInput input)
     {
-        var reqCgibinToken = new CgibinTokenRequest();
-        var resCgibinToken = await _wechatApiClient.ExecuteCgibinTokenAsync(reqCgibinToken);
-        if (resCgibinToken.ErrorCode != (int)WechatReturnCodeEnum.请求成功)
-            throw Oops.Oh(resCgibinToken.ErrorMessage + " " + resCgibinToken.ErrorCode);
-
+        var accessToken = await GetCgibinToken();
         var reqUserPhoneNumber = new WxaBusinessGetUserPhoneNumberRequest()
         {
             Code = input.Code,
-            AccessToken = resCgibinToken.AccessToken,
+            AccessToken = accessToken,
         };
         var resUserPhoneNumber = await _wechatApiClient.ExecuteWxaBusinessGetUserPhoneNumberAsync(reqUserPhoneNumber);
         if (resUserPhoneNumber.ErrorCode != (int)WechatReturnCodeEnum.请求成功)
@@ -106,5 +104,77 @@ public class SysWxOpenService : IDynamicApiController, ITransient
                 { ClaimConst.LoginMode, LoginModeEnum.APP },
             })
         };
+    }
+
+    /// <summary>
+    /// 获取订阅消息模板列表
+    /// </summary>
+    [DisplayName("获取订阅消息模板列表")]
+    public async Task<dynamic> GetSubscribeMessageTemplateList()
+    {
+        var accessToken = await GetCgibinToken();
+        var reqTemplate = new WxaApiNewTemplateGetTemplateRequest()
+        {
+            AccessToken = accessToken
+        };
+        var resTemplate = await _wechatApiClient.ExecuteWxaApiNewTemplateGetTemplateAsync(reqTemplate);
+        if (resTemplate.ErrorCode != (int)WechatReturnCodeEnum.请求成功)
+            throw Oops.Oh(resTemplate.ErrorMessage + " " + resTemplate.ErrorCode);
+
+        return resTemplate.TemplateList;
+    }
+
+    /// <summary>
+    /// 发送订阅消息
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [DisplayName("发送订阅消息")]
+    public async Task<dynamic> SendSubscribeMessage(SendSubscribeMessageInput input)
+    {
+        var accessToken = await GetCgibinToken();
+        var reqMessage = new CgibinMessageSubscribeSendRequest()
+        {
+            AccessToken = accessToken,
+            TemplateId = input.TemplateId,
+            ToUserOpenId = input.ToUserOpenId,
+            Data = input.Data
+        };
+        var resMessage = await _wechatApiClient.ExecuteCgibinMessageSubscribeSendAsync(reqMessage);
+        return resMessage;
+    }
+
+    /// <summary>
+    /// 增加订阅消息模板
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(Name = "AddSubscribeMessageTemplate"), HttpPost]
+    [DisplayName("增加订阅消息模板")]
+    public async Task<dynamic> AddSubscribeMessageTemplate(AddSubscribeMessageTemplateInput input)
+    {
+        var accessToken = await GetCgibinToken();
+        var reqMessage = new WxaApiNewTemplateAddTemplateRequest()
+        {
+            AccessToken = accessToken,
+            TemplateTitleId = input.TemplateTitleId,
+            KeyworkIdList = input.KeyworkIdList,
+            SceneDescription = input.SceneDescription
+        };
+        var resTemplate = await _wechatApiClient.ExecuteWxaApiNewTemplateAddTemplateAsync(reqMessage);
+        return resTemplate;
+
+    }
+
+    /// <summary>
+    /// 获取Access_token
+    /// </summary>
+    private async Task<string> GetCgibinToken()
+    {
+        var reqCgibinToken = new CgibinTokenRequest();
+        var resCgibinToken = await _wechatApiClient.ExecuteCgibinTokenAsync(reqCgibinToken);
+        if (resCgibinToken.ErrorCode != (int)WechatReturnCodeEnum.请求成功)
+            throw Oops.Oh(resCgibinToken.ErrorMessage + " " + resCgibinToken.ErrorCode);
+        return resCgibinToken.AccessToken;
     }
 }

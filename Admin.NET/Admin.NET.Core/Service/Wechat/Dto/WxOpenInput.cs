@@ -35,3 +35,45 @@ public class WxPhoneLoginInput
     [DataValidation(ValidationTypes.PhoneNumber, ErrorMessage = "电话号码错误")]
     public string PhoneNumber { get; set; }
 }
+
+public class SendSubscribeMessageInput
+{
+    /// <summary>
+    /// 订阅模板Id
+    /// </summary>
+    [Required(ErrorMessage = "订阅模板Id不能为空")]
+    public string TemplateId { get; set; }
+
+    /// <summary>
+    /// 接收者的OpenId
+    /// </summary>
+    [Required(ErrorMessage = "接收者的OpenId不能为空")]
+    public string ToUserOpenId { get; set; }
+
+    /// <summary>
+    /// 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }的object
+    /// </summary>
+    [Required(ErrorMessage = "模板内容不能为空")]
+    public Dictionary<string, CgibinMessageSubscribeSendRequest.Types.DataItem> Data { get; set; }
+}
+
+public class AddSubscribeMessageTemplateInput
+{
+    /// <summary>
+    /// 模板标题Id
+    /// </summary>
+    [Required(ErrorMessage = "模板标题Id不能为空")]
+    public string TemplateTitleId { get; set; }
+
+    /// <summary>
+    /// 模板关键词列表,例如 [3,5,4]
+    /// </summary>
+    [Required(ErrorMessage = "模板关键词列表不能为空")]
+    public List<int> KeyworkIdList { get; set; }
+
+    /// <summary>
+    /// 服务场景描述，15个字以内
+    /// </summary>
+    [Required(ErrorMessage = "服务场景描述不能为空")]
+    public string SceneDescription { get; set; }
+}
