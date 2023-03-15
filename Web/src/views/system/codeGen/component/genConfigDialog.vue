@@ -73,13 +73,14 @@ import treeDialog from '/@/views/system/codeGen/component/treeDialog.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysCodeGenConfigApi, SysConstApi, SysDictDataApi, SysDictTypeApi, SysEnumApi } from '/@/api-services/api';
+import { CodeGenConfig } from '/@/api-services/models/code-gen-config';
 
 const fkDialogRef = ref();
 const treeDialogRef = ref();
 const state = reactive({
 	isShowDialog: false,
 	loading: false,
-	tableData: [] as any,
+	tableData: [] as CodeGenConfig[],
 	dbData: [] as any,
 	effectTypeList: [] as any,
 	dictTypeCodeList: [] as any,
@@ -196,7 +197,7 @@ const cancel = () => {
 const submit = async () => {
 	state.loading = true;
 	var lst = state.tableData;
-	lst.forEach((item: any) => {
+	lst.forEach((item: CodeGenConfig) => {
 		// 必填那一项转换
 		for (const key in item) {
 			if (item[key] === true) {
@@ -206,6 +207,10 @@ const submit = async () => {
 				item[key] = 'N';
 			}
 		}
+        //如果为枚举选择器，则net类型改为枚举类型
+        if (item.effectType === 'EnumSelector') {
+            item.netType = item.dictTypeCode;
+        }
 	});
 	await getAPI(SysCodeGenConfigApi).apiSysCodeGenConfigUpdatePost(lst);
 	state.loading = false;
