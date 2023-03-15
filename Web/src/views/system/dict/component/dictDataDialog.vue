@@ -61,7 +61,7 @@
 				/>
 			</el-card>
 		</el-dialog>
-		<EditDictData ref="editDictDataRef" :title="state.editDictDataTitle" :dictTypeId="state.dictTypeId" />
+		<EditDictData ref="editDictDataRef" :title="state.editDictDataTitle" :dictTypeId="state.queryParams.dictTypeId" />
 	</div>
 </template>
 
