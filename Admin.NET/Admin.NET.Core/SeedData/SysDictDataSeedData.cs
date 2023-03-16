@@ -24,6 +24,7 @@ public class SysDictDataSeedData : ISqlSugarEntitySeedData<SysDictData>
             new SysDictData{ Id=1300000000108, DictTypeId=1300000000101, Value="树选择", Code="ApiTreeSelect", OrderNo=100, Remark="树选择", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=1300000000109, DictTypeId=1300000000101, Value="开关", Code="Switch", OrderNo=100, Remark="开关", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=1300000000110, DictTypeId=1300000000101, Value="常量选择器", Code="ConstSelector", OrderNo=100, Remark="常量选择器", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000111, DictTypeId=1300000000101, Value="枚举选择器", Code="EnumSelector", OrderNo=100, Remark="枚举选择器", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
             new SysDictData{ Id=1300000000201, DictTypeId=1300000000102, Value="等于", Code="==", OrderNo=1, Remark="等于", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=1300000000202, DictTypeId=1300000000102, Value="模糊", Code="like", OrderNo=1, Remark="模糊", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },

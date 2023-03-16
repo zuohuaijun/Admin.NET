@@ -72,20 +72,22 @@ import fkDialog from '/@/views/system/codeGen/component/fkDialog.vue';
 import treeDialog from '/@/views/system/codeGen/component/treeDialog.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysCodeGenConfigApi, SysConstApi, SysDictDataApi, SysDictTypeApi } from '/@/api-services/api';
+import { SysCodeGenConfigApi, SysConstApi, SysDictDataApi, SysDictTypeApi, SysEnumApi } from '/@/api-services/api';
+import { CodeGenConfig } from '/@/api-services/models/code-gen-config';
 
 const fkDialogRef = ref();
 const treeDialogRef = ref();
 const state = reactive({
 	isShowDialog: false,
 	loading: false,
-	tableData: [] as any,
+	tableData: [] as CodeGenConfig[],
 	dbData: [] as any,
 	effectTypeList: [] as any,
 	dictTypeCodeList: [] as any,
 	dictDataAll: [] as any,
 	queryTypeList: [] as any,
 	allConstSelector: [] as any,
+    allEnumSelector: [] as any,
 });
 
 onMounted(async () => {
@@ -101,6 +103,9 @@ onMounted(async () => {
 
 	var res3 = await getAPI(SysConstApi).apiSysConstListGet();
 	state.allConstSelector = res3.data.result;
+
+    let resEnum = await getAPI(SysEnumApi).apiSysEnumEnumTypeListGet();
+    state.allEnumSelector = resEnum.data.result?.map(item => ({...item, name: item.typeDescribe, code: item.typeName}));
 
 	mittBus.on('submitRefreshFk', (data: any) => {
 		state.tableData[data.index] = data;
@@ -124,7 +129,10 @@ const effectTypeChange = (data: any, index: number) => {
 	} else if (value === 'ConstSelector') {
 		data.dictTypeCode = '';
 		state.dictTypeCodeList = state.allConstSelector;
-	}
+	} else if (value == 'EnumSelector') {
+        data.dictTypeCode = '';
+        state.dictTypeCodeList = state.allEnumSelector;
+    }
 };
 
 // 查询操作
@@ -153,7 +161,7 @@ function judgeColumns(data: any) {
 }
 
 function effectTypeEnable(data: any) {
-	var lst = ['Radio', 'Select', 'Checkbox', 'ConstSelector'];
+	var lst = ['Radio', 'Select', 'Checkbox', 'ConstSelector', 'EnumSelector'];
 	return lst.indexOf(data.effectType) === -1;
 }
 
@@ -189,7 +197,7 @@ const cancel = () => {
 const submit = async () => {
 	state.loading = true;
 	var lst = state.tableData;
-	lst.forEach((item: any) => {
+	lst.forEach((item: CodeGenConfig) => {
 		// 必填那一项转换
 		for (const key in item) {
 			if (item[key] === true) {
@@ -199,6 +207,10 @@ const submit = async () => {
 				item[key] = 'N';
 			}
 		}
+        //如果为枚举选择器，则net类型改为枚举类型
+        if (item.effectType === 'EnumSelector') {
+            item.netType = item.dictTypeCode;
+        }
 	});
 	await getAPI(SysCodeGenConfigApi).apiSysCodeGenConfigUpdatePost(lst);
 	state.loading = false;
