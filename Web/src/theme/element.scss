@@ -385,7 +385,17 @@ $--el-table-text-color: #fb6d49;
 
 // hack列表页
 .layout-parent {
-	height: 0;
+  height: 0;
+  overflow: auto;
+
+  // 方案一 如果怕影响其他页面，可以直接修改 src/views/home/index.vue 中 .home-container样式。
+  // 方案二 此处修改是为了不修改框架原始页面，方便后期同步升级。
+  // 自行取舍
+  // 工作台 滚动条
+  .home-container {
+    overflow: auto!important;
+  }
+
   
 	// Table页自动撑满页面
 	>div:first-child {
