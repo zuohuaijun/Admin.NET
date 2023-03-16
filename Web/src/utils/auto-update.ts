@@ -4,7 +4,8 @@
  */
 
 let lastSrcs: any[] | null; //上次js地址集合
-const scriptReg = /(?<=<script.*src=["']).*?(?=["'])/gm;
+// const scriptReg = /(?<=<script.*src=["']).*?(?=["'])/gm; //IOS 不支持断言匹配
+const scriptReg = /<script.*?src=['"](.*?)['"]/gm;
 
 /**
  * 获取最新的js集合
