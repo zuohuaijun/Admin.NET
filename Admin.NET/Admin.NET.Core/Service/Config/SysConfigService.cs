@@ -120,6 +120,7 @@ public class SysConfigService : IDynamicApiController, ITransient
             value = config != null ? config.Value : default;
             _sysCacheService.Set(code, value);
         }
+        if (string.IsNullOrWhiteSpace(value)) return default;
         return (T)Convert.ChangeType(value, typeof(T));
     }
 

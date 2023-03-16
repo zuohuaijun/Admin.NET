@@ -83,8 +83,8 @@ public class SysOrgService : IDynamicApiController, ITransient
                 if (orgIdList.Count < 1 || !orgIdList.Contains(input.Pid))
                     throw Oops.Oh(ErrorCodeEnum.D2003);
             }
-            else
-                throw Oops.Oh(ErrorCodeEnum.D2006);
+            //else
+            //    throw Oops.Oh(ErrorCodeEnum.D2006);
 
             // 删除当前用户的机构缓存
             _sysCacheService.Remove(CacheConst.KeyOrgIdList + _userManager.UserId);
