@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Components.Forms;
-
-namespace Admin.NET.Core.Service;
+﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 微信小程序服务
@@ -163,7 +161,6 @@ public class SysWxOpenService : IDynamicApiController, ITransient
         };
         var resTemplate = await _wechatApiClient.ExecuteWxaApiNewTemplateAddTemplateAsync(reqMessage);
         return resTemplate;
-
     }
 
     /// <summary>

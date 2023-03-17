@@ -20,11 +20,13 @@ public enum WechatReturnCodeEnum
     发送消息失败_48小时内用户未互动 = 10706, // 0x000029D2
     POST参数非法 = 20002, // 0x00004E22
     获取access_token时AppSecret错误或者access_token无效 = 40001, // 0x00009C41
+
     /// <summary>
     /// <para>公众号：不合法的凭证类型</para>
     /// <para>小程序：暂无生成权限</para>
     /// </summary>
     不合法的凭证类型 = 40002, // 0x00009C42
+
     不合法的OpenID = 40003, // 0x00009C43
     不合法的媒体文件类型 = 40004, // 0x00009C44
     不合法的文件类型 = 40005, // 0x00009C45
@@ -35,11 +37,13 @@ public enum WechatReturnCodeEnum
     不合法的语音文件大小 = 40010, // 0x00009C4A
     不合法的视频文件大小 = 40011, // 0x00009C4B
     不合法的缩略图文件大小 = 40012, // 0x00009C4C
+
     /// <summary>
     /// <para>微信：不合法的APPID</para>
     /// <para>小程序：生成权限被封禁</para>
     /// </summary>
     不合法的APPID = 40013, // 0x00009C4D
+
     不合法的access_token = 40014, // 0x00009C4E
     不合法的菜单类型 = 40015, // 0x00009C4F
     不合法的按钮个数1 = 40016, // 0x00009C50
@@ -66,11 +70,13 @@ public enum WechatReturnCodeEnum
     不合法的URL长度 = 40039, // 0x00009C67
     不合法的分组id = 40050, // 0x00009C72
     分组名字不合法 = 40051, // 0x00009C73
+
     /// <summary>
     /// <para>公众号：输入参数有误</para>
     /// <para>小程序：参数expire_time填写错误</para>
     /// </summary>
     输入参数有误 = 40097, // 0x00009CA1
+
     appsecret不正确 = 40125, // 0x00009CBD
     调用接口的IP地址不在白名单中 = 40164, // 0x00009CE4
     参数path填写错误 = 40165, // 0x00009CE5
@@ -96,8 +102,10 @@ public enum WechatReturnCodeEnum
     需要HTTPS请求 = 43003, // 0x0000A7FB
     需要接收者关注 = 43004, // 0x0000A7FC
     需要好友关系 = 43005, // 0x0000A7FD
+
     /// <summary>[小程序订阅消息]用户拒绝接受消息，如果用户之前曾经订阅过，则表示用户取消了订阅关系</summary>
     用户拒绝接受消息 = 43101, // 0x0000A85D
+
     没有权限 = 43104, // 0x0000A860
     多媒体文件为空 = 44001, // 0x0000ABE1
     POST的数据包为空 = 44002, // 0x0000ABE2
@@ -125,8 +133,10 @@ public enum WechatReturnCodeEnum
     不存在的菜单版本 = 46002, // 0x0000B3B2
     不存在的菜单数据 = 46003, // 0x0000B3B3
     解析JSON_XML内容错误 = 47001, // 0x0000B799
+
     /// <summary>[小程序订阅消息]模板参数不准确，可能为空或者不满足规则，errmsg会提示具体是哪个字段出错</summary>
     模板参数不准确 = 47003, // 0x0000B79B
+
     api功能未授权 = 48001, // 0x0000BB81
     用户未授权该api = 50001, // 0x0000C351
     名称格式不合法 = 53010, // 0x0000CF12
@@ -144,16 +154,20 @@ public enum WechatReturnCodeEnum
     参数错误invalid_parameter = 61451, // 0x0000F00B
     无效客服账号invalid_kf_account = 61452, // 0x0000F00C
     客服帐号已存在kf_account_exsited = 61453, // 0x0000F00D
+
     /// <summary>
     /// 客服帐号名长度超过限制(仅允许10个英文字符，不包括@及@后的公众号的微信号)(invalid kf_acount length)
     /// </summary>
     客服帐号名长度超过限制 = 61454, // 0x0000F00E
+
     /// <summary>
     /// 客服帐号名包含非法字符(仅允许英文+数字)(illegal character in kf_account)
     /// </summary>
     客服帐号名包含非法字符 = 61455, // 0x0000F00F
+
     /// <summary>客服帐号个数超过限制(10个客服账号)(kf_account count exceeded)</summary>
     客服帐号个数超过限制 = 61456, // 0x0000F010
+
     无效头像文件类型invalid_file_type = 61457, // 0x0000F011
     日期格式错误 = 61500, // 0x0000F03C
     日期范围错误 = 61501, // 0x0000F03D
@@ -209,10 +223,12 @@ public enum WechatReturnCodeEnum
     不存在第三方的已经提交的代码 = 86001, // 0x00014FF1
     小程序还未设置昵称_头像_简介_请先设置完后再重新提交 = 86002, // 0x00014FF2
     无效微信号 = 86004, // 0x00014FF4
+
     /// <summary>
     /// 小程序为“签名错误”。对应公众号： 87009, “errmsg” : “reply is not exists” //该回复不存在
     /// </summary>
     签名错误 = 87009, // 0x000153E1
+
     现网已经在灰度发布_不能进行版本回退 = 87011, // 0x000153E3
     该版本不能回退_可能的原因_1_无上一个线上版用于回退_2_此版本为已回退版本_不能回退_3_此版本为回退功能上线之前的版本_不能回退 = 87012, // 0x000153E4
     内容含有违法违规内容 = 87014, // 0x000153E6

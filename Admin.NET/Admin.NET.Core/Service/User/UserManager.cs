@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Admin.NET.Core;
+﻿namespace Admin.NET.Core;
 
 /// <summary>
 /// 当前登录用户

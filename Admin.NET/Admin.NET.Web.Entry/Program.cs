@@ -1,5 +1,3 @@
-using Microsoft.Extensions.Options;
-
 Serve.Run(RunOptions.Default.AddWebComponent<WebComponent>());
 
 public class WebComponent : IWebComponent

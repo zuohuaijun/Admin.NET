@@ -3934,16 +3934,6 @@
             上传格式
             </summary>
         </member>
-        <member name="T:Admin.NET.Core.WechatMessageOptions">
-            <summary>
-            微信通知配置选项
-            </summary>
-        </member>
-        <member name="P:Admin.NET.Core.WechatMessageOptions.TemplateId">
-            <summary>
-            订阅消息模板Id
-            </summary>
-        </member>
         <member name="T:Admin.NET.Core.WechatOptions">
             <summary>
             微信相关配置选项
