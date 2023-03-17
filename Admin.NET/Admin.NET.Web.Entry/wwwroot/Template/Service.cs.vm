@@ -18,9 +18,9 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [HttpGet]
+    [HttpPost]
     [ApiDescriptionSettings(Name = "Page")]
-    public async Task<SqlSugarPagedList<@(@Model.ClassName)Output>> Page([FromQuery] @(@Model.ClassName)Input input)
+    public async Task<SqlSugarPagedList<@(@Model.ClassName)Output>> Page(@(@Model.ClassName)Input input)
     {
         var query= _rep.AsQueryable()
 @foreach (var column in Model.TableField){
