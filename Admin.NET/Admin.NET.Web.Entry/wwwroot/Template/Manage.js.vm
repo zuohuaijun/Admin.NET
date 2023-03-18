@@ -3,7 +3,7 @@ enum Api {
   Add@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/add',
   Delete@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/delete',
   Update@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/update',
-  Get@(@Model.ClassName)Page = '/api/@(@Model.LowerClassName)/page',
+  Page@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/page',
   @foreach (var column in Model.TableField){
 if(@column.EffectType == "fk"){
   @:Get@(@column.FkEntityName)Dropdown = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)Dropdown',
@@ -40,10 +40,10 @@ export const update@(@Model.ClassName) = (params?: any) =>
 		});
 
 // 分页查询@(@Model.BusName)
-export const get@(@Model.ClassName)PageList = (params?: any) => 
+export const page@(@Model.ClassName) = (params?: any) => 
 	request({
-			url: Api.Get@(@Model.ClassName)Page,
-			method: 'get',
+			url: Api.Page@(@Model.ClassName),
+			method: 'post',
 			data: params,
 		});
 
