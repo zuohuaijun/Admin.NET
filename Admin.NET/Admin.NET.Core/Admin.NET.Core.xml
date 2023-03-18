@@ -1094,7 +1094,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysMenu.Name">
             <summary>
-            名称
+            路由名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysMenu.Path">
@@ -1119,7 +1119,7 @@
         </member>
         <member name="P:Admin.NET.Core.SysMenu.Title">
             <summary>
-            标题
+            菜单名称
             </summary>
         </member>
         <member name="P:Admin.NET.Core.SysMenu.Icon">

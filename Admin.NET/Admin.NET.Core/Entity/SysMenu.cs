@@ -20,9 +20,9 @@ public class SysMenu : EntityBase
     public MenuTypeEnum Type { get; set; }
 
     /// <summary>
-    /// 名称
+    /// 路由名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "名称", Length = 64)]
+    [SugarColumn(ColumnDescription = "路由名称", Length = 64)]
     [MaxLength(64)]
     public string? Name { get; set; }
 
@@ -55,9 +55,9 @@ public class SysMenu : EntityBase
     public string? Permission { get; set; }
 
     /// <summary>
-    /// 标题
+    /// 菜单名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "标题", Length = 64)]
+    [SugarColumn(ColumnDescription = "菜单名称", Length = 64)]
     [Required, MaxLength(64)]
     public virtual string Title { get; set; }
 
