@@ -19,12 +19,12 @@ public class DbJobPersistence : IJobPersistence
     public IEnumerable<SchedulerBuilder> Preload()
     {
         using var scope = _serviceScopeFactory.CreateScope();
-        var _jobRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
-        var _triggerRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
+        var jobRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
+        var triggerRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
         // 获取所有定义的作业
         var allJobs = App.EffectiveTypes.ScanToBuilders();
         // 若数据库不存在任何作业，则直接返回
-        if (!_jobRepository.IsAny(u => true)) return allJobs;
+        if (!jobRepository.IsAny(u => true)) return allJobs;
 
         // 遍历所有定义的作业
         foreach (var schedulerBuilder in allJobs)
@@ -33,7 +33,7 @@ public class DbJobPersistence : IJobPersistence
             var jobBuilder = schedulerBuilder.GetJobBuilder();
 
             // 加载数据库数据
-            var dbDetail = _jobRepository.GetFirst(u => u.JobId == jobBuilder.JobId);
+            var dbDetail = jobRepository.GetFirst(u => u.JobId == jobBuilder.JobId);
             if (dbDetail == null) continue;
 
             // 同步数据库数据
@@ -43,7 +43,7 @@ public class DbJobPersistence : IJobPersistence
             foreach (var (_, triggerBuilder) in schedulerBuilder.GetEnumerable())
             {
                 // 加载数据库数据
-                var dbTrigger = _triggerRepository.GetFirst(u => u.JobId == jobBuilder.JobId && u.TriggerId == triggerBuilder.TriggerId);
+                var dbTrigger = triggerRepository.GetFirst(u => u.JobId == jobBuilder.JobId && u.TriggerId == triggerBuilder.TriggerId);
                 if (dbTrigger == null) continue;
 
                 triggerBuilder.LoadFrom(dbTrigger).Updated(); // 标记更新
@@ -73,20 +73,22 @@ public class DbJobPersistence : IJobPersistence
     public void OnChanged(PersistenceContext context)
     {
         using var scope = _serviceScopeFactory.CreateScope();
-        var _jobRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
+        var jobRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
 
         var jobDetail = context.JobDetail.Adapt<SysJobDetail>();
-        if (context.Behavior == PersistenceBehavior.Appended)
+        switch (context.Behavior)
         {
-            _jobRepository.AsInsertable(jobDetail).ExecuteCommand();
-        }
-        else if (context.Behavior == PersistenceBehavior.Updated)
-        {
-            _jobRepository.AsUpdateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
-        }
-        else if (context.Behavior == PersistenceBehavior.Removed)
-        {
-            _jobRepository.AsDeleteable().Where(u => u.JobId == jobDetail.JobId).ExecuteCommand();
+            case PersistenceBehavior.Appended:
+                jobRepository.AsInsertable(jobDetail).ExecuteCommand();
+                break;
+            case PersistenceBehavior.Updated:
+                jobRepository.AsUpdateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
+                break;
+            case PersistenceBehavior.Removed:
+                jobRepository.AsDeleteable().Where(u => u.JobId == jobDetail.JobId).ExecuteCommand();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 
@@ -97,19 +99,21 @@ public class DbJobPersistence : IJobPersistence
     public void OnTriggerChanged(PersistenceTriggerContext context)
     {
         using var scope = _serviceScopeFactory.CreateScope();
-        var _triggerRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
+        var triggerRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
         var jobTrigger = context.Trigger.Adapt<SysJobTrigger>();
-        if (context.Behavior == PersistenceBehavior.Appended)
+        switch (context.Behavior)
         {
-            _triggerRepository.AsInsertable(jobTrigger).ExecuteCommand();
-        }
-        else if (context.Behavior == PersistenceBehavior.Updated)
-        {
-            _triggerRepository.AsUpdateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
-        }
-        else if (context.Behavior == PersistenceBehavior.Removed)
-        {
-            _triggerRepository.AsDeleteable().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
+            case PersistenceBehavior.Appended:
+                triggerRepository.AsInsertable(jobTrigger).ExecuteCommand();
+                break;
+            case PersistenceBehavior.Updated:
+                triggerRepository.AsUpdateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
+                break;
+            case PersistenceBehavior.Removed:
+                triggerRepository.AsDeleteable().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
+                break;
+            default:
+                throw new ArgumentOutOfRangeException();
         }
     }
 }
