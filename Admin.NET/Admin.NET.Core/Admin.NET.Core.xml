@@ -5592,6 +5592,11 @@
             路径
             </summary>
         </member>
+        <member name="P:Admin.NET.Core.Service.FileOutput.FileName">
+            <summary>
+            文件名称
+            </summary>
+        </member>
         <member name="T:Admin.NET.Core.Service.SysFileService">
             <summary>
             系统文件服务

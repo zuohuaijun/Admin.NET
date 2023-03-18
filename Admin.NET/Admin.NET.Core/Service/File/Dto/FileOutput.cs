@@ -36,4 +36,9 @@ public class FileOutput
     /// 路径
     /// </summary>
     public string FilePath { get; set; }
+
+    /// <summary>
+    /// 文件名称
+    /// </summary>
+    public string FileName { get; set; }
 }

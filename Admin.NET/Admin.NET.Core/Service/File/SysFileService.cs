@@ -65,6 +65,7 @@ public class SysFileService : IDynamicApiController, ITransient
             SizeKb = sysFile.SizeKb,
             Suffix = sysFile.Suffix,
             FilePath = sysFile.FilePath,
+            FileName = sysFile.FileName
         };
     }
 
