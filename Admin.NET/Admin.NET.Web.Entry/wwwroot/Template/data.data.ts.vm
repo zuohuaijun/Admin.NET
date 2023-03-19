@@ -81,7 +81,7 @@ if(@column.EffectType == "fk"){
       @:api: get@(@column.FkEntityName)Tree,
     @:},
 }
-else if(@column.NetType == "DateTime" && @column.QueryType == "~"){
+else if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
     @:component: 'RangePicker',
     @:componentProps: {
     @:  valueFormat:"YYYY-MM-DD"

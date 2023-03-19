@@ -44,12 +44,13 @@ public static class CodeGenUtil
     public static string ConvertDataType(DbColumnInfo dbColumnInfo)
     {
         var dbType = App.GetOptions<DbConnectionOptions>().ConnectionConfigs[0].DbType;
-        return dbType switch
+        var dataType =  dbType switch
         {
             DbType.Oracle => ConvertDataType_OracleSQL(string.IsNullOrEmpty(dbColumnInfo.OracleDataType) ? dbColumnInfo.DataType : dbColumnInfo.OracleDataType, dbColumnInfo.Length, dbColumnInfo.Scale),
             DbType.PostgreSQL => ConvertDataType_PostgreSQL(dbColumnInfo.DataType),
             _ => ConvertDataType_Default(dbColumnInfo.DataType),
         };
+        return dataType + (dbColumnInfo.IsNullable ? "?" : "");
     }
 
     public static string ConvertDataType_OracleSQL(string dataType, int? length, int? scale)
@@ -252,7 +253,7 @@ public static class CodeGenUtil
     public static string DataTypeToEff(string dataType)
     {
         if (string.IsNullOrEmpty(dataType)) return "";
-        return dataType switch
+        return dataType?.TrimEnd('?') switch
         {
             "string" => "Input",
             "int" => "InputNumber",

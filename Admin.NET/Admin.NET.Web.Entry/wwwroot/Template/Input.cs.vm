@@ -33,7 +33,7 @@ if (@column.QueryWhether == "Y"){
         @:public @column.NetType @column.ColumnName { get; set; }
         @:
 
-if(@column.NetType == "DateTime" && @column.QueryType == "~"){
+if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
         @:/// <summary>
         @: /// @(@column.ColumnComment)范围
         @: /// </summary>
