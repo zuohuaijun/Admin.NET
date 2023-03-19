@@ -207,10 +207,6 @@ const submit = async () => {
 				item[key] = 'N';
 			}
 		}
-        //如果为枚举选择器，则net类型改为枚举类型
-        if (item.effectType === 'EnumSelector') {
-            item.netType = item.dictTypeCode;
-        }
 	});
 	await getAPI(SysCodeGenConfigApi).apiSysCodeGenConfigUpdatePost(lst);
 	state.loading = false;
