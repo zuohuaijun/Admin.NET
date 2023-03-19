@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core.Service;
+namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 系统代码生成配置服务
@@ -24,7 +24,12 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
         var whetherCommon = YesNoEnum.Y.ToString();
         return await _db.Queryable<SysCodeGenConfig>()
             .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != whetherCommon)
-            .Select<CodeGenConfig>().ToListAsync();
+            .Select<CodeGenConfig>()
+            .Mapper(u =>
+            {
+                u.NetType = (u.EffectType == "EnumSelector" ? u.DictTypeCode : u.NetType);
+            })
+            .ToListAsync();
     }
 
     /// <summary>
