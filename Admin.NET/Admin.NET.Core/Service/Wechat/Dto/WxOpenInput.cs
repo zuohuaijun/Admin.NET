@@ -55,6 +55,16 @@ public class SendSubscribeMessageInput
     /// </summary>
     [Required(ErrorMessage = "模板内容不能为空")]
     public Dictionary<string, CgibinMessageSubscribeSendRequest.Types.DataItem> Data { get; set; }
+
+    /// <summary>
+    /// 跳转小程序类型
+    /// </summary>
+    public string MiniprogramState { get; set; }
+
+    /// <summary>
+    /// 语言类型
+    /// </summary>
+    public string Language { get; set; }
 }
 
 public class AddSubscribeMessageTemplateInput

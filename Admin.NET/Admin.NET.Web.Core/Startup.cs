@@ -152,6 +152,7 @@ public class Startup : AppStartup
             {
                 services.AddFileLogging(options =>
                 {
+                    options.WithStackFrame = true; // 显示堆栈信息
                     options.FileNameRule = fileName => string.Format(fileName, DateTime.Now, logLevel.ToString()); // 每天创建一个文件
                     options.WriteFilter = logMsg => logMsg.LogLevel == logLevel; // 日志级别
                     options.HandleWriteError = (writeError) => // 写入失败时启用备用文件
@@ -165,6 +166,7 @@ public class Startup : AppStartup
         {
             services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
             {
+                options.WithStackFrame = true; // 显示堆栈信息
                 options.WithTraceId = true; // 显示线程Id
                 options.IgnoreReferenceLoop = false; // 忽略循环检测
                 options.WriteFilter = (logMsg) =>
@@ -177,7 +179,14 @@ public class Startup : AppStartup
         {
             services.AddDatabaseLogging<ElasticSearchLoggingWriter>(options =>
             {
+                options.WithStackFrame = true; // 显示堆栈信息
+                options.WithTraceId = true; // 显示线程Id
+                options.IgnoreReferenceLoop = false; // 忽略循环检测
                 options.MessageFormat = LoggerFormatter.Json;
+                options.WriteFilter = (logMsg) =>
+                {
+                    return logMsg.LogName == "System.Logging.LoggingMonitor"; // 只写LoggingMonitor日志
+                };
             });
         }
 
