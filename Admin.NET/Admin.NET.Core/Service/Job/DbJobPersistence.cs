@@ -81,12 +81,15 @@ public class DbJobPersistence : IJobPersistence
             case PersistenceBehavior.Appended:
                 jobRepository.AsInsertable(jobDetail).ExecuteCommand();
                 break;
+
             case PersistenceBehavior.Updated:
                 jobRepository.AsUpdateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
                 break;
+
             case PersistenceBehavior.Removed:
                 jobRepository.AsDeleteable().Where(u => u.JobId == jobDetail.JobId).ExecuteCommand();
                 break;
+
             default:
                 throw new ArgumentOutOfRangeException();
         }
@@ -106,12 +109,15 @@ public class DbJobPersistence : IJobPersistence
             case PersistenceBehavior.Appended:
                 triggerRepository.AsInsertable(jobTrigger).ExecuteCommand();
                 break;
+
             case PersistenceBehavior.Updated:
                 triggerRepository.AsUpdateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
                 break;
+
             case PersistenceBehavior.Removed:
                 triggerRepository.AsDeleteable().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
                 break;
+
             default:
                 throw new ArgumentOutOfRangeException();
         }

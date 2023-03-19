@@ -271,8 +271,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             File.WriteAllText(targetPathList[i], tResult, Encoding.UTF8);
         }
 
-        // 最后一位代码为0则添加栏目
-        //if (input.GenerateType.EndsWith('0'))
         await AddMenu(input.TableName, input.BusName, input.MenuPid);
         // 非ZIP压缩返回空
         if (!input.GenerateType.StartsWith('1'))
