@@ -109,9 +109,10 @@ public class SysMenuService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D4000);
 
         // 校验菜单参数
-        CheckMenuParam(input.Adapt<SysMenu>());
+        var sysMenu = input.Adapt<SysMenu>();
+        CheckMenuParam(sysMenu);
 
-        await _sysMenuRep.InsertAsync(input.Adapt<SysMenu>());
+        await _sysMenuRep.InsertAsync(sysMenu);
 
         // 清除缓存
         DeleteMenuCache();
@@ -133,9 +134,10 @@ public class SysMenuService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D4000);
 
         // 校验菜单参数
-        CheckMenuParam(input.Adapt<SysMenu>());
+        var sysMenu = input.Adapt<SysMenu>();
+        CheckMenuParam(sysMenu);
 
-        await _sysMenuRep.AsUpdateable(input.Adapt<SysMenu>()).IgnoreColumns(true).ExecuteCommandAsync();
+        await _sysMenuRep.AsUpdateable(sysMenu).ExecuteCommandAsync();
 
         // 清除缓存
         DeleteMenuCache();
@@ -172,10 +174,25 @@ public class SysMenuService : IDynamicApiController, ITransient
         var permission = menu.Permission;
         if (menu.Type == MenuTypeEnum.Btn)
         {
+            menu.Name = null;
+            menu.Path = null;
+            menu.Component = null;
+            menu.Icon = null;
+            menu.Redirect = null;
+            menu.OutLink = null;
+            menu.IsHide = false;
+            menu.IsKeepAlive = true;
+            menu.IsAffix = false;
+            menu.IsIframe = false;
+
             if (string.IsNullOrEmpty(permission))
                 throw Oops.Oh(ErrorCodeEnum.D4003);
             if (!permission.Contains(':'))
                 throw Oops.Oh(ErrorCodeEnum.D4004);
+        }
+        else
+        {
+            menu.Permission = null;
         }
     }
 
