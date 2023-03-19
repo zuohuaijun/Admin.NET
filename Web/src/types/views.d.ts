@@ -293,17 +293,17 @@ declare type TableDemoPageType = {
 
 declare type TableHeaderType = {
 	key: string;
-	//width: string;
+	width: string;
 	title: string;
-	type?: string | number;
-	colWidth?: string;
+	type: string | number;
+	colWidth: string;
 	width?: string | number;
 	height?: string | number;
-	isCheck?: boolean;
-	align?: string;
-	headerAlign?: string;
-	toolTip?: boolean;
-	sortable?: boolean;
+	isCheck: boolean;
+	align: string;
+	headerAlign: string;
+	toolTip: boolean;
+	sortable: boolean;
 };
 
 declare type TableSearchType = {
@@ -315,13 +315,14 @@ declare type TableSearchType = {
 	options?: SelectOptionType[];
 	cascaderData?: object[];
 	cascaderProps?: object;
+	comProps?: object;
 };
 
 declare type TableDemoState = {
 	tableData: {
 		// data: EmptyObjectType[];
 		// header: TableHeaderType[];
-		columns: Object[]; // 列设置，同ELTable-Column属性
+		columns: Object[]; //列设置，同ELTable-Column属性
 		config: {
 			// total: number;
 			// loading: boolean;

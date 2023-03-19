@@ -15,7 +15,7 @@
 						</el-dropdown-menu>
 					</template>
 				</el-dropdown>
-				<el-popover placement="top-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper" :width="300" :persistent="false" @show="onSetTable" @hide="closePop">
+				<el-popover placement="top-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper" :width="300" :persistent="false" @show="onSetTable">
 					<template #reference>
 						<SvgIcon name="iconfont icon-quanjushezhi_o" :size="22" title="设置" />
 					</template>
@@ -30,7 +30,7 @@
 						</div>
 						<el-scrollbar>
 							<div ref="toolSetRef" class="tool-sortable">
-								<div class="tool-sortable-item" v-for="v in state.listColumn" :key="v.prop" v-show="!v.hideCheck && !v.fixed" :data-key="v.prop">
+								<div class="tool-sortable-item" v-for="v in columns" :key="v.prop" v-show="!v.hideCheck && !v.fixed" :data-key="v.prop">
 									<i class="fa fa-arrows-alt handle cursor-pointer"></i>
 									<el-checkbox v-model="v.isCheck" size="default" class="ml12 mr8" :label="v.label" @change="onCheckChange" />
 								</div>
@@ -53,8 +53,8 @@
 			@selection-change="onSelectionChange"
 			@sort-change="sortChange"
 		>
-			<el-table-column type="selection" :reserve-selection="true" width="30" v-if="config.isSelection && config.showSelection" />
-			<el-table-column type="index" label="序号" align="center" width="60" v-if="config.isSerialNo" />
+			<el-table-column type="selection" :reserve-selection="true" :width="30" v-if="config.isSelection && config.showSelection" />
+			<el-table-column type="index" label="序号" align="center" :width="60" v-if="config.isSerialNo" />
 			<el-table-column v-for="(item, index) in setHeader" :key="index" v-bind="item">
 				<!-- 自定义列插槽，插槽名为columns属性的prop -->
 				<template #default="scope" v-if="$slots[item.prop]">
@@ -73,9 +73,8 @@
 				<el-empty description="暂无数据" />
 			</template>
 		</el-table>
-		<div class="table-footer mt15">
+		<div v-if="state.showPagination" class="table-footer mt15">
 			<el-pagination
-				small
 				v-model:current-page="state.page.page"
 				v-model:page-size="state.page.pageSize"
 				:pager-count="5"
@@ -102,12 +101,12 @@ import { exportExcel } from '/@/utils/exportExcel';
 
 // 定义父组件传过来的值
 const props = defineProps({
-	// 获取数据的方法，由父组件传递
+	//获取数据的方法，由父组件传递
 	getData: {
 		type: Function,
 		required: true,
 	},
-	// 列属性，和elementUI的Table-column 属性相同，附加属性：isCheck-是否默认勾选展示，hideCheck-是否隐藏该列的可勾选和拖拽
+	//列属性，和elementUI的Table-column 属性相同，附加属性：isCheck-是否默认勾选展示，hideCheck-是否隐藏该列的可勾选和拖拽
 	columns: {
 		type: Array<any>,
 		default: () => [],
@@ -152,10 +151,10 @@ const state = reactive({
 		field: '',
 		order: '',
 	},
+	showPagination: true,
 	selectlist: [] as EmptyObjectType[],
 	checkListAll: true,
 	checkListIndeterminate: false,
-	listColumn: [] as Array<any>,
 });
 
 // 设置边框显示/隐藏
@@ -172,23 +171,15 @@ const setHeader = computed(() => {
 });
 // tool 列显示全选改变时
 const onCheckAllChange = <T>(val: T) => {
-	if (val)
-		state.listColumn.forEach((v) => {
-			if (!v.hideCheck) v.isCheck = true;
-		});
-	else
-		state.listColumn.forEach((v) => {
-			if (!v.hideCheck) v.isCheck = false;
-		});
+	if (val) props.columns.forEach((v) => (v.isCheck = true));
+	else props.columns.forEach((v) => (v.isCheck = false));
 	state.checkListIndeterminate = false;
-	emit('sortHeader', state.listColumn);
 };
 // tool 列显示当前项改变时
 const onCheckChange = () => {
-	const headers = state.listColumn.filter((v) => v.isCheck).length;
+	const headers = props.columns.filter((v) => v.isCheck).length;
 	state.checkListAll = headers === props.columns.length;
 	state.checkListIndeterminate = headers > 0 && headers < props.columns.length;
-	emit('sortHeader', state.listColumn);
 };
 // 表格多选改变时
 const onSelectionChange = (val: EmptyObjectType[]) => {
@@ -267,18 +258,15 @@ const onSetTable = () => {
 			onEnd: () => {
 				const headerList: EmptyObjectType[] = [];
 				sortable.toArray().forEach((val: any) => {
-					state.listColumn.forEach((v) => {
+					props.columns.forEach((v) => {
 						if (v.prop === val) headerList.push({ ...v });
 					});
 				});
+				console.log(headerList);
 				emit('sortHeader', headerList);
 			},
 		});
 	});
-};
-
-const closePop = () => {
-	state.listColumn = JSON.parse(JSON.stringify(props.columns));
 };
 
 const handleList = async () => {
@@ -288,9 +276,11 @@ const handleList = async () => {
 	const res = await props.getData(param);
 	state.loading = false;
 	if (res.result.items) {
+		state.showPagination = true;
 		state.data = res.result?.items ?? [];
 		state.total = res.result?.total ?? 0;
 	} else {
+		state.showPagination = false;
 		state.data = res.result ?? [];
 	}
 };
@@ -305,11 +295,10 @@ onMounted(() => {
 		state.page.order = props.defaultSort.order;
 	}
 	state.page.pageSize = props.config.pageSize;
-	state.listColumn = JSON.parse(JSON.stringify(props.columns));
 	handleList();
 });
 
-// 导出对象
+// 暴露变量
 defineExpose({
 	pageReset,
 	handleList,

@@ -2,28 +2,26 @@
 	<div class="table-search-container" v-if="props.search.length > 0">
 		<el-form ref="tableSearchRef" :model="state.form" size="default" label-width="100px" class="table-form">
 			<el-row :gutter="20">
-				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" class="mb20" v-for="(val, key) in search" :key="key" v-show="key < 3 || state.isToggle">
+				<!-- <el-col :xs="12" :sm="8" :md="8" :lg="6" :xl="4" class="mb20"></el-col> -->
+				<el-col :xs="12" :sm="5" :md="5" :lg="6" :xl="4" class="mb20" v-for="(val, key) in search" :key="key" v-show="key < 3 || state.isToggle">
 					<template v-if="val.type !== ''">
-						<el-form-item :label="val.label" :prop="val.prop" :rules="[{ required: val.required, message: `${val.label}不能为空`, trigger: val.type === 'input' ? 'blur' : 'change' }]">
+						<el-form-item
+							label-width="auto"
+							:label="val.label"
+							:prop="val.prop"
+							:rules="[{ required: val.required, message: `${val.label}不能为空`, trigger: val.type === 'input' ? 'blur' : 'change' }]"
+						>
 							<el-input
 								v-model="state.form[val.prop]"
-								v-bind="$attrs"
+								v-bind="val.comProps"
 								:placeholder="val.placeholder"
 								:clearable="!val.required"
 								v-if="val.type === 'input'"
 								@keyup.enter="onSearch(tableSearchRef)"
-								style="width: 100%"
+								class="w100"
 							/>
-							<el-date-picker
-								v-model="state.form[val.prop]"
-								v-bind="$attrs"
-								type="date"
-								:placeholder="val.placeholder"
-								:clearable="!val.required"
-								v-else-if="val.type === 'date'"
-								style="width: 100%"
-							/>
-							<el-select v-model="state.form[val.prop]" v-bind="$attrs" :clearable="!val.required" :placeholder="val.placeholder" v-else-if="val.type === 'select'" style="width: 100%">
+							<el-date-picker v-model="state.form[val.prop]" v-bind="val.comProps" type="date" :placeholder="val.placeholder" :clearable="!val.required" v-else-if="val.type === 'date'" class="w100" />
+							<el-select v-model="state.form[val.prop]" v-bind="val.comProps" :clearable="!val.required" :placeholder="val.placeholder" v-else-if="val.type === 'select'" class="w100">
 								<el-option v-for="item in val.options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
 							</el-select>
 							<el-cascader
@@ -34,26 +32,26 @@
 								:props="val.cascaderProps ? val.cascaderProps : state.cascaderProps"
 								:placeholder="val.placeholder"
 								class="w100"
-								v-bind="$attrs"
+								v-bind="val.comProps"
 								v-model="state.form[val.prop]"
 							>
 							</el-cascader>
 						</el-form-item>
 					</template>
 				</el-col>
-				<el-col :xs="24" :sm="12" :md="8" :lg="6" :xl="6" class="mb20">
-					<el-form-item class="table-form-btn" :label-width="search.length <= 3 ? '10px' : '100px'">
+				<el-col :xs="12" :sm="9" :md="9" :lg="6" :xl="4" class="mb20">
+					<el-form-item class="table-form-btn" label-width="auto">
 						<template #label>
 							<div v-if="search.length > 3">
-								<div class="table-form-btn-toggle ml10" @click="state.isToggle = !state.isToggle">
+								<div class="table-form-btn-toggle" @click="state.isToggle = !state.isToggle">
 									<span>{{ state.isToggle ? '收起' : '展开' }}</span>
 									<SvgIcon :name="state.isToggle ? 'ele-ArrowUp' : 'ele-ArrowDown'" />
 								</div>
 							</div>
 						</template>
 						<div>
-							<el-button size="default" type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)" plain>查询 </el-button>
-							<el-button size="default" icon="ele-Refresh" class="ml10" @click="onReset(tableSearchRef)"> 重置 </el-button>
+							<el-button size="default" type="primary" @click="onSearch(tableSearchRef)" plain>查询 </el-button>
+							<el-button size="default" type="info" class="ml10" @click="onReset(tableSearchRef)"> 重置 </el-button>
 						</div>
 					</el-form-item>
 				</el-col>
@@ -68,7 +66,8 @@ import type { FormInstance } from 'element-plus';
 
 // 定义父组件传过来的值
 const props = defineProps({
-	// 搜索表单,type-控件类型（input,select,cascader,date）,options-type为selct时需传值，cascaderData,cascaderProps-type为cascader时需传值，属性同elementUI,cascaderProps不传则使用state默认
+	// 搜索表单,type-控件类型（input,select,cascader,date）,options-type为selct时需传值，cascaderData,cascaderProps-type为cascader时需传值，属性同elementUI,cascaderProps不传则使用state默认。
+	// 可带入comProps属性，和使用的控件属性对应
 	search: {
 		type: Array<TableSearchType>,
 		default: () => [],
