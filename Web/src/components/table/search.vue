@@ -50,8 +50,8 @@
 							</div>
 						</template>
 						<div>
-							<el-button size="default" type="primary" @click="onSearch(tableSearchRef)" plain>查询 </el-button>
-							<el-button size="default" type="info" class="ml10" @click="onReset(tableSearchRef)"> 重置 </el-button>
+							<el-button type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)" plain> 查询 </el-button>
+							<el-button icon="ele-Refresh" @click="onReset(tableSearchRef)"> 重置 </el-button>
 						</div>
 					</el-form-item>
 				</el-col>
