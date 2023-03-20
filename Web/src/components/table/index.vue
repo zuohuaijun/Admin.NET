@@ -44,6 +44,7 @@
 			ref="tableRef"
 			:data="state.data"
 			:border="setBorder"
+            :stripe="setStripe"
 			v-bind="$attrs"
 			row-key="id"
 			default-expand-all
@@ -160,6 +161,10 @@ const state = reactive({
 // 设置边框显示/隐藏
 const setBorder = computed(() => {
 	return props.config.isBorder ? true : false;
+});
+// 设置斑马纹显示/隐藏
+const setStripe = computed(() => {
+	return props.config.isStripe ? true : false;
 });
 // 获取父组件 配置项（必传）
 const getConfig = computed(() => {
