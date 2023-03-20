@@ -326,6 +326,7 @@ declare type TableDemoState = {
 		config: {
 			// total: number;
 			// loading: boolean;
+            isStripe: boolean;
 			isBorder: boolean;
 			isSelection: boolean;
 			showSelection: boolean;
