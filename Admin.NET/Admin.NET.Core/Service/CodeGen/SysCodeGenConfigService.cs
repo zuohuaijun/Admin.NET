@@ -129,7 +129,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// <returns></returns>
     private string GetDefaultQueryType(SysCodeGenConfig codeGenConfig)
     {
-        switch (codeGenConfig.NetType)
+        switch (codeGenConfig.NetType?.TrimEnd('?'))
         {
             case "string":
                 return "like";

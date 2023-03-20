@@ -25,15 +25,15 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
         var query= _rep.AsQueryable()
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
-    if (@column.NetType == "string"){
+    if (@column.NetType?.TrimEnd('?') == "string"){
         if(@column.QueryType == "like"){
                     @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.ColumnName), u => u.@(@column.ColumnName).Contains(input.@(@column.ColumnName).Trim()))
         }else{
                     @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.ColumnName), u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
         }
-    }else if(@column.NetType == "int" || @column.NetType == "long"){
+    }else if(@column.NetType?.TrimEnd('?') == "int" || @column.NetType?.TrimEnd('?') == "long"){
                     @:.WhereIF(input.@column.ColumnName>0, u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
-    }else if(@column.NetType == "DateTime" && @column.QueryType == "~"){
+    }else if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
     }
 } 
 }          
@@ -60,7 +60,7 @@ if (@column.QueryWhether == "Y"){
 ;
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
-    if(@column.NetType == "DateTime" && @column.QueryType == "~"){
+    if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
         @:if(input.@(@column.ColumnName)Range != null && input.@(@column.ColumnName)Range.Count >0)
         @:{
                 @:DateTime? start= input.@(@column.ColumnName)Range[0]; 
