@@ -18,7 +18,7 @@
 				</el-form>
 			</el-card>
 
-			<el-card shadow="hover" style="margin: 8px">
+			<el-card shadow="hover" style="margin: 8px;padding-bottom: 15px;">
 				<el-table :data="state.onlineUserList" style="width: 100%" v-loading="state.loading" border>
 					<el-table-column type="index" label="序号" width="55" align="center" />
 					<el-table-column prop="userName" label="账号" show-overflow-tooltip />
@@ -27,7 +27,7 @@
 					<el-table-column prop="browser" label="浏览器" show-overflow-tooltip />
 					<!-- <el-table-column prop="connectionId" label="连接Id" show-overflow-tooltip></el-table-column> -->
 					<el-table-column prop="time" label="登录时间" show-overflow-tooltip />
-					<el-table-column label="操作" width="70" fixed="right" align="center" show-overflow-tooltip>
+					<el-table-column label="操作" width="81" fixed="right" align="center" show-overflow-tooltip>
 						<template #default="scope">
 							<el-button icon="ele-CircleClose" size="small" text type="danger" v-auth="'sysOnlineUser:forceOffline'" @click="forceOffline(scope.row)"> 下线 </el-button>
 						</template>
