@@ -18,7 +18,7 @@
 				</el-form>
 			</el-card>
 
-			<el-card shadow="hover" style="margin: 8px;padding-bottom: 15px;">
+			<el-card shadow="hover" style="margin: 8px; padding-bottom: 15px">
 				<el-table :data="state.onlineUserList" style="width: 100%" v-loading="state.loading" border>
 					<el-table-column type="index" label="序号" width="55" align="center" />
 					<el-table-column prop="userName" label="账号" show-overflow-tooltip />

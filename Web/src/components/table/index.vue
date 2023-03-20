@@ -44,7 +44,7 @@
 			ref="tableRef"
 			:data="state.data"
 			:border="setBorder"
-            :stripe="setStripe"
+			:stripe="setStripe"
 			v-bind="$attrs"
 			row-key="id"
 			default-expand-all

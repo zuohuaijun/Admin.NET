@@ -44,7 +44,7 @@ public static class CodeGenUtil
     public static string ConvertDataType(DbColumnInfo dbColumnInfo)
     {
         var dbType = App.GetOptions<DbConnectionOptions>().ConnectionConfigs[0].DbType;
-        var dataType =  dbType switch
+        var dataType = dbType switch
         {
             DbType.Oracle => ConvertDataType_OracleSQL(string.IsNullOrEmpty(dbColumnInfo.OracleDataType) ? dbColumnInfo.DataType : dbColumnInfo.OracleDataType, dbColumnInfo.Length, dbColumnInfo.Scale),
             DbType.PostgreSQL => ConvertDataType_PostgreSQL(dbColumnInfo.DataType),
