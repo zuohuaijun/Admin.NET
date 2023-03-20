@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using SqlSugar;
 using System.ComponentModel;
 using Admin.NET.Core;
@@ -23,7 +23,7 @@ else if(@Model.BaseClassName=="" && !@column.IsPrimarykey){
           @:/// <summary>
           @:/// @column.ColumnDescription
           @:/// </summary>
-          @:public @column.DataType@(@column.IsNullable ? "?" : "") @column.DbColumnName { get; set; }
+          @:public @column.DataType @column.DbColumnName { get; set; }
 }
 else if(@Model.BaseClassName!="" && @column.IsPrimarykey && @column.DbColumnName.ToLower()!="id"){
           @:/// <summary>
@@ -36,7 +36,7 @@ else if(@Model.BaseClassName!="" && !@column.IsPrimarykey && @column.DbColumnNam
           @:/// <summary>
           @:/// @column.ColumnDescription
           @:/// </summary>
-          @:public @column.DataType@(@column.IsNullable ? "?" : "") @column.DbColumnName { get; set; }
+          @:public @column.DataType @column.DbColumnName { get; set; }
 }
 }
 }	
