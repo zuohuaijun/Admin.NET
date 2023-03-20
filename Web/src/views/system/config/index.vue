@@ -61,6 +61,7 @@ const tb = reactive<TableDemoState>({
 		],
 		// 配置项（必传）
 		config: {
+            isStripe: true, // 是否显示表格斑马纹
 			isBorder: false, // 是否显示表格边框
 			isSerialNo: true, // 是否显示表格序号
 			isSelection: true, // 是否勾选表格多选
