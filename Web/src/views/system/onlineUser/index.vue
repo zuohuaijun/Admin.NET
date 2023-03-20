@@ -52,6 +52,7 @@
 <script lang="ts" setup>
 import { onMounted, reactive } from 'vue';
 import { ElMessageBox, ElNotification } from 'element-plus';
+import { throttle } from 'lodash-es';
 
 import { getAPI, clearAccessTokens } from '/@/utils/axios-utils';
 import { SysOnlineUserApi, SysAuthApi } from '/@/api-services/api';
@@ -72,21 +73,22 @@ const state = reactive({
 		total: 0 as any,
 	},
 	onlineUserList: [] as Array<SysOnlineUser>, // 在线用户列表
+	lastUserState: {
+		online: false,
+		realName: '',
+	}, // 最后接收的用户变更状态信息
 });
 
 onMounted(async () => {
-	handleQuery();
-
 	// 在线用户列表
 	signalR.off('OnlineUserList');
 	signalR.on('OnlineUserList', (data: any) => {
 		state.onlineUserList = data.userList;
-		ElNotification({
-			title: '提示',
-			message: `${data.online ? `【${data.realName}】上线了` : `【${data.realName}】离开了`}`,
-			type: `${data.online ? 'info' : 'error'}`,
-			position: 'bottom-right',
-		});
+		state.lastUserState = {
+			online: data.online,
+			realName: data.realName,
+		};
+		notificationThrottle();
 	});
 	// 强制下线
 	signalR.off('ForceOffline');
@@ -98,6 +100,23 @@ onMounted(async () => {
 		clearAccessTokens();
 	});
 });
+
+// 通知提示节流
+const notificationThrottle = throttle(
+	function () {
+		ElNotification({
+			title: '提示',
+			message: `${state.lastUserState.online ? `【${state.lastUserState.realName}】上线了` : `【${state.lastUserState.realName}】离开了`}`,
+			type: `${state.lastUserState.online ? 'info' : 'error'}`,
+			position: 'bottom-right',
+		});
+	},
+	3000,
+	{
+		leading: true,
+		trailing: false,
+	}
+);
 
 // 打开页面
 const openDrawer = () => {
