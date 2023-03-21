@@ -194,8 +194,9 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     [DisplayName("创建实体")]
     public void CreateEntity(CreateEntityInput input)
     {
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
-        input.EntityName = input.EntityName;
+        input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
         string[] dbColumnNames = _codeGenOptions.EntityBaseColumn[input.BaseClassName];
 
         var templatePath = GetEntityTemplatePath();
@@ -205,7 +206,6 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         if (dbTableInfo == null)
             throw Oops.Oh(ErrorCodeEnum.db1001);
         
-        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
         dbColumnInfos.ForEach(m =>
         {
