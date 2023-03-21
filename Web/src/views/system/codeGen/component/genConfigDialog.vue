@@ -48,7 +48,7 @@
 				<el-table-column prop="queryType" label="查询方式" show-overflow-tooltip>
 					<template #default="scope">
 						<el-select v-model="scope.row.queryType" class="m-2" placeholder="Select" :disabled="!scope.row.queryWhether">
-							<el-option v-for="item in state.queryTypeList" :key="item.value" :label="item.label" :value="item.value" />
+							<el-option v-for="item in state.queryTypeList" :key="item.code" :label="item.value" :value="item.code" />
 						</el-select>
 					</template>
 				</el-table-column>
