@@ -15,7 +15,6 @@ public static class ProjectOptions
     public static IServiceCollection AddProjectOptions(this IServiceCollection services)
     {
         services.AddConfigurableOptions<DbConnectionOptions>();
-        services.AddConfigurableOptions<RefreshTokenOptions>();
         services.AddConfigurableOptions<SnowIdOptions>();
         services.AddConfigurableOptions<CacheOptions>();
         services.AddConfigurableOptions<OSSProviderOptions>();

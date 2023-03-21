@@ -133,4 +133,36 @@ public class SysConfigService : IDynamicApiController, ITransient
     {
         return await _sysConfigRep.AsQueryable().GroupBy(u => u.GroupCode).Select(u => u.GroupCode).ToListAsync();
     }
+
+    /// <summary>
+    /// 获取 Token 过期时间
+    /// </summary>
+    /// <returns></returns>
+    [ApiDescriptionSettings(false)]
+    public async Task<int> GetTokenExpire()
+    {
+        var tokenExpireStr = await GetConfigValue<string>(CommonConst.SysTokenExpire);
+
+        int.TryParse(tokenExpireStr, out var tokenExpire);
+        // 参数不存在或转换失败，设置默认值
+        tokenExpire = tokenExpire == 0 ? 20 : tokenExpire;
+
+        return tokenExpire;
+    }
+
+    /// <summary>
+    /// 获取 RefreshToken 过期时间
+    /// </summary>
+    /// <returns></returns>
+    [ApiDescriptionSettings(false)]
+    public async Task<int> GetRefreshTokenExpire()
+    {
+        var refreshTokenExpireStr = await GetConfigValue<string>(CommonConst.SysRefreshTokenExpire);
+
+        int.TryParse(refreshTokenExpireStr, out var refreshTokenExpire);
+        // 参数不存在或转换失败，设置默认值
+        refreshTokenExpire = refreshTokenExpire == 0 ? 40 : refreshTokenExpire;
+
+        return refreshTokenExpire;
+    }
 }

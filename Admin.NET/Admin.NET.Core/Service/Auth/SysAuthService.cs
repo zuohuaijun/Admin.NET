@@ -12,7 +12,6 @@ public class SysAuthService : IDynamicApiController, ITransient
 {
     private readonly UserManager _userManager;
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
-    private readonly RefreshTokenOptions _refreshTokenOptions;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly SysMenuService _sysMenuService;
     private readonly SysOnlineUserService _sysOnlineUserService;
@@ -22,7 +21,6 @@ public class SysAuthService : IDynamicApiController, ITransient
 
     public SysAuthService(UserManager userManager,
         SqlSugarRepository<SysUser> sysUserRep,
-        IOptions<RefreshTokenOptions> refreshTokenOptions,
         IHttpContextAccessor httpContextAccessor,
         SysMenuService sysMenuService,
         SysOnlineUserService sysOnlineUserService,
@@ -33,7 +31,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         _userManager = userManager;
         _sysUserRep = sysUserRep;
         _httpContextAccessor = httpContextAccessor;
-        _refreshTokenOptions = refreshTokenOptions.Value;
         _sysMenuService = sysMenuService;
         _sysOnlineUserService = sysOnlineUserService;
         _sysConfigService = sysConfigService;
@@ -90,6 +87,9 @@ public class SysAuthService : IDynamicApiController, ITransient
         // 单用户登录
         await _sysOnlineUserService.SignleLogin(user.Id);
 
+        var tokenExpire = await _sysConfigService.GetTokenExpire();
+        var refreshTokenExpire = await _sysConfigService.GetRefreshTokenExpire();
+
         // 生成Token令牌
         var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
         {
@@ -100,10 +100,10 @@ public class SysAuthService : IDynamicApiController, ITransient
             { ClaimConst.AccountType, user.AccountType },
             { ClaimConst.OrgId, user.OrgId },
             { ClaimConst.OrgName, user.SysOrg?.Name },
-        });
+        }, tokenExpire);
 
         // 生成刷新Token令牌
-        var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
+        var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, refreshTokenExpire);
 
         // 设置响应报文头
         _httpContextAccessor.HttpContext.SetTokensOfResponseHeaders(accessToken, refreshToken);
@@ -158,7 +158,8 @@ public class SysAuthService : IDynamicApiController, ITransient
     [DisplayName("获取刷新Token")]
     public string GetRefreshToken(string accessToken)
     {
-        return JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
+        var refreshTokenExpire = _sysConfigService.GetRefreshTokenExpire().GetAwaiter().GetResult();
+        return JWTEncryption.GenerateRefreshToken(accessToken, refreshTokenExpire);
     }
 
     /// <summary>

@@ -6,6 +6,7 @@ using Furion.DataEncryption;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Admin.NET.Web.Core
 {
@@ -18,9 +19,13 @@ namespace Admin.NET.Web.Core
         /// <returns></returns>
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
-            if (JWTEncryption.AutoRefreshToken(context, context.GetCurrentHttpContext(),
-                App.GetOptions<JWTSettingsOptions>().ExpiredTime,
-                App.GetOptions<RefreshTokenOptions>().ExpiredTime))
+            // 读取参数
+            var serviceProvider = context.GetCurrentHttpContext().RequestServices;
+            var sysConfigService = serviceProvider.GetService<SysConfigService>();
+            var tokenExpire = await sysConfigService.GetTokenExpire();
+            var refreshTokenExpire = await sysConfigService.GetRefreshTokenExpire();
+
+            if (JWTEncryption.AutoRefreshToken(context, context.GetCurrentHttpContext(), tokenExpire, refreshTokenExpire))
             {
                 await AuthorizeHandleAsync(context);
             }
