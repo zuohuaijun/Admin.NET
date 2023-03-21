@@ -139,7 +139,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var tableOutputList = new List<TableOutput>();
         foreach (var item in entityInfos)
         {
-            var table = dbTableInfos.FirstOrDefault(x => x.Name.ToLower() == (config.EnableUnderLine ? UtilMethods.ToUnderLine(item.DbTableName) : item.DbTableName.ToLower()));
+            var table = dbTableInfos.FirstOrDefault(x => x.Name.ToLower() == (config.EnableUnderLine ? UtilMethods.ToUnderLine(item.DbTableName) : item.DbTableName).ToLower());
             if (table == null) continue;
             tableOutputList.Add(new TableOutput
             {
