@@ -8,16 +8,26 @@ namespace Admin.NET.Core;
 public class ElasticSearchLoggingWriter : IDatabaseLoggingWriter
 {
     private readonly ElasticClient _esClient;
+    private readonly SysConfigService _sysConfigService; // 参数配置服务
 
-    public ElasticSearchLoggingWriter(ElasticClient esClient)
+    public ElasticSearchLoggingWriter(ElasticClient esClient, SysConfigService sysConfigService)
     {
         _esClient = esClient;
+        _sysConfigService = sysConfigService;
     }
 
-    public void Write(LogMessage logMsg, bool flush)
+    public async void Write(LogMessage logMsg, bool flush)
     {
+        // 如果启用操作日志
+        var sysOpLogEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysOpLog);
+        if (!sysOpLogEnabled) return;
+
         var jsonStr = logMsg.Context.Get("loggingMonitor").ToString();
-        // var loggingMonitor = JSON.Deserialize<dynamic>(jsonStr);
-        _esClient.IndexDocument(jsonStr);
+        var loggingMonitor = JSON.Deserialize<dynamic>(jsonStr);
+
+        // 登录登出日志，不记录
+        if (loggingMonitor.actionName == "userInfo" || loggingMonitor.actionName == "logout") return;
+
+        await _esClient.IndexDocumentAsync(jsonStr);
     }
 }
