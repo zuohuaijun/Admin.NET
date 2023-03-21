@@ -22,7 +22,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="基类" prop="baseClassName">
 							<el-select v-model="state.ruleForm.baseClassName" clearable class="w100">
-								<el-option v-for="item in state.codeGenBaseClassName" :key="item.value" :label="item.label" :value="item.value" />
+								<el-option v-for="item in state.codeGenBaseClassName" :key="item.code" :label="item.value" :value="item.code" />
 							</el-select>
 						</el-form-item>
 					</el-col>

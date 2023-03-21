@@ -197,7 +197,11 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
-        string[] dbColumnNames = _codeGenOptions.EntityBaseColumn[input.BaseClassName];
+        
+        string[] dbColumnNames;//= _codeGenOptions.EntityBaseColumn[input.BaseClassName];
+        _codeGenOptions.EntityBaseColumn.TryGetValue(input.BaseClassName, out dbColumnNames);
+        if (dbColumnNames is null || dbColumnNames is { Length: 0 })
+            throw Oops.Oh("基类配置文件不存在此类型");
 
         var templatePath = GetEntityTemplatePath();
         var targetPath = GetEntityTargetPath(input);
