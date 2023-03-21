@@ -61,7 +61,7 @@ public class SysUserRoleService : ITransient
         var sysUserRoleList = await _sysUserRoleRep.AsQueryable()
             .Mapper(u => u.SysRole, u => u.RoleId)
             .Where(u => u.UserId == userId).ToListAsync();
-        return sysUserRoleList.Select(u => u.SysRole).ToList();
+        return sysUserRoleList.Where(u => u.SysRole != null).Select(u => u.SysRole).ToList();
     }
 
     /// <summary>
