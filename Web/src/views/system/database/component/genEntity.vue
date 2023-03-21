@@ -15,7 +15,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="实体名称" prop="entityName" :rules="[{ required: true, message: '实体名称不能为空', trigger: 'blur' }]">
+						<el-form-item label="实体名称" prop="entityName" :rules="[{ required: false, message: '实体名称不能为空', trigger: 'blur' }]">
 							<el-input v-model="state.ruleForm.entityName" placeholder="实体名称" clearable />
 						</el-form-item>
 					</el-col>
