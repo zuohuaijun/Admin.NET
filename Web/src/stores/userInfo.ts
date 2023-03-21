@@ -64,7 +64,8 @@ export const useUserInfo = defineStore('userInfo', {
 
 						// storesThemeConfig.themeConfig.watermarkText = d.account;
 						storesThemeConfig.themeConfig.isWatermark = configData.watermarkEnabled;
-						Watermark.set(storesThemeConfig.themeConfig.watermarkText);
+						if (storesThemeConfig.themeConfig.isWatermark) Watermark.set(storesThemeConfig.themeConfig.watermarkText);
+						else Watermark.del();
 
 						Local.remove('themeConfig');
 						Local.set('themeConfig', storesThemeConfig.themeConfig);
