@@ -184,8 +184,20 @@ public class SysAuthService : IDynamicApiController, ITransient
     {
         var secondVerEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSecondVer);
         var captchaEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha);
+        return new { SecondVerEnabled = secondVerEnabled, CaptchaEnabled = captchaEnabled };
+    }
+
+    /// <summary>
+    /// 获取用户配置
+    /// </summary>
+    /// <returns></returns>
+    [SuppressMonitor]
+    [DisplayName("获取用户配置")]
+    public async Task<dynamic> GetUserConfig()
+    {
+        //返回用户和通用配置
         var watermarkEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysWatermark);
-        return new { SecondVerEnabled = secondVerEnabled, CaptchaEnabled = captchaEnabled, WatermarkEnabled = watermarkEnabled };
+        return new { WatermarkEnabled = watermarkEnabled };
     }
 
     /// <summary>

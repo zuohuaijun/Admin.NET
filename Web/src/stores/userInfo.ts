@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia';
-import { Session } from '/@/utils/storage';
+import { Local, Session } from '/@/utils/storage';
+import Watermark from '/@/utils/watermark';
+import { useThemeConfig } from '/@/stores/themeConfig';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi, SysConstApi } from '/@/api-services/api';
@@ -32,11 +34,11 @@ export const useUserInfo = defineStore('userInfo', {
 			}
 		},
 		// 获取当前用户信息
-		async getApiUserInfo() {
+		getApiUserInfo() {
 			return new Promise((resolve) => {
 				getAPI(SysAuthApi)
 					.apiSysAuthUserInfoGet()
-					.then((res: any) => {
+					.then(async (res: any) => {
 						if (res.data.result == null) return;
 						var d = res.data.result;
 						const userInfos = {
@@ -52,6 +54,21 @@ export const useUserInfo = defineStore('userInfo', {
 							authBtnList: d.buttons,
 							time: new Date().getTime(),
 						};
+
+						// 读取用户配置
+						const configRes: any = await getAPI(SysAuthApi).apiSysAuthUserConfigGet();
+						if (configRes.data.result == null) return;
+
+						const configData = configRes.data.result;
+						const storesThemeConfig = useThemeConfig();
+
+						// storesThemeConfig.themeConfig.watermarkText = d.account;
+						storesThemeConfig.themeConfig.isWatermark = configData.watermarkEnabled;
+						Watermark.set(storesThemeConfig.themeConfig.watermarkText);
+
+						Local.remove('themeConfig');
+						Local.set('themeConfig', storesThemeConfig.themeConfig);
+
 						resolve(userInfos);
 					});
 			});

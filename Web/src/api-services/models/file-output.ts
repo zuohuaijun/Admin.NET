@@ -59,4 +59,10 @@ export interface FileOutput {
      * @memberof FileOutput
      */
     filePath?: string | null;
+    /**
+     * 文件名称
+     * @type {string}
+     * @memberof FileOutput
+     */
+    fileName?: string | null;
 }

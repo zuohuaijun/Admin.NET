@@ -69,7 +69,7 @@ export interface AddMenuInput {
      */
     type?: MenuTypeEnum;
     /**
-     * 名称
+     * 路由名称
      * @type {string}
      * @memberof AddMenuInput
      */

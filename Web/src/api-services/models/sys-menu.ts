@@ -69,7 +69,7 @@ export interface SysMenu {
      */
     type?: MenuTypeEnum;
     /**
-     * 名称
+     * 路由名称
      * @type {string}
      * @memberof SysMenu
      */
@@ -99,7 +99,7 @@ export interface SysMenu {
      */
     permission?: string | null;
     /**
-     * 标题
+     * 菜单名称
      * @type {string}
      * @memberof SysMenu
      */
