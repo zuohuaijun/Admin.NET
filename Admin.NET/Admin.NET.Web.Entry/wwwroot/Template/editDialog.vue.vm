@@ -156,13 +156,15 @@
 	const ruleFormRef = ref();
 	const isShowDialog = ref(false);
 	const ruleForm = ref<any>({});
-		//自行删除非必填规则
+		//自行添加其他规则
 		const rules = ref<FormRules>({
   @foreach (var column in Model.TableField){
-    if(@column.EffectType == "Input" || @column.EffectType == "InputNumber" ||@column.EffectType == "InputTextArea"){
-  @:@column.LowerColumnName: [{required: true, message: '请输入@(@column.ColumnComment)！', trigger: 'blur',},],
-    }else if(@column.EffectType == "DatePicker" || @column.EffectType == "Select" ||@column.EffectType == "ApiTreeSelect"){
-  @:@column.LowerColumnName: [{required: true, message: '请选择@(@column.ColumnComment)！', trigger: 'change',},],
+		if(@column.WhetherRequired == "Y"){
+			if(@column.EffectType == "Input" || @column.EffectType == "InputNumber" ||@column.EffectType == "InputTextArea"){
+		@:@column.LowerColumnName: [{required: true, message: '请输入@(@column.ColumnComment)！', trigger: 'blur',},],
+			}else if(@column.EffectType == "DatePicker" || @column.EffectType == "Select" ||@column.EffectType == "ApiTreeSelect"){
+		@:@column.LowerColumnName: [{required: true, message: '请选择@(@column.ColumnComment)！', trigger: 'change',},],
+			}
     }
   }
 });
