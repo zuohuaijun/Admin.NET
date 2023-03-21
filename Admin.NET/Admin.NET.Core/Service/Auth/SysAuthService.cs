@@ -127,7 +127,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
         if (user == null)
-            throw Oops.Oh(ErrorCodeEnum.D1011);
+            throw Oops.Oh(ErrorCodeEnum.D1011).StatusCode(401);
 
         // 获取机构
         var org = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysOrg>>().GetFirstAsync(u => u.Id == user.OrgId);
