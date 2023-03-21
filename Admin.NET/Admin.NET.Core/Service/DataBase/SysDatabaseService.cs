@@ -204,7 +204,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName || m.Name == input.TableName.ToLower());
         if (dbTableInfo == null)
             throw Oops.Oh(ErrorCodeEnum.db1001);
-        
+
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
         dbColumnInfos.ForEach(m =>
