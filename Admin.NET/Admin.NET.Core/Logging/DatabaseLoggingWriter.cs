@@ -9,12 +9,14 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 {
     private readonly SqlSugarRepository<SysLogVis> _sysLogVisRep; // 访问日志
     private readonly SqlSugarRepository<SysLogOp> _sysLogOpRep;   // 操作日志
+    private readonly SysConfigService _sysConfigService; // 参数配置服务
 
     public DatabaseLoggingWriter(SqlSugarRepository<SysLogVis> sysLogVisRep,
-        SqlSugarRepository<SysLogOp> sysLogOpRep)
+        SqlSugarRepository<SysLogOp> sysLogOpRep, SysConfigService sysConfigService)
     {
         _sysLogVisRep = sysLogVisRep;
         _sysLogOpRep = sysLogOpRep;
+        _sysConfigService = sysConfigService;
     }
 
     public async void Write(LogMessage logMsg, bool flush)
@@ -47,7 +49,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
 
         if (loggingMonitor.actionName == "userInfo" || loggingMonitor.actionName == "logout")
         {
-            _sysLogVisRep.Insert(new SysLogVis
+            await _sysLogVisRep.InsertAsync(new SysLogVis
             {
                 ControllerName = loggingMonitor.controllerName,
                 ActionName = loggingMonitor.actionTypeName,
@@ -69,34 +71,40 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
         }
         else
         {
-            _sysLogOpRep.Insert(new SysLogOp
+            // 如果启用操作日志
+            var sysOpLogEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysOpLog);
+            if (sysOpLogEnabled)
             {
-                ControllerName = loggingMonitor.controllerName,
-                ActionName = loggingMonitor.actionTypeName,
-                DisplayTitle = loggingMonitor.displayTitle,
-                Status = loggingMonitor.returnInformation?.httpStatusCode,
-                RemoteIp = remoteIPv4,
-                Location = ipLocation,
-                Longitude = longitude,
-                Latitude = latitude,
-                Browser = loggingMonitor.userAgent,
-                Os = loggingMonitor.osDescription + " " + loggingMonitor.osArchitecture,
-                Elapsed = loggingMonitor.timeOperationElapsedMilliseconds,
-                LogDateTime = logMsg.LogDateTime,
-                Account = account,
-                RealName = realName,
-                HttpMethod = loggingMonitor.httpMethod,
-                RequestUrl = loggingMonitor.requestUrl,
-                RequestParam = (loggingMonitor.parameters == null || loggingMonitor.parameters.Count == 0) ? null : JSON.Serialize(loggingMonitor.parameters[0].value),
-                ReturnResult = loggingMonitor.returnInformation == null ? null : JSON.Serialize(loggingMonitor.returnInformation),
-                EventId = logMsg.EventId.Id,
-                ThreadId = logMsg.ThreadId,
-                TraceId = logMsg.TraceId,
-                Exception = loggingMonitor.exception == null ? null : JSON.Serialize(loggingMonitor.exception),
-                Message = logMsg.Message,
-                CreateUserId = string.IsNullOrWhiteSpace(userId) ? 0 : long.Parse(userId),
-                TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : long.Parse(tenantId)
-            });
+                await _sysLogOpRep.InsertAsync(new SysLogOp
+                {
+                    ControllerName = loggingMonitor.controllerName,
+                    ActionName = loggingMonitor.actionTypeName,
+                    DisplayTitle = loggingMonitor.displayTitle,
+                    Status = loggingMonitor.returnInformation?.httpStatusCode,
+                    RemoteIp = remoteIPv4,
+                    Location = ipLocation,
+                    Longitude = longitude,
+                    Latitude = latitude,
+                    Browser = loggingMonitor.userAgent,
+                    Os = loggingMonitor.osDescription + " " + loggingMonitor.osArchitecture,
+                    Elapsed = loggingMonitor.timeOperationElapsedMilliseconds,
+                    LogDateTime = logMsg.LogDateTime,
+                    Account = account,
+                    RealName = realName,
+                    HttpMethod = loggingMonitor.httpMethod,
+                    RequestUrl = loggingMonitor.requestUrl,
+                    RequestParam = (loggingMonitor.parameters == null || loggingMonitor.parameters.Count == 0) ? null : JSON.Serialize(loggingMonitor.parameters[0].value),
+                    ReturnResult = loggingMonitor.returnInformation == null ? null : JSON.Serialize(loggingMonitor.returnInformation),
+                    EventId = logMsg.EventId.Id,
+                    ThreadId = logMsg.ThreadId,
+                    TraceId = logMsg.TraceId,
+                    Exception = loggingMonitor.exception == null ? null : JSON.Serialize(loggingMonitor.exception),
+                    Message = logMsg.Message,
+                    CreateUserId = string.IsNullOrWhiteSpace(userId) ? 0 : long.Parse(userId),
+                    TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : long.Parse(tenantId)
+                });
+            }
+
         }
 
         // 若有异常时则发送邮件

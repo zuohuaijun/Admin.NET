@@ -225,7 +225,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         // 先删除该表已生成的菜单列表
         var templatePathList = GetTemplatePathList();
         List<string> targetPathList;
-        var zipPath = App.WebHostEnvironment.WebRootPath + $@"\CodeGen\{input.TableName}";
+        var zipPath = Path.Combine(App.WebHostEnvironment.WebRootPath, "CodeGen", input.TableName);
         if (input.GenerateType.StartsWith('1'))
         {
             targetPathList = GetZipPathList(input);
@@ -446,7 +446,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private static List<string> GetTemplatePathList(SysCodeGen input)
     {
-        var templatePath = App.WebHostEnvironment.WebRootPath + @"\Template\";
+        var templatePath = Path.Combine(App.WebHostEnvironment.WebRootPath, "Template");
         if (input.GenerateType.Substring(1, 1).Contains('1'))
             return new List<string>()
         {
@@ -530,7 +530,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private List<string> GetZipPathList(SysCodeGen input)
     {
-        var zipPath = App.WebHostEnvironment.WebRootPath + $@"\CodeGen\{input.TableName}";
+        var zipPath = Path.Combine(App.WebHostEnvironment.WebRootPath, "CodeGen", input.TableName);
 
         var backendPath = Path.Combine(zipPath, _codeGenOptions.BackendApplicationNamespace, "Service", input.TableName);
         var servicePath = Path.Combine(backendPath, input.TableName + "Service.cs");

@@ -42,6 +42,11 @@ public class CommonConst
     public const string SysTokenExpire = "sys_token_expire";
 
     /// <summary>
+    /// RefreshToken过期时间
+    /// </summary>
+    public const string SysRefreshTokenExpire = "sys_refresh_token_expire";
+
+    /// <summary>
     /// 单用户登录
     /// </summary>
     public const string SysSingleLogin = "sys_single_login";

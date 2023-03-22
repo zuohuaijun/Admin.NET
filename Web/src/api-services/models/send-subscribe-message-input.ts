@@ -36,4 +36,16 @@ export interface SendSubscribeMessageInput {
      * @memberof SendSubscribeMessageInput
      */
     data: { [key: string]: DataItem; };
+    /**
+     * 跳转小程序类型
+     * @type {string}
+     * @memberof SendSubscribeMessageInput
+     */
+    miniprogramState?: string | null;
+    /**
+     * 语言类型
+     * @type {string}
+     * @memberof SendSubscribeMessageInput
+     */
+    language?: string | null;
 }

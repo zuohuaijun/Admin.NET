@@ -12,7 +12,6 @@ public class SysAuthService : IDynamicApiController, ITransient
 {
     private readonly UserManager _userManager;
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
-    private readonly RefreshTokenOptions _refreshTokenOptions;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly SysMenuService _sysMenuService;
     private readonly SysOnlineUserService _sysOnlineUserService;
@@ -22,7 +21,6 @@ public class SysAuthService : IDynamicApiController, ITransient
 
     public SysAuthService(UserManager userManager,
         SqlSugarRepository<SysUser> sysUserRep,
-        IOptions<RefreshTokenOptions> refreshTokenOptions,
         IHttpContextAccessor httpContextAccessor,
         SysMenuService sysMenuService,
         SysOnlineUserService sysOnlineUserService,
@@ -33,7 +31,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         _userManager = userManager;
         _sysUserRep = sysUserRep;
         _httpContextAccessor = httpContextAccessor;
-        _refreshTokenOptions = refreshTokenOptions.Value;
         _sysMenuService = sysMenuService;
         _sysOnlineUserService = sysOnlineUserService;
         _sysConfigService = sysConfigService;
@@ -90,6 +87,9 @@ public class SysAuthService : IDynamicApiController, ITransient
         // 单用户登录
         await _sysOnlineUserService.SignleLogin(user.Id);
 
+        var tokenExpire = await _sysConfigService.GetTokenExpire();
+        var refreshTokenExpire = await _sysConfigService.GetRefreshTokenExpire();
+
         // 生成Token令牌
         var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
         {
@@ -100,10 +100,10 @@ public class SysAuthService : IDynamicApiController, ITransient
             { ClaimConst.AccountType, user.AccountType },
             { ClaimConst.OrgId, user.OrgId },
             { ClaimConst.OrgName, user.SysOrg?.Name },
-        });
+        }, tokenExpire);
 
         // 生成刷新Token令牌
-        var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
+        var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, refreshTokenExpire);
 
         // 设置响应报文头
         _httpContextAccessor.HttpContext.SetTokensOfResponseHeaders(accessToken, refreshToken);
@@ -127,7 +127,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
         if (user == null)
-            throw Oops.Oh(ErrorCodeEnum.D1011);
+            throw Oops.Oh(ErrorCodeEnum.D1011).StatusCode(401);
 
         // 获取机构
         var org = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysOrg>>().GetFirstAsync(u => u.Id == user.OrgId);
@@ -158,7 +158,8 @@ public class SysAuthService : IDynamicApiController, ITransient
     [DisplayName("获取刷新Token")]
     public string GetRefreshToken(string accessToken)
     {
-        return JWTEncryption.GenerateRefreshToken(accessToken, _refreshTokenOptions.ExpiredTime);
+        var refreshTokenExpire = _sysConfigService.GetRefreshTokenExpire().GetAwaiter().GetResult();
+        return JWTEncryption.GenerateRefreshToken(accessToken, refreshTokenExpire);
     }
 
     /// <summary>
@@ -184,8 +185,20 @@ public class SysAuthService : IDynamicApiController, ITransient
     {
         var secondVerEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSecondVer);
         var captchaEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha);
+        return new { SecondVerEnabled = secondVerEnabled, CaptchaEnabled = captchaEnabled };
+    }
+
+    /// <summary>
+    /// 获取用户配置
+    /// </summary>
+    /// <returns></returns>
+    [SuppressMonitor]
+    [DisplayName("获取用户配置")]
+    public async Task<dynamic> GetUserConfig()
+    {
+        //返回用户和通用配置
         var watermarkEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysWatermark);
-        return new { SecondVerEnabled = secondVerEnabled, CaptchaEnabled = captchaEnabled, WatermarkEnabled = watermarkEnabled };
+        return new { WatermarkEnabled = watermarkEnabled };
     }
 
     /// <summary>

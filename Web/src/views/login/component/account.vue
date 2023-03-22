@@ -68,13 +68,9 @@ import { useRoute, useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
-import { Local, Session } from '/@/utils/storage';
+import { Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
-
-import { storeToRefs } from 'pinia';
-import { useThemeConfig } from '/@/stores/themeConfig';
-import Watermark from '/@/utils/watermark';
 
 import { clearTokens, feature, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/api';
@@ -83,8 +79,6 @@ import { SysAuthApi } from '/@/api-services/api';
 import verifyImg from '/@/assets/logo-mini.svg';
 const DragVerifyImgRotate = defineAsyncComponent(() => import('/@/components/dragVerify/dragVerifyImgRotate.vue'));
 
-const storesThemeConfig = useThemeConfig();
-const { themeConfig } = storeToRefs(storesThemeConfig);
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
@@ -112,7 +106,6 @@ const state = reactive({
 	rotateVerifyImg: verifyImg,
 	secondVerEnabled: true,
 	captchaEnabled: true,
-	watermarkEnabled: true,
 	isPassRotate: false,
 });
 onMounted(async () => {
@@ -120,26 +113,9 @@ onMounted(async () => {
 	var res1 = await getAPI(SysAuthApi).apiSysAuthLoginConfigGet();
 	state.secondVerEnabled = res1.data.result.secondVerEnabled ?? true;
 	state.captchaEnabled = res1.data.result.captchaEnabled ?? true;
-	state.watermarkEnabled = res1.data.result.watermarkEnabled ?? true;
 
 	getCaptcha();
 });
-// 获取布局配置信息
-const getThemeConfig = computed(() => {
-	return themeConfig.value;
-});
-// 存储布局配置
-const setLocalThemeConfig = () => {
-	// 是否显示水印
-	if (!state.watermarkEnabled) return;
-
-	// getThemeConfig.value.watermarkText = state.ruleForm.account;
-	getThemeConfig.value.isWatermark = true;
-	Watermark.set(getThemeConfig.value.watermarkText);
-
-	Local.remove('themeConfig');
-	Local.set('themeConfig', getThemeConfig.value);
-};
 // 获取验证码
 const getCaptcha = async () => {
 	state.ruleForm.code = '';
@@ -191,8 +167,6 @@ const signInSuccess = (isNoPower: boolean | undefined) => {
 		} else {
 			router.push('/');
 		}
-		// // 设置水印
-		// setLocalThemeConfig();
 
 		// 登录成功提示
 		const signInText = t('message.signInText');
