@@ -18,15 +18,16 @@ public class ElasticSearchLoggingWriter : IDatabaseLoggingWriter
 
     public async void Write(LogMessage logMsg, bool flush)
     {
-        // 如果启用操作日志
+        // 是否启用操作日志
         var sysOpLogEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysOpLog);
         if (!sysOpLogEnabled) return;
 
         var jsonStr = logMsg.Context.Get("loggingMonitor").ToString();
         var loggingMonitor = JSON.Deserialize<dynamic>(jsonStr);
 
-        // 登录登出日志，不记录
-        if (loggingMonitor.actionName == "userInfo" || loggingMonitor.actionName == "logout") return;
+        // 不记录登录登出日志
+        if (loggingMonitor.actionName == "userInfo" || loggingMonitor.actionName == "logout")
+            return;
 
         await _esClient.IndexDocumentAsync(jsonStr);
     }

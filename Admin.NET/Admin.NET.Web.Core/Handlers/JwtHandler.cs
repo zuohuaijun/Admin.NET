@@ -19,7 +19,7 @@ namespace Admin.NET.Web.Core
         /// <returns></returns>
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
-            // 读取参数
+            // 获取Token过期时间
             var serviceProvider = context.GetCurrentHttpContext().RequestServices;
             var sysConfigService = serviceProvider.GetService<SysConfigService>();
             var tokenExpire = await sysConfigService.GetTokenExpire();

@@ -71,7 +71,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
         }
         else
         {
-            // 如果启用操作日志
+            // 是否启用操作日志
             var sysOpLogEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysOpLog);
             if (sysOpLogEnabled)
             {
@@ -104,7 +104,6 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                     TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : long.Parse(tenantId)
                 });
             }
-
         }
 
         // 若有异常时则发送邮件
