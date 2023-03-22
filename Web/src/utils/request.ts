@@ -120,7 +120,13 @@ service.interceptors.response.use(
 		} else if (serve.code === undefined) {
 			return Promise.resolve(res);
 		} else if (serve.code !== 200) {
-			var message = JSON.stringify(serve.message);
+			var message;
+			// 判断 serve.message 是否为JSON对象
+			if (serve.message && typeof serve.message == 'object') {
+				message = JSON.stringify(serve.message);
+			} else {
+				message = serve.message;
+			}
 			ElMessage.error(message);
 			throw new Error(message);
 		}
