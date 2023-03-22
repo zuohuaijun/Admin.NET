@@ -14,7 +14,7 @@ public class BasePageInput
     /// <summary>
     /// 页码容量
     /// </summary>
-    [Range(0, 100, ErrorMessage = "页码容量超过最大限制")]
+    //[Range(0, 100, ErrorMessage = "页码容量超过最大限制")]
     [DataValidation(ValidationTypes.Numeric)]
     public virtual int PageSize { get; set; } = 20;
 
