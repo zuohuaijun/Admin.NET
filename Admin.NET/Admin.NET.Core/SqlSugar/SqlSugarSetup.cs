@@ -3,16 +3,18 @@ namespace Admin.NET.Core;
 public static class SqlSugarSetup
 {
     /// <summary>
-    /// Sqlsugar 上下文初始化
+    /// 是否已初始化
+    /// </summary>
+    public static bool IsInit { get; private set; } = false;
+
+    /// <summary>
+    /// SqlSugar 上下文初始化
     /// </summary>
     /// <param name="services"></param>
     public static void AddSqlSugar(this IServiceCollection services)
     {
         var dbOptions = App.GetOptions<DbConnectionOptions>();
-        dbOptions.ConnectionConfigs.ForEach(config =>
-        {
-            SetDbConfig(config);
-        });
+        dbOptions.ConnectionConfigs.ForEach(SetDbConfig);
 
         SqlSugarScope sqlSugar = new(dbOptions.ConnectionConfigs.Adapt<List<ConnectionConfig>>(), db =>
         {
@@ -33,6 +35,8 @@ public static class SqlSugarSetup
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
         services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 事务与工作单元注册
+
+        IsInit = true;
     }
 
     /// <summary>
@@ -89,6 +93,8 @@ public static class SqlSugarSetup
         // 打印SQL语句
         db.Aop.OnLogExecuting = (sql, pars) =>
         {
+            if (!IsInit) return;
+
             var originColor = Console.ForegroundColor;
             if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -100,7 +106,7 @@ public static class SqlSugarSetup
             Console.ForegroundColor = originColor;
             App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
         };
-        db.Aop.OnError = (ex) =>
+        db.Aop.OnError = ex =>
         {
             if (ex.Parametres == null) return;
             var originColor = Console.ForegroundColor;
@@ -114,6 +120,19 @@ public static class SqlSugarSetup
         // 数据审计
         db.Aop.DataExecuting = (oldValue, entityInfo) =>
         {
+            // 演示环境判断
+            if (IsInit && entityInfo.EntityColumnInfo.IsPrimarykey)
+            {
+                if (entityInfo.EntityName != nameof(SysJobDetail) && entityInfo.EntityName != nameof(SysJobTrigger) &&
+                    entityInfo.EntityName != nameof(SysLogOp) && entityInfo.EntityName != nameof(SysLogVis) &&
+                    entityInfo.EntityName != nameof(SysOnlineUser))
+                {
+                    var isDemoEnv = App.GetService<SysConfigService>().GetConfigValue<bool>(CommonConst.SysDemoEnv).GetAwaiter().GetResult();
+                    if (isDemoEnv)
+                        throw Oops.Oh(ErrorCodeEnum.D1200);
+                }
+            }
+
             if (entityInfo.OperationType == DataFilterType.InsertByObject)
             {
                 // 主键(long类型)且没有值的---赋值雪花Id
@@ -221,7 +240,7 @@ public static class SqlSugarSetup
             dbProvider.DbMaintenance.CreateDatabase();
 
         // 获取所有实体表-初始化表结构
-        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false));
+        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false)).ToList();
         if (!entityTypes.Any()) return;
         foreach (var entityType in entityTypes)
         {
@@ -240,7 +259,7 @@ public static class SqlSugarSetup
 
         // 获取所有种子配置-初始化数据
         var seedDataTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(ISqlSugarEntitySeedData<>))));
+            && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(ISqlSugarEntitySeedData<>)))).ToList();
         if (!seedDataTypes.Any()) return;
         foreach (var seedType in seedDataTypes)
         {
@@ -276,19 +295,19 @@ public static class SqlSugarSetup
     /// <summary>
     /// 初始化租户业务数据库
     /// </summary>
-    /// <param name="itenant"></param>
+    /// <param name="iTenant"></param>
     /// <param name="config"></param>
-    public static void InitTenantDatabase(ITenant itenant, DbConnectionConfig config)
+    public static void InitTenantDatabase(ITenant iTenant, DbConnectionConfig config)
     {
         SetDbConfig(config);
 
-        itenant.AddConnection(config);
-        var db = itenant.GetConnectionScope(config.ConfigId);
+        iTenant.AddConnection(config);
+        var db = iTenant.GetConnectionScope(config.ConfigId);
         db.DbMaintenance.CreateDatabase();
 
         // 获取所有实体表-初始化租户业务表
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(SystemTableAttribute), false));
+            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(SystemTableAttribute), false)).ToList();
         if (!entityTypes.Any()) return;
         foreach (var entityType in entityTypes)
         {
