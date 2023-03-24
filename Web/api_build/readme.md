@@ -31,4 +31,4 @@
 
 - 启动 API 端服务，确保 http://localhost:5005/ 可以访问
 - Windows：运行 `build.bat`
-- Linux / Mac：还没有，等大佬补充
+- Linux / Mac：运行`.\build.sh`
