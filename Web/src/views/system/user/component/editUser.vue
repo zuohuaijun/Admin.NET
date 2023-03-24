@@ -63,7 +63,7 @@
 								<el-form-item label="所属机构" prop="orgId" :rules="[{ required: true, message: '所属机构不能为空', trigger: 'blur' }]">
 									<el-cascader
 										:options="props.orgData"
-										:props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'name' }"
+										:props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'name', expandTrigger: 'hover' }"
 										placeholder="所属机构"
 										clearable
 										class="w100"
@@ -111,7 +111,7 @@
 												</template>
 												<el-cascader
 													:options="props.orgData"
-													:props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'name' }"
+													:props="{ checkStrictly: true, emitPath: false, value: 'id', label: 'name', expandTrigger: 'hover' }"
 													placeholder="机构组织"
 													clearable
 													class="w100"

@@ -114,8 +114,8 @@ public class SysRegionService : IDynamicApiController, ITransient
     {
         await _sysRegionRep.DeleteAsync(u => u.Id > 0);
 
-        // 国家统计局行政区域2021年
-        var url = "http://www.stats.gov.cn/tjsj/tjbz/tjyqhdmhcxhfdm/2021/index.html";
+        // 国家统计局行政区域2022年
+        var url = "http://www.stats.gov.cn/sj/tjbz/tjyqhdmhcxhfdm/2022/index.html";
         var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
         var dom = await context.OpenAsync(url);
 
