@@ -14,7 +14,7 @@ fi
 
 echo "================================ 开始生成 api-services ================================"
 
-java -jar "${currPath}"/swagger-codegen-cli.jar generate -i http://localhost:5000/swagger/All%20Groups/swagger.json -l typescript-axios -o "${apiServicesPath}"
+java -jar "${currPath}"/swagger-codegen-cli.jar generate -i http://localhost:5005/swagger/All%20Groups/swagger.json -l typescript-axios -o "${apiServicesPath}"
 
 rm -rf "${apiServicesPath}".swagger-codegen
 rm -f "${apiServicesPath}".gitignore
