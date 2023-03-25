@@ -97,14 +97,16 @@
 				</el-card>
 			</el-col>
 		</el-row>
-		<el-card shadow="hover" header="程序集信息" style="margin-top: 8px">
-			<div v-for="d in state.assemblyInfo" :key="d.name" style="display: inline-flex; margin: 4px">
-				<el-tag round>
-					<div style="display: inline-flex">
-						<div style="">{{ d.name }}</div>
-						<div style="font-size: 9px; margin-left: 3px">{{ d.version }}</div>
-					</div>
-				</el-tag>
+		<el-card shadow="hover" header="程序集信息" style="margin-top: 8px;--el-card-padding:10px;">
+			<div style="overflow-y: auto;padding-bottom: 10px;">
+				<div v-for="d in state.assemblyInfo" :key="d.name" style="display: inline-flex; margin: 4px;">
+					<el-tag round>
+						<div style="display: inline-flex">
+							<div style="">{{ d.name }}</div>
+							<div style="font-size: 9px; margin-left: 3px">{{ d.version }}</div>
+						</div>
+					</el-tag>
+				</div>
 			</div>
 		</el-card>
 		<el-card shadow="hover" header="磁盘信息" style="margin-top: 8px">
@@ -208,4 +210,5 @@ onDeactivated(() => {
 .sysInfo_td {
 	border-bottom: 1px solid #e8e8e8;
 }
+
 </style>
