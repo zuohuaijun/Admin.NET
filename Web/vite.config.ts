@@ -48,6 +48,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 					manualChunks: {
 						vue: ['vue', 'vue-router', 'pinia'],
 						echarts: ['echarts'],
+						monacoEditor: ['monaco-editor'],
 					},
 				},
 			},
