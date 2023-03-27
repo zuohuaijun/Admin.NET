@@ -72,6 +72,10 @@ const props = defineProps({
 		type: Array<TableSearchType>,
 		default: () => [],
 	},
+	reset: {
+		type: Object,
+		default: () => {},
+	},
 	param: {
 		type: Object,
 		default: () => {},
@@ -79,7 +83,7 @@ const props = defineProps({
 });
 
 // 定义子组件向父组件传值/事件
-const emit = defineEmits(['search']);
+const emit = defineEmits(['search', 'reset']);
 
 // 定义变量内容
 const tableSearchRef = ref<FormInstance>();
@@ -115,6 +119,7 @@ const onSearch = (formEl: FormInstance | undefined) => {
 const onReset = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
 	formEl.resetFields();
+    emit('reset', state.form);
 	emit('search', state.form);
 };
 // 初始化 form 字段，取自父组件 search.prop
