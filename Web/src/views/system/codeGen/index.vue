@@ -30,11 +30,11 @@
 				<el-table-column prop="authorName" label="作者姓名" show-overflow-tooltip />
 				<el-table-column prop="generateType" label="生成方式" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag v-if="scope.row.generateType === 100"> 下载压缩包 </el-tag>
-						<el-tag v-else-if="scope.row.generateType === 111"> 下载压缩包(前端) </el-tag>
-						<el-tag v-else-if="scope.row.generateType === 121"> 下载压缩包(后端) </el-tag>
-						<el-tag v-else-if="scope.row.generateType === 211"> 生成到本项目(前端) </el-tag>
-						<el-tag v-else-if="scope.row.generateType === 221"> 生成到本项目(后端) </el-tag>
+						<el-tag v-if="scope.row.generateType == 100"> 下载压缩包 </el-tag>
+						<el-tag v-else-if="scope.row.generateType == 111"> 下载压缩包(前端) </el-tag>
+						<el-tag v-else-if="scope.row.generateType == 121"> 下载压缩包(后端) </el-tag>
+						<el-tag v-else-if="scope.row.generateType == 211"> 生成到本项目(前端) </el-tag>
+						<el-tag v-else-if="scope.row.generateType == 221"> 生成到本项目(后端) </el-tag>
 						<el-tag type="danger" v-else> 生成到本项目 </el-tag>
 					</template>
 				</el-table-column>

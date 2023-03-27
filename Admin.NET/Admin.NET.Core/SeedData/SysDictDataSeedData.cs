@@ -47,8 +47,12 @@ public class SysDictDataSeedData : ISqlSugarEntitySeedData<SysDictData>
             new SysDictData{ Id=1300000000309, DictTypeId=1300000000103, Value="Guid", Code="Guid", OrderNo=1, Remark="Guid", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=1300000000310, DictTypeId=1300000000103, Value="DateTimeOffset", Code="DateTimeOffset", OrderNo=1, Remark="DateTimeOffset", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
-            new SysDictData{ Id=1300000000401, DictTypeId=1300000000104, Value="下载压缩包", Code="1", OrderNo=1, Remark="下载压缩包", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-            new SysDictData{ Id=1300000000402, DictTypeId=1300000000104, Value="生成到本项目", Code="2", OrderNo=1, Remark="生成到本项目", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000401, DictTypeId=1300000000104, Value="下载压缩包", Code="100", OrderNo=1, Remark="下载压缩包", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000402, DictTypeId=1300000000104, Value="生成到本项目", Code="2", OrderNo=4, Remark="生成到本项目", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000403, DictTypeId=1300000000104, Value="下载压缩包(前端)", Code="111", OrderNo=2, Remark="下载压缩包(前端)", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000404, DictTypeId=1300000000104, Value="下载压缩包(后端)", Code="121", OrderNo=3, Remark="下载压缩包(后端)", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000405, DictTypeId=1300000000104, Value="生成到本项目(前端)", Code="211", OrderNo=5, Remark="生成到本项目(前端)", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000406, DictTypeId=1300000000104, Value="生成到本项目(后端)", Code="221", OrderNo=6, Remark="生成到本项目(后端)", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
             new SysDictData{ Id=1300000000501, DictTypeId=1300000000105, Value="EntityBaseId【基础实体Id】", Code="EntityBaseId", OrderNo=1, Remark="【基础实体Id】", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=1300000000502, DictTypeId=1300000000105, Value="EntityBase【基础实体】", Code="EntityBase", OrderNo=1, Remark="【基础实体】", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },

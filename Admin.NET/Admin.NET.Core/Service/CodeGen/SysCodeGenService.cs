@@ -223,7 +223,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             input.GenerateType = "200";
 
         // 先删除该表已生成的菜单列表
-        var templatePathList = GetTemplatePathList();
+        var templatePathList = GetTemplatePathList(input);
         List<string> targetPathList;
         var zipPath = Path.Combine(App.WebHostEnvironment.WebRootPath, "CodeGen", input.TableName);
         if (input.GenerateType.StartsWith('1'))
@@ -282,7 +282,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             if (File.Exists(downloadPath))
                 File.Delete(downloadPath);
             ZipFile.CreateFromDirectory(zipPath, downloadPath);
-            return new { url = $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Host}/sysCodeGen/downCode/{input.TableName}.zip" };
+            return new { url = $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Host}/CodeGen/{input.TableName}.zip" };
         }
     }
 
