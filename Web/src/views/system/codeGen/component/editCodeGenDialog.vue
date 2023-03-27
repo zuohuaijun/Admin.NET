@@ -85,7 +85,7 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="生成方式" prop="generateType">
 							<el-select v-model="state.ruleForm.generateType" filterable class="w100">
-								<el-option v-for="item in state.codeGenTypeList" :key="item.value" :label="item.label" :value="item.value" />
+								<el-option v-for="item in state.codeGenTypeList" :key="item.value" :label="item.value" :value="item.code" />
 							</el-select>
 						</el-form-item>
 					</el-col>
