@@ -14,14 +14,17 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     private readonly SqlSugarRepository<SysOnlineUser> _sysOnlineUerRep;
     private readonly SysMessageService _sysMessageService;
     private readonly IHubContext<OnlineUserHub, IOnlineUserHub> _onlineUserHubContext;
+    private readonly SysCacheService _sysCacheService;
 
     public OnlineUserHub(SqlSugarRepository<SysOnlineUser> sysOnlineUerRep,
         SysMessageService sysMessageService,
-        IHubContext<OnlineUserHub, IOnlineUserHub> onlineUserHubContext)
+        IHubContext<OnlineUserHub, IOnlineUserHub> onlineUserHubContext,
+        SysCacheService sysCacheService)
     {
         _sysOnlineUerRep = sysOnlineUerRep;
         _sysMessageService = sysMessageService;
         _onlineUserHubContext = onlineUserHubContext;
+        _sysCacheService = sysCacheService;
     }
 
     /// <summary>
@@ -49,7 +52,8 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
             TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : Convert.ToInt64(tenantId),
         };
         await _sysOnlineUerRep.InsertAsync(user);
-
+        //缓存
+        _sysCacheService.Set(CacheConst.KeyOnlineUser + user.UserId, user);
         // 以租户Id分组方便区分
         var groupName = $"{GROUP_ONLINE}{user.TenantId}";
         await _onlineUserHubContext.Groups.AddToGroupAsync(Context.ConnectionId, groupName);
@@ -77,6 +81,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
         if (user == null) return;
 
         await _sysOnlineUerRep.DeleteAsync(u => u.Id == user.Id);
+        _sysCacheService.Remove(CacheConst.KeyOnlineUser + user.UserId);
 
         // 通知当前组用户变动
         var userList = await _sysOnlineUerRep.AsQueryable().Filter("", true)
