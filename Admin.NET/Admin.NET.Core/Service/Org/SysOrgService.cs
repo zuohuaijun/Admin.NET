@@ -149,7 +149,19 @@ public class SysOrgService : IDynamicApiController, ITransient
             if (dataScopes.Count < 1 || !dataScopes.Contains(sysOrg.Id))
                 throw Oops.Oh(ErrorCodeEnum.D2003);
         }
-
+        
+        // 若机构为租户默认机构，禁止删除
+        var isTenantOrg = await _sysOrgRep.ChangeRepository<SqlSugarRepository<SysTenant>>()
+            .IsAnyAsync(u => u.OrgId == input.Id);
+        if (isTenantOrg)
+            throw Oops.Oh(ErrorCodeEnum.D2008);
+        
+        // 若机构有用户则禁止删除
+        var orgHasEmp = await _sysOrgRep.ChangeRepository<SqlSugarRepository<SysUser>>()
+            .IsAnyAsync(u => u.OrgId == input.Id);
+        if (orgHasEmp)
+            throw Oops.Oh(ErrorCodeEnum.D2004);
+        
         // 若扩展机构有用户则禁止删除
         var hasExtOrgEmp = await _sysUserExtOrgService.HasUserOrg(sysOrg.Id);
         if (hasExtOrgEmp)
@@ -158,6 +170,12 @@ public class SysOrgService : IDynamicApiController, ITransient
         // 若子机构有用户则禁止删除
         var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, input.Id, true);
         var orgIdList = orgTreeList.Select(u => u.Id).ToList();
+        
+        // 若子机构有用户则禁止删除
+        var cOrgHasEmp = await _sysOrgRep.ChangeRepository<SqlSugarRepository<SysUser>>()
+            .IsAnyAsync(u => orgIdList.Contains(u.OrgId));
+        if (cOrgHasEmp)
+            throw Oops.Oh(ErrorCodeEnum.D2007);
 
         // 级联删除机构子节点
         await _sysOrgRep.DeleteAsync(u => orgIdList.Contains(u.Id));
