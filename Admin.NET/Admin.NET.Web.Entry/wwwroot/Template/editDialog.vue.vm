@@ -49,7 +49,7 @@
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
 							@:<el-select clearable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-								@:<el-option v-for="(item,index) in  getEdit@(@column.LowerColumnName)Data"  :key="index" :value="item.value" :label="item.label">{{ item.label }}</el-option>
+								@:<el-option v-for="(item,index) in  getEdit@(@column.LowerColumnName)Data"  :key="index" :value="item.code" :label="item.value"></el-option>
 								@:
 							</el-select>
 							@:
