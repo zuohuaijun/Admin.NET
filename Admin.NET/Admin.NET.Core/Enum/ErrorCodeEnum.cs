@@ -210,6 +210,18 @@ public enum ErrorCodeEnum
     /// </summary>
     [ErrorCodeItemMetadata("只能增加下级机构")]
     D2006,
+    
+    /// <summary>
+    /// 下级机构下有用户禁止删除
+    /// </summary>
+    [ErrorCodeItemMetadata("下级机构下有用户禁止删除")]
+    D2007,
+    
+    /// <summary>
+    /// 租户默认机构禁止删除
+    /// </summary>
+    [ErrorCodeItemMetadata("租户默认机构禁止删除")]
+    D2008,
 
     /// <summary>
     /// 字典类型不存在
