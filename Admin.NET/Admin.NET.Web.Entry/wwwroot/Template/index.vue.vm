@@ -47,16 +47,18 @@
         </el-form-item>
         }
         }
-
         @:<el-form-item>
-          @:<el-button icon="ele-Refresh" @@click="() => queryParams = {}"> 重置 </el-button>
-          @:<el-button type="primary"  icon="ele-Search" @@click="handleQuery" v-auth="'@(@Model.LowerClassName):page'"> 查询 </el-button>
+          @:<el-button-group>
+            @:<el-button type="primary"  icon="ele-Search" @@click="handleQuery" v-auth="'@(@Model.LowerClassName):page'"> 查询 </el-button>
+            @:<el-button icon="ele-Refresh" @@click="() => queryParams = {}"> 重置 </el-button>
+            @:
+          </el-button-group>
           @:
         </el-form-item>
         @:<el-form-item>
           @:<el-button type="primary" icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.LowerClassName):add'"> 新增 </el-button>
+          @:
         </el-form-item>
-
         @:
       </el-form>
       }
@@ -69,7 +71,7 @@
 				tooltip-effect="light"
 				row-key="id"
 				border="">
-        <el-table-column type="index" label="序号" width="55" align="center" />
+        <el-table-column type="index" label="序号" width="55" align="center" fixed=""/>
         @foreach (var column in Model.TableField){
         if(@column.WhetherTable == "Y"){
         if(@column.EffectType == "Upload"||@column.EffectType == "fk"||@column.EffectType == "Switch"||@column.EffectType == "ConstSelector"){
