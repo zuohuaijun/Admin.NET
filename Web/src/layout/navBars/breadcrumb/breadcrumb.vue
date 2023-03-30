@@ -55,9 +55,11 @@ const isShowBreadcrumb = computed(() => {
 });
 // 面包屑点击时
 const onBreadcrumbClick = (v: RouteItem) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
 	const { redirect, path } = v;
 	if (redirect) router.push(redirect);
-	else router.push(path);
+	// 如果没有指定重定向，则不跳转
+	// else if (path) router.push(path);
 };
 // 展开/收起左侧菜单点击
 const onThemeConfigChange = () => {
