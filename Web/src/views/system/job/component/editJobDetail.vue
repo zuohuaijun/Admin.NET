@@ -11,14 +11,23 @@
 				<el-tab-pane label="作业信息">
 					<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="130px">
 						<el-row :gutter="35">
-							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="作业编号" prop="jobId" :rules="[{ required: true, message: '作业编号不能为空', trigger: 'blur' }]">
 									<el-input v-model="state.ruleForm.jobId" placeholder="作业编号" :disabled="isEdit" clearable />
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="组名称" prop="groupName" :rules="[{ required: true, message: '组名称不能为空', trigger: 'blur' }]">
 									<el-input v-model="state.ruleForm.groupName" placeholder="组名称" clearable />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+								<el-form-item label="创建类型" prop="createType">
+									<el-radio-group v-model="state.ruleForm.createType" :disabled="isEdit">
+										<el-radio :label="JobCreateTypeEnum.NUMBER_0" v-show="isEdit">内置</el-radio>
+										<el-radio :label="JobCreateTypeEnum.NUMBER_1">脚本</el-radio>
+										<el-radio :label="JobCreateTypeEnum.NUMBER_2">Http请求</el-radio>
+									</el-radio-group>
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -29,7 +38,7 @@
 									</el-radio-group>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-show="!isEdit">
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-show="!isEdit && !isHttpCreateType">
 								<el-form-item prop="includeAnnotations">
 									<template v-slot:label>
 										<div>
@@ -46,19 +55,39 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-								<el-form-item label="额外数据" prop="properties">
-									<el-input v-model="state.ruleForm.properties" placeholder="额外数据" clearable type="textarea" />
+								<el-form-item label="描述信息" prop="description">
+									<el-input v-model="state.ruleForm.description" placeholder="描述信息" clearable type="textarea" :autosize="{ minRows: 1, maxRows: 3 }" />
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-								<el-form-item label="描述信息" prop="description">
-									<el-input v-model="state.ruleForm.description" placeholder="描述信息" clearable type="textarea" />
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="!isHttpCreateType">
+								<el-form-item label="额外数据" prop="properties">
+									<el-input v-model="state.ruleForm.properties" placeholder="额外数据" clearable type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="isHttpCreateType">
+								<el-form-item label="请求地址" prop="requestUri">
+									<el-input v-model="state.httpJobMessage.requestUri" placeholder="请求地址" clearable />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="isHttpCreateType">
+								<el-form-item label="请求方法" prop="httpMethod">
+									<el-radio-group v-model="state.httpJobMessage.httpMethod">
+										<el-radio :label="httpMethodDef.get">Get</el-radio>
+										<el-radio :label="httpMethodDef.post">Post</el-radio>
+										<el-radio :label="httpMethodDef.put">Put</el-radio>
+										<el-radio :label="httpMethodDef.delete">Delete</el-radio>
+									</el-radio-group>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="isHttpCreateType">
+								<el-form-item label="请求报文体" prop="body">
+									<el-input v-model="state.httpJobMessage.body" placeholder="请求报文体" clearable type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" />
 								</el-form-item>
 							</el-col>
 						</el-row>
 					</el-form>
 				</el-tab-pane>
-				<el-tab-pane label="脚本代码" :disabled="!state.ruleForm.createFromScript">
+				<el-tab-pane label="脚本代码" :disabled="!isScriptCreateType">
 					<div ref="monacoEditorRef" style="width: 100%; height: 500px"></div>
 				</el-tab-pane>
 			</el-tabs>
@@ -80,7 +109,16 @@ import { JobScriptCode } from './JobScriptCode';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysJobApi } from '/@/api-services/api';
-import { UpdateJobDetailInput } from '/@/api-services/models';
+import { JobCreateTypeEnum, UpdateJobDetailInput } from '/@/api-services/models';
+
+// HttpMethod 定义，来源后端 HttpMethod 对象的序列化
+// 下面定义内容【不要】加空格，否则 getHttpJobMessage 中 JSON.stringify(httpJobMessageNet.HttpMethod) 后无法匹配
+const httpMethodDef = {
+	get: '{"Method":"GET"}',
+	post: '{"Method":"POST"}',
+	put: '{"Method":"PUT"}',
+	delete: '{"Method":"DELETE"}',
+};
 
 const props = defineProps({
 	title: String,
@@ -93,11 +131,22 @@ const state = reactive({
 	selectedTabName: '0', // 选中的 tab 页
 	ruleForm: {} as UpdateJobDetailInput,
 	monacoEditor: null as any,
+	httpJobMessage: { requestUri: '', httpMethod: httpMethodDef.get, body: '' } as HttpJobMessage,
 });
 
 // 是否编辑状态
 const isEdit = computed(() => {
 	return state.ruleForm.id != undefined && state.ruleForm.id > 0;
+});
+
+// 是否脚本创建类型
+const isScriptCreateType = computed(() => {
+	return state.ruleForm.createType === JobCreateTypeEnum.NUMBER_1;
+});
+
+// 是否Http请求创建类型
+const isHttpCreateType = computed(() => {
+	return state.ruleForm.createType === JobCreateTypeEnum.NUMBER_2;
 });
 
 // 初始化monacoEditor对象
@@ -135,6 +184,11 @@ const openDialog = (row: any) => {
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	state.isShowDialog = true;
 
+	// Http请求
+	if (state.ruleForm.createType === JobCreateTypeEnum.NUMBER_2) {
+		state.httpJobMessage = getHttpJobMessage(state.ruleForm.properties + '');
+	}
+
 	// 延迟拿值防止取不到
 	setTimeout(() => {
 		if (monacoEditor == null) initMonacoEditor();
@@ -157,7 +211,29 @@ const cancel = () => {
 const submit = () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
-		state.ruleForm.scriptCode = monacoEditor.getValue();
+
+		// 脚本创建类型
+		if (state.ruleForm.createType === JobCreateTypeEnum.NUMBER_1) {
+			state.ruleForm.scriptCode = monacoEditor.getValue();
+		} else {
+			state.ruleForm.scriptCode = '';
+		}
+
+		// Http请求创建类型
+		if (state.ruleForm.createType === JobCreateTypeEnum.NUMBER_2) {
+			// 将 httpJobMessage 重新封装，按后端 HttpJob 序列化要求，字段要大写开头
+			// HttpJob 约定读取属性为“HttpJob”的值
+			const httpJobPropValue = JSON.stringify({
+				RequestUri: state.httpJobMessage.requestUri,
+				HttpMethod: JSON.parse(state.httpJobMessage.httpMethod + ''),
+				Body: state.httpJobMessage.body,
+				ClientName: 'HttpJob',
+				EnsureSuccessStatusCode: true,
+			});
+			const prop = { HttpJob: httpJobPropValue };
+			state.ruleForm.properties = JSON.stringify(prop);
+		}
+
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 			await getAPI(SysJobApi).apiSysJobUpdateJobDetailPost(state.ruleForm);
 		} else {
@@ -167,6 +243,18 @@ const submit = () => {
 	});
 };
 
+// 根据任务属性获取 HttpJobMessage
+const getHttpJobMessage = (properties: string): HttpJobMessage => {
+	const propData = JSON.parse(properties);
+	const httpJobMessageNet = JSON.parse(propData['HttpJob']); // 后端大写开头的 HttpJobMessage
+
+	return {
+		requestUri: httpJobMessageNet.RequestUri,
+		httpMethod: JSON.stringify(httpJobMessageNet.HttpMethod),
+		body: httpJobMessageNet.Body,
+	};
+};
+
 // 导出对象
-defineExpose({ openDialog });
+defineExpose({ httpMethodDef, openDialog, getHttpJobMessage });
 </script>

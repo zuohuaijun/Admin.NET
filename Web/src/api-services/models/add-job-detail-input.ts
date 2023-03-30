@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { JobCreateTypeEnum } from './job-create-type-enum';
 /**
  * 
  * @export
@@ -72,11 +73,11 @@ export interface AddJobDetailInput {
      */
     updatedTime?: Date | null;
     /**
-     * 是否为脚本创建的作业
-     * @type {boolean}
+     * 
+     * @type {JobCreateTypeEnum}
      * @memberof AddJobDetailInput
      */
-    createFromScript?: boolean;
+    createType?: JobCreateTypeEnum;
     /**
      * 脚本代码
      * @type {string}

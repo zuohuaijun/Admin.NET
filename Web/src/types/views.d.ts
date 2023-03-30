@@ -342,3 +342,10 @@ declare type TableDemoState = {
 		defaultSort: EmptyObjectType;
 	};
 };
+
+// HTTP 作业消息（字段定义来源 Furion 的 HttpJobMessage）
+interface HttpJobMessage {
+	requestUri?: string | null;
+	httpMethod?: string | null;
+	body?: string | null;
+}

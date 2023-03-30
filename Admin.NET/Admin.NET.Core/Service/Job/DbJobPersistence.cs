@@ -65,11 +65,23 @@ public class DbJobPersistence : IJobPersistence
         }
 
         // 获取数据库所有通过脚本创建的作业
-        var allDbScriptJobs = jobRepository.GetList(u => u.CreateFromScript);
+        var allDbScriptJobs = jobRepository.GetList(u => u.CreateType != JobCreateTypeEnum.BuiltIn);
         foreach (var dbDetail in allDbScriptJobs)
         {
             // 动态创建作业
-            var jobType = dynamicJobCompiler.BuildJob(dbDetail.ScriptCode);
+            Type jobType;
+            switch (dbDetail.CreateType)
+            {
+                case JobCreateTypeEnum.Script:
+                    jobType = dynamicJobCompiler.BuildJob(dbDetail.ScriptCode);
+                    break;
+                case JobCreateTypeEnum.Http:
+                    jobType = typeof(HttpJob);
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
             var jobBuilder = JobBuilder.Create(jobType).LoadFrom(dbDetail);
 
             // 强行设置为不扫描 IJob 实现类 [Trigger] 特性触发器，否则 SchedulerBuilder.Create 会再次扫描，导致重复添加同名触发器
@@ -116,7 +128,7 @@ public class DbJobPersistence : IJobPersistence
                 break;
 
             case PersistenceBehavior.Updated:
-                jobRepository.AsUpdateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id, u.CreateFromScript, u.ScriptCode }).ExecuteCommand();
+                jobRepository.AsUpdateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id, u.CreateType, u.ScriptCode }).ExecuteCommand();
                 break;
 
             case PersistenceBehavior.Removed:
