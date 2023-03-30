@@ -9,7 +9,7 @@ public class LoginInput
     /// 账号
     /// </summary>
     /// <example>admin</example>
-    [Required(ErrorMessage = "账号不能为空"), MinLength(3, ErrorMessage = "账号不能少于3个字符")]
+    [Required(ErrorMessage = "账号不能为空"), MinLength(2, ErrorMessage = "账号不能少于2个字符")]
     public string Account { get; set; }
 
     /// <summary>

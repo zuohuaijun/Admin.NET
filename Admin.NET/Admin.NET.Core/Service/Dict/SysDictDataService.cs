@@ -51,7 +51,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     [DisplayName("增加字典值")]
     public async Task AddDictData(AddDictDataInput input)
     {
-        var isExist = await _sysDictDataRep.IsAnyAsync(u => (u.Code == input.Code || u.Value == input.Value) && u.DictTypeId == input.DictTypeId);
+        var isExist = await _sysDictDataRep.IsAnyAsync(u => u.Code == input.Code && u.DictTypeId == input.DictTypeId);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D3003);
 
@@ -70,7 +70,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
         var isExist = await _sysDictDataRep.IsAnyAsync(u => u.Id == input.Id);
         if (!isExist) throw Oops.Oh(ErrorCodeEnum.D3004);
 
-        isExist = await _sysDictDataRep.IsAnyAsync(u => (u.Value == input.Value || u.Code == input.Code) && u.DictTypeId == input.DictTypeId && u.Id != input.Id);
+        isExist = await _sysDictDataRep.IsAnyAsync(u => u.Code == input.Code && u.DictTypeId == input.DictTypeId && u.Id != input.Id);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D3003);
 
         await _sysDictDataRep.UpdateAsync(input.Adapt<SysDictData>());

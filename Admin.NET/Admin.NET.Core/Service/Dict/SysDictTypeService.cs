@@ -67,7 +67,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     [DisplayName("添加字典类型")]
     public async Task AddDictType(AddDictTypeInput input)
     {
-        var isExist = await _sysDictTypeRep.IsAnyAsync(u => u.Name == input.Name || u.Code == input.Code);
+        var isExist = await _sysDictTypeRep.IsAnyAsync(u => u.Code == input.Code);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D3001);
 
@@ -87,7 +87,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
         if (!isExist)
             throw Oops.Oh(ErrorCodeEnum.D3000);
 
-        isExist = await _sysDictTypeRep.IsAnyAsync(u => (u.Name == input.Name || u.Code == input.Code) && u.Id != input.Id);
+        isExist = await _sysDictTypeRep.IsAnyAsync(u => u.Code == input.Code && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D3001);
 
