@@ -76,7 +76,7 @@ public class SysMessageService : IDynamicApiController, ITransient
         foreach (var userid in input.UserIds)
         {
             var user = _sysCacheService.Get<SysOnlineUser>(CacheConst.KeyOnlineUser + userid);
-            if (user!=null) userlist.Add(user.ConnectionId);
+            if (user != null) userlist.Add(user.ConnectionId);
         }
         await _chatHubContext.Clients.Clients(userlist).ReceiveMessage(input);
     }

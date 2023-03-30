@@ -67,17 +67,29 @@ public class SysJobService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
-        if (string.IsNullOrEmpty(input.ScriptCode))
-            throw Oops.Oh(ErrorCodeEnum.D1701);
-
-        input.CreateFromScript = true;//确保为true
         // 动态创建作业
-        var jobType = _dynamicJobCompiler.BuildJob(input.ScriptCode);
+        Type jobType;
+        switch (input.CreateType)
+        {
+            case JobCreateTypeEnum.Script when string.IsNullOrEmpty(input.ScriptCode):
+                throw Oops.Oh(ErrorCodeEnum.D1701);
+            case JobCreateTypeEnum.Script:
+                {
+                    jobType = _dynamicJobCompiler.BuildJob(input.ScriptCode);
 
-        if (jobType.GetCustomAttributes(typeof(JobDetailAttribute)).FirstOrDefault() is not JobDetailAttribute jobDetailAttribute)
-            throw Oops.Oh(ErrorCodeEnum.D1702);
-        if (jobDetailAttribute.JobId != input.JobId)
-            throw Oops.Oh(ErrorCodeEnum.D1703);
+                    if (jobType.GetCustomAttributes(typeof(JobDetailAttribute)).FirstOrDefault() is not JobDetailAttribute jobDetailAttribute)
+                        throw Oops.Oh(ErrorCodeEnum.D1702);
+                    if (jobDetailAttribute.JobId != input.JobId)
+                        throw Oops.Oh(ErrorCodeEnum.D1703);
+                    break;
+                }
+            case JobCreateTypeEnum.Http:
+                jobType = typeof(HttpJob);
+                break;
+
+            default:
+                throw new NotSupportedException();
+        }
 
         _schedulerFactory.AddJob(
             JobBuilder.Create(jobType)
@@ -86,7 +98,7 @@ public class SysJobService : IDynamicApiController, ITransient
         // 延迟一下等待持久化写入，再执行其他字段的更新
         await Task.Delay(500);
         await _sysJobDetailRep.AsUpdateable()
-            .SetColumns(u => new SysJobDetail { CreateFromScript = input.CreateFromScript, ScriptCode = input.ScriptCode })
+            .SetColumns(u => new SysJobDetail { CreateType = input.CreateType, ScriptCode = input.ScriptCode })
             .Where(u => u.JobId == input.JobId).ExecuteCommandAsync();
     }
 
@@ -110,7 +122,7 @@ public class SysJobService : IDynamicApiController, ITransient
         var oldScriptCode = sysJobDetail.ScriptCode;//旧脚本代码
         input.Adapt(sysJobDetail);
 
-        if (input.CreateFromScript)
+        if (input.CreateType == JobCreateTypeEnum.Script)
         {
             if (string.IsNullOrEmpty(input.ScriptCode))
                 throw Oops.Oh(ErrorCodeEnum.D1701);

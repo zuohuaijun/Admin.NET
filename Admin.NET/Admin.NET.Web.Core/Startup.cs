@@ -3,6 +3,7 @@ using Admin.NET.Core.Service;
 using AspNetCoreRateLimit;
 using Furion;
 using Furion.SpecificationDocument;
+using Furion.VirtualFileServer;
 using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -220,7 +221,13 @@ public class Startup : AppStartup
         //// 启用HTTPS
         //app.UseHttpsRedirection();
 
-        app.UseStaticFiles();
+        // 特定文件类型（文件后缀）处理
+        var contentTypeProvider = FS.GetFileExtensionContentTypeProvider();
+        // contentTypeProvider.Mappings[".文件后缀"] = "MIME 类型";
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            ContentTypeProvider = contentTypeProvider
+        });
 
         app.UseRouting();
 

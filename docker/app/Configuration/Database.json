@@ -8,6 +8,7 @@
                 "DbType": "MySql", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access、OpenGauss、QuestDB、HG、ClickHouse、GBase、Odbc、Custom
                 "ConnectionString": "server=mysql;Database=admin;Uid=root;Pwd=root;",
                 "EnableInitDb": true, // 启用库表初始化
+				"EnableInitSeed": true, // 启用种子初始化
                 "EnableDiffLog": false, // 启用库表差异日志
                 "EnableUnderLine": true // 启用驼峰转下划线
             },
@@ -16,6 +17,7 @@
                 "DbType": "MySql",
                 "ConnectionString": "server=mysql;Database=test;Uid=root;Pwd=root;",
                 "EnableInitDb": true, // 启用库表初始化
+				"EnableInitSeed": true, // 启用种子初始化
                 "EnableDiffLog": false, // 启用库表差异日志
                 "EnableUnderLine": true // 启用驼峰转下划线
             }

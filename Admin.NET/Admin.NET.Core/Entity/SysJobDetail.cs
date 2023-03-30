@@ -67,10 +67,10 @@ public class SysJobDetail : EntityBaseId
     public DateTime? UpdatedTime { get; set; }
 
     /// <summary>
-    /// 是否为脚本创建的作业
+    /// 作业创建类型
     /// </summary>
-    [SugarColumn(ColumnDescription = "是否为脚本创建的作业")]
-    public bool CreateFromScript { get; set; } = false;
+    [SugarColumn(ColumnDescription = "作业创建类型")]
+    public JobCreateTypeEnum CreateType { get; set; } = JobCreateTypeEnum.BuiltIn;
 
     /// <summary>
     /// 脚本代码

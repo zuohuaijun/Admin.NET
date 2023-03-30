@@ -123,6 +123,7 @@ export * from './gen-auth-url-input';
 export * from './gender-enum';
 export * from './iaction-result';
 export * from './jtoken';
+export * from './job-create-type-enum';
 export * from './job-detail-input';
 export * from './job-output';
 export * from './job-trigger-input';
