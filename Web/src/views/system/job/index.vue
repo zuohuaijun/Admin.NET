@@ -158,13 +158,13 @@
 								</template>
 								<el-descriptions title="Http 请求参数" :column="1" size="small" :border="true">
 									<el-descriptions-item label="请求地址" label-align="right" label-class-name="job-index-descriptions-label-style">
-										{{ getHttpJobMessage((scope.row as JobOutput).jobDetail?.properties + '').requestUri }}
+										{{ getHttpJobMessage((scope.row as JobOutput).jobDetail?.properties).requestUri }}
 									</el-descriptions-item>
 									<el-descriptions-item label="请求方法" label-align="right" label-class-name="job-index-descriptions-label-style">
-										{{ getHttpMethodDesc(getHttpJobMessage((scope.row as JobOutput).jobDetail?.properties + '').httpMethod + '') }}
+										{{ getHttpMethodDesc(getHttpJobMessage((scope.row as JobOutput).jobDetail?.properties).httpMethod) }}
 									</el-descriptions-item>
 									<el-descriptions-item label="请求报文体" label-align="right" label-class-name="job-index-descriptions-label-style">
-										{{ getHttpJobMessage((scope.row as JobOutput).jobDetail?.properties + '').body }}
+										{{ getHttpJobMessage((scope.row as JobOutput).jobDetail?.properties).body }}
 									</el-descriptions-item>
 								</el-descriptions>
 							</el-popover>
@@ -400,7 +400,9 @@ const openJobDashboard = () => {
 };
 
 // 根据任务属性获取 HttpJobMessage
-const getHttpJobMessage = (properties: string): HttpJobMessage => {
+const getHttpJobMessage = (properties: string | undefined | null): HttpJobMessage => {
+	if (properties === undefined || properties === null || properties === '') return {};
+
 	const propData = JSON.parse(properties);
 	const httpJobMessageNet = JSON.parse(propData['HttpJob']); // 后端大写开头的 HttpJobMessage
 
@@ -412,7 +414,9 @@ const getHttpJobMessage = (properties: string): HttpJobMessage => {
 };
 
 // 获取请求方法的对应描述
-const getHttpMethodDesc = (httpMethodStr: string): string => {
+const getHttpMethodDesc = (httpMethodStr: string | undefined | null): string => {
+	if (httpMethodStr === undefined || httpMethodStr === null || httpMethodStr === '') return '';
+
 	for (const key in editJobDetailRef.value?.httpMethodDef) {
 		if (editJobDetailRef.value?.httpMethodDef[key] === httpMethodStr) return key;
 	}

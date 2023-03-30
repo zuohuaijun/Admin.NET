@@ -186,7 +186,7 @@ const openDialog = (row: any) => {
 
 	// Http请求
 	if (state.ruleForm.createType === JobCreateTypeEnum.NUMBER_2) {
-		state.httpJobMessage = getHttpJobMessage(state.ruleForm.properties + '');
+		state.httpJobMessage = getHttpJobMessage(state.ruleForm.properties);
 	}
 
 	// 延迟拿值防止取不到
@@ -244,7 +244,9 @@ const submit = () => {
 };
 
 // 根据任务属性获取 HttpJobMessage
-const getHttpJobMessage = (properties: string): HttpJobMessage => {
+const getHttpJobMessage = (properties: string | undefined | null): HttpJobMessage => {
+	if (properties === undefined || properties === null || properties === '') return {};
+
 	const propData = JSON.parse(properties);
 	const httpJobMessageNet = JSON.parse(propData['HttpJob']); // 后端大写开头的 HttpJobMessage
 
