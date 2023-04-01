@@ -52,7 +52,7 @@ public static class ComputerUtil
             var driv = DriveInfo.GetDrives().Where(u => u.IsReady);
             foreach (var item in driv)
             {
-                if (item.DriveType==DriveType.CDRom) continue;
+                if (item.DriveType == DriveType.CDRom) continue;
                 var obj = new DiskInfo()
                 {
                     DiskName = item.Name,

@@ -19,13 +19,14 @@ public class DbJobPersistence : IJobPersistence
     public IEnumerable<SchedulerBuilder> Preload()
     {
         using var scope = _serviceScopeFactory.CreateScope();
-        var jobRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
-        var triggerRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
+        var jobDetailRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
+        var jobTriggerRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
         var dynamicJobCompiler = scope.ServiceProvider.GetRequiredService<DynamicJobCompiler>();
+
         // 获取所有定义的作业
         var allJobs = App.EffectiveTypes.ScanToBuilders().ToList();
         // 若数据库不存在任何作业，则直接返回
-        if (!jobRepository.IsAny(u => true)) return allJobs;
+        if (!jobDetailRep.IsAny(u => true)) return allJobs;
 
         // 遍历所有定义的作业
         foreach (var schedulerBuilder in allJobs)
@@ -34,14 +35,14 @@ public class DbJobPersistence : IJobPersistence
             var jobBuilder = schedulerBuilder.GetJobBuilder();
 
             // 加载数据库数据
-            var dbDetail = jobRepository.GetFirst(u => u.JobId == jobBuilder.JobId);
+            var dbDetail = jobDetailRep.GetFirst(u => u.JobId == jobBuilder.JobId);
             if (dbDetail == null) continue;
 
             // 同步数据库数据
             jobBuilder.LoadFrom(dbDetail);
 
             // 获取作业的所有数据库的触发器
-            var dbTriggers = triggerRepository.GetList(u => u.JobId == jobBuilder.JobId).ToArray();
+            var dbTriggers = jobTriggerRep.GetList(u => u.JobId == jobBuilder.JobId).ToArray();
             // 遍历所有作业触发器
             foreach (var (_, triggerBuilder) in schedulerBuilder.GetEnumerable())
             {
@@ -65,7 +66,7 @@ public class DbJobPersistence : IJobPersistence
         }
 
         // 获取数据库所有通过脚本创建的作业
-        var allDbScriptJobs = jobRepository.GetList(u => u.CreateType != JobCreateTypeEnum.BuiltIn);
+        var allDbScriptJobs = jobDetailRep.GetList(u => u.CreateType != JobCreateTypeEnum.BuiltIn);
         foreach (var dbDetail in allDbScriptJobs)
         {
             // 动态创建作业
@@ -90,7 +91,7 @@ public class DbJobPersistence : IJobPersistence
             jobBuilder.SetIncludeAnnotations(false);
 
             // 获取作业的所有数据库的触发器加入到作业中
-            var dbTriggers = triggerRepository.GetList(u => u.JobId == jobBuilder.JobId).ToArray();
+            var dbTriggers = jobTriggerRep.GetList(u => u.JobId == jobBuilder.JobId).ToArray();
             var triggerBuilders = dbTriggers.Select(u => TriggerBuilder.Create(u.TriggerId).LoadFrom(u).Updated());
             var schedulerBuilder = SchedulerBuilder.Create(jobBuilder, triggerBuilders.ToArray());
 
@@ -120,21 +121,21 @@ public class DbJobPersistence : IJobPersistence
     public void OnChanged(PersistenceContext context)
     {
         using var scope = _serviceScopeFactory.CreateScope();
-        var jobRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
+        var jobDetailRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
 
         var jobDetail = context.JobDetail.Adapt<SysJobDetail>();
         switch (context.Behavior)
         {
             case PersistenceBehavior.Appended:
-                jobRepository.AsInsertable(jobDetail).ExecuteCommand();
+                jobDetailRep.AsInsertable(jobDetail).ExecuteCommand();
                 break;
 
             case PersistenceBehavior.Updated:
-                jobRepository.AsUpdateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id, u.CreateType, u.ScriptCode }).ExecuteCommand();
+                jobDetailRep.AsUpdateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id, u.CreateType, u.ScriptCode }).ExecuteCommand();
                 break;
 
             case PersistenceBehavior.Removed:
-                jobRepository.AsDeleteable().Where(u => u.JobId == jobDetail.JobId).ExecuteCommand();
+                jobDetailRep.AsDeleteable().Where(u => u.JobId == jobDetail.JobId).ExecuteCommand();
                 break;
 
             default:
@@ -149,20 +150,21 @@ public class DbJobPersistence : IJobPersistence
     public void OnTriggerChanged(PersistenceTriggerContext context)
     {
         using var scope = _serviceScopeFactory.CreateScope();
-        var triggerRepository = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
+        var jobTriggerRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
+
         var jobTrigger = context.Trigger.Adapt<SysJobTrigger>();
         switch (context.Behavior)
         {
             case PersistenceBehavior.Appended:
-                triggerRepository.AsInsertable(jobTrigger).ExecuteCommand();
+                jobTriggerRep.AsInsertable(jobTrigger).ExecuteCommand();
                 break;
 
             case PersistenceBehavior.Updated:
-                triggerRepository.AsUpdateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
+                jobTriggerRep.AsUpdateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
                 break;
 
             case PersistenceBehavior.Removed:
-                triggerRepository.AsDeleteable().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
+                jobTriggerRep.AsDeleteable().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
                 break;
 
             default:

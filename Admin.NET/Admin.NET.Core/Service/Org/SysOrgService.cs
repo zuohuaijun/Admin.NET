@@ -112,8 +112,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         if (input.Id == input.Pid)
             throw Oops.Oh(ErrorCodeEnum.D2001);
 
-        var sysOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Id);
-        var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != sysOrg.Id);
+        var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D2002);
 
@@ -124,7 +123,7 @@ public class SysOrgService : IDynamicApiController, ITransient
 
         // 是否有权限操作此机构
         var dataScopes = await GetUserOrgIdList();
-        if (!_userManager.SuperAdmin && (dataScopes.Count < 1 || !dataScopes.Contains(sysOrg.Id)))
+        if (!_userManager.SuperAdmin && (dataScopes.Count < 1 || !dataScopes.Contains(input.Id)))
             throw Oops.Oh(ErrorCodeEnum.D2003);
 
         await _sysOrgRep.AsUpdateable(input.Adapt<SysOrg>()).IgnoreColumns(true).ExecuteCommandAsync();
