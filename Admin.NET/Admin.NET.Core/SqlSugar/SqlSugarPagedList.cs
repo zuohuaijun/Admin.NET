@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 分页泛型集合
@@ -60,7 +60,7 @@ public static class SqlSugarPagedExtensions
     {
         var total = 0;
         var items = entity.ToPageList(pageIndex, pageSize, ref total);
-        var totalPages = (int)Math.Ceiling(total / (double)pageSize);
+        var totalPages = pageSize>0?(int)Math.Ceiling(total / (double)pageSize):0;
         return new SqlSugarPagedList<TEntity>
         {
             Page = pageIndex,
@@ -85,7 +85,7 @@ public static class SqlSugarPagedExtensions
     {
         RefAsync<int> total = 0;
         var items = await entity.ToPageListAsync(pageIndex, pageSize, total);
-        var totalPages = (int)Math.Ceiling(total / (double)pageSize);
+        var totalPages = pageSize>0?(int)Math.Ceiling(total / (double)pageSize):0;
         return new SqlSugarPagedList<TEntity>
         {
             Page = pageIndex,
