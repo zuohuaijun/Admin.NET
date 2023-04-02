@@ -52,16 +52,22 @@ namespace Admin.NET.Web.Core
         /// <returns></returns>
         private static async Task<bool> CheckAuthorzieAsync(DefaultHttpContext httpContext)
         {
+            // 路由/按钮名称
+            var routeName = httpContext.Request.Path.Value[1..].Replace("/", ":");
+
+            string accountType = App.User.FindFirst(ClaimConst.AccountType)?.Value;
+            string superAdmin = ((int)AccountTypeEnum.SuperAdmin).ToString();
+
+            // 只有超管可以操作数据库
+            if (routeName.Contains("sysDatabase") && accountType != superAdmin) return false;
+            
             // 登录模式判断PC、APP
             if (App.User.FindFirst(ClaimConst.LoginMode)?.Value == ((int)LoginModeEnum.APP).ToString())
                 return true;
 
             // 排除超管
-            if (App.User.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString())
+            if (accountType == superAdmin)
                 return true;
-
-            // 路由/按钮名称
-            var routeName = httpContext.Request.Path.Value[1..].Replace("/", ":");
 
             // 获取用户拥有按钮权限集合
             var ownBtnPermList = await App.GetService<SysMenuService>().GetOwnBtnPermList();
