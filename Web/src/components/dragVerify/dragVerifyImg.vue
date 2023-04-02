@@ -12,7 +12,7 @@
 			<div class="tips danger" v-if="showTips && !isPassing && showErrorTip">{{failTip}}</div>
 		</div>
 		<div ref="dragVerify" class="drag_verify" :style="dragVerifyStyle" @mousemove="dragMoving" @mouseup="dragFinish"
-			@mouseleave="dragFinish" @touchmove="dragMoving" @touchend="dragFinish">
+			@mouseleave="dragFinish" @touchmove.prevent="dragMoving" @touchend.prevent="dragFinish">
 
 			<div class="dv_progress_bar" :class="{goFirst2:isOk}" ref="progressBar" :style="progressBarStyle">
 				{{successMessage}}
@@ -21,7 +21,7 @@
 				{{message}}
 			</div>
 
-			<div class="dv_handler dv_handler_bg" :class="{goFirst:isOk}" @mousedown="dragStart" @touchstart="dragStart"
+			<div class="dv_handler dv_handler_bg" :class="{goFirst:isOk}" @mousedown="dragStart" @touchstart.prevent="dragStart"
 				ref="handler" :style="handlerStyle">
 				<i :class="handlerIcon"></i>
 			</div>
