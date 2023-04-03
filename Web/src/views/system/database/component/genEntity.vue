@@ -51,7 +51,7 @@ import { onMounted, reactive, ref } from 'vue';
 import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysDatabaseApi, SysDictDataApi } from '/@/api-services/api';
+import { SysDatabaseApi, SysDictTypeApi } from '/@/api-services/api';
 
 const ruleFormRef = ref();
 const state = reactive({
@@ -61,7 +61,7 @@ const state = reactive({
 });
 
 onMounted(async () => {
-	let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_base_class');
+	let resDicData = await getAPI(SysDictTypeApi).apiSysDictTypeDataListGet('code_gen_base_class');
 	state.codeGenBaseClassName = resDicData.data.result;
 });
 
