@@ -154,8 +154,7 @@
 
   @foreach (var column in Model.QueryWhetherList){
   if(@column.EffectType == "Select"){
-  @:const get@(@column.LowerColumnName)Data = ref<any>
-    ([]);
+  @:const get@(@column.LowerColumnName)Data = ref<any>([]);
     }
     }
 
