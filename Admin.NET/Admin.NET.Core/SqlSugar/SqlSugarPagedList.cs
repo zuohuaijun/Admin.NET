@@ -60,7 +60,7 @@ public static class SqlSugarPagedExtensions
     {
         var total = 0;
         var items = entity.ToPageList(pageIndex, pageSize, ref total);
-        var totalPages = pageSize>0?(int)Math.Ceiling(total / (double)pageSize):0;
+        var totalPages = pageSize > 0 ? (int)Math.Ceiling(total / (double)pageSize) : 0;
         return new SqlSugarPagedList<TEntity>
         {
             Page = pageIndex,
@@ -85,7 +85,7 @@ public static class SqlSugarPagedExtensions
     {
         RefAsync<int> total = 0;
         var items = await entity.ToPageListAsync(pageIndex, pageSize, total);
-        var totalPages = pageSize>0?(int)Math.Ceiling(total / (double)pageSize):0;
+        var totalPages = pageSize > 0 ? (int)Math.Ceiling(total / (double)pageSize) : 0;
         return new SqlSugarPagedList<TEntity>
         {
             Page = pageIndex,
