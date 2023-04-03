@@ -97,4 +97,29 @@ public static class SqlSugarPagedExtensions
             HasPrevPage = pageIndex - 1 > 0
         };
     }
+
+    /// <summary>
+    /// 分页拓展
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <param name="pageIndex"></param>
+    /// <param name="pageSize"></param>
+    /// <returns></returns>
+    public static SqlSugarPagedList<TEntity> ToPagedList<TEntity>(this IEnumerable<TEntity> entity, int pageIndex, int pageSize)
+        where TEntity : new()
+    {
+        var total = entity.Count();
+        var items = entity.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        var totalPages = (int)Math.Ceiling(total / (double)pageSize);
+        return new SqlSugarPagedList<TEntity>
+        {
+            Page = pageIndex,
+            PageSize = pageSize,
+            Items = items,
+            Total = total,
+            TotalPages = totalPages,
+            HasNextPage = pageIndex < totalPages,
+            HasPrevPage = pageIndex - 1 > 0
+        };
+    }
 }
