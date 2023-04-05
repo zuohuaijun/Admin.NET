@@ -38,6 +38,8 @@ public class Startup : AppStartup
         services.AddCorsAccessor();
         // 远程请求
         services.AddRemoteRequest();
+        // 任务队列
+        services.AddTaskQueue();
         // 任务调度
         services.AddSchedule(options =>
         {
