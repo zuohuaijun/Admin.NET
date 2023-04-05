@@ -110,7 +110,7 @@ public static class SqlSugarPagedExtensions
     {
         var total = entity.Count();
         var items = entity.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
-        var totalPages = (int)Math.Ceiling(total / (double)pageSize);
+        var totalPages = pageSize > 0 ? (int)Math.Ceiling(total / (double)pageSize) : 0;
         return new SqlSugarPagedList<TEntity>
         {
             Page = pageIndex,
