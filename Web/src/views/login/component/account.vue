@@ -104,8 +104,8 @@ const state = reactive({
 	captchaImage: '',
 	rotateVerifyVisible: false,
 	rotateVerifyImg: verifyImg,
-	secondVerEnabled: true,
-	captchaEnabled: true,
+	secondVerEnabled: false,
+	captchaEnabled: false,
 	isPassRotate: false,
 });
 onMounted(async () => {
