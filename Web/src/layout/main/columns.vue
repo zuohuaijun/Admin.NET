@@ -43,7 +43,7 @@ const initScrollBarHeight = () => {
 		setTimeout(() => {
 			updateScrollbar();
 			layoutScrollbarRef.value.wrapRef.scrollTop = 0;
-			if (layoutMainRef.value != undefined) layoutMainRef.value.layoutMainScrollbarRef.wrapRef.scrollTop = 0;
+			layoutMainRef.value!.layoutMainScrollbarRef.wrapRef.scrollTop = 0;
 		}, 500);
 	});
 };
@@ -60,9 +60,11 @@ watch(
 );
 // 监听 themeConfig 配置文件的变化，更新菜单 el-scrollbar 的高度
 watch(
-	themeConfig,
+	() => [themeConfig.value.isTagsview, themeConfig.value.isFixedHeader],
 	() => {
-		updateScrollbar();
+		nextTick(() => {
+			updateScrollbar();
+		});
 	},
 	{
 		deep: true,

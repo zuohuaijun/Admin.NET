@@ -1,5 +1,12 @@
 <template>
-	<el-menu router :default-active="state.defaultActive" background-color="transparent" :collapse="state.isCollapse" :unique-opened="getThemeConfig.isUniqueOpened" :collapse-transition="false">
+	<el-menu
+		router
+		:default-active="state.defaultActive"
+		background-color="transparent"
+		:collapse="state.isCollapse"
+		:unique-opened="getThemeConfig.isUniqueOpened"
+		:collapse-transition="false"
+	>
 		<template v-for="val in menuLists">
 			<el-sub-menu :index="val.path" v-if="val.children && val.children.length > 0" :key="val.path">
 				<template #title>
@@ -84,9 +91,9 @@ onBeforeRouteUpdate((to) => {
 });
 // 设置菜单的收起/展开
 watch(
-	themeConfig.value,
-	() => {
-		document.body.clientWidth <= 1000 ? (state.isCollapse = false) : (state.isCollapse = themeConfig.value.isCollapse);
+	() => themeConfig.value.isCollapse,
+	(isCollapse) => {
+		document.body.clientWidth <= 1000 ? (state.isCollapse = false) : (state.isCollapse = isCollapse);
 	},
 	{
 		immediate: true,

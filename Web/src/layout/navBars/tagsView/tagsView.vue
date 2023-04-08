@@ -21,7 +21,11 @@
 					<SvgIcon :name="v.meta.icon" v-if="!isActive(v) && getThemeConfig.isTagsviewIcon" class="pr5" />
 					<span>{{ setTagsViewNameI18n(v) }}</span>
 					<template v-if="isActive(v)">
-						<SvgIcon name="ele-RefreshRight" class="ml5 layout-navbars-tagsview-ul-li-refresh" @click.stop="refreshCurrentTagsView($route.fullPath)" />
+						<SvgIcon
+							name="ele-RefreshRight"
+							class="ml5 layout-navbars-tagsview-ul-li-refresh"
+							@click.stop="refreshCurrentTagsView($route.fullPath)"
+						/>
 						<SvgIcon
 							name="ele-Close"
 							class="layout-navbars-tagsview-ul-li-icon layout-icon-active"
@@ -48,7 +52,6 @@ import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 import Sortable from 'sortablejs';
 import { ElMessage } from 'element-plus';
 import { storeToRefs } from 'pinia';
-import pinia from '/@/stores/index';
 import { useTagsViewRoutes } from '/@/stores/tagsViewRoutes';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { useKeepALiveNames } from '/@/stores/keepAliveNames';
@@ -150,7 +153,10 @@ const solveAddTagsView = async (path: string, to?: RouteToFrom) => {
 	let current = state.tagsViewList.filter(
 		(v: RouteItem) =>
 			v.path === isDynamicPath &&
-			isObjectValueEqual(to?.meta?.isDynamic ? (v.params ? v.params : null) : v.query ? v.query : null, to?.meta?.isDynamic ? (to?.params ? to?.params : null) : to?.query ? to?.query : null)
+			isObjectValueEqual(
+				to?.meta?.isDynamic ? (v.params ? v.params : null) : v.query ? v.query : null,
+				to?.meta?.isDynamic ? (to?.params ? to?.params : null) : to?.query ? to?.query : null
+			)
 	);
 	if (current.length <= 0) {
 		// 防止：Avoid app logic that relies on enumerating keys on a component instance. The keys will be empty in production mode to avoid performance overhead.
@@ -171,7 +177,10 @@ const singleAddTagsView = (path: string, to?: RouteToFrom) => {
 	state.tagsViewList.forEach((v) => {
 		if (
 			v.path === isDynamicPath &&
-			!isObjectValueEqual(to?.meta?.isDynamic ? (v.params ? v.params : null) : v.query ? v.query : null, to?.meta?.isDynamic ? (to?.params ? to?.params : null) : to?.query ? to?.query : null)
+			!isObjectValueEqual(
+				to?.meta?.isDynamic ? (v.params ? v.params : null) : v.query ? v.query : null,
+				to?.meta?.isDynamic ? (to?.params ? to?.params : null) : to?.query ? to?.query : null
+			)
 		) {
 			to?.meta?.isDynamic ? (v.params = to.params) : (v.query = to?.query);
 			v.url = setTagsViewHighlight(v);
@@ -576,9 +585,9 @@ onBeforeRouteUpdate(async (to) => {
 });
 // 监听路由的变化，动态赋值给 tagsView
 watch(
-	pinia.state,
+	() => tagsViewRoutes.value,
 	(val) => {
-		if (val.tagsViewRoutes.tagsViewRoutes.length === state.tagsViewRoutesList.length) return false;
+		if (val.length === state.tagsViewRoutesList.length) return false;
 		getTagsViewRoutes();
 	},
 	{

@@ -54,6 +54,7 @@ export const useUserInfo = defineStore('userInfo', {
 							authBtnList: d.buttons,
 							time: new Date().getTime(),
 						};
+						Session.set('userInfo', userInfos);
 
 						// 读取用户配置
 						const configRes: any = await getAPI(SysAuthApi).apiSysAuthUserConfigGet();
@@ -62,14 +63,14 @@ export const useUserInfo = defineStore('userInfo', {
 						const configData = configRes.data.result;
 						const storesThemeConfig = useThemeConfig();
 
-						// storesThemeConfig.themeConfig.watermarkText = d.account;
+						// 是否设置水印
 						storesThemeConfig.themeConfig.isWatermark = configData.watermarkEnabled;
 						if (storesThemeConfig.themeConfig.isWatermark) Watermark.set(storesThemeConfig.themeConfig.watermarkText);
 						else Watermark.del();
 
 						Local.remove('themeConfig');
 						Local.set('themeConfig', storesThemeConfig.themeConfig);
-
+						
 						resolve(userInfos);
 					});
 			});
