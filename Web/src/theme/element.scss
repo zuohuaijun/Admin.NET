@@ -403,7 +403,8 @@ $--el-table-text-color: #fb6d49;
 	  flex-direction: column;
 	  height: 100%;
   
-	  .el-card:nth-child(2) {
+    //放弃使用 .el-card:nth-child(2) ，方便后期页面扩展
+	  .full-table {
 		flex: 1;
   
 		.el-card__body {

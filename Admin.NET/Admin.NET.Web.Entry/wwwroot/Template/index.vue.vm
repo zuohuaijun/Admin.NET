@@ -63,7 +63,7 @@
       </el-form>
       }
     </el-card>
-    <el-card shadow="hover" style="margin-top: 8px">
+    <el-card class="full-table" shadow="hover" style="margin-top: 8px">
       <el-table
 				:data="tableData"
 				style="width: 100%"

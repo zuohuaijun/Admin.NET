@@ -22,7 +22,7 @@
 			</el-form>
 		</el-card>
 
-		<el-card shadow="hover" style="margin-top: 8px">
+		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.columnData" style="width: 100%" v-loading="state.loading1" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="dbColumnName" label="字段名" show-overflow-tooltip />

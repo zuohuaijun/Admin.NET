@@ -3,7 +3,7 @@
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<TableSearch :search="tb.tableData.search" @search="onSearch" />
 		</el-card>
-		<el-card shadow="hover" style="margin-top: 8px">
+		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<Table ref="tableRef" v-bind="tb.tableData" :getData="getData" :exportChangeData="exportChangeData" @sortHeader="onSortHeader" @selectionChange="tableSelection">
 				<template #command>
 					<el-button type="primary" icon="ele-Plus" @click="openAddConfig" v-auth="'sysConfig:add'"> 新增 </el-button>

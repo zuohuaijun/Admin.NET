@@ -20,7 +20,7 @@
 			</el-form>
 		</el-card>
 
-		<el-card shadow="hover" style="margin-top: 8px">
+		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.posData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="name" label="职位名称" show-overflow-tooltip />

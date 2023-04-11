@@ -20,7 +20,7 @@
 			</el-form>
 		</el-card>
 
-		<el-card shadow="hover" style="margin-top: 8px">
+		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.tenantData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
 				<el-table-column prop="name" label="租户名称" width="160" show-overflow-tooltip />

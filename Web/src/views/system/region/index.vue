@@ -27,7 +27,7 @@
 					</el-form>
 				</el-card>
 
-				<el-card shadow="hover" style="margin-top: 8px">
+				<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 					<el-table :data="state.regionData" style="width: 100%" v-loading="state.loading" row-key="id" default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
 						<el-table-column prop="name" label="行政名称" show-overflow-tooltip />
 						<el-table-column prop="code" label="行政代码" show-overflow-tooltip />
