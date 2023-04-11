@@ -403,7 +403,7 @@ $--el-table-text-color: #fb6d49;
 	  flex-direction: column;
 	  height: 100%;
   
-	  .el-card:nth-child(2) {
+	  .el-card:last-child {
 		flex: 1;
   
 		.el-card__body {
