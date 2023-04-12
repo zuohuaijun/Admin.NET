@@ -1,6 +1,4 @@
-﻿using static SKIT.FlurlHttpClient.Wechat.Api.Models.ChannelsECWindowProductGetResponse.Types.Product.Types;
-
-namespace Admin.NET.Core.Service;
+﻿namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 微信小程序服务
