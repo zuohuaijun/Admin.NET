@@ -51,17 +51,20 @@ public static class SqlSugarPagedExtensions
     /// <summary>
     /// 分页拓展
     /// </summary>
-    /// <param name="entity"></param>
-    /// <param name="pageIndex"></param>
-    /// <param name="pageSize"></param>
+    /// <param name="query">ISugarQueryable 对象</param>
+    /// <param name="pageIndex">当前页码，从1开始</param>
+    /// <param name="pageSize">页码容量</param>
+    /// <param name="expression">查询结果 Select 表达式</param>
     /// <returns></returns>
-    public static SqlSugarPagedList<TEntity> ToPagedList<TEntity>(this ISugarQueryable<TEntity> entity, int pageIndex, int pageSize)
+    public static SqlSugarPagedList<TResult> ToPagedList<TEntity, TResult>(this ISugarQueryable<TEntity> query, int pageIndex, int pageSize,
+        Expression<Func<TEntity, TResult>> expression)
         where TEntity : new()
+        where TResult : new()
     {
         var total = 0;
-        var items = entity.ToPageList(pageIndex, pageSize, ref total);
+        var items = query.ToPageList(pageIndex, pageSize, ref total, expression);
         var totalPages = pageSize > 0 ? (int)Math.Ceiling(total / (double)pageSize) : 0;
-        return new SqlSugarPagedList<TEntity>
+        return new SqlSugarPagedList<TResult>
         {
             Page = pageIndex,
             PageSize = pageSize,
@@ -76,17 +79,33 @@ public static class SqlSugarPagedExtensions
     /// <summary>
     /// 分页拓展
     /// </summary>
-    /// <param name="entity"></param>
-    /// <param name="pageIndex"></param>
-    /// <param name="pageSize"></param>
+    /// <param name="query">ISugarQueryable 对象</param>
+    /// <param name="pageIndex">当前页码，从1开始</param>
+    /// <param name="pageSize">页码容量</param>
     /// <returns></returns>
-    public static async Task<SqlSugarPagedList<TEntity>> ToPagedListAsync<TEntity>(this ISugarQueryable<TEntity> entity, int pageIndex, int pageSize)
+    public static SqlSugarPagedList<TEntity> ToPagedList<TEntity>(this ISugarQueryable<TEntity> query, int pageIndex, int pageSize)
         where TEntity : new()
+    {
+        return ToPagedList(query, pageIndex, pageSize, u => u);
+    }
+
+    /// <summary>
+    /// 分页拓展
+    /// </summary>
+    /// <param name="query">ISugarQueryable 对象</param>
+    /// <param name="pageIndex">当前页码，从1开始</param>
+    /// <param name="pageSize">页码容量</param>
+    /// <param name="expression">查询结果 Select 表达式</param>
+    /// <returns></returns>
+    public static async Task<SqlSugarPagedList<TResult>> ToPagedListAsync<TEntity, TResult>(this ISugarQueryable<TEntity> query, int pageIndex, int pageSize,
+        Expression<Func<TEntity, TResult>> expression)
+        where TEntity : new()
+        where TResult : new()
     {
         RefAsync<int> total = 0;
-        var items = await entity.ToPageListAsync(pageIndex, pageSize, total);
+        var items = await query.ToPageListAsync(pageIndex, pageSize, total, expression);
         var totalPages = pageSize > 0 ? (int)Math.Ceiling(total / (double)pageSize) : 0;
-        return new SqlSugarPagedList<TEntity>
+        return new SqlSugarPagedList<TResult>
         {
             Page = pageIndex,
             PageSize = pageSize,
@@ -101,15 +120,28 @@ public static class SqlSugarPagedExtensions
     /// <summary>
     /// 分页拓展
     /// </summary>
-    /// <param name="entity"></param>
-    /// <param name="pageIndex"></param>
-    /// <param name="pageSize"></param>
+    /// <param name="query">ISugarQueryable 对象</param>
+    /// <param name="pageIndex">当前页码，从1开始</param>
+    /// <param name="pageSize">页码容量</param>
     /// <returns></returns>
-    public static SqlSugarPagedList<TEntity> ToPagedList<TEntity>(this IEnumerable<TEntity> entity, int pageIndex, int pageSize)
+    public static Task<SqlSugarPagedList<TEntity>> ToPagedListAsync<TEntity>(this ISugarQueryable<TEntity> query, int pageIndex, int pageSize)
         where TEntity : new()
     {
-        var total = entity.Count();
-        var items = entity.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+        return ToPagedListAsync(query, pageIndex, pageSize, u => u);
+    }
+
+    /// <summary>
+    /// 分页拓展
+    /// </summary>
+    /// <param name="list">集合对象</param>
+    /// <param name="pageIndex">当前页码，从1开始</param>
+    /// <param name="pageSize">页码容量</param>
+    /// <returns></returns>
+    public static SqlSugarPagedList<TEntity> ToPagedList<TEntity>(this IEnumerable<TEntity> list, int pageIndex, int pageSize)
+        where TEntity : new()
+    {
+        var total = list.Count();
+        var items = list.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
         var totalPages = pageSize > 0 ? (int)Math.Ceiling(total / (double)pageSize) : 0;
         return new SqlSugarPagedList<TEntity>
         {
