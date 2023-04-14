@@ -51,7 +51,7 @@ public static class SqlSugarPagedExtensions
     /// <summary>
     /// 分页拓展
     /// </summary>
-    /// <param name="query"><see cref="ISugarQueryable{TEntity}"/> 对象</param>
+    /// <param name="query"><see cref="ISugarQueryable{TEntity}"/>对象</param>
     /// <param name="pageIndex">当前页码，从1开始</param>
     /// <param name="pageSize">页码容量</param>
     /// <param name="expression">查询结果 Select 表达式</param>
@@ -69,7 +69,7 @@ public static class SqlSugarPagedExtensions
     /// <summary>
     /// 分页拓展
     /// </summary>
-    /// <param name="query"><see cref="ISugarQueryable{TEntity}"/> 对象</param>
+    /// <param name="query"><see cref="ISugarQueryable{TEntity}"/>对象</param>
     /// <param name="pageIndex">当前页码，从1开始</param>
     /// <param name="pageSize">页码容量</param>
     /// <returns></returns>
@@ -84,7 +84,7 @@ public static class SqlSugarPagedExtensions
     /// <summary>
     /// 分页拓展
     /// </summary>
-    /// <param name="query"><see cref="ISugarQueryable{TEntity}"/> 对象</param>
+    /// <param name="query"><see cref="ISugarQueryable{TEntity}"/>对象</param>
     /// <param name="pageIndex">当前页码，从1开始</param>
     /// <param name="pageSize">页码容量</param>
     /// <param name="expression">查询结果 Select 表达式</param>
@@ -102,7 +102,7 @@ public static class SqlSugarPagedExtensions
     /// <summary>
     /// 分页拓展
     /// </summary>
-    /// <param name="query"><see cref="ISugarQueryable{TEntity}"/> 对象</param>
+    /// <param name="query"><see cref="ISugarQueryable{TEntity}"/>对象</param>
     /// <param name="pageIndex">当前页码，从1开始</param>
     /// <param name="pageSize">页码容量</param>
     /// <returns></returns>
