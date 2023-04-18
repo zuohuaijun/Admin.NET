@@ -1,7 +1,8 @@
 using System;
 using SqlSugar;
 using System.ComponentModel;
-using Admin.NET.Core;
+using System.ComponentModel.DataAnnotations;
+using CVC.NHDS.Core;
 namespace @Model.NameSpace
 {
     /// <summary>
@@ -16,6 +17,12 @@ if(@Model.BaseClassName=="" && @column.IsPrimarykey){
         @:/// <summary>
         @:/// @column.ColumnDescription
         @:/// </summary>
+        if(!@column.IsNullable){
+        @:[Required]
+        }
+        if(@column.DataType=="string"&&@column.Length<int.MaxValue){
+        @:[MaxLength(@column.Length)]
+        }
         @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
         @:public @column.DataType @column.DbColumnName { get; set; }
 }
@@ -23,6 +30,12 @@ else if(@Model.BaseClassName=="" && !@column.IsPrimarykey){
         @:/// <summary>
         @:/// @column.ColumnDescription
         @:/// </summary>
+        if(!@column.IsNullable){
+        @:[Required]
+        }
+        if(@column.DataType=="string"&&@column.Length<int.MaxValue){
+        @:[MaxLength(@column.Length)]
+        }
         @:[SugarColumn(ColumnDescription = "@column.ColumnDescription")]
         @:public @column.DataType @column.DbColumnName { get; set; }
 }
@@ -30,6 +43,12 @@ else if(@Model.BaseClassName!="" && @column.IsPrimarykey && @column.DbColumnName
         @:/// <summary>
         @:/// @column.ColumnDescription
         @:/// </summary>
+        if(!@column.IsNullable){
+        @:[Required]
+        }
+        if(@column.DataType=="string"&&@column.Length<int.MaxValue){
+        @:[MaxLength(@column.Length)]
+        }
         @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
         @:public @column.DataType @column.DbColumnName { get; set; }
 }
@@ -37,6 +56,12 @@ else if(@Model.BaseClassName!="" && !@column.IsPrimarykey && @column.DbColumnNam
         @:/// <summary>
         @:/// @column.ColumnDescription
         @:/// </summary>
+        if(!@column.IsNullable){
+        @:[Required]
+        }
+        if(@column.DataType=="string"&&@column.Length<int.MaxValue){
+        @:[MaxLength(@column.Length)]
+        }
         @:[SugarColumn(ColumnDescription = "@column.ColumnDescription")]
         @:public @column.DataType @column.DbColumnName { get; set; }
 }
