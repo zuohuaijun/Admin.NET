@@ -433,7 +433,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Pid = pid1,
             Title = busName + "编辑",
             Type = MenuTypeEnum.Btn,
-            Permission = className[..1].ToLower() + className[1..] + ":update",
+            Permission = className[..1].ToLower() + className[1..] + ":edit",
         };
 
         var menuList = new List<SysMenu>() { menuType2, menuType2_1, menuType2_2, menuType2_3, menuType2_4 };
