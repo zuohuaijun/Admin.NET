@@ -1,13 +1,13 @@
 <template>
 	<div class="sys-dbColumn-container">
-		<el-dialog v-model="state.isShowDialog" draggable width="600px">
+		<el-dialog v-model="state.isShowDialog" draggable width="500px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
 					<span> 列编辑 </span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="80px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="60px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="列名称" prop="columnName" :rules="[{ required: true, message: '名称不能为空', trigger: 'blur' }]">
@@ -23,8 +23,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="cancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="submit" size="default">确 定</el-button>
+					<el-button @click="cancel">取 消</el-button>
+					<el-button type="primary" @click="submit">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>

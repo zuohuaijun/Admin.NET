@@ -55,8 +55,8 @@
 			</el-table>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="cancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="submit" size="default">确 定</el-button>
+					<el-button @click="cancel">取 消</el-button>
+					<el-button type="primary" @click="submit">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -87,7 +87,7 @@ const state = reactive({
 	dictDataAll: [] as any,
 	queryTypeList: [] as any,
 	allConstSelector: [] as any,
-    allEnumSelector: [] as any,
+	allEnumSelector: [] as any,
 });
 
 onMounted(async () => {
@@ -104,8 +104,8 @@ onMounted(async () => {
 	var res3 = await getAPI(SysConstApi).apiSysConstListGet();
 	state.allConstSelector = res3.data.result;
 
-    let resEnum = await getAPI(SysEnumApi).apiSysEnumEnumTypeListGet();
-    state.allEnumSelector = resEnum.data.result?.map(item => ({...item, name: item.typeDescribe, code: item.typeName}));
+	let resEnum = await getAPI(SysEnumApi).apiSysEnumEnumTypeListGet();
+	state.allEnumSelector = resEnum.data.result?.map((item) => ({ ...item, name: item.typeDescribe, code: item.typeName }));
 
 	mittBus.on('submitRefreshFk', (data: any) => {
 		state.tableData[data.index] = data;
@@ -130,9 +130,9 @@ const effectTypeChange = (data: any, index: number) => {
 		data.dictTypeCode = '';
 		state.dictTypeCodeList = state.allConstSelector;
 	} else if (value == 'EnumSelector') {
-        data.dictTypeCode = '';
-        state.dictTypeCodeList = state.allEnumSelector;
-    }
+		data.dictTypeCode = '';
+		state.dictTypeCodeList = state.allEnumSelector;
+	}
 };
 
 // 查询操作

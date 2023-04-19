@@ -1,6 +1,6 @@
 <template>
 	<div class="table-search-container" v-if="props.search.length > 0">
-		<el-form ref="tableSearchRef" :model="state.form" size="default" label-width="100px" class="table-form">
+		<el-form ref="tableSearchRef" :model="state.form" label-width="100px" class="table-form">
 			<el-row :gutter="20">
 				<!-- <el-col :xs="12" :sm="8" :md="8" :lg="6" :xl="4" class="mb20"></el-col> -->
 				<el-col :xs="12" :sm="5" :md="5" :lg="6" :xl="4" class="mb20" v-for="(val, key) in search" :key="key" v-show="key < 3 || state.isToggle">
@@ -50,8 +50,10 @@
 							</div>
 						</template>
 						<div>
-							<el-button type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)" plain> 查询 </el-button>
-							<el-button icon="ele-Refresh" @click="onReset(tableSearchRef)"> 重置 </el-button>
+							<el-button-group>
+								<el-button type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)"> 查询 </el-button>
+								<el-button icon="ele-Refresh" @click="onReset(tableSearchRef)"> 重置 </el-button>
+							</el-button-group>
 						</div>
 					</el-form-item>
 				</el-col>
@@ -119,7 +121,7 @@ const onSearch = (formEl: FormInstance | undefined) => {
 const onReset = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
 	formEl.resetFields();
-    emit('reset', state.form);
+	emit('reset', state.form);
 	emit('search', state.form);
 };
 // 初始化 form 字段，取自父组件 search.prop

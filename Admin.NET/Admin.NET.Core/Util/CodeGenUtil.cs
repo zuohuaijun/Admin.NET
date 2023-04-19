@@ -21,7 +21,8 @@ public static class CodeGenUtil
             var sb = new StringBuilder();
             foreach (var col in arrColName)
             {
-                sb.Append(col[..1].ToUpper() + col[1..].ToLower());
+                if (col.Length > 0)
+                    sb.Append(col[..1].ToUpper() + col[1..].ToLower());
             }
             columnName = sb.ToString();
         }

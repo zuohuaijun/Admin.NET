@@ -1,13 +1,13 @@
 <template>
 	<div class="sys-dbColumn-container">
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="600px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="500px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
 					<span> 增加列 </span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="60px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="60px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="列名" prop="dbColumnName" :rules="[{ required: true, message: '名称不能为空', trigger: 'blur' }]">
@@ -49,20 +49,20 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="长度" prop="length">
-							<el-input-number v-model="state.ruleForm.length" size="default" />
+							<el-input-number v-model="state.ruleForm.length" class="w100" controls-position="right" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="小数位" prop="decimalDigits">
-							<el-input-number v-model="state.ruleForm.decimalDigits" size="default" />
+							<el-input-number v-model="state.ruleForm.decimalDigits" class="w100" controls-position="right" />
 						</el-form-item>
 					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="cancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="submit" size="default">确 定</el-button>
+					<el-button @click="cancel">取 消</el-button>
+					<el-button type="primary" @click="submit">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>

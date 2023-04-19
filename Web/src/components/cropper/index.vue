@@ -41,8 +41,8 @@
 					>
 						<el-button icon="ele-Picture">选择图片</el-button>
 					</el-upload>
-					<el-button @click="onCancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="onSubmit" size="default">确 定</el-button>
+					<el-button @click="onCancel">取 消</el-button>
+					<el-button type="primary" @click="onSubmit">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -92,17 +92,16 @@ const onCancel = () => {
 };
 // 更换/上传
 const onSubmit = async () => {
-	state.cropperImgBase64 = state.cropper.getCroppedCanvas().toBlob(async function (img: Blob | undefined) {
-		mittBus.emit('uploadCropperImg', { img: img });
-		closeDialog();
-	});
+	const img = await getCroppedCanvas();
+	mittBus.emit('uploadCropperImg', { img: img });
+	closeDialog();
 };
 // 初始化cropperjs图片裁剪
 const initCropper = () => {
 	const letImg = <HTMLImageElement>document.querySelector('.cropper-warp-left-img');
 	console.log(letImg);
 	state.cropper = new Cropper(letImg, {
-		viewMode: 0,
+		viewMode: 1,
 		dragMode: 'none',
 		initialAspectRatio: 1,
 		aspectRatio: 1,
@@ -116,6 +115,16 @@ const initCropper = () => {
 		},
 	});
 };
+
+// 获取裁切后的图片 (包装为Promise)
+const getCroppedCanvas = () => {
+	return new Promise((resolve) => {
+		state.cropper.getCroppedCanvas().toBlob((blob: any) => {
+			resolve(blob);
+		});
+	});
+};
+
 // 选择图片
 const selectPicture = async (file: any) => {
 	let URL = window.URL || window.webkitURL;
@@ -130,6 +139,7 @@ const selectPictureExceed: UploadProps['onExceed'] = (files) => {
 	file.uid = genFileId();
 	uploadSignRef.value!.handleStart(file);
 };
+
 // 暴露变量
 defineExpose({
 	openDialog,

@@ -25,4 +25,13 @@ public static class CommonUtil
         if (res == "") res = "0";
         return res + "%";
     }
+
+    /// <summary>
+    /// 获取服务地址
+    /// </summary>
+    /// <returns></returns>
+    public static string GetLocalhost()
+    {
+        return $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Host.Value}";
+    }
 }

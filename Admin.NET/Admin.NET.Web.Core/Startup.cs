@@ -69,9 +69,11 @@ public class Startup : AppStartup
                     // options.SerializerSettings.DateParseHandling = DateParseHandling.None;
                     // options.SerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
                     options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
-                    // options.SerializerSettings.Converters.Add(new LongJsonConverter()); // long转string（防止js精度溢出） 超过16位开启
+                    // options.SerializerSettings.Converters.AddLongTypeConverters(); // long转string（防止js精度溢出） 超过16位开启
                     // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
                 })
+                //.AddXmlSerializerFormatters()
+                //.AddXmlDataContractSerializerFormatters()
                 .AddInjectWithUnifyResult<AdminResultProvider>();
 
         //// 第三方授权登录

@@ -1,7 +1,7 @@
 <template>
 	<div class="sys-codeGenTree-container">
 		<el-dialog v-model="state.isShowDialog" title="树选择配置" draggable width="600px">
-			<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="100px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="100px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="库定位器" prop="configId">
@@ -42,8 +42,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="cancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="submit" size="default">确 定</el-button>
+					<el-button @click="cancel">取 消</el-button>
+					<el-button type="primary" @click="submit">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>

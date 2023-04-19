@@ -37,7 +37,7 @@
 					<template #default="scope">
 						<el-image
 							style="width: 60px; height: 60px"
-							:src="scope.row.url"
+							:src="`${baseUrl}/${scope.row.filePath}/${scope.row.id}${scope.row.suffix}`"
 							:lazy="true"
 							:hide-on-click-modal="true"
 							:preview-src-list="[scope.row.url]"
@@ -109,6 +109,7 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysFileApi } from '/@/api-services/api';
 import { SysFile } from '/@/api-services/models';
 
+const baseUrl = import.meta.env.VITE_API_URL;
 const uploadRef = ref<UploadInstance>();
 const state = reactive({
 	loading: false,

@@ -12,19 +12,16 @@ public class SysCodeGenService : IDynamicApiController, ITransient
 
     private readonly SysCodeGenConfigService _codeGenConfigService;
     private readonly IViewEngine _viewEngine;
-    private readonly ICommonService _commonService;
     private readonly CodeGenOptions _codeGenOptions;
 
     public SysCodeGenService(ISqlSugarClient db,
         SysCodeGenConfigService codeGenConfigService,
         IViewEngine viewEngine,
-        ICommonService commonService,
         IOptions<CodeGenOptions> codeGenOptions)
     {
         _db = db;
         _codeGenConfigService = codeGenConfigService;
         _viewEngine = viewEngine;
-        _commonService = commonService;
         _codeGenOptions = codeGenOptions.Value;
     }
 
@@ -134,7 +131,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId);
 
         var dbTableNames = dbTableInfos.Select(u => u.Name.ToLower()).ToList();
-        IEnumerable<EntityInfo> entityInfos = await _commonService.GetEntityInfos();
+        IEnumerable<EntityInfo> entityInfos = await GetEntityInfos();
 
         var tableOutputList = new List<TableOutput>();
         foreach (var item in entityInfos)
@@ -191,7 +188,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private List<ColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
     {
-        var entityType = _commonService.GetEntityInfos().Result.FirstOrDefault(m => m.EntityName == input.TableName);
+        var entityType = GetEntityInfos().GetAwaiter().GetResult().FirstOrDefault(m => m.EntityName == input.TableName);
         if (entityType == null)
             return null;
 
@@ -210,6 +207,59 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             DataType = CodeGenUtil.ConvertDataType(u),
             ColumnComment = string.IsNullOrWhiteSpace(u.ColumnDescription) ? u.DbColumnName : u.ColumnDescription
         }).ToList();
+    }
+
+    /// <summary>
+    /// 获取库表信息
+    /// </summary>
+    /// <returns></returns>
+    private async Task<IEnumerable<EntityInfo>> GetEntityInfos()
+    {
+        var entityInfos = new List<EntityInfo>();
+
+        var type = typeof(SugarTable);
+        var types = new List<Type>();
+        if (_codeGenOptions.EntityAssemblyNames != null)
+        {
+            foreach (var assemblyName in _codeGenOptions.EntityAssemblyNames)
+            {
+                Assembly asm = Assembly.Load(assemblyName);
+                types.AddRange(asm.GetExportedTypes().ToList());
+            }
+        }
+        Func<Attribute[], bool> IsMyAttribute = o =>
+        {
+            foreach (Attribute a in o)
+            {
+                if (a.GetType() == type)
+                    return true;
+            }
+            return false;
+        };
+        Type[] cosType = types.Where(o =>
+        {
+            return IsMyAttribute(Attribute.GetCustomAttributes(o, true));
+        }
+        ).ToArray();
+
+        foreach (var c in cosType)
+        {
+            var sugarAttribute = c.GetCustomAttributes(type, true)?.FirstOrDefault();
+
+            var des = c.GetCustomAttributes(typeof(DescriptionAttribute), true);
+            var description = "";
+            if (des.Length > 0)
+            {
+                description = ((DescriptionAttribute)des[0]).Description;
+            }
+            entityInfos.Add(new EntityInfo()
+            {
+                EntityName = c.Name,
+                DbTableName = sugarAttribute == null ? c.Name : ((SugarTable)sugarAttribute).TableName,
+                TableDescription = description
+            });
+        }
+        return await Task.FromResult(entityInfos);
     }
 
     /// <summary>
@@ -282,7 +332,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             if (File.Exists(downloadPath))
                 File.Delete(downloadPath);
             ZipFile.CreateFromDirectory(zipPath, downloadPath);
-            return new { url = $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Host}/CodeGen/{input.TableName}.zip" };
+            return new { url = $"{CommonUtil.GetLocalhost()}/CodeGen/{input.TableName}.zip" };
         }
     }
 

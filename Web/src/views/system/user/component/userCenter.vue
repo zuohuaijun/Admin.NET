@@ -54,7 +54,7 @@
 				<el-card shadow="hover">
 					<el-tabs>
 						<el-tab-pane label="基础信息">
-							<el-form :model="state.ruleFormBase" ref="ruleFormBaseRef" size="default" label-width="100px">
+							<el-form :model="state.ruleFormBase" ref="ruleFormBaseRef" label-width="100px">
 								<el-row :gutter="35">
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="真实姓名" prop="realName" :rules="[{ required: true, message: '真实姓名不能为空', trigger: 'blur' }]">
@@ -111,7 +111,7 @@
 							<OrgTree ref="orgTreeRef" />
 						</el-tab-pane>
 						<el-tab-pane label="修改密码">
-							<el-form ref="ruleFormPasswordRef" :model="state.ruleFormPassword" status-icon label-width="80px">
+							<el-form ref="ruleFormPasswordRef" :model="state.ruleFormPassword" label-width="80px">
 								<el-form-item label="当前密码" prop="passwordOld" :rules="[{ required: true, message: '当前密码不能为空', trigger: 'blur' }]">
 									<el-input v-model="state.ruleFormPassword.passwordOld" type="password" autocomplete="off" />
 								</el-form-item>
@@ -122,8 +122,8 @@
 									<el-input v-model="state.passwordNew2" type="password" autocomplete="off" />
 								</el-form-item>
 								<el-form-item>
-									<el-button icon="ele-Refresh" @click="resetPassword" size="default">重 置</el-button>
-									<el-button icon="ele-SuccessFilled" type="primary" @click="submitPassword" size="default" v-auth="'sysUser:changePwd'">确 定</el-button>
+									<el-button icon="ele-Refresh" @click="resetPassword">重 置</el-button>
+									<el-button icon="ele-SuccessFilled" type="primary" @click="submitPassword" v-auth="'sysUser:changePwd'">确 定</el-button>
 								</el-form-item>
 							</el-form>
 						</el-tab-pane>
@@ -175,10 +175,11 @@ import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysFileApi, SysUserApi } from '/@/api-services/api';
 import { ChangePwdInput, SysUser } from '/@/api-services/models';
 
+const baseUrl = import.meta.env.VITE_API_URL;
 const stores = useUserInfo();
 const { userInfos } = storeToRefs(stores);
 const uploadSignRef = ref<UploadInstance>();
-const uploadAvatarRef = ref<UploadInstance>();
+//const uploadAvatarRef = ref<UploadInstance>();
 const signaturePadRef = ref<InstanceType<typeof VueGridLayout>>();
 const ruleFormBaseRef = ref<InstanceType<typeof ElForm>>();
 const ruleFormPasswordRef = ref<InstanceType<typeof ElForm>>();
@@ -209,7 +210,7 @@ onMounted(async () => {
 
 	mittBus.on('uploadCropperImg', async (e) => {
 		var res = await getAPI(SysFileApi).apiSysFileUploadAvatarPostForm(e.img);
-		userInfos.value.avatar = res.data.result?.url + '';
+		userInfos.value.avatar = baseUrl + '/' + res.data.result?.filePath + '/' + res.data.result?.name;
 	});
 });
 
@@ -233,7 +234,7 @@ const saveUploadSign = async () => {
 	if (isEmpty) return;
 
 	var res = await getAPI(SysFileApi).apiSysFileUploadSignaturePostForm(base64ToFile(data, userInfos.value.account + '.png'));
-	userInfos.value.signature = res.data.result?.url + '';
+	userInfos.value.signature = baseUrl + '/' + res.data.result?.filePath + '/' + res.data.result?.name;
 
 	clearSign();
 	state.signDialogVisible = false;
@@ -242,7 +243,6 @@ const saveUploadSign = async () => {
 // 撤销电子签名
 const unDoSign = () => {
 	signaturePadRef.value.undoSignature();
-	// console.log(signaturePadRef.value.options);
 };
 
 // 清空电子签名
@@ -261,12 +261,12 @@ const handleChangeSignFile = (_file: any, fileList: []) => {
 	state.signFileList = fileList;
 };
 
-// 上传头像文件回调
-const uploadAvatarFile = async (file: any) => {
-	var res = await getAPI(SysFileApi).apiSysFileUploadAvatarPostForm(file.raw);
-	userInfos.value.avatar = res.data.result?.url + '';
-	uploadAvatarRef.value?.clearFiles();
-};
+// // 上传头像文件回调
+// const uploadAvatarFile = async (file: any) => {
+// 	var res = await getAPI(SysFileApi).apiSysFileUploadAvatarPostForm(file.raw);
+// 	userInfos.value.avatar = res.data.result?.url + '';
+// 	uploadAvatarRef.value?.clearFiles();
+// };
 
 // 修改个人信息
 const submitUserBase = () => {
@@ -338,7 +338,7 @@ const uploadSignFileExceed: UploadProps['onExceed'] = (files) => {
 };
 
 // 导出对象
-defineExpose({ uploadAvatarFile, handleChangeSignFile });
+defineExpose({ handleChangeSignFile });
 </script>
 
 <style lang="scss" scoped>

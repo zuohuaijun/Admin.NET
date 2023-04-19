@@ -7,7 +7,7 @@
 					<span>{{ props.title }}</span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" size="default" label-width="80px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="80px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="角色名称" prop="name" :rules="[{ required: true, message: '角色名称不能为空', trigger: 'blur' }]">
@@ -55,8 +55,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="cancel" size="default">取 消</el-button>
-					<el-button type="primary" @click="submit" size="default">确 定</el-button>
+					<el-button @click="cancel">取 消</el-button>
+					<el-button type="primary" @click="submit">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -99,7 +99,7 @@ const openDialog = async (row: any) => {
 	if (JSON.stringify(row) !== '{}') {
 		var res = await getAPI(SysRoleApi).apiSysRoleOwnMenuListGet(row.id);
 		setTimeout(() => {
-			treeRef.value?.setCheckedKeys(res.data.result);
+			treeRef.value?.setCheckedKeys(res.data.result ?? []);
 		}, 100);
 	}
 	state.isShowDialog = true;

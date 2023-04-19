@@ -13,21 +13,18 @@ public class SysFileService : IDynamicApiController, ITransient
     private readonly SqlSugarRepository<SysFile> _sysFileRep;
     private readonly OSSProviderOptions _OSSProviderOptions;
     private readonly UploadOptions _uploadOptions;
-    private readonly ICommonService _commonService;
     private readonly IOSSService _OSSService;
 
     public SysFileService(UserManager userManager,
         SqlSugarRepository<SysFile> sysFileRep,
         IOptions<OSSProviderOptions> oSSProviderOptions,
         IOptions<UploadOptions> uploadOptions,
-        ICommonService commonService,
         IOSSServiceFactory ossServiceFactory)
     {
         _userManager = userManager;
         _sysFileRep = sysFileRep;
         _OSSProviderOptions = oSSProviderOptions.Value;
         _uploadOptions = uploadOptions.Value;
-        _commonService = commonService;
         if (_OSSProviderOptions.IsEnable)
             _OSSService = ossServiceFactory.Create(Enum.GetName(_OSSProviderOptions.Provider));
     }
@@ -244,7 +241,7 @@ public class SysFileService : IDynamicApiController, ITransient
             //}
 
             // 生成外链
-            newFile.Url = _commonService.GetFileUrl(newFile);
+            newFile.Url = $"{CommonUtil.GetLocalhost()}/{newFile.FilePath}/{newFile.Id + newFile.Suffix}";
         }
         await _sysFileRep.AsInsertable(newFile).ExecuteCommandAsync();
         return newFile;
@@ -278,8 +275,8 @@ public class SysFileService : IDynamicApiController, ITransient
             await DeleteFile(new DeleteFileInput { Id = long.Parse(fileId) });
         }
 
-        var res = await UploadFile(file, "Avatar");
-        await sysUserRep.UpdateAsync(u => new SysUser() { Avatar = res.Url }, u => u.Id == user.Id);
+        var res = await UploadFile(file, "Upload/Avatar");
+        await sysUserRep.UpdateAsync(u => new SysUser() { Avatar = $"{res.FilePath}/{res.Name}" }, u => u.Id == user.Id);
         return res;
     }
 
@@ -300,8 +297,8 @@ public class SysFileService : IDynamicApiController, ITransient
             await DeleteFile(new DeleteFileInput { Id = long.Parse(fileId) });
         }
 
-        var res = await UploadFile(file, "Signature");
-        await sysUserRep.UpdateAsync(u => new SysUser() { Signature = res.Url }, u => u.Id == user.Id);
+        var res = await UploadFile(file, "Upload/Signature");
+        await sysUserRep.UpdateAsync(u => new SysUser() { Signature = $"{res.FilePath}/{res.Name}" }, u => u.Id == user.Id);
         return res;
     }
 }

@@ -77,7 +77,7 @@ const state = reactive({
 	regionData: [] as Array<SysRegion>, // 列表数据
 	queryParams: {
 		id: -1,
-    pid: undefined,
+		pid: undefined,
 		name: undefined,
 		code: undefined,
 	},
@@ -117,7 +117,7 @@ const handleQuery = async () => {
 // 重置操作
 const resetQuery = () => {
 	state.queryParams.id = -1;
-  state.queryParams.pid = undefined;
+	state.queryParams.pid = undefined;
 	state.queryParams.name = undefined;
 	state.queryParams.code = undefined;
 	handleQuery();
