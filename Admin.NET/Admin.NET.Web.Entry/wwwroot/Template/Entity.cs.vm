@@ -20,10 +20,12 @@ if(@Model.BaseClassName=="" && @column.IsPrimarykey){
         if(!@column.IsNullable){
         @:[Required]
         }
-        if(@column.DataType=="string"&&@column.Length<int.MaxValue){
-        @:[MaxLength(@column.Length)]
+        if(@column.DataType=="string"||@column.DataType=="string?"){
+        @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true, Length = @column.Length)]
         }
+        else{
         @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
+        }
         @:public @column.DataType @column.DbColumnName { get; set; }
 }
 else if(@Model.BaseClassName=="" && !@column.IsPrimarykey){
@@ -33,10 +35,11 @@ else if(@Model.BaseClassName=="" && !@column.IsPrimarykey){
         if(!@column.IsNullable){
         @:[Required]
         }
-        if(@column.DataType=="string"&&@column.Length<int.MaxValue){
-        @:[MaxLength(@column.Length)]
-        }
+        if(@column.DataType=="string"||@column.DataType=="string?"){
+        @:[SugarColumn(ColumnDescription = "@column.ColumnDescription", Length = @column.Length)]
+        }else{
         @:[SugarColumn(ColumnDescription = "@column.ColumnDescription")]
+        }
         @:public @column.DataType @column.DbColumnName { get; set; }
 }
 else if(@Model.BaseClassName!="" && @column.IsPrimarykey && @column.DbColumnName.ToLower()!="id"){
@@ -46,10 +49,11 @@ else if(@Model.BaseClassName!="" && @column.IsPrimarykey && @column.DbColumnName
         if(!@column.IsNullable){
         @:[Required]
         }
-        if(@column.DataType=="string"&&@column.Length<int.MaxValue){
-        @:[MaxLength(@column.Length)]
-        }
+        if(@column.DataType=="string"||@column.DataType=="string?"){
+        @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true, Length = @column.Length)]
+        }else{
         @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
+        }
         @:public @column.DataType @column.DbColumnName { get; set; }
 }
 else if(@Model.BaseClassName!="" && !@column.IsPrimarykey && @column.DbColumnName.ToLower()!="id"){
@@ -59,10 +63,11 @@ else if(@Model.BaseClassName!="" && !@column.IsPrimarykey && @column.DbColumnNam
         if(!@column.IsNullable){
         @:[Required]
         }
-        if(@column.DataType=="string"&&@column.Length<int.MaxValue){
-        @:[MaxLength(@column.Length)]
-        }
+        if(@column.DataType=="string"||@column.DataType=="string?"){
+        @:[SugarColumn(ColumnDescription = "@column.ColumnDescription", Length = @column.Length)]
+        }else{
         @:[SugarColumn(ColumnDescription = "@column.ColumnDescription")]
+        }
         @:public @column.DataType @column.DbColumnName { get; set; }
 }
 }
