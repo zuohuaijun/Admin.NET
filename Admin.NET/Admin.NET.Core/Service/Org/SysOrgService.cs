@@ -40,11 +40,12 @@ public class SysOrgService : IDynamicApiController, ITransient
         var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.OrderNo);
 
         // 条件筛选可能造成无法构造树（列表数据）
-        if (!string.IsNullOrWhiteSpace(input.Name) || !string.IsNullOrWhiteSpace(input.Code))
+        if (!string.IsNullOrWhiteSpace(input.Name) || !string.IsNullOrWhiteSpace(input.Code) || !string.IsNullOrWhiteSpace(input.OrgType))
         {
             return await iSugarQueryable.WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code))
+                .WhereIF(!string.IsNullOrWhiteSpace(input.OrgType), u => u.OrgType.Contains(input.OrgType))
                 .ToListAsync();
         }
 

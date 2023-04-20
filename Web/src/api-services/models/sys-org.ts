@@ -80,6 +80,12 @@ export interface SysOrg {
      */
     code?: string | null;
     /**
+     * 机构类型
+     * @type {string}
+     * @memberof SysOrg
+     */
+    orgType?: string | null;
+    /**
      * 排序
      * @type {number}
      * @memberof SysOrg

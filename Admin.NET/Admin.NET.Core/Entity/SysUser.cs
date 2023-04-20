@@ -173,8 +173,8 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 128)]
-    [MaxLength(128)]
+    [SugarColumn(ColumnDescription = "备注", Length = 256)]
+    [MaxLength(256)]
     public string? Remark { get; set; }
 
     /// <summary>
@@ -222,6 +222,34 @@ public class SysUser : EntityTenant
     [SugarColumn(ColumnDescription = "职级", Length = 32)]
     [MaxLength(32)]
     public string? PosLevel { get; set; }
+
+    /// <summary>
+    /// 职称
+    /// </summary>
+    [SugarColumn(ColumnDescription = "职称", Length = 32)]
+    [MaxLength(32)]
+    public string? PosTitle { get; set; }
+
+    /// <summary>
+    /// 擅长领域
+    /// </summary>
+    [SugarColumn(ColumnDescription = "擅长领域", Length = 32)]
+    [MaxLength(32)]
+    public string? Expertise { get; set; }
+
+    /// <summary>
+    /// 办公区域
+    /// </summary>
+    [SugarColumn(ColumnDescription = "办公区域", Length = 32)]
+    [MaxLength(32)]
+    public string? OfficeZone { get; set; }
+
+    /// <summary>
+    /// 办公室
+    /// </summary>
+    [SugarColumn(ColumnDescription = "办公室", Length = 32)]
+    [MaxLength(32)]
+    public string? Office { get; set; }
 
     /// <summary>
     /// 入职日期
