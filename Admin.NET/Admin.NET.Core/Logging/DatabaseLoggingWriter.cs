@@ -1,4 +1,6 @@
 using IPTools.Core;
+using Nest;
+using UAParser;
 
 namespace Admin.NET.Core;
 
@@ -47,6 +49,10 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
         string remoteIPv4 = loggingMonitor.remoteIPv4;
         (string ipLocation, double? longitude, double? latitude) = GetIpAddress(remoteIPv4);
 
+        var client = Parser.GetDefault().Parse(loggingMonitor.userAgent.ToString());
+        var browser = $"{client.UA.Family} {client.UA.Major}.{client.UA.Minor} / {client.Device.Family}";
+        var os = $"{client.OS.Family} {client.OS.Major} {client.OS.Minor}";
+
         if (loggingMonitor.actionName == "userInfo" || loggingMonitor.actionName == "logout")
         {
             await _sysLogVisRep.InsertAsync(new SysLogVis
@@ -59,8 +65,8 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                 Location = ipLocation,
                 Longitude = longitude,
                 Latitude = latitude,
-                Browser = loggingMonitor.userAgent,
-                Os = loggingMonitor.osDescription + " " + loggingMonitor.osArchitecture,
+                Browser = browser, // loggingMonitor.userAgent,
+                Os = os, // loggingMonitor.osDescription + " " + loggingMonitor.osArchitecture,
                 Elapsed = loggingMonitor.timeOperationElapsedMilliseconds,
                 LogDateTime = logMsg.LogDateTime,
                 Account = account,
@@ -85,8 +91,8 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
                     Location = ipLocation,
                     Longitude = longitude,
                     Latitude = latitude,
-                    Browser = loggingMonitor.userAgent,
-                    Os = loggingMonitor.osDescription + " " + loggingMonitor.osArchitecture,
+                    Browser = browser, // loggingMonitor.userAgent,
+                    Os = os, // loggingMonitor.osDescription + " " + loggingMonitor.osArchitecture,
                     Elapsed = loggingMonitor.timeOperationElapsedMilliseconds,
                     LogDateTime = logMsg.LogDateTime,
                     Account = account,
