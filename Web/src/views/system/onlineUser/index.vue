@@ -70,7 +70,7 @@ const state = reactive({
 	tableParams: {
 		page: 1,
 		pageSize: 10,
-		total: 0 as any,
+		total: 1 as any,
 	},
 	onlineUserList: [] as Array<SysOnlineUser>, // 在线用户列表
 	lastUserState: {

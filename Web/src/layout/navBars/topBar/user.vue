@@ -92,8 +92,8 @@ import { SysAuthApi, SysNoticeApi } from '/@/api-services/api';
 import { signalR } from '/@/views/system/onlineUser/signalR';
 
 // 引入组件
-const UserNews = defineAsyncComponent(() => import('/@/layout/navBars/breadcrumb/userNews.vue'));
-const Search = defineAsyncComponent(() => import('/@/layout/navBars/breadcrumb/search.vue'));
+const UserNews = defineAsyncComponent(() => import('/@/layout/navBars/topBar/userNews.vue'));
+const Search = defineAsyncComponent(() => import('/@/layout/navBars/topBar/search.vue'));
 const OnlineUser = defineAsyncComponent(() => import('/@/views/system/onlineUser/index.vue'));
 
 // 定义变量内容

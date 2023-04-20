@@ -340,6 +340,7 @@ declare type TableDemoState = {
 		search: TableSearchType[];
 		param: EmptyObjectType;
 		defaultSort: EmptyObjectType;
+		printName: string;
 	};
 };
 

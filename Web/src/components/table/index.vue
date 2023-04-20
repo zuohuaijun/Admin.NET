@@ -14,6 +14,7 @@
 							<el-dropdown-item @click="onImportTableAll">导出全部数据</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
+					<SvgIcon name="iconfont icon-dayin" :size="19" title="打印" @click="onPrintTable" />
 				</el-dropdown>
 				<el-popover placement="top-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper" :width="300" :persistent="false" @show="onSetTable">
 					<template #reference>
@@ -63,7 +64,14 @@
 				</template>
 				<template v-else v-slot="scope">
 					<template v-if="item.type === 'image'">
-						<img :src="scope.row[item.prop]" class="w100" />
+						<el-image
+							:style="{ width: `${item.width}px`, height: `${item.height}px` }"
+							:src="scope.row[item.prop]"
+							:zoom-rate="1.2"
+							:preview-src-list="[scope.row[item.prop]]"
+							preview-teleported
+							fit="cover"
+						/>
 					</template>
 					<template v-else>
 						{{ scope.row[item.prop] }}
@@ -99,6 +107,7 @@ import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import { exportExcel } from '/@/utils/exportExcel';
 // import '/@/theme/tableTool.scss';
+import printJs from 'print-js';
 
 // 定义父组件传过来的值
 const props = defineProps({
@@ -130,6 +139,11 @@ const props = defineProps({
 	// 导出报表自定义数据转换方法，不传按字段值导出
 	exportChangeData: {
 		type: Function,
+	},
+	// 打印标题
+	printName: {
+		type: String,
+		default: () => '',
 	},
 });
 
@@ -247,6 +261,37 @@ const importData = (data: Array<EmptyObjectType>) => {
 		'导出数据'
 	);
 	state.importLoading = false;
+};
+// 打印
+const onPrintTable = () => {
+	// https://printjs.crabbly.com/#documentation
+	// 自定义打印
+	let tableTh = '';
+	let tableTrTd = '';
+	let tableTd: any = {};
+	// 表头
+	props.header.forEach((v: any) => {
+		tableTh += `<th class="table-th">${v.title}</th>`;
+	});
+	// 表格内容
+	props.data.forEach((val: any, key: any) => {
+		if (!tableTd[key]) tableTd[key] = [];
+		props.header.forEach((v: any) => {
+			if (v.type === 'text') {
+				tableTd[key].push(`<td class="table-th table-center">${val[v.key]}</td>`);
+			} else if (v.type === 'image') {
+				tableTd[key].push(`<td class="table-th table-center"><img src="${val[v.key]}" style="width:${v.width}px;height:${v.height}px;"/></td>`);
+			}
+		});
+		tableTrTd += `<tr>${tableTd[key].join('')}</tr>`;
+	});
+	// 打印
+	printJs({
+		printable: `<div style=display:flex;flex-direction:column;text-align:center><h3>${props.printName}</h3></div><table border=1 cellspacing=0><tr>${tableTh}${tableTrTd}</table>`,
+		type: 'raw-html',
+		css: ['//at.alicdn.com/t/c/font_2298093_rnp72ifj3ba.css', '//unpkg.com/element-plus/dist/index.css'],
+		style: `@media print{.mb15{margin-bottom:15px;}.el-button--small i.iconfont{font-size: 12px !important;margin-right: 5px;}}; .table-th{word-break: break-all;white-space: pre-wrap;}.table-center{text-align: center;}`,
+	});
 };
 // 刷新
 const onRefreshTable = () => {

@@ -25,11 +25,11 @@ export const useUserInfo = defineStore('userInfo', {
 	},
 	actions: {
 		async setUserInfos() {
-			// 缓存用户信息
+			// 存储用户信息到浏览器缓存
 			if (Session.get('userInfo')) {
 				this.userInfos = Session.get('userInfo');
 			} else {
-				const userInfos: any = await this.getApiUserInfo();
+				const userInfos = <UserInfos>await this.getApiUserInfo();
 				this.userInfos = userInfos;
 			}
 		},
@@ -70,7 +70,7 @@ export const useUserInfo = defineStore('userInfo', {
 
 						Local.remove('themeConfig');
 						Local.set('themeConfig', storesThemeConfig.themeConfig);
-						
+
 						resolve(userInfos);
 					});
 			});
