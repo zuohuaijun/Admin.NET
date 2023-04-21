@@ -10,7 +10,7 @@ public class SM4Util
     public string secretKey = "1814546261730461"; // 长度必须为16字节
     public string iv = "0000000000000000";
     public bool hexString = false;
-
+    public bool forJavascript = false;
     public string Encrypt_ECB(string plainText)
     {
         var ctx = new SM4_Context
@@ -30,6 +30,8 @@ public class SM4Util
         }
 
         var sm4 = new SM4();
+        sm4.FOR_JAVASCRIPT = forJavascript;
+
         sm4.Sm4_setkey_enc(ctx, keyBytes);
         byte[] encrypted = sm4.Sm4_crypt_ecb(ctx, Encoding.ASCII.GetBytes(plainText));
 
@@ -46,6 +48,9 @@ public class SM4Util
         };
 
         var sm4 = new SM4();
+        
+        sm4.FOR_JAVASCRIPT = forJavascript;
+
         sm4.Sm4_setkey_enc(ctx, keyBytes);
         byte[] encrypted = sm4.Sm4_crypt_ecb(ctx, plainBytes);
         return encrypted;
@@ -72,6 +77,8 @@ public class SM4Util
         }
 
         var sm4 = new SM4();
+        sm4.FOR_JAVASCRIPT = forJavascript;
+
         sm4.Sm4_setkey_dec(ctx, keyBytes);
         byte[] decrypted = sm4.Sm4_crypt_ecb(ctx, Hex.Decode(cipherText));
         return Encoding.ASCII.GetString(decrypted);
@@ -99,6 +106,7 @@ public class SM4Util
         }
 
         var sm4 = new SM4();
+        sm4.FOR_JAVASCRIPT = forJavascript;
         sm4.Sm4_setkey_enc(ctx, keyBytes);
         byte[] encrypted = sm4.Sm4_crypt_cbc(ctx, ivBytes, Encoding.ASCII.GetBytes(plainText));
 
@@ -128,6 +136,7 @@ public class SM4Util
         }
 
         var sm4 = new SM4();
+        sm4.FOR_JAVASCRIPT = forJavascript;
         sm4.Sm4_setkey_dec(ctx, keyBytes);
         byte[] decrypted = sm4.Sm4_crypt_cbc(ctx, ivBytes, Hex.Decode(cipherText));
         return Encoding.ASCII.GetString(decrypted);
