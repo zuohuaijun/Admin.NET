@@ -74,7 +74,7 @@
 </template>
 
 <script lang="ts" setup name="sysEditOrg">
-import {onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';

@@ -89,15 +89,15 @@ const state = reactive({
 onMounted(async () => {
 	handleQuery();
 
+	let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('org_type');
+	state.orgTypeList = resDicData.data.result;
+
 	mittBus.on('submitRefresh', async () => {
 		handleQuery();
 
 		// 编辑删除后更新机构数据
 		orgTreeRef.value?.initTreeData();
 	});
-
-	let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('org_type');
-	state.orgTypeList = resDicData.data.result;
 });
 
 onUnmounted(() => {
@@ -160,15 +160,8 @@ const nodeClick = async (node: any) => {
 	handleQuery();
 };
 
-//字典转换
+// 字典转换
 const dictFormatter = (row: any, column: any, cellValue: any) => {
-	var ret = "";
-      state.orgTypeList.forEach(function (item: any, index: any) {
-        if (cellValue == item.code) {
-          ret = item.value;
-        }
-      });
-      return ret;
-}
-
+	return state.orgTypeList.find((u: any) => u.code == cellValue)?.value;
+};
 </script>
