@@ -11,6 +11,11 @@ public class OrgInput : BaseIdInput
     /// 编码
     /// </summary>
     public string Code { get; set; }
+
+    /// <summary>
+    /// 机构类型
+    /// </summary>
+    public string OrgType { get; set; }
 }
 
 public class AddOrgInput : SysOrg

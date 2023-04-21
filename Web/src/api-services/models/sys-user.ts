@@ -253,6 +253,30 @@ export interface SysUser {
      */
     posLevel?: string | null;
     /**
+     * 职称
+     * @type {string}
+     * @memberof SysUser
+     */
+    posTitle?: string | null;
+    /**
+     * 擅长领域
+     * @type {string}
+     * @memberof SysUser
+     */
+    expertise?: string | null;
+    /**
+     * 办公区域
+     * @type {string}
+     * @memberof SysUser
+     */
+    officeZone?: string | null;
+    /**
+     * 办公室
+     * @type {string}
+     * @memberof SysUser
+     */
+    office?: string | null;
+    /**
      * 入职日期
      * @type {Date}
      * @memberof SysUser

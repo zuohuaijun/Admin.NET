@@ -14,6 +14,11 @@
 						<el-form-item label="机构编码" prop="code">
 							<el-input placeholder="机构编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
 						</el-form-item>
+						<el-form-item label="机构类型" prop="orgType">
+							<el-select v-model="state.queryParams.orgType" filterable clearable class="w100">
+								<el-option v-for="item in state.orgTypeList" :key="item.value" :label="item.value" :value="item.code" />
+							</el-select>
+						</el-form-item>
 						<el-form-item>
 							<el-button-group>
 								<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysOrg:list'"> 查询 </el-button>
@@ -30,6 +35,7 @@
 					<el-table :data="state.orgData" style="width: 100%" v-loading="state.loading" row-key="id" default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
 						<el-table-column prop="name" label="机构名称" show-overflow-tooltip />
 						<el-table-column prop="code" label="机构编码" show-overflow-tooltip />
+						<el-table-column prop="orgType" label="机构类型" :formatter="dictFormatter" show-overflow-tooltip />
 						<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
@@ -61,7 +67,7 @@ import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditOrg from '/@/views/system/org/component/editOrg.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysOrgApi } from '/@/api-services/api';
+import { SysOrgApi, SysDictDataApi } from '/@/api-services/api';
 import { SysOrg } from '/@/api-services/models';
 
 const editOrgRef = ref<InstanceType<typeof EditOrg>>();
@@ -74,11 +80,13 @@ const state = reactive({
 		id: -1,
 		name: undefined,
 		code: undefined,
+		orgType: undefined,
 	},
 	editOrgTitle: '',
+	orgTypeList: [] as any,
 });
 
-onMounted(() => {
+onMounted(async () => {
 	handleQuery();
 
 	mittBus.on('submitRefresh', async () => {
@@ -87,6 +95,9 @@ onMounted(() => {
 		// 编辑删除后更新机构数据
 		orgTreeRef.value?.initTreeData();
 	});
+
+	let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('org_type');
+	state.orgTypeList = resDicData.data.result;
 });
 
 onUnmounted(() => {
@@ -96,12 +107,12 @@ onUnmounted(() => {
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
-	var res = await getAPI(SysOrgApi).apiSysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code);
+	var res = await getAPI(SysOrgApi).apiSysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code, state.queryParams.orgType);
 	state.orgData = res.data.result ?? [];
 	state.loading = false;
 
 	// 若无选择节点并且查询条件为空时
-	if (state.queryParams.id == -1 && state.queryParams.name == undefined && state.queryParams.code == undefined) state.orgTreeData = state.orgData;
+	if (state.queryParams.id == -1 && state.queryParams.name == undefined && state.queryParams.code == undefined && state.queryParams.orgType == undefined) state.orgTreeData = state.orgData;
 };
 
 // 重置操作
@@ -109,6 +120,7 @@ const resetQuery = () => {
 	state.queryParams.id = -1;
 	state.queryParams.name = undefined;
 	state.queryParams.code = undefined;
+	state.queryParams.orgType = undefined;
 	handleQuery();
 };
 
@@ -144,6 +156,19 @@ const nodeClick = async (node: any) => {
 	state.queryParams.id = node.id;
 	state.queryParams.name = undefined;
 	state.queryParams.code = undefined;
+	state.queryParams.orgType = undefined;
 	handleQuery();
 };
+
+//字典转换
+const dictFormatter = (row: any, column: any, cellValue: any) => {
+	var ret = "";
+      state.orgTypeList.forEach(function (item: any, index: any) {
+        if (cellValue == item.code) {
+          ret = item.value;
+        }
+      });
+      return ret;
+}
+
 </script>

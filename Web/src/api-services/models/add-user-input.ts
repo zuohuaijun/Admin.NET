@@ -242,6 +242,30 @@ export interface AddUserInput {
      */
     posLevel?: string | null;
     /**
+     * 职称
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    posTitle?: string | null;
+    /**
+     * 擅长领域
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    expertise?: string | null;
+    /**
+     * 办公区域
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    officeZone?: string | null;
+    /**
+     * 办公室
+     * @type {string}
+     * @memberof AddUserInput
+     */
+    office?: string | null;
+    /**
      * 入职日期
      * @type {Date}
      * @memberof AddUserInput

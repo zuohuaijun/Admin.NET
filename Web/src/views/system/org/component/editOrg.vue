@@ -36,6 +36,13 @@
 							<el-input v-model="state.ruleForm.code" placeholder="机构编码" clearable />
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="机构类型" prop="orgType">
+							<el-select v-model="state.ruleForm.orgType" filterable clearable class="w100">
+								<el-option v-for="item in state.orgTypeList" :key="item.value" :label="item.value" :value="item.code" />
+							</el-select>
+						</el-form-item>
+					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="排序">
 							<el-input-number v-model="state.ruleForm.orderNo" placeholder="排序" class="w100" />
@@ -67,11 +74,11 @@
 </template>
 
 <script lang="ts" setup name="sysEditOrg">
-import { reactive, ref } from 'vue';
+import {onMounted, reactive, ref } from 'vue';
 import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysOrgApi } from '/@/api-services/api';
+import { SysOrgApi, SysDictDataApi } from '/@/api-services/api';
 import { SysOrg, UpdateOrgInput } from '/@/api-services/models';
 
 const props = defineProps({
@@ -83,6 +90,12 @@ const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
 	ruleForm: {} as UpdateOrgInput,
+	orgTypeList: [] as any,
+});
+
+onMounted(async () => {
+	let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('org_type');
+	state.orgTypeList = resDicData.data.result;
 });
 
 // 打开弹窗

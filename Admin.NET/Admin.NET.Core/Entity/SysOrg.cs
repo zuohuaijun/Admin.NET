@@ -28,6 +28,13 @@ public class SysOrg : EntityTenant
     public string? Code { get; set; }
 
     /// <summary>
+    /// 机构类型
+    /// </summary>
+    [SugarColumn(ColumnDescription = "机构类型", Length = 64)]
+    [MaxLength(64)]
+    public string? OrgType { get; set; }
+
+    /// <summary>
     /// 排序
     /// </summary>
     [SugarColumn(ColumnDescription = "排序")]
