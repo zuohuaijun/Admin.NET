@@ -16,5 +16,11 @@ public enum CryptogramEnum
     /// SM2（国密）
     /// </summary>
     [Description("SM2")]
-    SM2 = 1
+    SM2 = 1,
+
+    /// <summary>
+    /// SM4（国密）
+    /// </summary>
+    [Description("SM4")]
+    SM4 = 2
 }

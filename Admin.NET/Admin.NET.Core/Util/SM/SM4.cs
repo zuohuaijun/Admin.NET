@@ -5,11 +5,10 @@ public class SM4
     public const int SM4_ENCRYPT = 1;
     public const int SM4_DECRYPT = 0;
 
-    /// <summary>
-    /// JS 前后端加密不一样
-    /// </summary>
-    public  bool FOR_JAVASCRIPT = false;
-    private  long GET_ULONG_BE(byte[] b, int i)
+    // JS前后端加密不一样
+    public bool FOR_JAVASCRIPT = false;
+
+    private long GET_ULONG_BE(byte[] b, int i)
     {
         long n = 0;
         if (FOR_JAVASCRIPT)
@@ -23,7 +22,7 @@ public class SM4
         return n;
     }
 
-    private  void PUT_ULONG_BE(long n, byte[] b, int i)
+    private void PUT_ULONG_BE(long n, byte[] b, int i)
     {
         b[i] = (byte)(int)(0xFF & n >> 24);
         b[i + 1] = (byte)(int)(0xFF & n >> 16);
@@ -31,17 +30,17 @@ public class SM4
         b[i + 3] = (byte)(int)(0xFF & n);
     }
 
-    private  long SHL(long x, int n)
+    private long SHL(long x, int n)
     {
         return (x & 0xFFFFFFFF) << n;
     }
 
-    private  long ROTL(long x, int n)
+    private long ROTL(long x, int n)
     {
         return SHL(x, n) | x >> (32 - n);
     }
 
-    private  void SWAP(long[] sk, int i)
+    private void SWAP(long[] sk, int i)
     {
         long t = sk[i];
         sk[i] = sk[(31 - i)];

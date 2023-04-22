@@ -11,6 +11,7 @@ public class SM4Util
     public string iv = "0000000000000000";
     public bool hexString = false;
     public bool forJavascript = false;
+
     public string Encrypt_ECB(string plainText)
     {
         var ctx = new SM4_Context
@@ -48,7 +49,7 @@ public class SM4Util
         };
 
         var sm4 = new SM4();
-        
+
         sm4.FOR_JAVASCRIPT = forJavascript;
 
         sm4.Sm4_setkey_enc(ctx, keyBytes);

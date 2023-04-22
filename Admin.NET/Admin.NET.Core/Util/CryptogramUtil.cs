@@ -23,6 +23,10 @@ public class CryptogramUtil
         {
             return SM2Encrypt(plainText);
         }
+        else if (CryptoType == CryptogramEnum.SM4.ToString())
+        {
+            return SM4EncryptECB(plainText);
+        }
         return plainText;
     }
 
@@ -36,6 +40,10 @@ public class CryptogramUtil
         if (CryptoType == CryptogramEnum.SM2.ToString())
         {
             return SM2Decrypt(cipherText);
+        }
+        else if (CryptoType == CryptogramEnum.SM4.ToString())
+        {
+            return SM4DecryptECB(cipherText);
         }
         return cipherText;
     }

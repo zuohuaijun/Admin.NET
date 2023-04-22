@@ -21,13 +21,13 @@
     <PackageReference Include="DotNetCore.Compile.Environment" Version="3.2.0" />
     <PackageReference Include="DotNetCore.Natasha.CSharp" Version="5.1.0" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.2" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.8.2" />
-    <PackageReference Include="Furion.Pure" Version="4.8.8.2" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.3" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.8.3" />
+    <PackageReference Include="Furion.Pure" Version="4.8.8.3" />
     <PackageReference Include="IPTools.China" Version="1.6.0" />
     <PackageReference Include="Lazy.Captcha.Core" Version="2.0.3" />
-    <PackageReference Include="Magicodes.IE.Excel" Version="2.7.4.3" />
-    <PackageReference Include="Magicodes.IE.Pdf" Version="2.7.4.3" />
+    <PackageReference Include="Magicodes.IE.Excel" Version="2.7.4.4" />
+    <PackageReference Include="Magicodes.IE.Pdf" Version="2.7.4.4" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.16" />
     <PackageReference Include="NEST" Version="7.17.5" />
     <PackageReference Include="NewLife.Redis" Version="5.3.2023.401" />
