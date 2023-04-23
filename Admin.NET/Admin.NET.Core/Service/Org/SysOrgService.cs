@@ -236,10 +236,10 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// <returns></returns>
     private async Task<List<long>> GetUserOrgIdList(List<SysRole> roleList)
     {
-        // 按最大范围策略设定(如果同时拥有ALL和SELF的权限，则结果ALL)
+        // 按最大范围策略设定(若同时拥有ALL和SELF权限，则结果ALL)
         int strongerDataScopeType = (int)DataScopeEnum.Self;
 
-        // 数据范围拥有的角色集合
+        // 角色集合拥有的数据范围
         var customDataScopeRoleIdList = new List<long>();
         if (roleList != null && roleList.Count > 0)
         {
@@ -258,7 +258,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         var orgIdList2 = await GetOrgIdListByDataScope(strongerDataScopeType);
 
         // 缓存当前用户最大角色数据范围
-        _sysCacheService.Set(CacheConst.KeyMaxDataScopeType + _userManager.UserId, strongerDataScopeType);
+        _sysCacheService.Set(CacheConst.KeyMaxDataScope + _userManager.UserId, strongerDataScopeType);
 
         // 并集机构集合
         return orgIdList1.Union(orgIdList2).ToList();

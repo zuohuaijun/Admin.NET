@@ -8,15 +8,18 @@ public static class SqlSugarFilter
     private static readonly ICache _cache = Cache.Default;
 
     /// <summary>
-    /// 配置用户机构范围过滤器
+    /// 配置用户机构集合过滤器
     /// </summary>
     public static void SetOrgEntityFilter(SqlSugarScopeProvider db)
     {
+        // 若仅本人数据，则直接返回
+        if (SetDataScopeFilter(db) == (int)DataScopeEnum.Self) return;
+
         var userId = App.User?.FindFirst(ClaimConst.UserId)?.Value;
         if (string.IsNullOrWhiteSpace(userId)) return;
 
-        // 配置用户机构范围缓存
-        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:UserId:{userId}";
+        // 配置用户机构集合缓存
+        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:orgList:{userId}";
         var orgFilter = _cache.Get<ConcurrentDictionary<Type, LambdaExpression>>(cacheKey);
         if (orgFilter == null)
         {
@@ -52,12 +55,59 @@ public static class SqlSugarFilter
     }
 
     /// <summary>
+    /// 配置用户仅本人数据过滤器
+    /// </summary>
+    public static int SetDataScopeFilter(SqlSugarScopeProvider db)
+    {
+        var maxDataScope = (int)DataScopeEnum.All;
+
+        var userId = App.User?.FindFirst(ClaimConst.UserId)?.Value;
+        if (string.IsNullOrWhiteSpace(userId)) return maxDataScope;
+
+        // 获取用户最大数据范围---仅本人数据
+        maxDataScope = App.GetService<SysCacheService>().Get<int>(CacheConst.KeyMaxDataScope + userId);
+        if (maxDataScope != (int)DataScopeEnum.Self) return maxDataScope;
+
+        // 配置用户数据范围缓存
+        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:dataScope:{userId}";
+        var dataScopeFilter = _cache.Get<ConcurrentDictionary<Type, LambdaExpression>>(cacheKey);
+        if (dataScopeFilter == null)
+        {
+            // 获取业务实体数据表
+            var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+                && u.BaseType == typeof(EntityBaseData));
+            if (!entityTypes.Any()) return maxDataScope;
+
+            dataScopeFilter = new ConcurrentDictionary<Type, LambdaExpression>();
+            foreach (var entityType in entityTypes)
+            {
+                // 排除非当前数据库实体
+                var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+                if ((tAtt != null && db.CurrentConnectionConfig.ConfigId.ToString() != tAtt.configId.ToString()))
+                    continue;
+
+                var lambda = DynamicExpressionParser.ParseLambda(new[] {
+                    Expression.Parameter(entityType, "u") }, typeof(bool), $"u.{nameof(EntityBaseData.CreateUserId)}=@0", userId);
+                db.QueryFilter.AddTableFilter(entityType, lambda);
+                dataScopeFilter.TryAdd(entityType, lambda);
+            }
+            _cache.Add(cacheKey, dataScopeFilter);
+        }
+        else
+        {
+            foreach (var filter in dataScopeFilter)
+                db.QueryFilter.AddTableFilter(filter.Key, filter.Value);
+        }
+        return maxDataScope;
+    }
+
+    /// <summary>
     /// 配置自定义过滤器
     /// </summary>
     public static void SetCustomEntityFilter(SqlSugarScopeProvider db)
     {
-        // 配置用户机构范围缓存
-        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:Custom";
+        // 配置自定义缓存
+        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:custom";
         var tableFilterItemList = _cache.Get<List<TableFilterItem<object>>>(cacheKey);
         if (tableFilterItemList == null)
         {

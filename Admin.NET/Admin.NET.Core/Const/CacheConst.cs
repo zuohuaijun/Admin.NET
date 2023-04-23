@@ -26,9 +26,9 @@ public class CacheConst
     public const string KeyOrgIdList = "org:";
 
     /// <summary>
-    /// 最大角色数据范围缓存
+    /// 角色最大数据范围缓存
     /// </summary>
-    public const string KeyMaxDataScopeType = "maxDataScopeType:";
+    public const string KeyMaxDataScope = "maxDataScope:";
 
     /// <summary>
     /// 验证码缓存
