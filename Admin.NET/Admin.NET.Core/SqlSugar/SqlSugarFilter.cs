@@ -57,7 +57,7 @@ public static class SqlSugarFilter
     /// <summary>
     /// 配置用户仅本人数据过滤器
     /// </summary>
-    public static int SetDataScopeFilter(SqlSugarScopeProvider db)
+    private static int SetDataScopeFilter(SqlSugarScopeProvider db)
     {
         var maxDataScope = (int)DataScopeEnum.All;
 

@@ -3,11 +3,6 @@ namespace Admin.NET.Core;
 public static class SqlSugarSetup
 {
     /// <summary>
-    /// 是否已初始化
-    /// </summary>
-    public static bool IsInit { get; private set; } = false;
-
-    /// <summary>
     /// SqlSugar 上下文初始化
     /// </summary>
     /// <param name="services"></param>
@@ -35,8 +30,6 @@ public static class SqlSugarSetup
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
         services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 事务与工作单元注册
-
-        IsInit = true;
     }
 
     /// <summary>
@@ -93,8 +86,6 @@ public static class SqlSugarSetup
         // 打印SQL语句
         db.Aop.OnLogExecuting = (sql, pars) =>
         {
-            if (!IsInit) return;
-
             var originColor = Console.ForegroundColor;
             if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                 Console.ForegroundColor = ConsoleColor.Green;
@@ -121,7 +112,7 @@ public static class SqlSugarSetup
         db.Aop.DataExecuting = (oldValue, entityInfo) =>
         {
             // 演示环境判断
-            if (IsInit && entityInfo.EntityColumnInfo.IsPrimarykey)
+            if (entityInfo.EntityColumnInfo.IsPrimarykey)
             {
                 if (entityInfo.EntityName != nameof(SysJobDetail) && entityInfo.EntityName != nameof(SysJobTrigger) &&
                     entityInfo.EntityName != nameof(SysLogOp) && entityInfo.EntityName != nameof(SysLogVis) &&
