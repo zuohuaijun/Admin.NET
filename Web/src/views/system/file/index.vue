@@ -37,10 +37,10 @@
 					<template #default="scope">
 						<el-image
 							style="width: 60px; height: 60px"
-							:src="`${baseUrl}/${scope.row.filePath}/${scope.row.id}${scope.row.suffix}`"
+							:src="`/${scope.row.filePath}/${scope.row.id}${scope.row.suffix}`"
 							:lazy="true"
 							:hide-on-click-modal="true"
-							:preview-src-list="[scope.row.url]"
+							:preview-src-list="[`/${scope.row.filePath}/${scope.row.id}${scope.row.suffix}`]"
 							:initial-index="0"
 							fit="scale-down"
 							preview-teleported

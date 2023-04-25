@@ -34,6 +34,10 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 					changeOrigin: true,
 					rewrite: (path) => path.replace(/^\/gitee/, ''),
 				},
+				'/Upload':{
+					target: env.VITE_API_URL,
+					changeOrigin: true,
+				}
 			},
 		},
 		build: {
