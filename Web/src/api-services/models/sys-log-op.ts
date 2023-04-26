@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { LogLevel } from './log-level';
 /**
  * 系统操作日志表
  * @export
@@ -131,6 +132,12 @@ export interface SysLogOp {
      * @memberof SysLogOp
      */
     logDateTime?: Date | null;
+    /**
+     * 
+     * @type {LogLevel}
+     * @memberof SysLogOp
+     */
+    logLevel?: LogLevel;
     /**
      * 账号
      * @type {string}

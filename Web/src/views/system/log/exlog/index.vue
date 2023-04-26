@@ -1,5 +1,5 @@
 <template>
-	<div class="sys-oplog-container" v-loading="state.loading">
+	<div class="sys-exlog-container" v-loading="state.loading">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="开始时间" prop="name">
@@ -10,12 +10,12 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button-group>
-						<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysOplog:page'"> 查询 </el-button>
+						<el-button type="primary" icon="ele-Search" @click="handleQuery" v-auth="'sysExlog:page'"> 查询 </el-button>
 						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
 					</el-button-group>
 				</el-form-item>
 				<el-form-item>
-					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysOplog:clear'"> 清空 </el-button>
+					<el-button icon="ele-DeleteFilled" type="danger" @click="clearLog" v-auth="'sysExlog:clear'"> 清空 </el-button>
 					<el-button icon="ele-FolderOpened" @click="exportLog" v-auth="'sysOplog:export'"> 导出 </el-button>
 				</el-form-item>
 			</el-form>
@@ -56,7 +56,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="elapsed" label="耗时(ms)" width="100" align="center" show-overflow-tooltip />
-				<!-- <el-table-column prop="exception" label="异常对象" width="150" show-overflow-tooltip /> -->
+				<el-table-column prop="exception" label="异常对象" width="150" show-overflow-tooltip />
 				<!-- <el-table-column prop="message" label="日志消息" width="160" fixed="right" show-overflow-tooltip /> -->
 				<el-table-column prop="logDateTime" label="日志时间" width="160" align="center" fixed="right" show-overflow-tooltip />
 				<el-table-column label="操作" width="80" align="center" fixed="right" show-overflow-tooltip>
@@ -89,14 +89,14 @@
 	</div>
 </template>
 
-<script lang="ts" setup name="sysOpLog">
+<script lang="ts" setup name="sysExLog">
 import { onMounted, reactive } from 'vue';
 import { ElMessage } from 'element-plus';
 import { downloadByData, getFileName } from '/@/utils/download';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysLogOpApi } from '/@/api-services/api';
-import { SysLogOp } from '/@/api-services/models';
+import { SysLogExApi } from '/@/api-services/api';
+import { SysLogEx } from '/@/api-services/models';
 
 const state = reactive({
 	loading: false,
@@ -112,7 +112,7 @@ const state = reactive({
 		descStr: 'descending', // 降序排序的关键字符
 		total: 0 as any,
 	},
-	logData: [] as Array<SysLogOp>,
+	logData: [] as Array<SysLogEx>,
 	dialogVisible: false,
 	content: '',
 });
@@ -128,7 +128,7 @@ const handleQuery = async () => {
 
 	state.loading = true;
 	let params = Object.assign(state.queryParams, state.tableParams);
-	var res = await getAPI(SysLogOpApi).apiSysLogOpPagePost(params);
+	var res = await getAPI(SysLogExApi).apiSysLogExPagePost(params);
 	state.logData = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;
@@ -144,7 +144,7 @@ const resetQuery = () => {
 // 清空日志
 const clearLog = async () => {
 	state.loading = true;
-	await getAPI(SysLogOpApi).apiSysLogOpClearPost();
+	await getAPI(SysLogExApi).apiSysLogExClearPost();
 	state.loading = false;
 
 	ElMessage.success('清空成功');
@@ -154,7 +154,7 @@ const clearLog = async () => {
 // 导出日志
 const exportLog = async () => {
 	state.loading = true;
-	var res = await getAPI(SysLogOpApi).apiSysLogOpExportPost(state.queryParams, { responseType: 'blob' });
+	var res = await getAPI(SysLogExApi).apiSysLogExExportPost(state.queryParams, { responseType: 'blob' });
 	state.loading = false;
 
 	var fileName = getFileName(res.headers);

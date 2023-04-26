@@ -88,6 +88,12 @@ public class SysLogVis : EntityTenant
     public DateTime? LogDateTime { get; set; }
 
     /// <summary>
+    /// 日志级别
+    /// </summary>
+    [SugarColumn(ColumnDescription = "日志级别")]
+    public LogLevel LogLevel { get; set; }
+
+    /// <summary>
     /// 账号
     /// </summary>
     [SugarColumn(ColumnDescription = "账号", Length = 32)]

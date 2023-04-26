@@ -13,141 +13,195 @@
  */
 import { LogLevel } from './log-level';
 /**
- * 系统访问日志表
+ * 系统异常日志表
  * @export
- * @interface SysLogVis
+ * @interface SysLogEx
  */
-export interface SysLogVis {
+export interface SysLogEx {
     /**
      * 雪花Id
      * @type {number}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     id?: number;
     /**
      * 创建时间
      * @type {Date}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     createTime?: Date | null;
     /**
      * 更新时间
      * @type {Date}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     updateTime?: Date | null;
     /**
      * 创建者Id
      * @type {number}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     createUserId?: number | null;
     /**
      * 修改者Id
      * @type {number}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     updateUserId?: number | null;
     /**
      * 软删除
      * @type {boolean}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     isDelete?: boolean;
     /**
      * 租户Id
      * @type {number}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     tenantId?: number | null;
     /**
      * 模块名称
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     controllerName?: string | null;
     /**
      * 方法名称
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     actionName?: string | null;
     /**
      * 显示名称
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     displayTitle?: string | null;
     /**
      * 执行状态
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     status?: string | null;
     /**
      * IP地址
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     remoteIp?: string | null;
     /**
      * 登录地点
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     location?: string | null;
     /**
      * 经度
      * @type {number}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     longitude?: number | null;
     /**
      * 维度
      * @type {number}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     latitude?: number | null;
     /**
      * 浏览器
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     browser?: string | null;
     /**
      * 操作系统
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     os?: string | null;
     /**
      * 操作用时
      * @type {number}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     elapsed?: number | null;
     /**
      * 日志时间
      * @type {Date}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     logDateTime?: Date | null;
     /**
      * 
      * @type {LogLevel}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     logLevel?: LogLevel;
     /**
      * 账号
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     account?: string | null;
     /**
      * 真实姓名
      * @type {string}
-     * @memberof SysLogVis
+     * @memberof SysLogEx
      */
     realName?: string | null;
+    /**
+     * 请求方式
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    httpMethod?: string | null;
+    /**
+     * 请求地址
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    requestUrl?: string | null;
+    /**
+     * 请求参数
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    requestParam?: string | null;
+    /**
+     * 返回结果
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    returnResult?: string | null;
+    /**
+     * 事件Id
+     * @type {number}
+     * @memberof SysLogEx
+     */
+    eventId?: number | null;
+    /**
+     * 线程Id
+     * @type {number}
+     * @memberof SysLogEx
+     */
+    threadId?: number | null;
+    /**
+     * 请求跟踪Id
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    traceId?: string | null;
+    /**
+     * 异常信息
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    exception?: string | null;
+    /**
+     * 日志消息Json
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    message?: string | null;
 }

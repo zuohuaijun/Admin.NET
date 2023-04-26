@@ -3,27 +3,27 @@
 namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 系统操作日志服务
+/// 系统异常日志服务
 /// </summary>
-[ApiDescriptionSettings(Order = 360)]
-public class SysLogOpService : IDynamicApiController, ITransient
+[ApiDescriptionSettings(Order = 350)]
+public class SysLogExService : IDynamicApiController, ITransient
 {
-    private readonly SqlSugarRepository<SysLogOp> _sysLogOpRep;
+    private readonly SqlSugarRepository<SysLogEx> _sysLogExRep;
 
-    public SysLogOpService(SqlSugarRepository<SysLogOp> sysLogOpRep)
+    public SysLogExService(SqlSugarRepository<SysLogEx> sysLogExRep)
     {
-        _sysLogOpRep = sysLogOpRep;
+        _sysLogExRep = sysLogExRep;
     }
 
     /// <summary>
-    /// 获取操作日志分页列表
+    /// 获取异常日志分页列表
     /// </summary>
     /// <returns></returns>
     [SuppressMonitor]
-    [DisplayName("获取操作日志分页列表")]
-    public async Task<SqlSugarPagedList<SysLogOp>> Page(PageLogInput input)
+    [DisplayName("获取异常日志分页列表")]
+    public async Task<SqlSugarPagedList<SysLogEx>> Page(PageLogInput input)
     {
-        return await _sysLogOpRep.AsQueryable()
+        return await _sysLogExRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                 u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
             //.OrderBy(u => u.CreateTime, OrderByType.Desc)
@@ -32,32 +32,32 @@ public class SysLogOpService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 清空操作日志
+    /// 清空异常日志
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Clear"), HttpPost]
-    [DisplayName("清空操作日志")]
+    [DisplayName("清空异常日志")]
     public async Task<bool> Clear()
     {
-        return await _sysLogOpRep.DeleteAsync(u => u.Id > 0);
+        return await _sysLogExRep.DeleteAsync(u => u.Id > 0);
     }
 
     /// <summary>
-    /// 导出操作日志
+    /// 导出异常日志
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Export"), NonUnify]
-    [DisplayName("导出操作日志")]
-    public async Task<IActionResult> ExportLogOp(LogInput input)
+    [DisplayName("导出异常日志")]
+    public async Task<IActionResult> ExportLogEx(LogInput input)
     {
-        var logOpList = await _sysLogOpRep.AsQueryable()
+        var logExList = await _sysLogExRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
                     u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
             .OrderBy(u => u.CreateTime, OrderByType.Desc)
             .Select<ExportLogDto>().ToListAsync();
 
         IExcelExporter excelExporter = new ExcelExporter();
-        var res = await excelExporter.ExportAsByteArray(logOpList);
-        return new FileStreamResult(new MemoryStream(res), "application/octet-stream") { FileDownloadName = DateTime.Now.ToString("yyyyMMddHHmm") + "操作日志.xlsx" };
+        var res = await excelExporter.ExportAsByteArray(logExList);
+        return new FileStreamResult(new MemoryStream(res), "application/octet-stream") { FileDownloadName = DateTime.Now.ToString("yyyyMMddHHmm") + "异常日志.xlsx" };
     }
 }
