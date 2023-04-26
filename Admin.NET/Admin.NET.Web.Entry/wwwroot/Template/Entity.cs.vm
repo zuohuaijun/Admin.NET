@@ -2,7 +2,7 @@ using System;
 using SqlSugar;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using CVC.NHDS.Core;
+using Admin.NET.Core;
 namespace @Model.NameSpace
 {
     /// <summary>
