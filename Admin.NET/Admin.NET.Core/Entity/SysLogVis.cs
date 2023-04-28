@@ -91,7 +91,7 @@ public class SysLogVis : EntityTenant
     /// 日志级别
     /// </summary>
     [SugarColumn(ColumnDescription = "日志级别")]
-    public LogLevel LogLevel { get; set; }
+    public LogLevel? LogLevel { get; set; }
 
     /// <summary>
     /// 账号

@@ -1,4 +1,8 @@
-﻿namespace Admin.NET.Core;
+﻿using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+
+namespace Admin.NET.Core;
 
 /// <summary>
 /// 通用工具类
@@ -33,5 +37,48 @@ public static class CommonUtil
     public static string GetLocalhost()
     {
         return $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Host.Value}";
+    }
+
+    /// <summary>
+    /// XML序列化
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="obj"></param>
+    /// <returns></returns>
+    public static string XmlSerialize<T>(T obj)
+    {
+        if (obj == null) return "";
+
+        var xs = new XmlSerializer(obj.GetType());
+        var stream = new MemoryStream();
+        var setting = new XmlWriterSettings
+        {
+            Encoding = new UTF8Encoding(false),
+            Indent = true
+        };
+        using (var writer = XmlWriter.Create(stream, setting))
+        {
+            var ns = new XmlSerializerNamespaces();
+            ns.Add("", "");
+            xs.Serialize(writer, obj, ns);
+        }
+        return Encoding.UTF8.GetString(stream.ToArray());
+    }
+
+    /// <summary>
+    /// 字符串转XML格式
+    /// </summary>
+    /// <param name="xmlStr"></param>
+    /// <returns></returns>
+    public static XElement XmlParse(string xmlStr)
+    {
+        try
+        {
+            return XElement.Parse(xmlStr);
+        }
+        catch
+        {
+            return null;
+        }
     }
 }

@@ -24,7 +24,8 @@
     },
     "LocalizationSettings": {
         "SupportedCultures": [ "zh-CN", "en-US" ], // 语言列表
-        "DefaultCulture": "zh-CN" // 默认语言
+        "DefaultCulture": "zh-CN", // 默认语言
+        "DateTimeFormatCulture": "zh-CN" // 固定时间区域为特定时区（多语言）
     },
     "CorsAccessorSettings": {
         "WithExposedHeaders": [ "Content-Disposition", "X-Pagination", "access-token", "x-access-token" ], // 如果前端不代理且是axios请求
