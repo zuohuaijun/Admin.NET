@@ -31,5 +31,5 @@ public class BasePageInput
     /// <summary>
     /// 降序排序
     /// </summary>
-    public virtual string DescStr { get; set; } = "descend";
+    public virtual string DescStr { get; set; } = "descending";
 }
