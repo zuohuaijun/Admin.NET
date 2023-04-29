@@ -68,6 +68,8 @@ public static class SqlSugarSetup
         config.MoreSettings = new ConnMoreSettings
         {
             IsAutoRemoveDataCache = true,
+            IsAutoDeleteQueryFilter = true,//启用删除查询过滤器
+            IsAutoUpdateQueryFilter = true,//启用更新查询过滤器（表达式更新，如果是实体方式更新建议先查询在更新）
             SqlServerCodeFirstNvarchar = true // 采用Nvarchar
         };
     }
