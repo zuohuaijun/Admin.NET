@@ -83,11 +83,7 @@ public static class RepositoryExtension
         // 排序是否可用-排序字段和排序顺序都为非空才启用排序
         if (!string.IsNullOrEmpty(nowPagerInput.Field) && !string.IsNullOrEmpty(nowPagerInput.Order))
         {
-            var conConfigs = App.GetOptions<DbConnectionOptions>().ConnectionConfigs;
-            var config = queryable.Context.CurrentConnectionConfig.ConfigId != SqlSugarConst.ConfigId ?
-                conConfigs.FirstOrDefault(u => u.ConfigId == queryable.Context.CurrentConnectionConfig.ConfigId) :
-                conConfigs.FirstOrDefault();
-            var field = config != null && config.EnableUnderLine ? UtilMethods.ToUnderLine(nowPagerInput.Field) : nowPagerInput.Field;
+            var field = queryable.Context.EntityMaintenance.GetDbColumnName<T>(nowPagerInput.Field);
             orderStr = $"{field} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}";
         }
         return queryable.OrderByIF(!string.IsNullOrWhiteSpace(orderStr), orderStr);
