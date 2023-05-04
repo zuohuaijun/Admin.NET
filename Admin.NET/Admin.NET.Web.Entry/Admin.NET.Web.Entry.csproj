@@ -5,6 +5,7 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 		<SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
 		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 		<UserSecretsId>ad9369d1-f29b-4f8f-a7df-8b4d7aa0726b</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
 	</PropertyGroup>
@@ -23,11 +24,12 @@
 	<ItemGroup>
 		<None Remove="Admin.NET.db" />
 		<None Remove="sensitive-words.txt" />
-		<None Remove="Test.db" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Include="sensitive-words.txt" />
+	  <EmbeddedResource Include="sensitive-words.txt">
+	    <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
