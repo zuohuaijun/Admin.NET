@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<TargetFramework>net6.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
+		<SatelliteResourceLanguages>zh-Hans</SatelliteResourceLanguages>
 		<PublishReadyToRunComposite>true</PublishReadyToRunComposite>
 		<UserSecretsId>ad9369d1-f29b-4f8f-a7df-8b4d7aa0726b</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
