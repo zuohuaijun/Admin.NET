@@ -77,13 +77,15 @@ public class SysWechatPayService : IDynamicApiController, ITransient
         // 保存订单信息
         var wechatPay = new SysWechatPay()
         {
+            AppId = _wechatPayOptions.AppId,
             MerchantId = _wechatPayOptions.MerchantId,
             OutTradeNumber = request.OutTradeNumber,
             Description = input.Description,
             Attachment = input.Attachment,
             GoodsTag = input.GoodsTag,
             Total = input.Total,
-            OpenId = input.OpenId
+            OpenId = input.OpenId,
+            TransactionId= ""
         };
         await _sysWechatPayUserRep.InsertAsync(wechatPay);
 
@@ -131,7 +133,8 @@ public class SysWechatPayService : IDynamicApiController, ITransient
             Attachment = input.Attachment,
             GoodsTag = input.GoodsTag,
             Total = input.Total,
-            OpenId = input.OpenId
+            OpenId = input.OpenId,
+            TransactionId = ""
         };
         await _sysWechatPayUserRep.InsertAsync(wechatPay);
 
