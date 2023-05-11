@@ -1,7 +1,7 @@
 <template>
 	<el-form ref="ruleFormRef" :model="state.ruleForm" size="large" :rules="state.rules" class="login-content-form">
 		<el-form-item class="login-animation1" prop="account">
-			<el-input text placeholder="请输入账号" v-model="state.ruleForm.account" clearable autocomplete="off">
+			<el-input ref="accountRef" text placeholder="请输入账号" v-model="state.ruleForm.account" clearable autocomplete="off" @keyup.enter.native="handleSignIn">
 				<template #prefix>
 					<el-icon>
 						<ele-User />
@@ -10,7 +10,7 @@
 			</el-input>
 		</el-form-item>
 		<el-form-item class="login-animation2" prop="password">
-			<el-input :type="state.isShowPassword ? 'text' : 'password'" placeholder="请输入密码" v-model="state.ruleForm.password" autocomplete="off">
+			<el-input ref="passwordRef" :type="state.isShowPassword ? 'text' : 'password'" placeholder="请输入密码" v-model="state.ruleForm.password" autocomplete="off" @keyup.enter.native="handleSignIn">
 				<template #prefix>
 					<el-icon>
 						<ele-Unlock />
@@ -23,7 +23,16 @@
 		</el-form-item>
 		<el-form-item class="login-animation3" prop="captcha" v-show="state.captchaEnabled">
 			<el-col :span="15">
-				<el-input text maxlength="4" :placeholder="$t('message.account.accountPlaceholder3')" v-model="state.ruleForm.code" clearable autocomplete="off" @keyup.enter.native="onSignIn">
+				<el-input
+					ref="codeRef"
+					text
+					maxlength="4"
+					:placeholder="$t('message.account.accountPlaceholder3')"
+					v-model="state.ruleForm.code"
+					clearable
+					autocomplete="off"
+					@keyup.enter.native="handleSignIn"
+				>
 					<template #prefix>
 						<el-icon>
 							<ele-Position />
@@ -39,7 +48,7 @@
 			</el-col>
 		</el-form-item>
 		<el-form-item class="login-animation4">
-			<el-button type="primary" class="login-content-submit" round v-waves @click="state.secondVerEnabled ? openRotateVerify() : onSignIn()" :loading="state.loading.signIn">
+			<el-button type="primary" class="login-content-submit" round v-waves @click="handleSignIn" :loading="state.loading.signIn">
 				<span>{{ $t('message.account.accountBtnText') }}</span>
 			</el-button>
 		</el-form-item>
@@ -65,7 +74,7 @@
 <script lang="ts" setup name="loginAccount">
 import { reactive, computed, ref, onMounted, defineAsyncComponent } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { ElMessage } from 'element-plus';
+import { ElMessage, InputInstance } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { Session } from '/@/utils/storage';
@@ -84,6 +93,11 @@ const route = useRoute();
 const router = useRouter();
 
 const ruleFormRef = ref();
+
+const accountRef = ref<InputInstance>();
+const passwordRef = ref<InputInstance>();
+const codeRef = ref<InputInstance>();
+
 const dragRef: any = ref(null);
 const state = reactive({
 	isShowPassword: false,
@@ -96,7 +110,7 @@ const state = reactive({
 	rules: {
 		account: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
 		password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-		code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
+		// code: [{ required: true, message: '请输入验证码', trigger: 'blur' }],
 	},
 	loading: {
 		signIn: false,
@@ -132,22 +146,27 @@ const onSignIn = async () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return false;
 
-		const [err, res] = await feature(getAPI(SysAuthApi).apiSysAuthLoginPost(state.ruleForm));
-		if (err) {
-			getCaptcha(); // 重新获取验证码
-			return;
-		}
-		if (res.data.result?.accessToken == undefined) {
-			getCaptcha(); // 重新获取验证码
-			ElMessage.error('登录失败，请检查账号！');
-			return;
-		}
+		try {
+			state.loading.signIn = true;
 
-		state.loading.signIn = true;
-		Session.set('token', res.data.result?.accessToken); // 缓存token
-		// 添加完动态路由再进行router跳转，否则可能报错 No match found for location with path "/"
-		const isNoPower = await initBackEndControlRoutes();
-		signInSuccess(isNoPower); // 再执行 signInSuccess
+			const [err, res] = await feature(getAPI(SysAuthApi).apiSysAuthLoginPost(state.ruleForm));
+			if (err) {
+				getCaptcha(); // 重新获取验证码
+				return;
+			}
+			if (res.data.result?.accessToken == undefined) {
+				getCaptcha(); // 重新获取验证码
+				ElMessage.error('登录失败，请检查账号！');
+				return;
+			}
+
+			Session.set('token', res.data.result?.accessToken); // 缓存token
+			// 添加完动态路由再进行router跳转，否则可能报错 No match found for location with path "/"
+			const isNoPower = await initBackEndControlRoutes();
+			signInSuccess(isNoPower); // 再执行 signInSuccess
+		} finally {
+			state.loading.signIn = false;
+		}
 	});
 };
 // 登录成功后的跳转
@@ -174,7 +193,6 @@ const signInSuccess = (isNoPower: boolean | undefined) => {
 		// 添加 loading，防止第一次进入界面时出现短暂空白
 		NextLoading.start();
 	}
-	state.loading.signIn = false;
 };
 // 打开旋转验证
 const openRotateVerify = () => {
@@ -187,6 +205,19 @@ const passRotateVerify = () => {
 	state.rotateVerifyVisible = false;
 	state.isPassRotate = true;
 	onSignIn();
+};
+
+// 登录处理
+const handleSignIn = () => {
+	if (!state.ruleForm.account) {
+		accountRef.value?.focus();
+	} else if (!state.ruleForm.password) {
+		passwordRef.value?.focus();
+	} else if (state.captchaEnabled && !state.ruleForm.code) {
+		codeRef.value?.focus();
+	} else {
+		state.secondVerEnabled ? openRotateVerify() : onSignIn();
+	}
 };
 </script>
 
