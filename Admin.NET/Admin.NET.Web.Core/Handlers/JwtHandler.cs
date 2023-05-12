@@ -69,8 +69,8 @@ namespace Admin.NET.Web.Core
             var allBtnPermList = await App.GetService<SysMenuService>().GetAllBtnPermList();
 
             // 已拥有该按钮权限或者所有按钮集合里面不存在
-            var exist1 = ownBtnPermList.Exists(u => routeName.Contains(u, System.StringComparison.CurrentCultureIgnoreCase));
-            var exist2 = allBtnPermList.TrueForAll(u => !routeName.Contains(u, System.StringComparison.CurrentCultureIgnoreCase));
+            var exist1 = ownBtnPermList.Exists(u => routeName.Equals(u, System.StringComparison.CurrentCultureIgnoreCase));
+            var exist2 = allBtnPermList.TrueForAll(u => !routeName.Equals(u, System.StringComparison.CurrentCultureIgnoreCase));
             return exist1 || exist2;
         }
     }
