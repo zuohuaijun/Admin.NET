@@ -155,12 +155,12 @@
 			</template>
 		</el-dialog>
 
-		<CropperDialog ref="cropperDialogRef" :title="state.cropperTitle" />
+		<CropperDialog ref="cropperDialogRef" :title="state.cropperTitle" @uploadCropperImg="uploadCropperImg" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysUserCenter">
-import { onMounted, onUnmounted, watch, reactive, ref } from 'vue';
+import { onMounted, watch, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { ElForm, ElMessageBox, genFileId } from 'element-plus';
 import type { UploadInstance, UploadProps, UploadRawFile } from 'element-plus';
@@ -169,13 +169,11 @@ import { base64ToFile } from '/@/utils/base64Conver';
 import OrgTree from '/@/views/system/user/component/orgTree.vue';
 import CropperDialog from '/@/components/cropper/index.vue';
 import VueGridLayout from 'vue-grid-layout';
-import mittBus from '/@/utils/mitt';
 
 import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysFileApi, SysUserApi } from '/@/api-services/api';
 import { ChangePwdInput, SysUser } from '/@/api-services/models';
 
-const baseUrl = import.meta.env.VITE_API_URL;
 const stores = useUserInfo();
 const { userInfos } = storeToRefs(stores);
 const uploadSignRef = ref<UploadInstance>();
@@ -207,21 +205,18 @@ onMounted(async () => {
 	var res = await getAPI(SysUserApi).apiSysUserBaseInfoGet();
 	state.ruleFormBase = res.data.result ?? { account: '' };
 	state.loading = false;
-
-	mittBus.on('uploadCropperImg', async (e) => {
-		var res = await getAPI(SysFileApi).apiSysFileUploadAvatarPostForm(e.img);
-		userInfos.value.avatar = baseUrl + '/' + res.data.result?.filePath + '/' + res.data.result?.name;
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('uploadCropperImg', () => {});
 });
 
 watch(state.signOptions, () => {
 	signaturePadRef.value.signaturePad.penColor = state.signOptions.penColor;
 	signaturePadRef.value.signaturePad.minWidth = state.signOptions.minWidth;
 });
+
+// 上传头像图片
+const uploadCropperImg = async (e: any) => {
+	var res = await getAPI(SysFileApi).apiSysFileUploadAvatarPostForm(e.img);
+	userInfos.value.avatar = res.data.result?.filePath + '/' + res.data.result?.name;
+};
 
 // 打开电子签名页面
 const openSignDialog = () => {
@@ -234,7 +229,7 @@ const saveUploadSign = async () => {
 	if (isEmpty) return;
 
 	var res = await getAPI(SysFileApi).apiSysFileUploadSignaturePostForm(base64ToFile(data, userInfos.value.account + '.png'));
-	userInfos.value.signature = baseUrl + '/' + res.data.result?.filePath + '/' + res.data.result?.name;
+	userInfos.value.signature = res.data.result?.filePath + '/' + res.data.result?.name;
 
 	clearSign();
 	state.signDialogVisible = false;
@@ -260,13 +255,6 @@ const uploadSignFile = async (file: any) => {
 const handleChangeSignFile = (_file: any, fileList: []) => {
 	state.signFileList = fileList;
 };
-
-// // 上传头像文件回调
-// const uploadAvatarFile = async (file: any) => {
-// 	var res = await getAPI(SysFileApi).apiSysFileUploadAvatarPostForm(file.raw);
-// 	userInfos.value.avatar = res.data.result?.url + '';
-// 	uploadAvatarRef.value?.clearFiles();
-// };
 
 // 修改个人信息
 const submitUserBase = () => {

@@ -54,15 +54,15 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditDictType ref="editDictTypeRef" :title="state.editDictTypeTitle" />
+
+		<EditDictType ref="editDictTypeRef" :title="state.editDictTypeTitle" @handleQuery="handleQuery" />
 		<DictDataDialog ref="dictDataDialogRef" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysDict">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import EditDictType from '/@/views/system/dict/component/editDictType.vue';
 import DictDataDialog from '/@/views/system/dict/component/dictDataDialog.vue';
 
@@ -89,14 +89,6 @@ const state = reactive({
 
 onMounted(async () => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询操作

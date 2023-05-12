@@ -65,7 +65,6 @@
 
 <script lang="ts" setup name="sysEditRegion">
 import { reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysRegionApi } from '/@/api-services/api';
@@ -74,7 +73,7 @@ import { UpdateRegionInput } from '/@/api-services/models';
 const props = defineProps({
 	title: String,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -85,6 +84,12 @@ const state = reactive({
 const openDialog = (row: any) => {
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	state.isShowDialog = true;
+};
+
+// 关闭弹窗
+const closeDialog = () => {
+	emits('handleQuery');
+	state.isShowDialog = false;
 };
 
 // 取消
@@ -101,8 +106,7 @@ const submit = () => {
 		} else {
 			await getAPI(SysRegionApi).apiSysRegionAddPost(state.ruleForm);
 		}
-		mittBus.emit('submitRefresh');
-		state.isShowDialog = false;
+		closeDialog();
 	});
 };
 

@@ -129,8 +129,7 @@ const viewDetail = async (row: any) => {
 	state.dialogVisible = true;
 
 	row.readStatus = 1;
-
-	mittBus.emit('noticeRead', row.sysNotice.id);
+	// mittBus.emit('noticeRead', row.sysNotice.id);
 	await getAPI(SysNoticeApi).apiSysNoticeSetReadPost({ id: row.sysNotice.id });
 };
 

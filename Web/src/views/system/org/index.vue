@@ -55,14 +55,14 @@
 				</el-card>
 			</el-col>
 		</el-row>
-		<EditOrg ref="editOrgRef" :title="state.editOrgTitle" :orgData="state.orgTreeData" />
+
+		<EditOrg ref="editOrgRef" :title="state.editOrgTitle" :orgData="state.orgTreeData" @handleQuery="handleQuery" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysOrg">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditOrg from '/@/views/system/org/component/editOrg.vue';
 
@@ -91,17 +91,6 @@ onMounted(async () => {
 
 	let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('org_type');
 	state.orgTypeList = resDicData.data.result;
-
-	mittBus.on('submitRefresh', async () => {
-		handleQuery();
-
-		// 编辑删除后更新机构数据
-		orgTreeRef.value?.initTreeData();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询操作
@@ -145,8 +134,10 @@ const delOrg = (row: any) => {
 	})
 		.then(async () => {
 			await getAPI(SysOrgApi).apiSysOrgDeletePost({ id: row.id });
+			handleQuery();
+			// 编辑删除后更新机构数据
+			orgTreeRef.value?.initTreeData();
 			ElMessage.success('删除成功');
-			mittBus.emit('submitRefresh');
 		})
 		.catch(() => {});
 };

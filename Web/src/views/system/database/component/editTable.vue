@@ -33,12 +33,12 @@
 
 <script lang="ts" setup name="sysEditTable">
 import { reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
 import { UpdateDbTableInput } from '/@/api-services/models';
 
+const emits = defineEmits(['handleQueryTable']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -53,7 +53,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefreshTable');
+	emits('handleQueryTable');
 	state.isShowDialog = false;
 };
 

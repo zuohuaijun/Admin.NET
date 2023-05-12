@@ -5,6 +5,7 @@ import { useThemeConfig } from '/@/stores/themeConfig';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi, SysConstApi } from '/@/api-services/api';
+const baseUrl = import.meta.env.VITE_API_URL;
 
 /**
  * 用户信息

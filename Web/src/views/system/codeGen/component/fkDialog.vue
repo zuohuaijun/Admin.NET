@@ -38,12 +38,12 @@
 
 <script lang="ts" setup name="sysCodeGenFk">
 import { onMounted, reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysCodeGenApi } from '/@/api-services/api';
 
 var rowdata = {} as any;
+const emits = defineEmits(['submitRefreshFk']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -101,7 +101,7 @@ const closeDialog = () => {
 	rowdata.fkColumnName = state.ruleForm.columnName;
 	let columnData = state.columnData.filter((x) => x.columnName == state.ruleForm.columnName);
 	rowdata.fkColumnNetType = columnData.length == 0 ? '' : columnData[0].netType;
-	mittBus.emit('submitRefreshFk', rowdata);
+	emits('submitRefreshFk', rowdata);
 	state.isShowDialog = false;
 };
 

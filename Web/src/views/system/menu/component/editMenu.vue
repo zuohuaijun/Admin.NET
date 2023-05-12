@@ -149,7 +149,6 @@
 <script lang="ts" setup name="sysEditMenu">
 import { reactive, ref } from 'vue';
 import IconSelector from '/@/components/iconSelector/index.vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi } from '/@/api-services/api';
@@ -159,7 +158,7 @@ const props = defineProps({
 	title: String,
 	menuData: Array<SysMenu>,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -174,7 +173,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefresh');
+	emits('handleQuery');
 	state.isShowDialog = false;
 };
 

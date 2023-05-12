@@ -142,7 +142,6 @@
 import { reactive, ref, computed } from 'vue';
 import type { WritableComputedRef } from 'vue';
 import { ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 
 import cronTab from './cronTab/index.vue';
 import { getAPI } from '/@/utils/axios-utils';
@@ -158,7 +157,7 @@ interface MacroData {
 const props = defineProps({
 	title: String,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -237,7 +236,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefresh');
+	emits('handleQuery');
 	state.isShowDialog = false;
 };
 

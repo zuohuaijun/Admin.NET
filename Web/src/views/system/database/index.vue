@@ -57,18 +57,18 @@
 				</el-table-column>
 			</el-table>
 		</el-card>
-		<EditTable ref="editTableRef" />
-		<EditColumn ref="editColumnRef" />
-		<AddTable ref="addTableRef" />
-		<AddColumn ref="addColumnRef" />
-		<GenEntity ref="genEntityRef" />
+
+		<EditTable ref="editTableRef" @handleQueryTable="handleQueryTable" />
+		<EditColumn ref="editColumnRef" @handleQueryColumn="handleQueryColumn" />
+		<AddTable ref="addTableRef" @addTableSubmitted="addTableSubmitted" />
+		<AddColumn ref="addColumnRef" @handleQueryColumn="handleQueryColumn" />
+		<GenEntity ref="genEntityRef" @handleQueryColumn="handleQueryColumn" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysDatabase">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import EditTable from '/@/views/system/database/component/editTable.vue';
 import EditColumn from '/@/views/system/database/component/editColumn.vue';
 import AddTable from '/@/views/system/database/component/addTable.vue';
@@ -104,25 +104,14 @@ onMounted(async () => {
 	var res = await getAPI(SysDatabaseApi).apiSysDatabaseListGet();
 	state.dbData = res.data.result;
 	state.loading = false;
-
-	mittBus.on('submitRefreshTable', () => {
-		handleQueryTable();
-	});
-	mittBus.on('submitRefreshColumn', () => {
-		handleQueryColumn();
-	});
-	mittBus.on('addTableSubmitted', (res: any) => {
-		handleQueryTable();
-		state.tableName = res;
-		handleQueryColumn();
-	});
 });
 
-onUnmounted(() => {
-	mittBus.off('submitRefreshTable');
-	mittBus.off('submitRefreshColumn');
-	mittBus.off('addTableSubmitted');
-});
+// 增加表
+const addTableSubmitted = (e: any) => {
+	handleQueryTable();
+	state.tableName = e;
+	handleQueryColumn();
+};
 
 // 表查询操作
 const handleQueryTable = async () => {

@@ -71,13 +71,13 @@
 
 <script lang="ts" setup name="sysAddColumn">
 import { reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
 import { DbColumnInput } from '/@/api-services/models';
 import { dataTypeList, yesNoSelect } from '../database';
 
+const emits = defineEmits(['handleQueryColumn']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -92,7 +92,7 @@ const openDialog = (addRow: DbColumnInput) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefreshColumn');
+	emits('handleQueryColumn');
 	state.isShowDialog = false;
 };
 

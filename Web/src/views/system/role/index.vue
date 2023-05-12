@@ -70,15 +70,15 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditRole ref="editRoleRef" :title="state.editRoleTitle" />
+
+		<EditRole ref="editRoleRef" :title="state.editRoleTitle" @handleQuery="handleQuery" />
 		<GrantData ref="grantDataRef" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysRole">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import { auth } from '/@/utils/authFunction';
 import EditRole from '/@/views/system/role/component/editRole.vue';
 import GrantData from '/@/views/system/role/component/grantData.vue';
@@ -106,14 +106,6 @@ const state = reactive({
 
 onMounted(async () => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询操作

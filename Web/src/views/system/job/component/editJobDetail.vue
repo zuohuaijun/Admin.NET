@@ -103,7 +103,6 @@
 
 <script lang="ts" setup name="sysEditJobDetail">
 import { reactive, ref, computed } from 'vue';
-import mittBus from '/@/utils/mitt';
 import * as monaco from 'monaco-editor';
 import { JobScriptCode } from './JobScriptCode';
 
@@ -123,7 +122,7 @@ const httpMethodDef = {
 const props = defineProps({
 	title: String,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const monacoEditorRef = ref();
 const state = reactive({
@@ -198,7 +197,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefresh');
+	emits('handleQuery');
 	state.isShowDialog = false;
 };
 

@@ -51,7 +51,6 @@
 
 <script lang="ts" setup name="sysEditDictData">
 import { reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDictDataApi } from '/@/api-services/api';
@@ -61,7 +60,7 @@ const props = defineProps({
 	title: String,
 	dictTypeId: Number,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -79,7 +78,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefreshDictData');
+	emits('handleQuery');
 	state.isShowDialog = false;
 };
 

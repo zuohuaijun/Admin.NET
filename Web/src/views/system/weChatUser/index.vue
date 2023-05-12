@@ -67,14 +67,14 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditWeChatUser ref="editWeChatUserRef" :title="state.editWeChatUserTitle" />
+
+		<EditWeChatUser ref="editWeChatUserRef" :title="state.editWeChatUserTitle" @handleQuery="handleQuery" />
 	</div>
 </template>
 
 <script lang="ts" setup name="weChatUser">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import EditWeChatUser from '/@/views/system/weChatUser/component/editWeChatUser.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -99,14 +99,6 @@ const state = reactive({
 
 onMounted(async () => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询操作

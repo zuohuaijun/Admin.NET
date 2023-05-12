@@ -64,7 +64,6 @@
 
 <script lang="ts" setup name="sysEditConfig">
 import { reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysConfigApi } from '/@/api-services/api';
@@ -73,7 +72,7 @@ import { UpdateConfigInput } from '/@/api-services/models';
 const props = defineProps({
 	title: String,
 });
-
+const emits = defineEmits(['updateData']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -88,7 +87,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefresh');
+	emits('updateData');
 	state.isShowDialog = false;
 };
 

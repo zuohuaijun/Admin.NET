@@ -20,7 +20,7 @@ import other from '/@/utils/other';
 import { Local, Session } from '/@/utils/storage';
 import mittBus from '/@/utils/mitt';
 import setIntroduction from '/@/utils/setIconfont';
-import checkUpdate from '/@/utils/auto-update';
+// import checkUpdate from '/@/utils/auto-update';
 
 // 引入组件
 const LockScreen = defineAsyncComponent(() => import('/@/layout/lockScreen/index.vue'));
@@ -54,9 +54,9 @@ const setLockScreen = computed(() => {
 // 	return isVersion;
 // });
 
-checkUpdate(() => {
-	needUpdate.value = true;
-}, 60000);
+// checkUpdate(() => {
+// 	needUpdate.value = true;
+// }, 60000);
 
 // 获取全局组件大小
 const getGlobalComponentSize = computed(() => {

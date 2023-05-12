@@ -20,7 +20,7 @@
 	</div>
 </template>
 
-<script lang="ts" setup>
+<script lang="ts" setup name="sysJobCluster">
 import { onMounted, reactive } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';

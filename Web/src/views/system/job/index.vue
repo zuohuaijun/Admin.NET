@@ -204,17 +204,17 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditJobDetail ref="editJobDetailRef" :title="state.editJobDetailTitle" />
-		<EditJobTrigger ref="editJobTriggerRef" :title="state.editJobTriggerTitle" />
+
+		<EditJobDetail ref="editJobDetailRef" :title="state.editJobDetailTitle" @handleQuery="handleQuery" />
+		<EditJobTrigger ref="editJobTriggerRef" :title="state.editJobTriggerTitle" @handleQuery="handleQuery" />
 		<JobCluster ref="editJobClusterRef" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysJob">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { useRouter } from 'vue-router';
-import mittBus from '/@/utils/mitt';
 import { Timer } from '@element-plus/icons-vue';
 import EditJobDetail from '/@/views/system/job/component/editJobDetail.vue';
 import EditJobTrigger from '/@/views/system/job/component/editJobTrigger.vue';
@@ -246,14 +246,6 @@ const state = reactive({
 
 onMounted(async () => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询操作

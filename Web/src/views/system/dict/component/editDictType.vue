@@ -51,7 +51,6 @@
 
 <script lang="ts" setup name="sysEditDictType">
 import { reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDictTypeApi } from '/@/api-services/api';
@@ -60,7 +59,7 @@ import { UpdateDictTypeInput } from '/@/api-services/models';
 const props = defineProps({
 	title: String,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -75,7 +74,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefresh');
+	emits('handleQuery');
 	state.isShowDialog = false;
 };
 

@@ -42,14 +42,14 @@
 				</el-table-column>
 			</el-table>
 		</el-card>
-		<EditPos ref="editPosRef" :title="state.editPosTitle" />
+
+		<EditPos ref="editPosRef" :title="state.editPosTitle" @handleQuery="handleQuery" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysPos">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import EditPos from '/@/views/system/pos/component/editPos.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -69,14 +69,6 @@ const state = reactive({
 
 onMounted(async () => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询操作

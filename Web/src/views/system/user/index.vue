@@ -89,16 +89,16 @@
 				</el-card>
 			</el-col>
 		</el-row>
-		<EditUser ref="editUserRef" :title="state.editUserTitle" :orgData="state.orgTreeData" />
+
+		<EditUser ref="editUserRef" :title="state.editUserTitle" :orgData="state.orgTreeData" @handleQuery="handleQuery" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysUser">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import { formatDate } from '/@/utils/formatTime';
 import { auth } from '/@/utils/authFunction';
-import mittBus from '/@/utils/mitt';
 import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditUser from '/@/views/system/user/component/editUser.vue';
 
@@ -129,14 +129,6 @@ const state = reactive({
 onMounted(async () => {
 	loadOrgData();
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询机构数据

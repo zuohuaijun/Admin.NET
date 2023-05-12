@@ -59,15 +59,15 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditCodeGenDialog :title="state.editMenuTitle" ref="EditCodeGenRef" />
-		<CodeConfigDialog ref="CodeConfigRef" />
+
+		<EditCodeGenDialog :title="state.editMenuTitle" ref="EditCodeGenRef" @handleQuery="handleQuery" />
+		<CodeConfigDialog ref="CodeConfigRef" @handleQuery="handleQuery" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysCodeGen">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import EditCodeGenDialog from './component/editCodeGenDialog.vue';
 import CodeConfigDialog from './component/genConfigDialog.vue';
 import { downloadByUrl } from '/@/utils/download';
@@ -101,29 +101,10 @@ const state = reactive({
 
 onMounted(async () => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
-	mittBus.on('submitRefreshFk', () => {
-		state.tableData;
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh', () => {});
-	mittBus.off('submitRefreshFk', () => {});
 });
 
 const openConfigDialog = (row: any) => {
 	CodeConfigRef.value?.openDialog(row);
-};
-
-// 重置操作
-const resetQuery = () => {
-	state.queryParams.busName = undefined;
-	state.queryParams.tableName = undefined;
-	handleQuery();
 };
 
 // 表查询操作
@@ -134,6 +115,13 @@ const handleQuery = async () => {
 	state.tableData = res.data.result?.items ?? [];
 	state.tableParams.total = res.data.result?.total;
 	state.loading = false;
+};
+
+// 重置操作
+const resetQuery = () => {
+	state.queryParams.busName = undefined;
+	state.queryParams.tableName = undefined;
+	handleQuery();
 };
 
 // 改变页面容量

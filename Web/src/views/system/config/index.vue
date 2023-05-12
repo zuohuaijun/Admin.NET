@@ -20,7 +20,8 @@
 				</template>
 			</Table>
 		</el-card>
-		<EditConfig ref="editConfigRef" :title="state.editConfigTitle" :groupList="state.groupList" />
+
+		<EditConfig ref="editConfigRef" :title="state.editConfigTitle" :groupList="state.groupList" @updateData="updateData" />
 	</div>
 </template>
 
@@ -131,6 +132,7 @@ const getGroupList = async () => {
 		group[0] = groupSearch;
 	}
 };
+
 //表格多选事件
 const tableSelection = (data: EmptyObjectType[]) => {
 	// console.log('表格多选事件', data)
@@ -139,15 +141,13 @@ const tableSelection = (data: EmptyObjectType[]) => {
 
 onMounted(async () => {
 	getGroupList();
-	mittBus.on('submitRefresh', () => {
-		tableRef.value.handleList();
-		getGroupList();
-	});
 });
 
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
-});
+// 更新数据
+const updateData = () => {
+	tableRef.value.handleList();
+	getGroupList();
+};
 
 // 打开新增页面
 const openAddConfig = () => {
@@ -175,6 +175,7 @@ const delConfig = (row: any) => {
 		})
 		.catch(() => {});
 };
+
 //批量删除
 const bacthDelete = () => {
 	if (state.selectlist.length == 0) return false;
@@ -187,9 +188,9 @@ const bacthDelete = () => {
 			const ids = state.selectlist.map((item) => {
 				return item.id;
 			});
-			var res = await getAPI(SysConfigApi).apiSysConfigBatchDeletePost({ ids: ids });
+			var res = await getAPI(SysConfigApi).apiSysConfigBatchDeletePost(ids);
 			tableRef.value.pageReset();
-			ElMessage.success(res.data.result?.toString());
+			ElMessage.success('删除成功');
 		})
 		.catch(() => {});
 };

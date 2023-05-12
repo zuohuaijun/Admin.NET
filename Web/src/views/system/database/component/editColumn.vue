@@ -33,12 +33,12 @@
 
 <script lang="ts" setup name="sysEditColumn">
 import { reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
 import { UpdateDbColumnInput } from '/@/api-services/models';
 
+const emits = defineEmits(['handleQueryColumn']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -53,7 +53,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefreshColumn');
+	emits('handleQueryColumn');
 	state.isShowDialog = false;
 };
 

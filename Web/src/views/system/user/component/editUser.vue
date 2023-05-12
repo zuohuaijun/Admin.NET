@@ -237,7 +237,6 @@
 
 <script lang="ts" setup name="sysEditUser">
 import { onMounted, reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysPosApi, SysRoleApi, SysUserApi } from '/@/api-services/api';
@@ -247,7 +246,7 @@ const props = defineProps({
 	title: String,
 	orgData: Array<SysOrg>,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const state = reactive({
 	loading: false,
@@ -282,7 +281,7 @@ const openDialog = async (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefresh');
+	emits('handleQuery');
 	state.isShowDialog = false;
 };
 

@@ -100,7 +100,6 @@
 <script lang="ts" setup name="sysAddTable">
 import { reactive, ref } from 'vue';
 import { ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
@@ -108,6 +107,7 @@ import { UpdateDbTableInput } from '/@/api-services/models';
 import { dataTypeList, EditRecordRow, yesNoSelect } from '../database';
 
 var colIndex = 0;
+const emits = defineEmits(['addTableSubmitted']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -123,7 +123,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('addTableSubmitted', state.ruleForm.tableName ?? '');
+	emits('addTableSubmitted', state.ruleForm.tableName ?? '');
 	state.tableData = [];
 	state.isShowDialog = false;
 };

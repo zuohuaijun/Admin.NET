@@ -85,7 +85,7 @@ const props = defineProps({
 	title: String,
 	orgData: Array<SysOrg>,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -104,6 +104,12 @@ const openDialog = (row: any) => {
 	state.isShowDialog = true;
 };
 
+// 关闭弹窗
+const closeDialog = () => {
+	emits('handleQuery');
+	state.isShowDialog = false;
+};
+
 // 取消
 const cancel = () => {
 	state.isShowDialog = false;
@@ -118,8 +124,7 @@ const submit = () => {
 		} else {
 			await getAPI(SysOrgApi).apiSysOrgAddPost(state.ruleForm);
 		}
-		mittBus.emit('submitRefresh');
-		state.isShowDialog = false;
+		closeDialog();
 	});
 };
 

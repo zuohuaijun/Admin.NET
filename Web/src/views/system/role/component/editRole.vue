@@ -66,7 +66,6 @@
 <script lang="ts" setup name="sysEditRole">
 import { onMounted, reactive, ref } from 'vue';
 import type { ElTree } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi, SysRoleApi } from '/@/api-services/api';
@@ -75,7 +74,7 @@ import { SysMenu, UpdateRoleInput } from '/@/api-services/models';
 const props = defineProps({
 	title: String,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const treeRef = ref<InstanceType<typeof ElTree>>();
 const state = reactive({
@@ -107,7 +106,7 @@ const openDialog = async (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefresh');
+	emits('handleQuery');
 	state.isShowDialog = false;
 };
 
@@ -133,7 +132,7 @@ const submit = () => {
 // 叶子节点同行显示样式
 const treeNodeClass = (node: SysMenu) => {
 	let addClass = true; // 添加叶子节点同行显示样式
-	for (const key in node.children) {
+	for (var key in node.children) {
 		// 如果存在子节点非叶子节点，不添加样式
 		if (node.children[key].children?.length ?? 0 > 0) {
 			addClass = false;

@@ -95,6 +95,27 @@ public class SysConfigService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 批量删除参数配置
+    /// </summary>
+    /// <param name="ids"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(Name = "BatchDelete"), HttpPost]
+    [DisplayName("批量删除参数配置")]
+    public async Task BatchDeleteConfig(List<long> ids)
+    {
+        foreach (var id in ids)
+        {
+            var config = await _sysConfigRep.GetFirstAsync(u => u.Id == id);
+            if (config.SysFlag == YesNoEnum.Y) // 禁止删除系统参数
+                continue;
+
+            await _sysConfigRep.DeleteAsync(config);
+
+            _sysCacheService.Remove(config.Code);
+        }
+    }
+
+    /// <summary>
     /// 获取参数配置详情
     /// </summary>
     /// <param name="input"></param>

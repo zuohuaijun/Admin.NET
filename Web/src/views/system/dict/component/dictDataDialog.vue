@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-dictData-container">
-		<el-dialog v-model="state.isShowDialog" draggable width="860px">
+		<el-dialog v-model="state.isShowDialog" draggable width="850px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
@@ -10,10 +10,10 @@
 			<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 				<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 					<el-form-item label="字典值" prop="value">
-						<el-input placeholder="字典值" clearable @keyup.enter="handleQuery" v-model="state.queryParams.value" />
+						<el-input placeholder="字典值" @keyup.enter="handleQuery" v-model="state.queryParams.value" />
 					</el-form-item>
 					<el-form-item label="编码" prop="code">
-						<el-input placeholder="编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
+						<el-input placeholder="编码" @keyup.enter="handleQuery" v-model="state.queryParams.code" />
 					</el-form-item>
 					<el-form-item>
 						<el-button-group>
@@ -61,14 +61,14 @@
 				/>
 			</el-card>
 		</el-dialog>
-		<EditDictData ref="editDictDataRef" :title="state.editDictDataTitle" :dictTypeId="state.queryParams.dictTypeId" />
+
+		<EditDictData ref="editDictDataRef" :title="state.editDictDataTitle" :dictTypeId="state.queryParams.dictTypeId" @handleQuery="handleQuery" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysDictData">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import EditDictData from '/@/views/system/dict/component/editDictData.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -94,13 +94,7 @@ const state = reactive({
 });
 
 onMounted(async () => {
-	mittBus.on('submitRefreshDictData', () => {
-		handleQuery();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefreshDictData');
+	handleQuery();
 });
 
 // 打开弹窗

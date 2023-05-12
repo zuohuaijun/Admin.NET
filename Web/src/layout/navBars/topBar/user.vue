@@ -218,19 +218,19 @@ onMounted(async () => {
 	// 接收站内信
 	signalR.on('PublicNotice', receiveNotice);
 
-	// 处理消息已读
-	mittBus.on('noticeRead', (id) => {
-		const notice = state.noticeList.find((r: any) => r.id == id);
-		if (notice == undefined) return;
+	// // 处理消息已读
+	// mittBus.on('noticeRead', (id) => {
+	// 	const notice = state.noticeList.find((r: any) => r.id == id);
+	// 	if (notice == undefined) return;
 
-		// 设置已读
-		notice.readStatus = 1;
-	});
+	// 	// 设置已读
+	// 	notice.readStatus = 1;
+	// });
 });
-// 页面卸载时
-onUnmounted(() => {
-	mittBus.off('noticeRead', () => {});
-});
+// // 页面卸载时
+// onUnmounted(() => {
+// 	mittBus.off('noticeRead', () => {});
+// });
 
 const receiveNotice = (msg: any) => {
 	state.noticeList.unshift(msg);

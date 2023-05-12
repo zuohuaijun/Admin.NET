@@ -23,18 +23,6 @@ declare type MittType<T = any> = {
 	openShareTagsView?: string;
 	onTagsViewRefreshRouterView?: T;
 	onCurrentContextmenuClick?: T;
-
-	// 自定义
-	submitRefresh?: string; // 通用编辑提交刷新
-	submitRefreshDictData?: string; // 字典编辑提交刷新
-	submitRefreshTable?: string; // 库表管理表刷新
-	submitRefreshColumn?: string; // 库表管理列刷新
-	addTableSubmitted?: string; // 库表管理增加表刷新
-	submitRefreshFk?: string; // 代码生成主键刷新
-
-	uploadCropperImg?: any; // 上传裁剪图片
-
-	noticeRead: number; // 消息已读事件
 };
 
 // mitt 参数类型定义

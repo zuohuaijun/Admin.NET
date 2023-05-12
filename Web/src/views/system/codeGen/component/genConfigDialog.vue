@@ -60,8 +60,9 @@
 				</span>
 			</template>
 		</el-dialog>
-		<fkDialog ref="fkDialogRef" />
-		<treeDialog ref="treeDialogRef" />
+
+		<fkDialog ref="fkDialogRef" @submitRefreshFk="submitRefreshFk" />
+		<treeDialog ref="treeDialogRef" @submitRefreshFk="submitRefreshFk" />
 	</div>
 </template>
 
@@ -75,6 +76,7 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysCodeGenConfigApi, SysConstApi, SysDictDataApi, SysDictTypeApi, SysEnumApi } from '/@/api-services/api';
 import { CodeGenConfig } from '/@/api-services/models/code-gen-config';
 
+const emits = defineEmits(['handleQuery']);
 const fkDialogRef = ref();
 const treeDialogRef = ref();
 const state = reactive({
@@ -111,6 +113,11 @@ onMounted(async () => {
 		state.tableData[data.index] = data;
 	});
 });
+
+// 更新主键
+const submitRefreshFk = (data: any) => {
+	state.tableData[data.index] = data;
+};
 
 onUnmounted(() => {
 	mittBus.off('submitRefresh', () => {});
@@ -184,7 +191,7 @@ const openTreeDialog = (addRow: any, index: number) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefresh');
+	emits('handleQuery');
 	state.isShowDialog = false;
 };
 
@@ -199,7 +206,7 @@ const submit = async () => {
 	var lst = state.tableData;
 	lst.forEach((item: CodeGenConfig) => {
 		// 必填那一项转换
-		for (const key in item) {
+		for (var key in item) {
 			if (item[key] === true) {
 				item[key] = 'Y';
 			}

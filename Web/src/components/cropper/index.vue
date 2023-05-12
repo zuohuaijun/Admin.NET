@@ -51,7 +51,6 @@
 
 <script setup lang="ts" name="cropper">
 import { reactive, nextTick, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 import Cropper from 'cropperjs';
 import 'cropperjs/dist/cropper.css';
 import { genFileId } from 'element-plus';
@@ -63,7 +62,7 @@ const props = defineProps({
 		default: () => '',
 	},
 });
-
+const emits = defineEmits(['uploadCropperImg']);
 const uploadSignRef = ref<UploadInstance>();
 // 定义变量内容
 const state = reactive({
@@ -93,13 +92,12 @@ const onCancel = () => {
 // 更换/上传
 const onSubmit = async () => {
 	const img = await getCroppedCanvas();
-	mittBus.emit('uploadCropperImg', { img: img });
+	emits('uploadCropperImg', { img: img });
 	closeDialog();
 };
 // 初始化cropperjs图片裁剪
 const initCropper = () => {
 	const letImg = <HTMLImageElement>document.querySelector('.cropper-warp-left-img');
-	console.log(letImg);
 	state.cropper = new Cropper(letImg, {
 		viewMode: 1,
 		dragMode: 'none',

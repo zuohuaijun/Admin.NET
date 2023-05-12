@@ -65,15 +65,15 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditNotice ref="editNoticeRef" :title="state.editNoticeTitle" />
+
+		<EditNotice ref="editNoticeRef" :title="state.editNoticeTitle" @handleQuery="handleQuery" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysNotice">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import commonFunction from '/@/utils/commonFunction';
-import mittBus from '/@/utils/mitt';
 import EditNotice from '/@/views/system/notice/component/editNotice.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -99,14 +99,6 @@ const state = reactive({
 
 onMounted(async () => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询操作

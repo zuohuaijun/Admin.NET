@@ -93,15 +93,15 @@
 				layout="total, sizes, prev, pager, next, jumper"
 			/>
 		</el-card>
-		<EditTenant ref="editTenantRef" :title="state.editTenantTitle" />
+
+		<EditTenant ref="editTenantRef" :title="state.editTenantTitle" @handleQuery="handleQuery" />
 		<GrantMenu ref="grantMenuRef" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysTenant">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import EditTenant from '/@/views/system/tenant/component/editTenant.vue';
 import GrantMenu from '/@/views/system/tenant/component/grantMenu.vue';
 
@@ -128,14 +128,6 @@ const state = reactive({
 
 onMounted(async () => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', () => {
-		handleQuery();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询操作

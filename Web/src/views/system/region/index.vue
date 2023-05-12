@@ -55,14 +55,14 @@
 				</el-card>
 			</el-col>
 		</el-row>
-		<EditRegion ref="editRegionRef" :title="state.editRegionTitle" />
+
+		<EditRegion ref="editRegionRef" :title="state.editRegionTitle" @handleQuery="handleQuery" />
 	</div>
 </template>
 
 <script lang="ts" setup name="sysRegion">
-import { onMounted, onUnmounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage, ElNotification } from 'element-plus';
-import mittBus from '/@/utils/mitt';
 import RegionTree from '/@/views/system/region/component/regionTree.vue';
 import EditRegion from '/@/views/system/region/component/editRegion.vue';
 
@@ -91,17 +91,6 @@ const state = reactive({
 
 onMounted(() => {
 	handleQuery();
-
-	mittBus.on('submitRefresh', async () => {
-		handleQuery();
-
-		// 编辑删除后更新机构数据
-		regionTreeRef.value?.initTreeData();
-	});
-});
-
-onUnmounted(() => {
-	mittBus.off('submitRefresh');
 });
 
 // 查询操作
@@ -144,8 +133,10 @@ const delRegion = (row: any) => {
 	})
 		.then(async () => {
 			await getAPI(SysRegionApi).apiSysRegionDeletePost({ id: row.id });
+			handleQuery();
+			// 编辑删除后更新机构数据
+			regionTreeRef.value?.initTreeData();
 			ElMessage.success('删除成功');
-			mittBus.emit('submitRefresh');
 		})
 		.catch(() => {});
 };

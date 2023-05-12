@@ -48,11 +48,11 @@
 
 <script lang="ts" setup name="sysGenEntity">
 import { onMounted, reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi, SysDictTypeApi } from '/@/api-services/api';
 
+const emits = defineEmits(['handleQueryColumn']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -76,7 +76,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefreshColumn');
+	emits('handleQueryColumn');
 	state.isShowDialog = false;
 };
 

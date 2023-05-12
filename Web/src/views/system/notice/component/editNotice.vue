@@ -42,7 +42,6 @@
 <script lang="ts" setup name="sysNoticeEdit">
 import { reactive, ref } from 'vue';
 import Editor from '/@/components/editor/index.vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysNoticeApi } from '/@/api-services/api';
@@ -51,7 +50,7 @@ import { UpdateNoticeInput } from '/@/api-services/models';
 const props = defineProps({
 	title: String,
 });
-
+const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -66,7 +65,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	mittBus.emit('submitRefresh');
+	emits('handleQuery');
 	state.isShowDialog = false;
 };
 
