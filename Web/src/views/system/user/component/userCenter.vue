@@ -168,7 +168,7 @@ import { useUserInfo } from '/@/stores/userInfo';
 import { base64ToFile } from '/@/utils/base64Conver';
 import OrgTree from '/@/views/system/user/component/orgTree.vue';
 import CropperDialog from '/@/components/cropper/index.vue';
-import VueGridLayout from 'vue-grid-layout';
+import VueSignaturePad from 'vue-signature-pad';
 
 import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysFileApi, SysUserApi } from '/@/api-services/api';
@@ -178,7 +178,7 @@ const stores = useUserInfo();
 const { userInfos } = storeToRefs(stores);
 const uploadSignRef = ref<UploadInstance>();
 //const uploadAvatarRef = ref<UploadInstance>();
-const signaturePadRef = ref<InstanceType<typeof VueGridLayout>>();
+const signaturePadRef = ref<InstanceType<typeof VueSignaturePad>>();
 const ruleFormBaseRef = ref<InstanceType<typeof ElForm>>();
 const ruleFormPasswordRef = ref<InstanceType<typeof ElForm>>();
 const cropperDialogRef = ref<InstanceType<typeof CropperDialog>>();
