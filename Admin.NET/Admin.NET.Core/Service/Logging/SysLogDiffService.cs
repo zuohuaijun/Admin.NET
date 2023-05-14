@@ -22,8 +22,8 @@ public class SysLogDiffService : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<SysLogDiff>> Page(PageLogInput input)
     {
         return await _sysLogDiffRep.AsQueryable()
-            .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
-                u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
+            .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()), u => u.CreateTime >= input.StartTime)
+            .WhereIF(!string.IsNullOrWhiteSpace(input.EndTime.ToString()), u => u.CreateTime <= input.EndTime)
             .OrderBy(u => u.CreateTime, OrderByType.Desc)
             .ToPagedListAsync(input.Page, input.PageSize);
     }

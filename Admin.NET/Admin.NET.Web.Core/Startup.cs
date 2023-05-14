@@ -63,6 +63,7 @@ public class Startup : AppStartup
                 .AddAppLocalization()
                 .AddNewtonsoftJson(options =>
                 {
+                    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 首字母小写（驼峰样式）
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
                     // options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
