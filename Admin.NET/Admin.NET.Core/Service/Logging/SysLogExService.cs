@@ -24,8 +24,8 @@ public class SysLogExService : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<SysLogEx>> Page(PageLogInput input)
     {
         return await _sysLogExRep.AsQueryable()
-            .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()) && !string.IsNullOrWhiteSpace(input.EndTime.ToString()),
-                u => u.CreateTime >= input.StartTime && u.CreateTime <= input.EndTime)
+            .WhereIF(!string.IsNullOrWhiteSpace(input.StartTime.ToString()), u => u.CreateTime >= input.StartTime)
+            .WhereIF(!string.IsNullOrWhiteSpace(input.EndTime.ToString()), u => u.CreateTime <= input.EndTime)
             //.OrderBy(u => u.CreateTime, OrderByType.Desc)
             .OrderBuilder(input)
             .ToPagedListAsync(input.Page, input.PageSize);
