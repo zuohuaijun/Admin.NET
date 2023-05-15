@@ -46,7 +46,10 @@
 		"vue-router": "^4.1.6",
 		"vue-signature-pad": "^3.0.2",
 		"vue3-tree-org": "^4.1.1",
-		"xlsx-js-style": "^1.2.0"
+		"xlsx-js-style": "^1.2.0",
+		"sv-print": "^0.1.8",
+		"@sv-print/vue3": "^0.1.8",
+		"@sv-print/hiprint": "^0.1.8"
 	},
 	"devDependencies": {
 		"@types/lodash-es": "^4.17.7",

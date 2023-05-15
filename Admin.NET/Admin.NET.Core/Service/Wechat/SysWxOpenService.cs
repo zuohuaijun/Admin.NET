@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信小程序服务
 /// </summary>
-[ApiDescriptionSettings(Order = 250)]
+[ApiDescriptionSettings(Order = 240)]
 public class SysWxOpenService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;

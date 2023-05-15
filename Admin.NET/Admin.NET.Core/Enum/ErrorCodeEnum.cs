@@ -512,6 +512,18 @@ public enum ErrorCodeEnum
     D1704,
 
     /// <summary>
+    /// 已存在同名打印模板
+    /// </summary>
+    [ErrorCodeItemMetadata("已存在同名打印模板")]
+    D1800,
+
+    /// <summary>
+    /// 已存在同名功能插件
+    /// </summary>
+    [ErrorCodeItemMetadata("已存在同名功能插件")]
+    D1900,
+
+    /// <summary>
     /// 已存在同名或同编码项目
     /// </summary>
     [ErrorCodeItemMetadata("已存在同名或同编码项目")]

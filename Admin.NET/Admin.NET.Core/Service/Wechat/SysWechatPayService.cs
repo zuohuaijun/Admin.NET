@@ -3,7 +3,7 @@
 /// <summary>
 /// 微信支付服务
 /// </summary>
-[ApiDescriptionSettings(Order = 220)]
+[ApiDescriptionSettings(Order = 210)]
 public class SysWechatPayService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysWechatPay> _sysWechatPayUserRep;
