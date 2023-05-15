@@ -1,4 +1,4 @@
-﻿namespace Admin.NET.Core;
+namespace Admin.NET.Core;
 
 /// <summary>
 /// SqlSugar仓储类
@@ -20,7 +20,11 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         }
 
         // 若实体贴有系统表特性，则返回默认的连接
-        if (typeof(T).IsDefined(typeof(SystemTableAttribute), false)) return;
+        if (typeof(T).IsDefined(typeof(SystemTableAttribute), false))
+        {
+            base.Context = iTenant.GetConnectionScope(SqlSugarConst.ConfigId);
+            return;
+        }
 
         // 若当前未登录或是默认租户Id，则返回默认的连接
         var tenantId = App.GetRequiredService<UserManager>().TenantId;
