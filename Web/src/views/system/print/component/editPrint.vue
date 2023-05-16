@@ -2,7 +2,7 @@
 	<div class="sys-print-container">
 		<div class="printDialog">
 			<el-dialog v-model="state.isShowDialog" :show-close="false" :close-on-click-modal="false" fullscreen>
-				<Designer @onDesigned="onDesigned" style="margin: -20px -12px 0 -20px" />
+				<Designer @onDesigned="onDesigned" :autoConnect="false" theme="bumblebee" style="margin: -20px -12px 0 -20px" />
 				<template #footer>
 					<span class="dialog-footer">
 						<el-button @click="cancel">取 消</el-button>
@@ -57,17 +57,17 @@
 </template>
 
 <script lang="ts" setup name="sysEditPrint">
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import 'sv-print/dist/style.css';
 import { Designer } from '@sv-print/vue3';
+// import { disAutoConnect } from '@sv-print/hiprint';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysPrintApi } from '/@/api-services/api';
-import { SysPrint, UpdatePrintInput } from '/@/api-services/models';
+import { UpdatePrintInput } from '/@/api-services/models';
 
 const props = defineProps({
-	title: String,
-	printData: Array<SysPrint>,
+	title: String
 });
 const emits = defineEmits(['handleQuery']);
 let svPrint = ref();
@@ -76,6 +76,10 @@ const state = reactive({
 	isShowDialog: false,
 	ruleForm: {} as UpdatePrintInput,
 	showDialog2: false,
+});
+
+onMounted(async () => {
+	// disAutoConnect();
 });
 
 // 打开弹窗
@@ -110,10 +114,6 @@ const onDesigned = (e: any) => {
 const loadTemplate = () => {
 	svPrint.value.printTemplate.clear();
 	if (JSON.stringify(state.ruleForm) !== '{}') {
-		// svPrint.value.designerUtils.options.authKey = "123456";
-		svPrint.value.designerUtils.options.autoConnect = false;
-		svPrint.value.designerUtils.options.theme = 'bumblebee';
-		svPrint.value.designerUtils.options.title = state.ruleForm.name;
 		svPrint.value.printTemplate.update(JSON.parse(state.ruleForm.template));
 	}
 };

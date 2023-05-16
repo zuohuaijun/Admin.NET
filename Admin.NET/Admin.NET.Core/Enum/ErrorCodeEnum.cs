@@ -518,9 +518,9 @@ public enum ErrorCodeEnum
     D1800,
 
     /// <summary>
-    /// 已存在同名功能插件
+    /// 已存在同名功能或同名程序及插件
     /// </summary>
-    [ErrorCodeItemMetadata("已存在同名功能插件")]
+    [ErrorCodeItemMetadata("已存在同名功能或同名程序及插件")]
     D1900,
 
     /// <summary>

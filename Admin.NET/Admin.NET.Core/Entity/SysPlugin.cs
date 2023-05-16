@@ -15,18 +15,18 @@ public class SysPlugin : EntityTenant
     public virtual string Name { get; set; }
 
     /// <summary>
-    /// 程序集名称
-    /// </summary>
-    [SugarColumn(ColumnDescription = "程序集名称", Length = 512)]
-    [Required, MaxLength(512)]
-    public virtual string AssemblyName { get; set; }
-
-    /// <summary>
     /// C#代码
     /// </summary>
     [SugarColumn(ColumnDescription = "C#代码", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     [Required]
     public virtual string CsharpCode { get; set; }
+
+    /// <summary>
+    /// 程序集名称
+    /// </summary>
+    [SugarColumn(ColumnDescription = "程序集名称", Length = 512)]
+    [MaxLength(512)]
+    public string? AssemblyName { get; set; }
 
     /// <summary>
     /// 排序

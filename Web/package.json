@@ -27,7 +27,7 @@
 		"jsplumb": "^2.15.6",
 		"lodash-es": "^4.17.21",
 		"mitt": "^3.0.0",
-		"monaco-editor": "^0.34.1",
+		"monaco-editor": "^0.38.0",
 		"nprogress": "^0.2.0",
 		"pinia": "^2.0.34",
 		"print-js": "^1.6.0",

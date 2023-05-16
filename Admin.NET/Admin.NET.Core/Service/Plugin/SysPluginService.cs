@@ -37,13 +37,17 @@ public class SysPluginService : IDynamicApiController, ITransient
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加动态插件")]
-    public async Task AddPos(AddPluginInput input)
+    public async Task AddPlugin(AddPluginInput input)
     {
-        var isExist = await _sysPluginRep.IsAnyAsync(u => u.Name == input.Name);
+        var isExist = await _sysPluginRep.IsAnyAsync(u => u.Name == input.Name || u.AssemblyName == input.AssemblyName);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1900);
 
+        // 添加动态程序集/接口
+        input.AssemblyName = CompileAssembly(input.CsharpCode, input.AssemblyName);
+
         await _sysPluginRep.InsertAsync(input.Adapt<SysPlugin>());
+
     }
 
     /// <summary>
@@ -53,11 +57,15 @@ public class SysPluginService : IDynamicApiController, ITransient
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新动态插件")]
-    public async Task UpdatePos(UpdatePluginInput input)
+    public async Task UpdatePlugin(UpdatePluginInput input)
     {
-        var isExist = await _sysPluginRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.Id);
+        var isExist = await _sysPluginRep.IsAnyAsync(u => (u.Name == input.Name || u.AssemblyName == input.AssemblyName) && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1900);
+
+        // 先移除再添加动态程序集/接口
+        RemoveAssembly(input.AssemblyName);
+        input.AssemblyName = CompileAssembly(input.CsharpCode);
 
         await _sysPluginRep.AsUpdateable(input.Adapt<SysPlugin>()).IgnoreColumns(true).ExecuteCommandAsync();
     }
@@ -69,8 +77,14 @@ public class SysPluginService : IDynamicApiController, ITransient
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除动态插件")]
-    public async Task DeletePos(DeletePluginInput input)
+    public async Task DeletePlugin(DeletePluginInput input)
     {
+        var plugin = await _sysPluginRep.GetByIdAsync(input.Id);
+        if (plugin == null) return;
+
+        // 移除动态程序集/接口
+        RemoveAssembly(plugin.AssemblyName);
+
         await _sysPluginRep.DeleteAsync(u => u.Id == input.Id);
     }
 

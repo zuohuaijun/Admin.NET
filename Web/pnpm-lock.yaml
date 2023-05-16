@@ -30,7 +30,7 @@ specifiers:
   jsplumb: ^2.15.6
   lodash-es: ^4.17.21
   mitt: ^3.0.0
-  monaco-editor: ^0.34.1
+  monaco-editor: ^0.38.0
   nprogress: ^0.2.0
   pinia: ^2.0.34
   prettier: ^2.8.7
@@ -80,7 +80,7 @@ dependencies:
   jsplumb: registry.npmmirror.com/jsplumb/2.15.6
   lodash-es: registry.npmmirror.com/lodash-es/4.17.21
   mitt: registry.npmmirror.com/mitt/3.0.0
-  monaco-editor: registry.npmmirror.com/monaco-editor/0.34.1
+  monaco-editor: registry.npmmirror.com/monaco-editor/0.38.0
   nprogress: registry.npmmirror.com/nprogress/0.2.0
   pinia: registry.npmmirror.com/pinia/2.0.36_typescript@5.0.4+vue@3.3.2
   print-js: registry.npmmirror.com/print-js/1.6.0
@@ -3395,10 +3395,10 @@ packages:
     version: 3.0.0
     dev: false
 
-  registry.npmmirror.com/monaco-editor/0.34.1:
-    resolution: {integrity: sha512-FKc80TyiMaruhJKKPz5SpJPIjL+dflGvz4CpuThaPMc94AyN7SeC9HQ8hrvaxX7EyHdJcUY5i4D0gNyJj1vSZQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/monaco-editor/-/monaco-editor-0.34.1.tgz}
+  registry.npmmirror.com/monaco-editor/0.38.0:
+    resolution: {integrity: sha512-11Fkh6yzEmwx7O0YoLxeae0qEGFwmyPRlVxpg7oF9czOOCB/iCjdJrG5I67da5WiXK3YJCxoz9TJFE8Tfq/v9A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/monaco-editor/-/monaco-editor-0.38.0.tgz}
     name: monaco-editor
-    version: 0.34.1
+    version: 0.38.0
     dev: false
 
   registry.npmmirror.com/ms/2.1.2:

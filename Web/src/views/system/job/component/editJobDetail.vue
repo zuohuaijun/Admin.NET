@@ -129,7 +129,6 @@ const state = reactive({
 	isShowDialog: false,
 	selectedTabName: '0', // 选中的 tab 页
 	ruleForm: {} as UpdateJobDetailInput,
-	monacoEditor: null as any,
 	httpJobMessage: { requestUri: '', httpMethod: httpMethodDef.get, body: '' } as HttpJobMessage,
 });
 

@@ -34,7 +34,7 @@ public class SysPrintService : IDynamicApiController, ITransient
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加打印模板")]
-    public async Task AddPos(AddPrintInput input)
+    public async Task AddPrint(AddPrintInput input)
     {
         var isExist = await _sysPrintRep.IsAnyAsync(u => u.Name == input.Name);
         if (isExist)
@@ -50,7 +50,7 @@ public class SysPrintService : IDynamicApiController, ITransient
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新打印模板")]
-    public async Task UpdatePos(UpdatePrintInput input)
+    public async Task UpdatePrint(UpdatePrintInput input)
     {
         var isExist = await _sysPrintRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.Id);
         if (isExist)
@@ -66,7 +66,7 @@ public class SysPrintService : IDynamicApiController, ITransient
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除打印模板")]
-    public async Task DeletePos(DeletePrintInput input)
+    public async Task DeletePrint(DeletePrintInput input)
     {
         await _sysPrintRep.DeleteAsync(u => u.Id == input.Id);
     }
