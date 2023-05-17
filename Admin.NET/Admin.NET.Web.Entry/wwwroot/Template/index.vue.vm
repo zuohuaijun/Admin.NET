@@ -30,7 +30,7 @@
         }else if(@column.EffectType == "Select"){
         @:<el-form-item label="@column.ColumnComment">
           @:<el-select clearable="" v-model="queryParams.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-            @:<el-option v-for="(item,index) in get@(@column.LowerColumnName)Data" :key="index" :value="item.value" :label="item.label" >{{ item.label }}</el-option>
+            @:<el-option v-for="(item,index) in get@(@column.LowerColumnName)Data" :key="index" :value="item.value" :label="item.label" />
             @:
           </el-select>
           @:
