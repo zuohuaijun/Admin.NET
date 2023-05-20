@@ -86,6 +86,7 @@
 			<el-pagination
 				v-model:current-page="state.page.page"
 				v-model:page-size="state.page.pageSize"
+				small
 				:pager-count="5"
 				:page-sizes="[10, 30, 50, 100]"
 				:total="state.total"
