@@ -28,7 +28,7 @@ public class SysConfigService : IDynamicApiController, ITransient
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name?.Trim()), u => u.Name.Contains(input.Name))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Code?.Trim()), u => u.Code.Contains(input.Code))
             .WhereIF(!string.IsNullOrWhiteSpace(input.GroupCode?.Trim()), u => u.GroupCode.Equals(input.GroupCode))
-            .OrderBy(u => u.OrderNo).ToPagedListAsync(input.Page, input.PageSize);
+            .OrderBuilder(input).ToPagedListAsync(input.Page, input.PageSize);
     }
 
     /// <summary>

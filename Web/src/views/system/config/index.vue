@@ -51,14 +51,14 @@ const tb = reactive<TableDemoState>({
 	tableData: {
 		// 表头内容（必传，注意格式）
 		columns: [
-			{ prop: 'name', width: 160, label: '配置名称', align: 'center', sortable: 'custom', isCheck: true, hideCheck: true },
-			{ prop: 'code', width: 120, label: '配置编码', align: 'center', toolTip: true, sortable: 'custom', isCheck: true },
-			{ prop: 'value', width: 120, label: '属性值', align: 'center', sortable: 'custom', isCheck: true },
-			{ prop: 'sysFlag', width: 120, label: '内置参数', align: 'center', sortable: 'custom', isCheck: true },
-			{ prop: 'groupCode', width: 120, label: '分组编码', align: 'center', sortable: 'custom', isCheck: true },
+			{ prop: 'name', width: 200, label: '配置名称', align: 'left', sortable: 'custom', isCheck: true, hideCheck: true },
+			{ prop: 'code', width: 200, label: '配置编码', align: 'left', toolTip: true, sortable: 'custom', isCheck: true },
+			{ prop: 'value', width: 200, label: '属性值', align: 'left', isCheck: true },
+			{ prop: 'sysFlag', width: 100, label: '内置参数', align: 'center', isCheck: true },
+			{ prop: 'groupCode', width: 110, label: '分组编码', align: 'center', sortable: 'custom', isCheck: true },
 			{ prop: 'orderNo', width: 80, label: '排序', align: 'center', sortable: 'custom', isCheck: true },
-			{ prop: 'remark', label: '备注', align: '', headerAlign: 'center', sortable: 'custom', showOverflowTooltip: true, isCheck: true },
-			{ prop: 'action', width: 150, label: '操作', type: 'action', align: 'center', isCheck: true, fixed: 'right', hideCheck: true },
+			{ prop: 'remark', label: '备注', align: '', headerAlign: 'center', showOverflowTooltip: true, isCheck: true },
+			{ prop: 'action', width: 120, label: '操作', type: 'action', align: 'center', isCheck: true, fixed: 'right', hideCheck: true },
 		],
 		// 配置项（必传）
 		config: {

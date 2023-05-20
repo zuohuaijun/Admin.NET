@@ -19,7 +19,7 @@
 							<el-input v-model="state.ruleForm.code" placeholder="配置编码" clearable :disabled="state.ruleForm.sysFlag == 1" />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="值" prop="value" :rules="[{ required: true, message: '值不能为空', trigger: 'blur' }]">
 							<el-select v-model="state.ruleForm.value" placeholder="值" clearable filterable allow-create default-first-option style="width: 100%">
 								<el-option label="True" value="True" />
@@ -27,7 +27,7 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="内置参数" prop="sysFlag" :rules="[{ required: true, message: '内置参数不能为空', trigger: 'blur' }]">
 							<el-radio-group v-model="state.ruleForm.sysFlag" :disabled="state.ruleForm.sysFlag == 1 && state.ruleForm.id != undefined">
 								<el-radio :label="1">是</el-radio>
