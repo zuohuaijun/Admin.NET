@@ -85,6 +85,8 @@ public class DbJobPersistence : IJobPersistence
                     throw new NotSupportedException();
             }
 
+            //动态构建的 jobType 的程序集名称为随机名称，需重新设置
+            dbDetail.AssemblyName = jobType.Assembly.FullName!.Split(',')[0];
             var jobBuilder = JobBuilder.Create(jobType).LoadFrom(dbDetail);
 
             // 强行设置为不扫描 IJob 实现类 [Trigger] 特性触发器，否则 SchedulerBuilder.Create 会再次扫描，导致重复添加同名触发器
