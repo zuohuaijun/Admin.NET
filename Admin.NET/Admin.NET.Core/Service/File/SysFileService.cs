@@ -179,6 +179,11 @@ public class SysFileService : IDynamicApiController, ITransient
         {
             var contentTypeProvider = FS.GetFileExtensionContentTypeProvider();
             suffix = contentTypeProvider.Mappings.FirstOrDefault(u => u.Value == file.ContentType).Key;
+            // image/jpeg 返回的后缀是.jpe ，导致vant上传回显图片失败
+            if (suffix == ".jpe")
+            {
+                suffix = ".jpg";
+            }
         }
         if (string.IsNullOrWhiteSpace(suffix))
             throw Oops.Oh(ErrorCodeEnum.D8003);
