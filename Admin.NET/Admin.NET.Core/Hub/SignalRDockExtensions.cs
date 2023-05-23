@@ -1,11 +1,7 @@
 using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Admin.NET.Core;
+
 public static class SignalRDockExtensions
 {
     /// <summary>
@@ -16,16 +12,16 @@ public static class SignalRDockExtensions
     /// <exception cref="ArgumentNullException"></exception>
     public static void AddSignalR_RedisDock(this IServiceCollection services, Func<string> delegateRedisConnectionString)
     {
-        var RedisConnectionString = delegateRedisConnectionString();
-        if (string.IsNullOrEmpty(RedisConnectionString))
-        {
-            throw new ArgumentNullException(nameof(RedisConnectionString));
-        }
+        var redisConnectionString = delegateRedisConnectionString();
+        if (string.IsNullOrEmpty(redisConnectionString))
+            throw new ArgumentNullException(nameof(redisConnectionString));
+
         services.AddSignalR(hubOptions =>
-        {
-            //SignalR 自己的 pinger ,客户端在定义的时间跨度内没有响应，它将触发OnDisconnectedAsync
-            hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(5);
-        }).AddJsonProtocol()
+            {
+                // SignalR 自己的 pinger ,客户端在定义的时间跨度内没有响应，它将触发OnDisconnectedAsync
+                hubOptions.KeepAliveInterval = TimeSpan.FromSeconds(5);
+            })
+            .AddJsonProtocol()
             .AddMessagePackProtocol()
             // 支持MessagePack
             .AddStackExchangeRedis(options =>
@@ -39,23 +35,16 @@ public static class SignalRDockExtensions
                         // Password = "changeme",
                         ChannelPrefix = "__signalr_",
                     };
-                    //config.EndPoints.Add(IPAddress.Loopback, 0);
-                    //config.SetDefaultPorts();
+                    // config.EndPoints.Add(IPAddress.Loopback, 0);
+                    // config.SetDefaultPorts();
                     config.DefaultDatabase = 1;
-                    var connection = await ConnectionMultiplexer.ConnectAsync(RedisConnectionString, writer);
+                    var connection = await ConnectionMultiplexer.ConnectAsync(redisConnectionString, writer);
                     connection.ConnectionFailed += (_, e) =>
                     {
-                        ConsoleDebug.WriteLine("Connection to Redis failed.");
+                        Console.WriteLine("Connection to Redis failed.");
                     };
 
-                    if (connection.IsConnected)
-                    {
-                        ConsoleDebug.WriteLine("connected to Redis.");
-                    }
-                    else
-                    {
-                        ConsoleDebug.WriteLine("Did not connect to Redis");
-                    }
+                    Console.WriteLine(connection.IsConnected ? "connected to Redis." : "Did not connect to Redis");
 
                     return connection;
                 };
