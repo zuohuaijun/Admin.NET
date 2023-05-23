@@ -34,6 +34,11 @@ public class Startup : AppStartup
         services.AddSqlSugar();
         // JWT
         services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
+        if (App.GetConfig<bool>("SignalRRedisDock:Enabled"))
+        {
+            //redis底板 AddSignalR_RedisDock 需要在Addjwt后。在之前会导致JwtHandler失效
+            services.AddSignalR_RedisDock(() => App.GetConfig<string>("SignalRRedisDock:RedisConnectionString"));
+        }
         // 允许跨域
         services.AddCorsAccessor();
         // 远程请求
