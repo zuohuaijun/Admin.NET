@@ -60,6 +60,8 @@ public class JobClusterServer : IJobClusterServer
 
         while (true)
         {
+             // 控制集群心跳频率 放在头部为了防止 IsAnyAsync continue 没sleep占用大量IO和CPU
+            await Task.Delay(3000 + ro.Next(500, 1000));//错开集群同时启动
             try
             {
                 ICache _cache = App.GetService<ICache>();
@@ -81,9 +83,6 @@ public class JobClusterServer : IJobClusterServer
                  
             }
             catch { }
-
-            // 控制集群心跳频率
-            await Task.Delay(3000+ ro.Next(500,1000));//错开集群同时启动
         }
     }
 
