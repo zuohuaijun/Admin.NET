@@ -183,7 +183,7 @@ const openDialog = (row: any) => {
 	state.isShowDialog = true;
 
 	// Http请求
-	if (state.ruleForm.createType === JobCreateTypeEnum.NUMBER_2) {
+	if (row.id && state.ruleForm.createType === JobCreateTypeEnum.NUMBER_2) {
 		state.httpJobMessage = getHttpJobMessage(state.ruleForm.properties);
 	}
 
