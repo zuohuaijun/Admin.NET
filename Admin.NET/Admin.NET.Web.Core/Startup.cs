@@ -34,11 +34,6 @@ public class Startup : AppStartup
         services.AddSqlSugar();
         // JWT
         services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
-        if (App.GetConfig<bool>("SignalRRedisDock:Enabled"))
-        {
-            //redis底板 AddSignalR_RedisDock 需要在Addjwt后。在之前会导致JwtHandler失效
-            services.AddSignalR_RedisDock(() => App.GetConfig<string>("SignalRRedisDock:RedisConnectionString"));
-        }
         // 允许跨域
         services.AddCorsAccessor();
         // 远程请求
@@ -65,31 +60,31 @@ public class Startup : AppStartup
         });
 
         services.AddControllersWithViews()
-                .AddAppLocalization()
-                .AddNewtonsoftJson(options =>
-                {
-                    options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
-                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 首字母小写（驼峰样式）
-                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
-                    // options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
-                    // options.SerializerSettings.DateParseHandling = DateParseHandling.None;
-                    // options.SerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
-                    // options.SerializerSettings.Converters.AddLongTypeConverters(); // long转string（防止js精度溢出） 超过16位开启
-                    // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
-                })
-                //.AddXmlSerializerFormatters()
-                //.AddXmlDataContractSerializerFormatters()
-                .AddInjectWithUnifyResult<AdminResultProvider>();
+            .AddAppLocalization()
+            .AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.DateTimeZoneHandling = DateTimeZoneHandling.Local;
+                options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 首字母小写（驼峰样式）
+                options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
+                // options.SerializerSettings.MetadataPropertyHandling = MetadataPropertyHandling.Ignore;
+                // options.SerializerSettings.DateParseHandling = DateParseHandling.None;
+                // options.SerializerSettings.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal });
+                options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
+                // options.SerializerSettings.Converters.AddLongTypeConverters(); // long转string（防止js精度溢出） 超过16位开启
+                // options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
+            })
+            //.AddXmlSerializerFormatters()
+            //.AddXmlDataContractSerializerFormatters()
+            .AddInjectWithUnifyResult<AdminResultProvider>();
 
         //// 第三方授权登录
         //services.AddAuthentication()
-        //        .AddWeixin(options =>
-        //        {
-        //            var opt = App.GetOptions<OAuthOptions>();
-        //            options.ClientId = opt.Weixin.ClientId;
-        //            options.ClientSecret = opt.Weixin.ClientSecret;
-        //        });
+        //    .AddWeixin(options =>
+        //    {
+        //        var opt = App.GetOptions<OAuthOptions>();
+        //        options.ClientId = opt.Weixin.ClientId;
+        //        options.ClientSecret = opt.Weixin.ClientSecret;
+        //    });
 
         // ElasticSearch
         services.AddElasticSearch();
@@ -140,18 +135,22 @@ public class Startup : AppStartup
         // 电子邮件
         var emailOpt = App.GetOptions<EmailOptions>();
         services.AddFluentEmail(emailOpt.DefaultFromEmail, emailOpt.DefaultFromName)
-                .AddSmtpSender(new SmtpClient(emailOpt.Host, emailOpt.Port)
-                {
-                    EnableSsl = emailOpt.EnableSsl,
-                    UseDefaultCredentials = emailOpt.UseDefaultCredentials,
-                    Credentials = new NetworkCredential(emailOpt.UserName, emailOpt.Password)
-                });
+            .AddSmtpSender(new SmtpClient(emailOpt.Host, emailOpt.Port)
+            {
+                EnableSsl = emailOpt.EnableSsl,
+                UseDefaultCredentials = emailOpt.UseDefaultCredentials,
+                Credentials = new NetworkCredential(emailOpt.UserName, emailOpt.Password)
+            });
 
         // 模板引擎
         services.AddViewEngine();
 
         // 即时通讯
-        services.AddSignalR();
+        services.AddSignalR(options =>
+            {
+                options.KeepAliveInterval = TimeSpan.FromSeconds(5);
+            })
+            .AddJsonProtocol();
 
         // logo显示
         services.AddLogoDisplay();

@@ -15,8 +15,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.MessagePack" Version="7.0.5" />
-	<PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" Version="6.0.16" />
     <PackageReference Include="AngleSharp" Version="1.0.1" />
     <PackageReference Include="AspectCore.Extensions.Reflection" Version="2.3.0" />
     <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />

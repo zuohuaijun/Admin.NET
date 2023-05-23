@@ -85,7 +85,7 @@ public class DbJobPersistence : IJobPersistence
                     throw new NotSupportedException();
             }
 
-            //动态构建的 jobType 的程序集名称为随机名称，需重新设置
+            // 动态构建的 jobType 的程序集名称为随机名称，需重新设置
             dbDetail.AssemblyName = jobType.Assembly.FullName!.Split(',')[0];
             var jobBuilder = JobBuilder.Create(jobType).LoadFrom(dbDetail);
 

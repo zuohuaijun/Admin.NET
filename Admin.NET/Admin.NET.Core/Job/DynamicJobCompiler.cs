@@ -13,9 +13,7 @@ public class DynamicJobCompiler : ISingleton
     public Type BuildJob(string script)
     {
         var jobAssembly = Schedular.CompileCSharpClassCode(script);
-
         var jobType = jobAssembly.GetTypes().FirstOrDefault(u => typeof(IJob).IsAssignableFrom(u));
-
         return jobType;
     }
 }
