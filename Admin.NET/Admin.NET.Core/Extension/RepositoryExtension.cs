@@ -83,8 +83,11 @@ public static class RepositoryExtension
         // 排序是否可用-排序字段和排序顺序都为非空才启用排序
         if (!string.IsNullOrEmpty(nowPagerInput.Field) && !string.IsNullOrEmpty(nowPagerInput.Order))
         {
-            var field = queryable.Context.EntityMaintenance.GetDbColumnName<T>(nowPagerInput.Field);
-            orderStr = $"{field} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}";
+            var col = queryable.Context.EntityMaintenance.GetEntityInfo<T>().Columns
+                .FirstOrDefault(u => u.PropertyName.Equals(nowPagerInput.Field, StringComparison.CurrentCultureIgnoreCase));
+            orderStr = col != null
+                ? $"{col.DbColumnName} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}"
+                : $"{nowPagerInput.Field} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}";
         }
         return queryable.OrderByIF(!string.IsNullOrWhiteSpace(orderStr), orderStr);
     }
