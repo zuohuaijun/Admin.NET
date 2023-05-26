@@ -6,10 +6,10 @@
 					<el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.fileName" />
 				</el-form-item>
 				<el-form-item label="开始时间" prop="name">
-					<el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" />
+					<el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" value-format="YYYY-MM-DD HH:mm:ss" />
 				</el-form-item>
 				<el-form-item label="结束时间" prop="code">
-					<el-date-picker v-model="state.queryParams.endTime" type="datetime" placeholder="结束时间" />
+					<el-date-picker v-model="state.queryParams.endTime" type="datetime" placeholder="结束时间" value-format="YYYY-MM-DD HH:mm:ss" />
 				</el-form-item>
 				<el-form-item>
 					<el-button-group>
