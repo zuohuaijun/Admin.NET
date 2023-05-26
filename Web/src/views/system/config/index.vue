@@ -4,7 +4,7 @@
 			<TableSearch :search="tb.tableData.search" @search="onSearch" />
 		</el-card>
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
-			<Table ref="tableRef" v-bind="tb.tableData" :getData="getData" :exportChangeData="exportChangeData" @sortHeader="onSortHeader" @selectionChange="tableSelection">
+			<Table ref="tableRef" v-bind="tb.tableData" :getData="getData" :exportChangeData="exportChangeData" @sortHeader="onSortHeader" @selectionChange="tableSelection" border>
 				<template #command>
 					<el-button type="primary" icon="ele-Plus" @click="openAddConfig" v-auth="'sysConfig:add'"> 新增 </el-button>
 
@@ -58,7 +58,7 @@ const tb = reactive<TableDemoState>({
 			{ prop: 'groupCode', width: 110, label: '分组编码', align: 'center', sortable: 'custom', isCheck: true },
 			{ prop: 'orderNo', width: 80, label: '排序', align: 'center', sortable: 'custom', isCheck: true },
 			{ prop: 'remark', label: '备注', align: '', headerAlign: 'center', showOverflowTooltip: true, isCheck: true },
-			{ prop: 'action', width: 120, label: '操作', type: 'action', align: 'center', isCheck: true, fixed: 'right', hideCheck: true },
+			{ prop: 'action', width: 130, label: '操作', type: 'action', align: 'center', isCheck: true, fixed: 'right', hideCheck: true },
 		],
 		// 配置项（必传）
 		config: {
