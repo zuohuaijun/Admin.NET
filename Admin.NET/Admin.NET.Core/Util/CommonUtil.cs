@@ -40,26 +40,26 @@ public static class CommonUtil
     }
 
     /// <summary>
-    /// XML序列化
+    /// 对象序列化XML
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="obj"></param>
     /// <returns></returns>
-    public static string XmlSerialize<T>(T obj)
+    public static string SerializeObjectToXml<T>(T obj)
     {
-        if (obj == null) return "";
+        if (obj == null) return string.Empty;
 
         var xs = new XmlSerializer(obj.GetType());
         var stream = new MemoryStream();
         var setting = new XmlWriterSettings
         {
-            Encoding = new UTF8Encoding(false),
-            Indent = true
+            Encoding = new UTF8Encoding(false), // 不包含BOM
+            Indent = true // 设置格式化缩进
         };
         using (var writer = XmlWriter.Create(stream, setting))
         {
             var ns = new XmlSerializerNamespaces();
-            ns.Add("", "");
+            ns.Add("", ""); // 去除默认命名空间
             xs.Serialize(writer, obj, ns);
         }
         return Encoding.UTF8.GetString(stream.ToArray());
@@ -70,7 +70,7 @@ public static class CommonUtil
     /// </summary>
     /// <param name="xmlStr"></param>
     /// <returns></returns>
-    public static XElement XmlParse(string xmlStr)
+    public static XElement SerializeStringToXml(string xmlStr)
     {
         try
         {
