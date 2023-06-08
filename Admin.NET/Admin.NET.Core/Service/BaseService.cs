@@ -29,7 +29,7 @@ public class BaseService<TEntity> : IDynamicApiController where TEntity : class,
     /// </summary>
     /// <returns></returns>
     [DisplayName("获取实体集合")]
-    public async Task<List<TEntity>> GetList()
+    public virtual async Task<List<TEntity>> GetList()
     {
         return await _rep.GetListAsync();
     }
