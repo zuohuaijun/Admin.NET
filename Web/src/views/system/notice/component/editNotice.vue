@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-notice-container">
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="800px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="900px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>

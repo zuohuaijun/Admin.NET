@@ -278,23 +278,23 @@
 	overflow-y: auto;
 	overflow-x: auto;
 }
-.el-dialog__title{
-	font-size: 14px;
-	color: #FFF;
-	font-weight: 700;
-}
+// .el-dialog__title{
+// 	font-size: 14px;
+// 	color: #FFF;
+// 	font-weight: 700;
+// }
 .el-dialog__header {
-	margin-right: 0;
-	padding-top: 10px;
+	margin: 0;
+	// padding-top: 10px;
+	padding: 8px 0px 8px 20px;
 	background: var(--el-color-primary);
 }
 .el-dialog__footer {
-	border-top: 1px solid var(--el-color-info-light-7);
+	// border-top: 1px solid var(--el-color-info-light-7);
 	padding-bottom: 10px;
   }
 .el-dialog__headerbtn{
-	height: 32px;
-	font-weight: 900;
+	height: 28px;
 	.el-dialog__close{
 		color: #FFF;
 	}
@@ -316,7 +316,7 @@
 		padding: 0;
 	}
 	// 表头背景色
-	--el-table-header-bg-color: var(--el-table-tr-bg-color);
+	--el-table-header-bg-color: var(--next-bg-main-color);
 	// 表头字体颜色
 	thead {
 		color: var(--el-text-color-regular);	

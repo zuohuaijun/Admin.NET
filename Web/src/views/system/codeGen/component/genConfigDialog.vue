@@ -1,23 +1,29 @@
 <template>
 	<div class="sys-codeGenConfig-container">
-		<el-dialog v-model="state.isShowDialog" title="配置" draggable width="100%">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="1400px">
+			<template #header>
+				<div style="color: #fff">
+					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+					<span> 生成配置</span>
+				</div>
+			</template>
 			<el-table :data="state.tableData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="columnName" label="字段" show-overflow-tooltip />
-				<el-table-column prop="columnComment" label="描述" show-overflow-tooltip>
+				<el-table-column prop="columnName" label="字段" width="180" show-overflow-tooltip />
+				<el-table-column prop="columnComment" label="描述" width="180" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input v-model="scope.row.columnComment" autocomplete="off" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="netType" label="数据类型" show-overflow-tooltip />
-				<el-table-column prop="effectType" label="作用类型" show-overflow-tooltip>
+				<el-table-column prop="netType" label="数据类型" minWidth="120" show-overflow-tooltip />
+				<el-table-column prop="effectType" label="作用类型" width="120" show-overflow-tooltip>
 					<template #default="scope">
 						<el-select v-model="scope.row.effectType" class="m-2" placeholder="Select" :disabled="judgeColumns(scope.row)" @change="effectTypeChange(scope.row, scope.$index)">
 							<el-option v-for="item in state.effectTypeList" :key="item.code" :label="item.value" :value="item.code" />
 						</el-select>
 					</template>
 				</el-table-column>
-				<el-table-column prop="dictTypeCode" label="字典" show-overflow-tooltip>
+				<el-table-column prop="dictTypeCode" label="字典" width="180" show-overflow-tooltip>
 					<template #default="scope">
 						<el-select v-model="scope.row.dictTypeCode" class="m-2" :disabled="effectTypeEnable(scope.row)">
 							<el-option v-for="item in state.dictTypeCodeList" :key="item.code" :label="item.name" :value="item.code" />
@@ -25,27 +31,27 @@
 					</template>
 				</el-table-column>
 
-				<el-table-column prop="whetherTable" label="列表显示" align="center" show-overflow-tooltip>
+				<el-table-column prop="whetherTable" label="列表显示" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-checkbox v-model="scope.row.whetherTable" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="whetherAddUpdate" label="增改" align="center" show-overflow-tooltip>
+				<el-table-column prop="whetherAddUpdate" label="增改" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-checkbox v-model="scope.row.whetherAddUpdate" :disabled="judgeColumns(scope.row)" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="whetherRequired" label="必填" align="center" show-overflow-tooltip>
+				<el-table-column prop="whetherRequired" label="必填" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-checkbox v-model="scope.row.whetherRequired" :disabled="judgeColumns(scope.row)" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="queryWhether" label="是否是查询" align="center" show-overflow-tooltip>
+				<el-table-column prop="queryWhether" label="是否是查询" minWidth="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch v-model="scope.row.queryWhether" :active-value="true" :inactive-value="false" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="queryType" label="查询方式" show-overflow-tooltip>
+				<el-table-column prop="queryType" label="查询方式" minWidth="120" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-select v-model="scope.row.queryType" class="m-2" placeholder="Select" :disabled="!scope.row.queryWhether">
 							<el-option v-for="item in state.queryTypeList" :key="item.code" :label="item.value" :value="item.code" />

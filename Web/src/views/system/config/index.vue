@@ -51,14 +51,14 @@ const tb = reactive<TableDemoState>({
 	tableData: {
 		// 表头内容（必传，注意格式）
 		columns: [
-			{ prop: 'name', width: 200, label: '配置名称', align: 'left', sortable: 'custom', isCheck: true, hideCheck: true },
-			{ prop: 'code', width: 200, label: '配置编码', align: 'left', toolTip: true, sortable: 'custom', isCheck: true },
-			{ prop: 'value', width: 200, label: '属性值', align: 'left', isCheck: true },
+			{ prop: 'name', width: 200, label: '配置名称', headerAlign: 'center', sortable: 'custom', isCheck: true, hideCheck: true },
+			{ prop: 'code', width: 200, label: '配置编码', headerAlign: 'center', toolTip: true, sortable: 'custom', isCheck: true },
+			{ prop: 'value', width: 150, label: '属性值', headerAlign: 'center', isCheck: true },
 			{ prop: 'sysFlag', width: 100, label: '内置参数', align: 'center', isCheck: true },
-			{ prop: 'groupCode', width: 110, label: '分组编码', align: 'center', sortable: 'custom', isCheck: true },
+			{ prop: 'groupCode', width: 120, label: '分组编码', align: 'center', sortable: 'custom', isCheck: true },
 			{ prop: 'orderNo', width: 80, label: '排序', align: 'center', sortable: 'custom', isCheck: true },
 			{ prop: 'remark', label: '备注', align: '', headerAlign: 'center', showOverflowTooltip: true, isCheck: true },
-			{ prop: 'action', width: 130, label: '操作', type: 'action', align: 'center', isCheck: true, fixed: 'right', hideCheck: true },
+			{ prop: 'action', width: 140, label: '操作', type: 'action', align: 'center', isCheck: true, fixed: 'right', hideCheck: true },
 		],
 		// 配置项（必传）
 		config: {
@@ -67,7 +67,7 @@ const tb = reactive<TableDemoState>({
 			isSerialNo: true, // 是否显示表格序号
 			isSelection: true, // 是否勾选表格多选
 			showSelection: auth('sysConfig:batchDelete'), //是否显示表格多选
-			pageSize: 10, // 每页条数
+			pageSize: 20, // 每页条数
 			hideExport: false, //是否隐藏导出按钮
 			exportFileName: '系统参数', //导出报表的文件名，不填写取应用名称
 		},

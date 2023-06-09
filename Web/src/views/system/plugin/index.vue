@@ -2,8 +2,8 @@
 	<div class="sys-plugin-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="功能名称" prop="name">
-					<el-input placeholder="功能名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
+				<el-form-item label="功能名称">
+					<el-input v-model="state.queryParams.name" placeholder="功能名称" clearable />
 				</el-form-item>
 				<el-form-item>
 					<el-button-group>
@@ -22,8 +22,8 @@
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
 				<el-table-column prop="name" label="功能名称" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="assemblyName" label="程序集名称" header-align="center" show-overflow-tooltip />
-				<el-table-column prop="orderNo" label="排序" align="center" show-overflow-tooltip />
-				<el-table-column label="状态" align="center" show-overflow-tooltip>
+				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
+				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
 						<el-tag type="danger" v-else>禁用</el-tag>
@@ -73,7 +73,7 @@ const state = reactive({
 	},
 	tableParams: {
 		page: 1,
-		pageSize: 10,
+		pageSize: 20,
 		total: 0 as any,
 	},
 	editPluginTitle: '',

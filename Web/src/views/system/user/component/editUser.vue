@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-user-container">
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="769px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="700px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
@@ -9,7 +9,7 @@
 			</template>
 			<el-tabs v-loading="state.loading" v-model="state.selectedTabName">
 				<el-tab-pane label="基础信息">
-					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="100px">
+					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="70px">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="账号名称" prop="account" :rules="[{ required: true, message: '账号名称不能为空', trigger: 'blur' }]">
@@ -22,7 +22,7 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="昵称" prop="nickName">
+								<el-form-item label="昵称">
 									<el-input v-model="state.ruleForm.nickName" placeholder="昵称" clearable />
 								</el-form-item>
 							</el-col>
@@ -33,11 +33,11 @@
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="出生日期" prop="birthday" :rules="[{ required: true, message: '出生日期不能为空', trigger: 'blur' }]">
-									<el-date-picker v-model="state.ruleForm.birthday" type="date" placeholder="出生日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" style="width: 100%" />
+									<el-date-picker v-model="state.ruleForm.birthday" type="date" placeholder="出生日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="w100" />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="性别" prop="sex">
+								<el-form-item label="性别">
 									<el-radio-group v-model="state.ruleForm.sex">
 										<el-radio :label="1">男</el-radio>
 										<el-radio :label="2">女</el-radio>
@@ -78,19 +78,19 @@
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="职位" prop="posId" :rules="[{ required: true, message: '职位名称不能为空', trigger: 'blur' }]">
-									<el-select v-model="state.ruleForm.posId" placeholder="职位" style="width: 100%">
+									<el-select v-model="state.ruleForm.posId" placeholder="职位" class="w100">
 										<el-option v-for="d in state.posData" :key="d.id" :label="d.name" :value="d.id" />
 									</el-select>
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="工号" prop="jobNum">
+								<el-form-item label="工号">
 									<el-input v-model="state.ruleForm.jobNum" placeholder="工号" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="入职日期" prop="joinDate">
-									<el-date-picker v-model="state.ruleForm.joinDate" type="date" placeholder="入职日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" style="width: 100%" />
+								<el-form-item label="入职日期">
+									<el-date-picker v-model="state.ruleForm.joinDate" type="date" placeholder="入职日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="w100" />
 								</el-form-item>
 							</el-col>
 							<el-divider border-style="dashed" content-position="center">
@@ -126,24 +126,24 @@
 										</el-col>
 										<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 											<el-form-item label="职位" :prop="`extOrgIdList[${k}].posId`" :rules="[{ required: true, message: `职位不能为空`, trigger: 'blur' }]">
-												<el-select v-model="state.ruleForm.extOrgIdList[k].posId" placeholder="职位名称" style="width: 100%">
+												<el-select v-model="state.ruleForm.extOrgIdList[k].posId" placeholder="职位名称" class="w100">
 													<el-option v-for="d in state.posData" :key="d.id" :label="d.name" :value="d.id" />
 												</el-select>
 											</el-form-item>
 										</el-col>
 									</el-row>
 								</template>
-								<el-empty description="空" v-else></el-empty>
+								<el-empty :image-size="80" description="空数据" v-else></el-empty>
 							</el-col>
 						</el-row>
 					</el-form>
 				</el-tab-pane>
 				<el-tab-pane label="档案信息">
-					<el-form :model="state.ruleForm" label-width="100px">
+					<el-form :model="state.ruleForm" label-width="75px">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="证件类型" prop="cardType">
-									<el-select v-model="state.ruleForm.cardType" placeholder="证件类型" style="width: 100%">
+									<el-select v-model="state.ruleForm.cardType" placeholder="证件类型" class="w100">
 										<el-option label="身份证" :value="0" />
 										<el-option label="护照" :value="1" />
 										<el-option label="出生证" :value="2" />
@@ -153,33 +153,33 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="证件号码" prop="idCardNum">
+								<el-form-item label="证件号码">
 									<el-input v-model="state.ruleForm.idCardNum" placeholder="证件号码" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="民族" prop="nation">
+								<el-form-item label="民族">
 									<el-input v-model="state.ruleForm.nation" placeholder="民族" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="邮箱" prop="email">
+								<el-form-item label="邮箱">
 									<el-input v-model="state.ruleForm.email" placeholder="邮箱" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-								<el-form-item label="地址" prop="nation">
+								<el-form-item label="地址">
 									<el-input v-model="state.ruleForm.address" placeholder="地址" clearable type="textarea" />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="毕业学校" prop="college">
+								<el-form-item label="毕业学校">
 									<el-input v-model="state.ruleForm.college" placeholder="毕业学校" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="文化程度" prop="cultureLevel">
-									<el-select v-model="state.ruleForm.cultureLevel" placeholder="文化程度" style="width: 100%">
+								<el-form-item label="文化程度">
+									<el-select v-model="state.ruleForm.cultureLevel" placeholder="文化程度" class="w100">
 										<el-option label="小学" :value="0" />
 										<el-option label="初中" :value="1" />
 										<el-option label="高中" :value="2" />
@@ -192,32 +192,32 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="政治面貌" prop="politicalOutlook">
+								<el-form-item label="政治面貌">
 									<el-input v-model="state.ruleForm.politicalOutlook" placeholder="政治面貌" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="办公电话" prop="officePhone">
+								<el-form-item label="办公电话">
 									<el-input v-model="state.ruleForm.officePhone" placeholder="办公电话" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="紧急联系人" prop="emergencyContact">
+								<el-form-item label="紧急联系人">
 									<el-input v-model="state.ruleForm.emergencyContact" placeholder="紧急联系人" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="联系人电话" prop="emergencyPhone">
+								<el-form-item label="联系人电话">
 									<el-input v-model="state.ruleForm.emergencyPhone" placeholder="联系人电话" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-								<el-form-item label="联系人地址" prop="emergencyAddress">
+								<el-form-item label="联系人地址">
 									<el-input v-model="state.ruleForm.emergencyAddress" placeholder="紧急联系人" clearable type="textarea" />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-								<el-form-item label="备注" prop="remark">
+								<el-form-item label="备注">
 									<el-input v-model="state.ruleForm.remark" placeholder="备注" clearable type="textarea" />
 								</el-form-item>
 							</el-col>

@@ -1,13 +1,13 @@
 <template>
 	<div class="sys-pos-container">
-		<el-dialog v-model="state.isShowDialog" draggable width="600px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="700px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
 					<span> {{ props.title }} </span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="80px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="70px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="职位名称" prop="name" :rules="[{ required: true, message: '职位名称不能为空', trigger: 'blur' }]">

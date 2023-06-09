@@ -51,6 +51,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -97,6 +104,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -139,6 +153,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             if (code !== undefined) {
                 localVarQueryParameter['Code'] = code;
@@ -184,6 +205,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -230,6 +258,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             if (status !== undefined) {
                 localVarQueryParameter['Status'] = status;
@@ -279,6 +314,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             if (dictTypeId !== undefined) {
                 localVarQueryParameter['DictTypeId'] = dictTypeId;
@@ -320,6 +362,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -361,6 +410,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -402,6 +458,13 @@ export const SysDictDataApiAxiosParamCreator = function (configuration?: Configu
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 

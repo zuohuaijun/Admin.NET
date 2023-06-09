@@ -8,11 +8,11 @@
 			<el-col :span="18" :xs="24">
 				<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 					<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-						<el-form-item label="行政名称" prop="name">
-							<el-input placeholder="行政名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
+						<el-form-item label="行政名称">
+							<el-input v-model="state.queryParams.name" placeholder="行政名称" clearable />
 						</el-form-item>
-						<el-form-item label="行政代码" prop="code">
-							<el-input placeholder="行政代码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
+						<el-form-item label="行政代码">
+							<el-input v-model="state.queryParams.code" placeholder="行政代码" clearable />
 						</el-form-item>
 						<el-form-item>
 							<el-button-group>
@@ -29,11 +29,11 @@
 
 				<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 					<el-table :data="state.regionData" style="width: 100%" v-loading="state.loading" row-key="id" default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
-						<el-table-column prop="name" label="行政名称" show-overflow-tooltip />
-						<el-table-column prop="code" label="行政代码" show-overflow-tooltip />
-						<el-table-column prop="cityCode" label="区号" show-overflow-tooltip />
+						<el-table-column prop="name" label="行政名称" align="center" show-overflow-tooltip />
+						<el-table-column prop="code" label="行政代码" align="center" show-overflow-tooltip />
+						<el-table-column prop="cityCode" label="区号" align="center" show-overflow-tooltip />
 						<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
-						<el-table-column prop="remark" label="备注" show-overflow-tooltip />
+						<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
 						<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditRegion(scope.row)" v-auth="'sysRegion:update'"> 编辑 </el-button>
@@ -83,7 +83,7 @@ const state = reactive({
 	},
 	tableParams: {
 		page: 1,
-		pageSize: 10,
+		pageSize: 20,
 		total: 0 as any,
 	},
 	editRegionTitle: '',

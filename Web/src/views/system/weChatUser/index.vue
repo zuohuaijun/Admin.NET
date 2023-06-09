@@ -2,11 +2,11 @@
 	<div class="weChatUser-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="微信昵称" prop="nickName">
-					<el-input placeholder="微信昵称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.nickName" />
+				<el-form-item label="微信昵称">
+					<el-input v-model="state.queryParams.nickName" placeholder="微信昵称" clearable />
 				</el-form-item>
-				<el-form-item label="手机号码" prop="mobile">
-					<el-input placeholder="手机号码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.mobile" />
+				<el-form-item label="手机号码">
+					<el-input v-model="state.queryParams.mobile" placeholder="手机号码" clearable />
 				</el-form-item>
 				<el-form-item>
 					<el-button-group>
@@ -20,8 +20,8 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.weChatUserData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="openId" label="OpenId" show-overflow-tooltip />
-				<el-table-column prop="unionId" label="UnionId" show-overflow-tooltip />
+				<el-table-column prop="openId" label="OpenId" align="center" show-overflow-tooltip />
+				<el-table-column prop="unionId" label="UnionId" align="center" show-overflow-tooltip />
 				<el-table-column prop="platformType" label="平台类型" width="110" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.platformType === 1"> 微信公众号 </el-tag>
@@ -32,22 +32,22 @@
 						<el-tag v-if="scope.row.platformType === 6"> 头条系小程序 </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="nickName" label="昵称" show-overflow-tooltip />
+				<el-table-column prop="nickName" label="昵称" align="center" show-overflow-tooltip />
 				<el-table-column prop="avatar" label="头像" width="70" align="center">
 					<template #default="scope">
 						<el-avatar :src="scope.row.avatar" :size="24" style="vertical-align: middle" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="mobile" label="手机号码" show-overflow-tooltip />
+				<el-table-column prop="mobile" label="手机号码" align="center" show-overflow-tooltip />
 				<el-table-column prop="sex" label="性别" width="60" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.sex === 0"> 男 </el-tag>
 						<el-tag type="danger" v-else> 女 </el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="city" label="城市" show-overflow-tooltip />
-				<el-table-column prop="province" label="省" show-overflow-tooltip />
-				<el-table-column prop="country" label="国家" show-overflow-tooltip />
+				<el-table-column prop="city" label="城市" align="center" show-overflow-tooltip />
+				<el-table-column prop="province" label="省" align="center" show-overflow-tooltip />
+				<el-table-column prop="country" label="国家" align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditWeChatUser(scope.row)" v-auth="'sysWechatUser:update'"> 编辑 </el-button>
@@ -91,7 +91,7 @@ const state = reactive({
 	},
 	tableParams: {
 		page: 1,
-		pageSize: 10,
+		pageSize: 20,
 		total: 0 as any,
 	},
 	editWeChatUserTitle: '',

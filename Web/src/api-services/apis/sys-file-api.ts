@@ -49,6 +49,13 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -90,6 +97,13 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -131,6 +145,13 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -173,6 +194,13 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             const localVarFormParams = new FormData();
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
             if (file !== undefined) { 
@@ -219,6 +247,13 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             const localVarFormParams = new FormData();
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             if (path !== undefined) {
                 localVarQueryParameter['path'] = path;
@@ -268,6 +303,13 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             const localVarFormParams = new FormData();
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             if (files) {
                 files.forEach((element) => {
@@ -314,6 +356,13 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
             const localVarFormParams = new FormData();
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
             if (file !== undefined) { 

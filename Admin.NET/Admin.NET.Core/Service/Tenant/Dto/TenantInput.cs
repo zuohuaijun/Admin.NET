@@ -30,10 +30,10 @@ public class AddTenantInput : TenantOutput
     public override string Name { get; set; }
 
     /// <summary>
-    /// 管理员名称
+    /// 租管账号
     /// </summary>
-    [Required(ErrorMessage = "管理员名称不能为空"), MinLength(3, ErrorMessage = "管理员名称不能少于3个字符")]
-    public override string AdminName { get; set; }
+    [Required(ErrorMessage = "租管账号不能为空"), MinLength(3, ErrorMessage = "租管账号不能少于3个字符")]
+    public override string AdminAccount { get; set; }
 }
 
 public class UpdateTenantInput : AddTenantInput

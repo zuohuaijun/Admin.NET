@@ -8,14 +8,14 @@
 			<el-col :span="20" :xs="24">
 				<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 					<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-						<el-form-item label="账号" prop="account">
-							<el-input placeholder="账号" clearable @keyup.enter="handleQuery" v-model="state.queryParams.account" />
+						<el-form-item label="账号">
+							<el-input v-model="state.queryParams.account" placeholder="账号" clearable />
 						</el-form-item>
-						<!-- <el-form-item label="姓名" prop="realName">
-							<el-input placeholder="姓名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.realName" />
+						<!-- <el-form-item label="姓名">
+							<el-input v-model="state.queryParams.realName" placeholder="姓名" clearable  />
 						</el-form-item> -->
-						<el-form-item label="手机号码" prop="phone">
-							<el-input placeholder="手机号码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.phone" />
+						<el-form-item label="手机号码">
+							<el-input v-model="state.queryParams.phone" placeholder="手机号码" clearable />
 						</el-form-item>
 						<el-form-item>
 							<el-button-group>
@@ -32,14 +32,14 @@
 				<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 					<el-table :data="state.userData" style="width: 100%" v-loading="state.loading" border>
 						<el-table-column type="index" label="序号" width="55" align="center" fixed />
-						<el-table-column prop="account" label="账号" width="120" fixed show-overflow-tooltip />
-						<el-table-column prop="nickName" label="昵称" width="120" show-overflow-tooltip />
+						<el-table-column prop="account" label="账号" width="120" align="center" fixed show-overflow-tooltip />
+						<el-table-column prop="nickName" label="昵称" width="120" align="center" show-overflow-tooltip />
 						<el-table-column label="头像" width="80" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-avatar :src="scope.row.avatar" size="small">{{ scope.row.nickName?.slice(0, 1) ?? scope.row.realName?.slice(0, 1) }} </el-avatar>
 							</template>
 						</el-table-column>
-						<el-table-column prop="realName" label="姓名" width="120" show-overflow-tooltip />
+						<el-table-column prop="realName" label="姓名" width="120" align="center" show-overflow-tooltip />
 						<el-table-column label="出生日期" width="100" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								{{ formatDate(new Date(scope.row.birthday), 'YYYY-mm-dd') }}
@@ -58,8 +58,8 @@
 							</template>
 						</el-table-column>
 						<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
-						<el-table-column prop="createTime" label="修改时间" width="160" show-overflow-tooltip />
-						<el-table-column prop="remark" label="备注" show-overflow-tooltip />
+						<el-table-column prop="createTime" label="修改时间" width="160" align="center" show-overflow-tooltip />
+						<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
 						<el-table-column label="操作" width="110" align="center" fixed="right" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditUser(scope.row)" v-auth="'sysUser:update'"> 编辑 </el-button>
@@ -120,7 +120,7 @@ const state = reactive({
 	},
 	tableParams: {
 		page: 1,
-		pageSize: 10,
+		pageSize: 20,
 		total: 0 as any,
 	},
 	editUserTitle: '',

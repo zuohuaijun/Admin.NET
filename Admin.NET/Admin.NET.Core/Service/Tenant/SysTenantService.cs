@@ -66,7 +66,7 @@ public class SysTenantService : IDynamicApiController, ITransient
                 OrgId = o.Id,
                 Name = o.Name,
                 UserId = u.Id,
-                AdminName = u.Account,
+                AdminAccount = u.Account,
                 Phone = u.Phone,
                 Email = u.Email,
                 TenantType = t.TenantType,
@@ -102,7 +102,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1300);
 
-        isExist = await _sysUserRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.AdminName);
+        isExist = await _sysUserRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.AdminAccount);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1301);
 
         // ID隔离时设置与主库一致
@@ -185,9 +185,9 @@ public class SysTenantService : IDynamicApiController, ITransient
         var newUser = new SysUser
         {
             TenantId = tenantId,
-            Account = tenant.AdminName,
+            Account = tenant.AdminAccount,
             Password = CryptogramUtil.Encrypt(password),
-            NickName = tenant.AdminName,
+            NickName = "租管",
             Email = tenant.Email,
             Phone = tenant.Phone,
             AccountType = AccountTypeEnum.Admin,
@@ -271,7 +271,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Id != input.OrgId);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1300);
-        isExist = await _sysUserRep.IsAnyAsync(u => u.Account == input.AdminName && u.Id != input.UserId);
+        isExist = await _sysUserRep.IsAnyAsync(u => u.Account == input.AdminAccount && u.Id != input.UserId);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1301);
 
@@ -281,7 +281,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         await _sysOrgRep.UpdateSetColumnsTrueAsync(u => new SysOrg() { Name = input.Name }, u => u.Id == input.OrgId);
 
         // 更新系统用户
-        await _sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Account = input.AdminName, Phone = input.Phone, Email = input.Email }, u => u.Id == input.UserId);
+        await _sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Account = input.AdminAccount, Phone = input.Phone, Email = input.Email }, u => u.Id == input.UserId);
 
         await UpdateTenantCache();
     }

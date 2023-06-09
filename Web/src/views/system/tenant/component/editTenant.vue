@@ -1,13 +1,13 @@
 <template>
 	<div class="sys-tenant-container">
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="769px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="700px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
 					<span> {{ props.title }} </span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="100px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="75px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="租户类型" :rules="[{ required: true, message: '租户类型不能为空', trigger: 'blur' }]">
@@ -23,8 +23,8 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						<el-form-item label="管理员" prop="adminName" :rules="[{ required: true, message: '管理员不能为空', trigger: 'blur' }]">
-							<el-input v-model="state.ruleForm.adminName" placeholder="管理员" clearable />
+						<el-form-item label="租管账号" prop="adminAccount" :rules="[{ required: true, message: '租管账号不能为空', trigger: 'blur' }]">
+							<el-input v-model="state.ruleForm.adminAccount" placeholder="租管账号" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -49,7 +49,7 @@
 					</el-col> -->
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="数据库类型">
-							<el-select v-model="state.ruleForm.dbType" placeholder="数据库类型" clearable style="width: 100%" :disabled="state.ruleForm.tenantType == 0 && state.ruleForm.tenantType != undefined">
+							<el-select v-model="state.ruleForm.dbType" placeholder="数据库类型" clearable class="w100" :disabled="state.ruleForm.tenantType == 0 && state.ruleForm.tenantType != undefined">
 								<el-option label="MySql" :value="0" />
 								<el-option label="SqlServer" :value="1" />
 								<el-option label="Sqlite" :value="2" />

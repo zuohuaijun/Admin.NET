@@ -61,17 +61,17 @@ export interface UpdatePluginInput {
      */
     tenantId?: number | null;
     /**
-     * 程序集名称
-     * @type {string}
-     * @memberof UpdatePluginInput
-     */
-    assemblyName: string;
-    /**
      * C#代码
      * @type {string}
      * @memberof UpdatePluginInput
      */
     csharpCode: string;
+    /**
+     * 程序集名称
+     * @type {string}
+     * @memberof UpdatePluginInput
+     */
+    assemblyName?: string | null;
     /**
      * 排序
      * @type {number}

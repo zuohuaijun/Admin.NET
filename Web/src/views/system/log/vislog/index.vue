@@ -2,7 +2,7 @@
 	<div class="sys-vislog-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="开始时间" prop="name">
+				<el-form-item label="开始时间">
 					<el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item label="结束时间" prop="code">
@@ -23,22 +23,22 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.logData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="displayTitle" label="显示名称" width="150" show-overflow-tooltip />
-				<el-table-column prop="actionName" label="方法名称" width="100" show-overflow-tooltip />
-				<el-table-column prop="account" label="账号名称" width="100" show-overflow-tooltip />
-				<el-table-column prop="realName" label="真实姓名" width="100" show-overflow-tooltip />
-				<el-table-column prop="remoteIp" label="IP地址" width="120" show-overflow-tooltip />
-				<el-table-column prop="location" label="登录地点" width="150" show-overflow-tooltip />
-				<el-table-column prop="browser" label="浏览器" show-overflow-tooltip />
-				<el-table-column prop="os" label="操作系统" width="150" show-overflow-tooltip />
+				<el-table-column prop="displayTitle" label="显示名称" width="150" align="center" show-overflow-tooltip />
+				<el-table-column prop="actionName" label="方法名称" width="150" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="account" label="账号名称" width="100" align="center" show-overflow-tooltip />
+				<el-table-column prop="realName" label="真实姓名" width="100" align="center" show-overflow-tooltip />
+				<el-table-column prop="remoteIp" label="IP地址" align="center" show-overflow-tooltip />
+				<el-table-column prop="location" label="登录地点" align="center" show-overflow-tooltip />
+				<el-table-column prop="browser" label="浏览器" align="center" show-overflow-tooltip />
+				<el-table-column prop="os" label="操作系统" width="120" align="center" show-overflow-tooltip />
 				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.status === '200'">成功</el-tag>
 						<el-tag type="danger" v-else>失败</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="elapsed" label="耗时(ms)" width="100" align="center" show-overflow-tooltip />
-				<el-table-column prop="logDateTime" label="日志时间" width="160" align="center" fixed="right" show-overflow-tooltip />
+				<el-table-column prop="elapsed" label="耗时(ms)" width="80" align="center" show-overflow-tooltip />
+				<el-table-column prop="logDateTime" label="日志时间" width="130" align="center" fixed="right" show-overflow-tooltip />
 			</el-table>
 			<el-pagination
 				v-model:currentPage="state.tableParams.page"

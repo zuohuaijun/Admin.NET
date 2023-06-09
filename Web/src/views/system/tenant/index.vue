@@ -2,11 +2,11 @@
 	<div class="sys-tenant-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="租户名称" prop="name">
-					<el-input placeholder="租户名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
+				<el-form-item label="租户名称">
+					<el-input v-model="state.queryParams.name" placeholder="租户名称" clearable />
 				</el-form-item>
-				<el-form-item label="联系电话" prop="phone">
-					<el-input placeholder="联系电话" clearable @keyup.enter="handleQuery" v-model="state.queryParams.phone" />
+				<el-form-item label="联系电话">
+					<el-input v-model="state.queryParams.phone" placeholder="联系电话" clearable />
 				</el-form-item>
 				<el-form-item>
 					<el-button-group>
@@ -23,9 +23,9 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.tenantData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
-				<el-table-column prop="name" label="租户名称" width="160" show-overflow-tooltip />
-				<el-table-column prop="adminName" label="管理员" width="120" show-overflow-tooltip />
-				<el-table-column prop="phone" label="电话" width="120" show-overflow-tooltip />
+				<el-table-column prop="name" label="租户名称" width="160" align="center" show-overflow-tooltip />
+				<el-table-column prop="adminAccount" label="租管账号" align="center" width="120" show-overflow-tooltip />
+				<el-table-column prop="phone" label="电话" width="120" align="center" show-overflow-tooltip />
 				<!-- <el-table-column prop="host" label="主机" show-overflow-tooltip /> -->
 				<!-- <el-table-column prop="email" label="邮箱" show-overflow-tooltip /> -->
 				<el-table-column prop="tenantType" label="租户类型" width="100" align="center" show-overflow-tooltip>
@@ -60,10 +60,10 @@
 					</template>
 				</el-table-column>
 				<!-- <el-table-column prop="configId" label="数据库标识" show-overflow-tooltip /> -->
-				<el-table-column prop="connection" label="数据库连接" width="300" show-overflow-tooltip />
+				<el-table-column prop="connection" label="数据库连接" width="300" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="修改时间" width="160" align="center" show-overflow-tooltip />
-				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
+				<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="180" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Coin" size="small" text type="danger" @click="createTenant(scope.row)" v-auth="'sysTenant:createDb'" :disabled="scope.row.tenantType == 0"> 创建库 </el-button>

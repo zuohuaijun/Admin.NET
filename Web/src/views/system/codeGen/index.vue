@@ -23,12 +23,12 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.tableData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="configId" label="库定位器" show-overflow-tooltip />
-				<el-table-column prop="tableName" label="表名称" show-overflow-tooltip />
-				<el-table-column prop="busName" label="业务名" show-overflow-tooltip />
-				<el-table-column prop="nameSpace" label="命名空间" show-overflow-tooltip />
-				<el-table-column prop="authorName" label="作者姓名" show-overflow-tooltip />
-				<el-table-column prop="generateType" label="生成方式" show-overflow-tooltip>
+				<el-table-column prop="configId" label="库定位器" align="center" show-overflow-tooltip />
+				<el-table-column prop="tableName" label="表名称" align="center" show-overflow-tooltip />
+				<el-table-column prop="busName" label="业务名" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="nameSpace" label="命名空间" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="authorName" label="作者姓名" align="center" show-overflow-tooltip />
+				<el-table-column prop="generateType" label="生成方式" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.generateType == 100"> 下载压缩包 </el-tag>
 						<el-tag v-else-if="scope.row.generateType == 111"> 下载压缩包(前端) </el-tag>

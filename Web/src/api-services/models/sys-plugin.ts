@@ -67,17 +67,17 @@ export interface SysPlugin {
      */
     name: string;
     /**
-     * 程序集名称
-     * @type {string}
-     * @memberof SysPlugin
-     */
-    assemblyName: string;
-    /**
      * C#代码
      * @type {string}
      * @memberof SysPlugin
      */
     csharpCode: string;
+    /**
+     * 程序集名称
+     * @type {string}
+     * @memberof SysPlugin
+     */
+    assemblyName?: string | null;
     /**
      * 排序
      * @type {number}

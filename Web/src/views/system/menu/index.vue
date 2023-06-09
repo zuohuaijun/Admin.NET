@@ -2,10 +2,10 @@
 	<div class="sys-menu-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="菜单名称" prop="title">
-					<el-input placeholder="菜单名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.title" />
+				<el-form-item label="菜单名称">
+					<el-input v-model="state.queryParams.title" placeholder="菜单名称" clearable />
 				</el-form-item>
-				<el-form-item label="类型" prop="type">
+				<el-form-item label="类型">
 					<el-select v-model="state.queryParams.type" placeholder="类型" clearable>
 						<el-option label="目录" :value="1" />
 						<el-option label="菜单" :value="2" />
@@ -26,7 +26,7 @@
 
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.menuData" v-loading="state.loading" row-key="id" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
-				<el-table-column label="菜单名称" show-overflow-tooltip>
+				<el-table-column label="菜单名称" header-align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<SvgIcon :name="scope.row.icon" />
 						<span class="ml10">{{ $t(scope.row.title) }}</span>
@@ -39,9 +39,9 @@
 						<el-tag type="info" v-else>按钮</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="path" label="路由路径" show-overflow-tooltip />
-				<el-table-column prop="component" label="组件路径" show-overflow-tooltip />
-				<el-table-column prop="permission" label="权限标识" show-overflow-tooltip />
+				<el-table-column prop="path" label="路由路径" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="component" label="组件路径" align="center" show-overflow-tooltip />
+				<el-table-column prop="permission" label="权限标识" align="center" show-overflow-tooltip />
 				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
@@ -105,7 +105,7 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddMenu = () => {
 	state.editMenuTitle = '添加菜单';
-	editMenuRef.value?.openDialog({ type: 2 });
+	editMenuRef.value?.openDialog({ type: 2, isHide: false, isKeepAlive: true, isAffix: false, isIframe: false, status: 1, orderNo: 100 });
 };
 
 // 打开编辑页面

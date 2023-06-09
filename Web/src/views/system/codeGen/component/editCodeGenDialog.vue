@@ -1,13 +1,13 @@
 <template>
 	<div class="sys-editCodeGen-container">
-		<el-dialog v-model="state.isShowDialog" draggable width="700px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="700px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
 					<span> {{ props.title }} </span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="80px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="60px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="库定位器" prop="configId">

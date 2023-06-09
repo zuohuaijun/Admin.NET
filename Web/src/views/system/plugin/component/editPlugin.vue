@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-plugin-container">
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="800px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="900px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
@@ -9,7 +9,7 @@
 			</template>
 			<el-tabs v-model="state.selectedTabName">
 				<el-tab-pane label="插件信息">
-					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="80px" style="height: 500px">
+					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="75px" style="height: 500px">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 								<el-form-item label="功能名称" prop="name" :rules="[{ required: true, message: '功能名称不能为空', trigger: 'blur' }]">

@@ -2,8 +2,8 @@
 	<div class="sys-print-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="模板名称" prop="name">
-					<el-input placeholder="模板名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
+				<el-form-item label="模板名称">
+					<el-input v-model="state.queryParams.name" placeholder="模板名称" clearable />
 				</el-form-item>
 				<el-form-item>
 					<el-button-group>

@@ -8,7 +8,7 @@
 				</div>
 			</template>
 			<el-divider content-position="left">数据表信息</el-divider>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="80px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="60px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="表名称" prop="tableName" :rules="[{ required: true, message: '名称不能为空', trigger: 'blur' }]">
@@ -24,55 +24,55 @@
 			</el-form>
 			<el-divider content-position="left">数据列信息</el-divider>
 			<el-table :data="state.tableData" style="width: 100%" max-height="400">
-				<el-table-column fixed prop="dbColumnName" label="字段名" width="200">
+				<el-table-column prop="dbColumnName" label="字段名" width="220" fixed>
 					<template #default="scope">
 						<el-input v-model="scope.row.dbColumnName" autocomplete="off" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="columnDescription" label="描述" width="200">
+				<el-table-column prop="columnDescription" label="描述" width="220">
 					<template #default="scope">
 						<el-input v-model="scope.row.columnDescription" autocomplete="off" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="isPrimarykey" label="主键">
+				<el-table-column prop="isPrimarykey" label="主键" width="100">
 					<template #default="scope">
 						<el-select v-model="scope.row.isPrimarykey" class="m-2" placeholder="Select">
 							<el-option v-for="item in yesNoSelect" :key="item.value" :label="item.label" :value="item.value" />
 						</el-select>
 					</template>
 				</el-table-column>
-				<el-table-column prop="isIdentity" label="自增">
+				<el-table-column prop="isIdentity" label="自增" width="100">
 					<template #default="scope">
 						<el-select v-model="scope.row.isIdentity" class="m-2" placeholder="Select">
 							<el-option v-for="item in yesNoSelect" :key="item.value" :label="item.label" :value="item.value" />
 						</el-select>
 					</template>
 				</el-table-column>
-				<el-table-column prop="dataType" label="类型">
+				<el-table-column prop="dataType" label="类型" width="150">
 					<template #default="scope">
 						<el-select v-model="scope.row.dataType" class="m-2" placeholder="Select">
 							<el-option v-for="item in dataTypeList" :key="item.value" :label="item.value" :value="item.value" />
 						</el-select>
 					</template>
 				</el-table-column>
-				<el-table-column prop="isNullable" label="可空">
+				<el-table-column prop="isNullable" label="可空" width="100">
 					<template #default="scope">
 						<el-select v-model="scope.row.isNullable" class="m-2" placeholder="Select">
 							<el-option v-for="item in yesNoSelect" :key="item.value" :label="item.label" :value="item.value" />
 						</el-select>
 					</template>
 				</el-table-column>
-				<el-table-column prop="length" label="长度">
+				<el-table-column prop="length" label="长度" width="100">
 					<template #default="scope">
-						<el-input-number v-model="scope.row.length" controls-position="right" />
+						<el-input-number v-model="scope.row.length" controls-position="right" class="w100" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="decimalDigits" label="小数位">
+				<el-table-column prop="decimalDigits" label="小数位" width="100">
 					<template #default="scope">
-						<el-input-number v-model="scope.row.decimalDigits" controls-position="right" />
+						<el-input-number v-model="scope.row.decimalDigits" controls-position="right" class="w100" />
 					</template>
 				</el-table-column>
-				<el-table-column fixed="right" label="操作" align="center" width="200">
+				<el-table-column label="操作" minWidth="200" align="center" fixed="right">
 					<template #default="scope">
 						<el-button link type="primary" icon="el-icon-delete" @click.prevent="handleColDelete(scope.$index)">删除</el-button>
 						<el-button v-if="state.tableData.length > 1" link type="primary" icon="ele-Top" @click.prevent="handleColUp(scope.row, scope.$index)">上移</el-button>

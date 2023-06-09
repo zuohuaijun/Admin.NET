@@ -3,7 +3,7 @@
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 				<el-form-item label="文件名称" prop="fileName">
-					<el-input placeholder="文件名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.fileName" />
+					<el-input v-model="state.queryParams.fileName" placeholder="文件名称" clearable />
 				</el-form-item>
 				<el-form-item label="开始时间" prop="name">
 					<el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" value-format="YYYY-MM-DD HH:mm:ss" />
@@ -26,7 +26,7 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.fileData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="fileName" label="名称" />
+				<el-table-column prop="fileName" label="名称" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="suffix" label="后缀" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag round>{{ scope.row.suffix }}</el-tag>

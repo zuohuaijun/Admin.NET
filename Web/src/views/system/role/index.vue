@@ -2,11 +2,11 @@
 	<div class="sys-role-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="角色名称" prop="name">
-					<el-input placeholder="角色名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
+				<el-form-item label="角色名称">
+					<el-input v-model="state.queryParams.name" placeholder="角色名称" clearable />
 				</el-form-item>
-				<el-form-item label="角色编码" prop="code">
-					<el-input placeholder="角色编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
+				<el-form-item label="角色编码">
+					<el-input v-model="state.queryParams.code" placeholder="角色编码" clearable />
 				</el-form-item>
 				<el-form-item>
 					<el-button-group>
@@ -23,8 +23,8 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.roleData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
-				<el-table-column prop="name" label="角色名称" show-overflow-tooltip />
-				<el-table-column prop="code" label="角色编码" show-overflow-tooltip />
+				<el-table-column prop="name" label="角色名称" align="center" show-overflow-tooltip />
+				<el-table-column prop="code" label="角色编码" align="center" show-overflow-tooltip />
 				<el-table-column label="数据范围" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag effect="plain" v-if="scope.row.dataScope === 1">全部数据</el-tag>
@@ -42,7 +42,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
-				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
+				<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="110" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditRole(scope.row)" v-auth="'sysRole:update'"> 编辑 </el-button>
@@ -98,7 +98,7 @@ const state = reactive({
 	},
 	tableParams: {
 		page: 1,
-		pageSize: 10,
+		pageSize: 20,
 		total: 0 as any,
 	},
 	editRoleTitle: '',

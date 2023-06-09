@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-jobDetail-container">
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="800px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="900px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
@@ -9,7 +9,7 @@
 			</template>
 			<el-tabs v-model="state.selectedTabName">
 				<el-tab-pane label="作业信息">
-					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="130px">
+					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="90px">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="作业编号" prop="jobId" :rules="[{ required: true, message: '作业编号不能为空', trigger: 'blur' }]">
@@ -22,7 +22,7 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-								<el-form-item label="创建类型" prop="createType">
+								<el-form-item label="创建类型">
 									<el-radio-group v-model="state.ruleForm.createType" :disabled="isEdit">
 										<el-radio :label="JobCreateTypeEnum.NUMBER_0" v-show="isEdit">内置</el-radio>
 										<el-radio :label="JobCreateTypeEnum.NUMBER_1">脚本</el-radio>
@@ -31,7 +31,7 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="执行方式" prop="concurrent">
+								<el-form-item label="执行方式">
 									<el-radio-group v-model="state.ruleForm.concurrent">
 										<el-radio :label="true">并行</el-radio>
 										<el-radio :label="false">串行</el-radio>
@@ -42,7 +42,7 @@
 								<el-form-item prop="includeAnnotations">
 									<template v-slot:label>
 										<div>
-											扫描特性触发器
+											扫描触发器
 											<el-tooltip raw-content content="此参数只在新增作业时生效<br/>扫描定义在作业上的触发器" placement="top">
 												<SvgIcon name="fa fa-question-circle-o" :size="16" style="vertical-align: middle" />
 											</el-tooltip>
@@ -55,22 +55,22 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-								<el-form-item label="描述信息" prop="description">
+								<el-form-item label="描述信息">
 									<el-input v-model="state.ruleForm.description" placeholder="描述信息" clearable type="textarea" :autosize="{ minRows: 1, maxRows: 3 }" />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="!isHttpCreateType">
-								<el-form-item label="额外数据" prop="properties">
+								<el-form-item label="额外数据">
 									<el-input v-model="state.ruleForm.properties" placeholder="额外数据" clearable type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="isHttpCreateType">
-								<el-form-item label="请求地址" prop="requestUri">
+								<el-form-item label="请求地址">
 									<el-input v-model="state.httpJobMessage.requestUri" placeholder="请求地址" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="isHttpCreateType">
-								<el-form-item label="请求方法" prop="httpMethod">
+								<el-form-item label="请求方法">
 									<el-radio-group v-model="state.httpJobMessage.httpMethod">
 										<el-radio :label="httpMethodDef.get">Get</el-radio>
 										<el-radio :label="httpMethodDef.post">Post</el-radio>
@@ -80,7 +80,7 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="isHttpCreateType">
-								<el-form-item label="请求报文体" prop="body">
+								<el-form-item label="请求报文体">
 									<el-input v-model="state.httpJobMessage.body" placeholder="请求报文体" clearable type="textarea" :autosize="{ minRows: 3, maxRows: 6 }" />
 								</el-form-item>
 							</el-col>

@@ -1,13 +1,13 @@
 <template>
 	<div class="sys-org-container">
-		<el-dialog v-model="state.isShowDialog" draggable width="600px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="700px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
 					<span> {{ props.title }} </span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="80px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="70px">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="上级机构">
@@ -37,7 +37,7 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						<el-form-item label="机构类型" prop="orgType">
+						<el-form-item label="机构类型">
 							<el-select v-model="state.ruleForm.orgType" filterable clearable class="w100">
 								<el-option v-for="item in state.orgTypeList" :key="item.value" :label="item.value" :value="item.code" />
 							</el-select>
@@ -75,7 +75,6 @@
 
 <script lang="ts" setup name="sysEditOrg">
 import { onMounted, reactive, ref } from 'vue';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysOrgApi, SysDictDataApi } from '/@/api-services/api';

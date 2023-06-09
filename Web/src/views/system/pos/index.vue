@@ -2,11 +2,11 @@
 	<div class="sys-pos-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="职位名称" prop="name">
-					<el-input placeholder="职位名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.name" />
+				<el-form-item label="职位名称">
+					<el-input v-model="state.queryParams.name" placeholder="职位名称" clearable />
 				</el-form-item>
-				<el-form-item label="职位编码" prop="code">
-					<el-input placeholder="职位编码" clearable @keyup.enter="handleQuery" v-model="state.queryParams.code" />
+				<el-form-item label="职位编码">
+					<el-input v-model="state.queryParams.code" placeholder="职位编码" clearable />
 				</el-form-item>
 				<el-form-item>
 					<el-button-group>
@@ -23,8 +23,8 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.posData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="name" label="职位名称" show-overflow-tooltip />
-				<el-table-column prop="code" label="职位编码" show-overflow-tooltip />
+				<el-table-column prop="name" label="职位名称" align="center" show-overflow-tooltip />
+				<el-table-column prop="code" label="职位编码" align="center" show-overflow-tooltip />
 				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
@@ -33,7 +33,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="createTime" label="修改时间" align="center" show-overflow-tooltip />
-				<el-table-column prop="remark" label="备注" show-overflow-tooltip />
+				<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditPos(scope.row)" v-auth="'sysPos:update'"> 编辑 </el-button>

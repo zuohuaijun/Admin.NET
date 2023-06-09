@@ -2,7 +2,7 @@
 	<div class="layout-footer pb15">
 		<div class="layout-footer-warp">
 			<div>Admin.NET</div>
-			<div class="mt5">Copyright © 2022 Dilon All rights reserved.</div>
+			<div class="mt5">Copyright © 2022 ZUOHUAIJUN All rights reserved.</div>
 		</div>
 	</div>
 </template>

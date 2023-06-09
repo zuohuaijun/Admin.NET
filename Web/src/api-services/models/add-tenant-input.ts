@@ -135,9 +135,9 @@ export interface AddTenantInput {
      */
     name: string;
     /**
-     * 管理员名称
+     * 租管账号
      * @type {string}
      * @memberof AddTenantInput
      */
-    adminName: string;
+    adminAccount: string;
 }

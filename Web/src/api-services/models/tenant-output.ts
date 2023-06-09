@@ -123,11 +123,11 @@ export interface TenantOutput {
      */
     name?: string | null;
     /**
-     * 管理员
+     * 管理员账号
      * @type {string}
      * @memberof TenantOutput
      */
-    adminName?: string | null;
+    adminAccount?: string | null;
     /**
      * 电子邮箱
      * @type {string}

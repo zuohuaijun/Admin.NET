@@ -10,14 +10,14 @@
 			<el-form :model="state.ruleForm" label-position="top">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24" class="mb20">
-						<el-form-item prop="dataScope" label="数据范围：">
+						<el-form-item label="数据范围：">
 							<el-select v-model="state.ruleForm.dataScope" placeholder="数据范围" style="width: 100%">
 								<el-option v-for="d in state.dataScopeType" :key="d.value" :label="d.label" :value="d.value" />
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl1="24" v-show="state.ruleForm.dataScope === 5">
-						<el-form-item prop="orgIdList" label="机构列表：">
+						<el-form-item label="机构列表：">
 							<OrgTree ref="orgTreeRef" class="w100" />
 						</el-form-item>
 					</el-col>

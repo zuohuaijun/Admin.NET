@@ -54,7 +54,7 @@
 				<el-card shadow="hover">
 					<el-tabs>
 						<el-tab-pane label="基础信息">
-							<el-form :model="state.ruleFormBase" ref="ruleFormBaseRef" label-width="100px">
+							<el-form :model="state.ruleFormBase" ref="ruleFormBaseRef" label-width="70px">
 								<el-row :gutter="35">
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="真实姓名" prop="realName" :rules="[{ required: true, message: '真实姓名不能为空', trigger: 'blur' }]">
@@ -62,7 +62,7 @@
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-										<el-form-item label="昵称" prop="nickName">
+										<el-form-item label="昵称">
 											<el-input v-model="state.ruleFormBase.nickName" placeholder="昵称" clearable />
 										</el-form-item>
 									</el-col>
@@ -72,17 +72,17 @@
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-										<el-form-item label="邮箱" prop="email">
+										<el-form-item label="邮箱">
 											<el-input v-model="state.ruleFormBase.email" placeholder="邮箱" clearable />
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="出生日期" prop="birthday" :rules="[{ required: true, message: '出生日期不能为空', trigger: 'blur' }]">
-											<el-date-picker v-model="state.ruleFormBase.birthday" type="date" placeholder="出生日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" style="width: 100%" />
+											<el-date-picker v-model="state.ruleFormBase.birthday" type="date" placeholder="出生日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="w100" />
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-										<el-form-item label="性别" prop="sex">
+										<el-form-item label="性别">
 											<el-radio-group v-model="state.ruleFormBase.sex">
 												<el-radio :label="1">男</el-radio>
 												<el-radio :label="2">女</el-radio>
@@ -90,12 +90,12 @@
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-										<el-form-item label="地址" prop="nation">
+										<el-form-item label="地址">
 											<el-input v-model="state.ruleFormBase.address" placeholder="地址" clearable type="textarea" />
 										</el-form-item>
 									</el-col>
 									<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-										<el-form-item label="备注" prop="remark">
+										<el-form-item label="备注">
 											<el-input v-model="state.ruleFormBase.remark" placeholder="备注" clearable type="textarea" />
 										</el-form-item>
 									</el-col>
@@ -111,7 +111,7 @@
 							<OrgTree ref="orgTreeRef" />
 						</el-tab-pane>
 						<el-tab-pane label="修改密码">
-							<el-form ref="ruleFormPasswordRef" :model="state.ruleFormPassword" label-width="80px">
+							<el-form ref="ruleFormPasswordRef" :model="state.ruleFormPassword" label-width="70px">
 								<el-form-item label="当前密码" prop="passwordOld" :rules="[{ required: true, message: '当前密码不能为空', trigger: 'blur' }]">
 									<el-input v-model="state.ruleFormPassword.passwordOld" type="password" autocomplete="off" />
 								</el-form-item>

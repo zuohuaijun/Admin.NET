@@ -2,10 +2,10 @@
 	<div class="sys-difflog-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="开始时间" prop="name">
+				<el-form-item label="开始时间">
 					<el-date-picker v-model="state.queryParams.startTime" type="datetime" placeholder="开始时间" value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="shortcuts" />
 				</el-form-item>
-				<el-form-item label="结束时间" prop="code">
+				<el-form-item label="结束时间">
 					<el-date-picker v-model="state.queryParams.endTime" type="datetime" placeholder="结束时间" value-format="YYYY-MM-DD HH:mm:ss" :shortcuts="shortcuts" />
 				</el-form-item>
 				<el-form-item>
@@ -23,14 +23,14 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.logData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="diffType" label="差异操作" show-overflow-tooltip />
-				<el-table-column prop="sql" label="Sql语句" show-overflow-tooltip />
-				<el-table-column prop="parameters" label="参数" show-overflow-tooltip />
-				<el-table-column prop="elapsed" label="耗时(ms)" show-overflow-tooltip />
-				<el-table-column prop="message" label="日志消息" show-overflow-tooltip />
-				<el-table-column prop="beforeData" label="操作前记录" show-overflow-tooltip />
-				<el-table-column prop="afterData" label="操作后记录" show-overflow-tooltip />
-				<el-table-column prop="businessData" label="业务对象" show-overflow-tooltip />
+				<el-table-column prop="diffType" label="差异操作" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="sql" label="Sql语句" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="parameters" label="参数" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="elapsed" label="耗时(ms)" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="message" label="日志消息" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="beforeData" label="操作前记录" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="afterData" label="操作后记录" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="businessData" label="业务对象" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="操作时间" align="center" show-overflow-tooltip />
 			</el-table>
 			<el-pagination

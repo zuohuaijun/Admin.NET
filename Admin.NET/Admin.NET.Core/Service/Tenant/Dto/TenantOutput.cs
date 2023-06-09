@@ -8,9 +8,9 @@ public class TenantOutput : SysTenant
     public virtual string Name { get; set; }
 
     /// <summary>
-    /// 管理员
+    /// 管理员账号
     /// </summary>
-    public virtual string AdminName { get; set; }
+    public virtual string AdminAccount { get; set; }
 
     /// <summary>
     /// 电子邮箱

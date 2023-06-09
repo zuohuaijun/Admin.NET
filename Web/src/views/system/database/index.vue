@@ -2,12 +2,12 @@
 	<div class="sys-database-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true" v-loading="state.loading">
-				<el-form-item label="库名" prop="configId">
+				<el-form-item label="库名">
 					<el-select v-model="state.configId" placeholder="库名" filterable @change="handleQueryTable">
 						<el-option v-for="item in state.dbData" :key="item" :label="item" :value="item" />
 					</el-select>
 				</el-form-item>
-				<el-form-item label="表名" prop="tableName">
+				<el-form-item label="表名">
 					<el-select v-model="state.tableName" placeholder="表名" filterable clearable @change="handleQueryColumn">
 						<el-option v-for="item in state.tableData" :key="item.name" :label="item.name + '[' + item.description + ']'" :value="item.name" />
 					</el-select>
@@ -25,8 +25,8 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.columnData" style="width: 100%" v-loading="state.loading1" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="dbColumnName" label="字段名" show-overflow-tooltip />
-				<el-table-column prop="dataType" label="数据类型" show-overflow-tooltip />
+				<el-table-column prop="dbColumnName" label="字段名" align="center" show-overflow-tooltip />
+				<el-table-column prop="dataType" label="数据类型" align="center" show-overflow-tooltip />
 				<el-table-column prop="isPrimarykey" label="主键" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag type="success" v-if="scope.row.isPrimarykey === true">是</el-tag>
@@ -47,8 +47,8 @@
 				</el-table-column>
 				<el-table-column prop="length" label="长度" width="70" align="center" show-overflow-tooltip />
 				<el-table-column prop="decimalDigits" label="精度" width="70" align="center" show-overflow-tooltip />
-				<el-table-column prop="defaultValue" label="默认值" show-overflow-tooltip />
-				<el-table-column prop="columnDescription" label="描述" show-overflow-tooltip />
+				<el-table-column prop="defaultValue" label="默认值" align="center" show-overflow-tooltip />
+				<el-table-column prop="columnDescription" label="描述" header-align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditColumn(scope.row)"> 编辑 </el-button>
