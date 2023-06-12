@@ -25,7 +25,7 @@
 			<el-table :data="state.logData" @sort-change="sortChange" style="width: 100%" border :row-class-name="tableRowClassName">
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="controllerName" label="模块名称" width="100" header-align="center" show-overflow-tooltip />
-				<el-table-column prop="displayTitle" label="显示名称" width="150" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="displayTitle" label="显示名称" width="170" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="actionName" label="方法名称" width="150" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="httpMethod" label="请求方式" width="90" align="center" show-overflow-tooltip />
 				<el-table-column prop="requestUrl" label="请求地址" width="300" header-align="center" show-overflow-tooltip />
@@ -47,7 +47,7 @@
 				<el-table-column prop="realName" label="真实姓名" width="100" align="center" show-overflow-tooltip />
 				<el-table-column prop="remoteIp" label="IP地址" width="120" align="center" show-overflow-tooltip />
 				<el-table-column prop="location" label="登录地点" width="120" align="center" show-overflow-tooltip />
-				<el-table-column prop="browser" label="浏览器" width="120" align="center" show-overflow-tooltip />
+				<el-table-column prop="browser" label="浏览器" width="160" align="center" show-overflow-tooltip />
 				<el-table-column prop="os" label="操作系统" width="120" align="center" show-overflow-tooltip />
 				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">
@@ -55,10 +55,10 @@
 						<el-tag type="danger" v-else>失败</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="elapsed" label="耗时(ms)" width="80" align="center" show-overflow-tooltip />
+				<el-table-column prop="elapsed" label="耗时(ms)" width="90" align="center" show-overflow-tooltip />
 				<!-- <el-table-column prop="exception" label="异常对象" width="150" show-overflow-tooltip /> -->
 				<!-- <el-table-column prop="message" label="日志消息" width="160" fixed="right" show-overflow-tooltip /> -->
-				<el-table-column prop="logDateTime" label="日志时间" width="130" align="center" fixed="right" show-overflow-tooltip />
+				<el-table-column prop="logDateTime" label="日志时间" width="160" align="center" fixed="right" show-overflow-tooltip />
 				<el-table-column label="操作" width="80" align="center" fixed="right" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-InfoFilled" size="small" text type="primary" @click="viewDetail(scope.row)" v-auth="'sysOplog:page'">详情 </el-button>

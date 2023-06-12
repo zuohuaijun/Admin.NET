@@ -37,8 +37,8 @@
 						<el-tag type="danger" v-else>失败</el-tag>
 					</template>
 				</el-table-column>
-				<el-table-column prop="elapsed" label="耗时(ms)" width="80" align="center" show-overflow-tooltip />
-				<el-table-column prop="logDateTime" label="日志时间" width="130" align="center" fixed="right" show-overflow-tooltip />
+				<el-table-column prop="elapsed" label="耗时(ms)" width="90" align="center" show-overflow-tooltip />
+				<el-table-column prop="logDateTime" label="日志时间" width="160" align="center" fixed="right" show-overflow-tooltip />
 			</el-table>
 			<el-pagination
 				v-model:currentPage="state.tableParams.page"

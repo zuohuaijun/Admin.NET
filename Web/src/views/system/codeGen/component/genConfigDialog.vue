@@ -4,7 +4,7 @@
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
-					<span> 生成配置</span>
+					<span> 生成配置 </span>
 				</div>
 			</template>
 			<el-table :data="state.tableData" style="width: 100%" v-loading="state.loading" border>
@@ -31,7 +31,7 @@
 					</template>
 				</el-table-column>
 
-				<el-table-column prop="whetherTable" label="列表显示" width="80" align="center" show-overflow-tooltip>
+				<el-table-column prop="whetherTable" label="列表显示" width="85" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-checkbox v-model="scope.row.whetherTable" />
 					</template>

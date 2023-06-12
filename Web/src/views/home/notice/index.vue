@@ -2,18 +2,20 @@
 	<div class="notice-container">
 		<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 			<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-				<el-form-item label="标题" prop="title">
-					<el-input placeholder="标题" clearable @keyup.enter="handleQuery" v-model="state.queryParams.title" />
+				<el-form-item label="标题">
+					<el-input v-model="state.queryParams.title" placeholder="标题" clearable />
 				</el-form-item>
-				<el-form-item label="类型" prop="type">
-					<el-select v-model="state.queryParams.type" placeholder="类型" clearable style="width: 100%">
+				<el-form-item label="类型">
+					<el-select v-model="state.queryParams.type" placeholder="类型" clearable>
 						<el-option label="通知" :value="1" />
 						<el-option label="公告" :value="2" />
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
-					<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
+					<el-button-group>
+						<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
+						<el-button icon="ele-Refresh" @click="resetQuery"> 重置 </el-button>
+					</el-button-group>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -21,8 +23,8 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.noticeData" style="width: 100%" v-loading="state.loading" border :row-class-name="tableRowClassName">
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="sysNotice.title" label="标题" show-overflow-tooltip />
-				<el-table-column prop="sysNotice.content" label="内容" show-overflow-tooltip>
+				<el-table-column prop="sysNotice.title" label="标题" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="sysNotice.content" label="内容" header-align="center" show-overflow-tooltip>
 					<template #default="scope"> {{ removeHtml(scope.row.sysNotice.content) }} </template>
 				</el-table-column>
 				<el-table-column prop="sysNotice.type" label="类型" width="100" align="center" show-overflow-tooltip>
@@ -70,9 +72,8 @@
 </template>
 
 <script setup lang="ts" name="notice">
-import { reactive, onMounted, onUnmounted } from 'vue';
+import { onMounted, reactive } from 'vue';
 import commonFunction from '/@/utils/commonFunction';
-import mittBus from '/@/utils/mitt';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysNoticeApi } from '/@/api-services/api';
@@ -88,7 +89,7 @@ const state = reactive({
 	},
 	tableParams: {
 		page: 1,
-		pageSize: 10,
+		pageSize: 20,
 		total: 0 as any,
 	},
 	editNoticeTitle: '',
@@ -98,7 +99,7 @@ const state = reactive({
 onMounted(async () => {
 	handleQuery();
 });
-onUnmounted(() => {});
+
 // 查询操作
 const handleQuery = async () => {
 	state.loading = true;
