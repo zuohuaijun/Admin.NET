@@ -24,8 +24,8 @@
     <PackageReference Include="Furion.Pure" Version="4.8.8.24" />
     <PackageReference Include="IPTools.China" Version="1.6.0" />
     <PackageReference Include="Lazy.Captcha.Core" Version="2.0.3" />
-    <PackageReference Include="Magicodes.IE.Excel" Version="2.7.4.4" />
-    <PackageReference Include="Magicodes.IE.Pdf" Version="2.7.4.4" />
+    <PackageReference Include="Magicodes.IE.Excel" Version="2.7.4.5" />
+    <PackageReference Include="Magicodes.IE.Pdf" Version="2.7.4.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.16" />
     <PackageReference Include="NEST" Version="7.17.5" />
     <PackageReference Include="NewLife.Redis" Version="5.4.2023.601" />

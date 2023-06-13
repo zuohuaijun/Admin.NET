@@ -161,7 +161,7 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddUser = () => {
 	state.editUserTitle = '添加账号';
-	editUserRef.value?.openDialog({});
+	editUserRef.value?.openDialog({ id: undefined, birthday: '2000-01-01', sex: 1, orderNo: 100, cardType: 0, cultureLevel: 5 });
 };
 
 // 打开编辑页面

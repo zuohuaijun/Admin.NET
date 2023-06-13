@@ -9,7 +9,7 @@
 			</template>
 			<el-tabs v-model="state.selectedTabName">
 				<el-tab-pane label="作业信息">
-					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="100px">
+					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="100px" style="height: 500px">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="作业编号" prop="jobId" :rules="[{ required: true, message: '作业编号不能为空', trigger: 'blur' }]">

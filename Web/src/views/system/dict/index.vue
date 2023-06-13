@@ -111,7 +111,7 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddDictType = () => {
 	state.editDictTypeTitle = '添加字典';
-	editDictTypeRef.value?.openDialog({});
+	editDictTypeRef.value?.openDialog({ status: 1, orderNo: 100 });
 };
 
 // 打开编辑页面

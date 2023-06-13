@@ -95,7 +95,7 @@ onMounted(async () => {
 const openDialog = async (row: any) => {
 	treeRef.value?.setCheckedKeys([]); // 清空选中值
 	state.ruleForm = JSON.parse(JSON.stringify(row));
-	if (JSON.stringify(row) !== '{}') {
+	if (row.id != undefined) {
 		var res = await getAPI(SysRoleApi).apiSysRoleOwnMenuListGet(row.id);
 		setTimeout(() => {
 			treeRef.value?.setCheckedKeys(res.data.result ?? []);

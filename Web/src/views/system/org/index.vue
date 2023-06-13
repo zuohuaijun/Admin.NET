@@ -116,7 +116,7 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddOrg = () => {
 	state.editOrgTitle = '添加机构';
-	editOrgRef.value?.openDialog({ status: 1 });
+	editOrgRef.value?.openDialog({ status: 1, orderNo: 100 });
 };
 
 // 打开编辑页面

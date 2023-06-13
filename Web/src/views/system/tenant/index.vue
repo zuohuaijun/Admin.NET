@@ -150,7 +150,7 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddTenant = () => {
 	state.editTenantTitle = '添加租户';
-	editTenantRef.value?.openDialog({ tenantType: 0 });
+	editTenantRef.value?.openDialog({ tenantType: 0, orderNo: 100 });
 };
 
 // 打开编辑页面

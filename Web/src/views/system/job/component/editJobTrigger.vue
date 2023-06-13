@@ -24,7 +24,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if="state.ruleForm.triggerType == 'Furion.Schedule.PeriodTrigger'">
 						<el-form-item label="间隔时间(ms)">
-							<el-input-number v-model="periodValue" placeholder="间隔" :min="100" :step="100" class="w100" />
+							<el-input-number v-model="periodValue" placeholder="间隔" :min="1000" :step="1000" class="w100" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-else>

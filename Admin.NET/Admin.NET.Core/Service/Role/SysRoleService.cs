@@ -40,6 +40,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<SysRole>> Page(PageRoleInput input)
     {
         return await _sysRoleRep.AsQueryable()
+            //.WhereIF(!_userManager.SuperAdmin, u => u.CreateUserId == _userManager.UserId)
             .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code))
             .OrderBy(u => u.OrderNo)

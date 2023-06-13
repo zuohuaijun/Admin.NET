@@ -89,7 +89,7 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddPos = () => {
 	state.editPosTitle = '添加职位';
-	editPosRef.value?.openDialog({ status: 1 });
+	editPosRef.value?.openDialog({ status: 1, orderNo: 100 });
 };
 
 // 打开编辑页面

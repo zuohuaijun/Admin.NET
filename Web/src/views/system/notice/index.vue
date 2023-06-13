@@ -121,7 +121,7 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddNotice = () => {
 	state.editNoticeTitle = '添加通知公告';
-	editNoticeRef.value?.openDialog({});
+	editNoticeRef.value?.openDialog({ type: 1 });
 };
 
 // 打开编辑页面

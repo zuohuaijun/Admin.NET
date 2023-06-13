@@ -270,7 +270,7 @@ onMounted(async () => {
 const openDialog = async (row: any) => {
 	state.selectedTabName = '0'; // 重置为第一个 tab 页
 	state.ruleForm = JSON.parse(JSON.stringify(row));
-	if (JSON.stringify(row) !== '{}') {
+	if (row.id != undefined) {
 		var resRole = await getAPI(SysUserApi).apiSysUserOwnRoleListUserIdGet(row.id);
 		state.ruleForm.roleIdList = resRole.data.result;
 		var resExtOrg = await getAPI(SysUserApi).apiSysUserOwnExtOrgListUserIdGet(row.id);

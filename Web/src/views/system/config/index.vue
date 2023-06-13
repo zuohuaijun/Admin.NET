@@ -152,7 +152,7 @@ const updateData = () => {
 // 打开新增页面
 const openAddConfig = () => {
 	state.editConfigTitle = '添加配置';
-	editConfigRef.value?.openDialog({ sysFlag: 2 });
+	editConfigRef.value?.openDialog({ sysFlag: 2, orderNo: 100 });
 };
 
 // 打开编辑页面

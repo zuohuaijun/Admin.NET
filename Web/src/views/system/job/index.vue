@@ -295,7 +295,14 @@ const delJobDetail = (row: JobOutput) => {
 // 打开新增触发器页面
 const openAddJobTrigger = (row: JobOutput) => {
 	state.editJobTriggerTitle = '添加触发器';
-	editJobTriggerRef.value?.openDialog({ jobId: row.jobDetail?.jobId, retryTimeout: 1000, startNow: true, runOnStart: true, resetOnlyOnce: true, triggerType: 'Furion.Schedule.PeriodTrigger' });
+	editJobTriggerRef.value?.openDialog({
+		jobId: row.jobDetail?.jobId,
+		retryTimeout: 1000,
+		startNow: true,
+		runOnStart: true,
+		resetOnlyOnce: true,
+		triggerType: 'Furion.Schedule.PeriodTrigger',
+	});
 };
 
 // 打开编辑触发器页面

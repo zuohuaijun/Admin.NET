@@ -115,7 +115,7 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddRegion = () => {
 	state.editRegionTitle = '添加行政区域';
-	editRegionRef.value?.openDialog({});
+	editRegionRef.value?.openDialog({ orderNo: 100 });
 };
 
 // 打开编辑页面
