@@ -124,7 +124,7 @@ const resetQuery = () => {
 // 打开新增页面
 const openAddDictData = () => {
 	state.editDictDataTitle = '添加字典值';
-	editDictDataRef.value.openDialog({ status: 1, orderNo: 100 });
+	editDictDataRef.value.openDialog({ status: 1, orderNo: 100, dictTypeId: state.queryParams.dictTypeId });
 };
 
 // 打开编辑页面
