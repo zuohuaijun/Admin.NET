@@ -6,7 +6,7 @@ public static class CacheSetup
     /// 缓存注册（新生命Redis组件）
     /// </summary>
     /// <param name="services"></param>
-    public static void AddCache(this IServiceCollection services)
+    public static ICache AddCache(this IServiceCollection services)
     {
         ICache cache = Cache.Default;
 
@@ -19,5 +19,6 @@ public static class CacheSetup
         }
 
         services.AddSingleton(cache);
+        return cache;
     }
 }
