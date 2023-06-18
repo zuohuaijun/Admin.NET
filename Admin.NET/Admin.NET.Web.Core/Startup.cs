@@ -13,7 +13,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NewLife.Caching;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using OnceMi.AspNetCore.OSS;
 using System;
 using System.IO;
@@ -30,7 +29,7 @@ public class Startup : AppStartup
         // 配置选项
         services.AddProjectOptions();
         // 缓存注册
-        var cache = services.AddCache();
+        services.AddCache();
         // SqlSugar
         services.AddSqlSugar();
         // JWT
@@ -115,16 +114,11 @@ public class Startup : AppStartup
             //// 替换事件源存储器
             //options.ReplaceStorer(serviceProvider =>
             //{
-            //    var redisClient = serviceProvider.GetService<ICache>();
-            //    return new RedisEventSourceStorer(redisClient);
+            //    var redisCache = serviceProvider.GetService<ICache>();
+            //    // 创建默认内存通道事件源对象，可自定义队列路由key，比如这里是 eventbus
+            //    return new RedisEventSourceStorer(redisCache, "eventbus", 3000);
             //});
             options.AddSubscriber<AppEventSubscriber>();
-
-            // 创建默认内存通道事件源对象，可自定义队列路由key，比如这里是 eventbus
-            var redisEventSourceStorer = new RedisEventSourceStorer(cache, "eventbus", 3000);
-            
-            // 替换默认事件总线存储器
-            options.ReplaceStorerOrFallback(() => redisEventSourceStorer);
         });
 
         // OSS对象存储（必须一个个赋值）
