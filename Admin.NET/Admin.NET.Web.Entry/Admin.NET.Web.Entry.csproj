@@ -22,6 +22,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<Content Update="wwwroot\Avatar\**" CopyToPublishDirectory="Never" />
+		<Content Update="wwwroot\logs\**" CopyToPublishDirectory="Never" />
+		<Content Update="wwwroot\upload\**" CopyToPublishDirectory="Never" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<None Remove="Admin.NET.db" />
 		<None Remove="sensitive-words.txt" />
 	</ItemGroup>
