@@ -37,10 +37,10 @@
 					<template #default="scope">
 						<el-image
 							style="width: 60px; height: 60px"
-							:src="`/${scope.row.filePath}/${scope.row.id}${scope.row.suffix}`"
+							:src="getFileUrl(scope.row)"
 							:lazy="true"
 							:hide-on-click-modal="true"
-							:preview-src-list="[`/${scope.row.filePath}/${scope.row.id}${scope.row.suffix}`]"
+							:preview-src-list="[getFileUrl(scope.row)]"
 							:initial-index="0"
 							fit="scale-down"
 							preview-teleported
@@ -175,7 +175,8 @@ const uploadFile = async () => {
 // 下载
 const downloadFile = async (row: any) => {
 	// var res = await getAPI(SysFileApi).sysFileDownloadPost({ id: row.id });
-	downloadByUrl({ url: row.url });
+	var fileUrl = getFileUrl(row);
+	downloadByUrl({ url: fileUrl });
 };
 
 // 删除
@@ -203,5 +204,14 @@ const handleSizeChange = (val: number) => {
 const handleCurrentChange = (val: number) => {
 	state.tableParams.page = val;
 	handleQuery();
+};
+
+// 获取文件地址
+const getFileUrl = (row: SysFile): string => {
+	if (row.bucketName == 'Local') {
+		return `/${row.filePath}/${row.id}${row.suffix}`;
+	} else {
+		return row.url!;
+	}
 };
 </script>
