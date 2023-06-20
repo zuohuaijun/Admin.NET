@@ -3,7 +3,7 @@
 /// <summary>
 /// 登录输入
 /// </summary>
-public class LoginInput
+public class GoViewLoginInput
 {
     /// <summary>
     /// 用户名

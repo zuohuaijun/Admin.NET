@@ -4,12 +4,12 @@
 /// GoView 项目数据表
 /// </summary>
 [SugarTable(null, "GoView 项目数据表")]
-public class GoViewProjectData : EntityTenant
+public class GoViewProData : EntityTenant
 {
     /// <summary>
-    /// 项目参数
+    /// 项目内容
     /// </summary>
-    [SugarColumn(ColumnDescription = "项目参数", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+    [SugarColumn(ColumnDescription = "项目内容", ColumnDataType = StaticConfig.CodeFirst_BigString)]
     public string? Content { get; set; }
 
     /// <summary>

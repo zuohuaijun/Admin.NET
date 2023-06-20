@@ -5,20 +5,20 @@
 /// </summary>
 [UnifyProvider("GoView")]
 [ApiDescriptionSettings(GoViewConst.GroupName, Module = "goview", Name = "project", Order = 100)]
-public class ProjectService : IDynamicApiController
+public class GoViewProService : IDynamicApiController
 {
-    private readonly SqlSugarRepository<GoViewProject> _goViewProjectRep;
-    private readonly SqlSugarRepository<GoViewProjectData> _goViewProjectDataRep;
+    private readonly SqlSugarRepository<GoViewPro> _goViewProRep;
+    private readonly SqlSugarRepository<GoViewProData> _goViewProDataRep;
     private readonly SqlSugarRepository<SysFile> _sysFileRep;
     private readonly SysFileService _fileService;
 
-    public ProjectService(SqlSugarRepository<GoViewProject> goViewProjectRep,
-        SqlSugarRepository<GoViewProjectData> goViewProjectDataRep,
+    public GoViewProService(SqlSugarRepository<GoViewPro> goViewProjectRep,
+        SqlSugarRepository<GoViewProData> goViewProjectDataRep,
         SqlSugarRepository<SysFile> fileRep,
         SysFileService fileService)
     {
-        _goViewProjectRep = goViewProjectRep;
-        _goViewProjectDataRep = goViewProjectDataRep;
+        _goViewProRep = goViewProjectRep;
+        _goViewProDataRep = goViewProjectDataRep;
         _sysFileRep = fileRep;
         _fileService = fileService;
     }
@@ -26,91 +26,43 @@ public class ProjectService : IDynamicApiController
     /// <summary>
     /// 获取项目列表
     /// </summary>
-    [DisplayName("项目列表")]
-    public async Task<List<ProjectItemOutput>> GetList([FromQuery] int page = 1, [FromQuery] int limit = 12)
+    /// <param name="page"></param>
+    /// <param name="limit"></param>
+    /// <returns></returns>
+    [DisplayName("获取项目列表")]
+    public async Task<List<GoViewProItemOutput>> GetList([FromQuery] int page = 1, [FromQuery] int limit = 12)
     {
-        var pagedList = await _goViewProjectRep.AsQueryable()
-            .Select(u => new ProjectItemOutput(), true)
+        var res = await _goViewProRep.AsQueryable()
+            .Select(u => new GoViewProItemOutput(), true)
             .ToPagedListAsync(page, limit);
-
-        UnifyContext.Fill(pagedList.Total);
-        return pagedList.Items.ToList();
+        return res.Items.ToList();
     }
 
     /// <summary>
     /// 新增项目
     /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
     [ApiDescriptionSettings(Name = "Create")]
     [DisplayName("新增项目")]
-    public async Task<ProjectCreateOutput> Create(ProjectCreateInput input)
+    public async Task<GoViewProCreateOutput> Create(GoViewProCreateInput input)
     {
-        var project = input.Adapt<GoViewProject>();
-        project.State = GoViewProjectState.UnPublish;
-
-        project = await _goViewProjectRep.AsInsertable(project).ExecuteReturnEntityAsync();
-
-        return new ProjectCreateOutput
+        var project = await _goViewProRep.AsInsertable(input.Adapt<GoViewPro>()).ExecuteReturnEntityAsync();
+        return new GoViewProCreateOutput
         {
             Id = project.Id
         };
     }
 
     /// <summary>
-    /// 获取项目
-    /// </summary>
-    [AllowAnonymous]
-    [ApiDescriptionSettings(Name = "GetData")]
-    [DisplayName("获取项目")]
-    public async Task<ProjectDetailOutput> GetData([FromQuery] long projectId)
-    {
-        var projectData = await _goViewProjectDataRep.GetFirstAsync(u => u.Id == projectId);
-        if (projectData == null) return null;
-
-        var project = await _goViewProjectRep.GetFirstAsync(u => u.Id == projectId);
-
-        var projectDetail = project.Adapt<ProjectDetailOutput>();
-        projectDetail.Content = projectData.Content;
-
-        return projectDetail;
-    }
-
-    /// <summary>
-    /// 保存项目
-    /// </summary>
-    [ApiDescriptionSettings(Name = "save/data")]
-    [DisplayName("保存项目")]
-    public async Task SaveData([FromForm] ProjectSaveDataInput input)
-    {
-        if (await _goViewProjectDataRep.IsAnyAsync(u => u.Id == input.ProjectId))
-        {
-            await _goViewProjectDataRep.AsUpdateable()
-                .SetColumns(u => new GoViewProjectData
-                {
-                    Content = input.Content
-                })
-                .Where(u => u.Id == input.ProjectId)
-                .ExecuteCommandAsync();
-        }
-        else
-        {
-            await _goViewProjectDataRep.InsertAsync(new GoViewProjectData
-            {
-                Id = input.ProjectId,
-                Content = input.Content,
-            });
-        }
-    }
-
-    /// <summary>
     /// 修改项目
     /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
     [DisplayName("修改项目")]
-    public async Task Edit(ProjectEditInput input)
+    public async Task Edit(GoViewProEditInput input)
     {
-        // 前端只传修改的字段，更新时需要忽略空列
-        var project = await _goViewProjectRep.GetFirstAsync(u => u.Id == input.Id);
-        input.Adapt(project);
-        await _goViewProjectRep.AsUpdateable(project).IgnoreColumns(true).ExecuteCommandAsync();
+        await _goViewProRep.AsUpdateable(input.Adapt<GoViewPro>()).IgnoreColumns(true).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -122,8 +74,8 @@ public class ProjectService : IDynamicApiController
     public async Task Delete([FromQuery] string ids)
     {
         var idList = ids.Split(',', StringSplitOptions.RemoveEmptyEntries).Select(u => Convert.ToInt64(u)).ToList();
-        await _goViewProjectRep.AsDeleteable().Where(u => idList.Contains(u.Id)).ExecuteCommandAsync();
-        await _goViewProjectDataRep.AsDeleteable().Where(u => idList.Contains(u.Id)).ExecuteCommandAsync();
+        await _goViewProRep.AsDeleteable().Where(u => idList.Contains(u.Id)).ExecuteCommandAsync();
+        await _goViewProDataRep.AsDeleteable().Where(u => idList.Contains(u.Id)).ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -131,10 +83,10 @@ public class ProjectService : IDynamicApiController
     /// </summary>
     [HttpPut]
     [DisplayName("修改发布状态")]
-    public async Task Publish(ProjectPublishInput input)
+    public async Task Publish(GoViewProPublishInput input)
     {
-        await _goViewProjectRep.AsUpdateable()
-            .SetColumns(u => new GoViewProject
+        await _goViewProRep.AsUpdateable()
+            .SetColumns(u => new GoViewPro
             {
                 State = input.State
             })
@@ -143,10 +95,57 @@ public class ProjectService : IDynamicApiController
     }
 
     /// <summary>
+    /// 获取项目数据
+    /// </summary>
+    /// <param name="projectId"></param>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [ApiDescriptionSettings(Name = "GetData")]
+    [DisplayName("获取项目数据")]
+    public async Task<GoViewProDetailOutput> GetData([FromQuery] long projectId)
+    {
+        var projectData = await _goViewProDataRep.GetFirstAsync(u => u.Id == projectId);
+        if (projectData == null) return null;
+
+        var project = await _goViewProRep.GetFirstAsync(u => u.Id == projectId);
+        var projectDetail = project.Adapt<GoViewProDetailOutput>();
+        projectDetail.Content = projectData.Content;
+
+        return projectDetail;
+    }
+
+    /// <summary>
+    /// 保存项目数据
+    /// </summary>
+    [ApiDescriptionSettings(Name = "save/data")]
+    [DisplayName("保存项目数据")]
+    public async Task SaveData([FromForm] GoViewProSaveDataInput input)
+    {
+        if (await _goViewProDataRep.IsAnyAsync(u => u.Id == input.ProjectId))
+        {
+            await _goViewProDataRep.AsUpdateable()
+                .SetColumns(u => new GoViewProData
+                {
+                    Content = input.Content
+                })
+                .Where(u => u.Id == input.ProjectId)
+                .ExecuteCommandAsync();
+        }
+        else
+        {
+            await _goViewProDataRep.InsertAsync(new GoViewProData
+            {
+                Id = input.ProjectId,
+                Content = input.Content,
+            });
+        }
+    }
+
+    /// <summary>
     /// 上传预览图
     /// </summary>
     [DisplayName("上传预览图")]
-    public async Task<ProjectUploadOutput> Upload(IFormFile @object)
+    public async Task<GoViewProUploadOutput> Upload(IFormFile @object)
     {
         /*
          * 前端逻辑（useSync.hook.ts 的 dataSyncUpdate 方法）：
@@ -157,7 +156,7 @@ public class ProjectService : IDynamicApiController
         //文件名格式示例 13414795568325_index_preview.png
         var fileNameSplit = @object.FileName.Split('_');
         var idStr = fileNameSplit[0];
-        if (!long.TryParse(idStr, out var id)) return new ProjectUploadOutput();
+        if (!long.TryParse(idStr, out var id)) return new GoViewProUploadOutput();
 
         //将预览图转换成 Base64
         var ms = new MemoryStream();
@@ -165,10 +164,10 @@ public class ProjectService : IDynamicApiController
         var base64Image = Convert.ToBase64String(ms.ToArray());
 
         //保存
-        if (await _goViewProjectDataRep.IsAnyAsync(u => u.Id == id))
+        if (await _goViewProDataRep.IsAnyAsync(u => u.Id == id))
         {
-            await _goViewProjectDataRep.AsUpdateable()
-                .SetColumns(u => new GoViewProjectData
+            await _goViewProDataRep.AsUpdateable()
+                .SetColumns(u => new GoViewProData
                 {
                     IndexImageData = base64Image
                 })
@@ -177,14 +176,14 @@ public class ProjectService : IDynamicApiController
         }
         else
         {
-            await _goViewProjectDataRep.InsertAsync(new GoViewProjectData
+            await _goViewProDataRep.InsertAsync(new GoViewProData
             {
                 Id = id,
                 IndexImageData = base64Image,
             });
         }
 
-        var output = new ProjectUploadOutput
+        var output = new GoViewProUploadOutput
         {
             Id = id,
             BucketName = null,
@@ -238,11 +237,12 @@ public class ProjectService : IDynamicApiController
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
+    [NonUnify]
     [ApiDescriptionSettings(Name = "GetIndexImage")]
     [DisplayName("获取预览图")]
     public async Task<IActionResult> GetIndexImage(long id)
     {
-        var projectData = await _goViewProjectDataRep.AsQueryable().IgnoreColumns(u => u.Content).FirstAsync(u => u.Id == id);
+        var projectData = await _goViewProDataRep.AsQueryable().IgnoreColumns(u => u.Content).FirstAsync(u => u.Id == id);
         if (projectData?.IndexImageData == null)
             return new NoContentResult();
 

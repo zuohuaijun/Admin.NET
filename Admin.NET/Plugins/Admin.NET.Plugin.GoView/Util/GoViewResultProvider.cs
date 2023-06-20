@@ -76,34 +76,23 @@ public class GoViewResultProvider : IUnifyResultProvider
     /// <param name="data"></param>
     /// <param name="errors"></param>
     /// <returns></returns>
-    private static GoViewResult RESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
+    private static GoViewResult<object> RESTfulResult(int statusCode, bool succeeded = default, object data = default, object errors = default)
     {
-        if (data == null)
+        return new GoViewResult<object>
         {
-            return new GoViewResult
-            {
-                Code = statusCode,
-                Msg = errors is null or string ? (errors + "") : JSON.Serialize(errors),
-            };
-        }
-        else
-        {
-            var parseCount = int.TryParse(UnifyContext.Take() + "", out var count);
-            return new GoViewResult<object>
-            {
-                Code = statusCode,
-                Msg = errors is null or string ? (errors + "") : JSON.Serialize(errors),
-                Data = data,
-                Count = parseCount ? count : null,
-            };
-        }
+            Code = statusCode,
+            Msg = errors is null or string ? (errors + "") : JSON.Serialize(errors),
+            Data = data,
+            Count = data != null && data.GetType().IsGenericType && data.GetType().GetGenericTypeDefinition() == typeof(List<>) ? ((IList)data).Count : null
+        };
     }
 }
 
 /// <summary>
 /// GoView 返回结果
 /// </summary>
-public class GoViewResult
+/// <typeparam name="T"></typeparam>
+public class GoViewResult<T>
 {
     /// <summary>
     /// 状态码
@@ -114,14 +103,7 @@ public class GoViewResult
     /// 信息
     /// </summary>
     public string Msg { get; set; }
-}
 
-/// <summary>
-/// GoView 返回结果
-/// </summary>
-/// <typeparam name="T"></typeparam>
-public class GoViewResult<T> : GoViewResult
-{
     /// <summary>
     /// 数据
     /// </summary>

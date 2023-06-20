@@ -3,7 +3,7 @@
 /// <summary>
 /// GoView 项目 Item
 /// </summary>
-public class ProjectItemOutput
+public class GoViewProItemOutput
 {
     /// <summary>
     /// 项目Id
@@ -18,7 +18,7 @@ public class ProjectItemOutput
     /// <summary>
     /// 项目状态
     /// </summary>
-    public GoViewProjectState State { get; set; }
+    public GoViewProState State { get; set; }
 
     /// <summary>
     /// 创建时间
@@ -42,12 +42,12 @@ public class ProjectItemOutput
 }
 
 /// <summary>
-/// GoView 项目 Detail
+/// GoView 项目详情
 /// </summary>
-public class ProjectDetailOutput : ProjectItemOutput
+public class GoViewProDetailOutput : GoViewProItemOutput
 {
     /// <summary>
-    /// 项目参数
+    /// 项目内容
     /// </summary>
     public string Content { get; set; }
 }
@@ -55,7 +55,7 @@ public class ProjectDetailOutput : ProjectItemOutput
 /// <summary>
 /// GoView 新增项目输出
 /// </summary>
-public class ProjectCreateOutput
+public class GoViewProCreateOutput
 {
     /// <summary>
     /// 项目Id
@@ -66,7 +66,7 @@ public class ProjectCreateOutput
 /// <summary>
 /// GoView 上传项目输出
 /// </summary>
-public class ProjectUploadOutput
+public class GoViewProUploadOutput
 {
     /// <summary>
     /// Id

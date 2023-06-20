@@ -18,6 +18,7 @@ global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.AspNetCore.Mvc.Filters;
 global using Newtonsoft.Json;
 global using SqlSugar;
+global using System.Collections;
 global using System.ComponentModel;
 global using System.ComponentModel.DataAnnotations;
 global using System.Data;

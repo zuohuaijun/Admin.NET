@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Application.json">
+    <None Update="GoView.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

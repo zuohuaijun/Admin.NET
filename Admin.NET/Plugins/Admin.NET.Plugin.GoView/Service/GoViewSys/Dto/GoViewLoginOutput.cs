@@ -3,45 +3,44 @@
 /// <summary>
 /// 登录输出
 /// </summary>
-public class LoginOutput
+public class GoViewLoginOutput
 {
-    /// <summary>
-    /// 登录 token
-    /// </summary>
-    public LoginToken Token { get; set; }
-
     /// <summary>
     /// 用户信息
     /// </summary>
-    [JsonProperty("userinfo")]
-    public LoginUserInfo UserInfo { get; set; }
+    public GoViewLoginUserInfo Userinfo { get; set; }
+
+    /// <summary>
+    /// Token
+    /// </summary>
+    public GoViewLoginToken Token { get; set; }
 }
 
 /// <summary>
 /// 登录 Token
 /// </summary>
-public class LoginToken
+public class GoViewLoginToken
 {
     /// <summary>
-    /// token 值
-    /// </summary>
-    public string TokenValue { get; set; }
-
-    /// <summary>
-    /// token key
+    /// Token 名
     /// </summary>
     public string TokenName { get; set; } = "Authorization";
+
+    /// <summary>
+    /// Token 值
+    /// </summary>
+    public string TokenValue { get; set; }
 }
 
 /// <summary>
 /// 用户信息
 /// </summary>
-public class LoginUserInfo
+public class GoViewLoginUserInfo
 {
     /// <summary>
-    /// 昵称
+    /// 用户 Id
     /// </summary>
-    public string Nickname { get; set; }
+    public string Id { get; set; }
 
     /// <summary>
     /// 用户名
@@ -49,7 +48,7 @@ public class LoginUserInfo
     public string Username { get; set; }
 
     /// <summary>
-    /// 用户 id
+    /// 昵称
     /// </summary>
-    public string Id { get; set; }
+    public string Nickname { get; set; }
 }

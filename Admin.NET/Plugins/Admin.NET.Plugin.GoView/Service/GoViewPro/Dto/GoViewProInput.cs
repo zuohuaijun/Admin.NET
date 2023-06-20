@@ -3,7 +3,7 @@
 /// <summary>
 /// GoView 新增项目
 /// </summary>
-public class ProjectCreateInput
+public class GoViewProCreateInput
 {
     /// <summary>
     /// 项目名称
@@ -22,25 +22,9 @@ public class ProjectCreateInput
 }
 
 /// <summary>
-/// GoView 保存项目
-/// </summary>
-public class ProjectSaveDataInput
-{
-    /// <summary>
-    /// 项目Id
-    /// </summary>
-    public long ProjectId { get; set; }
-
-    /// <summary>
-    /// 项目参数
-    /// </summary>
-    public string Content { get; set; }
-}
-
-/// <summary>
 /// GoView 编辑项目
 /// </summary>
-public class ProjectEditInput
+public class GoViewProEditInput
 {
     /// <summary>
     /// 项目Id
@@ -61,7 +45,7 @@ public class ProjectEditInput
 /// <summary>
 /// GoView 修改项目发布状态
 /// </summary>
-public class ProjectPublishInput
+public class GoViewProPublishInput
 {
     /// <summary>
     /// 项目Id
@@ -71,5 +55,21 @@ public class ProjectPublishInput
     /// <summary>
     /// 项目状态
     /// </summary>
-    public GoViewProjectState State { get; set; }
+    public GoViewProState State { get; set; }
+}
+
+/// <summary>
+/// GoView 保存项目数据
+/// </summary>
+public class GoViewProSaveDataInput
+{
+    /// <summary>
+    /// 项目Id
+    /// </summary>
+    public long ProjectId { get; set; }
+
+    /// <summary>
+    /// 项目内容
+    /// </summary>
+    public string Content { get; set; }
 }
