@@ -1,6 +1,5 @@
 using Admin.NET.Core;
 using Admin.NET.Core.Service;
-using Admin.NET.Plugin.GoView.Util;
 using AspNetCoreRateLimit;
 using Furion;
 using Furion.SpecificationDocument;
@@ -12,7 +11,6 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NewLife.Caching;
 using Newtonsoft.Json;
 using OnceMi.AspNetCore.OSS;
 using System;
@@ -77,9 +75,6 @@ public class Startup : AppStartup
             //.AddXmlSerializerFormatters()
             //.AddXmlDataContractSerializerFormatters()
             .AddInjectWithUnifyResult<AdminResultProvider>();
-
-        // 注册 GoView 规范化处理提供器
-        services.AddUnifyProvider<GoViewResultProvider>("GoView");
 
         //// 第三方授权登录
         //services.AddAuthentication()

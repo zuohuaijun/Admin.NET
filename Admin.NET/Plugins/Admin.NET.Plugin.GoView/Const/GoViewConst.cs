@@ -9,5 +9,5 @@ public class GoViewConst
     /// <summary>
     /// API分组名称
     /// </summary>
-    public const string GroupName = "Go-View";
+    public const string GroupName = "GoView";
 }

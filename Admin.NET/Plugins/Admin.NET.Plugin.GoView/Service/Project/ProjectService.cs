@@ -4,7 +4,7 @@
 /// 项目管理服务
 /// </summary>
 [UnifyProvider("GoView")]
-[ApiDescriptionSettings(GoViewConst.GroupName, Order = 100)]
+[ApiDescriptionSettings(GoViewConst.GroupName, Module = "goview", Name = "project", Order = 100)]
 public class ProjectService : IDynamicApiController
 {
     private readonly SqlSugarRepository<GoViewProject> _goViewProjectRep;

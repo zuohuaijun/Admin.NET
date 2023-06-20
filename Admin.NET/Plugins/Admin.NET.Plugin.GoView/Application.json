@@ -1,0 +1,14 @@
+{
+    "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+
+    "[openapi:GoView]": {
+        "Group": "GoView",
+        "Title": "GoView",
+        "Description": "GoView 是一个高效的拖拽式低代码数据可视化开发平台，将图表或页面元素封装为基础组件，无需编写代码即可制作数据大屏，减少心智负担。<br/><a href='https://www.mtruning.club/'>https://www.mtruning.club</a>",
+        "Version": "v1.2.6",
+        "License": {
+            "Name": "MIT",
+            "Url": "https://gitee.com/dromara/go-view/blob/master/LICENSE"
+        }
+    }
+}
