@@ -9,7 +9,7 @@
         "EnableSsl": true, // 启用SSL
         "UseDefaultCredentials": false, //是否使用默认凭据
         "UserName": "", // 邮箱账号
-        "Password": "", // 邮箱密码
+        "Password": "", // 邮箱授权码
         "DefaultFromName": "系统邮件" // 默认邮件标题
     }
 }
