@@ -94,13 +94,17 @@ onMounted(async () => {
 });
 
 // 查询操作
-const handleQuery = async () => {
+const handleQuery = async (updateTree: boolean = false) => {
 	state.loading = true;
 	var res = await getAPI(SysOrgApi).apiSysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code, state.queryParams.orgType);
 	state.orgData = res.data.result ?? [];
 	state.loading = false;
+	// 是否更新左侧机构列表树
+	if (updateTree == true) {
+		orgTreeRef.value?.initTreeData();
+	}
 
-	// 若无选择节点并且查询条件为空时
+	// 若无选择节点并且查询条件为空时，更新编辑页面机构列表树
 	if (state.queryParams.id == -1 && state.queryParams.name == undefined && state.queryParams.code == undefined && state.queryParams.orgType == undefined) state.orgTreeData = state.orgData;
 };
 
@@ -134,10 +138,8 @@ const delOrg = (row: any) => {
 	})
 		.then(async () => {
 			await getAPI(SysOrgApi).apiSysOrgDeletePost({ id: row.id });
-			handleQuery();
-			// 编辑删除后更新机构数据
-			orgTreeRef.value?.initTreeData();
 			ElMessage.success('删除成功');
+			handleQuery(true);
 		})
 		.catch(() => {});
 };

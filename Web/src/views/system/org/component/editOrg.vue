@@ -105,7 +105,7 @@ const openDialog = (row: any) => {
 
 // 关闭弹窗
 const closeDialog = () => {
-	emits('handleQuery');
+	emits('handleQuery', true);
 	state.isShowDialog = false;
 };
 

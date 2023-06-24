@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<el-dialog v-model="state.isShowDialog" width="769px">
+		<el-dialog v-model="state.isShowDialog" width="769px" :before-close="onCancel">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
