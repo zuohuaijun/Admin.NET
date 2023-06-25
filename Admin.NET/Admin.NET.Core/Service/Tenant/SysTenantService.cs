@@ -18,6 +18,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     private readonly SysRoleMenuService _sysRoleMenuService;
     private readonly SysConfigService _sysConfigService;
     private readonly SysCacheService _sysCacheService;
+    private readonly ISqlSugarClient _sqlSugarClient;
 
     public SysTenantService(SqlSugarRepository<SysTenant> sysTenantRep,
         SqlSugarRepository<SysOrg> sysOrgRep,
@@ -30,7 +31,8 @@ public class SysTenantService : IDynamicApiController, ITransient
         SysUserRoleService sysUserRoleService,
         SysRoleMenuService sysRoleMenuService,
         SysConfigService sysConfigService,
-        SysCacheService sysCacheService)
+        SysCacheService sysCacheService,
+        ISqlSugarClient sqlSugarClient)
     {
         _sysTenantRep = sysTenantRep;
         _sysOrgRep = sysOrgRep;
@@ -44,6 +46,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         _sysRoleMenuService = sysRoleMenuService;
         _sysConfigService = sysConfigService;
         _sysCacheService = sysCacheService;
+        _sqlSugarClient = sqlSugarClient;
     }
 
     /// <summary>
@@ -336,19 +339,24 @@ public class SysTenantService : IDynamicApiController, ITransient
     {
         _sysCacheService.Remove(CacheConst.KeyTenant);
 
+        var iTenant = _sqlSugarClient.AsTenant();
         var tenantList = await _sysTenantRep.GetListAsync();
-        var defautTenant = tenantList.FirstOrDefault(u => u.Id.ToString() == SqlSugarConst.ConfigId);
+        var defaultTenant = tenantList.FirstOrDefault(u => u.Id.ToString() == SqlSugarConst.ConfigId);
         foreach (var tenant in tenantList)
         {
-            if (tenant.Id.ToString() == SqlSugarConst.ConfigId) continue;
+            var tenantId = tenant.Id.ToString();
+            if (tenantId == SqlSugarConst.ConfigId) continue;
 
             // Id模式隔离的租户数据库与主租户一致
             if (tenant.TenantType == TenantTypeEnum.Id)
             {
-                tenant.ConfigId = tenant.Id.ToString();
-                tenant.DbType = defautTenant.DbType;
-                tenant.Connection = defautTenant.Connection;
+                tenant.ConfigId = tenantId;
+                tenant.DbType = defaultTenant.DbType;
+                tenant.Connection = defaultTenant.Connection;
             }
+
+            // 移除 ISqlSugarClient 中的连接
+            iTenant.RemoveConnection(tenantId);
         }
 
         _sysCacheService.Set(CacheConst.KeyTenant, tenantList);
