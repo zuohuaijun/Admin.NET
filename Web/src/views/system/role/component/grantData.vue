@@ -41,6 +41,7 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysRoleApi } from '/@/api-services/api';
 import { RoleOrgInput } from '/@/api-services/models';
 
+const emits = defineEmits(['handleQuery']);
 const orgTreeRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -69,11 +70,17 @@ const cancel = () => {
 	state.isShowDialog = false;
 };
 
+// 关闭弹窗
+const closeDialog = () => {
+	emits('handleQuery');
+	state.isShowDialog = false;
+};
+
 // 提交
 const submit = async () => {
 	if (state.ruleForm.dataScope === 5) state.ruleForm.orgIdList = orgTreeRef.value?.getCheckedKeys();
 	await getAPI(SysRoleApi).apiSysRoleGrantDataScopePost(state.ruleForm);
-	state.isShowDialog = false;
+	closeDialog();
 };
 
 // 导出对象
