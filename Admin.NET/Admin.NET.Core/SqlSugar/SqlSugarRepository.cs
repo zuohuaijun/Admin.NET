@@ -36,11 +36,8 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
             var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant)
                 .FirstOrDefault(u => u.Id == tenantId);
 
-            var connectionString = tenant.Connection;
             // 如果是Id隔离，使用默认的连接字符串
-            if (tenant.TenantType == TenantTypeEnum.Id)
-                connectionString = iTenant.GetConnectionScope(SqlSugarConst.ConfigId).CurrentConnectionConfig.ConnectionString;
-
+            var connectionString = tenant.TenantType == TenantTypeEnum.Id ? iTenant.GetConnectionScope(SqlSugarConst.ConfigId).CurrentConnectionConfig.ConnectionString : tenant.Connection;
             iTenant.AddConnection(new ConnectionConfig()
             {
                 ConfigId = tenant.Id,

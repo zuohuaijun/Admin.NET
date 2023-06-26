@@ -18,7 +18,6 @@ public class SysTenantService : IDynamicApiController, ITransient
     private readonly SysRoleMenuService _sysRoleMenuService;
     private readonly SysConfigService _sysConfigService;
     private readonly SysCacheService _sysCacheService;
-    private readonly ISqlSugarClient _sqlSugarClient;
 
     public SysTenantService(SqlSugarRepository<SysTenant> sysTenantRep,
         SqlSugarRepository<SysOrg> sysOrgRep,
@@ -31,8 +30,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         SysUserRoleService sysUserRoleService,
         SysRoleMenuService sysRoleMenuService,
         SysConfigService sysConfigService,
-        SysCacheService sysCacheService,
-        ISqlSugarClient sqlSugarClient)
+        SysCacheService sysCacheService)
     {
         _sysTenantRep = sysTenantRep;
         _sysOrgRep = sysOrgRep;
@@ -46,7 +44,6 @@ public class SysTenantService : IDynamicApiController, ITransient
         _sysRoleMenuService = sysRoleMenuService;
         _sysConfigService = sysConfigService;
         _sysCacheService = sysCacheService;
-        _sqlSugarClient = sqlSugarClient;
     }
 
     /// <summary>
@@ -339,7 +336,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     {
         _sysCacheService.Remove(CacheConst.KeyTenant);
 
-        var iTenant = _sqlSugarClient.AsTenant();
+        var iTenant = _sysTenantRep.AsTenant();
         var tenantList = await _sysTenantRep.GetListAsync();
         var defaultTenant = tenantList.FirstOrDefault(u => u.Id.ToString() == SqlSugarConst.ConfigId);
         foreach (var tenant in tenantList)
@@ -347,7 +344,7 @@ public class SysTenantService : IDynamicApiController, ITransient
             var tenantId = tenant.Id.ToString();
             if (tenantId == SqlSugarConst.ConfigId) continue;
 
-            // Id模式隔离的租户数据库与主租户一致
+            // Id模式隔离的租户数据库与宿主一致
             if (tenant.TenantType == TenantTypeEnum.Id)
             {
                 tenant.ConfigId = tenantId;

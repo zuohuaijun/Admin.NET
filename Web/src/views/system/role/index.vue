@@ -72,7 +72,7 @@
 		</el-card>
 
 		<EditRole ref="editRoleRef" :title="state.editRoleTitle" @handleQuery="handleQuery" />
-		<GrantData ref="grantDataRef" @handleQuery="handleQuery"/>
+		<GrantData ref="grantDataRef" @handleQuery="handleQuery" />
 	</div>
 </template>
 
