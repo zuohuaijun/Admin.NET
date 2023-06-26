@@ -31,6 +31,13 @@
   overflow-x: hidden;
   overflow: hidden;
 }
+.hiprint-printPaper .hiprint-printPaper-background {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+  left: 0;
+  top: 0;
+}
 .hiprint-printPaper .hiprint-printPaper-content {
   position: relative;
 }
@@ -159,7 +166,7 @@ hiprint-printPanel {
 .hiprint-printElement-tableTarget tr,
 .hiprint-printElement-tableTarget td {
   border-color: rgb(0, 0, 0);
-  border-style: none;
+  /* border-style: none; */
   /*border: 1px solid rgb(0,0,0);*/
   font-weight: normal;
   direction: ltr;
@@ -174,6 +181,40 @@ hiprint-printPanel {
   word-break: break-all;
   /*line-height: 9.75pt;
     font-size: 9pt;*/
+}
+
+.hiprint-printElement-tableTarget-border-all {
+  border: 1px solid;
+}
+.hiprint-printElement-tableTarget-border-none {
+  border: 0px solid;
+}
+.hiprint-printElement-tableTarget-border-lr {
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+.hiprint-printElement-tableTarget-border-left {
+  border-left: 1px solid;
+}
+.hiprint-printElement-tableTarget-border-right {
+  border-right: 1px solid;
+}
+.hiprint-printElement-tableTarget-border-tb {
+  border-top: 1px solid;
+  border-bottom: 1px solid;
+}
+.hiprint-printElement-tableTarget-border-top {
+  border-top: 1px solid;
+}
+.hiprint-printElement-tableTarget-border-bottom {
+  border-bottom: 1px solid;
+}
+
+.hiprint-printElement-tableTarget-border-td-none td {
+  border: 0px solid;
+}
+.hiprint-printElement-tableTarget-border-td-all td:not(:last-child) {
+  border-right: 1px solid;
 }
 
 /*.hiprint-printElement-tableTarget tr,*/
@@ -223,20 +264,37 @@ hiprint-printPanel {
 }
 
 .hiprint-text-content-middle {
-  display: table;
 }
-.hiprint-text-content-middle > div {
-  display: table-cell;
-  vertical-align: middle;
+.hiprint-text-content-middle > div:first-child {
+  display: grid;
+  align-items: center;
 }
 
 .hiprint-text-content-bottom {
-  display: table;
 }
 
-.hiprint-text-content-bottom > div {
-  display: table-cell;
-  vertical-align: bottom;
+.hiprint-text-content-bottom > div:first-child {
+  display: grid;
+  align-items: flex-end;
+}
+
+.hiprint-text-content-wrap {
+}
+
+.hiprint-text-content-wrap .hiprint-text-content-wrap-nowrap {
+  white-space: nowrap;
+}
+
+.hiprint-text-content-wrap .hiprint-text-content-wrap-clip {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+}
+
+.hiprint-text-content-wrap .hiprint-text-content-wrap-ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /*hi-grid-row */

@@ -2,9 +2,9 @@
 	<div class="sys-print-container">
 		<div class="printDialog">
 			<el-dialog v-model="state.isShowDialog" :show-close="false" :close-on-click-modal="false" fullscreen>
-				<Designer @onDesigned="onDesigned" :autoConnect="false" theme="bumblebee" style="margin: -20px -12px 0 -20px" />
+				<Designer @onDesigned="onDesigned" :autoConnect="false" theme="bumblebee" style="margin: -20px -19px -20px -19px; height: calc(100vh - 45px) !important" />
 				<template #footer>
-					<span class="dialog-footer">
+					<span class="dialog-footer" style="margin-top: 10px">
 						<el-button @click="cancel">取 消</el-button>
 						<el-button type="primary" @click="submit">保存模板</el-button>
 					</span>
@@ -60,7 +60,7 @@
 import { onMounted, reactive, ref } from 'vue';
 import 'sv-print/dist/style.css';
 import { Designer } from '@sv-print/vue3';
-// import { disAutoConnect } from '@sv-print/hiprint';
+import { disAutoConnect } from '@sv-print/hiprint';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysPrintApi } from '/@/api-services/api';
@@ -79,7 +79,7 @@ const state = reactive({
 });
 
 onMounted(async () => {
-	// disAutoConnect();
+	disAutoConnect();
 });
 
 // 打开弹窗
@@ -105,7 +105,6 @@ const submit = async () => {
 // 打印模板页面初始化
 const onDesigned = (e: any) => {
 	svPrint.value = e.detail;
-	console.log(e);
 
 	loadTemplate();
 };
@@ -147,7 +146,7 @@ defineExpose({ openDialog });
 			display: none !important;
 		}
 		.el-dialog__body {
-			max-height: calc(100vh - 50px) !important;
+			max-height: calc(100vh - 45px) !important;
 		}
 	}
 }

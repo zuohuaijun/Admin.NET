@@ -43,7 +43,7 @@ const initScrollBarHeight = () => {
 		setTimeout(() => {
 			updateScrollbar();
 			layoutScrollbarRef.value.wrapRef.scrollTop = 0;
-			layoutMainRef.value!.layoutMainScrollbarRef.wrapRef.scrollTop = 0;
+			if (layoutMainRef.value != undefined) layoutMainRef.value!.layoutMainScrollbarRef.wrapRef.scrollTop = 0;
 		}, 500);
 	});
 };
