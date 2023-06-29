@@ -46,6 +46,11 @@ public class LoginUserOutput
     public string OrgName { get; set; }
 
     /// <summary>
+    /// 机构类型
+    /// </summary>
+    public string OrgType { get; set; }
+
+    /// <summary>
     /// 职位名称
     /// </summary>
     public string PosName { get; set; }

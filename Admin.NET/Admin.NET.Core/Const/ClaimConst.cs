@@ -46,6 +46,11 @@ public class ClaimConst
     public const string OrgName = "OrgName";
 
     /// <summary>
+    /// 组织机构类型
+    /// </summary>
+    public const string OrgType = "OrgType";
+
+    /// <summary>
     /// 微信OpenId
     /// </summary>
     public const string OpenId = "OpenId";

@@ -42,15 +42,17 @@ public static class SqlSugarSetup
         {
             EntityNameService = (type, entity) => // 处理表
             {
-                if (!type.GetCustomAttributes<SqlSugar.SugarTable>().Any())
-                    return;//只需处理SugarTable实体
+                // 只处理贴了特性 SugarTable 表
+                if (!type.GetCustomAttributes<SugarTable>().Any())
+                    return;
                 if (config.EnableUnderLine && !entity.DbTableName.Contains('_'))
                     entity.DbTableName = UtilMethods.ToUnderLine(entity.DbTableName); // 驼峰转下划线
             },
             EntityService = (type, column) => // 处理列
             {
-                if (!type.GetCustomAttributes<SqlSugar.SugarColumn>().Any())
-                    return;//只需处理SugarColumn实体
+                // 只处理贴了特性 SugarColumn 列
+                if (!type.GetCustomAttributes<SugarColumn>().Any())
+                    return;
                 if (new NullabilityInfoContext().Create(type).WriteState is NullabilityState.Nullable)
                     column.IsNullable = true;
                 if (config.EnableUnderLine && !column.IsIgnore && !column.DbColumnName.Contains('_'))
