@@ -9,7 +9,7 @@
 			</template>
 			<el-tabs v-loading="state.loading" v-model="state.selectedTabName">
 				<el-tab-pane label="基础信息">
-					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="80px">
+					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="auto">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="账号名称" prop="account" :rules="[{ required: true, message: '账号名称不能为空', trigger: 'blur' }]">
@@ -139,7 +139,7 @@
 					</el-form>
 				</el-tab-pane>
 				<el-tab-pane label="档案信息">
-					<el-form :model="state.ruleForm" label-width="85px">
+					<el-form :model="state.ruleForm" label-width="auto">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="证件类型" prop="cardType">

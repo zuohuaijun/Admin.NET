@@ -7,7 +7,7 @@
 					<span> {{ props.title }} </span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="115px">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="auto">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="触发器编号" prop="triggerId" :rules="[{ required: true, message: '触发器编号不能为空', trigger: 'blur' }]">

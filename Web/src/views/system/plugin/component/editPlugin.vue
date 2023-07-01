@@ -9,7 +9,7 @@
 			</template>
 			<el-tabs v-model="state.selectedTabName">
 				<el-tab-pane label="插件信息">
-					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="85px" style="height: 500px">
+					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="auto" style="height: 500px">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 								<el-form-item label="功能名称" prop="name" :rules="[{ required: true, message: '功能名称不能为空', trigger: 'blur' }]">

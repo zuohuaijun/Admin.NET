@@ -66,6 +66,12 @@ export interface LoginUserOutput {
      */
     orgName?: string | null;
     /**
+     * 机构类型
+     * @type {string}
+     * @memberof LoginUserOutput
+     */
+    orgType?: string | null;
+    /**
      * 职位名称
      * @type {string}
      * @memberof LoginUserOutput

@@ -54,7 +54,7 @@
 				<el-card shadow="hover">
 					<el-tabs>
 						<el-tab-pane label="基础信息">
-							<el-form :model="state.ruleFormBase" ref="ruleFormBaseRef" label-width="80px">
+							<el-form :model="state.ruleFormBase" ref="ruleFormBaseRef" label-width="auto">
 								<el-row :gutter="35">
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="真实姓名" prop="realName" :rules="[{ required: true, message: '真实姓名不能为空', trigger: 'blur' }]">
@@ -111,7 +111,7 @@
 							<OrgTree ref="orgTreeRef" />
 						</el-tab-pane>
 						<el-tab-pane label="修改密码">
-							<el-form ref="ruleFormPasswordRef" :model="state.ruleFormPassword" label-width="80px">
+							<el-form ref="ruleFormPasswordRef" :model="state.ruleFormPassword" label-width="auto">
 								<el-form-item label="当前密码" prop="passwordOld" :rules="[{ required: true, message: '当前密码不能为空', trigger: 'blur' }]">
 									<el-input v-model="state.ruleFormPassword.passwordOld" type="password" autocomplete="off" />
 								</el-form-item>
