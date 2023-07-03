@@ -29,7 +29,7 @@ public static class SqlSugarFilter
 
             // 获取业务实体数据表
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-                && u.BaseType == typeof(EntityBaseData));
+                && u.IsSubclassOf(typeof(EntityBaseData)));
             if (!entityTypes.Any()) return;
 
             orgFilter = new ConcurrentDictionary<Type, LambdaExpression>();
@@ -75,7 +75,7 @@ public static class SqlSugarFilter
         {
             // 获取业务实体数据表
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-                && u.BaseType == typeof(EntityBaseData));
+                && u.IsSubclassOf(typeof(EntityBaseData)));
             if (!entityTypes.Any()) return maxDataScope;
 
             dataScopeFilter = new ConcurrentDictionary<Type, LambdaExpression>();
