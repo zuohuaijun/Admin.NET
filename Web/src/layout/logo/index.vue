@@ -58,7 +58,7 @@ const onThemeConfigChange = () => {
 		}
 	}
 	&-medium-img {
-		width: 20px;
+		width: 15%;
 		margin-right: 5px;
 	}
 }

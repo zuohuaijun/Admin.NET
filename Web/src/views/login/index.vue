@@ -98,7 +98,7 @@ onMounted(() => {
 			z-index: 1;
 			animation: logoAnimation 0.3s ease;
 			img {
-				width: 64px;
+				width: 100px;
 				height: 64px;
 			}
 			.login-left-logo-text {
