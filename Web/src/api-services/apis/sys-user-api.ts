@@ -21,6 +21,7 @@ import { AdminResultInt32 } from '../models';
 import { AdminResultListInt64 } from '../models';
 import { AdminResultListSysUserExtOrg } from '../models';
 import { AdminResultSqlSugarPagedListSysUser } from '../models';
+import { AdminResultString } from '../models';
 import { AdminResultSysUser } from '../models';
 import { ChangePwdInput } from '../models';
 import { DeleteUserInput } from '../models';
@@ -750,7 +751,7 @@ export const SysUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysUserResetPwdPost(body?: ResetPwdUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
+        async apiSysUserResetPwdPost(body?: ResetPwdUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
             const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).apiSysUserResetPwdPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -890,7 +891,7 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysUserResetPwdPost(body?: ResetPwdUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
+        async apiSysUserResetPwdPost(body?: ResetPwdUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
             return SysUserApiFp(configuration).apiSysUserResetPwdPost(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1029,7 +1030,7 @@ export class SysUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async apiSysUserResetPwdPost(body?: ResetPwdUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
+    public async apiSysUserResetPwdPost(body?: ResetPwdUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
         return SysUserApiFp(this.configuration).apiSysUserResetPwdPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**

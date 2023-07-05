@@ -20,6 +20,7 @@ import { AddTenantInput } from '../models';
 import { AdminResultInt32 } from '../models';
 import { AdminResultListInt64 } from '../models';
 import { AdminResultSqlSugarPagedListTenantOutput } from '../models';
+import { AdminResultString } from '../models';
 import { DeleteTenantInput } from '../models';
 import { PageTenantInput } from '../models';
 import { RoleMenuInput } from '../models';
@@ -564,7 +565,7 @@ export const SysTenantApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+        async apiSysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultString>>> {
             const localVarAxiosArgs = await SysTenantApiAxiosParamCreator(configuration).apiSysTenantResetPwdPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -675,7 +676,7 @@ export const SysTenantApiFactory = function (configuration?: Configuration, base
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+        async apiSysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultString>> {
             return SysTenantApiFp(configuration).apiSysTenantResetPwdPost(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -782,7 +783,7 @@ export class SysTenantApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysTenantApi
      */
-    public async apiSysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+    public async apiSysTenantResetPwdPost(body?: TenantUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultString>> {
         return SysTenantApiFp(this.configuration).apiSysTenantResetPwdPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**

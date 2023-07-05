@@ -172,8 +172,11 @@ const resetTenantPwd = async (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysTenantApi).apiSysTenantResetPwdPost({ userId: row.userId });
-			ElMessage.success('密码重置成功：123456');
+			await getAPI(SysTenantApi)
+				.apiSysTenantResetPwdPost({ userId: row.userId })
+				.then((res) => {
+					ElMessage.success(`密码重置成功为：${res.data.result}`);
+				});
 		})
 		.catch(() => {});
 };

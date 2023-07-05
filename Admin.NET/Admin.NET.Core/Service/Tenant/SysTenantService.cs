@@ -320,11 +320,12 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("重置租户管理员密码")]
-    public async Task ResetPwd(TenantUserInput input)
+    public async Task<string> ResetPwd(TenantUserInput input)
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
         var encryptPassword = CryptogramUtil.Encrypt(password);
         await _sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Password = encryptPassword }, u => u.Id == input.UserId);
+        return password;
     }
 
     /// <summary>

@@ -215,13 +215,14 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("重置用户密码")]
-    public async Task<int> ResetPwd(ResetPwdUserInput input)
+    public async Task<string> ResetPwd(ResetPwdUserInput input)
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
 
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
         user.Password = CryptogramUtil.Encrypt(password);
-        return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
+        await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
+        return password;
     }
 
     /// <summary>
