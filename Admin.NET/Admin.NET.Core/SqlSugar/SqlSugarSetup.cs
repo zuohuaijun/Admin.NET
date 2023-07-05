@@ -8,6 +8,13 @@ public static class SqlSugarSetup
     /// <param name="services"></param>
     public static void AddSqlSugar(this IServiceCollection services)
     {
+        // 自定义 SqlSugar 雪花ID算法
+        SnowFlakeSingle.WorkId = App.GetOptions<SnowIdOptions>().WorkerId;
+        StaticConfig.CustomSnowFlakeFunc = () =>
+        {
+            return YitIdHelper.NextId();
+        };
+
         var dbOptions = App.GetOptions<DbConnectionOptions>();
         dbOptions.ConnectionConfigs.ForEach(SetDbConfig);
 
