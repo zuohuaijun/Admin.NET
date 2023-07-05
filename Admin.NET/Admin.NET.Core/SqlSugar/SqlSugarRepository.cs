@@ -36,15 +36,24 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
             var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant)
                 .FirstOrDefault(u => u.Id == tenantId);
 
+            // 获取主库连接配置
+            var dbOptions = App.GetOptions<DbConnectionOptions>();
+            var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId == SqlSugarConst.ConfigId);
+
             // 如果是Id隔离，使用默认的连接字符串
             var connectionString = tenant.TenantType == TenantTypeEnum.Id ? iTenant.GetConnectionScope(SqlSugarConst.ConfigId).CurrentConnectionConfig.ConnectionString : tenant.Connection;
-            iTenant.AddConnection(new ConnectionConfig()
+            var connectionConfig = new DbConnectionConfig
             {
                 ConfigId = tenant.Id,
                 DbType = tenant.DbType,
                 ConnectionString = connectionString,
-                IsAutoCloseConnection = true
-            });
+                IsAutoCloseConnection = true,
+
+                // 继承主库的“启用驼峰转下划线”设置
+                EnableUnderLine = mainConnConfig.EnableUnderLine,
+            };
+            iTenant.AddConnection(connectionConfig);
+            SqlSugarSetup.SetDbConfig(connectionConfig);
             SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()));
         }
         base.Context = iTenant.GetConnectionScope(tenantId.ToString());

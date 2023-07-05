@@ -36,7 +36,7 @@ public static class SqlSugarSetup
     /// 配置连接属性
     /// </summary>
     /// <param name="config"></param>
-    private static void SetDbConfig(DbConnectionConfig config)
+    public static void SetDbConfig(DbConnectionConfig config)
     {
         var configureExternalServices = new ConfigureExternalServices
         {
