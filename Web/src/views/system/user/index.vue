@@ -217,8 +217,11 @@ const resetUserPwd = async (row: any) => {
 		type: 'warning',
 	})
 		.then(async () => {
-			await getAPI(SysUserApi).apiSysUserResetPwdPost({ id: row.id });
-			ElMessage.success('密码重置成功：123456');
+			await getAPI(SysUserApi)
+				.apiSysUserResetPwdPost({ id: row.id })
+				.then((res) => {
+					ElMessage.success(`密码重置成功为：${res.data.result}`);
+				});
 		})
 		.catch(() => {});
 };
