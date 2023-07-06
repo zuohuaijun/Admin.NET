@@ -1,75 +1,87 @@
-using System;
-using SqlSugar;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using Admin.NET.Core;
-namespace @Model.NameSpace
+namespace @Model.NameSpace;
+
+/// <summary>
+/// @(@Model.Description)
+/// </summary>
+[SugarTable("@(@Model.TableName)","@(@Model.Description)")]
+public class @(@Model.EntityName) @Model.BaseClassName
 {
-    /// <summary>
-    /// @(@Model.Description)
-    /// </summary>
-    [SugarTable("@(@Model.TableName)","@(@Model.Description)")]
-    [Tenant("@(@Model.ConfigId)")]
-    public class @(@Model.EntityName) @Model.BaseClassName
-    {
 @foreach (var column in Model.TableField){
 if(@Model.BaseClassName=="" && @column.IsPrimarykey){
-        @:/// <summary>
-        @:/// @column.ColumnDescription
-        @:/// </summary>
-        if(!@column.IsNullable){
-        @:[Required]
-        }
-        if(@column.DataType=="string"||@column.DataType=="string?"){
-        @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true, Length = @column.Length)]
-        }
-        else{
-        @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
-        }
-        @:public @column.DataType @column.DbColumnName { get; set; }
+    @:/// <summary>
+    @:/// @column.ColumnDescription
+    @:/// </summary>
+    if(!@column.IsNullable){
+    @:[Required]
+    }
+    if(@column.DataType=="string"||@column.DataType=="string?"){
+    @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true, Length = @column.Length)]
+    }
+    else if(@column.DataType=="decimal"||@column.DataType=="decimal?"){
+    @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true, Length = @column.Length, DecimalDigits=@column.DecimalDigits )]
+    }    
+    else{
+    @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
+    }
+    @:public @column.DataType @column.DbColumnName { get; set; }
+    @:
 }
 else if(@Model.BaseClassName=="" && !@column.IsPrimarykey){
-        @:/// <summary>
-        @:/// @column.ColumnDescription
-        @:/// </summary>
-        if(!@column.IsNullable){
-        @:[Required]
-        }
-        if(@column.DataType=="string"||@column.DataType=="string?"){
-        @:[SugarColumn(ColumnDescription = "@column.ColumnDescription", Length = @column.Length)]
-        }else{
-        @:[SugarColumn(ColumnDescription = "@column.ColumnDescription")]
-        }
-        @:public @column.DataType @column.DbColumnName { get; set; }
+    @:/// <summary>
+    @:/// @column.ColumnDescription
+    @:/// </summary>
+    if(!@column.IsNullable){
+    @:[Required]
+    }
+    if(@column.DataType=="string"||@column.DataType=="string?"){
+    @:[SugarColumn(ColumnDescription = "@column.ColumnDescription", Length = @column.Length)]
+    }
+    else if(@column.DataType=="decimal"||@column.DataType=="decimal?"){
+    @:[SugarColumn(ColumnDescription = "@column.ColumnDescription", Length = @column.Length, DecimalDigits=@column.DecimalDigits )]
+    } 
+    else{
+    @:[SugarColumn(ColumnDescription = "@column.ColumnDescription")]
+    }
+    @:public @column.DataType @column.DbColumnName { get; set; }
+    @:
 }
 else if(@Model.BaseClassName!="" && @column.IsPrimarykey && @column.DbColumnName.ToLower()!="id"){
-        @:/// <summary>
-        @:/// @column.ColumnDescription
-        @:/// </summary>
-        if(!@column.IsNullable){
-        @:[Required]
-        }
-        if(@column.DataType=="string"||@column.DataType=="string?"){
-        @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true, Length = @column.Length)]
-        }else{
-        @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
-        }
-        @:public @column.DataType @column.DbColumnName { get; set; }
+    @:/// <summary>
+    @:/// @column.ColumnDescription
+    @:/// </summary>
+    if(!@column.IsNullable){
+    @:[Required]
+    }
+    if(@column.DataType=="string"||@column.DataType=="string?"){
+    @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true, Length = @column.Length)]
+    }
+    else if(@column.DataType=="decimal"||@column.DataType=="decimal?"){
+    @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true, Length = @column.Length, DecimalDigits=@column.DecimalDigits )]
+    } 
+    else{
+    @:[SugarColumn(IsIdentity = @column.IsIdentity.ToString().ToLower(), ColumnDescription = "@column.ColumnDescription", IsPrimaryKey = true)]
+    }
+    @:public @column.DataType @column.DbColumnName { get; set; }
+    @:
 }
 else if(@Model.BaseClassName!="" && !@column.IsPrimarykey && @column.DbColumnName.ToLower()!="id"){
-        @:/// <summary>
-        @:/// @column.ColumnDescription
-        @:/// </summary>
-        if(!@column.IsNullable){
-        @:[Required]
-        }
-        if(@column.DataType=="string"||@column.DataType=="string?"){
-        @:[SugarColumn(ColumnDescription = "@column.ColumnDescription", Length = @column.Length)]
-        }else{
-        @:[SugarColumn(ColumnDescription = "@column.ColumnDescription")]
-        }
-        @:public @column.DataType @column.DbColumnName { get; set; }
-}
-}
+    @:/// <summary>
+    @:/// @column.ColumnDescription
+    @:/// </summary>
+    if(!@column.IsNullable){
+    @:[Required]
     }
+    if(@column.DataType=="string"||@column.DataType=="string?"){
+    @:[SugarColumn(ColumnDescription = "@column.ColumnDescription", Length = @column.Length)]
+    }
+    else if(@column.DataType=="decimal"||@column.DataType=="decimal?"){
+    @:[SugarColumn(ColumnDescription = "@column.ColumnDescription", Length = @column.Length, DecimalDigits=@column.DecimalDigits )]
+    }
+    else{
+    @:[SugarColumn(ColumnDescription = "@column.ColumnDescription")]
+    }
+    @:public @column.DataType @column.DbColumnName { get; set; }
+    @:
+}
+}
 }
