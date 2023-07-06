@@ -19,8 +19,8 @@
     <PackageReference Include="AspectCore.Extensions.Reflection" Version="2.4.0" />
     <PackageReference Include="AspNetCoreRateLimit" Version="5.0.0" />
     <PackageReference Include="FluentEmail.Smtp" Version="3.0.2" />
-    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.34" />
-    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.8.34" />
+    <PackageReference Include="Furion.Extras.Authentication.JwtBearer" Version="4.8.8.35" />
+    <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.8.35" />
     <PackageReference Include="Furion.Pure" Version="4.8.8.34" />
     <PackageReference Include="IPTools.China" Version="1.6.0" />
     <PackageReference Include="Lazy.Captcha.Core" Version="2.0.3" />
@@ -32,7 +32,7 @@
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.9" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.Api" Version="2.30.0" />
     <PackageReference Include="SKIT.FlurlHttpClient.Wechat.TenpayV3" Version="2.19.0" />
-    <PackageReference Include="SqlSugarCore" Version="5.1.4.88" />
+    <PackageReference Include="SqlSugarCore" Version="5.1.4.89" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.3.3" />
     <PackageReference Include="UAParser" Version="3.1.47" />
     <PackageReference Include="Yitter.IdGenerator" Version="1.0.14" />
