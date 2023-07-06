@@ -36,6 +36,7 @@
             "SubmitUrl": "/api/swagger/submitUrl",
             "UserName": "admin",
             "Password": "000000"
-        }
+        },
+        "EnumToNumber": true // 枚举类型生成值类型
     }
 }
