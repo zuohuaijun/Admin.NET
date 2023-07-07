@@ -126,7 +126,9 @@ const onColumnsAsideDown = (k: number) => {
 const setMenuAutoCollaps = (path: string) => {
 	const resData: MittMenu = setSendChildren(path);
 	// https://gitee.com/lyt-top/vue-next-admin/issues/I6HW7H
-	resData.children.length <= 1 ? (themeConfig.value.isCollapse = true) : (themeConfig.value.isCollapse = false);
+	(!resData.item?.redirect && resData.children.length == 0) || (resData.item?.redirect && resData.children.length <= 1)
+		? (themeConfig.value.isCollapse = true)
+		: (themeConfig.value.isCollapse = false);
 	return resData;
 };
 // 设置/过滤路由（非静态路由/是否显示在菜单中）
