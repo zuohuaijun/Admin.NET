@@ -17,7 +17,7 @@
  * @enum {string}
  */
 export enum GenderEnum {
-    NUMBER_1 = 1,
-    NUMBER_2 = 2
+    Male = 'Male',
+    Female = 'Female'
 }
 

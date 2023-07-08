@@ -17,10 +17,10 @@
  * @enum {string}
  */
 export enum CardTypeEnum {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_2 = 2,
-    NUMBER_3 = 3,
-    NUMBER_4 = 4
+    IdCard = 'IdCard',
+    PassportCard = 'PassportCard',
+    BirthCard = 'BirthCard',
+    GatCard = 'GatCard',
+    ForeignCard = 'ForeignCard'
 }
 

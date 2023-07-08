@@ -17,8 +17,8 @@
  * @enum {string}
  */
 export enum JobCreateTypeEnum {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_2 = 2
+    BuiltIn = 'BuiltIn',
+    Script = 'Script',
+    Http = 'Http'
 }
 

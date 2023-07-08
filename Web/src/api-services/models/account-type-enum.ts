@@ -17,9 +17,9 @@
  * @enum {string}
  */
 export enum AccountTypeEnum {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_4 = 4,
-    NUMBER_999 = 999
+    None = 'None',
+    User = 'User',
+    Admin = 'Admin',
+    SuperAdmin = 'SuperAdmin'
 }
 

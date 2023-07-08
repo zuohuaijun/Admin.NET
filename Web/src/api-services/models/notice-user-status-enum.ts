@@ -17,7 +17,7 @@
  * @enum {string}
  */
 export enum NoticeUserStatusEnum {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1
+    UNREAD = 'UNREAD',
+    READ = 'READ'
 }
 

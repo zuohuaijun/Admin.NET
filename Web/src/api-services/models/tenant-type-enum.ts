@@ -17,7 +17,7 @@
  * @enum {string}
  */
 export enum TenantTypeEnum {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1
+    Id = 'Id',
+    Db = 'Db'
 }
 

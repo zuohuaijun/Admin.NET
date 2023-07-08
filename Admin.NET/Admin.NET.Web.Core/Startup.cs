@@ -117,7 +117,6 @@ public class Startup : AppStartup
             //    // 创建默认内存通道事件源对象，可自定义队列路由key，比如这里是 eventbus
             //    return new RedisEventSourceStorer(redisCache, "eventbus", 3000);
             //});
-            options.AddSubscriber<AppEventSubscriber>();
         });
 
         // OSS对象存储（必须一个个赋值）
