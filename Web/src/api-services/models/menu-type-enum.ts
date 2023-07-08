@@ -17,8 +17,8 @@
  * @enum {string}
  */
 export enum MenuTypeEnum {
-    Dir = 'Dir',
-    Menu = 'Menu',
-    Btn = 'Btn'
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3
 }
 

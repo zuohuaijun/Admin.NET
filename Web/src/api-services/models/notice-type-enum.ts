@@ -17,7 +17,7 @@
  * @enum {string}
  */
 export enum NoticeTypeEnum {
-    NOTICE = 'NOTICE',
-    ANNOUNCEMENT = 'ANNOUNCEMENT'
+    NUMBER_1 = 1,
+    NUMBER_2 = 2
 }
 

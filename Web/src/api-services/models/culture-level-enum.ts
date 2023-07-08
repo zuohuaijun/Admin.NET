@@ -17,13 +17,13 @@
  * @enum {string}
  */
 export enum CultureLevelEnum {
-    Level1 = 'Level1',
-    Level2 = 'Level2',
-    Level3 = 'Level3',
-    Level4 = 'Level4',
-    Level5 = 'Level5',
-    Level6 = 'Level6',
-    Level7 = 'Level7',
-    Level8 = 'Level8'
+    NUMBER_0 = 0,
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3,
+    NUMBER_4 = 4,
+    NUMBER_5 = 5,
+    NUMBER_6 = 6,
+    NUMBER_7 = 7
 }
 

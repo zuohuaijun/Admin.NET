@@ -17,7 +17,7 @@
  * @enum {string}
  */
 export enum StatusEnum {
-    Enable = 'Enable',
-    Disable = 'Disable'
+    NUMBER_1 = 1,
+    NUMBER_2 = 2
 }
 

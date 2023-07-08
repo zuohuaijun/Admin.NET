@@ -17,10 +17,10 @@
  * @enum {string}
  */
 export enum DataScopeEnum {
-    All = 'All',
-    DeptChild = 'DeptChild',
-    Dept = 'Dept',
-    Self = 'Self',
-    Define = 'Define'
+    NUMBER_1 = 1,
+    NUMBER_2 = 2,
+    NUMBER_3 = 3,
+    NUMBER_4 = 4,
+    NUMBER_5 = 5
 }
 
