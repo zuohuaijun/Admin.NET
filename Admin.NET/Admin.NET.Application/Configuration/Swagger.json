@@ -29,6 +29,8 @@
                 }
             }
         ],
+        "DefaultGroupName": "Default", // 默认分组名
+        "DocExpansionState": "List", // List、Full、None
         "EnableAllGroups": true,
         "LoginInfo": {
             "Enabled": false, // 是否开启Swagger登录
