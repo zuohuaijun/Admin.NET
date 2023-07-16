@@ -51,9 +51,11 @@ public static class CodeGenUtil
     }
 
     // 根据数据库类型来处理对应的数据字段类型
-    public static string ConvertDataType(DbColumnInfo dbColumnInfo)
+    public static string ConvertDataType(DbColumnInfo dbColumnInfo, DbType dbType = DbType.Custom)
     {
-        var dbType = App.GetOptions<DbConnectionOptions>().ConnectionConfigs[0].DbType;
+        if (dbType == DbType.Custom)
+            dbType = App.GetOptions<DbConnectionOptions>().ConnectionConfigs[0].DbType;
+
         var dataType = dbType switch
         {
             DbType.Oracle => ConvertDataType_OracleSQL(string.IsNullOrEmpty(dbColumnInfo.OracleDataType) ? dbColumnInfo.DataType : dbColumnInfo.OracleDataType, dbColumnInfo.Length, dbColumnInfo.Scale),

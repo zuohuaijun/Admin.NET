@@ -207,7 +207,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
 
-        string[] dbColumnNames;//= _codeGenOptions.EntityBaseColumn[input.BaseClassName];
+        string[] dbColumnNames; // = _codeGenOptions.EntityBaseColumn[input.BaseClassName];
         _codeGenOptions.EntityBaseColumn.TryGetValue(input.BaseClassName, out dbColumnNames);
         if (dbColumnNames is null || dbColumnNames is { Length: 0 })
             throw Oops.Oh("基类配置文件不存在此类型");
@@ -220,10 +220,10 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.db1001);
 
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
-        dbColumnInfos.ForEach(m =>
+        dbColumnInfos.ForEach(u =>
         {
-            m.DbColumnName = config.EnableUnderLine ? CodeGenUtil.CamelColumnName(m.DbColumnName, dbColumnNames) : m.DbColumnName;//转下划线后的列名 需要转回来
-            m.DataType = CodeGenUtil.ConvertDataType(m);
+            u.DbColumnName = config.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, dbColumnNames) : u.DbColumnName; // 转下划线后的列名需要转回来
+            u.DataType = CodeGenUtil.ConvertDataType(u, config.DbType);
         });
         if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))
             dbColumnInfos = dbColumnInfos.Where(c => !dbColumnNames.Contains(c.DbColumnName, StringComparer.OrdinalIgnoreCase)).ToList();

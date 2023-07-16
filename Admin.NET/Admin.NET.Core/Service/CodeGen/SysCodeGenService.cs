@@ -186,7 +186,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             ColumnName = config.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
             DataType = u.DataType.ToString(),
-            NetType = CodeGenUtil.ConvertDataType(u),
+            NetType = CodeGenUtil.ConvertDataType(u, provider.CurrentConnectionConfig.DbType),
             ColumnComment = u.ColumnDescription
         }).ToList();
     }
@@ -212,8 +212,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             //转下划线后的列名 需要转回来
             ColumnName = config.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
-            NetType = CodeGenUtil.ConvertDataType(u),
-            DataType = CodeGenUtil.ConvertDataType(u),
+            NetType = CodeGenUtil.ConvertDataType(u, provider.CurrentConnectionConfig.DbType),
+            DataType = CodeGenUtil.ConvertDataType(u, provider.CurrentConnectionConfig.DbType),
             ColumnComment = string.IsNullOrWhiteSpace(u.ColumnDescription) ? u.DbColumnName : u.ColumnDescription
         }).ToList();
     }
