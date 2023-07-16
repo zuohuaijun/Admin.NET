@@ -27,8 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Admin.NET.Core\Admin.NET.Core.csproj" />
-    <ProjectReference Include="..\Plugins\Admin.NET.Plugin.Elsa\Admin.NET.Plugin.Elsa.csproj" />
-    <ProjectReference Include="..\Plugins\Admin.NET.Plugin.GoView\Admin.NET.Plugin.GoView.csproj" />
   </ItemGroup>
 
   <ItemGroup>

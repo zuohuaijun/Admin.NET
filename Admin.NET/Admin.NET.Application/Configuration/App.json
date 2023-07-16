@@ -11,11 +11,12 @@
     },
     "DynamicApiControllerSettings": {
         //"DefaultRoutePrefix": "api", // 默认路由前缀
-        "CamelCaseSeparator": "", // 骆驼(驼峰)/帕斯卡命名分隔符
+        "CamelCaseSeparator": "-", // 驼峰命名分隔符
+        "SplitCamelCase": true, // 切割骆驼(驼峰)/帕斯卡命名
         "LowercaseRoute": false, // 小写路由格式
-        "AsLowerCamelCase": true // 启用小驼峰命名（首字母小写）
-        //"KeepVerb": false // 保留动作谓词
-        //"KeepName": true // 保留默认名称
+        "AsLowerCamelCase": true, // 小驼峰命名（首字母小写）
+        "KeepVerb": false, // 保留动作方法请求谓词
+        "KeepName": true // 保持原有名称不处理
     },
     "FriendlyExceptionSettings": {
         "DefaultErrorMessage": "系统异常，请联系管理员",
