@@ -24,7 +24,7 @@
         "LogError": false // 是否输出异常日志
     },
     "LocalizationSettings": {
-        "SupportedCultures": [ "zh-CN", "en-US" ], // 语言列表
+        "SupportedCultures": [ "zh-CN", "en" ], // 语言列表
         "DefaultCulture": "zh-CN", // 默认语言
         "DateTimeFormatCulture": "zh-CN" // 固定时间区域为特定时区（多语言）
     },
