@@ -37,6 +37,12 @@ public class SysOrg : EntityTenant
     public string? Code { get; set; }
 
     /// <summary>
+    /// 级别
+    /// </summary>
+    [SugarColumn(ColumnDescription = "级别")]
+    public int Level { get; set; }
+
+    /// <summary>
     /// 机构类型
     /// </summary>
     [SugarColumn(ColumnDescription = "机构类型", Length = 64)]

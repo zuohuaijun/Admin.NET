@@ -35,6 +35,7 @@
 					<el-table :data="state.orgData" style="width: 100%" v-loading="state.loading" row-key="id" default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
 						<el-table-column prop="name" label="机构名称" header-align="center" show-overflow-tooltip />
 						<el-table-column prop="code" label="机构编码" align="center" show-overflow-tooltip />
+						<el-table-column prop="level" label="级别" width="70" align="center" show-overflow-tooltip />
 						<el-table-column prop="orgType" label="机构类型" align="center" :formatter="dictFormatter" show-overflow-tooltip />
 						<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
