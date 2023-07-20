@@ -1,8 +1,16 @@
 <template>
 	<div class="sys-print-container">
 		<div class="printDialog">
-			<el-dialog v-model="state.isShowDialog" :show-close="false" :close-on-click-modal="false" fullscreen>
-				<Designer @onDesigned="onDesigned" :autoConnect="false" theme="bumblebee" style="margin: -20px -19px -20px -19px; height: calc(100vh - 45px) !important" />
+			<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" fullscreen>
+				<template #header>
+					<div style="color: #fff">
+						<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
+						<span> {{ props.title }} </span>
+					</div>
+				</template>
+				<div style="margin: -16px 0px 0px 0px">
+					<HiprintDesign ref="hiprintDesignRef" />
+				</div>
 				<template #footer>
 					<span class="dialog-footer" style="margin-top: 10px">
 						<el-button @click="cancel">取 消</el-button>
@@ -48,8 +56,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="cancel2">取 消</el-button>
-					<el-button type="primary" @click="submit2">确 定</el-button>
+					<el-button @click="templateCancel">取 消</el-button>
+					<el-button type="primary" @click="templateSubmit">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
@@ -58,19 +66,18 @@
 
 <script lang="ts" setup name="sysEditPrint">
 import { onMounted, reactive, ref } from 'vue';
-import 'sv-print/dist/style.css';
-import { Designer } from '@sv-print/vue3';
-import { disAutoConnect } from '@sv-print/hiprint';
+import HiprintDesign from '/@/views/system/print/component/hiprint/index.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysPrintApi } from '/@/api-services/api';
 import { UpdatePrintInput } from '/@/api-services/models';
 
+const hiprintDesignRef = ref<InstanceType<typeof HiprintDesign>>();
+
 const props = defineProps({
 	title: String,
 });
 const emits = defineEmits(['handleQuery']);
-let svPrint = ref();
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -78,16 +85,22 @@ const state = reactive({
 	showDialog2: false,
 });
 
-onMounted(async () => {
-	disAutoConnect();
-});
+onMounted(async () => {});
 
 // 打开弹窗
 const openDialog = (row: any) => {
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	state.isShowDialog = true;
 
-	if (svPrint.value != undefined) loadTemplate();
+	if (hiprintDesignRef.value != undefined) loadTemplate();
+};
+
+// 加载模板
+const loadTemplate = () => {
+	hiprintDesignRef.value?.hiprintTemplate.clear();
+	if (JSON.stringify(state.ruleForm) !== '{}') {
+		hiprintDesignRef.value?.hiprintTemplate.update(JSON.parse(state.ruleForm.template));
+	}
 };
 
 // 取消
@@ -102,36 +115,21 @@ const submit = async () => {
 	if (state.ruleForm.status == undefined) state.ruleForm.status = 1;
 };
 
-// 打印模板页面初始化
-const onDesigned = (e: any) => {
-	svPrint.value = e.detail;
-
-	loadTemplate();
-};
-
-// 加载已有模板
-const loadTemplate = () => {
-	svPrint.value.printTemplate.clear();
-	if (JSON.stringify(state.ruleForm) !== '{}') {
-		svPrint.value.printTemplate.update(JSON.parse(state.ruleForm.template));
-	}
-};
-
-// 取消
-const cancel2 = () => {
+// 模板设置取消
+const templateCancel = () => {
 	state.showDialog2 = false;
 };
 
-// 提交
-const submit2 = async () => {
-	state.ruleForm.template = JSON.stringify(svPrint.value.printTemplate.getJson());
+// 模板设置提交
+const templateSubmit = async () => {
+	state.ruleForm.template = JSON.stringify(hiprintDesignRef.value?.hiprintTemplate.getJson());
 	if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 		await getAPI(SysPrintApi).apiSysPrintUpdatePost(state.ruleForm);
 	} else {
 		await getAPI(SysPrintApi).apiSysPrintAddPost(state.ruleForm);
 	}
 	cancel();
-	cancel2();
+	templateCancel();
 	emits('handleQuery');
 };
 

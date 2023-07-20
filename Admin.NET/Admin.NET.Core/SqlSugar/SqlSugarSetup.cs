@@ -58,7 +58,8 @@ public static class SqlSugarSetup
         {
             EntityNameService = (type, entity) => // 处理表
             {
-                // 只处理贴了特性 SugarTable 表
+                entity.IsDisabledDelete = true; // 禁止删除非 sqlsugar 创建的列
+                // 只处理贴了特性[SugarTable]表
                 if (!type.GetCustomAttributes<SugarTable>().Any())
                     return;
                 if (config.EnableUnderLine && !entity.DbTableName.Contains('_'))
@@ -66,7 +67,7 @@ public static class SqlSugarSetup
             },
             EntityService = (type, column) => // 处理列
             {
-                // 只处理贴了特性 SugarColumn 列
+                // 只处理贴了特性[SugarColumn]列
                 if (!type.GetCustomAttributes<SugarColumn>().Any())
                     return;
                 if (new NullabilityInfoContext().Create(type).WriteState is NullabilityState.Nullable)
