@@ -59,14 +59,12 @@ export const useUserInfo = defineStore('userInfo', {
 						// 增加了下面代码，引起当前会话的用户信息不会刷新，如：重新提交的头像不更新，需要新开一个页面才能正确显示
 						// Session.set('userInfo', userInfos);
 
-						// 读取用户配置
-						const configRes: any = await getAPI(SysAuthApi).apiSysAuthUserConfigGet();
+						// 水印配置
+						const configRes: any = await getAPI(SysAuthApi).apiSysAuthWatermarkConfigGet();
 						if (configRes.data.result == null) return;
 
 						const configData = configRes.data.result;
 						const storesThemeConfig = useThemeConfig();
-
-						// 是否设置水印
 						storesThemeConfig.themeConfig.isWatermark = configData.watermarkEnabled;
 						if (storesThemeConfig.themeConfig.isWatermark) Watermark.set(storesThemeConfig.themeConfig.watermarkText);
 						else Watermark.del();

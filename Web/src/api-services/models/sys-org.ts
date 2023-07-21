@@ -84,7 +84,7 @@ export interface SysOrg {
      * @type {number}
      * @memberof SysOrg
      */
-    level?: number;
+    level?: number | null;
     /**
      * 机构类型
      * @type {string}

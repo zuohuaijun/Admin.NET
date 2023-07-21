@@ -51,8 +51,9 @@
 				<el-table-column prop="id" label="存储标识" align="center" show-overflow-tooltip />
 				<!-- <el-table-column prop="userName" label="上传者" align="center" show-overflow-tooltip/> -->
 				<el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip />
-				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="200" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
+						<el-button icon="ele-View" size="small" text type="primary" @click="openPdfDialog(scope.row)" v-auth="'sysFile:delete'"> 预览 </el-button>
 						<el-button icon="ele-Download" size="small" text type="primary" @click="downloadFile(scope.row)" v-auth="'sysFile:downloadFile'"> 下载 </el-button>
 						<el-button icon="ele-Delete" size="small" text type="danger" @click="delFile(scope.row)" v-auth="'sysFile:delete'"> 删除 </el-button>
 					</template>
@@ -71,7 +72,7 @@
 			/>
 		</el-card>
 
-		<el-dialog v-model="state.dialogVisible" :lock-scroll="false" draggable width="400px">
+		<el-dialog v-model="state.dialogUploadVisible" :lock-scroll="false" draggable width="400px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-UploadFilled /> </el-icon>
@@ -91,17 +92,22 @@
 			</div>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @click="state.dialogVisible = false">取消</el-button>
+					<el-button @click="state.dialogUploadVisible = false">取消</el-button>
 					<el-button type="primary" @click="uploadFile">确定</el-button>
 				</span>
 			</template>
 		</el-dialog>
+
+		<el-drawer title="PDF预览" v-model="state.dialogPdfVisible" size="40%" destroy-on-close>
+			<PDFViewer :pdfUrl="state.pdfUrl" />
+		</el-drawer>
 	</div>
 </template>
 
 <script lang="ts" setup name="sysFile">
 import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage, UploadInstance } from 'element-plus';
+import PDFViewer from '/@/views/system/file/component/PDFViewer.vue';
 
 import { downloadByUrl } from '/@/utils/download';
 import { getAPI } from '/@/utils/axios-utils';
@@ -123,8 +129,10 @@ const state = reactive({
 		pageSize: 10,
 		total: 0 as any,
 	},
-	dialogVisible: false,
+	dialogUploadVisible: false,
+	dialogPdfVisible: false,
 	fileList: [] as any,
+	pdfUrl: '',
 });
 
 onMounted(async () => {
@@ -155,7 +163,7 @@ const resetQuery = () => {
 // 打开上传页面
 const openUploadDialog = () => {
 	state.fileList = [];
-	state.dialogVisible = true;
+	state.dialogUploadVisible = true;
 };
 
 // 通过onChanne方法获得文件列表
@@ -169,7 +177,7 @@ const uploadFile = async () => {
 	await getAPI(SysFileApi).apiSysFileUploadFilePostForm(state.fileList[0].raw);
 	handleQuery();
 	ElMessage.success('上传成功');
-	state.dialogVisible = false;
+	state.dialogUploadVisible = false;
 };
 
 // 下载
@@ -192,6 +200,16 @@ const delFile = (row: any) => {
 			ElMessage.success('删除成功');
 		})
 		.catch(() => {});
+};
+
+// 打开Pdf预览页面
+const openPdfDialog = async (row: any) => {
+	if (row.suffix != '.pdf') {
+		ElMessage.error('只能预览PDF文件');
+		return;
+	}
+	state.pdfUrl = getFileUrl(row);
+	state.dialogPdfVisible = true;
 };
 
 // 改变页面容量

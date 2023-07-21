@@ -29,7 +29,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
     return {
         /**
          * 
-         * @summary swagger登录检查
+         * @summary Swagger登录检查
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -72,7 +72,7 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary swagger登录提交
+         * @summary Swagger登录提交
          * @param {string} [userName] 
          * @param {string} [password] 
          * @param {*} [options] Override http request option.
@@ -359,12 +359,12 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 获取用户配置
+         * @summary 获取登录账号
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysAuthUserConfigGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/sysAuth/userConfig`;
+        apiSysAuthUserInfoGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysAuth/userInfo`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -402,12 +402,12 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 获取登录账号
+         * @summary 获取水印配置
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysAuthUserInfoGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/sysAuth/userInfo`;
+        apiSysAuthWatermarkConfigGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysAuth/watermarkConfig`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -454,7 +454,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
-         * @summary swagger登录检查
+         * @summary Swagger登录检查
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -467,7 +467,7 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary swagger登录提交
+         * @summary Swagger登录提交
          * @param {string} [userName] 
          * @param {string} [password] 
          * @param {*} [options] Override http request option.
@@ -549,12 +549,12 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取用户配置
+         * @summary 获取登录账号
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysAuthUserConfigGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).apiSysAuthUserConfigGet(options);
+        async apiSysAuthUserInfoGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultLoginUserOutput>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).apiSysAuthUserInfoGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -562,12 +562,12 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取登录账号
+         * @summary 获取水印配置
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysAuthUserInfoGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultLoginUserOutput>>> {
-            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).apiSysAuthUserInfoGet(options);
+        async apiSysAuthWatermarkConfigGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).apiSysAuthWatermarkConfigGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -584,7 +584,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
     return {
         /**
          * 
-         * @summary swagger登录检查
+         * @summary Swagger登录检查
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -593,7 +593,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary swagger登录提交
+         * @summary Swagger登录提交
          * @param {string} [userName] 
          * @param {string} [password] 
          * @param {*} [options] Override http request option.
@@ -651,21 +651,21 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 获取用户配置
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysAuthUserConfigGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
-            return SysAuthApiFp(configuration).apiSysAuthUserConfigGet(options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary 获取登录账号
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
         async apiSysAuthUserInfoGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultLoginUserOutput>> {
             return SysAuthApiFp(configuration).apiSysAuthUserInfoGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取水印配置
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysAuthWatermarkConfigGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysAuthApiFp(configuration).apiSysAuthWatermarkConfigGet(options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -679,7 +679,7 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
 export class SysAuthApi extends BaseAPI {
     /**
      * 
-     * @summary swagger登录检查
+     * @summary Swagger登录检查
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysAuthApi
@@ -689,7 +689,7 @@ export class SysAuthApi extends BaseAPI {
     }
     /**
      * 
-     * @summary swagger登录提交
+     * @summary Swagger登录提交
      * @param {string} [userName] 
      * @param {string} [password] 
      * @param {*} [options] Override http request option.
@@ -753,16 +753,6 @@ export class SysAuthApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 获取用户配置
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysAuthApi
-     */
-    public async apiSysAuthUserConfigGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
-        return SysAuthApiFp(this.configuration).apiSysAuthUserConfigGet(options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
      * @summary 获取登录账号
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
@@ -770,5 +760,15 @@ export class SysAuthApi extends BaseAPI {
      */
     public async apiSysAuthUserInfoGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultLoginUserOutput>> {
         return SysAuthApiFp(this.configuration).apiSysAuthUserInfoGet(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取水印配置
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysAuthApi
+     */
+    public async apiSysAuthWatermarkConfigGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysAuthApiFp(this.configuration).apiSysAuthWatermarkConfigGet(options).then((request) => request(this.axios, this.basePath));
     }
 }

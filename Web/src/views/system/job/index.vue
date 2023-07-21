@@ -172,7 +172,7 @@
 					</template>
 				</el-table-column>
 				<el-table-column prop="jobDetail.updatedTime" label="更新时间" width="130" align="center" show-overflow-tooltip />
-				<el-table-column label="操作" width="220" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="200" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tooltip content="增加触发器">
 							<el-button size="small" type="primary" icon="ele-CirclePlus" text @click="openAddJobTrigger(scope.row)"> </el-button>

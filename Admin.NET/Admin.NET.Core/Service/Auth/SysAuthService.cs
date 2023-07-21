@@ -8,10 +8,7 @@
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
 using Furion.SpecificationDocument;
-
 using Lazy.Captcha.Core;
-
-using Microsoft.Extensions.Caching.Memory;
 
 namespace Admin.NET.Core.Service;
 
@@ -199,14 +196,13 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取用户配置
+    /// 获取水印配置
     /// </summary>
     /// <returns></returns>
     [SuppressMonitor]
-    [DisplayName("获取用户配置")]
-    public async Task<dynamic> GetUserConfig()
+    [DisplayName("获取水印配置")]
+    public async Task<dynamic> GetWatermarkConfig()
     {
-        //返回用户和通用配置
         var watermarkEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysWatermark);
         return new { WatermarkEnabled = watermarkEnabled };
     }
@@ -226,25 +222,25 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// swagger登录检查
+    /// Swagger登录检查
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("/api/swagger/checkUrl"), NonUnify]
-    [DisplayName("swagger登录检查")]
+    [DisplayName("Swagger登录检查")]
     public int SwaggerCheckUrl()
     {
         return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated ? 200 : 401;
     }
 
     /// <summary>
-    /// swagger登录提交
+    /// Swagger登录提交
     /// </summary>
     /// <param name="auth"></param>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("/api/swagger/submitUrl"), NonUnify]
-    [DisplayName("swagger登录提交")]
+    [DisplayName("Swagger登录提交")]
     public async Task<int> SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
     {
         try
