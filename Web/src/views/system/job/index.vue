@@ -177,6 +177,9 @@
 						<el-tooltip content="增加触发器">
 							<el-button size="small" type="primary" icon="ele-CirclePlus" text @click="openAddJobTrigger(scope.row)"> </el-button>
 						</el-tooltip>
+						<el-tooltip content="执行作业">
+							<el-button size="small" type="primary" icon="ele-CircleCheck" text @click="runJob(scope.row)" />
+						</el-tooltip>
 						<el-tooltip content="启动作业">
 							<el-button size="small" type="primary" icon="ele-VideoPlay" text @click="startJob(scope.row)" />
 						</el-tooltip>
@@ -348,6 +351,12 @@ const startAllJob = async () => {
 const pauseAllJob = async () => {
 	await getAPI(SysJobApi).apiSysJobPauseAllJobPost();
 	ElMessage.success('暂停所有作业');
+};
+
+// 执行某个作业
+const runJob = async (row: JobOutput) => {
+	await getAPI(SysJobApi).apiSysJobRunJobPost({ jobId: row.jobDetail?.jobId });
+	ElMessage.success('执行作业');
 };
 
 // 启动某个作业
