@@ -77,13 +77,15 @@
 	width: 220px;
 }
 .el-menu-item {
-	height: 50px !important;
-	line-height: 50px !important;
+	height: 45px !important;
+	line-height: 45px !important;
 	margin: 0 0 1px 0;
 }
-.el-menu-item,
+//.el-menu-item,
 .el-sub-menu__title {
 	color: var(--next-bg-menuBarColor);
+	height: 50px !important;
+	line-height: 50px !important;
 }
 // 修复点击左侧菜单折叠再展开时，宽度不跟随问题
 .el-menu--collapse {
@@ -157,12 +159,12 @@
 		background: var(--next-bg-topBar);
 		.el-menu-item,
 		.el-sub-menu {
-			height: 48px !important;
-			line-height: 48px !important;
+			height: 45px !important;
+			line-height: 45px !important;
 			color: var(--next-bg-topBarColor);
 			.el-sub-menu__title {
-				height: 48px !important;
-				line-height: 48px !important;
+				height: 45px !important;
+				line-height: 45px !important;
 				color: var(--next-bg-topBarColor);
 			}
 			.el-popper.is-pure.is-light {
@@ -194,7 +196,7 @@
 	width: 100% !important;
 	.el-menu-item,
 	.el-sub-menu__title {
-		height: 48px !important;
+		height: 50px !important;
 		color: var(--next-bg-topBarColor);
 	}
 	.el-menu-item:not(.is-active):hover,

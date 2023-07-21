@@ -1,11 +1,11 @@
 <template>
 	<div class="layout-breadcrumb-seting">
-		<el-drawer :title="$t('message.layout.configTitle')" v-model="getThemeConfig.isDrawer" direction="rtl" destroy-on-close size="260px" @close="onDrawerClose">
+		<el-drawer :title="$t('message.layout.configTitle')" v-model="getThemeConfig.isDrawer" direction="rtl" destroy-on-close size="280px" @close="onDrawerClose">
 			<el-scrollbar class="layout-breadcrumb-seting-bar">
 				<!-- 全局主题 -->
-				<el-divider content-position="left">{{ $t('message.layout.oneTitle') }}</el-divider>
+				<el-divider content-position="center">{{ $t('message.layout.oneTitle') }}</el-divider>
 				<div class="layout-breadcrumb-seting-bar-flex">
-					<div class="layout-breadcrumb-seting-bar-flex-label">primary</div>
+					<div class="layout-breadcrumb-seting-bar-flex-label">主题颜色</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
 						<el-color-picker v-model="getThemeConfig.primary" size="default" @change="onColorPickerChange"> </el-color-picker>
 					</div>
@@ -18,7 +18,7 @@
 				</div>
 
 				<!-- 顶栏设置 -->
-				<el-divider content-position="left">{{ $t('message.layout.twoTopTitle') }}</el-divider>
+				<el-divider content-position="center">{{ $t('message.layout.twoTopTitle') }}</el-divider>
 				<div class="layout-breadcrumb-seting-bar-flex">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoTopBar') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
@@ -39,7 +39,7 @@
 				</div>
 
 				<!-- 菜单设置 -->
-				<el-divider content-position="left">{{ $t('message.layout.twoMenuTitle') }}</el-divider>
+				<el-divider content-position="center">{{ $t('message.layout.twoMenuTitle') }}</el-divider>
 				<div class="layout-breadcrumb-seting-bar-flex">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoMenuBar') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
@@ -66,7 +66,7 @@
 				</div>
 
 				<!-- 分栏设置 -->
-				<el-divider content-position="left" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">{{ $t('message.layout.twoColumnsTitle') }}</el-divider>
+				<el-divider content-position="center" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">{{ $t('message.layout.twoColumnsTitle') }}</el-divider>
 				<div class="layout-breadcrumb-seting-bar-flex" :style="{ opacity: getThemeConfig.layout !== 'columns' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.twoColumnsMenuBar') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
@@ -95,7 +95,7 @@
 				</div>
 
 				<!-- 界面设置 -->
-				<el-divider content-position="left">{{ $t('message.layout.threeTitle') }}</el-divider>
+				<el-divider content-position="center">{{ $t('message.layout.threeTitle') }}</el-divider>
 				<div class="layout-breadcrumb-seting-bar-flex" :style="{ opacity: getThemeConfig.layout === 'transverse' ? 0.5 : 1 }">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeIsCollapse') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
@@ -129,12 +129,13 @@
 				<div class="layout-breadcrumb-seting-bar-flex mt11">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.threeLockScreenTime') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-input-number v-model="getThemeConfig.lockScreenTime" controls-position="right" :min="1" :max="9999" @change="setLocalThemeConfig" size="default" style="width: 90px"> </el-input-number>
+						<el-input-number v-model="getThemeConfig.lockScreenTime" controls-position="right" :min="1" :max="9999" @change="setLocalThemeConfig" size="small" style="width: 90px; margin-right: 1px">
+						</el-input-number>
 					</div>
 				</div>
 
 				<!-- 界面显示 -->
-				<el-divider content-position="left">{{ $t('message.layout.fourTitle') }}</el-divider>
+				<el-divider content-position="center">{{ $t('message.layout.fourTitle') }}</el-divider>
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fourIsShowLogo') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
@@ -216,16 +217,16 @@
 				<div class="layout-breadcrumb-seting-bar-flex mt14">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fourWatermarkText') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-input v-model="getThemeConfig.watermarkText" size="default" style="width: 90px" @input="onWatermarkTextInput"></el-input>
+						<el-input v-model="getThemeConfig.watermarkText" size="small" style="width: 90px; margin-right: 1px" @input="onWatermarkTextInput" disabled></el-input>
 					</div>
 				</div>
 
 				<!-- 其它设置 -->
-				<el-divider content-position="left">{{ $t('message.layout.fiveTitle') }}</el-divider>
+				<el-divider content-position="center">{{ $t('message.layout.fiveTitle') }}</el-divider>
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fiveTagsStyle') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-select v-model="getThemeConfig.tagsStyle" placeholder="请选择" size="default" style="width: 90px" @change="setLocalThemeConfig">
+						<el-select v-model="getThemeConfig.tagsStyle" placeholder="请选择" size="small" style="width: 90px; margin-right: 1px" @change="setLocalThemeConfig">
 							<el-option label="风格1" value="tags-style-one"></el-option>
 							<el-option label="风格4" value="tags-style-four"></el-option>
 							<el-option label="风格5" value="tags-style-five"></el-option>
@@ -235,7 +236,7 @@
 				<div class="layout-breadcrumb-seting-bar-flex mt15">
 					<div class="layout-breadcrumb-seting-bar-flex-label">{{ $t('message.layout.fiveAnimation') }}</div>
 					<div class="layout-breadcrumb-seting-bar-flex-value">
-						<el-select v-model="getThemeConfig.animation" placeholder="请选择" size="default" style="width: 90px" @change="setLocalThemeConfig">
+						<el-select v-model="getThemeConfig.animation" placeholder="请选择" size="small" style="width: 90px; margin-right: 1px" @change="setLocalThemeConfig">
 							<el-option label="slide-right" value="slide-right"></el-option>
 							<el-option label="slide-left" value="slide-left"></el-option>
 							<el-option label="opacitys" value="opacitys"></el-option>
@@ -272,8 +273,8 @@
 						<el-select
 							v-model="getThemeConfig.columnsAsideStyle"
 							placeholder="请选择"
-							size="default"
-							style="width: 90px"
+							size="small"
+							style="width: 90px; margin-right: 1px"
 							:disabled="getThemeConfig.layout !== 'columns' ? true : false"
 							@change="setLocalThemeConfig"
 						>
@@ -288,8 +289,8 @@
 						<el-select
 							v-model="getThemeConfig.columnsAsideLayout"
 							placeholder="请选择"
-							size="default"
-							style="width: 90px"
+							size="small"
+							style="width: 90px; margin-right: 1px"
 							:disabled="getThemeConfig.layout !== 'columns' ? true : false"
 							@change="setLocalThemeConfig"
 						>
@@ -300,7 +301,7 @@
 				</div>
 
 				<!-- 布局切换 -->
-				<el-divider content-position="left">{{ $t('message.layout.sixTitle') }}</el-divider>
+				<el-divider content-position="center">{{ $t('message.layout.sixTitle') }}</el-divider>
 				<div class="layout-drawer-content-flex">
 					<!-- defaults 布局 -->
 					<div class="layout-drawer-content-item" @click="onSetLayout('defaults')">
