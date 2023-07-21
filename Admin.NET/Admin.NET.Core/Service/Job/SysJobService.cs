@@ -280,6 +280,17 @@ public class SysJobService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 执行作业
+    /// </summary>
+    /// <param name="input"></param>
+    [DisplayName("执行作业")]
+    public void RunJob(JobDetailInput input)
+    {
+        if (_schedulerFactory.TryRunJob(input.JobId) != ScheduleResult.Succeed)
+            throw Oops.Oh(ErrorCodeEnum.D1705);
+    }
+
+    /// <summary>
     /// 暂停触发器
     /// </summary>
     [DisplayName("暂停触发器")]

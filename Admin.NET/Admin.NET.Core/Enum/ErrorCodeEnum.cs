@@ -521,6 +521,12 @@ public enum ErrorCodeEnum
     D1704,
 
     /// <summary>
+    /// 执行作业失败
+    /// </summary>
+    [ErrorCodeItemMetadata("执行作业失败")]
+    D1705,
+
+    /// <summary>
     /// 已存在同名打印模板
     /// </summary>
     [ErrorCodeItemMetadata("已存在同名打印模板")]
