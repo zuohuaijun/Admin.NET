@@ -8,7 +8,9 @@
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
 using Furion.SpecificationDocument;
+
 using Lazy.Captcha.Core;
+
 using Microsoft.Extensions.Caching.Memory;
 
 namespace Admin.NET.Core.Service;
@@ -25,7 +27,6 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly SysMenuService _sysMenuService;
     private readonly SysOnlineUserService _sysOnlineUserService;
     private readonly SysConfigService _sysConfigService;
-    private readonly IMemoryCache _cache;
     private readonly ICaptcha _captcha;
 
     public SysAuthService(UserManager userManager,
@@ -34,7 +35,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         SysMenuService sysMenuService,
         SysOnlineUserService sysOnlineUserService,
         SysConfigService sysConfigService,
-        IMemoryCache cache,
         ICaptcha captcha)
     {
         _userManager = userManager;
@@ -43,7 +43,6 @@ public class SysAuthService : IDynamicApiController, ITransient
         _sysMenuService = sysMenuService;
         _sysOnlineUserService = sysOnlineUserService;
         _sysConfigService = sysConfigService;
-        _cache = cache;
         _captcha = captcha;
     }
 
@@ -235,7 +234,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     [DisplayName("swagger登录检查")]
     public int SwaggerCheckUrl()
     {
-        return _cache.Get<bool>(CacheConst.SwaggerLogin) ? 200 : 401;
+        return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated ? 200 : 401;
     }
 
     /// <summary>
@@ -246,15 +245,20 @@ public class SysAuthService : IDynamicApiController, ITransient
     [AllowAnonymous]
     [HttpPost("/api/swagger/submitUrl"), NonUnify]
     [DisplayName("swagger登录提交")]
-    public int SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
+    public async Task<int> SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
     {
-        var userName = App.GetConfig<string>("SpecificationDocumentSettings:LoginInfo:UserName");
-        var password = App.GetConfig<string>("SpecificationDocumentSettings:LoginInfo:Password");
-        if (auth.UserName == userName && auth.Password == password)
+        try
         {
-            _cache.Set<bool>(CacheConst.SwaggerLogin, true);
+            await Login(new LoginInput
+            {
+                Password = auth.Password,
+                Account = auth.UserName
+            });
             return 200;
         }
-        return 401;
+        catch (Exception)
+        {
+            return 401;
+        }
     }
 }
