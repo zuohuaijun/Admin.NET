@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Admin.NET.Application\Admin.NET.Application.csproj" />
+    <ProjectReference Include="..\..\..\项目列表\酒店管理\Code\Admin.NET\Daming.Hotel.Application\Daming.Hotel.Application.csproj" />
     <ProjectReference Include="..\Admin.NET.Core\Admin.NET.Core.csproj" />
   </ItemGroup>
 

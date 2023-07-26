@@ -264,8 +264,7 @@ public static class SqlSugarSetup
             if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
             if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
 
-            var splitTable = entityType.GetCustomAttribute<SplitTableAttribute>();
-            if (splitTable == null)
+            if (entityType.GetCustomAttribute<SplitTableAttribute>() == null)
                 dbProvider.CodeFirst.InitTables(entityType);
             else
                 dbProvider.CodeFirst.SplitTables().InitTables(entityType);
