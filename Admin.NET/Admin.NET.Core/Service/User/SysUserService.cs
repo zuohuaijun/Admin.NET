@@ -45,8 +45,19 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("获取用户分页列表")]
     public async Task<SqlSugarPagedList<SysUser>> Page(PageUserInput input)
     {
-        var orgList = input.OrgId > 0 ? await _sysOrgService.GetChildIdListWithSelfById(input.OrgId) :
-            _userManager.SuperAdmin ? null : await _sysOrgService.GetUserOrgIdList(); // 各管理员只能看到自己机构下的用户列表
+        //得到用户可以管理的机构Id集
+        var userCanMangeList = await _sysOrgService.GetUserOrgIdList();
+        List<long> orgList = null;
+        if (input.OrgId > 0)  //指定选择的机构查询时
+        {
+            orgList = await _sysOrgService.GetChildIdListWithSelfById(input.OrgId);
+            orgList = _userManager.SuperAdmin ? orgList : orgList.Where(t => userCanMangeList.Contains(t)).ToList();
+        }
+        else
+        {
+            // 各管理员只能看到自己机构下的用户列表
+            orgList = _userManager.SuperAdmin ? null : userCanMangeList;
+        }
 
         return await _sysUserRep.AsQueryable()
             .Where(u => u.AccountType != AccountTypeEnum.SuperAdmin)
