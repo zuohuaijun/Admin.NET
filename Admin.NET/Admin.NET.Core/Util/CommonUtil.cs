@@ -102,7 +102,7 @@ public static class CommonUtil
         fileName = $"{fileName}_{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx";
 
         IImporter importer = new ExcelImporter();
-        MethodInfo generateTemplateMethod = typeof(ExcelImporter).GetMethod("GenerateTemplate");
+        MethodInfo generateTemplateMethod = importer.GetType().GetMethod("GenerateTemplate");
         MethodInfo closedGenerateTemplateMethod = generateTemplateMethod.MakeGenericMethod(fileDto.GetType());
         var res = await (Task<dynamic>)closedGenerateTemplateMethod.Invoke(importer, new object[] { Path.Combine(App.WebHostEnvironment.WebRootPath, fileName) });
 
@@ -121,7 +121,7 @@ public static class CommonUtil
         var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, newFile.FilePath, newFile.Name);
 
         IImporter importer = new ExcelImporter();
-        MethodInfo importMethod = typeof(ExcelImporter).GetMethod("Import");
+        MethodInfo importMethod = importer.GetType().GetMethod("Import");
         MethodInfo closedImportMethod = importMethod.MakeGenericMethod(dataDto.GetType());
         var res = await (Task<dynamic>)closedImportMethod.Invoke(importer, new object[] { filePath });
         if (res == null || res.Exception != null)
