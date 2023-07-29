@@ -255,8 +255,10 @@ public class SysOrgService : IDynamicApiController, ITransient
             roleList.ForEach(u =>
             {
                 if (u.DataScope == DataScopeEnum.Define)
+                {
                     customDataScopeRoleIdList.Add(u.Id);
-                    strongerDataScopeType = (int)u.DataScope;//自定义数据范围的时候 也要更新MaxDataScope
+                    strongerDataScopeType = (int)u.DataScope; // 自定义数据权限时也要更新最大范围
+                }
                 else if ((int)u.DataScope <= strongerDataScopeType)
                     strongerDataScopeType = (int)u.DataScope;
             });
