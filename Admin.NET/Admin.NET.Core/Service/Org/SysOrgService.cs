@@ -256,6 +256,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             {
                 if (u.DataScope == DataScopeEnum.Define)
                     customDataScopeRoleIdList.Add(u.Id);
+                    strongerDataScopeType = (int)u.DataScope;//自定义数据范围的时候 也要更新MaxDataScope
                 else if ((int)u.DataScope <= strongerDataScopeType)
                     strongerDataScopeType = (int)u.DataScope;
             });
