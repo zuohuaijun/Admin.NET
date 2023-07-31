@@ -190,8 +190,15 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     {
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
         db.DbMaintenance.RenameTable(input.OldTableName, input.TableName);
-        if (db.DbMaintenance.IsAnyTableRemark(input.TableName))
-            db.DbMaintenance.DeleteTableRemark(input.TableName);
+        try
+        {
+            if (db.DbMaintenance.IsAnyTableRemark(input.TableName))
+                db.DbMaintenance.DeleteTableRemark(input.TableName);
+        }
+        catch (NotSupportedException)
+        {
+            //Ignore 不支持该方法则不处理 
+        }
         db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
     }
 
