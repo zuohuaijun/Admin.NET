@@ -27,6 +27,7 @@
     <PackageReference Include="Magicodes.IE.Excel" Version="2.7.4.5" />
     <PackageReference Include="Magicodes.IE.Pdf" Version="2.7.4.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.20" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Protocols.NewtonsoftJson" Version="6.0.20" />
     <PackageReference Include="NEST" Version="7.17.5" />
     <PackageReference Include="NewLife.Redis" Version="5.4.2023.601" />
     <PackageReference Include="OnceMi.AspNetCore.OSS" Version="1.1.9" />
