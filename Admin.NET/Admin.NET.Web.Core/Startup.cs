@@ -67,7 +67,8 @@ public class Startup : AppStartup
             options.IgnorePropertyTypes = new[] { typeof(byte[]) };
         });
 
-        void SetJsonSetting(JsonSerializerSettings setting)
+        // Json序列化设置
+        static void SetNewtonsoftJsonSetting(JsonSerializerSettings setting)
         {
             setting.DateTimeZoneHandling = DateTimeZoneHandling.Local;
             setting.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
@@ -78,11 +79,11 @@ public class Startup : AppStartup
             // setting.MetadataPropertyHandling = MetadataPropertyHandling.Ignore; // 解决DateTimeOffset异常
             // setting.DateParseHandling = DateParseHandling.None; // 解决DateTimeOffset异常
             // setting.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }); // 解决DateTimeOffset异常
-        }
+        };
 
         services.AddControllersWithViews()
             .AddAppLocalization()
-            .AddNewtonsoftJson(options => SetJsonSetting(options.SerializerSettings))
+            .AddNewtonsoftJson(options => SetNewtonsoftJsonSetting(options.SerializerSettings))
             //.AddXmlSerializerFormatters()
             //.AddXmlDataContractSerializerFormatters()
             .AddInjectWithUnifyResult<AdminResultProvider>();
@@ -161,7 +162,7 @@ public class Startup : AppStartup
             {
                 options.KeepAliveInterval = TimeSpan.FromSeconds(5);
             })
-            .AddNewtonsoftJsonProtocol(options => SetJsonSetting(options.PayloadSerializerSettings));
+            .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
 
         // logo显示
         services.AddLogoDisplay();

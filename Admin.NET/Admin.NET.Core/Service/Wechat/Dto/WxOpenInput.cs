@@ -9,6 +9,9 @@
 
 namespace Admin.NET.Core.Service;
 
+/// <summary>
+/// 获取微信用户OpenId
+/// </summary>
 public class JsCode2SessionInput
 {
     /// <summary>
@@ -18,6 +21,9 @@ public class JsCode2SessionInput
     public string JsCode { get; set; }
 }
 
+/// <summary>
+/// 获取微信用户电话号码
+/// </summary>
 public class WxPhoneInput : WxOpenIdLoginInput
 {
     /// <summary>
@@ -27,6 +33,9 @@ public class WxPhoneInput : WxOpenIdLoginInput
     public string Code { get; set; }
 }
 
+/// <summary>
+/// 微信小程序登录
+/// </summary>
 public class WxOpenIdLoginInput
 {
     /// <summary>
@@ -36,6 +45,9 @@ public class WxOpenIdLoginInput
     public string OpenId { get; set; }
 }
 
+/// <summary>
+/// 微信手机号登录
+/// </summary>
 public class WxPhoneLoginInput
 {
     /// <summary>
@@ -45,6 +57,9 @@ public class WxPhoneLoginInput
     public string PhoneNumber { get; set; }
 }
 
+/// <summary>
+/// 发送订阅消息
+/// </summary>
 public class SendSubscribeMessageInput
 {
     /// <summary>
@@ -81,6 +96,9 @@ public class SendSubscribeMessageInput
     public string MiniProgramPagePath { get; set; }
 }
 
+/// <summary>
+/// 增加订阅消息模板
+/// </summary>
 public class AddSubscribeMessageTemplateInput
 {
     /// <summary>

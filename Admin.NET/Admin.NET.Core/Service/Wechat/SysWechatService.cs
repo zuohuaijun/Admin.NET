@@ -17,12 +17,14 @@ public class SysWechatService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
     private readonly WechatApiClient _wechatApiClient;
+    private readonly WechatApiHttpClient _wechatApiHttpClient;
 
     public SysWechatService(SqlSugarRepository<SysWechatUser> sysWechatUserRep,
         WechatApiHttpClient wechatApiHttpClient)
     {
         _sysWechatUserRep = sysWechatUserRep;
         _wechatApiClient = wechatApiHttpClient.CreateWechatClient();
+        _wechatApiHttpClient = wechatApiHttpClient;
     }
 
     /// <summary>
@@ -118,5 +120,80 @@ public class SysWechatService : IDynamicApiController, ITransient
         if (!response.IsSuccessful())
             throw Oops.Oh(response.ErrorMessage);
         return _wechatApiClient.GenerateParametersForJSSDKConfig(response.Ticket, input.Url);
+    }
+
+    /// <summary>
+    /// 获取模板列表
+    /// </summary>
+    [DisplayName("获取模板列表")]
+    public async Task<dynamic> GetMessageTemplateList()
+    {
+        var accessToken = await GetCgibinToken();
+        var reqTemplate = new CgibinTemplateGetAllPrivateTemplateRequest()
+        {
+            AccessToken = accessToken
+        };
+        var resTemplate = await _wechatApiClient.ExecuteCgibinTemplateGetAllPrivateTemplateAsync(reqTemplate);
+        if (resTemplate.ErrorCode != (int)WechatReturnCodeEnum.请求成功)
+            throw Oops.Oh(resTemplate.ErrorMessage + " " + resTemplate.ErrorCode);
+
+        return resTemplate.TemplateList;
+    }
+
+    /// <summary>
+    /// 发送模板消息
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [DisplayName("发送模板消息")]
+    public async Task<dynamic> SendTemplateMessage(MessageTemplateSendInput input)
+    {
+        var accessToken = await GetCgibinToken();
+        var reqMessage = new CgibinMessageTemplateSendRequest()
+        {
+            AccessToken = accessToken,
+            TemplateId = input.TemplateId,
+            ToUserOpenId = input.ToUserOpenId,
+            Url = input.Url,
+            MiniProgram = new CgibinMessageTemplateSendRequest.Types.MiniProgram
+            {
+                AppId = _wechatApiHttpClient._wechatOptions.WechatAppId,
+                PagePath = input.MiniProgramPagePath,
+            },
+            Data = input.Data
+        };
+        var resMessage = await _wechatApiClient.ExecuteCgibinMessageTemplateSendAsync(reqMessage);
+        return resMessage;
+    }
+
+    /// <summary>
+    /// 删除模板
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(Name = "DeleteMessageTemplate"), HttpPost]
+    [DisplayName("删除模板")]
+    public async Task<dynamic> DeleteMessageTemplate(DeleteMessageTemplateInput input)
+    {
+        var accessToken = await GetCgibinToken();
+        var reqMessage = new CgibinTemplateDeletePrivateTemplateRequest()
+        {
+            AccessToken = accessToken,
+            TemplateId = input.TemplateId
+        };
+        var resTemplate = await _wechatApiClient.ExecuteCgibinTemplateDeletePrivateTemplateAsync(reqMessage);
+        return resTemplate;
+    }
+
+    /// <summary>
+    /// 获取Access_token
+    /// </summary>
+    private async Task<string> GetCgibinToken()
+    {
+        var reqCgibinToken = new CgibinTokenRequest();
+        var resCgibinToken = await _wechatApiClient.ExecuteCgibinTokenAsync(reqCgibinToken);
+        if (resCgibinToken.ErrorCode != (int)WechatReturnCodeEnum.请求成功)
+            throw Oops.Oh(resCgibinToken.ErrorMessage + " " + resCgibinToken.ErrorCode);
+        return resCgibinToken.AccessToken;
     }
 }

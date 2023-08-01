@@ -117,7 +117,7 @@ public class SysWxOpenService : IDynamicApiController, ITransient
     /// 获取订阅消息模板列表
     /// </summary>
     [DisplayName("获取订阅消息模板列表")]
-    public async Task<dynamic> GetSubscribeMessageTemplateList()
+    public async Task<dynamic> GetMessageTemplateList()
     {
         var accessToken = await GetCgibinToken();
         var reqTemplate = new WxaApiNewTemplateGetTemplateRequest()
