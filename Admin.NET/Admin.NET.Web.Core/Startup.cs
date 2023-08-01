@@ -70,14 +70,14 @@ public class Startup : AppStartup
         void SetJsonSetting(JsonSerializerSettings setting)
         {
             setting.DateTimeZoneHandling = DateTimeZoneHandling.Local;
-                setting.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
-                setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
-                // setting.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 解决动态对象属性名大写
-                // setting.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
-                // setting.Converters.AddLongTypeConverters(); // long转string（防止js精度溢出） 超过16位开启
-                // setting.MetadataPropertyHandling = MetadataPropertyHandling.Ignore; // 解决DateTimeOffset异常
-                // setting.DateParseHandling = DateParseHandling.None; // 解决DateTimeOffset异常
-                // setting.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }); // 解决DateTimeOffset异常
+            setting.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
+            setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
+            // setting.ContractResolver = new CamelCasePropertyNamesContractResolver(); // 解决动态对象属性名大写
+            // setting.NullValueHandling = NullValueHandling.Ignore; // 忽略空值
+            // setting.Converters.AddLongTypeConverters(); // long转string（防止js精度溢出） 超过16位开启
+            // setting.MetadataPropertyHandling = MetadataPropertyHandling.Ignore; // 解决DateTimeOffset异常
+            // setting.DateParseHandling = DateParseHandling.None; // 解决DateTimeOffset异常
+            // setting.Converters.Add(new IsoDateTimeConverter { DateTimeStyles = DateTimeStyles.AssumeUniversal }); // 解决DateTimeOffset异常
         }
 
         services.AddControllersWithViews()
