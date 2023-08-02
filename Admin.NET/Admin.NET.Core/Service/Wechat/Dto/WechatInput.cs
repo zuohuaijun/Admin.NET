@@ -81,7 +81,7 @@ public class MessageTemplateSendInput
     /// 模板数据，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
     /// </summary>
     [Required(ErrorMessage = "模板数据不能为空")]
-    public Dictionary<string, CgibinMessageTemplateSendRequest.Types.DataItem> Data { get; set; }
+    public Dictionary<string, object> Data { get; set; }
 
     /// <summary>
     /// 模板跳转链接

@@ -160,7 +160,7 @@ public class SysWechatService : IDynamicApiController, ITransient
                 AppId = _wechatApiHttpClient._wechatOptions.WechatAppId,
                 PagePath = input.MiniProgramPagePath,
             },
-            Data = input.Data
+            Data = (IDictionary<string, CgibinMessageTemplateSendRequest.Types.DataItem>)input.Data
         };
         var resMessage = await _wechatApiClient.ExecuteCgibinMessageTemplateSendAsync(reqMessage);
         return resMessage;
