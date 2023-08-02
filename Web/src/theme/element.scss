@@ -185,7 +185,7 @@
 		}
 		// 鼠标 hover 时背景色
 		.el-menu-item:hover {
-			background-color: var(--el-color-primary-light-9)
+			background-color: var(--el-color-primary-light-9);
 		}
 	}
 }
@@ -206,10 +206,10 @@
 	}
 	// 鼠标 hover 时背景色
 	.el-menu-item:hover {
-		background-color: var(--el-color-primary-light-9)
+		background-color: var(--el-color-primary-light-9);
 	}
 	// 菜单激活时去掉全局右边框
-	.el-menu-item.is-active{
+	.el-menu-item.is-active {
 		border-right: none;
 	}
 }
@@ -294,14 +294,14 @@
 .el-dialog__footer {
 	// border-top: 1px solid var(--el-color-info-light-7);
 	padding-bottom: 10px;
-  }
-.el-dialog__headerbtn{
+}
+.el-dialog__headerbtn {
 	height: 28px;
-	.el-dialog__close{
-		color: #FFF;
+	.el-dialog__close {
+		color: #fff;
 	}
 }
-.el-dialog__headerbtn:hover .el-dialog__close{
+.el-dialog__headerbtn:hover .el-dialog__close {
 	color: var(--el-color-danger) !important;
 }
 
@@ -321,7 +321,7 @@
 	--el-table-header-bg-color: var(--next-bg-main-color);
 	// 表头字体颜色
 	thead {
-		color: var(--el-text-color-regular);	
+		color: var(--el-text-color-regular);
 		th {
 			font-weight: 500;
 		}
@@ -399,46 +399,45 @@ $--el-table-text-color: #fb6d49;
 
 // hack列表页
 .layout-parent {
-  height: 0;
-  overflow: auto;
+	height: 0;
+	overflow: auto;
 
-  // 方案一 如果怕影响其他页面，可以直接修改 src/views/home/index.vue 中 .home-container样式。
-  // 方案二 此处修改是为了不修改框架原始页面，方便后期同步升级。
-  // 自行取舍
-  // 工作台 滚动条
-  .home-container {
-    overflow: auto!important;
-  }
+	// 方案一 如果怕影响其他页面，可以直接修改 src/views/home/index.vue 中 .home-container样式。
+	// 方案二 此处修改是为了不修改框架原始页面，方便后期同步升级。
+	// 自行取舍
+	// 工作台 滚动条
+	.home-container {
+		overflow: auto !important;
+	}
 
-  
 	// Table页自动撑满页面
-	>div:first-child {
-	  display: flex;
-	  flex-direction: column;
-	  height: 100%;
-  
-    //放弃使用 .el-card:nth-child(2) ，方便后期页面扩展
-	  .full-table {
-		flex: 1;
-  
-		.el-card__body {
-		  height: 100%;
-		  display: flex;
-		  flex-direction: column;
-  
-		  .el-table {
+	> div:first-child {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+
+		//放弃使用 .el-card:nth-child(2) ，方便后期页面扩展
+		.full-table {
 			flex: 1;
-		  }
-  
-		  .el-pagination {
-			display: flex;
-  
-			>span:first-child {
-			  flex: 1;
-			  text-align: right;
+
+			.el-card__body {
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+
+				.el-table {
+					flex: 1;
+				}
+
+				.el-pagination {
+					display: flex;
+
+					> span:first-child {
+						flex: 1;
+						text-align: right;
+					}
+				}
 			}
-		  }
 		}
-	  }
 	}
 }
