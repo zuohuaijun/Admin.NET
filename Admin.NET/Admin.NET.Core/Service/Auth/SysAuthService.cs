@@ -25,6 +25,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     private readonly SysOnlineUserService _sysOnlineUserService;
     private readonly SysConfigService _sysConfigService;
     private readonly ICaptcha _captcha;
+    private readonly SysCacheService _sysCacheService;
 
     public SysAuthService(UserManager userManager,
         SqlSugarRepository<SysUser> sysUserRep,
@@ -32,7 +33,8 @@ public class SysAuthService : IDynamicApiController, ITransient
         SysMenuService sysMenuService,
         SysOnlineUserService sysOnlineUserService,
         SysConfigService sysConfigService,
-        ICaptcha captcha)
+        ICaptcha captcha,
+        SysCacheService sysCacheService)
     {
         _userManager = userManager;
         _sysUserRep = sysUserRep;
@@ -41,6 +43,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         _sysOnlineUserService = sysOnlineUserService;
         _sysConfigService = sysConfigService;
         _captcha = captcha;
+        _sysCacheService = sysCacheService;
     }
 
     /// <summary>
@@ -226,7 +229,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpPost("/api/swagger/checkUrl"), NonUnify]
+    [HttpPost("/swagger/checkUrl"), NonUnify]
     [DisplayName("Swagger登录检查")]
     public int SwaggerCheckUrl()
     {
@@ -239,17 +242,22 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <param name="auth"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpPost("/api/swagger/submitUrl"), NonUnify]
+    [HttpPost("/swagger/submitUrl"), NonUnify]
     [DisplayName("Swagger登录提交")]
     public async Task<int> SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
     {
         try
         {
+            _sysCacheService.Set(CommonConst.SysCaptcha, false);
+
             await Login(new LoginInput
             {
-                Password = auth.Password,
-                Account = auth.UserName
+                Account = auth.UserName,
+                Password = auth.Password
             });
+
+            _sysCacheService.Remove(CommonConst.SysCaptcha);
+
             return 200;
         }
         catch (Exception)

@@ -78,9 +78,9 @@ public class MessageTemplateSendInput
     public string ToUserOpenId { get; set; }
 
     /// <summary>
-    /// 模板数据，格式形如 { "key1": { "value": any }, "key2": { "value": any } }的object
+    /// 模板数据，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
     /// </summary>
-    [Required(ErrorMessage = "模板内容不能为空")]
+    [Required(ErrorMessage = "模板数据不能为空")]
     public Dictionary<string, CgibinMessageTemplateSendRequest.Types.DataItem> Data { get; set; }
 
     /// <summary>

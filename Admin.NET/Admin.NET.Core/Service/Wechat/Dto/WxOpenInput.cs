@@ -75,7 +75,7 @@ public class SendSubscribeMessageInput
     public string ToUserOpenId { get; set; }
 
     /// <summary>
-    /// 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }的object
+    /// 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
     /// </summary>
     [Required(ErrorMessage = "模板内容不能为空")]
     public Dictionary<string, CgibinMessageSubscribeSendRequest.Types.DataItem> Data { get; set; }

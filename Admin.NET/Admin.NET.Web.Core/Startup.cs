@@ -86,7 +86,13 @@ public class Startup : AppStartup
             .AddNewtonsoftJson(options => SetNewtonsoftJsonSetting(options.SerializerSettings))
             //.AddXmlSerializerFormatters()
             //.AddXmlDataContractSerializerFormatters()
-            .AddInjectWithUnifyResult<AdminResultProvider>();
+            .AddInjectWithUnifyResult<AdminResultProvider>(options =>
+            {
+                options.ConfigureSwaggerGen(gen =>
+                {
+                    gen.CustomSchemaIds(u => u.FullName);
+                });
+            });
 
         //// 第三方授权登录
         //services.AddAuthentication()

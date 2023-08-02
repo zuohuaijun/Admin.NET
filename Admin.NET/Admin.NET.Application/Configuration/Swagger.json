@@ -34,8 +34,8 @@
         "EnableAllGroups": true,
         "LoginInfo": {
             "Enabled": true, // 是否开启Swagger登录
-            "CheckUrl": "/api/swagger/checkUrl",
-            "SubmitUrl": "/api/swagger/submitUrl"
+            "CheckUrl": "/swagger/checkUrl",
+            "SubmitUrl": "/swagger/submitUrl"
         },
         "EnumToNumber": true // 枚举类型生成值类型
     }
