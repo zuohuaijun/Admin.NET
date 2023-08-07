@@ -39,12 +39,9 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         var tenantId = App.GetRequiredService<UserManager>().TenantId;
         if (tenantId < 1 || tenantId.ToString() == SqlSugarConst.ConfigId) return;
 
-        var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant)
-               .FirstOrDefault(u => u.Id == tenantId);
-        if (tenant is null || tenant is { TenantType: TenantTypeEnum.Id })
-        {
-            return;
-        }
+        var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
+        if (tenant is null || tenant is { TenantType: TenantTypeEnum.Id }) return;
+
         // 根据租户Id切库
         if (!iTenant.IsAnyConnection(tenantId.ToString()))
         {

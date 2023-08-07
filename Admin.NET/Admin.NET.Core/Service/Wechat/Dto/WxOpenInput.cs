@@ -78,7 +78,7 @@ public class SendSubscribeMessageInput
     /// 模板内容，格式形如 { "key1": { "value": any }, "key2": { "value": any } }
     /// </summary>
     [Required(ErrorMessage = "模板内容不能为空")]
-    public Dictionary<string, object> Data { get; set; }
+    public Dictionary<string, CgibinMessageSubscribeSendRequest.Types.DataItem> Data { get; set; }
 
     /// <summary>
     /// 跳转小程序类型

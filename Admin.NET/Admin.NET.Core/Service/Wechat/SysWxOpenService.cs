@@ -145,7 +145,7 @@ public class SysWxOpenService : IDynamicApiController, ITransient
             AccessToken = accessToken,
             TemplateId = input.TemplateId,
             ToUserOpenId = input.ToUserOpenId,
-            Data = (IDictionary<string, CgibinMessageSubscribeSendRequest.Types.DataItem>)input.Data,
+            Data = input.Data,
             MiniProgramState = input.MiniprogramState,
             Language = input.Language,
             MiniProgramPagePath = input.MiniProgramPagePath
