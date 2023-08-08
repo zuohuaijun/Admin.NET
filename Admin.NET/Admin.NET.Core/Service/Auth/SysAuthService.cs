@@ -219,8 +219,8 @@ public class SysAuthService : IDynamicApiController, ITransient
     [DisplayName("获取验证码")]
     public dynamic GetCaptcha()
     {
-        var codeId = YitIdHelper.NextId();
-        var captcha = _captcha.Generate(codeId.ToString());
+        var codeId = YitIdHelper.NextId().ToString();
+        var captcha = _captcha.Generate(codeId);
         return new { Id = codeId, Img = captcha.Base64 };
     }
 
