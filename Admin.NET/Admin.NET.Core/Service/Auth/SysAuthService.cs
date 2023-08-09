@@ -166,7 +166,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <param name="accessToken"></param>
     /// <returns></returns>
     [DisplayName("获取刷新Token")]
-    public string GetRefreshToken(string accessToken)
+    public string GetRefreshToken([FromQuery] string accessToken)
     {
         var refreshTokenExpire = _sysConfigService.GetRefreshTokenExpire().GetAwaiter().GetResult();
         return JWTEncryption.GenerateRefreshToken(accessToken, refreshTokenExpire);
