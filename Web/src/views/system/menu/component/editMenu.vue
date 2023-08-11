@@ -58,7 +58,7 @@
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 							<el-form-item label="菜单图标">
-								<IconSelector v-model="state.ruleForm.icon" placeholder="菜单图标" type="all" />
+								<IconSelector v-model="state.ruleForm.icon" :size="getGlobalComponentSize" placeholder="菜单图标" type="all" />
 							</el-form-item>
 						</el-col>
 						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -147,10 +147,11 @@
 </template>
 
 <script lang="ts" setup name="sysEditMenu">
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import IconSelector from '/@/components/iconSelector/index.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
+import other from '/@/utils/other';
 import { SysMenuApi } from '/@/api-services/api';
 import { SysMenu, UpdateMenuInput } from '/@/api-services/models';
 
@@ -163,6 +164,11 @@ const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
 	ruleForm: {} as UpdateMenuInput,
+});
+
+// 获取全局组件大小
+const getGlobalComponentSize = computed(() => {
+	return other.globalComponentSize();
 });
 
 // 打开弹窗
