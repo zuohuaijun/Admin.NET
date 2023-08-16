@@ -23,6 +23,7 @@
 2.  前端运行步骤：1、安装依赖pnpm install 2、运行pnpm run dev 3、打包pnpm run build
 3.  微信号：zuohuaijun  QQ群1：[87333204](https://jq.qq.com/?_wv=1027&k=1t8iqf0G)  QQ群2：[252381476](https://jq.qq.com/?_wv=1027&k=IkzihDcL)  
 4.  演示环境：https://demo.devqd.com/   (每天凌晨3点定时重置数据库) 
+5. [GitHub 镜像地址](https://github.com/bigbugcc/Admin.NET.git)
 
 ## 📙开发流程
 ```bash
