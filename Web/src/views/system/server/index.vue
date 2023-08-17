@@ -42,12 +42,10 @@
 			<el-col :md="12" :sm="24">
 				<el-card shadow="hover" header="使用信息">
 					<el-row>
-						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
-							<el-progress
-								type="dashboard"
+						<el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
+							<el-progress type="dashboard"
 								:percentage="parseInt(state.machineUseInfo.ramRate == undefined ? 0 : state.machineUseInfo.ramRate.substr(0, state.machineUseInfo.ramRate.length - 1))"
-								:color="'var(--el-color-primary)'"
-							>
+								:color="'var(--el-color-primary)'">
 								<template #default>
 									<span>{{ state.machineUseInfo.ramRate }}<br /></span>
 									<span style="font-size: 10px">
@@ -58,12 +56,10 @@
 								</template>
 							</el-progress>
 						</el-col>
-						<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
-							<el-progress
-								type="dashboard"
+						<el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
+							<el-progress type="dashboard"
 								:percentage="parseInt(state.machineUseInfo.cpuRate == undefined ? 0 : state.machineUseInfo.cpuRate.substr(0, state.machineUseInfo.cpuRate.length - 1))"
-								:color="'var(--el-color-primary)'"
-							>
+								:color="'var(--el-color-primary)'">
 								<template #default>
 									<span>{{ state.machineUseInfo.cpuRate }}<br /></span>
 									<span style="font-size: 10px"> CPU使用率 </span>
@@ -72,69 +68,73 @@
 						</el-col>
 					</el-row>
 
-					<table class="sysInfo_table">
-						<tr>
-							<td class="sysInfo_td">启动时间：</td>
-							<td class="sysInfo_td">{{ state.machineUseInfo.startTime }}</td>
-						</tr>
-						<tr>
-							<td class="sysInfo_td">运行时长：</td>
-							<td class="sysInfo_td">{{ state.machineUseInfo.runTime }}</td>
-						</tr>
-						<tr>
-							<td class="sysInfo_td">网站目录：</td>
-							<td class="sysInfo_td">{{ state.machineBaseInfo.wwwroot }}</td>
-						</tr>
-						<tr>
-							<td class="sysInfo_td">开发环境：</td>
-							<td class="sysInfo_td">{{ state.machineBaseInfo.environment }}</td>
-						</tr>
-						<tr>
-							<td class="sysInfo_td">环境变量：</td>
-							<td class="sysInfo_td">{{ state.machineBaseInfo.stage }}</td>
-						</tr>
-					</table>
+					<el-row>
+						<table class="sysInfo_table">
+							<tr>
+								<td class="sysInfo_td">启动时间：</td>
+								<td class="sysInfo_td">{{ state.machineUseInfo.startTime }}</td>
+							</tr>
+							<tr>
+								<td class="sysInfo_td">运行时长：</td>
+								<td class="sysInfo_td">{{ state.machineUseInfo.runTime }}</td>
+							</tr>
+							<tr>
+								<td class="sysInfo_td">网站目录：</td>
+								<td class="sysInfo_td">{{ state.machineBaseInfo.wwwroot }}</td>
+							</tr>
+							<tr>
+								<td class="sysInfo_td">开发环境：</td>
+								<td class="sysInfo_td">{{ state.machineBaseInfo.environment }}</td>
+							</tr>
+							<tr>
+								<td class="sysInfo_td">环境变量：</td>
+								<td class="sysInfo_td">{{ state.machineBaseInfo.stage }}</td>
+							</tr>
+						</table>
+					</el-row>
 				</el-card>
 			</el-col>
 		</el-row>
-		<el-card shadow="hover" header="程序集信息" style="margin-top: 8px; --el-card-padding: 10px">
-			<div style="overflow-y: auto; padding-bottom: 10px">
-				<div v-for="d in state.assemblyInfo" :key="d.name" style="display: inline-flex; margin: 4px">
-					<el-tag round>
-						<div style="display: inline-flex">
-							<div style="">{{ d.name }}</div>
-							<div style="font-size: 9px; margin-left: 3px">{{ d.version }}</div>
-						</div>
-					</el-tag>
-				</div>
-			</div>
-		</el-card>
-		<el-card shadow="hover" header="磁盘信息" style="margin-top: 8px">
-			<el-row>
-				<el-col
-					:span="4"
-					:xs="24"
-					:sm="24 / state.machineDiskInfo.length"
-					:md="24 / state.machineDiskInfo.length"
-					:lg="24 / state.machineDiskInfo.length"
-					:xl="24 / state.machineDiskInfo.length"
-					v-for="d in state.machineDiskInfo"
-					:key="d.diskName"
-					style="text-align: center"
-				>
-					<el-progress type="circle" :percentage="d.availablePercent" :color="'var(--el-color-primary)'">
-						<template #default>
-							<span>{{ d.availablePercent }}%<br /></span>
-							<span style="font-size: 10px">
-								已用:{{ d.used }}GB<br />
-								剩余:{{ d.availableFreeSpace }}GB<br />
-								{{ d.diskName }}
-							</span>
-						</template>
-					</el-progress>
-				</el-col>
-			</el-row>
-		</el-card>
+
+		<el-row :gutter="8">
+			<el-col :md="24" :sm="24">
+				<el-card shadow="hover" header="程序集信息" style="margin-top: 8px; --el-card-padding: 10px">
+					<div v-for="d in state.assemblyInfo" :key="d.name"
+						style="display: inline-block; margin: 4px;text-align: left;">
+						<el-tag round>
+							<div style="display: inline-flex">
+								<div style="">{{ d.name }}</div>
+								<div style="color: black;  font-size: 9px; margin-left: 3px">v{{ d.version }}</div>
+							</div>
+						</el-tag>
+					</div>
+				</el-card>
+			</el-col>
+		</el-row>
+
+		<el-row :gutter="8">
+			<el-col :md="24" :sm="24">
+				<el-card shadow="hover" header="磁盘信息" style="margin-top: 8px">
+					<el-row>
+						<el-col :span="4" :xs="24 / state.machineDiskInfo.length * 2"
+							:sm="24 / state.machineDiskInfo.length" :md="24 / state.machineDiskInfo.length"
+							:lg="24 / state.machineDiskInfo.length" :xl="24 / state.machineDiskInfo.length"
+							v-for="d in state.machineDiskInfo" :key="d.diskName" style="text-align: center">
+							<el-progress type="circle" :percentage="d.availablePercent" :color="'var(--el-color-primary)'">
+								<template #default>
+									<span>{{ d.availablePercent }}%<br /></span>
+									<span style="font-size: 10px">
+										已用:{{ d.used }}GB<br />
+										剩余:{{ d.availableFreeSpace }}GB<br />
+										{{ d.diskName }}
+									</span>
+								</template>
+							</el-progress>
+						</el-col>
+					</el-row>
+				</el-card>
+			</el-col>
+		</el-row>
 	</div>
 </template>
 
