@@ -164,13 +164,12 @@ public class SysFileService : IDynamicApiController, ITransient
     {
         if (file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
 
+        // 判断是否重复上传的文件
         string? fileMd5 = null;
-        if (_uploadOptions.IsEnableMd5)
+        if (_uploadOptions.EnableMd5)
         {
             using var fileStream = file.OpenReadStream();
-            // 利用阿里云SDK库计算Md5(库来自OnceMi.AspNetCore.OSS引用的Aliyun.OSS.SDK)
             fileMd5 = OssUtils.ComputeContentMd5(fileStream, fileStream.Length);
-
             if (await _sysFileRep.IsAnyAsync(q => q.FileMd5 == fileMd5)) throw Oops.Oh(ErrorCodeEnum.D8004);
         }
 

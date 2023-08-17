@@ -32,6 +32,6 @@ public sealed class UploadOptions : IConfigurableOptions
     /// <summary>
     /// 启用文件MD5指纹
     /// </summary>
-    /// <remarks>启用文件MD5后，上传时后验证是否重复文件，重复文件无法上传。</remarks>
-    public bool IsEnableMd5 { get; set; }
+    /// <remarks>防止重复上传</remarks>
+    public bool EnableMd5 { get; set; }
 }

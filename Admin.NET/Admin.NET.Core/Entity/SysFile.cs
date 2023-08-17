@@ -31,7 +31,7 @@ public class SysFile : EntityBase
     public string? BucketName { get; set; }
 
     /// <summary>
-    /// 文件名称（上传时名称）
+    /// 文件名称（源文件名）
     /// </summary>
     [SugarColumn(ColumnDescription = "文件名称", Length = 128)]
     [MaxLength(128)]
