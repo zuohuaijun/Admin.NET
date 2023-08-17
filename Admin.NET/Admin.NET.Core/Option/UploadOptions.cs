@@ -28,4 +28,10 @@ public sealed class UploadOptions : IConfigurableOptions
     /// 上传格式
     /// </summary>
     public List<string> ContentType { get; set; }
+
+    /// <summary>
+    /// 启用文件MD5指纹
+    /// </summary>
+    /// <remarks>启用文件MD5后，上传时后验证是否重复文件，重复文件无法上传。</remarks>
+    public bool IsEnableMd5 { get; set; }
 }
