@@ -154,9 +154,6 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
         db.DbMaintenance.CreateTable(input.TableName, columns, false);
 
-        if (db.CurrentConnectionConfig.DbType == SqlSugar.DbType.Sqlite || db.CurrentConnectionConfig.DbType == SqlSugar.DbType.MySql)
-            return;
-
         if (columns.Any(m => m.IsPrimarykey))
             db.DbMaintenance.AddPrimaryKey(input.TableName, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
 
