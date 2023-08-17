@@ -11,7 +11,6 @@ using AngleSharp.Html.Parser;
 using AspNetCoreRateLimit;
 using FluentEmail.Core;
 using Lazy.Captcha.Core;
-using Magicodes.ExporterAndImporter.Excel;
 using Magicodes.ExporterAndImporter.Pdf;
 using Microsoft.Extensions.Hosting;
 using Nest;

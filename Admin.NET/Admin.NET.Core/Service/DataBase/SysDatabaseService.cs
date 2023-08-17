@@ -197,7 +197,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         }
         catch (NotSupportedException)
         {
-            //Ignore 不支持该方法则不处理 
+            //Ignore 不支持该方法则不处理
         }
         db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
     }
