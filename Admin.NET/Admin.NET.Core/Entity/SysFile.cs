@@ -32,7 +32,7 @@ public class SysFile : EntityBase
 
     /// <summary>
     /// 文件名称（上传时名称）
-    /// </summary>文件名称
+    /// </summary>
     [SugarColumn(ColumnDescription = "文件名称", Length = 128)]
     [MaxLength(128)]
     public string? FileName { get; set; }
@@ -71,4 +71,11 @@ public class SysFile : EntityBase
     [SugarColumn(ColumnDescription = "外链地址", Length = 128)]
     [MaxLength(128)]
     public string? Url { get; set; }
+
+    /// <summary>
+    /// 文件MD5指纹
+    /// </summary>
+    [SugarColumn(ColumnDescription = "文件MD5指纹", Length = 128)]
+    [MaxLength(128)]
+    public string? FileMd5 { get; set; }
 }

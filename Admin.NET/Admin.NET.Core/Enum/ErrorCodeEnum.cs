@@ -401,6 +401,12 @@ public enum ErrorCodeEnum
     D8003,
 
     /// <summary>
+    /// 文件已存在
+    /// </summary>
+    [ErrorCodeItemMetadata("文件已存在")]
+    D8004,
+
+    /// <summary>
     /// 已存在同名或同编码参数配置
     /// </summary>
     [ErrorCodeItemMetadata("已存在同名或同编码参数配置")]
