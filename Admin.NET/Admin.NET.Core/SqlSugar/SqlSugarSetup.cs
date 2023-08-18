@@ -256,7 +256,8 @@ public static class SqlSugarSetup
             dbProvider.DbMaintenance.CreateDatabase();
 
         // 获取所有实体表-初始化表结构
-        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false)).ToList();
+        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false))
+            .WhereIF(config.EnableIncreTable, u => u.IsDefined(typeof(IncreTableAttribute), false)).ToList();
         if (!entityTypes.Any()) return;
         foreach (var entityType in entityTypes)
         {

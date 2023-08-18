@@ -42,6 +42,11 @@ public sealed class DbConnectionConfig : ConnectionConfig
     public bool EnableInitSeed { get; set; }
 
     /// <summary>
+    /// 启用增量表更新
+    /// </summary>
+    public bool EnableIncreTable { get; set; }
+
+    /// <summary>
     /// 启用库表差异日志
     /// </summary>
     public bool EnableDiffLog { get; set; }
