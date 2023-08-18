@@ -164,8 +164,12 @@ public class SysRoleService : IDynamicApiController, ITransient
     [DisplayName("授权角色数据范围")]
     public async Task GrantDataScope(RoleOrgInput input)
     {
-        // 删除所有用户机构缓存
-        _sysCacheService.RemoveByPrefixKey(CacheConst.KeyOrgIdList);
+        // 删除与该角色相关的用户机构缓存
+        var userIdList = await _sysUserRoleService.GetUserIdList(input.Id);
+        foreach (var userId in userIdList)
+        {
+            SqlSugarFilter.DeleteUserOrgCache(input.Id, _sysRoleRep.Context.CurrentConnectionConfig.ConfigId);
+        }
 
         var role = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
         var dataScope = input.DataScope;

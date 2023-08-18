@@ -91,18 +91,6 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 更新角色和扩展机构
-    /// </summary>
-    /// <param name="input"></param>
-    /// <returns></returns>
-    private async Task UpdateRoleAndExtOrg(AddUserInput input)
-    {
-        await GrantRole(new UserRoleInput { UserId = input.Id, RoleIdList = input.RoleIdList });
-
-        await _sysUserExtOrgService.UpdateUserExtOrg(input.Id, input.ExtOrgIdList);
-    }
-
-    /// <summary>
     /// 更新用户
     /// </summary>
     /// <param name="input"></param>
@@ -112,13 +100,28 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("更新用户")]
     public async Task UpdateUser(UpdateUserInput input)
     {
-        var isExist = await _sysUserRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.Account && u.Id != input.Id);
-        if (isExist) throw Oops.Oh(ErrorCodeEnum.D1003);
+        if (await _sysUserRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.Account && u.Id != input.Id))
+            throw Oops.Oh(ErrorCodeEnum.D1003);
 
         await _sysUserRep.AsUpdateable(input.Adapt<SysUser>()).IgnoreColumns(true)
             .IgnoreColumns(u => new { u.AccountType, u.Password, u.Status }).ExecuteCommandAsync();
 
         await UpdateRoleAndExtOrg(input);
+
+        // 删除用户机构缓存
+        SqlSugarFilter.DeleteUserOrgCache(input.Id, _sysUserRep.Context.CurrentConnectionConfig.ConfigId);
+    }
+
+    /// <summary>
+    /// 更新角色和扩展机构
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    private async Task UpdateRoleAndExtOrg(AddUserInput input)
+    {
+        await GrantRole(new UserRoleInput { UserId = input.Id, RoleIdList = input.RoleIdList });
+
+        await _sysUserExtOrgService.UpdateUserExtOrg(input.Id, input.ExtOrgIdList);
     }
 
     /// <summary>

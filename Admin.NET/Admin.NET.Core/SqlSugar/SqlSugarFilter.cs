@@ -17,6 +17,19 @@ public static class SqlSugarFilter
     private static readonly ICache _cache = Cache.Default;
 
     /// <summary>
+    /// 删除用户机构缓存
+    /// </summary>
+    /// <param name="userId"></param>
+    /// <param name="dbConfigId"></param>
+    public static void DeleteUserOrgCache(long userId, string dbConfigId)
+    {
+        // 删除用户机构集合缓存
+        App.GetService<SysCacheService>().Remove($"{CacheConst.KeyOrgIdList}{userId}");
+        // 删除用户机构（数据范围）过滤器缓存
+        SqlSugarFilter._cache.Remove($"db:{dbConfigId}:orgList:{userId}");
+    }
+
+    /// <summary>
     /// 配置用户机构集合过滤器
     /// </summary>
     public static void SetOrgEntityFilter(SqlSugarScopeProvider db)

@@ -96,8 +96,8 @@ public class SysOrgService : IDynamicApiController, ITransient
             //else
             //    throw Oops.Oh(ErrorCodeEnum.D2006);
 
-            // 删除当前用户的机构缓存
-            _sysCacheService.Remove(CacheConst.KeyOrgIdList + _userManager.UserId);
+            // 删除当前用户机构缓存
+            _sysCacheService.Remove($"{CacheConst.KeyOrgIdList}{_userManager.UserId}");
         }
         var sysOrg = input.Adapt<SysOrg>();
         var newOrg = await _sysOrgRep.AsInsertable(sysOrg).ExecuteReturnEntityAsync();
@@ -207,7 +207,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             return new List<long>();
 
         var userId = _userManager.UserId;
-        var orgIdList = _sysCacheService.Get<List<long>>(CacheConst.KeyOrgIdList + userId); // 取缓存
+        var orgIdList = _sysCacheService.Get<List<long>>($"{CacheConst.KeyOrgIdList}{userId}"); // 取缓存
         if (orgIdList == null || orgIdList.Count < 1)
         {
             // 扩展机构集合
@@ -219,7 +219,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             // 当前所属机构
             if (!orgIdList.Contains(_userManager.OrgId))
                 orgIdList.Add(_userManager.OrgId);
-            _sysCacheService.Set(CacheConst.KeyOrgIdList + userId, orgIdList); // 存缓存
+            _sysCacheService.Set($"{CacheConst.KeyOrgIdList}{userId}", orgIdList); // 存缓存
         }
         return orgIdList;
     }

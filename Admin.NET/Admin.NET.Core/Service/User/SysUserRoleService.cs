@@ -83,4 +83,15 @@ public class SysUserRoleService : ITransient
         return await _sysUserRoleRep.AsQueryable()
             .Where(u => u.UserId == userId).Select(u => u.RoleId).ToListAsync();
     }
+
+    /// <summary>
+    /// 根据角色Id获取用户Id集合
+    /// </summary>
+    /// <param name="roleId"></param>
+    /// <returns></returns>
+    public async Task<List<long>> GetUserIdList(long roleId)
+    {
+        return await _sysUserRoleRep.AsQueryable()
+            .Where(u => u.RoleId == roleId).Select(u => u.UserId).ToListAsync();
+    }
 }
