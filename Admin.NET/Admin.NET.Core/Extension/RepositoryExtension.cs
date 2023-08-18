@@ -74,10 +74,11 @@ public static class RepositoryExtension
     /// </summary>
     /// <param name="queryable"></param>
     /// <param name="pageInput"> </param>
+    /// <param name="prefix"> </param>
     /// <param name="defualtSortField"> 默认排序字段 </param>
     /// <param name="descSort"> 是否降序 </param>
     /// <returns> </returns>
-    public static ISugarQueryable<T> OrderBuilder<T>(this ISugarQueryable<T> queryable, BasePageInput pageInput, string defualtSortField = "Id", bool descSort = true)
+    public static ISugarQueryable<T> OrderBuilder<T>(this ISugarQueryable<T> queryable, BasePageInput pageInput, string prefix = "", string defualtSortField = "Id", bool descSort = true)
     {
         var orderStr = "";
         // 约定默认每张表都有Id排序
@@ -93,10 +94,10 @@ public static class RepositoryExtension
         if (!string.IsNullOrEmpty(nowPagerInput.Field) && !string.IsNullOrEmpty(nowPagerInput.Order))
         {
             var col = queryable.Context.EntityMaintenance.GetEntityInfo<T>().Columns
-                .FirstOrDefault(u => u.PropertyName.Equals(nowPagerInput.Field, StringComparison.CurrentCultureIgnoreCase));
+               .FirstOrDefault(u => u.PropertyName.Equals(nowPagerInput.Field, StringComparison.CurrentCultureIgnoreCase));
             orderStr = col != null
-                ? $"{col.DbColumnName} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}"
-                : $"{nowPagerInput.Field} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}";
+                ? $"{prefix}{col.DbColumnName} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}"
+                : $"{prefix}{nowPagerInput.Field} {(nowPagerInput.Order == nowPagerInput.DescStr ? "Desc" : "Asc")}";
         }
         return queryable.OrderByIF(!string.IsNullOrWhiteSpace(orderStr), orderStr);
     }
