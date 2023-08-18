@@ -30,7 +30,7 @@ public sealed class UploadOptions : IConfigurableOptions
     public List<string> ContentType { get; set; }
 
     /// <summary>
-    /// 启用文件MD5指纹
+    /// 启用文件MD5验证
     /// </summary>
     /// <remarks>防止重复上传</remarks>
     public bool EnableMd5 { get; set; }

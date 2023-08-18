@@ -354,7 +354,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     {
         var uploads = configs.Where(u => u.EffectType == "Upload").ToList();
         var fks = configs.Where(u => u.EffectType == "fk").ToList();
-        string str = ""; //<Order, OrderItem, Custom>
+        string str = ""; // <Order, OrderItem, Custom>
         string lowerStr = ""; //(o, i, c)
         foreach (var item in uploads)
         {
@@ -378,8 +378,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private async Task AddMenu(string className, string busName, long pid)
     {
-        string pPath = null;//父路径
-        // 如果 pid 为 0 说明为顶级菜单, 需要创建顶级目录
+        var pPath = string.Empty;
+        // 若 pid=0 为顶级则创建菜单目录
         if (pid == 0)
         {
             // 目录
@@ -392,34 +392,27 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 Path = "/" + className.ToLower(),
                 Component = "LAYOUT",
             };
-            {   //如果之前存在那么就删除本级和下级
-                var list = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType0.Title && e.Type == menuType0.Type).ToListAsync();
-                if (list.Count > 0)
+            // 若先前存在则删除本级和下级
+            var menuList0 = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType0.Title && e.Type == menuType0.Type).ToListAsync();
+            if (menuList0.Count > 0)
+            {
+                var listIds = menuList0.Select(f => f.Id).ToList();
+                var childlistIds = new List<long>();
+                foreach (var item in listIds)
                 {
-                    var listIds = list.Select(f => f.Id).ToList();
-                    var _ChildlistIds = new List<long>();
-                    foreach (var item in listIds)
-                    {
-                        var _Childlist = await _db.Queryable<SysMenu>().ToChildListAsync(u => u.Pid, item);
-                        _ChildlistIds.AddRange(_Childlist.Select(f => f.Id).ToList());
-                    }
-                    listIds.AddRange(_ChildlistIds);
-                    await _db.Deleteable<SysMenu>().Where(e => listIds.Contains(e.Id)).ExecuteCommandAsync();
-                    await _db.Deleteable<SysRoleMenu>().Where(e => listIds.Contains(e.MenuId)).ExecuteCommandAsync();
+                    var childlist = await _db.Queryable<SysMenu>().ToChildListAsync(u => u.Pid, item);
+                    childlistIds.AddRange(childlist.Select(f => f.Id).ToList());
                 }
+                listIds.AddRange(childlistIds);
+                await _db.Deleteable<SysMenu>().Where(e => listIds.Contains(e.Id)).ExecuteCommandAsync();
+                await _db.Deleteable<SysRoleMenu>().Where(e => listIds.Contains(e.MenuId)).ExecuteCommandAsync();
             }
             pid = (await _db.Insertable(menuType0).ExecuteReturnEntityAsync()).Id;
         }
-        // 由于后续菜单会有修改, 需要判断下 pid 是否存在, 不存在报错
         else
         {
-            var pMenu = await _db.Queryable<SysMenu>().FirstAsync(e => e.Id == pid);
-            if (pMenu == null)
-                throw Oops.Oh(ErrorCodeEnum.D1505);
-            else
-            {
-                pPath = pMenu.Path;
-            }
+            var pMenu = await _db.Queryable<SysMenu>().FirstAsync(e => e.Id == pid) ?? throw Oops.Oh(ErrorCodeEnum.D1505);
+            pPath = pMenu.Path;
         }
 
         // 菜单
@@ -427,26 +420,25 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         {
             Pid = pid,
             Title = busName + "管理",
-            Name = className + "Management",
+            Name = className[..1].ToLower() + className[..1],
             Type = MenuTypeEnum.Menu,
             Path = pPath + "/" + className.ToLower(),
             Component = "/main/" + className[..1].ToLower() + className[1..] + "/index",
         };
-        {   // 如果之前存在那么就删除本级和下级
-            var list = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType1.Title && e.Type == menuType1.Type).ToListAsync();
-            if (list.Count > 0)
+        // 若先前存在则删除本级和下级
+        var menuList1 = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType1.Title && e.Type == menuType1.Type).ToListAsync();
+        if (menuList1.Count > 0)
+        {
+            var listIds = menuList1.Select(f => f.Id).ToList();
+            var childlistIds = new List<long>();
+            foreach (var item in listIds)
             {
-                var listIds = list.Select(f => f.Id).ToList();
-                var _ChildlistIds = new List<long>();
-                foreach (var item in listIds)
-                {
-                    var _Childlist = await _db.Queryable<SysMenu>().ToChildListAsync(u => u.Pid, item);
-                    _ChildlistIds.AddRange(_Childlist.Select(f => f.Id).ToList());
-                }
-                listIds.AddRange(_ChildlistIds);
-                await _db.Deleteable<SysMenu>().Where(e => listIds.Contains(e.Id)).ExecuteCommandAsync();
-                await _db.Deleteable<SysRoleMenu>().Where(e => listIds.Contains(e.MenuId)).ExecuteCommandAsync();
+                var childlist = await _db.Queryable<SysMenu>().ToChildListAsync(u => u.Pid, item);
+                childlistIds.AddRange(childlist.Select(f => f.Id).ToList());
             }
+            listIds.AddRange(childlistIds);
+            await _db.Deleteable<SysMenu>().Where(e => listIds.Contains(e.Id)).ExecuteCommandAsync();
+            await _db.Deleteable<SysRoleMenu>().Where(e => listIds.Contains(e.MenuId)).ExecuteCommandAsync();
         }
         var pid1 = (await _db.Insertable(menuType1).ExecuteReturnEntityAsync()).Id;
 
@@ -507,31 +499,37 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     {
         var templatePath = Path.Combine(App.WebHostEnvironment.WebRootPath, "Template");
         if (input.GenerateType.Substring(1, 1).Contains('1'))
-            return new List<string>()
         {
-            Path.Combine(templatePath , "index.vue.vm"),
-            Path.Combine(templatePath , "editDialog.vue.vm"),
-            Path.Combine(templatePath , "manage.js.vm"),
-        };
-        else if (input.GenerateType.Substring(1, 1).Contains("2"))
             return new List<string>()
             {
-            Path.Combine(templatePath , "Service.cs.vm"),
-            Path.Combine(templatePath , "Input.cs.vm"),
-            Path.Combine(templatePath , "Output.cs.vm"),
-            Path.Combine(templatePath , "Dto.cs.vm"),
-        };
-        else
-            return new List<string>()
+                Path.Combine(templatePath , "index.vue.vm"),
+                Path.Combine(templatePath , "editDialog.vue.vm"),
+                Path.Combine(templatePath , "manage.js.vm"),
+            };
+        }
+        else if (input.GenerateType.Substring(1, 1).Contains("2"))
         {
-            Path.Combine(templatePath , "Service.cs.vm"),
-            Path.Combine(templatePath , "Input.cs.vm"),
-            Path.Combine(templatePath , "Output.cs.vm"),
-            Path.Combine(templatePath , "Dto.cs.vm"),
-            Path.Combine(templatePath , "index.vue.vm"),
-            Path.Combine(templatePath , "editDialog.vue.vm"),
-            Path.Combine(templatePath , "manage.js.vm"),
-        };
+            return new List<string>()
+            {
+                Path.Combine(templatePath , "Service.cs.vm"),
+                Path.Combine(templatePath , "Input.cs.vm"),
+                Path.Combine(templatePath , "Output.cs.vm"),
+                Path.Combine(templatePath , "Dto.cs.vm"),
+            };
+        }
+        else
+        {
+            return new List<string>()
+            {
+                Path.Combine(templatePath , "Service.cs.vm"),
+                Path.Combine(templatePath , "Input.cs.vm"),
+                Path.Combine(templatePath , "Output.cs.vm"),
+                Path.Combine(templatePath , "Dto.cs.vm"),
+                Path.Combine(templatePath , "index.vue.vm"),
+                Path.Combine(templatePath , "editDialog.vue.vm"),
+                Path.Combine(templatePath , "manage.js.vm"),
+            };
+        }
     }
 
     /// <summary>
@@ -601,30 +599,36 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var formModalPath = Path.Combine(frontendPath, input.TableName[..1].ToLower() + input.TableName[1..], "component", "editDialog.vue");
         var apiJsPath = Path.Combine(zipPath, _codeGenOptions.FrontRootPath, "src", "api", "main", input.TableName[..1].ToLower() + input.TableName[1..] + ".ts");
         if (input.GenerateType.StartsWith("11"))
-            return new List<string>()
         {
-            indexPath,
-            formModalPath,
-            apiJsPath
-        };
+            return new List<string>()
+            {
+                indexPath,
+                formModalPath,
+                apiJsPath
+            };
+        }
         else if (input.GenerateType.StartsWith("12"))
-            return new List<string>()
         {
-            servicePath,
-            inputPath,
-            outputPath,
-            viewPath
-        };
+            return new List<string>()
+            {
+                servicePath,
+                inputPath,
+                outputPath,
+                viewPath
+            };
+        }
         else
-            return new List<string>()
         {
-            servicePath,
-            inputPath,
-            outputPath,
-            viewPath,
-            indexPath,
-            formModalPath,
-            apiJsPath
-        };
+            return new List<string>()
+            {
+                servicePath,
+                inputPath,
+                outputPath,
+                viewPath,
+                indexPath,
+                formModalPath,
+                apiJsPath
+            };
+        }
     }
 }

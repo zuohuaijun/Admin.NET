@@ -5,7 +5,7 @@
         "Path": "Upload/{yyyy}/{MM}/{dd}", // 文件上传目录
         "MaxSize": 1048576, // 文件最大限制
         "ContentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif", "image/bmp", "text/plain", "application/pdf", "application/msword", "application/vnd.ms-excel", "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" ],
-        "EnableMd5": true // 启用文件MDF5指纹-防止重复上传
+        "EnableMd5": true // 启用文件MDF5验证-防止重复上传
     },
     "OSSProvider": {
         "IsEnable": false,

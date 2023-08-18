@@ -73,9 +73,9 @@ public class SysFile : EntityBase
     public string? Url { get; set; }
 
     /// <summary>
-    /// 文件MD5指纹
+    /// 文件MD5
     /// </summary>
-    [SugarColumn(ColumnDescription = "文件MD5指纹", Length = 128)]
+    [SugarColumn(ColumnDescription = "文件MD5", Length = 128)]
     [MaxLength(128)]
     public string? FileMd5 { get; set; }
 }
