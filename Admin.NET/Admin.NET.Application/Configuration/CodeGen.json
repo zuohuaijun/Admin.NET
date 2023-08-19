@@ -1,17 +1,17 @@
 {
-    "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
 
-    // 代码生成配置项-程序集名称集合
-    "CodeGen": {
-        "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application" ],
-        "BaseEntityNames": [ "EntityTenant", "EntityBase", "EntityBaseId" ],
-        "EntityBaseColumn": {
-            "EntityTenant": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete", "TenantId" ],
-            "EntityBase": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete" ],
-            "EntityBaseId": [ "Id", "TenantId" ],
-            "BaseId": [ "Id" ]
-        },
-        "FrontRootPath": "Web", // 前端文件根目录
-        "BackendApplicationNamespace": "Admin.NET.Application" // 后端生成到的项目
-    }
+  // 代码生成配置项-程序集名称集合
+  "CodeGen": {
+    "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application" ],
+    "BaseEntityNames": [ "EntityTenant", "EntityBase", "EntityBaseId" ],
+    "EntityBaseColumn": {
+      "EntityTenant": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete", "TenantId" ],
+      "EntityBase": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete" ],
+      "EntityBaseId": [ "Id", "TenantId" ],
+      "BaseId": [ "Id" ]
+    },
+    "FrontRootPath": "Web", // 前端文件根目录
+    "BackendApplicationNamespace": "Admin.NET.Application" // 后端生成到的项目
+  }
 }

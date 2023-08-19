@@ -1,8 +1,8 @@
 {
-    "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
 
-    // 枚举实体所在程序集名称集合
-    "Enum": {
-        "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application", "Admin.NET.AppCPMS" ]
-    }
+  // 枚举实体所在程序集名称集合
+  "Enum": {
+    "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application", "Admin.NET.AppCPMS" ]
+  }
 }

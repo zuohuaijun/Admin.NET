@@ -1,45 +1,45 @@
 {
-    "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
 
-    "Urls": "http://*:5005", // 配置默认端口
-    // "https_port": 44325,
+  "Urls": "http://*:5005", // 配置默认端口
+  // "https_port": 44325,
 
-    "AllowedHosts": "*",
+  "AllowedHosts": "*",
 
-    "AppSettings": {
-        "InjectSpecificationDocument": true // 生产环境是否开启Swagger
-    },
-    "DynamicApiControllerSettings": {
-        //"DefaultRoutePrefix": "api", // 默认路由前缀
-        "CamelCaseSeparator": "", // 驼峰命名分隔符
-        "SplitCamelCase": false, // 切割骆驼(驼峰)/帕斯卡命名
-        "LowercaseRoute": false, // 小写路由格式
-        "AsLowerCamelCase": true, // 小驼峰命名（首字母小写）
-        "KeepVerb": false, // 保留动作方法请求谓词
-        "KeepName": false // 保持原有名称不处理
-    },
-    "FriendlyExceptionSettings": {
-        "DefaultErrorMessage": "系统异常，请联系管理员",
-        "ThrowBah": true, // 是否将 Oops.Oh 默认抛出为业务异常
-        "LogError": false // 是否输出异常日志
-    },
-    "LocalizationSettings": {
-        "SupportedCultures": [ "zh-CN", "en" ], // 语言列表
-        "DefaultCulture": "zh-CN", // 默认语言
-        "DateTimeFormatCulture": "zh-CN" // 固定时间区域为特定时区（多语言）
-    },
-    "CorsAccessorSettings": {
-        "WithExposedHeaders": [ "Content-Disposition", "X-Pagination", "access-token", "x-access-token" ], // 如果前端不代理且是axios请求
-        "SignalRSupport": true // 启用 SignalR 跨域支持
-    },
-    "SnowId": {
-        "WorkerId": 1, // 机器码 全局唯一
-        "WorkerIdBitLength": 1, // 机器码位长 默认值6，取值范围 [1, 19]
-        "SeqBitLength": 6 // 序列数位长 默认值6，取值范围 [3, 21]（建议不小于4，值越大性能越高、Id位数也更长）
-    },
-    "Cryptogram": {
-        "CryptoType": "SM2", // 密码加密算法：MD5、SM2、SM4
-        "PublicKey": "04F6E0C3345AE42B51E06BF50B98834988D54EBC7460FE135A48171BC0629EAE205EEDE253A530608178A98F1E19BB737302813BA39ED3FA3C51639D7A20C7391A", // 公钥
-        "PrivateKey": "3690655E33D5EA3D9A4AE1A1ADD766FDEA045CDEAA43A9206FB8C430CEFE0D94" // 私钥
-    }
+  "AppSettings": {
+    "InjectSpecificationDocument": true // 生产环境是否开启Swagger
+  },
+  "DynamicApiControllerSettings": {
+    //"DefaultRoutePrefix": "api", // 默认路由前缀
+    "CamelCaseSeparator": "", // 驼峰命名分隔符
+    "SplitCamelCase": false, // 切割骆驼(驼峰)/帕斯卡命名
+    "LowercaseRoute": false, // 小写路由格式
+    "AsLowerCamelCase": true, // 小驼峰命名（首字母小写）
+    "KeepVerb": false, // 保留动作方法请求谓词
+    "KeepName": false // 保持原有名称不处理
+  },
+  "FriendlyExceptionSettings": {
+    "DefaultErrorMessage": "系统异常，请联系管理员",
+    "ThrowBah": true, // 是否将 Oops.Oh 默认抛出为业务异常
+    "LogError": false // 是否输出异常日志
+  },
+  "LocalizationSettings": {
+    "SupportedCultures": [ "zh-CN", "en" ], // 语言列表
+    "DefaultCulture": "zh-CN", // 默认语言
+    "DateTimeFormatCulture": "zh-CN" // 固定时间区域为特定时区（多语言）
+  },
+  "CorsAccessorSettings": {
+    "WithExposedHeaders": [ "Content-Disposition", "X-Pagination", "access-token", "x-access-token" ], // 如果前端不代理且是axios请求
+    "SignalRSupport": true // 启用 SignalR 跨域支持
+  },
+  "SnowId": {
+    "WorkerId": 1, // 机器码 全局唯一
+    "WorkerIdBitLength": 1, // 机器码位长 默认值6，取值范围 [1, 19]
+    "SeqBitLength": 6 // 序列数位长 默认值6，取值范围 [3, 21]（建议不小于4，值越大性能越高、Id位数也更长）
+  },
+  "Cryptogram": {
+    "CryptoType": "SM2", // 密码加密算法：MD5、SM2、SM4
+    "PublicKey": "04F6E0C3345AE42B51E06BF50B98834988D54EBC7460FE135A48171BC0629EAE205EEDE253A530608178A98F1E19BB737302813BA39ED3FA3C51639D7A20C7391A", // 公钥
+    "PrivateKey": "3690655E33D5EA3D9A4AE1A1ADD766FDEA045CDEAA43A9206FB8C430CEFE0D94" // 私钥
+  }
 }
