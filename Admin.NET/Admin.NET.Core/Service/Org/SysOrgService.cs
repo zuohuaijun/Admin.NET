@@ -7,6 +7,8 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
+using NewLife;
+
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -79,28 +81,35 @@ public class SysOrgService : IDynamicApiController, ITransient
     [DisplayName("增加机构")]
     public async Task<long> AddOrg(AddOrgInput input)
     {
-        var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
-        if (isExist)
+        if (await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code))
             throw Oops.Oh(ErrorCodeEnum.D2002);
 
-        var orgIdList = await GetUserOrgIdList();
-        if (!_userManager.SuperAdmin)
+        if (!_userManager.SuperAdmin && input.Pid != 0)
         {
             // 新增机构父Id不是0，则进行权限校验
-            if (input.Pid != 0)
-            {
-                // 新增机构的父机构不在自己的数据范围内
-                if (orgIdList.Count < 1 || !orgIdList.Contains(input.Pid))
-                    throw Oops.Oh(ErrorCodeEnum.D2003);
-            }
-            //else
-            //    throw Oops.Oh(ErrorCodeEnum.D2006);
+            var orgIdList = await GetUserOrgIdList();
+            // 新增机构的父机构不在自己的数据范围内
+            if (orgIdList.Count < 1 || !orgIdList.Contains(input.Pid))
+                throw Oops.Oh(ErrorCodeEnum.D2003);
 
-            // 删除当前用户机构缓存
-            _sysCacheService.Remove($"{CacheConst.KeyUserOrg}{_userManager.UserId}");
+            // 删除与此父机构有关的用户机构缓存
+            var userOrgKeyList = _sysCacheService.GetKeysByPrefixKey(CacheConst.KeyUserOrg);
+            if (userOrgKeyList != null && userOrgKeyList.Count > 0)
+            {
+                var pOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Pid);
+                foreach (var userOrgKey in userOrgKeyList)
+                {
+                    var userOrgs = _sysCacheService.Get<List<long>>(userOrgKey);
+                    if (userOrgs.Contains(pOrg.Id))
+                    {
+                        var userId = long.Parse(userOrgKey.Substring(CacheConst.KeyUserOrg));
+                        SqlSugarFilter.DeleteUserOrgCache(userId, _sysOrgRep.Context.CurrentConnectionConfig.ConfigId);
+                    }
+                }
+            }
         }
-        var sysOrg = input.Adapt<SysOrg>();
-        var newOrg = await _sysOrgRep.AsInsertable(sysOrg).ExecuteReturnEntityAsync();
+
+        var newOrg = await _sysOrgRep.AsInsertable(input.Adapt<SysOrg>()).ExecuteReturnEntityAsync();
         return newOrg.Id;
     }
 
@@ -122,8 +131,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         if (input.Id == input.Pid)
             throw Oops.Oh(ErrorCodeEnum.D2001);
 
-        var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
-        if (isExist)
+        if (await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id))
             throw Oops.Oh(ErrorCodeEnum.D2002);
 
         // 父Id不能为自己的子节点
@@ -185,6 +193,21 @@ public class SysOrgService : IDynamicApiController, ITransient
             .IsAnyAsync(u => orgIdList.Contains(u.OrgId));
         if (cOrgHasEmp)
             throw Oops.Oh(ErrorCodeEnum.D2007);
+
+        // 删除与此机构、父机构有关的用户机构缓存
+        var userOrgKeyList = _sysCacheService.GetKeysByPrefixKey(CacheConst.KeyUserOrg);
+        if (userOrgKeyList != null && userOrgKeyList.Count > 0)
+        {
+            foreach (var userOrgKey in userOrgKeyList)
+            {
+                var userOrgs = _sysCacheService.Get<List<long>>(userOrgKey);
+                if (userOrgs.Contains(sysOrg.Id) || userOrgs.Contains(sysOrg.Pid))
+                {
+                    var userId = long.Parse(userOrgKey.Substring(CacheConst.KeyUserOrg));
+                    SqlSugarFilter.DeleteUserOrgCache(userId, _sysOrgRep.Context.CurrentConnectionConfig.ConfigId);
+                }
+            }
+        }
 
         // 级联删除机构子节点
         await _sysOrgRep.DeleteAsync(u => orgIdList.Contains(u.Id));

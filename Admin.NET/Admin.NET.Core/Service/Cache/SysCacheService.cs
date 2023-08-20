@@ -39,9 +39,9 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="value"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(false)]
-    public void Set(string key, object value)
+    public bool Set(string key, object value)
     {
-        _cache.Set(key, value);
+        return _cache.Set(key, value);
     }
 
     /// <summary>
@@ -52,9 +52,9 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="expire"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(false)]
-    public void Set(string key, object value, TimeSpan expire)
+    public bool Set(string key, object value, TimeSpan expire)
     {
-        _cache.Set(key, value, expire);
+        return _cache.Set(key, value, expire);
     }
 
     /// <summary>
@@ -76,9 +76,9 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除缓存")]
-    public void Remove(string key)
+    public int Remove(string key)
     {
-        _cache.Remove(key);
+        return _cache.Remove(key);
     }
 
     /// <summary>
@@ -104,6 +104,17 @@ public class SysCacheService : IDynamicApiController, ISingleton
         var delKeys = _cache.Keys.Where(u => u.StartsWith(prefixKey)).ToArray();
         if (!delKeys.Any()) return 0;
         return _cache.Remove(delKeys);
+    }
+
+    /// <summary>
+    /// 根据键名前缀获取键名集合
+    /// </summary>
+    /// <param name="prefixKey">键名前缀</param>
+    /// <returns></returns>
+    [DisplayName("根据键名前缀获取键名集合")]
+    public List<string> GetKeysByPrefixKey(string prefixKey)
+    {
+        return _cache.Keys.Where(u => u.StartsWith(prefixKey)).ToList();
     }
 
     /// <summary>
