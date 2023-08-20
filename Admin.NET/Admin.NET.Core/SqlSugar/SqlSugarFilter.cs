@@ -26,7 +26,7 @@ public static class SqlSugarFilter
         // 删除用户机构集合缓存
         App.GetService<SysCacheService>().Remove($"{CacheConst.KeyUserOrg}{userId}");
         // 删除用户机构（数据范围）过滤器缓存
-        SqlSugarFilter._cache.Remove($"db:{dbConfigId}:orgList:{userId}");
+        _cache.Remove($"db:{dbConfigId}:orgList:{userId}");
     }
 
     /// <summary>
