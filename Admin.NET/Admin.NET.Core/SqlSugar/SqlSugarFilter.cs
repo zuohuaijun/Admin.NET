@@ -24,7 +24,7 @@ public static class SqlSugarFilter
     public static void DeleteUserOrgCache(long userId, string dbConfigId)
     {
         // 删除用户机构集合缓存
-        App.GetService<SysCacheService>().Remove($"{CacheConst.KeyOrgIdList}{userId}");
+        App.GetService<SysCacheService>().Remove($"{CacheConst.KeyUserOrg}{userId}");
         // 删除用户机构（数据范围）过滤器缓存
         SqlSugarFilter._cache.Remove($"db:{dbConfigId}:orgList:{userId}");
     }
@@ -87,7 +87,7 @@ public static class SqlSugarFilter
         if (string.IsNullOrWhiteSpace(userId)) return maxDataScope;
 
         // 获取用户最大数据范围---仅本人数据
-        maxDataScope = App.GetService<SysCacheService>().Get<int>(CacheConst.KeyMaxDataScope + userId);
+        maxDataScope = App.GetService<SysCacheService>().Get<int>(CacheConst.KeyRoleMaxDataScope + userId);
         if (maxDataScope != (int)DataScopeEnum.Self) return maxDataScope;
 
         // 配置用户数据范围缓存

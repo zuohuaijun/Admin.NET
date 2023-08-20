@@ -62,7 +62,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
         };
         await _sysOnlineUerRep.InsertAsync(user);
         //缓存
-        _sysCacheService.Set(CacheConst.KeyOnlineUser + user.UserId, user);
+        _sysCacheService.Set(CacheConst.KeyUserOnline + user.UserId, user);
         // 以租户Id分组方便区分
         var groupName = $"{GROUP_ONLINE}{user.TenantId}";
         await _onlineUserHubContext.Groups.AddToGroupAsync(Context.ConnectionId, groupName);
@@ -90,7 +90,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
         if (user == null) return;
 
         await _sysOnlineUerRep.DeleteAsync(u => u.Id == user.Id);
-        _sysCacheService.Remove(CacheConst.KeyOnlineUser + user.UserId);
+        _sysCacheService.Remove(CacheConst.KeyUserOnline + user.UserId);
 
         // 通知当前组用户变动
         var userList = await _sysOnlineUerRep.AsQueryable().Filter("", true)

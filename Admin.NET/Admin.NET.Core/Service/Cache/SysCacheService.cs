@@ -29,7 +29,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("获取缓存键名集合")]
     public List<string> GetKeyList()
     {
-        return _cache.Keys.ToList();
+        return _cache.Keys.OrderBy(u => u).ToList();
     }
 
     /// <summary>

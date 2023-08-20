@@ -53,7 +53,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     [DisplayName("发送消息给除了发送人的其他人")]
     public async Task SendOtherUser(MessageInput input)
     {
-        var user = _sysCacheService.Get<SysOnlineUser>(CacheConst.KeyOnlineUser + input.UserId);
+        var user = _sysCacheService.Get<SysOnlineUser>(CacheConst.KeyUserOnline + input.UserId);
         if (user != null)
         {
             await _chatHubContext.Clients.AllExcept(user.ConnectionId).ReceiveMessage(input);
@@ -68,7 +68,7 @@ public class SysMessageService : IDynamicApiController, ITransient
     [DisplayName("发送消息给某个人")]
     public async Task SendUser(MessageInput input)
     {
-        var user = _sysCacheService.Get<SysOnlineUser>(CacheConst.KeyOnlineUser + input.UserId);
+        var user = _sysCacheService.Get<SysOnlineUser>(CacheConst.KeyUserOnline + input.UserId);
         if (user == null) return;
         await _chatHubContext.Clients.Client(user.ConnectionId).ReceiveMessage(input);
     }
@@ -84,7 +84,7 @@ public class SysMessageService : IDynamicApiController, ITransient
         var userlist = new List<string>();
         foreach (var userid in input.UserIds)
         {
-            var user = _sysCacheService.Get<SysOnlineUser>(CacheConst.KeyOnlineUser + userid);
+            var user = _sysCacheService.Get<SysOnlineUser>(CacheConst.KeyUserOnline + userid);
             if (user != null) userlist.Add(user.ConnectionId);
         }
         await _chatHubContext.Clients.Clients(userlist).ReceiveMessage(input);
