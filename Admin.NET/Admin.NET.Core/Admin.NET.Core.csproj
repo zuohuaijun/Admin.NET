@@ -23,7 +23,7 @@
     <PackageReference Include="Furion.Extras.ObjectMapper.Mapster" Version="4.8.8.40" />
     <PackageReference Include="Furion.Pure" Version="4.8.8.40" />
     <PackageReference Include="IPTools.China" Version="1.6.0" />
-    <PackageReference Include="Lazy.Captcha.Core" Version="2.0.3" />
+    <PackageReference Include="Lazy.Captcha.Core" Version="2.0.4" />
     <PackageReference Include="Magicodes.IE.Excel" Version="2.7.4.5" />
     <PackageReference Include="Magicodes.IE.Pdf" Version="2.7.4.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.20" />

@@ -18,7 +18,6 @@ public class SysOrgSeedData : ISqlSugarEntitySeedData<SysOrg>
     /// 种子数据
     /// </summary>
     /// <returns></returns>
-    [IgnoreUpdate]
     public IEnumerable<SysOrg> HasData()
     {
         return new[]

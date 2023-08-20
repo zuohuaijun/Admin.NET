@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -10,21 +10,10 @@
 namespace Admin.NET.Core;
 
 /// <summary>
-/// 系统租户表种子数据
+/// 增量种子特性
 /// </summary>
-public class SysTenantSeedData : ISqlSugarEntitySeedData<SysTenant>
+[SuppressSniffer]
+[AttributeUsage(AttributeTargets.Class, AllowMultiple = true, Inherited = true)]
+public class IncreSeedAttribute : Attribute
 {
-    /// <summary>
-    /// 种子数据
-    /// </summary>
-    /// <returns></returns>
-    public IEnumerable<SysTenant> HasData()
-    {
-        var defaultDbConfig = App.GetOptions<DbConnectionOptions>().ConnectionConfigs[0];
-
-        return new[]
-        {
-            new SysTenant{ Id=1300000000001, OrgId=1300000000101, UserId=1300000000111, Host="www.dilon.vip", TenantType=TenantTypeEnum.Id, DbType=defaultDbConfig.DbType, Connection=defaultDbConfig.ConnectionString, ConfigId=SqlSugarConst.ConfigId, Remark="系统默认", CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
-        };
-    }
 }

@@ -18,7 +18,6 @@ public class SysUserRoleSeedData : ISqlSugarEntitySeedData<SysUserRole>
     /// 种子数据
     /// </summary>
     /// <returns></returns>
-    [IgnoreUpdate]
     public IEnumerable<SysUserRole> HasData()
     {
         return new[]

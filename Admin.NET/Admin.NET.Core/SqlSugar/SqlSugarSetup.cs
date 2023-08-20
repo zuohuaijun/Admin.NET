@@ -62,7 +62,7 @@ public static class SqlSugarSetup
                 // 只处理贴了特性[SugarTable]表
                 if (!type.GetCustomAttributes<SugarTable>().Any())
                     return;
-                if (config.EnableUnderLine && !entity.DbTableName.Contains('_'))
+                if (config.DbSettings.EnableUnderLine && !entity.DbTableName.Contains('_'))
                     entity.DbTableName = UtilMethods.ToUnderLine(entity.DbTableName); // 驼峰转下划线
             },
             EntityService = (type, column) => // 处理列
@@ -72,7 +72,7 @@ public static class SqlSugarSetup
                     return;
                 if (new NullabilityInfoContext().Create(type).WriteState is NullabilityState.Nullable)
                     column.IsNullable = true;
-                if (config.EnableUnderLine && !column.IsIgnore && !column.DbColumnName.Contains('_'))
+                if (config.DbSettings.EnableUnderLine && !column.IsIgnore && !column.DbColumnName.Contains('_'))
                     column.DbColumnName = UtilMethods.ToUnderLine(column.DbColumnName); // 驼峰转下划线
 
                 if (config.DbType == SqlSugar.DbType.Oracle)
@@ -216,7 +216,7 @@ public static class SqlSugarSetup
     /// <param name="config"></param>
     private static void SetDbDiffLog(SqlSugarScopeProvider db, DbConnectionConfig config)
     {
-        if (!config.EnableDiffLog) return;
+        if (!config.DbSettings.EnableDiffLog) return;
 
         db.Aop.OnDiffLogEvent = async u =>
         {
@@ -247,63 +247,71 @@ public static class SqlSugarSetup
     /// <param name="config"></param>
     private static void InitDatabase(SqlSugarScope db, DbConnectionConfig config)
     {
-        if (!config.EnableInitDb) return;
-
         SqlSugarScopeProvider dbProvider = db.GetConnectionScope(config.ConfigId);
 
-        // 创建数据库
-        if (config.DbType != SqlSugar.DbType.Oracle)
-            dbProvider.DbMaintenance.CreateDatabase();
-
-        // 获取所有实体表-初始化表结构
-        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false))
-            .WhereIF(config.EnableIncreTable, u => u.IsDefined(typeof(IncreTableAttribute), false)).ToList();
-        if (!entityTypes.Any()) return;
-        foreach (var entityType in entityTypes)
+        // 初始化/创建数据库
+        if (config.DbSettings.EnableInitDb)
         {
-            var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
-            if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
-
-            if (entityType.GetCustomAttribute<SplitTableAttribute>() == null)
-                dbProvider.CodeFirst.InitTables(entityType);
-            else
-                dbProvider.CodeFirst.SplitTables().InitTables(entityType);
+            if (config.DbType != SqlSugar.DbType.Oracle)
+                dbProvider.DbMaintenance.CreateDatabase();
         }
 
-        if (!config.EnableInitSeed) return;
-
-        // 获取所有种子配置-初始化数据
-        var seedDataTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(ISqlSugarEntitySeedData<>)))).ToList();
-        if (!seedDataTypes.Any()) return;
-        foreach (var seedType in seedDataTypes)
+        // 初始化表结构
+        if (config.TableSettings.EnableInitTable)
         {
-            var instance = Activator.CreateInstance(seedType);
-
-            var hasDataMethod = seedType.GetMethod("HasData");
-            var seedData = ((IEnumerable)hasDataMethod?.Invoke(instance, null))?.Cast<object>();
-            if (seedData == null) continue;
-
-            var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
-            var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-            if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
-            if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
-
-            var entityInfo = dbProvider.EntityMaintenance.GetEntityInfo(entityType);
-            if (entityInfo.Columns.Any(u => u.IsPrimarykey))
+            var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false))
+                .WhereIF(config.TableSettings.EnableIncreTable, u => u.IsDefined(typeof(IncreTableAttribute), false)).ToList();
+            if (entityTypes.Any())
             {
-                // 按主键进行批量增加和更新
-                var storage = dbProvider.StorageableByObject(seedData.ToList()).ToStorage();
-                storage.AsInsertable.ExecuteCommand();
-                var ignoreUpdate = hasDataMethod.GetCustomAttribute<IgnoreUpdateAttribute>();
-                if (ignoreUpdate == null) storage.AsUpdateable.ExecuteCommand();
+                foreach (var entityType in entityTypes)
+                {
+                    var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+                    if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
+                    if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
+
+                    if (entityType.GetCustomAttribute<SplitTableAttribute>() == null)
+                        dbProvider.CodeFirst.InitTables(entityType);
+                    else
+                        dbProvider.CodeFirst.SplitTables().InitTables(entityType);
+                }
             }
-            else
+        }
+
+        // 初始化种子数据
+        if (config.SeedSettings.EnableInitSeed)
+        {
+            var seedDataTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(ISqlSugarEntitySeedData<>))))
+                .WhereIF(config.SeedSettings.EnableIncreSeed, u => u.IsDefined(typeof(IncreSeedAttribute), false)).ToList();
+            if (seedDataTypes.Any())
             {
-                // 无主键则只进行插入
-                if (!dbProvider.Queryable(entityInfo.DbTableName, entityInfo.DbTableName).Any())
-                    dbProvider.InsertableByObject(seedData.ToList()).ExecuteCommand();
+                foreach (var seedType in seedDataTypes)
+                {
+                    var instance = Activator.CreateInstance(seedType);
+
+                    var hasDataMethod = seedType.GetMethod("HasData");
+                    var seedData = ((IEnumerable)hasDataMethod?.Invoke(instance, null))?.Cast<object>();
+                    if (seedData == null) continue;
+
+                    var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
+                    var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
+                    if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
+                    if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
+
+                    var entityInfo = dbProvider.EntityMaintenance.GetEntityInfo(entityType);
+                    if (entityInfo.Columns.Any(u => u.IsPrimarykey))
+                    {
+                        // 按主键进行批量增加和更新
+                        var storage = dbProvider.StorageableByObject(seedData.ToList()).ToStorage();
+                        storage.AsInsertable.ExecuteCommand();
+                        storage.AsUpdateable.ExecuteCommand();
+                    }
+                    else
+                    {
+                        // 无主键则只进行插入
+                        if (!dbProvider.Queryable(entityInfo.DbTableName, entityInfo.DbTableName).Any())
+                            dbProvider.InsertableByObject(seedData.ToList()).ExecuteCommand();
+                    }
+                }
             }
         }
     }

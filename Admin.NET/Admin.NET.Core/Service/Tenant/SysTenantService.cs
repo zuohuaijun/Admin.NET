@@ -392,9 +392,12 @@ public class SysTenantService : IDynamicApiController, ITransient
             ConfigId = tenant.Id.ToString(),
             DbType = tenant.DbType,
             ConnectionString = tenant.Connection,
-            EnableInitDb = true,
-            EnableDiffLog = false,
-            EnableUnderLine = defautConfig.EnableUnderLine,
+            DbSettings = new DbSettings()
+            {
+                EnableInitDb = true,
+                EnableDiffLog = false,
+                EnableUnderLine = defautConfig.DbSettings.EnableUnderLine,
+            }
         };
         SqlSugarSetup.InitTenantDatabase(App.GetRequiredService<ISqlSugarClient>().AsTenant(), config);
     }

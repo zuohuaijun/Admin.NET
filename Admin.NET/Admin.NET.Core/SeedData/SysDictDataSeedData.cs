@@ -18,7 +18,6 @@ public class SysDictDataSeedData : ISqlSugarEntitySeedData<SysDictData>
     /// 种子数据
     /// </summary>
     /// <returns></returns>
-    [IgnoreUpdate]
     public IEnumerable<SysDictData> HasData()
     {
         return new[]

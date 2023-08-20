@@ -18,7 +18,6 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
     /// 种子数据
     /// </summary>
     /// <returns></returns>
-    [IgnoreUpdate]
     public IEnumerable<SysMenu> HasData()
     {
         return new[]

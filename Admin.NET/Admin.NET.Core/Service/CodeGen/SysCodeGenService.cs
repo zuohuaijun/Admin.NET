@@ -145,7 +145,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var tableOutputList = new List<TableOutput>();
         foreach (var item in entityInfos)
         {
-            var table = dbTableInfos.FirstOrDefault(x => x.Name.ToLower() == (config.EnableUnderLine ? UtilMethods.ToUnderLine(item.DbTableName) : item.DbTableName).ToLower());
+            var table = dbTableInfos.FirstOrDefault(x => x.Name.ToLower() == (config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(item.DbTableName) : item.DbTableName).ToLower());
             if (table == null) continue;
             tableOutputList.Add(new TableOutput
             {
@@ -183,7 +183,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
         return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new ColumnOuput
         {
-            ColumnName = config.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
+            ColumnName = config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
             DataType = u.DataType.ToString(),
             NetType = CodeGenUtil.ConvertDataType(u, provider.CurrentConnectionConfig.DbType),
@@ -205,12 +205,12 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.ConfigId);
 
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
-        var dbTableName = config.EnableUnderLine ? UtilMethods.ToUnderLine(entityType.DbTableName) : entityType.DbTableName;
+        var dbTableName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(entityType.DbTableName) : entityType.DbTableName;
         var entityBasePropertyNames = _codeGenOptions.EntityBaseColumn[nameof(EntityTenant)];
         return provider.DbMaintenance.GetColumnInfosByTableName(dbTableName, false).Select(u => new ColumnOuput
         {
-            //转下划线后的列名 需要转回来
-            ColumnName = config.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
+            // 转下划线后的列名需要再转回来
+            ColumnName = config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
             NetType = CodeGenUtil.ConvertDataType(u, provider.CurrentConnectionConfig.DbType),
             DataType = CodeGenUtil.ConvertDataType(u, provider.CurrentConnectionConfig.DbType),
@@ -236,7 +236,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 types.AddRange(asm.GetExportedTypes().ToList());
             }
         }
-        Func<Attribute[], bool> IsMyAttribute = o =>
+        bool IsMyAttribute(Attribute[] o)
         {
             foreach (Attribute a in o)
             {
@@ -244,7 +244,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                     return true;
             }
             return false;
-        };
+        }
         Type[] cosType = types.Where(o =>
         {
             return IsMyAttribute(Attribute.GetCustomAttributes(o, true));
@@ -507,7 +507,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 Path.Combine(templatePath , "manage.js.vm"),
             };
         }
-        else if (input.GenerateType.Substring(1, 1).Contains("2"))
+        else if (input.GenerateType.Substring(1, 1).Contains('2'))
         {
             return new List<string>()
             {

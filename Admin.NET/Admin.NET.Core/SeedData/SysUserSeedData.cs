@@ -18,7 +18,6 @@ public class SysUserSeedData : ISqlSugarEntitySeedData<SysUser>
     /// 种子数据
     /// </summary>
     /// <returns></returns>
-    [IgnoreUpdate]
     public IEnumerable<SysUser> HasData()
     {
         var encryptPasswod = CryptogramUtil.Encrypt("123456");

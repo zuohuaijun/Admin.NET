@@ -56,7 +56,10 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
                 DbType = tenant.DbType,
                 IsAutoCloseConnection = true,
                 ConnectionString = tenant.Connection,
-                EnableUnderLine = mainConnConfig.EnableUnderLine,
+                DbSettings = new DbSettings()
+                {
+                    EnableUnderLine = mainConnConfig.DbSettings.EnableUnderLine,
+                }
             };
             iTenant.AddConnection(connectionConfig);
             SqlSugarSetup.SetDbConfig(connectionConfig);

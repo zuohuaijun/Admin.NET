@@ -141,7 +141,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         {
             columns.Add(new DbColumnInfo
             {
-                DbColumnName = config.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim(),
+                DbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim(),
                 DataType = m.DataType,
                 Length = m.Length,
                 ColumnDescription = m.ColumnDescription,
@@ -160,7 +160,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
         input.DbColumnInfoList.ForEach(m =>
         {
-            m.DbColumnName = config.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName) : m.DbColumnName;
+            m.DbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName) : m.DbColumnName;
             db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
         });
     }
@@ -209,24 +209,20 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     {
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
-        input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
+        input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
 
-        string[] dbColumnNames; // = _codeGenOptions.EntityBaseColumn[input.BaseClassName];
-        _codeGenOptions.EntityBaseColumn.TryGetValue(input.BaseClassName, out dbColumnNames);
+        _codeGenOptions.EntityBaseColumn.TryGetValue(input.BaseClassName, out string[] dbColumnNames);
         if (dbColumnNames is null || dbColumnNames is { Length: 0 })
             throw Oops.Oh("基类配置文件不存在此类型");
 
         var templatePath = GetEntityTemplatePath();
         var targetPath = GetEntityTargetPath(input);
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName || m.Name == input.TableName.ToLower());
-        if (dbTableInfo == null)
-            throw Oops.Oh(ErrorCodeEnum.db1001);
-
+        DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName || m.Name == input.TableName.ToLower()) ?? throw Oops.Oh(ErrorCodeEnum.db1001);
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
         dbColumnInfos.ForEach(u =>
         {
-            u.DbColumnName = config.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, dbColumnNames) : u.DbColumnName; // 转下划线后的列名需要转回来
+            u.DbColumnName = config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, dbColumnNames) : u.DbColumnName; // 转下划线后的列名需要再转回来
             u.DataType = CodeGenUtil.ConvertDataType(u, config.DbType);
         });
         if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))
