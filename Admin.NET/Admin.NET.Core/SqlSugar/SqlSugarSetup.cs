@@ -132,7 +132,26 @@ public static class SqlSugarSetup
             Console.ForegroundColor = originColor;
             App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
         };
-
+        db.Aop.OnLogExecuted = (sql, pars) =>
+        {
+            //执行时间超过5秒
+            if (db.Ado.SqlExecutionTime.TotalSeconds > 5)
+            {
+                //代码CS文件名
+                var fileName = db.Ado.SqlStackTrace.FirstFileName;
+                //代码行数
+                var fileLine = db.Ado.SqlStackTrace.FirstLine;
+                //方法名
+                var firstMethodName = db.Ado.SqlStackTrace.FirstMethodName;
+                var log = $"【所在文件名】：{fileName}\r\n【代码行数】：{fileLine}\r\n【方法名】：{firstMethodName}\r\n" +
+                    $"【sql语句】：{UtilMethods.GetSqlString(config.DbType, sql, pars)}";
+                
+                var originColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.DarkYellow;
+                Console.WriteLine(log);
+                Console.ForegroundColor = originColor;
+            }
+        };
         // 数据审计
         db.Aop.DataExecuting = (oldValue, entityInfo) =>
         {
