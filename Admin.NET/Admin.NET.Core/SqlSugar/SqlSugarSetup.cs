@@ -134,18 +134,13 @@ public static class SqlSugarSetup
         };
         db.Aop.OnLogExecuted = (sql, pars) =>
         {
-            //执行时间超过5秒
+            // 执行时间超过5秒
             if (db.Ado.SqlExecutionTime.TotalSeconds > 5)
             {
-                //代码CS文件名
-                var fileName = db.Ado.SqlStackTrace.FirstFileName;
-                //代码行数
-                var fileLine = db.Ado.SqlStackTrace.FirstLine;
-                //方法名
-                var firstMethodName = db.Ado.SqlStackTrace.FirstMethodName;
-                var log = $"【所在文件名】：{fileName}\r\n【代码行数】：{fileLine}\r\n【方法名】：{firstMethodName}\r\n" +
-                    $"【sql语句】：{UtilMethods.GetSqlString(config.DbType, sql, pars)}";
-                
+                var fileName = db.Ado.SqlStackTrace.FirstFileName; // 文件名
+                var fileLine = db.Ado.SqlStackTrace.FirstLine; // 行号
+                var firstMethodName = db.Ado.SqlStackTrace.FirstMethodName; // 方法名
+                var log = $"【所在文件名】：{fileName}\r\n【代码行数】：{fileLine}\r\n【方法名】：{firstMethodName}\r\n" + $"【sql语句】：{UtilMethods.GetSqlString(config.DbType, sql, pars)}";
                 var originColor = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.DarkYellow;
                 Console.WriteLine(log);
