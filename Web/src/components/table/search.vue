@@ -124,14 +124,14 @@ const onReset = (formEl: FormInstance | undefined) => {
 	emit('reset', state.form);
 	emit('search', state.form);
 };
-// 初始化 form 字段，取自父组件 search.prop
-const initFormField = () => {
-	if (props.search.length <= 0) return false;
-	props.search.forEach((v) => (state.form[v.prop] = ''));
-};
+// // 初始化 form 字段，取自父组件 search.prop
+// const initFormField = () => {
+// 	if (props.search.length <= 0) return false;
+// 	props.search.forEach((v) => (state.form[v.prop] = ''));
+// };
 // 页面加载时
 onMounted(() => {
-	initFormField();
+	// initFormField();
 });
 </script>
 
