@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-codeGenConfig-container">
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="1400px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="1500px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
@@ -56,6 +56,11 @@
 						<el-select v-model="scope.row.queryType" class="m-2" placeholder="Select" :disabled="!scope.row.queryWhether">
 							<el-option v-for="item in state.queryTypeList" :key="item.code" :label="item.value" :value="item.code" />
 						</el-select>
+					</template>
+				</el-table-column>
+				<el-table-column prop="orderNo" label="排序" width="70" show-overflow-tooltip>
+					<template #default="scope">
+						<el-input v-model="scope.row.orderNo" autocomplete="off" type="number"  />
 					</template>
 				</el-table-column>
 			</el-table>

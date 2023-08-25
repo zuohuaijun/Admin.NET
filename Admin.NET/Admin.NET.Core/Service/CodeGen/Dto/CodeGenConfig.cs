@@ -166,4 +166,9 @@ public class CodeGenConfig
     /// 父级字段
     /// </summary>
     public string PidColumn { get; set; }
+
+    /// <summary>
+    /// 排序
+    /// </summary>
+    public int OrderNo { get; set; }
 }
