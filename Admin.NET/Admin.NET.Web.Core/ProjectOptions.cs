@@ -10,6 +10,7 @@
 using Admin.NET.Core;
 using AspNetCoreRateLimit;
 using Furion;
+using Lazy.Captcha.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Admin.NET.Web.Core;

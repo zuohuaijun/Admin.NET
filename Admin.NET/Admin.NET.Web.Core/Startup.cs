@@ -23,7 +23,6 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OnceMi.AspNetCore.OSS;
 using System;
-using System.IO;
 using System.Net;
 using System.Net.Mail;
 using Yitter.IdGenerator;
@@ -36,6 +35,7 @@ public class Startup : AppStartup
     {
         // 配置选项
         services.AddProjectOptions();
+
         // 缓存注册
         services.AddCache();
         // SqlSugar
@@ -59,12 +59,6 @@ public class Startup : AppStartup
         services.AddConsoleFormatter(options =>
         {
             options.DateFormat = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
-        });
-        // 日志监听
-        services.AddMonitorLogging(options =>
-        {
-            options.IgnorePropertyNames = new[] { "Byte" };
-            options.IgnorePropertyTypes = new[] { typeof(byte[]) };
         });
 
         // Json序列化设置
@@ -164,59 +158,17 @@ public class Startup : AppStartup
             })
             .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
 
-        // logo显示
-        services.AddLogoDisplay();
-
-        // 日志记录
-        if (App.GetConfig<bool>("Logging:File:Enabled")) // 日志写入文件
-        {
-            Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, logLevel =>
-            {
-                services.AddFileLogging(options =>
-                {
-                    options.WithStackFrame = true; // 显示堆栈信息
-                    options.FileNameRule = fileName => string.Format(fileName, DateTime.Now, logLevel.ToString()); // 每天创建一个文件
-                    options.WriteFilter = logMsg => logMsg.LogLevel == logLevel; // 日志级别
-                    options.HandleWriteError = (writeError) => // 写入失败时启用备用文件
-                    {
-                        writeError.UseRollbackFileName(Path.GetFileNameWithoutExtension(writeError.CurrentFileName) + "-oops" + Path.GetExtension(writeError.CurrentFileName));
-                    };
-                });
-            });
-        }
-        if (App.GetConfig<bool>("Logging:Database:Enabled")) // 日志写入数据库
-        {
-            services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
-            {
-                options.WithStackFrame = true; // 显示堆栈信息
-                options.WithTraceId = true; // 显示线程Id
-                options.IgnoreReferenceLoop = false; // 忽略循环检测
-                options.WriteFilter = (logMsg) =>
-                {
-                    return logMsg.LogName == "System.Logging.LoggingMonitor"; // 只写LoggingMonitor日志
-                };
-            });
-        }
-        if (App.GetConfig<bool>("Logging:ElasticSearch:Enabled")) // 日志写入ElasticSearch
-        {
-            services.AddDatabaseLogging<ElasticSearchLoggingWriter>(options =>
-            {
-                options.WithStackFrame = true; // 显示堆栈信息
-                options.WithTraceId = true; // 显示线程Id
-                options.IgnoreReferenceLoop = false; // 忽略循环检测
-                options.MessageFormat = LoggerFormatter.Json;
-                options.WriteFilter = (logMsg) =>
-                {
-                    return logMsg.LogName == "System.Logging.LoggingMonitor"; // 只写LoggingMonitor日志
-                };
-            });
-        }
+        // 系统日志
+        services.AddLoggingSetup();
 
         // 雪花Id
         YitIdHelper.SetIdGenerator(App.GetOptions<SnowIdOptions>());
 
         // 验证码
-        services.AddLazyCaptcha();
+        services.AddCaptcha(App.Configuration);
+
+        // 控制台logo
+        services.AddConsoleLogo();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

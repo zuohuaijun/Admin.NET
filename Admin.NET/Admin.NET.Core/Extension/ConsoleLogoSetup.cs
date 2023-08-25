@@ -10,11 +10,11 @@
 namespace Admin.NET.Core;
 
 /// <summary>
-/// logo显示
+/// 控制台logo
 /// </summary>
-public static class LogoExtension
+public static class ConsoleLogoSetup
 {
-    public static void AddLogoDisplay(this IServiceCollection services)
+    public static void AddConsoleLogo(this IServiceCollection services)
     {
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine(@"  ___      _           _         _   _  _____ _____
