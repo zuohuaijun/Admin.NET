@@ -125,18 +125,9 @@ public class Startup : AppStartup
             //});
         });
 
-        // OSS对象存储（必须一个个赋值）
+        // OSS对象存储
         var ossOpt = App.GetOptions<OSSProviderOptions>();
-        services.AddOSSService(Enum.GetName(ossOpt.Provider), options =>
-        {
-            options.Provider = ossOpt.Provider;
-            options.Endpoint = ossOpt.Endpoint;
-            options.AccessKey = ossOpt.AccessKey;
-            options.SecretKey = ossOpt.SecretKey;
-            options.Region = ossOpt.Region;
-            options.IsEnableCache = ossOpt.IsEnableCache;
-            options.IsEnableHttps = ossOpt.IsEnableHttps;
-        });
+        services.AddOSSService(Enum.GetName(ossOpt.Provider), "OSSProvider");
 
         // 电子邮件
         var emailOpt = App.GetOptions<EmailOptions>();

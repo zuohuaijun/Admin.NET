@@ -9,13 +9,13 @@
   },
   "OSSProvider": {
     "IsEnable": false,
-    "Provider": "Aliyun", // Invalid/Minio/Aliyun/QCloud/Qiniu/HuaweiCloud
-    "Endpoint": "",
-    "Region": "",
+    "Provider": "Aliyun", // OSS提供者 Invalid/Minio/Aliyun/QCloud/Qiniu/HuaweiCloud
+    "Endpoint": "", // 节点 在腾讯云OSS中表示AppId
+    "Region": "", // 地域
     "AccessKey": "",
     "SecretKey": "",
-    "IsEnableHttps": true,
-    "IsEnableCache": true,
+    "IsEnableHttps": true, // 是否启用HTTPS
+    "IsEnableCache": true, // 是否启用缓存
     "Bucket": ""
   }
 }
