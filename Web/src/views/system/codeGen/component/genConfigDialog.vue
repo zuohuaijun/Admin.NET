@@ -60,7 +60,7 @@
 				</el-table-column>
 				<el-table-column prop="orderNo" label="排序" width="70" show-overflow-tooltip>
 					<template #default="scope">
-						<el-input v-model="scope.row.orderNo" autocomplete="off" type="number"  />
+						<el-input v-model="scope.row.orderNo" autocomplete="off" type="number" />
 					</template>
 				</el-table-column>
 			</el-table>

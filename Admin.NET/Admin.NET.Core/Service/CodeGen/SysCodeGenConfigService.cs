@@ -38,7 +38,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
             {
                 u.NetType = (u.EffectType == "EnumSelector" ? u.DictTypeCode : u.NetType);
             })
-            .OrderBy(u=>u.OrderNo)
+            .OrderBy(u => u.OrderNo)
             .ToListAsync();
     }
 

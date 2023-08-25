@@ -167,10 +167,10 @@ public class SysCodeGenConfig : EntityBase
     [SugarColumn(ColumnDescription = "父级字段", Length = 128)]
     [MaxLength(128)]
     public string? PidColumn { get; set; }
-    
+
     /// <summary>
     /// 排序
     /// </summary>
-    [SugarColumn(ColumnDescription = "排序",DefaultValue = "100")]
+    [SugarColumn(ColumnDescription = "排序")]
     public int OrderNo { get; set; } = 100;
 }
