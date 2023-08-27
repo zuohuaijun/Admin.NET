@@ -18,7 +18,7 @@
       "BubbleThickness": 1.0, // 气泡边沿厚度
       "InterferenceLineCount": 3, // 干扰线数量
       "FontFamily": "kaiti", // 包含actionj,epilog,fresnel,headache,lexo,prefix,progbot,ransom,robot,scandal,kaiti
-      "FrameDelay": 30, // 每帧延迟,Animation=true时有效, 默认30
+      "FrameDelay": 300, // 每帧延迟,Animation=true时有效, 默认300
       "BackgroundColor": "#ffffff", //  格式: rgb, rgba, rrggbb, or rrggbbaa format to match web syntax, 默认#fff
       "ForegroundColors": "", //  颜色格式同BackgroundColor,多个颜色逗号分割，随机选取。不填，空值，则使用默认颜色集
       "Quality": 100, // 图片质量（质量越高图片越大，gif调整无效可能会更大）
