@@ -76,7 +76,7 @@ public class SysUserService : IDynamicApiController, ITransient
     [UnitOfWork]
     [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加用户")]
-    public async Task AddUser(AddUserInput input)
+    public async Task<long> AddUser(AddUserInput input)
     {
         var isExist = await _sysUserRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.Account);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1003);
@@ -88,6 +88,8 @@ public class SysUserService : IDynamicApiController, ITransient
         var newUser = await _sysUserRep.AsInsertable(user).ExecuteReturnEntityAsync();
         input.Id = newUser.Id;
         await UpdateRoleAndExtOrg(input);
+
+        return newUser.Id;
     }
 
     /// <summary>

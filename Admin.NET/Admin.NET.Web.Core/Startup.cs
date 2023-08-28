@@ -14,6 +14,9 @@ using Furion;
 using Furion.SpecificationDocument;
 using Furion.VirtualFileServer;
 using IGeekFan.AspNetCore.Knife4jUI;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -82,14 +85,26 @@ public class Startup : AppStartup
             //.AddXmlDataContractSerializerFormatters()
             .AddInjectWithUnifyResult<AdminResultProvider>();
 
-        //// 第三方授权登录
-        //services.AddAuthentication()
-        //    .AddWeixin(options =>
-        //    {
-        //        var opt = App.GetOptions<OAuthOptions>();
-        //        options.ClientId = opt.Weixin.ClientId;
-        //        options.ClientSecret = opt.Weixin.ClientSecret;
-        //    });
+        // 第三方授权登录
+        var authOpt = App.GetOptions<OAuthOptions>();
+        services.AddAuthentication(options =>
+            {
+                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddCookie()
+            .AddWeixin(options =>
+            {
+                options.ClientId = authOpt.Weixin.ClientId;
+                options.ClientSecret = authOpt.Weixin.ClientSecret;
+            })
+            .AddGitee(options =>
+            {
+                options.ClientId = authOpt.Gitee.ClientId;
+                options.ClientSecret = authOpt.Gitee.ClientSecret;
+                options.ClaimActions.MapJsonKey(GiteeClaims.Name, "name");
+                options.ClaimActions.MapJsonKey(GiteeClaims.AvatarUrl, "avatar_url");
+            });
 
         // ElasticSearch
         services.AddElasticSearch();
