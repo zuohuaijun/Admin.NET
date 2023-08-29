@@ -28,26 +28,20 @@ public enum PlatformTypeEnum
     微信小程序 = 2,
 
     /// <summary>
-    /// 支付宝小程序
+    /// QQ
     /// </summary>
-    [Description("支付宝小程序")]
-    支付宝小程序 = 3,
+    [Description("QQ")]
+    QQ = 3,
 
     /// <summary>
-    /// 微信APP快捷登陆
+    /// 支付宝
     /// </summary>
-    [Description("微信APP快捷登陆")]
-    微信APP快捷登陆 = 4,
+    [Description("支付宝")]
+    Alipay = 4,
 
     /// <summary>
-    /// QQ在APP中快捷登陆
+    /// Gitee
     /// </summary>
-    [Description("QQ在APP中快捷登陆")]
-    QQ在APP中快捷登陆 = 5,
-
-    /// <summary>
-    /// 头条系小程序
-    /// </summary>
-    [Description("头条系小程序")]
-    头条系小程序 = 6,
+    [Description("Gitee")]
+    Gitee = 5,
 }

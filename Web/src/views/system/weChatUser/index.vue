@@ -25,11 +25,11 @@
 				<el-table-column prop="platformType" label="平台类型" width="110" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag v-if="scope.row.platformType === 1"> 微信公众号 </el-tag>
-						<el-tag v-if="scope.row.platformType === 2"> 微信小程序 </el-tag>
-						<el-tag v-if="scope.row.platformType === 3"> 支付宝小程序 </el-tag>
-						<el-tag v-if="scope.row.platformType === 4"> 微信APP快捷登陆 </el-tag>
-						<el-tag v-if="scope.row.platformType === 5"> QQ在APP中快捷登陆 </el-tag>
-						<el-tag v-if="scope.row.platformType === 6"> 头条系小程序 </el-tag>
+						<el-tag v-else-if="scope.row.platformType === 2"> 微信小程序 </el-tag>
+						<el-tag v-else-if="scope.row.platformType === 3"> QQ </el-tag>
+						<el-tag v-else-if="scope.row.platformType === 4"> Alipay </el-tag>
+						<el-tag v-else-if="scope.row.platformType === 5"> Gitee </el-tag>
+						<el-tag v-else> 未知 </el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="nickName" label="昵称" align="center" show-overflow-tooltip />

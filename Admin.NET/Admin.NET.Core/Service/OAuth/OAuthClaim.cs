@@ -9,8 +9,7 @@
 
 namespace Admin.NET.Core.Service;
 
-public static class GiteeClaims
+public static class OAuthClaim
 {
-    public const string Name = "urn:gitee:name";
-    public const string AvatarUrl = "urn:gitee:avatar_url";
+    public const string GiteeAvatarUrl = "urn:gitee:avatar_url";
 }

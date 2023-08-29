@@ -53,6 +53,7 @@
 			</el-button>
 		</el-form-item>
 		<div class="font12 mt30 login-animation4 login-msg">{{ $t('message.mobile.msgText') }}</div>
+		<!-- <el-button type="primary" round v-waves @click="weixinSignIn" :loading="state.loading.signIn"></el-button> -->
 	</el-form>
 
 	<div class="dialog-header">
@@ -77,11 +78,11 @@ import { useRoute, useRouter } from 'vue-router';
 import { ElMessage, InputInstance } from 'element-plus';
 import { useI18n } from 'vue-i18n';
 import { initBackEndControlRoutes } from '/@/router/backEnd';
-import { Session } from '/@/utils/storage';
+import { Local, Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
 
-import { clearTokens, feature, getAPI } from '/@/utils/axios-utils';
+import { accessTokenKey, clearTokens, feature, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/api';
 
 // 旋转图片滑块组件
@@ -123,6 +124,12 @@ const state = reactive({
 	isPassRotate: false,
 });
 onMounted(async () => {
+	// 若URL带有Token参数（第三方登录）
+	var accessToken = route.query.token;
+	if (accessToken != null && accessToken != undefined) {
+		await saveTokenAndInitRoutes(accessToken);
+	}
+
 	// 获取登录配置
 	var res1 = await getAPI(SysAuthApi).apiSysAuthLoginConfigGet();
 	state.secondVerEnabled = res1.data.result.secondVerEnabled ?? true;
@@ -159,16 +166,25 @@ const onSignIn = async () => {
 				ElMessage.error('登录失败，请检查账号！');
 				return;
 			}
-
-			Session.set('token', res.data.result?.accessToken); // 缓存token
-			// 添加完动态路由再进行router跳转，否则可能报错 No match found for location with path "/"
-			const isNoPower = await initBackEndControlRoutes();
-			signInSuccess(isNoPower); // 再执行 signInSuccess
+			await saveTokenAndInitRoutes(res.data.result?.accessToken);
 		} finally {
 			state.loading.signIn = false;
 		}
 	});
 };
+
+// 保持Token并初始化路由
+const saveTokenAndInitRoutes = async (accessToken: string | any) => {
+	// 缓存token
+	Local.set(accessTokenKey, accessToken);
+	// Local.set(refreshAccessTokenKey, refreshAccessToken);
+	Session.set('token', accessToken);
+
+	// 添加完动态路由再进行router跳转，否则可能报错 No match found for location with path "/"
+	const isNoPower = await initBackEndControlRoutes();
+	signInSuccess(isNoPower); // 再执行 signInSuccess
+};
+
 // 登录成功后的跳转
 const signInSuccess = (isNoPower: boolean | undefined) => {
 	if (isNoPower) {
@@ -219,6 +235,11 @@ const handleSignIn = () => {
 		state.secondVerEnabled ? openRotateVerify() : onSignIn();
 	}
 };
+
+// // 微信登录
+// const weixinSignIn = () => {
+// 	window.open('http://localhost:5005/api/sysoauth/signin?provider=Gitee&redirectUrl=http://localhost:8888');
+// };
 </script>
 
 <style lang="scss" scoped>

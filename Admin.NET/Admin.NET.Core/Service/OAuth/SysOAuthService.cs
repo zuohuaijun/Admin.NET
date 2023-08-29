@@ -21,15 +21,12 @@ public class SysOAuthService : IDynamicApiController, ITransient
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
-    private readonly SysUserService _sysUserService;
 
     public SysOAuthService(IHttpContextAccessor httpContextAccessor,
-        SqlSugarRepository<SysWechatUser> sysWechatUserRep,
-        SysUserService sysUserService)
+        SqlSugarRepository<SysWechatUser> sysWechatUserRep)
     {
         _httpContextAccessor = httpContextAccessor;
         _sysWechatUserRep = sysWechatUserRep;
-        _sysUserService = sysUserService;
     }
 
     /// <summary>
@@ -73,44 +70,51 @@ public class SysOAuthService : IDynamicApiController, ITransient
         if (openIdClaim == null || string.IsNullOrWhiteSpace(openIdClaim.Value))
             throw Oops.Oh("授权失败");
 
-        if (provider == "Weixin")
-        {
-        }
-        else if (provider == "Gitee")
-        {
-            string email = authenticateResult.Principal.FindFirst(ClaimTypes.Email)?.Value;
-            string name = authenticateResult.Principal.FindFirst(ClaimTypes.Name)?.Value;
-            string giteeName = authenticateResult.Principal.FindFirst(GiteeClaims.Name)?.Value;
-            string avatarUrl = authenticateResult.Principal.FindFirst(GiteeClaims.AvatarUrl)?.Value;
+        var name = authenticateResult.Principal.FindFirst(ClaimTypes.Name)?.Value;
+        var email = authenticateResult.Principal.FindFirst(ClaimTypes.Email)?.Value;
+        var mobilePhone = authenticateResult.Principal.FindFirst(ClaimTypes.MobilePhone)?.Value;
+        var dateOfBirth = authenticateResult.Principal.FindFirst(ClaimTypes.DateOfBirth)?.Value;
+        var gender = authenticateResult.Principal.FindFirst(ClaimTypes.Gender)?.Value;
+        var avatarUrl = "";
 
-            // 若账号不存在则新建
-            var user = await _sysWechatUserRep.GetFirstAsync(u => u.OpenId == openIdClaim.Value);
-            if (user == null)
+        var platformType = PlatformTypeEnum.微信公众号;
+        if (provider == "Gitee")
+        {
+            platformType = PlatformTypeEnum.Gitee;
+            avatarUrl = authenticateResult.Principal.FindFirst(OAuthClaim.GiteeAvatarUrl)?.Value;
+        }
+
+        // 若账号不存在则新建
+        var wechatUser = await _sysWechatUserRep.AsQueryable().Includes(u => u.SysUser).Filter(null, true).FirstAsync(u => u.OpenId == openIdClaim.Value);
+        if (wechatUser == null)
+        {
+            var userId = await App.GetRequiredService<SysUserService>().AddUser(new AddUserInput()
             {
-                var userId = await _sysUserService.AddUser(new AddUserInput()
-                {
-                    Account = name,
-                    RealName = name,
-                    NickName = name,
-                    Email = email,
-                    Avatar = avatarUrl,
-                    Phone = "",
-                });
+                Account = name,
+                RealName = name,
+                NickName = name,
+                Email = email,
+                Avatar = avatarUrl,
+                Phone = mobilePhone,
+                OrgId = 1300000000101, // 根组织架构
+                RoleIdList = new List<long> { 1300000000104 } // 仅本人数据角色
+            });
 
-                user = await _sysWechatUserRep.InsertReturnEntityAsync(new SysWechatUser()
-                {
-                    UserId = userId,
-                    OpenId = openIdClaim.Value,
-                    Avatar = avatarUrl,
-                    NickName = name,
-                });
-            }
+            await _sysWechatUserRep.InsertAsync(new SysWechatUser()
+            {
+                UserId = userId,
+                OpenId = openIdClaim.Value,
+                Avatar = avatarUrl,
+                NickName = name,
+                PlatformType = platformType
+            });
 
-            // 构建登录Token
-
-
+            wechatUser = await _sysWechatUserRep.AsQueryable().Includes(u => u.SysUser).Filter(null, true).FirstAsync(u => u.OpenId == openIdClaim.Value);
         }
 
-        return new RedirectResult($"{redirectUrl}?openId={openIdClaim.Value}");
+        // 构建Token令牌
+        var accessToken = await App.GetRequiredService<SysAuthService>().CreateToken(wechatUser.SysUser);
+
+        return new RedirectResult($"{redirectUrl}/#/login?token={accessToken}");
     }
 }

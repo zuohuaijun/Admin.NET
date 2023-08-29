@@ -95,23 +95,11 @@ public class SysAuthService : IDynamicApiController, ITransient
         // 单用户登录
         await _sysOnlineUserService.SignleLogin(user.Id);
 
-        var tokenExpire = await _sysConfigService.GetTokenExpire();
-        var refreshTokenExpire = await _sysConfigService.GetRefreshTokenExpire();
-
         // 生成Token令牌
-        var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
-        {
-            { ClaimConst.UserId, user.Id },
-            { ClaimConst.TenantId, user.TenantId },
-            { ClaimConst.Account, user.Account },
-            { ClaimConst.RealName, user.RealName },
-            { ClaimConst.AccountType, user.AccountType },
-            { ClaimConst.OrgId, user.OrgId },
-            { ClaimConst.OrgName, user.SysOrg?.Name },
-            { ClaimConst.OrgType, user.SysOrg?.OrgType },
-        }, tokenExpire);
+        var accessToken = await CreateToken(user);
 
         // 生成刷新Token令牌
+        var refreshTokenExpire = await _sysConfigService.GetRefreshTokenExpire();
         var refreshToken = JWTEncryption.GenerateRefreshToken(accessToken, refreshTokenExpire);
 
         // 设置响应报文头
@@ -125,6 +113,29 @@ public class SysAuthService : IDynamicApiController, ITransient
             AccessToken = accessToken,
             RefreshToken = refreshToken
         };
+    }
+
+    /// <summary>
+    /// 生成Token令牌
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(false)]
+    public async Task<string> CreateToken(SysUser user)
+    {
+        var tokenExpire = await _sysConfigService.GetTokenExpire();
+
+        return JWTEncryption.Encrypt(new Dictionary<string, object>
+        {
+            { ClaimConst.UserId, user.Id },
+            { ClaimConst.TenantId, user.TenantId },
+            { ClaimConst.Account, user.Account },
+            { ClaimConst.RealName, user.RealName },
+            { ClaimConst.AccountType, user.AccountType },
+            { ClaimConst.OrgId, user.OrgId },
+            { ClaimConst.OrgName, user.SysOrg?.Name },
+            { ClaimConst.OrgType, user.SysOrg?.OrgType },
+        }, tokenExpire);
     }
 
     /// <summary>

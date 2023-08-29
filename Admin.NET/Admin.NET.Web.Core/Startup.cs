@@ -92,18 +92,22 @@ public class Startup : AppStartup
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             })
-            .AddCookie()
+            .AddCookie(options =>
+            {
+                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
+                options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
+            })
             .AddWeixin(options =>
             {
-                options.ClientId = authOpt.Weixin.ClientId;
-                options.ClientSecret = authOpt.Weixin.ClientSecret;
+                options.ClientId = authOpt.Weixin?.ClientId;
+                options.ClientSecret = authOpt.Weixin?.ClientSecret;
             })
             .AddGitee(options =>
             {
-                options.ClientId = authOpt.Gitee.ClientId;
-                options.ClientSecret = authOpt.Gitee.ClientSecret;
-                options.ClaimActions.MapJsonKey(GiteeClaims.Name, "name");
-                options.ClaimActions.MapJsonKey(GiteeClaims.AvatarUrl, "avatar_url");
+                options.ClientId = authOpt.Gitee?.ClientId;
+                options.ClientSecret = authOpt.Gitee?.ClientSecret;
+
+                options.ClaimActions.MapJsonKey(OAuthClaim.GiteeAvatarUrl, "avatar_url");
             });
 
         // ElasticSearch
