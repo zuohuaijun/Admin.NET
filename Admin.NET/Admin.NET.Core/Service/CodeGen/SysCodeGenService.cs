@@ -420,7 +420,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         {
             Pid = pid,
             Title = busName + "管理",
-            Name = className[..1].ToLower() + className[..1],
+            Name = className[..1].ToLower() + className[1..],
             Type = MenuTypeEnum.Menu,
             Path = pPath + "/" + className.ToLower(),
             Component = "/main/" + className[..1].ToLower() + className[1..] + "/index",
