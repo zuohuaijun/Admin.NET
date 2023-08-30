@@ -62,7 +62,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// <param name="notice"></param>
     /// <param name="userIds"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task PublicNotice(SysNotice notice, List<long> userIds)
     {
         var userList = await _sysOnlineUerRep.GetListAsync(m => userIds.Contains(m.UserId));
@@ -78,7 +78,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// 单用户登录
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task SignleLogin(long userId)
     {
         if (await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSingleLogin))

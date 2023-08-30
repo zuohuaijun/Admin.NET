@@ -93,7 +93,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// 获取库隔离的租户列表
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task<List<SysTenant>> GetTenantDbList()
     {
         return await _sysTenantRep.GetListAsync(u => u.TenantType == TenantTypeEnum.Db && u.Status == StatusEnum.Enable);
@@ -341,7 +341,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// 缓存所有租户
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task UpdateTenantCache()
     {
         _sysCacheService.Remove(CacheConst.KeyTenant);

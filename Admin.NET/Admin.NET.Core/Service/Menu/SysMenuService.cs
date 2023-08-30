@@ -230,7 +230,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// 获取系统所有按钮权限集合（缓存）
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task<List<string>> GetAllBtnPermList()
     {
         var permissions = _sysCacheService.Get<List<string>>(CacheConst.KeyUserButton + 0);

@@ -232,7 +232,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// 根据用户Id获取机构Id集合
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task<List<long>> GetUserOrgIdList()
     {
         if (_userManager.SuperAdmin)
@@ -340,7 +340,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="pid"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task<List<long>> GetChildIdListWithSelfById(long pid)
     {
         var orgTreeList = await _sysOrgRep.AsQueryable().ToChildListAsync(u => u.Pid, pid, true);

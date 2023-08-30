@@ -60,7 +60,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="codeGenId"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task DeleteCodeGenConfig(long codeGenId)
     {
         await _db.Deleteable<SysCodeGenConfig>().Where(u => u.CodeGenId == codeGenId).ExecuteCommandAsync();
@@ -82,7 +82,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="tableColumnOuputList"></param>
     /// <param name="codeGenerate"></param>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public void AddList(List<ColumnOuput> tableColumnOuputList, SysCodeGen codeGenerate)
     {
         if (tableColumnOuputList == null) return;

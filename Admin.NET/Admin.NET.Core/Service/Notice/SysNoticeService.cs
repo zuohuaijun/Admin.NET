@@ -171,7 +171,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     /// 初始化通知公告信息
     /// </summary>
     /// <param name="notice"></param>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     private void InitNoticeInfo(SysNotice notice)
     {
         notice.PublicUserId = _userManager.UserId;

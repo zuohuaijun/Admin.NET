@@ -136,7 +136,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="dictTypeId"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task<List<SysDictData>> GetDictDataListByDictTypeId(long dictTypeId)
     {
         return await _sysDictDataRep.AsQueryable()
@@ -178,7 +178,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="dictTypeId"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task DeleteDictData(long dictTypeId)
     {
         await _sysDictDataRep.DeleteAsync(u => u.DictTypeId == dictTypeId);
