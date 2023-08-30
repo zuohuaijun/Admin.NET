@@ -38,7 +38,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="key"></param>
     /// <param name="value"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public bool Set(string key, object value)
     {
         return _cache.Set(key, value);
@@ -51,7 +51,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="value"></param>
     /// <param name="expire"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public bool Set(string key, object value, TimeSpan expire)
     {
         return _cache.Set(key, value, expire);
@@ -63,7 +63,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <typeparam name="T"></typeparam>
     /// <param name="key"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public T Get<T>(string key)
     {
         return _cache.Get<T>(key);
@@ -86,7 +86,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// </summary>
     /// <param name="key">键</param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public bool ExistKey(string key)
     {
         return _cache.ContainsKey(key);

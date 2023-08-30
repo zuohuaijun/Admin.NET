@@ -120,7 +120,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task<string> CreateToken(SysUser user)
     {
         var tokenExpire = await _sysConfigService.GetTokenExpire();

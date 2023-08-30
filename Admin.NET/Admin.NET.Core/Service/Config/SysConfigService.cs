@@ -141,7 +141,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="code"></param>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task<T> GetConfigValue<T>(string code)
     {
         var value = _sysCacheService.Get<string>(code);
@@ -169,7 +169,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// 获取 Token 过期时间
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task<int> GetTokenExpire()
     {
         var tokenExpireStr = await GetConfigValue<string>(CommonConst.SysTokenExpire);
@@ -181,7 +181,7 @@ public class SysConfigService : IDynamicApiController, ITransient
     /// 获取 RefreshToken 过期时间
     /// </summary>
     /// <returns></returns>
-    [ApiDescriptionSettings(false)]
+    [NonAction]
     public async Task<int> GetRefreshTokenExpire()
     {
         var refreshTokenExpireStr = await GetConfigValue<string>(CommonConst.SysRefreshTokenExpire);
