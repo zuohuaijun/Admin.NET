@@ -66,7 +66,7 @@ export interface SysFile {
      */
     bucketName?: string | null;
     /**
-     * 文件名称（上传时名称）
+     * 文件名称（源文件名）
      * @type {string}
      * @memberof SysFile
      */
@@ -101,4 +101,10 @@ export interface SysFile {
      * @memberof SysFile
      */
     url?: string | null;
+    /**
+     * 文件MD5
+     * @type {string}
+     * @memberof SysFile
+     */
+    fileMd5?: string | null;
 }

@@ -13,7 +13,7 @@
  */
 import { DataItem } from './data-item';
 /**
- * 
+ * 发送订阅消息
  * @export
  * @interface SendSubscribeMessageInput
  */
@@ -31,7 +31,7 @@ export interface SendSubscribeMessageInput {
      */
     toUserOpenId: string;
     /**
-     * 模板内容，格式形如 { \"key1\": { \"value\": any }, \"key2\": { \"value\": any } }的object
+     * 模板内容，格式形如 { \"key1\": { \"value\": any }, \"key2\": { \"value\": any } }
      * @type {{ [key: string]: DataItem; }}
      * @memberof SendSubscribeMessageInput
      */

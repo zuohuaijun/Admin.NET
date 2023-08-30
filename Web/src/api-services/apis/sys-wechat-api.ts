@@ -18,7 +18,9 @@ import { Configuration } from '../configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AdminResultObject } from '../models';
 import { AdminResultString } from '../models';
+import { DeleteMessageTemplateInput } from '../models';
 import { GenAuthUrlInput } from '../models';
+import { MessageTemplateSendInput } from '../models';
 import { SignatureInput } from '../models';
 import { WechatUserLogin } from '../models';
 /**
@@ -27,6 +29,54 @@ import { WechatUserLogin } from '../models';
  */
 export const SysWechatApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
+        /**
+         * 
+         * @summary 删除模板
+         * @param {DeleteMessageTemplateInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysWechatDeleteMessageTemplatePost: async (body?: DeleteMessageTemplateInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechat/deleteMessageTemplate`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
         /**
          * 
          * @summary 生成网页授权Url
@@ -125,6 +175,49 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @summary 获取模板列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysWechatMessageTemplateListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechat/messageTemplateList`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 微信用户登录OpenId
          * @param {WechatUserLogin} [body] 
          * @param {*} [options] Override http request option.
@@ -132,6 +225,54 @@ export const SysWechatApiAxiosParamCreator = function (configuration?: Configura
          */
         apiSysWechatOpenIdLoginPost: async (body?: WechatUserLogin, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysWechat/openIdLogin`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 发送模板消息
+         * @param {MessageTemplateSendInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysWechatSendTemplateMessagePost: async (body?: MessageTemplateSendInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWechat/sendTemplateMessage`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -234,6 +375,20 @@ export const SysWechatApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @summary 删除模板
+         * @param {DeleteMessageTemplateInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysWechatDeleteMessageTemplatePost(body?: DeleteMessageTemplateInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatDeleteMessageTemplatePost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 生成网页授权Url
          * @param {GenAuthUrlInput} [body] 
          * @param {*} [options] Override http request option.
@@ -262,6 +417,19 @@ export const SysWechatApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 获取模板列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysWechatMessageTemplateListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatMessageTemplateListGet(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 微信用户登录OpenId
          * @param {WechatUserLogin} [body] 
          * @param {*} [options] Override http request option.
@@ -269,6 +437,20 @@ export const SysWechatApiFp = function(configuration?: Configuration) {
          */
         async apiSysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
             const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatOpenIdLoginPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 发送模板消息
+         * @param {MessageTemplateSendInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysWechatSendTemplateMessagePost(body?: MessageTemplateSendInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysWechatApiAxiosParamCreator(configuration).apiSysWechatSendTemplateMessagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -299,6 +481,16 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
     return {
         /**
          * 
+         * @summary 删除模板
+         * @param {DeleteMessageTemplateInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysWechatDeleteMessageTemplatePost(body?: DeleteMessageTemplateInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysWechatApiFp(configuration).apiSysWechatDeleteMessageTemplatePost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 生成网页授权Url
          * @param {GenAuthUrlInput} [body] 
          * @param {*} [options] Override http request option.
@@ -319,6 +511,15 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
+         * @summary 获取模板列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysWechatMessageTemplateListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysWechatApiFp(configuration).apiSysWechatMessageTemplateListGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 微信用户登录OpenId
          * @param {WechatUserLogin} [body] 
          * @param {*} [options] Override http request option.
@@ -326,6 +527,16 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
          */
         async apiSysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
             return SysWechatApiFp(configuration).apiSysWechatOpenIdLoginPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 发送模板消息
+         * @param {MessageTemplateSendInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysWechatSendTemplateMessagePost(body?: MessageTemplateSendInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysWechatApiFp(configuration).apiSysWechatSendTemplateMessagePost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -347,6 +558,17 @@ export const SysWechatApiFactory = function (configuration?: Configuration, base
  * @extends {BaseAPI}
  */
 export class SysWechatApi extends BaseAPI {
+    /**
+     * 
+     * @summary 删除模板
+     * @param {DeleteMessageTemplateInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysWechatApi
+     */
+    public async apiSysWechatDeleteMessageTemplatePost(body?: DeleteMessageTemplateInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysWechatApiFp(this.configuration).apiSysWechatDeleteMessageTemplatePost(body, options).then((request) => request(this.axios, this.basePath));
+    }
     /**
      * 
      * @summary 生成网页授权Url
@@ -371,6 +593,16 @@ export class SysWechatApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 获取模板列表
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysWechatApi
+     */
+    public async apiSysWechatMessageTemplateListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysWechatApiFp(this.configuration).apiSysWechatMessageTemplateListGet(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
      * @summary 微信用户登录OpenId
      * @param {WechatUserLogin} [body] 
      * @param {*} [options] Override http request option.
@@ -379,6 +611,17 @@ export class SysWechatApi extends BaseAPI {
      */
     public async apiSysWechatOpenIdLoginPost(body?: WechatUserLogin, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
         return SysWechatApiFp(this.configuration).apiSysWechatOpenIdLoginPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 发送模板消息
+     * @param {MessageTemplateSendInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysWechatApi
+     */
+    public async apiSysWechatSendTemplateMessagePost(body?: MessageTemplateSendInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysWechatApiFp(this.configuration).apiSysWechatSendTemplateMessagePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

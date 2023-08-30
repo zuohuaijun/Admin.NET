@@ -12,27 +12,33 @@
  * Do not edit the class manually.
  */
 /**
- * 增加订阅消息模板
+ * 获取消息模板列表
  * @export
- * @interface AddSubscribeMessageTemplateInput
+ * @interface MessageTemplateSendInput
  */
-export interface AddSubscribeMessageTemplateInput {
+export interface MessageTemplateSendInput {
     /**
-     * 模板标题Id
+     * 订阅模板Id
      * @type {string}
-     * @memberof AddSubscribeMessageTemplateInput
+     * @memberof MessageTemplateSendInput
      */
-    templateTitleId: string;
+    templateId: string;
     /**
-     * 模板关键词列表,例如 [3,5,4]
-     * @type {Array<number>}
-     * @memberof AddSubscribeMessageTemplateInput
-     */
-    keyworkIdList: Array<number>;
-    /**
-     * 服务场景描述，15个字以内
+     * 接收者的OpenId
      * @type {string}
-     * @memberof AddSubscribeMessageTemplateInput
+     * @memberof MessageTemplateSendInput
      */
-    sceneDescription: string;
+    toUserOpenId: string;
+    /**
+     * 模板跳转链接
+     * @type {string}
+     * @memberof MessageTemplateSendInput
+     */
+    url?: string | null;
+    /**
+     * 所需跳转到小程序的具体页面路径，支持带参数,（示例index?foo=bar）
+     * @type {string}
+     * @memberof MessageTemplateSendInput
+     */
+    miniProgramPagePath?: string | null;
 }

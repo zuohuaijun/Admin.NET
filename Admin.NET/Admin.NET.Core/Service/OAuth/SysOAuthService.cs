@@ -16,7 +16,7 @@ namespace Admin.NET.Core.Service;
 /// 系统OAuth服务
 /// </summary>
 [AllowAnonymous]
-[ApiDescriptionSettings(Order = 100)]
+[ApiDescriptionSettings(Order = 495)]
 public class SysOAuthService : IDynamicApiController, ITransient
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -113,8 +113,8 @@ public class SysOAuthService : IDynamicApiController, ITransient
         }
 
         // 构建Token令牌
-        var accessToken = await App.GetRequiredService<SysAuthService>().CreateToken(wechatUser.SysUser);
+        var token = await App.GetRequiredService<SysAuthService>().CreateToken(wechatUser.SysUser);
 
-        return new RedirectResult($"{redirectUrl}/#/login?token={accessToken}");
+        return new RedirectResult($"{redirectUrl}/#/login?token={token.AccessToken}");
     }
 }

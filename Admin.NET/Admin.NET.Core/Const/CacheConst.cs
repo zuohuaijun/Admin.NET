@@ -45,9 +45,12 @@ public class CacheConst
     public const string KeyUserOnline = "sys_user_online:";
 
     /// <summary>
-    /// 验证码缓存
+    /// 图形验证码缓存
     /// </summary>
     public const string KeyVerCode = "sys_verCode:";
+
+    // 手机验证码缓存
+    public const string KeyPhoneVerCode = "sys_phoneVerCode:";
 
     /// <summary>
     /// 租户缓存

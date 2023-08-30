@@ -12,15 +12,21 @@
  * Do not edit the class manually.
  */
 /**
- * 微信用户登录
+ * 
  * @export
- * @interface WechatUserLogin
+ * @interface LoginPhoneInput
  */
-export interface WechatUserLogin {
+export interface LoginPhoneInput {
     /**
-     * OpenId
+     * 手机号码
      * @type {string}
-     * @memberof WechatUserLogin
+     * @memberof LoginPhoneInput
      */
-    openId: string;
+    phone: string;
+    /**
+     * 验证码
+     * @type {string}
+     * @memberof LoginPhoneInput
+     */
+    code: string;
 }

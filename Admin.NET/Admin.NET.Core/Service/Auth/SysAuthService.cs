@@ -47,13 +47,13 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 登录系统
+    /// 账号密码登录
     /// </summary>
     /// <param name="input"></param>
     /// <remarks>用户名/密码：superadmin/123456</remarks>
     /// <returns></returns>
     [AllowAnonymous]
-    [DisplayName("登录系统")]
+    [DisplayName("账号密码登录")]
     public async Task<LoginOutput> Login([Required] LoginInput input)
     {
         //// 可以根据域名获取具体租户
@@ -92,11 +92,55 @@ public class SysAuthService : IDynamicApiController, ITransient
                 throw Oops.Oh(ErrorCodeEnum.D1000);
         }
 
+        return await CreateToken(user);
+    }
+
+    /// <summary>
+    /// 手机号登录
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [DisplayName("手机号登录")]
+    public async Task<LoginOutput> LoginPhone([Required] LoginPhoneInput input)
+    {
+        var verifyCode = _sysCacheService.Get<string>($"{CacheConst.KeyPhoneVerCode}{input.Phone}");
+        if (string.IsNullOrWhiteSpace(verifyCode))
+            throw Oops.Oh("验证码不存在或已失效，请重新获取！");
+        if (verifyCode != input.Code)
+            throw Oops.Oh("验证码错误！");
+
+        // 账号是否存在
+        var user = await _sysUserRep.AsQueryable().Includes(t => t.SysOrg).Filter(null, true).FirstAsync(u => u.Phone.Equals(input.Phone));
+        _ = user ?? throw Oops.Oh(ErrorCodeEnum.D0009);
+
+        return await CreateToken(user);
+    }
+
+    /// <summary>
+    /// 生成Token令牌
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
+    [NonAction]
+    public async Task<LoginOutput> CreateToken(SysUser user)
+    {
         // 单用户登录
         await _sysOnlineUserService.SignleLogin(user.Id);
 
         // 生成Token令牌
-        var accessToken = await CreateToken(user);
+        var tokenExpire = await _sysConfigService.GetTokenExpire();
+        var accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
+        {
+            { ClaimConst.UserId, user.Id },
+            { ClaimConst.TenantId, user.TenantId },
+            { ClaimConst.Account, user.Account },
+            { ClaimConst.RealName, user.RealName },
+            { ClaimConst.AccountType, user.AccountType },
+            { ClaimConst.OrgId, user.OrgId },
+            { ClaimConst.OrgName, user.SysOrg?.Name },
+            { ClaimConst.OrgType, user.SysOrg?.OrgType },
+        }, tokenExpire);
 
         // 生成刷新Token令牌
         var refreshTokenExpire = await _sysConfigService.GetRefreshTokenExpire();
@@ -116,33 +160,10 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 生成Token令牌
-    /// </summary>
-    /// <param name="user"></param>
-    /// <returns></returns>
-    [NonAction]
-    public async Task<string> CreateToken(SysUser user)
-    {
-        var tokenExpire = await _sysConfigService.GetTokenExpire();
-
-        return JWTEncryption.Encrypt(new Dictionary<string, object>
-        {
-            { ClaimConst.UserId, user.Id },
-            { ClaimConst.TenantId, user.TenantId },
-            { ClaimConst.Account, user.Account },
-            { ClaimConst.RealName, user.RealName },
-            { ClaimConst.AccountType, user.AccountType },
-            { ClaimConst.OrgId, user.OrgId },
-            { ClaimConst.OrgName, user.SysOrg?.Name },
-            { ClaimConst.OrgType, user.SysOrg?.OrgType },
-        }, tokenExpire);
-    }
-
-    /// <summary>
     /// 获取登录账号
     /// </summary>
     /// <returns></returns>
-    [DisplayName("登录系统")]
+    [DisplayName("获取登录账号")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);

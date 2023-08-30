@@ -10,7 +10,6 @@
 using Admin.NET.Core;
 using AspNetCoreRateLimit;
 using Furion;
-using Lazy.Captcha.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Admin.NET.Web.Core;
@@ -38,6 +37,7 @@ public static class ProjectOptions
         services.AddConfigurableOptions<EmailOptions>();
         services.AddConfigurableOptions<OAuthOptions>();
         services.AddConfigurableOptions<CryptogramOptions>();
+        services.AddConfigurableOptions<SMSOptions>();
         //services.AddConfigurableOptions<IpRateLimitingOptions>();
         //services.AddConfigurableOptions<IpRateLimitPoliciesOptions>();
         //services.AddConfigurableOptions<ClientRateLimitingOptions>();

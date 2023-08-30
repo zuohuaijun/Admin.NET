@@ -1,0 +1,12 @@
+{
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+
+  "SMS": {
+    "Aliyun": {
+      "AccessKeyId": "LTAI5t8q8PMXkonqpVNtN7aZ",
+      "AccessKeySecret": "giAHi3RRL1UbEu6Ai6aBX40D06XFtO",
+      "SignName": "AdminNET平台", // 短信签名
+      "TemplateCode": "" // 短信模板
+    }
+  }
+}

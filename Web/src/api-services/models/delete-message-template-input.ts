@@ -12,15 +12,15 @@
  * Do not edit the class manually.
  */
 /**
- * 微信用户登录
+ * 删除消息模板
  * @export
- * @interface WechatUserLogin
+ * @interface DeleteMessageTemplateInput
  */
-export interface WechatUserLogin {
+export interface DeleteMessageTemplateInput {
     /**
-     * OpenId
+     * 订阅模板Id
      * @type {string}
-     * @memberof WechatUserLogin
+     * @memberof DeleteMessageTemplateInput
      */
-    openId: string;
+    templateId: string;
 }

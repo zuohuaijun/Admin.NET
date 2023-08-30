@@ -94,7 +94,6 @@ const route = useRoute();
 const router = useRouter();
 
 const ruleFormRef = ref();
-
 const accountRef = ref<InputInstance>();
 const passwordRef = ref<InputInstance>();
 const codeRef = ref<InputInstance>();
@@ -240,6 +239,9 @@ const handleSignIn = () => {
 // const weixinSignIn = () => {
 // 	window.open('http://localhost:5005/api/sysoauth/signin?provider=Gitee&redirectUrl=http://localhost:8888');
 // };
+
+// 导出对象
+defineExpose({ saveTokenAndInitRoutes });
 </script>
 
 <style lang="scss" scoped>

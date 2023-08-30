@@ -179,4 +179,10 @@ export interface CodeGenConfig {
      * @memberof CodeGenConfig
      */
     pidColumn?: string | null;
+    /**
+     * 排序
+     * @type {number}
+     * @memberof CodeGenConfig
+     */
+    orderNo?: number;
 }

@@ -33,6 +33,11 @@ export enum DbType {
     NUMBER_13 = 13,
     NUMBER_14 = 14,
     NUMBER_15 = 15,
+    NUMBER_16 = 16,
+    NUMBER_17 = 17,
+    NUMBER_18 = 18,
+    NUMBER_19 = 19,
+    NUMBER_20 = 20,
     NUMBER_900 = 900
 }
 

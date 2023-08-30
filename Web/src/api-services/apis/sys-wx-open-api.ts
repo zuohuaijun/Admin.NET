@@ -78,6 +78,49 @@ export const SysWxOpenApiAxiosParamCreator = function (configuration?: Configura
         },
         /**
          * 
+         * @summary 获取订阅消息模板列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysWxOpenMessageTemplateListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysWxOpen/messageTemplateList`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 发送订阅消息
          * @param {SendSubscribeMessageInput} [body] 
          * @param {*} [options] Override http request option.
@@ -118,49 +161,6 @@ export const SysWxOpenApiAxiosParamCreator = function (configuration?: Configura
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 获取订阅消息模板列表
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSysWxOpenSubscribeMessageTemplateListGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/sysWxOpen/subscribeMessageTemplateList`;
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -353,13 +353,12 @@ export const SysWxOpenApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 发送订阅消息
-         * @param {SendSubscribeMessageInput} [body] 
+         * @summary 获取订阅消息模板列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysWxOpenSendSubscribeMessagePost(body?: SendSubscribeMessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysWxOpenApiAxiosParamCreator(configuration).apiSysWxOpenSendSubscribeMessagePost(body, options);
+        async apiSysWxOpenMessageTemplateListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysWxOpenApiAxiosParamCreator(configuration).apiSysWxOpenMessageTemplateListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -367,12 +366,13 @@ export const SysWxOpenApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 获取订阅消息模板列表
+         * @summary 发送订阅消息
+         * @param {SendSubscribeMessageInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysWxOpenSubscribeMessageTemplateListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
-            const localVarAxiosArgs = await SysWxOpenApiAxiosParamCreator(configuration).apiSysWxOpenSubscribeMessageTemplateListGet(options);
+        async apiSysWxOpenSendSubscribeMessagePost(body?: SendSubscribeMessageInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultObject>>> {
+            const localVarAxiosArgs = await SysWxOpenApiAxiosParamCreator(configuration).apiSysWxOpenSendSubscribeMessagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -442,6 +442,15 @@ export const SysWxOpenApiFactory = function (configuration?: Configuration, base
         },
         /**
          * 
+         * @summary 获取订阅消息模板列表
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysWxOpenMessageTemplateListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
+            return SysWxOpenApiFp(configuration).apiSysWxOpenMessageTemplateListGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 发送订阅消息
          * @param {SendSubscribeMessageInput} [body] 
          * @param {*} [options] Override http request option.
@@ -449,15 +458,6 @@ export const SysWxOpenApiFactory = function (configuration?: Configuration, base
          */
         async apiSysWxOpenSendSubscribeMessagePost(body?: SendSubscribeMessageInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
             return SysWxOpenApiFp(configuration).apiSysWxOpenSendSubscribeMessagePost(body, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
-         * @summary 获取订阅消息模板列表
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysWxOpenSubscribeMessageTemplateListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultObject>> {
-            return SysWxOpenApiFp(configuration).apiSysWxOpenSubscribeMessageTemplateListGet(options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -513,6 +513,16 @@ export class SysWxOpenApi extends BaseAPI {
     }
     /**
      * 
+     * @summary 获取订阅消息模板列表
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysWxOpenApi
+     */
+    public async apiSysWxOpenMessageTemplateListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
+        return SysWxOpenApiFp(this.configuration).apiSysWxOpenMessageTemplateListGet(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
      * @summary 发送订阅消息
      * @param {SendSubscribeMessageInput} [body] 
      * @param {*} [options] Override http request option.
@@ -521,16 +531,6 @@ export class SysWxOpenApi extends BaseAPI {
      */
     public async apiSysWxOpenSendSubscribeMessagePost(body?: SendSubscribeMessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
         return SysWxOpenApiFp(this.configuration).apiSysWxOpenSendSubscribeMessagePost(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 获取订阅消息模板列表
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysWxOpenApi
-     */
-    public async apiSysWxOpenSubscribeMessageTemplateListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultObject>> {
-        return SysWxOpenApiFp(this.configuration).apiSysWxOpenSubscribeMessageTemplateListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

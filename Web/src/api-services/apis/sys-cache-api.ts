@@ -168,6 +168,55 @@ export const SysCacheApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @summary 根据键名前缀获取键名集合
+         * @param {string} prefixKey 键名前缀
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysCacheKeysByPrefixKeyPrefixKeyGet: async (prefixKey: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'prefixKey' is not null or undefined
+            if (prefixKey === null || prefixKey === undefined) {
+                throw new RequiredError('prefixKey','Required parameter prefixKey was null or undefined when calling apiSysCacheKeysByPrefixKeyPrefixKeyGet.');
+            }
+            const localVarPath = `/api/sysCache/keysByPrefixKey/{prefixKey}`
+                .replace(`{${"prefixKey"}}`, encodeURIComponent(String(prefixKey)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 获取缓存值
          * @param {string} key 
          * @param {*} [options] Override http request option.
@@ -245,7 +294,7 @@ export const SysCacheApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCacheDeleteKeyPost(key: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+        async apiSysCacheDeleteKeyPost(key: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultInt32>>> {
             const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).apiSysCacheDeleteKeyPost(key, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -260,6 +309,20 @@ export const SysCacheApiFp = function(configuration?: Configuration) {
          */
         async apiSysCacheKeyListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListString>>> {
             const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).apiSysCacheKeyListGet(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 根据键名前缀获取键名集合
+         * @param {string} prefixKey 键名前缀
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysCacheKeysByPrefixKeyPrefixKeyGet(prefixKey: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListString>>> {
+            const localVarAxiosArgs = await SysCacheApiAxiosParamCreator(configuration).apiSysCacheKeysByPrefixKeyPrefixKeyGet(prefixKey, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -305,7 +368,7 @@ export const SysCacheApiFactory = function (configuration?: Configuration, baseP
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysCacheDeleteKeyPost(key: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+        async apiSysCacheDeleteKeyPost(key: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultInt32>> {
             return SysCacheApiFp(configuration).apiSysCacheDeleteKeyPost(key, options).then((request) => request(axios, basePath));
         },
         /**
@@ -316,6 +379,16 @@ export const SysCacheApiFactory = function (configuration?: Configuration, baseP
          */
         async apiSysCacheKeyListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListString>> {
             return SysCacheApiFp(configuration).apiSysCacheKeyListGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 根据键名前缀获取键名集合
+         * @param {string} prefixKey 键名前缀
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysCacheKeysByPrefixKeyPrefixKeyGet(prefixKey: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListString>> {
+            return SysCacheApiFp(configuration).apiSysCacheKeysByPrefixKeyPrefixKeyGet(prefixKey, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -356,7 +429,7 @@ export class SysCacheApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysCacheApi
      */
-    public async apiSysCacheDeleteKeyPost(key: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+    public async apiSysCacheDeleteKeyPost(key: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultInt32>> {
         return SysCacheApiFp(this.configuration).apiSysCacheDeleteKeyPost(key, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -368,6 +441,17 @@ export class SysCacheApi extends BaseAPI {
      */
     public async apiSysCacheKeyListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListString>> {
         return SysCacheApiFp(this.configuration).apiSysCacheKeyListGet(options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 根据键名前缀获取键名集合
+     * @param {string} prefixKey 键名前缀
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysCacheApi
+     */
+    public async apiSysCacheKeysByPrefixKeyPrefixKeyGet(prefixKey: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListString>> {
+        return SysCacheApiFp(this.configuration).apiSysCacheKeysByPrefixKeyPrefixKeyGet(prefixKey, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

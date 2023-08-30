@@ -185,4 +185,10 @@ export interface SysCodeGenConfig {
      * @memberof SysCodeGenConfig
      */
     pidColumn?: string | null;
+    /**
+     * 排序
+     * @type {number}
+     * @memberof SysCodeGenConfig
+     */
+    orderNo?: number;
 }

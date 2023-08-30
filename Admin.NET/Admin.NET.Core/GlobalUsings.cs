@@ -9,6 +9,7 @@
 
 global using Admin.NET.Core.Service;
 global using Furion;
+global using Furion.ClayObject;
 global using Furion.ConfigurableOptions;
 global using Furion.DatabaseAccessor;
 global using Furion.DataEncryption;

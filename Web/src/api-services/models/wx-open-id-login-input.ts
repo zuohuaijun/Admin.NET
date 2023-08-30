@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ * 微信小程序登录
  * @export
  * @interface WxOpenIdLoginInput
  */

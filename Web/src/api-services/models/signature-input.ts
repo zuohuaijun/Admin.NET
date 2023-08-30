@@ -12,7 +12,7 @@
  * Do not edit the class manually.
  */
 /**
- * 
+ * 获取配置签名
  * @export
  * @interface SignatureInput
  */
