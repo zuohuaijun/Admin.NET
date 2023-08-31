@@ -353,6 +353,18 @@ public enum ErrorCodeEnum
     D6001,
 
     /// <summary>
+    /// 无权修改本职位
+    /// </summary>
+    [ErrorCodeItemMetadata("无权修改本职位")]
+    D6002,
+
+    /// <summary>
+    /// 职位不存在
+    /// </summary>
+    [ErrorCodeItemMetadata("职位不存在")]
+    D6003,
+
+    /// <summary>
     /// 通知公告状态错误
     /// </summary>
     [ErrorCodeItemMetadata("通知公告状态错误")]

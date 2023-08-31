@@ -15,12 +15,15 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 460)]
 public class SysPosService : IDynamicApiController, ITransient
 {
+    private readonly UserManager _userManager;
     private readonly SqlSugarRepository<SysPos> _sysPosRep;
     private readonly SysUserExtOrgService _sysUserExtOrgService;
 
-    public SysPosService(SqlSugarRepository<SysPos> sysPosRep,
+    public SysPosService(UserManager userManager,
+        SqlSugarRepository<SysPos> sysPosRep,
         SysUserExtOrgService sysUserExtOrgService)
     {
+        _userManager = userManager;
         _sysPosRep = sysPosRep;
         _sysUserExtOrgService = sysUserExtOrgService;
     }
@@ -64,9 +67,12 @@ public class SysPosService : IDynamicApiController, ITransient
     [DisplayName("更新职位")]
     public async Task UpdatePos(UpdatePosInput input)
     {
-        var isExist = await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
-        if (isExist)
+        var sysPos = await _sysPosRep.GetFirstAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
+        if (sysPos != null)
             throw Oops.Oh(ErrorCodeEnum.D6000);
+
+        if (!_userManager.SuperAdmin && sysPos.CreateUserId != _userManager.UserId)
+            throw Oops.Oh(ErrorCodeEnum.D6002);
 
         await _sysPosRep.AsUpdateable(input.Adapt<SysPos>()).IgnoreColumns(true).ExecuteCommandAsync();
     }
@@ -80,6 +86,13 @@ public class SysPosService : IDynamicApiController, ITransient
     [DisplayName("删除职位")]
     public async Task DeletePos(DeletePosInput input)
     {
+        var sysPos = await _sysPosRep.GetFirstAsync(u => u.Id == input.Id);
+        if (sysPos == null)
+            throw Oops.Oh(ErrorCodeEnum.D6003);
+
+        if (!_userManager.SuperAdmin && sysPos.CreateUserId != _userManager.UserId)
+            throw Oops.Oh(ErrorCodeEnum.D6002);
+
         // 该职位下是否有用户
         var hasPosEmp = await _sysPosRep.ChangeRepository<SqlSugarRepository<SysUser>>()
             .IsAnyAsync(u => u.PosId == input.Id);

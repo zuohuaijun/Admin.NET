@@ -38,31 +38,28 @@ public static class ComputerUtil
 
         if (IsUnix())
         {
-            string output = ShellHelper.Bash(@"df -mT | awk '/^\/dev\/vd/ {print $1,$2,$3,$4,$5,$6}'");
-            var arr = output.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-            if (arr.Length == 0) return diskInfos;
+            var output = ShellHelper.Bash(@"df -mT | awk '/^\/dev\/vd/ {print $1,$2,$3,$4,$5,$6}'");
+            var disks = output.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+            if (disks.Length == 0) return diskInfos;
 
-            var rootDisk = arr[1].Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
+            var rootDisk = disks[1].Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
             if (rootDisk == null || rootDisk.Length == 0)
                 return diskInfos;
 
-            foreach (var item in arr)
+            foreach (var item in disks)
             {
-                var rootDisk = item.Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
-                if (rootDisk == null || rootDisk.Length == 0)
-                {
-                    return diskInfos;
-                }
+                var disk = item.Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
+                if (disk == null || disk.Length == 0)
+                    continue;
 
-
-                DiskInfo diskInfo = new DiskInfo()
+                var diskInfo = new DiskInfo()
                 {
-                    DiskName = rootDisk[0],
-                    TypeName = rootDisk[1],
-                    TotalSize = long.Parse(rootDisk[2]) / 1024,
-                    Used = long.Parse(rootDisk[3]) / 1024,
-                    AvailableFreeSpace = long.Parse(rootDisk[4]) / 1024,
-                    AvailablePercent = decimal.Parse(rootDisk[5].Replace("%", ""))
+                    DiskName = disk[0],
+                    TypeName = disk[1],
+                    TotalSize = long.Parse(disk[2]) / 1024,
+                    Used = long.Parse(disk[3]) / 1024,
+                    AvailableFreeSpace = long.Parse(disk[4]) / 1024,
+                    AvailablePercent = decimal.Parse(disk[5].Replace("%", ""))
                 };
                 diskInfos.Add(diskInfo);
             }
@@ -304,6 +301,57 @@ public class ShellUtil
 
     /// <summary>
     /// windows系统命令
+    /// </summary>
+    /// <param name="fileName"></param>
+    /// <param name="args"></param>
+    /// <returns></returns>
+    public static string Cmd(string fileName, string args)
+    {
+        string output = string.Empty;
+
+        var info = new ProcessStartInfo();
+        info.FileName = fileName;
+        info.Arguments = args;
+        info.RedirectStandardOutput = true;
+
+        using (var process = Process.Start(info))
+        {
+            output = process.StandardOutput.ReadToEnd();
+        }
+        return output;
+    }
+}
+
+public class ShellHelper
+{
+    /// <summary>
+    /// Linux 系统命令
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    public static string Bash(string command)
+    {
+        var escapedArgs = command.Replace("\"", "\\\"");
+        var process = new Process()
+        {
+            StartInfo = new ProcessStartInfo
+            {
+                FileName = "/bin/bash",
+                Arguments = $"-c \"{escapedArgs}\"",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true,
+            }
+        };
+        process.Start();
+        string result = process.StandardOutput.ReadToEnd();
+        process.WaitForExit();
+        process.Dispose();
+        return result;
+    }
+
+    /// <summary>
+    /// Windows 系统命令
     /// </summary>
     /// <param name="fileName"></param>
     /// <param name="args"></param>
