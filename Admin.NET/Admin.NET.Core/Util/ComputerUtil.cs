@@ -38,7 +38,7 @@ public static class ComputerUtil
 
         if (IsUnix())
         {
-            string output = ShellUtil.Bash("df -m / | awk '{print $2,$3,$4,$5,$6}'");
+            string output = ShellHelper.Bash(@"df -mT | awk '/^\/dev\/vd/ {print $1,$2,$3,$4,$5,$6}'");
             var arr = output.Split('\n', StringSplitOptions.RemoveEmptyEntries);
             if (arr.Length == 0) return diskInfos;
 
@@ -46,15 +46,26 @@ public static class ComputerUtil
             if (rootDisk == null || rootDisk.Length == 0)
                 return diskInfos;
 
-            DiskInfo diskInfo = new()
+            foreach (var item in arr)
             {
-                DiskName = "/",
-                TotalSize = long.Parse(rootDisk[0]) / 1024,
-                Used = long.Parse(rootDisk[1]) / 1024,
-                AvailableFreeSpace = long.Parse(rootDisk[2]) / 1024,
-                AvailablePercent = decimal.Parse(rootDisk[3].Replace("%", ""))
-            };
-            diskInfos.Add(diskInfo);
+                var rootDisk = item.Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
+                if (rootDisk == null || rootDisk.Length == 0)
+                {
+                    return diskInfos;
+                }
+
+
+                DiskInfo diskInfo = new DiskInfo()
+                {
+                    DiskName = rootDisk[0],
+                    TypeName = rootDisk[1],
+                    TotalSize = long.Parse(rootDisk[2]) / 1024,
+                    Used = long.Parse(rootDisk[3]) / 1024,
+                    AvailableFreeSpace = long.Parse(rootDisk[4]) / 1024,
+                    AvailablePercent = decimal.Parse(rootDisk[5].Replace("%", ""))
+                };
+                diskInfos.Add(diskInfo);
+            }
         }
         else
         {
