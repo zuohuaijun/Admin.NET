@@ -38,7 +38,7 @@ public static class ComputerUtil
 
         if (IsUnix())
         {
-            var output = ShellHelper.Bash(@"df -mT | awk '/^\/dev\/vd/ {print $1,$2,$3,$4,$5,$6}'");
+            var output = ShellHelper.Bash(@"df -mT | awk '/^\/dev\/(sd|vd|xvd|nvme|sda|vda)/ {print $1,$2,$3,$4,$5,$6}'");
             var disks = output.Split('\n', StringSplitOptions.RemoveEmptyEntries);
             if (disks.Length == 0) return diskInfos;
 
