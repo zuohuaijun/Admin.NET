@@ -127,4 +127,18 @@ public class SysCacheService : IDynamicApiController, ISingleton
     {
         return _cache.Get<dynamic>(key);
     }
+
+    /// <summary>
+    /// 获取或添加缓存，在数据不存在时执行委托请求数据
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <param name="callback"></param>
+    /// <param name="expire">过期时间，秒。小于0时采用默认缓存时间<seealso cref="Cache.Expire"/></param>
+    /// <returns></returns>
+    [NonAction]
+    public T GetOrAdd<T>(string key, Func<string, T> callback, int expire = -1)
+    {
+        return _cache.GetOrAdd(key, callback, expire);
+    }
 }
