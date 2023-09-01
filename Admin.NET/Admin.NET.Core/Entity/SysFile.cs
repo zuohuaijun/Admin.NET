@@ -68,8 +68,8 @@ public class SysFile : EntityBase
     /// <summary>
     /// 外链地址-OSS上传后生成外链地址方便前端预览
     /// </summary>
-    [SugarColumn(ColumnDescription = "外链地址", Length = 128)]
-    [MaxLength(128)]
+    [SugarColumn(ColumnDescription = "外链地址", Length = 512)]
+    [MaxLength(512)]
     public string? Url { get; set; }
 
     /// <summary>
