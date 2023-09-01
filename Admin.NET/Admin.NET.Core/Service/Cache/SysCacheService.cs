@@ -134,7 +134,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <typeparam name="T"></typeparam>
     /// <param name="key"></param>
     /// <param name="callback"></param>
-    /// <param name="expire">过期时间，秒。小于0时采用默认缓存时间<seealso cref="Cache.Expire"/></param>
+    /// <param name="expire">过期时间，单位秒</param>
     /// <returns></returns>
     [NonAction]
     public T GetOrAdd<T>(string key, Func<string, T> callback, int expire = -1)
