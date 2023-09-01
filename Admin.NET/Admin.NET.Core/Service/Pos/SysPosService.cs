@@ -67,13 +67,12 @@ public class SysPosService : IDynamicApiController, ITransient
     [DisplayName("更新职位")]
     public async Task UpdatePos(UpdatePosInput input)
     {
-        var sysPos = await _sysPosRep.GetFirstAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
-        if (sysPos != null)
+        var isExist = await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
+        if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D6000);
 
-        // 获取当前职位信息
-        var currentPos = await _sysPosRep.GetByIdAsync(input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D6003);
-        if (!_userManager.SuperAdmin && currentPos.CreateUserId != _userManager.UserId)
+        var sysPos = await _sysPosRep.GetByIdAsync(input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D6003);
+        if (!_userManager.SuperAdmin && sysPos.CreateUserId != _userManager.UserId)
             throw Oops.Oh(ErrorCodeEnum.D6002);
 
         await _sysPosRep.AsUpdateable(input.Adapt<SysPos>()).IgnoreColumns(true).ExecuteCommandAsync();

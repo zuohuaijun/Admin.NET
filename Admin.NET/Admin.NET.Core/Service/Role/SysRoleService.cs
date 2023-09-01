@@ -63,7 +63,9 @@ public class SysRoleService : IDynamicApiController, ITransient
     [DisplayName("获取角色列表")]
     public async Task<List<RoleOutput>> GetList()
     {
-        return await _sysRoleRep.AsQueryable().OrderBy(u => u.OrderNo).Select<RoleOutput>().ToListAsync();
+        return await _sysRoleRep.AsQueryable()
+            .WhereIF(!_userManager.SuperAdmin, u => u.CreateUserId == _userManager.UserId) // 若非超管，则只显示自己创建的角色
+            .OrderBy(u => u.OrderNo).Select<RoleOutput>().ToListAsync();
     }
 
     /// <summary>
