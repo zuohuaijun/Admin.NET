@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -71,7 +71,9 @@ public class SysPosService : IDynamicApiController, ITransient
         if (sysPos != null)
             throw Oops.Oh(ErrorCodeEnum.D6000);
 
-        if (!_userManager.SuperAdmin && sysPos.CreateUserId != _userManager.UserId)
+        // 获取当前职位信息
+        var currentPos = await _sysPosRep.GetByIdAsync(input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D6003);
+        if (!_userManager.SuperAdmin && currentPos.CreateUserId != _userManager.UserId)
             throw Oops.Oh(ErrorCodeEnum.D6002);
 
         await _sysPosRep.AsUpdateable(input.Adapt<SysPos>()).IgnoreColumns(true).ExecuteCommandAsync();
