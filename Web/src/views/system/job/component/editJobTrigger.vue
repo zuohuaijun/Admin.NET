@@ -133,7 +133,7 @@
 					<span> Cron表达式生成器 </span>
 				</div>
 			</template>
-			<cronTab @hide="state.showCronDialog = false" @fill="crontabFill" :expression="cronValue"></cronTab>
+			<vcrontab @hide="state.showCronDialog = false" @fill="crontabFill" :expression="cronValue"></vcrontab>
 		</el-dialog>
 	</div>
 </template>
@@ -143,7 +143,8 @@ import { reactive, ref, computed } from 'vue';
 import type { WritableComputedRef } from 'vue';
 import { ElMessage } from 'element-plus';
 
-import cronTab from './cronTab/index.vue';
+import vcrontab from 'vcrontab-3';
+
 import { getAPI } from '/@/utils/axios-utils';
 import { SysJobApi } from '/@/api-services/api';
 import { UpdateJobTriggerInput } from '/@/api-services/models';
@@ -201,29 +202,24 @@ const cronValue: WritableComputedRef<string> = computed({
 		// 触发器周期不是周期，返回默认值
 		if (state.ruleForm.triggerType != 'Furion.Schedule.CronTrigger') return defaultValue;
 		if (!state.ruleForm.args) return defaultValue;
-
 		// Furion 的 cron 表达式有2个入参
 		const value = String(state.ruleForm.args);
 		const parameters = value.split(',');
 		if (parameters.length != 2) return defaultValue;
-
 		const cron = parameters[0].replace(new RegExp('"', 'gm'), '').trim();
 		return cron;
 	},
 	set(value: string) {
 		if (state.ruleForm.args == value) return;
-
 		const newValue = value.trim();
 		// 第二个参数值参阅 https://furion.baiqian.ltd/docs/cron#2624-cronstringformat-%E6%A0%BC%E5%BC%8F%E5%8C%96
 		let cronStringFormatValue = -1;
-
 		// 如果是 Macro 标识符，使用默认格式
 		if (newValue.startsWith('@')) cronStringFormatValue = 0; // 默认格式，书写顺序：分 时 天 月 周
 		else {
 			if (newValue.split(' ').length == 6) cronStringFormatValue = 2; // 带秒格式，书写顺序：秒 分 时 天 月 周
 			else cronStringFormatValue = 3; // 带秒和年格式，书写顺序：秒 分 时 天 月 周 年
 		}
-
 		state.ruleForm.args = `"${newValue}",${cronStringFormatValue}`;
 	},
 });

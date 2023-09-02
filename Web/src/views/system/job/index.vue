@@ -51,7 +51,7 @@
 							<!-- <el-table-column prop="assemblyName" label="程序集" show-overflow-tooltip /> -->
 							<el-table-column prop="args" label="参数" header-align="center" show-overflow-tooltip />
 							<el-table-column prop="description" label="描述" width="120" header-align="center" show-overflow-tooltip />
-							<el-table-column prop="status" label="状态" width="80" align="center" show-overflow-tooltip>
+							<el-table-column prop="status" label="状态" width="120" align="center" show-overflow-tooltip>
 								<template #default="scope">
 									<el-tag type="warning" effect="plain" v-if="(scope.row as SysJobTrigger).status == 0"> 积压 </el-tag>
 									<el-tag type="" effect="plain" v-if="(scope.row as SysJobTrigger).status == 1"> 就绪 </el-tag>
@@ -148,6 +148,7 @@
 						<el-tag v-else> 否 </el-tag>
 					</template>
 				</el-table-column> -->
+				<el-table-column prop="jobDetail.updatedTime" label="更新时间" width="130" align="center" show-overflow-tooltip />
 				<el-table-column prop="jobDetail.properties" label="额外数据" header-align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<span v-if="(scope.row as JobOutput).jobDetail?.createType != JobCreateTypeEnum.NUMBER_2"> {{ (scope.row as JobOutput).jobDetail?.properties }} </span>
@@ -171,7 +172,6 @@
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column prop="jobDetail.updatedTime" label="更新时间" width="130" align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="200" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tooltip content="增加触发器">
