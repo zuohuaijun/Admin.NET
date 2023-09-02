@@ -73,4 +73,10 @@ public class SysOrg : EntityTenant
     /// </summary>
     [SugarColumn(IsIgnore = true)]
     public List<SysOrg> Children { get; set; }
+
+    /// <summary>
+    /// 是否禁止选中
+    /// </summary>
+    [SugarColumn(IsIgnore = true)]
+    public bool Disabled { get; set; }
 }

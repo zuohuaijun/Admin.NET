@@ -46,29 +46,43 @@ public class SysOrgService : IDynamicApiController, ITransient
     [DisplayName("获取机构列表")]
     public async Task<List<SysOrg>> GetList([FromQuery] OrgInput input)
     {
-        var orgIdList = await GetUserOrgIdList();
+        // 获取拥有的机构Id集合
+        var userOrgIdList = await GetUserOrgIdList();
 
         var iSugarQueryable = _sysOrgRep.AsQueryable().OrderBy(u => u.OrderNo);
 
-        // 条件筛选可能造成无法构造树（列表数据）
+        // 带条件筛选时返回列表数据
         if (!string.IsNullOrWhiteSpace(input.Name) || !string.IsNullOrWhiteSpace(input.Code) || !string.IsNullOrWhiteSpace(input.OrgType))
         {
-            return await iSugarQueryable.WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id))
+            return await iSugarQueryable.WhereIF(userOrgIdList.Count > 0, u => userOrgIdList.Contains(u.Id))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.OrgType), u => u.OrgType.Contains(input.OrgType))
                 .ToListAsync();
         }
 
-        if (input.Id > 0)
+        var orgTree = _userManager.SuperAdmin ?
+        await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0) :
+        await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, input.Id, userOrgIdList.Select(d => (object)d).ToArray());
+
+        // 递归禁用没权限的机构（防止用户修改或创建无权的机构和用户）
+        HandlerOrgTree(orgTree, userOrgIdList);
+
+        return orgTree;
+    }
+
+    /// <summary>
+    /// 递归禁用没权限的机构
+    /// </summary>
+    /// <param name="orgTree"></param>
+    /// <param name="userOrgIdList"></param>
+    private void HandlerOrgTree(List<SysOrg> orgTree, List<long> userOrgIdList)
+    {
+        foreach (var org in orgTree)
         {
-            return await iSugarQueryable.WhereIF(orgIdList.Count > 0, u => orgIdList.Contains(u.Id)).ToChildListAsync(u => u.Pid, input.Id, true);
-        }
-        else
-        {
-            return _userManager.SuperAdmin ?
-                await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0) :
-                await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0, orgIdList.Select(d => (object)d).ToArray());
+            org.Disabled = !userOrgIdList.Contains(org.Id); // 设置禁用/不可选择
+            if (org.Children != null)
+                HandlerOrgTree(org.Children, userOrgIdList);
         }
     }
 

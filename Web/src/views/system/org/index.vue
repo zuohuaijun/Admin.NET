@@ -78,7 +78,7 @@ const state = reactive({
 	orgData: [] as Array<SysOrg>, // 机构列表数据
 	orgTreeData: [] as Array<SysOrg>, // 机构树所有数据
 	queryParams: {
-		id: -1,
+		id: 0,
 		name: undefined,
 		code: undefined,
 		orgType: undefined,
@@ -106,12 +106,12 @@ const handleQuery = async (updateTree: boolean = false) => {
 	}
 
 	// 若无选择节点并且查询条件为空时，更新编辑页面机构列表树
-	if (state.queryParams.id == -1 && state.queryParams.name == undefined && state.queryParams.code == undefined && state.queryParams.orgType == undefined) state.orgTreeData = state.orgData;
+	if (state.queryParams.id == 0 && state.queryParams.name == undefined && state.queryParams.code == undefined && state.queryParams.orgType == undefined) state.orgTreeData = state.orgData;
 };
 
 // 重置操作
 const resetQuery = () => {
-	state.queryParams.id = -1;
+	state.queryParams.id = 0;
 	state.queryParams.name = undefined;
 	state.queryParams.code = undefined;
 	state.queryParams.orgType = undefined;
