@@ -175,7 +175,7 @@ public class Startup : AppStartup
         YitIdHelper.SetIdGenerator(App.GetOptions<SnowIdOptions>());
 
         // 验证码
-        services.AddCaptcha(App.Configuration);
+        services.AddCaptcha();
 
         // 控制台logo
         services.AddConsoleLogo();
