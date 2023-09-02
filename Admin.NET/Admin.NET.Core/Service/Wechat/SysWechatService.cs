@@ -97,7 +97,6 @@ public class SysWechatService : IDynamicApiController, ITransient
             accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
             {
                 { ClaimConst.UserId, wxUser.Id },
-                { ClaimConst.OpenId, wxUser.OpenId },
                 { ClaimConst.NickName, wxUser.NickName },
                 { ClaimConst.LoginMode, LoginModeEnum.APP },
             })

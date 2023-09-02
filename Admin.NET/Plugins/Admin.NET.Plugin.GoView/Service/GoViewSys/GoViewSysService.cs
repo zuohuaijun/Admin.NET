@@ -18,11 +18,15 @@ public class GoViewSysService : IDynamicApiController
 {
     private readonly SysAuthService _sysAuthService;
     private readonly SqlSugarRepository<SysUser> _sysUserRep;
+    private readonly SysCacheService _sysCacheService;
 
-    public GoViewSysService(SysAuthService sysAuthService, SqlSugarRepository<SysUser> sysUserRep)
+    public GoViewSysService(SysAuthService sysAuthService,
+        SqlSugarRepository<SysUser> sysUserRep,
+        SysCacheService sysCacheService)
     {
         _sysAuthService = sysAuthService;
         _sysUserRep = sysUserRep;
+        _sysCacheService = sysCacheService;
     }
 
     /// <summary>
@@ -33,11 +37,15 @@ public class GoViewSysService : IDynamicApiController
     [DisplayName("GoView 登录")]
     public async Task<GoViewLoginOutput> Login(GoViewLoginInput input)
     {
+        _sysCacheService.Set(CommonConst.SysCaptcha, false);
+
         var loginResult = await _sysAuthService.Login(new LoginInput()
         {
             Account = input.Username,
             Password = input.Password,
         });
+
+        _sysCacheService.Remove(CommonConst.SysCaptcha);
 
         var sysUser = await _sysUserRep.AsQueryable().Filter(null, true).FirstAsync(u => u.Account.Equals(input.Username));
         return new GoViewLoginOutput()

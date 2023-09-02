@@ -106,7 +106,6 @@ public class SysWxOpenService : IDynamicApiController, ITransient
             accessToken = JWTEncryption.Encrypt(new Dictionary<string, object>
             {
                 { ClaimConst.UserId, wxUser.Id },
-                { ClaimConst.OpenId, wxUser.OpenId },
                 { ClaimConst.RealName, wxUser.NickName },
                 { ClaimConst.LoginMode, LoginModeEnum.APP },
             })
