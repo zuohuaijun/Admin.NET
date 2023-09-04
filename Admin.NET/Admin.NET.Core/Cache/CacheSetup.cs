@@ -22,8 +22,10 @@ public static class CacheSetup
         var cacheOptions = App.GetOptions<CacheOptions>();
         if (cacheOptions.CacheType == CacheTypeEnum.Redis.ToString())
         {
-            var redis = new FullRedis();
-            redis.Init(cacheOptions.RedisConnectionString);
+            RedisOptions options = new RedisOptions();
+            options.Prefix = cacheOptions.RedisPrefix;
+            options.Configuration = cacheOptions.RedisConnectionString;
+            var redis = new RedisCache(options);
             cache = redis;
         }
 
