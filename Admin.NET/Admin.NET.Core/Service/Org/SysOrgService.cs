@@ -61,14 +61,18 @@ public class SysOrgService : IDynamicApiController, ITransient
                 .ToListAsync();
         }
 
-        var orgTree = _userManager.SuperAdmin ?
-        await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0) :
-        await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, input.Id, userOrgIdList.Select(d => (object)d).ToArray());
-
-        // 递归禁用没权限的机构（防止用户修改或创建无权的机构和用户）
-        if (!_userManager.SuperAdmin)
+        var orgTree = new List<SysOrg>();
+        if (_userManager.SuperAdmin)
+        {
+            orgTree = await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0);
+        }
+        else
+        {
+            var sysOrg = await _sysOrgRep.GetSingleAsync(u => u.Id == input.Id);
+            orgTree = await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, sysOrg?.Pid, userOrgIdList.Select(d => (object)d).ToArray());
+            // 递归禁用没权限的机构（防止用户修改或创建无权的机构和用户）
             HandlerOrgTree(orgTree, userOrgIdList);
-
+        }
         return orgTree;
     }
 
