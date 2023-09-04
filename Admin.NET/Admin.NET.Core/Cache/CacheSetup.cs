@@ -22,11 +22,11 @@ public static class CacheSetup
         var cacheOptions = App.GetOptions<CacheOptions>();
         if (cacheOptions.CacheType == CacheTypeEnum.Redis.ToString())
         {
-            RedisOptions options = new RedisOptions();
-            options.Prefix = cacheOptions.RedisPrefix;
-            options.Configuration = cacheOptions.RedisConnectionString;
-            var redis = new RedisCache(options);
-            cache = redis;
+            cache = new FullRedis(new RedisOptions
+            {
+                Configuration = cacheOptions.Redis.Configuration,
+                Prefix = cacheOptions.Redis.Prefix
+            });
         }
 
         services.AddSingleton(cache);
