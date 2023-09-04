@@ -64,7 +64,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         var orgTree = new List<SysOrg>();
         if (_userManager.SuperAdmin)
         {
-            orgTree = await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, 0);
+            orgTree = await iSugarQueryable.ToTreeAsync(u => u.Children, u => u.Pid, input.Id);
         }
         else
         {
