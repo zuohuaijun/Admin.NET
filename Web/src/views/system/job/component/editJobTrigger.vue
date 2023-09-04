@@ -205,9 +205,15 @@ const cronValue: WritableComputedRef<string> = computed({
 		// Furion 的 cron 表达式有2个入参
 		const value = String(state.ruleForm.args);
 		const parameters = value.split(',');
-		if (parameters.length != 2) return defaultValue;
-		const cron = parameters[0].replace(new RegExp('"', 'gm'), '').trim();
-		return cron;
+		if (parameters.length < 2) return defaultValue;
+		else if (parameters.length == 2) {
+			const cron = parameters[0].replace(new RegExp('"', 'gm'), '').trim();
+			return cron;
+		} else {
+			const temp = value.substring(0, value.lastIndexOf(','));
+			const cron = temp.replace(new RegExp('"', 'gm'), '').trim();
+			return cron;
+		}
 	},
 	set(value: string) {
 		if (state.ruleForm.args == value) return;
