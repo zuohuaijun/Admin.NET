@@ -170,7 +170,8 @@ public class SysFileService : IDynamicApiController, ITransient
         {
             using var fileStream = file.OpenReadStream();
             fileMd5 = OssUtils.ComputeContentMd5(fileStream, fileStream.Length);
-            if (await _sysFileRep.IsAnyAsync(q => q.FileMd5 == fileMd5)) throw Oops.Oh(ErrorCodeEnum.D8004);
+            var sysFile = await _sysFileRep.GetFirstAsync(q => q.FileMd5 == fileMd5);
+            if (sysFile != null) return sysFile;
         }
 
         var path = savePath;
