@@ -31,20 +31,22 @@
 						<el-form-item label="Cron表达式">
 							<el-input v-model="cronValue" placeholder="Cron表达式">
 								<template #append>
-									<el-dropdown style="color: inherit" trigger="click" @command="macroDropDownCommand">
-										<el-button style="margin: 0px -10px 0px -20px; color: inherit"> Macro </el-button>
-										<template #dropdown>
-											<el-dropdown-menu>
-												<el-dropdown-item v-for="(item, index) in macroData" :key="index" :command="item">
-													<el-row style="width: 240px">
-														<el-col :span="9">{{ item.key }}</el-col>
-														<el-col :span="15">{{ item.description }}</el-col>
-													</el-row>
-												</el-dropdown-item>
-											</el-dropdown-menu>
-										</template>
-									</el-dropdown>
-									<el-button style="margin: 0px -20px 0px -10px" @click="state.showCronDialog = true">Cron表达式</el-button>
+									<el-space :size="10" spacer="|">
+										<el-dropdown style="color: inherit" trigger="click" @command="macroDropDownCommand">
+											<el-button style="margin: 0px 0px 0px -20px; color: inherit"> Macro </el-button>
+											<template #dropdown>
+												<el-dropdown-menu>
+													<el-dropdown-item v-for="(item, index) in macroData" :key="index" :command="item">
+														<el-row style="width: 240px">
+															<el-col :span="9">{{ item.key }}</el-col>
+															<el-col :span="15">{{ item.description }}</el-col>
+														</el-row>
+													</el-dropdown-item>
+												</el-dropdown-menu>
+											</template>
+										</el-dropdown>
+										<el-button style="margin: 0px -20px 0px -10px; font-size: 14px" @click="state.showCronDialog = true">Cron表达式</el-button>
+									</el-space>
 								</template>
 							</el-input>
 						</el-form-item>
@@ -205,9 +207,15 @@ const cronValue: WritableComputedRef<string> = computed({
 		// Furion 的 cron 表达式有2个入参
 		const value = String(state.ruleForm.args);
 		const parameters = value.split(',');
-		if (parameters.length != 2) return defaultValue;
-		const cron = parameters[0].replace(new RegExp('"', 'gm'), '').trim();
-		return cron;
+		if (parameters.length < 2) return defaultValue;
+		else if (parameters.length == 2) {
+			const cron = parameters[0].replace(new RegExp('"', 'gm'), '').trim();
+			return cron;
+		} else {
+			const temp = value.substring(0, value.lastIndexOf(','));
+			const cron = temp.replace(new RegExp('"', 'gm'), '').trim();
+			return cron;
+		}
 	},
 	set(value: string) {
 		if (state.ruleForm.args == value) return;
