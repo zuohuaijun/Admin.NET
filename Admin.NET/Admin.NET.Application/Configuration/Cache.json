@@ -3,6 +3,7 @@
 
   "Cache": {
     "CacheType": "Memory", // Memory、Redis
-    "RedisConnectionString": "server=127.0.0.1:6379;password=;db=5;" // Redis连接字符串
+    "RedisConnectionString": "server=127.0.0.1:6379;password=;db=5;", // Redis连接字符串
+    "RedisPrefix": "adminnet_"  //Redis前缀
   }
 }
