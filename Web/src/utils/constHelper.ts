@@ -1,5 +1,6 @@
 import type { App } from 'vue';
 import { useUserInfo } from '/@/stores/userInfo';
+import request from '/@/utils/request';
 
 export function setupConstFilter(app: App) {
 	// 全局过滤器  在vue文件中调用  $filters.codeToName(code,type)
@@ -29,4 +30,11 @@ export function getConstType(type: any) {
 	const userStore = useUserInfo();
 	const constType = userStore.constList.filter((x: any) => x.code === type)[0].data;
 	return constType;
+}
+
+export function getConstSelectorList(typeName: string) {
+	return request({
+		url: `/api/sysConst/data/${typeName}`,
+		method: 'get',
+	});
 }
