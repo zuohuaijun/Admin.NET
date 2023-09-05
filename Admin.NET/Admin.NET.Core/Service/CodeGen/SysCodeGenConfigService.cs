@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -88,7 +88,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
         if (tableColumnOuputList == null) return;
 
         var codeGenConfigs = new List<SysCodeGenConfig>();
-
+        int orderNo = 100;
         foreach (var tableColumn in tableColumnOuputList)
         {
             var codeGenConfig = new SysCodeGenConfig();
@@ -125,6 +125,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
             codeGenConfig.DataType = tableColumn.DataType;
             codeGenConfig.EffectType = CodeGenUtil.DataTypeToEff(codeGenConfig.NetType);
             codeGenConfig.QueryType = GetDefaultQueryType(codeGenConfig); // QueryTypeEnum.eq.ToString();
+            codeGenConfig.OrderNo = orderNo++;
             codeGenConfigs.Add(codeGenConfig);
         }
         // 多库代码生成---这里要切回主库
