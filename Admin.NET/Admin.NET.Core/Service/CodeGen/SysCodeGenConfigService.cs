@@ -125,7 +125,8 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
             codeGenConfig.DataType = tableColumn.DataType;
             codeGenConfig.EffectType = CodeGenUtil.DataTypeToEff(codeGenConfig.NetType);
             codeGenConfig.QueryType = GetDefaultQueryType(codeGenConfig); // QueryTypeEnum.eq.ToString();
-            codeGenConfig.OrderNo = orderNo++;
+            codeGenConfig.OrderNo = orderNo;
+            orderNo += 3;//这里加3，方便调整个别控件的排序时，需要配置太多的不相关控件，加3后，每个控件之前预留了两个位置给其它控件“插队”
             codeGenConfigs.Add(codeGenConfig);
         }
         // 多库代码生成---这里要切回主库
