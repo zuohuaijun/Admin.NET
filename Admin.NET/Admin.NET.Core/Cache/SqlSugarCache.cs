@@ -14,7 +14,11 @@ namespace Admin.NET.Core;
 /// </summary>
 public class SqlSugarCache : ICacheService
 {
-    private static readonly ICache _cache = App.GetService(typeof(ICache)) as ICache;
+    /// <summary>
+    /// 内存缓存
+    /// </summary>
+    //private static readonly ICache _cache = App.GetService(typeof(ICache)) as ICache;
+    private static readonly ICache _cache = Cache.Default;
 
     public void Add<V>(string key, V value)
     {
