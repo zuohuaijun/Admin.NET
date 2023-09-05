@@ -36,8 +36,9 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
             .Select<CodeGenConfig>()
             .Mapper(u =>
             {
-                u.NetType = (u.EffectType == "EnumSelector" ? u.DictTypeCode : u.NetType);
+                u.NetType = (u.EffectType == "EnumSelector" || u.EffectType == "ConstSelector" ? u.DictTypeCode : u.NetType);
             })
+
             .OrderBy(u => u.OrderNo)
             .ToListAsync();
     }
