@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -240,7 +240,7 @@ public static class CodeGenUtil
     {
         return dataType.ToLower() switch
         {
-            "text" or "varchar" or "char" or "nvarchar" or "nchar" or "timestamp" => "string",
+            "tinytext" or "mediumtext" or "longtext" or "mid" or "text" or "varchar" or "char" or "nvarchar" or "nchar" or "timestamp" => "string",
             "int" => "int",
             "smallint" => "Int16",
             //"tinyint" => "byte",
@@ -250,7 +250,7 @@ public static class CodeGenUtil
             "money" or "smallmoney" or "numeric" or "decimal" => "decimal",
             "real" => "Single",
             "datetime" or "smalldatetime" => "DateTime",
-            "float" => "double",
+            "float" or "double" => "double",
             "image" or "binary" or "varbinary" => "byte[]",
             "uniqueidentifier" => "Guid",
             _ => "object",
