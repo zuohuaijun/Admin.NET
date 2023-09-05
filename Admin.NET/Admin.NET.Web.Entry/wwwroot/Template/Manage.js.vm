@@ -1,4 +1,4 @@
-import request from '/@@/utils/request';
+﻿import request from '/@@/utils/request';
 enum Api {
   Add@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/add',
   Delete@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/delete',
@@ -6,7 +6,7 @@ enum Api {
   Page@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/page',
   @foreach (var column in Model.TableField){
 if(@column.EffectType == "fk"){
-  @:Get@(@column.FkEntityName)Dropdown = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)Dropdown',
+  @:Get@(@column.FkEntityName)@(@column.ColumnName)Dropdown = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)@(@column.ColumnName)Dropdown',
 }else if(@column.EffectType == "ApiTreeSelect"){
   @:Get@(@column.FkEntityName)Tree = '/@(@Model.LowerClassName)/@(@column.FkEntityName)Tree',
 }else if(@column.EffectType == "Upload"){
@@ -49,9 +49,9 @@ export const page@(@Model.ClassName) = (params?: any) =>
 
 @foreach (var column in Model.TableField){
 	if(@column.EffectType == "fk"){
-@:export const get@(@column.FkEntityName)Dropdown = () =>
+@:export const get@(@column.FkEntityName)@(@column.ColumnName)Dropdown = () =>
 		@:request({
-		@:url: Api.Get@(@column.FkEntityName)Dropdown,
+		@:url: Api.Get@(@column.FkEntityName)@(@column.ColumnName)Dropdown,
 		@:method: 'get'
 		@:});
 	}else if(@column.EffectType == "ApiTreeSelect"){

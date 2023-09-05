@@ -1,4 +1,4 @@
-<template>
+﻿<template>
 	<div class="@(@Model.LowerClassName)-container">
 		<el-dialog v-model="isShowDialog" :title="props.title" :width="700" draggable="">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px" :rules="rules">
@@ -14,7 +14,7 @@
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
 							@:<el-select clearable filterable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-								@:<el-option v-for="(item,index) in @LowerFirstLetter(@column.FkEntityName)DropdownList" :key="index" :value="item.value" :label="item.label" />
+								@:<el-option v-for="(item,index) in @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList" :key="index" :value="item.value" :label="item.label" />
 								@:
 							</el-select>
 							@:
@@ -124,15 +124,15 @@
 	import { ref,onMounted } from "vue";
 	import { ElMessage } from "element-plus";
 	import type { FormRules } from "element-plus";
-@if(@Model.TableField.Any(x=>x.EffectType == "Upload")){
-    @:import { Plus } from "@@element-plus/icons-vue";
-    @:import { UploadRequestOptions } from "element-plus";
-    @:import {@string.Join(",",Model.TableField.Where(x=>x.EffectType == "Upload").Select(x=>"upload"+x.ColumnName).ToList())} from '/@@/api/main/@(@Model.LowerClassName)';
-}
+	@if(@Model.TableField.Any(x=>x.EffectType == "Upload")){
+	@:import { Plus } from "@@element-plus/icons-vue";
+	@:import { UploadRequestOptions } from "element-plus";
+	@:import {@string.Join(",",Model.TableField.Where(x=>x.EffectType == "Upload").Select(x=>"upload"+x.ColumnName).ToList())} from '/@@/api/main/@(@Model.LowerClassName)';
+	}
 	import { add@(@Model.ClassName), update@(@Model.ClassName) } from "/@@/api/main/@(@Model.LowerClassName)";
 	@foreach (var column in Model.TableField){
 	if(@column.EffectType == "fk"){
-	@:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
+	@:import { get@(@column.FkEntityName)@(@column.ColumnName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
 	}
 	}
 	@if(@Model.TableField.Any(x=>x.EffectType == "Select")){
@@ -218,12 +218,12 @@ const submit = async () => {
 
 @foreach (var column in Model.TableField){
   if(@column.EffectType == "fk"){
-@:const @LowerFirstLetter(@column.FkEntityName)DropdownList = ref<any>([]); 
-@:const get@(@column.FkEntityName)DropdownList = async () => {
-    @:let list = await get@(@column.FkEntityName)Dropdown();
-    @:@LowerFirstLetter(@column.FkEntityName)DropdownList.value = list.data.result ?? [];
+@:const @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList = ref<any>([]); 
+@:const get@(@column.FkEntityName)@(@column.ColumnName)DropdownList = async () => {
+    @:let list = await get@(@column.FkEntityName)@(@column.ColumnName)Dropdown();
+    @:@LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList.value = list.data.result ?? [];
 @:};
-@:get@(@column.FkEntityName)DropdownList();
+@:get@(@column.FkEntityName)@(@column.ColumnName)DropdownList();
 @:
   }
 }

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="@(@Model.LowerClassName)-container">
     <el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
       @if(Model.QueryWhetherList.Count > 0){
@@ -75,7 +75,7 @@
         @foreach (var column in Model.TableField){
         if(@column.WhetherTable == "Y"){
         if(@column.EffectType == "Upload"||@column.EffectType == "fk"||@column.EffectType == "Switch"||@column.EffectType == "ConstSelector"){
-        @:<el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" show-overflow-tooltip="">
+        @:<el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 120)" show-overflow-tooltip="">
           @:<template #default="scope">
             if(@column.EffectType == "Upload"){
             @:<el-image
@@ -101,7 +101,7 @@
         </el-table-column>
         }
         else {
-        @: <el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" fixed="" show-overflow-tooltip="" />
+        @: <el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 120)" fixed="" show-overflow-tooltip="" />
         }
         }
         }
