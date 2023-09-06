@@ -103,7 +103,7 @@
         </el-table-column>
         }
         else {
-        @: <el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 120)" fixed="" show-overflow-tooltip="" />
+        @: <el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 120)" show-overflow-tooltip="" />
         }
         }
         }

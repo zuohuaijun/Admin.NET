@@ -1,5 +1,6 @@
 ﻿using @(@Model.NameSpace).Const;
-
+@{string joinTableName = "u";}
+@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
 namespace @Model.NameSpace;
 /// <summary>
 /// @(@Model.BusName)服务
@@ -37,19 +38,18 @@ if (@column.QueryWhether == "Y"){
     }
 } 
 }
-@{string tableName = "u";}
 @if(Model.IsJoinTable){
                     @://处理外键和TreeSelector相关字段的连接
     @foreach (var column in Model.TableField){
         if(@column.EffectType == "fk"){
-            tableName += ", " + column.ColumnName.ToLower();
-                    @:.LeftJoin<@(@column.FkEntityName)>((@(@tableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).Id )
+            joinTableName += ", " + column.ColumnName.ToLower();
+                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).Id )
         } else if(@column.EffectType == "ApiTreeSelect"){
-            tableName += ", " + column.ColumnName.ToLower();
-                    @:.LeftJoin<@(@column.FkEntityName)>((@(@tableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).@(@column.ValueColumn) )
+            joinTableName += ", " + column.ColumnName.ToLower();
+                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).@(@column.ValueColumn) )
         }
     }
-                    @:.Select((@(@tableName))=> new @(@Model.ClassName)Output{
+                    @:.Select((@(@joinTableName))=> new @(@Model.ClassName)Output{
 @foreach (var column in Model.TableField){
                         @:@(@column.ColumnName) = u.@(@column.ColumnName), 
                         if(@column.EffectType == "fk"){   
@@ -200,7 +200,8 @@ if(@column.EffectType == "Upload"){
 
 
 @foreach (var column in Model.TableField){
-if(@column.EffectType == "ApiTreeSelect"){
+if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("@(@column.FkEntityName)Tree")){
+    @{definedObjects.Add("@(@column.FkEntityName)Tree", 1);}
     @:[HttpGet("/@(@Model.LowerClassName)/@(@column.FkEntityName)Tree")]
     @:public async Task<dynamic> @(@column.FkEntityName)Tree()
     @:{
