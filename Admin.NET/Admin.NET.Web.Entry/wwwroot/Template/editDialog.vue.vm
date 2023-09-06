@@ -1,7 +1,7 @@
 ﻿<template>
 	<div class="@(@Model.LowerClassName)-container">
-		<el-dialog v-model="isShowDialog" :title="props.title" :width="700" draggable="">
-			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="100px" :rules="rules">
+		<el-dialog v-model="isShowDialog" :title="props.title" :width="800" draggable="">
+			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="130px" :rules="rules">
 				<el-row :gutter="35">
 					@foreach (var column in Model.TableField){
 					if(@column.ColumnKey == "True"){

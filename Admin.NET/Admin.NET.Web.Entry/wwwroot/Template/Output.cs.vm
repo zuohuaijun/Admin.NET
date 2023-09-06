@@ -1,4 +1,4 @@
-namespace @Model.NameSpace;
+﻿namespace @Model.NameSpace;
 
     /// <summary>
     /// @(@Model.BusName)输出参数
@@ -31,6 +31,8 @@ if(column.EffectType == "fk")
 
 @foreach (var column in Model.TableField){
 if (@column.EffectType == "ApiTreeSelect"){
+    @:// 使用实际实体@(@column.FkTableName),所以这里就删了
+    @:/*
     @:[SugarTable("@(@column.FkTableName)")]
     @:public class @(@column.FkEntityName)TreeOutput: EntityBaseId
     @:{
@@ -44,5 +46,6 @@ if (@column.EffectType == "ApiTreeSelect"){
         @:[SugarColumn(IsIgnore = true)]
         @:public List<@(@column.FkEntityName)TreeOutput> Children { get; set; }
     @:}
+    @:*/
 }
 }
