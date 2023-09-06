@@ -95,7 +95,7 @@
             @:<el-tag v-if="scope.row.@(@column.LowerColumnName)"> 是 </el-tag>
             @:<el-tag type="danger" v-else=""> 否 </el-tag>
             }else if(@column.EffectType == "ConstSelector"){
-            @:<span>{{codeToName(scope.row.@(@column.LowerColumnName), '@(@column.DictTypeCode)')}</span>
+            @:<span>{{codeToName(scope.row.@(@column.LowerColumnName), '@(@column.DictTypeCode)')}}</span>
             }
             @:
           </template>

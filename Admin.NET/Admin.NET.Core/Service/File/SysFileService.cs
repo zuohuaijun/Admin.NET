@@ -165,12 +165,13 @@ public class SysFileService : IDynamicApiController, ITransient
         if (file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
 
         // 判断是否重复上传的文件
-        string? fileMd5 = null;
+        var fileMd5 = string.Empty;
         if (_uploadOptions.EnableMd5)
         {
             using var fileStream = file.OpenReadStream();
             fileMd5 = OssUtils.ComputeContentMd5(fileStream, fileStream.Length);
-            if (await _sysFileRep.IsAnyAsync(q => q.FileMd5 == fileMd5)) throw Oops.Oh(ErrorCodeEnum.D8004);
+            var sysFile = await _sysFileRep.GetFirstAsync(q => q.FileMd5 == fileMd5);
+            if (sysFile != null) return sysFile;
         }
 
         var path = savePath;

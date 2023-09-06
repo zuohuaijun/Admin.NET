@@ -123,9 +123,9 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="key"></param>
     /// <returns></returns>
     [DisplayName("获取缓存值")]
-    public dynamic GetValue(string key)
+    public object GetValue(string key)
     {
-        return _cache.Get<dynamic>(key);
+        return _cache.Get<object>(key);
     }
 
     /// <summary>

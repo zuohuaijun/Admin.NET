@@ -1,4 +1,5 @@
-﻿<template>
+@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
+<template>
 	<div class="@(@Model.LowerClassName)-container">
 		<el-dialog v-model="isShowDialog" :title="props.title" :width="800" draggable="">
 			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="130px" :rules="rules">
@@ -17,6 +18,26 @@
 								@:<el-option v-for="(item,index) in @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList" :key="index" :value="item.value" :label="item.label" />
 								@:
 							</el-select>
+							@:
+						</el-form-item>
+						@:
+					</el-col>
+					}else if(@column.EffectType == "ApiTreeSelect"){
+					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
+							<el-cascader
+								@:options="@LowerFirstLetter(@column.FkEntityName)TreeData"
+								@:props="{ checkStrictly: true, emitPath: false, value: '@LowerFirstLetter(@column.ValueColumn)', label: '@LowerFirstLetter(@column.DisplayColumn)' }"
+								placeholder="请选择@(column.ColumnComment)"
+								clearable=""
+								class="w100"
+								@:v-model="ruleForm.@(column.LowerColumnName)"
+							>
+								<template #default="{ node, data }">
+									<span>{{ data.name }}</span>
+									<span v-if="!node.isLeaf"> ({{ data.children.length }}) </span>
+								</template>
+							</el-cascader>
 							@:
 						</el-form-item>
 						@:
@@ -60,7 +81,7 @@
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
 							@:<el-select clearable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-								@:<el-option v-for="(item,index) in getSelectorList('@column.DictTypeCode')" :key="index" :value="item.code">{{ item.name }}</el-option>
+								@:<el-option v-for="(item,index) in @LowerFirstLetter(@column.DictTypeCode)DropdownList" :key="index" :label="item.name" :value="item.code">{{ item.name }}</el-option>
 								@:
 							</el-select>
 							@:
@@ -124,13 +145,20 @@
 	import { ref,onMounted } from "vue";
 	import { ElMessage } from "element-plus";
 	import type { FormRules } from "element-plus";
-	@if(@Model.TableField.Any(x=>x.EffectType == "Upload")){
-	@:import { Plus } from "@@element-plus/icons-vue";
-	@:import { UploadRequestOptions } from "element-plus";
-	@:import {@string.Join(",",Model.TableField.Where(x=>x.EffectType == "Upload").Select(x=>"upload"+x.ColumnName).ToList())} from '/@@/api/main/@(@Model.LowerClassName)';
+@if(@Model.TableField.Any(x=>x.EffectType == "ConstSelector")){
+	@:import { getConstSelectorList } from "/@@/utils/constHelper";
 	}
+@if(@Model.TableField.Any(x=>x.EffectType == "Upload")){
+    @:import { Plus } from "@@element-plus/icons-vue";
+    @:import { UploadRequestOptions } from "element-plus";
+    @:import {@string.Join(",",Model.TableField.Where(x=>x.EffectType == "Upload").Select(x=>"upload"+x.ColumnName).ToList())} from '/@@/api/main/@(@Model.LowerClassName)';
+}
 	import { add@(@Model.ClassName), update@(@Model.ClassName) } from "/@@/api/main/@(@Model.LowerClassName)";
 	@foreach (var column in Model.TableField){
+	if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("import__@(@column.FkEntityName)Tree")){
+	@{definedObjects.Add("import__@(@column.FkEntityName)Tree", 1);}
+	@:import { get@(@column.FkEntityName)Tree } from '/@@/api/main/@(@Model.LowerClassName)';
+	}
 	if(@column.EffectType == "fk"){
 	@:import { get@(@column.FkEntityName)@(@column.ColumnName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
 	}
@@ -228,6 +256,30 @@ const submit = async () => {
   }
 }
 
+@foreach (var column in Model.TableField){
+  if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("define_get@(@column.FkEntityName)TreeData")){
+	@{definedObjects.Add("define_get@(@column.FkEntityName)TreeData", 1);}
+@:const @LowerFirstLetter(@column.FkEntityName)TreeData = ref<any>([]); 
+@:const get@(@column.FkEntityName)TreeData = async () => {
+    @:let list = await get@(@column.FkEntityName)Tree();
+    @:@LowerFirstLetter(@column.FkEntityName)TreeData.value = list.data.result ?? [];
+@:};
+@:get@(@column.FkEntityName)TreeData();
+@:
+  }
+  else if(@column.EffectType == "ConstSelector"){   
+@:const @LowerFirstLetter(@column.DictTypeCode)DropdownList = ref<any>([]); 
+@:const get@(@column.DictTypeCode)DropdownList = async () => {
+	@:let list = await getConstSelectorList("@column.DictTypeCode");
+	@:@LowerFirstLetter(@column.DictTypeCode)DropdownList.value = list.data.result ?? [];
+@:};
+@:get@(@column.DictTypeCode)DropdownList();
+@:
+  }
+}
+
+
+
 @foreach (var column in Model.TableField){ 
 if(column.WhetherAddUpdate=="N") continue;
 if(@column.EffectType == "Upload"){
@@ -243,7 +295,7 @@ if(@column.EffectType == "Upload"){
 onMounted(async () => {
 	@foreach (var column in Model.TableField){
 	if(@column.EffectType == "Select"){
-	     @:getEdit@(@column.LowerColumnName)Data.value= await dictTypeDataList('@(@column.DictTypeCode)');
+	@:getEdit@(@column.LowerColumnName)Data.value= await dictTypeDataList('@(@column.DictTypeCode)');
 	 }
 	}
 });

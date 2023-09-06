@@ -20,7 +20,14 @@ public sealed class CacheOptions : IConfigurableOptions
     public string CacheType { get; set; }
 
     /// <summary>
-    /// Redis连接字符串
+    /// Redis缓存
     /// </summary>
-    public string RedisConnectionString { get; set; }
+    public RedisOption Redis { get; set; }
+}
+
+/// <summary>
+/// Redis缓存
+/// </summary>
+public sealed class RedisOption : RedisOptions
+{
 }
