@@ -1,5 +1,6 @@
-using @(@Model.NameSpace).Const;
-
+﻿using @(@Model.NameSpace).Const;
+@{string joinTableName = "u";}
+@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
 namespace @Model.NameSpace;
 /// <summary>
 /// @(@Model.BusName)服务
@@ -36,14 +37,25 @@ if (@column.QueryWhether == "Y"){
     }else if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
     }
 } 
-}          
-
+}
 @if(Model.IsJoinTable){
-                    @:.Select(u=> new @(@Model.ClassName)Output{
+                    @://处理外键和TreeSelector相关字段的连接
+    @foreach (var column in Model.TableField){
+        if(@column.EffectType == "fk"){
+            joinTableName += ", " + column.ColumnName.ToLower();
+                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).Id )
+        } else if(@column.EffectType == "ApiTreeSelect"){
+            joinTableName += ", " + column.ColumnName.ToLower();
+                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).@(@column.ValueColumn) )
+        }
+    }
+                    @:.Select((@(@joinTableName))=> new @(@Model.ClassName)Output{
 @foreach (var column in Model.TableField){
                         @:@(@column.ColumnName) = u.@(@column.ColumnName), 
                         if(@column.EffectType == "fk"){   
-                        @:@(@column.FkEntityName)@(@column.FkColumnName) = u.@(@column.FkEntityName).@(@column.FkColumnName),
+                        @:@(@column.FkEntityName)@(@column.FkColumnName) = @(@column.ColumnName.ToLower()).@(@column.FkColumnName),
+                        } else if(@column.EffectType == "ApiTreeSelect"){   
+                        @:@(@column.ColumnName)@(@column.DisplayColumn) = @(@column.ColumnName.ToLower()).@(@column.DisplayColumn),
                         }
 }
                     @:})
@@ -156,8 +168,8 @@ if(@column.EffectType == "fk"){
     @:/// </summary>
     @:/// <param name="input"></param>
     @:/// <returns></returns>
-    @:[ApiDescriptionSettings(Name = "@(@column.FkEntityName)Dropdown"), HttpGet]
-    @:public async Task<dynamic> @(@column.FkEntityName)Dropdown()
+    @:[ApiDescriptionSettings(Name = "@(@column.FkEntityName)@(@column.ColumnName)Dropdown"), HttpGet]
+    @:public async Task<dynamic> @(@column.FkEntityName)@(@column.ColumnName)Dropdown()
     @:{
         @:return await _rep.Context.Queryable<@(@column.FkEntityName)>()
                 @:.Select(u => new
@@ -188,11 +200,12 @@ if(@column.EffectType == "Upload"){
 
 
 @foreach (var column in Model.TableField){
-if(@column.EffectType == "ApiTreeSelect"){
+if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("@(@column.FkEntityName)Tree")){
+    @{definedObjects.Add("@(@column.FkEntityName)Tree", 1);}
     @:[HttpGet("/@(@Model.LowerClassName)/@(@column.FkEntityName)Tree")]
     @:public async Task<dynamic> @(@column.FkEntityName)Tree()
     @:{
-        @:return await _rep.Context.Queryable<@(@column.FkEntityName)TreeOutput>().ToTreeAsync(u => u.Children, u => u.@(@column.PidColumn), 0);
+        @:return await _rep.Context.Queryable<@(@column.FkEntityName)>().ToTreeAsync(u => u.Children, u => u.@(@column.PidColumn), 0);
     @:}
 }
 }
