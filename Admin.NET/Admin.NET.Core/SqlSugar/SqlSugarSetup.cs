@@ -206,12 +206,13 @@ public static class SqlSugarSetup
             }
         };
 
-        // 超管时排除各种过滤器
+        // 配置假删除过滤器
+        db.QueryFilter.AddTableFilter<IDeletedFilter>(u => u.IsDelete == false);
+
+        // 超管排除其他过滤器
         if (App.User?.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString())
             return;
 
-        // 配置实体假删除过滤器
-        db.QueryFilter.AddTableFilter<IDeletedFilter>(u => u.IsDelete == false);
         // 配置租户过滤器
         var tenantId = App.User?.FindFirst(ClaimConst.TenantId)?.Value;
         if (!string.IsNullOrWhiteSpace(tenantId))
@@ -219,6 +220,7 @@ public static class SqlSugarSetup
 
         // 配置用户机构（数据范围）过滤器
         SqlSugarFilter.SetOrgEntityFilter(db);
+
         // 配置自定义过滤器
         SqlSugarFilter.SetCustomEntityFilter(db);
     }

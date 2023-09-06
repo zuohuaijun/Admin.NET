@@ -2,7 +2,7 @@
 <template>
 	<div class="@(@Model.LowerClassName)-container">
 		<el-dialog v-model="isShowDialog" :title="props.title" :width="800" draggable="">
-			<el-form :model="ruleForm" ref="ruleFormRef" size="default" label-width="130px" :rules="rules">
+			<el-form :model="ruleForm" ref="ruleFormRef" label-width="auto" :rules="rules">
 				<el-row :gutter="35">
 					@foreach (var column in Model.TableField){
 					if(@column.ColumnKey == "True"){
@@ -133,8 +133,8 @@
 			</el-form>
 			<template #footer>
 				<span class="dialog-footer">
-					<el-button @@click="cancel" size="default">取 消</el-button>
-					<el-button type="primary" @@click="submit" size="default">确 定</el-button>
+					<el-button @@click="cancel">取 消</el-button>
+					<el-button type="primary" @@click="submit">确 定</el-button>
 				</span>
 			</template>
 		</el-dialog>
