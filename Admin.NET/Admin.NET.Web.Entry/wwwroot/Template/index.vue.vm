@@ -74,7 +74,7 @@
         <el-table-column type="index" label="序号" width="55" align="center"/>
         @foreach (var column in Model.TableField){
         if(@column.WhetherTable == "Y"){
-        if(@column.EffectType == "Upload"||@column.EffectType == "fk"||@column.EffectType == "Switch"||@column.EffectType == "ConstSelector"){
+        if(@column.EffectType == "Upload"||@column.EffectType == "fk"||@column.EffectType == "ApiTreeSelect"||@column.EffectType == "Switch"||@column.EffectType == "ConstSelector"){
         @:<el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 120)" show-overflow-tooltip="">
           @:<template #default="scope">
             if(@column.EffectType == "Upload"){
@@ -89,6 +89,8 @@
             @:preview-teleported=""/>
             }else if(@column.EffectType == "fk"){
             @:<span>{{scope.row.@LowerFirstLetter(@column.FkEntityName)@(@column.FkColumnName)}}</span>
+            }else if(@column.EffectType == "ApiTreeSelect"){
+            @:<span>{{scope.row.@LowerFirstLetter(@column.ColumnName)@(column.DisplayColumn)}}</span>
             }else if(@column.EffectType == "Switch"){
             @:<el-tag v-if="scope.row.@(@column.LowerColumnName)"> 是 </el-tag>
             @:<el-tag type="danger" v-else=""> 否 </el-tag>

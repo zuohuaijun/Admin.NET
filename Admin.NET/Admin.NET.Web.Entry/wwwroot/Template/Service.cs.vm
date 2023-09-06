@@ -39,11 +39,14 @@ if (@column.QueryWhether == "Y"){
 }
 @{string tableName = "u";}
 @if(Model.IsJoinTable){
-                    @://处理外键相关字段的连接
+                    @://处理外键和TreeSelector相关字段的连接
     @foreach (var column in Model.TableField){
         if(@column.EffectType == "fk"){
             tableName += ", " + column.ColumnName.ToLower();
                     @:.LeftJoin<@(@column.FkEntityName)>((@(@tableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).Id )
+        } else if(@column.EffectType == "ApiTreeSelect"){
+            tableName += ", " + column.ColumnName.ToLower();
+                    @:.LeftJoin<@(@column.FkEntityName)>((@(@tableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).@(@column.ValueColumn) )
         }
     }
                     @:.Select((@(@tableName))=> new @(@Model.ClassName)Output{
@@ -51,6 +54,8 @@ if (@column.QueryWhether == "Y"){
                         @:@(@column.ColumnName) = u.@(@column.ColumnName), 
                         if(@column.EffectType == "fk"){   
                         @:@(@column.FkEntityName)@(@column.FkColumnName) = @(@column.ColumnName.ToLower()).@(@column.FkColumnName),
+                        } else if(@column.EffectType == "ApiTreeSelect"){   
+                        @:@(@column.ColumnName)@(@column.DisplayColumn) = @(@column.ColumnName.ToLower()).@(@column.DisplayColumn),
                         }
 }
                     @:})
