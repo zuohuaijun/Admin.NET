@@ -201,7 +201,6 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 机构
     /// </summary>
-    [SugarColumn(IsIgnore = true)]
     [Navigate(NavigateType.OneToOne, nameof(OrgId))]
     public SysOrg SysOrg { get; set; }
 
@@ -214,7 +213,6 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 职位
     /// </summary>
-    [SugarColumn(IsIgnore = true)]
     [Navigate(NavigateType.OneToOne, nameof(PosId))]
     public SysPos SysPos { get; set; }
 
