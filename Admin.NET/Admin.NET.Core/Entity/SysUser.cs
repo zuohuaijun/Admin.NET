@@ -190,19 +190,30 @@ public class SysUser : EntityTenant
     /// 账号类型
     /// </summary>
     [SugarColumn(ColumnDescription = "账号类型")]
-    public AccountTypeEnum AccountType { get; set; } = AccountTypeEnum.None;
+    public AccountTypeEnum AccountType { get; set; } = AccountTypeEnum.NormalUser;
 
     /// <summary>
-    /// 机构Id
+    /// 直属机构Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "机构Id")]
+    [SugarColumn(ColumnDescription = "直属机构Id")]
     public long OrgId { get; set; }
 
     /// <summary>
-    /// 机构
+    /// 直属机构
     /// </summary>
     [Navigate(NavigateType.OneToOne, nameof(OrgId))]
     public SysOrg SysOrg { get; set; }
+
+    ///// <summary>
+    ///// 直属主管Id
+    ///// </summary>
+    //public long ManagerUserId { get; set; }
+
+    ///// <summary>
+    ///// 直属主管
+    ///// </summary>
+    //[Navigate(NavigateType.OneToOne, nameof(ManagerUserId))]
+    //public SysUser ManagerUser { get; set; }
 
     /// <summary>
     /// 职位Id
