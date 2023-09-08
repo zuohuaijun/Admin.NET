@@ -115,6 +115,9 @@ const openDialog = (row: any) => {
 const closeDialog = () => {
 	rowdata.fkTableName = state.ruleForm.tableName;
 	// rowdata.fkEntityName = state.ruleForm.entityName;
+	// 这里一定要设置 fkEntityName,因为模板文件用到了
+	let tableData = state.tableData.filter((x) => x.tableName == state.ruleForm.tableName);
+	rowdata.fkEntityName = tableData.length == 0 ? '' : tableData[0].entityName;
 	// rowdata.fkColumnName = state.ruleForm.columnName;
 	// rowdata.fkColumnNetType = state.ruleForm.columnNetType;
 	rowdata.displayColumn = state.ruleForm.displayColumn;
