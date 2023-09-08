@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -210,11 +210,14 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
-
-        _codeGenOptions.EntityBaseColumn.TryGetValue(input.BaseClassName, out string[] dbColumnNames);
-        if (dbColumnNames is null || dbColumnNames is { Length: 0 })
-            throw Oops.Oh("基类配置文件不存在此类型");
-
+        string[] dbColumnNames = new string[0];
+        // Entity.cs.vm中是允许创建没有基类的实体的，所以这里也要做出相同的判断
+        if (!string.IsNullOrWhiteSpace(input.BaseClassName))
+        {
+            _codeGenOptions.EntityBaseColumn.TryGetValue(input.BaseClassName, out dbColumnNames);
+            if (dbColumnNames is null || dbColumnNames is { Length: 0 })
+                throw Oops.Oh("基类配置文件不存在此类型");
+        }
         var templatePath = GetEntityTemplatePath();
         var targetPath = GetEntityTargetPath(input);
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
