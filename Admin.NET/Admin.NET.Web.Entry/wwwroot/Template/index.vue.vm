@@ -144,7 +144,7 @@
   import { page@(@Model.ClassName), delete@(@Model.ClassName) } from '/@@/api/main/@(@Model.LowerClassName)';
   @foreach (var column in Model.QueryWhetherList){
   if(@column.EffectType == "fk"){
-  @:import { get@(@column.FkEntityName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
+  @:import { get@(@column.FkEntityName)@(@column.ColumnName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
   }
   }
   @foreach (var column in Model.QueryWhetherList){
@@ -229,12 +229,12 @@
 
         @foreach (var column in Model.QueryWhetherList){
         if(@column.EffectType == "fk"){
-        @:const @LowerFirstLetter(@column.FkEntityName)DropdownList = ref<any>([]); 
-@:const get@(@column.FkEntityName)DropdownList = async () => {
-    @:let list = await get@(@column.FkEntityName)Dropdown();
-    @:@LowerFirstLetter(@column.FkEntityName)DropdownList.value = list.data.result ?? [];
+        @:const @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList = ref<any>([]); 
+@:const get@(@column.FkEntityName)@(@column.ColumnName)DropdownList = async () => {
+    @:let list = await get@(@column.FkEntityName)@(@column.ColumnName)Dropdown();
+    @:@LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList.value = list.data.result ?? [];
 @:};
-@:get@(@column.FkEntityName)DropdownList();
+@:get@(@column.FkEntityName)@(@column.ColumnName)DropdownList();
 @:
   }
 }
