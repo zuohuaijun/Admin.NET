@@ -16,26 +16,26 @@ namespace Admin.NET.Core;
 public enum AccountTypeEnum
 {
     /// <summary>
-    /// 其他
+    /// 超级管理员
     /// </summary>
-    [Description("其他")]
-    None = 0,
-
-    /// <summary>
-    /// 普通账号
-    /// </summary>
-    [Description("普通账号")]
-    User = 1,
+    [Description("超级管理员")]
+    SuperAdmin = 999,
 
     /// <summary>
     /// 系统管理员
     /// </summary>
     [Description("系统管理员")]
-    Admin = 4,
+    SysAdmin = 888,
 
     /// <summary>
-    /// 超级管理员
+    /// 普通账号
     /// </summary>
-    [Description("超级管理员")]
-    SuperAdmin = 999,
+    [Description("普通账号")]
+    NormalUser = 777,
+
+    /// <summary>
+    /// 会员
+    /// </summary>
+    [Description("会员")]
+    Member = 666,
 }

@@ -31,7 +31,6 @@ public class SysRoleOrg : EntityBaseId
     /// <summary>
     /// 机构
     /// </summary>
-    [SugarColumn(IsIgnore = true)]
     [Navigate(NavigateType.OneToOne, nameof(OrgId))]
     public SysOrg SysOrg { get; set; }
 }

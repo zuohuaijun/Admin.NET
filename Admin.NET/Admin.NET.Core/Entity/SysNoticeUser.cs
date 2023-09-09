@@ -25,7 +25,6 @@ public class SysNoticeUser
     /// <summary>
     /// 通知公告
     /// </summary>
-    [SugarColumn(IsIgnore = true)]
     [Navigate(NavigateType.OneToOne, nameof(NoticeId))]
     public SysNotice SysNotice { get; set; }
 

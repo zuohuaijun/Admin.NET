@@ -56,8 +56,8 @@ public class SysOrgService : IDynamicApiController, ITransient
         {
             return await iSugarQueryable.WhereIF(userOrgIdList.Count > 0, u => userOrgIdList.Contains(u.Id))
                 .WhereIF(!string.IsNullOrWhiteSpace(input.Name), u => u.Name.Contains(input.Name))
-                .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code.Contains(input.Code))
-                .WhereIF(!string.IsNullOrWhiteSpace(input.OrgType), u => u.OrgType.Contains(input.OrgType))
+                .WhereIF(!string.IsNullOrWhiteSpace(input.Code), u => u.Code == input.Code)
+                .WhereIF(!string.IsNullOrWhiteSpace(input.OrgType), u => u.OrgType == input.OrgType)
                 .ToListAsync();
         }
 

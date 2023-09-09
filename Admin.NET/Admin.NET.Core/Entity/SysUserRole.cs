@@ -23,6 +23,12 @@ public class SysUserRole : EntityBaseId
     public long UserId { get; set; }
 
     /// <summary>
+    /// 用户
+    /// </summary>
+    [Navigate(NavigateType.OneToOne, nameof(UserId))]
+    public SysUser SysUser { get; set; }
+
+    /// <summary>
     /// 角色Id
     /// </summary>
     [SugarColumn(ColumnDescription = "角色Id")]
@@ -31,7 +37,6 @@ public class SysUserRole : EntityBaseId
     /// <summary>
     /// 角色
     /// </summary>
-    [SugarColumn(IsIgnore = true)]
     [Navigate(NavigateType.OneToOne, nameof(RoleId))]
     public SysRole SysRole { get; set; }
 }

@@ -143,7 +143,6 @@ public class SysWechatPay : EntityBase
     /// <summary>
     /// 关联微信用户
     /// </summary>
-    [SugarColumn(IsIgnore = true)]
     [Navigate(NavigateType.OneToOne, nameof(OpenId))]
     public SysWechatUser SysWechatUser { get; set; }
 

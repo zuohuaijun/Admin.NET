@@ -45,7 +45,6 @@ public class GoViewPro : EntityTenant
     ///// <summary>
     ///// 项目数据
     ///// </summary>
-    //[SugarColumn(IsIgnore = true)]
     //[Navigate(NavigateType.OneToOne, nameof(Id))]
     //public GoViewProData GoViewProData { get; set; }
 }
