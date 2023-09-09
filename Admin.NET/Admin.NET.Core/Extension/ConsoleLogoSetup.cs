@@ -18,11 +18,11 @@ public static class ConsoleLogoSetup
     {
         Console.ForegroundColor = ConsoleColor.Blue;
         Console.WriteLine(@"
-              _           _         _   _ ______ _______ 
+              _           _         _   _ ______ _______
      /\      | |         (_)       | \ | |  ____|__   __|
-    /  \   __| |_ __ ___  _ _ __   |  \| | |__     | |   
-   / /\ \ / _` | '_ ` _ \| | '_ \  | . ` |  __|    | |   
-  / ____ \ (_| | | | | | | | | | |_| |\  | |____   | |   
+    /  \   __| |_ __ ___  _ _ __   |  \| | |__     | |
+   / /\ \ / _` | '_ ` _ \| | '_ \  | . ` |  __|    | |
+  / ____ \ (_| | | | | | | | | | |_| |\  | |____   | |
  /_/    \_\__,_|_| |_| |_|_|_| |_(_)_| \_|______|  |_| ");
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine(@"源码地址: https://gitee.com/zuohuaijun/Admin.NET");

@@ -217,7 +217,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         await _userRoleRep.InsertAsync(newUserRole);
 
         // 关联租户组织机构和管理员用户
-        await _sysTenantRep.UpdateAsync(u => new SysTenant() { UserId = newUser.Id, OrgId = newOrg.Id }, u => u.Id == tenantId);
+        await _sysTenantRep.UpdateSetColumnsTrueAsync(u => new SysTenant() { UserId = newUser.Id, OrgId = newOrg.Id }, u => u.Id == tenantId);
 
         // 默认租户管理员角色菜单集合
         var menuIdList = new List<long> { 1300000000111,1300000000121, // 工作台
