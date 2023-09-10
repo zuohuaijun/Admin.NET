@@ -17,12 +17,12 @@ export const useUserInfo = defineStore('userInfo', {
 		constList: [] as any,
 	}),
 	getters: {
-		// 获取系统常量列表
-		async getSysConstList(): Promise<any[]> {
-			var res = await getAPI(SysConstApi).apiSysConstListGet();
-			this.constList = res.data.result ?? [];
-			return this.constList;
-		},
+		// // 获取系统常量列表
+		// async getSysConstList(): Promise<any[]> {
+		// 	var res = await getAPI(SysConstApi).apiSysConstListGet();
+		// 	this.constList = res.data.result ?? [];
+		// 	return this.constList;
+		// },
 	},
 	actions: {
 		async setUserInfos() {
@@ -32,6 +32,16 @@ export const useUserInfo = defineStore('userInfo', {
 			} else {
 				const userInfos = <UserInfos>await this.getApiUserInfo();
 				this.userInfos = userInfos;
+			}
+		},
+        async setConstList() {
+			// 存储用户信息到浏览器缓存
+			if (Session.get('constList')) {
+				this.constList = Session.get('constList');
+			} else {
+				const constList = <any[]>await this.getSysConstList();
+				Session.set('constList', constList);
+				this.constList = constList;
 			}
 		},
 		// 获取当前用户信息
@@ -73,6 +83,15 @@ export const useUserInfo = defineStore('userInfo', {
 						Local.set('themeConfig', storesThemeConfig.themeConfig);
 
 						resolve(userInfos);
+					});
+			});
+		},
+		getSysConstList() {
+			return new Promise((resolve) => {
+				getAPI(SysConstApi)
+					.apiSysConstListGet()
+					.then(async (res: any) => {
+						resolve(res.data.result ?? []);
 					});
 			});
 		},
