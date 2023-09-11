@@ -191,7 +191,6 @@ public class SysFileService : IDynamicApiController, ITransient
         if (!_uploadOptions.ContentType.Contains(file.ContentType))
             throw Oops.Oh(ErrorCodeEnum.D8001);
 
-        
         if (sizeKb > _uploadOptions.MaxSize)
             throw Oops.Oh(ErrorCodeEnum.D8002);
 

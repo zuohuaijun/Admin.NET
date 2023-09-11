@@ -136,9 +136,7 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("删除用户")]
     public async Task DeleteUser(DeleteUserInput input)
     {
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
-        if (user == null)
-            throw Oops.Oh(ErrorCodeEnum.D1002);
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D1002);
         if (user.AccountType == AccountTypeEnum.SuperAdmin)
             throw Oops.Oh(ErrorCodeEnum.D1014);
         if (user.Id == _userManager.UserId)
