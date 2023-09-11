@@ -166,10 +166,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     [DisplayName("获取登录账号")]
     public async Task<LoginUserOutput> GetUserInfo()
     {
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
-        if (user == null)
-            throw Oops.Oh(ErrorCodeEnum.D1011).StatusCode(401);
-
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId) ?? throw Oops.Oh(ErrorCodeEnum.D1011).StatusCode(401);
         // 获取机构
         var org = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysOrg>>().GetFirstAsync(u => u.Id == user.OrgId);
         // 获取职位

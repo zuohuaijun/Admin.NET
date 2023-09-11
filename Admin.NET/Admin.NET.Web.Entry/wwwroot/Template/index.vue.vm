@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="@(@Model.LowerClassName)-container">
     <el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
       @if(Model.QueryWhetherList.Count > 0){
@@ -22,7 +22,7 @@
         }else if(@column.EffectType == "fk"){
         @:<el-form-item label="@column.ColumnComment">
           @:<el-select clearable="" filterable="" v-model="queryParams.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-            @:<el-option v-for="(item,index) in @LowerFirstLetter(@column.FkEntityName)DropdownList" :key="index" :value="item.value" :label="item.label" />
+            @:<el-option v-for="(item,index) in  @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList" :key="index" :value="item.value" :label="item.label" />
             @:
           </el-select>
           @:
@@ -138,6 +138,9 @@
   import { ref } from "vue";
   import { ElMessageBox, ElMessage } from "element-plus";
   import { auth } from '/@@/utils/authFunction';
+  @if(@Model.TableField.Any(x=>x.EffectType == "ConstSelector")){
+  @:import { codeToName, getConstType } from "/@@/utils/constHelper";
+  } 
   //import { formatDate } from '/@@/utils/formatTime';
 
   import editDialog from '/@@/views/main/@(@Model.LowerClassName)/component/editDialog.vue'

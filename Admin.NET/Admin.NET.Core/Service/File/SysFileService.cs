@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -165,12 +165,13 @@ public class SysFileService : IDynamicApiController, ITransient
         if (file == null) throw Oops.Oh(ErrorCodeEnum.D8000);
 
         // 判断是否重复上传的文件
+        var sizeKb = (long)(file.Length / 1024.0); // 大小KB
         var fileMd5 = string.Empty;
         if (_uploadOptions.EnableMd5)
         {
             using var fileStream = file.OpenReadStream();
             fileMd5 = OssUtils.ComputeContentMd5(fileStream, fileStream.Length);
-            var sysFile = await _sysFileRep.GetFirstAsync(q => q.FileMd5 == fileMd5);
+            var sysFile = await _sysFileRep.GetFirstAsync(q => q.FileMd5 == fileMd5 && (q.SizeKb == null || q.SizeKb == sizeKb.ToString()));
             if (sysFile != null) return sysFile;
         }
 
@@ -190,7 +191,6 @@ public class SysFileService : IDynamicApiController, ITransient
         if (!_uploadOptions.ContentType.Contains(file.ContentType))
             throw Oops.Oh(ErrorCodeEnum.D8001);
 
-        var sizeKb = (long)(file.Length / 1024.0); // 大小KB
         if (sizeKb > _uploadOptions.MaxSize)
             throw Oops.Oh(ErrorCodeEnum.D8002);
 
@@ -236,7 +236,9 @@ public class SysFileService : IDynamicApiController, ITransient
 
                 case OSSProvider.Minio:
                     // 获取Minio文件的下载或者预览地址
-                    newFile.Url = await GetMinioPreviewFileUrl(newFile.BucketName, filePath); ;
+                    //newFile.Url = await GetMinioPreviewFileUrl(newFile.BucketName, filePath);// 这种方法生成的Url是有7天有效期的，不能这样使用
+                    // 需要在MinIO中的Buckets开通对Anonymous 的readonly权限
+                    newFile.Url = $"{(_OSSProviderOptions.IsEnableHttps ? "https" : "http")}://{_OSSProviderOptions.Endpoint}/{newFile.BucketName}/{filePath}";
                     break;
             }
         }
