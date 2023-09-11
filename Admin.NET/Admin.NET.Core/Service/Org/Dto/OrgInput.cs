@@ -24,7 +24,7 @@ public class OrgInput : BaseIdInput
     /// <summary>
     /// 机构类型
     /// </summary>
-    public string OrgType { get; set; }
+    public string Type { get; set; }
 }
 
 public class AddOrgInput : SysOrg

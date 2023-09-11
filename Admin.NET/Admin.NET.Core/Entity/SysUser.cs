@@ -204,16 +204,16 @@ public class SysUser : EntityTenant
     [Navigate(NavigateType.OneToOne, nameof(OrgId))]
     public SysOrg SysOrg { get; set; }
 
-    ///// <summary>
-    ///// 直属主管Id
-    ///// </summary>
-    //public long ManagerUserId { get; set; }
+    /// <summary>
+    /// 直属主管Id
+    /// </summary>
+    public long ManagerUserId { get; set; }
 
-    ///// <summary>
-    ///// 直属主管
-    ///// </summary>
-    //[Navigate(NavigateType.OneToOne, nameof(ManagerUserId))]
-    //public SysUser ManagerUser { get; set; }
+    /// <summary>
+    /// 直属主管
+    /// </summary>
+    [Navigate(NavigateType.OneToOne, nameof(ManagerUserId))]
+    public SysUser ManagerUser { get; set; }
 
     /// <summary>
     /// 职位Id

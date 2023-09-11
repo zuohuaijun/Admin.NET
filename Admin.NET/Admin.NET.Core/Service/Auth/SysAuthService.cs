@@ -139,7 +139,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             { ClaimConst.AccountType, user.AccountType },
             { ClaimConst.OrgId, user.OrgId },
             { ClaimConst.OrgName, user.SysOrg?.Name },
-            { ClaimConst.OrgType, user.SysOrg?.OrgType },
+            { ClaimConst.OrgType, user.SysOrg?.Type },
         }, tokenExpire);
 
         // 生成刷新Token令牌
@@ -183,7 +183,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             Signature = user.Signature,
             OrgId = user.OrgId,
             OrgName = org?.Name,
-            OrgType = org?.OrgType,
+            OrgType = org?.Type,
             PosName = pos?.Name,
             Buttons = buttons
         };

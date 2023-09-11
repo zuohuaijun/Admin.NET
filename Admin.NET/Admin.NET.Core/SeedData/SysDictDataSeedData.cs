@@ -68,11 +68,11 @@ public class SysDictDataSeedData : ISqlSugarEntitySeedData<SysDictData>
             new SysDictData{ Id=1300000000504, DictTypeId=1300000000105, Value="EntityTenant【租户实体】", Code="EntityTenant", OrderNo=1, Remark="【租户实体】", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=1300000000505, DictTypeId=1300000000105, Value="EntityBaseData【业务实体】", Code="EntityBaseData", OrderNo=1, Remark="【业务实体】", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
-            new SysDictData{ Id=1300000000601, DictTypeId=1300000000106, Value="总公司", Code="101", OrderNo=100, Remark="总公司", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
-            new SysDictData{ Id=1300000000602, DictTypeId=1300000000106, Value="区域分公司", Code="201", OrderNo=101, Remark="区域分公司", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
-            new SysDictData{ Id=1300000000603, DictTypeId=1300000000106, Value="直营门店", Code="301", OrderNo=102, Remark="直营门店", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
-            new SysDictData{ Id=1300000000604, DictTypeId=1300000000106, Value="加盟门店", Code="401", OrderNo=103, Remark="加盟门店", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
-            new SysDictData{ Id=1300000000605, DictTypeId=1300000000106, Value="代理商", Code="501", OrderNo=104, Remark="代理商", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000601, DictTypeId=1300000000106, Value="集团", Code="101", OrderNo=100, Remark="集团", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000602, DictTypeId=1300000000106, Value="公司", Code="201", OrderNo=101, Remark="公司", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000603, DictTypeId=1300000000106, Value="部门", Code="301", OrderNo=102, Remark="部门", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000604, DictTypeId=1300000000106, Value="区域", Code="401", OrderNo=103, Remark="区域", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000605, DictTypeId=1300000000106, Value="组", Code="501", OrderNo=104, Remark="组", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
         };
     }
 }
