@@ -275,7 +275,7 @@ const openDialog = async (row: any) => {
 		state.ruleForm.roleIdList = resRole.data.result;
 		var resExtOrg = await getAPI(SysUserApi).apiSysUserOwnExtOrgListUserIdGet(row.id);
 		state.ruleForm.extOrgIdList = resExtOrg.data.result;
-	} 
+	}
 	state.isShowDialog = true;
 	ruleFormRef.value?.resetFields();
 };
