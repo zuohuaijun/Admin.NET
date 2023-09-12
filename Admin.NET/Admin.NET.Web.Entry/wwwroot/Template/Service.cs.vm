@@ -86,7 +86,7 @@ if (@column.QueryWhether == "Y"){
     }
 }
 }
-        query = query.OrderBuilder(input);
+        query = query.OrderBuilder(input, "", "CreateTime");
         return await query.ToPagedListAsync(input.Page, input.PageSize);
     }
 

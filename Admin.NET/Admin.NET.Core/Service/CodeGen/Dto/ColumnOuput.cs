@@ -20,6 +20,11 @@ public class ColumnOuput
     public string ColumnName { get; set; }
 
     /// <summary>
+    /// 实体的Property名
+    /// </summary>
+    public string PropertyName { get; set; }
+
+    /// <summary>
     /// 数据库中类型
     /// </summary>
     public string DataType { get; set; }
