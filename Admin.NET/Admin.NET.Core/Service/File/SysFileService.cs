@@ -273,16 +273,16 @@ public class SysFileService : IDynamicApiController, ITransient
         return newFile;
     }
 
-    /// <summary>
-    /// 获取Minio文件的下载或者预览地址
-    /// </summary>
-    /// <param name="bucketName">桶名</param>
-    /// <param name="fileName">文件名</param>
-    /// <returns></returns>
-    private async Task<string> GetMinioPreviewFileUrl(string bucketName, string fileName)
-    {
-        return await _OSSService.PresignedGetObjectAsync(bucketName, fileName, 7);
-    }
+    ///// <summary>
+    ///// 获取Minio文件的下载或者预览地址
+    ///// </summary>
+    ///// <param name="bucketName">桶名</param>
+    ///// <param name="fileName">文件名</param>
+    ///// <returns></returns>
+    //private async Task<string> GetMinioPreviewFileUrl(string bucketName, string fileName)
+    //{
+    //    return await _OSSService.PresignedGetObjectAsync(bucketName, fileName, 7);
+    //}
 
     /// <summary>
     /// 上传头像

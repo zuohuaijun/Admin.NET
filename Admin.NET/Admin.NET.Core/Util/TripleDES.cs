@@ -22,6 +22,7 @@ public static class TripleDES
     /// <param name="inputFile">待加密文件路径</param>
     /// <param name="outputFile">加密后的文件路径</param>
     /// <param name="password">密码 （24位长度）</param>
+    [Obsolete]
     public static void EncryptFile(string inputFile, string outputFile, string password)
     {
         using var tdes = new TripleDESCryptoServiceProvider();
@@ -40,6 +41,7 @@ public static class TripleDES
     /// <param name="inputFile">加密的文件路径</param>
     /// <param name="outputFile">解密后的文件路径</param>
     /// <param name="password">密码 （24位长度）</param>
+    [Obsolete]
     public static void DecryptFile(string inputFile, string outputFile, string password)
     {
         using var tdes = new TripleDESCryptoServiceProvider();

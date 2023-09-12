@@ -70,7 +70,7 @@ public class CustomViewEngine : ViewEngineModel
         // 获取实体类型属性
         var entityType = provider.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);
 
-        // 因为ConfigId的表通常也会用到主库的表来做连接，所以这里如果在ConfigId中找不到实体也尝试一下在主库中查找
+        // 因为ConfigId的表通常也会用到主库的表来做连接，所以若在ConfigId中找不到实体也尝试一下在主库中查找
         if (ConfigId == SqlSugarConst.ConfigId && entityType == null) return null;
         if (ConfigId != SqlSugarConst.ConfigId)
         {
@@ -78,8 +78,6 @@ public class CustomViewEngine : ViewEngineModel
             entityType = provider.DbMaintenance.GetTableInfoList().FirstOrDefault(u => u.Name == tableName);
             if (entityType == null) return null;
         }
-
-        
 
         // 按原始类型的顺序获取所有实体类型属性（不包含导航属性，会返回null）
         return provider.DbMaintenance.GetColumnInfosByTableName(entityType.Name).Select(u => new ColumnOuput
