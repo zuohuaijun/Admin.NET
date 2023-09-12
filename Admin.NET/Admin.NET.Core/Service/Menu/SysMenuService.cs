@@ -136,6 +136,9 @@ public class SysMenuService : IDynamicApiController, ITransient
     [DisplayName("更新菜单")]
     public async Task UpdateMenu(UpdateMenuInput input)
     {
+        if (input.Id == input.Pid)
+            throw Oops.Oh(ErrorCodeEnum.D4008);
+
         var isExist = input.Type != MenuTypeEnum.Btn
             ? await _sysMenuRep.IsAnyAsync(u => u.Title == input.Title && u.Type == input.Type && u.Id != input.Id)
             : await _sysMenuRep.IsAnyAsync(u => u.Permission == input.Permission && u.Type == input.Type && u.Id != input.Id);

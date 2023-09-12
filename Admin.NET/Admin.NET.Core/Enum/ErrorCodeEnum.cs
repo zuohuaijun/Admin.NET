@@ -317,6 +317,12 @@ public enum ErrorCodeEnum
     D4007,
 
     /// <summary>
+    /// 禁止本节点与父节点相同
+    /// </summary>
+    [ErrorCodeItemMetadata("禁止本节点与父节点相同")]
+    D4008,
+
+    /// <summary>
     /// 已存在同名或同编码应用
     /// </summary>
     [ErrorCodeItemMetadata("已存在同名或同编码应用")]
