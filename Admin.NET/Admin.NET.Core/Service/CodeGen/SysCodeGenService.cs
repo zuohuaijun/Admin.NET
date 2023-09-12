@@ -297,7 +297,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var tableFieldList = await _codeGenConfigService.GetList(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
 
         var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesNoEnum.Y.ToString()).ToList(); // 前端查询集合
-        var joinTableList = tableFieldList.Where(u => u.EffectType == "Upload" || u.EffectType == "fk").ToList(); // 需要连表查询的字段
+        var joinTableList = tableFieldList.Where(u => u.EffectType == "Upload" || u.EffectType == "fk" || u.EffectType == "ApiTreeSelect").ToList(); // 需要连表查询的字段
         (string joinTableNames, string lowerJoinTableNames) = GetJoinTableStr(joinTableList); // 获取连表的实体名和别名
 
         var data = new CustomViewEngine(_db)
@@ -330,7 +330,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             File.WriteAllText(targetPathList[i], tResult, Encoding.UTF8);
         }
 
-        await AddMenu(input.TableName, input.BusName, input.MenuPid);
+        await AddMenu(input.TableName, input.BusName, input.MenuPid, tableFieldList);
         // 非ZIP压缩返回空
         if (!input.GenerateType.StartsWith('1'))
             return null;
@@ -376,7 +376,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <param name="busName"></param>
     /// <param name="pid"></param>
     /// <returns></returns>
-    private async Task AddMenu(string className, string busName, long pid)
+    private async Task AddMenu(string className, string busName, long pid, List<CodeGenConfig> tableFieldList)
     {
         var pPath = string.Empty;
         // 若 pid=0 为顶级则创建菜单目录
@@ -441,53 +441,106 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             await _db.Deleteable<SysRoleMenu>().Where(e => listIds.Contains(e.MenuId)).ExecuteCommandAsync();
         }
         var pid1 = (await _db.Insertable(menuType1).ExecuteReturnEntityAsync()).Id;
-
+        int menuOrder = 101;
         // 按钮-page
         var menuType2 = new SysMenu
         {
             Pid = pid1,
-            Title = busName + "查询",
+            Title = "查询",
             Type = MenuTypeEnum.Btn,
             Permission = className[..1].ToLower() + className[1..] + ":page",
+            OrderNo = menuOrder
         };
+        menuOrder += 3;
 
         // 按钮-detail
         var menuType2_1 = new SysMenu
         {
             Pid = pid1,
-            Title = busName + "详情",
+            Title = "详情",
             Type = MenuTypeEnum.Btn,
             Permission = className[..1].ToLower() + className[1..] + ":detail",
+            OrderNo = menuOrder
         };
+        menuOrder += 3;
 
         // 按钮-add
         var menuType2_2 = new SysMenu
         {
             Pid = pid1,
-            Title = busName + "增加",
+            Title = "增加",
             Type = MenuTypeEnum.Btn,
             Permission = className[..1].ToLower() + className[1..] + ":add",
+            OrderNo = menuOrder
         };
+        menuOrder += 3;
 
         // 按钮-delete
         var menuType2_3 = new SysMenu
         {
             Pid = pid1,
-            Title = busName + "删除",
+            Title = "删除",
             Type = MenuTypeEnum.Btn,
             Permission = className[..1].ToLower() + className[1..] + ":delete",
+            OrderNo = menuOrder
         };
+        menuOrder += 3;
 
         // 按钮-edit
         var menuType2_4 = new SysMenu
         {
             Pid = pid1,
-            Title = busName + "编辑",
+            Title = "编辑",
             Type = MenuTypeEnum.Btn,
             Permission = className[..1].ToLower() + className[1..] + ":edit",
+            OrderNo = menuOrder
         };
+        menuOrder += 3;
 
         var menuList = new List<SysMenu>() { menuType2, menuType2_1, menuType2_2, menuType2_3, menuType2_4 };
+        // 加入fk、Upload、ApiTreeSelect 等接口的权限
+        var fkTableList = tableFieldList.Where(u => u.EffectType == "fk").ToList(); 
+        foreach (var @column in fkTableList)
+        {
+            var menuType = new SysMenu
+            {
+                Pid = pid1,
+                Title = "外键" + @column.ColumnName,
+                Type = MenuTypeEnum.Btn,
+                Permission = className[..1].ToLower() + className[1..] + ":" + column.FkEntityName + column.ColumnName + "Dropdown",
+                OrderNo = menuOrder
+            };
+            menuOrder += 3;
+            menuList.Add(menuType);
+        }
+        var treeSelectTableList = tableFieldList.Where(u => u.EffectType == "ApiTreeSelect").ToList();
+        foreach (var @column in treeSelectTableList)
+        {
+            var menuType = new SysMenu
+            {
+                Pid = pid1,
+                Title = "树型" + @column.ColumnName,
+                Type = MenuTypeEnum.Btn,
+                Permission = className[..1].ToLower() + className[1..] + ":" + column.FkEntityName + "Tree",
+                OrderNo = menuOrder
+            };
+            menuOrder += 3;
+            menuList.Add(menuType);
+        }
+        var uploadTableList = tableFieldList.Where(u => u.EffectType == "Upload").ToList();
+        foreach (var @column in uploadTableList)
+        {
+            var menuType = new SysMenu
+            {
+                Pid = pid1,
+                Title = "上传" + @column.ColumnName,
+                Type = MenuTypeEnum.Btn,
+                Permission = className[..1].ToLower() + className[1..] + ":Upload" + column.ColumnName,
+                OrderNo = menuOrder
+            };
+            menuOrder += 3;
+            menuList.Add(menuType);
+        }
         await _db.Insertable(menuList).ExecuteCommandAsync();
     }
 

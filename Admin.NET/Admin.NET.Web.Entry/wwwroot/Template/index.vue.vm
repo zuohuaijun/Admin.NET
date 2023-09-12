@@ -232,7 +232,7 @@
 
         @foreach (var column in Model.QueryWhetherList){
         if(@column.EffectType == "fk"){
-		  @:const @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList = ref<any>([]); 
+        @:const @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList = ref<any>([]); 
 @:const get@(@column.FkEntityName)@(@column.ColumnName)DropdownList = async () => {
     @:let list = await get@(@column.FkEntityName)@(@column.ColumnName)Dropdown();
     @:@LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList.value = list.data.result ?? [];

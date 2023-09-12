@@ -1,4 +1,4 @@
-@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
+﻿@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
 <template>
 	<div class="@(@Model.LowerClassName)-container">
 		<el-dialog v-model="isShowDialog" :title="props.title" :width="800" draggable="">
@@ -31,7 +31,7 @@
 								placeholder="请选择@(column.ColumnComment)"
 								clearable=""
 								class="w100"
-								@:v-model="ruleForm.@(column.LowerColumnName)"
+								v-model="ruleForm.@(@column.LowerColumnName)"
 							>
 								<template #default="{ node, data }">
 									<span>{{ data.name }}</span>
