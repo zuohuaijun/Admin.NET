@@ -137,35 +137,25 @@ public class SysDatabaseService : IDynamicApiController, ITransient
 
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
 
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        var typeBilder = db.DynamicBuilder().CreateClass(input.TableName, new SugarTable() { TableName = input.TableName, TableDescription = input.Description });
         input.DbColumnInfoList.ForEach(m =>
         {
-            columns.Add(new DbColumnInfo
+            var dbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim();
+            var isPrimarykey = columns.Any(m => m.IsPrimarykey);
+            // 虚拟类都默认String，具体以列数据类型为准
+            typeBilder.CreateProperty(dbColumnName, typeof(string), new SugarColumn()
             {
-                DbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim(),
-                DataType = m.DataType,
-                Length = m.Length,
-                ColumnDescription = m.ColumnDescription,
-                IsNullable = m.IsNullable == 1,
+                IsPrimaryKey = isPrimarykey,
                 IsIdentity = m.IsIdentity == 1,
-                IsPrimarykey = m.IsPrimarykey == 1,
-                DecimalDigits = m.DecimalDigits
+                ColumnDataType = m.DataType,
+                Length = m.Length,
+                IsNullable = m.IsNullable == 1,
+                DecimalDigits = m.DecimalDigits,
+                ColumnDescription = m.ColumnDescription,
             });
         });
-        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        db.DbMaintenance.CreateTable(input.TableName, columns, false);
-
-        if (db.CurrentConnectionConfig.DbType == SqlSugar.DbType.Sqlite)
-            return;
-
-        if (columns.Any(m => m.IsPrimarykey))
-            db.DbMaintenance.AddPrimaryKey(input.TableName, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
-
-        db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
-        input.DbColumnInfoList.ForEach(m =>
-        {
-            m.DbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName) : m.DbColumnName;
-            db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
-        });
+        db.CodeFirst.InitTables(typeBilder.BuilderType());
     }
 
     /// <summary>
