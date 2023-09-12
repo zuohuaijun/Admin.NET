@@ -91,6 +91,7 @@ onMounted(async () => {});
 const openDialog = (row: any) => {
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	state.isShowDialog = true;
+	ruleFormRef.value?.resetFields();
 
 	if (hiprintDesignRef.value != undefined) loadTemplate();
 };

@@ -102,6 +102,7 @@ const openDialog = async (row: any) => {
 		}, 100);
 	}
 	state.isShowDialog = true;
+	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗

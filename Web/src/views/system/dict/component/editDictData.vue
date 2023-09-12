@@ -74,6 +74,7 @@ const openDialog = (row: any) => {
 		state.ruleForm.dictTypeId = props.dictTypeId;
 	}
 	state.isShowDialog = true;
+	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗

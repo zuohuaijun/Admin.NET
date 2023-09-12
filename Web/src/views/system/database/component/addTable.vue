@@ -119,6 +119,7 @@ const state = reactive({
 const openDialog = (row: any) => {
 	state.ruleForm = row;
 	state.isShowDialog = true;
+	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗

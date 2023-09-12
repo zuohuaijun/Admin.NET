@@ -109,6 +109,7 @@ const getColumnInfoList = async () => {
 const openDialog = (row: any) => {
 	rowdata = row;
 	state.isShowDialog = true;
+	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗

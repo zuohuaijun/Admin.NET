@@ -181,6 +181,7 @@ const openDialog = (row: any) => {
 	state.selectedTabName = '0'; // 重置为第一个 tab 页
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	state.isShowDialog = true;
+	ruleFormRef.value?.resetFields();
 
 	// Http请求
 	if (row.id && state.ruleForm.createType === JobCreateTypeEnum.NUMBER_2) {

@@ -47,6 +47,7 @@ const state = reactive({
 const openDialog = (row: any) => {
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	state.isShowDialog = true;
+	state.isShowDialog = true;
 };
 
 // 关闭弹窗

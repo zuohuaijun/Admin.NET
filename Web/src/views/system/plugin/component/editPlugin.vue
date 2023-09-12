@@ -110,6 +110,7 @@ const initMonacoEditor = () => {
 const openDialog = (row: any) => {
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	state.isShowDialog = true;
+	ruleFormRef.value?.resetFields();
 
 	// 延迟拿值防止取不到
 	setTimeout(() => {

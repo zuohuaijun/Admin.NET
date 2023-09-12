@@ -72,6 +72,7 @@ const openDialog = (row: any) => {
 	state.ruleForm.baseClassName = 'EntityBase';
 	state.ruleForm.position = 'Admin.NET.Application';
 	state.isShowDialog = true;
+	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗

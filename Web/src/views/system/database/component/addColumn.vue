@@ -88,6 +88,7 @@ const state = reactive({
 const openDialog = (addRow: DbColumnInput) => {
 	state.ruleForm = addRow;
 	state.isShowDialog = true;
+	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗
