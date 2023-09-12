@@ -207,6 +207,7 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 直属主管Id
     /// </summary>
+    [SugarColumn(ColumnDescription = "直属主管Id")]
     public long ManagerUserId { get; set; }
 
     /// <summary>
