@@ -111,9 +111,8 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
             }
 
             codeGenConfig.CodeGenId = codeGenerate.Id;
-            //这里不能用 ColumnName,应该用 PropertyName （因为Oracle是不区分大小写的，还有个别业务的实体的字段名与Propertty名不一定一样）
-            //目前不想去改模板，所以表结构里没有增加 PropertyName 字段，所以这里暂时先把PropertyName 赋给 ColumnName，以后有空再改
-            codeGenConfig.ColumnName = tableColumn.PropertyName; //tableColumn.ColumnName;
+            // 这里不能用 ColumnName，应该用 PropertyName （因为Oracle是不区分大小写的，还有个别业务的实体的字段名与Propertty名不一定一样）
+            codeGenConfig.ColumnName = tableColumn.PropertyName; // tableColumn.ColumnName;
             codeGenConfig.ColumnComment = tableColumn.ColumnComment;
             codeGenConfig.NetType = tableColumn.DataType;
             codeGenConfig.WhetherRetract = YesNoEnum.N.ToString();
