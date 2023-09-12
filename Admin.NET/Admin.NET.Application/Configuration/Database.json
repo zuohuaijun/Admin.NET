@@ -20,26 +20,26 @@
           "EnableInitSeed": true, // 启用种子初始化
           "EnableIncreSeed": false // 启用种子增量更新
         }
+      },
+      // 其他数据库配置（可以配置多个）
+      {
+        "ConfigId": "test", // 库标识
+        "DbType": "Sqlite", // 库类型
+        "ConnectionString": "DataSource=./Admin.NET.Test.db", // 库连接字符串
+        "DbSettings": {
+          "EnableInitDb": true, // 启用库初始化
+          "EnableDiffLog": false, // 启用库表差异日志
+          "EnableUnderLine": false // 启用驼峰转下划线
+        },
+        "TableSettings": {
+          "EnableInitTable": true, // 启用表初始化
+          "EnableIncreTable": false // 启用表增量更新
+        },
+        "SeedSettings": {
+          "EnableInitSeed": true, // 启用种子初始化
+          "EnableIncreSeed": false // 启用种子增量更新
+        }
       }
-      //// 其他数据库配置（可以配置多个）
-      //{
-      //  "ConfigId": "test", // 库标识
-      //  "DbType": "Sqlite", // 库类型
-      //  "ConnectionString": "DataSource=./test.db", // 库连接字符串
-      //  "DbSettings": {
-      //    "EnableInitDb": true, // 启用库初始化
-      //    "EnableDiffLog": false, // 启用库表差异日志
-      //    "EnableUnderLine": false // 启用驼峰转下划线
-      //  },
-      //  "TableSettings": {
-      //    "EnableInitTable": true, // 启用表初始化
-      //    "EnableIncreTable": false // 启用表增量更新
-      //  },
-      //  "SeedSettings": {
-      //    "EnableInitSeed": true, // 启用种子初始化
-      //    "EnableIncreSeed": false // 启用种子增量更新
-      //  }
-      //}
     ]
   }
 }
