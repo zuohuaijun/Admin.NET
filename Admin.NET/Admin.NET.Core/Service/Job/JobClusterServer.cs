@@ -82,7 +82,7 @@ public class JobClusterServer : IJobClusterServer
     {
         var _sysJobClusterRep = App.GetService<SqlSugarRepository<SysJobCluster>>();
         // 在作业集群表中，更新 clusterId 的 status 为 ClusterStatus.Crashed
-        await _sysJobClusterRep.UpdateSetColumnsTrueAsync(u => new SysJobCluster { Status = ClusterStatus.Crashed }, u => u.ClusterId == context.ClusterId);
+        await _sysJobClusterRep.UpdateAsync(u => new SysJobCluster { Status = ClusterStatus.Crashed }, u => u.ClusterId == context.ClusterId);
     }
 
     /// <summary>
@@ -93,7 +93,7 @@ public class JobClusterServer : IJobClusterServer
     {
         var _sysJobClusterRep = App.GetService<SqlSugarRepository<SysJobCluster>>();
         // 在作业集群表中，更新 clusterId 的 status 为 ClusterStatus.Crashed
-        await _sysJobClusterRep.UpdateSetColumnsTrueAsync(u => new SysJobCluster { Status = ClusterStatus.Crashed }, u => u.ClusterId == context.ClusterId);
+        await _sysJobClusterRep.UpdateAsync(u => new SysJobCluster { Status = ClusterStatus.Crashed }, u => u.ClusterId == context.ClusterId);
     }
 
     /// <summary>
@@ -105,6 +105,6 @@ public class JobClusterServer : IJobClusterServer
     {
         var _sysJobClusterRep = App.GetService<SqlSugarRepository<SysJobCluster>>();
         // 在作业集群表中，更新 clusterId 的 status 为 ClusterStatus.Working
-        await _sysJobClusterRep.UpdateSetColumnsTrueAsync(u => new SysJobCluster { Status = ClusterStatus.Working }, u => u.ClusterId == clusterId);
+        await _sysJobClusterRep.UpdateAsync(u => new SysJobCluster { Status = ClusterStatus.Working }, u => u.ClusterId == clusterId);
     }
 }

@@ -217,7 +217,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         await _userRoleRep.InsertAsync(newUserRole);
 
         // 关联租户组织机构和管理员用户
-        await _sysTenantRep.UpdateSetColumnsTrueAsync(u => new SysTenant() { UserId = newUser.Id, OrgId = newOrg.Id }, u => u.Id == tenantId);
+        await _sysTenantRep.UpdateAsync(u => new SysTenant() { UserId = newUser.Id, OrgId = newOrg.Id }, u => u.Id == tenantId);
 
         // 默认租户管理员角色菜单集合
         var menuIdList = new List<long> { 1300000000111,1300000000121, // 工作台
@@ -287,10 +287,10 @@ public class SysTenantService : IDynamicApiController, ITransient
         await _sysTenantRep.AsUpdateable(input.Adapt<TenantOutput>()).IgnoreColumns(true).ExecuteCommandAsync();
 
         // 更新系统机构
-        await _sysOrgRep.UpdateSetColumnsTrueAsync(u => new SysOrg() { Name = input.Name }, u => u.Id == input.OrgId);
+        await _sysOrgRep.UpdateAsync(u => new SysOrg() { Name = input.Name }, u => u.Id == input.OrgId);
 
         // 更新系统用户
-        await _sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Account = input.AdminAccount, Phone = input.Phone, Email = input.Email }, u => u.Id == input.UserId);
+        await _sysUserRep.UpdateAsync(u => new SysUser() { Account = input.AdminAccount, Phone = input.Phone, Email = input.Email }, u => u.Id == input.UserId);
 
         await UpdateTenantCache();
     }
@@ -333,7 +333,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     {
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
         var encryptPassword = CryptogramUtil.Encrypt(password);
-        await _sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Password = encryptPassword }, u => u.Id == input.UserId);
+        await _sysUserRep.UpdateAsync(u => new SysUser() { Password = encryptPassword }, u => u.Id == input.UserId);
         return password;
     }
 

@@ -302,7 +302,7 @@ public class SysFileService : IDynamicApiController, ITransient
         }
 
         var res = await UploadFile(file, "Upload/Avatar");
-        await sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Avatar = $"{res.FilePath}/{res.Name}" }, u => u.Id == user.Id);
+        await sysUserRep.UpdateAsync(u => new SysUser() { Avatar = $"{res.FilePath}/{res.Name}" }, u => u.Id == user.Id);
         return res;
     }
 
@@ -324,7 +324,7 @@ public class SysFileService : IDynamicApiController, ITransient
         }
 
         var res = await UploadFile(file, "Upload/Signature");
-        await sysUserRep.UpdateSetColumnsTrueAsync(u => new SysUser() { Signature = $"{res.FilePath}/{res.Name}" }, u => u.Id == user.Id);
+        await sysUserRep.UpdateAsync(u => new SysUser() { Signature = $"{res.FilePath}/{res.Name}" }, u => u.Id == user.Id);
         return res;
     }
 }
