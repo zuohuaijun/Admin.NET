@@ -1,4 +1,6 @@
 ﻿@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
+@{var pkField = Model.TableField.Where(c => c.ColumnKey == "True").FirstOrDefault();}
+@{string pkFieldName = LowerFirstLetter(pkField.ColumnName);}
 <template>
 	<div class="@(@Model.LowerClassName)-container">
 		<el-dialog v-model="isShowDialog" :title="props.title" :width="800" draggable="">
@@ -219,10 +221,10 @@ const submit = async () => {
   ruleFormRef.value.validate(async (isValid: boolean, fields?: any) => {
     if (isValid) {
       let values = ruleForm.value;
-      if (ruleForm.value.id != undefined && ruleForm.value.id > 0) {
-        await update@(@Model.ClassName)(values);
-      } else {
+      if (ruleForm.value.@(@pkFieldName) == undefined || ruleForm.value.@(@pkFieldName) == null || ruleForm.value.@(@pkFieldName) == "" || ruleForm.value.@(@pkFieldName) == 0) {
         await add@(@Model.ClassName)(values);
+      } else {
+		await update@(@Model.ClassName)(values);
       }
       closeDialog();
     } else {

@@ -207,15 +207,32 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         var dbTableName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(entityType.DbTableName) : entityType.DbTableName;
         var entityBasePropertyNames = _codeGenOptions.EntityBaseColumn[nameof(EntityTenant)];
-        return provider.DbMaintenance.GetColumnInfosByTableName(dbTableName, false).Select(u => new ColumnOuput
+        var columnInfos = provider.DbMaintenance.GetColumnInfosByTableName(dbTableName, false);
+        var result = columnInfos.Select(u => new ColumnOuput
         {
-            // 转下划线后的列名需要再转回来
-            ColumnName = config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
+            // 转下划线后的列名需要再转回来,2023/9/11,后面会根据字段名获取对应Property，所以这里不用转换了,以后面转换。
+            //ColumnName = config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, entityBasePropertyNames) : u.DbColumnName,
+            ColumnName = u.DbColumnName,
             ColumnKey = u.IsPrimarykey.ToString(),
             NetType = CodeGenUtil.ConvertDataType(u, provider.CurrentConnectionConfig.DbType),
             DataType = CodeGenUtil.ConvertDataType(u, provider.CurrentConnectionConfig.DbType),
             ColumnComment = string.IsNullOrWhiteSpace(u.ColumnDescription) ? u.DbColumnName : u.ColumnDescription
         }).ToList();
+        // 获取实体的属性信息，并赋值给PropertyName属性
+        var entityProperties = entityType.Type.GetProperties();
+        //foreach (var columnOutput in result)
+        for (int i= result.Count-1;i>=0;i--)
+        {
+            var columnOutput = result[i];
+            var propertyName = entityProperties.FirstOrDefault(p =>
+                p.Name == (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(columnOutput.ColumnName, entityBasePropertyNames) : columnOutput.ColumnName) || 
+                p.GetCustomAttribute<SugarColumn>()?.ColumnName?.ToLower() == columnOutput.ColumnName.ToLower()).Name;
+            if (propertyName != null)
+                columnOutput.PropertyName = propertyName;
+            else
+                result.RemoveAt(i);// 如果实体中都没有定义这个属性，那么显示字段也没有意义，所以这里移除它
+        }
+        return result;
     }
 
     /// <summary>
@@ -265,7 +282,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             {
                 EntityName = c.Name,
                 DbTableName = sugarAttribute == null ? c.Name : ((SugarTable)sugarAttribute).TableName,
-                TableDescription = description
+                TableDescription = description,
+                Type = c
             });
         }
         return await Task.FromResult(entityInfos);
@@ -295,7 +313,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             targetPathList = GetTargetPathList(input);
 
         var tableFieldList = await _codeGenConfigService.GetList(new CodeGenConfig() { CodeGenId = input.Id }); // 字段集合
-
         var queryWhetherList = tableFieldList.Where(u => u.QueryWhether == YesNoEnum.Y.ToString()).ToList(); // 前端查询集合
         var joinTableList = tableFieldList.Where(u => u.EffectType == "Upload" || u.EffectType == "fk" || u.EffectType == "ApiTreeSelect").ToList(); // 需要连表查询的字段
         (string joinTableNames, string lowerJoinTableNames) = GetJoinTableStr(joinTableList); // 获取连表的实体名和别名
@@ -499,7 +516,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
 
         var menuList = new List<SysMenu>() { menuType2, menuType2_1, menuType2_2, menuType2_3, menuType2_4 };
         // 加入fk、Upload、ApiTreeSelect 等接口的权限
-        var fkTableList = tableFieldList.Where(u => u.EffectType == "fk").ToList();
+        var fkTableList = tableFieldList.Where(u => u.EffectType == "fk").ToList(); 
         foreach (var @column in fkTableList)
         {
             var menuType = new SysMenu

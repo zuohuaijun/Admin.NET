@@ -1,3 +1,5 @@
+﻿@{var pkField = Model.TableField.Where(c => c.ColumnKey == "True").FirstOrDefault();}
+@{string pkFieldName = LowerFirstLetter(pkField.ColumnName);}
 <template>
   <div class="@(@Model.LowerClassName)-container">
     <el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
@@ -69,7 +71,7 @@
 				style="width: 100%"
 				v-loading="loading"
 				tooltip-effect="light"
-				row-key="id"
+				row-key="@(@pkFieldName)"
 				border="">
         <el-table-column type="index" label="序号" width="55" align="center"/>
         @foreach (var column in Model.TableField){
@@ -93,7 +95,7 @@
             @:<span>{{scope.row.@LowerFirstLetter(@column.ColumnName)@(column.DisplayColumn)}}</span>
             }else if(@column.EffectType == "Switch"){
             @:<el-tag v-if="scope.row.@(@column.LowerColumnName)"> 是 </el-tag>
-            @:<el-tag type="danger" v-else=""> 否 </el-tag>
+            @:<el-tag type="danger" v-else> 否 </el-tag>
             }else if(@column.EffectType == "ConstSelector"){
             @:<span>{{codeToName(scope.row.@(@column.LowerColumnName), '@(@column.DictTypeCode)')}}</span>
             }
@@ -103,7 +105,7 @@
         </el-table-column>
         }
         else {
-        @: <el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 120)" show-overflow-tooltip="" />
+        @:<el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 130)" show-overflow-tooltip="" />
         }
         }
         }
