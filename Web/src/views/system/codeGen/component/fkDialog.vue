@@ -19,7 +19,7 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="数据库表" prop="tableName">
 							<el-select v-model="state.ruleForm.tableName" filterable clearable @change="TableChanged()" class="w100">
-								<el-option v-for="item in state.tableData" :key="item.entityName" :label="item.tableName" :value="item.tableName" />
+								<el-option v-for="item in state.tableData" :key="item.entityName" :label="item.entityName + ' ( ' + item.tableName + ' )'" :value="item.tableName" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -97,7 +97,6 @@ const getColumnInfoList = async () => {
 const openDialog = (row: any) => {
 	rowdata = row;
 	state.isShowDialog = true;
-	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗

@@ -1,6 +1,6 @@
 ﻿@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
 @{var pkField = Model.TableField.Where(c => c.ColumnKey == "True").FirstOrDefault();}
-@{string pkFieldName = LowerFirstLetter(pkField.ColumnName);}
+@{string pkFieldName = LowerFirstLetter(pkField.PropertyName);}
 <template>
 	<div class="@(@Model.LowerClassName)-container">
 		<el-dialog v-model="isShowDialog" :title="props.title" :width="800" draggable="">
@@ -9,15 +9,15 @@
 					@foreach (var column in Model.TableField){
 					if(@column.ColumnKey == "True"){
 					@:<el-form-item v-show="false">
-						<el-input v-model="ruleForm.@(@column.LowerColumnName)" />
+						<el-input v-model="ruleForm.@(@column.LowerPropertyName)" />
 					</el-form-item>
 					}else{
 					if (@column.WhetherAddUpdate == "Y"){
 					if(@column.EffectType == "fk"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-select clearable filterable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-								@:<el-option v-for="(item,index) in @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList" :key="index" :value="item.value" :label="item.label" />
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
+							@:<el-select clearable filterable v-model="ruleForm.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
+								@:<el-option v-for="(item,index) in @LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList" :key="index" :value="item.value" :label="item.label" />
 								@:
 							</el-select>
 							@:
@@ -26,14 +26,14 @@
 					</el-col>
 					}else if(@column.EffectType == "ApiTreeSelect"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
 							<el-cascader
 								@:options="@LowerFirstLetter(@column.FkEntityName)TreeData"
 								@:props="{ checkStrictly: true, emitPath: false, value: '@LowerFirstLetter(@column.ValueColumn)', label: '@LowerFirstLetter(@column.DisplayColumn)' }"
 								placeholder="请选择@(column.ColumnComment)"
 								clearable=""
 								class="w100"
-								v-model="ruleForm.@(@column.LowerColumnName)"
+								v-model="ruleForm.@(@column.LowerPropertyName)"
 							>
 								<template #default="{ node, data }">
 									<span>{{ data.name }}</span>
@@ -46,33 +46,33 @@
 					</el-col>
 					}else if(@column.EffectType == "Input"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable />
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
+							@:<el-input v-model="ruleForm.@(@column.LowerPropertyName)" placeholder="请输入@(@column.ColumnComment)" maxlength="@(@column.ColumnLength)" show-word-limit clearable />
 							@:
 						</el-form-item>
 						@:
 					</el-col>
 					}else if(@column.EffectType == "InputNumber"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-input-number v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" clearable />
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
+							@:<el-input-number v-model="ruleForm.@(@column.LowerPropertyName)" placeholder="请输入@(@column.ColumnComment)" clearable />
 							@:
 						</el-form-item>
 						@:
 					</el-col>
 					}else if(@column.EffectType == "InputTextArea"){
 					@:<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-input v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请输入@(@column.ColumnComment)" type="textarea" clearable />
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
+							@:<el-input v-model="ruleForm.@(@column.LowerPropertyName)" placeholder="请输入@(@column.ColumnComment)" type="textarea" maxlength="@(@column.ColumnLength)" show-word-limit clearable />
 							@:
 						</el-form-item>
 						@:
 					</el-col>
 					}else if(@column.EffectType == "Select"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-select clearable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-								@:<el-option v-for="(item,index) in  getEdit@(@column.LowerColumnName)Data"  :key="index" :value="item.code" :label="item.value"></el-option>
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
+							@:<el-select clearable v-model="ruleForm.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
+								@:<el-option v-for="(item,index) in  getEdit@(@column.LowerPropertyName)Data"  :key="index" :value="item.code" :label="item.value"></el-option>
 								@:
 							</el-select>
 							@:
@@ -81,8 +81,8 @@
 					</el-col>
 					}else if(@column.EffectType == "ConstSelector"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-select clearable v-model="ruleForm.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
+							@:<el-select clearable v-model="ruleForm.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
 								@:<el-option v-for="(item,index) in getConstType('@column.DictTypeCode')" :key="index" :label="item.name" :value="item.code">{{ item.name }}</el-option>
 								@:
 							</el-select>
@@ -92,31 +92,31 @@
 					</el-col>
 					}else if(@column.EffectType == "Switch"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-switch v-model="ruleForm.@(@column.LowerColumnName)" active-text="是" inactive-text="否" />
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
+							@:<el-switch v-model="ruleForm.@(@column.LowerPropertyName)" active-text="是" inactive-text="否" />
 							@:
 						</el-form-item>
 						@:
 					</el-col>
 					}else if(@column.EffectType == "DatePicker"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
-							@:<el-date-picker v-model="ruleForm.@(@column.LowerColumnName)" type="date" placeholder="@(@column.ColumnComment)" />
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
+							@:<el-date-picker v-model="ruleForm.@(@column.LowerPropertyName)" type="date" placeholder="@(@column.ColumnComment)" />
 							@:
 						</el-form-item>
 						@:
 					</el-col>
 					}else if(@column.EffectType == "Upload"){
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerColumnName)">
+						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
 							@:<el-upload
 							@:list-type="picture-card"
 							@::limit="1"
 							@::show-file-list="false"
-							@::http-request="upload@(@column.ColumnName)Handle">
+							@::http-request="upload@(@column.PropertyName)Handle">
 								@:<img
-								@:v-if="ruleForm.@(@column.LowerColumnName)"
-								@::src="ruleForm.@(@column.LowerColumnName)"
+								@:v-if="ruleForm.@(@column.LowerPropertyName)"
+								@::src="ruleForm.@(@column.LowerPropertyName)"
 								@:style="width: 100%; height: 100%; object-fit: contain"/>
 								@:<el-icon v-else><Plus /></el-icon>
 								@:
@@ -153,7 +153,7 @@
 @if(@Model.TableField.Any(x=>x.EffectType == "Upload")){
     @:import { Plus } from "@@element-plus/icons-vue";
     @:import { UploadRequestOptions } from "element-plus";
-    @:import {@string.Join(",",Model.TableField.Where(x=>x.EffectType == "Upload").Select(x=>"upload"+x.ColumnName).ToList())} from '/@@/api/main/@(@Model.LowerClassName)';
+    @:import {@string.Join(",",Model.TableField.Where(x=>x.EffectType == "Upload").Select(x=>"upload"+x.PropertyName).ToList())} from '/@@/api/main/@(@Model.LowerClassName)';
 }
 	import { add@(@Model.ClassName), update@(@Model.ClassName) } from "/@@/api/main/@(@Model.LowerClassName)";
 	@foreach (var column in Model.TableField){
@@ -162,7 +162,7 @@
 	@:import { get@(@column.FkEntityName)Tree } from '/@@/api/main/@(@Model.LowerClassName)';
 	}
 	if(@column.EffectType == "fk"){
-	@:import { get@(@column.FkEntityName)@(@column.ColumnName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
+	@:import { get@(@column.FkEntityName)@(@column.PropertyName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
 	}
 	}
 	@if(@Model.TableField.Any(x=>x.EffectType == "Select")){
@@ -171,7 +171,7 @@
 	}
 	@foreach (var column in Model.TableField){
 	if(@column.EffectType == "Select"){
-	@:const getEdit@(@column.LowerColumnName)Data = ref<any>([]);
+	@:const getEdit@(@column.LowerPropertyName)Data = ref<any>([]);
 	}
 	}
 	//父级传递来的参数
@@ -191,9 +191,9 @@
   @foreach (var column in Model.TableField){
 		if(@column.WhetherRequired == "Y"){
 			if(@column.EffectType == "Input" || @column.EffectType == "InputNumber" ||@column.EffectType == "InputTextArea"){
-		@:@column.LowerColumnName: [{required: true, message: '请输入@(@column.ColumnComment)！', trigger: 'blur',},],
+		@:@column.LowerPropertyName: [{required: true, message: '请输入@(@column.ColumnComment)！', trigger: 'blur',},],
 			}else if(@column.EffectType == "DatePicker" || @column.EffectType == "Select" ||@column.EffectType == "ApiTreeSelect"){
-		@:@column.LowerColumnName: [{required: true, message: '请选择@(@column.ColumnComment)！', trigger: 'change',},],
+		@:@column.LowerPropertyName: [{required: true, message: '请选择@(@column.ColumnComment)！', trigger: 'change',},],
 			}
     }
   }
@@ -248,12 +248,12 @@ const submit = async () => {
 
 @foreach (var column in Model.TableField){
   if(@column.EffectType == "fk"){
-@:const @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList = ref<any>([]); 
-@:const get@(@column.FkEntityName)@(@column.ColumnName)DropdownList = async () => {
-    @:let list = await get@(@column.FkEntityName)@(@column.ColumnName)Dropdown();
-    @:@LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList.value = list.data.result ?? [];
+@:const @LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList = ref<any>([]); 
+@:const get@(@column.FkEntityName)@(@column.PropertyName)DropdownList = async () => {
+    @:let list = await get@(@column.FkEntityName)@(@column.PropertyName)Dropdown();
+    @:@LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList.value = list.data.result ?? [];
 @:};
-@:get@(@column.FkEntityName)@(@column.ColumnName)DropdownList();
+@:get@(@column.FkEntityName)@(@column.PropertyName)DropdownList();
 @:
   }
 }
@@ -285,9 +285,9 @@ const submit = async () => {
 @foreach (var column in Model.TableField){ 
 if(column.WhetherAddUpdate=="N") continue;
 if(@column.EffectType == "Upload"){
-@:const upload@(@column.ColumnName)Handle = async (options: UploadRequestOptions) => {
-	@:const res = await upload@(@column.ColumnName)(options);
-	@:ruleForm.value.@(column.LowerColumnName) = res.data.result?.url;
+@:const upload@(@column.PropertyName)Handle = async (options: UploadRequestOptions) => {
+	@:const res = await upload@(@column.PropertyName)(options);
+	@:ruleForm.value.@(column.LowerPropertyName) = res.data.result?.url;
 @:};
 	}
 }
@@ -297,7 +297,7 @@ if(@column.EffectType == "Upload"){
 onMounted(async () => {
 	@foreach (var column in Model.TableField){
 	if(@column.EffectType == "Select"){
-	@:getEdit@(@column.LowerColumnName)Data.value= await dictTypeDataList('@(@column.DictTypeCode)');
+	@:getEdit@(@column.LowerPropertyName)Data.value= await dictTypeDataList('@(@column.DictTypeCode)');
 	 }
 	}
 });

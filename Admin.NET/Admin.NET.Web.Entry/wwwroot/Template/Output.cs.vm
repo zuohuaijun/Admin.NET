@@ -11,25 +11,25 @@
        @:/// </summary>
 if(column.EffectType == "fk")
 {
-       @:public @column.NetType @column.ColumnName { get; set; } 
+       @:public @column.NetType @column.PropertyName { get; set; } 
        @:
        @:/// <summary>
        @:/// @(column.ColumnComment) 描述
        @:/// </summary>
-       @:public @(@column.FkColumnNetType) @(@column.FkEntityName)@(@column.FkColumnName) { get; set; } 
+       @:public @(@column.FkColumnNetType) @(@column.PropertyName)@(@column.FkColumnName) { get; set; } 
 
 }else if(column.EffectType == "Upload"){
-       @:public @column.NetType @column.ColumnName { get; set; }
-       @:public SysFile @(@column.ColumnName)Attachment { get; set; }
+       @:public @column.NetType @column.PropertyName { get; set; }
+       @:public SysFile @(@column.PropertyName)Attachment { get; set; }
 }else if(column.EffectType == "ApiTreeSelect"){
-       @:public @column.NetType @column.ColumnName { get; set; } 
+       @:public @column.NetType @column.PropertyName { get; set; } 
        @:
        @:/// <summary>
        @:/// @(column.ColumnComment) 描述 
        @:/// </summary>
-       @:public string? @(@column.ColumnName)@(@column.DisplayColumn) { get; set; } 
+       @:public string? @(@column.PropertyName)@(@column.DisplayColumn) { get; set; } 
 }else{
-       @:public @column.NetType @column.ColumnName { get; set; }
+       @:public @column.NetType @(@column.PropertyName) { get; set; }
 }
     @:
 }

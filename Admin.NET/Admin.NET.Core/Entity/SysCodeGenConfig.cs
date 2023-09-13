@@ -30,6 +30,19 @@ public class SysCodeGenConfig : EntityBase
     public virtual string ColumnName { get; set; }
 
     /// <summary>
+    /// 实体属性名
+    /// </summary>
+    [SugarColumn(ColumnDescription = "属性名称", Length = 128)]
+    [Required, MaxLength(128)]
+    public virtual string PropertyName { get; set; }
+
+    /// <summary>
+    /// 字段数据长度
+    /// </summary>
+    [SugarColumn(ColumnDescription = "字段数据长度", DefaultValue = "0")]
+    public virtual int ColumnLength { get; set; }
+
+    /// <summary>
     /// 字段描述
     /// </summary>
     [SugarColumn(ColumnDescription = "字段描述", Length = 128)]

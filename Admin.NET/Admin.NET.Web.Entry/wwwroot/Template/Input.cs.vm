@@ -13,7 +13,7 @@ if (@column.ColumnKey != "True"){
         @:/// <summary>
         @:/// @column.ColumnComment
         @:/// </summary>
-        @:public virtual @column.NetType @column.ColumnName { get; set; }
+        @:public virtual @column.NetType @column.PropertyName { get; set; }
         @:
 }
 }
@@ -30,14 +30,14 @@ if (@column.QueryWhether == "Y"){
         @:/// <summary>
         @:/// @column.ColumnComment
         @:/// </summary>
-        @:public @column.NetType @column.ColumnName { get; set; }
+        @:public @column.NetType @column.PropertyName { get; set; }
         @:
 
 if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
         @:/// <summary>
         @: /// @(@column.ColumnComment)范围
         @: /// </summary>
-        @: public List<DateTime?> @(@column.ColumnName)Range { get; set; } 
+        @: public List<DateTime?> @(@column.PropertyName)Range { get; set; } 
 
 }
 
@@ -56,7 +56,7 @@ if (@column.WhetherRequired == "Y"){
         @:/// @column.ColumnComment
         @:/// </summary>
         @:[Required(ErrorMessage = "@(@column.ColumnComment)不能为空")]
-        @:public override @column.NetType @column.ColumnName { get; set; }
+        @:public override @column.NetType @column.PropertyName { get; set; }
         @:
 }
 }
@@ -68,12 +68,12 @@ if (@column.WhetherRequired == "Y"){
     public class Delete@(@Model.ClassName)Input : BaseIdInput
     {
 @foreach (var column in Model.TableField){
-if (@column.ColumnKey == "True" && @column.ColumnName != "Id"){
+if (@column.ColumnKey == "True" && @column.PropertyName != "Id"){
         @:/// <summary>
         @:/// @column.ColumnComment
         @:/// </summary>
         @:[Required(ErrorMessage = "@(@column.ColumnComment)不能为空")]
-        @:public @column.NetType @column.ColumnName { get; set; }
+        @:public @column.NetType @column.PropertyName { get; set; }
         @:
 }
 }
@@ -90,7 +90,7 @@ if (@column.ColumnKey == "True"){
         @:/// @column.ColumnComment
         @:/// </summary>
         @:[Required(ErrorMessage = "@(@column.ColumnComment)不能为空")]
-        @:public @column.NetType @column.ColumnName { get; set; }
+        @:public @column.NetType @column.PropertyName { get; set; }
         @:
 }
 }
