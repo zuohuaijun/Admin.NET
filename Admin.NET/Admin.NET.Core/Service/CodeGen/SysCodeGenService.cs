@@ -391,6 +391,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <param name="className"></param>
     /// <param name="busName"></param>
     /// <param name="pid"></param>
+    /// <param name="tableFieldList"></param>
     /// <returns></returns>
     private async Task AddMenu(string className, string busName, long pid, List<CodeGenConfig> tableFieldList)
     {

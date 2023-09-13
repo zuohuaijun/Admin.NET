@@ -146,16 +146,11 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// <returns></returns>
     private string GetDefaultQueryType(SysCodeGenConfig codeGenConfig)
     {
-        switch (codeGenConfig.NetType?.TrimEnd('?'))
+        return (codeGenConfig.NetType?.TrimEnd('?')) switch
         {
-            case "string":
-                return "like";
-
-            case "DateTime":
-                return "~";
-
-            default:
-                return "==";
-        }
+            "string" => "like",
+            "DateTime" => "~",
+            _ => "==",
+        };
     }
 }

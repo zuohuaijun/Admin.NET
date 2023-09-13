@@ -277,19 +277,20 @@ public static class SqlSugarSetup
         {
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false))
                 .WhereIF(config.TableSettings.EnableIncreTable, u => u.IsDefined(typeof(IncreTableAttribute), false)).ToList();
-            if (entityTypes.Any())
-            {
-                foreach (var entityType in entityTypes)
-                {
-                    var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-                    if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
-                    if (tAtt == null && config.ConfigId != SqlSugarConst.MainConfigId) continue;
 
-                    if (entityType.GetCustomAttribute<SplitTableAttribute>() == null)
-                        dbProvider.CodeFirst.InitTables(entityType);
-                    else
-                        dbProvider.CodeFirst.SplitTables().InitTables(entityType);
-                }
+            if (config.ConfigId == SqlSugarConst.MainConfigId) // 默认库
+                entityTypes = entityTypes.Where(u => u.GetCustomAttributes<SysTableAttribute>().Any()).ToList();
+            else if (config.ConfigId == SqlSugarConst.LogConfigId) // 日志库
+                entityTypes = entityTypes.Where(u => u.GetCustomAttributes<LogTableAttribute>().Any()).ToList();
+            else
+                entityTypes = entityTypes.Where(u => u.GetCustomAttribute<TenantAttribute>()?.configId.ToString() == config.ConfigId).ToList(); // 自定义的库
+
+            foreach (var entityType in entityTypes)
+            {
+                if (entityType.GetCustomAttribute<SplitTableAttribute>() == null)
+                    dbProvider.CodeFirst.InitTables(entityType);
+                else
+                    dbProvider.CodeFirst.SplitTables().InitTables(entityType);
             }
         }
 
@@ -302,16 +303,27 @@ public static class SqlSugarSetup
             {
                 foreach (var seedType in seedDataTypes)
                 {
-                    var instance = Activator.CreateInstance(seedType);
+                    var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
+                    if (config.ConfigId == SqlSugarConst.MainConfigId) // 默认库
+                    {
+                        if (entityType.GetCustomAttribute<SysTableAttribute>() == null)
+                            continue;
+                    }
+                    else if (config.ConfigId == SqlSugarConst.LogConfigId) // 日志库
+                    {
+                        if (entityType.GetCustomAttribute<LogTableAttribute>() == null)
+                            continue;
+                    }
+                    else
+                    {
+                        var att = entityType.GetCustomAttribute<TenantAttribute>(); // 自定义的库
+                        if (att == null || att.configId.ToString() != config.ConfigId) continue;
+                    }
 
+                    var instance = Activator.CreateInstance(seedType);
                     var hasDataMethod = seedType.GetMethod("HasData");
                     var seedData = ((IEnumerable)hasDataMethod?.Invoke(instance, null))?.Cast<object>();
                     if (seedData == null) continue;
-
-                    var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
-                    var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
-                    if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
-                    if (tAtt == null && config.ConfigId != SqlSugarConst.MainConfigId) continue;
 
                     var entityInfo = dbProvider.EntityMaintenance.GetEntityInfo(entityType);
                     if (entityInfo.Columns.Any(u => u.IsPrimarykey))
