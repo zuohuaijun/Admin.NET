@@ -221,13 +221,15 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         for (int i = result.Count - 1; i >= 0; i--)
         {
             var columnOutput = result[i];
-            var propertyName = entityProperties.FirstOrDefault(p =>
-                p.Name == (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(columnOutput.ColumnName, entityBasePropertyNames) : columnOutput.ColumnName) ||
-                p.GetCustomAttribute<SugarColumn>()?.ColumnName?.ToLower() == columnOutput.ColumnName.ToLower()).Name;
-            if (propertyName != null)
-                columnOutput.PropertyName = propertyName;
+            // 先找自定义字段名的
+            var propertyInfo = entityProperties.FirstOrDefault(p => (p.GetCustomAttribute<SugarColumn>()?.ColumnName ?? "").ToLower() == columnOutput.ColumnName.ToLower());
+            // 如果找不到就再找自动生成字段名的(并且过滤掉没有SugarColumn的属性)
+            if (propertyInfo == null)
+                propertyInfo = entityProperties.FirstOrDefault(p => p.GetCustomAttribute<SugarColumn>() != null && p.Name == (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(columnOutput.ColumnName, entityBasePropertyNames) : columnOutput.ColumnName));
+            if (propertyInfo != null)
+                columnOutput.PropertyName = propertyInfo.Name;
             else
-                result.RemoveAt(i); // 移除没有定义此属性的字段
+                result.RemoveAt(i); //移除没有定义此属性的字段
         }
         return result;
     }
