@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统在线用户表
 /// </summary>
 [SugarTable(null, "系统在线用户表")]
-[SystemTable]
+[SysTable]
 public class SysOnlineUser : EntityTenantId
 {
     /// <summary>

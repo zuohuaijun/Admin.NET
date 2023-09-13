@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统租户表
 /// </summary>
 [SugarTable(null, "系统租户表")]
-[SystemTable]
+[SysTable]
 public class SysTenant : EntityBase
 {
     /// <summary>

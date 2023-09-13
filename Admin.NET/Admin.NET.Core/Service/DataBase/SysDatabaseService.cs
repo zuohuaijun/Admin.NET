@@ -46,7 +46,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// <returns></returns>
     [AllowAnonymous]
     [DisplayName("获取字段列表")]
-    public List<DbColumnOutput> GetColumnList(string tableName, string configId = SqlSugarConst.ConfigId)
+    public List<DbColumnOutput> GetColumnList(string tableName, string configId = SqlSugarConst.MainConfigId)
     {
         var db = _db.AsTenant().GetConnectionScope(configId);
         if (string.IsNullOrWhiteSpace(tableName))
@@ -114,7 +114,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     /// <param name="configId">ConfigId</param>
     /// <returns></returns>
     [DisplayName("获取表列表")]
-    public List<DbTableInfo> GetTableList(string configId = SqlSugarConst.ConfigId)
+    public List<DbTableInfo> GetTableList(string configId = SqlSugarConst.MainConfigId)
     {
         var db = _db.AsTenant().GetConnectionScope(configId);
         return db.DbMaintenance.GetTableInfoList(false);

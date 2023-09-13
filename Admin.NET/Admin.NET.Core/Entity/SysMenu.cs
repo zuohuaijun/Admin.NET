@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统菜单表
 /// </summary>
 [SugarTable(null, "系统菜单表")]
-[SystemTable]
+[SysTable]
 public class SysMenu : EntityBase
 {
     /// <summary>

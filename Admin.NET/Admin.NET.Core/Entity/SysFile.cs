@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统文件表
 /// </summary>
 [SugarTable(null, "系统文件表")]
-[SystemTable]
+[SysTable]
 public class SysFile : EntityBase
 {
     /// <summary>

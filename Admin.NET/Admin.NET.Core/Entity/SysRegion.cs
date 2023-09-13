@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统行政地区表
 /// </summary>
 [SugarTable(null, "系统行政地区表")]
-[SystemTable]
+[SysTable]
 public class SysRegion : EntityBaseId
 {
     /// <summary>

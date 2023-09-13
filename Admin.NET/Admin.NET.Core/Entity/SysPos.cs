@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统职位表
 /// </summary>
 [SugarTable(null, "系统职位表")]
-[SystemTable]
+[SysTable]
 public class SysPos : EntityTenant
 {
     /// <summary>

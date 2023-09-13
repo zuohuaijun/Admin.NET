@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统作业信息表
 /// </summary>
 [SugarTable(null, "系统作业信息表")]
-[SystemTable]
+[SysTable]
 public class SysJobDetail : EntityBaseId
 {
     /// <summary>

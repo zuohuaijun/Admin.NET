@@ -29,15 +29,15 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         }
 
         // 若实体贴有系统表特性，则返回默认的连接
-        if (typeof(T).IsDefined(typeof(SystemTableAttribute), false))
+        if (typeof(T).IsDefined(typeof(SysTableAttribute), false))
         {
-            base.Context = iTenant.GetConnectionScope(SqlSugarConst.ConfigId);
+            base.Context = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
             return;
         }
 
         // 若当前未登录或是默认租户Id，则返回默认的连接
         var tenantId = App.GetRequiredService<UserManager>().TenantId;
-        if (tenantId < 1 || tenantId.ToString() == SqlSugarConst.ConfigId) return;
+        if (tenantId < 1 || tenantId.ToString() == SqlSugarConst.MainConfigId) return;
 
         var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
         if (tenant is null || tenant is { TenantType: TenantTypeEnum.Id }) return;
@@ -47,7 +47,7 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         {
             // 获取主库连接配置
             var dbOptions = App.GetOptions<DbConnectionOptions>();
-            var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId == SqlSugarConst.ConfigId);
+            var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId == SqlSugarConst.MainConfigId);
 
             // 连接配置
             var connectionConfig = new DbConnectionConfig

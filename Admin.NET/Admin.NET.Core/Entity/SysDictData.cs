@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统字典值表
 /// </summary>
 [SugarTable(null, "系统字典值表")]
-[SystemTable]
+[SysTable]
 public class SysDictData : EntityBase
 {
     /// <summary>

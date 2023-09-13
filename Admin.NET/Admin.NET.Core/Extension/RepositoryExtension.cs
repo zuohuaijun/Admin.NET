@@ -270,7 +270,7 @@ public static class RepositoryExtension
     {
         var entityType = typeof(T);
         var attr = entityType.GetCustomAttribute<TenantAttribute>();
-        var configId = attr == null ? SqlSugarConst.ConfigId : attr.configId.ToString();
+        var configId = attr == null ? SqlSugarConst.MainConfigId : attr.configId.ToString();
         var tableName = entityType.GetCustomAttribute<SugarTable>().TableName;
         return new Tuple<string, string>(configId, tableName);
     }

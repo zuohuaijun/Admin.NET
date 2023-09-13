@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统通知公告表
 /// </summary>
 [SugarTable(null, "系统通知公告表")]
-[SystemTable]
+[SysTable]
 public class SysNotice : EntityBase
 {
     /// <summary>

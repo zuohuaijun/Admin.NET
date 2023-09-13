@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统打印模板表
 /// </summary>
 [SugarTable(null, "系统打印模板表")]
-[SystemTable]
+[SysTable]
 public class SysPrint : EntityTenant
 {
     /// <summary>

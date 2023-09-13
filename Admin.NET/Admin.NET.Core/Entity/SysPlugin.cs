@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统动态插件表
 /// </summary>
 [SugarTable(null, "系统动态插件表")]
-[SystemTable]
+[SysTable]
 public class SysPlugin : EntityTenant
 {
     /// <summary>

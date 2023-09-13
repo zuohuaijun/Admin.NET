@@ -153,7 +153,7 @@ public static class SqlSugarFilter
                     // 排除非当前数据库实体
                     var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
                     if ((tAtt != null && db.CurrentConnectionConfig.ConfigId.ToString() != tAtt.configId.ToString()) ||
-                        (tAtt == null && db.CurrentConnectionConfig.ConfigId.ToString() != SqlSugarConst.ConfigId))
+                        (tAtt == null && db.CurrentConnectionConfig.ConfigId.ToString() != SqlSugarConst.MainConfigId))
                         return;
 
                     tableFilterItems.Add(tableFilterItem);

@@ -135,7 +135,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
             orderNo += 10; // 每个配置排序间隔10
         }
         // 多库代码生成---这里要切回主库
-        var provider = _db.AsTenant().GetConnectionScope(SqlSugarConst.ConfigId);
+        var provider = _db.AsTenant().GetConnectionScope(SqlSugarConst.MainConfigId);
         provider.Insertable(codeGenConfigs).ExecuteCommand();
     }
 

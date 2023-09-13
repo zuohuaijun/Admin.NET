@@ -24,7 +24,7 @@ public sealed class DbConnectionOptions : IConfigurableOptions<DbConnectionOptio
         foreach (var dbConfig in options.ConnectionConfigs)
         {
             if (string.IsNullOrWhiteSpace(dbConfig.ConfigId))
-                dbConfig.ConfigId = SqlSugarConst.ConfigId;
+                dbConfig.ConfigId = SqlSugarConst.MainConfigId;
         }
     }
 }

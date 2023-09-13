@@ -138,7 +138,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     public async Task<int> SetStatus(TenantInput input)
     {
         var tenant = await _sysTenantRep.GetFirstAsync(u => u.Id == input.Id);
-        if (tenant == null || tenant.ConfigId == SqlSugarConst.ConfigId)
+        if (tenant == null || tenant.ConfigId == SqlSugarConst.MainConfigId)
             throw Oops.Oh(ErrorCodeEnum.Z1001);
 
         if (!Enum.IsDefined(typeof(StatusEnum), input.Status))
@@ -241,7 +241,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     public async Task DeleteTenant(DeleteTenantInput input)
     {
         // 禁止删除默认租户
-        if (input.Id.ToString() == SqlSugarConst.ConfigId)
+        if (input.Id.ToString() == SqlSugarConst.MainConfigId)
             throw Oops.Oh(ErrorCodeEnum.D1023);
 
         await _sysTenantRep.DeleteAsync(u => u.Id == input.Id);
@@ -348,11 +348,11 @@ public class SysTenantService : IDynamicApiController, ITransient
 
         var iTenant = _sysTenantRep.AsTenant();
         var tenantList = await _sysTenantRep.GetListAsync();
-        var defaultTenant = tenantList.FirstOrDefault(u => u.Id.ToString() == SqlSugarConst.ConfigId);
+        var defaultTenant = tenantList.FirstOrDefault(u => u.Id.ToString() == SqlSugarConst.MainConfigId);
         foreach (var tenant in tenantList)
         {
             var tenantId = tenant.Id.ToString();
-            if (tenantId == SqlSugarConst.ConfigId) continue;
+            if (tenantId == SqlSugarConst.MainConfigId) continue;
 
             // Id模式隔离的租户数据库与宿主一致
             if (tenant.TenantType == TenantTypeEnum.Id)

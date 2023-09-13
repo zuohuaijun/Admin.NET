@@ -13,7 +13,8 @@ namespace Admin.NET.Core;
 /// 系统访问日志表
 /// </summary>
 [SugarTable(null, "系统访问日志表")]
-[SystemTable]
+[SysTable]
+[LogTable]
 public class SysLogVis : EntityTenant
 {
     /// <summary>

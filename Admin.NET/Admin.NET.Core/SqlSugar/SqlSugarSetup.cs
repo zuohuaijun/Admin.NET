@@ -283,7 +283,7 @@ public static class SqlSugarSetup
                 {
                     var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
                     if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
-                    if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
+                    if (tAtt == null && config.ConfigId != SqlSugarConst.MainConfigId) continue;
 
                     if (entityType.GetCustomAttribute<SplitTableAttribute>() == null)
                         dbProvider.CodeFirst.InitTables(entityType);
@@ -311,7 +311,7 @@ public static class SqlSugarSetup
                     var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
                     var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
                     if (tAtt != null && tAtt.configId.ToString() != config.ConfigId) continue;
-                    if (tAtt == null && config.ConfigId != SqlSugarConst.ConfigId) continue;
+                    if (tAtt == null && config.ConfigId != SqlSugarConst.MainConfigId) continue;
 
                     var entityInfo = dbProvider.EntityMaintenance.GetEntityInfo(entityType);
                     if (entityInfo.Columns.Any(u => u.IsPrimarykey))
@@ -347,7 +347,7 @@ public static class SqlSugarSetup
 
         // 获取所有实体表-初始化租户业务表
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(SystemTableAttribute), false)).ToList();
+            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(SysTableAttribute), false)).ToList();
         if (!entityTypes.Any()) return;
         foreach (var entityType in entityTypes)
         {

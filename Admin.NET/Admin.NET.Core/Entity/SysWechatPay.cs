@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统微信支付表
 /// </summary>
 [SugarTable(null, "系统微信支付表")]
-[SystemTable]
+[SysTable]
 public class SysWechatPay : EntityBase
 {
     /// <summary>

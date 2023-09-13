@@ -132,7 +132,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [DisplayName("获取数据库表(实体)集合")]
-    public async Task<List<TableOutput>> GetTableList(string configId = SqlSugarConst.ConfigId)
+    public async Task<List<TableOutput>> GetTableList(string configId = SqlSugarConst.MainConfigId)
     {
         var provider = _db.AsTenant().GetConnectionScope(configId);
         var dbTableInfos = provider.DbMaintenance.GetTableInfoList(false); // 不能走缓存,否则切库不起作用
@@ -163,7 +163,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [DisplayName("根据表名获取列集合")]
-    public List<ColumnOuput> GetColumnListByTableName([Required] string tableName, string configId = SqlSugarConst.ConfigId)
+    public List<ColumnOuput> GetColumnListByTableName([Required] string tableName, string configId = SqlSugarConst.MainConfigId)
     {
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(configId);
@@ -195,7 +195,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             return null;
 
         // 切库---多库代码生成用
-        var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.ConfigId);
+        var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.MainConfigId);
 
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         var dbTableName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(entityType.DbTableName) : entityType.DbTableName;

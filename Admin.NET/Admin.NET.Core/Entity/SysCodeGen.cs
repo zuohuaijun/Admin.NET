@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 代码生成表
 /// </summary>
 [SugarTable(null, "代码生成表")]
-[SystemTable]
+[SysTable]
 public class SysCodeGen : EntityBase
 {
     /// <summary>

@@ -13,7 +13,7 @@ namespace Admin.NET.Core;
 /// 系统角色表
 /// </summary>
 [SugarTable(null, "系统角色表")]
-[SystemTable]
+[SysTable]
 public class SysRole : EntityTenant
 {
     /// <summary>
