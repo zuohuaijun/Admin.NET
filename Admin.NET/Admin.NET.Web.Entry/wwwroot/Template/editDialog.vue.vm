@@ -142,7 +142,12 @@
 		</el-dialog>
 	</div>
 </template>
-
+<style scoped>
+/deep/ .el-select,
+/deep/ .el-input-number {
+  width: 100%;
+}
+</style>
 <script lang="ts" setup>
 	import { ref,onMounted } from "vue";
 	import { ElMessage } from "element-plus";
