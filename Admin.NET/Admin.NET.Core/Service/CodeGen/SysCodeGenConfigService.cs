@@ -30,9 +30,8 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     [DisplayName("获取代码生成配置列表")]
     public async Task<List<CodeGenConfig>> GetList([FromQuery] CodeGenConfig input)
     {
-        var whetherCommon = YesNoEnum.Y.ToString();
-        var result = await _db.Queryable<SysCodeGenConfig>()
-            .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != whetherCommon)
+        return await _db.Queryable<SysCodeGenConfig>()
+            .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesNoEnum.Y.ToString())
             .Select<CodeGenConfig>()
             .Mapper(u =>
             {
@@ -40,7 +39,6 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
             })
             .OrderBy(u => u.OrderNo)
             .ToListAsync();
-        return result;
     }
 
     /// <summary>
@@ -120,7 +118,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
             codeGenConfig.NetType = tableColumn.DataType;
             codeGenConfig.WhetherRetract = YesNoEnum.N.ToString();
 
-            // 生成代码时，主键并不是必要输入项，所以下面句一定要排除主键字段
+            // 生成代码时，主键并不是必要输入项，故一定要排除主键字段
             codeGenConfig.WhetherRequired = (tableColumn.IsNullable || tableColumn.IsPrimarykey) ? YesNoEnum.N.ToString() : YesNoEnum.Y.ToString();
             codeGenConfig.QueryWhether = YesOrNo;
             codeGenConfig.WhetherAddUpdate = YesOrNo;

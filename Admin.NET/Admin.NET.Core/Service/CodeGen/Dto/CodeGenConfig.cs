@@ -30,7 +30,7 @@ public class CodeGenConfig
     public string ColumnName { get; set; }
 
     /// <summary>
-    /// 实体的Property名
+    /// 实体属性名
     /// </summary>
     public string PropertyName { get; set; }
 
@@ -42,8 +42,7 @@ public class CodeGenConfig
     /// <summary>
     /// 数据库字段名(首字母小写)
     /// </summary>
-    public string LowerPropertyName =>
-        string.IsNullOrWhiteSpace(PropertyName) ? null : PropertyName[..1].ToLower() + PropertyName[1..];
+    public string LowerPropertyName => string.IsNullOrWhiteSpace(PropertyName) ? null : PropertyName[..1].ToLower() + PropertyName[1..];
 
     /// <summary>
     /// 字段描述

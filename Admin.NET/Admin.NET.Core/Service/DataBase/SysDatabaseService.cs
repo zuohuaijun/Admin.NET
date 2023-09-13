@@ -136,33 +136,25 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.db1002);
 
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
-
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        var typeBilder = db.DynamicBuilder().CreateClass(input.TableName, new SugarTable() { TableName = input.TableName, TableDescription = input.Description });
         input.DbColumnInfoList.ForEach(m =>
         {
-            columns.Add(new DbColumnInfo
+            var dbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim();
+            var isPrimarykey = columns.Any(m => m.IsPrimarykey);
+            // 虚拟类都默认String，具体以列数据类型为准
+            typeBilder.CreateProperty(dbColumnName, typeof(string), new SugarColumn()
             {
-                DbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim(),
-                DataType = m.DataType,
-                Length = m.Length,
-                ColumnDescription = m.ColumnDescription,
-                IsNullable = m.IsNullable == 1,
+                IsPrimaryKey = isPrimarykey,
                 IsIdentity = m.IsIdentity == 1,
-                IsPrimarykey = m.IsPrimarykey == 1,
-                DecimalDigits = m.DecimalDigits
+                ColumnDataType = m.DataType,
+                Length = m.Length,
+                IsNullable = m.IsNullable == 1,
+                DecimalDigits = m.DecimalDigits,
+                ColumnDescription = m.ColumnDescription,
             });
         });
-        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        db.DbMaintenance.CreateTable(input.TableName, columns, false);
-
-        if (columns.Any(m => m.IsPrimarykey))
-            db.DbMaintenance.AddPrimaryKey(input.TableName, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
-
-        db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
-        input.DbColumnInfoList.ForEach(m =>
-        {
-            m.DbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName) : m.DbColumnName;
-            db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
-        });
+        db.CodeFirst.InitTables(typeBilder.BuilderType());
     }
 
     /// <summary>
@@ -210,8 +202,8 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
-        string[] dbColumnNames = new string[0];
-        // Entity.cs.vm中是允许创建没有基类的实体的，所以这里也要做出相同的判断
+        string[] dbColumnNames = Array.Empty<string>();
+        // 允许创建没有基类的实体
         if (!string.IsNullOrWhiteSpace(input.BaseClassName))
         {
             _codeGenOptions.EntityBaseColumn.TryGetValue(input.BaseClassName, out dbColumnNames);

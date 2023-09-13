@@ -40,7 +40,7 @@ public class SysCodeGenConfig : EntityBase
     /// 字段数据长度
     /// </summary>
     [SugarColumn(ColumnDescription = "字段数据长度", DefaultValue = "0")]
-    public virtual int ColumnLength { get; set; }
+    public int ColumnLength { get; set; }
 
     /// <summary>
     /// 字段描述
