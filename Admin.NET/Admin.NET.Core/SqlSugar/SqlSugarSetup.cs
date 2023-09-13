@@ -32,7 +32,7 @@ public static class SqlSugarSetup
             dbOptions.ConnectionConfigs.ForEach(config =>
             {
                 var dbProvider = db.GetConnectionScope(config.ConfigId);
-                SetDbAop(dbProvider);
+                SetDbAop(dbProvider, dbOptions.EnableConsoleSql);
                 SetDbDiffLog(dbProvider, config);
             });
         });
@@ -101,7 +101,8 @@ public static class SqlSugarSetup
     /// 配置Aop
     /// </summary>
     /// <param name="db"></param>
-    public static void SetDbAop(SqlSugarScopeProvider db)
+    /// <param name="enableConsoleSql"></param>
+    public static void SetDbAop(SqlSugarScopeProvider db, bool enableConsoleSql)
     {
         var config = db.CurrentConnectionConfig;
 
@@ -109,44 +110,47 @@ public static class SqlSugarSetup
         db.Ado.CommandTimeOut = 30;
 
         // 打印SQL语句
-        db.Aop.OnLogExecuting = (sql, pars) =>
+        if (enableConsoleSql)
         {
-            var originColor = Console.ForegroundColor;
-            if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
-                Console.ForegroundColor = ConsoleColor.Green;
-            if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
-                Console.ForegroundColor = ConsoleColor.Yellow;
-            if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase))
-                Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
-            Console.ForegroundColor = originColor;
-            App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
-        };
-        db.Aop.OnError = ex =>
-        {
-            if (ex.Parametres == null) return;
-            var originColor = Console.ForegroundColor;
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
-            Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
-            Console.ForegroundColor = originColor;
-            App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
-        };
-        db.Aop.OnLogExecuted = (sql, pars) =>
-        {
-            // 执行时间超过5秒
-            if (db.Ado.SqlExecutionTime.TotalSeconds > 5)
+            db.Aop.OnLogExecuting = (sql, pars) =>
             {
-                var fileName = db.Ado.SqlStackTrace.FirstFileName; // 文件名
-                var fileLine = db.Ado.SqlStackTrace.FirstLine; // 行号
-                var firstMethodName = db.Ado.SqlStackTrace.FirstMethodName; // 方法名
-                var log = $"【所在文件名】：{fileName}\r\n【代码行数】：{fileLine}\r\n【方法名】：{firstMethodName}\r\n" + $"【sql语句】：{UtilMethods.GetSqlString(config.DbType, sql, pars)}";
                 var originColor = Console.ForegroundColor;
-                Console.ForegroundColor = ConsoleColor.DarkYellow;
-                Console.WriteLine(log);
+                if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
+                    Console.ForegroundColor = ConsoleColor.Green;
+                if (sql.StartsWith("UPDATE", StringComparison.OrdinalIgnoreCase) || sql.StartsWith("INSERT", StringComparison.OrdinalIgnoreCase))
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase))
+                    Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
                 Console.ForegroundColor = originColor;
-            }
-        };
+                App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+            };
+            db.Aop.OnError = ex =>
+            {
+                if (ex.Parametres == null) return;
+                var originColor = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
+                Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
+                Console.ForegroundColor = originColor;
+                App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
+            };
+            db.Aop.OnLogExecuted = (sql, pars) =>
+            {
+                // 执行时间超过5秒
+                if (db.Ado.SqlExecutionTime.TotalSeconds > 5)
+                {
+                    var fileName = db.Ado.SqlStackTrace.FirstFileName; // 文件名
+                    var fileLine = db.Ado.SqlStackTrace.FirstLine; // 行号
+                    var firstMethodName = db.Ado.SqlStackTrace.FirstMethodName; // 方法名
+                    var log = $"【所在文件名】：{fileName}\r\n【代码行数】：{fileLine}\r\n【方法名】：{firstMethodName}\r\n" + $"【sql语句】：{UtilMethods.GetSqlString(config.DbType, sql, pars)}";
+                    var originColor = Console.ForegroundColor;
+                    Console.ForegroundColor = ConsoleColor.DarkYellow;
+                    Console.WriteLine(log);
+                    Console.ForegroundColor = originColor;
+                }
+            };
+        }
         // 数据审计
         db.Aop.DataExecuting = (oldValue, entityInfo) =>
         {
@@ -206,12 +210,12 @@ public static class SqlSugarSetup
             }
         };
 
-        // 配置假删除过滤器
-        db.QueryFilter.AddTableFilter<IDeletedFilter>(u => u.IsDelete == false);
-
         // 超管排除其他过滤器
         if (App.User?.FindFirst(ClaimConst.AccountType)?.Value == ((int)AccountTypeEnum.SuperAdmin).ToString())
             return;
+
+        // 配置假删除过滤器
+        db.QueryFilter.AddTableFilter<IDeletedFilter>(u => u.IsDelete == false);
 
         // 配置租户过滤器
         var tenantId = App.User?.FindFirst(ClaimConst.TenantId)?.Value;
@@ -357,7 +361,7 @@ public static class SqlSugarSetup
         var db = iTenant.GetConnectionScope(config.ConfigId);
         db.DbMaintenance.CreateDatabase();
 
-        // 获取所有实体表-初始化租户业务表
+        // 获取所有系统表-初始化租户库表结构
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
             && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(SysTableAttribute), false)).ToList();
         if (!entityTypes.Any()) return;

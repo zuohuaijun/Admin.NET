@@ -15,6 +15,11 @@ namespace Admin.NET.Core;
 public sealed class DbConnectionOptions : IConfigurableOptions<DbConnectionOptions>
 {
     /// <summary>
+    /// 启用控制台打印SQL
+    /// </summary>
+    public bool EnableConsoleSql { get; set; }
+
+    /// <summary>
     /// 数据库集合
     /// </summary>
     public List<DbConnectionConfig> ConnectionConfigs { get; set; }

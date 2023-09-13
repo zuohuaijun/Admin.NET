@@ -56,7 +56,8 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         if (!iTenant.IsAnyConnection(tenantId.ToString()))
         {
             // 获取默认库连接配置
-            var mainConnConfig = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.First(u => u.ConfigId == SqlSugarConst.MainConfigId);
+            var dbOptions = App.GetOptions<DbConnectionOptions>();
+            var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId == SqlSugarConst.MainConfigId);
 
             // 设置租户库连接配置
             var tenantConnConfig = new DbConnectionConfig
@@ -72,7 +73,7 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
             };
             iTenant.AddConnection(tenantConnConfig);
             SqlSugarSetup.SetDbConfig(tenantConnConfig);
-            SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()));
+            SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()), dbOptions.EnableConsoleSql);
         }
         base.Context = iTenant.GetConnectionScope(tenantId.ToString());
     }
