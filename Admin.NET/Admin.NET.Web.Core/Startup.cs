@@ -22,7 +22,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using OnceMi.AspNetCore.OSS;
 using System;
@@ -58,11 +57,6 @@ public class Startup : AppStartup
         });
         // 脱敏检测
         services.AddSensitiveDetection();
-        // 控制台格式化
-        services.AddConsoleFormatter(options =>
-        {
-            options.DateFormat = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
-        });
 
         // Json序列化设置
         static void SetNewtonsoftJsonSetting(JsonSerializerSettings setting)

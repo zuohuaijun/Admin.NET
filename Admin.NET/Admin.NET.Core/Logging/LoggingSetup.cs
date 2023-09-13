@@ -24,13 +24,23 @@ public static class LoggingSetup
             options.IgnorePropertyTypes = new[] { typeof(byte[]) };
         });
 
-        if (App.GetConfig<bool>("Logging:File:Enabled")) // 日志写入文件
+        // 控制台日志格式化
+        services.AddConsoleFormatter(options =>
+        {
+            options.DateFormat = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
+            options.WithTraceId = true;
+            options.WithStackFrame = true;
+        });
+
+        // 日志写入文件
+        if (App.GetConfig<bool>("Logging:File:Enabled")) 
         {
             Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, logLevel =>
             {
                 services.AddFileLogging(options =>
                 {
-                    options.WithStackFrame = true; // 显示堆栈信息
+                    options.WithTraceId = true; // 显示线程Id
+                    options.WithStackFrame = true; // 显示程序集
                     options.FileNameRule = fileName => string.Format(fileName, DateTime.Now, logLevel.ToString()); // 每天创建一个文件
                     options.WriteFilter = logMsg => logMsg.LogLevel == logLevel; // 日志级别
                     options.HandleWriteError = (writeError) => // 写入失败时启用备用文件
@@ -40,12 +50,14 @@ public static class LoggingSetup
                 });
             });
         }
-        if (App.GetConfig<bool>("Logging:Database:Enabled")) // 日志写入数据库
+
+        // 日志写入数据库
+        if (App.GetConfig<bool>("Logging:Database:Enabled")) 
         {
             services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
             {
-                options.WithStackFrame = true; // 显示堆栈信息
                 options.WithTraceId = true; // 显示线程Id
+                options.WithStackFrame = true; // 显示程序集
                 options.IgnoreReferenceLoop = false; // 忽略循环检测
                 options.WriteFilter = (logMsg) =>
                 {
@@ -53,12 +65,14 @@ public static class LoggingSetup
                 };
             });
         }
-        if (App.GetConfig<bool>("Logging:ElasticSearch:Enabled")) // 日志写入ElasticSearch
+
+        // 日志写入ElasticSearch
+        if (App.GetConfig<bool>("Logging:ElasticSearch:Enabled")) 
         {
             services.AddDatabaseLogging<ElasticSearchLoggingWriter>(options =>
             {
-                options.WithStackFrame = true; // 显示堆栈信息
                 options.WithTraceId = true; // 显示线程Id
+                options.WithStackFrame = true; // 显示程序集                
                 options.IgnoreReferenceLoop = false; // 忽略循环检测
                 options.MessageFormat = LoggerFormatter.Json;
                 options.WriteFilter = (logMsg) =>

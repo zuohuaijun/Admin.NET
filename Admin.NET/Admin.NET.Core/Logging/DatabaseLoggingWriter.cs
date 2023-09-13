@@ -14,22 +14,21 @@ namespace Admin.NET.Core;
 /// <summary>
 /// 数据库日志写入器
 /// </summary>
-public class DatabaseLoggingWriter : IDatabaseLoggingWriter
+public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
 {
+    private readonly IServiceScope _serviceScope;
     private readonly SqlSugarRepository<SysLogVis> _sysLogVisRep; // 访问日志
     private readonly SqlSugarRepository<SysLogOp> _sysLogOpRep;   // 操作日志
     private readonly SqlSugarRepository<SysLogEx> _sysLogExRep;   // 异常日志
     private readonly SysConfigService _sysConfigService; // 参数配置服务
 
-    public DatabaseLoggingWriter(SqlSugarRepository<SysLogVis> sysLogVisRep,
-        SqlSugarRepository<SysLogOp> sysLogOpRep,
-        SqlSugarRepository<SysLogEx> sysLogExRep,
-        SysConfigService sysConfigService)
+    public DatabaseLoggingWriter(IServiceScopeFactory scopeFactory)
     {
-        _sysLogVisRep = sysLogVisRep;
-        _sysLogOpRep = sysLogOpRep;
-        _sysLogExRep = sysLogExRep;
-        _sysConfigService = sysConfigService;
+        _serviceScope = scopeFactory.CreateScope();
+        _sysLogVisRep = _serviceScope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysLogVis>>();
+        _sysLogOpRep = _serviceScope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysLogOp>>();
+        _sysLogExRep = _serviceScope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysLogEx>>();
+        _sysConfigService = _serviceScope.ServiceProvider.GetRequiredService<SysConfigService>();
     }
 
     public async void Write(LogMessage logMsg, bool flush)
@@ -183,5 +182,13 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter
         }
         catch { }
         return ("未知", 0, 0);
+    }
+
+    /// <summary>
+    /// 释放服务作用域
+    /// </summary>
+    public void Dispose()
+    {
+        _serviceScope.Dispose();
     }
 }
