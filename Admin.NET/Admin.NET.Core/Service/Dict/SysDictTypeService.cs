@@ -38,7 +38,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
         return await _sysDictTypeRep.AsQueryable()
             .WhereIF(code, u => u.Code.Contains(input.Code))
             .WhereIF(name, u => u.Name.Contains(input.Name))
-            .OrderBy(u => u.OrderNo)
+            .OrderBy(u => new { u.OrderNo, u.Code })
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
@@ -49,7 +49,7 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     [DisplayName("获取字典类型列表")]
     public async Task<List<SysDictType>> GetList()
     {
-        return await _sysDictTypeRep.AsQueryable().OrderBy(u => u.OrderNo).ToListAsync();
+        return await _sysDictTypeRep.AsQueryable().OrderBy(u => new { u.OrderNo, u.Code }).ToListAsync();
     }
 
     /// <summary>
