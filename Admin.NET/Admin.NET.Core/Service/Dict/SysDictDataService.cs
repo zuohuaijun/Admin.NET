@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -37,7 +37,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
             .Where(u => u.DictTypeId == input.DictTypeId)
             .WhereIF(code, u => u.Code.Contains(input.Code))
             .WhereIF(value, u => u.Value.Contains(input.Value))
-            .OrderBy(u => u.OrderNo)
+            .OrderBy(u => new { u.OrderNo, u.Code })
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
@@ -141,7 +141,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
     {
         return await _sysDictDataRep.AsQueryable()
             .Where(u => u.DictTypeId == dictTypeId)
-            .OrderBy(u => u.OrderNo).ToListAsync();
+            .OrderBy(u => new { u.OrderNo, u.Code }).ToListAsync();
     }
 
     /// <summary>
