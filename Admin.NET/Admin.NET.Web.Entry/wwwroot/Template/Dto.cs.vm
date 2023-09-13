@@ -10,7 +10,7 @@ if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnN
         @:/// <summary>
         @:/// @column.ColumnComment
         @:/// </summary>
-        @:public @(@column.FkColumnNetType) @(@column.FkEntityName)@(@column.FkColumnName) { get; set; }
+        @:public @(@column.FkColumnNetType) @(@column.PropertyName)@(@column.FkColumnName) { get; set; }
         @:
 }
 }
@@ -18,7 +18,7 @@ if(@column.EffectType == "fk" && @column.FkEntityName != "" && @column.FkColumnN
         @:/// <summary>
         @:/// @column.ColumnComment
         @:/// </summary>
-        @:public @column.NetType @column.ColumnName { get; set; }
+        @:public @column.NetType @column.PropertyName { get; set; }
         @:
 }
     }

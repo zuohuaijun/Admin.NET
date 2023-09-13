@@ -28,12 +28,12 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
 if (@column.QueryWhether == "Y"){
     if (@column.NetType?.TrimEnd('?') == "string"){
         if(@column.QueryType == "like"){
-                    @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.ColumnName), u => u.@(@column.ColumnName).Contains(input.@(@column.ColumnName).Trim()))
+                    @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.PropertyName), u => u.@(@column.PropertyName).Contains(input.@(@column.PropertyName).Trim()))
         }else{
-                    @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.ColumnName), u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
+                    @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.PropertyName), u => u.@(@column.PropertyName) @column.QueryType input.@(@column.PropertyName))
         }
     }else if(@column.NetType?.TrimEnd('?') == "int" || @column.NetType?.TrimEnd('?') == "long"){
-                    @:.WhereIF(input.@column.ColumnName>0, u => u.@(@column.ColumnName) @column.QueryType input.@(@column.ColumnName))
+                    @:.WhereIF(input.@column.PropertyName>0, u => u.@(@column.PropertyName) @column.QueryType input.@(@column.PropertyName))
     }else if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
     }
 } 
@@ -42,20 +42,20 @@ if (@column.QueryWhether == "Y"){
                     @://处理外键和TreeSelector相关字段的连接
     @foreach (var column in Model.TableField){
         if(@column.EffectType == "fk"){
-            joinTableName += ", " + column.ColumnName.ToLower();
-                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).Id )
+            joinTableName += ", " + column.PropertyName.ToLower();
+                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.PropertyName) == @(@column.PropertyName.ToLower()).Id )
         } else if(@column.EffectType == "ApiTreeSelect"){
-            joinTableName += ", " + column.ColumnName.ToLower();
-                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.ColumnName) == @(@column.ColumnName.ToLower()).@(@column.ValueColumn) )
+            joinTableName += ", " + column.PropertyName.ToLower();
+                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.PropertyName) == @(@column.PropertyName.ToLower()).@(@column.ValueColumn) )
         }
     }
                     @:.Select((@(@joinTableName))=> new @(@Model.ClassName)Output{
 @foreach (var column in Model.TableField){
-                        @:@(@column.ColumnName) = u.@(@column.ColumnName), 
+                        @:@(@column.PropertyName) = u.@(@column.PropertyName), 
                         if(@column.EffectType == "fk"){   
-                        @:@(@column.FkEntityName)@(@column.FkColumnName) = @(@column.ColumnName.ToLower()).@(@column.FkColumnName),
+                        @:@(@column.PropertyName)@(@column.FkColumnName) = @(@column.PropertyName.ToLower()).@(@column.FkColumnName),
                         } else if(@column.EffectType == "ApiTreeSelect"){   
-                        @:@(@column.ColumnName)@(@column.DisplayColumn) = @(@column.ColumnName.ToLower()).@(@column.DisplayColumn),
+                        @:@(@column.PropertyName)@(@column.DisplayColumn) = @(@column.PropertyName.ToLower()).@(@column.DisplayColumn),
                         }
 }
                     @:})
@@ -63,7 +63,7 @@ if (@column.QueryWhether == "Y"){
     if(@column.EffectType == "fk"){   
  
     }else if(@column.EffectType == "Upload"){
-                    @://.Mapper(c => c.@(@column.ColumnName)Attachment, c => c.@(@column.ColumnName))
+                    @://.Mapper(c => c.@(@column.PropertyName)Attachment, c => c.@(@column.PropertyName))
     }
 }
 } else {
@@ -73,14 +73,14 @@ if (@column.QueryWhether == "Y"){
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
     if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
-        @:if(input.@(@column.ColumnName)Range != null && input.@(@column.ColumnName)Range.Count >0)
+        @:if(input.@(@column.PropertyName)Range != null && input.@(@column.PropertyName)Range.Count >0)
         @:{
-                @:DateTime? start= input.@(@column.ColumnName)Range[0]; 
-                @:query = query.WhereIF(start.HasValue, u => u.@column.ColumnName > start);
-                @:if (input.@(@column.ColumnName)Range.Count >1 && input.@(@column.ColumnName)Range[1].HasValue)
+                @:DateTime? start= input.@(@column.PropertyName)Range[0]; 
+                @:query = query.WhereIF(start.HasValue, u => u.@column.PropertyName > start);
+                @:if (input.@(@column.PropertyName)Range.Count >1 && input.@(@column.PropertyName)Range[1].HasValue)
                 @:{
-                    @:var end = input.@(@column.ColumnName)Range[1].Value.AddDays(1);
-                    @:query = query.Where(u => u.@(@column.ColumnName) < end);
+                    @:var end = input.@(@column.PropertyName)Range[1].Value.AddDays(1);
+                    @:query = query.Where(u => u.@(@column.PropertyName) < end);
                 @:}
         @:} 
     }
@@ -114,10 +114,11 @@ if (@column.QueryWhether == "Y"){
     {
 @foreach (var column in Model.TableField){
 if (@column.ColumnKey == "True"){
-        @:var entity = await _rep.GetFirstAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName)) ?? throw Oops.Oh(ErrorCodeEnum.D1002);
+        @:var entity = await _rep.GetFirstAsync(u => u.@(@column.PropertyName) == input.@(@column.PropertyName)) ?? throw Oops.Oh(ErrorCodeEnum.D1002);
 }
 }
         await _rep.FakeDeleteAsync(entity);   //假删除
+        //await _rep.DeleteAsync(entity);   //真删除
     }
 
     /// <summary>
@@ -144,7 +145,7 @@ if (@column.ColumnKey == "True"){
     {
 @foreach (var column in Model.TableField){
 if (@column.ColumnKey == "True"){
-        @:return await _rep.GetFirstAsync(u => u.@(@column.ColumnName) == input.@(@column.ColumnName));
+        @:return await _rep.GetFirstAsync(u => u.@(@column.PropertyName) == input.@(@column.PropertyName));
 }   
 }            
     }
@@ -168,8 +169,8 @@ if(@column.EffectType == "fk"){
     @:/// </summary>
     @:/// <param name="input"></param>
     @:/// <returns></returns>
-    @:[ApiDescriptionSettings(Name = "@(@column.FkEntityName)@(@column.ColumnName)Dropdown"), HttpGet]
-    @:public async Task<dynamic> @(@column.FkEntityName)@(@column.ColumnName)Dropdown()
+    @:[ApiDescriptionSettings(Name = "@(@column.FkEntityName)@(@column.PropertyName)Dropdown"), HttpGet]
+    @:public async Task<dynamic> @(@column.FkEntityName)@(@column.PropertyName)Dropdown()
     @:{
         @:return await _rep.Context.Queryable<@(@column.FkEntityName)>()
                 @:.Select(u => new
@@ -189,11 +190,11 @@ if(@column.EffectType == "Upload"){
     @:/// </summary>
     @:/// <param name="file"></param>
     @:/// <returns></returns>
-    @:[ApiDescriptionSettings(Name = "Upload@(@column.ColumnName)"), HttpPost]
-    @:public async Task<FileOutput> Upload@(@column.ColumnName)([Required] IFormFile file)
+    @:[ApiDescriptionSettings(Name = "Upload@(@column.PropertyName)"), HttpPost]
+    @:public async Task<FileOutput> Upload@(@column.PropertyName)([Required] IFormFile file)
     @:{
             @:var service = App.GetService<SysFileService>();
-            @:return await service.UploadFile(file, "upload/@(@column.ColumnName)"); 
+            @:return await service.UploadFile(file, "upload/@(@column.PropertyName)"); 
     @:} 
 }
 }

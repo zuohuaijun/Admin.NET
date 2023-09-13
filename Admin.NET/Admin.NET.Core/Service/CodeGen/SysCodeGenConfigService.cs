@@ -31,16 +31,16 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     public async Task<List<CodeGenConfig>> GetList([FromQuery] CodeGenConfig input)
     {
         var whetherCommon = YesNoEnum.Y.ToString();
-        return await _db.Queryable<SysCodeGenConfig>()
+        var result = await _db.Queryable<SysCodeGenConfig>()
             .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != whetherCommon)
             .Select<CodeGenConfig>()
             .Mapper(u =>
             {
                 u.NetType = (u.EffectType == "EnumSelector" || u.EffectType == "ConstSelector" ? u.DictTypeCode : u.NetType);
             })
-
             .OrderBy(u => u.OrderNo)
             .ToListAsync();
+        return result;
     }
 
     /// <summary>
@@ -53,7 +53,9 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     public async Task UpdateCodeGenConfig(List<CodeGenConfig> inputList)
     {
         if (inputList == null || inputList.Count < 1) return;
-        await _db.Updateable(inputList.Adapt<List<SysCodeGenConfig>>()).ExecuteCommandAsync();
+        await _db.Updateable(inputList.Adapt<List<SysCodeGenConfig>>())
+            .IgnoreColumns(u => new { u.ColumnLength, u.ColumnName, u.PropertyName })
+            .ExecuteCommandAsync();
     }
 
     /// <summary>
@@ -111,13 +113,15 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
             }
 
             codeGenConfig.CodeGenId = codeGenerate.Id;
-            // 这里不能用 ColumnName，应该用 PropertyName （因为Oracle是不区分大小写的，还有个别业务的实体的字段名与Propertty名不一定一样）
-            codeGenConfig.ColumnName = tableColumn.PropertyName; // tableColumn.ColumnName;
+            codeGenConfig.ColumnName = tableColumn.ColumnName; // 字段名
+            codeGenConfig.PropertyName = tableColumn.PropertyName;// 实体属性名
+            codeGenConfig.ColumnLength = tableColumn.ColumnLength;// 长度
             codeGenConfig.ColumnComment = tableColumn.ColumnComment;
             codeGenConfig.NetType = tableColumn.DataType;
             codeGenConfig.WhetherRetract = YesNoEnum.N.ToString();
 
-            codeGenConfig.WhetherRequired = YesNoEnum.N.ToString();
+            // 生成代码时，主键并不是必要输入项，所以下面句一定要排除主键字段
+            codeGenConfig.WhetherRequired = (tableColumn.IsNullable || tableColumn.IsPrimarykey) ? YesNoEnum.N.ToString() : YesNoEnum.Y.ToString();
             codeGenConfig.QueryWhether = YesOrNo;
             codeGenConfig.WhetherAddUpdate = YesOrNo;
             codeGenConfig.WhetherTable = YesOrNo;

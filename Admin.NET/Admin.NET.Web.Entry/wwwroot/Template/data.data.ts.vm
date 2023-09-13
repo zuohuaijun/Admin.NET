@@ -20,21 +20,21 @@ export const columns: BasicColumn[] = [
   if(@column.WhetherTable == "Y"){
   @:{
     @:title: '@column.ColumnComment',
-    @:dataIndex: '@column.LowerColumnName',    
+    @:dataIndex: '@column.LowerPropertyName',    
     @:sorter: true,
 if(@column.EffectType == "Upload"){
-    @:slots: { customRender: '@(@column.LowerColumnName)' },
+    @:slots: { customRender: '@(@column.LowerPropertyName)' },
 }else if(@column.EffectType == "fk"){
     @:customRender: ({ record }) => {
-      @:return record.fk@(@column.ColumnName).@(@column.LowerFkColumnName);
+      @:return record.fk@(@column.PropertyName).@(@column.LowerFkColumnName);
     @:},
 }else if(@column.EffectType == "Switch"){
     @:customRender: ({ record }) => {
-      @:return h(@(@column.EffectType), { checked: record.@(@column.LowerColumnName) });
+      @:return h(@(@column.EffectType), { checked: record.@(@column.LowerPropertyName) });
     @:},
 }else if(@column.EffectType == "ConstSelector"){
     @:customRender: ({ record }) => {
-      @:return codeToName(record.@(@column.LowerColumnName), '@(@column.DictTypeCode)');
+      @:return codeToName(record.@(@column.LowerPropertyName), '@(@column.DictTypeCode)');
     @:},
 }
   @:},
@@ -46,7 +46,7 @@ if(@column.EffectType == "Upload"){
 export const searchFormSchema: FormSchema[] = [
 @foreach (var column in Model.QueryWhetherList){  
   @:{
-    @:field: '@column.LowerColumnName',
+    @:field: '@column.LowerPropertyName',
     @:label: '@column.ColumnComment',
     @:colProps: { span: 8 },
 if(@column.EffectType == "fk"){
@@ -99,7 +99,7 @@ export const formSchema: FormSchema[] = [
   @foreach (var column in Model.TableField){
   @:{
     @:label: '@column.ColumnComment',
-    @:field: '@column.LowerColumnName',
+    @:field: '@column.LowerPropertyName',
 if(@column.EffectType == "fk"){
     @:component: 'ApiSelect',
     @:componentProps: {
@@ -151,7 +151,7 @@ if(@column.EffectType == "fk"){
       @:api: uploadFile,
     @:},
     }
-  if(@column.LowerColumnName == "id"){
+  if(@column.LowerPropertyName == "id"){
     @:show: false,
   }
     @:colProps: { span: 12 },

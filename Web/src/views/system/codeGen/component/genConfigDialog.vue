@@ -9,13 +9,13 @@
 			</template>
 			<el-table :data="state.tableData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="columnName" label="字段" width="180" show-overflow-tooltip />
+				<el-table-column prop="propertyName" label="实体属性" width="180" show-overflow-tooltip />
 				<el-table-column prop="columnComment" label="描述" width="180" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input v-model="scope.row.columnComment" autocomplete="off" />
 					</template>
 				</el-table-column>
-				<el-table-column prop="netType" label="数据类型" minWidth="120" show-overflow-tooltip />
+				<el-table-column prop="netType" label="数据类型" minWidth="90" show-overflow-tooltip />
 				<el-table-column prop="effectType" label="作用类型" width="120" show-overflow-tooltip>
 					<template #default="scope">
 						<el-select v-model="scope.row.effectType" class="m-2" placeholder="Select" :disabled="judgeColumns(scope.row)" @change="effectTypeChange(scope.row, scope.$index)">

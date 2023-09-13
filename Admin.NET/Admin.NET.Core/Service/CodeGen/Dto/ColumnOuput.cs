@@ -25,9 +25,24 @@ public class ColumnOuput
     public string PropertyName { get; set; }
 
     /// <summary>
+    /// 字段数据长度
+    /// </summary>
+    public int ColumnLength { get; set; }
+
+    /// <summary>
     /// 数据库中类型
     /// </summary>
     public string DataType { get; set; }
+
+    /// <summary>
+    /// 是否为主键
+    /// </summary>
+    public bool IsPrimarykey { get; set; }
+
+    /// <summary>
+    /// 是否允许为空
+    /// </summary>
+    public bool IsNullable { get; set; }
 
     /// <summary>
     /// .NET字段类型

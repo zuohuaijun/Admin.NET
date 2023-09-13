@@ -7,12 +7,12 @@ enum Api {
   Page@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/page',
   @foreach (var column in Model.TableField){
 if(@column.EffectType == "fk"){
-  @:Get@(@column.FkEntityName)@(@column.ColumnName)Dropdown = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)@(@column.ColumnName)Dropdown',
+  @:Get@(@column.FkEntityName)@(@column.PropertyName)Dropdown = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)@(@column.PropertyName)Dropdown',
 }else if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("Get@(@column.FkEntityName)Tree")){
   @{definedObjects.Add("Get@(@column.FkEntityName)Tree", 1);}
   @:Get@(@column.FkEntityName)Tree = '/@(@Model.LowerClassName)/@(@column.FkEntityName)Tree',
 }else if(@column.EffectType == "Upload"){
-  @:Upload@(@column.ColumnName) = '/api/@(@Model.LowerClassName)/Upload@(@column.ColumnName)',
+  @:Upload@(@column.PropertyName) = '/api/@(@Model.LowerClassName)/Upload@(@column.PropertyName)',
 }
 }
 }
@@ -51,9 +51,9 @@ export const page@(@Model.ClassName) = (params?: any) =>
 
 @foreach (var column in Model.TableField){
 	if(@column.EffectType == "fk"){
-@:export const get@(@column.FkEntityName)@(@column.ColumnName)Dropdown = () =>
+@:export const get@(@column.FkEntityName)@(@column.PropertyName)Dropdown = () =>
 		@:request({
-		@:url: Api.Get@(@column.FkEntityName)@(@column.ColumnName)Dropdown,
+		@:url: Api.Get@(@column.FkEntityName)@(@column.PropertyName)Dropdown,
 		@:method: 'get'
 		@:});
 	}else if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("get@(@column.FkEntityName)Tree")){
@@ -68,8 +68,8 @@ export const page@(@Model.ClassName) = (params?: any) =>
 	@:/**
 	@:* 上传@(@column.ColumnComment) 
 	@:*/
-@:export const upload@(@column.ColumnName) = (params: any) =>
-		@:uploadFileHandle(params, Api.Upload@(@column.ColumnName))
+@:export const upload@(@column.PropertyName) = (params: any) =>
+		@:uploadFileHandle(params, Api.Upload@(@column.PropertyName))
 		}
 }
 

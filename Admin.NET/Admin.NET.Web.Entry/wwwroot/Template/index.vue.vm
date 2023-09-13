@@ -1,5 +1,5 @@
 ﻿@{var pkField = Model.TableField.Where(c => c.ColumnKey == "True").FirstOrDefault();}
-@{string pkFieldName = LowerFirstLetter(pkField.ColumnName);}
+@{string pkFieldName = LowerFirstLetter(pkField.PropertyName);}
 <template>
   <div class="@(@Model.LowerClassName)-container">
     <el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
@@ -8,31 +8,31 @@
         foreach (var column in Model.QueryWhetherList){
         if(@column.EffectType == "Input" || @column.EffectType == "InputTextArea"){
         @:<el-form-item label="@column.ColumnComment">
-          @:<el-input v-model="queryParams.@(@column.LowerColumnName)" clearable="" placeholder="请输入@(@column.ColumnComment)"/>
+          @:<el-input v-model="queryParams.@(@column.LowerPropertyName)" clearable="" placeholder="请输入@(@column.ColumnComment)"/>
           @:
         </el-form-item>
         }else if(@column.EffectType == "InputTextArea"){
         @:<el-form-item label="@column.ColumnComment">
-          @:<el-input-number v-model="queryParams.@(@column.LowerColumnName)"  clearable="" placeholder="请输入@(@column.ColumnComment)"/>
+          @:<el-input-number v-model="queryParams.@(@column.LowerPropertyName)"  clearable="" placeholder="请输入@(@column.ColumnComment)"/>
           @:
         </el-form-item>
         }else if(@column.EffectType == "InputNumber"){
         @:<el-form-item label="@column.ColumnComment">
-          @:<el-input-number v-model="queryParams.@(@column.LowerColumnName)"  clearable="" placeholder="请输入@(@column.ColumnComment)"/>
+          @:<el-input-number v-model="queryParams.@(@column.LowerPropertyName)"  clearable="" placeholder="请输入@(@column.ColumnComment)"/>
           @:
         </el-form-item>
         }else if(@column.EffectType == "fk"){
         @:<el-form-item label="@column.ColumnComment">
-          @:<el-select clearable="" filterable="" v-model="queryParams.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-            @:<el-option v-for="(item,index) in  @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList" :key="index" :value="item.value" :label="item.label" />
+          @:<el-select clearable="" filterable="" v-model="queryParams.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
+            @:<el-option v-for="(item,index) in  @LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList" :key="index" :value="item.value" :label="item.label" />
             @:
           </el-select>
           @:
         </el-form-item>
         }else if(@column.EffectType == "Select"){
         @:<el-form-item label="@column.ColumnComment">
-          @:<el-select clearable="" v-model="queryParams.@(@column.LowerColumnName)" placeholder="请选择@(@column.ColumnComment)">
-            @:<el-option v-for="(item,index) in get@(@column.LowerColumnName)Data" :key="index" :value="item.value" :label="item.label" />
+          @:<el-select clearable="" v-model="queryParams.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
+            @:<el-option v-for="(item,index) in get@(@column.LowerPropertyName)Data" :key="index" :value="item.value" :label="item.label" />
             @:
           </el-select>
           @:
@@ -40,10 +40,10 @@
         }else if(@column.EffectType == "DatePicker"){
         @:<el-form-item label="@column.ColumnComment">
           if(@column.QueryType == "~"){
-          @:<el-date-picker placeholder="请选择@(@column.ColumnComment)" value-format="YYYY/MM/DD" type="daterange" v-model="queryParams.@(@column.LowerColumnName)Range" />
+          @:<el-date-picker placeholder="请选择@(@column.ColumnComment)" value-format="YYYY/MM/DD" type="daterange" v-model="queryParams.@(@column.LowerPropertyName)Range" />
           }else
           {
-          @:<el-date-picker placeholder="请选择@(@column.ColumnComment)" value-format="YYYY/MM/DD"  v-model="queryParams.@(@column.LowerColumnName)" />
+          @:<el-date-picker placeholder="请选择@(@column.ColumnComment)" value-format="YYYY/MM/DD"  v-model="queryParams.@(@column.LowerPropertyName)" />
           }
           @:
         </el-form-item>
@@ -77,27 +77,27 @@
         @foreach (var column in Model.TableField){
         if(@column.WhetherTable == "Y"){
         if(@column.EffectType == "Upload"||@column.EffectType == "fk"||@column.EffectType == "ApiTreeSelect"||@column.EffectType == "Switch"||@column.EffectType == "ConstSelector"){
-        @:<el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 120)" show-overflow-tooltip="">
+        @:<el-table-column prop="@column.LowerPropertyName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 120)" show-overflow-tooltip="">
           @:<template #default="scope">
             if(@column.EffectType == "Upload"){
             @:<el-image
             @:style="width: 60px; height: 60px"
-            @::src="scope.row.@column.LowerColumnName"
+            @::src="scope.row.@column.LowerPropertyName"
             @::lazy="true"
             @::hide-on-click-modal="true"
-            @::preview-src-list="[scope.row.@column.LowerColumnName]"
+            @::preview-src-list="[scope.row.@column.LowerPropertyName]"
             @::initial-index="0"
             @:fit="scale-down"
             @:preview-teleported=""/>
             }else if(@column.EffectType == "fk"){
-            @:<span>{{scope.row.@LowerFirstLetter(@column.FkEntityName)@(@column.FkColumnName)}}</span>
+            @:<span>{{scope.row.@LowerFirstLetter(@column.PropertyName)@(@column.FkColumnName)}}</span>
             }else if(@column.EffectType == "ApiTreeSelect"){
-            @:<span>{{scope.row.@LowerFirstLetter(@column.ColumnName)@(column.DisplayColumn)}}</span>
+            @:<span>{{scope.row.@LowerFirstLetter(@column.PropertyName)@(column.DisplayColumn)}}</span>
             }else if(@column.EffectType == "Switch"){
-            @:<el-tag v-if="scope.row.@(@column.LowerColumnName)"> 是 </el-tag>
+            @:<el-tag v-if="scope.row.@(@column.LowerPropertyName)"> 是 </el-tag>
             @:<el-tag type="danger" v-else> 否 </el-tag>
             }else if(@column.EffectType == "ConstSelector"){
-            @:<span>{{codeToName(scope.row.@(@column.LowerColumnName), '@(@column.DictTypeCode)')}}</span>
+            @:<span>{{codeToName(scope.row.@(@column.LowerPropertyName), '@(@column.DictTypeCode)')}}</span>
             }
             @:
           </template>
@@ -105,7 +105,7 @@
         </el-table-column>
         }
         else {
-        @:<el-table-column prop="@column.LowerColumnName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 130)" show-overflow-tooltip="" />
+        @:<el-table-column prop="@column.LowerPropertyName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 130)" show-overflow-tooltip="" />
         }
         }
         }
@@ -149,7 +149,7 @@
   import { page@(@Model.ClassName), delete@(@Model.ClassName) } from '/@@/api/main/@(@Model.LowerClassName)';
   @foreach (var column in Model.QueryWhetherList){
   if(@column.EffectType == "fk"){
-  @:import { get@(@column.FkEntityName)@(@column.ColumnName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
+  @:import { get@(@column.FkEntityName)@(@column.PropertyName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
   }
   }
   @foreach (var column in Model.QueryWhetherList){
@@ -161,7 +161,7 @@
 
   @foreach (var column in Model.QueryWhetherList){
   if(@column.EffectType == "Select"){
-  @:const get@(@column.LowerColumnName)Data = ref<any>([]);
+  @:const get@(@column.LowerPropertyName)Data = ref<any>([]);
     }
     }
 
@@ -188,7 +188,7 @@
         loading.value = false;
         @foreach (var column in Model.QueryWhetherList){
         if(@column.EffectType == "Select"){
-        @:get@(@column.LowerColumnName)Data.value = await dictTypeDataList('@(@column.DictTypeCode)');
+        @:get@(@column.LowerPropertyName)Data.value = await dictTypeDataList('@(@column.DictTypeCode)');
         }
         }
         };
@@ -234,12 +234,12 @@
 
         @foreach (var column in Model.QueryWhetherList){
         if(@column.EffectType == "fk"){
-        @:const @LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList = ref<any>([]); 
-@:const get@(@column.FkEntityName)@(@column.ColumnName)DropdownList = async () => {
-    @:let list = await get@(@column.FkEntityName)@(@column.ColumnName)Dropdown();
-    @:@LowerFirstLetter(@column.FkEntityName)@(@column.ColumnName)DropdownList.value = list.data.result ?? [];
+        @:const @LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList = ref<any>([]); 
+@:const get@(@column.FkEntityName)@(@column.PropertyName)DropdownList = async () => {
+    @:let list = await get@(@column.FkEntityName)@(@column.PropertyName)Dropdown();
+    @:@LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList.value = list.data.result ?? [];
 @:};
-@:get@(@column.FkEntityName)@(@column.ColumnName)DropdownList();
+@:get@(@column.FkEntityName)@(@column.PropertyName)DropdownList();
 @:
   }
 }

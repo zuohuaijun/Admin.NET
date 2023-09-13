@@ -33,9 +33,9 @@
           });
 @foreach (var column in Model.TableField){
 if(@column.EffectType == "Upload"){
-          @:if (data.record.@(@column.LowerColumnName)) {
+          @:if (data.record.@(@column.LowerPropertyName)) {
             @:setFieldsValue({
-              @:@(@column.LowerColumnName): [data.record.@(@column.LowerColumnName)Attachment],
+              @:@(@column.LowerPropertyName): [data.record.@(@column.LowerPropertyName)Attachment],
             @:});
           @:}
 }
@@ -48,8 +48,8 @@ if(@column.EffectType == "Upload"){
           var values = await validate();
 @foreach (var column in Model.TableField){
 if(@column.EffectType == "Upload"){
-          @:if (values.@(@column.LowerColumnName)) {
-            @:values = { ...values, @(@column.LowerColumnName): values.@(@column.LowerColumnName)[0].id };
+          @:if (values.@(@column.LowerPropertyName)) {
+            @:values = { ...values, @(@column.LowerPropertyName): values.@(@column.LowerPropertyName)[0].id };
           @:}
 }
 }

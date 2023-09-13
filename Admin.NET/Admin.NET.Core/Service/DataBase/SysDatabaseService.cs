@@ -137,25 +137,32 @@ public class SysDatabaseService : IDynamicApiController, ITransient
 
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
 
-        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        var typeBilder = db.DynamicBuilder().CreateClass(input.TableName, new SugarTable() { TableName = input.TableName, TableDescription = input.Description });
         input.DbColumnInfoList.ForEach(m =>
         {
-            var dbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim();
-            var isPrimarykey = columns.Any(m => m.IsPrimarykey);
-            // 虚拟类都默认String，具体以列数据类型为准
-            typeBilder.CreateProperty(dbColumnName, typeof(string), new SugarColumn()
+            columns.Add(new DbColumnInfo
             {
-                IsPrimaryKey = isPrimarykey,
-                IsIdentity = m.IsIdentity == 1,
-                ColumnDataType = m.DataType,
+                DbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim(),
+                DataType = m.DataType,
                 Length = m.Length,
-                IsNullable = m.IsNullable == 1,
-                DecimalDigits = m.DecimalDigits,
                 ColumnDescription = m.ColumnDescription,
+                IsNullable = m.IsNullable == 1,
+                IsIdentity = m.IsIdentity == 1,
+                IsPrimarykey = m.IsPrimarykey == 1,
+                DecimalDigits = m.DecimalDigits
             });
         });
-        db.CodeFirst.InitTables(typeBilder.BuilderType());
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        db.DbMaintenance.CreateTable(input.TableName, columns, false);
+
+        if (columns.Any(m => m.IsPrimarykey))
+            db.DbMaintenance.AddPrimaryKey(input.TableName, columns.FirstOrDefault(m => m.IsPrimarykey).DbColumnName);
+
+        db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
+        input.DbColumnInfoList.ForEach(m =>
+        {
+            m.DbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName) : m.DbColumnName;
+            db.DbMaintenance.AddColumnRemark(m.DbColumnName, input.TableName, string.IsNullOrWhiteSpace(m.ColumnDescription) ? m.DbColumnName : m.ColumnDescription);
+        });
     }
 
     /// <summary>
@@ -203,8 +210,8 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
-        string[] dbColumnNames = Array.Empty<string>();
-        // 允许创建没有基类的实体
+        string[] dbColumnNames = new string[0];
+        // Entity.cs.vm中是允许创建没有基类的实体的，所以这里也要做出相同的判断
         if (!string.IsNullOrWhiteSpace(input.BaseClassName))
         {
             _codeGenOptions.EntityBaseColumn.TryGetValue(input.BaseClassName, out dbColumnNames);
@@ -218,7 +225,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
         dbColumnInfos.ForEach(u =>
         {
-            u.DbColumnName = config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, dbColumnNames) : u.DbColumnName; // 转下划线后的列名需要再转回来
+            u.PropertyName = config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(u.DbColumnName, dbColumnNames) : u.DbColumnName; // 转下划线后的列名需要再转回来
             u.DataType = CodeGenUtil.ConvertDataType(u, config.DbType);
         });
         if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))

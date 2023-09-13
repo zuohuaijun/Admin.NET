@@ -28,10 +28,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="存放位置" prop="position">
-							<el-select v-model="state.ruleForm.position" clearable class="w100">
-								<el-option label="Admin.NET.Application" value="Admin.NET.Application" />
-								<el-option label="Admin.NET.Core" value="Admin.NET.Core" />
-							</el-select>
+							<el-input v-model="state.ruleForm.position" placeholder="存放位置" clearable >Admin.NET.Application</el-input>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -72,7 +69,6 @@ const openDialog = (row: any) => {
 	state.ruleForm.baseClassName = 'EntityBase';
 	state.ruleForm.position = 'Admin.NET.Application';
 	state.isShowDialog = true;
-	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗
