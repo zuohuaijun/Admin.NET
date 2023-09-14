@@ -1,10 +1,25 @@
-﻿@{var pkField = Model.TableField.Where(c => c.ColumnKey == "True").FirstOrDefault();}
-@{string pkFieldName = LowerFirstLetter(pkField.PropertyName);}
+﻿@{
+  var pkField = Model.TableField.Where(c => c.ColumnKey == "True").FirstOrDefault();
+  string pkFieldName = LowerFirstLetter(pkField.PropertyName);
+  Dictionary<string, int> definedObjects = new Dictionary<string, int>();
+  bool haveLikeCdt = false;
+  foreach (var column in Model.TableField){
+      if (column.QueryWhether == "Y" && column.QueryType == "like"){
+          haveLikeCdt = true;
+      }
+  }
+}
 <template>
   <div class="@(@Model.LowerClassName)-container">
     <el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
       @if(Model.QueryWhetherList.Count > 0){
       @:<el-form :model="queryParams" ref="queryForm" :inline="true">
+        @if(haveLikeCdt){
+        @:<el-form-item label="关键字">
+          @:<el-input v-model="queryParams.searchKey" clearable="" placeholder="请输入模糊查询关键字"/>
+          @:
+        </el-form-item>
+        }
         foreach (var column in Model.QueryWhetherList){
         if(@column.EffectType == "Input" || @column.EffectType == "InputTextArea"){
         @:<el-form-item label="@column.ColumnComment">

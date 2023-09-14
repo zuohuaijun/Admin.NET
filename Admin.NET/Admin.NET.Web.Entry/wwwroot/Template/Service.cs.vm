@@ -1,6 +1,14 @@
 ﻿using @(@Model.NameSpace).Const;
-@{string joinTableName = "u";}
-@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
+@{
+    string joinTableName = "u";
+    Dictionary<string, int> definedObjects = new Dictionary<string, int>();
+    bool haveLikeCdt = false;
+    foreach (var column in Model.TableField){
+        if (column.QueryWhether == "Y" && column.QueryType == "like"){
+            haveLikeCdt = true;
+        }
+    }
+}
 namespace @Model.NameSpace;
 /// <summary>
 /// @(@Model.BusName)服务
@@ -24,50 +32,61 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<@(@Model.ClassName)Output>> Page(@(@Model.ClassName)Input input)
     {
         var query= _rep.AsQueryable()
+@{string conditionFlag = "";}
+@if (haveLikeCdt) {
+            @:.WhereIF(!string.IsNullOrWhiteSpace(input.SearchKey), u =>
+    @foreach (var column in Model.TableField){
+        if (@column.QueryWhether == "Y" && column.QueryType == "like"){
+                @:@(conditionFlag)u.@(@column.PropertyName).Contains(input.SearchKey.Trim())
+            conditionFlag="|| ";
+        }
+    }
+            @:)
+}
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
     if (@column.NetType?.TrimEnd('?') == "string"){
         if(@column.QueryType == "like"){
-                    @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.PropertyName), u => u.@(@column.PropertyName).Contains(input.@(@column.PropertyName).Trim()))
+            @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.PropertyName), u => u.@(@column.PropertyName).Contains(input.@(@column.PropertyName).Trim()))
         }else{
-                    @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.PropertyName), u => u.@(@column.PropertyName) @column.QueryType input.@(@column.PropertyName))
+            @:.WhereIF(!string.IsNullOrWhiteSpace(input.@column.PropertyName), u => u.@(@column.PropertyName) @column.QueryType input.@(@column.PropertyName))
         }
     }else if(@column.NetType?.TrimEnd('?') == "int" || @column.NetType?.TrimEnd('?') == "long"){
-                    @:.WhereIF(input.@column.PropertyName>0, u => u.@(@column.PropertyName) @column.QueryType input.@(@column.PropertyName))
+            @:.WhereIF(input.@column.PropertyName>0, u => u.@(@column.PropertyName) @column.QueryType input.@(@column.PropertyName))
     }else if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
     }
 } 
 }
 @if(Model.IsJoinTable){
-                    @://处理外键和TreeSelector相关字段的连接
+            @://处理外键和TreeSelector相关字段的连接
     @foreach (var column in Model.TableField){
         if(@column.EffectType == "fk"){
             joinTableName += ", " + column.PropertyName.ToLower();
-                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.PropertyName) == @(@column.PropertyName.ToLower()).Id )
+            @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.PropertyName) == @(@column.PropertyName.ToLower()).Id )
         } else if(@column.EffectType == "ApiTreeSelect"){
             joinTableName += ", " + column.PropertyName.ToLower();
-                    @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.PropertyName) == @(@column.PropertyName.ToLower()).@(@column.ValueColumn) )
+            @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.PropertyName) == @(@column.PropertyName.ToLower()).@(@column.ValueColumn) )
         }
     }
-                    @:.Select((@(@joinTableName))=> new @(@Model.ClassName)Output{
+            @:.Select((@(@joinTableName))=> new @(@Model.ClassName)Output{
 @foreach (var column in Model.TableField){
-                        @:@(@column.PropertyName) = u.@(@column.PropertyName), 
-                        if(@column.EffectType == "fk"){   
-                        @:@(@column.PropertyName)@(@column.FkColumnName) = @(@column.PropertyName.ToLower()).@(@column.FkColumnName),
-                        } else if(@column.EffectType == "ApiTreeSelect"){   
-                        @:@(@column.PropertyName)@(@column.DisplayColumn) = @(@column.PropertyName.ToLower()).@(@column.DisplayColumn),
-                        }
+                @:@(@column.PropertyName) = u.@(@column.PropertyName), 
+                if(@column.EffectType == "fk"){   
+                @:@(@column.PropertyName)@(@column.FkColumnName) = @(@column.PropertyName.ToLower()).@(@column.FkColumnName),
+                } else if(@column.EffectType == "ApiTreeSelect"){   
+                @:@(@column.PropertyName)@(@column.DisplayColumn) = @(@column.PropertyName.ToLower()).@(@column.DisplayColumn),
+                }
 }
-                    @:})
+            @:})
 @foreach (var column in Model.TableField){
     if(@column.EffectType == "fk"){   
  
     }else if(@column.EffectType == "Upload"){
-                    @://.Mapper(c => c.@(@column.PropertyName)Attachment, c => c.@(@column.PropertyName))
+            @://.Mapper(c => c.@(@column.PropertyName)Attachment, c => c.@(@column.PropertyName))
     }
 }
 } else {
-                    @:.Select<@(@Model.ClassName)Output>()
+            @:.Select<@(@Model.ClassName)Output>()
 }
 ;
 @foreach (var column in Model.TableField){
@@ -75,13 +94,13 @@ if (@column.QueryWhether == "Y"){
     if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
         @:if(input.@(@column.PropertyName)Range != null && input.@(@column.PropertyName)Range.Count >0)
         @:{
-                @:DateTime? start= input.@(@column.PropertyName)Range[0]; 
-                @:query = query.WhereIF(start.HasValue, u => u.@column.PropertyName > start);
-                @:if (input.@(@column.PropertyName)Range.Count >1 && input.@(@column.PropertyName)Range[1].HasValue)
-                @:{
-                    @:var end = input.@(@column.PropertyName)Range[1].Value.AddDays(1);
-                    @:query = query.Where(u => u.@(@column.PropertyName) < end);
-                @:}
+            @:DateTime? start= input.@(@column.PropertyName)Range[0]; 
+            @:query = query.WhereIF(start.HasValue, u => u.@column.PropertyName > start);
+            @:if (input.@(@column.PropertyName)Range.Count >1 && input.@(@column.PropertyName)Range[1].HasValue)
+            @:{
+                @:var end = input.@(@column.PropertyName)Range[1].Value.AddDays(1);
+                @:query = query.Where(u => u.@(@column.PropertyName) < end);
+            @:}
         @:} 
     }
 }
