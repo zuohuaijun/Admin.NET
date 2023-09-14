@@ -282,8 +282,8 @@ public static class SqlSugarSetup
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false))
                 .WhereIF(config.TableSettings.EnableIncreTable, u => u.IsDefined(typeof(IncreTableAttribute), false)).ToList();
 
-            if (config.ConfigId == SqlSugarConst.MainConfigId) // 默认库
-                entityTypes = entityTypes.Where(u => u.GetCustomAttributes<SysTableAttribute>().Any()).ToList();
+            if (config.ConfigId == SqlSugarConst.MainConfigId) // 默认库（有系统表特性、没有日志表和租户表特性）
+                entityTypes = entityTypes.Where(u => u.GetCustomAttributes<SysTableAttribute>().Any() || (!u.GetCustomAttributes<LogTableAttribute>().Any() && !u.GetCustomAttributes<TenantAttribute>().Any())).ToList();
             else if (config.ConfigId == SqlSugarConst.LogConfigId) // 日志库
                 entityTypes = entityTypes.Where(u => u.GetCustomAttributes<LogTableAttribute>().Any()).ToList();
             else
@@ -303,46 +303,44 @@ public static class SqlSugarSetup
         {
             var seedDataTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.GetInterfaces().Any(i => i.HasImplementedRawGeneric(typeof(ISqlSugarEntitySeedData<>))))
                 .WhereIF(config.SeedSettings.EnableIncreSeed, u => u.IsDefined(typeof(IncreSeedAttribute), false)).ToList();
-            if (seedDataTypes.Any())
+
+            foreach (var seedType in seedDataTypes)
             {
-                foreach (var seedType in seedDataTypes)
+                var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
+                if (config.ConfigId == SqlSugarConst.MainConfigId) // 默认库（有系统表特性、没有日志表和租户表特性）
                 {
-                    var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
-                    if (config.ConfigId == SqlSugarConst.MainConfigId) // 默认库
-                    {
-                        if (entityType.GetCustomAttribute<SysTableAttribute>() == null)
-                            continue;
-                    }
-                    else if (config.ConfigId == SqlSugarConst.LogConfigId) // 日志库
-                    {
-                        if (entityType.GetCustomAttribute<LogTableAttribute>() == null)
-                            continue;
-                    }
-                    else
-                    {
-                        var att = entityType.GetCustomAttribute<TenantAttribute>(); // 自定义的库
-                        if (att == null || att.configId.ToString() != config.ConfigId) continue;
-                    }
+                    if (entityType.GetCustomAttribute<SysTableAttribute>() == null && (entityType.GetCustomAttribute<LogTableAttribute>() != null || entityType.GetCustomAttribute<TenantAttribute>() != null))
+                        continue;
+                }
+                else if (config.ConfigId == SqlSugarConst.LogConfigId) // 日志库
+                {
+                    if (entityType.GetCustomAttribute<LogTableAttribute>() == null)
+                        continue;
+                }
+                else
+                {
+                    var att = entityType.GetCustomAttribute<TenantAttribute>(); // 自定义的库
+                    if (att == null || att.configId.ToString() != config.ConfigId) continue;
+                }
 
-                    var instance = Activator.CreateInstance(seedType);
-                    var hasDataMethod = seedType.GetMethod("HasData");
-                    var seedData = ((IEnumerable)hasDataMethod?.Invoke(instance, null))?.Cast<object>();
-                    if (seedData == null) continue;
+                var instance = Activator.CreateInstance(seedType);
+                var hasDataMethod = seedType.GetMethod("HasData");
+                var seedData = ((IEnumerable)hasDataMethod?.Invoke(instance, null))?.Cast<object>();
+                if (seedData == null) continue;
 
-                    var entityInfo = dbProvider.EntityMaintenance.GetEntityInfo(entityType);
-                    if (entityInfo.Columns.Any(u => u.IsPrimarykey))
-                    {
-                        // 按主键进行批量增加和更新
-                        var storage = dbProvider.StorageableByObject(seedData.ToList()).ToStorage();
-                        storage.AsInsertable.ExecuteCommand();
-                        storage.AsUpdateable.ExecuteCommand();
-                    }
-                    else
-                    {
-                        // 无主键则只进行插入
-                        if (!dbProvider.Queryable(entityInfo.DbTableName, entityInfo.DbTableName).Any())
-                            dbProvider.InsertableByObject(seedData.ToList()).ExecuteCommand();
-                    }
+                var entityInfo = dbProvider.EntityMaintenance.GetEntityInfo(entityType);
+                if (entityInfo.Columns.Any(u => u.IsPrimarykey))
+                {
+                    // 按主键进行批量增加和更新
+                    var storage = dbProvider.StorageableByObject(seedData.ToList()).ToStorage();
+                    storage.AsInsertable.ExecuteCommand();
+                    storage.AsUpdateable.ExecuteCommand();
+                }
+                else
+                {
+                    // 无主键则只进行插入
+                    if (!dbProvider.Queryable(entityInfo.DbTableName, entityInfo.DbTableName).Any())
+                        dbProvider.InsertableByObject(seedData.ToList()).ExecuteCommand();
                 }
             }
         }
@@ -362,8 +360,8 @@ public static class SqlSugarSetup
         db.DbMaintenance.CreateDatabase();
 
         // 获取所有系统表-初始化租户库表结构
-        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-            && u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(SysTableAttribute), false)).ToList();
+        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass &&
+            u.IsDefined(typeof(SugarTable), false) && !u.IsDefined(typeof(SysTableAttribute), false) && !u.IsDefined(typeof(TenantAttribute), false)).ToList();
         if (!entityTypes.Any()) return;
         foreach (var entityType in entityTypes)
         {

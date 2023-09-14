@@ -44,7 +44,7 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
             return;
         }
 
-        // 若当前未登录或是默认租户Id，则返回默认库连接
+        // 若未贴任何表特性或当前未登录或是默认租户Id，则返回默认库连接
         var tenantId = App.GetRequiredService<UserManager>().TenantId;
         if (tenantId < 1 || tenantId.ToString() == SqlSugarConst.MainConfigId) return;
 
