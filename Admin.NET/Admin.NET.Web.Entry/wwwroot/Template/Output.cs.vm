@@ -1,35 +1,35 @@
 ﻿namespace @Model.NameSpace;
 
-    /// <summary>
-    /// @(@Model.BusName)输出参数
-    /// </summary>
-    public class @(@Model.ClassName)Output
-    {
+/// <summary>
+/// @(@Model.BusName)输出参数
+/// </summary>
+public class @(@Model.ClassName)Output
+{
 @foreach (var column in Model.TableField){
-       @:/// <summary>
-       @:/// @column.ColumnComment
-       @:/// </summary>
+    @:/// <summary>
+    @:/// @column.ColumnComment
+    @:/// </summary>
 if(column.EffectType == "fk")
 {
-       @:public @column.NetType @column.PropertyName { get; set; } 
-       @:
-       @:/// <summary>
-       @:/// @(column.ColumnComment) 描述
-       @:/// </summary>
-       @:public @(@column.FkColumnNetType) @(@column.PropertyName)@(@column.FkColumnName) { get; set; } 
+    @:public @column.NetType @column.PropertyName { get; set; } 
+    @:
+    @:/// <summary>
+    @:/// @(column.ColumnComment) 描述
+    @:/// </summary>
+    @:public @(@column.FkColumnNetType) @(@column.PropertyName)@(@column.FkColumnName) { get; set; } 
 
 }else if(column.EffectType == "Upload"){
-       @:public @column.NetType @column.PropertyName { get; set; }
-       @:public SysFile @(@column.PropertyName)Attachment { get; set; }
+    @:public @column.NetType @column.PropertyName { get; set; }
+    @:public SysFile @(@column.PropertyName)Attachment { get; set; }
 }else if(column.EffectType == "ApiTreeSelect"){
-       @:public @column.NetType @column.PropertyName { get; set; } 
-       @:
-       @:/// <summary>
-       @:/// @(column.ColumnComment) 描述 
-       @:/// </summary>
-       @:public string? @(@column.PropertyName)@(@column.DisplayColumn) { get; set; } 
+    @:public @column.NetType @column.PropertyName { get; set; } 
+    @:
+    @:/// <summary>
+    @:/// @(column.ColumnComment) 描述 
+    @:/// </summary>
+    @:public string? @(@column.PropertyName)@(@column.DisplayColumn) { get; set; } 
 }else{
-       @:public @column.NetType @(@column.PropertyName) { get; set; }
+    @:public @column.NetType @(@column.PropertyName) { get; set; }
 }
     @:
 }

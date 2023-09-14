@@ -1,10 +1,25 @@
-﻿@{var pkField = Model.TableField.Where(c => c.ColumnKey == "True").FirstOrDefault();}
-@{string pkFieldName = LowerFirstLetter(pkField.PropertyName);}
+﻿@{
+  var pkField = Model.TableField.Where(c => c.ColumnKey == "True").FirstOrDefault();
+  string pkFieldName = LowerFirstLetter(pkField.PropertyName);
+  Dictionary<string, int> definedObjects = new Dictionary<string, int>();
+  bool haveLikeCdt = false;
+  foreach (var column in Model.TableField){
+      if (column.QueryWhether == "Y" && column.QueryType == "like"){
+          haveLikeCdt = true;
+      }
+  }
+}
 <template>
   <div class="@(@Model.LowerClassName)-container">
     <el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
       @if(Model.QueryWhetherList.Count > 0){
       @:<el-form :model="queryParams" ref="queryForm" :inline="true">
+        @if(haveLikeCdt){
+        @:<el-form-item label="关键字">
+          @:<el-input v-model="queryParams.searchKey" clearable="" placeholder="请输入模糊查询关键字"/>
+          @:
+        </el-form-item>
+        }
         foreach (var column in Model.QueryWhetherList){
         if(@column.EffectType == "Input" || @column.EffectType == "InputTextArea"){
         @:<el-form-item label="@column.ColumnComment">
@@ -105,7 +120,7 @@
         </el-table-column>
         }
         else {
-        @:<el-table-column prop="@column.LowerPropertyName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 130)" show-overflow-tooltip="" />
+        @:<el-table-column prop="@column.LowerPropertyName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 140)" show-overflow-tooltip="" />
         }
         }
         }
@@ -120,7 +135,7 @@
 				v-model:currentPage="tableParams.page"
 				v-model:page-size="tableParams.pageSize"
 				:total="tableParams.total"
-				:page-sizes="[10, 20, 50, 100]"
+				:page-sizes="[10, 20, 50, 100, 200]"
 				small=""
 				background=""
 				@@size-change="handleSizeChange"
@@ -128,9 +143,9 @@
 				layout="total, sizes, prev, pager, next, jumper"
 	/>
       <editDialog
-			    ref="editDialogRef"
-			    :title="edit@(@Model.ClassName)Title"
-			    @@reloadTable="handleQuery"
+        ref="editDialogRef"
+        :title="edit@(@Model.ClassName)Title"
+        @@reloadTable="handleQuery"
       />
     </el-card>
   </div>
@@ -165,81 +180,79 @@
     }
     }
 
-    const editDialogRef = ref();
-    const loading = ref(false);
-    const tableData = ref<any>
-      ([]);
-      const queryParams = ref<any>
-        ({});
-        const tableParams = ref({
-        page: 1,
-        pageSize: 10,
-        total: 0,
-        });
-        const edit@(@Model.ClassName)Title = ref("");
+  const editDialogRef = ref();
+  const loading = ref(false);
+  const tableData = ref<any>([]);
+  const queryParams = ref<any>({});
+  const tableParams = ref({
+  page: 1,
+  pageSize: 10,
+  total: 0,
+  });
+  const edit@(@Model.ClassName)Title = ref("");
 
 
-        // 查询操作
-        const handleQuery = async () => {
-        loading.value = true;
-        var res = await page@(@Model.ClassName)(Object.assign(queryParams.value, tableParams.value));
-        tableData.value = res.data.result?.items ?? [];
-        tableParams.value.total = res.data.result?.total;
-        loading.value = false;
-        @foreach (var column in Model.QueryWhetherList){
-        if(@column.EffectType == "Select"){
-        @:get@(@column.LowerPropertyName)Data.value = await dictTypeDataList('@(@column.DictTypeCode)');
-        }
-        }
-        };
+  // 查询操作
+  const handleQuery = async () => {
+    loading.value = true;
+    var res = await page@(@Model.ClassName)(Object.assign(queryParams.value, tableParams.value));
+    tableData.value = res.data.result?.items ?? [];
+    tableParams.value.total = res.data.result?.total;
+    loading.value = false;
+  @foreach (var column in Model.QueryWhetherList){
+  if(@column.EffectType == "Select"){
+    @:get@(@column.LowerPropertyName)Data.value = await dictTypeDataList('@(@column.DictTypeCode)');
+  }
+  }
+  };
 
-        // 打开新增页面
-        const openAdd@(@Model.ClassName) = () => {
-        edit@(@Model.ClassName)Title.value = '添加@(@Model.BusName)';
-        editDialogRef.value.openDialog({});
-        };
+  // 打开新增页面
+  const openAdd@(@Model.ClassName) = () => {
+    edit@(@Model.ClassName)Title.value = '添加@(@Model.BusName)';
+    editDialogRef.value.openDialog({});
+  };
 
-        // 打开编辑页面
-        const openEdit@(@Model.ClassName) = (row: any) => {
-        edit@(@Model.ClassName)Title.value = '编辑@(@Model.BusName)';
-        editDialogRef.value.openDialog(row);
-        };
+  // 打开编辑页面
+  const openEdit@(@Model.ClassName) = (row: any) => {
+    edit@(@Model.ClassName)Title.value = '编辑@(@Model.BusName)';
+    editDialogRef.value.openDialog(row);
+  };
 
-        // 删除
-        const del@(@Model.ClassName) = (row: any) => {
-        ElMessageBox.confirm(`确定要删除吗?`, "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning",
-        })
-        .then(async () => {
-        await delete@(@Model.ClassName)(row);
-        handleQuery();
-        ElMessage.success("删除成功");
-        })
-        .catch(() => {});
-        };
+  // 删除
+  const del@(@Model.ClassName) = (row: any) => {
+    ElMessageBox.confirm(`确定要删除吗?`, "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning",
+  })
+  .then(async () => {
+    await delete@(@Model.ClassName)(row);
+    handleQuery();
+    ElMessage.success("删除成功");
+  })
+  .catch(() => {});
+  };
 
-        // 改变页面容量
-        const handleSizeChange = (val: number) => {
-        tableParams.value.pageSize = val;
-        handleQuery();
-        };
+  // 改变页面容量
+  const handleSizeChange = (val: number) => {
+    tableParams.value.pageSize = val;
+    handleQuery();
+  };
 
-        // 改变页码序号
-        const handleCurrentChange = (val: number) => {
-        tableParams.value.page = val;
-        handleQuery();
-        };
+  // 改变页码序号
+  const handleCurrentChange = (val: number) => {
+    tableParams.value.page = val;
+    handleQuery();
+  };
 
-        @foreach (var column in Model.QueryWhetherList){
-        if(@column.EffectType == "fk"){
-        @:const @LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList = ref<any>([]); 
-@:const get@(@column.FkEntityName)@(@column.PropertyName)DropdownList = async () => {
+  @foreach (var column in Model.QueryWhetherList){
+  if(@column.EffectType == "fk"){
+  @:const @LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList = ref<any>([]); 
+  @:const get@(@column.FkEntityName)@(@column.PropertyName)DropdownList = async () => {
     @:let list = await get@(@column.FkEntityName)@(@column.PropertyName)Dropdown();
     @:@LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList.value = list.data.result ?? [];
-@:};
-@:get@(@column.FkEntityName)@(@column.PropertyName)DropdownList();
+  @:};
+  @:get@(@column.FkEntityName)@(@column.PropertyName)DropdownList();
 @:
   }
 }
@@ -253,7 +266,7 @@
     break;
   }
 }
-handleQuery();
+  handleQuery();
 </script>
 
 

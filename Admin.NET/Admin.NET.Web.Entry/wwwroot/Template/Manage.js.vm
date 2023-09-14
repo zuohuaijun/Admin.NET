@@ -6,7 +6,7 @@ enum Api {
   Update@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/update',
   Page@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/page',
   @foreach (var column in Model.TableField){
-if(@column.EffectType == "fk"){
+if(@column.EffectType == "fk" && (@column.WhetherAddUpdate == "Y" || column.QueryWhether == "Y")){
   @:Get@(@column.FkEntityName)@(@column.PropertyName)Dropdown = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)@(@column.PropertyName)Dropdown',
 }else if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("Get@(@column.FkEntityName)Tree")){
   @{definedObjects.Add("Get@(@column.FkEntityName)Tree", 1);}
@@ -50,7 +50,7 @@ export const page@(@Model.ClassName) = (params?: any) =>
 		});
 
 @foreach (var column in Model.TableField){
-	if(@column.EffectType == "fk"){
+	if(@column.EffectType == "fk" && (@column.WhetherAddUpdate == "Y" || column.QueryWhether == "Y")){
 @:export const get@(@column.FkEntityName)@(@column.PropertyName)Dropdown = () =>
 		@:request({
 		@:url: Api.Get@(@column.FkEntityName)@(@column.PropertyName)Dropdown,
