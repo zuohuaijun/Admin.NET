@@ -143,9 +143,9 @@
 	</div>
 </template>
 <style scoped>
-/deep/ .el-select,
-/deep/ .el-input-number {
-  width: 100%;
+:deep(.el-select),
+:deep(.el-input-number) {
+	width: 100%;
 }
 </style>
 <script lang="ts" setup>
@@ -166,7 +166,7 @@
 	@{definedObjects.Add("import__@(@column.FkEntityName)Tree", 1);}
 	@:import { get@(@column.FkEntityName)Tree } from '/@@/api/main/@(@Model.LowerClassName)';
 	}
-	if(@column.EffectType == "fk"){
+	if(@column.EffectType == "fk" && @column.WhetherAddUpdate == "Y"){
 	@:import { get@(@column.FkEntityName)@(@column.PropertyName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
 	}
 	}
@@ -181,9 +181,9 @@
 	}
 	//父级传递来的参数
 	var props = defineProps({
-	title: {
-	type: String,
-	default: "",
+		title: {
+		type: String,
+		default: "",
 	},
 	});
 	//父级传递来的函数，用于回调
@@ -191,124 +191,124 @@
 	const ruleFormRef = ref();
 	const isShowDialog = ref(false);
 	const ruleForm = ref<any>({});
-		//自行添加其他规则
-		const rules = ref<FormRules>({
-  @foreach (var column in Model.TableField){
-		if(@column.WhetherRequired == "Y"){
-			if(@column.EffectType == "Input" || @column.EffectType == "InputNumber" ||@column.EffectType == "InputTextArea"){
+	//自行添加其他规则
+	const rules = ref<FormRules>({
+@foreach (var column in Model.TableField){
+	if(@column.WhetherRequired == "Y"){
+		if(@column.EffectType == "Input" || @column.EffectType == "InputNumber" ||@column.EffectType == "InputTextArea"){
 		@:@column.LowerPropertyName: [{required: true, message: '请输入@(@column.ColumnComment)！', trigger: 'blur',},],
-			}else if(@column.EffectType == "DatePicker" || @column.EffectType == "Select" ||@column.EffectType == "ApiTreeSelect"){
+		}else if(@column.EffectType == "DatePicker" || @column.EffectType == "Select" ||@column.EffectType == "ApiTreeSelect"){
 		@:@column.LowerPropertyName: [{required: true, message: '请选择@(@column.ColumnComment)！', trigger: 'change',},],
+		}
+    }
+  }
+	});
+
+	// 打开弹窗
+	const openDialog = (row: any) => {
+		ruleForm.value = JSON.parse(JSON.stringify(row));
+		isShowDialog.value = true;
+	};
+
+	// 关闭弹窗
+	const closeDialog = () => {
+		emit("reloadTable");
+		isShowDialog.value = false;
+	};
+
+	// 取消
+	const cancel = () => {
+		isShowDialog.value = false;
+	};
+
+	// 提交
+	const submit = async () => {
+		ruleFormRef.value.validate(async (isValid: boolean, fields?: any) => {
+			if (isValid) {
+				let values = ruleForm.value;
+				if (ruleForm.value.@(@pkFieldName) == undefined || ruleForm.value.@(@pkFieldName) == null || ruleForm.value.@(@pkFieldName) == "" || ruleForm.value.@(@pkFieldName) == 0) {
+					await add@(@Model.ClassName)(values);
+				} else {
+					await update@(@Model.ClassName)(values);
+				}
+				closeDialog();
+			} else {
+				ElMessage({
+					message: `表单有${Object.keys(fields).length}处验证失败，请修改后再提交`,
+					type: "error",
+				});
 			}
-    }
-  }
-});
+		});
+	};
 
-// 打开弹窗
-const openDialog = (row: any) => {
-  ruleForm.value = JSON.parse(JSON.stringify(row));
-  isShowDialog.value = true;
-};
-
-// 关闭弹窗
-const closeDialog = () => {
-  emit("reloadTable");
-  isShowDialog.value = false;
-};
-
-// 取消
-const cancel = () => {
-  isShowDialog.value = false;
-};
-
-// 提交
-const submit = async () => {
-  ruleFormRef.value.validate(async (isValid: boolean, fields?: any) => {
-    if (isValid) {
-      let values = ruleForm.value;
-      if (ruleForm.value.@(@pkFieldName) == undefined || ruleForm.value.@(@pkFieldName) == null || ruleForm.value.@(@pkFieldName) == "" || ruleForm.value.@(@pkFieldName) == 0) {
-        await add@(@Model.ClassName)(values);
-      } else {
-		await update@(@Model.ClassName)(values);
-      }
-      closeDialog();
-    } else {
-      ElMessage({
-        message: `表单有${Object.keys(fields).length}处验证失败，请修改后再提交`,
-        type: "error",
-      });
-    }
-  });
-};
-
-@foreach (var column in Model.TableField){
-  if(@column.EffectType == "Select"){
-    @:const dictTypeDataList = async (val: any) => {
-      @:let list = await getDictDataList(val);
-      @:return list.data.result ?? [];
-    @:};
-    break;
-  }
-}
-
-@foreach (var column in Model.TableField){
-  if(@column.EffectType == "fk"){
-@:const @LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList = ref<any>([]); 
-@:const get@(@column.FkEntityName)@(@column.PropertyName)DropdownList = async () => {
-    @:let list = await get@(@column.FkEntityName)@(@column.PropertyName)Dropdown();
-    @:@LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList.value = list.data.result ?? [];
-@:};
-@:get@(@column.FkEntityName)@(@column.PropertyName)DropdownList();
-@:
-  }
-}
-
-@foreach (var column in Model.TableField){
-  if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("define_get@(@column.FkEntityName)TreeData")){
-	@{definedObjects.Add("define_get@(@column.FkEntityName)TreeData", 1);}
-@:const @LowerFirstLetter(@column.FkEntityName)TreeData = ref<any>([]); 
-@:const get@(@column.FkEntityName)TreeData = async () => {
-    @:let list = await get@(@column.FkEntityName)Tree();
-    @:@LowerFirstLetter(@column.FkEntityName)TreeData.value = list.data.result ?? [];
-@:};
-@:get@(@column.FkEntityName)TreeData();
-@:
-  }
-  else if(@column.EffectType == "ConstSelector"){   
-@:const @LowerFirstLetter(@column.DictTypeCode)DropdownList = ref<any>([]); 
-@:const get@(@column.DictTypeCode)DropdownList = async () => {
-	@:let list = await getConstSelectorList("@column.DictTypeCode");
-	@:@LowerFirstLetter(@column.DictTypeCode)DropdownList.value = list.data.result ?? [];
-@:};
-@:get@(@column.DictTypeCode)DropdownList();
-@:
-  }
-}
-
-
-
-@foreach (var column in Model.TableField){ 
-if(column.WhetherAddUpdate=="N") continue;
-if(@column.EffectType == "Upload"){
-@:const upload@(@column.PropertyName)Handle = async (options: UploadRequestOptions) => {
-	@:const res = await upload@(@column.PropertyName)(options);
-	@:ruleForm.value.@(column.LowerPropertyName) = res.data.result?.url;
-@:};
-	}
-}
-
-
-// 页面加载时
-onMounted(async () => {
 	@foreach (var column in Model.TableField){
 	if(@column.EffectType == "Select"){
-	@:getEdit@(@column.LowerPropertyName)Data.value= await dictTypeDataList('@(@column.DictTypeCode)');
-	 }
+		@:const dictTypeDataList = async (val: any) => {
+		@:let list = await getDictDataList(val);
+		@:return list.data.result ?? [];
+		@:};
+		break;
 	}
-});
+	}
 
-//将属性或者函数暴露给父组件
-defineExpose({ openDialog });
+	@foreach (var column in Model.TableField){
+	if(@column.EffectType == "fk" && @column.WhetherAddUpdate == "Y"){
+	@:const @LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList = ref<any>([]); 
+	@:const get@(@column.FkEntityName)@(@column.PropertyName)DropdownList = async () => {
+		@:let list = await get@(@column.FkEntityName)@(@column.PropertyName)Dropdown();
+		@:@LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList.value = list.data.result ?? [];
+	@:};
+	@:get@(@column.FkEntityName)@(@column.PropertyName)DropdownList();
+	@:
+	}
+	}
+
+	@foreach (var column in Model.TableField){
+	if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("define_get@(@column.FkEntityName)TreeData")){
+		@{definedObjects.Add("define_get@(@column.FkEntityName)TreeData", 1);}
+	@:const @LowerFirstLetter(@column.FkEntityName)TreeData = ref<any>([]); 
+	@:const get@(@column.FkEntityName)TreeData = async () => {
+		@:let list = await get@(@column.FkEntityName)Tree();
+		@:@LowerFirstLetter(@column.FkEntityName)TreeData.value = list.data.result ?? [];
+	@:};
+	@:get@(@column.FkEntityName)TreeData();
+	@:
+	}
+	else if(@column.EffectType == "ConstSelector"){   
+	@:const @LowerFirstLetter(@column.DictTypeCode)DropdownList = ref<any>([]); 
+	@:const get@(@column.DictTypeCode)DropdownList = async () => {
+		@:let list = await getConstSelectorList("@column.DictTypeCode");
+		@:@LowerFirstLetter(@column.DictTypeCode)DropdownList.value = list.data.result ?? [];
+	@:};
+	@:get@(@column.DictTypeCode)DropdownList();
+	@:
+	}
+	}
+
+
+
+	@foreach (var column in Model.TableField){ 
+	if(column.WhetherAddUpdate=="N") continue;
+	if(@column.EffectType == "Upload"){
+	@:const upload@(@column.PropertyName)Handle = async (options: UploadRequestOptions) => {
+		@:const res = await upload@(@column.PropertyName)(options);
+		@:ruleForm.value.@(column.LowerPropertyName) = res.data.result?.url;
+	@:};
+		}
+	}
+
+
+	// 页面加载时
+	onMounted(async () => {
+		@foreach (var column in Model.TableField){
+		if(@column.EffectType == "Select"){
+		@:getEdit@(@column.LowerPropertyName)Data.value= await dictTypeDataList('@(@column.DictTypeCode)');
+		}
+		}
+	});
+
+	//将属性或者函数暴露给父组件
+	defineExpose({ openDialog });
 </script>
 
 

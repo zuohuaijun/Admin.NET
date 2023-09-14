@@ -163,7 +163,7 @@ if (@column.ColumnKey == "True"){
     }
 
 @foreach (var column in Model.TableField){
-if(@column.EffectType == "fk"){  
+if(@column.EffectType == "fk" && (@column.WhetherAddUpdate == "Y" || column.QueryWhether == "Y")){  
     @:/// <summary>
     @:/// 获取@(@column.ColumnComment)列表
     @:/// </summary>

@@ -516,7 +516,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
 
         var menuList = new List<SysMenu>() { menuType2, menuType2_1, menuType2_2, menuType2_3, menuType2_4 };
         // 加入fk、Upload、ApiTreeSelect 等接口的权限
-        var fkTableList = tableFieldList.Where(u => u.EffectType == "fk").ToList();
+        // 在生成表格时，有些字段只是查询时显示，不需要填写（WhetherAddUpdate），所以这些字段没必要生成相应接口
+        var fkTableList = tableFieldList.Where(u => u.EffectType == "fk" && (u.WhetherAddUpdate == "Y" || u.QueryWhether == "Y")).ToList();
         foreach (var @column in fkTableList)
         {
             var menuType = new SysMenu
