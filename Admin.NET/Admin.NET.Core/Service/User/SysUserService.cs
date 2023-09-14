@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -64,7 +64,7 @@ public class SysUserService : IDynamicApiController, ITransient
             .WhereIF(!string.IsNullOrWhiteSpace(input.Account), u => u.Account.Contains(input.Account))
             .WhereIF(!string.IsNullOrWhiteSpace(input.RealName), u => u.RealName.Contains(input.RealName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
-            .OrderBy(u => u.OrderNo)
+            .Distinct().OrderBy(u => u.OrderNo)     //此处去一下重，避免用户有多个角色时，返回重复数据
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 

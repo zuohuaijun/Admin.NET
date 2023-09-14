@@ -268,6 +268,7 @@ onMounted(async () => {
 
 // 打开弹窗
 const openDialog = async (row: any) => {
+	ruleFormRef.value?.resetFields(); //重置需要放在列表赋值之前
 	state.selectedTabName = '0'; // 重置为第一个 tab 页
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	if (row.id != undefined) {
@@ -277,7 +278,6 @@ const openDialog = async (row: any) => {
 		state.ruleForm.extOrgIdList = resExtOrg.data.result;
 	}
 	state.isShowDialog = true;
-	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗
