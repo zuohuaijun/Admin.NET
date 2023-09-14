@@ -16,10 +16,12 @@ namespace Admin.NET.Core.Service;
 public class SysCacheService : IDynamicApiController, ISingleton
 {
     private readonly ICache _cache;
+    private readonly CacheOptions _cacheOptions;
 
-    public SysCacheService(ICache cache)
+    public SysCacheService(ICache cache, IOptions<CacheOptions> cacheOptions)
     {
         _cache = cache;
+        _cacheOptions = cacheOptions.Value;
     }
 
     /// <summary>
@@ -29,7 +31,8 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("获取缓存键名集合")]
     public List<string> GetKeyList()
     {
-        return _cache.Keys.OrderBy(u => u).ToList();
+        // 键名去掉全局缓存前缀
+        return _cache.Keys.Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList();
     }
 
     /// <summary>
@@ -41,7 +44,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [NonAction]
     public bool Set(string key, object value)
     {
-        return _cache.Set(key, value);
+        return _cache.Set($"{_cacheOptions.Prefix}{key}", value);
     }
 
     /// <summary>
@@ -54,7 +57,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [NonAction]
     public bool Set(string key, object value, TimeSpan expire)
     {
-        return _cache.Set(key, value, expire);
+        return _cache.Set($"{_cacheOptions.Prefix}{key}", value, expire);
     }
 
     /// <summary>
@@ -66,7 +69,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [NonAction]
     public T Get<T>(string key)
     {
-        return _cache.Get<T>(key);
+        return _cache.Get<T>($"{_cacheOptions.Prefix}{key}");
     }
 
     /// <summary>
@@ -78,7 +81,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("删除缓存")]
     public int Remove(string key)
     {
-        return _cache.Remove(key);
+        return _cache.Remove($"{_cacheOptions.Prefix}{key}");
     }
 
     /// <summary>
@@ -89,7 +92,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [NonAction]
     public bool ExistKey(string key)
     {
-        return _cache.ContainsKey(key);
+        return _cache.ContainsKey($"{_cacheOptions.Prefix}{key}");
     }
 
     /// <summary>
@@ -125,7 +128,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("获取缓存值")]
     public object GetValue(string key)
     {
-        return _cache.Get<object>(key);
+        return _cache.Get<object>($"{_cacheOptions.Prefix}{key}");
     }
 
     /// <summary>
@@ -139,6 +142,6 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [NonAction]
     public T GetOrAdd<T>(string key, Func<string, T> callback, int expire = -1)
     {
-        return _cache.GetOrAdd(key, callback, expire);
+        return _cache.GetOrAdd($"{_cacheOptions.Prefix}{key}", callback, expire);
     }
 }

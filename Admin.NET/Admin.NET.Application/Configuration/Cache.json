@@ -2,10 +2,11 @@
   "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
 
   "Cache": {
+    "Prefix": "adminnet_", // 全局缓存前缀
     "CacheType": "Memory", // Memory、Redis
     "Redis": {
       "Configuration": "server=127.0.0.1:6379;password=;db=5;", // Redis连接字符串
-      "Prefix": "adminnet_" // Redis前缀
+      "Prefix": "adminnet_" // Redis前缀（目前没用）
     }
   }
 }

@@ -15,6 +15,11 @@ namespace Admin.NET.Core;
 public sealed class CacheOptions : IConfigurableOptions
 {
     /// <summary>
+    /// 缓存前缀
+    /// </summary>
+    public string Prefix { get; set; }
+
+    /// <summary>
     /// 缓存类型
     /// </summary>
     public string CacheType { get; set; }
