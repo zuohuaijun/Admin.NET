@@ -1,0 +1,39 @@
+﻿using Admin.NET.Core;
+using @Model.EntityNameSpace;
+
+namespace @Model.NameSpace;
+
+/// <summary>
+/// @(Model.Description) 表种子数据
+/// </summary>
+public class @(Model.SeedDataName): ISqlSugarEntitySeedData<@(Model.EntityName)>
+{
+    /// <summary>
+    /// 种子数据
+    /// </summary>
+    /// <returns></returns>
+    public IEnumerable<@(Model.EntityName)> HasData()
+    {
+        string recordsJSON = @@"
+            @(Model.RecordsJSON.Replace("\"","\"\"").Replace("\n", "\n\t\t\t"))
+        ";
+        List<@(Model.EntityName)> records = Newtonsoft.Json.JsonConvert.DeserializeObject<List<@(Model.EntityName)>>(recordsJSON);
+        @if (Model.JsonIgnoreInfo.Count>0) {
+        @:
+        @:#region 处理 JsonIgnore 的Property
+        @:
+            @foreach (var jii in Model.JsonIgnoreInfo){
+                @foreach (var j in jii){
+        @:records[@j.RecordIndex].@(j.Name) = @(j.Value);
+                }
+                @:
+            }
+        @:#endregion
+        }
+        
+        // 后处理数据的特殊字段
+		//for (int i = 0; i < records.Count; i++) { }
+
+        return records;
+    }
+}
