@@ -98,10 +98,14 @@ public class SysRoleService : IDynamicApiController, ITransient
     {
         if (input.MenuIdList == null || input.MenuIdList.Count < 1)
             return;
+
+        // 将父节点为0的菜单排除，防止前端全选异常
+        var pMenuIds = await _sysRoleRep.ChangeRepository<SqlSugarRepository<SysMenu>>().AsQueryable().Where(u => input.MenuIdList.Contains(u.Id) && u.Pid == 0).ToListAsync(u => u.Id);
+        var menuIds = input.MenuIdList.Except(pMenuIds); // 差集
         await GrantMenu(new RoleMenuInput()
         {
             Id = input.Id,
-            MenuIdList = input.MenuIdList
+            MenuIdList = menuIds.ToList()
         });
     }
 

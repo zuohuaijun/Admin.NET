@@ -93,6 +93,7 @@ onMounted(async () => {
 
 // 打开弹窗
 const openDialog = async (row: any) => {
+	ruleFormRef.value?.resetFields();
 	treeRef.value?.setCheckedKeys([]); // 清空选中值
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	if (row.id != undefined) {
@@ -102,7 +103,6 @@ const openDialog = async (row: any) => {
 		}, 100);
 	}
 	state.isShowDialog = true;
-	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗
