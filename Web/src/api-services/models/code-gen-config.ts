@@ -36,11 +36,23 @@ export interface CodeGenConfig {
      */
     columnName?: string | null;
     /**
+     * 实体属性名
+     * @type {string}
+     * @memberof CodeGenConfig
+     */
+    propertyName?: string | null;
+    /**
+     * 字段数据长度
+     * @type {number}
+     * @memberof CodeGenConfig
+     */
+    columnLength?: number;
+    /**
      * 数据库字段名(首字母小写)
      * @type {string}
      * @memberof CodeGenConfig
      */
-    lowerColumnName?: string | null;
+    lowerPropertyName?: string | null;
     /**
      * 字段描述
      * @type {string}

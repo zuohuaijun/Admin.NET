@@ -64,7 +64,7 @@ public class SysUserService : IDynamicApiController, ITransient
             .WhereIF(!string.IsNullOrWhiteSpace(input.Account), u => u.Account.Contains(input.Account))
             .WhereIF(!string.IsNullOrWhiteSpace(input.RealName), u => u.RealName.Contains(input.RealName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
-            .Distinct().OrderBy(u => u.OrderNo)     //此处去一下重，避免用户有多个角色时，返回重复数据
+            .OrderBy(u => u.OrderNo)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 

@@ -13,6 +13,7 @@
  */
 import { StatusEnum } from './status-enum';
 import { SysOrg } from './sys-org';
+import { SysUser } from './sys-user';
 /**
  * 
  * @export
@@ -80,11 +81,23 @@ export interface UpdateOrgInput {
      */
     level?: number | null;
     /**
-     * 机构类型
+     * 机构类型-数据字典
      * @type {string}
      * @memberof UpdateOrgInput
      */
-    orgType?: string | null;
+    type?: string | null;
+    /**
+     * 负责人Id
+     * @type {number}
+     * @memberof UpdateOrgInput
+     */
+    directorId?: number;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof UpdateOrgInput
+     */
+    director?: SysUser;
     /**
      * 排序
      * @type {number}
@@ -92,23 +105,29 @@ export interface UpdateOrgInput {
      */
     orderNo?: number;
     /**
-     * 备注
-     * @type {string}
-     * @memberof UpdateOrgInput
-     */
-    remark?: string | null;
-    /**
      * 
      * @type {StatusEnum}
      * @memberof UpdateOrgInput
      */
     status?: StatusEnum;
     /**
+     * 备注
+     * @type {string}
+     * @memberof UpdateOrgInput
+     */
+    remark?: string | null;
+    /**
      * 机构子项
      * @type {Array<SysOrg>}
      * @memberof UpdateOrgInput
      */
     children?: Array<SysOrg> | null;
+    /**
+     * 是否禁止选中
+     * @type {boolean}
+     * @memberof UpdateOrgInput
+     */
+    disabled?: boolean;
     /**
      * 名称
      * @type {string}

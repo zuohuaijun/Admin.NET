@@ -66,6 +66,18 @@ export interface SysCodeGenConfig {
      */
     columnName: string;
     /**
+     * 实体属性名
+     * @type {string}
+     * @memberof SysCodeGenConfig
+     */
+    propertyName: string;
+    /**
+     * 字段数据长度
+     * @type {number}
+     * @memberof SysCodeGenConfig
+     */
+    columnLength?: number;
+    /**
      * 字段描述
      * @type {string}
      * @memberof SysCodeGenConfig

@@ -18,6 +18,7 @@ import { GenderEnum } from './gender-enum';
 import { StatusEnum } from './status-enum';
 import { SysOrg } from './sys-org';
 import { SysPos } from './sys-pos';
+import { SysUser } from './sys-user';
 /**
  * 系统用户表
  * @export
@@ -217,7 +218,7 @@ export interface SysUser {
      */
     accountType?: AccountTypeEnum;
     /**
-     * 机构Id
+     * 直属机构Id
      * @type {number}
      * @memberof SysUser
      */
@@ -228,6 +229,18 @@ export interface SysUser {
      * @memberof SysUser
      */
     sysOrg?: SysOrg;
+    /**
+     * 直属主管Id
+     * @type {number}
+     * @memberof SysUser
+     */
+    managerUserId?: number;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof SysUser
+     */
+    managerUser?: SysUser;
     /**
      * 职位Id
      * @type {number}

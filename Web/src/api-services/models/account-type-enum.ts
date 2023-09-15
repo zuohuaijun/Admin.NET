@@ -12,14 +12,14 @@
  * Do not edit the class manually.
  */
 /**
- * 账号类型枚举<br />&nbsp;其他 None = 0<br />&nbsp;普通账号 User = 1<br />&nbsp;系统管理员 Admin = 4<br />&nbsp;超级管理员 SuperAdmin = 999<br />
+ * 账号类型枚举<br />&nbsp;会员 Member = 666<br />&nbsp;普通账号 NormalUser = 777<br />&nbsp;系统管理员 SysAdmin = 888<br />&nbsp;超级管理员 SuperAdmin = 999<br />
  * @export
  * @enum {string}
  */
 export enum AccountTypeEnum {
-    NUMBER_0 = 0,
-    NUMBER_1 = 1,
-    NUMBER_4 = 4,
+    NUMBER_666 = 666,
+    NUMBER_777 = 777,
+    NUMBER_888 = 888,
     NUMBER_999 = 999
 }
 

@@ -13,6 +13,7 @@
  */
 import { SysOrg } from './sys-org';
 import { SysPos } from './sys-pos';
+import { SysUser } from './sys-user';
 /**
  * 系统用户扩展机构表
  * @export
@@ -31,6 +32,12 @@ export interface SysUserExtOrg {
      * @memberof SysUserExtOrg
      */
     userId?: number;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof SysUserExtOrg
+     */
+    sysUser?: SysUser;
     /**
      * 机构Id
      * @type {number}

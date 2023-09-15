@@ -43,7 +43,7 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="机构类型">
-							<el-select v-model="state.ruleForm.orgType" filterable clearable class="w100">
+							<el-select v-model="state.ruleForm.type" filterable clearable class="w100">
 								<el-option v-for="item in state.orgTypeList" :key="item.value" :label="item.value" :value="item.code" />
 							</el-select>
 						</el-form-item>

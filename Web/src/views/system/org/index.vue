@@ -15,7 +15,7 @@
 							<el-input v-model="state.queryParams.code" placeholder="机构编码" clearable />
 						</el-form-item>
 						<el-form-item label="机构类型">
-							<el-select v-model="state.queryParams.orgType" filterable clearable class="w100">
+							<el-select v-model="state.queryParams.type" filterable clearable class="w100">
 								<el-option v-for="item in state.orgTypeList" :key="item.value" :label="item.value" :value="item.code" />
 							</el-select>
 						</el-form-item>
@@ -36,7 +36,7 @@
 						<el-table-column prop="name" label="机构名称" header-align="center" show-overflow-tooltip />
 						<el-table-column prop="code" label="机构编码" align="center" show-overflow-tooltip />
 						<el-table-column prop="level" label="级别" width="70" align="center" show-overflow-tooltip />
-						<el-table-column prop="orgType" label="机构类型" align="center" :formatter="dictFormatter" show-overflow-tooltip />
+						<el-table-column prop="type" label="机构类型" align="center" :formatter="dictFormatter" show-overflow-tooltip />
 						<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
@@ -81,7 +81,7 @@ const state = reactive({
 		id: 0,
 		name: undefined,
 		code: undefined,
-		orgType: undefined,
+		type: undefined,
 	},
 	editOrgTitle: '',
 	orgTypeList: [] as any,
@@ -97,7 +97,7 @@ onMounted(async () => {
 // 查询操作
 const handleQuery = async (updateTree: boolean = false) => {
 	state.loading = true;
-	var res = await getAPI(SysOrgApi).apiSysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code, state.queryParams.orgType);
+	var res = await getAPI(SysOrgApi).apiSysOrgListGet(state.queryParams.id, state.queryParams.name, state.queryParams.code, state.queryParams.type);
 	state.orgData = res.data.result ?? [];
 	state.loading = false;
 	// 是否更新左侧机构列表树
@@ -106,7 +106,7 @@ const handleQuery = async (updateTree: boolean = false) => {
 	}
 
 	// 若无选择节点并且查询条件为空时，更新编辑页面机构列表树
-	if (state.queryParams.id == 0 && state.queryParams.name == undefined && state.queryParams.code == undefined && state.queryParams.orgType == undefined) state.orgTreeData = state.orgData;
+	if (state.queryParams.id == 0 && state.queryParams.name == undefined && state.queryParams.code == undefined && state.queryParams.type == undefined) state.orgTreeData = state.orgData;
 };
 
 // 重置操作
@@ -114,7 +114,7 @@ const resetQuery = () => {
 	state.queryParams.id = 0;
 	state.queryParams.name = undefined;
 	state.queryParams.code = undefined;
-	state.queryParams.orgType = undefined;
+	state.queryParams.type = undefined;
 	handleQuery();
 };
 
@@ -150,7 +150,7 @@ const nodeClick = async (node: any) => {
 	state.queryParams.id = node.id;
 	state.queryParams.name = undefined;
 	state.queryParams.code = undefined;
-	state.queryParams.orgType = undefined;
+	state.queryParams.type = undefined;
 	handleQuery();
 };
 

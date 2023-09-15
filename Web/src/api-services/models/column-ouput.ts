@@ -24,11 +24,35 @@ export interface ColumnOuput {
      */
     columnName?: string | null;
     /**
+     * 实体的Property名
+     * @type {string}
+     * @memberof ColumnOuput
+     */
+    propertyName?: string | null;
+    /**
+     * 字段数据长度
+     * @type {number}
+     * @memberof ColumnOuput
+     */
+    columnLength?: number;
+    /**
      * 数据库中类型
      * @type {string}
      * @memberof ColumnOuput
      */
     dataType?: string | null;
+    /**
+     * 是否为主键
+     * @type {boolean}
+     * @memberof ColumnOuput
+     */
+    isPrimarykey?: boolean;
+    /**
+     * 是否允许为空
+     * @type {boolean}
+     * @memberof ColumnOuput
+     */
+    isNullable?: boolean;
     /**
      * .NET字段类型
      * @type {string}
