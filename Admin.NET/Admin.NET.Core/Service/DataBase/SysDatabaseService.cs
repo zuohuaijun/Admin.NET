@@ -128,7 +128,6 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     [DisplayName("增加表")]
     public void AddTable(DbTableInput input)
     {
-        var columns = new List<DbColumnInfo>();
         if (input.DbColumnInfoList == null || !input.DbColumnInfoList.Any())
             throw Oops.Oh(ErrorCodeEnum.db1000);
 
@@ -141,11 +140,10 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         input.DbColumnInfoList.ForEach(m =>
         {
             var dbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim();
-            var isPrimarykey = columns.Any(m => m.IsPrimarykey);
-            // 虚拟类都默认String，具体以列数据类型为准
+            // 虚拟类都默认string类型，具体以列数据类型为准
             typeBilder.CreateProperty(dbColumnName, typeof(string), new SugarColumn()
             {
-                IsPrimaryKey = isPrimarykey,
+                IsPrimaryKey = m.IsPrimarykey == 1,
                 IsIdentity = m.IsIdentity == 1,
                 ColumnDataType = m.DataType,
                 Length = m.Length,
