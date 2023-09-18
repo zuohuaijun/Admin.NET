@@ -32,7 +32,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     public List<string> GetKeyList()
     {
         // 键名去掉全局缓存前缀
-        return _cache.Keys.Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList();
+        return _cache.Keys.Where(u => u.StartsWith(_cacheOptions.Prefix)).Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList();
     }
 
     /// <summary>
@@ -128,7 +128,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("获取缓存值")]
     public object GetValue(string key)
     {
-        return _cache.Get<object>($"{_cacheOptions.Prefix}{key}");
+        return _cache == Cache.Default ? _cache.Get<object>($"{_cacheOptions.Prefix}{key}") : _cache.Get<string>($"{_cacheOptions.Prefix}{key}");
     }
 
     /// <summary>

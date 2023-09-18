@@ -124,21 +124,25 @@ const nodeClick = async (node: any) => {
 	currentNode.value = node;
 	state.loading1 = true;
 	var res = await getAPI(SysCacheApi).apiSysCacheValueKeyGet(node.id);
-	state.cacheValue = res.data.result;
+	// state.cacheValue = JSON.parse(res.data.result);
+	var result = res.data.result;
+	if (typeof result == 'string') {
+		try {
+			var obj = JSON.parse(result);
+			if (typeof obj == 'object') {
+				state.cacheValue = obj;
+			} else {
+				state.cacheValue = result;
+			}
+		} catch (e) {
+			state.cacheValue = result;
+		}
+	} else {
+		state.cacheValue = result;
+	}
+
 	state.cacheKey = node.id;
 	state.loading1 = false;
-
-	// var result = res.data.result;
-	// try {
-	// 	var obj = JSON.parse(result);
-	// 	if (typeof obj === 'object' && obj) {
-	// 		state.cacheValue = obj;
-	// 	} else {
-	// 		state.cacheValue = result;
-	// 	}
-	// } catch (e) {
-	// 	state.cacheValue = result;
-	// }
 };
 </script>
 
