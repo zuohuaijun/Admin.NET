@@ -154,18 +154,18 @@ public static class SqlSugarSetup
         // 数据审计
         db.Aop.DataExecuting = (oldValue, entityInfo) =>
         {
-            // 演示环境判断
-            if (entityInfo.EntityColumnInfo.IsPrimarykey)
-            {
-                if (entityInfo.EntityName != nameof(SysJobDetail) && entityInfo.EntityName != nameof(SysJobTrigger) &&
-                    entityInfo.EntityName != nameof(SysLogOp) && entityInfo.EntityName != nameof(SysLogVis) &&
-                    entityInfo.EntityName != nameof(SysOnlineUser))
-                {
-                    var isDemoEnv = App.GetService<SysConfigService>().GetConfigValue<bool>(CommonConst.SysDemoEnv).GetAwaiter().GetResult();
-                    if (isDemoEnv)
-                        throw Oops.Oh(ErrorCodeEnum.D1200);
-                }
-            }
+            //// 演示环境判断
+            //if (entityInfo.EntityColumnInfo.IsPrimarykey)
+            //{
+            //    if (entityInfo.EntityName != nameof(SysJobDetail) && entityInfo.EntityName != nameof(SysJobTrigger) &&
+            //        entityInfo.EntityName != nameof(SysLogOp) && entityInfo.EntityName != nameof(SysLogVis) &&
+            //        entityInfo.EntityName != nameof(SysOnlineUser))
+            //    {
+            //        var isDemoEnv = App.GetService<SysConfigService>().GetConfigValue<bool>(CommonConst.SysDemoEnv).GetAwaiter().GetResult();
+            //        if (isDemoEnv)
+            //            throw Oops.Oh(ErrorCodeEnum.D1200);
+            //    }
+            //}
 
             if (entityInfo.OperationType == DataFilterType.InsertByObject)
             {

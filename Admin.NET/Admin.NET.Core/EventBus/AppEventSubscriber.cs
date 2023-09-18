@@ -12,13 +12,13 @@ namespace Admin.NET.Core;
 /// <summary>
 /// 事件订阅
 /// </summary>
-public class AppEventSubscriber : IEventSubscriber, ISingleton
+public class AppEventSubscriber : IEventSubscriber, IDisposable
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScope _serviceScope;
 
-    public AppEventSubscriber(IServiceProvider serviceProvider)
+    public AppEventSubscriber(IServiceScopeFactory scopeFactory)
     {
-        _serviceProvider = serviceProvider;
+        _serviceScope = scopeFactory.CreateScope();
     }
 
     ///// <summary>
@@ -29,11 +29,18 @@ public class AppEventSubscriber : IEventSubscriber, ISingleton
     //[EventSubscribe("Add:ExLog")]
     //public async Task CreateExLog(EventHandlerExecutingContext context)
     //{
-    //    using var scope = _serviceProvider.CreateScope();
-    //    var _rep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysLogEx>>();
+    //    var _rep = _serviceScope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysLogEx>>();
     //    await _rep.InsertAsync((SysLogEx)context.Source.Payload);
 
     //    // 发送邮件
     //    await scope.ServiceProvider.GetRequiredService<SysMessageService>().SendEmail(JSON.Serialize(context.Source.Payload));
     //}
+
+    /// <summary>
+    /// 释放服务作用域
+    /// </summary>
+    public void Dispose()
+    {
+        _serviceScope.Dispose();
+    }
 }

@@ -17,9 +17,10 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
 {
     protected ITenant iTenant = null;
 
-    public SqlSugarRepository(ISqlSugarClient context = null) : base(context)
+    public SqlSugarRepository(ISqlSugarClient db)
     {
-        iTenant = App.GetRequiredService<ISqlSugarClient>().AsTenant();
+        iTenant = db.AsTenant();
+        base.Context = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
 
         // 若实体贴有多库特性，则返回指定库连接
         if (typeof(T).IsDefined(typeof(TenantAttribute), false))
@@ -45,15 +46,15 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         }
 
         // 若未贴任何表特性或当前未登录或是默认租户Id，则返回默认库连接
-        var tenantId = App.GetRequiredService<UserManager>().TenantId;
-        if (tenantId < 1 || tenantId.ToString() == SqlSugarConst.MainConfigId) return;
+        var tenantId = App.User?.FindFirst(ClaimConst.TenantId)?.Value;
+        if (string.IsNullOrWhiteSpace(tenantId) || tenantId == SqlSugarConst.MainConfigId) return;
 
         // 若租户为空或租户以Id隔离模式时，则返回默认库连接
-        var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
+        var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == long.Parse(tenantId));
         if (tenant is null || tenant is { TenantType: TenantTypeEnum.Id }) return;
 
         // 若租户以库隔离模式时，根据租户Id切换库连接
-        if (!iTenant.IsAnyConnection(tenantId.ToString()))
+        if (!iTenant.IsAnyConnection(tenantId))
         {
             // 获取默认库连接配置
             var dbOptions = App.GetOptions<DbConnectionOptions>();
@@ -73,8 +74,8 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
             };
             iTenant.AddConnection(tenantConnConfig);
             SqlSugarSetup.SetDbConfig(tenantConnConfig);
-            SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId.ToString()), dbOptions.EnableConsoleSql);
+            SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId), dbOptions.EnableConsoleSql);
         }
-        base.Context = iTenant.GetConnectionScope(tenantId.ToString());
+        base.Context = iTenant.GetConnectionScope(tenantId);
     }
 }

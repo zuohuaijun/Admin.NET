@@ -12,7 +12,7 @@ namespace Admin.NET.Core;
 /// <summary>
 /// 缓存配置选项
 /// </summary>
-public sealed class CacheOptions : IConfigurableOptions
+public sealed class CacheOptions : IConfigurableOptions<CacheOptions>
 {
     /// <summary>
     /// 缓存前缀
@@ -28,6 +28,11 @@ public sealed class CacheOptions : IConfigurableOptions
     /// Redis缓存
     /// </summary>
     public RedisOption Redis { get; set; }
+
+    public void PostConfigure(CacheOptions options, IConfiguration configuration)
+    {
+        options.Prefix = string.IsNullOrWhiteSpace(options.Prefix) ? "" : options.Prefix.Trim();
+    }
 }
 
 /// <summary>

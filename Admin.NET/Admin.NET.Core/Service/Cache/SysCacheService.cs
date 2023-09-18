@@ -32,7 +32,8 @@ public class SysCacheService : IDynamicApiController, ISingleton
     public List<string> GetKeyList()
     {
         // 键名去掉全局缓存前缀
-        return _cache.Keys.Where(u => u.StartsWith(_cacheOptions.Prefix)).Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList();
+        return _cache.Keys.WhereIF(!string.IsNullOrWhiteSpace(_cacheOptions.Prefix), u => u.StartsWith(_cacheOptions.Prefix))
+            .Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList();
     }
 
     /// <summary>
