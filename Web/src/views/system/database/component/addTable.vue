@@ -176,13 +176,13 @@ function addPrimaryColumn() {
 function addColumn() {
 	state.tableData.push({
 		columnDescription: '',
-		dataType: '',
+		dataType: 'varchar',
 		dbColumnName: '',
 		decimalDigits: 0,
 		isIdentity: 0,
 		isNullable: 1,
 		isPrimarykey: 0,
-		length: 0,
+		length: 32,
 		key: colIndex,
 		editable: true,
 		isNew: true,
