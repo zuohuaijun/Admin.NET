@@ -22,7 +22,6 @@ onMounted(async () => {
 	const pdfViewer = new pdfjsViewer.PDFViewer({
 		container,
 		eventBus: new pdfjsViewer.EventBus(),
-		useOnlyCssZoom: true,
 	});
 
 	const loadingTask = pdfjsLib.getDocument(props.pdfUrl);
