@@ -24,11 +24,10 @@ if (@column.ColumnKey != "True"){
     /// </summary>
     public class @(@Model.ClassName)Input : BasePageInput
     {
-        @:/// <summary>
-        @:/// 关键字查询
-        @:/// </summary>
-        @:public string SearchKey { get; set; }
-        @:
+        /// <summary>
+        /// 关键字查询
+        /// </summary>
+        public string SearchKey { get; set; }
 
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){

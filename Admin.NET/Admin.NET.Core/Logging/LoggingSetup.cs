@@ -21,8 +21,8 @@ public static class LoggingSetup
         //services.AddConsoleFormatter(options =>
         //{
         //    options.DateFormat = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
-        //    //options.WithTraceId = true;
-        //    //options.WithStackFrame = true;
+        //    //options.WithTraceId = true; // 显示线程Id
+        //    //options.WithStackFrame = true; // 显示程序集
         //});
 
         // 日志监听
