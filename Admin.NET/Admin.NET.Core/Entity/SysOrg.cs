@@ -53,7 +53,7 @@ public class SysOrg : EntityTenant
     /// 负责人Id
     /// </summary>
     [SugarColumn(ColumnDescription = "负责人Id")]
-    public long DirectorId { get; set; }
+    public long? DirectorId { get; set; }
 
     /// <summary>
     /// 负责人

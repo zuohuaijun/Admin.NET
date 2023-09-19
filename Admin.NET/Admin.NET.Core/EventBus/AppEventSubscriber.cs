@@ -12,7 +12,7 @@ namespace Admin.NET.Core;
 /// <summary>
 /// 事件订阅
 /// </summary>
-public class AppEventSubscriber : IEventSubscriber, IDisposable
+public class AppEventSubscriber : IEventSubscriber, ISingleton, IDisposable
 {
     private readonly IServiceScope _serviceScope;
 
