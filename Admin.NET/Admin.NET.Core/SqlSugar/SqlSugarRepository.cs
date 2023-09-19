@@ -17,9 +17,9 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
 {
     protected ITenant iTenant = null;
 
-    public SqlSugarRepository(ISqlSugarClient db)
+    public SqlSugarRepository()
     {
-        iTenant = db.AsTenant();
+        iTenant = App.GetRequiredService<ISqlSugarClient>().AsTenant();
         base.Context = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
 
         // 若实体贴有多库特性，则返回指定库连接
