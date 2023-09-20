@@ -28,6 +28,9 @@ const showDialog = (hiprintTemplate: any, printData: {}, width = 210) => {
 	state.hiprintTemplate = hiprintTemplate;
 	state.printData = printData;
 	nextTick(() => {
+		while (previewContentRef.value?.firstChild) {
+			previewContentRef.value.removeChild(previewContentRef.value.firstChild);
+		}
 		const newHtml = hiprintTemplate.getHtml(printData);
 		previewContentRef.value.appendChild(newHtml[0]);
 	});
