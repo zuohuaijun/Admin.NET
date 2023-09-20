@@ -333,7 +333,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         for (var i = 0; i < templatePathList.Count; i++)
         {
             var tContent = File.ReadAllText(templatePathList[i]);
-            var tResult = _viewEngine.RunCompile<CustomViewEngine>(tContent, data, builderAction: builder =>
+            var tResult = await _viewEngine.RunCompileFromCachedAsync(tContent, data, builderAction: builder =>
             {
                 builder.AddAssemblyReferenceByName("System.Linq");
                 builder.AddAssemblyReferenceByName("System.Collections");
