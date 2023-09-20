@@ -95,10 +95,11 @@ public class SysMessageService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="message"></param>
     /// <param name="title"></param>
+    /// <param name="isHtml"></param>
     /// <returns></returns>
     [DisplayName("发送邮件")]
-    public async Task SendEmail([Required] string message, string title = "系统邮件")
+    public async Task SendEmail([Required] string message, string title = "系统邮件", bool isHtml = false)
     {
-        await _fluentEmail.To(_emailOptions.DefaultToEmail).Subject(title).Body(message).SendAsync();
+        await _fluentEmail.To(_emailOptions.DefaultToEmail).Subject(title).Body(message, isHtml).SendAsync();
     }
 }
