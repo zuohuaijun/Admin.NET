@@ -31,9 +31,9 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("获取缓存键名集合")]
     public List<string> GetKeyList()
     {
-        // 键名去掉全局缓存前缀
-        return _cache.Keys.WhereIF(!string.IsNullOrWhiteSpace(_cacheOptions.Prefix), u => u.StartsWith(_cacheOptions.Prefix))
-            .Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList();
+        return _cache == Cache.Default
+            ? _cache.Keys.Where(u => u.StartsWith(_cacheOptions.Prefix)).Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList()
+            : ((FullRedis)_cache).Search(_cacheOptions.Prefix, int.MaxValue).ToList();
     }
 
     /// <summary>
@@ -105,8 +105,10 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("根据键名前缀删除缓存")]
     public int RemoveByPrefixKey(string prefixKey)
     {
-        var delKeys = _cache.Keys.Where(u => u.StartsWith(prefixKey)).ToArray();
-        if (!delKeys.Any()) return 0;
+        var delKeys = _cache == Cache.Default
+            ? _cache.Keys.Where(u => u.StartsWith($"{_cacheOptions.Prefix}{prefixKey}")).ToArray()
+            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}", int.MaxValue).ToArray();
+
         return _cache.Remove(delKeys);
     }
 
@@ -118,7 +120,9 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("根据键名前缀获取键名集合")]
     public List<string> GetKeysByPrefixKey(string prefixKey)
     {
-        return _cache.Keys.Where(u => u.StartsWith(prefixKey)).ToList();
+        return _cache == Cache.Default
+            ? _cache.Keys.Where(u => u.StartsWith($"{_cacheOptions.Prefix}{prefixKey}")).ToList()
+            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}", int.MaxValue).ToList();
     }
 
     /// <summary>
