@@ -65,7 +65,7 @@
 </template>
 
 <script lang="ts" setup name="sysEditPrint">
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, reactive, ref, nextTick } from 'vue';
 import HiprintDesign from '/@/views/system/print/component/hiprint/index.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
@@ -93,7 +93,9 @@ const openDialog = (row: any) => {
 	state.isShowDialog = true;
 	ruleFormRef.value?.resetFields();
 
-	if (hiprintDesignRef.value != undefined) loadTemplate();
+	nextTick(() => {
+		loadTemplate();
+	});
 };
 
 // 加载模板
