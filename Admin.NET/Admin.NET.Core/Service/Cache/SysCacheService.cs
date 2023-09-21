@@ -82,11 +82,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("删除缓存")]
     public int Remove(string key)
     {
-        var strKey = key;
-        if (_cache == Cache.Default)
-            strKey = $"{_cacheOptions.Prefix}{key}";
-
-        return _cache.Remove(strKey);
+        return _cache.Remove($"{_cacheOptions.Prefix}{key}");
     }
 
     /// <summary>
@@ -137,8 +133,9 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("获取缓存值")]
     public object GetValue(string key)
     {
-        return _cache == Cache.Default ? _cache.Get<object>($"{_cacheOptions.Prefix}{key}")
-            : _cache.Get<string>(key);
+        return _cache == Cache.Default 
+            ? _cache.Get<object>($"{_cacheOptions.Prefix}{key}")
+            : _cache.Get<string>($"{_cacheOptions.Prefix}{key}");
     }
 
     /// <summary>
