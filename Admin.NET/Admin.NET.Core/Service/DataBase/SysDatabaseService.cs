@@ -7,6 +7,8 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
+using Magicodes.ExporterAndImporter.Core.Extension;
+
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -15,6 +17,24 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 250)]
 public class SysDatabaseService : IDynamicApiController, ITransient
 {
+    /// <summary>
+    /// 保存标注了 JsonIgnore 的Property的值信息
+    /// </summary>
+    public class JsonIgnoredPropertyData
+    {
+        /// <summary>
+        /// 对应的记录索引
+        /// </summary>
+        public int RecordIndex { get; set; }
+        /// <summary>
+        /// 属性名
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// 属性值的字符串描述
+        /// </summary>
+        public string Value { get; set; }
+    }
     private readonly ISqlSugarClient _db;
     private readonly IViewEngine _viewEngine;
     private readonly CodeGenOptions _codeGenOptions;
@@ -200,8 +220,8 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
-        string[] dbColumnNames = Array.Empty<string>();
-        // 允许创建没有基类的实体
+        string[] dbColumnNames = new string[0];
+        // Entity.cs.vm中是允许创建没有基类的实体的，所以这里也要做出相同的判断
         if (!string.IsNullOrWhiteSpace(input.BaseClassName))
         {
             _codeGenOptions.EntityBaseColumn.TryGetValue(input.BaseClassName, out dbColumnNames);
@@ -236,6 +256,163 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 创建 SeedData
+    /// </summary>
+    /// <param name="input"></param>
+    [ApiDescriptionSettings(Name = "CreateSeedData"), HttpPost]
+    [DisplayName("创建 SeedData")]
+    public async void CreateSeedData(CreateSeedDataInput input)
+    {
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
+        input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Core" : input.Position;
+
+        var templatePath = GetSeedDataTemplatePath();
+        var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
+        var tableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == input.TableName);//表名
+        List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false); //所有字段
+        IEnumerable<EntityInfo> entityInfos = await GetEntityInfos();
+        Type enityType = null;
+        foreach (var item in entityInfos)
+        {
+            if (tableInfo.Name.ToLower() != (config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(item.DbTableName) : item.DbTableName).ToLower()) continue;
+            enityType = item.Type;
+            break;
+        }
+
+        input.EntityName = enityType.Name;
+        input.SeedDataName = enityType.Name + "SeedData";
+        if (!string.IsNullOrWhiteSpace(input.Suffix))
+            input.SeedDataName += input.Suffix;
+        var targetPath = GetSeedDataTargetPath(input);
+
+        // 查询出所有数据
+        var query = db.QueryableByObject(enityType);
+        // 查询有没有合适的排序字段，有的话用来排序，保证SeedData的插入顺序合适
+        DbColumnInfo orderField = null;
+        // 优先用创建时间排序
+        orderField = dbColumnInfos.Where(u => u.DbColumnName.ToLower() == "create_time" || u.DbColumnName.ToLower() == "createtime").FirstOrDefault();
+        if (orderField != null)
+        {
+            query.OrderBy(orderField.DbColumnName);
+        }
+        // 其次用ID排充
+        orderField = dbColumnInfos.Where(u => u.DbColumnName.ToLower() == "id").FirstOrDefault();
+        if (orderField != null)
+        {
+            query.OrderBy(orderField.DbColumnName);
+        }
+        object records = query.ToList();
+        string recordsJSON = Newtonsoft.Json.JsonConvert.SerializeObject(records, Formatting.Indented);
+
+        //检查有没有 System.Text.Json.Serialization.JsonIgnore 的属性
+        var jsonIgnoreProperties = enityType.GetProperties().Where(p => 
+                p.GetAttribute<System.Text.Json.Serialization.JsonIgnoreAttribute>() != null ||
+                p.GetAttribute<Newtonsoft.Json.JsonIgnoreAttribute>() != null
+            ).ToList();
+        List<List<JsonIgnoredPropertyData>> jsonIgnoreInfo = new List<List<JsonIgnoredPropertyData>>();
+        if (jsonIgnoreProperties.Count > 0) {
+            int recordIndex = 0;
+            foreach (var r in (IEnumerable)records)
+            {
+                List<JsonIgnoredPropertyData> record = new List<JsonIgnoredPropertyData>();
+                foreach (var item in jsonIgnoreProperties)
+                {
+                    object v = item.GetValue(r);
+                    string strValue = "null";
+                    if (v != null)
+                    {
+                        strValue = v.ToString();
+                        if (v.GetType() == typeof(string))
+                            strValue = "\"" + strValue + "\"";
+                        else if (v.GetType() == typeof(DateTime))
+                            strValue = "DateTime.Parse(\"" + ((DateTime)v).ToString("yyyy/MM/dd HH:mm:ss") + "\")"; //这个日期方式不知道对不对
+                    }
+                    record.Add(new JsonIgnoredPropertyData { RecordIndex = recordIndex, Name = item.Name, Value = strValue });
+                }
+                recordIndex++;
+                jsonIgnoreInfo.Add(record);
+            }
+        }
+        // 目前为止 jsonIgnoreInfo 中保存了 JsonIgnore 的属性和值的对应关系
+
+        var tContent = File.ReadAllText(templatePath);
+        var data = new
+        {
+            NameSpace = $"{input.Position}.SeedData",
+            EntityNameSpace = enityType.Namespace,
+            input.TableName,
+            input.EntityName,
+            input.SeedDataName,
+            input.ConfigId,
+            tableInfo.Description,
+            JsonIgnoreInfo = jsonIgnoreInfo,
+            RecordsJSON = recordsJSON
+        }; 
+        var tResult = _viewEngine.RunCompile(tContent, data, builderAction: builder =>
+        {
+            builder.AddAssemblyReferenceByName("System.Linq");
+            builder.AddAssemblyReferenceByName("System.Collections");
+            builder.AddUsing("System.Collections.Generic");
+            builder.AddUsing("System.Linq");
+        });
+        File.WriteAllText(targetPath, tResult, Encoding.UTF8);
+    }
+
+    /// <summary>
+    /// 获取库表信息
+    /// </summary>
+    /// <returns></returns>
+    private async Task<IEnumerable<EntityInfo>> GetEntityInfos()
+    {
+        var entityInfos = new List<EntityInfo>();
+
+        var type = typeof(SugarTable);
+        var types = new List<Type>();
+        if (_codeGenOptions.EntityAssemblyNames != null)
+        {
+            foreach (var assemblyName in _codeGenOptions.EntityAssemblyNames)
+            {
+                Assembly asm = Assembly.Load(assemblyName);
+                types.AddRange(asm.GetExportedTypes().ToList());
+            }
+        }
+        bool IsMyAttribute(Attribute[] o)
+        {
+            foreach (Attribute a in o)
+            {
+                if (a.GetType() == type)
+                    return true;
+            }
+            return false;
+        }
+        Type[] cosType = types.Where(o =>
+        {
+            return IsMyAttribute(Attribute.GetCustomAttributes(o, true));
+        }
+        ).ToArray();
+
+        foreach (var c in cosType)
+        {
+            var sugarAttribute = c.GetCustomAttributes(type, true)?.FirstOrDefault();
+
+            var des = c.GetCustomAttributes(typeof(DescriptionAttribute), true);
+            var description = "";
+            if (des.Length > 0)
+            {
+                description = ((DescriptionAttribute)des[0]).Description;
+            }
+            entityInfos.Add(new EntityInfo()
+            {
+                EntityName = c.Name,
+                DbTableName = sugarAttribute == null ? c.Name : ((SugarTable)sugarAttribute).TableName,
+                TableDescription = description,
+                Type = c
+            });
+        }
+        return await Task.FromResult(entityInfos);
+    }
+
+    /// <summary>
     /// 获取实体模板文件路径
     /// </summary>
     /// <returns></returns>
@@ -243,6 +420,16 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     {
         var templatePath = Path.Combine(App.WebHostEnvironment.WebRootPath, "Template");
         return Path.Combine(templatePath, "Entity.cs.vm");
+    }
+
+    /// <summary>
+    /// 获取SeedData模板文件路径
+    /// </summary>
+    /// <returns></returns>
+    private static string GetSeedDataTemplatePath()
+    {
+        var templatePath = Path.Combine(App.WebHostEnvironment.WebRootPath, "Template");
+        return Path.Combine(templatePath, "SeedData.cs.vm");
     }
 
     /// <summary>
@@ -256,5 +443,18 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         if (!Directory.Exists(backendPath))
             Directory.CreateDirectory(backendPath);
         return Path.Combine(backendPath, input.EntityName + ".cs");
+    }
+
+    /// <summary>
+    /// 设置生成SeedData文件路径
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    private static string GetSeedDataTargetPath(CreateSeedDataInput input)
+    {
+        var backendPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.FullName, input.Position, "SeedData");
+        if (!Directory.Exists(backendPath))
+            Directory.CreateDirectory(backendPath);
+        return Path.Combine(backendPath, input.SeedDataName + ".cs");
     }
 }

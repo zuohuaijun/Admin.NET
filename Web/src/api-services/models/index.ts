@@ -90,6 +90,7 @@ export * from './code-gen-input';
 export * from './column-ouput';
 export * from './const-output';
 export * from './create-entity-input';
+export * from './create-seed-data-input';
 export * from './culture-level-enum';
 export * from './data-item';
 export * from './data-scope-enum';

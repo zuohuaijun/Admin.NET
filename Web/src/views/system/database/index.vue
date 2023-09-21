@@ -18,6 +18,7 @@
 					<el-button icon="ele-Plus" @click="openAddTable"> 增加表 </el-button>
 					<el-button icon="ele-Plus" @click="openAddColumn"> 增加列 </el-button>
 					<el-button icon="ele-Plus" @click="openGenDialog"> 生成实体 </el-button>
+					<el-button icon="ele-Plus" @click="openGenSeedDataDialog"> 生成SeedData </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -63,6 +64,7 @@
 		<AddTable ref="addTableRef" @addTableSubmitted="addTableSubmitted" />
 		<AddColumn ref="addColumnRef" @handleQueryColumn="handleQueryColumn" />
 		<GenEntity ref="genEntityRef" @handleQueryColumn="handleQueryColumn" />
+		<GenSeedData ref="genSeedDataRef" />
 	</div>
 </template>
 
@@ -74,6 +76,7 @@ import EditColumn from '/@/views/system/database/component/editColumn.vue';
 import AddTable from '/@/views/system/database/component/addTable.vue';
 import AddColumn from '/@/views/system/database/component/addColumn.vue';
 import GenEntity from '/@/views/system/database/component/genEntity.vue';
+import GenSeedData from '/@/views/system/database/component/genSeedData.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi } from '/@/api-services/api';
@@ -84,6 +87,7 @@ const editColumnRef = ref<InstanceType<typeof EditColumn>>();
 const addTableRef = ref<InstanceType<typeof AddTable>>();
 const addColumnRef = ref<InstanceType<typeof AddColumn>>();
 const genEntityRef = ref<InstanceType<typeof GenEntity>>();
+const genSeedDataRef = ref<InstanceType<typeof GenSeedData>>();
 const state = reactive({
 	loading: false,
 	loading1: false,
@@ -159,6 +163,16 @@ const openGenDialog = () => {
 		tableName: state.tableName,
 	};
 	genEntityRef.value?.openDialog(table);
+};
+
+// 生成seedData页面
+const openGenSeedDataDialog = () => {
+	if (state.configId == '' || state.tableName == '') return;
+	var table: any = {
+		configId: state.configId,
+		tableName: state.tableName,
+	};
+	genSeedDataRef.value?.openDialog(table);
 };
 
 // 打开表增加页面
