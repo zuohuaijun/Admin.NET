@@ -42,6 +42,34 @@ public static class RepositoryExtension
     }
 
     /// <summary>
+    /// 实体集合批量假删除 _rep.FakeDelete(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="repository"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static int FakeDelete<T>(this ISugarRepository repository, List<T> entity) where T : EntityBase, new()
+    {
+        return repository.Context.FakeDelete(entity);
+    }
+
+    /// <summary>
+    /// 实体集合批量假删除 db.FakeDelete(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="db"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static int FakeDelete<T>(this ISqlSugarClient db, List<T> entity) where T : EntityBase, new()
+    {
+        return db.Updateable(entity).AS().ReSetValue(x => { x.IsDelete = true; })
+            .IgnoreColumns(ignoreAllNullColumns: true)
+            .EnableDiffLogEvent()   // 记录差异日志
+            .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
+            .ExecuteCommand();
+    }
+
+    /// <summary>
     /// 实体假删除异步 _rep.FakeDeleteAsync(entity)
     /// </summary>
     /// <typeparam name="T"></typeparam>
@@ -61,6 +89,34 @@ public static class RepositoryExtension
     /// <param name="entity"></param>
     /// <returns></returns>
     public static Task<int> FakeDeleteAsync<T>(this ISqlSugarClient db, T entity) where T : EntityBase, new()
+    {
+        return db.Updateable(entity).AS().ReSetValue(x => { x.IsDelete = true; })
+            .IgnoreColumns(ignoreAllNullColumns: true)
+            .EnableDiffLogEvent()   // 记录差异日志
+            .UpdateColumns(x => new { x.IsDelete, x.UpdateTime, x.UpdateUserId })  // 允许更新的字段-AOP拦截自动设置UpdateTime、UpdateUserId
+            .ExecuteCommandAsync();
+    }
+
+    /// <summary>
+    /// 实体集合批量假删除异步 _rep.FakeDeleteAsync(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="repository"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static Task<int> FakeDeleteAsync<T>(this ISugarRepository repository, List<T> entity) where T : EntityBase, new()
+    {
+        return repository.Context.FakeDeleteAsync(entity);
+    }
+
+    /// <summary>
+    /// 实体集合批量假删除 db.FakeDelete(entity)
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="db"></param>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    public static Task<int> FakeDeleteAsync<T>(this ISqlSugarClient db, List<T> entity) where T : EntityBase, new()
     {
         return db.Updateable(entity).AS().ReSetValue(x => { x.IsDelete = true; })
             .IgnoreColumns(ignoreAllNullColumns: true)
