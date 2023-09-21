@@ -82,7 +82,7 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
             new SysMenu{ Id=1310000000184, Pid=1310000000181, Title="增加", Permission="sysWechatUser:add", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=1310000000185, Pid=1310000000181, Title="删除", Permission="sysWechatUser:delete", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
 
-            new SysMenu{ Id=1310000000301, Pid=0, Title="平台管理", Path="/platform", Name="platform", Component="Layout", Icon="ele-Menu", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=1100 },
+            new SysMenu{ Id=1310000000301, Pid=0, Title="平台管理", Path="/platform", Name="platform", Component="Layout", Icon="ele-Menu", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=11000 },
 
             new SysMenu{ Id=1310000000311, Pid=1310000000301, Title="租户管理", Path="/platform/tenant", Name="sysTenant", Component="/system/tenant/index", Icon="ele-School", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=1310000000312, Pid=1310000000311, Title="查询", Permission="sysTenant:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
@@ -149,7 +149,7 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
             new SysMenu{ Id=1310000000414, Pid=1310000000411, Title="增加", Permission="sysPlugin:add", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=1310000000415, Pid=1310000000411, Title="删除", Permission="sysPlugin:delete", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
 
-            new SysMenu{ Id=1310000000501, Pid=0, Title="日志管理", Path="/log", Name="log", Component="Layout", Icon="ele-DocumentCopy", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=1200 },
+            new SysMenu{ Id=1310000000501, Pid=0, Title="日志管理", Path="/log", Name="log", Component="Layout", Icon="ele-DocumentCopy", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=12000 },
             new SysMenu{ Id=1310000000511, Pid=1310000000501, Title="访问日志", Path="/log/vislog", Name="sysVislog", Component="/system/log/vislog/index", Icon="ele-Document", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=1310000000512, Pid=1310000000511, Title="查询", Permission="sysVislog:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=1310000000513, Pid=1310000000511, Title="清空", Permission="sysVislog:clear", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
@@ -165,13 +165,13 @@ public class SysMenuSeedData : ISqlSugarEntitySeedData<SysMenu>
             new SysMenu{ Id=1310000000542, Pid=1310000000541, Title="查询", Permission="sysDifflog:page", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=1310000000543, Pid=1310000000541, Title="清空", Permission="sysDifflog:clear", Type=MenuTypeEnum.Btn, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
 
-            new SysMenu{ Id=1310000000601, Pid=0, Title="开发工具", Path="/develop", Name="develop", Component="Layout", Icon="ele-Cpu", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=1300 },
+            new SysMenu{ Id=1310000000601, Pid=0, Title="开发工具", Path="/develop", Name="develop", Component="Layout", Icon="ele-Cpu", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=13000 },
             new SysMenu{ Id=1310000000611, Pid=1310000000601, Title="库表管理", Path="/develop/database", Name="sysDatabase", Component="/system/database/index",Icon="ele-Coin", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=1310000000621, Pid=1310000000601, Title="代码生成", Path="/develop/codeGen", Name="sysCodeGen", Component="/system/codeGen/index", Icon="ele-Crop", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=110 },
             new SysMenu{ Id=1310000000631, Pid=1310000000601, Title="表单设计", Path="/develop/formDes", Name="sysFormDes", Component="/system/formDes/index", Icon="ele-Edit", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=120 },
             new SysMenu{ Id=1310000000641, Pid=1310000000601, Title="系统接口", Path="/develop/api", Name="sysApi", Component="layout/routerView/iframe", IsIframe=true, OutLink="http://localhost:5005", Icon="ele-Help", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=130 },
 
-            new SysMenu{ Id=1310000000701, Pid=0, Title="帮助文档", Path="/doc", Name="doc", Component="Layout", Icon="ele-Notebook", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=1400 },
+            new SysMenu{ Id=1310000000701, Pid=0, Title="帮助文档", Path="/doc", Name="doc", Component="Layout", Icon="ele-Notebook", Type=MenuTypeEnum.Dir, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=14000 },
             new SysMenu{ Id=1310000000711, Pid=1310000000701, Title="后台教程", Path="/doc/furion", Name="sysFurion", Component="layout/routerView/link", IsIframe=false, IsKeepAlive=false, OutLink="https://furion.baiqian.ltd/", Icon="ele-Promotion", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=100 },
             new SysMenu{ Id=1310000000712, Pid=1310000000701, Title="前端教程", Path="/doc/element", Name="sysElement", Component="layout/routerView/link", IsIframe=false, IsKeepAlive=false, OutLink="https://element-plus.gitee.io/zh-CN/", Icon="ele-Position", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=110 },
             new SysMenu{ Id=1310000000713, Pid=1310000000701, Title="SqlSugar", Path="/doc/SqlSugar", Name="sysSqlSugar", Component="layout/routerView/link", IsIframe=false, IsKeepAlive=false, OutLink="https://www.donet5.com/Home/Doc", Icon="ele-Coin", Type=MenuTypeEnum.Menu, CreateTime=DateTime.Parse("2022-02-10 00:00:00"), OrderNo=120 },

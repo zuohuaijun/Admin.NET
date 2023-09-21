@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Admin.NET.Core\Admin.NET.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+
 </Project>
