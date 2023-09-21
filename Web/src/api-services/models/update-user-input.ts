@@ -223,7 +223,7 @@ export interface UpdateUserInput {
      * @type {number}
      * @memberof UpdateUserInput
      */
-    managerUserId?: number;
+    managerUserId?: number | null;
     /**
      * 
      * @type {SysUser}

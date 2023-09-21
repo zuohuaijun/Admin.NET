@@ -234,7 +234,7 @@ export interface SysUser {
      * @type {number}
      * @memberof SysUser
      */
-    managerUserId?: number;
+    managerUserId?: number | null;
     /**
      * 
      * @type {SysUser}

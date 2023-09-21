@@ -234,12 +234,12 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * 
-         * @summary 创建实体
-         * @param {CreateEntityInput} [body] 
+         * @summary 创建种子数据
+         * @param {CreateSeedDataInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysDatabaseCreateSeedDataPost: async (body?: CreateEntityInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysDatabaseCreateSeedDataPost: async (body?: CreateSeedDataInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysDatabase/createSeedData`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
@@ -632,7 +632,7 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 创建 SeedData
+         * @summary 创建种子数据
          * @param {CreateSeedDataInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -779,6 +779,16 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * 
+         * @summary 创建种子数据
+         * @param {CreateSeedDataInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysDatabaseCreateSeedDataPost(body?: CreateSeedDataInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysDatabaseApiFp(configuration).apiSysDatabaseCreateSeedDataPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 删除列
          * @param {DeleteDbColumnInput} [body] 
          * @param {*} [options] Override http request option.
@@ -893,7 +903,7 @@ export class SysDatabaseApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 创建 SeedData
+     * @summary 创建种子数据
      * @param {CreateSeedDataInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

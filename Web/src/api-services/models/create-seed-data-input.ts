@@ -18,27 +18,39 @@
  */
 export interface CreateSeedDataInput {
     /**
-     * 表名
-     * @type {string}
-     * @memberof CreateEntityInput
-     */
-    tableName?: string | null;
-    /**
-     * 导出位置
-     * @type {string}
-     * @memberof CreateEntityInput
-     */
-    position?: string | null;
-    /**
      * 库标识
      * @type {string}
-     * @memberof CreateEntityInput
+     * @memberof CreateSeedDataInput
      */
     configId?: string | null;
     /**
+     * 表名
+     * @type {string}
+     * @memberof CreateSeedDataInput
+     */
+    tableName?: string | null;
+    /**
+     * 实体名称
+     * @type {string}
+     * @memberof CreateSeedDataInput
+     */
+    entityName?: string | null;
+    /**
+     * 种子名称
+     * @type {string}
+     * @memberof CreateSeedDataInput
+     */
+    seedDataName?: string | null;
+    /**
+     * 导出位置
+     * @type {string}
+     * @memberof CreateSeedDataInput
+     */
+    position?: string | null;
+    /**
      * 后缀
      * @type {string}
-     * @memberof CreateEntityInput
+     * @memberof CreateSeedDataInput
      */
     suffix?: string | null;
 }

@@ -7,8 +7,6 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
-using Magicodes.ExporterAndImporter.Core.Extension;
-
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -17,24 +15,6 @@ namespace Admin.NET.Core.Service;
 [ApiDescriptionSettings(Order = 250)]
 public class SysDatabaseService : IDynamicApiController, ITransient
 {
-    /// <summary>
-    /// 保存标注了 JsonIgnore 的Property的值信息
-    /// </summary>
-    public class JsonIgnoredPropertyData
-    {
-        /// <summary>
-        /// 对应的记录索引
-        /// </summary>
-        public int RecordIndex { get; set; }
-        /// <summary>
-        /// 属性名
-        /// </summary>
-        public string Name { get; set; }
-        /// <summary>
-        /// 属性值的字符串描述
-        /// </summary>
-        public string Value { get; set; }
-    }
     private readonly ISqlSugarClient _db;
     private readonly IViewEngine _viewEngine;
     private readonly CodeGenOptions _codeGenOptions;
@@ -220,7 +200,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
-        string[] dbColumnNames = new string[0];
+        string[] dbColumnNames = Array.Empty<string>();
         // Entity.cs.vm中是允许创建没有基类的实体的，所以这里也要做出相同的判断
         if (!string.IsNullOrWhiteSpace(input.BaseClassName))
         {
@@ -256,11 +236,11 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 创建 SeedData
+    /// 创建种子数据
     /// </summary>
     /// <param name="input"></param>
     [ApiDescriptionSettings(Name = "CreateSeedData"), HttpPost]
-    [DisplayName("创建 SeedData")]
+    [DisplayName("创建种子数据")]
     public async void CreateSeedData(CreateSeedDataInput input)
     {
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
@@ -268,8 +248,8 @@ public class SysDatabaseService : IDynamicApiController, ITransient
 
         var templatePath = GetSeedDataTemplatePath();
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        var tableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == input.TableName);//表名
-        List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false); //所有字段
+        var tableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == input.TableName); // 表名
+        List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false); // 所有字段
         IEnumerable<EntityInfo> entityInfos = await GetEntityInfos();
         Type enityType = null;
         foreach (var item in entityInfos)
@@ -285,32 +265,27 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             input.SeedDataName += input.Suffix;
         var targetPath = GetSeedDataTargetPath(input);
 
-        // 查询出所有数据
+        // 查询所有数据
         var query = db.QueryableByObject(enityType);
-        // 查询有没有合适的排序字段，有的话用来排序，保证SeedData的插入顺序合适
-        DbColumnInfo orderField = null;
+        DbColumnInfo orderField = null; // 排序字段
         // 优先用创建时间排序
         orderField = dbColumnInfos.Where(u => u.DbColumnName.ToLower() == "create_time" || u.DbColumnName.ToLower() == "createtime").FirstOrDefault();
         if (orderField != null)
-        {
             query.OrderBy(orderField.DbColumnName);
-        }
-        // 其次用ID排充
+        // 其次用Id排序
         orderField = dbColumnInfos.Where(u => u.DbColumnName.ToLower() == "id").FirstOrDefault();
         if (orderField != null)
-        {
             query.OrderBy(orderField.DbColumnName);
-        }
         object records = query.ToList();
-        string recordsJSON = Newtonsoft.Json.JsonConvert.SerializeObject(records, Formatting.Indented);
+        string recordsJSON = JsonConvert.SerializeObject(records, Formatting.Indented);
 
-        //检查有没有 System.Text.Json.Serialization.JsonIgnore 的属性
-        var jsonIgnoreProperties = enityType.GetProperties().Where(p => 
-                p.GetAttribute<System.Text.Json.Serialization.JsonIgnoreAttribute>() != null ||
-                p.GetAttribute<Newtonsoft.Json.JsonIgnoreAttribute>() != null
-            ).ToList();
-        List<List<JsonIgnoredPropertyData>> jsonIgnoreInfo = new List<List<JsonIgnoredPropertyData>>();
-        if (jsonIgnoreProperties.Count > 0) {
+        // 检查有没有 System.Text.Json.Serialization.JsonIgnore 的属性
+        var jsonIgnoreProperties = enityType.GetProperties().Where(p =>
+            p.GetAttribute<System.Text.Json.Serialization.JsonIgnoreAttribute>() != null ||
+            p.GetAttribute<JsonIgnoreAttribute>() != null).ToList();
+        var jsonIgnoreInfo = new List<List<JsonIgnoredPropertyData>>();
+        if (jsonIgnoreProperties.Count > 0)
+        {
             int recordIndex = 0;
             foreach (var r in (IEnumerable)records)
             {
@@ -325,7 +300,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
                         if (v.GetType() == typeof(string))
                             strValue = "\"" + strValue + "\"";
                         else if (v.GetType() == typeof(DateTime))
-                            strValue = "DateTime.Parse(\"" + ((DateTime)v).ToString("yyyy/MM/dd HH:mm:ss") + "\")"; //这个日期方式不知道对不对
+                            strValue = "DateTime.Parse(\"" + ((DateTime)v).ToString("yyyy-MM-dd HH:mm:ss") + "\")";
                     }
                     record.Add(new JsonIgnoredPropertyData { RecordIndex = recordIndex, Name = item.Name, Value = strValue });
                 }
@@ -333,7 +308,6 @@ public class SysDatabaseService : IDynamicApiController, ITransient
                 jsonIgnoreInfo.Add(record);
             }
         }
-        // 目前为止 jsonIgnoreInfo 中保存了 JsonIgnore 的属性和值的对应关系
 
         var tContent = File.ReadAllText(templatePath);
         var data = new
@@ -347,7 +321,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             tableInfo.Description,
             JsonIgnoreInfo = jsonIgnoreInfo,
             RecordsJSON = recordsJSON
-        }; 
+        };
         var tResult = _viewEngine.RunCompile(tContent, data, builderAction: builder =>
         {
             builder.AddAssemblyReferenceByName("System.Linq");
@@ -423,7 +397,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取SeedData模板文件路径
+    /// 获取种子数据模板文件路径
     /// </summary>
     /// <returns></returns>
     private static string GetSeedDataTemplatePath()
@@ -446,7 +420,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 设置生成SeedData文件路径
+    /// 设置生成种子数据文件路径
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>

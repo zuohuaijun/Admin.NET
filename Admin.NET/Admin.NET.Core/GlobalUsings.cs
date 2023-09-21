@@ -25,6 +25,7 @@ global using Furion.Schedule;
 global using Furion.UnifyResult;
 global using Furion.ViewEngine;
 global using Magicodes.ExporterAndImporter.Core;
+global using Magicodes.ExporterAndImporter.Core.Extension;
 global using Magicodes.ExporterAndImporter.Excel;
 global using Mapster;
 global using Microsoft.AspNetCore.Authorization;

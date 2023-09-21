@@ -97,7 +97,7 @@ export interface SysOrg {
      * @type {number}
      * @memberof SysOrg
      */
-    directorId?: number;
+    directorId?: number | null;
     /**
      * 
      * @type {SysUser}

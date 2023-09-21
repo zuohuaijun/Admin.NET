@@ -91,7 +91,7 @@ export interface AddOrgInput {
      * @type {number}
      * @memberof AddOrgInput
      */
-    directorId?: number;
+    directorId?: number | null;
     /**
      * 
      * @type {SysUser}
