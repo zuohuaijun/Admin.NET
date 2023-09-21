@@ -33,7 +33,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     {
         return _cache == Cache.Default
             ? _cache.Keys.Where(u => u.StartsWith(_cacheOptions.Prefix)).Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList()
-            : ((FullRedis)_cache).Search(_cacheOptions.Prefix, int.MaxValue).ToList();
+            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}*", int.MaxValue).ToList();
     }
 
     /// <summary>
@@ -82,7 +82,11 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("删除缓存")]
     public int Remove(string key)
     {
-        return _cache.Remove($"{_cacheOptions.Prefix}{key}");
+        var strKey = key;
+        if (_cache == Cache.Default)
+            strKey = $"{_cacheOptions.Prefix}{key}";
+
+        return _cache.Remove(strKey);
     }
 
     /// <summary>
@@ -107,7 +111,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     {
         var delKeys = _cache == Cache.Default
             ? _cache.Keys.Where(u => u.StartsWith($"{_cacheOptions.Prefix}{prefixKey}")).ToArray()
-            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}", int.MaxValue).ToArray();
+            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}*", int.MaxValue).ToArray();
 
         return _cache.Remove(delKeys);
     }
@@ -122,7 +126,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     {
         return _cache == Cache.Default
             ? _cache.Keys.Where(u => u.StartsWith($"{_cacheOptions.Prefix}{prefixKey}")).ToList()
-            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}", int.MaxValue).ToList();
+            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}*", int.MaxValue).ToList();
     }
 
     /// <summary>
@@ -133,7 +137,8 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("获取缓存值")]
     public object GetValue(string key)
     {
-        return _cache == Cache.Default ? _cache.Get<object>($"{_cacheOptions.Prefix}{key}") : _cache.Get<string>($"{_cacheOptions.Prefix}{key}");
+        return _cache == Cache.Default ? _cache.Get<object>($"{_cacheOptions.Prefix}{key}")
+            : _cache.Get<string>(key);
     }
 
     /// <summary>
