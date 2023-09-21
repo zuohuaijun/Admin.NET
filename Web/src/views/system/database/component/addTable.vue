@@ -141,7 +141,7 @@ const submit = () => {
 		if (state.tableData.length === 0) {
 			ElMessage({
 				type: 'error',
-				message: `请选择库名!`,
+				message: `请添加列!`,
 			});
 			return;
 		}
