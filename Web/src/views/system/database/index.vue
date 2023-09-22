@@ -18,7 +18,7 @@
 					<el-button icon="ele-Plus" @click="openAddTable"> 增加表 </el-button>
 					<el-button icon="ele-Plus" @click="openAddColumn"> 增加列 </el-button>
 					<el-button icon="ele-Plus" @click="openGenDialog"> 生成实体 </el-button>
-					<el-button icon="ele-Plus" @click="openGenSeedDataDialog"> 生成SeedData </el-button>
+					<el-button icon="ele-Plus" @click="openGenSeedDataDialog"> 生成种子数据 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -165,7 +165,7 @@ const openGenDialog = () => {
 	genEntityRef.value?.openDialog(table);
 };
 
-// 生成seedData页面
+// 生成种子数据页面
 const openGenSeedDataDialog = () => {
 	if (state.configId == '' || state.tableName == '') return;
 	var table: any = {
