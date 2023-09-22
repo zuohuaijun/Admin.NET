@@ -61,7 +61,7 @@ const openDialog = (row: any) => {
 	state.ruleForm.tableName = row.tableName;
 	//state.ruleForm.position = 'Admin.NET.Core';
 	if (state.ruleForm.position == undefined)
-		state.ruleForm.position = 'Admin.NET.Core';
+		state.ruleForm.position = 'Admin.NET.Application';
 	state.isShowDialog = true;
 };
 
