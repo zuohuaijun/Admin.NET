@@ -26,7 +26,7 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.fileData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="fileName" label="名称" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="fileName" label="名称" minWidth="150" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="suffix" label="后缀" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tag round>{{ scope.row.suffix }}</el-tag>
@@ -38,22 +38,25 @@
 						<el-image
 							style="width: 60px; height: 60px"
 							:src="getFileUrl(scope.row)"
+							alt="无法预览"
 							:lazy="true"
 							:hide-on-click-modal="true"
 							:preview-src-list="[getFileUrl(scope.row)]"
 							:initial-index="0"
 							fit="scale-down"
 							preview-teleported
-						/>
+						>
+							<template #error> </template>
+						</el-image>
 					</template>
 				</el-table-column>
 				<el-table-column prop="bucketName" label="存储位置" align="center" show-overflow-tooltip />
 				<el-table-column prop="id" label="存储标识" align="center" show-overflow-tooltip />
-				<!-- <el-table-column prop="userName" label="上传者" align="center" show-overflow-tooltip/> -->
+				<el-table-column prop="createUserId" label="上传者Id" align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip />
 				<el-table-column label="操作" width="200" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-button icon="ele-View" size="small" text type="primary" @click="openPdfDialog(scope.row)" v-auth="'sysFile:delete'"> 预览 </el-button>
+						<el-button icon="ele-View" size="small" text type="primary" @click="openFilePreviewDialog(scope.row)" v-auth="'sysFile:delete'"> 预览 </el-button>
 						<el-button icon="ele-Download" size="small" text type="primary" @click="downloadFile(scope.row)" v-auth="'sysFile:downloadFile'"> 下载 </el-button>
 						<el-button icon="ele-Delete" size="small" text type="danger" @click="delFile(scope.row)" v-auth="'sysFile:delete'"> 删除 </el-button>
 					</template>
@@ -98,16 +101,26 @@
 			</template>
 		</el-dialog>
 
-		<el-drawer title="PDF预览" v-model="state.dialogPdfVisible" size="40%" destroy-on-close>
-			<PDFViewer :pdfUrl="state.pdfUrl" />
+		<el-drawer :title="state.fileName" v-model="state.dialogDocxVisible" size="50%" destroy-on-close>
+			<vue-office-docx :src="state.docxUrl" style="height: 100vh" @rendered="renderedHandler" @error="errorHandler" />
 		</el-drawer>
+		<el-drawer :title="state.fileName" v-model="state.dialogXlsxVisible" size="50%" destroy-on-close>
+			<vue-office-excel :src="state.excelUrl" style="height: 100vh" @rendered="renderedHandler" @error="errorHandler"
+		/></el-drawer>
+		<el-drawer :title="state.fileName" v-model="state.dialogPdfVisible" size="50%" destroy-on-close>
+			<vue-office-pdf :src="state.pdfUrl" style="height: 100vh" @rendered="renderedHandler" @error="errorHandler"
+		/></el-drawer>
 	</div>
 </template>
 
 <script lang="ts" setup name="sysFile">
 import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage, UploadInstance } from 'element-plus';
-import PDFViewer from '/@/views/system/file/component/PDFViewer.vue';
+import VueOfficeDocx from '@vue-office/docx';
+import VueOfficeExcel from '@vue-office/excel';
+import VueOfficePdf from '@vue-office/pdf';
+import '@vue-office/docx/lib/index.css';
+import '@vue-office/excel/lib/index.css';
 
 import { downloadByUrl } from '/@/utils/download';
 import { getAPI } from '/@/utils/axios-utils';
@@ -130,9 +143,14 @@ const state = reactive({
 		total: 0 as any,
 	},
 	dialogUploadVisible: false,
-	dialogPdfVisible: false,
 	fileList: [] as any,
+	dialogDocxVisible: false,
+	dialogXlsxVisible: false,
+	dialogPdfVisible: false,
+	docxUrl: '',
+	excelUrl: '',
 	pdfUrl: '',
+	fileName: '',
 });
 
 onMounted(async () => {
@@ -202,14 +220,23 @@ const delFile = (row: any) => {
 		.catch(() => {});
 };
 
-// 打开Pdf预览页面
-const openPdfDialog = async (row: any) => {
-	if (row.suffix != '.pdf') {
-		ElMessage.error('只能预览PDF文件');
-		return;
+// 打开文件预览页面
+const openFilePreviewDialog = async (row: any) => {
+	if (row.suffix == '.pdf') {
+		state.fileName = `【${row.fileName}${row.suffix}】`;
+		state.pdfUrl = getFileUrl(row);
+		state.dialogPdfVisible = true;
+	} else if (row.suffix == '.docx') {
+		state.fileName = `【${row.fileName}${row.suffix}】`;
+		state.docxUrl = getFileUrl(row);
+		state.dialogDocxVisible = true;
+	} else if (row.suffix == '.xlsx') {
+		state.fileName = `【${row.fileName}${row.suffix}】`;
+		state.excelUrl = getFileUrl(row);
+		state.dialogXlsxVisible = true;
+	} else {
+		ElMessage.error('此文件格式不支持预览');
 	}
-	state.pdfUrl = getFileUrl(row);
-	state.dialogPdfVisible = true;
 };
 
 // 改变页面容量
@@ -232,4 +259,9 @@ const getFileUrl = (row: SysFile): string => {
 		return row.url!;
 	}
 };
+
+// 文件渲染完成
+const renderedHandler = () => {};
+// 文件渲染失败
+const errorHandler = () => {};
 </script>
