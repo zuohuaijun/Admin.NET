@@ -121,7 +121,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     public List<string> GetKeysByPrefixKey(string prefixKey)
     {
         return _cache == Cache.Default
-            ? _cache.Keys.Where(u => u.StartsWith($"{_cacheOptions.Prefix}{prefixKey}")).ToList()
+            ? _cache.Keys.Where(u => u.StartsWith($"{_cacheOptions.Prefix}{prefixKey}")).Select(u => u[_cacheOptions.Prefix.Length..]).ToList()
             : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}*", int.MaxValue).ToList();
     }
 
