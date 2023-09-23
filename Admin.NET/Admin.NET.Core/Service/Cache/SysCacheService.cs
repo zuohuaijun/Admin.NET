@@ -133,7 +133,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [DisplayName("获取缓存值")]
     public object GetValue(string key)
     {
-        return _cache == Cache.Default 
+        return _cache == Cache.Default
             ? _cache.Get<object>($"{_cacheOptions.Prefix}{key}")
             : _cache.Get<string>($"{_cacheOptions.Prefix}{key}");
     }
