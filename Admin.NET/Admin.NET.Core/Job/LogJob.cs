@@ -16,16 +16,17 @@ namespace Admin.NET.Core;
 [Daily(TriggerId = "trigger_log", Description = "清理操作日志")]
 public class LogJob : IJob
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public LogJob(IServiceProvider serviceProvider)
+    public LogJob(IServiceScopeFactory scopeFactory)
     {
-        _serviceProvider = serviceProvider;
+        _scopeFactory = scopeFactory;
     }
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        using var serviceScope = _serviceProvider.CreateScope();
+        using var serviceScope = _scopeFactory.CreateScope();
+
         var logVisRep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysLogVis>>();
         var logOpRep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysLogOp>>();
         var logDiffRep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysLogDiff>>();
