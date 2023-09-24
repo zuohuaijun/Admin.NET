@@ -640,16 +640,41 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var formModalPath = Path.Combine(frontendPath, input.TableName[..1].ToLower() + input.TableName[1..], "component", "editDialog.vue");
         var apiJsPath = Path.Combine(new DirectoryInfo(App.WebHostEnvironment.ContentRootPath).Parent.Parent.FullName, _codeGenOptions.FrontRootPath, "src", "api", "main", input.TableName[..1].ToLower() + input.TableName[1..] + ".ts");
 
-        return new List<string>()
+        if (input.GenerateType.Substring(1, 1).Contains('1'))
         {
-            servicePath,
-            inputPath,
-            outputPath,
-            viewPath,
-            indexPath,
-            formModalPath,
-            apiJsPath
-        };
+            //生成到本项目(前端)
+            return new List<string>()
+            {
+                indexPath,
+                formModalPath,
+                apiJsPath
+            };
+        }
+        else if (input.GenerateType.Substring(1, 1).Contains("2"))
+        {
+            //生成到本项目(后端)
+            return new List<string>()
+            {
+                servicePath,
+                inputPath,
+                outputPath,
+                viewPath,
+            };
+        }
+        else
+        {
+            //前后端同时生成到本项目
+            return new List<string>()
+            {
+                servicePath,
+                inputPath,
+                outputPath,
+                viewPath,
+                indexPath,
+                formModalPath,
+                apiJsPath
+            };
+        }
     }
 
     /// <summary>
