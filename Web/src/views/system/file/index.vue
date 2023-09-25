@@ -110,6 +110,7 @@
 		<el-drawer :title="state.fileName" v-model="state.dialogPdfVisible" size="50%" destroy-on-close>
 			<vue-office-pdf :src="state.pdfUrl" style="height: 100vh" @rendered="renderedHandler" @error="errorHandler"
 		/></el-drawer>
+		<el-image-viewer v-if="state.showViewer" :url-list="state.previewList" @close="state.showViewer = false"></el-image-viewer>
 	</div>
 </template>
 
@@ -147,10 +148,12 @@ const state = reactive({
 	dialogDocxVisible: false,
 	dialogXlsxVisible: false,
 	dialogPdfVisible: false,
+	showViewer: false,
 	docxUrl: '',
 	excelUrl: '',
 	pdfUrl: '',
 	fileName: '',
+	previewList: [] as string[],
 });
 
 onMounted(async () => {
@@ -234,6 +237,9 @@ const openFilePreviewDialog = async (row: any) => {
 		state.fileName = `【${row.fileName}${row.suffix}】`;
 		state.excelUrl = getFileUrl(row);
 		state.dialogXlsxVisible = true;
+	} else if (['.jpg', '.png', '.jpeg', '.bmp'].findIndex((e) => e == row.suffix) > -1) {
+		state.previewList = [row.url];
+		state.showViewer = true;
 	} else {
 		ElMessage.error('此文件格式不支持预览');
 	}
