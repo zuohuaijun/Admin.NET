@@ -238,7 +238,7 @@ const openFilePreviewDialog = async (row: any) => {
 		state.excelUrl = getFileUrl(row);
 		state.dialogXlsxVisible = true;
 	} else if (['.jpg', '.png', '.jpeg', '.bmp'].findIndex((e) => e == row.suffix) > -1) {
-		state.previewList = [row.url];
+		state.previewList = [getFileUrl(row)];
 		state.showViewer = true;
 	} else {
 		ElMessage.error('此文件格式不支持预览');
