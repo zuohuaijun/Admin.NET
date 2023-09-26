@@ -81,16 +81,16 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     /// <summary>
     /// 批量增加代码生成配置
     /// </summary>
-    /// <param name="tableColumnOuputList"></param>
+    /// <param name="tableColumnOutputList"></param>
     /// <param name="codeGenerate"></param>
     [NonAction]
-    public void AddList(List<ColumnOuput> tableColumnOuputList, SysCodeGen codeGenerate)
+    public void AddList(List<ColumnOuput> tableColumnOutputList, SysCodeGen codeGenerate)
     {
-        if (tableColumnOuputList == null) return;
+        if (tableColumnOutputList == null) return;
 
         var codeGenConfigs = new List<SysCodeGenConfig>();
         var orderNo = 100;
-        foreach (var tableColumn in tableColumnOuputList)
+        foreach (var tableColumn in tableColumnOutputList)
         {
             var codeGenConfig = new SysCodeGenConfig();
 

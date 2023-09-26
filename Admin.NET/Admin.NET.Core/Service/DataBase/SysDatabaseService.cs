@@ -138,12 +138,12 @@ public class SysDatabaseService : IDynamicApiController, ITransient
 
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        var typeBilder = db.DynamicBuilder().CreateClass(input.TableName, new SugarTable() { TableName = input.TableName, TableDescription = input.Description });
+        var typeBuilder = db.DynamicBuilder().CreateClass(input.TableName, new SugarTable() { TableName = input.TableName, TableDescription = input.Description });
         input.DbColumnInfoList.ForEach(m =>
         {
             var dbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim();
             // 虚拟类都默认string类型，具体以列数据类型为准
-            typeBilder.CreateProperty(dbColumnName, typeof(string), new SugarColumn()
+            typeBuilder.CreateProperty(dbColumnName, typeof(string), new SugarColumn()
             {
                 IsPrimaryKey = m.IsPrimarykey == 1,
                 IsIdentity = m.IsIdentity == 1,
@@ -154,7 +154,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
                 ColumnDescription = m.ColumnDescription,
             });
         });
-        db.CodeFirst.InitTables(typeBilder.BuilderType());
+        db.CodeFirst.InitTables(typeBuilder.BuilderType());
     }
 
     /// <summary>
@@ -253,22 +253,22 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var tableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == input.TableName); // 表名
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false); // 所有字段
         IEnumerable<EntityInfo> entityInfos = await GetEntityInfos();
-        Type enityType = null;
+        Type entityType = null;
         foreach (var item in entityInfos)
         {
             if (tableInfo.Name.ToLower() != (config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(item.DbTableName) : item.DbTableName).ToLower()) continue;
-            enityType = item.Type;
+            entityType = item.Type;
             break;
         }
 
-        input.EntityName = enityType.Name;
-        input.SeedDataName = enityType.Name + "SeedData";
+        input.EntityName = entityType.Name;
+        input.SeedDataName = entityType.Name + "SeedData";
         if (!string.IsNullOrWhiteSpace(input.Suffix))
             input.SeedDataName += input.Suffix;
         var targetPath = GetSeedDataTargetPath(input);
 
         // 查询所有数据
-        var query = db.QueryableByObject(enityType);
+        var query = db.QueryableByObject(entityType);
         DbColumnInfo orderField = null; // 排序字段
         // 优先用创建时间排序
         orderField = dbColumnInfos.Where(u => u.DbColumnName.ToLower() == "create_time" || u.DbColumnName.ToLower() == "createtime").FirstOrDefault();
@@ -283,7 +283,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var recordsJSON = JsonConvert.SerializeObject(records, Formatting.Indented, timeConverter);
 
         // 检查有没有 System.Text.Json.Serialization.JsonIgnore 的属性
-        var jsonIgnoreProperties = enityType.GetProperties().Where(p =>
+        var jsonIgnoreProperties = entityType.GetProperties().Where(p =>
             p.GetAttribute<System.Text.Json.Serialization.JsonIgnoreAttribute>() != null ||
             p.GetAttribute<JsonIgnoreAttribute>() != null).ToList();
         var jsonIgnoreInfo = new List<List<JsonIgnoredPropertyData>>();
@@ -316,7 +316,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var data = new
         {
             NameSpace = $"{input.Position}.SeedData",
-            EntityNameSpace = enityType.Namespace,
+            EntityNameSpace = entityType.Namespace,
             input.TableName,
             input.EntityName,
             input.SeedDataName,

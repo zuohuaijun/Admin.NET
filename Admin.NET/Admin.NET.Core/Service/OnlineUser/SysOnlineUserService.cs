@@ -79,7 +79,7 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [NonAction]
-    public async Task SignleLogin(long userId)
+    public async Task SingleLogin(long userId)
     {
         if (await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSingleLogin))
         {
