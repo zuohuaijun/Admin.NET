@@ -33,7 +33,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     {
         return _cache == Cache.Default
             ? _cache.Keys.Where(u => u.StartsWith(_cacheOptions.Prefix)).Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList()
-            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}*", int.MaxValue).ToList();
+            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}*", int.MaxValue).Select(u => u[_cacheOptions.Prefix.Length..]).OrderBy(u => u).ToList();
     }
 
     /// <summary>
@@ -122,7 +122,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     {
         return _cache == Cache.Default
             ? _cache.Keys.Where(u => u.StartsWith($"{_cacheOptions.Prefix}{prefixKey}")).Select(u => u[_cacheOptions.Prefix.Length..]).ToList()
-            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}*", int.MaxValue).ToList();
+            : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}*", int.MaxValue).Select(u => u[_cacheOptions.Prefix.Length..]).ToList();
     }
 
     /// <summary>
