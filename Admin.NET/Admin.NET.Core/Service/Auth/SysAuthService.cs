@@ -126,7 +126,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     public async Task<LoginOutput> CreateToken(SysUser user)
     {
         // 单用户登录
-        await _sysOnlineUserService.SignleLogin(user.Id);
+        await _sysOnlineUserService.SingleLogin(user.Id);
 
         // 生成Token令牌
         var tokenExpire = await _sysConfigService.GetTokenExpire();

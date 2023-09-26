@@ -497,7 +497,7 @@ public class SelectTable : ISingleton
             {
                 ConditionQuery(subtable, conModels, va);
             }
-            else if (vakey.EndsWith("%"))//bwtween查询
+            else if (vakey.EndsWith("%"))//between查询
             {
                 ConditionBetween(subtable, conModels, va);
             }
@@ -527,7 +527,7 @@ public class SelectTable : ISingleton
         ProcessOrder(subtable, values, tb);
 
         //分组
-        PrccessGroup(subtable, values, tb);
+        ProcessGroup(subtable, values, tb);
 
         //Having
         ProcessHaving(values, tb);
@@ -637,7 +637,7 @@ public class SelectTable : ISingleton
     //"@group":"column0,column1..."，分组方式。如果 @column里声明了Table的id，则id也必须在 @group中声明；其它情况下必须满足至少一个条件:
     //1.分组的key在 @column里声明
     //2.Table主键在 @group中声明
-    private void PrccessGroup(string subtable, JObject values, ISugarQueryable<ExpandoObject> tb)
+    private void ProcessGroup(string subtable, JObject values, ISugarQueryable<ExpandoObject> tb)
     {
         if (!values["@group"].IsNullOrEmpty())
         {
