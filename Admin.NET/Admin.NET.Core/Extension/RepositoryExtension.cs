@@ -131,13 +131,13 @@ public static class RepositoryExtension
     /// <param name="queryable"></param>
     /// <param name="pageInput"> </param>
     /// <param name="prefix"> </param>
-    /// <param name="defualtSortField"> 默认排序字段 </param>
+    /// <param name="defaultSortField"> 默认排序字段 </param>
     /// <param name="descSort"> 是否降序 </param>
     /// <returns> </returns>
-    public static ISugarQueryable<T> OrderBuilder<T>(this ISugarQueryable<T> queryable, BasePageInput pageInput, string prefix = "", string defualtSortField = "Id", bool descSort = true)
+    public static ISugarQueryable<T> OrderBuilder<T>(this ISugarQueryable<T> queryable, BasePageInput pageInput, string prefix = "", string defaultSortField = "Id", bool descSort = true)
     {
         // 约定默认每张表都有Id排序
-        var orderStr = string.IsNullOrWhiteSpace(defualtSortField) ? "" : descSort ? defualtSortField + " Desc" : defualtSortField + " Asc";
+        var orderStr = string.IsNullOrWhiteSpace(defaultSortField) ? "" : descSort ? defaultSortField + " Desc" : defaultSortField + " Asc";
 
         TypeAdapterConfig typeAdapterConfig = new();
         typeAdapterConfig.ForType<T, BasePageInput>().IgnoreNullValues(true);

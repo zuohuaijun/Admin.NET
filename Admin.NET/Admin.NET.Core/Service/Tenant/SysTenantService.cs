@@ -385,7 +385,7 @@ public class SysTenantService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.Z1002);
 
         // 默认数据库配置
-        var defautConfig = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault();
+        var defaultConfig = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault();
 
         var config = new DbConnectionConfig
         {
@@ -396,7 +396,7 @@ public class SysTenantService : IDynamicApiController, ITransient
             {
                 EnableInitDb = true,
                 EnableDiffLog = false,
-                EnableUnderLine = defautConfig.DbSettings.EnableUnderLine,
+                EnableUnderLine = defaultConfig.DbSettings.EnableUnderLine,
             }
         };
         SqlSugarSetup.InitTenantDatabase(App.GetRequiredService<ISqlSugarClient>().AsTenant(), config);

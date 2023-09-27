@@ -16,16 +16,16 @@ namespace Admin.NET.Core;
 [PeriodSeconds(1, TriggerId = "trigger_onlineUser", Description = "清理在线用户", MaxNumberOfRuns = 1, RunOnStart = true)]
 public class OnlineUserJob : IJob
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public OnlineUserJob(IServiceProvider serviceProvider)
+    public OnlineUserJob(IServiceScopeFactory scopeFactory)
     {
-        _serviceProvider = serviceProvider;
+        _scopeFactory = scopeFactory;
     }
 
     public async Task ExecuteAsync(JobExecutingContext context, CancellationToken stoppingToken)
     {
-        using var serviceScope = _serviceProvider.CreateScope();
+        using var serviceScope = _scopeFactory.CreateScope();
 
         var rep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysOnlineUser>>();
         await rep.AsDeleteable().ExecuteCommandAsync();

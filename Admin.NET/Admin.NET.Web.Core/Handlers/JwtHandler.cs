@@ -51,7 +51,7 @@ namespace Admin.NET.Web.Core
         public override async Task<bool> PipelineAsync(AuthorizationHandlerContext context, DefaultHttpContext httpContext)
         {
             // 已自动验证 Jwt Token 有效性
-            return await CheckAuthorzieAsync(httpContext);
+            return await CheckAuthorizeAsync(httpContext);
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Admin.NET.Web.Core
         /// </summary>
         /// <param name="httpContext"></param>
         /// <returns></returns>
-        private static async Task<bool> CheckAuthorzieAsync(DefaultHttpContext httpContext)
+        private static async Task<bool> CheckAuthorizeAsync(DefaultHttpContext httpContext)
         {
             // 登录模式判断PC、APP
             if (App.User.FindFirst(ClaimConst.LoginMode)?.Value == ((int)LoginModeEnum.APP).ToString())
