@@ -17,3 +17,9 @@ global using System;
 global using System.ComponentModel;
 global using System.ComponentModel.DataAnnotations;
 global using System.Threading.Tasks;
+global using System.Collections.Generic;
+
+global using Admin.NET.Core;
+global using Furion.DependencyInjection;
+global using Furion.FriendlyException;
+global using SKIT.FlurlHttpClient.Wechat.Api.Events;

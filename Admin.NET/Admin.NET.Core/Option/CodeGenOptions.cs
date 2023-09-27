@@ -37,5 +37,5 @@ public sealed class CodeGenOptions : IConfigurableOptions
     /// <summary>
     /// 后端生成到的项目
     /// </summary>
-    public string BackendApplicationNamespace { get; set; }
+    public List<string> BackendApplicationNamespaces { get; set; }
 }

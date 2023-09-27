@@ -250,7 +250,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
 
         var templatePath = GetSeedDataTemplatePath();
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        var tableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == input.TableName); // 表名
+        var tableInfo = db.DbMaintenance.GetTableInfoList(false).First(u => u.Name == input.TableName); // 表名
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false); // 所有字段
         IEnumerable<EntityInfo> entityInfos = await GetEntityInfos();
         Type entityType = null;

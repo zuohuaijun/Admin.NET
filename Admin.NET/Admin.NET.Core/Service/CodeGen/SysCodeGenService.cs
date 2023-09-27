@@ -289,6 +289,15 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取程序保存位置
+    /// </summary>
+    /// <returns></returns>
+    [DisplayName("获取程序保存位置")]
+    public List<string> GetApplicationNamespaces()
+    {
+        return _codeGenOptions.BackendApplicationNamespaces;
+    }
+    /// <summary>
     /// 代码生成到本地
     /// </summary>
     /// <returns></returns>
