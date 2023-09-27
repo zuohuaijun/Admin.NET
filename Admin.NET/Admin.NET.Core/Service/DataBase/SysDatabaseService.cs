@@ -58,6 +58,18 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取数据库数据类型列表
+    /// </summary>
+    /// <param name="configId"></param>
+    /// <returns></returns>
+    [DisplayName("获取数据库数据类型列表")]
+    public List<string> GetDbTypeList(string configId = SqlSugarConst.MainConfigId)
+    {
+        var db = _db.AsTenant().GetConnectionScope(configId);
+        return db.DbMaintenance.GetDbTypes().OrderBy(u => u).ToList();
+    }
+
+    /// <summary>
     /// 增加列
     /// </summary>
     /// <param name="input"></param>

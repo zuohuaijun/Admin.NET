@@ -74,14 +74,6 @@ public static class SqlSugarSetup
                     column.IsNullable = true;
                 if (config.DbSettings.EnableUnderLine && !column.IsIgnore && !column.DbColumnName.Contains('_'))
                     column.DbColumnName = UtilMethods.ToUnderLine(column.DbColumnName); // 驼峰转下划线
-
-                if (config.DbType == SqlSugar.DbType.Oracle)
-                {
-                    if (type.PropertyType == typeof(long) || type.PropertyType == typeof(long?))
-                        column.DataType = "number(18)";
-                    if (type.PropertyType == typeof(bool) || type.PropertyType == typeof(bool?))
-                        column.DataType = "number(1)";
-                }
             },
             DataInfoCacheService = new SqlSugarCache(),
         };
