@@ -52,6 +52,14 @@
           </el-select>
           @:
         </el-form-item>
+        }else if(@column.EffectType == "EnumSelector"){
+        @:<el-form-item label="@column.ColumnComment">
+          @:<el-select clearable="" v-model="queryParams.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
+            @:<el-option v-for="(item,index) in getEnum@(@column.LowerPropertyName)Data" :key="index" :value="item.value" :label="item.describe" />
+            @:
+          </el-select>
+          @:
+        </el-form-item>
         }else if(@column.EffectType == "DatePicker"){
         @:<el-form-item label="@column.ColumnComment">
           if(@column.QueryType == "~"){
@@ -119,6 +127,13 @@
           @:
         </el-table-column>
         }
+        else if(@column.EffectType == "EnumSelector"){
+          @:<el-table-column prop="@column.LowerPropertyName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 140)" show-overflow-tooltip="" >
+            @:<template #default="scope">
+              @:<el-tag>{{ getEnumDesc(scope.row.@column.LowerPropertyName, getEnum@(@column.PropertyName)Data)}}</el-tag>
+            @:</template>
+          @:</el-table-column>
+        }
         else {
         @:<el-table-column prop="@column.LowerPropertyName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 140)" show-overflow-tooltip="" />
         }
@@ -173,12 +188,24 @@
   break;
   }
   }
+  @if(@Model.QueryWhetherList.Any(x=>x.EffectType == "EnumSelector")){
+	@:import { getAPI } from '/@@/utils/axios-utils';
+	@:import { SysEnumApi } from '/@@/api-services/api';
+  @:import commonFunction from '/@@/utils/commonFunction';
+	}
 
   @foreach (var column in Model.QueryWhetherList){
   if(@column.EffectType == "Select"){
   @:const get@(@column.LowerPropertyName)Data = ref<any>([]);
-    }
-    }
+  }
+  if(@column.EffectType == "EnumSelector"){
+  @:const getEnum@(@column.PropertyName)Data = ref<any>([]);
+  }
+  }
+
+  @if(@Model.QueryWhetherList.Any(x=>x.EffectType == "EnumSelector")){
+	@:const { getEnumDesc } = commonFunction();
+	}
 
   const editDialogRef = ref();
   const loading = ref(false);
@@ -202,6 +229,9 @@
   @foreach (var column in Model.QueryWhetherList){
   if(@column.EffectType == "Select"){
     @:get@(@column.LowerPropertyName)Data.value = await dictTypeDataList('@(@column.DictTypeCode)');
+  }
+  if(@column.EffectType == "EnumSelector"){
+    @:getEnum@(@column.PropertyName)Data.value = (await getAPI(SysEnumApi).apiSysEnumEnumDataListGet('@(@column.DictTypeCode)')).data.result ?? [];
   }
   }
   };
