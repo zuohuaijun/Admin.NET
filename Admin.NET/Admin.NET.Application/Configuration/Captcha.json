@@ -3,7 +3,7 @@
 
   "CaptchaOptions": {
     "CaptchaType": 10, // 验证码类型0、1、2、3、4、5、6、7、8、9、10、11
-    "CodeLength": 2, // 验证码长度, 要放在CaptchaType设置后  当类型为算术表达式时，长度代表操作的个数, 例如2
+    "CodeLength": 1, // 验证码长度, 要放在CaptchaType设置后  当类型为算术表达式时，长度代表操作的个数, 例如2
     "ExpirySeconds": 60, // 验证码过期秒数
     "IgnoreCase": true, // 比较时是否忽略大小写
     "StoreageKeyPrefix": "", // 存储键前缀

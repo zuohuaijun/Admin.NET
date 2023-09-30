@@ -111,12 +111,12 @@ public class SysOrgService : IDynamicApiController, ITransient
             if (orgIdList.Count < 1 || !orgIdList.Contains(input.Pid))
                 throw Oops.Oh(ErrorCodeEnum.D2003);
         }
-        
+
         // 删除与此父机构有关的用户机构缓存
         var pOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Pid);
         if (pOrg != null)
             DeleteUserOrgCache(pOrg.Id, pOrg.Pid);
-        
+
         var newOrg = await _sysOrgRep.AsInsertable(input.Adapt<SysOrg>()).ExecuteReturnEntityAsync();
         return newOrg.Id;
     }
