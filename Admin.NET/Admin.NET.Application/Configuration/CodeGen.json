@@ -4,7 +4,7 @@
   // 代码生成配置项-程序集名称集合
   "CodeGen": {
     "EntityAssemblyNames": [ "Admin.NET.Core", "Admin.NET.Application" ],
-    "BaseEntityNames": [ "EntityTenantId", "EntityTenant","EntityBaseData", "EntityBase", "EntityBaseId" ],
+    "BaseEntityNames": [ "EntityTenantId", "EntityTenant", "EntityBaseData", "EntityBase", "EntityBaseId" ],
     "EntityBaseColumn": {
       "EntityTenantId": [ "Id", "TenantId" ],
       "EntityTenant": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete", "TenantId" ],
@@ -14,6 +14,6 @@
       //"BaseId": [ "Id" ]
     },
     "FrontRootPath": "Web", // 前端文件根目录
-    "BackendApplicationNamespace": "Admin.NET.Application" // 后端生成到的项目
+    "BackendApplicationNamespaces": [ "Admin.NET.Application", "Admin.NET.Application2" ] // 后端生成到的项目（如果有多个）
   }
 }

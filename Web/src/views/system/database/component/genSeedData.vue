@@ -7,7 +7,7 @@
 					<span> 生成种子数据 </span>
 				</div>
 			</template>
-			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="auto">
+			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="auto" :rules="state.rules">
 				<el-row :gutter="35">
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="表名" prop="tableName" :rules="[{ required: true, message: '表名不能为空', trigger: 'blur' }]">
@@ -21,7 +21,10 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="存放位置" prop="position">
-							<el-input v-model="state.ruleForm.position" placeholder="存放位置" clearable >Admin.NET.Core</el-input>
+							<!-- <el-input v-model="state.ruleForm.position" placeholder="存放位置" clearable >Admin.NET.Core</el-input> -->
+							<el-select v-model="state.ruleForm.position" filterable clearable class="w100" placeholder="存放位置">
+								<el-option v-for="(item, index) in props.applicationNamespaces" :key="index" :label="item" :value="item" />
+							</el-select>
 						</el-form-item>
 					</el-col>
 				</el-row>
@@ -43,11 +46,17 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi, SysDictTypeApi } from '/@/api-services/api';
 
 const emits = defineEmits(['handleQueryColumn']);
+
+const props = defineProps({
+	applicationNamespaces: { type: Array },
+});
+
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
 	ruleForm: {} as any,
 	codeGenBaseClassName: [] as any,
+	rules: { position: [{ required: true, message: '请选择存放位置',trigger: 'blur' }] },
 });
 
 onMounted(async () => {
@@ -59,10 +68,9 @@ onMounted(async () => {
 const openDialog = (row: any) => {
 	state.ruleForm.configId = row.configId;
 	state.ruleForm.tableName = row.tableName;
-	//state.ruleForm.position = 'Admin.NET.Core';
-	if (state.ruleForm.position == undefined)
-		state.ruleForm.position = 'Admin.NET.Application';
 	state.isShowDialog = true;
+
+	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗
