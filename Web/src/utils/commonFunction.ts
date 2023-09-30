@@ -64,7 +64,7 @@ export default function () {
 	const removeHtml = (value: string) => {
 		return value.replace(/<[^>]+>/g, '');
 	};
-	//获取枚举描述
+	// 获取枚举描述
 	const getEnumDesc = (key: any, lstEnum: any) => {
 		return lstEnum.find((x: any) => x.value == key)?.describe;
 	};
@@ -78,6 +78,6 @@ export default function () {
 		copyText,
 		removeHtmlSub,
 		removeHtml,
-		getEnumDesc
+		getEnumDesc,
 	};
 }

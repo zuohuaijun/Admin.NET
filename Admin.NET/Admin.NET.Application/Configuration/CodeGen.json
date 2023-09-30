@@ -13,7 +13,7 @@
       "EntityBaseId": [ "Id" ]
       //"BaseId": [ "Id" ]
     },
-    "FrontRootPath": "Web", // 前端文件根目录
-    "BackendApplicationNamespaces": [ "Admin.NET.Application", "Admin.NET.Application2" ] // 后端生成到的项目（如果有多个）
+    "FrontRootPath": "Web", // 前端项目根目录
+    "BackendApplicationNamespaces": [ "Admin.NET.Application", "Admin.NET.Application2" ] // 后端生成到的项目
   }
 }
