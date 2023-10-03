@@ -58,6 +58,18 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取数据库数据类型列表
+    /// </summary>
+    /// <param name="configId"></param>
+    /// <returns></returns>
+    [DisplayName("获取数据库数据类型列表")]
+    public List<string> GetDbTypeList(string configId = SqlSugarConst.MainConfigId)
+    {
+        var db = _db.AsTenant().GetConnectionScope(configId);
+        return db.DbMaintenance.GetDbTypes().OrderBy(u => u).ToList();
+    }
+
+    /// <summary>
     /// 增加列
     /// </summary>
     /// <param name="input"></param>
@@ -250,7 +262,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
 
         var templatePath = GetSeedDataTemplatePath();
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        var tableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == input.TableName); // 表名
+        var tableInfo = db.DbMaintenance.GetTableInfoList(false).First(u => u.Name == input.TableName); // 表名
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false); // 所有字段
         IEnumerable<EntityInfo> entityInfos = await GetEntityInfos();
         Type entityType = null;

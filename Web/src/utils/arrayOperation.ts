@@ -4,7 +4,7 @@
  * @param old 源数据
  * @returns 两数组相同返回 `true`，反之则反
  */
-export function judementSameArr(newArr: unknown[] | string[], oldArr: string[]): boolean {
+export function judgementSameArr(newArr: unknown[] | string[], oldArr: string[]): boolean {
 	const news = removeDuplicate(newArr);
 	const olds = removeDuplicate(oldArr);
 	let count = 0;

@@ -63,8 +63,8 @@
 		<EditColumn ref="editColumnRef" @handleQueryColumn="handleQueryColumn" />
 		<AddTable ref="addTableRef" @addTableSubmitted="addTableSubmitted" />
 		<AddColumn ref="addColumnRef" @handleQueryColumn="handleQueryColumn" />
-		<GenEntity ref="genEntityRef" @handleQueryColumn="handleQueryColumn" />
-		<GenSeedData ref="genSeedDataRef" />
+		<GenEntity ref="genEntityRef" @handleQueryColumn="handleQueryColumn" :application-namespaces="state.appNamespaces" />
+		<GenSeedData ref="genSeedDataRef" :application-namespaces="state.appNamespaces" />
 	</div>
 </template>
 
@@ -79,7 +79,7 @@ import GenEntity from '/@/views/system/database/component/genEntity.vue';
 import GenSeedData from '/@/views/system/database/component/genSeedData.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysDatabaseApi } from '/@/api-services/api';
+import { SysDatabaseApi, SysCodeGenApi } from '/@/api-services/api';
 import { DbColumnOutput, DbTableInfo, DbColumnInput, DeleteDbTableInput, DeleteDbColumnInput } from '/@/api-services/models';
 
 const editTableRef = ref<InstanceType<typeof EditTable>>();
@@ -101,6 +101,7 @@ const state = reactive({
 		code: undefined,
 	},
 	editPosTitle: '',
+	appNamespaces: [] as Array<String>, // 存储位置
 });
 
 onMounted(async () => {
@@ -108,6 +109,9 @@ onMounted(async () => {
 	var res = await getAPI(SysDatabaseApi).apiSysDatabaseListGet();
 	state.dbData = res.data.result;
 	state.loading = false;
+
+	let appNamesRes = await getAPI(SysCodeGenApi).apiSysCodeGenApplicationNamespacesGet();
+	state.appNamespaces = appNamesRes.data.result as Array<string>;
 });
 
 // 增加表

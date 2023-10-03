@@ -255,7 +255,7 @@ const importData = (data: Array<EmptyObjectType>) => {
 	}
 	exportExcel(
 		exportData,
-		`${props.config.exportFileName ? props.config.exportFileName : themeConfig.value.globalTitle}_${new Date().toLocaleString()}.xlsx`,
+		`${props.config.exportFileName ? props.config.exportFileName : themeConfig.value.globalTitle}_${new Date().toLocaleString()}`,
 		setHeader.value.filter((item) => {
 			return item.type != 'action';
 		}),

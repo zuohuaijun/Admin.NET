@@ -60,7 +60,7 @@
 			/>
 		</el-card>
 
-		<EditCodeGenDialog :title="state.editMenuTitle" ref="EditCodeGenRef" @handleQuery="handleQuery" />
+		<EditCodeGenDialog :title="state.editMenuTitle" ref="EditCodeGenRef" @handleQuery="handleQuery" :application-namespaces="state.applicationNamespaces" />
 		<CodeConfigDialog ref="CodeConfigRef" @handleQuery="handleQuery" />
 	</div>
 </template>
@@ -97,10 +97,14 @@ const state = reactive({
 		total: 0 as any,
 	},
 	editMenuTitle: '',
+	applicationNamespaces: [] as Array<string>,
 });
 
 onMounted(async () => {
 	handleQuery();
+
+	let res = await getAPI(SysCodeGenApi).apiSysCodeGenApplicationNamespacesGet();
+	state.applicationNamespaces = res.data.result as Array<string>;
 });
 
 const openConfigDialog = (row: any) => {
@@ -139,7 +143,7 @@ const handleCurrentChange = (val: number) => {
 // 打开表增加页面
 const openAddDialog = () => {
 	state.editMenuTitle = '增加';
-	EditCodeGenRef.value?.openDialog({ nameSpace: 'Admin.NET.Application', authorName: 'Admin.NET', generateType: '200' });
+	EditCodeGenRef.value?.openDialog({ authorName: 'Admin.NET', generateType: '200' });
 };
 
 // 打开表编辑页面

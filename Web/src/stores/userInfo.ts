@@ -34,7 +34,7 @@ export const useUserInfo = defineStore('userInfo', {
 				this.userInfos = userInfos;
 			}
 		},
-        async setConstList() {
+		async setConstList() {
 			// 存储用户信息到浏览器缓存
 			if (Session.get('constList')) {
 				this.constList = Session.get('constList');

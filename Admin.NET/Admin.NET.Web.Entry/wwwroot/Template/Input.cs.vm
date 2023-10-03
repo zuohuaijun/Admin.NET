@@ -1,3 +1,4 @@
+using Admin.NET.Core;
 using System.ComponentModel.DataAnnotations;
 
 namespace @Model.NameSpace;

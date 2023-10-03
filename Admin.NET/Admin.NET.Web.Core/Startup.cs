@@ -61,6 +61,7 @@ public class Startup : AppStartup
         // Json序列化设置
         static void SetNewtonsoftJsonSetting(JsonSerializerSettings setting)
         {
+            setting.DateFormatHandling = DateFormatHandling.IsoDateFormat;
             setting.DateTimeZoneHandling = DateTimeZoneHandling.Local;
             setting.DateFormatString = "yyyy-MM-dd HH:mm:ss"; // 时间格式化
             setting.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; // 忽略循环引用
