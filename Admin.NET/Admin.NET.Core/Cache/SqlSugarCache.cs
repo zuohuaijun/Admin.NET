@@ -14,49 +14,46 @@ namespace Admin.NET.Core;
 /// </summary>
 public class SqlSugarCache : ICacheService
 {
-    /// <summary>
-    /// 内存缓存
-    /// </summary>
-    //private static readonly ICache _cache = App.GetService(typeof(ICache)) as ICache;
-    private static readonly ICache _cache = Cache.Default;
+	/// <summary>
+	/// 系统缓存服务
+	/// </summary>
+	private static readonly SysCacheService _cache = App.GetService<SysCacheService>();
 
-    public void Add<V>(string key, V value)
-    {
-        _cache.Set(key, value);
-    }
+	public void Add<V>(string key, V value)
+	{
+		_cache.Set($"{CacheConst.SqlSugar}{key}", value);
+	}
 
-    public void Add<V>(string key, V value, int cacheDurationInSeconds)
-    {
-        _cache.Set(key, value, cacheDurationInSeconds);
-    }
+	public void Add<V>(string key, V value, int cacheDurationInSeconds)
+	{
+		_cache.Set($"{CacheConst.SqlSugar}{key}", value, TimeSpan.FromSeconds(cacheDurationInSeconds));
+	}
 
-    public bool ContainsKey<V>(string key)
-    {
-        return _cache.ContainsKey(key);
-    }
+	public bool ContainsKey<V>(string key)
+	{
+		return _cache.ExistKey($"{CacheConst.SqlSugar}{key}");
+	}
 
-    public V Get<V>(string key)
-    {
-        return _cache.Get<V>(key);
-    }
+	public V Get<V>(string key)
+	{
+		return _cache.Get<V>($"{CacheConst.SqlSugar}{key}");
+	}
 
-    public IEnumerable<string> GetAllKey<V>()
-    {
-        return _cache.Keys;
-    }
+	public IEnumerable<string> GetAllKey<V>()
+	{
+		return _cache.GetKeysByPrefixKey(CacheConst.SqlSugar);
+	}
 
-    public V GetOrCreate<V>(string cacheKey, Func<V> create, int cacheDurationInSeconds = int.MaxValue)
-    {
-        if (!_cache.TryGetValue<V>(cacheKey, out V value))
-        {
-            value = create();
-            _cache.Set(cacheKey, value, cacheDurationInSeconds);
-        }
-        return value;
-    }
+	public V GetOrCreate<V>(string key, Func<V> create, int cacheDurationInSeconds = int.MaxValue)
+	{
+		return _cache.GetOrAdd<V>($"{CacheConst.SqlSugar}{key}", (cacheKey) =>
+		{
+			return create();
+		}, cacheDurationInSeconds);
+	}
 
-    public void Remove<V>(string key)
-    {
-        _cache.Remove(key);
-    }
+	public void Remove<V>(string key)
+	{
+		_cache.Remove($"{CacheConst.SqlSugar}{key}");
+	}
 }
