@@ -334,13 +334,16 @@ declare type TableDemoState = {
 			pageSize: number;
 			hideExport?: boolean;
 			exportFileName?: string;
+			hidePrint?: boolean;
+			printName?: string;
+			
 			// isOperate: boolean;
 		};
 		// actions: WorkflowDrawerLabelType[];
 		search: TableSearchType[];
 		param: EmptyObjectType;
 		defaultSort: EmptyObjectType;
-		printName: string;
+		
 	};
 };
 
