@@ -336,14 +336,12 @@ declare type TableDemoState = {
 			exportFileName?: string;
 			hidePrint?: boolean;
 			printName?: string;
-			
 			// isOperate: boolean;
 		};
 		// actions: WorkflowDrawerLabelType[];
 		search: TableSearchType[];
 		param: EmptyObjectType;
 		defaultSort: EmptyObjectType;
-		
 	};
 };
 
