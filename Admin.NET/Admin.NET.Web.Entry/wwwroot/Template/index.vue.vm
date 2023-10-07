@@ -104,6 +104,7 @@
           @:<template #default="scope">
             if(@column.EffectType == "Upload"){
             @:<el-image
+            @:v-if="scope.row.@column.LowerPropertyName"
             @:style="width: 60px; height: 60px"
             @::src="scope.row.@column.LowerPropertyName"
             @::lazy="true"
