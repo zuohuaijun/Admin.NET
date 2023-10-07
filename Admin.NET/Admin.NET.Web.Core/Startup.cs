@@ -27,7 +27,6 @@ using OnceMi.AspNetCore.OSS;
 using System;
 using System.Net;
 using System.Net.Mail;
-using Yitter.IdGenerator;
 
 namespace Admin.NET.Web.Core;
 
@@ -165,9 +164,6 @@ public class Startup : AppStartup
 
         // 系统日志
         services.AddLoggingSetup();
-
-        // 雪花Id
-        YitIdHelper.SetIdGenerator(App.GetOptions<SnowIdOptions>());
 
         // 验证码
         services.AddCaptcha();

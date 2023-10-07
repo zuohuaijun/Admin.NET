@@ -16,7 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="AlibabaCloud.SDK.Dysmsapi20170525" Version="2.0.24" />
-    <PackageReference Include="AngleSharp" Version="1.0.4" />
+    <PackageReference Include="AngleSharp" Version="1.0.5" />
     <PackageReference Include="AspectCore.Extensions.Reflection" Version="2.4.0" />
     <PackageReference Include="AspNet.Security.OAuth.Gitee" Version="6.0.15" />
     <PackageReference Include="AspNet.Security.OAuth.Weixin" Version="6.0.15" />

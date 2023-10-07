@@ -180,14 +180,18 @@
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="文化程度">
 									<el-select v-model="state.ruleForm.cultureLevel" placeholder="文化程度" class="w100">
-										<el-option label="小学" :value="0" />
-										<el-option label="初中" :value="1" />
-										<el-option label="高中" :value="2" />
-										<el-option label="中专" :value="3" />
-										<el-option label="大专" :value="4" />
-										<el-option label="本科" :value="5" />
-										<el-option label="硕士研究生" :value="6" />
-										<el-option label="博士研究生" :value="7" />
+										<el-option label="其他" :value="0" />
+										<el-option label="小学" :value="1" />
+										<el-option label="初中" :value="2" />
+										<el-option label="普通高中" :value="3" />
+										<el-option label="技工学校" :value="4" />
+										<el-option label="职业教育" :value="5" />
+										<el-option label="职业高中" :value="6" />
+										<el-option label="中等专科" :value="7" />
+										<el-option label="大学专科" :value="8" />
+										<el-option label="大学本科" :value="9" />
+										<el-option label="硕士研究生" :value="10" />
+										<el-option label="博士研究生" :value="11" />
 									</el-select>
 								</el-form-item>
 							</el-col>

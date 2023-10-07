@@ -55,7 +55,7 @@ export const useUserInfo = defineStore('userInfo', {
 						const userInfos = {
 							account: d.account,
 							realName: d.realName,
-							avatar: d.avatar ? d.avatar : '/favicon.ico',
+							avatar: d.avatar ? '/' + d.avatar : '/favicon.ico',
 							address: d.address,
 							signature: d.signature,
 							orgId: d.orgId,
