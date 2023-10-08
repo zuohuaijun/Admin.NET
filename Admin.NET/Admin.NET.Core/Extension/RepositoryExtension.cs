@@ -137,7 +137,7 @@ public static class RepositoryExtension
     public static ISugarQueryable<T> OrderBuilder<T>(this ISugarQueryable<T> queryable, BasePageInput pageInput, string prefix = "", string defaultSortField = "Id", bool descSort = true)
     {
         // 约定默认每张表都有Id排序
-        var orderStr = string.IsNullOrWhiteSpace(defaultSortField) ? "" : descSort ? defaultSortField + " Desc" : defaultSortField + " Asc";
+        var orderStr = string.IsNullOrWhiteSpace(defaultSortField) ? "" : $"{prefix}{defaultSortField}" + (descSort ? " Desc" : " Asc");
 
         TypeAdapterConfig typeAdapterConfig = new();
         typeAdapterConfig.ForType<T, BasePageInput>().IgnoreNullValues(true);
