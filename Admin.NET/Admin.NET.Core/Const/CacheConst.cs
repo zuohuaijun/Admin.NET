@@ -67,8 +67,8 @@ public class CacheConst
     /// </summary>
     public const string KeyAll = "sys_keys";
 
-	/// <summary>
-	/// SqlSugar二级缓存
-	/// </summary>
-	public const string SqlSugar = "sqlSugar:";
+    /// <summary>
+    /// SqlSugar二级缓存
+    /// </summary>
+    public const string SqlSugar = "sys_sqlSugar:";
 }

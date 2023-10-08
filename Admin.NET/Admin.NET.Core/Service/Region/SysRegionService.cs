@@ -20,6 +20,9 @@ public class SysRegionService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysRegion> _sysRegionRep;
 
+    // Url地址-国家统计局行政区域2023年
+    private readonly string _url = "http://www.stats.gov.cn/sj/tjbz/tjyqhdmhcxhfdm/2023/index.html";
+
     public SysRegionService(SqlSugarRepository<SysRegion> sysRegionRep)
     {
         _sysRegionRep = sysRegionRep;
@@ -123,10 +126,8 @@ public class SysRegionService : IDynamicApiController, ITransient
     {
         await _sysRegionRep.DeleteAsync(u => u.Id > 0);
 
-        // 国家统计局行政区域2023年
-        var url = "http://www.stats.gov.cn/sj/tjbz/tjyqhdmhcxhfdm/2023/index.html";
         var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
-        var dom = await context.OpenAsync(url);
+        var dom = await context.OpenAsync(_url);
 
         // 省级
         var itemList = dom.QuerySelectorAll("table.provincetable tr.provincetr td a");
