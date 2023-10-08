@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -123,8 +123,8 @@ public class SysRegionService : IDynamicApiController, ITransient
     {
         await _sysRegionRep.DeleteAsync(u => u.Id > 0);
 
-        // 国家统计局行政区域2022年
-        var url = "http://www.stats.gov.cn/sj/tjbz/tjyqhdmhcxhfdm/2022/index.html";
+        // 国家统计局行政区域2023年
+        var url = "http://www.stats.gov.cn/sj/tjbz/tjyqhdmhcxhfdm/2023/index.html";
         var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
         var dom = await context.OpenAsync(url);
 
