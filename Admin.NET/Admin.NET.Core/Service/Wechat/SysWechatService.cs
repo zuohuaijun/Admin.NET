@@ -18,13 +18,16 @@ public class SysWechatService : IDynamicApiController, ITransient
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
     private readonly WechatApiClient _wechatApiClient;
     private readonly WechatApiHttpClient _wechatApiHttpClient;
+    private readonly SysConfigService _sysConfigService;
 
     public SysWechatService(SqlSugarRepository<SysWechatUser> sysWechatUserRep,
-        WechatApiHttpClient wechatApiHttpClient)
+        WechatApiHttpClient wechatApiHttpClient,
+        SysConfigService sysConfigService)
     {
         _sysWechatUserRep = sysWechatUserRep;
         _wechatApiClient = wechatApiHttpClient.CreateWechatClient();
         _wechatApiHttpClient = wechatApiHttpClient;
+        _sysConfigService = sysConfigService;
     }
 
     /// <summary>
@@ -91,6 +94,8 @@ public class SysWechatService : IDynamicApiController, ITransient
         var wxUser = await _sysWechatUserRep.GetFirstAsync(p => p.OpenId == input.OpenId);
         if (wxUser == null)
             throw Oops.Oh("微信用户登录OpenId错误");
+
+        var tokenExpire = await _sysConfigService.GetTokenExpire();
         return new
         {
             wxUser.Avatar,
@@ -99,7 +104,7 @@ public class SysWechatService : IDynamicApiController, ITransient
                 { ClaimConst.UserId, wxUser.Id },
                 { ClaimConst.NickName, wxUser.NickName },
                 { ClaimConst.LoginMode, LoginModeEnum.APP },
-            })
+            }, tokenExpire)
         };
     }
 

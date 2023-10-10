@@ -17,12 +17,15 @@ public class SysWxOpenService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
     private readonly WechatApiClient _wechatApiClient;
+    private readonly SysConfigService _sysConfigService;
 
     public SysWxOpenService(SqlSugarRepository<SysWechatUser> sysWechatUserRep,
-        WechatApiHttpClient wechatApiHttpClient)
+        WechatApiHttpClient wechatApiHttpClient,
+        SysConfigService sysConfigService)
     {
         _sysWechatUserRep = sysWechatUserRep;
         _wechatApiClient = wechatApiHttpClient.CreateWxOpenClient();
+        _sysConfigService = sysConfigService;
     }
 
     /// <summary>
@@ -100,6 +103,8 @@ public class SysWxOpenService : IDynamicApiController, ITransient
         var wxUser = await _sysWechatUserRep.GetFirstAsync(p => p.OpenId == input.OpenId);
         if (wxUser == null)
             throw Oops.Oh("微信小程序登录失败");
+
+        var tokenExpire = await _sysConfigService.GetTokenExpire();
         return new
         {
             wxUser.Avatar,
@@ -108,7 +113,7 @@ public class SysWxOpenService : IDynamicApiController, ITransient
                 { ClaimConst.UserId, wxUser.Id },
                 { ClaimConst.RealName, wxUser.NickName },
                 { ClaimConst.LoginMode, LoginModeEnum.APP },
-            })
+            }, tokenExpire)
         };
     }
 
