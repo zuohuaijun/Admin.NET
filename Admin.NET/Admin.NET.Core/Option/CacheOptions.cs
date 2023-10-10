@@ -41,3 +41,45 @@ public sealed class CacheOptions : IConfigurableOptions<CacheOptions>
 public sealed class RedisOption : RedisOptions
 {
 }
+
+/// <summary>
+/// 集群配置选项
+/// </summary>
+public sealed class ClusterOptions : IConfigurableOptions
+{
+    /// <summary>
+    /// 是否启用
+    /// </summary>
+    public bool Enabled { get; set; }
+
+    /// <summary>
+    /// 服务器标识
+    /// </summary>
+    public string ServerId { get; set; }
+
+    /// <summary>
+    /// 服务器IP
+    /// </summary>
+    public string ServerIp { get; set; }
+
+    /// <summary>
+    /// SignalR配置
+    /// </summary>
+    public ClusterSignalR SignalR { get; set; }
+}
+
+/// <summary>
+/// 集群SignalR配置
+/// </summary>
+public sealed class ClusterSignalR
+{
+    /// <summary>
+    /// Redis连接字符串
+    /// </summary>
+    public string RedisConfiguration { get; set; }
+
+    /// <summary>
+    /// 缓存前缀
+    /// </summary>
+    public string ChannelPrefix { get; set; }
+}

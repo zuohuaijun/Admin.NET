@@ -156,30 +156,21 @@ public class Startup : AppStartup
         services.AddViewEngine();
 
         // 即时通讯
-        // 如果支持集群，把SignalR配置地为支持集群的模式
-        if (App.GetConfig<bool>("Cluster:EnableCluster"))
+        var signalRBuilder = services.AddSignalR(options =>
+            {
+                options.KeepAliveInterval = TimeSpan.FromSeconds(5);
+            })
+            .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
+        // 若已开启集群配置，则把SignalR配置为支持集群模式
+        var clusterOpt = App.GetOptions<ClusterOptions>();
+        if (clusterOpt.Enabled)
         {
-            string redisConnectionString = App.GetConfig<string>("Cluster:SignalR:RedisConfiguration");
-            string channelPrefix = App.GetConfig<string>("Cluster:SignalR:ChannelPrefix");
-            services.AddSignalR(options =>
+            signalRBuilder.AddStackExchangeRedis(clusterOpt.SignalR.RedisConfiguration, options =>
                 {
-                    options.KeepAliveInterval = TimeSpan.FromSeconds(5);
-                })
-                .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings))
-                .AddStackExchangeRedis(redisConnectionString, options =>
-                {
-                    options.Configuration.ChannelPrefix = channelPrefix;
+                    options.Configuration.ChannelPrefix = clusterOpt.SignalR.ChannelPrefix;
                 });
+        }
 
-        }
-        else
-        {
-            services.AddSignalR(options =>
-                {
-                    options.KeepAliveInterval = TimeSpan.FromSeconds(5);
-                })
-                .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
-        }
         // 系统日志
         services.AddLoggingSetup();
 

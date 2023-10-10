@@ -3,10 +3,19 @@
 
   "Cache": {
     "Prefix": "adminnet_", // 全局缓存前缀
-    "CacheType": "Redis", // Memory、Redis
+    "CacheType": "Memory", // Memory、Redis
     "Redis": {
       "Configuration": "server=127.0.0.1:6379;password=;db=5;", // Redis连接字符串
       "Prefix": "adminnet_" // Redis前缀（目前没用）
+    }
+  },
+  "Cluster": { // 集群配置
+    "Enabled": true, // 启用集群：Cache.json使用Redis方式，OSS.json不能使用本地方式保存文件
+    "ServerId": "adminnet", // 服务器标识
+    "ServerIp": "", // 服务器IP
+    "SignalR": {
+      "RedisConfiguration": "127.0.0.1:6379,ssl=false,password=,defaultDatabase=5",
+      "ChannelPrefix": "signalrPrefix_"
     }
   }
 }
