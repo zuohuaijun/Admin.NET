@@ -26,6 +26,7 @@ public static class ProjectOptions
         services.AddConfigurableOptions<DbConnectionOptions>();
         services.AddConfigurableOptions<SnowIdOptions>();
         services.AddConfigurableOptions<CacheOptions>();
+        services.AddConfigurableOptions<ClusterOptions>();
         services.AddConfigurableOptions<OSSProviderOptions>();
         services.AddConfigurableOptions<UploadOptions>();
         services.AddConfigurableOptions<WechatOptions>();
