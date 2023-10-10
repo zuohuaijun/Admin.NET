@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -156,12 +156,30 @@ public class Startup : AppStartup
         services.AddViewEngine();
 
         // 即时通讯
-        services.AddSignalR(options =>
-            {
-                options.KeepAliveInterval = TimeSpan.FromSeconds(5);
-            })
-            .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
+        // 如果支持集群，把SignalR配置地为支持集群的模式
+        if (App.GetConfig<bool>("Cluster:EnableCluster"))
+        {
+            string redisConnectionString = App.GetConfig<string>("Cluster:SignalR:RedisConfiguration");
+            string channelPrefix = App.GetConfig<string>("Cluster:SignalR:ChannelPrefix");
+            services.AddSignalR(options =>
+                {
+                    options.KeepAliveInterval = TimeSpan.FromSeconds(5);
+                })
+                .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings))
+                .AddStackExchangeRedis(redisConnectionString, options =>
+                {
+                    options.Configuration.ChannelPrefix = channelPrefix;
+                });
 
+        }
+        else
+        {
+            services.AddSignalR(options =>
+                {
+                    options.KeepAliveInterval = TimeSpan.FromSeconds(5);
+                })
+                .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
+        }
         // 系统日志
         services.AddLoggingSetup();
 
