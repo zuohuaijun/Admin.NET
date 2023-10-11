@@ -47,6 +47,7 @@ public static class ProjectOptions
         services.Configure<IpRateLimitPolicies>(App.Configuration.GetSection("IpRateLimitPolicies"));
         services.Configure<ClientRateLimitOptions>(App.Configuration.GetSection("ClientRateLimiting"));
         services.Configure<ClientRateLimitPolicies>(App.Configuration.GetSection("ClientRateLimitPolicies"));
+        services.AddConfigurableOptions<StackExchangeRedisOptions>();
 
         return services;
     }
