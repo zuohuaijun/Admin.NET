@@ -24,9 +24,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using OnceMi.AspNetCore.OSS;
+using StackExchange.Redis;
 using System;
 using System.Net;
 using System.Net.Mail;
+using Microsoft.AspNetCore.DataProtection;
+using Furion.Logging.Extensions;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Admin.NET.Web.Core;
 
@@ -157,17 +161,63 @@ public class Startup : AppStartup
 
         // 即时通讯
         var signalRBuilder = services.AddSignalR(options =>
-            {
-                options.KeepAliveInterval = TimeSpan.FromSeconds(5);
-            })
-            .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
+        {
+            options.EnableDetailedErrors = true;
+            options.ClientTimeoutInterval = TimeSpan.FromMinutes(2);
+            options.KeepAliveInterval = TimeSpan.FromMinutes(1);
+        }).AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
+
         // 若已开启集群配置，则把SignalR配置为支持集群模式
         var clusterOpt = App.GetOptions<ClusterOptions>();
         if (clusterOpt.Enabled)
         {
+            // StackExchangeRedis 缓存
+            var redisOptions = App.GetOptions<StackExchangeRedisOptions>();
+
+            // 密钥存储（数据保护）
+            var redisConfig = new ConfigurationOptions
+            {
+                AbortOnConnectFail = false,
+                ServiceName = redisOptions.ServiceName,
+                AllowAdmin = true,
+                DefaultDatabase = redisOptions.DefaultDb,
+                Password = redisOptions.Password
+            };
+            redisOptions.EndPoints.ForEach(o => redisConfig.EndPoints.Add(o));
+            var connection1 = ConnectionMultiplexer.Connect(redisConfig);
+            services.AddDataProtection()
+                .PersistKeysToStackExchangeRedis(connection1, "AdminNet:DataProtection-Keys");
+
             signalRBuilder.AddStackExchangeRedis(clusterOpt.SignalR.RedisConfiguration, options =>
                 {
+                    // 此处设置的ChannelPrefix并不会生效，如果两个不同的项目，且[程序集名+类名]一样，使用同一个redis服务，请注意修改 Hub/OnlineUserHub 的类名。
+                    // 原因请参考下边链接：
+                    // https://github.com/dotnet/aspnetcore/blob/f9121bc3e976ec40a959818451d126d5126ce868/src/SignalR/server/StackExchangeRedis/src/RedisHubLifetimeManager.cs#L74
+                    // https://github.com/dotnet/aspnetcore/blob/f9121bc3e976ec40a959818451d126d5126ce868/src/SignalR/server/StackExchangeRedis/src/Internal/RedisChannels.cs#L33
                     options.Configuration.ChannelPrefix = clusterOpt.SignalR.ChannelPrefix;
+                    options.ConnectionFactory = async writer =>
+                    {
+                        var config = new ConfigurationOptions
+                        {
+                            AbortOnConnectFail = false,
+                            ServiceName = redisOptions.ServiceName,
+                            AllowAdmin = true,
+                            DefaultDatabase = redisOptions.DefaultDb,
+                            Password = redisOptions.Password
+                        };
+                        redisOptions.EndPoints.ForEach(o => config.EndPoints.Add(o));
+                        var connection = await ConnectionMultiplexer.ConnectAsync(config, writer);
+                        connection.ConnectionFailed += (_, e) =>
+                        {
+                            "Connection to Redis failed.".LogError();
+                        };
+
+                        if (!connection.IsConnected)
+                        {
+                            "Did not connect to Redis.".LogError();
+                        }
+                        return connection;
+                    };
                 });
         }
 

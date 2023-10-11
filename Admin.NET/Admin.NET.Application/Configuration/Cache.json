@@ -17,5 +17,18 @@
       "RedisConfiguration": "127.0.0.1:6379,ssl=false,password=,defaultDatabase=5",
       "ChannelPrefix": "signalrPrefix_"
     }
+  },
+  "StackExchangeRedis": {
+    "DefaultDb": "4",
+    "EndPoints": [
+      "10.10.0.123:26379",// 哨兵端口
+      "10.10.0.124:26380",
+      "10.10.0.125:26381"
+    ],
+    "MainPrefix": "adminNet:",
+    "Password": "123456",
+    "SentinelPassword": "1qaz",
+    "ServiceName": "mymaster",
+    "SignalRChannelPrefix": "signalR:"
   }
 }
