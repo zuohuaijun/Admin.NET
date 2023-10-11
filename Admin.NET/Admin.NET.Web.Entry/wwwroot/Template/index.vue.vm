@@ -1,4 +1,4 @@
-﻿@{
+@{
   var pkField = Model.TableField.Where(c => c.ColumnKey == "True").FirstOrDefault();
   string pkFieldName = LowerFirstLetter(pkField.PropertyName);
   Dictionary<string, int> definedObjects = new Dictionary<string, int>();
@@ -47,7 +47,7 @@
         }else if(@column.EffectType == "Select"){
         @:<el-form-item label="@column.ColumnComment">
           @:<el-select clearable="" v-model="queryParams.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
-            @:<el-option v-for="(item,index) in get@(@column.LowerPropertyName)Data" :key="index" :value="item.value" :label="item.label" />
+            @:<el-option v-for="(item,index) in get@(@column.LowerPropertyName)Data" :key="index" :value="item.code" :label="item.value" />
             @:
           </el-select>
           @:
