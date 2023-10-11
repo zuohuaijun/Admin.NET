@@ -10,7 +10,7 @@
     }
   },
   "Cluster": { // 集群配置
-    "Enabled": true, // 启用集群：Cache.json使用Redis方式，OSS.json不能使用本地方式保存文件
+    "Enabled": false, // 启用集群：前提开启Redis缓存模式
     "ServerId": "adminnet", // 服务器标识
     "ServerIp": "", // 服务器IP
     "SignalR": {
@@ -18,17 +18,15 @@
       "ChannelPrefix": "signalrPrefix_"
     }
   },
-  "StackExchangeRedis": {
+  "StackExchangeRedis": { // 数据保护
     "DefaultDb": "4",
     "EndPoints": [
-      "10.10.0.123:26379",// 哨兵端口
-      "10.10.0.124:26380",
-      "10.10.0.125:26381"
+      // "10.10.0.124:26380", // 哨兵端口
     ],
     "MainPrefix": "adminNet:",
     "Password": "123456",
-    "SentinelPassword": "1qaz",
-    "ServiceName": "mymaster",
+    "SentinelPassword": "adminNet",
+    "ServiceName": "adminNet",
     "SignalRChannelPrefix": "signalR:"
   }
 }

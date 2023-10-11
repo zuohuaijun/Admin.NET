@@ -21,10 +21,13 @@ public sealed class StackExchangeRedisOptions : IConfigurableOptions
     public string SentinelPassword { get; set; }
 
     /// <summary>
-    /// 
+    /// 哨兵端口
     /// </summary>
     public List<string> EndPoints { get; set; }
 
+    /// <summary>
+    /// 默认库
+    /// </summary>
     public int DefaultDb { get; set; }
 
     /// <summary>
@@ -33,7 +36,7 @@ public sealed class StackExchangeRedisOptions : IConfigurableOptions
     public string MainPrefix { get; set; }
 
     /// <summary>
-    ///  SignalR 前缀
+    /// SignalR前缀
     /// </summary>
     public string SignalRChannelPrefix { get; set; }
 }

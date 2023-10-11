@@ -14,9 +14,6 @@ using Furion;
 using Furion.SpecificationDocument;
 using Furion.VirtualFileServer;
 using IGeekFan.AspNetCore.Knife4jUI;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -24,13 +21,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using OnceMi.AspNetCore.OSS;
-using StackExchange.Redis;
 using System;
 using System.Net;
 using System.Net.Mail;
-using Microsoft.AspNetCore.DataProtection;
-using Furion.Logging.Extensions;
-using Microsoft.AspNetCore.SignalR;
 
 namespace Admin.NET.Web.Core;
 
@@ -83,30 +76,8 @@ public class Startup : AppStartup
             //.AddXmlDataContractSerializerFormatters()
             .AddInjectWithUnifyResult<AdminResultProvider>();
 
-        // 第三方授权登录
-        var authOpt = App.GetOptions<OAuthOptions>();
-        services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddCookie(options =>
-            {
-                options.Cookie.SameSite = Microsoft.AspNetCore.Http.SameSiteMode.None;
-                options.Cookie.SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.Always;
-            })
-            .AddWeixin(options =>
-            {
-                options.ClientId = authOpt.Weixin?.ClientId;
-                options.ClientSecret = authOpt.Weixin?.ClientSecret;
-            })
-            .AddGitee(options =>
-            {
-                options.ClientId = authOpt.Gitee?.ClientId;
-                options.ClientSecret = authOpt.Gitee?.ClientSecret;
-
-                options.ClaimActions.MapJsonKey(OAuthClaim.GiteeAvatarUrl, "avatar_url");
-            });
+        // 三方授权登录OAuth
+        services.AddOAuth();
 
         // ElasticSearch
         services.AddElasticSearch();
@@ -160,66 +131,7 @@ public class Startup : AppStartup
         services.AddViewEngine();
 
         // 即时通讯
-        var signalRBuilder = services.AddSignalR(options =>
-        {
-            options.EnableDetailedErrors = true;
-            options.ClientTimeoutInterval = TimeSpan.FromMinutes(2);
-            options.KeepAliveInterval = TimeSpan.FromMinutes(1);
-        }).AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
-
-        // 若已开启集群配置，则把SignalR配置为支持集群模式
-        var clusterOpt = App.GetOptions<ClusterOptions>();
-        if (clusterOpt.Enabled)
-        {
-            // StackExchangeRedis 缓存
-            var redisOptions = App.GetOptions<StackExchangeRedisOptions>();
-
-            // 密钥存储（数据保护）
-            var redisConfig = new ConfigurationOptions
-            {
-                AbortOnConnectFail = false,
-                ServiceName = redisOptions.ServiceName,
-                AllowAdmin = true,
-                DefaultDatabase = redisOptions.DefaultDb,
-                Password = redisOptions.Password
-            };
-            redisOptions.EndPoints.ForEach(o => redisConfig.EndPoints.Add(o));
-            var connection1 = ConnectionMultiplexer.Connect(redisConfig);
-            services.AddDataProtection()
-                .PersistKeysToStackExchangeRedis(connection1, "AdminNet:DataProtection-Keys");
-
-            signalRBuilder.AddStackExchangeRedis(clusterOpt.SignalR.RedisConfiguration, options =>
-                {
-                    // 此处设置的ChannelPrefix并不会生效，如果两个不同的项目，且[程序集名+类名]一样，使用同一个redis服务，请注意修改 Hub/OnlineUserHub 的类名。
-                    // 原因请参考下边链接：
-                    // https://github.com/dotnet/aspnetcore/blob/f9121bc3e976ec40a959818451d126d5126ce868/src/SignalR/server/StackExchangeRedis/src/RedisHubLifetimeManager.cs#L74
-                    // https://github.com/dotnet/aspnetcore/blob/f9121bc3e976ec40a959818451d126d5126ce868/src/SignalR/server/StackExchangeRedis/src/Internal/RedisChannels.cs#L33
-                    options.Configuration.ChannelPrefix = clusterOpt.SignalR.ChannelPrefix;
-                    options.ConnectionFactory = async writer =>
-                    {
-                        var config = new ConfigurationOptions
-                        {
-                            AbortOnConnectFail = false,
-                            ServiceName = redisOptions.ServiceName,
-                            AllowAdmin = true,
-                            DefaultDatabase = redisOptions.DefaultDb,
-                            Password = redisOptions.Password
-                        };
-                        redisOptions.EndPoints.ForEach(o => config.EndPoints.Add(o));
-                        var connection = await ConnectionMultiplexer.ConnectAsync(config, writer);
-                        connection.ConnectionFailed += (_, e) =>
-                        {
-                            "Connection to Redis failed.".LogError();
-                        };
-
-                        if (!connection.IsConnected)
-                        {
-                            "Did not connect to Redis.".LogError();
-                        }
-                        return connection;
-                    };
-                });
-        }
+        services.AddSignalR(SetNewtonsoftJsonSetting);
 
         // 系统日志
         services.AddLoggingSetup();
