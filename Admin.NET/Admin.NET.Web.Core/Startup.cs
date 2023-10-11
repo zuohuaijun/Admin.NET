@@ -29,6 +29,8 @@ using System;
 using System.Net;
 using System.Net.Mail;
 using Microsoft.AspNetCore.DataProtection;
+using Furion.Logging.Extensions;
+using Microsoft.AspNetCore.SignalR;
 
 namespace Admin.NET.Web.Core;
 
@@ -159,10 +161,12 @@ public class Startup : AppStartup
 
         // 即时通讯
         var signalRBuilder = services.AddSignalR(options =>
-            {
-                options.KeepAliveInterval = TimeSpan.FromSeconds(5);
-            })
-            .AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
+        {
+            options.EnableDetailedErrors = true;
+            options.ClientTimeoutInterval = TimeSpan.FromMinutes(2);
+            options.KeepAliveInterval = TimeSpan.FromMinutes(1);
+        }).AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
+
         // 若已开启集群配置，则把SignalR配置为支持集群模式
         var clusterOpt = App.GetOptions<ClusterOptions>();
         if (clusterOpt.Enabled)
@@ -191,6 +195,29 @@ public class Startup : AppStartup
                     // https://github.com/dotnet/aspnetcore/blob/f9121bc3e976ec40a959818451d126d5126ce868/src/SignalR/server/StackExchangeRedis/src/RedisHubLifetimeManager.cs#L74
                     // https://github.com/dotnet/aspnetcore/blob/f9121bc3e976ec40a959818451d126d5126ce868/src/SignalR/server/StackExchangeRedis/src/Internal/RedisChannels.cs#L33
                     options.Configuration.ChannelPrefix = clusterOpt.SignalR.ChannelPrefix;
+                    options.ConnectionFactory = async writer =>
+                    {
+                        var config = new ConfigurationOptions
+                        {
+                            AbortOnConnectFail = false,
+                            ServiceName = redisOptions.ServiceName,
+                            AllowAdmin = true,
+                            DefaultDatabase = redisOptions.DefaultDb,
+                            Password = redisOptions.Password
+                        };
+                        redisOptions.EndPoints.ForEach(o => config.EndPoints.Add(o));
+                        var connection = await ConnectionMultiplexer.ConnectAsync(config, writer);
+                        connection.ConnectionFailed += (_, e) =>
+                        {
+                            "Connection to Redis failed.".LogError();
+                        };
+
+                        if (!connection.IsConnected)
+                        {
+                            "Did not connect to Redis.".LogError();
+                        }
+                        return connection;
+                    };
                 });
         }
 
