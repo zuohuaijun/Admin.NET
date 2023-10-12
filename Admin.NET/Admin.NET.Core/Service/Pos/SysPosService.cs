@@ -51,8 +51,7 @@ public class SysPosService : IDynamicApiController, ITransient
     [DisplayName("增加职位")]
     public async Task AddPos(AddPosInput input)
     {
-        var isExist = await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
-        if (isExist)
+        if (await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code))
             throw Oops.Oh(ErrorCodeEnum.D6000);
 
         await _sysPosRep.InsertAsync(input.Adapt<SysPos>());
@@ -67,8 +66,7 @@ public class SysPosService : IDynamicApiController, ITransient
     [DisplayName("更新职位")]
     public async Task UpdatePos(UpdatePosInput input)
     {
-        var isExist = await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
-        if (isExist)
+        if (await _sysPosRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id))
             throw Oops.Oh(ErrorCodeEnum.D6000);
 
         var sysPos = await _sysPosRep.GetByIdAsync(input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D6003);
@@ -87,10 +85,7 @@ public class SysPosService : IDynamicApiController, ITransient
     [DisplayName("删除职位")]
     public async Task DeletePos(DeletePosInput input)
     {
-        var sysPos = await _sysPosRep.GetFirstAsync(u => u.Id == input.Id);
-        if (sysPos == null)
-            throw Oops.Oh(ErrorCodeEnum.D6003);
-
+        var sysPos = await _sysPosRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D6003);
         if (!_userManager.SuperAdmin && sysPos.CreateUserId != _userManager.UserId)
             throw Oops.Oh(ErrorCodeEnum.D6002);
 

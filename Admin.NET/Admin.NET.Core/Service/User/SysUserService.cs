@@ -136,7 +136,7 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("删除用户")]
     public async Task DeleteUser(DeleteUserInput input)
     {
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D1002);
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
         if (user.AccountType == AccountTypeEnum.SuperAdmin)
             throw Oops.Oh(ErrorCodeEnum.D1014);
         if (user.Id == _userManager.UserId)
@@ -181,7 +181,7 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("设置用户状态")]
     public async Task<int> SetStatus(UserInput input)
     {
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
         if (user.AccountType == AccountTypeEnum.SuperAdmin)
             throw Oops.Oh(ErrorCodeEnum.D1015);
 
@@ -200,7 +200,7 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("授权用户角色")]
     public async Task GrantRole(UserRoleInput input)
     {
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.UserId);
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.UserId) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
         if (user.AccountType == AccountTypeEnum.SuperAdmin)
             throw Oops.Oh(ErrorCodeEnum.D1022);
 
@@ -215,7 +215,7 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("修改用户密码")]
     public async Task<int> ChangePwd(ChangePwdInput input)
     {
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
         if (CryptogramUtil.CryptoType == CryptogramEnum.MD5.ToString())
         {
             if (user.Password != MD5Encryption.Encrypt(input.PasswordOld))
@@ -239,9 +239,8 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("重置用户密码")]
     public async Task<string> ResetPwd(ResetPwdUserInput input)
     {
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
-
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id);
         user.Password = CryptogramUtil.Encrypt(password);
         await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
         return password;

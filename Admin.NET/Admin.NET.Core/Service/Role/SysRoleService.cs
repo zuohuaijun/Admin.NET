@@ -80,8 +80,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [DisplayName("增加角色")]
     public async Task AddRole(AddRoleInput input)
     {
-        var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code);
-        if (isExist)
+        if (await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code))
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
         var newRole = await _sysRoleRep.AsInsertable(input.Adapt<SysRole>()).ExecuteReturnEntityAsync();
@@ -118,8 +117,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [DisplayName("更新角色")]
     public async Task UpdateRole(UpdateRoleInput input)
     {
-        var isExist = await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id);
-        if (isExist)
+        if (await _sysRoleRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code && u.Id != input.Id))
             throw Oops.Oh(ErrorCodeEnum.D1006);
 
         await _sysRoleRep.AsUpdateable(input.Adapt<SysRole>()).IgnoreColumns(true)
@@ -138,7 +136,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     [DisplayName("删除角色")]
     public async Task DeleteRole(DeleteRoleInput input)
     {
-        var sysRole = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);
+        var sysRole = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D1002);
         if (sysRole.Code == CommonConst.SysAdminRole)
             throw Oops.Oh(ErrorCodeEnum.D1019);
 
