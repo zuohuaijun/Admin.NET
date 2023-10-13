@@ -176,6 +176,7 @@ public class SysAuthService : IDynamicApiController, ITransient
 
         return new LoginUserOutput
         {
+            Id = user.Id,
             Account = user.Account,
             RealName = user.RealName,
             Avatar = user.Avatar,
