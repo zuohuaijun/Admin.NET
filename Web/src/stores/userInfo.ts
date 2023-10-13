@@ -53,6 +53,7 @@ export const useUserInfo = defineStore('userInfo', {
 						if (res.data.result == null) return;
 						var d = res.data.result;
 						const userInfos = {
+							id: d.id,
 							account: d.account,
 							realName: d.realName,
 							avatar: d.avatar ? '/' + d.avatar : '/favicon.ico',
