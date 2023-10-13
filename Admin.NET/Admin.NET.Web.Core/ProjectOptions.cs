@@ -27,7 +27,6 @@ public static class ProjectOptions
         services.AddConfigurableOptions<SnowIdOptions>();
         services.AddConfigurableOptions<CacheOptions>();
         services.AddConfigurableOptions<ClusterOptions>();
-        services.AddConfigurableOptions<StackExchangeRedisOptions>();
         services.AddConfigurableOptions<OSSProviderOptions>();
         services.AddConfigurableOptions<UploadOptions>();
         services.AddConfigurableOptions<WechatOptions>();
