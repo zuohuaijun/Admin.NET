@@ -17,7 +17,7 @@ public abstract class EntityBaseId
     /// <summary>
     /// 雪花Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "Id", IsPrimaryKey = true, IsIdentity = false)]
+    [SugarColumn(ColumnName = "Id", ColumnDescription = "主键Id", IsPrimaryKey = true, IsIdentity = false)]
     public virtual long Id { get; set; }
 }
 
