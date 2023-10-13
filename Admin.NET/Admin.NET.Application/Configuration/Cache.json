@@ -18,11 +18,11 @@
       "ChannelPrefix": "signalrPrefix_"
     },
     "DataProtecteKey": "AdminNet:DataProtection-Keys",
-    "IsSentinel": false,
+    "IsSentinel": false, // 是否哨兵模式
     "SentinelConfig": {
       "DefaultDb": "4",
-      "EndPoints": [
-        // "10.10.0.124:26380", // 哨兵端口
+      "EndPoints": [ // 哨兵端口
+        // "10.10.0.124:26380"
       ],
       "MainPrefix": "adminNet:",
       "Password": "123456",

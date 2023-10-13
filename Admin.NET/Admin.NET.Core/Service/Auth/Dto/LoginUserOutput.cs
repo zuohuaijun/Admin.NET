@@ -13,11 +13,12 @@ namespace Admin.NET.Core.Service;
 /// 用户登录信息
 /// </summary>
 public class LoginUserOutput
-{    
+{
     /// <summary>
     /// 用户id
     /// </summary>
     public long Id { get; set; }
+
     /// <summary>
     /// 账号名称
     /// </summary>

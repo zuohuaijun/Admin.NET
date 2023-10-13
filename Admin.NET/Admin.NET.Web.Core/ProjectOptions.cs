@@ -38,7 +38,7 @@ public static class ProjectOptions
         services.AddConfigurableOptions<EmailOptions>();
         services.AddConfigurableOptions<OAuthOptions>();
         services.AddConfigurableOptions<CryptogramOptions>();
-        services.AddConfigurableOptions<SMSOptions>();        
+        services.AddConfigurableOptions<SMSOptions>();
         //services.AddConfigurableOptions<IpRateLimitingOptions>();
         //services.AddConfigurableOptions<IpRateLimitPoliciesOptions>();
         //services.AddConfigurableOptions<ClientRateLimitingOptions>();
@@ -47,7 +47,7 @@ public static class ProjectOptions
         services.Configure<IpRateLimitPolicies>(App.Configuration.GetSection("IpRateLimitPolicies"));
         services.Configure<ClientRateLimitOptions>(App.Configuration.GetSection("ClientRateLimiting"));
         services.Configure<ClientRateLimitPolicies>(App.Configuration.GetSection("ClientRateLimitPolicies"));
-     
+
         return services;
     }
 }
