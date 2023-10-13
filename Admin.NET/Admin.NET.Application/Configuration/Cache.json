@@ -16,17 +16,19 @@
     "SignalR": {
       "RedisConfiguration": "127.0.0.1:6379,ssl=false,password=,defaultDatabase=5",
       "ChannelPrefix": "signalrPrefix_"
+    },
+    "DataProtecteKey": "AdminNet:DataProtection-Keys",
+    "IsSentinel": false,
+    "SentinelConfig": {
+      "DefaultDb": "4",
+      "EndPoints": [
+        // "10.10.0.124:26380", // 哨兵端口
+      ],
+      "MainPrefix": "adminNet:",
+      "Password": "123456",
+      "SentinelPassword": "adminNet",
+      "ServiceName": "adminNet",
+      "SignalRChannelPrefix": "signalR:"
     }
-  },
-  "StackExchangeRedis": { // 数据保护
-    "DefaultDb": "4",
-    "EndPoints": [
-      // "10.10.0.124:26380", // 哨兵端口
-    ],
-    "MainPrefix": "adminNet:",
-    "Password": "123456",
-    "SentinelPassword": "adminNet",
-    "ServiceName": "adminNet",
-    "SignalRChannelPrefix": "signalR:"
   }
 }

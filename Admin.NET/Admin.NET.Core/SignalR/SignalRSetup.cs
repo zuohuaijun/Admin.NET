@@ -7,6 +7,7 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
+using Elasticsearch.Net;
 using Furion.Logging.Extensions;
 using Microsoft.AspNetCore.DataProtection;
 using StackExchange.Redis;
@@ -38,23 +39,33 @@ public static class SignalRSetup
         var clusterOpt = App.GetOptions<ClusterOptions>();
         if (clusterOpt.Enabled)
         {
-            // StackExchangeRedis 缓存
-            var redisOptions = App.GetOptions<StackExchangeRedisOptions>();
-
-            // 密钥存储（数据保护）
-            var redisConfig = new ConfigurationOptions
+            var redisOptions = clusterOpt.SentinelConfig;
+            ConnectionMultiplexer connection1;
+            if (clusterOpt.IsSentinel)
             {
-                AbortOnConnectFail = false,
-                ServiceName = redisOptions.ServiceName,
-                AllowAdmin = true,
-                DefaultDatabase = redisOptions.DefaultDb,
-                Password = redisOptions.Password
-            };
-            redisOptions.EndPoints.ForEach(o => redisConfig.EndPoints.Add(o));
-            var connection1 = ConnectionMultiplexer.Connect(redisConfig);
-            services.AddDataProtection().PersistKeysToStackExchangeRedis(connection1, "AdminNet:DataProtection-Keys");
+                var redisConfig = new ConfigurationOptions
+                {
+                    AbortOnConnectFail = false,
+                    ServiceName = redisOptions.ServiceName,
+                    AllowAdmin = true,
+                    DefaultDatabase = redisOptions.DefaultDb,
+                    Password = redisOptions.Password
+                };
 
-            signalRBuilder.AddStackExchangeRedis(clusterOpt.SignalR.RedisConfiguration, options =>
+                redisOptions.EndPoints.ForEach(o =>
+                {
+                    redisConfig.EndPoints.Add(o);
+                });
+                connection1 = ConnectionMultiplexer.Connect(redisConfig);
+            }
+            else
+            {
+                connection1 = ConnectionMultiplexer.Connect(clusterOpt.SignalR.RedisConfiguration);
+            }
+            // 密钥存储（数据保护）
+            services.AddDataProtection().PersistKeysToStackExchangeRedis(connection1, clusterOpt.DataProtecteKey);
+
+            signalRBuilder.AddStackExchangeRedis(options =>
             {
                 // 此处设置的ChannelPrefix并不会生效，如果两个不同的项目，且[程序集名+类名]一样，使用同一个redis服务，请注意修改 Hub/OnlineUserHub 的类名。
                 // 原因请参考下边链接：
@@ -63,16 +74,25 @@ public static class SignalRSetup
                 options.Configuration.ChannelPrefix = clusterOpt.SignalR.ChannelPrefix;
                 options.ConnectionFactory = async writer =>
                 {
-                    var config = new ConfigurationOptions
+                    ConnectionMultiplexer connection;
+                    if (clusterOpt.IsSentinel)
                     {
-                        AbortOnConnectFail = false,
-                        ServiceName = redisOptions.ServiceName,
-                        AllowAdmin = true,
-                        DefaultDatabase = redisOptions.DefaultDb,
-                        Password = redisOptions.Password
-                    };
-                    redisOptions.EndPoints.ForEach(o => config.EndPoints.Add(o));
-                    var connection = await ConnectionMultiplexer.ConnectAsync(config, writer);
+                        var config = new ConfigurationOptions
+                        {
+                            AbortOnConnectFail = false,
+                            ServiceName = redisOptions.ServiceName,
+                            AllowAdmin = true,
+                            DefaultDatabase = redisOptions.DefaultDb,
+                            Password = redisOptions.Password
+                        };
+                        redisOptions.EndPoints.ForEach(o => config.EndPoints.Add(o));
+                        connection = await ConnectionMultiplexer.ConnectAsync(config, writer);
+                    }
+                    else
+                    {
+                        connection = await ConnectionMultiplexer.ConnectAsync(clusterOpt.SignalR.RedisConfiguration);
+                    }
+
                     connection.ConnectionFailed += (_, e) =>
                     {
                         "连接 Redis 失败".LogError();
