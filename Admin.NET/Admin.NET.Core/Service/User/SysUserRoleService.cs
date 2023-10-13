@@ -15,10 +15,13 @@ namespace Admin.NET.Core.Service;
 public class SysUserRoleService : ITransient
 {
     private readonly SqlSugarRepository<SysUserRole> _sysUserRoleRep;
+    private readonly SysCacheService _sysCacheService;
 
-    public SysUserRoleService(SqlSugarRepository<SysUserRole> sysUserRoleRep)
+    public SysUserRoleService(SqlSugarRepository<SysUserRole> sysUserRoleRep,
+        SysCacheService sysCacheService)
     {
         _sysUserRoleRep = sysUserRoleRep;
+        _sysCacheService = sysCacheService;
     }
 
     /// <summary>
@@ -38,6 +41,7 @@ public class SysUserRoleService : ITransient
             RoleId = u
         }).ToList();
         await _sysUserRoleRep.InsertRangeAsync(roles);
+        _sysCacheService.Remove(CacheConst.KeyUserButton + input.UserId);
     }
 
     /// <summary>
@@ -47,6 +51,14 @@ public class SysUserRoleService : ITransient
     /// <returns></returns>
     public async Task DeleteUserRoleByRoleId(long roleId)
     {
+        await _sysUserRoleRep.AsQueryable()
+             .Where(u => u.RoleId == roleId)
+             .Select(u => u.UserId)
+             .ForEachAsync(userId =>
+             {
+                 _sysCacheService.Remove(CacheConst.KeyUserButton + userId);
+             });
+
         await _sysUserRoleRep.DeleteAsync(u => u.RoleId == roleId);
     }
 
@@ -58,6 +70,7 @@ public class SysUserRoleService : ITransient
     public async Task DeleteUserRoleByUserId(long userId)
     {
         await _sysUserRoleRep.DeleteAsync(u => u.UserId == userId);
+        _sysCacheService.Remove(CacheConst.KeyUserButton + userId);
     }
 
     /// <summary>
