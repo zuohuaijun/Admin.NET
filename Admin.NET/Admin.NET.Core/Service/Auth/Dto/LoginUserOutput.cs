@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -13,7 +13,11 @@ namespace Admin.NET.Core.Service;
 /// 用户登录信息
 /// </summary>
 public class LoginUserOutput
-{
+{    
+    /// <summary>
+    /// 用户id
+    /// </summary>
+    public long Id { get; set; }
     /// <summary>
     /// 账号名称
     /// </summary>
