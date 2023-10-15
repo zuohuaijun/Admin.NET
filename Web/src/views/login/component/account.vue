@@ -21,7 +21,7 @@
 				</template>
 			</el-input>
 		</el-form-item>
-		<el-form-item class="login-animation3" prop="captcha" v-show="state.captchaEnabled">
+		<el-form-item class="login-animation3" prop="captcha" v-if="state.captchaEnabled">
 			<el-col :span="15">
 				<el-input
 					ref="codeRef"
@@ -138,6 +138,8 @@ onMounted(async () => {
 });
 // 获取验证码
 const getCaptcha = async () => {
+	if (!state.captchaEnabled) return;
+
 	state.ruleForm.code = '';
 	var res = await getAPI(SysAuthApi).apiSysAuthCaptchaGet();
 	state.captchaImage = 'data:text/html;base64,' + res.data.result?.img;
