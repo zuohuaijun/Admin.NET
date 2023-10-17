@@ -53,7 +53,7 @@
 			<el-col :span="16" :xs="24" v-loading="state.loading">
 				<el-card shadow="hover">
 					<el-tabs>
-						<el-tab-pane label="基础信息">
+						<el-tab-pane label="基础信息" v-if="auth('sysUser:baseInfo')">
 							<el-form :model="state.ruleFormBase" ref="ruleFormBaseRef" label-width="auto">
 								<el-row :gutter="35">
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -107,7 +107,7 @@
 								</el-row>
 							</el-form>
 						</el-tab-pane>
-						<el-tab-pane label="组织机构">
+						<el-tab-pane label="组织机构" v-if="auth('sysOrg:list')">
 							<OrgTree ref="orgTreeRef" />
 						</el-tab-pane>
 						<el-tab-pane label="修改密码">
@@ -174,6 +174,9 @@ import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysFileApi, SysUserApi } from '/@/api-services/api';
 import { ChangePwdInput, SysUser } from '/@/api-services/models';
 
+import { auth, auths, authAll } from '/@/utils/authFunction';
+import { ElMessage } from 'element-plus';
+
 const stores = useUserInfo();
 const { userInfos } = storeToRefs(stores);
 const uploadSignRef = ref<UploadInstance>();
@@ -201,10 +204,12 @@ const state = reactive({
 });
 
 onMounted(async () => {
-	state.loading = true;
-	var res = await getAPI(SysUserApi).apiSysUserBaseInfoGet();
-	state.ruleFormBase = res.data.result ?? { account: '' };
-	state.loading = false;
+	if (auth('sysUser:baseInfo')) {
+		state.loading = true;
+		var res = await getAPI(SysUserApi).apiSysUserBaseInfoGet();
+		state.ruleFormBase = res.data.result ?? { account: '' };
+		state.loading = false;
+	}
 });
 
 watch(state.signOptions, () => {
@@ -304,8 +309,11 @@ const submitPassword = () => {
 
 // 打开裁剪弹窗
 const openCropperDialog = () => {
-	state.cropperTitle = '更换头像';
-	cropperDialogRef.value?.openDialog(userInfos.value.avatar);
+	if (!auth('sysFile:uploadAvatar')) ElMessage.error('抱歉，您没有权限！');
+	else {
+		state.cropperTitle = '更换头像';
+		cropperDialogRef.value?.openDialog(userInfos.value.avatar);
+	}
 };
 
 // 鼠标进入和离开头像时
