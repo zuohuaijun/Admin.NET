@@ -23,7 +23,7 @@ public class AdminResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnException(ExceptionContext context, ExceptionMetadata metadata)
     {
-        return new JsonResult(RESTfulResult(metadata.StatusCode, data: metadata.Data, errors: metadata.Errors));
+        return new JsonResult(RESTfulResult(metadata.StatusCode, data: metadata.Data, errors: metadata.Errors), UnifyContext.GetSerializerSettings(context));
     }
 
     /// <summary>
@@ -34,7 +34,7 @@ public class AdminResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnSucceeded(ActionExecutedContext context, object data)
     {
-        return new JsonResult(RESTfulResult(StatusCodes.Status200OK, true, data));
+        return new JsonResult(RESTfulResult(StatusCodes.Status200OK, true, data), UnifyContext.GetSerializerSettings(context));
     }
 
     /// <summary>
@@ -45,7 +45,7 @@ public class AdminResultProvider : IUnifyResultProvider
     /// <returns></returns>
     public IActionResult OnValidateFailed(ActionExecutingContext context, ValidationMetadata metadata)
     {
-        return new JsonResult(RESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, data: metadata.Data, errors: metadata.ValidationResult));
+        return new JsonResult(RESTfulResult(metadata.StatusCode ?? StatusCodes.Status400BadRequest, data: metadata.Data, errors: metadata.ValidationResult), UnifyContext.GetSerializerSettings(context));
     }
 
     /// <summary>
