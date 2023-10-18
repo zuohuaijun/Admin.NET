@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -149,5 +149,17 @@ public class SysDictTypeService : IDynamicApiController, ITransient
 
         dictType.Status = (StatusEnum)input.Status;
         await _sysDictTypeRep.UpdateAsync(dictType);
+    }
+    
+    /// <summary>
+    /// 获取所有字典集合
+    /// </summary>
+    /// <returns></returns>
+    [AllowAnonymous]
+    [ApiDescriptionSettings(Name = "GetAllDict"), HttpGet]
+    public async Task<List<SysDictType>> GetAllDict()
+    {
+        var list = await _sysDictTypeRep.AsQueryable().Includes(x => x.Children).ToListAsync();
+        return list;
     }
 }
