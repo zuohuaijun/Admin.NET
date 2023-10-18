@@ -5,7 +5,7 @@ import { useThemeConfig } from '/@/stores/themeConfig';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi, SysConstApi } from '/@/api-services/api';
-const baseUrl = import.meta.env.VITE_API_URL;
+import { getAllDict } from '/@/api/system/admin'; 
 
 /**
  * 用户信息
@@ -15,6 +15,7 @@ export const useUserInfo = defineStore('userInfo', {
 	state: (): UserInfosState => ({
 		userInfos: {} as any,
 		constList: [] as any,
+		dictList: [] as any,
 	}),
 	getters: {
 		// // 获取系统常量列表
@@ -35,12 +36,23 @@ export const useUserInfo = defineStore('userInfo', {
 			}
 		},
 		async setConstList() {
-			// 存储用户信息到浏览器缓存
+			// 存储常量信息到浏览器缓存
 			if (Session.get('constList')) {
 				this.constList = Session.get('constList');
 			} else {
 				const constList = <any[]>await this.getSysConstList();
 				Session.set('constList', constList);
+				this.constList = constList;
+			}
+		},
+        async setDictList() {
+			// 存储字典信息到浏览器缓存
+			if (Session.get('dictList')) {
+				this.constList = Session.get('dictList');
+			} else {
+				const res = await getAllDict();
+				const constList = res.data.result ?? [];
+				Session.set('dictList', constList);
 				this.constList = constList;
 			}
 		},
