@@ -45,15 +45,15 @@ export const useUserInfo = defineStore('userInfo', {
 				this.constList = constList;
 			}
 		},
-        async setDictList() {
+		async setDictList() {
 			// 存储字典信息到浏览器缓存
 			if (Session.get('dictList')) {
-				this.constList = Session.get('dictList');
+				this.dictList = Session.get('dictList');
 			} else {
 				const res = await getAllDict();
-				const constList = res.data.result ?? [];
-				Session.set('dictList', constList);
-				this.constList = constList;
+				const dictList = res.data.result ?? [];
+				Session.set('dictList', dictList);
+				this.dictList = dictList;
 			}
 		},
 		// 获取当前用户信息
