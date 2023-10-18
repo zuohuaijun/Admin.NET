@@ -10,3 +10,13 @@ export const getDictDataList = (params?: any) =>
 		method: 'get'
 	});
  
+ 
+/**
+ * 获取所有字典
+ * @returns
+ */
+export const getAllDict = () =>
+	request({
+		url: `/api/sysDictType/getAllDict`,
+		method: 'get',
+	});
