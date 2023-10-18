@@ -154,10 +154,10 @@ public class SysDictDataService : IDynamicApiController, ITransient
     public async Task<List<SysDictData>> GetDataList(string code)
     {
         return await _sysDictDataRep.Context.Queryable<SysDictType>()
-            .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)
-            .Where((a, b) => a.Code == code && a.Status == StatusEnum.Enable && b.Status == StatusEnum.Enable)
-            .OrderBy((a, b) => new { b.OrderNo, b.Code })
-            .Select((a, b) => b).ToListAsync();
+            .LeftJoin<SysDictData>((u, a) => u.Id == a.DictTypeId)
+            .Where((u, a) => u.Code == code && u.Status == StatusEnum.Enable && a.Status == StatusEnum.Enable)
+            .OrderBy((u, a) => new { a.OrderNo, a.Code })
+            .Select((u, a) => a).ToListAsync();
     }
 
     /// <summary>
@@ -169,11 +169,11 @@ public class SysDictDataService : IDynamicApiController, ITransient
     public async Task<List<SysDictData>> GetDataList([FromQuery] QueryDictDataInput input)
     {
         return await _sysDictDataRep.Context.Queryable<SysDictType>()
-            .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)
-            .Where((a, b) => a.Code == input.Code)
-            .WhereIF(input.Status.HasValue, (a, b) => b.Status == (StatusEnum)input.Status.Value)
-            .OrderBy((a, b) => new { b.OrderNo, b.Code })
-            .Select((a, b) => b).ToListAsync();
+            .LeftJoin<SysDictData>((u, a) => u.Id == a.DictTypeId)
+            .Where((u, a) => u.Code == input.Code)
+            .WhereIF(input.Status.HasValue, (u, a) => a.Status == (StatusEnum)input.Status.Value)
+            .OrderBy((u, a) => new { a.OrderNo, a.Code })
+            .Select((u, a) => a).ToListAsync();
     }
 
     /// <summary>
