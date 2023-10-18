@@ -141,7 +141,8 @@ public class SysDictDataService : IDynamicApiController, ITransient
     {
         return await _sysDictDataRep.AsQueryable()
             .Where(u => u.DictTypeId == dictTypeId)
-            .OrderBy(u => new { u.OrderNo, u.Code }).ToListAsync();
+            .OrderBy(u => new { u.OrderNo, u.Code })
+            .ToListAsync();
     }
 
     /// <summary>
@@ -155,6 +156,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
         return await _sysDictDataRep.Context.Queryable<SysDictType>()
             .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)
             .Where((a, b) => a.Code == code && a.Status == StatusEnum.Enable && b.Status == StatusEnum.Enable)
+            .OrderBy((a, b) => new { b.OrderNo, b.Code })
             .Select((a, b) => b).ToListAsync();
     }
 
@@ -170,6 +172,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
             .LeftJoin<SysDictData>((a, b) => a.Id == b.DictTypeId)
             .Where((a, b) => a.Code == input.Code)
             .WhereIF(input.Status.HasValue, (a, b) => b.Status == (StatusEnum)input.Status.Value)
+            .OrderBy((a, b) => new { b.OrderNo, b.Code })
             .Select((a, b) => b).ToListAsync();
     }
 
