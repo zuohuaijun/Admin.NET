@@ -69,8 +69,6 @@ const openDialog = (row: any) => {
 	state.ruleForm.configId = row.configId;
 	state.ruleForm.tableName = row.tableName;
 	state.isShowDialog = true;
-
-	ruleFormRef.value?.resetFields();
 };
 
 // 关闭弹窗
