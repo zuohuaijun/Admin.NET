@@ -11,84 +11,96 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { StatusEnum } from './status-enum';
-import { SysDictData } from './sys-dict-data';
+import { SysTenant } from './sys-tenant';
+import { SysUser } from './sys-user';
 /**
- * 系统字典类型表
+ * 
  * @export
- * @interface SysDictType
+ * @interface OpenAccessOutput
  */
-export interface SysDictType {
+export interface OpenAccessOutput {
     /**
      * 雪花Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof OpenAccessOutput
      */
     id?: number;
     /**
      * 创建时间
      * @type {Date}
-     * @memberof SysDictType
+     * @memberof OpenAccessOutput
      */
     createTime?: Date | null;
     /**
      * 更新时间
      * @type {Date}
-     * @memberof SysDictType
+     * @memberof OpenAccessOutput
      */
     updateTime?: Date | null;
     /**
      * 创建者Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof OpenAccessOutput
      */
     createUserId?: number | null;
     /**
      * 修改者Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof OpenAccessOutput
      */
     updateUserId?: number | null;
     /**
      * 软删除
      * @type {boolean}
-     * @memberof SysDictType
+     * @memberof OpenAccessOutput
      */
     isDelete?: boolean;
     /**
-     * 名称
+     * 身份标识
      * @type {string}
-     * @memberof SysDictType
+     * @memberof OpenAccessOutput
      */
-    name: string;
+    accessKey?: string | null;
     /**
-     * 编码
+     * 密钥
      * @type {string}
-     * @memberof SysDictType
+     * @memberof OpenAccessOutput
      */
-    code: string;
+    accessSecret?: string | null;
     /**
-     * 排序
+     * 绑定用户Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof OpenAccessOutput
      */
-    orderNo?: number;
-    /**
-     * 备注
-     * @type {string}
-     * @memberof SysDictType
-     */
-    remark?: string | null;
+    bindUserId?: number;
     /**
      * 
-     * @type {StatusEnum}
-     * @memberof SysDictType
+     * @type {SysUser}
+     * @memberof OpenAccessOutput
      */
-    status?: StatusEnum;
+    bindUser?: SysUser;
     /**
-     * 字典值集合
-     * @type {Array<SysDictData>}
-     * @memberof SysDictType
+     * 绑定租户Id
+     * @type {number}
+     * @memberof OpenAccessOutput
      */
-    children?: Array<SysDictData> | null;
+    bindTenantId?: number;
+    /**
+     * 
+     * @type {SysTenant}
+     * @memberof OpenAccessOutput
+     */
+    bindTenant?: SysTenant;
+    /**
+     * 绑定用户账号
+     * @type {string}
+     * @memberof OpenAccessOutput
+     */
+    bindUserAccount?: string | null;
+    /**
+     * 绑定租户名称
+     * @type {string}
+     * @memberof OpenAccessOutput
+     */
+    bindTenantName?: string | null;
 }

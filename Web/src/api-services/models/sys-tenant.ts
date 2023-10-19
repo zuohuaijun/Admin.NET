@@ -11,84 +11,109 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { DbType } from './db-type';
 import { StatusEnum } from './status-enum';
-import { SysDictData } from './sys-dict-data';
+import { TenantTypeEnum } from './tenant-type-enum';
 /**
- * 系统字典类型表
+ * 系统租户表
  * @export
- * @interface SysDictType
+ * @interface SysTenant
  */
-export interface SysDictType {
+export interface SysTenant {
     /**
      * 雪花Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof SysTenant
      */
     id?: number;
     /**
      * 创建时间
      * @type {Date}
-     * @memberof SysDictType
+     * @memberof SysTenant
      */
     createTime?: Date | null;
     /**
      * 更新时间
      * @type {Date}
-     * @memberof SysDictType
+     * @memberof SysTenant
      */
     updateTime?: Date | null;
     /**
      * 创建者Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof SysTenant
      */
     createUserId?: number | null;
     /**
      * 修改者Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof SysTenant
      */
     updateUserId?: number | null;
     /**
      * 软删除
      * @type {boolean}
-     * @memberof SysDictType
+     * @memberof SysTenant
      */
     isDelete?: boolean;
     /**
-     * 名称
-     * @type {string}
-     * @memberof SysDictType
+     * 用户Id
+     * @type {number}
+     * @memberof SysTenant
      */
-    name: string;
+    userId?: number;
     /**
-     * 编码
-     * @type {string}
-     * @memberof SysDictType
+     * 机构Id
+     * @type {number}
+     * @memberof SysTenant
      */
-    code: string;
+    orgId?: number;
+    /**
+     * 主机
+     * @type {string}
+     * @memberof SysTenant
+     */
+    host?: string | null;
+    /**
+     * 
+     * @type {TenantTypeEnum}
+     * @memberof SysTenant
+     */
+    tenantType?: TenantTypeEnum;
+    /**
+     * 
+     * @type {DbType}
+     * @memberof SysTenant
+     */
+    dbType?: DbType;
+    /**
+     * 数据库连接
+     * @type {string}
+     * @memberof SysTenant
+     */
+    connection?: string | null;
+    /**
+     * 数据库标识
+     * @type {string}
+     * @memberof SysTenant
+     */
+    configId?: string | null;
     /**
      * 排序
      * @type {number}
-     * @memberof SysDictType
+     * @memberof SysTenant
      */
     orderNo?: number;
     /**
      * 备注
      * @type {string}
-     * @memberof SysDictType
+     * @memberof SysTenant
      */
     remark?: string | null;
     /**
      * 
      * @type {StatusEnum}
-     * @memberof SysDictType
+     * @memberof SysTenant
      */
     status?: StatusEnum;
-    /**
-     * 字典值集合
-     * @type {Array<SysDictData>}
-     * @memberof SysDictType
-     */
-    children?: Array<SysDictData> | null;
 }

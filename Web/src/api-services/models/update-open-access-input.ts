@@ -11,84 +11,84 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { StatusEnum } from './status-enum';
-import { SysDictData } from './sys-dict-data';
+import { SysTenant } from './sys-tenant';
+import { SysUser } from './sys-user';
 /**
- * 系统字典类型表
+ * 
  * @export
- * @interface SysDictType
+ * @interface UpdateOpenAccessInput
  */
-export interface SysDictType {
+export interface UpdateOpenAccessInput {
     /**
      * 雪花Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof UpdateOpenAccessInput
      */
     id?: number;
     /**
      * 创建时间
      * @type {Date}
-     * @memberof SysDictType
+     * @memberof UpdateOpenAccessInput
      */
     createTime?: Date | null;
     /**
      * 更新时间
      * @type {Date}
-     * @memberof SysDictType
+     * @memberof UpdateOpenAccessInput
      */
     updateTime?: Date | null;
     /**
      * 创建者Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof UpdateOpenAccessInput
      */
     createUserId?: number | null;
     /**
      * 修改者Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof UpdateOpenAccessInput
      */
     updateUserId?: number | null;
     /**
      * 软删除
      * @type {boolean}
-     * @memberof SysDictType
+     * @memberof UpdateOpenAccessInput
      */
     isDelete?: boolean;
     /**
-     * 名称
-     * @type {string}
-     * @memberof SysDictType
+     * 
+     * @type {SysUser}
+     * @memberof UpdateOpenAccessInput
      */
-    name: string;
+    bindUser?: SysUser;
     /**
-     * 编码
-     * @type {string}
-     * @memberof SysDictType
-     */
-    code: string;
-    /**
-     * 排序
+     * 绑定租户Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof UpdateOpenAccessInput
      */
-    orderNo?: number;
-    /**
-     * 备注
-     * @type {string}
-     * @memberof SysDictType
-     */
-    remark?: string | null;
+    bindTenantId?: number;
     /**
      * 
-     * @type {StatusEnum}
-     * @memberof SysDictType
+     * @type {SysTenant}
+     * @memberof UpdateOpenAccessInput
      */
-    status?: StatusEnum;
+    bindTenant?: SysTenant;
     /**
-     * 字典值集合
-     * @type {Array<SysDictData>}
-     * @memberof SysDictType
+     * 身份标识
+     * @type {string}
+     * @memberof UpdateOpenAccessInput
      */
-    children?: Array<SysDictData> | null;
+    accessKey: string;
+    /**
+     * 密钥
+     * @type {string}
+     * @memberof UpdateOpenAccessInput
+     */
+    accessSecret: string;
+    /**
+     * 绑定用户Id
+     * @type {number}
+     * @memberof UpdateOpenAccessInput
+     */
+    bindUserId: number;
 }

@@ -32,6 +32,7 @@ export * from './apis/sys-message-api';
 export * from './apis/sys-notice-api';
 export * from './apis/sys-oauth-api';
 export * from './apis/sys-online-user-api';
+export * from './apis/sys-open-access-api';
 export * from './apis/sys-org-api';
 export * from './apis/sys-plugin-api';
 export * from './apis/sys-pos-api';

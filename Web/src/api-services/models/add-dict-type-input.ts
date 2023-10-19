@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { StatusEnum } from './status-enum';
+import { SysDictData } from './sys-dict-data';
 /**
  * 
  * @export
@@ -84,4 +85,10 @@ export interface AddDictTypeInput {
      * @memberof AddDictTypeInput
      */
     status?: StatusEnum;
+    /**
+     * 字典值集合
+     * @type {Array<SysDictData>}
+     * @memberof AddDictTypeInput
+     */
+    children?: Array<SysDictData> | null;
 }

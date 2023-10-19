@@ -11,84 +11,71 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
-import { StatusEnum } from './status-enum';
-import { SysDictData } from './sys-dict-data';
+import { SysUser } from './sys-user';
 /**
- * 系统字典类型表
+ * 开放接口身份表
  * @export
- * @interface SysDictType
+ * @interface SysOpenAccess
  */
-export interface SysDictType {
+export interface SysOpenAccess {
     /**
      * 雪花Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof SysOpenAccess
      */
     id?: number;
     /**
      * 创建时间
      * @type {Date}
-     * @memberof SysDictType
+     * @memberof SysOpenAccess
      */
     createTime?: Date | null;
     /**
      * 更新时间
      * @type {Date}
-     * @memberof SysDictType
+     * @memberof SysOpenAccess
      */
     updateTime?: Date | null;
     /**
      * 创建者Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof SysOpenAccess
      */
     createUserId?: number | null;
     /**
      * 修改者Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof SysOpenAccess
      */
     updateUserId?: number | null;
     /**
      * 软删除
      * @type {boolean}
-     * @memberof SysDictType
+     * @memberof SysOpenAccess
      */
     isDelete?: boolean;
     /**
-     * 名称
+     * 身份标识
      * @type {string}
-     * @memberof SysDictType
+     * @memberof SysOpenAccess
      */
-    name: string;
+    accessKey?: string | null;
     /**
-     * 编码
+     * 密钥
      * @type {string}
-     * @memberof SysDictType
+     * @memberof SysOpenAccess
      */
-    code: string;
+    accessSecret?: string | null;
     /**
-     * 排序
+     * 绑定用户Id
      * @type {number}
-     * @memberof SysDictType
+     * @memberof SysOpenAccess
      */
-    orderNo?: number;
-    /**
-     * 备注
-     * @type {string}
-     * @memberof SysDictType
-     */
-    remark?: string | null;
+    bindUserId?: number;
     /**
      * 
-     * @type {StatusEnum}
-     * @memberof SysDictType
+     * @type {SysUser}
+     * @memberof SysOpenAccess
      */
-    status?: StatusEnum;
-    /**
-     * 字典值集合
-     * @type {Array<SysDictData>}
-     * @memberof SysDictType
-     */
-    children?: Array<SysDictData> | null;
+    bindUser?: SysUser;
 }

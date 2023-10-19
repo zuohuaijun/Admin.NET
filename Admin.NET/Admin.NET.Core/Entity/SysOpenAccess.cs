@@ -10,9 +10,9 @@
 namespace Admin.NET.Core;
 
 /// <summary>
-/// 开放接口访问表
+/// 开放接口身份表
 /// </summary>
-[SugarTable(null, "开放接口访问表")]
+[SugarTable(null, "开放接口身份表")]
 [SysTable]
 public class SysOpenAccess : EntityBase
 {
@@ -20,19 +20,31 @@ public class SysOpenAccess : EntityBase
     /// 身份标识
     /// </summary>
     [SugarColumn(ColumnDescription = "身份标识", Length = 80)]
-    public string AccessKey { get; set; }
+    public virtual string AccessKey { get; set; }
 
     /// <summary>
     /// 密钥
     /// </summary>
     [SugarColumn(ColumnDescription = "密钥", Length = 255)]
-    public string AccessSecret { get; set; }
+    public virtual string AccessSecret { get; set; }
+
+    /// <summary>
+    /// 绑定租户Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "绑定租户Id")]
+    public long BindTenantId { get; set; }
+
+    /// <summary>
+    /// 绑定租户
+    /// </summary>
+    [Navigate(NavigateType.OneToOne, nameof(BindTenantId))]
+    public SysTenant BindTenant { get; set; }
 
     /// <summary>
     /// 绑定用户Id
     /// </summary>
     [SugarColumn(ColumnDescription = "绑定用户Id")]
-    public long BindUserId { get; set; }
+    public virtual long BindUserId { get; set; }
 
     /// <summary>
     /// 绑定用户
