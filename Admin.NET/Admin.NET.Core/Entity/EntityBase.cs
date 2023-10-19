@@ -67,6 +67,35 @@ public abstract class EntityBaseData : EntityBase, IOrgIdFilter
     /// </summary>
     [SugarColumn(ColumnDescription = "创建者部门Id", IsOnlyIgnoreUpdate = true)]
     public virtual long? CreateOrgId { get; set; }
+
+    /// <summary>
+    /// 创建者部门
+    /// </summary>
+    [Navigate(NavigateType.OneToOne, nameof(CreateOrgId))]
+    public virtual SysOrg CreateOrg { get; set; }
+}
+
+
+/// <summary>
+/// 业务数据实体基类(数据权限)  允许修改创建人 创建时间 创建部门
+/// </summary>
+public abstract class EntityBaseDataOverride : EntityBaseData
+{
+    /// <summary>
+    /// 创建者Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "创建者Id")]
+    public override long? CreateUserId { get; set; }
+    /// <summary>
+    /// 创建时间
+    /// </summary>
+    [SugarColumn(ColumnDescription = "创建时间")]
+    public override DateTime? CreateTime { get; set; }
+    /// <summary>
+    /// 创建者部门Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "创建者部门Id")]
+    public override long? CreateOrgId { get; set; }
 }
 
 /// <summary>
