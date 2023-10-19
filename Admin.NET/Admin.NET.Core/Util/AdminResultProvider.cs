@@ -64,7 +64,11 @@ public class AdminResultProvider : IUnifyResultProvider
         {
             // 处理 401 状态码
             case StatusCodes.Status401Unauthorized:
-                await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: "401 登录已过期，请重新登录"),
+                var msg = "401 登录已过期，请重新登录";
+                //20231005 如果存在身份验证失败消息，则返回消息内容
+                if (context.Items.TryGetValue("AuthenticateFailMsg", out var authFailMsg))
+                    msg = authFailMsg + "";
+                await context.Response.WriteAsJsonAsync(RESTfulResult(statusCode, errors: msg),
                     App.GetOptions<JsonOptions>()?.JsonSerializerOptions);
                 break;
             // 处理 403 状态码
