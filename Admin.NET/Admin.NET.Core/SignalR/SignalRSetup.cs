@@ -27,6 +27,7 @@ public static class SignalRSetup
             options.EnableDetailedErrors = true;
             options.ClientTimeoutInterval = TimeSpan.FromMinutes(2);
             options.KeepAliveInterval = TimeSpan.FromMinutes(1);
+            options.MaximumReceiveMessageSize = 1024 * 1024 * 10; //默认每次数据包最大为32K,这里设为 10M 
         }).AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
 
         // 若未启用Redis缓存，直接返回
