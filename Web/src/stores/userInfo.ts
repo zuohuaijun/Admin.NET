@@ -4,8 +4,7 @@ import Watermark from '/@/utils/watermark';
 import { useThemeConfig } from '/@/stores/themeConfig';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysAuthApi, SysConstApi } from '/@/api-services/api';
-import { getAllDict } from '/@/api/system/admin'; 
+import { SysAuthApi, SysConstApi, SysDictTypeApi } from '/@/api-services/api';
 
 /**
  * 用户信息
@@ -50,8 +49,7 @@ export const useUserInfo = defineStore('userInfo', {
 			if (Session.get('dictList')) {
 				this.dictList = Session.get('dictList');
 			} else {
-				const res = await getAllDict();
-				const dictList = res.data.result ?? [];
+				const dictList = <any[]>await this.getAllDictList();
 				Session.set('dictList', dictList);
 				this.dictList = dictList;
 			}
@@ -99,10 +97,21 @@ export const useUserInfo = defineStore('userInfo', {
 					});
 			});
 		},
+		// 获取常量集合
 		getSysConstList() {
 			return new Promise((resolve) => {
 				getAPI(SysConstApi)
 					.apiSysConstListGet()
+					.then(async (res: any) => {
+						resolve(res.data.result ?? []);
+					});
+			});
+		},
+		// 获取字典集合
+		getAllDictList() {
+			return new Promise((resolve) => {
+				getAPI(SysDictTypeApi)
+					.apiSysDictTypeAllDictListGet()
 					.then(async (res: any) => {
 						resolve(res.data.result ?? []);
 					});

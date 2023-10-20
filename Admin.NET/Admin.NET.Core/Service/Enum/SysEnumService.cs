@@ -30,7 +30,7 @@ public class SysEnumService : IDynamicApiController, ITransient
     [DisplayName("获取所有枚举类型")]
     public List<EnumTypeOutput> GetEnumTypeList()
     {
-        var enumTypeList = App.EffectiveTypes.Where(t => t.IsEnum && _enumOptions.EntityAssemblyNames.Contains(t.Assembly.GetName().Name)).ToList();
+        var enumTypeList = App.EffectiveTypes.Where(u => u.IsEnum && _enumOptions.EntityAssemblyNames.Contains(u.Assembly.GetName().Name)).ToList();
 
         var result = new List<EnumTypeOutput>();
         foreach (var item in enumTypeList)
@@ -65,7 +65,7 @@ public class SysEnumService : IDynamicApiController, ITransient
     [DisplayName("通过枚举类型获取枚举值集合")]
     public List<EnumEntity> GetEnumDataList([FromQuery] EnumInput input)
     {
-        var enumType = App.EffectiveTypes.FirstOrDefault(t => t.IsEnum && t.Name == input.EnumName);
+        var enumType = App.EffectiveTypes.FirstOrDefault(u => u.IsEnum && u.Name == input.EnumName);
         if (enumType is not { IsEnum: true })
             throw Oops.Oh(ErrorCodeEnum.D1503);
 
@@ -81,10 +81,10 @@ public class SysEnumService : IDynamicApiController, ITransient
     public List<EnumEntity> GetEnumDataListByField([FromQuery] QueryEnumDataInput input)
     {
         // 获取实体类型属性
-        Type entityType = App.EffectiveTypes.FirstOrDefault(t => t.Name == input.EntityName) ?? throw Oops.Oh(ErrorCodeEnum.D1504);
+        Type entityType = App.EffectiveTypes.FirstOrDefault(u => u.Name == input.EntityName) ?? throw Oops.Oh(ErrorCodeEnum.D1504);
 
         // 获取字段类型
-        var fieldType = entityType.GetProperties().FirstOrDefault(p => p.Name == input.FieldName)?.PropertyType;
+        var fieldType = entityType.GetProperties().FirstOrDefault(u => u.Name == input.FieldName)?.PropertyType;
         if (fieldType is not { IsEnum: true })
             throw Oops.Oh(ErrorCodeEnum.D1503);
 

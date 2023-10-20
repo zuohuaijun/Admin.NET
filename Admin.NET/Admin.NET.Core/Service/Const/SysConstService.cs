@@ -35,11 +35,11 @@ public class SysConstService : IDynamicApiController, ITransient
         if (constlist == null)
         {
             var typeList = GetConstAttributeList();
-            constlist = typeList.Select(x => new ConstOutput
+            constlist = typeList.Select(u => new ConstOutput
             {
-                Name = x.CustomAttributes.ToList().FirstOrDefault()?.ConstructorArguments.ToList().FirstOrDefault().Value?.ToString() ?? x.Name,
-                Code = x.Name,
-                Data = GetData(Convert.ToString(x.Name))
+                Name = u.CustomAttributes.ToList().FirstOrDefault()?.ConstructorArguments.ToList().FirstOrDefault().Value?.ToString() ?? u.Name,
+                Code = u.Name,
+                Data = GetData(Convert.ToString(u.Name))
             }).ToList();
             _sysCacheService.Set(key, constlist);
         }
@@ -59,15 +59,15 @@ public class SysConstService : IDynamicApiController, ITransient
         if (constlist == null)
         {
             var typeList = GetConstAttributeList();
-            var type = typeList.FirstOrDefault(x => x.Name == typeName);
+            var type = typeList.FirstOrDefault(u => u.Name == typeName);
 
             var isEnum = type.BaseType.Name == "Enum";
             constlist = type.GetFields()?
-                .Where(isEnum, x => x.FieldType.Name == typeName)
-                .Select(x => new ConstOutput
+                .Where(isEnum, u => u.FieldType.Name == typeName)
+                .Select(u => new ConstOutput
                 {
-                    Name = x.Name,
-                    Code = isEnum ? (int)x.GetValue(BindingFlags.Instance) : x.GetValue(BindingFlags.Instance)
+                    Name = u.Name,
+                    Code = isEnum ? (int)u.GetValue(BindingFlags.Instance) : u.GetValue(BindingFlags.Instance)
                 }).ToList();
             _sysCacheService.Set(key, constlist);
         }
@@ -80,7 +80,7 @@ public class SysConstService : IDynamicApiController, ITransient
     /// <returns></returns>
     private List<Type> GetConstAttributeList()
     {
-        return AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes())
-            .Where(x => x.CustomAttributes.Any(y => y.AttributeType == typeof(ConstAttribute))).ToList();
+        return AppDomain.CurrentDomain.GetAssemblies().SelectMany(u => u.GetTypes())
+            .Where(u => u.CustomAttributes.Any(c => c.AttributeType == typeof(ConstAttribute))).ToList();
     }
 }

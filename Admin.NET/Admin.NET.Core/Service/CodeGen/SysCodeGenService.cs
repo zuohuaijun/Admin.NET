@@ -113,7 +113,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     [DisplayName("获取代码生成详情")]
     public async Task<SysCodeGen> GetDetail([FromQuery] QueryCodeGenInput input)
     {
-        return await _db.Queryable<SysCodeGen>().SingleAsync(m => m.Id == input.Id);
+        return await _db.Queryable<SysCodeGen>().SingleAsync(u => u.Id == input.Id);
     }
 
     /// <summary>
@@ -145,7 +145,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var tableOutputList = new List<TableOutput>();
         foreach (var item in entityInfos)
         {
-            var table = dbTableInfos.FirstOrDefault(x => x.Name.ToLower() == (config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(item.DbTableName) : item.DbTableName).ToLower());
+            var table = dbTableInfos.FirstOrDefault(u => u.Name.ToLower() == (config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(item.DbTableName) : item.DbTableName).ToLower());
             if (table == null) continue;
             tableOutputList.Add(new TableOutput
             {
@@ -190,7 +190,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private List<ColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
     {
-        var entityType = GetEntityInfos().GetAwaiter().GetResult().FirstOrDefault(m => m.EntityName == input.TableName);
+        var entityType = GetEntityInfos().GetAwaiter().GetResult().FirstOrDefault(u => u.EntityName == input.TableName);
         if (entityType == null)
             return null;
 
@@ -381,7 +381,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var uploads = configs.Where(u => u.EffectType == "Upload").ToList();
         var fks = configs.Where(u => u.EffectType == "fk").ToList();
         string str = ""; // <Order, OrderItem, Custom>
-        string lowerStr = ""; //(o, i, c)
+        string lowerStr = ""; // (o, i, c)
         foreach (var item in uploads)
         {
             lowerStr += "sysFile_FK_" + item.LowerPropertyName + ",";
@@ -420,25 +420,25 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 Component = "LAYOUT",
             };
             // 若先前存在则删除本级和下级
-            var menuList0 = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType0.Title && e.Type == menuType0.Type).ToListAsync();
+            var menuList0 = await _db.Queryable<SysMenu>().Where(u => u.Title == menuType0.Title && u.Type == menuType0.Type).ToListAsync();
             if (menuList0.Count > 0)
             {
-                var listIds = menuList0.Select(f => f.Id).ToList();
+                var listIds = menuList0.Select(u => u.Id).ToList();
                 var childlistIds = new List<long>();
                 foreach (var item in listIds)
                 {
                     var childlist = await _db.Queryable<SysMenu>().ToChildListAsync(u => u.Pid, item);
-                    childlistIds.AddRange(childlist.Select(f => f.Id).ToList());
+                    childlistIds.AddRange(childlist.Select(u => u.Id).ToList());
                 }
                 listIds.AddRange(childlistIds);
-                await _db.Deleteable<SysMenu>().Where(e => listIds.Contains(e.Id)).ExecuteCommandAsync();
-                await _db.Deleteable<SysRoleMenu>().Where(e => listIds.Contains(e.MenuId)).ExecuteCommandAsync();
+                await _db.Deleteable<SysMenu>().Where(u => listIds.Contains(u.Id)).ExecuteCommandAsync();
+                await _db.Deleteable<SysRoleMenu>().Where(u => listIds.Contains(u.MenuId)).ExecuteCommandAsync();
             }
             pid = (await _db.Insertable(menuType0).ExecuteReturnEntityAsync()).Id;
         }
         else
         {
-            var pMenu = await _db.Queryable<SysMenu>().FirstAsync(e => e.Id == pid) ?? throw Oops.Oh(ErrorCodeEnum.D1505);
+            var pMenu = await _db.Queryable<SysMenu>().FirstAsync(u => u.Id == pid) ?? throw Oops.Oh(ErrorCodeEnum.D1505);
             pPath = pMenu.Path;
         }
 
@@ -453,19 +453,19 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Component = "/main/" + className[..1].ToLower() + className[1..] + "/index",
         };
         // 若先前存在则删除本级和下级
-        var menuList1 = await _db.Queryable<SysMenu>().Where(e => e.Title == menuType1.Title && e.Type == menuType1.Type).ToListAsync();
+        var menuList1 = await _db.Queryable<SysMenu>().Where(u => u.Title == menuType1.Title && u.Type == menuType1.Type).ToListAsync();
         if (menuList1.Count > 0)
         {
-            var listIds = menuList1.Select(f => f.Id).ToList();
+            var listIds = menuList1.Select(u => u.Id).ToList();
             var childlistIds = new List<long>();
             foreach (var item in listIds)
             {
                 var childlist = await _db.Queryable<SysMenu>().ToChildListAsync(u => u.Pid, item);
-                childlistIds.AddRange(childlist.Select(f => f.Id).ToList());
+                childlistIds.AddRange(childlist.Select(u => u.Id).ToList());
             }
             listIds.AddRange(childlistIds);
-            await _db.Deleteable<SysMenu>().Where(e => listIds.Contains(e.Id)).ExecuteCommandAsync();
-            await _db.Deleteable<SysRoleMenu>().Where(e => listIds.Contains(e.MenuId)).ExecuteCommandAsync();
+            await _db.Deleteable<SysMenu>().Where(u => listIds.Contains(u.Id)).ExecuteCommandAsync();
+            await _db.Deleteable<SysRoleMenu>().Where(u => listIds.Contains(u.MenuId)).ExecuteCommandAsync();
         }
         var pid1 = (await _db.Insertable(menuType1).ExecuteReturnEntityAsync()).Id;
         int menuOrder = 101;
@@ -652,7 +652,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
 
         if (input.GenerateType.Substring(1, 1).Contains('1'))
         {
-            //生成到本项目(前端)
+            // 生成到本项目(前端)
             return new List<string>()
             {
                 indexPath,
@@ -660,9 +660,9 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 apiJsPath
             };
         }
-        else if (input.GenerateType.Substring(1, 1).Contains("2"))
+        else if (input.GenerateType.Substring(1, 1).Contains('2'))
         {
-            //生成到本项目(后端)
+            // 生成到本项目(后端)
             return new List<string>()
             {
                 servicePath,
@@ -673,7 +673,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         }
         else
         {
-            //前后端同时生成到本项目
+            // 前后端同时生成到本项目
             return new List<string>()
             {
                 servicePath,

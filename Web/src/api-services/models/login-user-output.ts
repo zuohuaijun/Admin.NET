@@ -18,6 +18,12 @@
  */
 export interface LoginUserOutput {
     /**
+     * 用户id
+     * @type {number}
+     * @memberof LoginUserOutput
+     */
+    id?: number;
+    /**
      * 账号名称
      * @type {string}
      * @memberof LoginUserOutput

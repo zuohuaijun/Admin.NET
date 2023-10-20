@@ -64,27 +64,27 @@ public class SysTenantService : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<TenantOutput>> Page(PageTenantInput input)
     {
         return await _sysTenantRep.AsQueryable()
-            .LeftJoin<SysUser>((t, u) => t.UserId == u.Id)
-            .LeftJoin<SysOrg>((t, u, o) => t.OrgId == o.Id)
-            .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), (t, u) => u.Phone.Contains(input.Phone.Trim()))
-            .WhereIF(!string.IsNullOrWhiteSpace(input.Name), (t, u, o) => o.Name.Contains(input.Name.Trim()))
-            .OrderBy(t => t.OrderNo)
-            .Select((t, u, o) => new TenantOutput
+            .LeftJoin<SysUser>((u, a) => u.UserId == a.Id)
+            .LeftJoin<SysOrg>((u, a, b) => u.OrgId == b.Id)
+            .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), (u, a) => a.Phone.Contains(input.Phone.Trim()))
+            .WhereIF(!string.IsNullOrWhiteSpace(input.Name), (u, a, b) => b.Name.Contains(input.Name.Trim()))
+            .OrderBy(u => u.OrderNo)
+            .Select((u, a, b) => new TenantOutput
             {
-                Id = t.Id,
-                OrgId = o.Id,
-                Name = o.Name,
-                UserId = u.Id,
-                AdminAccount = u.Account,
-                Phone = u.Phone,
-                Email = u.Email,
-                TenantType = t.TenantType,
-                DbType = t.DbType,
-                Connection = t.Connection,
-                ConfigId = t.ConfigId,
-                OrderNo = t.OrderNo,
-                Remark = t.Remark,
-                Status = t.Status,
+                Id = u.Id,
+                OrgId = b.Id,
+                Name = b.Name,
+                UserId = a.Id,
+                AdminAccount = a.Account,
+                Phone = a.Phone,
+                Email = a.Email,
+                TenantType = u.TenantType,
+                DbType = u.DbType,
+                Connection = u.Connection,
+                ConfigId = u.ConfigId,
+                OrderNo = u.OrderNo,
+                Remark = u.Remark,
+                Status = u.Status,
             })
             .ToPagedListAsync(input.Page, input.PageSize);
     }

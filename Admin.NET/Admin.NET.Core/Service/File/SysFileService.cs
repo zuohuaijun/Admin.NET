@@ -171,7 +171,7 @@ public class SysFileService : IDynamicApiController, ITransient
         {
             using var fileStream = file.OpenReadStream();
             fileMd5 = OssUtils.ComputeContentMd5(fileStream, fileStream.Length);
-            var sysFile = await _sysFileRep.GetFirstAsync(q => q.FileMd5 == fileMd5 && (q.SizeKb == null || q.SizeKb == sizeKb.ToString()));
+            var sysFile = await _sysFileRep.GetFirstAsync(u => u.FileMd5 == fileMd5 && (u.SizeKb == null || u.SizeKb == sizeKb.ToString()));
             if (sysFile != null) return sysFile;
         }
 

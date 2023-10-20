@@ -145,25 +145,25 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         if (input.DbColumnInfoList == null || !input.DbColumnInfoList.Any())
             throw Oops.Oh(ErrorCodeEnum.db1000);
 
-        if (input.DbColumnInfoList.GroupBy(q => q.DbColumnName).Any(q => q.Count() > 1))
+        if (input.DbColumnInfoList.GroupBy(u => u.DbColumnName).Any(u => u.Count() > 1))
             throw Oops.Oh(ErrorCodeEnum.db1002);
 
         var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
         var typeBuilder = db.DynamicBuilder().CreateClass(input.TableName, new SugarTable() { TableName = input.TableName, TableDescription = input.Description });
-        input.DbColumnInfoList.ForEach(m =>
+        input.DbColumnInfoList.ForEach(u =>
         {
-            var dbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(m.DbColumnName.Trim()) : m.DbColumnName.Trim();
+            var dbColumnName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(u.DbColumnName.Trim()) : u.DbColumnName.Trim();
             // 虚拟类都默认string类型，具体以列数据类型为准
             typeBuilder.CreateProperty(dbColumnName, typeof(string), new SugarColumn()
             {
-                IsPrimaryKey = m.IsPrimarykey == 1,
-                IsIdentity = m.IsIdentity == 1,
-                ColumnDataType = m.DataType,
-                Length = m.Length,
-                IsNullable = m.IsNullable == 1,
-                DecimalDigits = m.DecimalDigits,
-                ColumnDescription = m.ColumnDescription,
+                IsPrimaryKey = u.IsPrimarykey == 1,
+                IsIdentity = u.IsIdentity == 1,
+                ColumnDataType = u.DataType,
+                Length = u.Length,
+                IsNullable = u.IsNullable == 1,
+                DecimalDigits = u.DecimalDigits,
+                ColumnDescription = u.ColumnDescription,
             });
         });
         db.CodeFirst.InitTables(typeBuilder.BuilderType());
@@ -225,7 +225,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var templatePath = GetEntityTemplatePath();
         var targetPath = GetEntityTargetPath(input);
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
-        DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(m => m.Name == input.TableName || m.Name == input.TableName.ToLower()) ?? throw Oops.Oh(ErrorCodeEnum.db1001);
+        DbTableInfo dbTableInfo = db.DbMaintenance.GetTableInfoList(false).FirstOrDefault(u => u.Name == input.TableName || u.Name == input.TableName.ToLower()) ?? throw Oops.Oh(ErrorCodeEnum.db1001);
         List<DbColumnInfo> dbColumnInfos = db.DbMaintenance.GetColumnInfosByTableName(input.TableName, false);
         dbColumnInfos.ForEach(u =>
         {
@@ -233,7 +233,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             u.DataType = CodeGenUtil.ConvertDataType(u, config.DbType);
         });
         if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))
-            dbColumnInfos = dbColumnInfos.Where(c => !dbColumnNames.Contains(c.DbColumnName, StringComparer.OrdinalIgnoreCase)).ToList();
+            dbColumnInfos = dbColumnInfos.Where(u => !dbColumnNames.Contains(u.DbColumnName, StringComparer.OrdinalIgnoreCase)).ToList();
 
         var tContent = File.ReadAllText(templatePath);
         var tResult = _viewEngine.RunCompileFromCached(tContent, new
@@ -304,7 +304,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             int recordIndex = 0;
             foreach (var r in (IEnumerable)records)
             {
-                List<JsonIgnoredPropertyData> record = new List<JsonIgnoredPropertyData>();
+                List<JsonIgnoredPropertyData> record = new();
                 foreach (var item in jsonIgnoreProperties)
                 {
                     object v = item.GetValue(r);

@@ -150,16 +150,15 @@ public class SysDictTypeService : IDynamicApiController, ITransient
         dictType.Status = (StatusEnum)input.Status;
         await _sysDictTypeRep.UpdateAsync(dictType);
     }
-    
+
     /// <summary>
     /// 获取所有字典集合
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
-    [ApiDescriptionSettings(Name = "GetAllDict"), HttpGet]
-    public async Task<List<SysDictType>> GetAllDict()
+    [DisplayName("获取所有字典集合")]
+    public async Task<List<SysDictType>> GetAllDictList()
     {
-        var list = await _sysDictTypeRep.AsQueryable().Includes(x => x.Children).ToListAsync();
-        return list;
+        return await _sysDictTypeRep.AsQueryable().Includes(u => u.Children).ToListAsync();
     }
 }

@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { StatusEnum } from './status-enum';
+import { SysDictData } from './sys-dict-data';
 /**
  * 系统字典类型表
  * @export
@@ -84,4 +85,10 @@ export interface SysDictType {
      * @memberof SysDictType
      */
     status?: StatusEnum;
+    /**
+     * 字典值集合
+     * @type {Array<SysDictData>}
+     * @memberof SysDictType
+     */
+    children?: Array<SysDictData> | null;
 }
