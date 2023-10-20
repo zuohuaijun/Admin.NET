@@ -18,8 +18,9 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     private readonly SqlSugarRepository<SysWechatPay> _sysWechatPayUserRep;
 
     private readonly WechatPayOptions _wechatPayOptions;
-    public readonly WechatTenpayClient WechatTenpayClient;
     private readonly PayCallBackOptions _payCallBackOptions;
+
+    private readonly WechatTenpayClient _wechatTenpayClient;
 
     public SysWechatPayService(SqlSugarRepository<SysWechatPay> sysWechatPayUserRep,
         IOptions<WechatPayOptions> wechatPayOptions,
@@ -27,8 +28,9 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     {
         _sysWechatPayUserRep = sysWechatPayUserRep;
         _wechatPayOptions = wechatPayOptions.Value;
-        WechatTenpayClient = CreateTenpayClient();
         _payCallBackOptions = payCallBackOptions.Value;
+
+        _wechatTenpayClient = CreateTenpayClient();
     }
 
     /// <summary>
@@ -58,7 +60,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
     [DisplayName("生成JSAPI调起支付所需参数")]
     public dynamic GenerateParametersForJsapiPay(WechatPayParaInput input)
     {
-        return WechatTenpayClient.GenerateParametersForJsapiPayRequest(_wechatPayOptions.AppId, input.PrepayId);
+        return _wechatTenpayClient.GenerateParametersForJsapiPayRequest(_wechatPayOptions.AppId, input.PrepayId);
     }
 
     /// <summary>
@@ -79,7 +81,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
             Amount = new CreatePayTransactionJsapiRequest.Types.Amount() { Total = input.Total },
             Payer = new CreatePayTransactionJsapiRequest.Types.Payer() { OpenId = input.OpenId }
         };
-        var response = await WechatTenpayClient.ExecuteCreatePayTransactionJsapiAsync(request);
+        var response = await _wechatTenpayClient.ExecuteCreatePayTransactionJsapiAsync(request);
         if (!response.IsSuccessful())
             throw Oops.Oh(response.ErrorMessage);
 
@@ -126,7 +128,7 @@ public class SysWechatPayService : IDynamicApiController, ITransient
             Amount = new CreatePayPartnerTransactionJsapiRequest.Types.Amount() { Total = input.Total },
             Payer = new CreatePayPartnerTransactionJsapiRequest.Types.Payer() { OpenId = input.OpenId }
         };
-        var response = await WechatTenpayClient.ExecuteCreatePayPartnerTransactionJsapiAsync(request);
+        var response = await _wechatTenpayClient.ExecuteCreatePayPartnerTransactionJsapiAsync(request);
         if (!response.IsSuccessful())
             throw Oops.Oh(response.ErrorMessage);
 
@@ -178,10 +180,10 @@ public class SysWechatPayService : IDynamicApiController, ITransient
         var b = ms.ToArray();
         var callbackJson = Encoding.UTF8.GetString(b);
 
-        var callbackModel = WechatTenpayClient.DeserializeEvent(callbackJson);
+        var callbackModel = _wechatTenpayClient.DeserializeEvent(callbackJson);
         if ("TRANSACTION.SUCCESS".Equals(callbackModel.EventType))
         {
-            var callbackResource = WechatTenpayClient.DecryptEventResource<TransactionResource>(callbackModel);
+            var callbackResource = _wechatTenpayClient.DecryptEventResource<TransactionResource>(callbackModel);
 
             // 修改订单支付状态
             var wechatPay = await _sysWechatPayUserRep.GetFirstAsync(u => u.OutTradeNumber == callbackResource.OutTradeNumber
@@ -225,10 +227,10 @@ public class SysWechatPayService : IDynamicApiController, ITransient
         var b = ms.ToArray();
         var callbackJson = Encoding.UTF8.GetString(b);
 
-        var callbackModel = WechatTenpayClient.DeserializeEvent(callbackJson);
+        var callbackModel = _wechatTenpayClient.DeserializeEvent(callbackJson);
         if ("TRANSACTION.SUCCESS".Equals(callbackModel.EventType))
         {
-            var callbackResource = WechatTenpayClient.DecryptEventResource<PartnerTransactionResource>(callbackModel);
+            var callbackResource = _wechatTenpayClient.DecryptEventResource<PartnerTransactionResource>(callbackModel);
 
             // 修改订单支付状态
             var wechatPay = await _sysWechatPayUserRep.GetFirstAsync(u => u.OutTradeNumber == callbackResource.OutTradeNumber

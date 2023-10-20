@@ -12,7 +12,7 @@ namespace Admin.NET.Core.Service;
 /// <summary>
 /// 微信API客户端
 /// </summary>
-public partial class WechatApiHttpClient : ISingleton
+public partial class WechatApiHttpClient : ITransient
 {
     public readonly WechatOptions _wechatOptions;
 

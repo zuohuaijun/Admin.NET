@@ -16,16 +16,16 @@ namespace Admin.NET.Core.Service;
 public class SysWxOpenService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
-    private readonly WechatApiClient _wechatApiClient;
     private readonly SysConfigService _sysConfigService;
+    private readonly WechatApiClient _wechatApiClient;
 
     public SysWxOpenService(SqlSugarRepository<SysWechatUser> sysWechatUserRep,
-        WechatApiHttpClient wechatApiHttpClient,
-        SysConfigService sysConfigService)
+        SysConfigService sysConfigService,
+        WechatApiHttpClient wechatApiHttpClient)
     {
         _sysWechatUserRep = sysWechatUserRep;
-        _wechatApiClient = wechatApiHttpClient.CreateWxOpenClient();
         _sysConfigService = sysConfigService;
+        _wechatApiClient = wechatApiHttpClient.CreateWxOpenClient();
     }
 
     /// <summary>
