@@ -18,4 +18,9 @@ public static class SignatureAuthenticationDefaults
     /// SignatureAuthenticationOptions.AuthenticationScheme 使用的默认值
     /// </summary>
     public const string AuthenticationScheme = "Signature";
+
+    /// <summary>
+    /// 附加在在 HttpContext Item 中验证失败消息的 Key
+    /// </summary>
+    public const string AuthenticateFailMsgKey = "SignatureAuthenticateFailMsg";
 }

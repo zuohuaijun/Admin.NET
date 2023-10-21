@@ -19,12 +19,16 @@ namespace Admin.NET.Core;
 /// </summary>
 public sealed class SignatureAuthenticationHandler : AuthenticationHandler<SignatureAuthenticationOptions>
 {
+    private SysCacheService _cacheService;
+
     public SignatureAuthenticationHandler(IOptionsMonitor<SignatureAuthenticationOptions> options,
         ILoggerFactory logger,
         UrlEncoder encoder,
-        ISystemClock clock)
+        ISystemClock clock,
+        SysCacheService cacheService)
         : base(options, logger, encoder, clock)
     {
+        _cacheService = cacheService;
     }
 
     private new SignatureAuthenticationEvent Events
@@ -71,10 +75,16 @@ public sealed class SignatureAuthenticationHandler : AuthenticationHandler<Signa
 
         //校验签名
         var appSecretByte = Encoding.UTF8.GetBytes(accessSecret);
-        string serverSign = SignData(appSecretByte, GetMessageForSign(Request.Method, Request.Path, accessKey, timestamp, nonce));
+        string serverSign = SignData(appSecretByte, GetMessageForSign(Context));
 
         if (serverSign != sign)
             return await AuthenticateResultFailAsync("sign 无效的签名");
+
+        //重放检测
+        var cacheKey = $"{CacheConst.KeyOpenAccessNonce}{accessKey}|{nonce}";
+        if (_cacheService.ExistKey(cacheKey))
+            return await AuthenticateResultFailAsync("重复的请求");
+        _cacheService.Set(cacheKey, null, Options.AllowedDateDrift * 2);//缓存过期时间为偏差范围时间的2倍
 
         //已验证成功
         var signatureValidatedContext = new SignatureValidatedContext(Context, Scheme, Options)
@@ -109,14 +119,15 @@ public sealed class SignatureAuthenticationHandler : AuthenticationHandler<Signa
     /// <summary>
     /// 获取用于签名的消息
     /// </summary>
-    /// <param name="method">请求方法（大写）</param>
-    /// <param name="url">请求 url，去除协议、域名、参数，以 / 开头</param>
-    /// <param name="accessKey">身份标识</param>
-    /// <param name="timestamp">时间戳，精确到秒</param>
-    /// <param name="nonce">6位随机数</param>
     /// <returns></returns>
-    private static string GetMessageForSign(string method, string url, string accessKey, long timestamp, string nonce)
+    private static string GetMessageForSign(HttpContext context)
     {
+        var method = context.Request.Method;//请求方法（大写）
+        var url = context.Request.Path;//请求 url，去除协议、域名、参数，以 / 开头
+        var accessKey = context.Request.Headers["accessKey"].FirstOrDefault();//身份标识
+        var timestamp = context.Request.Headers["timestamp"].FirstOrDefault();//时间戳，精确到秒
+        var nonce = context.Request.Headers["nonce"].FirstOrDefault();//唯一随机数
+
         return $"{method}&{url}&{accessKey}&{timestamp}&{nonce}";
     }
 
@@ -140,14 +151,14 @@ public sealed class SignatureAuthenticationHandler : AuthenticationHandler<Signa
     }
 
     /// <summary>
-    /// 返回验证失败结果，并在 Items 中增加 AuthenticateFailMsg，记录身份验证失败消息
+    /// 返回验证失败结果，并在 Items 中增加 <see cref="SignatureAuthenticationDefaults.AuthenticateFailMsgKey"/>，记录身份验证失败消息
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
     private Task<AuthenticateResult> AuthenticateResultFailAsync(string message)
     {
         //写入身份验证失败消息
-        Context.Items["AuthenticateFailMsg"] = message;
+        Context.Items[SignatureAuthenticationDefaults.AuthenticateFailMsgKey] = message;
         return Task.FromResult(AuthenticateResult.Fail(message));
     }
 }
