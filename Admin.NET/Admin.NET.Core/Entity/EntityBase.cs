@@ -45,10 +45,34 @@ public abstract class EntityBase : EntityBaseId, IDeletedFilter
     public virtual long? CreateUserId { get; set; }
 
     /// <summary>
+    /// 创建者
+    /// </summary>
+    [Navigate(NavigateType.OneToOne, nameof(CreateUserId))]
+    public virtual SysUser CreateUser { get; set; }
+
+    /// <summary>
+    /// 创建者姓名
+    /// </summary>
+    [SugarColumn(ColumnDescription = "创建者姓名", Length = 64, IsOnlyIgnoreUpdate = true)]
+    public virtual string? CreateUserName { get; set; }
+
+    /// <summary>
     /// 修改者Id
     /// </summary>
     [SugarColumn(ColumnDescription = "修改者Id", IsOnlyIgnoreInsert = true)]
     public virtual long? UpdateUserId { get; set; }
+
+    /// <summary>
+    /// 修改者
+    /// </summary>
+    [Navigate(NavigateType.OneToOne, nameof(UpdateUserId))]
+    public virtual SysUser UpdateUser { get; set; }
+
+    /// <summary>
+    /// 修改者姓名
+    /// </summary>
+    [SugarColumn(ColumnDescription = "修改者姓名", Length = 64, IsOnlyIgnoreInsert = true)]
+    public virtual string? UpdateUserName { get; set; }
 
     /// <summary>
     /// 软删除
@@ -73,6 +97,12 @@ public abstract class EntityBaseData : EntityBase, IOrgIdFilter
     /// </summary>
     [Navigate(NavigateType.OneToOne, nameof(CreateOrgId))]
     public virtual SysOrg CreateOrg { get; set; }
+
+    /// <summary>
+    /// 创建者部门名称
+    /// </summary>
+    [SugarColumn(ColumnDescription = "创建者部门名称", Length = 64, IsOnlyIgnoreUpdate = true)]
+    public virtual string? CreateOrgName { get; set; }
 }
 
 /// <summary>

@@ -26,4 +26,10 @@ public enum GenderEnum
     /// </summary>
     [Description("女")]
     Female = 2,
+
+    /// <summary>
+    /// 其他
+    /// </summary>
+    [Description("其他")]
+    Other = 3
 }
