@@ -17,7 +17,7 @@
 				<ul>
 					<li>
 						在需要使用 Signature 身份验证的 Api 中贴上
-						<el-tag>[Authorize(AuthenticationSchemes = SignatureAuthenticationDefaults.AuthenticationScheme)]</el-tag>
+						<p><el-tag>[Authorize(AuthenticationSchemes = SignatureAuthenticationDefaults.AuthenticationScheme)]</el-tag></p>
 					</li>
 					<li>
 						通过对请求的签名，可以达到以下目的：
