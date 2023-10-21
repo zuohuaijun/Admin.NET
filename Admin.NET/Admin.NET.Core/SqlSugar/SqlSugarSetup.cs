@@ -208,7 +208,7 @@ public static class SqlSugarSetup
                 else if (entityInfo.PropertyName == "UpdateUserId")
                     entityInfo.SetValue(App.User?.FindFirst(ClaimConst.UserId)?.Value);
                 else if (entityInfo.PropertyName == "UpdateUserName")
-                    entityInfo.SetValue(App.User.FindFirst(ClaimConst.RealName)?.Value);
+                    entityInfo.SetValue(App.User?.FindFirst(ClaimConst.RealName)?.Value);
             }
         };
 
