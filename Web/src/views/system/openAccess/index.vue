@@ -13,6 +13,7 @@
 				</el-form-item>
 				<el-form-item>
 					<el-button type="primary" icon="ele-Plus" @click="openAddOpenAccess" v-auth="'sysOpenAccess:add'"> 新增 </el-button>
+					<el-button icon="ele-QuestionFilled" @click="openHelp"> 说明 </el-button>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -46,6 +47,7 @@
 		</el-card>
 
 		<EditOpenAccess ref="editOpenAccessRef" :title="state.editOpenAccessTitle" @handleQuery="handleQuery" />
+		<HelpView ref="helpViewRef" />
 	</div>
 </template>
 
@@ -53,15 +55,17 @@
 import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditOpenAccess from '/@/views/system/openAccess/component/editOpenAccess.vue';
+import HelpView from '/@/views/system/openAccess/component/helpView.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysOpenAccessApi } from '/@/api-services/api';
-import { SysOpenAccess } from '/@/api-services/models';
+import { OpenAccessOutput } from '/@/api-services/models';
 
 const editOpenAccessRef = ref<InstanceType<typeof EditOpenAccess>>();
+const helpViewRef = ref<InstanceType<typeof HelpView>>();
 const state = reactive({
 	loading: false,
-	openAccessData: [] as Array<SysOpenAccess>,
+	openAccessData: [] as Array<OpenAccessOutput>,
 	queryParams: {
 		accessKey: undefined,
 	},
@@ -130,5 +134,10 @@ const handleSizeChange = (val: number) => {
 const handleCurrentChange = (val: number) => {
 	state.tableParams.page = val;
 	handleQuery();
+};
+
+// 打开说明页面
+const openHelp = () => {
+	helpViewRef.value?.openDialog();
 };
 </script>

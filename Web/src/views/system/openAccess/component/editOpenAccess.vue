@@ -49,7 +49,7 @@
 	</div>
 </template>
 
-<script lang="ts" setup name="sysNoticeEdit">
+<script lang="ts" setup name="sysOpenAccessEdit">
 import { onMounted, reactive, ref } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
