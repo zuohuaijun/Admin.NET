@@ -14,6 +14,7 @@
 import { MenuTypeEnum } from './menu-type-enum';
 import { StatusEnum } from './status-enum';
 import { SysMenu } from './sys-menu';
+import { SysUser } from './sys-user';
 /**
  * 系统菜单表
  * @export
@@ -45,11 +46,35 @@ export interface SysMenu {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof SysMenu
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof SysMenu
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof SysMenu
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof SysMenu
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof SysMenu
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

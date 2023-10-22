@@ -12,12 +12,11 @@ using Microsoft.AspNetCore.Authentication;
 namespace Admin.NET.Core;
 
 /// <summary>
-/// 获取 AccessKey 关联 AccessSecret 方法的上下文
+/// Signature 身份验证已验证上下文
 /// </summary>
-public class GetAccessSecretContext : BaseContext<SignatureAuthenticationOptions>
+public class SignatureValidatedContext : ResultContext<SignatureAuthenticationOptions>
 {
-    public GetAccessSecretContext(
-        HttpContext context,
+    public SignatureValidatedContext(HttpContext context,
         AuthenticationScheme scheme,
         SignatureAuthenticationOptions options)
         : base(context, scheme, options)
@@ -28,4 +27,9 @@ public class GetAccessSecretContext : BaseContext<SignatureAuthenticationOptions
     /// 身份标识
     /// </summary>
     public string AccessKey { get; set; }
+
+    /// <summary>
+    /// 密钥
+    /// </summary>
+    public string AccessSecret { get; set; }
 }

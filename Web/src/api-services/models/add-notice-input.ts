@@ -13,6 +13,7 @@
  */
 import { NoticeStatusEnum } from './notice-status-enum';
 import { NoticeTypeEnum } from './notice-type-enum';
+import { SysUser } from './sys-user';
 /**
  * 
  * @export
@@ -44,11 +45,35 @@ export interface AddNoticeInput {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof AddNoticeInput
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof AddNoticeInput
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof AddNoticeInput
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof AddNoticeInput
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof AddNoticeInput
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

@@ -13,6 +13,7 @@
  */
 import { StatusEnum } from './status-enum';
 import { SysDictData } from './sys-dict-data';
+import { SysUser } from './sys-user';
 /**
  * 
  * @export
@@ -44,11 +45,35 @@ export interface UpdateDictTypeInput {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof UpdateDictTypeInput
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof UpdateDictTypeInput
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof UpdateDictTypeInput
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof UpdateDictTypeInput
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof UpdateDictTypeInput
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

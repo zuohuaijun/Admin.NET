@@ -1,4 +1,12 @@
-﻿using Microsoft.VisualBasic;
+﻿// 麻省理工学院许可证
+//
+// 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
+//
+// 特此免费授予获得本软件的任何人以处理本软件的权利，但须遵守以下条件：在所有副本或重要部分的软件中必须包括上述版权声明和本许可声明。
+//
+// 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
+// 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
+
 using System.Security.Claims;
 
 namespace Admin.NET.Core.Service;
@@ -10,18 +18,15 @@ namespace Admin.NET.Core.Service;
 public class SysOpenAccessService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysOpenAccess> _sysOpenAccessRep;
-    private readonly SqlSugarRepository<SysUser> _sysUserRep;
     private readonly SysCacheService _sysCacheService;
 
     /// <summary>
     /// 开放接口身份服务构造函数
     /// </summary>
     public SysOpenAccessService(SqlSugarRepository<SysOpenAccess> sysOpenAccessRep,
-        SqlSugarRepository<SysUser> sysUserRep,
         SysCacheService sysCacheService)
     {
         _sysOpenAccessRep = sysOpenAccessRep;
-        _sysUserRep = sysUserRep;
         _sysCacheService = sysCacheService;
     }
 
@@ -34,16 +39,15 @@ public class SysOpenAccessService : IDynamicApiController, ITransient
     public async Task<SqlSugarPagedList<OpenAccessOutput>> Page(OpenAccessInput input)
     {
         return await _sysOpenAccessRep.AsQueryable()
-            .LeftJoin<SysUser>((o, u) => o.BindUserId == u.Id)
-            .LeftJoin<SysTenant>((o, u, t) => o.BindTenantId == t.Id)
-            .LeftJoin<SysOrg>((o, u, t, oo) => t.OrgId == oo.Id)
-            .WhereIF(!string.IsNullOrWhiteSpace(input.AccessKey?.Trim()), (o, u, t, oo) => o.AccessKey.Contains(input.AccessKey))
-            .Select((o, u, t, oo) =>
-                new OpenAccessOutput
-                {
-                    BindUserAccount = u.Account,
-                    BindTenantName = oo.Name,
-                }, true)
+            .LeftJoin<SysUser>((u, a) => u.BindUserId == a.Id)
+            .LeftJoin<SysTenant>((u, a, b) => u.BindTenantId == b.Id)
+            .LeftJoin<SysOrg>((u, a, b, c) => b.OrgId == c.Id)
+            .WhereIF(!string.IsNullOrWhiteSpace(input.AccessKey?.Trim()), (u, a, b, c) => u.AccessKey.Contains(input.AccessKey))
+            .Select((u, a, b, c) => new OpenAccessOutput
+            {
+                BindUserAccount = a.Account,
+                BindTenantName = c.Name,
+            }, true)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 

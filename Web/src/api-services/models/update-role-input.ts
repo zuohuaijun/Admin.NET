@@ -13,6 +13,7 @@
  */
 import { DataScopeEnum } from './data-scope-enum';
 import { StatusEnum } from './status-enum';
+import { SysUser } from './sys-user';
 /**
  * 
  * @export
@@ -44,11 +45,35 @@ export interface UpdateRoleInput {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof UpdateRoleInput
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof UpdateRoleInput
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof UpdateRoleInput
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof UpdateRoleInput
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof UpdateRoleInput
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

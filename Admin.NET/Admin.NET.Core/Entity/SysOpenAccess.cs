@@ -19,13 +19,15 @@ public class SysOpenAccess : EntityBase
     /// <summary>
     /// 身份标识
     /// </summary>
-    [SugarColumn(ColumnDescription = "身份标识", Length = 80)]
+    [SugarColumn(ColumnDescription = "身份标识", Length = 128)]
+    [Required, MaxLength(128)]
     public virtual string AccessKey { get; set; }
 
     /// <summary>
     /// 密钥
     /// </summary>
-    [SugarColumn(ColumnDescription = "密钥", Length = 255)]
+    [SugarColumn(ColumnDescription = "密钥", Length = 256)]
+    [Required, MaxLength(256)]
     public virtual string AccessSecret { get; set; }
 
     /// <summary>

@@ -13,6 +13,7 @@
  */
 import { DataScopeEnum } from './data-scope-enum';
 import { StatusEnum } from './status-enum';
+import { SysUser } from './sys-user';
 /**
  * 系统角色表
  * @export
@@ -44,11 +45,35 @@ export interface SysRole {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof SysRole
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof SysRole
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof SysRole
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof SysRole
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof SysRole
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

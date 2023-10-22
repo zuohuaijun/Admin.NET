@@ -12,12 +12,13 @@
  * Do not edit the class manually.
  */
 /**
- * 性别枚举<br />&nbsp;男 Male = 1<br />&nbsp;女 Female = 2<br />
+ * 性别枚举<br />&nbsp;男 Male = 1<br />&nbsp;女 Female = 2<br />&nbsp;其他 Other = 3<br />
  * @export
  * @enum {string}
  */
 export enum GenderEnum {
     NUMBER_1 = 1,
-    NUMBER_2 = 2
+    NUMBER_2 = 2,
+    NUMBER_3 = 3
 }
 

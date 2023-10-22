@@ -7,31 +7,17 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
-using Microsoft.AspNetCore.Authentication;
+namespace Admin.NET.Core.Service;
 
-namespace Admin.NET.Core;
-
-/// <summary>
-/// Signature 身份验证质询上下文
-/// </summary>
-public class SignatureChallengeContext : PropertiesContext<SignatureAuthenticationOptions>
+public class OpenAccessOutput : SysOpenAccess
 {
-    public SignatureChallengeContext(
-        HttpContext context,
-        AuthenticationScheme scheme,
-        SignatureAuthenticationOptions options,
-        AuthenticationProperties properties)
-        : base(context, scheme, options, properties)
-    {
-    }
+    /// <summary>
+    /// 绑定用户账号
+    /// </summary>
+    public string BindUserAccount { get; set; }
 
     /// <summary>
-    /// 在认证期间出现的异常
+    /// 绑定租户名称
     /// </summary>
-    public Exception AuthenticateFailure { get; set; }
-
-    /// <summary>
-    /// 指定是否已被处理，如果已处理，则跳过默认认证逻辑
-    /// </summary>
-    public bool Handled { get; private set; }
+    public string BindTenantName { get; set; }
 }

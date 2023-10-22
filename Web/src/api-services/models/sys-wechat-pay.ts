@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { SysUser } from './sys-user';
 import { SysWechatUser } from './sys-wechat-user';
 /**
  * 系统微信支付表
@@ -43,11 +44,35 @@ export interface SysWechatPay {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof SysWechatPay
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof SysWechatPay
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof SysWechatPay
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof SysWechatPay
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof SysWechatPay
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

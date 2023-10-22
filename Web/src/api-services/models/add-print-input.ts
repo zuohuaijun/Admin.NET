@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { StatusEnum } from './status-enum';
+import { SysUser } from './sys-user';
 /**
  * 
  * @export
@@ -43,11 +44,35 @@ export interface AddPrintInput {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof AddPrintInput
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof AddPrintInput
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof AddPrintInput
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof AddPrintInput
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof AddPrintInput
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

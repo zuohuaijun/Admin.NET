@@ -13,6 +13,7 @@
  */
 import { DbType } from './db-type';
 import { StatusEnum } from './status-enum';
+import { SysUser } from './sys-user';
 import { TenantTypeEnum } from './tenant-type-enum';
 /**
  * 
@@ -45,11 +46,35 @@ export interface AddTenantInput {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof AddTenantInput
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof AddTenantInput
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof AddTenantInput
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof AddTenantInput
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof AddTenantInput
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

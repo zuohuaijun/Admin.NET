@@ -44,11 +44,35 @@ export interface OpenAccessOutput {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof OpenAccessOutput
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof OpenAccessOutput
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof OpenAccessOutput
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof OpenAccessOutput
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof OpenAccessOutput
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}
@@ -60,25 +84,13 @@ export interface OpenAccessOutput {
      * @type {string}
      * @memberof OpenAccessOutput
      */
-    accessKey?: string | null;
+    accessKey: string;
     /**
      * 密钥
      * @type {string}
      * @memberof OpenAccessOutput
      */
-    accessSecret?: string | null;
-    /**
-     * 绑定用户Id
-     * @type {number}
-     * @memberof OpenAccessOutput
-     */
-    bindUserId?: number;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof OpenAccessOutput
-     */
-    bindUser?: SysUser;
+    accessSecret: string;
     /**
      * 绑定租户Id
      * @type {number}
@@ -91,6 +103,18 @@ export interface OpenAccessOutput {
      * @memberof OpenAccessOutput
      */
     bindTenant?: SysTenant;
+    /**
+     * 绑定用户Id
+     * @type {number}
+     * @memberof OpenAccessOutput
+     */
+    bindUserId?: number;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof OpenAccessOutput
+     */
+    bindUser?: SysUser;
     /**
      * 绑定用户账号
      * @type {string}

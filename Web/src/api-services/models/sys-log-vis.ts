@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { LogLevel } from './log-level';
+import { SysUser } from './sys-user';
 /**
  * 系统访问日志表
  * @export
@@ -43,11 +44,35 @@ export interface SysLogVis {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof SysLogVis
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof SysLogVis
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof SysLogVis
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof SysLogVis
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof SysLogVis
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

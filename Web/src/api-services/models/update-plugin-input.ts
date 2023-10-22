@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { StatusEnum } from './status-enum';
+import { SysUser } from './sys-user';
 /**
  * 
  * @export
@@ -43,11 +44,35 @@ export interface UpdatePluginInput {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof UpdatePluginInput
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof UpdatePluginInput
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof UpdatePluginInput
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof UpdatePluginInput
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof UpdatePluginInput
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

@@ -7,10 +7,10 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
+using Microsoft.AspNetCore.Authentication;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text.Encodings.Web;
-using Microsoft.AspNetCore.Authentication;
 
 namespace Admin.NET.Core;
 
@@ -46,7 +46,7 @@ public sealed class SignatureAuthenticationHandler : AuthenticationHandler<Signa
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         var accessKey = Request.Headers["accessKey"].FirstOrDefault();
-        var timestampStr = Request.Headers["timestamp"].FirstOrDefault();//精确到秒
+        var timestampStr = Request.Headers["timestamp"].FirstOrDefault(); // 精确到秒
         var nonce = Request.Headers["nonce"].FirstOrDefault();
         var sign = Request.Headers["sign"].FirstOrDefault();
 
@@ -59,7 +59,7 @@ public sealed class SignatureAuthenticationHandler : AuthenticationHandler<Signa
         if (string.IsNullOrEmpty(sign))
             return await AuthenticateResultFailAsync("sign 不能为空");
 
-        //验证请求数据是否在可接受的时间内
+        // 验证请求数据是否在可接受的时间内
         if (!long.TryParse(timestampStr, out var timestamp))
             return await AuthenticateResultFailAsync("timestamp 值不合法");
 
@@ -67,26 +67,26 @@ public sealed class SignatureAuthenticationHandler : AuthenticationHandler<Signa
         if (requestDate > Clock.UtcNow.Add(Options.AllowedDateDrift).LocalDateTime || requestDate < Clock.UtcNow.Subtract(Options.AllowedDateDrift).LocalDateTime)
             return await AuthenticateResultFailAsync("timestamp 值已超过允许的偏差范围");
 
-        //获取 accessSecret
+        // 获取 accessSecret
         var getAccessSecretContext = new GetAccessSecretContext(Context, Scheme, Options) { AccessKey = accessKey };
         var accessSecret = await Events.GetAccessSecret(getAccessSecretContext);
         if (string.IsNullOrEmpty(accessSecret))
             return await AuthenticateResultFailAsync("accessKey 无效");
 
-        //校验签名
+        // 校验签名
         var appSecretByte = Encoding.UTF8.GetBytes(accessSecret);
         string serverSign = SignData(appSecretByte, GetMessageForSign(Context));
 
         if (serverSign != sign)
             return await AuthenticateResultFailAsync("sign 无效的签名");
 
-        //重放检测
+        // 重放检测
         var cacheKey = $"{CacheConst.KeyOpenAccessNonce}{accessKey}|{nonce}";
         if (_cacheService.ExistKey(cacheKey))
             return await AuthenticateResultFailAsync("重复的请求");
-        _cacheService.Set(cacheKey, null, Options.AllowedDateDrift * 2);//缓存过期时间为偏差范围时间的2倍
+        _cacheService.Set(cacheKey, null, Options.AllowedDateDrift * 2); // 缓存过期时间为偏差范围时间的2倍
 
-        //已验证成功
+        // 已验证成功
         var signatureValidatedContext = new SignatureValidatedContext(Context, Scheme, Options)
         {
             Principal = new ClaimsPrincipal(new ClaimsIdentity(SignatureAuthenticationDefaults.AuthenticationScheme)),
@@ -110,7 +110,7 @@ public sealed class SignatureAuthenticationHandler : AuthenticationHandler<Signa
             AuthenticateFailure = authResult.Failure,
         };
         await Events.Challenge(challengeContext);
-        //质询已处理
+        // 质询已处理
         if (challengeContext.Handled) return;
 
         await base.HandleChallengeAsync(properties);
@@ -122,11 +122,11 @@ public sealed class SignatureAuthenticationHandler : AuthenticationHandler<Signa
     /// <returns></returns>
     private static string GetMessageForSign(HttpContext context)
     {
-        var method = context.Request.Method;//请求方法（大写）
-        var url = context.Request.Path;//请求 url，去除协议、域名、参数，以 / 开头
-        var accessKey = context.Request.Headers["accessKey"].FirstOrDefault();//身份标识
-        var timestamp = context.Request.Headers["timestamp"].FirstOrDefault();//时间戳，精确到秒
-        var nonce = context.Request.Headers["nonce"].FirstOrDefault();//唯一随机数
+        var method = context.Request.Method; // 请求方法（大写）
+        var url = context.Request.Path; // 请求 url，去除协议、域名、参数，以 / 开头
+        var accessKey = context.Request.Headers["accessKey"].FirstOrDefault(); // 身份标识
+        var timestamp = context.Request.Headers["timestamp"].FirstOrDefault(); // 时间戳，精确到秒
+        var nonce = context.Request.Headers["nonce"].FirstOrDefault(); // 唯一随机数
 
         return $"{method}&{url}&{accessKey}&{timestamp}&{nonce}";
     }
@@ -157,7 +157,7 @@ public sealed class SignatureAuthenticationHandler : AuthenticationHandler<Signa
     /// <returns></returns>
     private Task<AuthenticateResult> AuthenticateResultFailAsync(string message)
     {
-        //写入身份验证失败消息
+        // 写入身份验证失败消息
         Context.Items[SignatureAuthenticationDefaults.AuthenticateFailMsgKey] = message;
         return Task.FromResult(AuthenticateResult.Fail(message));
     }

@@ -12,6 +12,7 @@
  * Do not edit the class manually.
  */
 import { LogLevel } from './log-level';
+import { SysUser } from './sys-user';
 /**
  * 系统异常日志表
  * @export
@@ -43,11 +44,35 @@ export interface SysLogEx {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof SysLogEx
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof SysLogEx
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof SysLogEx
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof SysLogEx
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

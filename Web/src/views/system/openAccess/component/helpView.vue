@@ -7,11 +7,11 @@
 					<span> 说明 </span>
 				</div>
 			</template>
-			<template #footer>
+			<!-- <template #footer>
 				<span class="dialog-footer">
 					<el-button @click="close">关 闭</el-button>
 				</span>
-			</template>
+			</template> -->
 			<div class="text-content">
 				<h2>OpenAPI 使用</h2>
 				<ul>

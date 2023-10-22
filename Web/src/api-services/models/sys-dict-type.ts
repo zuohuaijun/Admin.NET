@@ -13,6 +13,7 @@
  */
 import { StatusEnum } from './status-enum';
 import { SysDictData } from './sys-dict-data';
+import { SysUser } from './sys-user';
 /**
  * 系统字典类型表
  * @export
@@ -44,11 +45,35 @@ export interface SysDictType {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof SysDictType
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof SysDictType
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof SysDictType
      */
     updateUserId?: number | null;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof SysDictType
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof SysDictType
+     */
+    updateUserName?: string | null;
     /**
      * 软删除
      * @type {boolean}

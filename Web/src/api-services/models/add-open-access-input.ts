@@ -44,23 +44,41 @@ export interface AddOpenAccessInput {
      */
     createUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof AddOpenAccessInput
+     */
+    createUser?: SysUser;
+    /**
+     * 创建者姓名
+     * @type {string}
+     * @memberof AddOpenAccessInput
+     */
+    createUserName?: string | null;
+    /**
      * 修改者Id
      * @type {number}
      * @memberof AddOpenAccessInput
      */
     updateUserId?: number | null;
     /**
+     * 
+     * @type {SysUser}
+     * @memberof AddOpenAccessInput
+     */
+    updateUser?: SysUser;
+    /**
+     * 修改者姓名
+     * @type {string}
+     * @memberof AddOpenAccessInput
+     */
+    updateUserName?: string | null;
+    /**
      * 软删除
      * @type {boolean}
      * @memberof AddOpenAccessInput
      */
     isDelete?: boolean;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof AddOpenAccessInput
-     */
-    bindUser?: SysUser;
     /**
      * 绑定租户Id
      * @type {number}
@@ -73,6 +91,12 @@ export interface AddOpenAccessInput {
      * @memberof AddOpenAccessInput
      */
     bindTenant?: SysTenant;
+    /**
+     * 
+     * @type {SysUser}
+     * @memberof AddOpenAccessInput
+     */
+    bindUser?: SysUser;
     /**
      * 身份标识
      * @type {string}
