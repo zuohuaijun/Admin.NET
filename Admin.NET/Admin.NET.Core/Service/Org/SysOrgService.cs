@@ -98,6 +98,9 @@ public class SysOrgService : IDynamicApiController, ITransient
     [DisplayName("增加机构")]
     public async Task<long> AddOrg(AddOrgInput input)
     {
+        if (!_userManager.SuperAdmin && input.Pid == 0)
+            throw Oops.Oh(ErrorCodeEnum.D2009);
+
         if (await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name && u.Code == input.Code))
             throw Oops.Oh(ErrorCodeEnum.D2002);
 
@@ -129,6 +132,9 @@ public class SysOrgService : IDynamicApiController, ITransient
     [DisplayName("更新机构")]
     public async Task UpdateOrg(UpdateOrgInput input)
     {
+        if (!_userManager.SuperAdmin && input.Pid == 0)
+            throw Oops.Oh(ErrorCodeEnum.D2009);
+
         if (input.Pid != 0)
         {
             //var pOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Pid);

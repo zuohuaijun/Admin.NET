@@ -233,6 +233,12 @@ public enum ErrorCodeEnum
     D2008,
 
     /// <summary>
+    /// 禁止增加根节点机构
+    /// </summary>
+    [ErrorCodeItemMetadata("禁止增加根节点机构")]
+    D2009,
+
+    /// <summary>
     /// 字典类型不存在
     /// </summary>
     [ErrorCodeItemMetadata("字典类型不存在")]
