@@ -401,4 +401,15 @@ public class SysTenantService : IDynamicApiController, ITransient
         };
         SqlSugarSetup.InitTenantDatabase(App.GetRequiredService<ISqlSugarClient>().AsTenant(), config);
     }
+
+    /// <summary>
+    /// 获取租户下的用户列表
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [DisplayName("获取租户下的用户列表")]
+    public async Task<List<SysUser>> UserList(TenantIdInput input)
+    {
+        return await _sysUserRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.TenantId).ToListAsync();
+    }
 }

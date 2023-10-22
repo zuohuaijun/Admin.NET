@@ -44,6 +44,9 @@ namespace Admin.NET.Web.Core
                 DefaultHttpContext currentHttpContext = context.GetCurrentHttpContext();
                 if (currentHttpContext == null)
                     return;
+                // 跳过由于 SignatureAuthentication 引发的失败
+                if (currentHttpContext.Items.ContainsKey(SignatureAuthenticationDefaults.AuthenticateFailMsgKey))
+                    return;
                 currentHttpContext.SignoutToSwagger();
             }
         }

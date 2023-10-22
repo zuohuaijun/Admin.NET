@@ -71,4 +71,14 @@ public class CacheConst
     /// SqlSugar二级缓存
     /// </summary>
     public const string SqlSugar = "sys_sqlSugar:";
+
+    /// <summary>
+    /// 开放接口身份缓存
+    /// </summary>
+    public const string KeyOpenAccess = "sys_open_access:";
+
+    /// <summary>
+    /// 开放接口身份随机数缓存
+    /// </summary>
+    public const string KeyOpenAccessNonce = "sys_open_access_nonce:";
 }

@@ -60,3 +60,11 @@ public class TenantUserInput
     /// </summary>
     public long UserId { get; set; }
 }
+
+public class TenantIdInput
+{
+    /// <summary>
+    /// 租户Id
+    /// </summary>
+    public long TenantId { get; set; }
+}

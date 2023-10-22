@@ -282,6 +282,49 @@ export const SysDictTypeApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * 
+         * @summary 获取所有字典集合
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysDictTypeGetAllDictGet: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysDictType/getAllDict`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 获取字典类型列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -548,6 +591,19 @@ export const SysDictTypeApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 获取所有字典集合
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysDictTypeGetAllDictGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysDictType>>> {
+            const localVarAxiosArgs = await SysDictTypeApiAxiosParamCreator(configuration).apiSysDictTypeGetAllDictGet(options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 获取字典类型列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -662,6 +718,15 @@ export const SysDictTypeApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * 
+         * @summary 获取所有字典集合
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysDictTypeGetAllDictGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysDictType>> {
+            return SysDictTypeApiFp(configuration).apiSysDictTypeGetAllDictGet(options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 获取字典类型列表
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -763,6 +828,16 @@ export class SysDictTypeApi extends BaseAPI {
      */
     public async apiSysDictTypeDetailGet(id: number, status?: StatusEnum, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysDictType>> {
         return SysDictTypeApiFp(this.configuration).apiSysDictTypeDetailGet(id, status, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取所有字典集合
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysDictTypeApi
+     */
+    public async apiSysDictTypeGetAllDictGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysDictType>> {
+        return SysDictTypeApiFp(this.configuration).apiSysDictTypeGetAllDictGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

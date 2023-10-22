@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -39,7 +39,12 @@ public class Startup : AppStartup
         // SqlSugar
         services.AddSqlSugar();
         // JWT
-        services.AddJwt<JwtHandler>(enableGlobalAuthorize: true);
+        services.AddJwt<JwtHandler>(enableGlobalAuthorize: true)
+            // 添加 Signature 身份验证
+            .AddSignatureAuthentication(options =>
+            {
+                options.Events = SysOpenAccessService.GetSignatureAuthenticationEventImpl();
+            });
         // 允许跨域
         services.AddCorsAccessor();
         // 远程请求
