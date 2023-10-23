@@ -7,18 +7,26 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
+using Flurl.Http.Configuration;
+using Flurl.Http;
+using Flurl;
+using System.Net.Http;
+
 namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 微信API客户端
 /// </summary>
-public partial class WechatApiHttpClient : ITransient
+public partial class WechatApiHttpClientFactory : ISingleton
 {
     public readonly WechatOptions _wechatOptions;
 
-    public WechatApiHttpClient(IOptions<WechatOptions> wechatOptions)
+    public WechatApiHttpClientFactory(IOptions<WechatOptions> wechatOptions,
+        System.Net.Http.IHttpClientFactory httpClientFactory)
     {
         _wechatOptions = wechatOptions.Value;
+
+        FlurlHttp.GlobalSettings.FlurlClientFactory = new DelegatingFlurlClientFactory(httpClientFactory);
     }
 
     /// <summary>
@@ -65,5 +73,28 @@ public partial class WechatApiHttpClient : ITransient
         });
 
         return WechatApiClient;
+    }
+}
+
+public partial class WechatApiHttpClientFactory
+{
+    internal class DelegatingFlurlClientFactory : IFlurlClientFactory
+    {
+        private readonly System.Net.Http.IHttpClientFactory _httpClientFactory;
+
+        public DelegatingFlurlClientFactory(System.Net.Http.IHttpClientFactory httpClientFactory)
+        {
+            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+        }
+
+        public void Dispose()
+        {
+            // Do Nothing
+        }
+
+        public IFlurlClient Get(Url url)
+        {
+            return new FlurlClient(_httpClientFactory.CreateClient(url.ToUri().Host));
+        }
     }
 }
