@@ -17,17 +17,17 @@ public class SysWechatService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
     private readonly SysConfigService _sysConfigService;
-    private readonly WechatApiHttpClient _wechatApiHttpClient;
+    private readonly WechatApiHttpClientFactory _wechatApiHttpClient;
     private readonly WechatApiClient _wechatApiClient;
 
     public SysWechatService(SqlSugarRepository<SysWechatUser> sysWechatUserRep,
         SysConfigService sysConfigService,
-        WechatApiHttpClient wechatApiHttpClient)
+        WechatApiHttpClientFactory wechatApiHttpClientFactory)
     {
         _sysWechatUserRep = sysWechatUserRep;
         _sysConfigService = sysConfigService;
-        _wechatApiHttpClient = wechatApiHttpClient;
-        _wechatApiClient = wechatApiHttpClient.CreateWechatClient();
+        _wechatApiHttpClient = wechatApiHttpClientFactory;
+        _wechatApiClient = wechatApiHttpClientFactory.CreateWechatClient();
     }
 
     /// <summary>
