@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-notice-container">
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="800px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="900px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-QuestionFilled /> </el-icon>
@@ -18,6 +18,10 @@
 					<li>
 						在需要使用 Signature 身份验证的 Api 中贴上
 						<p><el-tag>[Authorize(AuthenticationSchemes = SignatureAuthenticationDefaults.AuthenticationScheme)]</el-tag></p>
+					</li>
+					<li>
+						如果 Api 需要保留 Jwt 方式的身份验证，可贴上
+						<p><el-tag>[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme + "," + SignatureAuthenticationDefaults.AuthenticationScheme)]</el-tag></p>
 					</li>
 					<li>
 						通过对请求的签名，可以达到以下目的：
@@ -51,6 +55,10 @@
 					<li>使用 HMAC-SHA256 协议创建基于哈希的消息身份验证代码 (HMAC)，以 <el-tag effect="plain">appSecret</el-tag> 作为密钥，对上面拼接的参数进行计算签名，所得签名进行 Base-64 编码</li>
 				</ul>
 			</div>
+			<div class="el-alert el-alert--info is-light">
+				HMAC-SHA256 在线计算：
+				<el-link href="https://1024tools.com/hmac" target="_blank" type="primary">https://1024tools.com/hmac</el-link>
+			</div>
 		</el-dialog>
 	</div>
 </template>
@@ -67,10 +75,10 @@ const openDialog = () => {
 	state.isShowDialog = true;
 };
 
-// 关闭
-const close = () => {
-	state.isShowDialog = false;
-};
+// // 关闭
+// const close = () => {
+// 	state.isShowDialog = false;
+// };
 
 // 导出对象
 defineExpose({ openDialog });
