@@ -236,8 +236,8 @@ public class SysFileService : IDynamicApiController, ITransient
 
                 case OSSProvider.Minio:
                     // 获取Minio文件的下载或者预览地址
-                    //newFile.Url = await GetMinioPreviewFileUrl(newFile.BucketName, filePath);// 这种方法生成的Url是有7天有效期的，不能这样使用
-                    // 需要在MinIO中的Buckets开通对Anonymous 的readonly权限
+                    // newFile.Url = await GetMinioPreviewFileUrl(newFile.BucketName, filePath);// 这种方法生成的Url是有7天有效期的，不能这样使用
+                    // 需要在MinIO中的Buckets开通对 Anonymous 的readonly权限
                     newFile.Url = $"{(_OSSProviderOptions.IsEnableHttps ? "https" : "http")}://{_OSSProviderOptions.Endpoint}/{newFile.BucketName}/{filePath}";
                     break;
             }

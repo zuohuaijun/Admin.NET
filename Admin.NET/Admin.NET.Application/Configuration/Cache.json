@@ -7,7 +7,7 @@
     "Redis": {
       "Configuration": "server=127.0.0.1:6379;password=;db=5;", // Redis连接字符串
       "Prefix": "adminnet_", // Redis前缀（目前没用）
-      "MaxMessageSize": "1048576" //最大消息大小 默认1024 * 1024
+      "MaxMessageSize": "1048576" // 最大消息大小 默认1024 * 1024
     }
   },
   "Cluster": { // 集群配置

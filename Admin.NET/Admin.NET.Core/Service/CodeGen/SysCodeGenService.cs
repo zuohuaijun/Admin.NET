@@ -467,8 +467,9 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             await _db.Deleteable<SysMenu>().Where(u => listIds.Contains(u.Id)).ExecuteCommandAsync();
             await _db.Deleteable<SysRoleMenu>().Where(u => listIds.Contains(u.MenuId)).ExecuteCommandAsync();
         }
+
         var pid1 = (await _db.Insertable(menuType1).ExecuteReturnEntityAsync()).Id;
-        int menuOrder = 101;
+        int menuOrder = 100;
         // 按钮-page
         var menuType2 = new SysMenu
         {
@@ -478,7 +479,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Permission = className[..1].ToLower() + className[1..] + ":page",
             OrderNo = menuOrder
         };
-        menuOrder += 3;
+        menuOrder += 10;
 
         // 按钮-detail
         var menuType2_1 = new SysMenu
@@ -489,7 +490,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Permission = className[..1].ToLower() + className[1..] + ":detail",
             OrderNo = menuOrder
         };
-        menuOrder += 3;
+        menuOrder += 10;
 
         // 按钮-add
         var menuType2_2 = new SysMenu
@@ -500,7 +501,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Permission = className[..1].ToLower() + className[1..] + ":add",
             OrderNo = menuOrder
         };
-        menuOrder += 3;
+        menuOrder += 10;
 
         // 按钮-delete
         var menuType2_3 = new SysMenu
@@ -511,7 +512,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Permission = className[..1].ToLower() + className[1..] + ":delete",
             OrderNo = menuOrder
         };
-        menuOrder += 3;
+        menuOrder += 10;
 
         // 按钮-edit
         var menuType2_4 = new SysMenu
@@ -522,7 +523,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             Permission = className[..1].ToLower() + className[1..] + ":edit",
             OrderNo = menuOrder
         };
-        menuOrder += 3;
+        menuOrder += 10;
 
         var menuList = new List<SysMenu>() { menuType2, menuType2_1, menuType2_2, menuType2_3, menuType2_4 };
         // 加入fk、Upload、ApiTreeSelect 等接口的权限
@@ -538,7 +539,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 Permission = className[..1].ToLower() + className[1..] + ":" + column.FkEntityName + column.ColumnName + "Dropdown",
                 OrderNo = menuOrder
             };
-            menuOrder += 3;
+            menuOrder += 10;
             menuList.Add(menuType);
         }
         var treeSelectTableList = tableFieldList.Where(u => u.EffectType == "ApiTreeSelect").ToList();
@@ -552,7 +553,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 Permission = className[..1].ToLower() + className[1..] + ":" + column.FkEntityName + "Tree",
                 OrderNo = menuOrder
             };
-            menuOrder += 3;
+            menuOrder += 10;
             menuList.Add(menuType);
         }
         var uploadTableList = tableFieldList.Where(u => u.EffectType == "Upload").ToList();
@@ -566,7 +567,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 Permission = className[..1].ToLower() + className[1..] + ":Upload" + column.ColumnName,
                 OrderNo = menuOrder
             };
-            menuOrder += 3;
+            menuOrder += 10;
             menuList.Add(menuType);
         }
         await _db.Insertable(menuList).ExecuteCommandAsync();
