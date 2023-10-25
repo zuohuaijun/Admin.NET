@@ -80,7 +80,7 @@ const createFilter = (queryString: string) => {
 const initTageView = () => {
 	if (state.tagsViewList.length > 0) return false;
 	tagsViewRoutes.value.map((v: RouteItem) => {
-		if (!v.meta?.isHide) state.tagsViewList.push({ ...v });
+		if (!v.meta?.isHide && v.type !== 1) state.tagsViewList.push({ ...v });
 	});
 };
 // 当前菜单选中时
