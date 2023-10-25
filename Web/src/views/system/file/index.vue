@@ -128,7 +128,7 @@ import { getAPI } from '/@/utils/axios-utils';
 import { SysFileApi } from '/@/api-services/api';
 import { SysFile } from '/@/api-services/models';
 
-// const baseUrl = import.meta.env.VITE_API_URL;
+// const baseUrl = window.__env__.VITE_API_URL;
 const uploadRef = ref<UploadInstance>();
 const state = reactive({
 	loading: false,

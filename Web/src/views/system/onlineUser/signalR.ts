@@ -5,7 +5,7 @@ import { getToken } from '/@/utils/axios-utils';
 // 初始化SignalR对象
 const connection = new SignalR.HubConnectionBuilder()
 	.configureLogging(SignalR.LogLevel.Information)
-	.withUrl(`${import.meta.env.VITE_API_URL}/hubs/onlineUser?access_token=${getToken()}`, { transport: SignalR.HttpTransportType.WebSockets, skipNegotiation: true })
+	.withUrl(`${window.__env__.VITE_API_URL}/hubs/onlineUser?access_token=${getToken()}`, { transport: SignalR.HttpTransportType.WebSockets, skipNegotiation: true })
 	.withAutomaticReconnect({
 		nextRetryDelayInMilliseconds: () => {
 			return 5000; // 每5秒重连一次

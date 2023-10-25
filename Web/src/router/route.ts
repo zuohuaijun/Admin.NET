@@ -54,7 +54,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 		component: () => import('/@/views/system/job/dashboard.vue'),
 		meta: {
 			title: '任务看板',
-			isLink: import.meta.env.VITE_API_URL + '/schedule',
+			isLink: window.__env__.VITE_API_URL + '/schedule',
 			isHide: true,
 			isKeepAlive: true,
 			isAffix: false,
