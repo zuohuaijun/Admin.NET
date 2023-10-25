@@ -57,7 +57,7 @@ const setIconImgOutStyle = computed(() => {
 const setIconSvgInsStyle = computed(() => {
 	const filterStyle: string[] = [];
 	const compatibles: string[] = ['-webkit', '-ms', '-o', '-moz'];
-	compatibles.forEach((j) => filterStyle.push(`${j}-filter: drop-shadow(${props.color} 30px 0);`));
+	compatibles.forEach((j) => filterStyle.push(`${j}-filter: drop-shadow(${props.color} ${props.size}px 0);`));
 	return `width: ${props.size}px;height: ${props.size}px;position: relative;left: -${props.size}px;${filterStyle.join('')}`;
 });
 </script>
