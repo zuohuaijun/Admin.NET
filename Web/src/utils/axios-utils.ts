@@ -14,7 +14,7 @@ import { Local, Session } from '../utils/storage';
 
 // 接口服务器配置
 export const serveConfig = new Configuration({
-	basePath: import.meta.env.VITE_API_URL,
+	basePath: window.__env__.VITE_API_URL,
 });
 
 // token 键定义
