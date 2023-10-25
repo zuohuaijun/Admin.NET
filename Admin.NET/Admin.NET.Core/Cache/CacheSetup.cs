@@ -27,6 +27,8 @@ public static class CacheSetup
                 Configuration = cacheOptions.Redis.Configuration,
                 Prefix = cacheOptions.Redis.Prefix
             });
+            if (cacheOptions.Redis.MaxMessageSize > 0)
+                ((FullRedis)cache).MaxMessageSize = cacheOptions.Redis.MaxMessageSize;
         }
 
         services.AddSingleton(cache);

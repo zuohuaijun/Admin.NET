@@ -40,6 +40,10 @@ public sealed class CacheOptions : IConfigurableOptions<CacheOptions>
 /// </summary>
 public sealed class RedisOption : RedisOptions
 {
+    /// <summary>
+    /// 最大消息大小
+    /// </summary>
+    public int MaxMessageSize { get; set; }
 }
 
 /// <summary>
