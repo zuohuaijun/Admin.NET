@@ -48,6 +48,11 @@ public class UploadFileFromBase64Input
     public string ContentType { get; set; }
 
     /// <summary>
+    /// 文件名称
+    /// </summary>
+    public string FileName { get; set; }
+
+    /// <summary>
     /// 保存路径
     /// </summary>
     public string Path { get; set; }

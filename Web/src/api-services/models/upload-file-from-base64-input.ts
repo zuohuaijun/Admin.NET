@@ -30,6 +30,12 @@ export interface UploadFileFromBase64Input {
      */
     contentType?: string | null;
     /**
+     * 文件名称
+     * @type {string}
+     * @memberof UploadFileFromBase64Input
+     */
+    fileName?: string | null;
+    /**
      * 保存路径
      * @type {string}
      * @memberof UploadFileFromBase64Input
