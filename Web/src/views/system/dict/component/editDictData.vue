@@ -9,14 +9,35 @@
 			</template>
 			<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="auto">
 				<el-row :gutter="35">
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="字典值" prop="value" :rules="[{ required: true, message: '字典值不能为空', trigger: 'blur' }]">
 							<el-input v-model="state.ruleForm.value" placeholder="字典值" clearable />
 						</el-form-item>
 					</el-col>
-					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="编码" prop="code" :rules="[{ required: true, message: '编码不能为空', trigger: 'blur' }]">
 							<el-input v-model="state.ruleForm.code" placeholder="编码" clearable />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="标签类型">
+							<el-radio-group v-model="state.ruleForm.tagType">
+								<el-radio label="default"><el-tag type="default">主题色</el-tag></el-radio>
+								<el-radio type="success" label="success"><el-tag type="success">success</el-tag></el-radio>
+								<el-radio type="info" label="info"><el-tag type="info">info</el-tag></el-radio>
+								<el-radio type="warning" label="warning"><el-tag type="warning">warning</el-tag></el-radio>
+								<el-radio type="danger" label="danger"><el-tag type="danger" style="font:">danger</el-tag></el-radio>
+							</el-radio-group>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="样式(Style)" prop="styleSetting">
+							<el-input v-model="state.ruleForm.styleSetting" placeholder="样式(Style)" clearable />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="样式(Class)" prop="classSetting">
+							<el-input v-model="state.ruleForm.classSetting" placeholder="样式(Class)" clearable />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -34,7 +55,12 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="state.ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea" />
+							<el-input v-model="state.ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea" rows="6" />
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
+						<el-form-item label="拓展数据">
+							<el-input v-model="state.ruleForm.extData" placeholder="请输入拓展数据" clearable type="textarea" rows="12" />
 						</el-form-item>
 					</el-col>
 				</el-row>

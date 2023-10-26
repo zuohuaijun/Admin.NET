@@ -43,6 +43,27 @@ public class SysDictData : EntityBase
     public virtual string Code { get; set; }
 
     /// <summary>
+    /// 标签颜色
+    /// </summary>
+    [SugarColumn(ColumnDescription = "标签颜色", Length = 12, IsNullable = true)]
+    [MaxLength(12)]
+    public string TagType { get; set; }
+
+    /// <summary>
+    /// Style(允许在字典中直接控制显示样式)
+    /// </summary>
+    [SugarColumn(ColumnDescription = "Style", Length = 512, IsNullable = true)]
+    [MaxLength(512)]
+    public string StyleSetting { get; set; }
+
+    /// <summary>
+    /// Class(允许在字典中直接控制显示样式)
+    /// </summary>
+    [SugarColumn(ColumnDescription = "Class", Length = 512, IsNullable = true)]
+    [MaxLength(512)]
+    public string ClassSetting { get; set; }
+
+    /// <summary>
     /// 排序
     /// </summary>
     [SugarColumn(ColumnDescription = "排序")]
@@ -51,9 +72,15 @@ public class SysDictData : EntityBase
     /// <summary>
     /// 备注
     /// </summary>
-    [SugarColumn(ColumnDescription = "备注", Length = 128)]
-    [MaxLength(128)]
-    public string? Remark { get; set; }
+    [SugarColumn(ColumnDescription = "备注", Length = 2048)]
+    [MaxLength(2048)]
+    public string Remark { get; set; }
+
+    /// <summary>
+    /// 拓展数据(可用于保存一些业务功能的配置项)
+    /// </summary>
+    [SugarColumn(ColumnDescription = "拓展数据(可用于保存一些业务功能的配置项)", IsNullable = true, ColumnDataType = SqlSugar.StaticConfig.CodeFirst_BigString)]
+    public string ExtData { get; set; }
 
     /// <summary>
     /// 状态
