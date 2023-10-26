@@ -78,7 +78,7 @@
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
 							@:<el-select clearable v-model="ruleForm.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
-								@:<el-option v-for="(item,index) in  getEdit@(@column.LowerPropertyName)Data"  :key="index" :value="item.code" :label="item.value"></el-option>
+								@:<el-option v-for="(item,index) in dl('@(@column.DictTypeCode)')"  :key="index" :value="item.code" :label="`[${item.code}] ${item.value}`"></el-option>
 								@:
 							</el-select>
 							@:
@@ -174,6 +174,7 @@
 	}
 @if(@Model.TableField.Any(x=>x.EffectType == "Upload")){
     @:import { Plus } from "@@element-plus/icons-vue";
+	@:import { getDictDataList as dl } from '/@@/utils/dict-utils';
     @:import { UploadRequestOptions } from "element-plus";
     @:import {@string.Join(",",Model.TableField.Where(x=>x.EffectType == "Upload").Select(x=>"upload"+x.PropertyName).ToList())} from '/@@/api/main/@(@Model.LowerClassName)';
 }
@@ -187,18 +188,12 @@
 	@:import { get@(@column.FkEntityName)@(@column.PropertyName)Dropdown } from '/@@/api/main/@(@Model.LowerClassName)';
 	}
 	}
-	@if(@Model.TableField.Any(x=>x.EffectType == "Select")){
-	@:import { getDictDataList } from '/@@/api/system/admin';
-	}
 	@if(@Model.TableField.Any(x=>x.EffectType == "EnumSelector")){
 	@:import { getAPI } from '/@@/utils/axios-utils';
 	@:import { SysEnumApi } from '/@@/api-services/api';
 	}
 
 	@foreach (var column in Model.TableField){
-	if(@column.EffectType == "Select"){
-	@:const getEdit@(@column.LowerPropertyName)Data = ref<any>([]);
-	}
 	if(@column.EffectType == "EnumSelector"){
 	@:const getEnum@(@column.PropertyName)Data = ref<any>([]);
 	}
@@ -266,16 +261,6 @@
 	};
 
 	@foreach (var column in Model.TableField){
-	if(@column.EffectType == "Select"){
-		@:const dictTypeDataList = async (val: any) => {
-		@:let list = await getDictDataList(val);
-		@:return list.data.result ?? [];
-		@:};
-		break;
-	}
-	}
-
-	@foreach (var column in Model.TableField){
 	if(@column.EffectType == "fk" && @column.WhetherAddUpdate == "Y"){
 	@:const @LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList = ref<any>([]); 
 	@:const get@(@column.FkEntityName)@(@column.PropertyName)DropdownList = async () => {
@@ -325,9 +310,6 @@
 	// 页面加载时
 	onMounted(async () => {
 		@foreach (var column in Model.TableField){
-		if(@column.EffectType == "Select"){
-		@:getEdit@(@column.LowerPropertyName)Data.value= await dictTypeDataList('@(@column.DictTypeCode)');
-		}
 		if(@column.EffectType == "EnumSelector"){
 			@:getEnum@(@column.PropertyName)Data.value = (await getAPI(SysEnumApi).apiSysEnumEnumDataListGet('@(@column.DictTypeCode)')).data.result ?? [];
 		}

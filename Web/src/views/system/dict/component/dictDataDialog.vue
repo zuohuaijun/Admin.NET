@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-dictData-container">
-		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="950px">
+		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="980px">
 			<template #header>
 				<div style="color: #fff">
 					<el-icon size="16" style="margin-right: 3px; display: inline; vertical-align: middle"> <ele-Edit /> </el-icon>
@@ -30,8 +30,12 @@
 			<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 				<el-table :data="state.dictDataData" style="width: 100%" v-loading="state.loading" border>
 					<el-table-column type="index" label="序号" width="55" align="center" />
-					<el-table-column prop="value" label="字典值" header-align="center" show-overflow-tooltip />
-					<el-table-column prop="code" label="编码" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="value" label="字典值" header-align="center" width="140" show-overflow-tooltip >
+						<template #default="scope">
+							<el-tag :type="scope.row.tagType" :style="scope.row.styleSetting" :class="scope.row.classSetting" >{{scope.row.value}}</el-tag>
+						</template>
+					</el-table-column>
+					<el-table-column prop="code" label="编码" header-align="center" width="90" show-overflow-tooltip />
 					<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
 						<template #default="scope">
 							<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
@@ -39,8 +43,9 @@
 						</template>
 					</el-table-column>
 					<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
-					<el-table-column prop="createTime" label="修改时间" width="130" align="center" show-overflow-tooltip />
+					<el-table-column prop="createTime" label="修改时间" width="120" align="center" show-overflow-tooltip />
 					<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="extData" label="拓展数据" header-align="center" show-overflow-tooltip />
 					<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 						<template #default="scope">
 							<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditDictData(scope.row)"> 编辑 </el-button>
