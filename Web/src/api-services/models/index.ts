@@ -261,6 +261,7 @@ export * from './update-region-input';
 export * from './update-role-input';
 export * from './update-tenant-input';
 export * from './update-user-input';
+export * from './upload-file-from-base64-input';
 export * from './user-input';
 export * from './user-role-input';
 export * from './wechat-pay-output';

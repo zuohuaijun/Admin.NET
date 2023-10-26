@@ -10,6 +10,7 @@
 using Aliyun.OSS.Util;
 using Furion.VirtualFileServer;
 using OnceMi.AspNetCore.OSS;
+using static SKIT.FlurlHttpClient.Wechat.Api.Models.CgibinTagsMembersGetBlackListResponse.Types;
 
 namespace Admin.NET.Core.Service;
 
@@ -74,6 +75,37 @@ public class SysFileService : IDynamicApiController, ITransient
             FilePath = sysFile.FilePath,
             FileName = sysFile.FileName
         };
+    }
+
+    [NonAction]
+    public async Task<FileOutput> UploadFileFromBase64(string strBase64, string fileName, string contentType, string? path)
+    {
+        byte[] fileData = Convert.FromBase64String(strBase64);
+        MemoryStream ms = new MemoryStream();
+        ms.Write(fileData);
+        ms.Seek(0, SeekOrigin.Begin);
+        if (string.IsNullOrEmpty(fileName))
+            fileName = "1.jpg";
+        if (string.IsNullOrEmpty(contentType))
+            contentType = contentType;
+        IFormFile formFile = new FormFile(ms, 0, fileData.Length, "file", fileName)
+        {
+            Headers = new HeaderDictionary(),
+            ContentType = contentType
+        };
+        return await UploadFile(formFile, path);
+    }
+
+    /// <summary>
+    /// 上传文件Base64
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [DisplayName("上传文件Base64")]
+    [HttpPost]
+    public async Task<FileOutput> UploadFileFromBase64(UploadFileFromBase64Input input)
+    {
+        return await UploadFileFromBase64(input.FileDataBase64, input.FileName, input.ContentType, input.Path);
     }
 
     /// <summary>
