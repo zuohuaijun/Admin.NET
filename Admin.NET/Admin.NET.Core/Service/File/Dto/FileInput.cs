@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -33,4 +33,22 @@ public class PageFileInput : BasePageInput
 
 public class DeleteFileInput : BaseIdInput
 {
+}
+
+public class UploadFileFromBase64Input
+{
+    /// <summary>
+    /// 文件内容
+    /// </summary>
+    public string FileDataBase64 { get; set; }
+
+    /// <summary>
+    /// 文件类型( "image/jpeg",)
+    /// </summary>
+    public string ContentType { get; set; }
+
+    /// <summary>
+    /// 保存路径
+    /// </summary>
+    public string Path { get; set; }
 }

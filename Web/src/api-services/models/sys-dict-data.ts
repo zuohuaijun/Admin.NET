@@ -105,6 +105,24 @@ export interface SysDictData {
      */
     code: string;
     /**
+     * 显示样式-标签颜色
+     * @type {string}
+     * @memberof SysDictData
+     */
+    tagType?: string | null;
+    /**
+     * 显示样式-Style(控制显示样式)
+     * @type {string}
+     * @memberof SysDictData
+     */
+    styleSetting?: string | null;
+    /**
+     * 显示样式-Class(控制显示样式)
+     * @type {string}
+     * @memberof SysDictData
+     */
+    classSetting?: string | null;
+    /**
      * 排序
      * @type {number}
      * @memberof SysDictData
@@ -116,6 +134,12 @@ export interface SysDictData {
      * @memberof SysDictData
      */
     remark?: string | null;
+    /**
+     * 拓展数据(保存业务功能的配置项)
+     * @type {string}
+     * @memberof SysDictData
+     */
+    extData?: string | null;
     /**
      * 
      * @type {StatusEnum}

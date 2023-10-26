@@ -76,6 +76,34 @@ public class SysFileService : IDynamicApiController, ITransient
         };
     }
 
+    [NonAction]
+    public async Task<FileOutput> UploadFileFromBase64([Required] string strBase64, string contentType, string? path)
+    {
+        byte[] fileData = Convert.FromBase64String(strBase64);
+        MemoryStream ms = new MemoryStream();
+        ms.Write(fileData);
+        ms.Seek(0, SeekOrigin.Begin);
+        string fileName = "base64.jpg";
+        IFormFile formFile = new FormFile(ms, 0, fileData.Length, "file", fileName)
+        {
+            Headers = new HeaderDictionary(),
+            ContentType = contentType
+        };
+        return await UploadFile(formFile, path);
+    }
+
+    /// <summary>
+    /// 上传文件Base64
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [DisplayName("上传文件Base64")]
+    [HttpPost]
+    public async Task<FileOutput> UploadFileFromBase64(UploadFileFromBase64Input input)
+    {
+        return await UploadFileFromBase64(input.FileDataBase64, input.ContentType, input.Path);
+    }
+
     /// <summary>
     /// 上传多文件
     /// </summary>
