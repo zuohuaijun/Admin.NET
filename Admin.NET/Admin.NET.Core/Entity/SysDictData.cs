@@ -45,21 +45,21 @@ public class SysDictData : EntityBase
     /// <summary>
     /// 标签颜色
     /// </summary>
-    [SugarColumn(ColumnDescription = "标签颜色", Length = 12)]
+    [SugarColumn(ColumnDescription = "标签颜色", Length = 12, IsNullable = true)]
     [MaxLength(12)]
     public string TagType { get; set; }
 
     /// <summary>
     /// Style(允许在字典中直接控制显示样式)
     /// </summary>
-    [SugarColumn(ColumnDescription = "Style", Length = 512)]
+    [SugarColumn(ColumnDescription = "Style", Length = 512, IsNullable = true)]
     [MaxLength(512)]
     public string StyleSetting { get; set; }
 
     /// <summary>
     /// Class(允许在字典中直接控制显示样式)
     /// </summary>
-    [SugarColumn(ColumnDescription = "Class", Length = 512)]
+    [SugarColumn(ColumnDescription = "Class", Length = 512, IsNullable = true)]
     [MaxLength(512)]
     public string ClassSetting { get; set; }
 
@@ -79,7 +79,7 @@ public class SysDictData : EntityBase
     /// <summary>
     /// 拓展数据(可用于保存一些业务功能的配置项)
     /// </summary>
-    [SugarColumn(ColumnDescription = "拓展数据(可用于保存一些业务功能的配置项)", ColumnDataType = SqlSugar.StaticConfig.CodeFirst_BigString)]
+    [SugarColumn(ColumnDescription = "拓展数据(可用于保存一些业务功能的配置项)", IsNullable = true, ColumnDataType = SqlSugar.StaticConfig.CodeFirst_BigString)]
     public string ExtData { get; set; }
 
     /// <summary>

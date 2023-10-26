@@ -45,7 +45,12 @@
 					<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 					<el-table-column prop="createTime" label="修改时间" width="120" align="center" show-overflow-tooltip />
 					<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
-					<el-table-column prop="extData" label="拓展数据" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="extData" label="拓展数据" width="90" header-align="center">
+						<template #default="scope">
+							<el-tag type="warning" v-if="scope.row.extData == null || scope.row.extData == ''">空</el-tag>
+							<el-tag type="success" v-else>有值</el-tag>
+						</template>
+					</el-table-column>
 					<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 						<template #default="scope">
 							<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditDictData(scope.row)"> 编辑 </el-button>
