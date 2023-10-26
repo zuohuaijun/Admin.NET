@@ -31,6 +31,7 @@ declare interface Window {
 	nextLoading: boolean;
 	BMAP_SATELLITE_MAP: any;
 	BMap: any;
+	__env__: any;
 }
 
 // 声明路由当前项类型

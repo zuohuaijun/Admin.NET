@@ -95,7 +95,7 @@ public static class ComputerUtil
         var stream = url.GetAsStreamAsync().GetAwaiter().GetResult();
         var streamReader = new StreamReader(stream.Stream, stream.Encoding);
         var html = streamReader.ReadToEnd();
-        return html.Replace("当前 IP：", "").Replace("来自于：", "");
+        return !html.Contains("当前 IP：") ? "未知" : html.Replace("当前 IP：", "").Replace("来自于：", "");
     }
 
     public static bool IsUnix()

@@ -10,7 +10,6 @@
 using Aliyun.OSS.Util;
 using Furion.VirtualFileServer;
 using OnceMi.AspNetCore.OSS;
-using static SKIT.FlurlHttpClient.Wechat.Api.Models.CgibinTagsMembersGetBlackListResponse.Types;
 
 namespace Admin.NET.Core.Service;
 
