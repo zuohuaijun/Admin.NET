@@ -15,11 +15,11 @@ import { getDictDataItem as di, getDictDataList as dl } from '/@/utils/dict-util
     </template>
 </el-table-column>
 */
-export function getDictDataItem(dicName:string, dicItemCode:string): any{
+export function getDictDataItem(dicName:string, dicItemCode:any): any{
     const dict = dictList.value.filter(item => item.code === dicName);
     if (dict.length === 0)
         return null;
-    const dictData = dict[0].children.filter(item => item.code === dicItemCode);
+    const dictData = dict[0].children.filter(item => item.code == dicItemCode);
     if (dictData.length === 0)
         return null;
     return dictData[0];
