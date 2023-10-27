@@ -175,6 +175,30 @@ public class SysFileService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 更新上传文件信息
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [ApiDescriptionSettings(Name = "Update"), HttpPost]
+    [DisplayName("更新上传文件的信息")]
+    public async Task UpdateSysFile(FileInput input)
+    {
+        var isExist = await _sysFileRep.IsAnyAsync(u => u.Id == input.Id);
+        if (!isExist) throw Oops.Oh(ErrorCodeEnum.D8000);
+
+        // await _sysFileRep.UpdateAsync(input.Adapt<SysFile>());
+
+        await _sysFileRep
+            .AsUpdateable()
+            .SetColumns(x => new SysFile()
+            {
+                FileName = input.FileName
+            })
+            .Where(x => x.Id == input.Id)
+            .ExecuteCommandAsync();
+    }
+
+    /// <summary>
     /// 获取文件
     /// </summary>
     /// <param name="input"></param>

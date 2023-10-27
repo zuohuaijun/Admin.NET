@@ -54,11 +54,12 @@
 				<el-table-column prop="id" label="存储标识" align="center" show-overflow-tooltip />
 				<el-table-column prop="createUserId" label="上传者Id" align="center" show-overflow-tooltip />
 				<el-table-column prop="createTime" label="创建时间" align="center" show-overflow-tooltip />
-				<el-table-column label="操作" width="200" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="260" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-View" size="small" text type="primary" @click="openFilePreviewDialog(scope.row)" v-auth="'sysFile:delete'"> 预览 </el-button>
 						<el-button icon="ele-Download" size="small" text type="primary" @click="downloadFile(scope.row)" v-auth="'sysFile:downloadFile'"> 下载 </el-button>
 						<el-button icon="ele-Delete" size="small" text type="danger" @click="delFile(scope.row)" v-auth="'sysFile:delete'"> 删除 </el-button>
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditSysFile(scope.row)" v-auth="'sysFile:update'"> 编辑 </el-button>
 					</template>
 				</el-table-column>
 			</el-table>
@@ -111,6 +112,7 @@
 			<vue-office-pdf :src="state.pdfUrl" style="height: 100vh" @rendered="renderedHandler" @error="errorHandler"
 		/></el-drawer>
 		<el-image-viewer v-if="state.showViewer" :url-list="state.previewList" @close="state.showViewer = false"></el-image-viewer>
+		<EditSysFile ref="editSysFileRef" title="编辑文件" @handleQuery="handleQuery" />
 	</div>
 </template>
 
@@ -123,6 +125,8 @@ import VueOfficePdf from '@vue-office/pdf';
 import '@vue-office/docx/lib/index.css';
 import '@vue-office/excel/lib/index.css';
 
+import EditSysFile from '/@/views/system/file/component/editSysFile.vue';
+
 import { downloadByUrl } from '/@/utils/download';
 import { getAPI } from '/@/utils/axios-utils';
 import { SysFileApi } from '/@/api-services/api';
@@ -130,6 +134,7 @@ import { SysFile } from '/@/api-services/models';
 
 // const baseUrl = window.__env__.VITE_API_URL;
 const uploadRef = ref<UploadInstance>();
+const editSysFileRef = ref<InstanceType<typeof EditSysFile>>();
 const state = reactive({
 	loading: false,
 	fileData: [] as Array<SysFile>,
@@ -144,6 +149,7 @@ const state = reactive({
 		total: 0 as any,
 	},
 	dialogUploadVisible: false,
+	diaglogEditFile: false,
 	fileList: [] as any,
 	dialogDocxVisible: false,
 	dialogXlsxVisible: false,
@@ -264,6 +270,11 @@ const getFileUrl = (row: SysFile): string => {
 	} else {
 		return row.url!;
 	}
+};
+
+// 打开编辑页面
+const openEditSysFile = (row: any) => {
+	editSysFileRef.value?.openDialog(row);
 };
 
 // 文件渲染完成

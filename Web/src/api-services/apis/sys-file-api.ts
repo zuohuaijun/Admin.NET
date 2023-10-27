@@ -176,6 +176,54 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
+         * @summary 更新上传文件信息
+         * @param {FileInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysFileUpdatePost: async (body?: FileInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysFile/update`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 上传头像
          * @param {Blob} [file] 
          * @param {*} [options] Override http request option.
@@ -489,6 +537,20 @@ export const SysFileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 更新上传文件信息
+         * @param {FileInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysFileUpdatePost(body?: FileInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFileUpdatePost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 上传头像
          * @param {Blob} [file] 
          * @param {*} [options] Override http request option.
@@ -599,6 +661,16 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
+         * @summary 更新上传文件信息
+         * @param {FileInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysFileUpdatePost(body?: FileInput, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysFileApiFp(configuration).apiSysFileUpdatePost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 上传头像
          * @param {Blob} [file] 
          * @param {*} [options] Override http request option.
@@ -690,6 +762,17 @@ export class SysFileApi extends BaseAPI {
      */
     public async apiSysFilePagePost(body?: PageFileInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysFile>> {
         return SysFileApiFp(this.configuration).apiSysFilePagePost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 更新上传文件信息
+     * @param {FileInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysFileApi
+     */
+    public async apiSysFileUpdatePost(body?: FileInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysFileApiFp(this.configuration).apiSysFileUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

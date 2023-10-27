@@ -11,6 +11,7 @@ namespace Admin.NET.Core.Service;
 
 public class FileInput : BaseIdInput
 {
+    public string FileName { get; set; }
 }
 
 public class PageFileInput : BasePageInput

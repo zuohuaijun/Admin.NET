@@ -23,4 +23,10 @@ export interface FileInput {
      * @memberof FileInput
      */
     id: number;
+    /**
+     * 
+     * @type {string}
+     * @memberof FileInput
+     */
+    fileName?: string | null;
 }
