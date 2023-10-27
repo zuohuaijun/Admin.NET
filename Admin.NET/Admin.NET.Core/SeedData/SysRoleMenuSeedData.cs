@@ -109,6 +109,7 @@ public class SysRoleMenuSeedData : ISqlSugarEntitySeedData<SysRoleMenu>
             new SysRoleMenu{ Id=1300000000293, RoleId=1300000000101, MenuId=1310000000393 },
             new SysRoleMenu{ Id=1300000000294, RoleId=1300000000101, MenuId=1310000000394 },
             new SysRoleMenu{ Id=1300000000295, RoleId=1300000000101, MenuId=1310000000395 },
+            new SysRoleMenu{ Id=1300000000296, RoleId=1300000000101, MenuId=1310000000396 },
 
             //// 日志管理
             //new SysRoleMenu{ Id=1300000000301, RoleId=1300000000101, MenuId=1310000000501 },
