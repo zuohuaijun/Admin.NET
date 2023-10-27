@@ -76,17 +76,24 @@ public class SysFileService : IDynamicApiController, ITransient
         };
     }
 
-    [NonAction]
-    public async Task<FileOutput> UploadFileFromBase64(string strBase64, string fileName, string contentType, string? path)
+    /// <summary>
+    /// 上传文件Base64
+    /// </summary>
+    /// <param name="strBase64"></param>
+    /// <param name="fileName"></param>
+    /// <param name="contentType"></param>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    private async Task<FileOutput> UploadFileFromBase64(string strBase64, string fileName, string contentType, string? path)
     {
         byte[] fileData = Convert.FromBase64String(strBase64);
-        MemoryStream ms = new MemoryStream();
+        var ms = new MemoryStream();
         ms.Write(fileData);
         ms.Seek(0, SeekOrigin.Begin);
         if (string.IsNullOrEmpty(fileName))
-            fileName = "1.jpg";
+            fileName = $"{YitIdHelper.NextId()}.jpg";
         if (string.IsNullOrEmpty(contentType))
-            contentType = contentType;
+            contentType = "image/jpg";
         IFormFile formFile = new FormFile(ms, 0, fileData.Length, "file", fileName)
         {
             Headers = new HeaderDictionary(),
@@ -175,27 +182,18 @@ public class SysFileService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 更新上传文件信息
+    /// 更新文件
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "Update"), HttpPost]
-    [DisplayName("更新上传文件的信息")]
-    public async Task UpdateSysFile(FileInput input)
+    [DisplayName("更新文件")]
+    public async Task UpdateFile(FileInput input)
     {
         var isExist = await _sysFileRep.IsAnyAsync(u => u.Id == input.Id);
         if (!isExist) throw Oops.Oh(ErrorCodeEnum.D8000);
 
-        // await _sysFileRep.UpdateAsync(input.Adapt<SysFile>());
-
-        await _sysFileRep
-            .AsUpdateable()
-            .SetColumns(x => new SysFile()
-            {
-                FileName = input.FileName
-            })
-            .Where(x => x.Id == input.Id)
-            .ExecuteCommandAsync();
+        await _sysFileRep.UpdateAsync(u => new SysFile() { FileName = input.FileName }, u => u.Id == input.Id);
     }
 
     /// <summary>

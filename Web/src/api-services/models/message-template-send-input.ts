@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+import { DataItem } from './data-item';
 /**
  * 获取消息模板列表
  * @export
@@ -29,6 +30,12 @@ export interface MessageTemplateSendInput {
      * @memberof MessageTemplateSendInput
      */
     toUserOpenId: string;
+    /**
+     * 模板数据，格式形如 { \"key1\": { \"value\": any }, \"key2\": { \"value\": any } }
+     * @type {{ [key: string]: DataItem; }}
+     * @memberof MessageTemplateSendInput
+     */
+    data: { [key: string]: DataItem; };
     /**
      * 模板跳转链接
      * @type {string}

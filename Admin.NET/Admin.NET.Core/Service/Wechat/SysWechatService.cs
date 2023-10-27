@@ -152,6 +152,13 @@ public class SysWechatService : IDynamicApiController, ITransient
     [DisplayName("发送模板消息")]
     public async Task<dynamic> SendTemplateMessage(MessageTemplateSendInput input)
     {
+        var dataInfo = input.Data.ToDictionary(k => k.Key, k => k.Value);
+        var messageData = new Dictionary<string, CgibinMessageTemplateSendRequest.Types.DataItem>();
+        foreach (var item in dataInfo)
+        {
+            messageData.Add(item.Key, new CgibinMessageTemplateSendRequest.Types.DataItem() { Value = "" + item.Value.Value.ToString() + "" });
+        }
+
         var accessToken = await GetCgibinToken();
         var reqMessage = new CgibinMessageTemplateSendRequest()
         {
@@ -164,7 +171,7 @@ public class SysWechatService : IDynamicApiController, ITransient
                 AppId = _wechatApiHttpClientFactory._wechatOptions.WechatAppId,
                 PagePath = input.MiniProgramPagePath,
             },
-            // Data = input.Data.ToDictionary(k => k.Key, k => (CgibinMessageTemplateSendRequest.Types.DataItem)k.Value)
+            Data = messageData
         };
         var resMessage = await _wechatApiClient.ExecuteCgibinMessageTemplateSendAsync(reqMessage);
         return resMessage;

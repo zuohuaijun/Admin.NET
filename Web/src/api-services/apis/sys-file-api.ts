@@ -176,7 +176,7 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 更新上传文件信息
+         * @summary 更新文件
          * @param {FileInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -537,7 +537,7 @@ export const SysFileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 更新上传文件信息
+         * @summary 更新文件
          * @param {FileInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -661,7 +661,7 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 更新上传文件信息
+         * @summary 更新文件
          * @param {FileInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -765,7 +765,7 @@ export class SysFileApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 更新上传文件信息
+     * @summary 更新文件
      * @param {FileInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

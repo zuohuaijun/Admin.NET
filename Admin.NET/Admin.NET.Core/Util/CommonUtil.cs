@@ -46,12 +46,10 @@ public static class CommonUtil
     public static string GetLocalhost()
     {
         string result = $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Host.Value}";
-        // 客户端调用如果使用了代理，上面的方式就获取不了真正的本机地址了
-        /* 一般代码的头都是：
-         * X-Original-Host=原始请求
-         * X-Forwarded-Server=从哪里转发过来
-         * */
-        if (App.HttpContext.Request.Headers.ContainsKey("X-Original-Host")) 
+        // 代理模式：获取真正的本机地址
+        // X-Original-Host=原始请求
+        // X-Forwarded-Server=从哪里转发过来
+        if (App.HttpContext.Request.Headers.ContainsKey("X-Original-Host"))
             result = $"{App.HttpContext.Request.Scheme}://{App.HttpContext.Request.Headers["X-Original-Host"]}";
         return result;
     }

@@ -68,14 +68,16 @@ const submit = () => {
 	ruleFormRef.value.validate(async (valid: boolean) => {
 		if (!valid) return;
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
-			await getAPI(SysFileApi).apiSysFileUpdatePost(state.ruleForm).then(rsp=>{
-				if(rsp.data.code == 200){
-					ElMessage.success('修改文件信息成功！');
-				}else{
-					Elmessage.error('修改文件信息失败：' + rsp.data.message)
-				}
-			});
-		} 
+			await getAPI(SysFileApi)
+				.apiSysFileUpdatePost(state.ruleForm)
+				.then((rsp) => {
+					if (rsp.data.code == 200) {
+						ElMessage.success('修改文件信息成功！');
+					} else {
+						Elmessage.error('修改文件信息失败：' + rsp.data.message);
+					}
+				});
+		}
 		closeDialog();
 	});
 };
