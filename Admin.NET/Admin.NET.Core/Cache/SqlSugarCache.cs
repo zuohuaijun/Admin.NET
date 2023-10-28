@@ -54,6 +54,6 @@ public class SqlSugarCache : ICacheService
 
     public void Remove<V>(string key)
     {
-        _cache.Remove($"{CacheConst.SqlSugar}{key}");
+        _cache.Remove(key);
     }
 }
