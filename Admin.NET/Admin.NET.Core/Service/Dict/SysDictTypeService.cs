@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -159,6 +159,12 @@ public class SysDictTypeService : IDynamicApiController, ITransient
     [DisplayName("获取所有字典集合")]
     public async Task<List<SysDictType>> GetAllDictList()
     {
-        return await _sysDictTypeRep.AsQueryable().Includes(u => u.Children).ToListAsync();
+        var dictList = await _sysDictTypeRep.AsQueryable()
+            .OrderBy(u => new { u.OrderNo, u.Code }) // 字典表排序
+            .Includes(u => u.Children)
+            .ToListAsync();
+        //对每个字典表的数据项排序
+        dictList.ForEach(d => d.Children = d.Children.OrderBy(c => c.OrderNo).ThenBy(c => c.Code).ToList());
+        return dictList;
     }
 }
