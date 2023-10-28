@@ -140,77 +140,73 @@ public class SysRegionService : IDynamicApiController, ITransient
                 Remark = item.Href,
                 Level = 1,
             });
-            //当Href为空时,同步会错误中断，加入判断
-            if (!string.IsNullOrEmpty(item.Href)) { 
-                // 市级
-                var dom1 = await context.OpenAsync(item.Href);
-                var itemList1 = dom1.QuerySelectorAll("table.citytable tr.citytr td a");
-                for (var i1 = 0; i1 < itemList1.Length; i1 += 2)
+
+            // 市级
+            if (string.IsNullOrEmpty(item.Href))
+                continue;
+            var dom1 = await context.OpenAsync(item.Href);
+            var itemList1 = dom1.QuerySelectorAll("table.citytable tr.citytr td a");
+            for (var i1 = 0; i1 < itemList1.Length; i1 += 2)
+            {
+                var item1 = (IHtmlAnchorElement)itemList1[i1 + 1];
+                var region1 = await _sysRegionRep.InsertReturnEntityAsync(new SysRegion
                 {
-                    var item1 = (IHtmlAnchorElement)itemList1[i1 + 1];
-                    var region1 = await _sysRegionRep.InsertReturnEntityAsync(new SysRegion
+                    Pid = region.Id,
+                    Name = item1.TextContent,
+                    Code = itemList1[i1].TextContent,
+                    Remark = item1.Href,
+                    Level = 2,
+                });
+
+                // 区县级
+                if (string.IsNullOrEmpty(item1.Href))
+                    continue;
+                var dom2 = await context.OpenAsync(item1.Href);
+                var itemList2 = dom2.QuerySelectorAll("table.countytable tr.countytr td a");
+                for (var i2 = 0; i2 < itemList2.Length; i2 += 2)
+                {
+                    var item2 = (IHtmlAnchorElement)itemList2[i2 + 1];
+                    var region2 = await _sysRegionRep.InsertReturnEntityAsync(new SysRegion
                     {
-                        Pid = region.Id,
-                        Name = item1.TextContent,
-                        Code = itemList1[i1].TextContent,
-                        Remark = item1.Href,
-                        Level = 2,
+                        Pid = region1.Id,
+                        Name = item2.TextContent,
+                        Code = itemList2[i2].TextContent,
+                        Remark = item2.Href,
+                        Level = 3,
                     });
 
-                    //当Href为空时,同步会错误中断，加入判断
-                    if (!string.IsNullOrEmpty(item1.Href))
+                    // 街道级
+                    if (string.IsNullOrEmpty(item2.Href))
+                        continue;
+                    var dom3 = await context.OpenAsync(item2.Href);
+                    var itemList3 = dom3.QuerySelectorAll("table.towntable tr.towntr td a");
+                    for (var i3 = 0; i3 < itemList3.Length; i3 += 2)
                     {
-                        // 区县级
-                        var dom2 = await context.OpenAsync(item1.Href);
-                        var itemList2 = dom2.QuerySelectorAll("table.countytable tr.countytr td a");
-                        for (var i2 = 0; i2 < itemList2.Length; i2 += 2)
+                        var item3 = (IHtmlAnchorElement)itemList3[i3 + 1];
+                        var region3 = await _sysRegionRep.InsertReturnEntityAsync(new SysRegion
                         {
-                            var item2 = (IHtmlAnchorElement)itemList2[i2 + 1];
-                            var region2 = await _sysRegionRep.InsertReturnEntityAsync(new SysRegion
+                            Pid = region2.Id,
+                            Name = item3.TextContent,
+                            Code = itemList3[i3].TextContent,
+                            Remark = item3.Href,
+                            Level = 4,
+                        });
+
+                        // 村级
+                        if (string.IsNullOrEmpty(item3.Href))
+                            continue;
+                        var dom4 = await context.OpenAsync(item3.Href);
+                        var itemList4 = dom4.QuerySelectorAll("table.villagetable tr.villagetr td");
+                        for (var i4 = 0; i4 < itemList4.Length; i4 += 3)
+                        {
+                            await _sysRegionRep.InsertAsync(new SysRegion
                             {
-                                Pid = region1.Id,
-                                Name = item2.TextContent,
-                                Code = itemList2[i2].TextContent,
-                                Remark = item2.Href,
-                                Level = 3,
+                                Pid = region3.Id,
+                                Name = itemList4[i4 + 2].TextContent,
+                                Code = itemList4[i4].TextContent,
+                                CityCode = itemList4[i4 + 1].TextContent,
+                                Level = 5,
                             });
-                            
-                            //当Href为空时,同步会错误中断，加入判断
-                            if (!string.IsNullOrEmpty(item2.Href)) { 
-                                // 街道级
-                                var dom3 = await context.OpenAsync(item2.Href);
-                                var itemList3 = dom3.QuerySelectorAll("table.towntable tr.towntr td a");
-                                for (var i3 = 0; i3 < itemList3.Length; i3 += 2)
-                                {
-                                    var item3 = (IHtmlAnchorElement)itemList3[i3 + 1];
-                                    var region3 = await _sysRegionRep.InsertReturnEntityAsync(new SysRegion
-                                    {
-                                        Pid = region2.Id,
-                                        Name = item3.TextContent,
-                                        Code = itemList3[i3].TextContent,
-                                        Remark = item3.Href,
-                                        Level = 4,
-                                    });
-                                    //当Href为空时,同步会错误中断，加入判断
-                                    if (!string.IsNullOrEmpty(item3.Href))
-                                    {
-                                        // 村级
-                                        var dom4 = await context.OpenAsync(item3.Href);
-                                        var itemList4 = dom4.QuerySelectorAll("table.villagetable tr.villagetr td");
-                                        for (var i4 = 0; i4 < itemList4.Length; i4 += 3)
-                                        {
-                                            await _sysRegionRep.InsertAsync(new SysRegion
-                                            {
-                                                Pid = region3.Id,
-                                                Name = itemList4[i4 + 2].TextContent,
-                                                Code = itemList4[i4].TextContent,
-                                                CityCode = itemList4[i4 + 1].TextContent,
-                                                Level = 5,
-                                            });
-                                        }
-                                    }
-                                }
-                            }
                         }
                     }
                 }
