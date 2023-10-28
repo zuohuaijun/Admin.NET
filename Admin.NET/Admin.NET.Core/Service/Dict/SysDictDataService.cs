@@ -31,12 +31,10 @@ public class SysDictDataService : IDynamicApiController, ITransient
     [DisplayName("获取字典值分页列表")]
     public async Task<SqlSugarPagedList<SysDictData>> Page(PageDictDataInput input)
     {
-        var code = !string.IsNullOrEmpty(input.Code?.Trim());
-        var value = !string.IsNullOrEmpty(input.Value?.Trim());
         return await _sysDictDataRep.AsQueryable()
             .Where(u => u.DictTypeId == input.DictTypeId)
-            .WhereIF(code, u => u.Code.Contains(input.Code))
-            .WhereIF(value, u => u.Value.Contains(input.Value))
+            .WhereIF(!string.IsNullOrEmpty(input.Code?.Trim()), u => u.Code.Contains(input.Code))
+            .WhereIF(!string.IsNullOrEmpty(input.Value?.Trim()), u => u.Value.Contains(input.Value))
             .OrderBy(u => new { u.OrderNo, u.Code })
             .ToPagedListAsync(input.Page, input.PageSize);
     }
@@ -127,7 +125,7 @@ public class SysDictDataService : IDynamicApiController, ITransient
         if (!Enum.IsDefined(typeof(StatusEnum), input.Status))
             throw Oops.Oh(ErrorCodeEnum.D3005);
 
-        dictData.Status = (StatusEnum)input.Status;
+        dictData.Status = input.Status;
         await _sysDictDataRep.UpdateAsync(dictData);
     }
 
