@@ -54,6 +54,6 @@ public class SqlSugarCache : ICacheService
 
     public void Remove<V>(string key)
     {
-        _cache.Remove(key);
+        _cache.Remove(key); // SqlSugar调用Remove方法时，key中已包含了CacheConst.SqlSugar前缀
     }
 }
