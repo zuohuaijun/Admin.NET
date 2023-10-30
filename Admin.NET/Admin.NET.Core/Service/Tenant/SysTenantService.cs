@@ -378,7 +378,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     [DisplayName("创建租户数据库")]
     public async Task CreateDb(TenantInput input)
     {
-        var tenant = await _sysTenantRep.GetFirstAsync(u => u.Id == input.Id);
+        var tenant = await _sysTenantRep.GetSingleAsync(u => u.Id == input.Id);
         if (tenant == null) return;
 
         if (tenant.DbType == SqlSugar.DbType.Oracle)
@@ -411,5 +411,48 @@ public class SysTenantService : IDynamicApiController, ITransient
     public async Task<List<SysUser>> UserList(TenantIdInput input)
     {
         return await _sysUserRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.TenantId).ToListAsync();
+    }
+
+    /// <summary>
+    /// 获取租户数据库连接
+    /// </summary>
+    /// <returns></returns>
+    [NonAction]
+    public SqlSugarScopeProvider GetTenantDbConnectionScope(long tenantId)
+    {
+        var iTenant = _sysTenantRep.AsTenant();
+
+        // 若已存在租户库连接，则直接返回
+        if (iTenant.IsAnyConnection(tenantId))
+            return iTenant.GetConnectionScope(tenantId);
+
+        // 获取租户信息
+        var tenant = _sysTenantRep.GetSingle(u => u.Id == tenantId);
+        if (tenant == null) return null;
+
+        // 获取默认库连接配置
+        var dbOptions = App.GetOptions<DbConnectionOptions>();
+        var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId == SqlSugarConst.MainConfigId);
+
+        // 设置租户库连接配置
+        var tenantConnConfig = new DbConnectionConfig
+        {
+            ConfigId = tenant.Id,
+            DbType = tenant.DbType,
+            IsAutoCloseConnection = true,
+            ConnectionString = tenant.Connection,
+            DbSettings = new DbSettings()
+            {
+                EnableUnderLine = mainConnConfig.DbSettings.EnableUnderLine,
+            }
+        };
+        iTenant.AddConnection(tenantConnConfig);
+
+        var sqlSugarScopeProvider = iTenant.GetConnectionScope(tenantId);
+
+        SqlSugarSetup.SetDbConfig(tenantConnConfig);
+        SqlSugarSetup.SetDbAop(sqlSugarScopeProvider, dbOptions.EnableConsoleSql);
+
+        return sqlSugarScopeProvider;
     }
 }

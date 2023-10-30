@@ -49,33 +49,10 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         var tenantId = App.User?.FindFirst(ClaimConst.TenantId)?.Value;
         if (string.IsNullOrWhiteSpace(tenantId) || tenantId == SqlSugarConst.MainConfigId) return;
 
-        // 若租户为空或租户以Id隔离模式时，则返回默认库连接
-        var tenant = App.GetRequiredService<SysCacheService>().Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == long.Parse(tenantId));
-        if (tenant is null || tenant is { TenantType: TenantTypeEnum.Id }) return;
+        // 根据租户Id切换库连接, 为空则返回默认库连接
+        var sqlSugarScopeProvider = App.GetRequiredService<SysTenantService>().GetTenantDbConnectionScope(long.Parse(tenantId));
+        if (sqlSugarScopeProvider == null) return;
 
-        // 若租户以库隔离模式时，根据租户Id切换库连接
-        if (!iTenant.IsAnyConnection(tenantId))
-        {
-            // 获取默认库连接配置
-            var dbOptions = App.GetOptions<DbConnectionOptions>();
-            var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId == SqlSugarConst.MainConfigId);
-
-            // 设置租户库连接配置
-            var tenantConnConfig = new DbConnectionConfig
-            {
-                ConfigId = tenant.Id,
-                DbType = tenant.DbType,
-                IsAutoCloseConnection = true,
-                ConnectionString = tenant.Connection,
-                DbSettings = new DbSettings()
-                {
-                    EnableUnderLine = mainConnConfig.DbSettings.EnableUnderLine,
-                }
-            };
-            iTenant.AddConnection(tenantConnConfig);
-            SqlSugarSetup.SetDbConfig(tenantConnConfig);
-            SqlSugarSetup.SetDbAop(iTenant.GetConnectionScope(tenantId), dbOptions.EnableConsoleSql);
-        }
-        base.Context = iTenant.GetConnectionScope(tenantId);
+        base.Context = sqlSugarScopeProvider;
     }
 }
