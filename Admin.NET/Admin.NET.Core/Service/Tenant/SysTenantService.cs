@@ -126,7 +126,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         await _sysTenantRep.InsertAsync(tenant);
         await InitNewTenant(tenant);
 
-        await UpdateTenantCache();
+        await CacheTenant();
     }
 
     /// <summary>
@@ -246,7 +246,7 @@ public class SysTenantService : IDynamicApiController, ITransient
 
         await _sysTenantRep.DeleteAsync(u => u.Id == input.Id);
 
-        await UpdateTenantCache();
+        await CacheTenant(input.Id);
 
         // 删除与租户相关的表数据
         var users = await _sysUserRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
@@ -292,7 +292,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         // 更新系统用户
         await _sysUserRep.UpdateAsync(u => new SysUser() { Account = input.AdminAccount, Phone = input.Phone, Email = input.Email }, u => u.Id == input.UserId);
 
-        await UpdateTenantCache();
+        await CacheTenant(input.Id);
     }
 
     /// <summary>
@@ -340,32 +340,16 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// <summary>
     /// 缓存所有租户
     /// </summary>
+    /// <param name="tenantId"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task UpdateTenantCache()
+    public async Task CacheTenant(long tenantId = 0)
     {
-        _sysCacheService.Remove(CacheConst.KeyTenant);
+        // 移除 ISqlSugarClient 中的库连接
+        if (tenantId > 0)
+            _sysTenantRep.AsTenant().RemoveConnection(tenantId);
 
-        var iTenant = _sysTenantRep.AsTenant();
         var tenantList = await _sysTenantRep.GetListAsync();
-        var defaultTenant = tenantList.FirstOrDefault(u => u.Id.ToString() == SqlSugarConst.MainConfigId);
-        foreach (var tenant in tenantList)
-        {
-            var tenantId = tenant.Id.ToString();
-            if (tenantId == SqlSugarConst.MainConfigId) continue;
-
-            // Id模式隔离的租户数据库与宿主一致
-            if (tenant.TenantType == TenantTypeEnum.Id)
-            {
-                tenant.ConfigId = tenantId;
-                tenant.DbType = defaultTenant.DbType;
-                tenant.Connection = defaultTenant.Connection;
-            }
-
-            // 移除 ISqlSugarClient 中的连接
-            iTenant.RemoveConnection(tenantId);
-        }
-
         _sysCacheService.Set(CacheConst.KeyTenant, tenantList);
     }
 
@@ -426,8 +410,8 @@ public class SysTenantService : IDynamicApiController, ITransient
         if (iTenant.IsAnyConnection(tenantId))
             return iTenant.GetConnectionScope(tenantId);
 
-        // 获取租户信息
-        var tenant = _sysTenantRep.GetSingle(u => u.Id == tenantId);
+        // 从缓存里面获取租户信息
+        var tenant = _sysCacheService.Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
         if (tenant == null) return null;
 
         // 获取默认库连接配置
@@ -449,7 +433,6 @@ public class SysTenantService : IDynamicApiController, ITransient
         iTenant.AddConnection(tenantConnConfig);
 
         var sqlSugarScopeProvider = iTenant.GetConnectionScope(tenantId);
-
         SqlSugarSetup.SetDbConfig(tenantConnConfig);
         SqlSugarSetup.SetDbAop(sqlSugarScopeProvider, dbOptions.EnableConsoleSql);
 
