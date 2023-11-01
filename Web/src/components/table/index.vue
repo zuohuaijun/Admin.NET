@@ -315,7 +315,7 @@ const handleList = async () => {
 	Object.keys(param).forEach((key) => !param[key] && delete param[key]);
 	const res = await props.getData(param);
 	state.loading = false;
-	if (res.result.items) {
+	if (res.result && res.result.items) {
 		state.showPagination = true;
 		state.data = res.result?.items ?? [];
 		state.total = res.result?.total ?? 0;
