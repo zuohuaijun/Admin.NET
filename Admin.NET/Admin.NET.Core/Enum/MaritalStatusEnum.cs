@@ -7,12 +7,6 @@ namespace Admin.NET.Core;
 public enum MaritalStatusEnum
 {
     /// <summary>
-    /// 未知
-    /// </summary>
-    [Description("未知")]
-    None = 0,
-
-    /// <summary>
     /// 未婚
     /// </summary>
     [Description("未婚")]
@@ -31,8 +25,20 @@ public enum MaritalStatusEnum
     Divorce = 3,
 
     /// <summary>
+    /// 再婚
+    /// </summary>
+    [Description("再婚")]
+    Remarry = 4,
+
+    /// <summary>
     /// 丧偶
     /// </summary>
     [Description("丧偶")]
-    Widowed = 4,
+    Widowed = 5,
+
+    /// <summary>
+    /// 未知
+    /// </summary>
+    [Description("未知")]
+    None = 6,
 }

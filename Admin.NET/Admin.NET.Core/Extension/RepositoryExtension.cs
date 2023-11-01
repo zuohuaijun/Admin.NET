@@ -332,17 +332,16 @@ public static class RepositoryExtension
     }
 
     /// <summary>
-    /// 禁用过滤运行  适用于更新和删除  禁止使用异步，否则会出现异常
-    /// </summary> 
+    /// 禁用过滤器-适用于更新和删除操作（只对当前请求有效，禁止使用异步）
+    /// </summary>
     /// <param name="repository"></param>
     /// <param name="action">禁止异步</param>
     /// <returns></returns>
     public static void RunWithoutFilter(this ISugarRepository repository, Action action)
     {
-        // 清空并还原 ，不会影响其他请求，只是当前请求清空
-        repository.Context.QueryFilter.ClearAndBackup();//清空并备份过滤器
+        repository.Context.QueryFilter.ClearAndBackup(); // 清空并备份过滤器
         action.Invoke();
-        repository.Context.QueryFilter.Restore();//还原过滤器
+        repository.Context.QueryFilter.Restore(); // 还原过滤器
 
         // 用例
         //_rep.RunWithoutFilter(() =>
