@@ -330,4 +330,25 @@ public static class RepositoryExtension
         var tableName = entityType.GetCustomAttribute<SugarTable>().TableName;
         return new Tuple<string, string>(configId, tableName);
     }
+
+    /// <summary>
+    /// 禁用过滤运行  适用于更新和删除  禁止使用异步，否则会出现异常
+    /// </summary> 
+    /// <param name="repository"></param>
+    /// <param name="action">禁止异步</param>
+    /// <returns></returns>
+    public static void RunWithoutFilter(this ISugarRepository repository, Action action)
+    {
+        // 清空并还原 ，不会影响其他请求，只是当前请求清空
+        repository.Context.QueryFilter.ClearAndBackup();//清空并备份过滤器
+        action.Invoke();
+        repository.Context.QueryFilter.Restore();//还原过滤器
+
+        // 用例
+        //_rep.RunWithoutFilter(() =>
+        //{
+        //    执行更新或者删除
+        //    禁止使用异步函数
+        //});
+    }
 }
