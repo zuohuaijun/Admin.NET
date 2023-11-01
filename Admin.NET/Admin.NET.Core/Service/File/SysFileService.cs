@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -131,24 +131,24 @@ public class SysFileService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 下载文件(文件流)
+    /// 下载文件(文件流)  根据文件ID或者URL下载
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("下载文件(文件流)")]
     public async Task<IActionResult> DownloadFile(FileInput input)
     {
-        var file = await GetFile(input);
+        var file = input.Id > 0 ? await GetFile(input) : await _sysFileRep.GetFirstAsync(u => u.Url == input.Url);
         var fileName = HttpUtility.UrlEncode(file.FileName, Encoding.GetEncoding("UTF-8"));
         if (_OSSProviderOptions.IsEnable)
         {
-            var filePath = string.Concat(file.FilePath, "/", input.Id.ToString() + file.Suffix);
+            var filePath = string.Concat(file.FilePath, "/", file.Id.ToString() + file.Suffix);
             var stream = await (await _OSSService.PresignedGetObjectAsync(file.BucketName.ToString(), filePath, 5)).GetAsStreamAsync();
             return new FileStreamResult(stream.Stream, "application/octet-stream") { FileDownloadName = fileName + file.Suffix };
         }
         else
         {
-            var filePath = Path.Combine(file.FilePath, input.Id.ToString() + file.Suffix);
+            var filePath = Path.Combine(file.FilePath, file.Id.ToString() + file.Suffix);
             var path = Path.Combine(App.WebHostEnvironment.WebRootPath, filePath);
             return new FileStreamResult(new FileStream(path, FileMode.Open), "application/octet-stream") { FileDownloadName = fileName + file.Suffix };
         }
