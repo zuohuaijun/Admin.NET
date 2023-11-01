@@ -131,11 +131,11 @@ public class SysFileService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 下载文件(文件流)  根据文件ID或者URL下载
+    /// 根据文件Id或Url下载
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
-    [DisplayName("下载文件(文件流)")]
+    [DisplayName("根据文件Id或Url下载")]
     public async Task<IActionResult> DownloadFile(FileInput input)
     {
         var file = input.Id > 0 ? await GetFile(input) : await _sysFileRep.GetFirstAsync(u => u.Url == input.Url);
