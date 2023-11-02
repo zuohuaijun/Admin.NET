@@ -99,7 +99,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
             // 将异常日志发送到邮件
             try
             {
-                await App.GetRequiredService<SysMessageService>().SendEmail(JSON.Serialize(loggingMonitor.exception));
+                await App.GetRequiredService<IEventPublisher>().PublishAsync("Send:ErrorMail", loggingMonitor.exception);
             }
             catch { }
 
