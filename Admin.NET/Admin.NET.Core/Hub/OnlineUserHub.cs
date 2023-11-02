@@ -61,9 +61,9 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
             TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : Convert.ToInt64(tenantId),
         };
         await _sysOnlineUerRep.InsertAsync(user);
-        //缓存
         _sysCacheService.Set(CacheConst.KeyUserOnline + user.UserId, user);
-        // 以租户Id分组方便区分
+
+        // 以租户Id进行分组
         var groupName = $"{GROUP_ONLINE}{user.TenantId}";
         await _onlineUserHubContext.Groups.AddToGroupAsync(Context.ConnectionId, groupName);
 
@@ -114,7 +114,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     }
 
     /// <summary>
-    /// 前端调用发送方法（发送信息给某个人）
+    /// 发送信息给某个人
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
@@ -124,7 +124,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     }
 
     /// <summary>
-    /// 前端调用发送方法（发送信息给所有人）
+    /// 发送信息给所有人
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
@@ -134,7 +134,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     }
 
     /// <summary>
-    /// 前端调用发送方法（发送消息给除了发送人的其他人）
+    /// 发送消息给某些人（除了本人）
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
@@ -144,7 +144,7 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     }
 
     /// <summary>
-    /// 前端调用发送方法（发送消息给某些人）
+    /// 发送消息给某些人
     /// </summary>
     /// <param name="message"></param>
     /// <returns></returns>
