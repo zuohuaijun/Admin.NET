@@ -18,10 +18,28 @@
 								:clearable="!val.required"
 								v-if="val.type === 'input'"
 								@keyup.enter="onSearch(tableSearchRef)"
+								@change="val.change"
 								class="w100"
 							/>
-							<el-date-picker v-model="state.form[val.prop]" v-bind="val.comProps" type="date" :placeholder="val.placeholder" :clearable="!val.required" v-else-if="val.type === 'date'" class="w100" />
-							<el-select v-model="state.form[val.prop]" v-bind="val.comProps" :clearable="!val.required" :placeholder="val.placeholder" v-else-if="val.type === 'select'" class="w100">
+							<el-date-picker
+								v-model="state.form[val.prop]"
+								v-bind="val.comProps"
+								type="date"
+								:placeholder="val.placeholder"
+								:clearable="!val.required"
+								v-else-if="val.type === 'date'"
+								@change="val.change"
+								class="w100"
+							/>
+							<el-select
+								v-model="state.form[val.prop]"
+								v-bind="val.comProps"
+								:clearable="!val.required"
+								:placeholder="val.placeholder"
+								v-else-if="val.type === 'select'"
+								@change="val.change"
+								class="w100"
+							>
 								<el-option v-for="item in val.options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
 							</el-select>
 							<el-cascader
@@ -31,6 +49,7 @@
 								filterable
 								:props="val.cascaderProps ? val.cascaderProps : state.cascaderProps"
 								:placeholder="val.placeholder"
+								@change="val.change"
 								class="w100"
 								v-bind="val.comProps"
 								v-model="state.form[val.prop]"
