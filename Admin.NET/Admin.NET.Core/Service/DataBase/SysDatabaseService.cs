@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -195,12 +195,13 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         {
             if (db.DbMaintenance.IsAnyTableRemark(input.TableName))
                 db.DbMaintenance.DeleteTableRemark(input.TableName);
+            else
+                db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
         }
         catch (NotSupportedException)
         {
             //Ignore 不支持该方法则不处理
-        }
-        db.DbMaintenance.AddTableRemark(input.TableName, input.Description);
+        } 
     }
 
     /// <summary>
