@@ -106,7 +106,7 @@ public class SysUserService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D1003);
 
         await _sysUserRep.AsUpdateable(input.Adapt<SysUser>()).IgnoreColumns(true)
-            .IgnoreColumns(u => new { u.AccountType, u.Password, u.Status }).ExecuteCommandAsync();
+            .IgnoreColumns(u => new { u.Password, u.Status }).ExecuteCommandAsync();
 
         await UpdateRoleAndExtOrg(input);
 

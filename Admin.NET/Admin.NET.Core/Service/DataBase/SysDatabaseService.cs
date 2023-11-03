@@ -201,7 +201,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         catch (NotSupportedException)
         {
             //Ignore 不支持该方法则不处理
-        } 
+        }
     }
 
     /// <summary>

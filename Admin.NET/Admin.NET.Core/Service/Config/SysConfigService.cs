@@ -144,6 +144,8 @@ public class SysConfigService : IDynamicApiController, ITransient
     [NonAction]
     public async Task<T> GetConfigValue<T>(string code)
     {
+        if (string.IsNullOrWhiteSpace(code)) return default;
+
         var value = _sysCacheService.Get<string>(code);
         if (string.IsNullOrEmpty(value))
         {

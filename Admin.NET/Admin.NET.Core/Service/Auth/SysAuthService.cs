@@ -9,6 +9,7 @@
 
 using Furion.SpecificationDocument;
 using Lazy.Captcha.Core;
+using static SKIT.FlurlHttpClient.Wechat.Api.Models.CgibinExpressBusinessAccountGetAllResponse.Types;
 
 namespace Admin.NET.Core.Service;
 
@@ -179,6 +180,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             Id = user.Id,
             Account = user.Account,
             RealName = user.RealName,
+            AccountType = user.AccountType,
             Avatar = user.Avatar,
             Address = user.Address,
             Signature = user.Signature,

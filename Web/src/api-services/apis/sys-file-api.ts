@@ -80,7 +80,7 @@ export const SysFileApiAxiosParamCreator = function (configuration?: Configurati
         },
         /**
          * 
-         * @summary 下载文件(文件流)
+         * @summary 根据文件Id或Url下载
          * @param {FileInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -509,7 +509,7 @@ export const SysFileApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 下载文件(文件流)
+         * @summary 根据文件Id或Url下载
          * @param {FileInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -641,7 +641,7 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
         },
         /**
          * 
-         * @summary 下载文件(文件流)
+         * @summary 根据文件Id或Url下载
          * @param {FileInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -743,7 +743,7 @@ export class SysFileApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 下载文件(文件流)
+     * @summary 根据文件Id或Url下载
      * @param {FileInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}

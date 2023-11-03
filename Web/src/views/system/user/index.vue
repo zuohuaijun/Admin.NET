@@ -33,13 +33,14 @@
 					<el-table :data="state.userData" style="width: 100%" v-loading="state.loading" border>
 						<el-table-column type="index" label="序号" width="55" align="center" fixed />
 						<el-table-column prop="account" label="账号" width="120" align="center" fixed show-overflow-tooltip />
-						<el-table-column prop="nickName" label="昵称" width="120" align="center" show-overflow-tooltip />
+						<!-- <el-table-column prop="nickName" label="昵称" width="120" align="center" show-overflow-tooltip /> -->
+						<el-table-column prop="realName" label="姓名" width="120" align="center" show-overflow-tooltip />
 						<el-table-column label="头像" width="80" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-avatar :src="scope.row.avatar" size="small">{{ scope.row.nickName?.slice(0, 1) ?? scope.row.realName?.slice(0, 1) }} </el-avatar>
 							</template>
 						</el-table-column>
-						<el-table-column prop="realName" label="姓名" width="120" align="center" show-overflow-tooltip />
+						<el-table-column prop="phone" label="手机号码" width="120" align="center" show-overflow-tooltip />
 						<el-table-column label="出生日期" width="100" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								{{ formatDate(new Date(scope.row.birthday), 'YYYY-mm-dd') }}
@@ -51,7 +52,14 @@
 								<el-tag type="danger" v-else> 女 </el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="phone" label="手机号码" width="120" align="center" show-overflow-tooltip />
+						<el-table-column label="账号类型" width="100" align="center" show-overflow-tooltip>
+							<template #default="scope">
+								<el-tag v-if="scope.row.accountType === 888"> 系统管理员 </el-tag>
+								<el-tag v-else-if="scope.row.accountType === 777"> 普通账号 </el-tag>
+								<el-tag v-else-if="scope.row.accountType === 666"> 会员 </el-tag>
+								<el-tag v-else> 其他 </el-tag>
+							</template>
+						</el-table-column>
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-switch v-model="scope.row.status" :active-value="1" :inactive-value="2" size="small" @change="changeStatus(scope.row)" v-auth="'sysUser:setStatus'" />

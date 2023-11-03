@@ -22,11 +22,6 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="昵称">
-									<el-input v-model="state.ruleForm.nickName" placeholder="昵称" clearable />
-								</el-form-item>
-							</el-col>
-							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="手机号码" prop="phone" :rules="[{ required: true, message: '手机号码不能为空', trigger: 'blur' }]">
 									<el-input v-model="state.ruleForm.phone" placeholder="手机号码" clearable />
 								</el-form-item>
@@ -37,6 +32,11 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+								<el-form-item label="昵称">
+									<el-input v-model="state.ruleForm.nickName" placeholder="昵称" clearable />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="性别">
 									<el-radio-group v-model="state.ruleForm.sex">
 										<el-radio :label="1">男</el-radio>
@@ -44,11 +44,25 @@
 									</el-radio-group>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12">
-								<el-form-item label="角色" prop="roleIdList" :rules="[{ required: true, message: '角色集合不能为空', trigger: 'blur' }]">
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+								<el-form-item label="角色集合" prop="roleIdList" :rules="[{ required: true, message: '角色集合不能为空', trigger: 'blur' }]">
 									<el-select v-model="state.ruleForm.roleIdList" multiple value-key="id" clearable placeholder="角色集合" collapse-tags collapse-tags-tooltip class="w100" filterable>
 										<el-option v-for="item in state.roleData" :key="item.id" :label="item.name" :value="item.id" />
 									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+								<el-form-item label="账号类型" prop="accountType" :rules="[{ required: true, message: '角色集合不能为空', trigger: 'blur' }]">
+									<el-select v-model="state.ruleForm.accountType" placeholder="账号类型" collapse-tags collapse-tags-tooltip class="w100">
+										<el-option label="系统管理员" :value="888" :disabled="userInfos.accountType != 888 && userInfos.accountType != 999" />
+										<el-option label="普通账号" :value="777" />
+										<el-option label="会员" :value="666" />
+									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb5">
+								<el-form-item label="年龄">
+									<el-input-number v-model="state.ruleForm.age" placeholder="年龄" class="w100" />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb5">
@@ -241,6 +255,8 @@
 
 <script lang="ts" setup name="sysEditUser">
 import { onMounted, reactive, ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useUserInfo } from '/@/stores/userInfo';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysPosApi, SysRoleApi, SysUserApi } from '/@/api-services/api';
@@ -252,6 +268,8 @@ const props = defineProps({
 });
 const emits = defineEmits(['handleQuery']);
 const ruleFormRef = ref();
+const storesUserInfo = useUserInfo();
+const { userInfos } = storeToRefs(storesUserInfo);
 const state = reactive({
 	loading: false,
 	isShowDialog: false,
@@ -272,7 +290,8 @@ onMounted(async () => {
 
 // 打开弹窗
 const openDialog = async (row: any) => {
-	ruleFormRef.value?.resetFields(); //重置需要放在列表赋值之前
+	ruleFormRef.value?.resetFields();
+
 	state.selectedTabName = '0'; // 重置为第一个 tab 页
 	state.ruleForm = JSON.parse(JSON.stringify(row));
 	if (row.id != undefined) {
@@ -280,7 +299,7 @@ const openDialog = async (row: any) => {
 		state.ruleForm.roleIdList = resRole.data.result;
 		var resExtOrg = await getAPI(SysUserApi).apiSysUserOwnExtOrgListUserIdGet(row.id);
 		state.ruleForm.extOrgIdList = resExtOrg.data.result;
-	}
+	} else state.ruleForm.accountType = 777; // 默认普通账号类型
 	state.isShowDialog = true;
 };
 
