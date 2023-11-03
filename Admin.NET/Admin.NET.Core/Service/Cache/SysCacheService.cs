@@ -45,6 +45,8 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [NonAction]
     public bool Set(string key, object value)
     {
+        if (string.IsNullOrWhiteSpace(key)) return false;
+
         return _cache.Set($"{_cacheOptions.Prefix}{key}", value);
     }
 
@@ -58,6 +60,8 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [NonAction]
     public bool Set(string key, object value, TimeSpan expire)
     {
+        if (string.IsNullOrWhiteSpace(key)) return false;
+
         return _cache.Set($"{_cacheOptions.Prefix}{key}", value, expire);
     }
 
@@ -149,6 +153,8 @@ public class SysCacheService : IDynamicApiController, ISingleton
     [NonAction]
     public T GetOrAdd<T>(string key, Func<string, T> callback, int expire = -1)
     {
+        if (string.IsNullOrWhiteSpace(key)) return default;
+
         return _cache.GetOrAdd($"{_cacheOptions.Prefix}{key}", callback, expire);
     }
 }
