@@ -69,10 +69,11 @@
 							</div>
 						</template>
 						<div>
-							<el-button-group>
-								<el-button type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)"> 查询 </el-button>
-								<el-button icon="ele-Refresh" @click="onReset(tableSearchRef)"> 重置 </el-button>
-							</el-button-group>
+							<!-- 使用el-button-group会导致具有type属性的按钮的右边框无法显示 -->
+							<!-- <el-button-group> -->
+							<el-button plain type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)"> 查询 </el-button>
+							<el-button icon="ele-Refresh" @click="onReset(tableSearchRef)" style="margin-left: 12px;"> 重置 </el-button>
+							<!-- </el-button-group> -->
 						</div>
 					</el-form-item>
 				</el-col>
@@ -109,7 +110,7 @@ const emit = defineEmits(['search', 'reset']);
 // 定义变量内容
 const tableSearchRef = ref<FormInstance>();
 const state = reactive({
-	form: {},
+	form: {} as any,
 	isToggle: false,
 	cascaderProps: { checkStrictly: true, emitPath: false, value: 'id', label: 'name', expandTrigger: 'hover' },
 });
