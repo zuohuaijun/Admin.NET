@@ -349,7 +349,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         if (tenantId > 0)
             _sysTenantRep.AsTenant().RemoveConnection(tenantId);
 
-        var tenantList = await _sysTenantRep.GetListAsync();
+        var tenantList = await _sysTenantRep.CopyNew().GetListAsync();
         _sysCacheService.Set(CacheConst.KeyTenant, tenantList);
     }
 
