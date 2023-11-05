@@ -5,7 +5,7 @@
 				<slot name="command"></slot>
 			</div>
 			<div v-loading="state.importLoading" class="table-footer-tool">
-				<SvgIcon name="iconfont icon-shuaxin" :size="22" title="刷新" @click="onRefreshTable" />
+				<SvgIcon v-if="!config.hideRefresh" name="iconfont icon-shuaxin" :size="22" title="刷新" @click="onRefreshTable" />
 				<el-dropdown v-if="!config.hideExport" trigger="click">
 					<SvgIcon name="iconfont icon-yunxiazai_o" :size="22" title="导出" />
 					<template #dropdown>
@@ -14,10 +14,9 @@
 							<el-dropdown-item @click="onImportTableAll">导出全部数据</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
-
 				</el-dropdown>
 				<SvgIcon v-if="!config.hidePrint" name="iconfont icon-dayin" :size="19" title="打印" @click="onPrintTable" />
-				<el-popover placement="bottom-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper"
+				<el-popover v-if="!config.hideSet" placement="bottom-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper"
 					:width="300" :persistent="false" @show="onSetTable">
 					<template #reference>
 						<SvgIcon name="iconfont icon-quanjushezhi_o" :size="22" title="设置" />
@@ -73,7 +72,7 @@
 				<el-empty description="暂无数据" />
 			</template>
 		</el-table>
-		<div v-if="state.showPagination" class="table-footer mt15">
+		<div v-if="!config.hidePagination state.showPagination" class="table-footer mt15">
 			<el-pagination v-model:current-page="state.page.page" v-model:page-size="state.page.pageSize" small
 				:pager-count="5" :page-sizes="[10, 30, 50, 100]" :total="state.total"
 				layout="total, sizes, prev, pager, next, jumper" background @size-change="onHandleSizeChange"
