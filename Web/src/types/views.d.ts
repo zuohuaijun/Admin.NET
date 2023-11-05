@@ -337,6 +337,9 @@ declare type TableDemoState = {
 			exportFileName?: string;
 			hidePrint?: boolean;
 			printName?: string;
+			hideSet?: boolean;
+			hideRefresh?: boolean;
+			hidePagination?: boolean;
 			// isOperate: boolean;
 		};
 		// actions: WorkflowDrawerLabelType[];
