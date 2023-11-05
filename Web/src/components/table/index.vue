@@ -72,7 +72,7 @@
 				<el-empty description="暂无数据" />
 			</template>
 		</el-table>
-		<div v-if="!config.hidePagination state.showPagination" class="table-footer mt15">
+		<div v-if="!config.hidePagination && state.showPagination" class="table-footer mt15">
 			<el-pagination v-model:current-page="state.page.page" v-model:page-size="state.page.pageSize" small
 				:pager-count="5" :page-sizes="[10, 30, 50, 100]" :total="state.total"
 				layout="total, sizes, prev, pager, next, jumper" background @size-change="onHandleSizeChange"
