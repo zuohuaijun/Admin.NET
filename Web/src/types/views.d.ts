@@ -332,6 +332,7 @@ declare type TableDemoState = {
 			isSelection: boolean;
 			showSelection: boolean;
 			isSerialNo: boolean;
+			pageSizes?: number[];
 			pageSize: number;
 			hideExport?: boolean;
 			exportFileName?: string;
