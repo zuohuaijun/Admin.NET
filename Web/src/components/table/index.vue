@@ -5,7 +5,7 @@
 				<slot name="command"></slot>
 			</div>
 			<div v-loading="state.importLoading" class="table-footer-tool">
-				<SvgIcon name="iconfont icon-shuaxin" :size="22" title="刷新" @click="onRefreshTable" />
+				<SvgIcon v-if="!config.hideRefresh" name="iconfont icon-shuaxin" :size="22" title="刷新" @click="onRefreshTable" />
 				<el-dropdown v-if="!config.hideExport" trigger="click">
 					<SvgIcon name="iconfont icon-yunxiazai_o" :size="22" title="导出" />
 					<template #dropdown>
@@ -14,10 +14,9 @@
 							<el-dropdown-item @click="onImportTableAll">导出全部数据</el-dropdown-item>
 						</el-dropdown-menu>
 					</template>
-
 				</el-dropdown>
 				<SvgIcon v-if="!config.hidePrint" name="iconfont icon-dayin" :size="19" title="打印" @click="onPrintTable" />
-				<el-popover placement="bottom-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper"
+				<el-popover v-if="!config.hideSet" placement="bottom-end" trigger="click" transition="el-zoom-in-top" popper-class="table-tool-popper"
 					:width="300" :persistent="false" @show="onSetTable">
 					<template #reference>
 						<SvgIcon name="iconfont icon-quanjushezhi_o" :size="22" title="设置" />
@@ -73,9 +72,9 @@
 				<el-empty description="暂无数据" />
 			</template>
 		</el-table>
-		<div v-if="state.showPagination" class="table-footer mt15">
+		<div v-if="!config.hidePagination && state.showPagination" class="table-footer mt15">
 			<el-pagination v-model:current-page="state.page.page" v-model:page-size="state.page.pageSize" small
-				:pager-count="5" :page-sizes="[10, 30, 50, 100]" :total="state.total"
+				:pager-count="5" :page-sizes="config.pageSizes" :total="state.total"
 				layout="total, sizes, prev, pager, next, jumper" background @size-change="onHandleSizeChange"
 				@current-change="onHandleCurrentChange">
 			</el-pagination>
@@ -95,12 +94,12 @@ import printJs from 'print-js';
 
 // 定义父组件传过来的值
 const props = defineProps({
-	//获取数据的方法，由父组件传递
+	// 获取数据的方法，由父组件传递
 	getData: {
 		type: Function,
 		required: true,
 	},
-	//列属性，和elementUI的Table-column 属性相同，附加属性：isCheck-是否默认勾选展示，hideCheck-是否隐藏该列的可勾选和拖拽
+	// 列属性，和elementUI的Table-column 属性相同，附加属性：isCheck-是否默认勾选展示，hideCheck-是否隐藏该列的可勾选和拖拽
 	columns: {
 		type: Array<any>,
 		default: () => [],
@@ -302,7 +301,6 @@ const onSetTable = () => {
 						if (v.prop === val) headerList.push({ ...v });
 					});
 				});
-				console.log(headerList);
 				emit('sortHeader', headerList);
 			},
 		});
@@ -329,6 +327,31 @@ const toggleSelection = (row: any, statu?: boolean) => {
 	tableRef.value!.toggleRowSelection(row, statu);
 };
 
+const getTableData = () => {
+	return state.data;
+}
+
+const setTableData = (data: Array<EmptyObjectType>, add: boolean = false) => {
+	if (add) { // 追加
+		//去重
+		var repeat = false;
+		for (let newItem of data) {
+			repeat = false;
+			for (let item of state.data) {
+				if (newItem.id === item.id) {
+					repeat = true;
+					break;
+				}
+			}
+			if (!repeat) {
+				state.data.push(newItem);
+			}
+		}
+	} else {
+		state.data = data;
+	}
+}
+
 onMounted(() => {
 	if (props.defaultSort) {
 		state.page.field = props.defaultSort.prop;
@@ -343,6 +366,8 @@ defineExpose({
 	pageReset,
 	handleList,
 	toggleSelection,
+	getTableData,
+	setTableData,
 });
 </script>
 

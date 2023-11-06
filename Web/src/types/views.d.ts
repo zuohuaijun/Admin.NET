@@ -332,11 +332,15 @@ declare type TableDemoState = {
 			isSelection: boolean;
 			showSelection: boolean;
 			isSerialNo: boolean;
+			pageSizes?: number[];
 			pageSize: number;
 			hideExport?: boolean;
 			exportFileName?: string;
 			hidePrint?: boolean;
 			printName?: string;
+			hideSet?: boolean;
+			hideRefresh?: boolean;
+			hidePagination?: boolean;
 			// isOperate: boolean;
 		};
 		// actions: WorkflowDrawerLabelType[];
