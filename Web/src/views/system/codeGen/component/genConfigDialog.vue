@@ -58,7 +58,7 @@
 						</el-select>
 					</template>
 				</el-table-column>
-				<el-table-column prop="orderNo" label="排序" width="70" show-overflow-tooltip>
+				<el-table-column prop="orderNo" label="排序" width="100" show-overflow-tooltip>
 					<template #default="scope">
 						<el-input v-model="scope.row.orderNo" autocomplete="off" type="number" />
 					</template>
