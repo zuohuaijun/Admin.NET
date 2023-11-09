@@ -113,6 +113,9 @@
 	@extend .el-menu-hover-bg-color;
 	color: var(--el-color-primary-dark-2);
 }
+.el-sub-menu:not(.is-active) .el-sub-menu__title{
+	color: var(--next-bg-menuBarColor);
+}
 // 鼠标 hover 时背景色
 .el-menu-item:hover {
 	//@extend .el-menu-hover-bg-color;
