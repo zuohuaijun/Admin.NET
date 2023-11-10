@@ -329,7 +329,7 @@ public enum ErrorCodeEnum
     D4008,
 
     /// <summary>
-    /// 禁止本节点与父节点相同
+    /// 路由名称重复
     /// </summary>
     [ErrorCodeItemMetadata("路由名称重复")]
     D4009,

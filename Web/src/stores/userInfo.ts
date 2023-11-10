@@ -88,7 +88,7 @@ export const useUserInfo = defineStore('userInfo', {
 						const configData = configRes.data.result;
 						const storesThemeConfig = useThemeConfig();
 						storesThemeConfig.themeConfig.isWatermark = configData.watermarkEnabled;
-                        storesThemeConfig.themeConfig.watermarkText = userInfos.realName;
+						storesThemeConfig.themeConfig.watermarkText = userInfos.realName;
 						if (storesThemeConfig.themeConfig.isWatermark) Watermark.set(storesThemeConfig.themeConfig.watermarkText);
 						else Watermark.del();
 

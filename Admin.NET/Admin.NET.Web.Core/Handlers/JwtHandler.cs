@@ -15,12 +15,20 @@ using Furion.DataEncryption;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Threading.Tasks;
 
 namespace Admin.NET.Web.Core
 {
     public class JwtHandler : AppAuthorizeHandler
     {
+        private readonly IServiceProvider _serviceProvider;
+
+        public JwtHandler(IServiceProvider serviceProvider)
+        {
+            _serviceProvider = serviceProvider;
+        }
+
         /// <summary>
         /// 自动刷新Token
         /// </summary>
@@ -29,8 +37,9 @@ namespace Admin.NET.Web.Core
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
             // 获取Token过期时间
-            var serviceProvider = context.GetCurrentHttpContext().RequestServices;
-            var sysConfigService = serviceProvider.GetService<SysConfigService>();
+            // var serviceProvider = context.GetCurrentHttpContext().RequestServices;
+            using var serviceScope = _serviceProvider.CreateScope();
+            var sysConfigService = serviceScope.ServiceProvider.GetService<SysConfigService>();
             var tokenExpire = await sysConfigService.GetTokenExpire();
             var refreshTokenExpire = await sysConfigService.GetRefreshTokenExpire();
 

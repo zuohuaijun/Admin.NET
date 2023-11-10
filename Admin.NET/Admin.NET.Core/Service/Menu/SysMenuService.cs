@@ -113,14 +113,12 @@ public class SysMenuService : IDynamicApiController, ITransient
         var isExist = input.Type != MenuTypeEnum.Btn
             ? await _sysMenuRep.IsAnyAsync(u => u.Title == input.Title)
             : await _sysMenuRep.IsAnyAsync(u => u.Permission == input.Permission);
-
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D4000);
-        
-        if(input.Name!=null)
+
+        if (!string.IsNullOrWhiteSpace(input.Name))
         {
-            var isRouteNameExist = await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name);
-            if (isRouteNameExist)
+            if (await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name))
                 throw Oops.Oh(ErrorCodeEnum.D4009);
         }
 
