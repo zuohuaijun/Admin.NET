@@ -329,6 +329,12 @@ public enum ErrorCodeEnum
     D4008,
 
     /// <summary>
+    /// 禁止本节点与父节点相同
+    /// </summary>
+    [ErrorCodeItemMetadata("路由名称重复")]
+    D4009,
+
+    /// <summary>
     /// 已存在同名或同编码应用
     /// </summary>
     [ErrorCodeItemMetadata("已存在同名或同编码应用")]
