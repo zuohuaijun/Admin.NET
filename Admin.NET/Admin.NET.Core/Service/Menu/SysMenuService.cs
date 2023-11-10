@@ -117,9 +117,12 @@ public class SysMenuService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D4000);
         
-        var isRouteNameExist = await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name);
-        if (isRouteNameExist)
-            throw Oops.Oh(ErrorCodeEnum.D4009);
+        if(input.Name!=null)
+        {
+            var isRouteNameExist = await _sysMenuRep.IsAnyAsync(u => u.Name == input.Name);
+            if (isRouteNameExist)
+                throw Oops.Oh(ErrorCodeEnum.D4009);
+        }
 
         // 校验菜单参数
         var sysMenu = input.Adapt<SysMenu>();
