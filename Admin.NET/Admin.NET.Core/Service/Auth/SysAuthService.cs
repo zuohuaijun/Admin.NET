@@ -9,7 +9,6 @@
 
 using Furion.SpecificationDocument;
 using Lazy.Captcha.Core;
-using static SKIT.FlurlHttpClient.Wechat.Api.Models.CgibinExpressBusinessAccountGetAllResponse.Types;
 
 namespace Admin.NET.Core.Service;
 

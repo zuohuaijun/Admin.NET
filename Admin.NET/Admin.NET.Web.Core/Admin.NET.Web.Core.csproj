@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.16" />
-    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="7.0.3" />
+    <PackageReference Include="System.Security.Cryptography.Pkcs" Version="8.0.0" />
   </ItemGroup>
 
   <ItemGroup>
