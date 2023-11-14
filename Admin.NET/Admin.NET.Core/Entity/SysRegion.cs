@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -25,8 +25,8 @@ public class SysRegion : EntityBaseId
     /// <summary>
     /// 名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "名称", Length = 64)]
-    [Required, MaxLength(64)]
+    [SugarColumn(ColumnDescription = "名称", Length = 128)]
+    [Required, MaxLength(128)]
     public virtual string Name { get; set; }
 
     /// <summary>
