@@ -30,7 +30,7 @@ public class SysEnumService : IDynamicApiController, ITransient
     [DisplayName("获取所有枚举类型")]
     public List<EnumTypeOutput> GetEnumTypeList()
     {
-        var enumTypeList = App.EffectiveTypes.Where(u => u.IsEnum && _enumOptions.EntityAssemblyNames.Contains(u.Assembly.GetName().Name)).ToList();
+        var enumTypeList = App.EffectiveTypes.Where(u => u.IsEnum && _enumOptions.EntityAssemblyNames.Contains(u.Assembly.GetName().Name)).OrderBy( u => u.Name).ToList();
 
         var result = new List<EnumTypeOutput>();
         foreach (var item in enumTypeList)

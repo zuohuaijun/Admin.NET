@@ -135,7 +135,7 @@
 					@:<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						@:<el-form-item label="@column.ColumnComment" prop="@(@column.LowerPropertyName)">
 							@:<el-select clearable v-model="ruleForm.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
-								@:<el-option v-for="(item,index) in  getEnum@(@column.PropertyName)Data"  :key="index" :value="item.value" :label="item.describe"></el-option>
+								@:<el-option v-for="(item,index) in  getEnum@(@column.PropertyName)Data" :key="index" :value="item.value" :label="`[${item.value}] ${item.describe}`"></el-option>
 								@:
 							</el-select>
 							@:
@@ -167,6 +167,7 @@
 </style>
 <script lang="ts" setup>
 	import { ref,onMounted } from "vue";
+	import { getDictDataItem as di, getDictDataList as dl } from '/@@/utils/dict-utils';
 	import { ElMessage } from "element-plus";
 	import type { FormRules } from "element-plus";
 @if(@Model.TableField.Any(x=>x.EffectType == "ConstSelector")){
