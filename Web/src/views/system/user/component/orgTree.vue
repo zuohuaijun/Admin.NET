@@ -67,14 +67,16 @@ onMounted(async () => {
 
 // 递归遍历
 const InitOrg = (orgData: any, id: any) => {
-	orgData.forEach(function (u: any) {
-		if (u.id == id) {
-			u.style = currentNodeStyle;
-			return;
-		} else if (u.children && u.children.length > 0) {
-			InitOrg(u.children, id);
-		}
-	});
+	if(orgData && orgData.length > 0) {
+		orgData.forEach(function (u: any) {
+			if (u.id == id) {
+				u.style = currentNodeStyle;
+				return;
+			} else {
+				InitOrg(u.children, id);
+			}
+		});
+	}
 };
 </script>
 
