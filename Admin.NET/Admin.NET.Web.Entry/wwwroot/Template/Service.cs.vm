@@ -54,6 +54,8 @@ if (@column.QueryWhether == "Y"){
     }else if(@column.NetType?.TrimEnd('?') == "int" || @column.NetType?.TrimEnd('?') == "long"){
             @:.WhereIF(input.@column.PropertyName>0, u => u.@(@column.PropertyName) @column.QueryType input.@(@column.PropertyName))
     }else if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
+    }else if(@column.NetType?.TrimEnd('?').EndsWith("Enum") == true) {
+            @:.WhereIF(input.@(@column.PropertyName).HasValue, u => u.@(@column.PropertyName) @column.QueryType input.@(@column.PropertyName))
     }
 } 
 }

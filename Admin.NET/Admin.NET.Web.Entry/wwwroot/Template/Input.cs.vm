@@ -1,4 +1,4 @@
-using Admin.NET.Core;
+﻿using Admin.NET.Core;
 using System.ComponentModel.DataAnnotations;
 
 namespace @Model.NameSpace;
@@ -28,18 +28,22 @@ if (@column.ColumnKey != "True"){
         /// <summary>
         /// 关键字查询
         /// </summary>
-        public string SearchKey { get; set; }
+        public string? SearchKey { get; set; }
 
 @foreach (var column in Model.TableField){
-if (@column.QueryWhether == "Y"){
+    if (@column.QueryWhether == "Y"){
 
         @:/// <summary>
         @:/// @column.ColumnComment
         @:/// </summary>
+        if(@column.NetType?.EndsWith("?") == true){
         @:public @column.NetType @column.PropertyName { get; set; }
+        }else {
+        @:public @(@column.NetType)? @column.PropertyName { get; set; }
+        }
         @:
 
-if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
+    if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
         @:/// <summary>
         @: /// @(@column.ColumnComment)范围
         @: /// </summary>
