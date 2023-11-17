@@ -175,7 +175,7 @@ public class SysRoleService : IDynamicApiController, ITransient
         var userIdList = await _sysUserRoleService.GetUserIdList(input.Id);
         foreach (var userId in userIdList)
         {
-            SqlSugarFilter.DeleteUserOrgCache(userId, _sysRoleRep.Context.CurrentConnectionConfig.ConfigId);
+            SqlSugarFilter.DeleteUserOrgCache(userId, _sysRoleRep.Context.CurrentConnectionConfig.ConfigId.ToString());
         }
 
         var role = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id);

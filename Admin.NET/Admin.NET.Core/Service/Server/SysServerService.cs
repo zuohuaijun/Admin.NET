@@ -12,7 +12,6 @@ using AspNetCoreRateLimit;
 using FluentEmail.Core;
 using Lazy.Captcha.Core;
 using Magicodes.ExporterAndImporter.Pdf;
-using Microsoft.Extensions.Hosting;
 using Nest;
 using OnceMi.AspNetCore.OSS;
 

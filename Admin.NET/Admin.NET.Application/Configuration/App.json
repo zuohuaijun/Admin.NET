@@ -33,10 +33,10 @@
     "SignalRSupport": true // 启用 SignalR 跨域支持
   },
   "SnowId": {
-    "CachePrefix": "adminnet:workerId:",
     "WorkerId": 1, // 机器码 全局唯一
     "WorkerIdBitLength": 2, // 机器码位长 默认值6，取值范围 [1, 19]
-    "SeqBitLength": 6 // 序列数位长 默认值6，取值范围 [3, 21]（建议不小于4，值越大性能越高、Id位数也更长）
+    "SeqBitLength": 6, // 序列数位长 默认值6，取值范围 [3, 21]（建议不小于4，值越大性能越高、Id位数也更长）
+    "WorkerPrefix": "adminnet_" // 缓存前缀
   },
   "Cryptogram": {
     "CryptoType": "SM2", // 密码加密算法：MD5、SM2、SM4

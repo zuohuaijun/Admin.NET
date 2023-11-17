@@ -144,9 +144,6 @@ public class Startup : AppStartup
         // 验证码
         services.AddCaptcha();
 
-        // 分布式环境-机器码设置
-        services.AddYitIdHelper(App.GetOptions<SnowIdOptions>());
-
         // 控制台logo
         services.AddConsoleLogo();
     }

@@ -111,7 +111,7 @@ public class SysUserService : IDynamicApiController, ITransient
         await UpdateRoleAndExtOrg(input);
 
         // 删除用户机构缓存
-        SqlSugarFilter.DeleteUserOrgCache(input.Id, _sysUserRep.Context.CurrentConnectionConfig.ConfigId);
+        SqlSugarFilter.DeleteUserOrgCache(input.Id, _sysUserRep.Context.CurrentConnectionConfig.ConfigId.ToString());
     }
 
     /// <summary>

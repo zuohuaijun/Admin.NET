@@ -20,6 +20,9 @@ public static class SqlSugarSetup
         // 注册雪花Id
         YitIdHelper.SetIdGenerator(App.GetOptions<SnowIdOptions>());
 
+        //// 注册雪花Id-支持分布式
+        //services.AddYitIdHelper(App.GetOptions<SnowIdOptions>());
+
         // 自定义 SqlSugar 雪花ID算法
         SnowFlakeSingle.WorkId = App.GetOptions<SnowIdOptions>().WorkerId;
         StaticConfig.CustomSnowFlakeFunc = () =>

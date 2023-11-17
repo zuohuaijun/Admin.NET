@@ -246,7 +246,7 @@ public class SysOrgService : IDynamicApiController, ITransient
                 if (userOrgs.Contains(orgId) || userOrgs.Contains(orgPid))
                 {
                     var userId = long.Parse(userOrgKey.Substring(CacheConst.KeyUserOrg));
-                    SqlSugarFilter.DeleteUserOrgCache(userId, _sysOrgRep.Context.CurrentConnectionConfig.ConfigId);
+                    SqlSugarFilter.DeleteUserOrgCache(userId, _sysOrgRep.Context.CurrentConnectionConfig.ConfigId.ToString());
                 }
             }
         }

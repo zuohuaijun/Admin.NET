@@ -17,5 +17,5 @@ public sealed class SnowIdOptions : IdGeneratorOptions, IConfigurableOptions
     /// <summary>
     /// 缓存前缀
     /// </summary>
-    public string CachePrefix { get; set; }
+    public string WorkerPrefix { get; set; }
 }
