@@ -47,6 +47,8 @@ public abstract class EntityBase : EntityBaseId, IDeletedFilter
     /// <summary>
     /// 创建者
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(CreateUserId))]
     public virtual SysUser CreateUser { get; set; }
 
@@ -65,6 +67,8 @@ public abstract class EntityBase : EntityBaseId, IDeletedFilter
     /// <summary>
     /// 修改者
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(UpdateUserId))]
     public virtual SysUser UpdateUser { get; set; }
 
@@ -95,6 +99,8 @@ public abstract class EntityBaseData : EntityBase, IOrgIdFilter
     /// <summary>
     /// 创建者部门
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(CreateOrgId))]
     public virtual SysOrg CreateOrg { get; set; }
 
