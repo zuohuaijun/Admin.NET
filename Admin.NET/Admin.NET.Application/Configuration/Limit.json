@@ -39,19 +39,19 @@
       {
         "Endpoint": "*",
         "Period": "1m",
-        "Limit": 1000
+        "Limit": 100
       },
       // 1小时只能调用1000
       {
         "Endpoint": "*",
         "Period": "1h",
-        "Limit": 10000
+        "Limit": 1000
       },
       // 1天只能调用10000次
       {
         "Endpoint": "*",
         "Period": "1d",
-        "Limit": 1000000
+        "Limit": 10000
       }
     ]
   },
