@@ -39,6 +39,10 @@ public sealed class DbConnectionOptions : IConfigurableOptions<DbConnectionOptio
 public sealed class DbConnectionConfig : ConnectionConfig
 {
     /// <summary>
+    /// 数据库标识
+    /// </summary>
+    public new string ConfigId { get; set; }
+    /// <summary>
     /// 数据库设置
     /// </summary>
     public DbSettings DbSettings { get; set; }
