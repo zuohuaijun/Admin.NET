@@ -137,7 +137,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var provider = _db.AsTenant().GetConnectionScope(configId);
         var dbTableInfos = provider.DbMaintenance.GetTableInfoList(false); // 不能走缓存,否则切库不起作用
 
-        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == configId);
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => configId.Equals(u.ConfigId));
 
         var dbTableNames = dbTableInfos.Select(u => u.Name.ToLower()).ToList();
         IEnumerable<EntityInfo> entityInfos = await GetEntityInfos();
