@@ -29,29 +29,29 @@
     "HttpStatusCode": 429,
     // API规则,结尾一定要带*
     "GeneralRules": [
-      // 1秒钟只能调用1次
+      // 1秒钟只能调用10次
       {
         "Endpoint": "*",
         "Period": "1s",
         "Limit": 10
       },
-      // 1分钟只能调用100次
+      // 1分钟只能调用600次
       {
         "Endpoint": "*",
         "Period": "1m",
-        "Limit": 100
+        "Limit": 600
       },
-      // 1小时只能调用1000
+      // 1小时只能调用3600
       {
         "Endpoint": "*",
         "Period": "1h",
-        "Limit": 1000
+        "Limit": 3600
       },
-      // 1天只能调用10000次
+      // 1天只能调用86400次
       {
         "Endpoint": "*",
         "Period": "1d",
-        "Limit": 10000
+        "Limit": 86400
       }
     ]
   },
@@ -68,7 +68,7 @@
           {
             "Endpoint": "*",
             "Period": "1m",
-            "Limit": 1000
+            "Limit": 600
           }
         ]
       }
@@ -95,7 +95,7 @@
       {
         "Endpoint": "*",
         "Period": "1m",
-        "Limit": 1000
+        "Limit": 600
       }
     ]
   },
@@ -112,7 +112,7 @@
           {
             "Endpoint": "*",
             "Period": "1m",
-            "Limit": 1000
+            "Limit": 600
           }
         ]
       }

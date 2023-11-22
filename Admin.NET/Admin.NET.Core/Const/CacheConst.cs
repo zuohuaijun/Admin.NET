@@ -19,10 +19,10 @@ public class CacheConst
     /// </summary>
     public const string KeyUser = "sys_user:";
 
-    /// <summary>
-    /// 用户菜单缓存
-    /// </summary>
-    public const string KeyUserMenu = "sys_user_menu:";
+    ///// <summary>
+    ///// 用户菜单缓存
+    ///// </summary>
+    //public const string KeyUserMenu = "sys_user_menu:";
 
     /// <summary>
     /// 用户权限缓存（按钮集合）

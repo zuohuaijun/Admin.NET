@@ -31,12 +31,12 @@ public static class SignalRSetup
         }).AddNewtonsoftJsonProtocol(options => SetNewtonsoftJsonSetting(options.PayloadSerializerSettings));
 
         // 若未启用Redis缓存，直接返回
-        var cacheOptions = App.GetOptions<CacheOptions>();
+        var cacheOptions = App.GetConfig<CacheOptions>("Cache", true);
         if (cacheOptions.CacheType != CacheTypeEnum.Redis.ToString())
             return;
 
         // 若已开启集群配置，则把SignalR配置为支持集群模式
-        var clusterOpt = App.GetOptions<ClusterOptions>();
+        var clusterOpt = App.GetConfig<ClusterOptions>("Cluster", true);
         if (!clusterOpt.Enabled)
             return;
 
@@ -68,7 +68,7 @@ public static class SignalRSetup
             // 原因请参考下边链接：
             // https://github.com/dotnet/aspnetcore/blob/f9121bc3e976ec40a959818451d126d5126ce868/src/SignalR/server/StackExchangeRedis/src/RedisHubLifetimeManager.cs#L74
             // https://github.com/dotnet/aspnetcore/blob/f9121bc3e976ec40a959818451d126d5126ce868/src/SignalR/server/StackExchangeRedis/src/Internal/RedisChannels.cs#L33
-            options.Configuration.ChannelPrefix = clusterOpt.SignalR.ChannelPrefix;
+            options.Configuration.ChannelPrefix = new RedisChannel(clusterOpt.SignalR.ChannelPrefix, RedisChannel.PatternMode.Auto);
             options.ConnectionFactory = async writer =>
             {
                 ConnectionMultiplexer connection;

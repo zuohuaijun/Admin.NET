@@ -257,7 +257,7 @@ public class SysMenuService : IDynamicApiController, ITransient
     /// </summary>
     private void DeleteMenuCache()
     {
-        _sysCacheService.RemoveByPrefixKey(CacheConst.KeyUserMenu);
+        // _sysCacheService.RemoveByPrefixKey(CacheConst.KeyUserMenu);
         _sysCacheService.RemoveByPrefixKey(CacheConst.KeyUserButton);
     }
 

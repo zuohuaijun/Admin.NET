@@ -19,7 +19,7 @@ namespace Admin.NET.Core;
 /// </summary>
 public sealed class SignatureAuthenticationHandler : AuthenticationHandler<SignatureAuthenticationOptions>
 {
-    private SysCacheService _cacheService;
+    private readonly SysCacheService _cacheService;
 
     public SignatureAuthenticationHandler(IOptionsMonitor<SignatureAuthenticationOptions> options,
         ILoggerFactory logger,

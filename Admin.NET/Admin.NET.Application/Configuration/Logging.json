@@ -8,7 +8,7 @@
       "Microsoft.EntityFrameworkCore": "Information"
     },
     "File": {
-      "Enabled": false, // 启用文件日志
+      "Enabled": true, // 启用文件日志
       "FileName": "logs/{0:yyyyMMdd}_{1}.log", // 日志文件
       "Append": true, // 追加覆盖
       // "MinimumLevel": "Information", // 日志级别
@@ -31,7 +31,7 @@
       "BahLogLevel": "Information", // Oops.Oh 和 Oops.Bah 业务日志输出级别
       "WithReturnValue": true, // 是否包含返回值，默认true
       "ReturnValueThreshold": 500, // 返回值字符串阈值，默认0全量输出
-      "JsonBehavior": "None", // 是否输出Json，默认None(OnlyJson、All)
+      "JsonBehavior": "OnlyJson", // 是否输出Json，默认None(OnlyJson、All)
       "JsonIndented": false, // 是否格式化Json
       "UseUtcTimestamp": false // 时间格式UTC、LOCAL
     }

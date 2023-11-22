@@ -21,7 +21,7 @@ public static class OAuthSetup
     /// <param name="services"></param>
     public static void AddOAuth(this IServiceCollection services)
     {
-        var authOpt = App.GetOptions<OAuthOptions>();
+        var authOpt = App.GetConfig<OAuthOptions>("OAuth", true);
         services.AddAuthentication(options =>
             {
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;

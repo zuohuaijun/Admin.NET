@@ -19,11 +19,11 @@ public static class ElasticSearchSetup
 {
     public static void AddElasticSearch(this IServiceCollection services)
     {
-        var enabled = App.GetConfig<bool>("Logging:ElasticSearch:Enabled");
+        var enabled = App.GetConfig<bool>("Logging:ElasticSearch:Enabled", true);
         if (!enabled) return;
 
-        var serverUris = App.GetConfig<List<string>>("Logging:ElasticSearch:ServerUris");
-        var defaultIndex = App.GetConfig<string>("Logging:ElasticSearch:DefaultIndex");
+        var serverUris = App.GetConfig<List<string>>("Logging:ElasticSearch:ServerUris", true);
+        var defaultIndex = App.GetConfig<string>("Logging:ElasticSearch:DefaultIndex", true);
 
         var uris = serverUris.Select(u => new Uri(u));
         var connectionPool = new SniffingConnectionPool(uris);

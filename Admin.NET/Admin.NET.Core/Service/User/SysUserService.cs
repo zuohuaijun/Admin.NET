@@ -200,9 +200,9 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("授权用户角色")]
     public async Task GrantRole(UserRoleInput input)
     {
-        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.UserId) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
-        if (user.AccountType == AccountTypeEnum.SuperAdmin)
-            throw Oops.Oh(ErrorCodeEnum.D1022);
+        //var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.UserId) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
+        //if (user.AccountType == AccountTypeEnum.SuperAdmin)
+        //    throw Oops.Oh(ErrorCodeEnum.D1022);
 
         await _sysUserRoleService.GrantUserRole(input);
     }

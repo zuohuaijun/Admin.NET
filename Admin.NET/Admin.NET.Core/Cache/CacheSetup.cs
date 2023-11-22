@@ -19,7 +19,7 @@ public static class CacheSetup
     {
         ICache cache = Cache.Default;
 
-        var cacheOptions = App.GetOptions<CacheOptions>();
+        var cacheOptions = App.GetConfig<CacheOptions>("Cache", true);
         if (cacheOptions.CacheType == CacheTypeEnum.Redis.ToString())
         {
             cache = new FullRedis(new RedisOptions

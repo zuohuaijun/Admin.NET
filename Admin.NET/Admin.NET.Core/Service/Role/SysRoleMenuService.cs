@@ -53,7 +53,7 @@ public class SysRoleMenuService : ITransient
         await _sysRoleMenuRep.InsertRangeAsync(menus);
 
         // 清除缓存
-        _sysCacheService.RemoveByPrefixKey(CacheConst.KeyUserMenu);
+        // _sysCacheService.RemoveByPrefixKey(CacheConst.KeyUserMenu);
         _sysCacheService.RemoveByPrefixKey(CacheConst.KeyUserButton);
     }
 

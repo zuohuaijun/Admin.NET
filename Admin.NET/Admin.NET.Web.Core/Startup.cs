@@ -119,11 +119,11 @@ public class Startup : AppStartup
         });
 
         // OSS对象存储
-        var ossOpt = App.GetOptions<OSSProviderOptions>();
+        var ossOpt = App.GetConfig<OSSProviderOptions>("OSSProvider", true);
         services.AddOSSService(Enum.GetName(ossOpt.Provider), "OSSProvider");
 
         // 电子邮件
-        var emailOpt = App.GetOptions<EmailOptions>();
+        var emailOpt = App.GetConfig<EmailOptions>("Email", true);
         services.AddFluentEmail(emailOpt.DefaultFromEmail, emailOpt.DefaultFromName)
             .AddSmtpSender(new SmtpClient(emailOpt.Host, emailOpt.Port)
             {

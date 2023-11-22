@@ -33,8 +33,9 @@ public static class LoggingSetup
         });
 
         // 日志写入文件
-        if (App.GetConfig<bool>("Logging:File:Enabled"))
+        if (App.GetConfig<bool>("Logging:File:Enabled", true))
         {
+            var loggingMonitorSettings = App.GetConfig<LoggingMonitorSettings>("Logging:Monitor", true);
             Array.ForEach(new[] { LogLevel.Information, LogLevel.Warning, LogLevel.Error }, logLevel =>
             {
                 services.AddFileLogging(options =>
@@ -47,12 +48,22 @@ public static class LoggingSetup
                     {
                         writeError.UseRollbackFileName(Path.GetFileNameWithoutExtension(writeError.CurrentFileName) + "-oops" + Path.GetExtension(writeError.CurrentFileName));
                     };
+                    if (loggingMonitorSettings.JsonBehavior == JsonBehavior.OnlyJson)
+                    {
+                        options.MessageFormat = LoggerFormatter.Json;
+                        // options.MessageFormat = LoggerFormatter.JsonIndented;
+                        options.MessageFormat = (logMsg) =>
+                        {
+                            var jsonString = logMsg.Context.Get("loggingMonitor");
+                            return jsonString?.ToString();
+                        };
+                    }
                 });
             });
         }
 
         // 日志写入数据库
-        if (App.GetConfig<bool>("Logging:Database:Enabled"))
+        if (App.GetConfig<bool>("Logging:Database:Enabled", true))
         {
             services.AddDatabaseLogging<DatabaseLoggingWriter>(options =>
             {
@@ -67,7 +78,7 @@ public static class LoggingSetup
         }
 
         // 日志写入ElasticSearch
-        if (App.GetConfig<bool>("Logging:ElasticSearch:Enabled"))
+        if (App.GetConfig<bool>("Logging:ElasticSearch:Enabled", true))
         {
             services.AddDatabaseLogging<ElasticSearchLoggingWriter>(options =>
             {
