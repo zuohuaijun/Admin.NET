@@ -28,7 +28,7 @@ public class OnlineUserJob : IJob
         using var serviceScope = _scopeFactory.CreateScope();
 
         var rep = serviceScope.ServiceProvider.GetService<SqlSugarRepository<SysOnlineUser>>();
-        await rep.CopyNew().AsDeleteable().ExecuteCommandAsync(stoppingToken);
+        await rep.AsDeleteable().ExecuteCommandAsync(stoppingToken);
 
         var originColor = Console.ForegroundColor;
         Console.ForegroundColor = ConsoleColor.Red;
