@@ -17,12 +17,13 @@ public static class SqlSugarSetup
     /// <param name="services"></param>
     public static void AddSqlSugar(this IServiceCollection services)
     {
-        // 注册雪花Id
-        var snowIdOpt = App.GetConfig<SnowIdOptions>("SnowId", true);
-        YitIdHelper.SetIdGenerator(snowIdOpt);
+        //// 注册雪花Id
+        //var snowIdOpt = App.GetConfig<SnowIdOptions>("SnowId", true);
+        //YitIdHelper.SetIdGenerator(snowIdOpt);
 
-        //// 注册雪花Id-支持分布式
-        //services.AddYitIdHelper(snowIdOpt);
+        // 注册雪花Id-支持分布式
+        var snowIdOpt = App.GetConfig<SnowIdOptions>("SnowId", true);
+        services.AddYitIdHelper(snowIdOpt);
 
         // 自定义 SqlSugar 雪花ID算法
         SnowFlakeSingle.WorkId = snowIdOpt.WorkerId;

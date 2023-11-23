@@ -146,10 +146,6 @@ public class Startup : AppStartup
 
         // 控制台logo
         services.AddConsoleLogo();
-
-        // 设置机器码
-        var snowOpt = App.GetConfig<SnowIdOptions>("SnowId", true);
-        services.AddYitIdHelper(snowOpt);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
