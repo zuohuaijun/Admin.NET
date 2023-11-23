@@ -25,11 +25,11 @@ public static class YitIdHelperExtension
         _options = options;
 
         // 排除开发环境和Windows服务器
-        //if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || App.WebHostEnvironment.IsDevelopment())
-        //{
-        //    YitIdHelper.SetIdGenerator(_options);
-        //    return;
-        //}
+        if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows) || App.WebHostEnvironment.IsDevelopment())
+        {
+            YitIdHelper.SetIdGenerator(_options);
+            return;
+        }
 
         var maxLength = Math.Pow(2, _options.WorkerIdBitLength.ParseToDouble());
 
