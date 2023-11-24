@@ -1,4 +1,4 @@
-﻿// 麻省理工学院许可证
+// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -81,7 +81,7 @@ public class SysUserRoleService : ITransient
     public async Task<List<SysRole>> GetUserRoleList(long userId)
     {
         var sysUserRoleList = await _sysUserRoleRep.AsQueryable()
-            .Mapper(u => u.SysRole, u => u.RoleId)
+            .Includes(u => u.SysRole)
             .Where(u => u.UserId == userId).ToListAsync();
         return sysUserRoleList.Where(u => u.SysRole != null).Select(u => u.SysRole).ToList();
     }
