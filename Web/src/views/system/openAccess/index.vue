@@ -51,7 +51,7 @@
 	</div>
 </template>
 
-<script lang="ts" setup name="sysNotice">
+<script lang="ts" setup name="sysOpenAccess">
 import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
 import EditOpenAccess from '/@/views/system/openAccess/component/editOpenAccess.vue';

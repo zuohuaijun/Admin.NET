@@ -43,5 +43,11 @@ public enum CardTypeEnum
     /// 外国人居留证
     /// </summary>
     [Description("外国人居留证")]
-    ForeignCard = 4
+    ForeignCard = 4,
+
+    /// <summary>
+    /// 营业执照
+    /// </summary>
+    [Description("营业执照")]
+    License = 5,
 }
