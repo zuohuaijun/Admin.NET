@@ -316,7 +316,7 @@ declare type TableSearchType = {
 	cascaderData?: object[];
 	cascaderProps?: object;
 	comProps?: object;
-	change?: () => {};
+	change?: (value: any) => {};
 };
 
 declare type TableDemoState = {
