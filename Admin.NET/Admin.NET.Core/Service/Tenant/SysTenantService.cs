@@ -407,8 +407,8 @@ public class SysTenantService : IDynamicApiController, ITransient
         var iTenant = _sysTenantRep.AsTenant();
 
         // 若已存在租户库连接，则直接返回
-        if (iTenant.IsAnyConnection(tenantId))
-            return iTenant.GetConnectionScope(tenantId);
+        if (iTenant.IsAnyConnection(tenantId.ToString()))
+            return iTenant.GetConnectionScope(tenantId.ToString());
 
         // 从缓存里面获取租户信息
         var tenant = _sysCacheService.Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
@@ -416,7 +416,7 @@ public class SysTenantService : IDynamicApiController, ITransient
 
         // 获取默认库连接配置
         var dbOptions = App.GetOptions<DbConnectionOptions>();
-        var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId == SqlSugarConst.MainConfigId);
+        var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId.ToString() == SqlSugarConst.MainConfigId);
 
         // 设置租户库连接配置
         var tenantConnConfig = new DbConnectionConfig
@@ -432,7 +432,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         };
         iTenant.AddConnection(tenantConnConfig);
 
-        var sqlSugarScopeProvider = iTenant.GetConnectionScope(tenantId);
+        var sqlSugarScopeProvider = iTenant.GetConnectionScope(tenantId.ToString());
         SqlSugarSetup.SetDbConfig(tenantConnConfig);
         SqlSugarSetup.SetDbAop(sqlSugarScopeProvider, dbOptions.EnableConsoleSql);
 

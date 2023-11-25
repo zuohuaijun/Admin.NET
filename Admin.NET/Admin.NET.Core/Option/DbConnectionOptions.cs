@@ -28,7 +28,7 @@ public sealed class DbConnectionOptions : IConfigurableOptions<DbConnectionOptio
     {
         foreach (var dbConfig in options.ConnectionConfigs)
         {
-            if (string.IsNullOrWhiteSpace(dbConfig.ConfigId))
+            if (dbConfig.ConfigId == null || string.IsNullOrWhiteSpace(dbConfig.ConfigId.ToString()))
                 dbConfig.ConfigId = SqlSugarConst.MainConfigId;
         }
     }
@@ -39,11 +39,6 @@ public sealed class DbConnectionOptions : IConfigurableOptions<DbConnectionOptio
 /// </summary>
 public sealed class DbConnectionConfig : ConnectionConfig
 {
-    /// <summary>
-    /// 数据库标识
-    /// </summary>
-    public new string ConfigId { get; set; }
-
     /// <summary>
     /// 数据库设置
     /// </summary>

@@ -37,7 +37,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     [DisplayName("获取库列表")]
     public List<string> GetList()
     {
-        return App.GetOptions<DbConnectionOptions>().ConnectionConfigs.Select(u => u.ConfigId).ToList();
+        return App.GetOptions<DbConnectionOptions>().ConnectionConfigs.Select(u => u.ConfigId.ToString()).ToList();
     }
 
     /// <summary>
@@ -148,7 +148,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         if (input.DbColumnInfoList.GroupBy(u => u.DbColumnName).Any(u => u.Count() > 1))
             throw Oops.Oh(ErrorCodeEnum.db1002);
 
-        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId.ToString() == input.ConfigId);
         var db = _db.AsTenant().GetConnectionScope(input.ConfigId);
         var typeBuilder = db.DynamicBuilder().CreateClass(input.TableName, new SugarTable() { TableName = input.TableName, TableDescription = input.Description });
         input.DbColumnInfoList.ForEach(u =>
@@ -212,7 +212,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     [DisplayName("创建实体")]
     public void CreateEntity(CreateEntityInput input)
     {
-        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId.ToString() == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Application" : input.Position;
         input.EntityName = string.IsNullOrWhiteSpace(input.EntityName) ? (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(input.TableName, null) : input.TableName) : input.EntityName;
         string[] dbColumnNames = Array.Empty<string>();
@@ -258,7 +258,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     [DisplayName("创建种子数据")]
     public async void CreateSeedData(CreateSeedDataInput input)
     {
-        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == input.ConfigId);
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId.ToString() == input.ConfigId);
         input.Position = string.IsNullOrWhiteSpace(input.Position) ? "Admin.NET.Core" : input.Position;
 
         var templatePath = GetSeedDataTemplatePath();

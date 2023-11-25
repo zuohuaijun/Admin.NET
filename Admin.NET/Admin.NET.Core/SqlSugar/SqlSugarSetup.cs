@@ -295,12 +295,12 @@ public static class SqlSugarSetup
             var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass && u.IsDefined(typeof(SugarTable), false))
                 .WhereIF(config.TableSettings.EnableIncreTable, u => u.IsDefined(typeof(IncreTableAttribute), false)).ToList();
 
-            if (config.ConfigId == SqlSugarConst.MainConfigId) // 默认库（有系统表特性、没有日志表和租户表特性）
+            if (config.ConfigId.ToString() == SqlSugarConst.MainConfigId) // 默认库（有系统表特性、没有日志表和租户表特性）
                 entityTypes = entityTypes.Where(u => u.GetCustomAttributes<SysTableAttribute>().Any() || (!u.GetCustomAttributes<LogTableAttribute>().Any() && !u.GetCustomAttributes<TenantAttribute>().Any())).ToList();
-            else if (config.ConfigId == SqlSugarConst.LogConfigId) // 日志库
+            else if (config.ConfigId.ToString() == SqlSugarConst.LogConfigId) // 日志库
                 entityTypes = entityTypes.Where(u => u.GetCustomAttributes<LogTableAttribute>().Any()).ToList();
             else
-                entityTypes = entityTypes.Where(u => u.GetCustomAttribute<TenantAttribute>()?.configId.ToString() == config.ConfigId).ToList(); // 自定义的库
+                entityTypes = entityTypes.Where(u => u.GetCustomAttribute<TenantAttribute>()?.configId.ToString() == config.ConfigId.ToString()).ToList(); // 自定义的库
 
             foreach (var entityType in entityTypes)
             {
@@ -320,12 +320,12 @@ public static class SqlSugarSetup
             foreach (var seedType in seedDataTypes)
             {
                 var entityType = seedType.GetInterfaces().First().GetGenericArguments().First();
-                if (config.ConfigId == SqlSugarConst.MainConfigId) // 默认库（有系统表特性、没有日志表和租户表特性）
+                if (config.ConfigId.ToString() == SqlSugarConst.MainConfigId) // 默认库（有系统表特性、没有日志表和租户表特性）
                 {
                     if (entityType.GetCustomAttribute<SysTableAttribute>() == null && (entityType.GetCustomAttribute<LogTableAttribute>() != null || entityType.GetCustomAttribute<TenantAttribute>() != null))
                         continue;
                 }
-                else if (config.ConfigId == SqlSugarConst.LogConfigId) // 日志库
+                else if (config.ConfigId.ToString() == SqlSugarConst.LogConfigId) // 日志库
                 {
                     if (entityType.GetCustomAttribute<LogTableAttribute>() == null)
                         continue;
@@ -333,7 +333,7 @@ public static class SqlSugarSetup
                 else
                 {
                     var att = entityType.GetCustomAttribute<TenantAttribute>(); // 自定义的库
-                    if (att == null || att.configId.ToString() != config.ConfigId) continue;
+                    if (att == null || att.configId.ToString() != config.ConfigId.ToString()) continue;
                 }
 
                 var instance = Activator.CreateInstance(seedType);
@@ -368,8 +368,9 @@ public static class SqlSugarSetup
     {
         SetDbConfig(config);
 
-        iTenant.AddConnection(config);
-        var db = iTenant.GetConnectionScope(config.ConfigId);
+        if (!iTenant.IsAnyConnection(config.ConfigId.ToString()))
+            iTenant.AddConnection(config);
+        var db = iTenant.GetConnectionScope(config.ConfigId.ToString());
         db.DbMaintenance.CreateDatabase();
 
         // 获取所有业务表-初始化租户库表结构（排除系统表、日志表、特定库表）

@@ -57,7 +57,7 @@ public class CustomViewEngine : ViewEngineModel
 
     public string GetColumnNetType(object tbName, object colName)
     {
-        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId == ConfigId);
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId.ToString() == ConfigId);
         ColumnList = GetColumnListByTableName(tbName.ToString());
         var col = ColumnList.Where(c => (config.DbSettings.EnableUnderLine
             ? CodeGenUtil.CamelColumnName(c.ColumnName, Array.Empty<string>())
