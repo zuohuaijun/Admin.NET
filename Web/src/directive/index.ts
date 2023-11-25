@@ -14,8 +14,8 @@ export function directive(app: App) {
 	authDirective(app);
 	// 按钮波浪指令
 	wavesDirective(app);
-	// 自定义拖动指令
-	dragDirective(app);
+	// // 自定义拖动指令
+	// dragDirective(app);
 	// 重复按钮提交指令
 	reclickDirective(app);
 }

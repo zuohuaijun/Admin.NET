@@ -59,7 +59,7 @@
             }else if(@column.EffectType == "EnumSelector"){
             @:<el-form-item label="@column.ColumnComment">
               @:<el-select clearable="" v-model="queryParams.@(@column.LowerPropertyName)" placeholder="请选择@(@column.ColumnComment)">
-                @:<el-option v-for="(item,index) in getEnum@(@column.PropertyName)Data" :key="index" :value="item.value" :label="`[${item.value}] ${item.describe}`" />
+                @:<el-option v-for="(item,index) in getEnum@(@column.PropertyName)Data_Index" :key="index" :value="item.value" :label="`[${item.value}] ${item.describe}`" />
                 @:
               </el-select>
               @:
@@ -151,7 +151,7 @@
         else if(@column.EffectType == "EnumSelector"){
           @:<el-table-column prop="@column.LowerPropertyName" label="@column.ColumnComment" width="@(column.ColumnComment!=null && column.ColumnComment.Length > 5 ? column.ColumnComment.Length * 15 : 140)" show-overflow-tooltip="" >
             @:<template #default="scope">
-              @:<el-tag>{{ getEnumDesc(scope.row.@column.LowerPropertyName, getEnum@(@column.PropertyName)Data)}}</el-tag>
+              @:<el-tag>{{ getEnumDesc(scope.row.@column.LowerPropertyName, getEnum@(@column.PropertyName)Data_Index)}}</el-tag>
             @:</template>
           @:</el-table-column>
         }
@@ -212,7 +212,7 @@
 
   @foreach (var column in Model.QueryWhetherList){
   if(@column.EffectType == "EnumSelector"){
-  @:const getEnum@(@column.PropertyName)Data = ref<any>([]);
+  @:const getEnum@(@column.PropertyName)Data_Index = ref<any>([]);
   }
   }
 
@@ -250,7 +250,7 @@
     loading.value = false;
   @foreach (var column in Model.QueryWhetherList){
   if(@column.EffectType == "EnumSelector"){
-    @:getEnum@(@column.PropertyName)Data.value = (await getAPI(SysEnumApi).apiSysEnumEnumDataListGet('@(@column.DictTypeCode)')).data.result ?? [];
+    @:getEnum@(@column.PropertyName)Data_Index.value = (await getAPI(SysEnumApi).apiSysEnumEnumDataListGet('@(@column.DictTypeCode)')).data.result ?? [];
   }
   }
   };

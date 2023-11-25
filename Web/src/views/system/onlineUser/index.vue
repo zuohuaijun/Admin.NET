@@ -1,14 +1,14 @@
 <template>
 	<div class="sys-onlineUser-container">
-		<el-drawer v-model="state.isVisible" title="在线用户列表" size="40%">
+		<el-drawer v-model="state.isVisible" title="在线用户列表" size="45%">
 			<el-card shadow="hover" :body-style="{ paddingBottom: '0' }" style="margin: 8px">
 				<el-form :model="state.queryParams" ref="queryForm" :inline="true">
-					<el-form-item label="账号名称" prop="userName">
-						<el-input placeholder="账号名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.userName" />
+					<el-form-item label="账号" prop="userName">
+						<el-input placeholder="账号" clearable @keyup.enter="handleQuery" v-model="state.queryParams.userName" />
 					</el-form-item>
-					<!-- <el-form-item label="真实姓名" prop="realName">
-						<el-input placeholder="账号名称" clearable @keyup.enter="handleQuery" v-model="state.queryParams.realName" />
-					</el-form-item> -->
+					<el-form-item label="姓名" prop="realName">
+						<el-input placeholder="姓名" clearable @keyup.enter="handleQuery" v-model="state.queryParams.realName" />
+					</el-form-item>
 					<el-form-item>
 						<el-button-group>
 							<el-button type="primary" icon="ele-Search" @click="handleQuery"> 查询 </el-button>
@@ -21,15 +21,15 @@
 			<el-card shadow="hover" style="margin: 8px; padding-bottom: 15px">
 				<el-table :data="state.onlineUserList" style="width: 100%" v-loading="state.loading" border>
 					<el-table-column type="index" label="序号" width="55" align="center" />
-					<el-table-column prop="userName" label="账号" show-overflow-tooltip />
-					<el-table-column prop="realName" label="姓名" show-overflow-tooltip />
-					<el-table-column prop="ip" label="IP地址" show-overflow-tooltip />
-					<el-table-column prop="browser" label="浏览器" show-overflow-tooltip />
+					<el-table-column prop="userName" label="账号" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="realName" label="姓名" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="ip" label="IP地址" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="browser" label="浏览器" header-align="center" show-overflow-tooltip />
 					<!-- <el-table-column prop="connectionId" label="连接Id" show-overflow-tooltip></el-table-column> -->
-					<el-table-column prop="time" label="登录时间" show-overflow-tooltip />
+					<el-table-column prop="time" label="登录时间" minWidth="120" header-align="center" show-overflow-tooltip />
 					<el-table-column label="操作" width="81" fixed="right" align="center" show-overflow-tooltip>
 						<template #default="scope">
-							<el-button icon="ele-CircleClose" size="small" text type="danger" v-auth="'sysOnlineUser:forceOffline'" @click="forceOffline(scope.row)"> 下线 </el-button>
+							<el-button icon="ele-CircleCloseFilled" size="small" text type="danger" v-auth="'sysOnlineUser:forceOffline'" @click="forceOffline(scope.row)"> 下线 </el-button>
 						</template>
 					</el-table-column>
 				</el-table>
