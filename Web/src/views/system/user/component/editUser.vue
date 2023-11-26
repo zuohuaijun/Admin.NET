@@ -41,6 +41,7 @@
 									<el-radio-group v-model="state.ruleForm.sex">
 										<el-radio :label="1">男</el-radio>
 										<el-radio :label="2">女</el-radio>
+										<el-radio :label="3">其他</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-col>

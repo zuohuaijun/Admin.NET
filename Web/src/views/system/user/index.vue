@@ -49,10 +49,11 @@
 						<el-table-column label="性别" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag type="success" v-if="scope.row.sex === 1"> 男 </el-tag>
-								<el-tag type="danger" v-else> 女 </el-tag>
+								<el-tag type="danger" v-else-if="scope.row.sex === 2"> 女 </el-tag>
+								<el-tag type="info" v-else> 其他 </el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column label="账号类型" width="100" align="center" show-overflow-tooltip>
+						<el-table-column label="账号类型" width="110" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag v-if="scope.row.accountType === 888"> 系统管理员 </el-tag>
 								<el-tag v-else-if="scope.row.accountType === 777"> 普通账号 </el-tag>
