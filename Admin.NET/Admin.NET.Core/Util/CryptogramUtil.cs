@@ -13,6 +13,9 @@ namespace Admin.NET.Core;
 
 public class CryptogramUtil
 {
+    public static readonly bool StrongPassword = App.GetConfig<bool>("Cryptogram:StrongPassword"); // 是否开启密码强度验证
+    public static readonly string PasswordStrengthValidation = App.GetConfig<string>("Cryptogram:PasswordStrengthValidation"); // 密码强度验证正则表达式
+    public static readonly string PasswordStrengthValidationMsg = App.GetConfig<string>("Cryptogram:PasswordStrengthValidationMsg"); // 密码强度验证提示
     public static readonly string CryptoType = App.GetConfig<string>("Cryptogram:CryptoType"); // 加密类型
     public static readonly string PublicKey = App.GetConfig<string>("Cryptogram:PublicKey"); // 公钥
     public static readonly string PrivateKey = App.GetConfig<string>("Cryptogram:PrivateKey"); // 私钥
