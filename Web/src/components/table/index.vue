@@ -310,7 +310,8 @@ const onSetTable = () => {
 const handleList = async () => {
 	state.loading = true;
 	let param = Object.assign({}, props.param, { ...state.page });
-	Object.keys(param).forEach((key) => !param[key] && delete param[key]);
+	// Object.keys(param).forEach((key) => !param[key] && delete param[key]);
+    Object.keys(param).forEach((key) => (param[key] === undefined) && delete param[key]);
 	const res = await props.getData(param);
 	state.loading = false;
 	if (res && res.result && res.result.items) {
