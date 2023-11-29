@@ -54,10 +54,10 @@
 			<el-table-column type="index" label="序号" align="center" :width="60" v-if="config.isSerialNo" />
 			<el-table-column v-for="(item, index) in setHeader" :key="index" v-bind="item">
 				<!-- 自定义列插槽，插槽名为columns属性的prop -->
-				<template #default="scope" v-if="$slots[item.prop]">
+				<template #default="scope" v-if="(!item.children) && $slots[item.prop]">
 					<slot :name="item.prop" v-bind="scope"></slot>
 				</template>
-				<template v-else v-slot="scope">
+				<template v-else-if="!item.children" v-slot="scope">
 					<template v-if="item.type === 'image'">
 						<el-image :style="{ width: `${item.width}px`, height: `${item.height}px` }"
 							:src="scope.row[item.prop]" :zoom-rate="1.2" :preview-src-list="[scope.row[item.prop]]"
@@ -67,6 +67,22 @@
 						{{ scope.row[item.prop] }}
 					</template>
 				</template>
+				<el-table-column v-for="(childrenItem, childrenIndex) in item.children" :key="childrenIndex" v-bind="childrenItem">
+					<!-- 自定义列插槽，插槽名为columns属性的prop -->
+					<template #default="scope" v-if="$slots[childrenItem.prop]">
+						<slot :name="childrenItem.prop" v-bind="scope"></slot>
+					</template>
+					<template v-else v-slot="scope">
+						<template v-if="childrenItem.type === 'image'">
+							<el-image :style="{ width: `${childrenItem.width}px`, height: `${childrenItem.height}px` }"
+								:src="scope.row[childrenItem.prop]" :zoom-rate="1.2" :preview-src-list="[scope.row[childrenItem.prop]]"
+								preview-teleported fit="cover" />
+						</template>
+						<template v-else>
+							{{ scope.row[childrenItem.prop] }}
+						</template>
+					</template>
+				</el-table-column>
 			</el-table-column>
 			<template #empty>
 				<el-empty description="暂无数据" />
