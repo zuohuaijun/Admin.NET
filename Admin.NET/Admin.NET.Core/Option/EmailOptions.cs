@@ -39,10 +39,10 @@ public sealed class EmailOptions : IConfigurableOptions
     /// </summary>
     public bool EnableSsl { get; set; }
 
-    /// <summary>
-    /// 是否使用默认凭据
-    /// </summary>
-    public bool UseDefaultCredentials { get; set; }
+    ///// <summary>
+    ///// 是否使用默认凭据
+    ///// </summary>
+    //public bool UseDefaultCredentials { get; set; }
 
     /// <summary>
     /// 邮箱账号
