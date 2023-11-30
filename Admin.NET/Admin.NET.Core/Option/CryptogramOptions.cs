@@ -15,6 +15,21 @@ namespace Admin.NET.Core;
 public sealed class CryptogramOptions : IConfigurableOptions
 {
     /// <summary>
+    /// 是否开启密码强度验证
+    /// </summary>
+    public bool StrongPassword { get; set; }
+
+    /// <summary>
+    /// 密码强度验证正则表达式
+    /// </summary>
+    public string PasswordStrengthValidation { get; set; }
+
+    /// <summary>
+    /// 密码强度验证提示
+    /// </summary>
+    public string PasswordStrengthValidationMsg { get; set; }
+
+    /// <summary>
     /// 密码类型
     /// </summary>
     public string CryptoType { get; set; }

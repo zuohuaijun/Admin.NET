@@ -227,7 +227,22 @@ public class SysUserService : IDynamicApiController, ITransient
                 throw Oops.Oh(ErrorCodeEnum.D1004);
         }
 
-        user.Password = CryptogramUtil.Encrypt(input.PasswordNew);
+        //强密码验证
+        if (CryptogramUtil.StrongPassword)
+        {
+            if (input.PasswordNew.TryValidate(CryptogramUtil.PasswordStrengthValidation))
+            {
+                user.Password = CryptogramUtil.Encrypt(input.PasswordNew);
+            }
+            else
+            {
+                throw Oops.Oh(CryptogramUtil.PasswordStrengthValidationMsg);
+            }
+        }
+        else
+        {
+            user.Password = CryptogramUtil.Encrypt(input.PasswordNew);
+        }
         return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
     }
 
