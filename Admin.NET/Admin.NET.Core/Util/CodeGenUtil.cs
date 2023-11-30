@@ -285,7 +285,13 @@ public static class CodeGenUtil
     {
         var columnList = new List<string>()
         {
-            "CreateOrgId", "TenantId", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete"
+            nameof(EntityBaseData.CreateOrgId),
+            nameof(EntityTenant.TenantId),
+            nameof(EntityBase.CreateTime),
+            nameof(EntityBase.UpdateTime),
+            nameof(EntityBase.CreateUserId),
+            nameof(EntityBase.UpdateUserId),
+            nameof(EntityBase.IsDelete)
         };
         return columnList.Contains(columnName);
     }

@@ -39,9 +39,9 @@
     "WorkerPrefix": "adminnet_" // 缓存前缀
   },
   "Cryptogram": {
-    "StrongPassword": false, //是否开启密码强度验证
-    "PasswordStrengthValidation": "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~@#$%\\*-\\+=:,\\\\?\\[\\]\\{}]).{6,16}$", //密码强度验证正则表达式，必须须包含大小写字母、数字和特殊字符的组合，长度在6-16之间
-    "PasswordStrengthValidationMsg": "密码必须包含大小写字母、数字和特殊字符的组合，长度在6-16之间", //密码强度验证消息提示
+    "StrongPassword": false, // 是否开启密码强度验证
+    "PasswordStrengthValidation": "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~@#$%\\*-\\+=:,\\\\?\\[\\]\\{}]).{6,16}$", // 密码强度验证正则表达式，必须须包含大小写字母、数字和特殊字符的组合，长度在6-16之间
+    "PasswordStrengthValidationMsg": "密码必须包含大小写字母、数字和特殊字符的组合，长度在6-16之间", // 密码强度验证消息提示
     "CryptoType": "SM2", // 密码加密算法：MD5、SM2、SM4
     "PublicKey": "04F6E0C3345AE42B51E06BF50B98834988D54EBC7460FE135A48171BC0629EAE205EEDE253A530608178A98F1E19BB737302813BA39ED3FA3C51639D7A20C7391A", // 公钥
     "PrivateKey": "3690655E33D5EA3D9A4AE1A1ADD766FDEA045CDEAA43A9206FB8C430CEFE0D94" // 私钥

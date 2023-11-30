@@ -227,17 +227,12 @@ public class SysUserService : IDynamicApiController, ITransient
                 throw Oops.Oh(ErrorCodeEnum.D1004);
         }
 
-        //强密码验证
+        // 验证密码强度
         if (CryptogramUtil.StrongPassword)
         {
-            if (input.PasswordNew.TryValidate(CryptogramUtil.PasswordStrengthValidation))
-            {
-                user.Password = CryptogramUtil.Encrypt(input.PasswordNew);
-            }
-            else
-            {
-                throw Oops.Oh(CryptogramUtil.PasswordStrengthValidationMsg);
-            }
+            user.Password = input.PasswordNew.TryValidate(CryptogramUtil.PasswordStrengthValidation)
+                ? CryptogramUtil.Encrypt(input.PasswordNew)
+                : throw Oops.Oh(CryptogramUtil.PasswordStrengthValidationMsg);
         }
         else
         {

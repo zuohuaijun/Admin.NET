@@ -71,10 +71,11 @@ public class SysOrgService : IDynamicApiController, ITransient
             // 递归禁用没权限的机构（防止用户修改或创建无权的机构和用户）
             HandlerOrgTree(orgTree, userOrgIdList);
         }
-        if (!(sysOrg is null)) 
+
+        if (sysOrg != null)
         {
             sysOrg.Children = orgTree;
-            orgTree = new List<SysOrg>{ sysOrg };
+            orgTree = new List<SysOrg> { sysOrg };
         }
         return orgTree;
     }

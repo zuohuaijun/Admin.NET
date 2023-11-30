@@ -176,35 +176,35 @@ public static class SqlSugarSetup
                     if (id == null || (long)id == 0)
                         entityInfo.SetValue(YitIdHelper.NextId());
                 }
-                if (entityInfo.PropertyName == "CreateTime")
+                if (entityInfo.PropertyName == nameof(EntityBase.CreateTime))
                     entityInfo.SetValue(DateTime.Now);
                 if (App.User != null)
                 {
-                    if (entityInfo.PropertyName == "TenantId")
+                    if (entityInfo.PropertyName == nameof(EntityTenantId.TenantId))
                     {
                         var tenantId = ((dynamic)entityInfo.EntityValue).TenantId;
                         if (tenantId == null || tenantId == 0)
                             entityInfo.SetValue(App.User.FindFirst(ClaimConst.TenantId)?.Value);
                     }
-                    else if (entityInfo.PropertyName == "CreateUserId")
+                    else if (entityInfo.PropertyName == nameof(EntityBase.CreateUserId))
                     {
                         var createUserId = ((dynamic)entityInfo.EntityValue).CreateUserId;
                         if (createUserId == 0 || createUserId == null)
                             entityInfo.SetValue(App.User.FindFirst(ClaimConst.UserId)?.Value);
                     }
-                    else if (entityInfo.PropertyName == "CreateUserName")
+                    else if (entityInfo.PropertyName == nameof(EntityBase.CreateUserName))
                     {
                         var createUserName = ((dynamic)entityInfo.EntityValue).CreateUserName;
                         if (string.IsNullOrEmpty(createUserName))
                             entityInfo.SetValue(App.User.FindFirst(ClaimConst.RealName)?.Value);
                     }
-                    else if (entityInfo.PropertyName == "CreateOrgId")
+                    else if (entityInfo.PropertyName == nameof(EntityBaseData.CreateOrgId))
                     {
                         var createOrgId = ((dynamic)entityInfo.EntityValue).CreateOrgId;
                         if (createOrgId == 0 || createOrgId == null)
                             entityInfo.SetValue(App.User.FindFirst(ClaimConst.OrgId)?.Value);
                     }
-                    else if (entityInfo.PropertyName == "CreateOrgName")
+                    else if (entityInfo.PropertyName == nameof(EntityBaseData.CreateOrgName))
                     {
                         var createOrgName = ((dynamic)entityInfo.EntityValue).CreateOrgName;
                         if (string.IsNullOrEmpty(createOrgName))
@@ -214,11 +214,11 @@ public static class SqlSugarSetup
             }
             if (entityInfo.OperationType == DataFilterType.UpdateByObject)
             {
-                if (entityInfo.PropertyName == "UpdateTime")
+                if (entityInfo.PropertyName == nameof(EntityBase.UpdateTime))
                     entityInfo.SetValue(DateTime.Now);
-                else if (entityInfo.PropertyName == "UpdateUserId")
+                else if (entityInfo.PropertyName == nameof(EntityBase.UpdateUserId))
                     entityInfo.SetValue(App.User?.FindFirst(ClaimConst.UserId)?.Value);
-                else if (entityInfo.PropertyName == "UpdateUserName")
+                else if (entityInfo.PropertyName == nameof(EntityBase.UpdateUserName))
                     entityInfo.SetValue(App.User?.FindFirst(ClaimConst.RealName)?.Value);
             }
         };

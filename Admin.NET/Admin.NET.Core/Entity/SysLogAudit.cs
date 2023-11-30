@@ -54,18 +54,4 @@ public class SysLogAudit : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "审计时间")]
     public DateTime? AuditTime { get; set; }
-
-    /// <summary>
-    /// 账号
-    /// </summary>
-    [SugarColumn(ColumnDescription = "账号", Length = 32)]
-    [MaxLength(32)]
-    public string? Account { get; set; }
-
-    /// <summary>
-    /// 真实姓名
-    /// </summary>
-    [SugarColumn(ColumnDescription = "真实姓名", Length = 32)]
-    [MaxLength(32)]
-    public string? RealName { get; set; }
 }

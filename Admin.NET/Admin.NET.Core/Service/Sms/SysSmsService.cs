@@ -71,9 +71,9 @@ public class SysSmsService : IDynamicApiController, ITransient
                 throw Oops.Oh($"短信发送失败：{sendSmsResponse.Body.Code}-{sendSmsResponse.Body.Message}");
             }
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw Oops.Oh($"短信发送失败：{e.Message}");
+            throw Oops.Oh($"短信发送失败：{ex.Message}");
         }
 
         await Task.CompletedTask;
