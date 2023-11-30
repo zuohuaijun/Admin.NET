@@ -9,9 +9,9 @@
 
 using AngleSharp.Html.Parser;
 using AspNetCoreRateLimit;
-using FluentEmail.Core;
 using Lazy.Captcha.Core;
 using Magicodes.ExporterAndImporter.Pdf;
+using MailKit.Net.Smtp;
 using Nest;
 using OnceMi.AspNetCore.OSS;
 
@@ -107,7 +107,7 @@ public class SysServerService : IDynamicApiController, ITransient
         var nestAssembly = typeof(IElasticClient).Assembly.GetName();
         var limitAssembly = typeof(IpRateLimitMiddleware).Assembly.GetName();
         var htmlParserAssembly = typeof(HtmlParser).Assembly.GetName();
-        var fluentEmailAssembly = typeof(IFluentEmail).Assembly.GetName();
+        var fluentEmailAssembly = typeof(SmtpClient).Assembly.GetName();
 
         return new[]
         {

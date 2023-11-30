@@ -7,7 +7,6 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
-using FluentEmail.Core;
 using Microsoft.AspNetCore.SignalR;
 
 namespace Admin.NET.Core.Service;
@@ -20,17 +19,14 @@ public class SysMessageService : IDynamicApiController, ITransient
 {
     private readonly SysCacheService _sysCacheService;
     private readonly EmailOptions _emailOptions;
-    private readonly IFluentEmail _fluentEmail;
     private readonly IHubContext<OnlineUserHub, IOnlineUserHub> _chatHubContext;
 
     public SysMessageService(SysCacheService sysCacheService,
         IOptions<EmailOptions> emailOptions,
-        IFluentEmail fluentEmail,
         IHubContext<OnlineUserHub, IOnlineUserHub> chatHubContext)
     {
         _sysCacheService = sysCacheService;
         _emailOptions = emailOptions.Value;
-        _fluentEmail = fluentEmail;
         _chatHubContext = chatHubContext;
     }
 
@@ -88,18 +84,5 @@ public class SysMessageService : IDynamicApiController, ITransient
             if (user != null) userlist.Add(user.ConnectionId);
         }
         await _chatHubContext.Clients.Clients(userlist).ReceiveMessage(input);
-    }
-
-    /// <summary>
-    /// 发送邮件
-    /// </summary>
-    /// <param name="message"></param>
-    /// <param name="title"></param>
-    /// <param name="isHtml"></param>
-    /// <returns></returns>
-    [DisplayName("发送邮件")]
-    public async Task SendEmail([Required] string message, string title = "系统邮件", bool isHtml = false)
-    {
-        await _fluentEmail.To(_emailOptions.DefaultToEmail).Subject(title).Body(message, isHtml).SendAsync();
     }
 }

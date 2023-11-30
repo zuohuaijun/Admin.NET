@@ -4,10 +4,9 @@
   "Email": {
     "Host": "smtp.163.com", // 主机
     "Port": 465, // 端口 465、994、25
+    "EnableSsl": true, // 启用SSL
     "DefaultFromEmail": "zuohuaijun@163.com", // 默认发件者邮箱
     "DefaultToEmail": "515096995@qq.com", // 默认接收人邮箱
-    "EnableSsl": true, // 启用SSL
-    "UseDefaultCredentials": false, // 是否使用默认凭据
     "UserName": "zuohuaijun@163.com", // 邮箱账号
     "Password": "", // 邮箱授权码
     "DefaultFromName": "Admin.NET 通用权限开发平台" // 默认邮件标题

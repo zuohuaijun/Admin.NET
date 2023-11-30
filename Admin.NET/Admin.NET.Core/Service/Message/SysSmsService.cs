@@ -49,31 +49,24 @@ public class SysSmsService : IDynamicApiController, ITransient
             code = verifyCode
         });
 
-        try
+        var client = CreateClient();
+        var sendSmsRequest = new SendSmsRequest
         {
-            var client = CreateClient();
-            var sendSmsRequest = new SendSmsRequest
-            {
-                PhoneNumbers = phoneNumber, // 待发送手机号, 多个以逗号分隔
-                SignName = _smsOptions.Aliyun.SignName, // 短信签名
-                TemplateCode = _smsOptions.Aliyun.TemplateCode, // 短信模板
-                TemplateParam = templateParam.ToString(), // 模板中的变量替换JSON串
-                OutId = YitIdHelper.NextId().ToString()
-            };
-            var sendSmsResponse = client.SendSms(sendSmsRequest);
-            if (sendSmsResponse.Body.Code == "OK" && sendSmsResponse.Body.Message == "OK")
-            {
-                // var bizId = sendSmsResponse.Body.BizId;
-                _sysCacheService.Set($"{CacheConst.KeyPhoneVerCode}{phoneNumber}", verifyCode, TimeSpan.FromSeconds(60));
-            }
-            else
-            {
-                throw Oops.Oh($"短信发送失败：{sendSmsResponse.Body.Code}-{sendSmsResponse.Body.Message}");
-            }
+            PhoneNumbers = phoneNumber, // 待发送手机号, 多个以逗号分隔
+            SignName = _smsOptions.Aliyun.SignName, // 短信签名
+            TemplateCode = _smsOptions.Aliyun.TemplateCode, // 短信模板
+            TemplateParam = templateParam.ToString(), // 模板中的变量替换JSON串
+            OutId = YitIdHelper.NextId().ToString()
+        };
+        var sendSmsResponse = client.SendSms(sendSmsRequest);
+        if (sendSmsResponse.Body.Code == "OK" && sendSmsResponse.Body.Message == "OK")
+        {
+            // var bizId = sendSmsResponse.Body.BizId;
+            _sysCacheService.Set($"{CacheConst.KeyPhoneVerCode}{phoneNumber}", verifyCode, TimeSpan.FromSeconds(60));
         }
-        catch (Exception ex)
+        else
         {
-            throw Oops.Oh($"短信发送失败：{ex.Message}");
+            throw Oops.Oh($"短信发送失败：{sendSmsResponse.Body.Code}-{sendSmsResponse.Body.Message}");
         }
 
         await Task.CompletedTask;
