@@ -123,7 +123,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         var pOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Pid);
         if (pOrg != null)
             DeleteAllUserOrgCache(pOrg.Id, pOrg.Pid);
-        else
+        else if (input.Pid == 0)
             DeleteAllUserOrgCache(0, 0);
 
         var newOrg = await _sysOrgRep.AsInsertable(input.Adapt<SysOrg>()).ExecuteReturnEntityAsync();

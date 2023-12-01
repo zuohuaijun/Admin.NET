@@ -277,8 +277,8 @@ public class SysAuthService : IDynamicApiController, ITransient
     [DisplayName("Swagger登录提交")]
     public async Task<int> SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
     {
-        //try
-        //{
+        try
+        {
             _sysCacheService.Set(CommonConst.SysCaptcha, false);
 
             await Login(new LoginInput
@@ -290,10 +290,10 @@ public class SysAuthService : IDynamicApiController, ITransient
             _sysCacheService.Remove(CommonConst.SysCaptcha);
 
             return 200;
-        //}
-        //catch (Exception)
-        //{
-        //    return 401;
-        //}
+        }
+        catch (Exception)
+        {
+            return 401;
+        }
     }
 }
