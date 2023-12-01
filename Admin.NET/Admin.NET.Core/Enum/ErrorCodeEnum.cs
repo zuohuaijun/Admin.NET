@@ -179,6 +179,12 @@ public enum ErrorCodeEnum
     D1024,
 
     /// <summary>
+    /// 此角色下面存在账号禁止删除
+    /// </summary>
+    [ErrorCodeItemMetadata("此角色下面存在账号禁止删除")]
+    D1025,
+
+    /// <summary>
     /// 父机构不存在
     /// </summary>
     [ErrorCodeItemMetadata("父机构不存在")]

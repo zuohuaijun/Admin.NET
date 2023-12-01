@@ -52,7 +52,6 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         // 根据租户Id切换库连接, 为空则返回默认库连接
         var sqlSugarScopeProvider = App.GetRequiredService<SysTenantService>().GetTenantDbConnectionScope(long.Parse(tenantId));
         if (sqlSugarScopeProvider == null) return;
-
         base.Context = sqlSugarScopeProvider;
     }
 }

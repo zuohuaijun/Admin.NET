@@ -59,7 +59,6 @@ public class SysOrgService : IDynamicApiController, ITransient
                 .ToListAsync();
         }
 
-        var sysOrg = await _sysOrgRep.GetSingleAsync(u => u.Id == input.Id);
         var orgTree = new List<SysOrg>();
         if (_userManager.SuperAdmin)
         {
@@ -72,6 +71,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             HandlerOrgTree(orgTree, userOrgIdList);
         }
 
+        var sysOrg = await _sysOrgRep.GetSingleAsync(u => u.Id == input.Id);
         if (sysOrg != null)
         {
             sysOrg.Children = orgTree;

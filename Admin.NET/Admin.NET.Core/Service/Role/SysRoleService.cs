@@ -133,9 +133,15 @@ public class SysRoleService : IDynamicApiController, ITransient
     [DisplayName("删除角色")]
     public async Task DeleteRole(DeleteRoleInput input)
     {
+        // 禁止删除系统管理员角色
         var sysRole = await _sysRoleRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D1002);
         if (sysRole.Code == CommonConst.SysAdminRole)
             throw Oops.Oh(ErrorCodeEnum.D1019);
+
+        // 若角色有用户则禁止删除
+        var userIds = await _sysUserRoleService.GetUserIdList(input.Id);
+        if (userIds != null && userIds.Count > 0)
+            throw Oops.Oh(ErrorCodeEnum.D1025);
 
         await _sysRoleRep.DeleteAsync(sysRole);
 

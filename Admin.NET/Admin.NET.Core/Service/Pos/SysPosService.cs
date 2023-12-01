@@ -89,13 +89,13 @@ public class SysPosService : IDynamicApiController, ITransient
         if (!_userManager.SuperAdmin && sysPos.CreateUserId != _userManager.UserId)
             throw Oops.Oh(ErrorCodeEnum.D6002);
 
-        // 该职位下是否有用户
+        // 若职位有用户则禁止删除
         var hasPosEmp = await _sysPosRep.ChangeRepository<SqlSugarRepository<SysUser>>()
             .IsAnyAsync(u => u.PosId == input.Id);
         if (hasPosEmp)
             throw Oops.Oh(ErrorCodeEnum.D6001);
 
-        // 该附属职位下是否有用户
+        // 若附属职位有用户则禁止删除
         var hasExtPosEmp = await _sysUserExtOrgService.HasUserPos(input.Id);
         if (hasExtPosEmp)
             throw Oops.Oh(ErrorCodeEnum.D6001);
