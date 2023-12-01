@@ -50,5 +50,5 @@ public class SysEmailService : IDynamicApiController, ITransient
         client.Disconnect(true);
 
         await Task.CompletedTask;
-    }    
+    }
 }

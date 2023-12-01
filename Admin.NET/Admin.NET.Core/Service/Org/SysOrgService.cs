@@ -122,7 +122,9 @@ public class SysOrgService : IDynamicApiController, ITransient
         // 删除与此父机构有关的用户机构缓存
         var pOrg = await _sysOrgRep.GetFirstAsync(u => u.Id == input.Pid);
         if (pOrg != null)
-            DeleteUserOrgCache(pOrg.Id, pOrg.Pid);
+            DeleteAllUserOrgCache(pOrg.Id, pOrg.Pid);
+        else
+            DeleteAllUserOrgCache(0, 0);
 
         var newOrg = await _sysOrgRep.AsInsertable(input.Adapt<SysOrg>()).ExecuteReturnEntityAsync();
         return newOrg.Id;
@@ -151,7 +153,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             if (sysOrg != null && sysOrg.Pid != input.Pid)
             {
                 // 删除与此机构、新父机构有关的用户机构缓存
-                DeleteUserOrgCache(sysOrg.Id, input.Pid);
+                DeleteAllUserOrgCache(sysOrg.Id, input.Pid);
             }
         }
         if (input.Id == input.Pid)
@@ -224,7 +226,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D2007);
 
         // 删除与此机构、父机构有关的用户机构缓存
-        DeleteUserOrgCache(sysOrg.Id, sysOrg.Pid);
+        DeleteAllUserOrgCache(sysOrg.Id, sysOrg.Pid);
 
         // 级联删除机构子节点
         await _sysOrgRep.DeleteAsync(u => childOrgIdList.Contains(u.Id));
@@ -241,7 +243,7 @@ public class SysOrgService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="orgId"></param>
     /// <param name="orgPid"></param>
-    private void DeleteUserOrgCache(long orgId, long orgPid)
+    private void DeleteAllUserOrgCache(long orgId, long orgPid)
     {
         var userOrgKeyList = _sysCacheService.GetKeysByPrefixKey(CacheConst.KeyUserOrg);
         if (userOrgKeyList != null && userOrgKeyList.Count > 0)
@@ -249,10 +251,18 @@ public class SysOrgService : IDynamicApiController, ITransient
             foreach (var userOrgKey in userOrgKeyList)
             {
                 var userOrgs = _sysCacheService.Get<List<long>>(userOrgKey);
+                var userId = long.Parse(userOrgKey.Substring(CacheConst.KeyUserOrg));
                 if (userOrgs.Contains(orgId) || userOrgs.Contains(orgPid))
                 {
-                    var userId = long.Parse(userOrgKey.Substring(CacheConst.KeyUserOrg));
                     SqlSugarFilter.DeleteUserOrgCache(userId, _sysOrgRep.Context.CurrentConnectionConfig.ConfigId.ToString());
+                }
+                if (orgPid == 0)
+                {
+                    var dataScope = _sysCacheService.Get<int>($"{CacheConst.KeyRoleMaxDataScope}{userId}");
+                    if (dataScope == (int)DataScopeEnum.All)
+                    {
+                        SqlSugarFilter.DeleteUserOrgCache(userId, _sysOrgRep.Context.CurrentConnectionConfig.ConfigId.ToString());
+                    }
                 }
             }
         }
@@ -272,7 +282,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         var orgIdList = _sysCacheService.Get<List<long>>($"{CacheConst.KeyUserOrg}{userId}"); // 取缓存
         if (orgIdList == null || orgIdList.Count < 1)
         {
-            // 本人新建机构集合
+            // 本人创建机构集合
             var orgList0 = await _sysOrgRep.AsQueryable().Where(u => u.CreateUserId == userId).Select(u => u.Id).ToListAsync();
             // 扩展机构集合
             var orgList1 = await _sysUserExtOrgService.GetUserExtOrgList(userId);
