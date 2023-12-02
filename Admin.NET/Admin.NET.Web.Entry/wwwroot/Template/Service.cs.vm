@@ -1,4 +1,5 @@
 ﻿using @(@Model.NameSpace).Const;
+using @(@Model.NameSpace).Entity;
 @{
     string joinTableName = "u";
     Dictionary<string, int> definedObjects = new Dictionary<string, int>();
