@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,112 +11,133 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { StatusEnum } from './status-enum';
-import { SysUser } from './sys-user';
+import {
+    StatusEnum,
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface UpdatePluginInput
  */
 export interface UpdatePluginInput {
+
     /**
      * 雪花Id
+     *
      * @type {number}
      * @memberof UpdatePluginInput
      */
     id?: number;
+
     /**
      * 创建时间
+     *
      * @type {Date}
      * @memberof UpdatePluginInput
      */
     createTime?: Date | null;
+
     /**
      * 更新时间
+     *
      * @type {Date}
      * @memberof UpdatePluginInput
      */
     updateTime?: Date | null;
+
     /**
      * 创建者Id
+     *
      * @type {number}
      * @memberof UpdatePluginInput
      */
     createUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof UpdatePluginInput
-     */
-    createUser?: SysUser;
+
     /**
      * 创建者姓名
+     *
      * @type {string}
      * @memberof UpdatePluginInput
      */
     createUserName?: string | null;
+
     /**
      * 修改者Id
+     *
      * @type {number}
      * @memberof UpdatePluginInput
      */
     updateUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof UpdatePluginInput
-     */
-    updateUser?: SysUser;
+
     /**
      * 修改者姓名
+     *
      * @type {string}
      * @memberof UpdatePluginInput
      */
     updateUserName?: string | null;
+
     /**
      * 软删除
+     *
      * @type {boolean}
      * @memberof UpdatePluginInput
      */
     isDelete?: boolean;
+
     /**
      * 租户Id
+     *
      * @type {number}
      * @memberof UpdatePluginInput
      */
     tenantId?: number | null;
+
     /**
      * C#代码
+     *
      * @type {string}
      * @memberof UpdatePluginInput
      */
     csharpCode: string;
+
     /**
      * 程序集名称
+     *
      * @type {string}
      * @memberof UpdatePluginInput
      */
     assemblyName?: string | null;
+
     /**
      * 排序
+     *
      * @type {number}
      * @memberof UpdatePluginInput
      */
     orderNo?: number;
+
     /**
-     * 
      * @type {StatusEnum}
      * @memberof UpdatePluginInput
      */
     status?: StatusEnum;
+
     /**
      * 备注
+     *
      * @type {string}
      * @memberof UpdatePluginInput
      */
     remark?: string | null;
+
     /**
      * 名称
+     *
      * @type {string}
      * @memberof UpdatePluginInput
      */

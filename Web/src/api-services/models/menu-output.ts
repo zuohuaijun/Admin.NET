@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,90 +11,116 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { MenuOutput } from './menu-output';
 import { MenuTypeEnum } from './menu-type-enum';
 import { StatusEnum } from './status-enum';
 import { SysMenuMeta } from './sys-menu-meta';
+import {
+    MenuOutput,MenuTypeEnum,StatusEnum,SysMenuMeta,
+} from ".";
+
 /**
  * 系统菜单返回结果
+ *
  * @export
  * @interface MenuOutput
  */
 export interface MenuOutput {
+
     /**
      * Id
+     *
      * @type {number}
      * @memberof MenuOutput
      */
     id?: number;
+
     /**
      * 父Id
+     *
      * @type {number}
      * @memberof MenuOutput
      */
     pid?: number;
+
     /**
-     * 
      * @type {MenuTypeEnum}
      * @memberof MenuOutput
      */
     type?: MenuTypeEnum;
+
     /**
      * 名称
+     *
      * @type {string}
      * @memberof MenuOutput
      */
     name?: string | null;
+
     /**
      * 路由地址
+     *
      * @type {string}
      * @memberof MenuOutput
      */
     path?: string | null;
+
     /**
      * 组件路径
+     *
      * @type {string}
      * @memberof MenuOutput
      */
     component?: string | null;
+
     /**
      * 权限标识
+     *
      * @type {string}
      * @memberof MenuOutput
      */
     permission?: string | null;
+
     /**
      * 重定向
+     *
      * @type {string}
      * @memberof MenuOutput
      */
     redirect?: string | null;
+
     /**
      * 排序
+     *
      * @type {number}
      * @memberof MenuOutput
      */
     orderNo?: number;
+
     /**
-     * 
      * @type {StatusEnum}
      * @memberof MenuOutput
      */
     status?: StatusEnum;
+
     /**
      * 备注
+     *
      * @type {string}
      * @memberof MenuOutput
      */
     remark?: string | null;
+
     /**
-     * 
      * @type {SysMenuMeta}
      * @memberof MenuOutput
      */
     meta?: SysMenuMeta;
+
     /**
      * 菜单子项
+     *
      * @type {Array<MenuOutput>}
      * @memberof MenuOutput
      */

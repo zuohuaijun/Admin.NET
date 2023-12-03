@@ -34,7 +34,6 @@ export * from './admin-result-list-enum-type-output';
 export * from './admin-result-list-file-output';
 export * from './admin-result-list-int64';
 export * from './admin-result-list-menu-output';
-export * from './admin-result-list-object';
 export * from './admin-result-list-role-output';
 export * from './admin-result-list-string';
 export * from './admin-result-list-sys-config';

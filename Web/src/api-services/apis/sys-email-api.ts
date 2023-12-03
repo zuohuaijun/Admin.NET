@@ -17,23 +17,32 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { AdminResultJObject } from '../models';
-import { JToken } from '../models';
 /**
- * APIJSONApi - axios parameter creator
+ * SysEmailApi - axios parameter creator
  * @export
  */
-export const APIJSONApiAxiosParamCreator = function (configuration?: Configuration) {
+export const SysEmailApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
-         * @summary 统一入口
-         * @param {{ [key: string]: JToken; }} [body] 
+         * 
+         * @summary 发送邮件
+         * @param {string} content 
+         * @param {string} title 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAPIJSONPost: async (body?: { [key: string]: JToken; }, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/aPIJSON`;
+        apiSysEmailSendEmailContentTitlePost: async (content: string, title: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'content' is not null or undefined
+            if (content === null || content === undefined) {
+                throw new RequiredError('content','Required parameter content was null or undefined when calling apiSysEmailSendEmailContentTitlePost.');
+            }
+            // verify required parameter 'title' is not null or undefined
+            if (title === null || title === undefined) {
+                throw new RequiredError('title','Required parameter title was null or undefined when calling apiSysEmailSendEmailContentTitlePost.');
+            }
+            const localVarPath = `/api/sysEmail/sendEmail/{content}/{title}`
+                .replace(`{${"content"}}`, encodeURIComponent(String(content)))
+                .replace(`{${"title"}}`, encodeURIComponent(String(title)));
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -53,8 +62,6 @@ export const APIJSONApiAxiosParamCreator = function (configuration?: Configurati
                 localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
             }
 
-            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
-
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
                 query.set(key, localVarQueryParameter[key]);
@@ -65,8 +72,6 @@ export const APIJSONApiAxiosParamCreator = function (configuration?: Configurati
             localVarUrlObj.search = (new URLSearchParams(query)).toString();
             let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
-            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
-            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -77,20 +82,21 @@ export const APIJSONApiAxiosParamCreator = function (configuration?: Configurati
 };
 
 /**
- * APIJSONApi - functional programming interface
+ * SysEmailApi - functional programming interface
  * @export
  */
-export const APIJSONApiFp = function(configuration?: Configuration) {
+export const SysEmailApiFp = function(configuration?: Configuration) {
     return {
         /**
-         * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
-         * @summary 统一入口
-         * @param {{ [key: string]: JToken; }} [body] 
+         * 
+         * @summary 发送邮件
+         * @param {string} content 
+         * @param {string} title 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAPIJSONPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultJObject>>> {
-            const localVarAxiosArgs = await APIJSONApiAxiosParamCreator(configuration).apiAPIJSONPost(body, options);
+        async apiSysEmailSendEmailContentTitlePost(content: string, title: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
+            const localVarAxiosArgs = await SysEmailApiAxiosParamCreator(configuration).apiSysEmailSendEmailContentTitlePost(content, title, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -100,40 +106,42 @@ export const APIJSONApiFp = function(configuration?: Configuration) {
 };
 
 /**
- * APIJSONApi - factory interface
+ * SysEmailApi - factory interface
  * @export
  */
-export const APIJSONApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+export const SysEmailApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     return {
         /**
-         * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
-         * @summary 统一入口
-         * @param {{ [key: string]: JToken; }} [body] 
+         * 
+         * @summary 发送邮件
+         * @param {string} content 
+         * @param {string} title 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAPIJSONPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultJObject>> {
-            return APIJSONApiFp(configuration).apiAPIJSONPost(body, options).then((request) => request(axios, basePath));
+        async apiSysEmailSendEmailContentTitlePost(content: string, title: string, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
+            return SysEmailApiFp(configuration).apiSysEmailSendEmailContentTitlePost(content, title, options).then((request) => request(axios, basePath));
         },
     };
 };
 
 /**
- * APIJSONApi - object-oriented interface
+ * SysEmailApi - object-oriented interface
  * @export
- * @class APIJSONApi
+ * @class SysEmailApi
  * @extends {BaseAPI}
  */
-export class APIJSONApi extends BaseAPI {
+export class SysEmailApi extends BaseAPI {
     /**
-     * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
-     * @summary 统一入口
-     * @param {{ [key: string]: JToken; }} [body] 
+     * 
+     * @summary 发送邮件
+     * @param {string} content 
+     * @param {string} title 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
-     * @memberof APIJSONApi
+     * @memberof SysEmailApi
      */
-    public async apiAPIJSONPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultJObject>> {
-        return APIJSONApiFp(this.configuration).apiAPIJSONPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysEmailSendEmailContentTitlePost(content: string, title: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
+        return SysEmailApiFp(this.configuration).apiSysEmailSendEmailContentTitlePost(content, title, options).then((request) => request(this.axios, this.basePath));
     }
 }

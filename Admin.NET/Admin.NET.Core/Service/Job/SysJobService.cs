@@ -128,7 +128,7 @@ public class SysJobService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D1704);
 
         var scheduler = _schedulerFactory.GetJob(sysJobDetail.JobId);
-        var oldScriptCode = sysJobDetail.ScriptCode;//旧脚本代码
+        var oldScriptCode = sysJobDetail.ScriptCode; // 旧脚本代码
         input.Adapt(sysJobDetail);
 
         if (input.CreateType == JobCreateTypeEnum.Script)
@@ -277,6 +277,16 @@ public class SysJobService : IDynamicApiController, ITransient
     {
         var scheduler = _schedulerFactory.GetJob(input.JobId);
         scheduler?.Start();
+    }
+
+    /// <summary>
+    /// 取消作业
+    /// </summary>
+    [DisplayName("取消作业")]
+    public void CancelJob(JobDetailInput input)
+    {
+        var scheduler = _schedulerFactory.GetJob(input.JobId);
+        scheduler?.Cancel();
     }
 
     /// <summary>

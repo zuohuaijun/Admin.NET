@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,39 +11,53 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { ClusterStatus } from './cluster-status';
+import {
+    ClusterStatus,
+} from ".";
+
 /**
  * 系统作业集群表
+ *
  * @export
  * @interface SysJobCluster
  */
 export interface SysJobCluster {
+
     /**
      * 雪花Id
+     *
      * @type {number}
      * @memberof SysJobCluster
      */
     id?: number;
+
     /**
      * 作业集群Id
+     *
      * @type {string}
      * @memberof SysJobCluster
      */
     clusterId: string;
+
     /**
      * 描述信息
+     *
      * @type {string}
      * @memberof SysJobCluster
      */
     description?: string | null;
+
     /**
-     * 
      * @type {ClusterStatus}
      * @memberof SysJobCluster
      */
     status?: ClusterStatus;
+
     /**
      * 更新时间
+     *
      * @type {Date}
      * @memberof SysJobCluster
      */

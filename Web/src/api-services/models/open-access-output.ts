@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,118 +11,140 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { SysTenant } from './sys-tenant';
 import { SysUser } from './sys-user';
+import {
+    SysTenant,SysUser,
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface OpenAccessOutput
  */
 export interface OpenAccessOutput {
+
     /**
      * 雪花Id
+     *
      * @type {number}
      * @memberof OpenAccessOutput
      */
     id?: number;
+
     /**
      * 创建时间
+     *
      * @type {Date}
      * @memberof OpenAccessOutput
      */
     createTime?: Date | null;
+
     /**
      * 更新时间
+     *
      * @type {Date}
      * @memberof OpenAccessOutput
      */
     updateTime?: Date | null;
+
     /**
      * 创建者Id
+     *
      * @type {number}
      * @memberof OpenAccessOutput
      */
     createUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof OpenAccessOutput
-     */
-    createUser?: SysUser;
+
     /**
      * 创建者姓名
+     *
      * @type {string}
      * @memberof OpenAccessOutput
      */
     createUserName?: string | null;
+
     /**
      * 修改者Id
+     *
      * @type {number}
      * @memberof OpenAccessOutput
      */
     updateUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof OpenAccessOutput
-     */
-    updateUser?: SysUser;
+
     /**
      * 修改者姓名
+     *
      * @type {string}
      * @memberof OpenAccessOutput
      */
     updateUserName?: string | null;
+
     /**
      * 软删除
+     *
      * @type {boolean}
      * @memberof OpenAccessOutput
      */
     isDelete?: boolean;
+
     /**
      * 身份标识
+     *
      * @type {string}
      * @memberof OpenAccessOutput
      */
     accessKey: string;
+
     /**
      * 密钥
+     *
      * @type {string}
      * @memberof OpenAccessOutput
      */
     accessSecret: string;
+
     /**
      * 绑定租户Id
+     *
      * @type {number}
      * @memberof OpenAccessOutput
      */
     bindTenantId?: number;
+
     /**
-     * 
      * @type {SysTenant}
      * @memberof OpenAccessOutput
      */
     bindTenant?: SysTenant;
+
     /**
      * 绑定用户Id
+     *
      * @type {number}
      * @memberof OpenAccessOutput
      */
     bindUserId?: number;
+
     /**
-     * 
      * @type {SysUser}
      * @memberof OpenAccessOutput
      */
     bindUser?: SysUser;
+
     /**
      * 绑定用户账号
+     *
      * @type {string}
      * @memberof OpenAccessOutput
      */
     bindUserAccount?: string | null;
+
     /**
      * 绑定租户名称
+     *
      * @type {string}
      * @memberof OpenAccessOutput
      */

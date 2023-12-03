@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,39 +11,55 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { DataItem } from './data-item';
+import {
+    DataItem,
+} from ".";
+
 /**
  * 获取消息模板列表
+ *
  * @export
  * @interface MessageTemplateSendInput
  */
 export interface MessageTemplateSendInput {
+
     /**
      * 订阅模板Id
+     *
      * @type {string}
      * @memberof MessageTemplateSendInput
      */
     templateId: string;
+
     /**
      * 接收者的OpenId
+     *
      * @type {string}
      * @memberof MessageTemplateSendInput
      */
     toUserOpenId: string;
+
     /**
      * 模板数据，格式形如 { \"key1\": { \"value\": any }, \"key2\": { \"value\": any } }
+     *
      * @type {{ [key: string]: DataItem; }}
      * @memberof MessageTemplateSendInput
      */
     data: { [key: string]: DataItem; };
+
     /**
      * 模板跳转链接
+     *
      * @type {string}
      * @memberof MessageTemplateSendInput
      */
     url?: string | null;
+
     /**
      * 所需跳转到小程序的具体页面路径，支持带参数,（示例index?foo=bar）
+     *
      * @type {string}
      * @memberof MessageTemplateSendInput
      */

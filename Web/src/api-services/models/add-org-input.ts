@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,149 +11,181 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { StatusEnum } from './status-enum';
 import { SysOrg } from './sys-org';
 import { SysUser } from './sys-user';
+import {
+    StatusEnum,SysOrg,SysUser,
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface AddOrgInput
  */
 export interface AddOrgInput {
+
     /**
      * 雪花Id
+     *
      * @type {number}
      * @memberof AddOrgInput
      */
     id?: number;
+
     /**
      * 创建时间
+     *
      * @type {Date}
      * @memberof AddOrgInput
      */
     createTime?: Date | null;
+
     /**
      * 更新时间
+     *
      * @type {Date}
      * @memberof AddOrgInput
      */
     updateTime?: Date | null;
+
     /**
      * 创建者Id
+     *
      * @type {number}
      * @memberof AddOrgInput
      */
     createUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof AddOrgInput
-     */
-    createUser?: SysUser;
+
     /**
      * 创建者姓名
+     *
      * @type {string}
      * @memberof AddOrgInput
      */
     createUserName?: string | null;
+
     /**
      * 修改者Id
+     *
      * @type {number}
      * @memberof AddOrgInput
      */
     updateUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof AddOrgInput
-     */
-    updateUser?: SysUser;
+
     /**
      * 修改者姓名
+     *
      * @type {string}
      * @memberof AddOrgInput
      */
     updateUserName?: string | null;
+
     /**
      * 软删除
+     *
      * @type {boolean}
      * @memberof AddOrgInput
      */
     isDelete?: boolean;
+
     /**
      * 租户Id
+     *
      * @type {number}
      * @memberof AddOrgInput
      */
     tenantId?: number | null;
+
     /**
      * 父Id
+     *
      * @type {number}
      * @memberof AddOrgInput
      */
     pid?: number;
+
     /**
      * 编码
+     *
      * @type {string}
      * @memberof AddOrgInput
      */
     code?: string | null;
+
     /**
      * 级别
+     *
      * @type {number}
      * @memberof AddOrgInput
      */
     level?: number | null;
+
     /**
      * 机构类型-数据字典
+     *
      * @type {string}
      * @memberof AddOrgInput
      */
     type?: string | null;
+
     /**
      * 负责人Id
+     *
      * @type {number}
      * @memberof AddOrgInput
      */
     directorId?: number | null;
+
     /**
-     * 
      * @type {SysUser}
      * @memberof AddOrgInput
      */
     director?: SysUser;
+
     /**
      * 排序
+     *
      * @type {number}
      * @memberof AddOrgInput
      */
     orderNo?: number;
+
     /**
-     * 
      * @type {StatusEnum}
      * @memberof AddOrgInput
      */
     status?: StatusEnum;
+
     /**
      * 备注
+     *
      * @type {string}
      * @memberof AddOrgInput
      */
     remark?: string | null;
+
     /**
      * 机构子项
+     *
      * @type {Array<SysOrg>}
      * @memberof AddOrgInput
      */
     children?: Array<SysOrg> | null;
+
     /**
      * 是否禁止选中
+     *
      * @type {boolean}
      * @memberof AddOrgInput
      */
     disabled?: boolean;
+
     /**
      * 名称
+     *
      * @type {string}
      * @memberof AddOrgInput
      */

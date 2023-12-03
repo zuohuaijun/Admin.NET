@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,106 +11,124 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { SysTenant } from './sys-tenant';
 import { SysUser } from './sys-user';
+import {
+    SysTenant,SysUser,
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface AddOpenAccessInput
  */
 export interface AddOpenAccessInput {
+
     /**
      * 雪花Id
+     *
      * @type {number}
      * @memberof AddOpenAccessInput
      */
     id?: number;
+
     /**
      * 创建时间
+     *
      * @type {Date}
      * @memberof AddOpenAccessInput
      */
     createTime?: Date | null;
+
     /**
      * 更新时间
+     *
      * @type {Date}
      * @memberof AddOpenAccessInput
      */
     updateTime?: Date | null;
+
     /**
      * 创建者Id
+     *
      * @type {number}
      * @memberof AddOpenAccessInput
      */
     createUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof AddOpenAccessInput
-     */
-    createUser?: SysUser;
+
     /**
      * 创建者姓名
+     *
      * @type {string}
      * @memberof AddOpenAccessInput
      */
     createUserName?: string | null;
+
     /**
      * 修改者Id
+     *
      * @type {number}
      * @memberof AddOpenAccessInput
      */
     updateUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof AddOpenAccessInput
-     */
-    updateUser?: SysUser;
+
     /**
      * 修改者姓名
+     *
      * @type {string}
      * @memberof AddOpenAccessInput
      */
     updateUserName?: string | null;
+
     /**
      * 软删除
+     *
      * @type {boolean}
      * @memberof AddOpenAccessInput
      */
     isDelete?: boolean;
+
     /**
      * 绑定租户Id
+     *
      * @type {number}
      * @memberof AddOpenAccessInput
      */
     bindTenantId?: number;
+
     /**
-     * 
      * @type {SysTenant}
      * @memberof AddOpenAccessInput
      */
     bindTenant?: SysTenant;
+
     /**
-     * 
      * @type {SysUser}
      * @memberof AddOpenAccessInput
      */
     bindUser?: SysUser;
+
     /**
      * 身份标识
+     *
      * @type {string}
      * @memberof AddOpenAccessInput
      */
     accessKey: string;
+
     /**
      * 密钥
+     *
      * @type {string}
      * @memberof AddOpenAccessInput
      */
     accessSecret: string;
+
     /**
      * 绑定用户Id
+     *
      * @type {number}
      * @memberof AddOpenAccessInput
      */

@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,119 +11,140 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { DataScopeEnum } from './data-scope-enum';
 import { StatusEnum } from './status-enum';
-import { SysUser } from './sys-user';
+import {
+    DataScopeEnum,StatusEnum,
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface AddRoleInput
  */
 export interface AddRoleInput {
+
     /**
      * 雪花Id
+     *
      * @type {number}
      * @memberof AddRoleInput
      */
     id?: number;
+
     /**
      * 创建时间
+     *
      * @type {Date}
      * @memberof AddRoleInput
      */
     createTime?: Date | null;
+
     /**
      * 更新时间
+     *
      * @type {Date}
      * @memberof AddRoleInput
      */
     updateTime?: Date | null;
+
     /**
      * 创建者Id
+     *
      * @type {number}
      * @memberof AddRoleInput
      */
     createUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof AddRoleInput
-     */
-    createUser?: SysUser;
+
     /**
      * 创建者姓名
+     *
      * @type {string}
      * @memberof AddRoleInput
      */
     createUserName?: string | null;
+
     /**
      * 修改者Id
+     *
      * @type {number}
      * @memberof AddRoleInput
      */
     updateUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof AddRoleInput
-     */
-    updateUser?: SysUser;
+
     /**
      * 修改者姓名
+     *
      * @type {string}
      * @memberof AddRoleInput
      */
     updateUserName?: string | null;
+
     /**
      * 软删除
+     *
      * @type {boolean}
      * @memberof AddRoleInput
      */
     isDelete?: boolean;
+
     /**
      * 租户Id
+     *
      * @type {number}
      * @memberof AddRoleInput
      */
     tenantId?: number | null;
+
     /**
      * 编码
+     *
      * @type {string}
      * @memberof AddRoleInput
      */
     code?: string | null;
+
     /**
      * 排序
+     *
      * @type {number}
      * @memberof AddRoleInput
      */
     orderNo?: number;
+
     /**
-     * 
      * @type {DataScopeEnum}
      * @memberof AddRoleInput
      */
     dataScope?: DataScopeEnum;
+
     /**
      * 备注
+     *
      * @type {string}
      * @memberof AddRoleInput
      */
     remark?: string | null;
+
     /**
-     * 
      * @type {StatusEnum}
      * @memberof AddRoleInput
      */
     status?: StatusEnum;
+
     /**
      * 名称
+     *
      * @type {string}
      * @memberof AddRoleInput
      */
     name: string;
+
     /**
      * 菜单Id集合
+     *
      * @type {Array<number>}
      * @memberof AddRoleInput
      */

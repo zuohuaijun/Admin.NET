@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
@@ -65,67 +66,6 @@ export const SysMessageApiAxiosParamCreator = function (configuration?: Configur
             localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
             const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
             localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
-
-            return {
-                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
-                options: localVarRequestOptions,
-            };
-        },
-        /**
-         * 
-         * @summary 发送邮件
-         * @param {string} message 
-         * @param {string} title 
-         * @param {boolean} isHtml 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        apiSysMessageSendEmailMessageTitleIsHtmlPost: async (message: string, title: string, isHtml: boolean, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            // verify required parameter 'message' is not null or undefined
-            if (message === null || message === undefined) {
-                throw new RequiredError('message','Required parameter message was null or undefined when calling apiSysMessageSendEmailMessageTitleIsHtmlPost.');
-            }
-            // verify required parameter 'title' is not null or undefined
-            if (title === null || title === undefined) {
-                throw new RequiredError('title','Required parameter title was null or undefined when calling apiSysMessageSendEmailMessageTitleIsHtmlPost.');
-            }
-            // verify required parameter 'isHtml' is not null or undefined
-            if (isHtml === null || isHtml === undefined) {
-                throw new RequiredError('isHtml','Required parameter isHtml was null or undefined when calling apiSysMessageSendEmailMessageTitleIsHtmlPost.');
-            }
-            const localVarPath = `/api/sysMessage/sendEmail/{message}/{title}/{isHtml}`
-                .replace(`{${"message"}}`, encodeURIComponent(String(message)))
-                .replace(`{${"title"}}`, encodeURIComponent(String(title)))
-                .replace(`{${"isHtml"}}`, encodeURIComponent(String(isHtml)));
-            // use dummy base URL string because the URL constructor only accepts absolute URLs.
-            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
-            let baseOptions;
-            if (configuration) {
-                baseOptions = configuration.baseOptions;
-            }
-            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
-            const localVarHeaderParameter = {} as any;
-            const localVarQueryParameter = {} as any;
-
-            // authentication Bearer required
-            // http bearer authentication required
-            if (configuration && configuration.accessToken) {
-                const accessToken = typeof configuration.accessToken === 'function'
-                    ? await configuration.accessToken()
-                    : await configuration.accessToken;
-                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
-            }
-
-            const query = new URLSearchParams(localVarUrlObj.search);
-            for (const key in localVarQueryParameter) {
-                query.set(key, localVarQueryParameter[key]);
-            }
-            for (const key in options.params) {
-                query.set(key, options.params[key]);
-            }
-            localVarUrlObj.search = (new URLSearchParams(query)).toString();
-            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
-            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
             return {
                 url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
@@ -301,22 +241,6 @@ export const SysMessageApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 发送邮件
-         * @param {string} message 
-         * @param {string} title 
-         * @param {boolean} isHtml 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysMessageSendEmailMessageTitleIsHtmlPost(message: string, title: string, isHtml: boolean, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<void>>> {
-            const localVarAxiosArgs = await SysMessageApiAxiosParamCreator(configuration).apiSysMessageSendEmailMessageTitleIsHtmlPost(message, title, isHtml, options);
-            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
-                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
-                return axios.request(axiosRequestArgs);
-            };
-        },
-        /**
-         * 
          * @summary 发送消息给除了发送人的其他人
          * @param {MessageInput} [body] 
          * @param {*} [options] Override http request option.
@@ -378,18 +302,6 @@ export const SysMessageApiFactory = function (configuration?: Configuration, bas
         },
         /**
          * 
-         * @summary 发送邮件
-         * @param {string} message 
-         * @param {string} title 
-         * @param {boolean} isHtml 
-         * @param {*} [options] Override http request option.
-         * @throws {RequiredError}
-         */
-        async apiSysMessageSendEmailMessageTitleIsHtmlPost(message: string, title: string, isHtml: boolean, options?: AxiosRequestConfig): Promise<AxiosResponse<void>> {
-            return SysMessageApiFp(configuration).apiSysMessageSendEmailMessageTitleIsHtmlPost(message, title, isHtml, options).then((request) => request(axios, basePath));
-        },
-        /**
-         * 
          * @summary 发送消息给除了发送人的其他人
          * @param {MessageInput} [body] 
          * @param {*} [options] Override http request option.
@@ -438,19 +350,6 @@ export class SysMessageApi extends BaseAPI {
      */
     public async apiSysMessageSendAllUserPost(body?: MessageInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
         return SysMessageApiFp(this.configuration).apiSysMessageSendAllUserPost(body, options).then((request) => request(this.axios, this.basePath));
-    }
-    /**
-     * 
-     * @summary 发送邮件
-     * @param {string} message 
-     * @param {string} title 
-     * @param {boolean} isHtml 
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     * @memberof SysMessageApi
-     */
-    public async apiSysMessageSendEmailMessageTitleIsHtmlPost(message: string, title: string, isHtml: boolean, options?: AxiosRequestConfig) : Promise<AxiosResponse<void>> {
-        return SysMessageApiFp(this.configuration).apiSysMessageSendEmailMessageTitleIsHtmlPost(message, title, isHtml, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

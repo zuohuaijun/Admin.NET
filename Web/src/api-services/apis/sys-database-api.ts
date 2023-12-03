@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
@@ -18,7 +19,6 @@ import { Configuration } from '../configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AdminResultListDbColumnOutput } from '../models';
 import { AdminResultListDbTableInfo } from '../models';
-import { AdminResultListObject } from '../models';
 import { AdminResultListString } from '../models';
 import { CreateEntityInput } from '../models';
 import { CreateSeedDataInput } from '../models';
@@ -742,7 +742,7 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListObject>>> {
+        async apiSysDatabaseListGet(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListString>>> {
             const localVarAxiosArgs = await SysDatabaseApiAxiosParamCreator(configuration).apiSysDatabaseListGet(options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -887,7 +887,7 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysDatabaseListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListObject>> {
+        async apiSysDatabaseListGet(options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListString>> {
             return SysDatabaseApiFp(configuration).apiSysDatabaseListGet(options).then((request) => request(axios, basePath));
         },
         /**
@@ -1026,7 +1026,7 @@ export class SysDatabaseApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysDatabaseApi
      */
-    public async apiSysDatabaseListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListObject>> {
+    public async apiSysDatabaseListGet(options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListString>> {
         return SysDatabaseApiFp(this.configuration).apiSysDatabaseListGet(options).then((request) => request(this.axios, this.basePath));
     }
     /**

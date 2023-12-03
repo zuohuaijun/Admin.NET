@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,56 +11,78 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface FileOutput
  */
 export interface FileOutput {
+
     /**
      * Id
+     *
      * @type {number}
      * @memberof FileOutput
      */
     id?: number;
+
     /**
      * 提供者
+     *
      * @type {string}
      * @memberof FileOutput
      */
     provider?: string | null;
+
     /**
      * 名称
+     *
      * @type {string}
      * @memberof FileOutput
      */
     name?: string | null;
+
     /**
      * URL
+     *
      * @type {string}
      * @memberof FileOutput
      */
     url?: string | null;
+
     /**
      * 大小
+     *
      * @type {string}
      * @memberof FileOutput
      */
     sizeKb?: string | null;
+
     /**
      * 后缀
+     *
      * @type {string}
      * @memberof FileOutput
      */
     suffix?: string | null;
+
     /**
      * 路径
+     *
      * @type {string}
      * @memberof FileOutput
      */
     filePath?: string | null;
+
     /**
      * 文件名称
+     *
      * @type {string}
      * @memberof FileOutput
      */

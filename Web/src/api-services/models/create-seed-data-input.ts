@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,46 +11,69 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
+import {
+    
+} from ".";
+
 /**
  * 
+ *
  * @export
  * @interface CreateSeedDataInput
  */
 export interface CreateSeedDataInput {
+
     /**
      * 库标识
+     *
      * @type {string}
      * @memberof CreateSeedDataInput
      */
     configId?: string | null;
+
     /**
      * 表名
+     *
      * @type {string}
      * @memberof CreateSeedDataInput
+     * @example student
      */
     tableName?: string | null;
+
     /**
      * 实体名称
+     *
      * @type {string}
      * @memberof CreateSeedDataInput
+     * @example Student
      */
     entityName?: string | null;
+
     /**
      * 种子名称
+     *
      * @type {string}
      * @memberof CreateSeedDataInput
+     * @example Student
      */
     seedDataName?: string | null;
+
     /**
      * 导出位置
+     *
      * @type {string}
      * @memberof CreateSeedDataInput
+     * @example Web.Application
      */
     position?: string | null;
+
     /**
      * 后缀
+     *
      * @type {string}
      * @memberof CreateSeedDataInput
+     * @example Web.Application
      */
     suffix?: string | null;
 }

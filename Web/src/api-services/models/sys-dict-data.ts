@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,137 +11,164 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import { StatusEnum } from './status-enum';
 import { SysDictType } from './sys-dict-type';
-import { SysUser } from './sys-user';
+import {
+    StatusEnum,SysDictType,
+} from ".";
+
 /**
  * 系统字典值表
+ *
  * @export
  * @interface SysDictData
  */
 export interface SysDictData {
+
     /**
      * 雪花Id
+     *
      * @type {number}
      * @memberof SysDictData
      */
     id?: number;
+
     /**
      * 创建时间
+     *
      * @type {Date}
      * @memberof SysDictData
      */
     createTime?: Date | null;
+
     /**
      * 更新时间
+     *
      * @type {Date}
      * @memberof SysDictData
      */
     updateTime?: Date | null;
+
     /**
      * 创建者Id
+     *
      * @type {number}
      * @memberof SysDictData
      */
     createUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof SysDictData
-     */
-    createUser?: SysUser;
+
     /**
      * 创建者姓名
+     *
      * @type {string}
      * @memberof SysDictData
      */
     createUserName?: string | null;
+
     /**
      * 修改者Id
+     *
      * @type {number}
      * @memberof SysDictData
      */
     updateUserId?: number | null;
-    /**
-     * 
-     * @type {SysUser}
-     * @memberof SysDictData
-     */
-    updateUser?: SysUser;
+
     /**
      * 修改者姓名
+     *
      * @type {string}
      * @memberof SysDictData
      */
     updateUserName?: string | null;
+
     /**
      * 软删除
+     *
      * @type {boolean}
      * @memberof SysDictData
      */
     isDelete?: boolean;
+
     /**
      * 字典类型Id
+     *
      * @type {number}
      * @memberof SysDictData
      */
     dictTypeId?: number;
+
     /**
-     * 
      * @type {SysDictType}
      * @memberof SysDictData
      */
     dictType?: SysDictType;
+
     /**
      * 值
+     *
      * @type {string}
      * @memberof SysDictData
      */
     value: string;
+
     /**
      * 编码
+     *
      * @type {string}
      * @memberof SysDictData
      */
     code: string;
+
     /**
      * 显示样式-标签颜色
+     *
      * @type {string}
      * @memberof SysDictData
      */
     tagType?: string | null;
+
     /**
      * 显示样式-Style(控制显示样式)
+     *
      * @type {string}
      * @memberof SysDictData
      */
     styleSetting?: string | null;
+
     /**
      * 显示样式-Class(控制显示样式)
+     *
      * @type {string}
      * @memberof SysDictData
      */
     classSetting?: string | null;
+
     /**
      * 排序
+     *
      * @type {number}
      * @memberof SysDictData
      */
     orderNo?: number;
+
     /**
      * 备注
+     *
      * @type {string}
      * @memberof SysDictData
      */
     remark?: string | null;
+
     /**
      * 拓展数据(保存业务功能的配置项)
+     *
      * @type {string}
      * @memberof SysDictData
      */
     extData?: string | null;
+
     /**
-     * 
      * @type {StatusEnum}
      * @memberof SysDictData
      */

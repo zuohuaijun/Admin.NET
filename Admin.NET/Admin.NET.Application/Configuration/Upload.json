@@ -3,7 +3,7 @@
 
   "Upload": {
     "Path": "Upload/{yyyy}/{MM}/{dd}", // 文件上传目录
-    "MaxSize": 20971520, // 文件最大限制1024*1024*20
+    "MaxSize": 20480, // 文件最大限制KB：1024*20
     "ContentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif", "image/bmp", "text/plain", "application/pdf", "application/msword", "application/vnd.ms-excel", "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "video/mp4" ],
     "EnableMd5": true // 启用文件MDF5验证-防止重复上传
   },

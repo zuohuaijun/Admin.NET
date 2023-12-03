@@ -1,7 +1,7 @@
 /* tslint:disable */
 /* eslint-disable */
 /**
- * Admin.NET
+ * Admin.NET 通用权限开发平台
  * 让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>
  *
  * OpenAPI spec version: 1.0.0
@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 export interface ConfigurationParameters {
     apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
     username?: string;
@@ -21,12 +22,15 @@ export interface ConfigurationParameters {
 }
 
 export class Configuration {
+
     /**
      * parameter for apiKey security
+     *
      * @param name security name
      * @memberof Configuration
      */
     apiKey?: string | Promise<string> | ((name: string) => string) | ((name: string) => Promise<string>);
+
     /**
      * parameter for basic security
      *
@@ -34,6 +38,7 @@ export class Configuration {
      * @memberof Configuration
      */
     username?: string;
+
     /**
      * parameter for basic security
      *
@@ -41,13 +46,16 @@ export class Configuration {
      * @memberof Configuration
      */
     password?: string;
+
     /**
      * parameter for oauth2 security
+     *
      * @param name security name
      * @param scopes oauth2 scope
      * @memberof Configuration
      */
     accessToken?: string | Promise<string> | ((name?: string, scopes?: string[]) => string) | ((name?: string, scopes?: string[]) => Promise<string>);
+
     /**
      * override base path
      *
@@ -55,6 +63,7 @@ export class Configuration {
      * @memberof Configuration
      */
     basePath?: string;
+
     /**
      * base options for axios calls
      *

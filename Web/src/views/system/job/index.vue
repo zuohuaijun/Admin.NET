@@ -172,7 +172,7 @@
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" width="200" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="230" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-tooltip content="增加触发器">
 							<el-button size="small" type="primary" icon="ele-CirclePlus" text @click="openAddJobTrigger(scope.row)"> </el-button>
@@ -185,6 +185,9 @@
 						</el-tooltip>
 						<el-tooltip content="暂停作业">
 							<el-button size="small" type="primary" icon="ele-VideoPause" text @click="pauseJob(scope.row)" />
+						</el-tooltip>
+						<el-tooltip content="取消作业">
+							<el-button size="small" type="primary" icon="ele-CircleClose" text @click="cancelJob(scope.row)" />
 						</el-tooltip>
 						<el-tooltip content="编辑作业">
 							<el-button size="small" type="primary" icon="ele-Edit" text @click="openEditJobDetail(scope.row)" v-auth="'sysJob:updateJobDetail'"> </el-button>
@@ -369,6 +372,12 @@ const startJob = async (row: JobOutput) => {
 const pauseJob = async (row: JobOutput) => {
 	await getAPI(SysJobApi).apiSysJobPauseJobPost({ jobId: row.jobDetail?.jobId });
 	ElMessage.success('暂停作业');
+};
+
+// 取消某个作业
+const cancelJob = async (row: JobOutput) => {
+	await getAPI(SysJobApi).apiSysJobCancelJobPost({ jobId: row.jobDetail?.jobId });
+	ElMessage.success('取消作业');
 };
 
 // 启动触发器
