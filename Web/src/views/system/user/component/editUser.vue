@@ -8,7 +8,7 @@
 				</div>
 			</template>
 			<el-tabs v-loading="state.loading" v-model="state.selectedTabName">
-				<el-tab-pane label="基础信息">
+				<el-tab-pane label="基础信息" style="height: 550px;">
 					<el-form :model="state.ruleForm" ref="ruleFormRef" label-width="auto">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -17,8 +17,8 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="真实姓名" prop="realName" :rules="[{ required: true, message: '真实姓名不能为空', trigger: 'blur' }]">
-									<el-input v-model="state.ruleForm.realName" placeholder="真实姓名" clearable />
+								<el-form-item label="昵称">
+									<el-input v-model="state.ruleForm.nickName" placeholder="昵称" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -27,22 +27,8 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="出生日期" prop="birthday" :rules="[{ required: true, message: '出生日期不能为空', trigger: 'blur' }]">
-									<el-date-picker v-model="state.ruleForm.birthday" type="date" placeholder="出生日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="w100" />
-								</el-form-item>
-							</el-col>
-							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="昵称">
-									<el-input v-model="state.ruleForm.nickName" placeholder="昵称" clearable />
-								</el-form-item>
-							</el-col>
-							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="性别">
-									<el-radio-group v-model="state.ruleForm.sex">
-										<el-radio :label="1">男</el-radio>
-										<el-radio :label="2">女</el-radio>
-										<el-radio :label="3">其他</el-radio>
-									</el-radio-group>
+								<el-form-item label="真实姓名" prop="realName" :rules="[{ required: true, message: '真实姓名不能为空', trigger: 'blur' }]">
+									<el-input v-model="state.ruleForm.realName" placeholder="真实姓名" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -61,9 +47,9 @@
 									</el-select>
 								</el-form-item>
 							</el-col>
-							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb5">
-								<el-form-item label="年龄">
-									<el-input-number v-model="state.ruleForm.age" placeholder="年龄" class="w100" />
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+								<el-form-item label="邮箱">
+									<el-input v-model="state.ruleForm.email" placeholder="邮箱" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb5">
@@ -148,12 +134,12 @@
 										</el-col>
 									</el-row>
 								</template>
-								<el-empty :image-size="80" description="空数据" v-else></el-empty>
+								<el-empty :image-size="50" description="空数据" v-else></el-empty>
 							</el-col>
 						</el-row>
 					</el-form>
 				</el-tab-pane>
-				<el-tab-pane label="档案信息">
+				<el-tab-pane label="档案信息" style="height: 550px">
 					<el-form :model="state.ruleForm" label-width="auto">
 						<el-row :gutter="35">
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -173,13 +159,27 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="民族">
-									<el-input v-model="state.ruleForm.nation" placeholder="民族" clearable />
+								<el-form-item label="出生日期" prop="birthday">
+									<el-date-picker v-model="state.ruleForm.birthday" type="date" placeholder="出生日期" format="YYYY-MM-DD" value-format="YYYY-MM-DD" class="w100" />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="邮箱">
-									<el-input v-model="state.ruleForm.email" placeholder="邮箱" clearable />
+								<el-form-item label="性别">
+									<el-radio-group v-model="state.ruleForm.sex">
+										<el-radio :label="1">男</el-radio>
+										<el-radio :label="2">女</el-radio>
+										<el-radio :label="3">其他</el-radio>
+									</el-radio-group>
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb5">
+								<el-form-item label="年龄">
+									<el-input-number v-model="state.ruleForm.age" placeholder="年龄" class="w100" />
+								</el-form-item>
+							</el-col>
+							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+								<el-form-item label="民族">
+									<el-input v-model="state.ruleForm.nation" placeholder="民族" clearable />
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">

@@ -12,24 +12,24 @@
  * Do not edit the class manually.
  */
 
-import { SqlSugarPagedListSysUser } from './sql-sugar-paged-list-sys-user';
+import { SqlSugarPagedListUserOutput } from './sql-sugar-paged-list-user-output';
 import {
-    SqlSugarPagedListSysUser,
+    SqlSugarPagedListUserOutput,
 } from ".";
 
 /**
  * 全局返回结果
  *
  * @export
- * @interface AdminResultSqlSugarPagedListSysUser
+ * @interface AdminResultSqlSugarPagedListUserOutput
  */
-export interface AdminResultSqlSugarPagedListSysUser {
+export interface AdminResultSqlSugarPagedListUserOutput {
 
     /**
      * 状态码
      *
      * @type {number}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSqlSugarPagedListUserOutput
      */
     code?: number;
 
@@ -37,7 +37,7 @@ export interface AdminResultSqlSugarPagedListSysUser {
      * 类型success、warning、error
      *
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSqlSugarPagedListUserOutput
      */
     type?: string | null;
 
@@ -45,21 +45,21 @@ export interface AdminResultSqlSugarPagedListSysUser {
      * 错误信息
      *
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSqlSugarPagedListUserOutput
      */
     message?: string | null;
 
     /**
-     * @type {SqlSugarPagedListSysUser}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @type {SqlSugarPagedListUserOutput}
+     * @memberof AdminResultSqlSugarPagedListUserOutput
      */
-    result?: SqlSugarPagedListSysUser;
+    result?: SqlSugarPagedListUserOutput;
 
     /**
      * 附加数据
      *
      * @type {any}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSqlSugarPagedListUserOutput
      */
     extras?: any | null;
 
@@ -67,7 +67,7 @@ export interface AdminResultSqlSugarPagedListSysUser {
      * 时间
      *
      * @type {Date}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSqlSugarPagedListUserOutput
      */
     time?: Date;
 }
