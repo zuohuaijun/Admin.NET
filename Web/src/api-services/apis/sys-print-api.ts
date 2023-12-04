@@ -19,6 +19,7 @@ import { Configuration } from '../configuration';
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
 import { AddPrintInput } from '../models';
 import { AdminResultSqlSugarPagedListSysPrint } from '../models';
+import { AdminResultSysPrint } from '../models';
 import { DeletePrintInput } from '../models';
 import { PagePrintInput } from '../models';
 import { UpdatePrintInput } from '../models';
@@ -174,6 +175,55 @@ export const SysPrintApiAxiosParamCreator = function (configuration?: Configurat
         },
         /**
          * 
+         * @summary 获取打印模板
+         * @param {string} name 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysPrintPrintNameGet: async (name: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'name' is not null or undefined
+            if (name === null || name === undefined) {
+                throw new RequiredError('name','Required parameter name was null or undefined when calling apiSysPrintPrintNameGet.');
+            }
+            const localVarPath = `/api/sysPrint/print/{name}`
+                .replace(`{${"name"}}`, encodeURIComponent(String(name)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary 更新打印模板
          * @param {UpdatePrintInput} [body] 
          * @param {*} [options] Override http request option.
@@ -273,6 +323,20 @@ export const SysPrintApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary 获取打印模板
+         * @param {string} name 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysPrintPrintNameGet(name: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysPrint>>> {
+            const localVarAxiosArgs = await SysPrintApiAxiosParamCreator(configuration).apiSysPrintPrintNameGet(name, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
          * @summary 更新打印模板
          * @param {UpdatePrintInput} [body] 
          * @param {*} [options] Override http request option.
@@ -326,6 +390,16 @@ export const SysPrintApiFactory = function (configuration?: Configuration, baseP
         },
         /**
          * 
+         * @summary 获取打印模板
+         * @param {string} name 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysPrintPrintNameGet(name: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysPrint>> {
+            return SysPrintApiFp(configuration).apiSysPrintPrintNameGet(name, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary 更新打印模板
          * @param {UpdatePrintInput} [body] 
          * @param {*} [options] Override http request option.
@@ -376,6 +450,17 @@ export class SysPrintApi extends BaseAPI {
      */
     public async apiSysPrintPagePost(body?: PagePrintInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysPrint>> {
         return SysPrintApiFp(this.configuration).apiSysPrintPagePost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取打印模板
+     * @param {string} name 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysPrintApi
+     */
+    public async apiSysPrintPrintNameGet(name: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysPrint>> {
+        return SysPrintApiFp(this.configuration).apiSysPrintPrintNameGet(name, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

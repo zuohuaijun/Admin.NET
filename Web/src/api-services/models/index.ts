@@ -79,6 +79,7 @@ export * from './admin-result-sys-code-gen-config';
 export * from './admin-result-sys-config';
 export * from './admin-result-sys-dict-data';
 export * from './admin-result-sys-dict-type';
+export * from './admin-result-sys-print';
 export * from './admin-result-sys-user';
 export * from './admin-result-sys-wechat-pay';
 export * from './admin-result-wechat-pay-output';
