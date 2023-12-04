@@ -20,6 +20,16 @@ public class CodeGenOutput
     public long Id { get; set; }
 
     /// <summary>
+    /// 是否支持打印
+    /// </summary>
+    public string PrintType { get; set; }
+
+    /// <summary>
+    /// 打印模版编号
+    /// </summary>
+    public long PrintId { get; set; }
+
+    /// <summary>
     /// 作者姓名
     /// </summary>
     public string AuthorName { get; set; }

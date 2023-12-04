@@ -74,6 +74,9 @@ public class SysDictDataSeedData : ISqlSugarEntitySeedData<SysDictData>
             new SysDictData{ Id=1300000000603, DictTypeId=1300000000106, Value="部门", Code="301", OrderNo=102, Remark="部门", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
             new SysDictData{ Id=1300000000604, DictTypeId=1300000000106, Value="区域", Code="401", OrderNo=103, Remark="区域", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
             new SysDictData{ Id=1300000000605, DictTypeId=1300000000106, Value="组", Code="501", OrderNo=104, Remark="组", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+
+            new SysDictData{ Id=1300000000701, DictTypeId=1300000000107, Value="不需要", Code="off", OrderNo=100, Remark="不需要打印支持", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-12-04 00:00:00") },
+            new SysDictData{ Id=1300000000702, DictTypeId=1300000000107, Value="绑定打印模版", Code="custom", OrderNo=101, Remark="绑定打印模版", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-12-04 00:00:00") },
         };
     }
 }
