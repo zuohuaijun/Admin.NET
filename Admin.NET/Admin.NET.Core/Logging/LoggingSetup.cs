@@ -17,13 +17,13 @@ public static class LoggingSetup
     /// <param name="services"></param>
     public static void AddLoggingSetup(this IServiceCollection services)
     {
-        //// 控制台日志格式化
-        //services.AddConsoleFormatter(options =>
-        //{
-        //    options.DateFormat = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
-        //    //options.WithTraceId = true; // 显示线程Id
-        //    //options.WithStackFrame = true; // 显示程序集
-        //});
+        // 控制台日志格式化
+        services.AddConsoleFormatter(options =>
+        {
+            options.DateFormat = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
+            //options.WithTraceId = true; // 显示线程Id
+            //options.WithStackFrame = true; // 显示程序集
+        });
 
         // 日志监听
         services.AddMonitorLogging(options =>
