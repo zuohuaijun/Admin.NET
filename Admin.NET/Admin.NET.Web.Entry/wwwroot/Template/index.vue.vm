@@ -208,7 +208,7 @@
   @:import { SysPrintApi } from '/@@/api-services/api';
   @:import { SysPrint } from '/@@/api-services/models';
   }
-  
+
   import printDialog from '/@@/views/system/print/component/hiprint/preview.vue'
   import editDialog from '/@@/views/main/@(@Model.LowerClassName)/component/editDialog.vue'
   import { page@(@Model.ClassName), delete@(@Model.ClassName) } from '/@@/api/main/@(@Model.LowerClassName)';
@@ -285,7 +285,7 @@
   };
 
   // 打开打印页面
-  const openPrint@(@Model.ClassName) = (row: any) => {
+  const openPrint@(@Model.ClassName) = async (row: any) => {
     print@(@Model.ClassName)Title.value = '打印@(@Model.BusName)';
     var res = await getAPI(SysPrintApi).apiSysPrintPrintNameGet('@Model.PrintName');
 	  var printTemplate = res.data.result as SysPrint;
