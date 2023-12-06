@@ -152,7 +152,7 @@ onMounted(async () => {
 	let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_create_type');
 	state.codeGenTypeList = resDicData.data.result;
 
-	let printTypeResDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('print_type');
+	let printTypeResDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_print_type');
 	state.printTypeList = printTypeResDicData.data.result;
 
 	let resPrintIdData = await getAPI(SysPrintApi).apiSysPrintPagePost();
