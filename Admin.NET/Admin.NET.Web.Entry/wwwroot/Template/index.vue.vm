@@ -205,6 +205,7 @@
   import { formatDate } from '/@@/utils/formatTime';
 
   @if(@Model.PrintType != "off"){
+  @:import { hiprint } from 'vue-plugin-hiprint';
   @:import { SysPrintApi } from '/@@/api-services/api';
   @:import { SysPrint } from '/@@/api-services/models';
   }
