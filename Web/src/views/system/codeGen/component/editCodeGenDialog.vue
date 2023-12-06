@@ -100,9 +100,9 @@
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if="state.ruleForm.printType == 'custom'">
-						<el-form-item label="打印模版" prop="printId">
-							<el-select v-model="state.ruleForm.printId" filterable class="w100">
-								<el-option v-for="item in state.printIdList" :key="item.id" :label="item.name" :value="item.id" />
+						<el-form-item label="打印模版" prop="printName">
+							<el-select v-model="state.ruleForm.printName" filterable class="w100">
+								<el-option v-for="item in state.printList" :key="item.id" :label="item.name" :value="item.name" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -123,7 +123,7 @@ import { onMounted, reactive, ref } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysCodeGenApi, SysDictDataApi, SysMenuApi, SysPrintApi } from '/@/api-services/api';
-import { UpdateCodeGenInput, AddCodeGenInput, SysMenu } from '/@/api-services/models';
+import { UpdateCodeGenInput, AddCodeGenInput, SysMenu, SysPrint } from '/@/api-services/models';
 
 const props = defineProps({
 	title: String,
@@ -139,7 +139,7 @@ const state = reactive({
 	menuData: [] as Array<SysMenu>,
 	codeGenTypeList: [] as any,
 	printTypeList: [] as any,
-	printIdList: [] as any,
+	printList: [] as Array<SysPrint>,
 });
 
 onMounted(async () => {
@@ -156,7 +156,7 @@ onMounted(async () => {
 	state.printTypeList = printTypeResDicData.data.result;
 
 	let resPrintIdData = await getAPI(SysPrintApi).apiSysPrintPagePost();
-	state.printIdList = resPrintIdData.data.result?.items ?? [];
+	state.printList = resPrintIdData.data.result?.items ?? [];
 });
 
 // db改变

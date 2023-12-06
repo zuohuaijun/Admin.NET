@@ -20,14 +20,14 @@ public class CodeGenOutput
     public long Id { get; set; }
 
     /// <summary>
-    /// 是否支持打印
+    /// 支持打印类型
     /// </summary>
     public string PrintType { get; set; }
 
     /// <summary>
-    /// 打印模版编号
+    /// 打印模版名称
     /// </summary>
-    public long PrintId { get; set; }
+    public string PrintName { get; set; }
 
     /// <summary>
     /// 作者姓名

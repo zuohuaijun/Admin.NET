@@ -27,6 +27,10 @@ public class CustomViewEngine : ViewEngineModel
     /// </summary>
     public string ConfigId { get; set; } = SqlSugarConst.MainConfigId;
 
+    public string PrintType { get; set; }
+
+    public string PrintName { get; set; }
+
     public string AuthorName { get; set; }
 
     public string BusName { get; set; }

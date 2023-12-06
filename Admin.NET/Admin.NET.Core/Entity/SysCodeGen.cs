@@ -24,11 +24,11 @@ public class SysCodeGen : EntityBase
     public string? PrintType { get; set; }
 
     /// <summary>
-    /// 打印模版Id
+    /// 打印模版名称
     /// </summary>
-    [SugarColumn(ColumnDescription = "打印模版Id", Length = 20)]
-    [MaxLength(20)]
-    public long? PrintId { get; set; }
+    [SugarColumn(ColumnDescription = "打印模版名称", Length = 32)]
+    [MaxLength(32)]
+    public string? PrintName { get; set; }
 
     /// <summary>
     /// 作者姓名
