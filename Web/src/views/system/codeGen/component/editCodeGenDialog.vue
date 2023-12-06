@@ -92,6 +92,20 @@
 							</el-select>
 						</el-form-item>
 					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
+						<el-form-item label="支持打印" prop="printType">
+							<el-select v-model="state.ruleForm.printType" filterable class="w100">
+								<el-option v-for="item in state.printTypeList" :key="item.value" :label="item.value" :value="item.code" />
+							</el-select>
+						</el-form-item>
+					</el-col>
+					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20" v-if="state.ruleForm.printType == 'custom'">
+						<el-form-item label="打印模版" prop="printName">
+							<el-select v-model="state.ruleForm.printName" filterable class="w100">
+								<el-option v-for="item in state.printList" :key="item.id" :label="item.name" :value="item.name" />
+							</el-select>
+						</el-form-item>
+					</el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -108,8 +122,8 @@
 import { onMounted, reactive, ref } from 'vue';
 
 import { getAPI } from '/@/utils/axios-utils';
-import { SysCodeGenApi, SysDictDataApi, SysMenuApi } from '/@/api-services/api';
-import { UpdateCodeGenInput, AddCodeGenInput, SysMenu } from '/@/api-services/models';
+import { SysCodeGenApi, SysDictDataApi, SysMenuApi, SysPrintApi } from '/@/api-services/api';
+import { UpdateCodeGenInput, AddCodeGenInput, SysMenu, SysPrint } from '/@/api-services/models';
 
 const props = defineProps({
 	title: String,
@@ -124,6 +138,8 @@ const state = reactive({
 	dbData: [] as any,
 	menuData: [] as Array<SysMenu>,
 	codeGenTypeList: [] as any,
+	printTypeList: [] as any,
+	printList: [] as Array<SysPrint>,
 });
 
 onMounted(async () => {
@@ -135,6 +151,12 @@ onMounted(async () => {
 
 	let resDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_create_type');
 	state.codeGenTypeList = resDicData.data.result;
+
+	let printTypeResDicData = await getAPI(SysDictDataApi).apiSysDictDataDataListCodeGet('code_gen_print_type');
+	state.printTypeList = printTypeResDicData.data.result;
+
+	let resPrintIdData = await getAPI(SysPrintApi).apiSysPrintPagePost();
+	state.printList = resPrintIdData.data.result?.items ?? [];
 });
 
 // db改变

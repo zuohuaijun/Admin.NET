@@ -160,8 +160,14 @@
         }
         }
         }
-        <el-table-column label="操作" width="140" align="center" fixed="right" show-overflow-tooltip="" v-if="auth('@(@Model.LowerClassName):edit') || auth('@(@Model.LowerClassName):delete')">
-          <template #default="scope">
+        @if(@Model.PrintType == "custom"){
+        @:<el-table-column label="操作" width="200" align="center" fixed="right" show-overflow-tooltip="" v-if="auth('@(@Model.LowerClassName):edit') || auth('@(@Model.LowerClassName):delete')">
+          @:<template #default="scope">
+            @:<el-button icon="ele-Printer" size="small" text="" type="primary" @@click="openPrint@(@Model.ClassName)(scope.row)" v-auth="'@(@Model.LowerClassName):print'"> 打印 </el-button>
+        }else{
+        @:<el-table-column label="操作" width="140" align="center" fixed="right" show-overflow-tooltip="" v-if="auth('@(@Model.LowerClassName):edit') || auth('@(@Model.LowerClassName):delete')">
+          @:<template #default="scope">
+        }
             <el-button icon="ele-Edit" size="small" text="" type="primary" @@click="openEdit@(@Model.ClassName)(scope.row)" v-auth="'@(@Model.LowerClassName):edit'"> 编辑 </el-button>
             <el-button icon="ele-Delete" size="small" text="" type="primary" @@click="del@(@Model.ClassName)(scope.row)" v-auth="'@(@Model.LowerClassName):delete'"> 删除 </el-button>
           </template>
@@ -178,6 +184,10 @@
 				@@current-change="handleCurrentChange"
 				layout="total, sizes, prev, pager, next, jumper"
 	/>
+      <printDialog
+        ref="printDialogRef"
+        :title="print@(@Model.ClassName)Title"
+        @@reloadTable="handleQuery" />
       <editDialog
         ref="editDialogRef"
         :title="edit@(@Model.ClassName)Title"
@@ -195,8 +205,16 @@
   @:import { codeToName, getConstType } from "/@@/utils/constHelper";
   } 
   import { getDictDataItem as di, getDictDataList as dl } from '/@@/utils/dict-utils';
-  //import { formatDate } from '/@@/utils/formatTime';
+  import { formatDate } from '/@@/utils/formatTime';
 
+  @if(@Model.PrintType == "custom"){
+  @:// 推荐设置操作 width 为 200
+  @:import { hiprint } from 'vue-plugin-hiprint';
+  @:import { SysPrintApi } from '/@@/api-services/api';
+  @:import { SysPrint } from '/@@/api-services/models';
+  }
+
+  import printDialog from '/@@/views/system/print/component/hiprint/preview.vue'
   import editDialog from '/@@/views/main/@(@Model.LowerClassName)/component/editDialog.vue'
   import { page@(@Model.ClassName), delete@(@Model.ClassName) } from '/@@/api/main/@(@Model.LowerClassName)';
   @foreach (var column in Model.QueryWhetherList){
@@ -224,6 +242,7 @@
   }else {
   @:const showAdvanceQueryUI = ref(true);
   }
+  const printDialogRef = ref();
   const editDialogRef = ref();
   const loading = ref(false);
   const tableData = ref<any>([]);
@@ -233,6 +252,8 @@
     pageSize: 10,
     total: 0,
   });
+
+  const print@(@Model.ClassName)Title = ref("");
   const edit@(@Model.ClassName)Title = ref("");
 
   // 改变高级查询的控件显示状态
@@ -261,6 +282,18 @@
     editDialogRef.value.openDialog({});
   };
 
+  // 打开打印页面
+  const openPrint@(@Model.ClassName) = async (row: any) => {
+    print@(@Model.ClassName)Title.value = '打印@(@Model.BusName)';
+    @if(@Model.PrintType == "custom"){
+    @:var res = await getAPI(SysPrintApi).apiSysPrintPrintNameGet('@Model.PrintName');
+	  @:var printTemplate = res.data.result as SysPrint;
+    @:var template = JSON.parse(printTemplate.template);
+    @:row['printDate'] = formatDate(new Date(), 'YYYY-mm-dd HH:MM:SS')
+    @:printDialogRef.value.showDialog(new hiprint.PrintTemplate({template: template}), row, template.panels[0].width);
+    }
+  }
+  
   // 打开编辑页面
   const openEdit@(@Model.ClassName) = (row: any) => {
     edit@(@Model.ClassName)Title.value = '编辑@(@Model.BusName)';
@@ -302,7 +335,7 @@
     @:@LowerFirstLetter(@column.FkEntityName)@(@column.PropertyName)DropdownList.value = list.data.result ?? [];
   @:};
   @:get@(@column.FkEntityName)@(@column.PropertyName)DropdownList();
-@:
+  @:
   }
 }
   handleQuery();

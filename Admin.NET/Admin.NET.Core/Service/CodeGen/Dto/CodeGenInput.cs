@@ -15,6 +15,16 @@ namespace Admin.NET.Core.Service;
 public class CodeGenInput : BasePageInput
 {
     /// <summary>
+    /// 支持打印类型
+    /// </summary>
+    public virtual string PrintType { get; set; }
+
+    /// <summary>
+    /// 打印模版名称
+    /// </summary>
+    public virtual string PrintName { get; set; }
+
+    /// <summary>
     /// 作者姓名
     /// </summary>
     public virtual string AuthorName { get; set; }

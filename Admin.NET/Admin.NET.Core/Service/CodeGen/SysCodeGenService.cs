@@ -329,6 +329,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var data = new CustomViewEngine(_db)
         {
             ConfigId = input.ConfigId,
+            PrintType = input.PrintType,
+            PrintName = input.PrintName,
             AuthorName = input.AuthorName,
             BusName = input.BusName,
             NameSpace = input.NameSpace,
