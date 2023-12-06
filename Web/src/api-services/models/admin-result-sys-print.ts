@@ -12,24 +12,24 @@
  * Do not edit the class manually.
  */
 
-import { SqlSugarPagedListSysUser } from './sql-sugar-paged-list-sys-user';
+import { SysPrint } from './sys-print';
 import {
-    SqlSugarPagedListSysUser,
+    SysPrint,
 } from ".";
 
 /**
  * 全局返回结果
  *
  * @export
- * @interface AdminResultSqlSugarPagedListSysUser
+ * @interface AdminResultSysPrint
  */
-export interface AdminResultSqlSugarPagedListSysUser {
+export interface AdminResultSysPrint {
 
     /**
      * 状态码
      *
      * @type {number}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSysPrint
      */
     code?: number;
 
@@ -37,7 +37,7 @@ export interface AdminResultSqlSugarPagedListSysUser {
      * 类型success、warning、error
      *
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSysPrint
      */
     type?: string | null;
 
@@ -45,21 +45,21 @@ export interface AdminResultSqlSugarPagedListSysUser {
      * 错误信息
      *
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSysPrint
      */
     message?: string | null;
 
     /**
-     * @type {SqlSugarPagedListSysUser}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @type {SysPrint}
+     * @memberof AdminResultSysPrint
      */
-    result?: SqlSugarPagedListSysUser;
+    result?: SysPrint;
 
     /**
      * 附加数据
      *
      * @type {any}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSysPrint
      */
     extras?: any | null;
 
@@ -67,7 +67,7 @@ export interface AdminResultSqlSugarPagedListSysUser {
      * 时间
      *
      * @type {Date}
-     * @memberof AdminResultSqlSugarPagedListSysUser
+     * @memberof AdminResultSysPrint
      */
     time?: Date;
 }

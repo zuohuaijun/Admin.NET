@@ -12,24 +12,24 @@
  * Do not edit the class manually.
  */
 
-import { SysUser } from './sys-user';
+import { UserOutput } from './user-output';
 import {
-    SysUser,
+    UserOutput,
 } from ".";
 
 /**
  * 分页泛型集合
  *
  * @export
- * @interface SqlSugarPagedListSysUser
+ * @interface SqlSugarPagedListUserOutput
  */
-export interface SqlSugarPagedListSysUser {
+export interface SqlSugarPagedListUserOutput {
 
     /**
      * 页码
      *
      * @type {number}
-     * @memberof SqlSugarPagedListSysUser
+     * @memberof SqlSugarPagedListUserOutput
      */
     page?: number;
 
@@ -37,7 +37,7 @@ export interface SqlSugarPagedListSysUser {
      * 页容量
      *
      * @type {number}
-     * @memberof SqlSugarPagedListSysUser
+     * @memberof SqlSugarPagedListUserOutput
      */
     pageSize?: number;
 
@@ -45,7 +45,7 @@ export interface SqlSugarPagedListSysUser {
      * 总条数
      *
      * @type {number}
-     * @memberof SqlSugarPagedListSysUser
+     * @memberof SqlSugarPagedListUserOutput
      */
     total?: number;
 
@@ -53,23 +53,23 @@ export interface SqlSugarPagedListSysUser {
      * 总页数
      *
      * @type {number}
-     * @memberof SqlSugarPagedListSysUser
+     * @memberof SqlSugarPagedListUserOutput
      */
     totalPages?: number;
 
     /**
      * 当前页集合
      *
-     * @type {Array<SysUser>}
-     * @memberof SqlSugarPagedListSysUser
+     * @type {Array<UserOutput>}
+     * @memberof SqlSugarPagedListUserOutput
      */
-    items?: Array<SysUser> | null;
+    items?: Array<UserOutput> | null;
 
     /**
      * 是否有上一页
      *
      * @type {boolean}
-     * @memberof SqlSugarPagedListSysUser
+     * @memberof SqlSugarPagedListUserOutput
      */
     hasPrevPage?: boolean;
 
@@ -77,7 +77,7 @@ export interface SqlSugarPagedListSysUser {
      * 是否有下一页
      *
      * @type {boolean}
-     * @memberof SqlSugarPagedListSysUser
+     * @memberof SqlSugarPagedListUserOutput
      */
     hasNextPage?: boolean;
 }

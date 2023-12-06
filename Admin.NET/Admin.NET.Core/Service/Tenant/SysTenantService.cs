@@ -202,7 +202,7 @@ public class SysTenantService : IDynamicApiController, ITransient
             AccountType = AccountTypeEnum.SysAdmin,
             OrgId = newOrg.Id,
             PosId = newPos.Id,
-            Birthday = DateTime.Parse("1986-06-28"),
+            Birthday = DateTime.Parse("2000-01-01"),
             RealName = "租管",
             Remark = "租管" + tenantName,
         };

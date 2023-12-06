@@ -22,7 +22,7 @@ import { AdminResultInt32 } from '../models';
 import { AdminResultInt64 } from '../models';
 import { AdminResultListInt64 } from '../models';
 import { AdminResultListSysUserExtOrg } from '../models';
-import { AdminResultSqlSugarPagedListSysUser } from '../models';
+import { AdminResultSqlSugarPagedListUserOutput } from '../models';
 import { AdminResultString } from '../models';
 import { AdminResultSysUser } from '../models';
 import { ChangePwdInput } from '../models';
@@ -739,7 +739,7 @@ export const SysUserApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysUserPagePost(body?: PageUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysUser>>> {
+        async apiSysUserPagePost(body?: PageUserInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListUserOutput>>> {
             const localVarAxiosArgs = await SysUserApiAxiosParamCreator(configuration).apiSysUserPagePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -883,7 +883,7 @@ export const SysUserApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysUserPagePost(body?: PageUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysUser>> {
+        async apiSysUserPagePost(body?: PageUserInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListUserOutput>> {
             return SysUserApiFp(configuration).apiSysUserPagePost(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -1021,7 +1021,7 @@ export class SysUserApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysUserApi
      */
-    public async apiSysUserPagePost(body?: PageUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysUser>> {
+    public async apiSysUserPagePost(body?: PageUserInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListUserOutput>> {
         return SysUserApiFp(this.configuration).apiSysUserPagePost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**

@@ -81,6 +81,7 @@ import { initBackEndControlRoutes } from '/@/router/backEnd';
 import { Local, Session } from '/@/utils/storage';
 import { formatAxis } from '/@/utils/formatTime';
 import { NextLoading } from '/@/utils/loading';
+import { sm2 } from 'sm-crypto-v2';
 
 import { accessTokenKey, clearTokens, feature, getAPI } from '/@/utils/axios-utils';
 import { SysAuthApi } from '/@/api-services/api';
@@ -156,6 +157,11 @@ const onSignIn = async () => {
 
 		try {
 			state.loading.signIn = true;
+
+			// SM2加密密码
+			// const keys = SM2.generateKeyPair();
+			const publicKey = `0484c7466d950e120e5ece5dd85d0c90eaa85081a3a2bd7c57ae6dc822efccbd66620c67b0103fc8dd280e36c3b282977b722aaec3c56518edcebafb72c5a05312`;
+			state.ruleForm.password = sm2.doEncrypt(state.ruleForm.password, publicKey, 1);
 
 			const [err, res] = await feature(getAPI(SysAuthApi).apiSysAuthLoginPost(state.ruleForm));
 			if (err) {

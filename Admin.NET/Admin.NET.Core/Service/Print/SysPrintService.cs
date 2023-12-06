@@ -37,6 +37,17 @@ public class SysPrintService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 获取打印模板
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
+    [DisplayName("获取打印模板")]
+    public async Task<SysPrint> GetPrint(string name)
+    {
+        return await _sysPrintRep.GetFirstAsync(u => u.Name == name);
+    }
+
+    /// <summary>
     /// 增加打印模板
     /// </summary>
     /// <param name="input"></param>

@@ -38,6 +38,7 @@
 		"qrcodejs2-fixes": "^0.0.2",
 		"qs": "^6.11.2",
 		"screenfull": "^6.0.2",
+		"sm-crypto-v2": "^1.7.0",
 		"sortablejs": "^1.15.0",
 		"splitpanes": "^3.1.5",
 		"vcrontab-3": "^3.3.22",

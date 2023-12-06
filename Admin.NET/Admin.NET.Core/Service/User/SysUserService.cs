@@ -43,7 +43,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取用户分页列表")]
-    public async Task<SqlSugarPagedList<SysUser>> Page(PageUserInput input)
+    public async Task<SqlSugarPagedList<UserOutput>> Page(PageUserInput input)
     {
         // 获取用户拥有的机构集合
         var userOrgIdList = await _sysOrgService.GetUserOrgIdList();
@@ -59,12 +59,22 @@ public class SysUserService : IDynamicApiController, ITransient
         }
 
         return await _sysUserRep.AsQueryable()
+            .LeftJoin<SysOrg>((u, a) => u.OrgId == a.Id)
+            .LeftJoin<SysPos>((u, a, b) => u.PosId == b.Id)
+            .LeftJoin<SysUserRole>((u, a, b, c) => u.Id == c.UserId)
+            .LeftJoin<SysRole>((u, a, b, c, d) => c.RoleId == d.Id)
             .Where(u => u.AccountType != AccountTypeEnum.SuperAdmin)
             .WhereIF(orgList != null, u => orgList.Contains(u.OrgId))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Account), u => u.Account.Contains(input.Account))
             .WhereIF(!string.IsNullOrWhiteSpace(input.RealName), u => u.RealName.Contains(input.RealName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
             .OrderBy(u => u.OrderNo)
+            .Select((u, a, b, c, d) => new UserOutput
+            {
+                OrgName = a.Name,
+                PosName = b.Name,
+                RoleName = d.Name
+            }, true)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
