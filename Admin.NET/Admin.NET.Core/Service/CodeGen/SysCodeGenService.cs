@@ -329,8 +329,6 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         var data = new CustomViewEngine(_db)
         {
             ConfigId = input.ConfigId,
-            PrintType = input.PrintType,
-            PrintName = input.PrintName,
             AuthorName = input.AuthorName,
             BusName = input.BusName,
             NameSpace = input.NameSpace,
@@ -340,6 +338,8 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             TableField = tableFieldList,
             IsJoinTable = joinTableList.Count > 0,
             IsUpload = joinTableList.Where(u => u.EffectType == "Upload").Any(),
+            PrintType = input.PrintType,
+            PrintName = input.PrintName,
         };
 
         for (var i = 0; i < templatePathList.Count; i++)

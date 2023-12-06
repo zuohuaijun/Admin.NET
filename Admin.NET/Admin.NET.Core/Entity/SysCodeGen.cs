@@ -17,20 +17,6 @@ namespace Admin.NET.Core;
 public class SysCodeGen : EntityBase
 {
     /// <summary>
-    /// 支持打印类型
-    /// </summary>
-    [SugarColumn(ColumnDescription = "支持打印类型", Length = 32)]
-    [MaxLength(32)]
-    public string? PrintType { get; set; }
-
-    /// <summary>
-    /// 打印模版名称
-    /// </summary>
-    [SugarColumn(ColumnDescription = "打印模版名称", Length = 32)]
-    [MaxLength(32)]
-    public string? PrintName { get; set; }
-
-    /// <summary>
     /// 作者姓名
     /// </summary>
     [SugarColumn(ColumnDescription = "作者姓名", Length = 32)]
@@ -105,4 +91,18 @@ public class SysCodeGen : EntityBase
     /// </summary>
     [SugarColumn(ColumnDescription = "菜单编码")]
     public long MenuPid { get; set; }
+
+    /// <summary>
+    /// 支持打印类型
+    /// </summary>
+    [SugarColumn(ColumnDescription = "支持打印类型", Length = 32)]
+    [MaxLength(32)]
+    public string? PrintType { get; set; }
+
+    /// <summary>
+    /// 打印模版名称
+    /// </summary>
+    [SugarColumn(ColumnDescription = "打印模版名称", Length = 32)]
+    [MaxLength(32)]
+    public string? PrintName { get; set; }
 }

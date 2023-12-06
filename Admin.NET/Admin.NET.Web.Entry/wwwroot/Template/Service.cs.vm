@@ -78,6 +78,10 @@ if (@column.QueryWhether == "Y"){
                 @:@(@column.PropertyName)@(@column.FkColumnName) = @(@column.PropertyName.ToLower()).@(@column.FkColumnName),
                 } else if(@column.EffectType == "ApiTreeSelect"){   
                 @:@(@column.PropertyName)@(@column.DisplayColumn) = @(@column.PropertyName.ToLower()).@(@column.DisplayColumn),
+                } else if(@column.NetType?.TrimEnd('?').EndsWith("Enum") == true){
+                @:@(@column.PropertyName)@(@column.DisplayColumn) = u.@(@column.PropertyName),
+                } else {
+                @:@(@column.PropertyName) = u.@(@column.PropertyName),
                 }
 }
             @:})
