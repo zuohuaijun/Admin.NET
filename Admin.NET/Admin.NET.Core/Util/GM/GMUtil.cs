@@ -42,7 +42,7 @@ public class GMUtil
         AsymmetricKeyParameter publicKey1 = GM.GetPublickeyFromXY(new BigInteger(x, 16), new BigInteger(y, 16));
         // Sm2Encrypt: C1C3C2
         // Sm2EncryptOld: C1C2C3
-        byte[] digestByte = GM.Sm2Encrypt(Hex.Decode(data_string), publicKey1);
+        byte[] digestByte = GM.Sm2Encrypt(Encoding.UTF8.GetBytes(data_string), publicKey1);
         string strSM2 = Hex.ToHexString(digestByte);
         return strSM2;
     }
