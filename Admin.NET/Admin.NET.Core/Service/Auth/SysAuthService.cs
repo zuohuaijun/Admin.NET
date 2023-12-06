@@ -287,7 +287,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             await Login(new LoginInput
             {
                 Account = auth.UserName,
-                Password = auth.Password
+                Password = CryptogramUtil.SM2Encrypt(auth.Password),
             });
 
             _sysCacheService.Remove(CommonConst.SysCaptcha);
