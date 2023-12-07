@@ -73,13 +73,14 @@ if (@column.QueryWhether == "Y"){
     }
             @:.Select((@(@joinTableName))=> new @(@Model.ClassName)Output{
 @foreach (var column in Model.TableField){
-                @:@(@column.PropertyName) = u.@(@column.PropertyName), 
                 if(@column.EffectType == "fk"){   
+                @:@(@column.PropertyName) = u.@(@column.PropertyName), 
                 @:@(@column.PropertyName)@(@column.FkColumnName) = @(@column.PropertyName.ToLower()).@(@column.FkColumnName),
-                } else if(@column.EffectType == "ApiTreeSelect"){   
+                } else if(@column.EffectType == "ApiTreeSelect"){  
+                @:@(@column.PropertyName) = u.@(@column.PropertyName),  
                 @:@(@column.PropertyName)@(@column.DisplayColumn) = @(@column.PropertyName.ToLower()).@(@column.DisplayColumn),
                 } else if(@column.NetType?.TrimEnd('?').EndsWith("Enum") == true){
-                @:@(@column.PropertyName)@(@column.DisplayColumn) = u.@(@column.PropertyName),
+                @:@(@column.PropertyName) = (@(@column.NetType))u.@(@column.PropertyName),
                 } else {
                 @:@(@column.PropertyName) = u.@(@column.PropertyName),
                 }
@@ -112,7 +113,11 @@ if (@column.QueryWhether == "Y"){
     }
 }
 }
-        query = query.OrderBuilder(input, "", "CreateTime");
+        @if(Model.IsJoinTable){
+        @:query = query.OrderBuilder(input, "", "u.CreateTime");
+        }else{
+        @:query = query.OrderBuilder(input, "", "CreateTime");
+        }
         return await query.ToPagedListAsync(input.Page, input.PageSize);
     }
 
