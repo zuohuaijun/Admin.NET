@@ -30,9 +30,9 @@
 import { reactive, ref } from 'vue';
 
 import { ElMessage } from 'element-plus';
-import { getAPI } from '/@/utils/axios-utils';
 import { SysFileApi } from '/@/api-services/api';
 import { FileInput } from '/@/api-services/models';
+import { getAPI } from '/@/utils/axios-utils';
 
 const props = defineProps({
 	title: String,
@@ -70,11 +70,11 @@ const submit = () => {
 		if (state.ruleForm.id != undefined && state.ruleForm.id > 0) {
 			await getAPI(SysFileApi)
 				.apiSysFileUpdatePost(state.ruleForm)
-				.then((rsp) => {
+				.then((rsp: any) => {
 					if (rsp.data.code == 200) {
 						ElMessage.success('修改文件信息成功！');
 					} else {
-						Elmessage.error('修改文件信息失败：' + rsp.data.message);
+						ElMessage.error('修改文件信息失败：' + rsp.data.message);
 					}
 				});
 		}
