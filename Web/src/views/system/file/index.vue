@@ -125,7 +125,7 @@ import VueOfficePdf from '@vue-office/pdf';
 import '@vue-office/docx/lib/index.css';
 import '@vue-office/excel/lib/index.css';
 
-import EditSysFile from '/@/views/system/file/component/editSysFile.vue';
+import EditSysFile from '/@/views/system/file/component/editSysfile.vue';
 
 import { downloadByUrl } from '/@/utils/download';
 import { getAPI } from '/@/utils/axios-utils';
