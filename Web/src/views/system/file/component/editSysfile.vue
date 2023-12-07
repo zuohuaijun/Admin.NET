@@ -28,11 +28,11 @@
 
 <script lang="ts" setup name="sysEditFile">
 import { reactive, ref } from 'vue';
-
 import { ElMessage } from 'element-plus';
+
+import { getAPI } from '/@/utils/axios-utils';
 import { SysFileApi } from '/@/api-services/api';
 import { FileInput } from '/@/api-services/models';
-import { getAPI } from '/@/utils/axios-utils';
 
 const props = defineProps({
 	title: String,

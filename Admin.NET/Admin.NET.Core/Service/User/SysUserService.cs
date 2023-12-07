@@ -71,10 +71,12 @@ public class SysUserService : IDynamicApiController, ITransient
             .OrderBy(u => u.OrderNo)
             .Select((u, a, b, c, d) => new UserOutput
             {
+                Index = SqlFunc.RowNumber(u.Id, u.Id),
                 OrgName = a.Name,
                 PosName = b.Name,
                 RoleName = d.Name
             }, true)
+            .MergeTable().Where(u => u.Index == 1)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 

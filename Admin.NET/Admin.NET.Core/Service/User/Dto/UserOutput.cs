@@ -25,4 +25,11 @@ public class UserOutput : SysUser
     /// 角色名称
     /// </summary>
     public string RoleName { get; set; }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
+    public int Index { get; set; }
 }
