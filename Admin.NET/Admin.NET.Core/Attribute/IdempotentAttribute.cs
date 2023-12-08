@@ -27,20 +27,17 @@ public class IdempotentAttribute : Attribute, IAsyncActionFilter
     public string Message { get; set; } = "你操作频率过快，请稍后重试！";
 
     /// <summary>
-    ///  自定义缓存: Key+请求路由+用户Id+请求参数
+    /// 缓存前缀: Key+请求路由+用户Id+请求参数
     /// </summary>
     public string CacheKey { get; set; } = "";
 
     /// <summary>
-    /// 直接抛出异常Ture，返回上次请求结果False
+    /// 是否直接抛出异常：Ture是，False返回上次请求结果
     /// </summary>
     public bool ThrowBah { get; set; } = false;
 
-    private SysCacheService _sysCacheService { get; set; }
-
     public IdempotentAttribute()
     {
-        _sysCacheService = App.GetService<SysCacheService>();
     }
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
@@ -57,25 +54,26 @@ public class IdempotentAttribute : Attribute, IAsyncActionFilter
             parameters += context.ActionArguments[parameter.Name].ToJson();
         }
 
-        var cacheKey = MD5Encryption.Encrypt(CacheKey + path + userId + parameters);
-        if (_sysCacheService.ExistKey(cacheKey))
+        var cacheKey = MD5Encryption.Encrypt($"{CacheKey}{path}{userId}{parameters}");
+        var sysCacheService = App.GetService<SysCacheService>();
+        if (sysCacheService.ExistKey(cacheKey))
         {
             if (ThrowBah) throw Oops.Oh(Message);
 
             try
             {
-                var cachedResult = _sysCacheService.Get<ResponseData>(cacheKey);
+                var cachedResult = sysCacheService.Get<ResponseData>(cacheKey);
                 context.Result = new ObjectResult(cachedResult.Value);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw Oops.Oh(Message);
+                throw Oops.Oh($"{Message}-{ex}");
             }
         }
         else
         {
             // 先加入一个空缓存，防止第一次请求结果没回来导致连续请求
-            _sysCacheService.Set(cacheKey, "", cacheExpireTime);
+            sysCacheService.Set(cacheKey, "", cacheExpireTime);
             var resultContext = await next();
             if (resultContext.Result is ObjectResult objectResult)
             {
@@ -85,13 +83,13 @@ public class IdempotentAttribute : Attribute, IAsyncActionFilter
                     Type = valueType.Name,
                     Value = objectResult.Value
                 };
-                _sysCacheService.Set(cacheKey, responseData, cacheExpireTime);
+                sysCacheService.Set(cacheKey, responseData, cacheExpireTime);
             }
         }
     }
 
     /// <summary>
-    /// 请求结果
+    /// 请求结果数据
     /// </summary>
     private class ResponseData
     {
@@ -101,7 +99,7 @@ public class IdempotentAttribute : Attribute, IAsyncActionFilter
         public string Type { get; set; }
 
         /// <summary>
-        /// 请求结果返回的数据
+        /// 请求结果
         /// </summary>
         public dynamic Value { get; set; }
     }
