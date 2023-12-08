@@ -16,10 +16,25 @@ namespace Admin.NET.Core;
 /// </summary>
 public class IdempotentAttribute : Attribute, IAsyncActionFilter
 {
-    private readonly int _intervalTime = 5; // 请求间隔时间/秒
-    private readonly string _Message = "你操作频率过快，请稍后重试！"; // 错误提示内容
-    private readonly string _cacheKey = ""; // 自定义缓存: Key+请求路由+用户Id+请求参数
-    private readonly bool _throwBah = false; // 直接抛出异常Ture，返回上次请求结果False
+    /// <summary>
+    /// 请求间隔时间/秒
+    /// </summary>
+    public int IntervalTime { get; set; } = 5;
+
+    /// <summary>
+    /// 错误提示内容
+    /// </summary>
+    public string Message { get; set; } = "你操作频率过快，请稍后重试！";
+
+    /// <summary>
+    ///  自定义缓存: Key+请求路由+用户Id+请求参数
+    /// </summary>
+    public string CacheKey { get; set; } = "";
+
+    /// <summary>
+    /// 直接抛出异常Ture，返回上次请求结果False
+    /// </summary>
+    public bool ThrowBah { get; set; } = false;
 
     private SysCacheService _sysCacheService { get; set; }
 
@@ -33,7 +48,7 @@ public class IdempotentAttribute : Attribute, IAsyncActionFilter
         var httpContext = context.HttpContext;
         var path = httpContext.Request.Path.Value.ToString();
         var userId = httpContext.User?.FindFirstValue(ClaimConst.UserId);
-        var tenSeconds = TimeSpan.FromSeconds(_intervalTime);
+        var cacheExpireTime = TimeSpan.FromSeconds(IntervalTime);
 
         var parameters = "";
         foreach (var parameter in context.ActionDescriptor.Parameters)
@@ -42,10 +57,10 @@ public class IdempotentAttribute : Attribute, IAsyncActionFilter
             parameters += context.ActionArguments[parameter.Name].ToJson();
         }
 
-        var cacheKey = MD5Encryption.Encrypt(_cacheKey + path + userId + parameters);
+        var cacheKey = MD5Encryption.Encrypt(CacheKey + path + userId + parameters);
         if (_sysCacheService.ExistKey(cacheKey))
         {
-            if (_throwBah) throw Oops.Oh(_Message);
+            if (ThrowBah) throw Oops.Oh(Message);
 
             try
             {
@@ -54,23 +69,23 @@ public class IdempotentAttribute : Attribute, IAsyncActionFilter
             }
             catch (Exception)
             {
-                throw Oops.Oh(_Message);
+                throw Oops.Oh(Message);
             }
         }
         else
         {
             // 先加入一个空缓存，防止第一次请求结果没回来导致连续请求
-            _sysCacheService.Set(cacheKey, "", tenSeconds);
+            _sysCacheService.Set(cacheKey, "", cacheExpireTime);
             var resultContext = await next();
             if (resultContext.Result is ObjectResult objectResult)
             {
                 var valueType = objectResult.Value.GetType();
-                var requestData = new ResponseData
+                var responseData = new ResponseData
                 {
                     Type = valueType.Name,
                     Value = objectResult.Value
                 };
-                _sysCacheService.Set(cacheKey, requestData, tenSeconds);
+                _sysCacheService.Set(cacheKey, responseData, cacheExpireTime);
             }
         }
     }
