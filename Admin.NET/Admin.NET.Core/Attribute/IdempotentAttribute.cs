@@ -29,12 +29,12 @@ public class IdempotentAttribute : Attribute, IAsyncActionFilter
     /// <summary>
     /// 缓存前缀: Key+请求路由+用户Id+请求参数
     /// </summary>
-    public string CacheKey { get; set; } = "";
+    public string CacheKey { get; set; }
 
     /// <summary>
     /// 是否直接抛出异常：Ture是，False返回上次请求结果
     /// </summary>
-    public bool ThrowBah { get; set; } = false;
+    public bool ThrowBah { get; set; }
 
     public IdempotentAttribute()
     {
