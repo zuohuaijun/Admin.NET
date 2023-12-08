@@ -355,8 +355,10 @@ public class SysFileService : IDynamicApiController, ITransient
         }
 
         var res = await UploadFile(file, "Upload/Avatar");
-        await sysUserRep.UpdateAsync(u => new SysUser() { Avatar = _OSSProviderOptions.IsEnable ? res.Url : $"{res.FilePath}/{res.Name}" }, u => u.Id == user.Id);
-
+        var url = $"{res.FilePath}/{res.Name}";
+        if (_OSSProviderOptions.IsEnable)
+            url = res.Url;
+        await sysUserRep.UpdateAsync(u => new SysUser() { Avatar = url }, u => u.Id == user.Id);
         return res;
     }
 
@@ -378,8 +380,10 @@ public class SysFileService : IDynamicApiController, ITransient
         }
 
         var res = await UploadFile(file, "Upload/Signature");
-        await sysUserRep.UpdateAsync(u => new SysUser() { Signature = _OSSProviderOptions.IsEnable ? res.Url : $"{res.FilePath}/{res.Name}" }, u => u.Id == user.Id);
-
+        var url = $"{res.FilePath}/{res.Name}";
+        if (_OSSProviderOptions.IsEnable)
+            url = res.Url;
+        await sysUserRep.UpdateAsync(u => new SysUser() { Signature = url }, u => u.Id == user.Id);
         return res;
     }
 }
