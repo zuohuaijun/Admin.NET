@@ -350,6 +350,11 @@ public class SysTenantService : IDynamicApiController, ITransient
             _sysTenantRep.AsTenant().RemoveConnection(tenantId);
 
         var tenantList = await _sysTenantRep.GetListAsync();
+        // 对租户库连接进行SM2加密
+        foreach (var tenant in tenantList)
+        {
+            tenant.Connection = CryptogramUtil.SM2Encrypt(tenant.Connection);
+        }
         _sysCacheService.Set(CacheConst.KeyTenant, tenantList);
     }
 
@@ -413,6 +418,9 @@ public class SysTenantService : IDynamicApiController, ITransient
         // 从缓存里面获取租户信息
         var tenant = _sysCacheService.Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
         if (tenant == null) return null;
+
+        // 对租户库连接进行SM2解密
+        tenant.Connection = CryptogramUtil.SM2Decrypt(tenant.Connection);
 
         // 获取默认库连接配置
         var dbOptions = App.GetOptions<DbConnectionOptions>();
