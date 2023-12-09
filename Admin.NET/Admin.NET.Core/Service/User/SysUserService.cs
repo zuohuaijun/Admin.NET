@@ -200,6 +200,13 @@ public class SysUserService : IDynamicApiController, ITransient
         if (!Enum.IsDefined(typeof(StatusEnum), input.Status))
             throw Oops.Oh(ErrorCodeEnum.D3005);
 
+        // 账号禁用则增加黑名单，账号启用则移除黑名单
+        var sysCacheService = App.GetService<SysCacheService>();
+        if (input.Status == StatusEnum.Disable)
+            sysCacheService.Set($"{CacheConst.KeyBlacklist}{user.Id}", $"{user.RealName}-{user.Phone}");
+        else
+            sysCacheService.Remove($"{CacheConst.KeyBlacklist}{user.Id}");
+
         user.Status = input.Status;
         return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => new { u.Status }).ExecuteCommandAsync();
     }

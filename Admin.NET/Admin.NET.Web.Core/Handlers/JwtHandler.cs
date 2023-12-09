@@ -15,6 +15,7 @@ using Furion.DataEncryption;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using SqlSugar;
 using System;
 using System.Threading.Tasks;
 
@@ -36,13 +37,21 @@ namespace Admin.NET.Web.Core
         /// <returns></returns>
         public override async Task HandleAsync(AuthorizationHandlerContext context)
         {
-            // 获取Token过期时间
             // var serviceProvider = context.GetCurrentHttpContext().RequestServices;
             using var serviceScope = _serviceProvider.CreateScope();
+
+            // 若当前账号存在黑名单中则授权失败
+            var sysCacheService = serviceScope.ServiceProvider.GetService<SysCacheService>();
+            if (sysCacheService.ExistKey($"{CacheConst.KeyBlacklist}{context.User.FindFirst(ClaimConst.UserId)?.Value}"))
+            {
+                context.Fail();
+                context.GetCurrentHttpContext().SignoutToSwagger();
+                return;
+            }
+
             var sysConfigService = serviceScope.ServiceProvider.GetService<SysConfigService>();
             var tokenExpire = await sysConfigService.GetTokenExpire();
             var refreshTokenExpire = await sysConfigService.GetRefreshTokenExpire();
-
             if (JWTEncryption.AutoRefreshToken(context, context.GetCurrentHttpContext(), tokenExpire, refreshTokenExpire))
             {
                 await AuthorizeHandleAsync(context);
@@ -50,7 +59,7 @@ namespace Admin.NET.Web.Core
             else
             {
                 context.Fail(); // 授权失败
-                DefaultHttpContext currentHttpContext = context.GetCurrentHttpContext();
+                var currentHttpContext = context.GetCurrentHttpContext();
                 if (currentHttpContext == null)
                     return;
                 // 跳过由于 SignatureAuthentication 引发的失败
@@ -92,8 +101,8 @@ namespace Admin.NET.Web.Core
             var allBtnPermList = await App.GetService<SysMenuService>().GetAllBtnPermList();
 
             // 已拥有该按钮权限或者所有按钮集合里面不存在
-            var exist1 = ownBtnPermList.Exists(u => routeName.Equals(u, System.StringComparison.CurrentCultureIgnoreCase));
-            var exist2 = allBtnPermList.TrueForAll(u => !routeName.Equals(u, System.StringComparison.CurrentCultureIgnoreCase));
+            var exist1 = ownBtnPermList.Exists(u => routeName.Equals(u, StringComparison.CurrentCultureIgnoreCase));
+            var exist2 = allBtnPermList.TrueForAll(u => !routeName.Equals(u, StringComparison.CurrentCultureIgnoreCase));
             return exist1 || exist2;
         }
     }

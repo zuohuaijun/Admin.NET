@@ -81,4 +81,9 @@ public class CacheConst
     /// 开放接口身份随机数缓存
     /// </summary>
     public const string KeyOpenAccessNonce = "sys_open_access_nonce:";
+
+    /// <summary>
+    /// 黑名单
+    /// </summary>
+    public const string KeyBlacklist = "sys_blacklist:";
 }
