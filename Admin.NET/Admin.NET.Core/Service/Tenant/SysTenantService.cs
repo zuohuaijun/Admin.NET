@@ -415,35 +415,38 @@ public class SysTenantService : IDynamicApiController, ITransient
         if (iTenant.IsAnyConnection(tenantId.ToString()))
             return iTenant.GetConnectionScope(tenantId.ToString());
 
-        // 从缓存里面获取租户信息
-        var tenant = _sysCacheService.Get<List<SysTenant>>(CacheConst.KeyTenant).FirstOrDefault(u => u.Id == tenantId);
-        if (tenant == null) return null;
-
-        // 对租户库连接进行SM2解密
-        tenant.Connection = CryptogramUtil.SM2Decrypt(tenant.Connection);
-
-        // 获取默认库连接配置
-        var dbOptions = App.GetOptions<DbConnectionOptions>();
-        var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId.ToString() == SqlSugarConst.MainConfigId);
-
-        // 设置租户库连接配置
-        var tenantConnConfig = new DbConnectionConfig
+        lock (iTenant)
         {
-            ConfigId = tenant.Id.ToString(),
-            DbType = tenant.DbType,
-            IsAutoCloseConnection = true,
-            ConnectionString = tenant.Connection,
-            DbSettings = new DbSettings()
+            // 从缓存里面获取租户信息
+            var tenant = _sysCacheService.Get<List<SysTenant>>(CacheConst.KeyTenant)?.First(u => u.Id == tenantId);
+            if (tenant == null) return null;
+
+            // 对租户库连接进行SM2解密
+            tenant.Connection = CryptogramUtil.SM2Decrypt(tenant.Connection);
+
+            // 获取默认库连接配置
+            var dbOptions = App.GetOptions<DbConnectionOptions>();
+            var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId.ToString() == SqlSugarConst.MainConfigId);
+
+            // 设置租户库连接配置
+            var tenantConnConfig = new DbConnectionConfig
             {
-                EnableUnderLine = mainConnConfig.DbSettings.EnableUnderLine,
-            }
-        };
-        iTenant.AddConnection(tenantConnConfig);
+                ConfigId = tenant.Id.ToString(),
+                DbType = tenant.DbType,
+                IsAutoCloseConnection = true,
+                ConnectionString = tenant.Connection,
+                DbSettings = new DbSettings()
+                {
+                    EnableUnderLine = mainConnConfig.DbSettings.EnableUnderLine,
+                }
+            };
+            iTenant.AddConnection(tenantConnConfig);
 
-        var sqlSugarScopeProvider = iTenant.GetConnectionScope(tenantId.ToString());
-        SqlSugarSetup.SetDbConfig(tenantConnConfig);
-        SqlSugarSetup.SetDbAop(sqlSugarScopeProvider, dbOptions.EnableConsoleSql);
+            var sqlSugarScopeProvider = iTenant.GetConnectionScope(tenantId.ToString());
+            SqlSugarSetup.SetDbConfig(tenantConnConfig);
+            SqlSugarSetup.SetDbAop(sqlSugarScopeProvider, dbOptions.EnableConsoleSql);
 
-        return sqlSugarScopeProvider;
+            return sqlSugarScopeProvider;
+        }
     }
 }
