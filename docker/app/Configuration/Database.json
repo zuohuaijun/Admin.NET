@@ -1,44 +1,66 @@
 {
-    "$schema": "https://gitee.com/dotnetchina/Furion/raw/net6/schemas/v3/furion-schema.json",
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
 
-    "DbConnection": {
-        // 具体配置见SqlSugar官网（第一个为默认库不需要设置ConfigId）
-        "ConnectionConfigs": [
-            {
-                "DbType": "MySql", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access、OpenGauss、QuestDB、HG、ClickHouse、GBase、Odbc、Custom
-                "ConnectionString": "server=mysql;Database=admin;Uid=root;Pwd=root;",
-                "DbSettings": {
-                    "EnableInitDb": true, // 启用库初始化
-                    "EnableDiffLog": false, // 启用库表差异日志
-                    "EnableUnderLine": false // 启用驼峰转下划线
-                },
-                "TableSettings": {
-                    "EnableInitTable": true, // 启用表初始化
-                    "EnableIncreTable": false // 启用表增量更新-特性[IncreTable]
-                },
-                "SeedSettings": {
-                    "EnableInitSeed": true, // 启用种子初始化
-                    "EnableIncreSeed": false // 启用种子增量更新-特性[IncreSeed]
-                }
-            },
-            {
-                "ConfigId": "test",
-                "DbType": "MySql",
-                "ConnectionString": "server=mysql;Database=test;Uid=root;Pwd=root;",
-                "DbSettings": {
-                    "EnableInitDb": true, // 启用库初始化
-                    "EnableDiffLog": false, // 启用库表差异日志
-                    "EnableUnderLine": false // 启用驼峰转下划线
-                },
-                "TableSettings": {
-                    "EnableInitTable": true, // 启用表初始化
-                    "EnableIncreTable": false // 启用表增量更新-特性[IncreTable]
-                },
-                "SeedSettings": {
-                    "EnableInitSeed": true, // 启用种子初始化
-                    "EnableIncreSeed": false // 启用种子增量更新-特性[IncreSeed]
-                }
-            }
-        ]
-    }
+  // 详细数据库配置见SqlSugar官网（第一个为默认库）
+  "DbConnection": {
+    "EnableConsoleSql": true, // 启用控制台打印SQL
+    "ConnectionConfigs": [
+      {
+        //"ConfigId": "1300000000001", // 默认库标识-禁止修改
+        "DbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access、OpenGauss、QuestDB、HG、ClickHouse、GBase、Odbc、Custom
+        "ConnectionString": "DataSource=./Admin.NET.db", // 库连接字符串
+        "DbSettings": {
+          "EnableInitDb": true, // 启用库初始化
+          "EnableDiffLog": false, // 启用库表差异日志
+          "EnableUnderLine": false // 启用驼峰转下划线
+        },
+        "TableSettings": {
+          "EnableInitTable": true, // 启用表初始化
+          "EnableIncreTable": false // 启用表增量更新-特性[IncreTable]
+        },
+        "SeedSettings": {
+          "EnableInitSeed": true, // 启用种子初始化
+          "EnableIncreSeed": false // 启用种子增量更新-特性[IncreSeed]
+        }
+      }
+      //// 日志独立数据库配置
+      //{
+      //  "ConfigId": "1300000000002", // 日志库标识-禁止修改
+      //  "DbType": "Sqlite",
+      //  "ConnectionString": "DataSource=./Admin.NET.Log.db", // 库连接字符串
+      //  "DbSettings": {
+      //    "EnableInitDb": true, // 启用库初始化
+      //    "EnableDiffLog": false, // 启用库表差异日志
+      //    "EnableUnderLine": false // 启用驼峰转下划线
+      //  },
+      //  "TableSettings": {
+      //    "EnableInitTable": true, // 启用表初始化
+      //    "EnableIncreTable": false // 启用表增量更新-特性[IncreTable]
+      //  },
+      //  "SeedSettings": {
+      //    "EnableInitSeed": false, // 启用种子初始化
+      //    "EnableIncreSeed": false // 启用种子增量更新-特性[IncreSeed]
+      //  }
+      //},
+      //// 其他数据库配置（可以配置多个）
+      //{
+      //  "ConfigId": "test", // 库标识
+      //  "DbType": "Sqlite", // 库类型
+      //  "ConnectionString": "DataSource=./Admin.NET.Test.db", // 库连接字符串
+      //  "DbSettings": {
+      //    "EnableInitDb": true, // 启用库初始化
+      //    "EnableDiffLog": false, // 启用库表差异日志
+      //    "EnableUnderLine": false // 启用驼峰转下划线
+      //  },
+      //  "TableSettings": {
+      //    "EnableInitTable": true, // 启用表初始化
+      //    "EnableIncreTable": false // 启用表增量更新-特性[IncreTable]
+      //  },
+      //  "SeedSettings": {
+      //    "EnableInitSeed": true, // 启用种子初始化
+      //    "EnableIncreSeed": false // 启用种子增量更新-特性[IncreSeed]
+      //  }
+      //}
+    ]
+  }
 }
