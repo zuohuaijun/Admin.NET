@@ -53,8 +53,8 @@
 					<template #default="scope">
 						<el-popover placement="bottom" width="280" trigger="hover">
 							<template #reference>
-								<el-text type="primary"
-									><el-icon><ele-InfoFilled /></el-icon>详情
+								<el-text type="primary">
+									<el-icon><ele-InfoFilled /></el-icon>详情
 								</el-text>
 							</template>
 							<el-descriptions direction="vertical" :column="2" border>
