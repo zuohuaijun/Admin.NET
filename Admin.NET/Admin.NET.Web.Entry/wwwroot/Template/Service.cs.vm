@@ -32,7 +32,7 @@ public class @(@Model.ClassName)Service : IDynamicApiController, ITransient
     [ApiDescriptionSettings(Name = "Page")]
     public async Task<SqlSugarPagedList<@(@Model.ClassName)Output>> Page(@(@Model.ClassName)Input input)
     {
-        var query= _rep.AsQueryable()
+        var query = _rep.AsQueryable()
 @{string conditionFlag = "";}
 @if (haveLikeCdt) {
             @:.WhereIF(!string.IsNullOrWhiteSpace(input.SearchKey), u =>
@@ -71,7 +71,9 @@ if (@column.QueryWhether == "Y"){
             @:.LeftJoin<@(@column.FkEntityName)>((@(@joinTableName)) => u.@(@column.PropertyName) == @(@column.PropertyName.ToLower()).@(@column.ValueColumn) )
         }
     }
-            @:.Select((@(@joinTableName))=> new @(@Model.ClassName)Output{
+            @:.OrderBy(u => u.CreateTime)
+            @:.Select((@(@joinTableName)) => new @(@Model.ClassName)Output
+            @:{
 @foreach (var column in Model.TableField){
                 if(@column.EffectType == "fk"){   
                 @:@(@column.PropertyName) = u.@(@column.PropertyName), 
@@ -85,7 +87,7 @@ if (@column.QueryWhether == "Y"){
                 @:@(@column.PropertyName) = u.@(@column.PropertyName),
                 }
 }
-            @:})
+            @:});
 @foreach (var column in Model.TableField){
     if(@column.EffectType == "fk"){   
  
@@ -96,7 +98,6 @@ if (@column.QueryWhether == "Y"){
 } else {
             @:.Select<@(@Model.ClassName)Output>()
 }
-;
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
     if(@column.NetType?.TrimEnd('?') == "DateTime" && @column.QueryType == "~"){
@@ -113,11 +114,6 @@ if (@column.QueryWhether == "Y"){
     }
 }
 }
-        @if(Model.IsJoinTable){
-        @:query = query.OrderBuilder(input, "", "u.CreateTime");
-        }else{
-        @:query = query.OrderBuilder(input, "", "CreateTime");
-        }
         return await query.ToPagedListAsync(input.Page, input.PageSize);
     }
 
