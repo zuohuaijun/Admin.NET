@@ -14,6 +14,57 @@
 					<el-tag v-if="scope.row.sysFlag === 1"> 是 </el-tag>
 					<el-tag type="danger" v-else> 否 </el-tag>
 				</template>
+				<template #remark="scope">
+					<el-popover placement="bottom" width="280" trigger="hover">
+						<template #reference>
+							<el-text type="primary"
+								><el-icon><ele-InfoFilled /></el-icon>详情
+							</el-text>
+						</template>
+						<el-descriptions direction="vertical" :column="2" border>
+							<el-descriptions-item width="140">
+								<template #label>
+									<el-text>
+										<el-icon><ele-UserFilled /></el-icon>创建者
+									</el-text>
+								</template>
+								<el-tag>{{ scope.row.createUserName ?? '无' }}</el-tag>
+							</el-descriptions-item>
+							<el-descriptions-item>
+								<template #label>
+									<el-text>
+										<el-icon><ele-Calendar /></el-icon>创建时间
+									</el-text>
+								</template>
+								<el-tag>{{ scope.row.createTime ?? '无' }}</el-tag>
+							</el-descriptions-item>
+							<el-descriptions-item>
+								<template #label>
+									<el-text>
+										<el-icon><ele-UserFilled /></el-icon>修改者
+									</el-text>
+								</template>
+								<el-tag>{{ scope.row.updateUserName ?? '无' }}</el-tag>
+							</el-descriptions-item>
+							<el-descriptions-item>
+								<template #label>
+									<el-text>
+										<el-icon><ele-Calendar /></el-icon>修改时间
+									</el-text>
+								</template>
+								<el-tag>{{ scope.row.updateTime ?? '无' }}</el-tag>
+							</el-descriptions-item>
+							<el-descriptions-item>
+								<template #label>
+									<el-text>
+										<el-icon><ele-Tickets /></el-icon>备注
+									</el-text>
+								</template>
+								{{ scope.row.remark }}
+							</el-descriptions-item>
+						</el-descriptions>
+					</el-popover>
+				</template>
 				<template #action="scope">
 					<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditConfig(scope.row)" v-auth="'sysConfig:update'"> 编辑 </el-button>
 					<el-button icon="ele-Delete" size="small" text type="danger" @click="delConfig(scope.row)" v-auth="'sysConfig:delete'"> 删除 </el-button>
@@ -51,13 +102,13 @@ const tb = reactive<TableDemoState>({
 	tableData: {
 		// 表头内容（必传，注意格式）
 		columns: [
-			{ prop: 'name', width: 200, label: '配置名称', headerAlign: 'center', sortable: 'custom', isCheck: true, hideCheck: true },
-			{ prop: 'code', width: 200, label: '配置编码', headerAlign: 'center', toolTip: true, sortable: 'custom', isCheck: true },
-			{ prop: 'value', width: 150, label: '属性值', headerAlign: 'center', isCheck: true },
+			{ prop: 'name', minWidth: 150, label: '配置名称', headerAlign: 'center', sortable: 'custom', isCheck: true, hideCheck: true },
+			{ prop: 'code', minWidth: 150, label: '配置编码', headerAlign: 'center', toolTip: true, sortable: 'custom', isCheck: true },
+			{ prop: 'value', minWidth: 150, label: '属性值', headerAlign: 'center', isCheck: true },
 			{ prop: 'sysFlag', width: 100, label: '内置参数', align: 'center', isCheck: true },
 			{ prop: 'groupCode', width: 120, label: '分组编码', align: 'center', sortable: 'custom', isCheck: true },
 			{ prop: 'orderNo', width: 80, label: '排序', align: 'center', sortable: 'custom', isCheck: true },
-			{ prop: 'remark', label: '备注', align: '', headerAlign: 'center', showOverflowTooltip: true, isCheck: true },
+			{ prop: 'remark', width: 100, label: '修改记录', align: 'center', headerAlign: 'center', showOverflowTooltip: true, isCheck: true },
 			{ prop: 'action', width: 140, label: '操作', type: 'action', align: 'center', isCheck: true, fixed: 'right', hideCheck: true },
 		],
 		// 配置项（必传）

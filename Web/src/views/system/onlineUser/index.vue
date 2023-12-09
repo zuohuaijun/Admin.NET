@@ -26,7 +26,7 @@
 					<el-table-column prop="ip" label="IP地址" header-align="center" show-overflow-tooltip />
 					<el-table-column prop="browser" label="浏览器" header-align="center" show-overflow-tooltip />
 					<!-- <el-table-column prop="connectionId" label="连接Id" show-overflow-tooltip></el-table-column> -->
-					<el-table-column prop="time" label="登录时间" minWidth="120" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="time" label="登录时间" min-width="120" header-align="center" show-overflow-tooltip />
 					<el-table-column label="操作" width="81" fixed="right" align="center" show-overflow-tooltip>
 						<template #default="scope">
 							<el-button icon="ele-CircleCloseFilled" size="small" text type="danger" v-auth="'sysOnlineUser:forceOffline'" @click="forceOffline(scope.row)"> 下线 </el-button>

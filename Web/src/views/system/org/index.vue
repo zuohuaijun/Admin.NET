@@ -33,7 +33,7 @@
 
 				<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 					<el-table :data="state.orgData" style="width: 100%" v-loading="state.loading" row-key="id" default-expand-all :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
-						<el-table-column prop="name" label="机构名称" minWidth="160" header-align="center" show-overflow-tooltip />
+						<el-table-column prop="name" label="机构名称" min-width="160" header-align="center" show-overflow-tooltip />
 						<el-table-column prop="code" label="机构编码" align="center" show-overflow-tooltip />
 						<el-table-column prop="level" label="级别" width="70" align="center" show-overflow-tooltip />
 						<el-table-column prop="type" label="机构类型" align="center" :formatter="dictFormatter" show-overflow-tooltip />
@@ -44,8 +44,59 @@
 								<el-tag type="danger" v-else>禁用</el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="createTime" label="修改时间" minWidth="120" align="center" show-overflow-tooltip />
-						<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
+						<el-table-column label="修改记录" width="100" align="center" show-overflow-tooltip>
+							<template #default="scope">
+								<el-popover placement="bottom" width="280" trigger="hover">
+									<template #reference>
+										<el-text type="primary"
+											><el-icon><ele-InfoFilled /></el-icon>详情
+										</el-text>
+									</template>
+									<el-descriptions direction="vertical" :column="2" border>
+										<el-descriptions-item width="140">
+											<template #label>
+												<el-text>
+													<el-icon><ele-UserFilled /></el-icon>创建者
+												</el-text>
+											</template>
+											<el-tag>{{ scope.row.createUserName ?? '无' }}</el-tag>
+										</el-descriptions-item>
+										<el-descriptions-item>
+											<template #label>
+												<el-text>
+													<el-icon><ele-Calendar /></el-icon>创建时间
+												</el-text>
+											</template>
+											<el-tag>{{ scope.row.createTime ?? '无' }}</el-tag>
+										</el-descriptions-item>
+										<el-descriptions-item>
+											<template #label>
+												<el-text>
+													<el-icon><ele-UserFilled /></el-icon>修改者
+												</el-text>
+											</template>
+											<el-tag>{{ scope.row.updateUserName ?? '无' }}</el-tag>
+										</el-descriptions-item>
+										<el-descriptions-item>
+											<template #label>
+												<el-text>
+													<el-icon><ele-Calendar /></el-icon>修改时间
+												</el-text>
+											</template>
+											<el-tag>{{ scope.row.updateTime ?? '无' }}</el-tag>
+										</el-descriptions-item>
+										<el-descriptions-item>
+											<template #label>
+												<el-text>
+													<el-icon><ele-Tickets /></el-icon>备注
+												</el-text>
+											</template>
+											{{ scope.row.remark }}
+										</el-descriptions-item>
+									</el-descriptions>
+								</el-popover>
+							</template>
+						</el-table-column>
 						<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditOrg(scope.row)" v-auth="'sysOrg:update'"> 编辑 </el-button>

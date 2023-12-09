@@ -30,12 +30,12 @@
 			<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 				<el-table :data="state.dictDataData" style="width: 100%" v-loading="state.loading" border>
 					<el-table-column type="index" label="序号" width="55" align="center" />
-					<el-table-column prop="value" label="字典值" header-align="center" width="140" show-overflow-tooltip >
+					<el-table-column prop="value" label="字典值" header-align="center" min-width="100" show-overflow-tooltip>
 						<template #default="scope">
-							<el-tag :type="scope.row.tagType" :style="scope.row.styleSetting" :class="scope.row.classSetting" >{{scope.row.value}}</el-tag>
+							<el-tag :type="scope.row.tagType" :style="scope.row.styleSetting" :class="scope.row.classSetting">{{ scope.row.value }}</el-tag>
 						</template>
 					</el-table-column>
-					<el-table-column prop="code" label="编码" header-align="center" width="90" show-overflow-tooltip />
+					<el-table-column prop="code" label="编码" header-align="center" min-width="100" show-overflow-tooltip />
 					<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
 						<template #default="scope">
 							<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
@@ -43,12 +43,63 @@
 						</template>
 					</el-table-column>
 					<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
-					<el-table-column prop="createTime" label="修改时间" width="120" align="center" show-overflow-tooltip />
-					<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
-					<el-table-column prop="extData" label="拓展数据" width="90" header-align="center">
+					<el-table-column prop="extData" label="拓展数据" width="90" align="center">
 						<template #default="scope">
 							<el-tag type="warning" v-if="scope.row.extData == null || scope.row.extData == ''">空</el-tag>
 							<el-tag type="success" v-else>有值</el-tag>
+						</template>
+					</el-table-column>
+					<el-table-column label="修改记录" width="100" align="center" show-overflow-tooltip>
+						<template #default="scope">
+							<el-popover placement="bottom" width="280" trigger="hover">
+								<template #reference>
+									<el-text type="primary"
+										><el-icon><ele-InfoFilled /></el-icon>详情
+									</el-text>
+								</template>
+								<el-descriptions direction="vertical" :column="2" border>
+									<el-descriptions-item width="140">
+										<template #label>
+											<el-text>
+												<el-icon><ele-UserFilled /></el-icon>创建者
+											</el-text>
+										</template>
+										<el-tag>{{ scope.row.createUserName ?? '无' }}</el-tag>
+									</el-descriptions-item>
+									<el-descriptions-item>
+										<template #label>
+											<el-text>
+												<el-icon><ele-Calendar /></el-icon>创建时间
+											</el-text>
+										</template>
+										<el-tag>{{ scope.row.createTime ?? '无' }}</el-tag>
+									</el-descriptions-item>
+									<el-descriptions-item>
+										<template #label>
+											<el-text>
+												<el-icon><ele-UserFilled /></el-icon>修改者
+											</el-text>
+										</template>
+										<el-tag>{{ scope.row.updateUserName ?? '无' }}</el-tag>
+									</el-descriptions-item>
+									<el-descriptions-item>
+										<template #label>
+											<el-text>
+												<el-icon><Calendar /></el-icon>修改时间
+											</el-text>
+										</template>
+										<el-tag>{{ scope.row.updateTime ?? '无' }}</el-tag>
+									</el-descriptions-item>
+									<el-descriptions-item>
+										<template #label>
+											<el-text>
+												<el-icon><ele-Tickets /></el-icon>备注
+											</el-text>
+										</template>
+										{{ scope.row.remark }}
+									</el-descriptions-item>
+								</el-descriptions>
+							</el-popover>
 						</template>
 					</el-table-column>
 					<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>

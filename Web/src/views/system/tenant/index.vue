@@ -60,10 +60,61 @@
 					</template>
 				</el-table-column>
 				<!-- <el-table-column prop="configId" label="数据库标识" show-overflow-tooltip /> -->
-				<el-table-column prop="connection" label="数据库连接" width="300" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="connection" label="数据库连接" min-width="300" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
-				<el-table-column prop="createTime" label="修改时间" width="160" align="center" show-overflow-tooltip />
-				<el-table-column prop="remark" label="备注" header-align="center" show-overflow-tooltip />
+				<el-table-column label="修改记录" width="100" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-popover placement="bottom" width="280" trigger="hover">
+							<template #reference>
+								<el-text type="primary"
+									><el-icon><ele-InfoFilled /></el-icon>详情
+								</el-text>
+							</template>
+							<el-descriptions direction="vertical" :column="2" border>
+								<el-descriptions-item width="140">
+									<template #label>
+										<el-text>
+											<el-icon><ele-UserFilled /></el-icon>创建者
+										</el-text>
+									</template>
+									<el-tag>{{ scope.row.createUserName ?? '无' }}</el-tag>
+								</el-descriptions-item>
+								<el-descriptions-item>
+									<template #label>
+										<el-text>
+											<el-icon><ele-Calendar /></el-icon>创建时间
+										</el-text>
+									</template>
+									<el-tag>{{ scope.row.createTime ?? '无' }}</el-tag>
+								</el-descriptions-item>
+								<el-descriptions-item>
+									<template #label>
+										<el-text>
+											<el-icon><ele-UserFilled /></el-icon>修改者
+										</el-text>
+									</template>
+									<el-tag>{{ scope.row.updateUserName ?? '无' }}</el-tag>
+								</el-descriptions-item>
+								<el-descriptions-item>
+									<template #label>
+										<el-text>
+											<el-icon><ele-Calendar /></el-icon>修改时间
+										</el-text>
+									</template>
+									<el-tag>{{ scope.row.updateTime ?? '无' }}</el-tag>
+								</el-descriptions-item>
+								<el-descriptions-item>
+									<template #label>
+										<el-text>
+											<el-icon><ele-Tickets /></el-icon>备注
+										</el-text>
+									</template>
+									{{ scope.row.remark }}
+								</el-descriptions-item>
+							</el-descriptions>
+						</el-popover>
+					</template>
+				</el-table-column>
 				<el-table-column label="操作" width="180" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Coin" size="small" text type="danger" @click="createTenant(scope.row)" v-auth="'sysTenant:createDb'" :disabled="scope.row.tenantType == 0"> 创建库 </el-button>

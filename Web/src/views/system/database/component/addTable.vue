@@ -72,7 +72,7 @@
 						<el-input-number v-model="scope.row.decimalDigits" controls-position="right" class="w100" />
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" minWidth="200" align="center" fixed="right">
+				<el-table-column label="操作" min-width="200" align="center" fixed="right">
 					<template #default="scope">
 						<el-button link type="primary" icon="el-icon-delete" @click.prevent="handleColDelete(scope.$index)">删除</el-button>
 						<el-button v-if="state.tableData.length > 1" link type="primary" icon="ele-Top" @click.prevent="handleColUp(scope.row, scope.$index)">上移</el-button>
