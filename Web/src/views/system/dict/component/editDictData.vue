@@ -55,12 +55,12 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="备注">
-							<el-input v-model="state.ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea" rows="6" />
+							<el-input v-model="state.ruleForm.remark" placeholder="请输入备注内容" clearable type="textarea" />
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="拓展数据">
-							<el-input v-model="state.ruleForm.extData" placeholder="请输入拓展数据" clearable type="textarea" rows="12" />
+							<el-input v-model="state.ruleForm.extData" placeholder="请输入拓展数据" clearable type="textarea" rows="6" />
 						</el-form-item>
 					</el-col>
 				</el-row>
