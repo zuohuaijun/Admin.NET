@@ -39,7 +39,11 @@
 				:default-checked-keys="state.ownOrgData"
 				highlight-current
 				check-strictly
-			/>
+			>
+				<template #default="{ node }">
+					<el-icon><ele-School /></el-icon>{{ node.label }}
+				</template>
+			</el-tree>
 		</div>
 	</el-card>
 </template>
