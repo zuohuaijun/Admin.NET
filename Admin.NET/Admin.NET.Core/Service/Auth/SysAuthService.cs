@@ -86,12 +86,12 @@ public class SysAuthService : IDynamicApiController, ITransient
         // 密码是否正确
         if (CryptogramUtil.CryptoType == CryptogramEnum.MD5.ToString())
         {
-            if (user.Password.Equals(MD5Encryption.Encrypt(input.Password)))
+            if (!user.Password.Equals(MD5Encryption.Encrypt(input.Password)))
                 throw Oops.Oh(ErrorCodeEnum.D1000);
         }
         else
         {
-            if (CryptogramUtil.Decrypt(user.Password).Equals(input.Password))
+            if (!CryptogramUtil.Decrypt(user.Password).Equals(input.Password))
                 throw Oops.Oh(ErrorCodeEnum.D1000);
         }
 
