@@ -160,7 +160,7 @@ const onSignIn = async () => {
 
 			// SM2加密密码
 			// const keys = SM2.generateKeyPair();
-			const publicKey = `0484c7466d950e120e5ece5dd85d0c90eaa85081a3a2bd7c57ae6dc822efccbd66620c67b0103fc8dd280e36c3b282977b722aaec3c56518edcebafb72c5a05312`;
+			const publicKey = `0484C7466D950E120E5ECE5DD85D0C90EAA85081A3A2BD7C57AE6DC822EFCCBD66620C67B0103FC8DD280E36C3B282977B722AAEC3C56518EDCEBAFB72C5A05312`;
 			state.ruleForm.password = sm2.doEncrypt(state.ruleForm.password, publicKey, 1);
 
 			const [err, res] = await feature(getAPI(SysAuthApi).apiSysAuthLoginPost(state.ruleForm));
