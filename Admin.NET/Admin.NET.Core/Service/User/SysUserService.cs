@@ -68,7 +68,6 @@ public class SysUserService : IDynamicApiController, ITransient
             .WhereIF(!string.IsNullOrWhiteSpace(input.Account), u => u.Account.Contains(input.Account))
             .WhereIF(!string.IsNullOrWhiteSpace(input.RealName), u => u.RealName.Contains(input.RealName))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Phone), u => u.Phone.Contains(input.Phone))
-            .OrderBy(u => u.OrderNo)
             .Select((u, a, b, c, d) => new UserOutput
             {
                 Index = SqlFunc.RowNumber(u.Id, u.Id),
@@ -77,6 +76,7 @@ public class SysUserService : IDynamicApiController, ITransient
                 RoleName = d.Name
             }, true)
             .MergeTable().Where(u => u.Index == 1)
+            .OrderBy(u => u.OrderNo)
             .ToPagedListAsync(input.Page, input.PageSize);
     }
 
