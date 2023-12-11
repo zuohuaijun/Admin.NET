@@ -24,7 +24,7 @@
 						</el-form-item>
 					</el-form>
 
-					<el-table :data="state.dictTypeData" style="width: 100%" v-loading="state.loading" border>
+					<el-table :data="state.dictTypeData" style="width: 100%" v-loading="state.loading" @row-click="handleDictType" highlight-current-row border>
 						<el-table-column type="index" label="序号" width="55" align="center" />
 						<el-table-column prop="name" label="字典名称" header-align="center" show-overflow-tooltip />
 						<el-table-column prop="code" label="字典编码" header-align="center" show-overflow-tooltip />
@@ -119,7 +119,7 @@
 			<el-col :span="12" :xs="24">
 				<el-card class="full-table" shadow="hover" :body-style="{ paddingBottom: '20' }">
 					<template #header>
-						<el-icon><ele-Collection /></el-icon>字典值
+						<el-icon><ele-Collection /></el-icon>{{ state.editDictTypeName }}字典值
 					</template>
 					<el-form :model="state.queryDictDataParams" ref="queryForm" :inline="true">
 						<!-- <el-form-item label="字典值">
@@ -281,6 +281,7 @@ const state = reactive({
 	},
 	editDictTypeTitle: '',
 	editDictDataTitle: '',
+	editDictTypeName: '',
 });
 
 onMounted(async () => {
@@ -305,6 +306,12 @@ const handleDictDataQuery = async () => {
 	state.dictDataData = res.data.result?.items ?? [];
 	state.tableDictDataParams.total = res.data.result?.total;
 	state.loading = false;
+};
+
+// 点击表格
+const handleDictType = (row: any, event: any, column: any) => {
+	console.log(row, event, column);
+	openDictDataDialog(row);
 };
 
 // 重置字典操作
@@ -347,6 +354,7 @@ const openEditDictData = (row: any) => {
 
 // 打开字典值页面
 const openDictDataDialog = (row: any) => {
+	state.editDictTypeName = row.name;
 	state.queryDictDataParams.dictTypeId = row.id;
 	handleDictDataQuery();
 };
