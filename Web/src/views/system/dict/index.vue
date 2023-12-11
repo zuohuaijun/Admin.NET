@@ -119,7 +119,7 @@
 			<el-col :span="12" :xs="24">
 				<el-card class="full-table" shadow="hover" :body-style="{ paddingBottom: '20' }">
 					<template #header>
-						<el-icon><ele-Collection /></el-icon>{{ state.editDictTypeName }}字典值
+						<el-icon><ele-Collection /></el-icon>字典值【{{ state.editDictTypeName }}】
 					</template>
 					<el-form :model="state.queryDictDataParams" ref="queryForm" :inline="true">
 						<!-- <el-form-item label="字典值">

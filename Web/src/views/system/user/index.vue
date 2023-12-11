@@ -61,7 +61,7 @@
 								<el-tag v-else> 其他 </el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="roleName" label="拥有角色" min-width="130" align="center" show-overflow-tooltip />
+						<el-table-column prop="roleName" label="角色集合" min-width="130" align="center" show-overflow-tooltip />
 						<el-table-column prop="orgName" label="所属机构" min-width="120" align="center" show-overflow-tooltip />
 						<el-table-column prop="posName" label="职位名称" min-width="120" align="center" show-overflow-tooltip />
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>

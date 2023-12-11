@@ -161,9 +161,9 @@ const onSignIn = async () => {
 			// SM2加密密码
 			// const keys = SM2.generateKeyPair();
 			const publicKey = `0484C7466D950E120E5ECE5DD85D0C90EAA85081A3A2BD7C57AE6DC822EFCCBD66620C67B0103FC8DD280E36C3B282977B722AAEC3C56518EDCEBAFB72C5A05312`;
-			state.ruleForm.password = sm2.doEncrypt(state.ruleForm.password, publicKey, 1);
+			const password = sm2.doEncrypt(state.ruleForm.password, publicKey, 1);
 
-			const [err, res] = await feature(getAPI(SysAuthApi).apiSysAuthLoginPost(state.ruleForm));
+			const [err, res] = await feature(getAPI(SysAuthApi).apiSysAuthLoginPost({ ...state.ruleForm, password: password }));
 			if (err) {
 				getCaptcha(); // 重新获取验证码
 				return;

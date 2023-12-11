@@ -283,7 +283,7 @@ public class GM
             X509Certificate certificate = new X509CertificateParser().ReadCertificate(fileStream);
             return certificate.GetPublicKey();
         }
-        catch (Exception e)
+        catch (Exception)
         {
             //log.Error(file.Name + "读取失败，异常：" + e);
         }
