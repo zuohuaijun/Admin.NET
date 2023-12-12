@@ -5,15 +5,15 @@
     "Path": "Upload/{yyyy}/{MM}/{dd}", // 文件上传目录
     "MaxSize": 20480, // 文件最大限制KB：1024*20
     "ContentType": [ "image/jpg", "image/png", "image/jpeg", "image/gif", "image/bmp", "text/plain", "application/pdf", "application/msword", "application/vnd.ms-excel", "application/vnd.ms-powerpoint", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "video/mp4" ],
-    "EnableMd5": true // 启用文件MDF5验证-防止重复上传
+    "EnableMd5": false // 启用文件MDF5验证-防止重复上传
   },
   "OSSProvider": {
     "IsEnable": false,
     "Provider": "Minio", // OSS提供者 Invalid/Minio/Aliyun/QCloud/Qiniu/HuaweiCloud
     "Endpoint": "101.43.53.74:8090", // 节点/API地址（在腾讯云OSS中表示AppId）
     "Region": "101.43.53.74", // 地域
-    "AccessKey": "NwTCTqITTUdtbw82efob",
-    "SecretKey": "OlKjPu7HlOwhc67OkL82RzRXV9NcoEvpFKJ0vL04",
+    "AccessKey": "z1KoTnXlznKBKWtlIahn",
+    "SecretKey": "n0YxRADS7Bnb4th9zplVuDiQIdPFQ5gDtQHzLyXI",
     "IsEnableHttps": false, // 是否启用HTTPS
     "IsEnableCache": true, // 是否启用缓存
     "Bucket": "admin.net"

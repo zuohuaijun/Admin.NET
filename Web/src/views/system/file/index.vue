@@ -52,7 +52,6 @@
 				</el-table-column>
 				<el-table-column prop="bucketName" label="存储位置" align="center" show-overflow-tooltip />
 				<el-table-column prop="id" label="存储标识" align="center" show-overflow-tooltip />
-				<el-table-column prop="createUserId" label="上传者Id" align="center" show-overflow-tooltip />
 				<el-table-column label="修改记录" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-popover placement="bottom" width="280" trigger="hover">
