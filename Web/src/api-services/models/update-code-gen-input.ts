@@ -65,20 +65,6 @@ export interface UpdateCodeGenInput {
     descStr?: string | null;
 
     /**
-     * 打印模版名称
-     * @type {number}
-     * @memberof UpdateCodeGenInput
-     */
-    printName?: string | null;
-
-    /**
-     * 支持打印类型
-     * @type {string}
-     * @memberof UpdateCodeGenInput
-     */
-    printType?: string | null;
-    
-    /**
      * 作者姓名
      *
      * @type {string}
@@ -189,6 +175,22 @@ export interface UpdateCodeGenInput {
      * @memberof UpdateCodeGenInput
      */
     menuPid?: number;
+
+    /**
+     * 支持打印类型
+     *
+     * @type {string}
+     * @memberof UpdateCodeGenInput
+     */
+    printType?: string | null;
+
+    /**
+     * 打印模版名称
+     *
+     * @type {string}
+     * @memberof UpdateCodeGenInput
+     */
+    printName?: string | null;
 
     /**
      * 代码生成器Id

@@ -9,13 +9,13 @@
   },
   "OSSProvider": {
     "IsEnable": false,
-    "Provider": "Aliyun", // OSS提供者 Invalid/Minio/Aliyun/QCloud/Qiniu/HuaweiCloud
-    "Endpoint": "", // 节点 在腾讯云OSS中表示AppId
-    "Region": "", // 地域
-    "AccessKey": "",
-    "SecretKey": "",
-    "IsEnableHttps": true, // 是否启用HTTPS
+    "Provider": "Minio", // OSS提供者 Invalid/Minio/Aliyun/QCloud/Qiniu/HuaweiCloud
+    "Endpoint": "101.43.53.74:8090", // 节点/API地址（在腾讯云OSS中表示AppId）
+    "Region": "101.43.53.74", // 地域
+    "AccessKey": "NwTCTqITTUdtbw82efob",
+    "SecretKey": "OlKjPu7HlOwhc67OkL82RzRXV9NcoEvpFKJ0vL04",
+    "IsEnableHttps": false, // 是否启用HTTPS
     "IsEnableCache": true, // 是否启用缓存
-    "Bucket": ""
+    "Bucket": "admin.net"
   }
 }

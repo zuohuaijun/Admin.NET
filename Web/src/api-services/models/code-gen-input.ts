@@ -175,4 +175,20 @@ export interface CodeGenInput {
      * @memberof CodeGenInput
      */
     menuPid?: number;
+
+    /**
+     * 支持打印类型
+     *
+     * @type {string}
+     * @memberof CodeGenInput
+     */
+    printType?: string | null;
+
+    /**
+     * 打印模版名称
+     *
+     * @type {string}
+     * @memberof CodeGenInput
+     */
+    printName?: string | null;
 }

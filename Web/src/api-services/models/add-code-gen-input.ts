@@ -129,6 +129,22 @@ export interface AddCodeGenInput {
     menuApplication?: string | null;
 
     /**
+     * 支持打印类型
+     *
+     * @type {string}
+     * @memberof AddCodeGenInput
+     */
+    printType?: string | null;
+
+    /**
+     * 打印模版名称
+     *
+     * @type {string}
+     * @memberof AddCodeGenInput
+     */
+    printName?: string | null;
+
+    /**
      * 数据库表名
      *
      * @type {string}

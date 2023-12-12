@@ -175,4 +175,20 @@ export interface SysCodeGen {
      * @memberof SysCodeGen
      */
     menuPid?: number;
+
+    /**
+     * 支持打印类型
+     *
+     * @type {string}
+     * @memberof SysCodeGen
+     */
+    printType?: string | null;
+
+    /**
+     * 打印模版名称
+     *
+     * @type {string}
+     * @memberof SysCodeGen
+     */
+    printName?: string | null;
 }

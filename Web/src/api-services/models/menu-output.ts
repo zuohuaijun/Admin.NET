@@ -113,6 +113,38 @@ export interface MenuOutput {
     remark?: string | null;
 
     /**
+     * 创建时间
+     *
+     * @type {Date}
+     * @memberof MenuOutput
+     */
+    createTime?: Date;
+
+    /**
+     * 更新时间
+     *
+     * @type {Date}
+     * @memberof MenuOutput
+     */
+    updateTime?: Date;
+
+    /**
+     * 创建者姓名
+     *
+     * @type {string}
+     * @memberof MenuOutput
+     */
+    createUserName?: string | null;
+
+    /**
+     * 修改者姓名
+     *
+     * @type {string}
+     * @memberof MenuOutput
+     */
+    updateUserName?: string | null;
+
+    /**
      * @type {SysMenuMeta}
      * @memberof MenuOutput
      */
