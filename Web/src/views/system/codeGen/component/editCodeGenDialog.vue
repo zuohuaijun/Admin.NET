@@ -174,6 +174,7 @@ const dbChanged = async () => {
 // table改变
 const tableChanged = (item: any) => {
 	state.tableName = item.tableName;
+	state.ruleForm.tableName = item.tableName;
 	state.ruleForm.busName = item.tableComment;
 };
 
