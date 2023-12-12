@@ -88,7 +88,7 @@
 								</el-popover>
 							</template>
 						</el-table-column>
-						<el-table-column label="操作" width="100" fixed="right" align="center" show-overflow-tooltip>
+						<el-table-column label="操作" width="110" fixed="right" align="center">
 							<template #default="scope">
 								<el-tooltip content="字典值">
 									<el-button icon="ele-Memo" size="small" text type="primary" @click="openDictDataDialog(scope.row)" v-auth="'sysDictType:page'"> </el-button>
@@ -336,6 +336,11 @@ const openAddDictType = () => {
 
 // 打开新增字典值页面
 const openAddDictData = () => {
+	if (!state.queryDictDataParams.dictTypeId) {
+		ElMessage.warning('请选择字典');
+		return;
+	}
+
 	state.editDictDataTitle = '添加字典值';
 	editDictDataRef.value?.openDialog({ status: 1, orderNo: 100, dictTypeId: state.queryDictDataParams.dictTypeId });
 };
