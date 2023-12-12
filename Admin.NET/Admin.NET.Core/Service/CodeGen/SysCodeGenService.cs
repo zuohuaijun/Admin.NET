@@ -281,7 +281,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             {
                 EntityName = c.Name,
                 DbTableName = sugarAttribute == null ? c.Name : ((SugarTable)sugarAttribute).TableName,
-                TableDescription = description,
+                TableDescription = sugarAttribute == null ? description : ((SugarTable)sugarAttribute).TableDescription,
                 Type = c
             });
         }
