@@ -1,4 +1,4 @@
-﻿using @(@Model.NameSpace).Const;
+using @(@Model.NameSpace).Const;
 using @(@Model.NameSpace).Entity;
 @{
     string joinTableName = "u";
@@ -96,7 +96,7 @@ if (@column.QueryWhether == "Y"){
     }
 }
 } else {
-            @:.Select<@(@Model.ClassName)Output>()
+            @:.Select<@(@Model.ClassName)Output>();
 }
 @foreach (var column in Model.TableField){
 if (@column.QueryWhether == "Y"){
