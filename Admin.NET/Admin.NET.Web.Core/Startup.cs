@@ -22,8 +22,6 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using OnceMi.AspNetCore.OSS;
 using System;
-using System.Net;
-using System.Net.Mail;
 
 namespace Admin.NET.Web.Core;
 

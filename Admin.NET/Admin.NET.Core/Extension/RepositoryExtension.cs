@@ -358,7 +358,7 @@ public static class RepositoryExtension
     /// <param name="ignore">是否忽略 默认true</param>
     /// <returns> </returns>
     public static ISugarQueryable<T> IgnoreTenant<T>(this ISugarQueryable<T> queryable, bool ignore = true)
-    { 
+    {
         return ignore ? queryable.ClearFilter<ITenantIdFilter>() : queryable;
     }
 }

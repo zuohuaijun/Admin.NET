@@ -15,7 +15,6 @@ using Furion.DataEncryption;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
-using SqlSugar;
 using System;
 using System.Threading.Tasks;
 
