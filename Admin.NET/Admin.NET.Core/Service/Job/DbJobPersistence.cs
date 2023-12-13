@@ -131,26 +131,28 @@ public class DbJobPersistence : IJobPersistence
     /// <param name="context"></param>
     public void OnChanged(PersistenceContext context)
     {
-        using var scope = _serviceScopeFactory.CreateScope();
-        var jobDetailRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
-
-        var jobDetail = context.JobDetail.Adapt<SysJobDetail>();
-        switch (context.Behavior)
+        using (var scope = _serviceScopeFactory.CreateScope())
         {
-            case PersistenceBehavior.Appended:
-                jobDetailRep.AsInsertable(jobDetail).ExecuteCommand();
-                break;
+            var jobDetailRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
 
-            case PersistenceBehavior.Updated:
-                jobDetailRep.AsUpdateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id, u.CreateType, u.ScriptCode }).ExecuteCommand();
-                break;
+            var jobDetail = context.JobDetail.Adapt<SysJobDetail>();
+            switch (context.Behavior)
+            {
+                case PersistenceBehavior.Appended:
+                    jobDetailRep.AsInsertable(jobDetail).ExecuteCommand();
+                    break;
 
-            case PersistenceBehavior.Removed:
-                jobDetailRep.AsDeleteable().Where(u => u.JobId == jobDetail.JobId).ExecuteCommand();
-                break;
+                case PersistenceBehavior.Updated:
+                    jobDetailRep.AsUpdateable(jobDetail).WhereColumns(u => new { u.JobId }).IgnoreColumns(u => new { u.Id, u.CreateType, u.ScriptCode }).ExecuteCommand();
+                    break;
 
-            default:
-                throw new ArgumentOutOfRangeException();
+                case PersistenceBehavior.Removed:
+                    jobDetailRep.AsDeleteable().Where(u => u.JobId == jobDetail.JobId).ExecuteCommand();
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 
@@ -160,26 +162,28 @@ public class DbJobPersistence : IJobPersistence
     /// <param name="context"></param>
     public void OnTriggerChanged(PersistenceTriggerContext context)
     {
-        using var scope = _serviceScopeFactory.CreateScope();
-        var jobTriggerRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
-
-        var jobTrigger = context.Trigger.Adapt<SysJobTrigger>();
-        switch (context.Behavior)
+        using (var scope = _serviceScopeFactory.CreateScope())
         {
-            case PersistenceBehavior.Appended:
-                jobTriggerRep.AsInsertable(jobTrigger).ExecuteCommand();
-                break;
+            var jobTriggerRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
 
-            case PersistenceBehavior.Updated:
-                jobTriggerRep.AsUpdateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
-                break;
+            var jobTrigger = context.Trigger.Adapt<SysJobTrigger>();
+            switch (context.Behavior)
+            {
+                case PersistenceBehavior.Appended:
+                    jobTriggerRep.AsInsertable(jobTrigger).ExecuteCommand();
+                    break;
 
-            case PersistenceBehavior.Removed:
-                jobTriggerRep.AsDeleteable().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
-                break;
+                case PersistenceBehavior.Updated:
+                    jobTriggerRep.AsUpdateable(jobTrigger).WhereColumns(u => new { u.TriggerId, u.JobId }).IgnoreColumns(u => new { u.Id }).ExecuteCommand();
+                    break;
 
-            default:
-                throw new ArgumentOutOfRangeException();
+                case PersistenceBehavior.Removed:
+                    jobTriggerRep.AsDeleteable().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

@@ -222,8 +222,10 @@ public class SysFileService : IDynamicApiController, ITransient
         var fileMd5 = string.Empty;
         if (_uploadOptions.EnableMd5)
         {
-            using var fileStream = file.OpenReadStream();
-            fileMd5 = OssUtils.ComputeContentMd5(fileStream, fileStream.Length);
+            using (var fileStream = file.OpenReadStream())
+            {
+                fileMd5 = OssUtils.ComputeContentMd5(fileStream, fileStream.Length);
+            }
             var sysFile = await _sysFileRep.GetFirstAsync(u => u.FileMd5 == fileMd5 && (u.SizeKb == null || u.SizeKb == sizeKb.ToString()));
             if (sysFile != null) return sysFile;
         }
