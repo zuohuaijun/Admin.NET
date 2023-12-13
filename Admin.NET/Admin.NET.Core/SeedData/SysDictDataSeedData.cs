@@ -69,14 +69,14 @@ public class SysDictDataSeedData : ISqlSugarEntitySeedData<SysDictData>
             new SysDictData{ Id=1300000000505, DictTypeId=1300000000105, Value="EntityBaseData【业务实体】", Code="EntityBaseData", OrderNo=1, Remark="【业务实体】", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictData{ Id=1300000000506, DictTypeId=1300000000105, Value="无基类", Code="None", OrderNo=1, Remark="【无基类】", Status=StatusEnum.Disable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
 
-            new SysDictData{ Id=1300000000601, DictTypeId=1300000000106, Value="集团", Code="101", OrderNo=100, Remark="集团", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
-            new SysDictData{ Id=1300000000602, DictTypeId=1300000000106, Value="公司", Code="201", OrderNo=101, Remark="公司", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
-            new SysDictData{ Id=1300000000603, DictTypeId=1300000000106, Value="部门", Code="301", OrderNo=102, Remark="部门", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
-            new SysDictData{ Id=1300000000604, DictTypeId=1300000000106, Value="区域", Code="401", OrderNo=103, Remark="区域", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
-            new SysDictData{ Id=1300000000605, DictTypeId=1300000000106, Value="组", Code="501", OrderNo=104, Remark="组", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000701, DictTypeId=1300000000106, Value="不需要", Code="off", OrderNo=100, Remark="不需要打印支持", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-12-04 00:00:00") },
+            new SysDictData{ Id=1300000000702, DictTypeId=1300000000106, Value="绑定打印模版", Code="custom", OrderNo=101, Remark="绑定打印模版", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-12-04 00:00:00") },
 
-            new SysDictData{ Id=1300000000701, DictTypeId=1300000000107, Value="不需要", Code="off", OrderNo=100, Remark="不需要打印支持", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-12-04 00:00:00") },
-            new SysDictData{ Id=1300000000702, DictTypeId=1300000000107, Value="绑定打印模版", Code="custom", OrderNo=101, Remark="绑定打印模版", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-12-04 00:00:00") },
+            new SysDictData{ Id=1300000000601, DictTypeId=1300000000107, Value="集团", Code="101", OrderNo=100, Remark="集团", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000602, DictTypeId=1300000000107, Value="公司", Code="201", OrderNo=101, Remark="公司", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000603, DictTypeId=1300000000107, Value="部门", Code="301", OrderNo=102, Remark="部门", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000604, DictTypeId=1300000000107, Value="区域", Code="401", OrderNo=103, Remark="区域", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictData{ Id=1300000000605, DictTypeId=1300000000107, Value="组", Code="501", OrderNo=104, Remark="组", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
         };
     }
 }
