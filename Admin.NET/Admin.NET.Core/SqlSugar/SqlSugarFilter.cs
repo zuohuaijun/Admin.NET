@@ -158,7 +158,7 @@ public static class SqlSugarFilter
                     var tAtt = entityType.GetCustomAttribute<TenantAttribute>();
                     if ((tAtt != null && db.CurrentConnectionConfig.ConfigId.ToString() != tAtt.configId.ToString()) ||
                         (tAtt == null && db.CurrentConnectionConfig.ConfigId.ToString() != SqlSugarConst.MainConfigId))
-                        return;
+                        continue;
 
                     tableFilterItems.Add(tableFilterItem);
                     db.QueryFilter.Add(tableFilterItem);
