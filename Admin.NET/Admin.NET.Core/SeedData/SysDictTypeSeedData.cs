@@ -28,7 +28,7 @@ public class SysDictTypeSeedData : ISqlSugarEntitySeedData<SysDictType>
             new SysDictType{ Id=1300000000104, Name="代码生成方式", Code="code_gen_create_type", OrderNo=103, Remark="代码生成方式", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictType{ Id=1300000000105, Name="代码生成基类", Code="code_gen_base_class", OrderNo=104, Remark="代码生成基类", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2022-02-10 00:00:00") },
             new SysDictType{ Id=1300000000106, Name="代码生成打印类型", Code="code_gen_print_type", OrderNo=105, Remark="代码生成打印类型", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-12-04 00:00:00") },
-            new SysDictType{ Id=1300000000107, Name="机构类型", Code="org_type", OrderNo=106, Remark="机构类型", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
+            new SysDictType{ Id=1300000000201, Name="机构类型", Code="org_type", OrderNo=201, Remark="机构类型", Status=StatusEnum.Enable, CreateTime=DateTime.Parse("2023-02-10 00:00:00") },
         };
     }
 }
