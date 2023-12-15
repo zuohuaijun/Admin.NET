@@ -190,15 +190,16 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private List<ColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
     {
-        var entityType = GetEntityInfos().GetAwaiter().GetResult().FirstOrDefault(u => u.DbTableName == input.TableName);
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId.ToString() == input.ConfigId);
+        var dbTableName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(input.TableName) : input.TableName;
+
+        var entityType = GetEntityInfos().GetAwaiter().GetResult().FirstOrDefault(u => u.DbTableName == dbTableName);
         if (entityType == null)
             return null;
 
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.MainConfigId);
 
-        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId.ToString() == input.ConfigId);
-        var dbTableName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(entityType.DbTableName) : entityType.DbTableName;
         var entityBasePropertyNames = _codeGenOptions.EntityBaseColumn[nameof(EntityTenant)];
         var columnInfos = provider.DbMaintenance.GetColumnInfosByTableName(dbTableName, false);
         var result = columnInfos.Select(u => new ColumnOuput
