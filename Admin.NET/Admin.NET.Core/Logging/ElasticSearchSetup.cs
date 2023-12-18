@@ -26,8 +26,11 @@ public static class ElasticSearchSetup
         var defaultIndex = App.GetConfig<string>("Logging:ElasticSearch:DefaultIndex", true);
 
         var uris = serverUris.Select(u => new Uri(u));
+        //集群
         var connectionPool = new SniffingConnectionPool(uris);
         var settings = new ConnectionSettings(connectionPool).DefaultIndex(defaultIndex);
+        //单连接
+        //var settings = new ConnectionSettings(new SingleNodeConnectionPool(uris.FirstOrDefault())).DefaultIndex(defaultIndex);
         var client = new ElasticClient(settings);
         client.Indices.Create(defaultIndex, i => i.Map<SysLogOp>(m => m.AutoMap()));
 

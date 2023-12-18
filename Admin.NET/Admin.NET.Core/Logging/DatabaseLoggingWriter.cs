@@ -172,7 +172,7 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
     /// </summary>
     /// <param name="ip"></param>
     /// <returns></returns>
-    private static (string ipLocation, double? longitude, double? latitude) GetIpAddress(string ip)
+    internal static (string ipLocation, double? longitude, double? latitude) GetIpAddress(string ip)
     {
         try
         {
