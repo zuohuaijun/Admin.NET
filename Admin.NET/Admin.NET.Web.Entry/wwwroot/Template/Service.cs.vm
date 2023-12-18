@@ -124,10 +124,11 @@ if (@column.QueryWhether == "Y"){
     /// <returns></returns>
     [HttpPost]
     [ApiDescriptionSettings(Name = "Add")]
-    public async Task Add(Add@(@Model.ClassName)Input input)
+    public async Task<long> Add(Add@(@Model.ClassName)Input input)
     {
         var entity = input.Adapt<@(@Model.ClassName)>();
         await _rep.InsertAsync(entity);
+        return entity.Id;
     }
 
     /// <summary>
@@ -168,7 +169,7 @@ if (@column.ColumnKey == "True"){
     /// <returns></returns>
     [HttpGet]
     [ApiDescriptionSettings(Name = "Detail")]
-    public async Task<@(@Model.ClassName)> Get([FromQuery] QueryById@(@Model.ClassName)Input input)
+    public async Task<@(@Model.ClassName)> Detail([FromQuery] QueryById@(@Model.ClassName)Input input)
     {
 @foreach (var column in Model.TableField){
 if (@column.ColumnKey == "True"){
@@ -218,9 +219,9 @@ if(@column.EffectType == "Upload"){
     @:/// <param name="file"></param>
     @:/// <returns></returns>
     @:[ApiDescriptionSettings(Name = "Upload@(@column.PropertyName)"), HttpPost]
-    @:public async Task<FileOutput> Upload@(@column.PropertyName)([Required] IFormFile file)
+    @:public async Task<Admin.NET.Core.Service.FileOutput> Upload@(@column.PropertyName)([Required] Microsoft.AspNetCore.Http.IFormFile file)
     @:{
-            @:var service = App.GetService<SysFileService>();
+            @:var service = App.GetService<Admin.NET.Core.Service.SysFileService>();
             @:return await service.UploadFile(file, "upload/@(@column.PropertyName)"); 
     @:} 
 }
