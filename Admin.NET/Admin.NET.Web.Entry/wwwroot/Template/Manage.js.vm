@@ -5,6 +5,7 @@ enum Api {
   Delete@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/delete',
   Update@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/update',
   Page@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/page',
+  Detail@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/detail',
   @foreach (var column in Model.TableField){
 if(@column.EffectType == "fk" && (@column.WhetherAddUpdate == "Y" || column.QueryWhether == "Y")){
   @:Get@(@column.FkEntityName)@(@column.PropertyName)Dropdown = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)@(@column.PropertyName)Dropdown',
@@ -47,6 +48,14 @@ export const page@(@Model.ClassName) = (params?: any) =>
 			url: Api.Page@(@Model.ClassName),
 			method: 'post',
 			data: params,
+		});
+
+// 详情@(@Model.BusName)
+export const detail@(@Model.ClassName) = (id: any) => 
+	request({
+			url: Api.Detail@(@Model.ClassName),
+			method: 'get',
+			data: { id },
 		});
 
 @foreach (var column in Model.TableField){
