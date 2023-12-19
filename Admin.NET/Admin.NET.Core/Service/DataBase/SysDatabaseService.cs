@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -297,8 +297,10 @@ public class SysDatabaseService : IDynamicApiController, ITransient
 
         // 检查有没有 System.Text.Json.Serialization.JsonIgnore 的属性
         var jsonIgnoreProperties = entityType.GetProperties().Where(p =>
-            p.GetAttribute<System.Text.Json.Serialization.JsonIgnoreAttribute>() != null ||
-            p.GetAttribute<JsonIgnoreAttribute>() != null).ToList();
+            (p.GetAttribute<System.Text.Json.Serialization.JsonIgnoreAttribute>() != null ||
+            p.GetAttribute<JsonIgnoreAttribute>() != null)
+            && p.GetAttribute<SugarColumn>() != null
+            ).ToList();
         var jsonIgnoreInfo = new List<List<JsonIgnoredPropertyData>>();
         if (jsonIgnoreProperties.Count > 0)
         {
