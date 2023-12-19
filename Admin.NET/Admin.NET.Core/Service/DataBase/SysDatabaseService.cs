@@ -296,11 +296,8 @@ public class SysDatabaseService : IDynamicApiController, ITransient
         var recordsJSON = JsonConvert.SerializeObject(records, Formatting.Indented, timeConverter);
 
         // 检查有没有 System.Text.Json.Serialization.JsonIgnore 的属性
-        var jsonIgnoreProperties = entityType.GetProperties().Where(p =>
-            (p.GetAttribute<System.Text.Json.Serialization.JsonIgnoreAttribute>() != null ||
-            p.GetAttribute<JsonIgnoreAttribute>() != null)
-            && p.GetAttribute<SugarColumn>() != null
-            ).ToList();
+        var jsonIgnoreProperties = entityType.GetProperties().Where(p => (p.GetAttribute<System.Text.Json.Serialization.JsonIgnoreAttribute>() != null ||
+            p.GetAttribute<JsonIgnoreAttribute>() != null) && p.GetAttribute<SugarColumn>() != null).ToList();
         var jsonIgnoreInfo = new List<List<JsonIgnoredPropertyData>>();
         if (jsonIgnoreProperties.Count > 0)
         {

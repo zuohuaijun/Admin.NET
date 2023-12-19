@@ -8,7 +8,6 @@
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
 using Nest;
-using System;
 
 namespace Admin.NET.Core;
 
@@ -18,7 +17,7 @@ namespace Admin.NET.Core;
 public class ElasticSearchLoggingWriter : IDatabaseLoggingWriter
 {
     private readonly ElasticClient _esClient;
-    private readonly SysConfigService _sysConfigService; // 参数配置服务
+    private readonly SysConfigService _sysConfigService;
 
     public ElasticSearchLoggingWriter(ElasticClient esClient, SysConfigService sysConfigService)
     {
@@ -38,9 +37,10 @@ public class ElasticSearchLoggingWriter : IDatabaseLoggingWriter
         // 不记录登录登出日志
         if (loggingMonitor.actionName == "userInfo" || loggingMonitor.actionName == "logout")
             return;
-        //解决日志无法写入问题
+
         #region 处理操作日志
-        // 获取当前操作者 
+
+        // 获取当前操作者
         string account = "", realName = "", userId = "", tenantId = "";
         if (loggingMonitor.authorizationClaims != null)
         {
@@ -59,11 +59,11 @@ public class ElasticSearchLoggingWriter : IDatabaseLoggingWriter
 
         string remoteIPv4 = loggingMonitor.remoteIPv4;
         (string ipLocation, double? longitude, double? latitude) = DatabaseLoggingWriter.GetIpAddress(remoteIPv4);
-        var client = Parser.GetDefault().Parse(loggingMonitor.userAgent.ToString());
-        var browser = $"{client.UA.Family} {client.UA.Major}.{client.UA.Minor} / {client.Device.Family}";
-        var os = $"{client.OS.Family} {client.OS.Major} {client.OS.Minor}";
+        //var client = Parser.GetDefault().Parse(loggingMonitor.userAgent.ToString());
+        //var browser = $"{client.UA.Family} {client.UA.Major}.{client.UA.Minor} / {client.Device.Family}";
+        //var os = $"{client.OS.Family} {client.OS.Major} {client.OS.Minor}";
 
-        SysLogOp op = new SysLogOp
+        var sysLogOp = new SysLogOp
         {
             Id = DateTime.Now.Ticks,
             ControllerName = loggingMonitor.controllerName,
@@ -92,7 +92,9 @@ public class ElasticSearchLoggingWriter : IDatabaseLoggingWriter
             CreateUserId = string.IsNullOrWhiteSpace(userId) ? 0 : long.Parse(userId),
             TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : long.Parse(tenantId)
         };
-        #endregion
-        await _esClient.IndexDocumentAsync(jsonStr);
+
+        #endregion 处理操作日志
+
+        await _esClient.IndexDocumentAsync(sysLogOp);
     }
 }
