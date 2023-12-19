@@ -1,5 +1,7 @@
+using Admin.NET.Core.Service;
 using @(@Model.NameSpace).Const;
 using @(@Model.NameSpace).Entity;
+using Microsoft.AspNetCore.Http;
 @{
     string joinTableName = "u";
     Dictionary<string, int> definedObjects = new Dictionary<string, int>();
@@ -219,9 +221,9 @@ if(@column.EffectType == "Upload"){
     @:/// <param name="file"></param>
     @:/// <returns></returns>
     @:[ApiDescriptionSettings(Name = "Upload@(@column.PropertyName)"), HttpPost]
-    @:public async Task<Admin.NET.Core.Service.FileOutput> Upload@(@column.PropertyName)([Required] Microsoft.AspNetCore.Http.IFormFile file)
+    @:public async Task<FileOutput> Upload@(@column.PropertyName)([Required] IFormFile file)
     @:{
-            @:var service = App.GetService<Admin.NET.Core.Service.SysFileService>();
+            @:var service = App.GetService<SysFileService>();
             @:return await service.UploadFile(file, "upload/@(@column.PropertyName)"); 
     @:} 
 }
