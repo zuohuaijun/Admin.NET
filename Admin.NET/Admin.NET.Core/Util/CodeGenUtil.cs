@@ -291,6 +291,8 @@ public static class CodeGenUtil
             nameof(EntityBase.UpdateTime),
             nameof(EntityBase.CreateUserId),
             nameof(EntityBase.UpdateUserId),
+            nameof(EntityBase.CreateUserName),
+            nameof(EntityBase.UpdateUserName),
             nameof(EntityBase.IsDelete)
         };
         return columnList.Contains(columnName);

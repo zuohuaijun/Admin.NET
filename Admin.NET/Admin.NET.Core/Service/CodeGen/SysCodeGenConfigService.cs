@@ -31,7 +31,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
     public async Task<List<CodeGenConfig>> GetList([FromQuery] CodeGenConfig input)
     {
         return await _db.Queryable<SysCodeGenConfig>()
-            .Where(u => u.CodeGenId == input.CodeGenId && u.WhetherCommon != YesNoEnum.Y.ToString())
+            .Where(u => u.CodeGenId == input.CodeGenId)
             .Select<CodeGenConfig>()
             .Mapper(u =>
             {
@@ -100,7 +100,7 @@ public class SysCodeGenConfigService : IDynamicApiController, ITransient
                 YesOrNo = YesNoEnum.N.ToString();
             }
 
-            if (CodeGenUtil.IsCommonColumn(tableColumn.ColumnName))
+            if (CodeGenUtil.IsCommonColumn(tableColumn.PropertyName))
             {
                 codeGenConfig.WhetherCommon = YesNoEnum.Y.ToString();
                 YesOrNo = YesNoEnum.N.ToString();
