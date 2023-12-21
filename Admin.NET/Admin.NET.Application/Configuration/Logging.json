@@ -33,7 +33,8 @@
       "ReturnValueThreshold": 500, // 返回值字符串阈值，默认0全量输出
       "JsonBehavior": "None", // 是否输出Json，默认None(OnlyJson、All)
       "JsonIndented": false, // 是否格式化Json
-      "UseUtcTimestamp": false // 时间格式UTC、LOCAL
+      "UseUtcTimestamp": false, // 时间格式UTC、LOCAL
+      "ConsoleLog": true // 是否显示控制台日志
     }
   }
 }

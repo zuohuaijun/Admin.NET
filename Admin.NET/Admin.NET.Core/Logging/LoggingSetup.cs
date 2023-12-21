@@ -17,19 +17,24 @@ public static class LoggingSetup
     /// <param name="services"></param>
     public static void AddLoggingSetup(this IServiceCollection services)
     {
-        // 控制台日志格式化
-        services.AddConsoleFormatter(options =>
-        {
-            options.DateFormat = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
-            //options.WithTraceId = true; // 显示线程Id
-            //options.WithStackFrame = true; // 显示程序集
-        });
-
         // 日志监听
         services.AddMonitorLogging(options =>
         {
             options.IgnorePropertyNames = new[] { "Byte" };
             options.IgnorePropertyTypes = new[] { typeof(byte[]) };
+        });
+
+        // 控制台日志
+        var consoleLog = App.GetConfig<bool>("Logging:Monitor:ConsoleLog", true);
+        services.AddConsoleFormatter(options =>
+        {
+            options.DateFormat = "yyyy-MM-dd HH:mm:ss(zzz) dddd";
+            //options.WithTraceId = true; // 显示线程Id
+            //options.WithStackFrame = true; // 显示程序集
+            options.WriteFilter = (logMsg) =>
+            {
+                return consoleLog;
+            };
         });
 
         // 日志写入文件
