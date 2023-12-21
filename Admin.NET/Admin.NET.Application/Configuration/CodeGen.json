@@ -7,9 +7,9 @@
     "BaseEntityNames": [ "EntityTenantId", "EntityTenant", "EntityBaseData", "EntityBase", "EntityBaseId" ],
     "EntityBaseColumn": {
       "EntityTenantId": [ "Id", "TenantId" ],
-      "EntityTenant": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete", "TenantId" ],
-      "EntityBaseData": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete", "CreateOrgId" ],
-      "EntityBase": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "IsDelete" ],
+      "EntityTenant": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "CreateUserName", "UpdateUserName", "IsDelete", "TenantId" ],
+      "EntityBaseData": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "CreateUserName", "UpdateUserName", "IsDelete", "CreateOrgId" ],
+      "EntityBase": [ "Id", "CreateTime", "UpdateTime", "CreateUserId", "UpdateUserId", "CreateUserName", "UpdateUserName", "IsDelete" ],
       "EntityBaseId": [ "Id" ]
       //"BaseId": [ "Id" ]
     },
