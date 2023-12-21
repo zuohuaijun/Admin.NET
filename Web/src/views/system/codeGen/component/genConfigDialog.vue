@@ -174,8 +174,7 @@ const handleQuery = async (row: any) => {
 
 // 判断是否（用于是否能选择或输入等）
 function judgeColumns(data: any) {
-	var lst = ['createdUserName', 'createdTime', 'updatedUserName', 'updatedTime'];
-	return lst.indexOf(data.columnName) > -1 || data.columnKey === 'True';
+	return data.whetherCommon == true || data.columnKey === 'True';
 }
 
 function effectTypeEnable(data: any) {
