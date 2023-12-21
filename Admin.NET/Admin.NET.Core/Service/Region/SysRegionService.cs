@@ -126,7 +126,7 @@ public class SysRegionService : IDynamicApiController, ITransient
     {
         await _sysRegionRep.DeleteAsync(u => u.Id > 0);
 
-        var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
+        var context = BrowsingContext.New(AngleSharp.Configuration.Default.WithDefaultLoader());
         var dom = await context.OpenAsync(_url);
 
         // 省级
