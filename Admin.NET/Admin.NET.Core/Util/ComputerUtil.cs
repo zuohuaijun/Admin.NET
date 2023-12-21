@@ -49,7 +49,7 @@ public static class ComputerUtil
             foreach (var item in disks)
             {
                 var disk = item.Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
-                if (disk == null || disk.Length == 0)
+                if (disk == null || disk.Length < 6)
                     continue;
 
                 var diskInfo = new DiskInfo()
