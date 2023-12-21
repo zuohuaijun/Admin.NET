@@ -234,7 +234,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             u.DataType = CodeGenUtil.ConvertDataType(u, config.DbType);
         });
         if (_codeGenOptions.BaseEntityNames.Contains(input.BaseClassName, StringComparer.OrdinalIgnoreCase))
-            dbColumnInfos = dbColumnInfos.Where(u => !dbColumnNames.Contains(u.DbColumnName, StringComparer.OrdinalIgnoreCase)).ToList();
+            dbColumnInfos = dbColumnInfos.Where(u => !dbColumnNames.Contains(u.PropertyName, StringComparer.OrdinalIgnoreCase)).ToList();
 
         var tContent = File.ReadAllText(templatePath);
         var tResult = _viewEngine.RunCompileFromCached(tContent, new
