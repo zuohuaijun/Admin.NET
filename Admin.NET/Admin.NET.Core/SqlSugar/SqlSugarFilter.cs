@@ -133,7 +133,8 @@ public static class SqlSugarFilter
     public static void SetCustomEntityFilter(SqlSugarScopeProvider db)
     {
         // 配置自定义缓存
-        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:custom";
+        var userId = App.User?.FindFirst(ClaimConst.UserId)?.Value;
+        var cacheKey = $"db:{db.CurrentConnectionConfig.ConfigId}:custom:{userId}";
         var tableFilterItemList = _cache.Get<List<TableFilterItem<object>>>(cacheKey);
         if (tableFilterItemList == null)
         {
