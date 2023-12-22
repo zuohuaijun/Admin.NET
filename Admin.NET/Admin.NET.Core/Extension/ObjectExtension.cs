@@ -265,4 +265,70 @@ public static partial class ObjectExtension
     {
         return obj == null || string.IsNullOrEmpty(obj.ToString());
     }
+
+    /// <summary>
+    /// 字符串掩码
+    /// </summary>
+    /// <param name="str">字符串</param>
+    /// <param name="mask">掩码符</param>
+    /// <returns></returns>
+    public static string Mask(this string str, char mask = '*')
+    {
+        if (string.IsNullOrWhiteSpace(str?.Trim()))
+            return str;
+
+        str = str.Trim();
+        var masks = mask.ToString().PadLeft(4, mask);
+        return str.Length switch
+        {
+            >= 11 => Regex.Replace(str, "(.{3}).*(.{4})", $"$1{masks}$2"),
+            10 => Regex.Replace(str, "(.{3}).*(.{3})", $"$1{masks}$2"),
+            9 => Regex.Replace(str, "(.{2}).*(.{3})", $"$1{masks}$2"),
+            8 => Regex.Replace(str, "(.{2}).*(.{2})", $"$1{masks}$2"),
+            7 => Regex.Replace(str, "(.{1}).*(.{2})", $"$1{masks}$2"),
+            6 => Regex.Replace(str, "(.{1}).*(.{1})", $"$1{masks}$2"),
+            _ => Regex.Replace(str, "(.{1}).*", $"$1{masks}")
+        };
+    }
+
+    /// <summary>
+    /// 身份证号掩码
+    /// </summary>
+    /// <param name="idCard">身份证号</param>
+    /// <param name="mask">掩码符</param>
+    /// <returns></returns>
+    public static string MaskIdCard(this string idCard, char mask = '*')
+    {
+        if (!idCard.TryValidate(ValidationTypes.IDCard).IsValid) return idCard;
+
+        return idCard.Replace("(?<=\\w{3})\\w(?=\\w{4})", $"{mask}");
+    }
+
+    /// <summary>
+    /// 邮箱掩码
+    /// </summary>
+    /// <param name="email">邮箱</param>
+    /// <param name="mask">掩码符</param>
+    /// <returns></returns>
+    public static string MaskEmail(this string email, char mask = '*')
+    {
+        if (!email.TryValidate(ValidationTypes.EmailAddress).IsValid) return email;
+
+        var masks = mask.ToString().PadLeft(4, mask);
+        return email.Replace("(^\\w)[^@]*(@.*$)", $"$1{masks}$2");
+    }
+
+    /// <summary>
+    /// 银行卡号掩码
+    /// </summary>
+    /// <param name="bankCard">银行卡号</param>
+    /// <param name="mask">掩码符</param>
+    /// <returns></returns>
+    public static string MaskBankCard(this string bankCard, char mask = '*')
+    {
+        if (bankCard.Length < 10) return bankCard;
+
+        var masks = mask.ToString().PadLeft(4, mask);
+        return bankCard.Replace("(\\d{6})\\d{9}(\\d{4})", $"$1{masks}$2");
+    }
 }

@@ -147,13 +147,16 @@ public static class ComputerUtil
 /// </summary>
 public class MemoryMetrics
 {
-    [JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     public double Total { get; set; }
 
-    [JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     public double Used { get; set; }
 
-    [JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     public double Free { get; set; }
 
     /// <summary>

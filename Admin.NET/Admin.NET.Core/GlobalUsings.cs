@@ -39,7 +39,7 @@ global using Microsoft.Extensions.Logging;
 global using Microsoft.Extensions.Options;
 global using NewLife;
 global using NewLife.Caching;
-global using Newtonsoft.Json;
+//global using Newtonsoft.Json;
 global using SKIT.FlurlHttpClient;
 global using SKIT.FlurlHttpClient.Wechat.Api;
 global using SKIT.FlurlHttpClient.Wechat.Api.Models;

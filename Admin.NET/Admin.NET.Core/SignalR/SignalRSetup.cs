@@ -9,6 +9,7 @@
 
 using Furion.Logging.Extensions;
 using Microsoft.AspNetCore.DataProtection;
+using Newtonsoft.Json;
 using StackExchange.Redis;
 
 namespace Admin.NET.Core;

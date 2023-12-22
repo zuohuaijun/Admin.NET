@@ -28,8 +28,8 @@ public class SysUser : EntityTenant
     /// </summary>
     [SugarColumn(ColumnDescription = "密码", Length = 512)]
     [MaxLength(512)]
+    [Newtonsoft.Json.JsonIgnore]
     [System.Text.Json.Serialization.JsonIgnore]
-    [JsonIgnore]
     public virtual string Password { get; set; }
 
     /// <summary>
