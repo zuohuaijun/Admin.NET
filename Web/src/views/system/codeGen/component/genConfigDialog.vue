@@ -46,6 +46,11 @@
 						<el-checkbox v-model="scope.row.whetherRequired" :disabled="judgeColumns(scope.row)" />
 					</template>
 				</el-table-column>
+				<el-table-column prop="whetherSortable" label="可排序" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-checkbox v-model="scope.row.whetherSortable" />
+					</template>
+				</el-table-column>
 				<el-table-column prop="queryWhether" label="是否是查询" min-width="80" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-switch v-model="scope.row.queryWhether" :active-value="true" :inactive-value="false" />
