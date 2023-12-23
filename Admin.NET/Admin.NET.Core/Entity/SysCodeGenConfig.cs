@@ -113,6 +113,13 @@ public class SysCodeGenConfig : EntityBase
     public string? WhetherRequired { get; set; }
 
     /// <summary>
+    /// 是否可排序（字典）
+    /// </summary>
+    [SugarColumn(ColumnDescription = "是否可排序", Length = 8)]
+    [MaxLength(8)]
+    public string? WhetherSortable { get; set; }
+
+    /// <summary>
     /// 是否是查询条件
     /// </summary>
     [SugarColumn(ColumnDescription = "是否是查询条件", Length = 8)]

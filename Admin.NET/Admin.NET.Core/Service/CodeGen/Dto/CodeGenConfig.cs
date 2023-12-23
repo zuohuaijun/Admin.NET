@@ -107,6 +107,11 @@ public class CodeGenConfig
     public string WhetherRequired { get; set; }
 
     /// <summary>
+    /// 是否可排序（字典）
+    /// </summary>
+    public string WhetherSortable { get; set; }
+
+    /// <summary>
     /// 是否是查询条件
     /// </summary>
     public string QueryWhether { get; set; }
