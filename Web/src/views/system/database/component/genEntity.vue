@@ -48,7 +48,7 @@
 
 <script lang="ts" setup name="sysGenEntity">
 import { onMounted, reactive, ref } from 'vue';
-
+import { camelCase, upperFirst } from 'lodash-es';
 import { getAPI } from '/@/utils/axios-utils';
 import { SysDatabaseApi, SysDictTypeApi } from '/@/api-services/api';
 
@@ -73,6 +73,7 @@ onMounted(async () => {
 const openDialog = (row: any) => {
 	state.ruleForm.configId = row.configId;
 	state.ruleForm.tableName = row.tableName;
+	state.ruleForm.entityName = upperFirst(camelCase(row.tableName));
 	state.ruleForm.baseClassName = 'EntityBase';	
 	state.isShowDialog = true;
 };
