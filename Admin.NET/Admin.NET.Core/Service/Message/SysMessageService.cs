@@ -67,6 +67,8 @@ public class SysMessageService : IDynamicApiController, ITransient
         var user = _sysCacheService.Get<SysOnlineUser>(CacheConst.KeyUserOnline + input.UserId);
         if (user == null) return;
         await _chatHubContext.Clients.Client(user.ConnectionId).ReceiveMessage(input);
+        // 可以直接通过用户Id发消息
+        //await _chatHubContext.Clients.User(user.UserId.ToString()).ReceiveMessage(input);
     }
 
     /// <summary>

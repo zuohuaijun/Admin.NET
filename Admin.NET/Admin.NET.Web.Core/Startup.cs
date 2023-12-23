@@ -17,6 +17,7 @@ using IGeekFan.AspNetCore.Knife4jUI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -129,6 +130,7 @@ public class Startup : AppStartup
 
         // 即时通讯
         services.AddSignalR(SetNewtonsoftJsonSetting);
+        //services.AddSingleton<IUserIdProvider, UserIdProvider>();
 
         // 系统日志
         services.AddLoggingSetup();

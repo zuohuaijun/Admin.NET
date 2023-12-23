@@ -42,9 +42,13 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     /// <returns></returns>
     public override async Task OnConnectedAsync()
     {
-        var token = Context.GetHttpContext().Request.Query["access_token"];
-        var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
-        var client = Parser.GetDefault().Parse(Context.GetHttpContext().Request.Headers["User-Agent"]);
+        //var token = Context.GetHttpContext().Request.Query["access_token"];
+        //var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
+        //var client = Parser.GetDefault().Parse(Context.GetHttpContext().Request.Headers["User-Agent"]);
+
+        var httpContext = Context.GetHttpContext();
+        var claims = httpContext.User.Claims;
+        var client = Parser.GetDefault().Parse(httpContext.Request.Headers["User-Agent"]);
 
         var userId = claims.FirstOrDefault(u => u.Type == ClaimConst.UserId)?.Value;
         var tenantId = claims.FirstOrDefault(u => u.Type == ClaimConst.TenantId)?.Value;
@@ -55,7 +59,8 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
             UserName = claims.FirstOrDefault(u => u.Type == ClaimConst.Account)?.Value,
             RealName = claims.FirstOrDefault(u => u.Type == ClaimConst.RealName)?.Value,
             Time = DateTime.Now,
-            Ip = App.HttpContext.GetRemoteIpAddressToIPv4(),
+            //Ip = App.HttpContext.GetRemoteIpAddressToIPv4(),
+            Ip = httpContext.Connection.RemoteIpAddress.ToString(),
             Browser = client.UA.Family + client.UA.Major,
             Os = client.OS.Family + client.OS.Major,
             TenantId = string.IsNullOrWhiteSpace(tenantId) ? 0 : Convert.ToInt64(tenantId),
