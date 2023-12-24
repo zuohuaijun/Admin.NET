@@ -150,7 +150,8 @@ public class SysUserService : IDynamicApiController, ITransient
         if (user.Id == _userManager.UserId)
             throw Oops.Oh(ErrorCodeEnum.D1001);
 
-        await App.GetService<SysOnlineUserService>().DisableLogin(user.Id);
+        // 强制下线
+        await App.GetService<SysOnlineUserService>().ForceOffline(user.Id);
 
         await _sysUserRep.DeleteAsync(user);
 
@@ -203,8 +204,9 @@ public class SysUserService : IDynamicApiController, ITransient
         if (input.Status == StatusEnum.Disable)
         {
             sysCacheService.Set($"{CacheConst.KeyBlacklist}{user.Id}", $"{user.RealName}-{user.Phone}");
-            
-            await App.GetService<SysOnlineUserService>().DisableLogin(user.Id);
+
+            // 强制下线
+            await App.GetService<SysOnlineUserService>().ForceOffline(user.Id);
         }
         else
         {

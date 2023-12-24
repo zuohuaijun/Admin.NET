@@ -91,12 +91,12 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 通过用户编号踢掉在线用户
+    /// 通过用户ID踢掉在线用户
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task DisableLogin(long userId)
+    public async Task ForceOffline(long userId)
     {
         var user = await _sysOnlineUerRep.GetFirstAsync(u => u.UserId == userId);
         if (user == null) return;
