@@ -42,12 +42,9 @@ public class OnlineUserHub : Hub<IOnlineUserHub>
     /// <returns></returns>
     public override async Task OnConnectedAsync()
     {
-        //var token = Context.GetHttpContext().Request.Query["access_token"];
-        //var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
-        //var client = Parser.GetDefault().Parse(Context.GetHttpContext().Request.Headers["User-Agent"]);
-
         var httpContext = Context.GetHttpContext();
-        var claims = httpContext.User.Claims;
+        var token = httpContext.Request.Query["access_token"];
+        var claims = JWTEncryption.ReadJwtToken(token)?.Claims;
         var client = Parser.GetDefault().Parse(httpContext.Request.Headers["User-Agent"]);
 
         var userId = claims.FirstOrDefault(u => u.Type == ClaimConst.UserId)?.Value;
