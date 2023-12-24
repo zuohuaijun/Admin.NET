@@ -190,12 +190,11 @@ public class SysCodeGenService : IDynamicApiController, ITransient
     /// <returns></returns>
     private List<ColumnOuput> GetColumnList([FromQuery] AddCodeGenInput input)
     {
-        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId.ToString() == input.ConfigId);
-        var dbTableName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(input.TableName) : input.TableName;
-
-        var entityType = GetEntityInfos().GetAwaiter().GetResult().FirstOrDefault(u => u.DbTableName == dbTableName);
+        var entityType = GetEntityInfos().GetAwaiter().GetResult().FirstOrDefault(u => u.EntityName == input.TableName);
         if (entityType == null)
             return null;
+        var config = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault(u => u.ConfigId.ToString() == input.ConfigId);
+        var dbTableName = config.DbSettings.EnableUnderLine ? UtilMethods.ToUnderLine(entityType.DbTableName) : entityType.DbTableName;
 
         // 切库---多库代码生成用
         var provider = _db.AsTenant().GetConnectionScope(!string.IsNullOrEmpty(input.ConfigId) ? input.ConfigId : SqlSugarConst.MainConfigId);
