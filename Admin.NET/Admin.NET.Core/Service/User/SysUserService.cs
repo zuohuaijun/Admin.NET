@@ -150,6 +150,8 @@ public class SysUserService : IDynamicApiController, ITransient
         if (user.Id == _userManager.UserId)
             throw Oops.Oh(ErrorCodeEnum.D1001);
 
+        await App.GetService<SysOnlineUserService>().DisableLogin(user.Id);
+
         await _sysUserRep.DeleteAsync(user);
 
         // 删除用户角色
@@ -199,9 +201,15 @@ public class SysUserService : IDynamicApiController, ITransient
         // 账号禁用则增加黑名单，账号启用则移除黑名单
         var sysCacheService = App.GetService<SysCacheService>();
         if (input.Status == StatusEnum.Disable)
+        {
             sysCacheService.Set($"{CacheConst.KeyBlacklist}{user.Id}", $"{user.RealName}-{user.Phone}");
+            
+            await App.GetService<SysOnlineUserService>().DisableLogin(user.Id);
+        }
         else
+        {
             sysCacheService.Remove($"{CacheConst.KeyBlacklist}{user.Id}");
+        }
 
         user.Status = input.Status;
         return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => new { u.Status }).ExecuteCommandAsync();
