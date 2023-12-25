@@ -7,6 +7,8 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
+using NewLife.Caching.Models;
+
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -46,9 +48,9 @@ public class SysCacheService : IDynamicApiController, ISingleton
     public bool Set(string key, object value)
     {
         if (string.IsNullOrWhiteSpace(key)) return false;
-
         return _cache.Set($"{_cacheOptions.Prefix}{key}", value);
     }
+
 
     /// <summary>
     /// 增加缓存并设置过期时间
@@ -112,7 +114,6 @@ public class SysCacheService : IDynamicApiController, ISingleton
         var delKeys = _cache == Cache.Default
             ? _cache.Keys.Where(u => u.StartsWith($"{_cacheOptions.Prefix}{prefixKey}")).ToArray()
             : ((FullRedis)_cache).Search($"{_cacheOptions.Prefix}{prefixKey}*", int.MaxValue).ToArray();
-
         return _cache.Remove(delKeys);
     }
 
@@ -154,7 +155,81 @@ public class SysCacheService : IDynamicApiController, ISingleton
     public T GetOrAdd<T>(string key, Func<string, T> callback, int expire = -1)
     {
         if (string.IsNullOrWhiteSpace(key)) return default;
-
         return _cache.GetOrAdd($"{_cacheOptions.Prefix}{key}", callback, expire);
+    }
+    [NonAction]
+    public RedisHash<string, T> GetHashMap<T>(string key)
+    {
+        return _cache.GetDictionary<T>(key) as RedisHash<string, T>;
+    }
+
+    /// <批量HASH添加 />
+    [NonAction]
+    public bool HashSet<T>(string key, Dictionary<string, T> dic)
+    {
+        var hash = GetHashMap<T>(key);
+        return hash.HMSet(dic);
+    }
+    /// <添加HASH一条 />
+    [NonAction]
+    public void HashAdd<T>(string key, string hashKey, T value)
+    {
+        var hash = GetHashMap<T>(key);
+        hash.Add(hashKey, value);
+    }
+
+    /// <获取HASH多条 />
+    [NonAction]
+    public List<T> HashGet<T>(string key, params string[] fields)
+    {
+        var hash = GetHashMap<T>(key);
+        var result = hash.HMGet(fields);
+        return result.ToList();
+    }
+
+
+    /// <获取HASH一条 />
+    [NonAction]
+    public T HashGetOne<T>(string key, string field)
+    {
+        var hash = GetHashMap<T>(key);
+        var result = hash.HMGet(new string[] { field });
+        return result[0];
+    }
+
+
+    /// <获取一个KEY下所有HASH />
+    [NonAction]
+    public IDictionary<string, T> HashGetAll<T>(string key)
+    {
+        var hash = GetHashMap<T>(key);
+        return hash.GetAll();
+
+    }
+
+
+    /// HASH删除多条KEY />
+    [NonAction]
+    public int HashDel<T>(string key, params string[] fields)
+    {
+        var hash = GetHashMap<T>(key);
+        return hash.HDel(fields);
+    }
+
+    /// 搜索>
+    [NonAction]
+    public List<KeyValuePair<string, T>> HashSearch<T>(string key, SearchModel searchModel)
+    {
+        var hash = GetHashMap<T>(key);
+        return hash.Search(searchModel).ToList();
+    }
+
+
+    /// 搜索>
+    [NonAction]
+    public List<KeyValuePair<string, T>> HashSearch<T>(string key, string pattern, int count)
+    {
+        var hash = GetHashMap<T>(key);
+        return hash.Search(pattern, count).ToList();
     }
 }
