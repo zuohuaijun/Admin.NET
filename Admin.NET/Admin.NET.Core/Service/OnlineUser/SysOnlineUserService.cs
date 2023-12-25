@@ -83,10 +83,11 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     {
         if (await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSingleLogin))
         {
-            var user = await _sysOnlineUerRep.GetFirstAsync(u => u.UserId == userId);
-            if (user == null) return;
-
-            await ForceOffline(user);
+            var users = await _sysOnlineUerRep.GetListAsync(u => u.UserId == userId);
+            foreach (var user in users)
+            {
+                await ForceOffline(user);
+            }
         }
     }
 
@@ -98,9 +99,10 @@ public class SysOnlineUserService : IDynamicApiController, ITransient
     [NonAction]
     public async Task ForceOffline(long userId)
     {
-        var user = await _sysOnlineUerRep.GetFirstAsync(u => u.UserId == userId);
-        if (user == null) return;
-
-        await ForceOffline(user);
+        var users = await _sysOnlineUerRep.GetListAsync(u => u.UserId == userId);
+        foreach (var user in users)
+        {
+            await ForceOffline(user);
+        }
     }
 }
