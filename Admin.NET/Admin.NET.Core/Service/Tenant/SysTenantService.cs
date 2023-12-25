@@ -421,9 +421,6 @@ public class SysTenantService : IDynamicApiController, ITransient
             var tenant = _sysCacheService.Get<List<SysTenant>>(CacheConst.KeyTenant)?.First(u => u.Id == tenantId);
             if (tenant == null) return null;
 
-            // 对租户库连接进行SM2解密
-            tenant.Connection = CryptogramUtil.SM2Decrypt(tenant.Connection);
-
             // 获取默认库连接配置
             var dbOptions = App.GetOptions<DbConnectionOptions>();
             var mainConnConfig = dbOptions.ConnectionConfigs.First(u => u.ConfigId.ToString() == SqlSugarConst.MainConfigId);
@@ -434,7 +431,7 @@ public class SysTenantService : IDynamicApiController, ITransient
                 ConfigId = tenant.Id.ToString(),
                 DbType = tenant.DbType,
                 IsAutoCloseConnection = true,
-                ConnectionString = tenant.Connection,
+                ConnectionString = CryptogramUtil.SM2Decrypt(tenant.Connection), // 对租户库连接进行SM2解密
                 DbSettings = new DbSettings()
                 {
                     EnableUnderLine = mainConnConfig.DbSettings.EnableUnderLine,
