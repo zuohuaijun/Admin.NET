@@ -21,13 +21,15 @@ public class SysUserService : IDynamicApiController, ITransient
     private readonly SysUserExtOrgService _sysUserExtOrgService;
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysConfigService _sysConfigService;
+    private readonly SysOnlineUserService _sysOnlineUserService;
 
     public SysUserService(UserManager userManager,
         SqlSugarRepository<SysUser> sysUserRep,
         SysOrgService sysOrgService,
         SysUserExtOrgService sysUserExtOrgService,
         SysUserRoleService sysUserRoleService,
-        SysConfigService sysConfigService)
+        SysConfigService sysConfigService,
+        SysOnlineUserService sysOnlineUserService)
     {
         _userManager = userManager;
         _sysUserRep = sysUserRep;
@@ -35,6 +37,7 @@ public class SysUserService : IDynamicApiController, ITransient
         _sysUserExtOrgService = sysUserExtOrgService;
         _sysUserRoleService = sysUserRoleService;
         _sysConfigService = sysConfigService;
+        _sysOnlineUserService = sysOnlineUserService;
     }
 
     /// <summary>
@@ -151,7 +154,7 @@ public class SysUserService : IDynamicApiController, ITransient
             throw Oops.Oh(ErrorCodeEnum.D1001);
 
         // 强制下线
-        await App.GetService<SysOnlineUserService>().ForceOffline(user.Id);
+        await _sysOnlineUserService.ForceOffline(user.Id);
 
         await _sysUserRep.DeleteAsync(user);
 
@@ -206,7 +209,7 @@ public class SysUserService : IDynamicApiController, ITransient
             sysCacheService.Set($"{CacheConst.KeyBlacklist}{user.Id}", $"{user.RealName}-{user.Phone}");
 
             // 强制下线
-            await App.GetService<SysOnlineUserService>().ForceOffline(user.Id);
+            await _sysOnlineUserService.ForceOffline(user.Id);
         }
         else
         {

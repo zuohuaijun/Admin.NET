@@ -51,7 +51,6 @@ public class SysCacheService : IDynamicApiController, ISingleton
         return _cache.Set($"{_cacheOptions.Prefix}{key}", value);
     }
 
-
     /// <summary>
     /// 增加缓存并设置过期时间
     /// </summary>
@@ -63,7 +62,6 @@ public class SysCacheService : IDynamicApiController, ISingleton
     public bool Set(string key, object value, TimeSpan expire)
     {
         if (string.IsNullOrWhiteSpace(key)) return false;
-
         return _cache.Set($"{_cacheOptions.Prefix}{key}", value, expire);
     }
 
@@ -157,20 +155,34 @@ public class SysCacheService : IDynamicApiController, ISingleton
         if (string.IsNullOrWhiteSpace(key)) return default;
         return _cache.GetOrAdd($"{_cacheOptions.Prefix}{key}", callback, expire);
     }
+
     [NonAction]
     public RedisHash<string, T> GetHashMap<T>(string key)
     {
         return _cache.GetDictionary<T>(key) as RedisHash<string, T>;
     }
 
-    /// <批量HASH添加 />
+    /// <summary>
+    /// 批量添加HASH
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <param name="dic"></param>
+    /// <returns></returns>
     [NonAction]
     public bool HashSet<T>(string key, Dictionary<string, T> dic)
     {
         var hash = GetHashMap<T>(key);
         return hash.HMSet(dic);
     }
-    /// <添加HASH一条 />
+
+    /// <summary>
+    /// 添加一条HASH
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <param name="hashKey"></param>
+    /// <param name="value"></param>
     [NonAction]
     public void HashAdd<T>(string key, string hashKey, T value)
     {
@@ -178,7 +190,13 @@ public class SysCacheService : IDynamicApiController, ISingleton
         hash.Add(hashKey, value);
     }
 
-    /// <获取HASH多条 />
+    /// <summary>
+    /// 获取多条HASH
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <param name="fields"></param>
+    /// <returns></returns>
     [NonAction]
     public List<T> HashGet<T>(string key, params string[] fields)
     {
@@ -187,8 +205,13 @@ public class SysCacheService : IDynamicApiController, ISingleton
         return result.ToList();
     }
 
-
-    /// <获取HASH一条 />
+    /// <summary>
+    /// 获取一条HASH
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <param name="field"></param>
+    /// <returns></returns>
     [NonAction]
     public T HashGetOne<T>(string key, string field)
     {
@@ -197,18 +220,26 @@ public class SysCacheService : IDynamicApiController, ISingleton
         return result[0];
     }
 
-
-    /// <获取一个KEY下所有HASH />
+    /// <summary>
+    /// 根据KEY获取所有HASH
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <returns></returns>
     [NonAction]
     public IDictionary<string, T> HashGetAll<T>(string key)
     {
         var hash = GetHashMap<T>(key);
         return hash.GetAll();
-
     }
 
-
-    /// HASH删除多条KEY />
+    /// <summary>
+    /// 删除HASH
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <param name="fields"></param>
+    /// <returns></returns>
     [NonAction]
     public int HashDel<T>(string key, params string[] fields)
     {
@@ -216,7 +247,13 @@ public class SysCacheService : IDynamicApiController, ISingleton
         return hash.HDel(fields);
     }
 
-    /// 搜索>
+    /// <summary>
+    /// 搜索HASH
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <param name="searchModel"></param>
+    /// <returns></returns>
     [NonAction]
     public List<KeyValuePair<string, T>> HashSearch<T>(string key, SearchModel searchModel)
     {
@@ -224,8 +261,14 @@ public class SysCacheService : IDynamicApiController, ISingleton
         return hash.Search(searchModel).ToList();
     }
 
-
-    /// 搜索>
+    /// <summary>
+    /// 搜索HASH
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <param name="pattern"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
     [NonAction]
     public List<KeyValuePair<string, T>> HashSearch<T>(string key, string pattern, int count)
     {
