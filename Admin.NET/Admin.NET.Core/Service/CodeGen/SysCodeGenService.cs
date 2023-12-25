@@ -419,7 +419,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
                 Type = MenuTypeEnum.Dir,
                 Icon = "robot",
                 Path = "/" + className.ToLower(),
-                Component = "LAYOUT",
+                Component = "Layout",
             };
             // 若先前存在则删除本级和下级
             var menuList0 = await _db.Queryable<SysMenu>().Where(u => u.Title == menuType0.Title && u.Type == menuType0.Type).ToListAsync();

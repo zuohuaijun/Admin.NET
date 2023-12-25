@@ -165,6 +165,7 @@ const openGenDialog = () => {
 	var table: any = {
 		configId: state.configId,
 		tableName: state.tableName,
+		position: state.appNamespaces[0],
 	};
 	genEntityRef.value?.openDialog(table);
 };
@@ -175,6 +176,7 @@ const openGenSeedDataDialog = () => {
 	var table: any = {
 		configId: state.configId,
 		tableName: state.tableName,
+		position: state.appNamespaces[0],
 	};
 	genSeedDataRef.value?.openDialog(table);
 };

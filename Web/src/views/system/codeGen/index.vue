@@ -143,7 +143,7 @@ const handleCurrentChange = (val: number) => {
 // 打开表增加页面
 const openAddDialog = () => {
 	state.editMenuTitle = '增加';
-	EditCodeGenRef.value?.openDialog({ authorName: 'Admin.NET', generateType: '200' });
+	EditCodeGenRef.value?.openDialog({ authorName: 'Admin.NET', generateType: '200', nameSpace: state.applicationNamespaces[0] });
 };
 
 // 打开表编辑页面
