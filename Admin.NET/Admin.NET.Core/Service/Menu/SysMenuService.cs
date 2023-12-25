@@ -225,17 +225,12 @@ public class SysMenuService : IDynamicApiController, ITransient
         if (permissions == null)
         {
             var menuIdList = _userManager.SuperAdmin ? new List<long>() : await GetMenuIdList();
-            if (menuIdList.Count > 0)
-            {
-                permissions = await _sysMenuRep.AsQueryable()
+            permissions = menuIdList.Count > 0 || _userManager.SuperAdmin
+                ? await _sysMenuRep.AsQueryable()
                     .Where(u => u.Type == MenuTypeEnum.Btn)
-                    .Where(u => menuIdList.Contains(u.Id))
-                    .Select(u => u.Permission).ToListAsync();
-            }
-            else
-            {
-                permissions = new List<string>();
-            }
+                    .WhereIF(menuIdList.Count > 0, u => menuIdList.Contains(u.Id))
+                    .Select(u => u.Permission).ToListAsync()
+                : new List<string>();
             _sysCacheService.Set(CacheConst.KeyUserButton + userId, permissions);
         }
         return permissions;
