@@ -55,12 +55,12 @@
 			<el-table-column v-for="(item, index) in setHeader" :key="index" v-bind="item">
 				<!-- 自定义列插槽，插槽名为columns属性的prop -->
 				<template #default="scope" v-if="(!item.children) && $slots[item.prop]">
-                <span v-if="item.formatter">{{ item.formatter ? item.formatter(scope.row,scope.column,scope.cellValue,scope.index) : scope.row[item.key] }}</span>
-					<slot :name="item.prop" v-bind="scope"></slot>
+					<span v-if="item.formatter">{{ item.formatter(scope.row,scope.column,scope.cellValue,scope.index) }}</span>
+					<slot v-else :name="item.prop" v-bind="scope"></slot>
 				</template>
 				<template v-else-if="!item.children" v-slot="scope">
-                <span v-if="item.formatter">{{ item.formatter ? item.formatter(scope.row,scope.column,scope.cellValue,scope.index) : scope.row[item.key] }}</span>
-					<template v-if="item.type === 'image'">
+					<span v-if="item.formatter">{{ item.formatter(scope.row,scope.column,scope.cellValue,scope.index)  }}</span>
+					<template v-else-if="item.type === 'image'">
 						<el-image :style="{ width: `${item.width}px`, height: `${item.height}px` }"
 							:src="scope.row[item.prop]" :zoom-rate="1.2" :preview-src-list="[scope.row[item.prop]]"
 							preview-teleported fit="cover" />
@@ -72,10 +72,12 @@
 				<el-table-column v-for="(childrenItem, childrenIndex) in item.children" :key="childrenIndex" v-bind="childrenItem">
 					<!-- 自定义列插槽，插槽名为columns属性的prop -->
 					<template #default="scope" v-if="$slots[childrenItem.prop]">
-						<slot :name="childrenItem.prop" v-bind="scope"></slot>
+						<span v-if="childrenItem.formatter">{{ childrenItem.formatter(scope.row,scope.column,scope.cellValue,scope.index) }}</span>
+						<slot v-else :name="childrenItem.prop" v-bind="scope"></slot>
 					</template>
 					<template v-else v-slot="scope">
-						<template v-if="childrenItem.type === 'image'">
+						<span v-if="childrenItem.formatter">{{ childrenItem.formatter(scope.row,scope.column,scope.cellValue,scope.index) }}</span>
+						<template v-else-if="childrenItem.type === 'image'">
 							<el-image :style="{ width: `${childrenItem.width}px`, height: `${childrenItem.height}px` }"
 								:src="scope.row[childrenItem.prop]" :zoom-rate="1.2" :preview-src-list="[scope.row[childrenItem.prop]]"
 								preview-teleported fit="cover" />
