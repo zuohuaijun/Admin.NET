@@ -55,9 +55,11 @@
 			<el-table-column v-for="(item, index) in setHeader" :key="index" v-bind="item">
 				<!-- 自定义列插槽，插槽名为columns属性的prop -->
 				<template #default="scope" v-if="(!item.children) && $slots[item.prop]">
+                <span v-if="item.formatter">{{ item.formatter ? item.formatter(scope.row,scope.column,scope.cellValue,scope.index) : scope.row[item.key] }}</span>
 					<slot :name="item.prop" v-bind="scope"></slot>
 				</template>
 				<template v-else-if="!item.children" v-slot="scope">
+                <span v-if="item.formatter">{{ item.formatter ? item.formatter(scope.row,scope.column,scope.cellValue,scope.index) : scope.row[item.key] }}</span>
 					<template v-if="item.type === 'image'">
 						<el-image :style="{ width: `${item.width}px`, height: `${item.height}px` }"
 							:src="scope.row[item.prop]" :zoom-rate="1.2" :preview-src-list="[scope.row[item.prop]]"
