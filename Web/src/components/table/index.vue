@@ -55,11 +55,14 @@
 			<el-table-column v-for="(item, index) in setHeader" :key="index" v-bind="item">
 				<!-- 自定义列插槽，插槽名为columns属性的prop -->
 				<template #default="scope" v-if="(!item.children) && $slots[item.prop]">
-					<span v-if="item.formatter">{{ item.formatter(scope.row,scope.column,scope.cellValue,scope.index) }}</span>
+					<formatter v-if="item.formatter" :fn="item.formatter(scope.row,scope.column,scope.cellValue,scope.index)">
+					</formatter>
 					<slot v-else :name="item.prop" v-bind="scope"></slot>
 				</template>
 				<template v-else-if="!item.children" v-slot="scope">
-					<span v-if="item.formatter">{{ item.formatter(scope.row,scope.column,scope.cellValue,scope.index)  }}</span>
+					<formatter v-if="item.formatter" :fn="item.formatter(scope.row,scope.column,scope.cellValue,scope.index)">
+					</formatter>
+					<!-- <span v-if="item.formatter">{{ item.formatter(scope.row,scope.column,scope.cellValue,scope.index)  }}</span> -->
 					<template v-else-if="item.type === 'image'">
 						<el-image :style="{ width: `${item.width}px`, height: `${item.height}px` }"
 							:src="scope.row[item.prop]" :zoom-rate="1.2" :preview-src-list="[scope.row[item.prop]]"
@@ -72,11 +75,15 @@
 				<el-table-column v-for="(childrenItem, childrenIndex) in item.children" :key="childrenIndex" v-bind="childrenItem">
 					<!-- 自定义列插槽，插槽名为columns属性的prop -->
 					<template #default="scope" v-if="$slots[childrenItem.prop]">
-						<span v-if="childrenItem.formatter">{{ childrenItem.formatter(scope.row,scope.column,scope.cellValue,scope.index) }}</span>
+						<formatter v-if="childrenItem.formatter" :fn="childrenItem.formatter(scope.row,scope.column,scope.cellValue,scope.index)">
+						</formatter>
+						<!-- <span v-if="childrenItem.formatter">{{ childrenItem.formatter(scope.row,scope.column,scope.cellValue,scope.index) }}</span> -->
 						<slot v-else :name="childrenItem.prop" v-bind="scope"></slot>
 					</template>
 					<template v-else v-slot="scope">
-						<span v-if="childrenItem.formatter">{{ childrenItem.formatter(scope.row,scope.column,scope.cellValue,scope.index) }}</span>
+						<formatter v-if="childrenItem.formatter" :fn="childrenItem.formatter(scope.row,scope.column,scope.cellValue,scope.index)">
+						</formatter>
+						<!-- <span v-if="childrenItem.formatter">{{ childrenItem.formatter(scope.row,scope.column,scope.cellValue,scope.index) }}</span> -->
 						<template v-else-if="childrenItem.type === 'image'">
 							<el-image :style="{ width: `${childrenItem.width}px`, height: `${childrenItem.height}px` }"
 								:src="scope.row[childrenItem.prop]" :zoom-rate="1.2" :preview-src-list="[scope.row[childrenItem.prop]]"
@@ -111,6 +118,7 @@ import { useThemeConfig } from '/@/stores/themeConfig';
 import { exportExcel } from '/@/utils/exportExcel';
 // import '/@/theme/tableTool.scss';
 import printJs from 'print-js';
+import formatter from '/@/components/table/formatter.vue';
 
 // 定义父组件传过来的值
 const props = defineProps({
