@@ -7,33 +7,28 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
-
 using NewLife.Caching.Queues;
-
 
 namespace Admin.NET.Core;
 
 /// <summary>
-/// Redis队列
+/// Redis 消息队列
 /// </summary>
 public static class RedisQueue
 {
-
     private static readonly ICache _cache = Cache.Default;
-
 
     /// <summary>
     /// 获取可信队列，需要确认
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="key"></param>
-    /// <returns></returns> 
+    /// <returns></returns>
     public static RedisReliableQueue<T> GetRedisReliableQueue<T>(string key)
     {
         var queue = (_cache as FullRedis).GetReliableQueue<T>(key);
         return queue;
     }
-
 
     /// <summary>
     /// 可信队列回滚
