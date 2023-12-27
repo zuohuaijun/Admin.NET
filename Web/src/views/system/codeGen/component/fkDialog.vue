@@ -19,14 +19,14 @@
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="数据库表" prop="tableName">
 							<el-select v-model="state.ruleForm.tableName" filterable clearable @change="TableChanged()" class="w100">
-								<el-option v-for="item in state.tableData" :key="item.entityName" :label="item.entityName + ' ( ' + item.tableName + ' )' + item.tableComment" :value="item.tableName" />
+								<el-option v-for="item in state.tableData" :key="item.entityName" :label="item.entityName + ' ( ' + item.tableName + ' )[' + item.tableComment + ']'" :value="item.tableName" />
 							</el-select>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="显示字段" prop="columnName">
 							<el-select v-model="state.ruleForm.columnName" class="w100">
-								<el-option v-for="item in state.columnData" :key="item.columnName" :label="item.columnName + ' ' + item.columnComment" :value="item.columnName" />
+								<el-option v-for="item in state.columnData" :key="item.columnName" :label="item.columnName + ' [' + item.columnComment + ']'" :value="item.columnName" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -60,8 +60,11 @@ const state = reactive({
 });
 
 onMounted(async () => {
-	var res = await getAPI(SysCodeGenApi).apiSysCodeGenDatabaseListGet();
-	state.dbData = res.data.result;
+	await getDbList();
+
+	// 默认使用第一个库
+	//state.ruleForm.configId = state.dbData[0].configId;
+	//await DbChanged();
 });
 
 const DbChanged = async () => {
