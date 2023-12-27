@@ -68,6 +68,7 @@ onMounted(async () => {
 const openDialog = (row: any) => {
 	state.ruleForm.configId = row.configId;
 	state.ruleForm.tableName = row.tableName;
+	state.ruleForm.position = row.position;
 	state.isShowDialog = true;
 };
 
