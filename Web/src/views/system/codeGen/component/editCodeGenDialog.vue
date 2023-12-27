@@ -46,7 +46,7 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="生成表" prop="tableName" :rules="[{ required: true, message: '生成表不能为空', trigger: 'blur' }]">
 							<el-select v-model="state.ruleForm.tableName" @change="tableChanged" value-key="value" filterable clearable class="w100">
-								<el-option v-for="item in state.tableData" :key="item.entityName" :label="item.entityName + ' ( ' + item.tableName + ' )' + item.tableComment" :value="item" />
+								<el-option v-for="item in state.tableData" :key="item.entityName" :label="item.entityName + ' ( ' + item.tableName + ' ) [' + item.tableComment + ']'" :value="item" />
 							</el-select>
 						</el-form-item>
 					</el-col>
@@ -157,6 +157,10 @@ onMounted(async () => {
 
 	let resPrintIdData = await getAPI(SysPrintApi).apiSysPrintPagePost();
 	state.printList = resPrintIdData.data.result?.items ?? [];
+
+	// 默认使用第一个库
+	//state.ruleForm.configId = state.dbData[0].configId;
+	//await dbChanged();
 });
 
 // db改变
