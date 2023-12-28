@@ -16,7 +16,7 @@ namespace Admin.NET.Core;
 /// </summary>
 public static class RedisQueue
 {
-    private static readonly ICache _cache = Cache.Default;
+      private static ICache _cache = App.GetService<ICache>();
 
     /// <summary>
     /// 获取可信队列，需要确认
