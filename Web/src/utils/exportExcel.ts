@@ -62,7 +62,14 @@ export function exportExcel(jsonarr: Array<EmptyObjectType>, name: string, heade
 		header.forEach((item) => {
 			if (json.hasOwnProperty(item.prop)) {
 				let val = '';
-				if (json[item.prop] != null) val = json[item.prop];
+				if (json[item.prop] != null) {
+					if (item.formatter) {
+						var itemf = item.formatter(json);
+						val = formatterRec(itemf);//递归获取formatter信息
+					} else {
+						val = json[item.prop];
+					}
+				}
 				row.push({
 					v: val,
 					t: 's',
@@ -81,4 +88,21 @@ export function exportExcel(jsonarr: Array<EmptyObjectType>, name: string, heade
 	XLSXS.utils.book_append_sheet(wb, ws, sheetName);
 	/* generate file and send to client */
 	XLSXS.writeFile(wb, name + '.xlsx');
+}
+//递归formatter
+function formatterRec(itemf:any) {
+	let r = '';
+	if (itemf.children) {
+		if (itemf.children.default) {
+			r = itemf.children.default();
+		} else {
+			itemf.children.forEach((element: any) => {
+				r = r + formatterRec(element);
+			});
+			
+		}
+	} else {
+		r = itemf;
+	}
+	return r;
 }
