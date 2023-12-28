@@ -146,7 +146,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     [DisplayName("获取接收的通知公告")]
     public async Task<SqlSugarPagedList<SysNoticeUser>> GetPageReceived([FromQuery] PageNoticeInput input)
     {
-        return await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
+        return await _sysNoticeUserRep.AsQueryable().Includes(u => u.SysNotice)
             .Where(u => u.UserId == _userManager.UserId)
             .WhereIF(!string.IsNullOrWhiteSpace(input.Title), u => u.SysNotice.Title.Contains(input.Title.Trim()))
             .WhereIF(input.Type is > 0, u => u.SysNotice.Type == input.Type)
@@ -161,7 +161,7 @@ public class SysNoticeService : IDynamicApiController, ITransient
     [DisplayName("获取未读的通知公告")]
     public async Task<List<SysNotice>> GetUnReadList()
     {
-        var noticeUserList = await _sysNoticeRep.AsSugarClient().Queryable<SysNoticeUser>().Includes(u => u.SysNotice)
+        var noticeUserList = await _sysNoticeUserRep.AsQueryable().Includes(u => u.SysNotice)
             .Where(u => u.UserId == _userManager.UserId && u.ReadStatus == NoticeUserStatusEnum.UNREAD)
             .OrderBy(u => u.SysNotice.CreateTime, OrderByType.Desc).ToListAsync();
         return noticeUserList.Select(t => t.SysNotice).ToList();

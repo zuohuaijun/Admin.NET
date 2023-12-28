@@ -322,11 +322,15 @@ public class SysOrgService : IDynamicApiController, ITransient
         // 按最大范围策略设定(若同时拥有ALL和SELF权限，则结果ALL)
         int strongerDataScopeType = (int)DataScopeEnum.Self;
 
-        // 角色集合拥有的数据范围
+        // 自定义数据范围的角色集合
         var customDataScopeRoleIdList = new List<long>();
+
+        // 数据范围的机构集合
+        var dataScopeOrgIdList = new List<long>();
+
         if (roleList != null && roleList.Count > 0)
         {
-            roleList.ForEach(u =>
+            roleList.ForEach(async u =>
             {
                 if (u.DataScope == DataScopeEnum.Define)
                 {
@@ -334,20 +338,23 @@ public class SysOrgService : IDynamicApiController, ITransient
                     strongerDataScopeType = (int)u.DataScope; // 自定义数据权限时也要更新最大范围
                 }
                 else if ((int)u.DataScope <= strongerDataScopeType)
+                {
                     strongerDataScopeType = (int)u.DataScope;
+                    // 根据数据范围获取机构集合
+                    var orgIds = await GetOrgIdListByDataScope(strongerDataScopeType);
+                    dataScopeOrgIdList = dataScopeOrgIdList.Union(orgIds).ToList();
+                }
             });
         }
-
-        // 根据角色集合获取机构集合
-        var orgIdList1 = await _sysRoleOrgService.GetRoleOrgIdList(customDataScopeRoleIdList);
-        // 根据数据范围获取机构集合
-        var orgIdList2 = await GetOrgIdListByDataScope(strongerDataScopeType);
 
         // 缓存当前用户最大角色数据范围
         _sysCacheService.Set(CacheConst.KeyRoleMaxDataScope + _userManager.UserId, strongerDataScopeType);
 
+        // 根据角色集合获取机构集合
+        var roleOrgIdList = await _sysRoleOrgService.GetRoleOrgIdList(customDataScopeRoleIdList);
+
         // 并集机构集合
-        return orgIdList1.Union(orgIdList2).ToList();
+        return roleOrgIdList.Union(dataScopeOrgIdList).ToList();
     }
 
     /// <summary>
