@@ -69,7 +69,7 @@
 							preview-teleported fit="cover" />
 					</template>
 					<template v-else>
-						{{ scope.row[item.prop] }}
+						{{ getProperty(scope.row,item.prop)  }}
 					</template>
 				</template>
 				<el-table-column v-for="(childrenItem, childrenIndex) in item.children" :key="childrenIndex" v-bind="childrenItem">
@@ -90,7 +90,7 @@
 								preview-teleported fit="cover" />
 						</template>
 						<template v-else>
-							{{ scope.row[childrenItem.prop] }}
+							{{ getProperty(scope.row,childrenItem.prop)  }}
 						</template>
 					</template>
 				</el-table-column>
@@ -182,6 +182,15 @@ const state = reactive({
 	checkListAll: true,
 	checkListIndeterminate: false,
 });
+
+const getProperty=(obj, property)=> {
+      const keys = property.split('.');
+      let value = obj;
+      for (const key of keys) {
+        value = value[key];
+      }
+      return value;
+    }
 
 // 设置边框显示/隐藏
 const setBorder = computed(() => {
