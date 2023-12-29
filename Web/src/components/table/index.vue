@@ -169,7 +169,7 @@ const { themeConfig } = storeToRefs(storesThemeConfig);
 const state = reactive({
 	data: [] as Array<EmptyObjectType>,
 	loading: false,
-	importLoading: false,
+	exportLoading: false,
 	total: 0,
 	page: {
 		page: 1,
@@ -252,22 +252,22 @@ const pageReset = () => {
 // 导出当前页
 const onImportTable = () => {
 	if (setHeader.value.length <= 0) return ElMessage.error('没有勾选要导出的列');
-	importData(state.data);
+	exportData(state.data);
 };
 // 全部导出
 const onImportTableAll = async () => {
 	if (setHeader.value.length <= 0) return ElMessage.error('没有勾选要导出的列');
-	state.importLoading = true;
-	const param = Object.assign({}, props.param, { page: 1, pageSize: 99999 });
+	state.exportLoading = true;
+	const param = Object.assign({}, props.param, { page: 1, pageSize: 9999999 });
 	const res = await props.getData(param);
-	state.importLoading = false;
+	state.exportLoading = false;
 	const data = res.result?.items ?? [];
-	importData(data);
+	exportData(data);
 };
 // 导出方法
-const importData = (data: Array<EmptyObjectType>) => {
+const exportData = (data: Array<EmptyObjectType>) => {
 	if (data.length <= 0) return ElMessage.error('没有数据可以导出');
-	state.importLoading = true;
+	state.exportLoading = true;
 	let exportData = JSON.parse(JSON.stringify(data));
 	if (props.exportChangeData) {
 		exportData = props.exportChangeData(exportData);
@@ -280,7 +280,7 @@ const importData = (data: Array<EmptyObjectType>) => {
 		}),
 		'导出数据'
 	);
-	state.importLoading = false;
+	state.exportLoading = false;
 };
 // 打印
 const onPrintTable = () => {
@@ -290,7 +290,7 @@ const onPrintTable = () => {
 	let tableTrTd = '';
 	let tableTd: any = {};
 	// 表头
-	props?.columns.forEach((v: any) => {
+	setHeader.value.forEach((v: any) => {
 		if (v.prop === "action") {
 			return;
 		}
@@ -299,7 +299,7 @@ const onPrintTable = () => {
 	// 表格内容
 	state.data.forEach((val: any, key: any) => {
 		if (!tableTd[key]) tableTd[key] = [];
-		props.columns.forEach((v: any) => {
+		setHeader.value.forEach((v: any) => {
 			if (v.prop === "action") {
 				return;
 			}
@@ -307,7 +307,9 @@ const onPrintTable = () => {
 				tableTd[key].push(`<td class="table-th table-center">${val[v.prop]}</td>`);
 			} else if (v.type === 'image') {
 				tableTd[key].push(`<td class="table-th table-center"><img src="${val[v.prop]}" style="width:${v.width}px;height:${v.height}px;"/></td>`);
-			}
+			} else {
+				tableTd[key].push(`<td class="table-th table-center">${val[v.prop]}</td>`);
+			} 
 		});
 		tableTrTd += `<tr>${tableTd[key].join('')}</tr>`;
 	});
