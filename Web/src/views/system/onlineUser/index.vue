@@ -121,6 +121,7 @@ const notificationThrottle = throttle(
 // 打开页面
 const openDrawer = () => {
 	state.isVisible = true;
+    handleQuery();
 };
 
 // 查询操作
