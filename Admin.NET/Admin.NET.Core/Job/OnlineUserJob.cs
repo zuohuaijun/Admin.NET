@@ -38,4 +38,19 @@ public class OnlineUserJob : IJob
         // 缓存租户列表
         await serviceScope.ServiceProvider.GetService<SysTenantService>().CacheTenant();
     }
+
+    public async Task UpdateBalanceChangeByTransfer()
+    {
+        var db = App.GetService<ISqlSugarClient>().CopyNew();
+
+        db.BeginTran();
+
+        // 第一个库-行锁
+        var lockUserInfo = await db.GetConnectionScope(SqlSugarConst.MainConfigId).Queryable<SysUser>().TranLock(DbLockType.Wait).FirstAsync(it => it.Id == 001 && it.TenantId == 001);
+
+        // 第二个库-行锁
+        var lockTransOrder = await db.GetConnectionScope("2").Queryable<SysUser>().TranLock(DbLockType.Wait).FirstAsync(it => it.Id == 001 && it.TenantId == 001);
+
+        db.CommitTran();
+    }
 }

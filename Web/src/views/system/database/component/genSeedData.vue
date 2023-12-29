@@ -56,7 +56,7 @@ const state = reactive({
 	isShowDialog: false,
 	ruleForm: {} as any,
 	codeGenBaseClassName: [] as any,
-	rules: { position: [{ required: true, message: '请选择存放位置',trigger: 'blur' }] },
+	rules: { position: [{ required: true, message: '请选择存放位置', trigger: 'blur' }] },
 });
 
 onMounted(async () => {
