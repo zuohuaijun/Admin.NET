@@ -31,6 +31,17 @@
 								@change="val.change"
 								class="w100"
 							/>
+							<el-date-picker
+								v-model="state.form[val.prop]"
+								v-bind="val.comProps"
+								type="daterange"
+								value-format="YYYY/MM/DD"
+								:placeholder="val.placeholder"
+								:clearable="!val.required"
+								v-else-if="val.type === 'daterange'"
+								@change="val.change"
+								class="w100"
+							/>
 							<el-select
 								v-model="state.form[val.prop]"
 								v-bind="val.comProps"
