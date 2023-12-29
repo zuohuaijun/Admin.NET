@@ -102,7 +102,7 @@
 </template>
 
 <script lang="ts" setup name="sysEditJobDetail">
-import { reactive, ref, computed } from 'vue';
+import { reactive, ref, computed, onBeforeUnmount } from 'vue';
 import * as monaco from 'monaco-editor';
 import { JobScriptCode } from './JobScriptCode';
 
@@ -150,6 +150,8 @@ const isHttpCreateType = computed(() => {
 // 初始化monacoEditor对象
 var monacoEditor: any = null;
 const initMonacoEditor = () => {
+	if (monacoEditor) return;
+
 	monacoEditor = monaco.editor.create(monacoEditorRef.value, {
 		theme: 'vs-dark', // 主题 vs vs-dark hc-black
 		value: '', // 默认显示的值
@@ -176,6 +178,13 @@ const initMonacoEditor = () => {
 	});
 };
 
+// 组件卸载之前执行
+onBeforeUnmount(() => {
+	if (monacoEditor) {
+		monacoEditor.dispose();
+	}
+});
+
 // 打开弹窗
 const openDialog = (row: any) => {
 	state.selectedTabName = '0'; // 重置为第一个 tab 页
@@ -190,7 +199,7 @@ const openDialog = (row: any) => {
 
 	// 延迟拿值防止取不到
 	setTimeout(() => {
-		if (monacoEditor == null) initMonacoEditor();
+		initMonacoEditor();
 		monacoEditor.setValue(row.id == undefined ? JobScriptCode : state.ruleForm.scriptCode);
 	}, 1);
 };
