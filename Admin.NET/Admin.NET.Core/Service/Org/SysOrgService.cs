@@ -330,7 +330,7 @@ public class SysOrgService : IDynamicApiController, ITransient
 
         if (roleList != null && roleList.Count > 0)
         {
-            roleList.ForEach(async u =>
+            roleList.ForEach(u =>
             {
                 if (u.DataScope == DataScopeEnum.Define)
                 {
@@ -341,7 +341,7 @@ public class SysOrgService : IDynamicApiController, ITransient
                 {
                     strongerDataScopeType = (int)u.DataScope;
                     // 根据数据范围获取机构集合
-                    var orgIds = await GetOrgIdListByDataScope(strongerDataScopeType);
+                    var orgIds = GetOrgIdListByDataScope(strongerDataScopeType).GetAwaiter().GetResult();
                     dataScopeOrgIdList = dataScopeOrgIdList.Union(orgIds).ToList();
                 }
             });
