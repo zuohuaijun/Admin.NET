@@ -123,7 +123,7 @@ onMounted(async () => {
 	state.allConstSelector = res3.data.result;
 
 	let resEnum = await getAPI(SysEnumApi).apiSysEnumEnumTypeListGet();
-	state.allEnumSelector = resEnum.data.result?.map((item) => ({ ...item, name: item.typeDescribe, code: item.typeName }));
+	state.allEnumSelector = resEnum.data.result?.map((item) => ({ ...item, name: `${item.typeDescribe} [${item.typeName?.replace('Enum','')}]`, code: item.typeName }));
 
 	mittBus.on('submitRefreshFk', (data: any) => {
 		state.tableData[data.index] = data;
