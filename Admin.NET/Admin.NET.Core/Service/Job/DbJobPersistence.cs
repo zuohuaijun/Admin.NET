@@ -149,9 +149,6 @@ public class DbJobPersistence : IJobPersistence
                 case PersistenceBehavior.Removed:
                     jobDetailRep.AsDeleteable().Where(u => u.JobId == jobDetail.JobId).ExecuteCommand();
                     break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
     }
@@ -180,10 +177,22 @@ public class DbJobPersistence : IJobPersistence
                 case PersistenceBehavior.Removed:
                     jobTriggerRep.AsDeleteable().Where(u => u.TriggerId == jobTrigger.TriggerId && u.JobId == jobTrigger.JobId).ExecuteCommand();
                     break;
-
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
+        }
+    }
+
+    /// <summary>
+    /// 作业触发器运行记录
+    /// </summary>
+    /// <param name="timeline"></param>
+    public void OnExecutionRecord(TriggerTimeline timeline)
+    {
+        using (var scope = _serviceScopeFactory.CreateScope())
+        {
+            var jobTriggerRecordRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTriggerRecord>>();
+
+            var jobTriggerRecord = timeline.Adapt<SysJobTriggerRecord>();
+            jobTriggerRecordRep.AsInsertable(jobTriggerRecord).ExecuteCommand();
         }
     }
 }
