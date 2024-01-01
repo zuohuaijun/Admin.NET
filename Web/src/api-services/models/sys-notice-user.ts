@@ -27,6 +27,14 @@ import {
 export interface SysNoticeUser {
 
     /**
+     * 雪花Id
+     *
+     * @type {number}
+     * @memberof SysNoticeUser
+     */
+    id?: number;
+
+    /**
      * 通知公告Id
      *
      * @type {number}

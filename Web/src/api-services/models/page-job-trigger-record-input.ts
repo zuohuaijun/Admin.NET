@@ -20,15 +20,15 @@ import {
  * 
  *
  * @export
- * @interface PageJobInput
+ * @interface PageJobTriggerRecordInput
  */
-export interface PageJobInput {
+export interface PageJobTriggerRecordInput {
 
     /**
      * 当前页码
      *
      * @type {number}
-     * @memberof PageJobInput
+     * @memberof PageJobTriggerRecordInput
      */
     page?: number;
 
@@ -36,7 +36,7 @@ export interface PageJobInput {
      * 页码容量
      *
      * @type {number}
-     * @memberof PageJobInput
+     * @memberof PageJobTriggerRecordInput
      */
     pageSize?: number;
 
@@ -44,7 +44,7 @@ export interface PageJobInput {
      * 排序字段
      *
      * @type {string}
-     * @memberof PageJobInput
+     * @memberof PageJobTriggerRecordInput
      */
     field?: string | null;
 
@@ -52,7 +52,7 @@ export interface PageJobInput {
      * 排序方向
      *
      * @type {string}
-     * @memberof PageJobInput
+     * @memberof PageJobTriggerRecordInput
      */
     order?: string | null;
 
@@ -60,7 +60,7 @@ export interface PageJobInput {
      * 降序排序
      *
      * @type {string}
-     * @memberof PageJobInput
+     * @memberof PageJobTriggerRecordInput
      */
     descStr?: string | null;
 
@@ -68,15 +68,15 @@ export interface PageJobInput {
      * 作业Id
      *
      * @type {string}
-     * @memberof PageJobInput
+     * @memberof PageJobTriggerRecordInput
      */
     jobId?: string | null;
 
     /**
-     * 描述信息
+     * 触发器Id
      *
      * @type {string}
-     * @memberof PageJobInput
+     * @memberof PageJobTriggerRecordInput
      */
-    description?: string | null;
+    triggerId?: string | null;
 }

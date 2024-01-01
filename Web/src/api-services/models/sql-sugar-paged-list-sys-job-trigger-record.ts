@@ -12,24 +12,24 @@
  * Do not edit the class manually.
  */
 
-import { JobOutput } from './job-output';
+import { SysJobTriggerRecord } from './sys-job-trigger-record';
 import {
-    JobOutput,
+    SysJobTriggerRecord,
 } from ".";
 
 /**
  * 分页泛型集合
  *
  * @export
- * @interface SqlSugarPagedListJobOutput
+ * @interface SqlSugarPagedListSysJobTriggerRecord
  */
-export interface SqlSugarPagedListJobOutput {
+export interface SqlSugarPagedListSysJobTriggerRecord {
 
     /**
      * 页码
      *
      * @type {number}
-     * @memberof SqlSugarPagedListJobOutput
+     * @memberof SqlSugarPagedListSysJobTriggerRecord
      */
     page?: number;
 
@@ -37,7 +37,7 @@ export interface SqlSugarPagedListJobOutput {
      * 页容量
      *
      * @type {number}
-     * @memberof SqlSugarPagedListJobOutput
+     * @memberof SqlSugarPagedListSysJobTriggerRecord
      */
     pageSize?: number;
 
@@ -45,7 +45,7 @@ export interface SqlSugarPagedListJobOutput {
      * 总条数
      *
      * @type {number}
-     * @memberof SqlSugarPagedListJobOutput
+     * @memberof SqlSugarPagedListSysJobTriggerRecord
      */
     total?: number;
 
@@ -53,23 +53,23 @@ export interface SqlSugarPagedListJobOutput {
      * 总页数
      *
      * @type {number}
-     * @memberof SqlSugarPagedListJobOutput
+     * @memberof SqlSugarPagedListSysJobTriggerRecord
      */
     totalPages?: number;
 
     /**
      * 当前页集合
      *
-     * @type {Array<JobOutput>}
-     * @memberof SqlSugarPagedListJobOutput
+     * @type {Array<SysJobTriggerRecord>}
+     * @memberof SqlSugarPagedListSysJobTriggerRecord
      */
-    items?: Array<JobOutput> | null;
+    items?: Array<SysJobTriggerRecord> | null;
 
     /**
      * 是否有上一页
      *
      * @type {boolean}
-     * @memberof SqlSugarPagedListJobOutput
+     * @memberof SqlSugarPagedListSysJobTriggerRecord
      */
     hasPrevPage?: boolean;
 
@@ -77,7 +77,7 @@ export interface SqlSugarPagedListJobOutput {
      * 是否有下一页
      *
      * @type {boolean}
-     * @memberof SqlSugarPagedListJobOutput
+     * @memberof SqlSugarPagedListSysJobTriggerRecord
      */
     hasNextPage?: boolean;
 }

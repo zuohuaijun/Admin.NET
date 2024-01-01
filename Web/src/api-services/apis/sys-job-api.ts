@@ -21,12 +21,14 @@ import { AddJobDetailInput } from '../models';
 import { AddJobTriggerInput } from '../models';
 import { AdminResultListSysJobCluster } from '../models';
 import { AdminResultListSysJobTrigger } from '../models';
-import { AdminResultSqlSugarPagedListJobOutput } from '../models';
+import { AdminResultSqlSugarPagedListJobDetailOutput } from '../models';
+import { AdminResultSqlSugarPagedListSysJobTriggerRecord } from '../models';
 import { DeleteJobDetailInput } from '../models';
 import { DeleteJobTriggerInput } from '../models';
 import { JobDetailInput } from '../models';
 import { JobTriggerInput } from '../models';
-import { PageJobInput } from '../models';
+import { PageJobDetailInput } from '../models';
+import { PageJobTriggerRecordInput } from '../models';
 import { UpdateJobDetailInput } from '../models';
 import { UpdateJobTriggerInput } from '../models';
 /**
@@ -412,12 +414,60 @@ export const SysJobApiAxiosParamCreator = function (configuration?: Configuratio
         /**
          * 
          * @summary 获取作业分页列表
-         * @param {PageJobInput} [body] 
+         * @param {PageJobDetailInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysJobPageJobDetailPost: async (body?: PageJobInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysJobPageJobDetailPost: async (body?: PageJobDetailInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             const localVarPath = `/api/sysJob/pageJobDetail`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 获取作业触发器运行记录分页列表
+         * @param {PageJobTriggerRecordInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiSysJobPageJobTriggerRecordPost: async (body?: PageJobTriggerRecordInput, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/sysJob/pageJobTriggerRecord`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -1044,12 +1094,26 @@ export const SysJobApiFp = function(configuration?: Configuration) {
         /**
          * 
          * @summary 获取作业分页列表
-         * @param {PageJobInput} [body] 
+         * @param {PageJobDetailInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobPageJobDetailPost(body?: PageJobInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>>> {
+        async apiSysJobPageJobDetailPost(body?: PageJobDetailInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListJobDetailOutput>>> {
             const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobPageJobDetailPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 获取作业触发器运行记录分页列表
+         * @param {PageJobTriggerRecordInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysJobPageJobTriggerRecordPost(body?: PageJobTriggerRecordInput, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSqlSugarPagedListSysJobTriggerRecord>>> {
+            const localVarAxiosArgs = await SysJobApiAxiosParamCreator(configuration).apiSysJobPageJobTriggerRecordPost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -1282,12 +1346,22 @@ export const SysJobApiFactory = function (configuration?: Configuration, basePat
         /**
          * 
          * @summary 获取作业分页列表
-         * @param {PageJobInput} [body] 
+         * @param {PageJobDetailInput} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysJobPageJobDetailPost(body?: PageJobInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>> {
+        async apiSysJobPageJobDetailPost(body?: PageJobDetailInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListJobDetailOutput>> {
             return SysJobApiFp(configuration).apiSysJobPageJobDetailPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 获取作业触发器运行记录分页列表
+         * @param {PageJobTriggerRecordInput} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiSysJobPageJobTriggerRecordPost(body?: PageJobTriggerRecordInput, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSqlSugarPagedListSysJobTriggerRecord>> {
+            return SysJobApiFp(configuration).apiSysJobPageJobTriggerRecordPost(body, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -1485,13 +1559,24 @@ export class SysJobApi extends BaseAPI {
     /**
      * 
      * @summary 获取作业分页列表
-     * @param {PageJobInput} [body] 
+     * @param {PageJobDetailInput} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysJobApi
      */
-    public async apiSysJobPageJobDetailPost(body?: PageJobInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListJobOutput>> {
+    public async apiSysJobPageJobDetailPost(body?: PageJobDetailInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListJobDetailOutput>> {
         return SysJobApiFp(this.configuration).apiSysJobPageJobDetailPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 获取作业触发器运行记录分页列表
+     * @param {PageJobTriggerRecordInput} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof SysJobApi
+     */
+    public async apiSysJobPageJobTriggerRecordPost(body?: PageJobTriggerRecordInput, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSqlSugarPagedListSysJobTriggerRecord>> {
+        return SysJobApiFp(this.configuration).apiSysJobPageJobTriggerRecordPost(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 

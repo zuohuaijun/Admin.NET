@@ -17,18 +17,21 @@ public class SysJobService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysJobDetail> _sysJobDetailRep;
     private readonly SqlSugarRepository<SysJobTrigger> _sysJobTriggerRep;
+    private readonly SqlSugarRepository<SysJobTriggerRecord> _sysJobTriggerRecordRep;
     private readonly SqlSugarRepository<SysJobCluster> _sysJobClusterRep;
     private readonly ISchedulerFactory _schedulerFactory;
     private readonly DynamicJobCompiler _dynamicJobCompiler;
 
     public SysJobService(SqlSugarRepository<SysJobDetail> sysJobDetailRep,
         SqlSugarRepository<SysJobTrigger> sysJobTriggerRep,
+        SqlSugarRepository<SysJobTriggerRecord> sysJobTriggerRecordRep,
         SqlSugarRepository<SysJobCluster> sysJobClusterRep,
         ISchedulerFactory schedulerFactory,
         DynamicJobCompiler dynamicJobCompiler)
     {
         _sysJobDetailRep = sysJobDetailRep;
         _sysJobTriggerRep = sysJobTriggerRep;
+        _sysJobTriggerRecordRep = sysJobTriggerRecordRep;
         _sysJobClusterRep = sysJobClusterRep;
         _schedulerFactory = schedulerFactory;
         _dynamicJobCompiler = dynamicJobCompiler;
@@ -38,12 +41,12 @@ public class SysJobService : IDynamicApiController, ITransient
     /// 获取作业分页列表
     /// </summary>
     [DisplayName("获取作业分页列表")]
-    public async Task<SqlSugarPagedList<JobOutput>> PageJobDetail(PageJobInput input)
+    public async Task<SqlSugarPagedList<JobDetailOutput>> PageJobDetail(PageJobDetailInput input)
     {
         var jobDetails = await _sysJobDetailRep.AsQueryable()
             .WhereIF(!string.IsNullOrWhiteSpace(input.JobId), u => u.JobId.Contains(input.JobId))
             .WhereIF(!string.IsNullOrWhiteSpace(input.Description), u => u.Description.Contains(input.Description))
-            .Select(d => new JobOutput
+            .Select(d => new JobDetailOutput
             {
                 JobDetail = d,
             }).ToPagedListAsync(input.Page, input.PageSize);
@@ -345,5 +348,17 @@ public class SysJobService : IDynamicApiController, ITransient
     public async Task<List<SysJobCluster>> GetJobClusterList()
     {
         return await _sysJobClusterRep.GetListAsync();
+    }
+
+    /// <summary>
+    /// 获取作业触发器运行记录分页列表
+    /// </summary>
+    [DisplayName("获取作业触发器运行记录分页列表")]
+    public async Task<SqlSugarPagedList<SysJobTriggerRecord>> PageJobTriggerRecord(PageJobTriggerRecordInput input)
+    {
+        return await _sysJobTriggerRecordRep.AsQueryable()
+            .WhereIF(!string.IsNullOrWhiteSpace(input.JobId), u => u.JobId.Contains(input.JobId))
+            .WhereIF(!string.IsNullOrWhiteSpace(input.TriggerId), u => u.TriggerId.Contains(input.TriggerId))
+            .ToPagedListAsync(input.Page, input.PageSize);
     }
 }

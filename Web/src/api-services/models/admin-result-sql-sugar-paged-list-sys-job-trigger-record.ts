@@ -12,24 +12,24 @@
  * Do not edit the class manually.
  */
 
-import { SqlSugarPagedListJobOutput } from './sql-sugar-paged-list-job-output';
+import { SqlSugarPagedListSysJobTriggerRecord } from './sql-sugar-paged-list-sys-job-trigger-record';
 import {
-    SqlSugarPagedListJobOutput,
+    SqlSugarPagedListSysJobTriggerRecord,
 } from ".";
 
 /**
  * 全局返回结果
  *
  * @export
- * @interface AdminResultSqlSugarPagedListJobOutput
+ * @interface AdminResultSqlSugarPagedListSysJobTriggerRecord
  */
-export interface AdminResultSqlSugarPagedListJobOutput {
+export interface AdminResultSqlSugarPagedListSysJobTriggerRecord {
 
     /**
      * 状态码
      *
      * @type {number}
-     * @memberof AdminResultSqlSugarPagedListJobOutput
+     * @memberof AdminResultSqlSugarPagedListSysJobTriggerRecord
      */
     code?: number;
 
@@ -37,7 +37,7 @@ export interface AdminResultSqlSugarPagedListJobOutput {
      * 类型success、warning、error
      *
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListJobOutput
+     * @memberof AdminResultSqlSugarPagedListSysJobTriggerRecord
      */
     type?: string | null;
 
@@ -45,21 +45,21 @@ export interface AdminResultSqlSugarPagedListJobOutput {
      * 错误信息
      *
      * @type {string}
-     * @memberof AdminResultSqlSugarPagedListJobOutput
+     * @memberof AdminResultSqlSugarPagedListSysJobTriggerRecord
      */
     message?: string | null;
 
     /**
-     * @type {SqlSugarPagedListJobOutput}
-     * @memberof AdminResultSqlSugarPagedListJobOutput
+     * @type {SqlSugarPagedListSysJobTriggerRecord}
+     * @memberof AdminResultSqlSugarPagedListSysJobTriggerRecord
      */
-    result?: SqlSugarPagedListJobOutput;
+    result?: SqlSugarPagedListSysJobTriggerRecord;
 
     /**
      * 附加数据
      *
      * @type {any}
-     * @memberof AdminResultSqlSugarPagedListJobOutput
+     * @memberof AdminResultSqlSugarPagedListSysJobTriggerRecord
      */
     extras?: any | null;
 
@@ -67,7 +67,7 @@ export interface AdminResultSqlSugarPagedListJobOutput {
      * 时间
      *
      * @type {Date}
-     * @memberof AdminResultSqlSugarPagedListJobOutput
+     * @memberof AdminResultSqlSugarPagedListSysJobTriggerRecord
      */
     time?: Date;
 }

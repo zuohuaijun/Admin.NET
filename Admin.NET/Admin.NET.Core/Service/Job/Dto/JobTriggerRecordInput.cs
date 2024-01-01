@@ -9,15 +9,15 @@
 
 namespace Admin.NET.Core.Service;
 
-public class JobOutput
+public class PageJobTriggerRecordInput : BasePageInput
 {
     /// <summary>
-    /// 作业信息
+    /// 作业Id
     /// </summary>
-    public SysJobDetail JobDetail { get; set; }
+    public string JobId { get; set; }
 
     /// <summary>
-    /// 触发器集合
+    /// 触发器Id
     /// </summary>
-    public List<SysJobTrigger> JobTriggers { get; set; }
+    public string TriggerId { get; set; }
 }

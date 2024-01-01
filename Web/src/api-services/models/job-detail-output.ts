@@ -22,13 +22,13 @@ import {
  * 
  *
  * @export
- * @interface JobOutput
+ * @interface JobDetailOutput
  */
-export interface JobOutput {
+export interface JobDetailOutput {
 
     /**
      * @type {SysJobDetail}
-     * @memberof JobOutput
+     * @memberof JobDetailOutput
      */
     jobDetail?: SysJobDetail;
 
@@ -36,7 +36,7 @@ export interface JobOutput {
      * 触发器集合
      *
      * @type {Array<SysJobTrigger>}
-     * @memberof JobOutput
+     * @memberof JobDetailOutput
      */
     jobTriggers?: Array<SysJobTrigger> | null;
 }

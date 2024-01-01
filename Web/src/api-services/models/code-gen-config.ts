@@ -169,6 +169,14 @@ export interface CodeGenConfig {
     whetherRequired?: string | null;
 
     /**
+     * 是否可排序（字典）
+     *
+     * @type {string}
+     * @memberof CodeGenConfig
+     */
+    whetherSortable?: string | null;
+
+    /**
      * 是否是查询条件
      *
      * @type {string}

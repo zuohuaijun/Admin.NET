@@ -44,7 +44,7 @@
 			<el-table :data="state.jobData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="expand" fixed>
 					<template #default="scope">
-						<el-table style="margin-left: 48px; width: calc(100% - 48px)" :data="(scope.row as JobOutput).jobTriggers" border size="small">
+						<el-table style="margin-left: 48px; width: calc(100% - 48px)" :data="(scope.row as JobDetailOutput).jobTriggers" border size="small">
 							<el-table-column type="index" label="序号" width="55" align="center" fixed />
 							<el-table-column prop="triggerId" label="触发器编号" width="120" header-align="center" fixed show-overflow-tooltip />
 							<el-table-column prop="triggerType" label="类型" header-align="center" show-overflow-tooltip />
@@ -121,7 +121,7 @@
 					<template #default="scope">
 						<div style="display: flex; align-items: center">
 							<el-icon><timer /></el-icon>
-							<span style="margin-left: 5px">{{ (scope.row as JobOutput).jobDetail?.jobId }}</span>
+							<span style="margin-left: 5px">{{ (scope.row as JobDetailOutput).jobDetail?.jobId }}</span>
 						</div>
 					</template>
 				</el-table-column>
@@ -131,27 +131,27 @@
 				<el-table-column prop="jobDetail.description" label="描述" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="jobDetail.concurrent" label="执行方式" width="90" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="success" v-if="(scope.row as JobOutput).jobDetail?.concurrent == true"> 并行 </el-tag>
+						<el-tag type="success" v-if="(scope.row as JobDetailOutput).jobDetail?.concurrent == true"> 并行 </el-tag>
 						<el-tag type="warning" v-else> 串行 </el-tag>
 					</template>
 				</el-table-column>
 				<el-table-column prop="jobDetail.createType" label="作业创建类型" width="110" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag type="info" v-if="(scope.row as JobOutput).jobDetail?.createType == JobCreateTypeEnum.NUMBER_0"> 内置 </el-tag>
-						<el-tag type="warning" v-if="(scope.row as JobOutput).jobDetail?.createType == JobCreateTypeEnum.NUMBER_1"> 脚本 </el-tag>
-						<el-tag type="success" v-if="(scope.row as JobOutput).jobDetail?.createType == JobCreateTypeEnum.NUMBER_2"> HTTP请求 </el-tag>
+						<el-tag type="info" v-if="(scope.row as JobDetailOutput).jobDetail?.createType == JobCreateTypeEnum.NUMBER_0"> 内置 </el-tag>
+						<el-tag type="warning" v-if="(scope.row as JobDetailOutput).jobDetail?.createType == JobCreateTypeEnum.NUMBER_1"> 脚本 </el-tag>
+						<el-tag type="success" v-if="(scope.row as JobDetailOutput).jobDetail?.createType == JobCreateTypeEnum.NUMBER_2"> HTTP请求 </el-tag>
 					</template>
 				</el-table-column>
 				<!-- <el-table-column prop="jobDetail.includeAnnotations" label="扫描特性触发器" align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<el-tag v-if="(scope.row as JobOutput).jobDetail?.includeAnnotations == true"> 是 </el-tag>
+						<el-tag v-if="(scope.row as JobDetailOutput).jobDetail?.includeAnnotations == true"> 是 </el-tag>
 						<el-tag v-else> 否 </el-tag>
 					</template>
 				</el-table-column> -->
 				<el-table-column prop="jobDetail.updatedTime" label="更新时间" width="130" align="center" show-overflow-tooltip />
 				<el-table-column prop="jobDetail.properties" label="额外数据" header-align="center" show-overflow-tooltip>
 					<template #default="scope">
-						<span v-if="(scope.row as JobOutput).jobDetail?.createType != JobCreateTypeEnum.NUMBER_2"> {{ (scope.row as JobOutput).jobDetail?.properties }} </span>
+						<span v-if="(scope.row as JobDetailOutput).jobDetail?.createType != JobCreateTypeEnum.NUMBER_2"> {{ (scope.row as JobDetailOutput).jobDetail?.properties }} </span>
 						<div v-else style="text-align: center">
 							<el-popover placement="left" :width="400" trigger="hover">
 								<template #reference>
@@ -159,21 +159,24 @@
 								</template>
 								<el-descriptions title="Http 请求参数" :column="1" size="small" :border="true">
 									<el-descriptions-item label="请求地址" label-align="right" label-class-name="job-index-descriptions-label-style">
-										{{ getHttpJobMessage((scope.row as JobOutput).jobDetail?.properties).requestUri }}
+										{{ getHttpJobMessage((scope.row as JobDetailOutput).jobDetail?.properties).requestUri }}
 									</el-descriptions-item>
 									<el-descriptions-item label="请求方法" label-align="right" label-class-name="job-index-descriptions-label-style">
-										{{ getHttpMethodDesc(getHttpJobMessage((scope.row as JobOutput).jobDetail?.properties).httpMethod) }}
+										{{ getHttpMethodDesc(getHttpJobMessage((scope.row as JobDetailOutput).jobDetail?.properties).httpMethod) }}
 									</el-descriptions-item>
 									<el-descriptions-item label="请求报文体" label-align="right" label-class-name="job-index-descriptions-label-style">
-										{{ getHttpJobMessage((scope.row as JobOutput).jobDetail?.properties).body }}
+										{{ getHttpJobMessage((scope.row as JobDetailOutput).jobDetail?.properties).body }}
 									</el-descriptions-item>
 								</el-descriptions>
 							</el-popover>
 						</div>
 					</template>
 				</el-table-column>
-				<el-table-column label="操作" width="230" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="260" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
+						<el-tooltip content="执行记录">
+							<el-button size="small" type="primary" icon="ele-Timer" text @click="openJobTriggerRecord(scope.row)"> </el-button>
+						</el-tooltip>
 						<el-tooltip content="增加触发器">
 							<el-button size="small" type="primary" icon="ele-CirclePlus" text @click="openAddJobTrigger(scope.row)"> </el-button>
 						</el-tooltip>
@@ -211,6 +214,50 @@
 			/>
 		</el-card>
 
+		<el-drawer v-model="state.isVisibleDrawer" title="作业触发器运行记录" size="45%">
+			<el-card shadow="hover" style="margin: 8px; padding-bottom: 15px">
+				<el-table :data="state.triggerRecordData" style="width: 100%" v-loading="state.loading2" border>
+					<el-table-column type="index" label="序号" width="55" align="center" />
+					<el-table-column prop="jobId" label="作业编号" min-width="120" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="triggerId" label="触发器编号" min-width="120" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="numberOfRuns" label="当前运行次数" min-width="100" align="center" show-overflow-tooltip />
+					<el-table-column prop="lastRunTime" label="最近运行时间" min-width="130" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="nextRunTime" label="下一次运行时间" min-width="120" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="status" label="触发器状态" align="center" show-overflow-tooltip>
+						<template #default="scope">
+							<el-tag type="warning" effect="plain" v-if="(scope.row as SysJobTrigger).status == 0"> 积压 </el-tag>
+							<el-tag type="" effect="plain" v-if="(scope.row as SysJobTrigger).status == 1"> 就绪 </el-tag>
+							<el-tag type="success" effect="plain" v-if="(scope.row as SysJobTrigger).status == 2"> 正在运行 </el-tag>
+							<el-tag type="danger" effect="plain" v-if="(scope.row as SysJobTrigger).status == 3"> 暂停 </el-tag>
+							<el-tag type="danger" effect="plain" v-if="(scope.row as SysJobTrigger).status == 4"> 阻塞 </el-tag>
+							<el-tag type="" effect="plain" v-if="(scope.row as SysJobTrigger).status == 5"> 由失败进入就绪 </el-tag>
+							<el-tag type="danger" effect="plain" v-if="(scope.row as SysJobTrigger).status == 6"> 归档 </el-tag>
+							<el-tag type="danger" effect="plain" v-if="(scope.row as SysJobTrigger).status == 7"> 崩溃 </el-tag>
+							<el-tag type="danger" effect="plain" v-if="(scope.row as SysJobTrigger).status == 8"> 超限 </el-tag>
+							<el-tag type="danger" effect="plain" v-if="(scope.row as SysJobTrigger).status == 9"> 无触发时间 </el-tag>
+							<el-tag type="danger" effect="plain" v-if="(scope.row as SysJobTrigger).status == 10"> 未启动 </el-tag>
+							<el-tag type="danger" effect="plain" v-if="(scope.row as SysJobTrigger).status == 11"> 未知作业触发器 </el-tag>
+							<el-tag type="danger" effect="plain" v-if="(scope.row as SysJobTrigger).status == 12"> 未知作业处理程序 </el-tag>
+						</template>
+					</el-table-column>
+					<el-table-column prop="result" label="执行结果" header-align="center" show-overflow-tooltip />
+					<el-table-column prop="elapsedTime" label="耗时" min-width="80" align="center" show-overflow-tooltip />
+					<el-table-column prop="createdTime" label="创建时间" min-width="130" align="center" show-overflow-tooltip />
+				</el-table>
+				<el-pagination
+					v-model:currentPage="state.tableParams2.page"
+					v-model:page-size="state.tableParams2.pageSize"
+					:total="state.tableParams2.total"
+					:page-sizes="[10, 20, 50, 100]"
+					small
+					background
+					@size-change="handleSizeChange2"
+					@current-change="handleCurrentChange2"
+					layout="total, sizes, prev, pager, next, jumper"
+				/>
+			</el-card>
+		</el-drawer>
+
 		<EditJobDetail ref="editJobDetailRef" :title="state.editJobDetailTitle" @handleQuery="handleQuery" />
 		<EditJobTrigger ref="editJobTriggerRef" :title="state.editJobTriggerTitle" @handleQuery="handleQuery" />
 		<JobCluster ref="editJobClusterRef" />
@@ -228,7 +275,7 @@ import JobCluster from '/@/views/system/job/component/jobCluster.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysJobApi } from '/@/api-services/api';
-import { JobCreateTypeEnum, JobOutput, SysJobTrigger } from '/@/api-services/models';
+import { JobCreateTypeEnum, JobDetailOutput, SysJobTrigger } from '/@/api-services/models';
 
 const router = useRouter();
 const editJobDetailRef = ref<InstanceType<typeof EditJobDetail>>();
@@ -236,7 +283,7 @@ const editJobTriggerRef = ref<InstanceType<typeof EditJobTrigger>>();
 const editJobClusterRef = ref<InstanceType<typeof JobCluster>>();
 const state = reactive({
 	loading: false,
-	jobData: [] as Array<JobOutput>,
+	jobData: [] as Array<JobDetailOutput>,
 	queryParams: {
 		jobId: undefined,
 		description: undefined,
@@ -246,8 +293,17 @@ const state = reactive({
 		pageSize: 20,
 		total: 0 as any,
 	},
+	tableParams2: {
+		page: 1,
+		pageSize: 20,
+		total: 0 as any,
+	},
 	editJobDetailTitle: '',
 	editJobTriggerTitle: '',
+	loading2: false,
+	isVisibleDrawer: false,
+	triggerRecordData: [] as any,
+	currentJob: {} as any,
 });
 
 onMounted(async () => {
@@ -278,13 +334,13 @@ const openAddJobDetail = () => {
 };
 
 // 打开编辑作业页面
-const openEditJobDetail = (row: JobOutput) => {
+const openEditJobDetail = (row: JobDetailOutput) => {
 	state.editJobDetailTitle = '编辑作业';
 	editJobDetailRef.value?.openDialog(row.jobDetail);
 };
 
 // 删除作业
-const delJobDetail = (row: JobOutput) => {
+const delJobDetail = (row: JobDetailOutput) => {
 	ElMessageBox.confirm(`确定删除作业：【${row.jobDetail?.jobId}】?`, '提示', {
 		confirmButtonText: '确定',
 		cancelButtonText: '取消',
@@ -299,7 +355,7 @@ const delJobDetail = (row: JobOutput) => {
 };
 
 // 打开新增触发器页面
-const openAddJobTrigger = (row: JobOutput) => {
+const openAddJobTrigger = (row: JobDetailOutput) => {
 	state.editJobTriggerTitle = '添加触发器';
 	editJobTriggerRef.value?.openDialog({
 		jobId: row.jobDetail?.jobId,
@@ -357,25 +413,25 @@ const pauseAllJob = async () => {
 };
 
 // 执行某个作业
-const runJob = async (row: JobOutput) => {
+const runJob = async (row: JobDetailOutput) => {
 	await getAPI(SysJobApi).apiSysJobRunJobPost({ jobId: row.jobDetail?.jobId });
 	ElMessage.success('执行作业');
 };
 
 // 启动某个作业
-const startJob = async (row: JobOutput) => {
+const startJob = async (row: JobDetailOutput) => {
 	await getAPI(SysJobApi).apiSysJobStartJobPost({ jobId: row.jobDetail?.jobId });
 	ElMessage.success('启动作业');
 };
 
 // 暂停某个作业
-const pauseJob = async (row: JobOutput) => {
+const pauseJob = async (row: JobDetailOutput) => {
 	await getAPI(SysJobApi).apiSysJobPauseJobPost({ jobId: row.jobDetail?.jobId });
 	ElMessage.success('暂停作业');
 };
 
 // 取消某个作业
-const cancelJob = async (row: JobOutput) => {
+const cancelJob = async (row: JobDetailOutput) => {
 	await getAPI(SysJobApi).apiSysJobCancelJobPost({ jobId: row.jobDetail?.jobId });
 	ElMessage.success('取消作业');
 };
@@ -438,6 +494,35 @@ const getHttpMethodDesc = (httpMethodStr: string | undefined | null): string => 
 		if (editJobDetailRef.value?.httpMethodDef[key] === httpMethodStr) return key;
 	}
 	return '';
+};
+
+// 打开作业触发器运行记录
+const openJobTriggerRecord = (row: any) => {
+	state.currentJob = row;
+	state.isVisibleDrawer = true;
+	handleQuery2();
+};
+
+// 作业触发器运行记录查询操作
+const handleQuery2 = async () => {
+	state.loading2 = true;
+	// let params = Object.assign(state.currentJob.jobDetail.jobId); //state.currentJob.jobTriggers[0].triggerId
+	var res = await getAPI(SysJobApi).apiSysJobPageJobTriggerRecordPost({ jobId: state.currentJob.jobDetail.jobId });
+	state.triggerRecordData = res.data.result?.items ?? [];
+	state.tableParams2.total = res.data.result?.total;
+	state.loading2 = false;
+};
+
+// 作业触发器运行记录-改变页面容量
+const handleSizeChange2 = (val: number) => {
+	state.tableParams2.pageSize = val;
+	handleQuery2();
+};
+
+// 作业触发器运行记录-改变页码序号
+const handleCurrentChange2 = (val: number) => {
+	state.tableParams2.page = val;
+	handleQuery2();
 };
 </script>
 
