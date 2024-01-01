@@ -7,9 +7,6 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
-using System;
-using System.ComponentModel.DataAnnotations;
-
 namespace Admin.NET.Core;
 
 /// <summary>
@@ -19,11 +16,15 @@ public class MaxValueAttribute : ValidationAttribute
 {
     private double MaxValue { get; }
 
-    /// <summary>最大值</summary>
+    /// <summary>
+    /// 最大值
+    /// </summary>
     /// <param name="value"></param>
     public MaxValueAttribute(double value) => this.MaxValue = value;
 
-    /// <summary>最大值校验</summary>
+    /// <summary>
+    /// 最大值校验
+    /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     public override bool IsValid(object value)
@@ -31,8 +32,10 @@ public class MaxValueAttribute : ValidationAttribute
         return value == null || Convert.ToDouble(value) <= this.MaxValue;
     }
 
-    /// <summary>Applies formatting to an error message, based on the data field where the error occurred.</summary>
-    /// <param name="name">The name to include in the formatted message.</param>
-    /// <returns>An instance of the formatted error message.</returns>
+    /// <summary>
+    /// 错误信息
+    /// </summary>
+    /// <param name="name"></param>
+    /// <returns></returns>
     public override string FormatErrorMessage(string name) => base.FormatErrorMessage(name);
 }
