@@ -17,6 +17,9 @@ import vue3TreeOrg from 'vue3-tree-org'; // 组织架构图
 import 'vue3-tree-org/lib/vue3-tree-org.css'; // 组织架构图样式
 import 'animate.css'; // 动画库
 
+import { disAutoConnect } from 'vue-plugin-hiprint';
+disAutoConnect();
+
 const app = createApp(App);
 
 directive(app);
