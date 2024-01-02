@@ -373,6 +373,9 @@ public class SysTenantService : IDynamicApiController, ITransient
         if (tenant.DbType == SqlSugar.DbType.Oracle)
             throw Oops.Oh(ErrorCodeEnum.Z1002);
 
+        if (string.IsNullOrWhiteSpace(tenant.Connection) || tenant.Connection.Length < 10)
+            throw Oops.Oh(ErrorCodeEnum.Z1004);
+
         // 默认数据库配置
         var defaultConfig = App.GetOptions<DbConnectionOptions>().ConnectionConfigs.FirstOrDefault();
 

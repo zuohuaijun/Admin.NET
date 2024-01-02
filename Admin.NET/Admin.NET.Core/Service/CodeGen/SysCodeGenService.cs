@@ -344,6 +344,7 @@ public class SysCodeGenService : IDynamicApiController, ITransient
 
         for (var i = 0; i < templatePathList.Count; i++)
         {
+            if (!File.Exists(templatePathList[i])) continue;
             var tContent = File.ReadAllText(templatePathList[i]);
             var tResult = await _viewEngine.RunCompileFromCachedAsync(tContent, data, builderAction: builder =>
             {

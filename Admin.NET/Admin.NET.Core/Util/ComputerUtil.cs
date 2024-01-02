@@ -34,17 +34,17 @@ public static class ComputerUtil
     /// <returns></returns>
     public static List<DiskInfo> GetDiskInfos()
     {
-        List<DiskInfo> diskInfos = new();
+        var diskInfos = new List<DiskInfo>();
 
         if (IsUnix())
         {
             var output = ShellHelper.Bash(@"df -mT | awk '/^\/dev\/(sd|vd|xvd|nvme|sda|vda)/ {print $1,$2,$3,$4,$5,$6}'");
             var disks = output.Split('\n', StringSplitOptions.RemoveEmptyEntries);
-            if (disks.Length == 0) return diskInfos;
+            if (disks.Length < 1) return diskInfos;
 
-            var rootDisk = disks[1].Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
-            if (rootDisk == null || rootDisk.Length == 0)
-                return diskInfos;
+            //var rootDisk = disks[1].Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
+            //if (rootDisk == null || rootDisk.Length < 1)
+            //    return diskInfos;
 
             foreach (var item in disks)
             {

@@ -653,6 +653,12 @@ public enum ErrorCodeEnum
     Z1003,
 
     /// <summary>
+    /// 租户库连接不能为空
+    /// </summary>
+    [ErrorCodeItemMetadata("租户库连接不能为空")]
+    Z1004,
+
+    /// <summary>
     /// 身份标识已存在
     /// </summary>
     [ErrorCodeItemMetadata("身份标识已存在")]
