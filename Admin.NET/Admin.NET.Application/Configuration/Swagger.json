@@ -17,6 +17,18 @@
         }
       },
       {
+        "Group": "Application",
+        "Title": "Admin.NET 业务应用",
+        "Description": "Admin.NET Application<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>",
+        "Version": "1.0.0",
+        "TermsOfService": "https://dotnetchina.gitee.io/furion/",
+        "Contact": {
+          "Name": "zuohuaijun",
+          "Email": "515096995@qq.com",
+          "Url": "https://gitee.com/zuohuaijun/Admin.NET"
+        }
+      },
+      {
         "Group": "All Groups",
         "Title": "所有接口",
         "Description": "让 .NET 开发更简单、更通用、更流行。前后端分离架构(.NET6/Vue3)，开箱即用紧随前沿技术。<br/><a href='https://gitee.com/zuohuaijun/Admin.NET/'>https://gitee.com/zuohuaijun/Admin.NET</a>",
