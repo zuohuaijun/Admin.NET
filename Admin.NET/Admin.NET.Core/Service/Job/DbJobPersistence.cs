@@ -192,7 +192,7 @@ public class DbJobPersistence : IJobPersistence
             var jobTriggerRecordRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTriggerRecord>>();
 
             var jobTriggerRecord = timeline.Adapt<SysJobTriggerRecord>();
-            jobTriggerRecordRep.AsInsertable(jobTriggerRecord).ExecuteCommand();
+            jobTriggerRecordRep.CopyNew().AsInsertable(jobTriggerRecord).ExecuteCommand();
         }
     }
 }

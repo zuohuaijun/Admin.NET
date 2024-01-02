@@ -345,8 +345,8 @@ public class SysTenantService : IDynamicApiController, ITransient
     [NonAction]
     public async Task CacheTenant(long tenantId = 0)
     {
-        // 移除 ISqlSugarClient 中的库连接
-        if (tenantId > 0)
+        // 移除 ISqlSugarClient 中的库连接并排除默认主库
+        if (tenantId > 0 && tenantId.ToString() != SqlSugarConst.MainConfigId)
             _sysTenantRep.AsTenant().RemoveConnection(tenantId);
 
         var tenantList = await _sysTenantRep.GetListAsync();

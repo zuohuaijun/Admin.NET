@@ -1,8 +1,8 @@
 {
-	"name": "vue-next-admin",
+	"name": "admin.net",
 	"version": "2.4.33",
-	"description": "vue3 vite next admin template",
-	"author": "lyt_20201208",
+	"description": "Admin.NET 有可能是.NET最好用的通用权限开发框架",
+	"author": "zuohuaijun",
 	"license": "MIT",
 	"scripts": {
 		"dev": "vite",
@@ -84,13 +84,14 @@
 		"not dead"
 	],
 	"bugs": {
-		"url": "https://gitee.com/lyt-top/vue-next-admin/issues"
+		"url": "https://gitee.com/zuohuaijun/Admin.NET/issues"
 	},
 	"engines": {
 		"node": ">=16.0.0",
 		"npm": ">= 7.0.0"
 	},
 	"keywords": [
+		"admin.net",
 		"vue",
 		"vue3",
 		"vuejs/vue-next",
@@ -101,6 +102,6 @@
 	],
 	"repository": {
 		"type": "git",
-		"url": "https://gitee.com/lyt-top/vue-next-admin.git"
+		"url": "https://gitee.com/zuohuaijun/Admin.NET"
 	}
 }
