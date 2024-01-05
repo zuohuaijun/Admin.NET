@@ -79,7 +79,7 @@ const openDialog = (row: any) => {
 	state.isShowDialog = true;
 	ruleFormRef.value?.resetFields();
 
-	tenantChange();
+	tenantChange(false);
 };
 
 // 关闭弹窗
@@ -106,10 +106,16 @@ const submit = () => {
 	});
 };
 
-/** 租户值变更 */
-const tenantChange = async () => {
+/**
+ * 租户值变更
+ * @param clearBindUserId 是否清空绑定用户
+ */
+const tenantChange = async (clearBindUserId: boolean = true) => {
 	var res = await getAPI(SysTenantApi).apiSysTenantUserListPost({ tenantId: state.ruleForm.bindTenantId ?? 0 });
 	state.userData = res.data.result ?? [];
+	if (clearBindUserId) {
+		state.ruleForm.bindUserId = undefined!;
+	}
 };
 
 /** 生成密钥 */
