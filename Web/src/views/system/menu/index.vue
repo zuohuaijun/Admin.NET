@@ -25,22 +25,90 @@
 		</el-card>
 
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
-			<el-auto-resizer>
-				<template #default="{ height, width }">
-					<el-table-v2
-						:data="state.menuData"
-						:width="width"
-						v-model:expanded-row-keys="expandedRowKeys"
-						:height="height"
-						:expand-column-key="expandColumnKey"
-						:columns="state.columns"
-						v-loading="state.loading"
-						row-key="id"
-						border
-					>
-					</el-table-v2>
-				</template>
-			</el-auto-resizer>
+			<el-table :data="state.menuData" v-loading="state.loading" row-key="id" :tree-props="{ children: 'children', hasChildren: 'hasChildren' }" border>
+				<el-table-column label="菜单名称" header-align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<SvgIcon :name="scope.row.icon" />
+						<span class="ml10">{{ $t(scope.row.title) }}</span>
+					</template>
+				</el-table-column>
+				<el-table-column label="类型" width="70" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="warning" v-if="scope.row.type === 1">目录</el-tag>
+						<el-tag v-else-if="scope.row.type === 2">菜单</el-tag>
+						<el-tag type="info" v-else>按钮</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column prop="path" label="路由路径" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="component" label="组件路径" align="center" show-overflow-tooltip />
+				<el-table-column prop="permission" label="权限标识" align="center" show-overflow-tooltip />
+				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
+				<el-table-column label="状态" width="80" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
+						<el-tag type="danger" v-else>禁用</el-tag>
+					</template>
+				</el-table-column>
+				<el-table-column label="修改记录" width="100" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-popover placement="bottom" width="280" trigger="hover">
+							<template #reference>
+								<el-text type="primary">
+									<el-icon><ele-InfoFilled /></el-icon>详情
+								</el-text>
+							</template>
+							<el-descriptions direction="vertical" :column="2" border>
+								<el-descriptions-item width="140">
+									<template #label>
+										<el-text>
+											<el-icon><ele-UserFilled /></el-icon>创建者
+										</el-text>
+									</template>
+									<el-tag>{{ scope.row.createUserName ?? '无' }}</el-tag>
+								</el-descriptions-item>
+								<el-descriptions-item>
+									<template #label>
+										<el-text>
+											<el-icon><ele-Calendar /></el-icon>创建时间
+										</el-text>
+									</template>
+									<el-tag>{{ scope.row.createTime ?? '无' }}</el-tag>
+								</el-descriptions-item>
+								<el-descriptions-item>
+									<template #label>
+										<el-text>
+											<el-icon><ele-UserFilled /></el-icon>修改者
+										</el-text>
+									</template>
+									<el-tag>{{ scope.row.updateUserName ?? '无' }}</el-tag>
+								</el-descriptions-item>
+								<el-descriptions-item>
+									<template #label>
+										<el-text>
+											<el-icon><ele-Calendar /></el-icon>修改时间
+										</el-text>
+									</template>
+									<el-tag>{{ scope.row.updateTime ?? '无' }}</el-tag>
+								</el-descriptions-item>
+								<el-descriptions-item>
+									<template #label>
+										<el-text>
+											<el-icon><ele-Tickets /></el-icon>备注
+										</el-text>
+									</template>
+									{{ scope.row.remark }}
+								</el-descriptions-item>
+							</el-descriptions>
+						</el-popover>
+					</template>
+				</el-table-column>
+				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
+					<template #default="scope">
+						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditMenu(scope.row)" v-auth="'sysMenu:update'"> 编辑 </el-button>
+						<el-button icon="ele-Delete" size="small" text type="danger" @click="delMenu(scope.row)" v-auth="'sysMenu:delete'"> 删除 </el-button>
+					</template>
+				</el-table-column>
+			</el-table>
 		</el-card>
 
 		<EditMenu ref="editMenuRef" :title="state.editMenuTitle" :menuData="state.menuData" @handleQuery="handleQuery" />
@@ -48,328 +116,18 @@
 </template>
 
 <script lang="ts" setup name="sysMenu">
-import { onMounted, reactive, ref, h, resolveComponent, resolveDirective, withDirectives } from 'vue';
-import { ElMessageBox, ElMessage, ElPopover, ElTag, ElButton, ElText, ElIcon, ElDescriptions, ElDescriptionsItem } from 'element-plus';
+import { onMounted, reactive, ref } from 'vue';
+import { ElMessageBox, ElMessage } from 'element-plus';
 import EditMenu from '/@/views/system/menu/component/editMenu.vue';
-const SvgIcon = resolveComponent('SvgIcon');
 
 import { getAPI } from '/@/utils/axios-utils';
 import { SysMenuApi } from '/@/api-services/api';
 import { SysMenu } from '/@/api-services/models';
 
-const authBtn = resolveDirective('auth');
 const editMenuRef = ref<InstanceType<typeof EditMenu>>();
-const expandedRowKeys = ref<string[]>([]);
-const expandColumnKey = 'title';
-const generateColumns = () => {
-	return [
-		{
-			key: 'title',
-			title: '菜单名称',
-			dataKey: 'title',
-			align: 'left',
-			width: 200,
-			cellRenderer: ({ rowData }) => {
-				return h('div', {}, [h(SvgIcon, { name: rowData.icon }), h('span', { class: 'ml10' }, { default: () => rowData.title })]);
-			},
-		},
-		{
-			key: 'type',
-			title: '类型',
-			dataKey: 'type',
-			align: 'center',
-			width: 80,
-			cellRenderer: ({ rowData }) => {
-				let t = '';
-				let c = '';
-				if (rowData.type === 1) {
-					t = 'warning';
-					c = '目录';
-				} else if (rowData.type === 2) {
-					c = '菜单';
-				} else {
-					t = 'info';
-					c = '按钮';
-				}
-				return h(
-					ElTag,
-					{
-						type: t,
-					},
-					{ default: () => c }
-				);
-			},
-		},
-		{
-			key: 'path',
-			title: '路由路径',
-			dataKey: 'path',
-			align: 'left',
-			width: 200,
-		},
-		{
-			key: 'component',
-			title: '组件路径',
-			dataKey: 'component',
-			align: 'center',
-			width: 220,
-		},
-		{
-			key: 'permission',
-			title: '权限标识',
-			dataKey: 'permission',
-			align: 'center',
-			width: 180,
-		},
-		{
-			key: 'orderNo',
-			title: '排序',
-			dataKey: 'orderNo',
-			align: 'center',
-			width: 70,
-		},
-		{
-			key: 'status',
-			title: '状态',
-			dataKey: 'status',
-			align: 'center',
-			width: 80,
-			cellRenderer: ({ rowData }) => {
-				let t = '';
-				let c = '';
-				if (rowData.type === 1) {
-					t = 'success';
-					c = '启用';
-				} else {
-					t = 'danger';
-					c = '禁用';
-				}
-				return h(
-					ElTag,
-					{
-						type: t,
-					},
-					{ default: () => c }
-				);
-			},
-		},
-		{
-			key: 'status',
-			title: '修改记录',
-			dataKey: 'status',
-			align: 'center',
-			width: 100,
-			cellRenderer: ({ rowData }) => {
-				return h(
-					ElPopover,
-					{
-						placement: 'bottom',
-						width: 280,
-						trigger: 'hover',
-					},
-					{
-						reference: () =>
-							h(
-								ElText,
-								{
-									type: 'primary',
-								},
-								{
-									default: () => [
-										h(
-											ElIcon,
-											{},
-											{
-												default: () => h(SvgIcon, { name: 'ele-InfoFilled' }),
-											}
-										),
-										'详情',
-									],
-								}
-							),
-						default: () =>
-							h(
-								ElDescriptions,
-								{
-									direction: 'vertical',
-									column: 2,
-									size: 'small',
-									border: true,
-								},
-								{
-									default: () => [
-										h(
-											ElDescriptionsItem,
-											{
-												width: 140,
-											},
-											{
-												label: () =>
-													h(
-														ElText,
-														{},
-														{
-															default: () => [
-																h(
-																	ElIcon,
-																	{},
-																	{
-																		default: () => h(SvgIcon, { name: 'ele-UserFilled' }),
-																	}
-																),
-																'创建者',
-															],
-														}
-													),
-												default: () => h(ElTag, {}, { default: () => rowData.createUserName ?? '无' }),
-											}
-										),
-										h(
-											ElDescriptionsItem,
-											{},
-											{
-												label: () =>
-													h(
-														ElText,
-														{},
-														{
-															default: () => [
-																h(
-																	ElIcon,
-																	{},
-																	{
-																		default: () => h(SvgIcon, { name: 'ele-Calendar' }),
-																	}
-																),
-																'创建时间',
-															],
-														}
-													),
-												default: () => h(ElTag, {}, { default: () => rowData.createTime ?? '无' }),
-											}
-										),
-										h(
-											ElDescriptionsItem,
-											{},
-											{
-												label: () =>
-													h(
-														ElText,
-														{},
-														{
-															default: () => [
-																h(
-																	ElIcon,
-																	{},
-																	{
-																		default: () => h(SvgIcon, { name: 'ele-UserFilled' }),
-																	}
-																),
-																'修改者',
-															],
-														}
-													),
-												default: () => h(ElTag, {}, { default: () => rowData.updateUserName ?? '无' }),
-											}
-										),
-										h(
-											ElDescriptionsItem,
-											{},
-											{
-												label: () =>
-													h(
-														ElText,
-														{},
-														{
-															default: () => [
-																h(
-																	ElIcon,
-																	{},
-																	{
-																		default: () => h(SvgIcon, { name: 'ele-Calendar' }),
-																	}
-																),
-																'修改时间',
-															],
-														}
-													),
-												default: () => h(ElTag, {}, { default: () => rowData.updateTime ?? '无' }),
-											}
-										),
-										h(
-											ElDescriptionsItem,
-											{},
-											{
-												label: () =>
-													h(
-														ElText,
-														{},
-														{
-															default: () => [
-																h(
-																	ElIcon,
-																	{},
-																	{
-																		default: () => h(SvgIcon, { name: 'ele-Tickets' }),
-																	}
-																),
-																'备注',
-															],
-														}
-													),
-												default: () => h(ElTag, {}, { default: () => rowData.remark ?? '无' }),
-											}
-										),
-									],
-								}
-							),
-					}
-				);
-			},
-		},
-		{
-			key: 'status',
-			title: '操作',
-			dataKey: 'status',
-			align: 'center',
-			width: 240,
-			cellRenderer: ({ rowData }) => {
-				return h('div', {}, [
-					withDirectives(
-						h(
-							ElButton,
-							{
-								icon: 'ele-Edit',
-								size: 'small',
-								type: 'primary',
-								onClick: () => openEditMenu(rowData),
-							},
-							{ default: () => '编辑' }
-						),
-						[[authBtn, 'sysMenu:update']]
-					),
-					withDirectives(
-						h(
-							ElButton,
-							{
-								icon: 'ele-Delete',
-								size: 'small',
-								type: 'danger',
-								onClick: () => delMenu(rowData),
-							},
-							{ default: () => '删除' }
-						),
-						[[authBtn, 'sysMenu:delete']]
-					),
-				]);
-			},
-		},
-	];
-};
 const state = reactive({
 	loading: false,
 	menuData: [] as Array<SysMenu>,
-	columns: generateColumns(),
 	queryParams: {
 		title: undefined,
 		type: undefined,

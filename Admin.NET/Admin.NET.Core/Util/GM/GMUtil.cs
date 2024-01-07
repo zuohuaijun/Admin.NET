@@ -18,7 +18,6 @@ namespace Admin.NET.Core;
 /// </summary>
 public class GMUtil
 {
-
     /// <summary>
     /// SM2加密
     /// </summary>
@@ -65,90 +64,91 @@ public class GMUtil
         return strDecrypted;
     }
 
-	/// <summary>
-	/// SM4加密（ECB）
-	/// </summary>
-	/// <param name="key_string"></param>
-	/// <param name="plainText"></param>
-	/// <returns></returns>
-	public static string SM4EncryptECB(string key_string,string plainText)
+    /// <summary>
+    /// SM4加密（ECB）
+    /// </summary>
+    /// <param name="key_string"></param>
+    /// <param name="plainText"></param>
+    /// <returns></returns>
+    public static string SM4EncryptECB(string key_string, string plainText)
     {
         byte[] key = Hex.Decode(key_string);
-		byte[] bs = GM.Sm4EncryptECB(key, Encoding.UTF8.GetBytes(plainText), GM.SM4_CBC_PKCS7PADDING);//NoPadding 的情况下需要校验数据长度是16的倍数. 使用 HandleSm4Padding 处理
-		return Hex.ToHexString(bs);
+        byte[] bs = GM.Sm4EncryptECB(key, Encoding.UTF8.GetBytes(plainText), GM.SM4_CBC_PKCS7PADDING);//NoPadding 的情况下需要校验数据长度是16的倍数. 使用 HandleSm4Padding 处理
+        return Hex.ToHexString(bs);
     }
 
-	/// <summary>
-	/// SM4解密（ECB）
-	/// </summary>
-	/// <param name="key_string"></param>
-	/// <param name="cipherText"></param>
-	/// <returns></returns>
-	public static string SM4DecryptECB(string key_string, string cipherText)
+    /// <summary>
+    /// SM4解密（ECB）
+    /// </summary>
+    /// <param name="key_string"></param>
+    /// <param name="cipherText"></param>
+    /// <returns></returns>
+    public static string SM4DecryptECB(string key_string, string cipherText)
     {
         byte[] key = Hex.Decode(key_string);
-		byte[] bs = GM.Sm4DecryptECB(key, Hex.Decode(cipherText), GM.SM4_CBC_PKCS7PADDING);
+        byte[] bs = GM.Sm4DecryptECB(key, Hex.Decode(cipherText), GM.SM4_CBC_PKCS7PADDING);
         return Encoding.UTF8.GetString(bs);
     }
 
-	/// <summary>
-	/// SM4加密（CBC）
-	/// </summary>
-	/// <param name="key_string"></param>
-	/// <param name="iv_string"></param>
-	/// <param name="plainText"></param>
-	/// <returns></returns>
-	public static string SM4EncryptCBC(string key_string, string iv_string, string plainText)
+    /// <summary>
+    /// SM4加密（CBC）
+    /// </summary>
+    /// <param name="key_string"></param>
+    /// <param name="iv_string"></param>
+    /// <param name="plainText"></param>
+    /// <returns></returns>
+    public static string SM4EncryptCBC(string key_string, string iv_string, string plainText)
     {
         byte[] key = Hex.Decode(key_string);
         byte[] iv = Hex.Decode(iv_string);
-		byte[] bs = GM.Sm4EncryptCBC(key,Encoding.UTF8.GetBytes(plainText), iv, GM.SM4_CBC_PKCS7PADDING);
-		return Hex.ToHexString(bs);
+        byte[] bs = GM.Sm4EncryptCBC(key, Encoding.UTF8.GetBytes(plainText), iv, GM.SM4_CBC_PKCS7PADDING);
+        return Hex.ToHexString(bs);
     }
 
-	/// <summary>
-	/// SM4解密（CBC）
-	/// </summary>
-	/// <param name="key_string"></param>
-	/// <param name="iv_string"></param>
-	/// <param name="cipherText"></param>
-	/// <returns></returns>
-	public static string SM4DecryptCBC(string key_string, string iv_string, string cipherText)
+    /// <summary>
+    /// SM4解密（CBC）
+    /// </summary>
+    /// <param name="key_string"></param>
+    /// <param name="iv_string"></param>
+    /// <param name="cipherText"></param>
+    /// <returns></returns>
+    public static string SM4DecryptCBC(string key_string, string iv_string, string cipherText)
     {
-		byte[] key = Hex.Decode(key_string);
-		byte[] iv = Hex.Decode(iv_string);
-		byte[] bs = GM.Sm4DecryptCBC(key, Hex.Decode(cipherText), iv, GM.SM4_CBC_PKCS7PADDING);
+        byte[] key = Hex.Decode(key_string);
+        byte[] iv = Hex.Decode(iv_string);
+        byte[] bs = GM.Sm4DecryptCBC(key, Hex.Decode(cipherText), iv, GM.SM4_CBC_PKCS7PADDING);
         return Encoding.UTF8.GetString(bs);
     }
-	/// <summary>
-	/// 补足 16 进制字符串的 0 字符，返回不带 0x 的16进制字符串
-	/// </summary>
-	/// <param name="input"></param>
-	/// <param name="mode">1表示加密，0表示解密</param>
-	/// <returns></returns>
-	private static byte[] HandleSm4Padding(byte[] input, int mode)
-	{
-		if (input == null)
-		{
-			return null;
-		}
-		byte[] ret = (byte[])null;
-		if (mode == 1)
-		{
-			int p = 16 - input.Length % 16;
-			ret = new byte[input.Length + p];
-			Array.Copy(input, 0, ret, 0, input.Length);
-			for (int i = 0; i < p; i++)
-			{
-				ret[input.Length + i] = (byte)p;
-			}
-		}
-		else
-		{
-			int p = input[input.Length - 1];
-			ret = new byte[input.Length - p];
-			Array.Copy(input, 0, ret, 0, input.Length - p);
-		}
-		return ret;
-	}
+
+    /// <summary>
+    /// 补足 16 进制字符串的 0 字符，返回不带 0x 的16进制字符串
+    /// </summary>
+    /// <param name="input"></param>
+    /// <param name="mode">1表示加密，0表示解密</param>
+    /// <returns></returns>
+    private static byte[] HandleSm4Padding(byte[] input, int mode)
+    {
+        if (input == null)
+        {
+            return null;
+        }
+        byte[] ret = (byte[])null;
+        if (mode == 1)
+        {
+            int p = 16 - input.Length % 16;
+            ret = new byte[input.Length + p];
+            Array.Copy(input, 0, ret, 0, input.Length);
+            for (int i = 0; i < p; i++)
+            {
+                ret[input.Length + i] = (byte)p;
+            }
+        }
+        else
+        {
+            int p = input[input.Length - 1];
+            ret = new byte[input.Length - p];
+            Array.Copy(input, 0, ret, 0, input.Length - p);
+        }
+        return ret;
+    }
 }
