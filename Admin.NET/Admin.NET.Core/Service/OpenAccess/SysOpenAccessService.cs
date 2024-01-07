@@ -117,7 +117,7 @@ public class SysOpenAccessService : IDynamicApiController, ITransient
     /// <param name="accessKey"></param>
     /// <returns></returns>
     [NonAction]
-    public Task<SysOpenAccess> GetByKey([FromQuery] string accessKey)
+    public Task<SysOpenAccess> GetByKey(string accessKey)
     {
         return Task.FromResult(
             _sysCacheService.GetOrAdd(CacheConst.KeyOpenAccess + accessKey, _ =>
@@ -165,7 +165,7 @@ public class SysOpenAccessService : IDynamicApiController, ITransient
                     new Claim(ClaimConst.TenantId, openAccess.BindTenantId + ""),
                     new Claim(ClaimConst.Account, openAccess.BindUser.Account + ""),
                     new Claim(ClaimConst.RealName, openAccess.BindUser.RealName),
-                    new Claim(ClaimConst.AccountType, ((int) openAccess.BindUser.AccountType).ToString()),
+                    new Claim(ClaimConst.AccountType, ((int)openAccess.BindUser.AccountType).ToString()),
                     new Claim(ClaimConst.OrgId, openAccess.BindUser.OrgId + ""),
                     new Claim(ClaimConst.OrgName, openAccess.BindUser.SysOrg?.Name + ""),
                     new Claim(ClaimConst.OrgType, openAccess.BindUser.SysOrg?.Type + ""),
