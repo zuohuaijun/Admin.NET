@@ -68,7 +68,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         }
 
         // 账号是否存在
-        var user = await _sysUserRep.AsQueryable().Includes(t => t.SysOrg).Filter(null, true).FirstAsync(u => u.Account.Equals(input.Account));
+        var user = await _sysUserRep.AsQueryable().Includes(t => t.SysOrg).ClearFilter().FirstAsync(u => u.Account.Equals(input.Account));
         _ = user ?? throw Oops.Oh(ErrorCodeEnum.D0009);
 
         // 账号是否被冻结
@@ -114,7 +114,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             throw Oops.Oh("验证码错误！");
 
         // 账号是否存在
-        var user = await _sysUserRep.AsQueryable().Includes(t => t.SysOrg).Filter(null, true).FirstAsync(u => u.Phone.Equals(input.Phone));
+        var user = await _sysUserRep.AsQueryable().Includes(t => t.SysOrg).ClearFilter().FirstAsync(u => u.Phone.Equals(input.Phone));
         _ = user ?? throw Oops.Oh(ErrorCodeEnum.D0009);
 
         return await CreateToken(user);

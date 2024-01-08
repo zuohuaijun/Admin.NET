@@ -85,7 +85,7 @@ public class SysOAuthService : IDynamicApiController, ITransient
         }
 
         // 若账号不存在则新建
-        var wechatUser = await _sysWechatUserRep.AsQueryable().Includes(u => u.SysUser).Filter(null, true).FirstAsync(u => u.OpenId == openIdClaim.Value);
+        var wechatUser = await _sysWechatUserRep.AsQueryable().Includes(u => u.SysUser).ClearFilter().FirstAsync(u => u.OpenId == openIdClaim.Value);
         if (wechatUser == null)
         {
             var userId = await App.GetRequiredService<SysUserService>().AddUser(new AddUserInput()
@@ -109,7 +109,7 @@ public class SysOAuthService : IDynamicApiController, ITransient
                 PlatformType = platformType
             });
 
-            wechatUser = await _sysWechatUserRep.AsQueryable().Includes(u => u.SysUser).Filter(null, true).FirstAsync(u => u.OpenId == openIdClaim.Value);
+            wechatUser = await _sysWechatUserRep.AsQueryable().Includes(u => u.SysUser).ClearFilter().FirstAsync(u => u.OpenId == openIdClaim.Value);
         }
 
         // 构建Token令牌

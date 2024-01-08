@@ -89,7 +89,7 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("增加用户")]
     public async Task<long> AddUser(AddUserInput input)
     {
-        var isExist = await _sysUserRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.Account);
+        var isExist = await _sysUserRep.AsQueryable().ClearFilter().AnyAsync(u => u.Account == input.Account);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1003);
 
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
@@ -113,7 +113,7 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("更新用户")]
     public async Task UpdateUser(UpdateUserInput input)
     {
-        if (await _sysUserRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.Account && u.Id != input.Id))
+        if (await _sysUserRep.AsQueryable().ClearFilter().AnyAsync(u => u.Account == input.Account && u.Id != input.Id))
             throw Oops.Oh(ErrorCodeEnum.D1003);
 
         await _sysUserRep.AsUpdateable(input.Adapt<SysUser>()).IgnoreColumns(true)

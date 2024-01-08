@@ -47,7 +47,7 @@ public class GoViewSysService : IDynamicApiController
 
         _sysCacheService.Remove(CommonConst.SysCaptcha);
 
-        var sysUser = await _sysUserRep.AsQueryable().Filter(null, true).FirstAsync(u => u.Account.Equals(input.Username));
+        var sysUser = await _sysUserRep.AsQueryable().ClearFilter().FirstAsync(u => u.Account.Equals(input.Username));
         return new GoViewLoginOutput()
         {
             Userinfo = new GoViewLoginUserInfo

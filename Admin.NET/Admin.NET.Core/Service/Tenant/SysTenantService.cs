@@ -111,7 +111,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         var isExist = await _sysOrgRep.IsAnyAsync(u => u.Name == input.Name);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1300);
 
-        isExist = await _sysUserRep.AsQueryable().Filter(null, true).AnyAsync(u => u.Account == input.AdminAccount);
+        isExist = await _sysUserRep.AsQueryable().ClearFilter().AnyAsync(u => u.Account == input.AdminAccount);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1301);
 
         // ID隔离时设置与主库一致
@@ -249,7 +249,7 @@ public class SysTenantService : IDynamicApiController, ITransient
         await CacheTenant(input.Id);
 
         // 删除与租户相关的表数据
-        var users = await _sysUserRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.Id).ToListAsync();
+        var users = await _sysUserRep.AsQueryable().ClearFilter().Where(u => u.TenantId == input.Id).ToListAsync();
         var userIds = users.Select(u => u.Id).ToList();
         await _sysUserRep.AsDeleteable().Where(u => userIds.Contains(u.Id)).ExecuteCommandAsync();
 
@@ -259,7 +259,7 @@ public class SysTenantService : IDynamicApiController, ITransient
 
         await _sysRoleRep.AsDeleteable().Where(u => u.TenantId == input.Id).ExecuteCommandAsync();
 
-        var roleIds = await _sysRoleRep.AsQueryable().Filter(null, true)
+        var roleIds = await _sysRoleRep.AsQueryable().ClearFilter()
             .Where(u => u.TenantId == input.Id).Select(u => u.Id).ToListAsync();
         await _sysRoleMenuRep.AsDeleteable().Where(u => roleIds.Contains(u.RoleId)).ExecuteCommandAsync();
 
@@ -402,7 +402,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     [DisplayName("获取租户下的用户列表")]
     public async Task<List<SysUser>> UserList(TenantIdInput input)
     {
-        return await _sysUserRep.AsQueryable().Filter(null, true).Where(u => u.TenantId == input.TenantId).ToListAsync();
+        return await _sysUserRep.AsQueryable().ClearFilter().Where(u => u.TenantId == input.TenantId).ToListAsync();
     }
 
     /// <summary>
