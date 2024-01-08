@@ -1,5 +1,5 @@
 <template>
-	<div class="sys-notice-container">
+	<div class="sys-open-access-container">
 		<el-dialog v-model="state.isShowDialog" draggable :close-on-click-modal="false" width="900px">
 			<template #header>
 				<div style="color: #fff">
@@ -52,7 +52,7 @@
 							<li><el-tag effect="plain">url</el-tag> 去除协议、域名、参数，以 / 开头，如：/api/demo/helloWord</li>
 						</ul>
 					</li>
-					<li>使用 HMAC-SHA256 协议创建基于哈希的消息身份验证代码 (HMAC)，以 <el-tag effect="plain">appSecret</el-tag> 作为密钥，对上面拼接的参数进行计算签名，所得签名进行 Base-64 编码</li>
+					<li>使用 HMAC-SHA256 协议创建基于哈希的消息身份验证代码 (HMAC)，以 <el-tag effect="plain">accessSecret</el-tag> 作为密钥，对上面拼接的参数进行计算签名，所得签名进行 Base-64 编码</li>
 				</ul>
 			</div>
 			<div class="el-alert el-alert--info is-light">
