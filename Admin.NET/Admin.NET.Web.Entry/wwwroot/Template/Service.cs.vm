@@ -62,6 +62,7 @@ if (@column.QueryWhether == "Y"){
     }
 } 
 }
+@:.Where(u => !u.isDelete) // 隐藏软删除
 @if(Model.IsJoinTable){
             @://处理外键和TreeSelector相关字段的连接
     @foreach (var column in Model.TableField){
