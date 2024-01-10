@@ -8,6 +8,7 @@
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 		<UserSecretsId>ad9369d1-f29b-4f8f-a7df-8b4d7aa0726b</UserSecretsId>
 		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<GenerateSatelliteAssembliesForCore>true</GenerateSatelliteAssembliesForCore>
 	</PropertyGroup>
 
 	<ItemGroup>
