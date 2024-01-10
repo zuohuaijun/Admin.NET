@@ -239,8 +239,8 @@
 			</el-col>
 		</el-row>
 
-		<EditDictType ref="editDictTypeRef" :title="state.editDictTypeTitle" @handleQuery="handleDictTypeQuery" />
-		<EditDictData ref="editDictDataRef" :title="state.editDictDataTitle" @handleQuery="handleDictDataQuery" />
+		<EditDictType ref="editDictTypeRef" :title="state.editDictTypeTitle" @handleQuery="handleDictTypeQuery" @handleUpdate="updateDictSession" />
+		<EditDictData ref="editDictDataRef" :title="state.editDictDataTitle" @handleQuery="handleDictDataQuery" @handleUpdate="updateDictSession" />
 	</div>
 </template>
 
@@ -251,6 +251,8 @@ import EditDictType from '/@/views/system/dict/component/editDictType.vue';
 import EditDictData from '/@/views/system/dict/component/editDictData.vue';
 
 import { getAPI } from '/@/utils/axios-utils';
+import { Session } from '/@/utils/storage';
+import { useUserInfo } from '/@/stores/userInfo';
 import { SysDictTypeApi, SysDictDataApi } from '/@/api-services/api';
 import { SysDictType, SysDictData } from '/@/api-services/models';
 
@@ -374,6 +376,7 @@ const delDictType = (row: any) => {
 		.then(async () => {
 			await getAPI(SysDictTypeApi).apiSysDictTypeDeletePost({ id: row.id });
 			handleDictTypeQuery();
+			updateDictSession();
 			ElMessage.success('删除成功');
 		})
 		.catch(() => {});
@@ -389,6 +392,7 @@ const delDictData = (row: any) => {
 		.then(async () => {
 			await getAPI(SysDictDataApi).apiSysDictDataDeletePost({ id: row.id });
 			handleDictDataQuery();
+			updateDictSession();
 			ElMessage.success('删除成功');
 		})
 		.catch(() => {});
@@ -416,5 +420,14 @@ const handleDictDataSizeChange = (val: number) => {
 const handleDictDataCurrentChange = (val: number) => {
 	state.tableDictDataParams.page = val;
 	handleDictDataQuery();
+};
+
+// 更新前端字典缓存
+const updateDictSession = async () => {
+	if (Session.get('dictList')) {
+		const dictList = await useUserInfo().getAllDictList();
+		Session.set('dictList', dictList);
+	}
+	await useUserInfo().setDictList();
 };
 </script>

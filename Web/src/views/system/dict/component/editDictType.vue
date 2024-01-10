@@ -59,7 +59,7 @@ import { UpdateDictTypeInput } from '/@/api-services/models';
 const props = defineProps({
 	title: String,
 });
-const emits = defineEmits(['handleQuery']);
+const emits = defineEmits(['handleQuery', 'handleUpdate']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -93,6 +93,7 @@ const submit = () => {
 		} else {
 			await getAPI(SysDictTypeApi).apiSysDictTypeAddPost(state.ruleForm);
 		}
+		emits('handleUpdate');
 		closeDialog();
 	});
 };
