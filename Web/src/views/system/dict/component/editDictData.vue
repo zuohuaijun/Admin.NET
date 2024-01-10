@@ -86,7 +86,7 @@ const props = defineProps({
 	title: String,
 	dictTypeId: Number,
 });
-const emits = defineEmits(['handleQuery']);
+const emits = defineEmits(['handleQuery', 'handleUpdate']);
 const ruleFormRef = ref();
 const state = reactive({
 	isShowDialog: false,
@@ -123,6 +123,7 @@ const submit = () => {
 		} else {
 			await getAPI(SysDictDataApi).apiSysDictDataAddPost(state.ruleForm);
 		}
+		emits('handleUpdate');
 		closeDialog();
 	});
 };
