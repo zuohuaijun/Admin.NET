@@ -40,23 +40,23 @@ public sealed class DbConnectionOptions : IConfigurableOptions<DbConnectionOptio
 public sealed class DbConnectionConfig : ConnectionConfig
 {
     /// <summary>
-    /// 数据库设置
+    /// 数据库配置
     /// </summary>
     public DbSettings DbSettings { get; set; }
 
     /// <summary>
-    /// 表设置
+    /// 表配置
     /// </summary>
     public TableSettings TableSettings { get; set; }
 
     /// <summary>
-    /// 种子设置
+    /// 种子配置
     /// </summary>
     public SeedSettings SeedSettings { get; set; }
 }
 
 /// <summary>
-/// 数据库设置
+/// 数据库配置
 /// </summary>
 public sealed class DbSettings
 {
@@ -77,7 +77,7 @@ public sealed class DbSettings
 }
 
 /// <summary>
-/// 表设置
+/// 表配置
 /// </summary>
 public sealed class TableSettings
 {
@@ -93,7 +93,7 @@ public sealed class TableSettings
 }
 
 /// <summary>
-/// 种子设置
+/// 种子配置
 /// </summary>
 public sealed class SeedSettings
 {

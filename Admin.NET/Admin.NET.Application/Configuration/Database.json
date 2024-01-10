@@ -9,6 +9,16 @@
         //"ConfigId": "1300000000001", // 默认库标识-禁止修改
         "DbType": "Sqlite", // MySql、SqlServer、Sqlite、Oracle、PostgreSQL、Dm、Kdbndp、Oscar、MySqlConnector、Access、OpenGauss、QuestDB、HG、ClickHouse、GBase、Odbc、Custom
         "ConnectionString": "DataSource=./Admin.NET.db", // 库连接字符串
+        //"SlaveConnectionConfigs": [ // 读写分离/主从
+        //	{
+        //		"HitRate": 10,
+        //		"ConnectionString": "DataSource=./Admin.NET1.db"
+        //	},
+        //	{
+        //		"HitRate": 10,
+        //		"ConnectionString": "DataSource=./Admin.NET2.db"
+        //	}
+        //],
         "DbSettings": {
           "EnableInitDb": true, // 启用库初始化
           "EnableDiffLog": false, // 启用库表差异日志
