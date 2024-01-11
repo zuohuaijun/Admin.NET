@@ -10,7 +10,7 @@
 namespace Admin.NET.Core;
 
 /// <summary>
-/// YitIdHelper 自动获取WorkId拓展
+/// YitIdHelper 自动获取WorkId拓展（支持分布式部署）
 /// </summary>
 public static class YitIdHelperExtension
 {
@@ -32,15 +32,13 @@ public static class YitIdHelperExtension
         }
 
         var maxLength = Math.Pow(2, _options.WorkerIdBitLength.ParseToDouble());
-
         for (int i = 0; i < maxLength; i++)
         {
             _workIds.Add(i.ToString());
         }
 
         Random ran = new();
-        int milliseconds = ran.Next(10, 1000);
-        Thread.Sleep(milliseconds);
+        Thread.Sleep(ran.Next(10, 1000));
 
         SetWorkId();
     }
@@ -53,9 +51,11 @@ public static class YitIdHelperExtension
         var minWorkId = 0;
         var maxWorkId = Math.Pow(2, _options.WorkerIdBitLength.ParseToDouble());
 
-        var client = App.GetService<ICache>();
-        var redisLock = client.AcquireLock(lockName, 10000, 15000, true);
-        var keys = client.Keys.Where(o => o.Contains($"{_options.WorkerPrefix}{valueKey}:*"));
+        var cache = App.GetService<ICache>();
+        var redisLock = cache.AcquireLock(lockName, 10000, 15000, true);
+        var keys = cache == Cache.Default
+            ? cache.Keys.Where(u => u.StartsWith($"{_options.WorkerPrefix}{valueKey}:*"))
+            : ((FullRedis)cache).Search($"{_options.WorkerPrefix}{valueKey}:*", int.MaxValue);
 
         var tempWorkIds = _workIds;
         foreach (var key in keys)
@@ -69,12 +69,9 @@ public static class YitIdHelperExtension
             string workIdKey = "";
             foreach (var item in tempWorkIds)
             {
-                string workIdStr = "";
-
-                workIdStr = item;
+                var workIdStr = item;
                 workIdKey = $"{valueKey}:{workIdStr}";
-                var exist = client.Get<bool>(workIdKey);
-
+                var exist = cache.Get<bool>(workIdKey);
                 if (exist)
                 {
                     workIdKey = "";
@@ -84,7 +81,6 @@ public static class YitIdHelperExtension
                 Console.WriteLine($"###########当前应用WorkId:【{workIdStr}】###########");
 
                 long workId = workIdStr.ParseToLong();
-
                 if (workId < minWorkId || workId > maxWorkId)
                     continue;
 
@@ -96,8 +92,7 @@ public static class YitIdHelperExtension
                     SeqBitLength = _options.SeqBitLength
                 });
 
-                client.Set(workIdKey, true, TimeSpan.FromSeconds(15));
-
+                cache.Set(workIdKey, true, TimeSpan.FromSeconds(15));
                 break;
             }
 
@@ -108,15 +103,15 @@ public static class YitIdHelperExtension
             {
                 while (true)
                 {
-                    client.SetExpire(workIdKey, TimeSpan.FromSeconds(15));
-                    //Task.Delay(5000);
+                    cache.SetExpire(workIdKey, TimeSpan.FromSeconds(15));
+                    // Task.Delay(5000);
                     Thread.Sleep(10000);
                 }
             });
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            throw Oops.Oh($"{e.Message};{e.StackTrace};{e.StackTrace}");
+            throw Oops.Oh($"{ex.Message};{ex.StackTrace};{ex.StackTrace}");
         }
         finally
         {
