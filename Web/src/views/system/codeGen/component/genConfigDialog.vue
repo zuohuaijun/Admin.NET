@@ -163,12 +163,13 @@ const handleQuery = async (row: any) => {
 	state.loading = true;
 	var res = await getAPI(SysCodeGenConfigApi).apiSysCodeGenConfigListGet(undefined, row.id);
 	var data = res.data.result ?? [];
+	let lstWhetherColumn = ['whetherTable', 'whetherAddUpdate', 'whetherRequired', 'whetherSortable']; //列表显示的checkbox
 	data.forEach((item: any) => {
 		for (const key in item) {
 			if (item[key] === 'Y') {
 				item[key] = true;
 			}
-			if (item[key] === 'N') {
+			if (item[key] === 'N' || (lstWhetherColumn.includes(key) && item[key] === null)) {
 				item[key] = false;
 			}
 		}
