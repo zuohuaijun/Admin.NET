@@ -61,6 +61,7 @@
 				</el-table-column>
 				<!-- <el-table-column prop="configId" label="数据库标识" show-overflow-tooltip /> -->
 				<el-table-column prop="connection" label="数据库连接" min-width="300" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="slaveConnections" label="从库连接" min-width="300" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="orderNo" label="排序" width="70" align="center" show-overflow-tooltip />
 				<el-table-column label="修改记录" width="100" align="center" show-overflow-tooltip>
 					<template #default="scope">

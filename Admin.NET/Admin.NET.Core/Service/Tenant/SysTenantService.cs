@@ -114,6 +114,10 @@ public class SysTenantService : IDynamicApiController, ITransient
         isExist = await _sysUserRep.AsQueryable().ClearFilter().AnyAsync(u => u.Account == input.AdminAccount);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1301);
 
+        // 从库配置判断
+        if (!string.IsNullOrWhiteSpace(input.SlaveConnections) && !JSON.IsValid(input.SlaveConnections))
+            throw Oops.Oh(ErrorCodeEnum.D1302);
+
         // ID隔离时设置与主库一致
         if (input.TenantType == TenantTypeEnum.Id)
         {
@@ -284,6 +288,10 @@ public class SysTenantService : IDynamicApiController, ITransient
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D1301);
 
+        // 从库配置判断
+        if (!string.IsNullOrWhiteSpace(input.SlaveConnections) && !JSON.IsValid(input.SlaveConnections))
+            throw Oops.Oh(ErrorCodeEnum.D1302);
+
         await _sysTenantRep.AsUpdateable(input.Adapt<TenantOutput>()).IgnoreColumns(true).ExecuteCommandAsync();
 
         // 更新系统机构
@@ -438,7 +446,8 @@ public class SysTenantService : IDynamicApiController, ITransient
                 DbSettings = new DbSettings()
                 {
                     EnableUnderLine = mainConnConfig.DbSettings.EnableUnderLine,
-                }
+                },
+                SlaveConnectionConfigs = JSON.IsValid(tenant.SlaveConnections) ? JSON.Deserialize<List<SlaveConnectionConfig>>(tenant.SlaveConnections) : null // 从库连接配置
             };
             iTenant.AddConnection(tenantConnConfig);
 

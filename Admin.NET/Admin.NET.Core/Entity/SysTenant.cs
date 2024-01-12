@@ -62,6 +62,12 @@ public class SysTenant : EntityBase
     public string? ConfigId { get; set; }
 
     /// <summary>
+    /// 从库连接/读写分离
+    /// </summary>
+    [SugarColumn(ColumnDescription = "从库连接/读写分离", ColumnDataType = StaticConfig.CodeFirst_BigString)]
+    public string? SlaveConnections { get; set; }
+
+    /// <summary>
     /// 排序
     /// </summary>
     [SugarColumn(ColumnDescription = "排序")]

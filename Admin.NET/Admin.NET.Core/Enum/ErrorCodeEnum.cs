@@ -485,6 +485,12 @@ public enum ErrorCodeEnum
     D1301,
 
     /// <summary>
+    /// 租户从库配置错误
+    /// </summary>
+    [ErrorCodeItemMetadata("租户从库配置错误")]
+    D1302,
+
+    /// <summary>
     /// 该表代码模板已经生成过
     /// </summary>
     [ErrorCodeItemMetadata("该表代码模板已经生成过")]

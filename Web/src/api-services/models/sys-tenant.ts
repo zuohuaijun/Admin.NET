@@ -144,6 +144,14 @@ export interface SysTenant {
     configId?: string | null;
 
     /**
+     * 从库连接/读写分离
+     *
+     * @type {string}
+     * @memberof SysTenant
+     */
+    slaveConnections?: string | null;
+
+    /**
      * 排序
      *
      * @type {number}
