@@ -8,7 +8,7 @@
       "Microsoft.EntityFrameworkCore": "Information"
     },
     "File": {
-      "Enabled": true, // 启用文件日志
+      "Enabled": false, // 启用文件日志
       "FileName": "logs/{0:yyyyMMdd}_{1}.log", // 日志文件
       "Append": true, // 追加覆盖
       // "MinimumLevel": "Information", // 日志级别
