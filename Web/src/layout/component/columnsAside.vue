@@ -79,7 +79,7 @@ const onColumnsAsideMenuClick = async (v: RouteItem) => {
 		if (route.path.startsWith(redirect)) mittBus.emit('setSendColumnsChildren', setSendChildren(redirect));
 		else router.push(redirect);
 	} else {
-		if (!v.children||v.children.length===0) {
+		if (!v.children || v.children.length === 0) {
 			router.push(path);
 		} else {
 			// 显示子级菜单
