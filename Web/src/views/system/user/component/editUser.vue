@@ -39,7 +39,7 @@
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
-								<el-form-item label="账号类型" prop="accountType" :rules="[{ required: true, message: '角色集合不能为空', trigger: 'blur' }]">
+								<el-form-item label="账号类型" prop="accountType" :rules="[{ required: true, message: '账号类型不能为空', trigger: 'blur' }]">
 									<el-select v-model="state.ruleForm.accountType" placeholder="账号类型" collapse-tags collapse-tags-tooltip class="w100">
 										<el-option label="系统管理员" :value="888" :disabled="userInfos.accountType != 888 && userInfos.accountType != 999" />
 										<el-option label="普通账号" :value="777" />
