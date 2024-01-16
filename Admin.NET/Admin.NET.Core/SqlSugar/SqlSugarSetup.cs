@@ -90,7 +90,7 @@ public static class SqlSugarSetup
         config.IsAutoCloseConnection = true;
         config.MoreSettings = new ConnMoreSettings
         {
-            IsAutoRemoveDataCache = true,
+            IsAutoRemoveDataCache = true, // 启用自动删除缓存，所有增删改会自动调用.RemoveDataCache()
             IsAutoDeleteQueryFilter = true, // 启用删除查询过滤器
             IsAutoUpdateQueryFilter = true, // 启用更新查询过滤器
             SqlServerCodeFirstNvarchar = true // 采用Nvarchar
