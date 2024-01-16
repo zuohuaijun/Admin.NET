@@ -195,6 +195,9 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("设置用户状态")]
     public async Task<int> SetStatus(UserInput input)
     {
+        if (_userManager.UserId == input.Id)
+            throw Oops.Oh(ErrorCodeEnum.D1026);
+
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
         if (user.AccountType == AccountTypeEnum.SuperAdmin)
             throw Oops.Oh(ErrorCodeEnum.D1015);

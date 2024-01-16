@@ -185,6 +185,12 @@ public enum ErrorCodeEnum
     D1025,
 
     /// <summary>
+    /// 禁止修改本人账号状态
+    /// </summary>
+    [ErrorCodeItemMetadata("禁止修改本人账号状态")]
+    D1026,
+
+    /// <summary>
     /// 父机构不存在
     /// </summary>
     [ErrorCodeItemMetadata("父机构不存在")]
