@@ -347,6 +347,12 @@ public enum ErrorCodeEnum
     D4009,
 
     /// <summary>
+    /// 父节点不能为按钮类型
+    /// </summary>
+    [ErrorCodeItemMetadata("父节点不能为按钮类型")]
+    D4010,
+
+    /// <summary>
     /// 已存在同名或同编码应用
     /// </summary>
     [ErrorCodeItemMetadata("已存在同名或同编码应用")]

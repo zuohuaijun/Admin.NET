@@ -122,6 +122,12 @@ public class SysMenuService : IDynamicApiController, ITransient
                 throw Oops.Oh(ErrorCodeEnum.D4009);
         }
 
+        if (input.Pid != 0)
+        {
+            if (await _sysMenuRep.IsAnyAsync(u => u.Id == input.Pid && u.Type == MenuTypeEnum.Btn))
+                throw Oops.Oh(ErrorCodeEnum.D4010);
+        }
+
         // 校验菜单参数
         var sysMenu = input.Adapt<SysMenu>();
         CheckMenuParam(sysMenu);
@@ -149,6 +155,18 @@ public class SysMenuService : IDynamicApiController, ITransient
             : await _sysMenuRep.IsAnyAsync(u => u.Permission == input.Permission && u.Type == input.Type && u.Id != input.Id);
         if (isExist)
             throw Oops.Oh(ErrorCodeEnum.D4000);
+
+        if (!string.IsNullOrWhiteSpace(input.Name))
+        {
+            if (await _sysMenuRep.IsAnyAsync(u => u.Id != input.Id && u.Name == input.Name))
+                throw Oops.Oh(ErrorCodeEnum.D4009);
+        }
+
+        if (input.Pid != 0)
+        {
+            if (await _sysMenuRep.IsAnyAsync(u => u.Id == input.Pid && u.Type == MenuTypeEnum.Btn))
+                throw Oops.Oh(ErrorCodeEnum.D4010);
+        }
 
         // 校验菜单参数
         var sysMenu = input.Adapt<SysMenu>();
@@ -233,6 +251,7 @@ public class SysMenuService : IDynamicApiController, ITransient
                 : new List<string>();
             _sysCacheService.Set(CacheConst.KeyUserButton + userId, permissions);
         }
+
         return permissions;
     }
 
@@ -251,6 +270,7 @@ public class SysMenuService : IDynamicApiController, ITransient
                 .Select(u => u.Permission).ToListAsync();
             _sysCacheService.Set(CacheConst.KeyUserButton + 0, permissions);
         }
+
         return permissions;
     }
 
