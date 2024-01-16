@@ -35,7 +35,7 @@ public abstract class EntityBase : EntityBaseId, IDeletedFilter
     /// <summary>
     /// 更新时间
     /// </summary>
-    [SugarColumn(ColumnDescription = "更新时间", IsOnlyIgnoreInsert = true)]
+    [SugarColumn(ColumnDescription = "更新时间")]
     public virtual DateTime? UpdateTime { get; set; }
 
     /// <summary>
@@ -61,7 +61,7 @@ public abstract class EntityBase : EntityBaseId, IDeletedFilter
     /// <summary>
     /// 修改者Id
     /// </summary>
-    [SugarColumn(ColumnDescription = "修改者Id", IsOnlyIgnoreInsert = true)]
+    [SugarColumn(ColumnDescription = "修改者Id")]
     public virtual long? UpdateUserId { get; set; }
 
     /// <summary>
@@ -75,7 +75,7 @@ public abstract class EntityBase : EntityBaseId, IDeletedFilter
     /// <summary>
     /// 修改者姓名
     /// </summary>
-    [SugarColumn(ColumnDescription = "修改者姓名", Length = 64, IsOnlyIgnoreInsert = true)]
+    [SugarColumn(ColumnDescription = "修改者姓名", Length = 64)]
     public virtual string? UpdateUserName { get; set; }
 
     /// <summary>
