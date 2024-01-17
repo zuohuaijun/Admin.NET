@@ -21,10 +21,29 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="值" prop="value" :rules="[{ required: true, message: '值不能为空', trigger: 'blur' }]">
-							<el-select v-model="state.ruleForm.value" placeholder="值" clearable filterable allow-create default-first-option class="w100">
-								<el-option label="True" value="True" />
-								<el-option label="False" value="False" />
-							</el-select>
+							<el-input v-model="state.ruleForm.value" placeholder="值">
+								<template #append>
+									<el-space :size="10" spacer="|">
+										<el-dropdown
+											style="color: inherit"
+											trigger="click"
+											@command="
+												(value: string) => {
+													state.ruleForm.value = value;
+												}
+											"
+										>
+											<el-button style="margin: 0px -20px 0px -10px; color: inherit"> 选项 </el-button>
+											<template #dropdown>
+												<el-dropdown-menu>
+													<el-dropdown-item command="True"> True </el-dropdown-item>
+													<el-dropdown-item command="False"> False </el-dropdown-item>
+												</el-dropdown-menu>
+											</template>
+										</el-dropdown>
+									</el-space>
+								</template>
+							</el-input>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
