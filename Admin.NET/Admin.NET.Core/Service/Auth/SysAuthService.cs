@@ -176,6 +176,9 @@ public class SysAuthService : IDynamicApiController, ITransient
         var pos = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysPos>>().GetFirstAsync(u => u.Id == user.PosId);
         // 获取拥有按钮权限集合
         var buttons = await _sysMenuService.GetOwnBtnPermList();
+        // 获取权限集合
+        var roleIds = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysUserRole>>().AsQueryable()
+            .Where(u => u.UserId == user.Id).Select(u => u.RoleId).ToListAsync();
 
         return new LoginUserOutput
         {
@@ -190,7 +193,8 @@ public class SysAuthService : IDynamicApiController, ITransient
             OrgName = org?.Name,
             OrgType = org?.Type,
             PosName = pos?.Name,
-            Buttons = buttons
+            Buttons = buttons,
+            RoleIds = roleIds
         };
     }
 

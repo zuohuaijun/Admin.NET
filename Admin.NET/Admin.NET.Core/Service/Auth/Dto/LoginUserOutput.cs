@@ -78,4 +78,9 @@ public class LoginUserOutput
     /// 按钮权限集合
     /// </summary>
     public List<string> Buttons { get; set; }
+
+    /// <summary>
+    /// 角色集合
+    /// </summary>
+    public List<long> RoleIds { get; set; }
 }
