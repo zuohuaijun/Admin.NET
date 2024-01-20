@@ -37,7 +37,7 @@ public class SysServerService : IDynamicApiController, ITransient
         return new
         {
             HostName = Environment.MachineName, // 主机名称
-            SystemOs = RuntimeInformation.OSDescription, // 操作系统
+            SystemOs = ComputerUtil.GetOSInfo(),//RuntimeInformation.OSDescription, // 操作系统
             OsArchitecture = Environment.OSVersion.Platform.ToString() + " " + RuntimeInformation.OSArchitecture.ToString(), // 系统架构
             ProcessorCount = Environment.ProcessorCount + " 核", // CPU核心数
             SysRunTime = ComputerUtil.GetRunTime(), // 系统运行时间
