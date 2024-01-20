@@ -54,7 +54,18 @@
 		</div>
 		<el-dropdown :show-timeout="70" :hide-timeout="50" @command="onHandleCommandClick">
 			<span class="layout-navbars-breadcrumb-user-link">
-				<img :src="userInfos.avatar" class="layout-navbars-breadcrumb-user-link-photo mr5" />
+				<el-tooltip effect="dark" placement="left">
+					<template #content>
+						账号：{{ userInfos.account }}<br />
+						姓名：{{ userInfos.realName }}<br />
+						电话：{{ userInfos.phone }}<br />
+						邮箱：{{ userInfos.email }}<br />
+						部门：{{ userInfos.orgName }}<br />
+						职位：{{ userInfos.posName }}<br />
+					</template>
+					<img :src="userInfos.avatar" class="layout-navbars-breadcrumb-user-link-photo mr5" />
+				</el-tooltip>
+
 				{{ userInfos.realName == '' ? userInfos.account : userInfos.realName }}
 				<el-icon class="el-icon--right">
 					<ele-ArrowDown />

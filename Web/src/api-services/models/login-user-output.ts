@@ -50,6 +50,30 @@ export interface LoginUserOutput {
     realName?: string | null;
 
     /**
+     * 电话
+     *
+     * @type {string}
+     * @memberof LoginUserOutput
+     */
+    phone?: string | null;
+
+    /**
+     * 身份证
+     *
+     * @type {string}
+     * @memberof LoginUserOutput
+     */
+    idCardNum?: string | null;
+
+    /**
+     * 邮箱
+     *
+     * @type {string}
+     * @memberof LoginUserOutput
+     */
+    email?: string | null;
+
+    /**
      * @type {AccountTypeEnum}
      * @memberof LoginUserOutput
      */
@@ -126,4 +150,12 @@ export interface LoginUserOutput {
      * @memberof LoginUserOutput
      */
     buttons?: Array<string> | null;
+
+    /**
+     * 角色集合
+     *
+     * @type {Array<number>}
+     * @memberof LoginUserOutput
+     */
+    roleIds?: Array<number> | null;
 }

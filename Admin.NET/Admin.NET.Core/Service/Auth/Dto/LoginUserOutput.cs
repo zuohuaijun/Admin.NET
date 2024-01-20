@@ -30,6 +30,21 @@ public class LoginUserOutput
     public string RealName { get; set; }
 
     /// <summary>
+    /// 电话
+    /// </summary>
+    public string Phone { get; set; }
+
+    /// <summary>
+    /// 身份证
+    /// </summary>
+    public string IdCardNum { get; set; }
+
+    /// <summary>
+    /// 邮箱
+    /// </summary>
+    public string Email { get; set; }
+
+    /// <summary>
     /// 账号类型
     /// </summary>
     public AccountTypeEnum AccountType { get; set; } = AccountTypeEnum.NormalUser;

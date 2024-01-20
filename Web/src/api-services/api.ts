@@ -16,6 +16,7 @@ export * from './apis/sys-auth-api';
 export * from './apis/sys-cache-api';
 export * from './apis/sys-code-gen-api';
 export * from './apis/sys-code-gen-config-api';
+export * from './apis/sys-common-api';
 export * from './apis/sys-config-api';
 export * from './apis/sys-const-api';
 export * from './apis/sys-database-api';
