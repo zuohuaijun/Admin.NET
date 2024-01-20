@@ -113,7 +113,8 @@ public class SysUserService : IDynamicApiController, ITransient
     [DisplayName("更新用户")]
     public async Task UpdateUser(UpdateUserInput input)
     {
-        if (await _sysUserRep.AsQueryable().ClearFilter().AnyAsync(u => u.Account == input.Account && u.Id != input.Id))
+        var user = await _sysUserRep.AsQueryable().ClearFilter().FirstAsync(u => u.Account == input.Account && u.Id != input.Id);
+        if (user != null)
             throw Oops.Oh(ErrorCodeEnum.D1003);
 
         await _sysUserRep.AsUpdateable(input.Adapt<SysUser>()).IgnoreColumns(true)
@@ -123,6 +124,11 @@ public class SysUserService : IDynamicApiController, ITransient
 
         // 删除用户机构缓存
         SqlSugarFilter.DeleteUserOrgCache(input.Id, _sysUserRep.Context.CurrentConnectionConfig.ConfigId.ToString());
+
+        // 若账号的角色和组织架构发生变化，则强制账号下线以刷新权限
+        var roleIds = await GetOwnRoleList(input.Id); // 获取权限集合
+        if (input.OrgId != user.OrgId || input.RoleIdList != roleIds)
+            await _sysOnlineUserService.ForceOffline(input.Id);
     }
 
     /// <summary>
