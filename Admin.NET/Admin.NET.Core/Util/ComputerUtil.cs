@@ -87,7 +87,7 @@ public static class ComputerUtil
                 var diskInfo = new DiskInfo()
                 {
                     DiskName = disk[0],
-                    TypeName = ShellHelper.Bash("diskutil info " + disk[0] + " | awk '/File System Personality/ {print $4}'").Replace("\n",string.Empty),
+                    TypeName = ShellHelper.Bash("diskutil info " + disk[0] + " | awk '/File System Personality/ {print $4}'").Replace("\n", string.Empty),
                     TotalSize = long.Parse(disk[1]) / 1024,
                     Used = long.Parse(disk[2]) / 1024,
                     AvailableFreeSpace = long.Parse(disk[3]) / 1024,
@@ -351,6 +351,7 @@ public class MemoryMetricsClient
         }
         return metrics;
     }
+
     /// <summary>
     /// macOS系统获取
     /// </summary>
