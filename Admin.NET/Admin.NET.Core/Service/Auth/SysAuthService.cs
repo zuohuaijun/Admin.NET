@@ -59,6 +59,12 @@ public class SysAuthService : IDynamicApiController, ITransient
         //// 可以根据域名获取具体租户
         //var host = _httpContextAccessor.HttpContext.Request.Host;
 
+        // 判断密码错误次数（默认5次，缓存30分钟）
+        var keyErrorPasswordCount = $"{CacheConst.KeyErrorPasswordCount}{input.Account}";
+        var errorPasswordCount = _sysCacheService.Get<int>(keyErrorPasswordCount);
+        if (errorPasswordCount > 5)
+            throw Oops.Oh(ErrorCodeEnum.D1027);
+
         // 是否开启验证码
         if (await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha))
         {
@@ -87,12 +93,18 @@ public class SysAuthService : IDynamicApiController, ITransient
         if (CryptogramUtil.CryptoType == CryptogramEnum.MD5.ToString())
         {
             if (!user.Password.Equals(MD5Encryption.Encrypt(input.Password)))
+            {
+                _sysCacheService.Set(keyErrorPasswordCount, ++errorPasswordCount, TimeSpan.FromMinutes(30));
                 throw Oops.Oh(ErrorCodeEnum.D1000);
+            }
         }
         else
         {
             if (!CryptogramUtil.Decrypt(user.Password).Equals(input.Password))
+            {
+                _sysCacheService.Set(keyErrorPasswordCount, ++errorPasswordCount, TimeSpan.FromMinutes(30));
                 throw Oops.Oh(ErrorCodeEnum.D1000);
+            }
         }
 
         return await CreateToken(user);

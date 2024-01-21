@@ -53,6 +53,11 @@ public class CacheConst
     public const string KeyPhoneVerCode = "sys_phoneVerCode:";
 
     /// <summary>
+    /// 密码错误次数缓存
+    /// </summary>
+    public const string KeyErrorPasswordCount = "sys_errorPasswordCount:";
+
+    /// <summary>
     /// 租户缓存
     /// </summary>
     public const string KeyTenant = "sys_tenant";

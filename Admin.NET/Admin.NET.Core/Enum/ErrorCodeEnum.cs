@@ -191,6 +191,12 @@ public enum ErrorCodeEnum
     D1026,
 
     /// <summary>
+    /// 密码错误次数过多，账号已锁定，请半小时后重试！
+    /// </summary>
+    [ErrorCodeItemMetadata("密码错误次数过多，账号已锁定，请半小时后重试！")]
+    D1027,
+
+    /// <summary>
     /// 父机构不存在
     /// </summary>
     [ErrorCodeItemMetadata("父机构不存在")]
