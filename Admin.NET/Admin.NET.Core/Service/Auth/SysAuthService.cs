@@ -62,7 +62,7 @@ public class SysAuthService : IDynamicApiController, ITransient
         // 判断密码错误次数（默认5次，缓存30分钟）
         var keyErrorPasswordCount = $"{CacheConst.KeyErrorPasswordCount}{input.Account}";
         var errorPasswordCount = _sysCacheService.Get<int>(keyErrorPasswordCount);
-        if (errorPasswordCount > 5)
+        if (errorPasswordCount >= 5)
             throw Oops.Oh(ErrorCodeEnum.D1027);
 
         // 是否开启验证码
@@ -106,6 +106,9 @@ public class SysAuthService : IDynamicApiController, ITransient
                 throw Oops.Oh(ErrorCodeEnum.D1000);
             }
         }
+
+        // 清空用户的密码错误次数
+        _sysCacheService.Remove(keyErrorPasswordCount);
 
         return await CreateToken(user);
     }
