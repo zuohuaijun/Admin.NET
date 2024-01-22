@@ -220,6 +220,9 @@ public static class ComputerUtil
     }
 }
 
+/// <summary>
+/// IP信息
+/// </summary>
 public class IpCnResp
 {
     public string Ip { get; set; }

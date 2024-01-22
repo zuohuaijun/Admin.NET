@@ -107,7 +107,7 @@ public class SysAuthService : IDynamicApiController, ITransient
             }
         }
 
-        // 清空用户的密码错误次数
+        // 登录成功则清空密码错误次数
         _sysCacheService.Remove(keyErrorPasswordCount);
 
         return await CreateToken(user);
