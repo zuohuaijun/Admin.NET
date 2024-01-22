@@ -151,11 +151,10 @@ public static class ComputerUtil
     /// <returns></returns>
     public static string GetIpFromOnline()
     {
-        var url = "http://myip.ipip.net";
-        var stream = url.GetAsStreamAsync().GetAwaiter().GetResult();
-        var streamReader = new StreamReader(stream.Stream, stream.Encoding);
-        var html = streamReader.ReadToEnd();
-        return !html.Contains("当前 IP：") ? "未知" : html.Replace("当前 IP：", "").Replace("来自于：", "");
+        var url = "https://www.ip.cn/api/index?ip&type=0";
+        var str = url.GetAsStringAsync().GetAwaiter().GetResult();
+        var resp = JSON.Deserialize<IpCnResp>(str);
+        return resp.Ip + " " + resp.Address;
     }
 
     public static bool IsUnix()
@@ -219,6 +218,13 @@ public static class ComputerUtil
         }
         return runTime;
     }
+}
+
+public class IpCnResp
+{
+    public string Ip { get; set; }
+
+    public string Address { get; set; }
 }
 
 /// <summary>
