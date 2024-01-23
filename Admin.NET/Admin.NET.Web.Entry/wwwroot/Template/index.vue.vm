@@ -79,25 +79,29 @@
             }
           @:<el-col :xs="24" :sm="12" :md="12" :lg="6" :xl="6" class="mb10">
             @:<el-form-item>
-              @:<el-button-group>
+              @:<el-button-group style="display: flex; align-items: center;">
                 @:<el-button type="primary"  icon="ele-Search" @@click="handleQuery" v-auth="'@(@Model.LowerClassName):page'"> 查询 </el-button>
                 @:<el-button icon="ele-Refresh" @@click="() => queryParams = {}"> 重置 </el-button>
                 @if(haveLikeCdt){
-                @:<el-button icon="ele-ZoomIn" @@click="changeAdvanceQueryUI" v-if="!showAdvanceQueryUI"> 高级 </el-button>
-                @:<el-button icon="ele-ZoomOut" @@click="changeAdvanceQueryUI" v-if="showAdvanceQueryUI"> 隐藏 </el-button>
+                @:<el-button icon="ele-ZoomIn" @@click="changeAdvanceQueryUI" v-if="!showAdvanceQueryUI" style="margin-left:5px;"> 高级查询 </el-button>
+                @:<el-button icon="ele-ZoomOut" @@click="changeAdvanceQueryUI" v-if="showAdvanceQueryUI" style="margin-left:5px;"> 隐藏 </el-button>
                 }
+                @:<el-button type="primary" style="margin-left:5px;" icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.LowerClassName):add'"> 新增 </el-button>
                 @:
               </el-button-group>
-              @:
-              @:<el-button-group style="margin-left:20px">
-                @:<el-button type="primary" icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.LowerClassName):add'"> 新增 </el-button>
-                @:
-              </el-button-group>
-              @:
             </el-form-item>
             @:
           @:</el-col>
         </el-row>
+        @* 操作区另起一行
+        @:<el-row>
+          @:<el-col>
+            @:<el-button-group style="margin-left:20px;margin-bottom:5px;">
+              @:<el-button type="primary" icon="ele-Plus" @@click="openAdd@(@Model.ClassName)" v-auth="'@(@Model.LowerClassName):add'"> 新增 </el-button>
+            </el-button-group>
+          @:</el-col>
+        </el-row>
+		*@
       </el-form>
       }
     </el-card>
