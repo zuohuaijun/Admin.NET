@@ -14,10 +14,10 @@ namespace Admin.NET.Core;
 /// </summary>
 public class CacheConst
 {
-    /// <summary>
-    /// 用户缓存
-    /// </summary>
-    public const string KeyUser = "sys_user:";
+    ///// <summary>
+    ///// 用户缓存
+    ///// </summary>
+    //public const string KeyUser = "sys_user:";
 
     ///// <summary>
     ///// 用户菜单缓存
@@ -49,7 +49,9 @@ public class CacheConst
     /// </summary>
     public const string KeyVerCode = "sys_verCode:";
 
-    // 手机验证码缓存
+    /// <summary>
+    /// 手机验证码缓存
+    /// </summary>
     public const string KeyPhoneVerCode = "sys_phoneVerCode:";
 
     /// <summary>

@@ -293,7 +293,7 @@ public class SysOrgService : IDynamicApiController, ITransient
             // 当前所属机构
             if (!orgIdList.Contains(_userManager.OrgId))
                 orgIdList.Add(_userManager.OrgId);
-            _sysCacheService.Set($"{CacheConst.KeyUserOrg}{userId}", orgIdList); // 存缓存
+            _sysCacheService.Set($"{CacheConst.KeyUserOrg}{userId}", orgIdList, TimeSpan.FromDays(7)); // 存缓存
         }
         return orgIdList;
     }
@@ -348,7 +348,7 @@ public class SysOrgService : IDynamicApiController, ITransient
         }
 
         // 缓存当前用户最大角色数据范围
-        _sysCacheService.Set(CacheConst.KeyRoleMaxDataScope + _userManager.UserId, strongerDataScopeType);
+        _sysCacheService.Set(CacheConst.KeyRoleMaxDataScope + _userManager.UserId, strongerDataScopeType, TimeSpan.FromDays(7));
 
         // 根据角色集合获取机构集合
         var roleOrgIdList = await _sysRoleOrgService.GetRoleOrgIdList(customDataScopeRoleIdList);

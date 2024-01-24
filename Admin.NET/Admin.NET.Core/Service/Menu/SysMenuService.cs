@@ -249,7 +249,7 @@ public class SysMenuService : IDynamicApiController, ITransient
                     .WhereIF(menuIdList.Count > 0, u => menuIdList.Contains(u.Id))
                     .Select(u => u.Permission).ToListAsync()
                 : new List<string>();
-            _sysCacheService.Set(CacheConst.KeyUserButton + userId, permissions);
+            _sysCacheService.Set(CacheConst.KeyUserButton + userId, permissions, TimeSpan.FromDays(7));
         }
 
         return permissions;
