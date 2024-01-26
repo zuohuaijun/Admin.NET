@@ -28,16 +28,15 @@
 				<div v-show="state.isShowLoockLogin" class="layout-lock-screen-login">
 					<div class="layout-lock-screen-login-box">
 						<div class="layout-lock-screen-login-box-img">
-							<img src="https://img2.baidu.com/it/u=1978192862,2048448374&fm=253&fmt=auto&app=138&f=JPEG?w=504&h=500" />
+							<img :src="userInfos.avatar || 'https://img2.baidu.com/it/u=1978192862,2048448374&fm=253&fmt=auto&app=138&f=JPEG?w=504&h=500'" />
 						</div>
-						<div class="layout-lock-screen-login-box-name">Administrator</div>
-						<div class="layout-lock-screen-login-box-value">
-							<el-input
-								placeholder="请输入密码"
-								ref="layoutLockScreenInputRef"
-								v-model="state.lockScreenPassword"
-								@keyup.enter.native.stop="onLockScreenSubmit()"
-							>
+						<div class="layout-lock-screen-login-box-name">{{ userInfos.account }}</div>
+						<div v-if="state.showMessage" class="layout-lock-screen-login-box-message">
+							<span>{{ state.message }}</span>
+							<el-button style="max-width: 80px; margin-top: 20px" size="default" @click="hideMessage"> 确认 </el-button>
+						</div>
+						<div v-else class="layout-lock-screen-login-box-value">
+							<el-input placeholder="请输入密码" ref="layoutLockScreenInputRef" size="default" v-model="state.lockScreenPassword" @keyup.enter.native.stop="onLockScreenSubmit()">
 								<template #append>
 									<el-button @click="onLockScreenSubmit">
 										<el-icon class="el-input__icon">
@@ -65,12 +64,18 @@ import { formatDate } from '/@/utils/formatTime';
 import { Local } from '/@/utils/storage';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
+import { useUserInfo } from '/@/stores/userInfo';
+import { sm2 } from 'sm-crypto-v2';
+import { feature, getAPI } from '/@/utils/axios-utils';
+import { SysAuthApi } from '/@/api-services';
 
 // 定义变量内容
 const layoutLockScreenDateRef = ref<HtmlType>();
 const layoutLockScreenInputRef = ref();
 const storesThemeConfig = useThemeConfig();
 const { themeConfig } = storeToRefs(storesThemeConfig);
+const storesUserInfo = useUserInfo();
+const { userInfos } = storeToRefs(storesUserInfo);
 const state = reactive({
 	transparency: 1,
 	downClientY: 0,
@@ -87,6 +92,8 @@ const state = reactive({
 	isShowLockScreen: false,
 	isShowLockScreenIntervalTime: 0,
 	lockScreenPassword: '',
+	message: '',
+	showMessage: false,
 });
 
 // 鼠标按下 pc
@@ -177,16 +184,62 @@ const setLocalThemeConfig = () => {
 	Local.set('themeConfig', themeConfig.value);
 };
 // 密码输入点击事件
-const onLockScreenSubmit = () => {
-	themeConfig.value.isLockScreen = false;
-	themeConfig.value.lockScreenTime = 30;
-	setLocalThemeConfig();
+const onLockScreenSubmit = async () => {
+	if (state.lockScreenPassword) {
+		try {
+			// SM2加密密码
+			// const keys = SM2.generateKeyPair();
+			const publicKey = `0484C7466D950E120E5ECE5DD85D0C90EAA85081A3A2BD7C57AE6DC822EFCCBD66620C67B0103FC8DD280E36C3B282977B722AAEC3C56518EDCEBAFB72C5A05312`;
+			const password = sm2.doEncrypt(state.lockScreenPassword, publicKey, 1);
+			const [err, res] = await feature(getAPI(SysAuthApi).apiSysAuthUnlockPost(password));
+			if (err) {
+				console.log(err);
+				state.message = err.message;
+				state.showMessage = true;
+				state.lockScreenPassword = '';
+
+				return;
+			}
+			if (res.data.result) {
+				themeConfig.value.isLockScreen = false;
+				themeConfig.value.lockScreenTime = 30;
+				setLocalThemeConfig();
+			}
+		} catch (ex: any) {
+			state.message = `出错了:${ex}`;
+			state.showMessage = true;
+		}
+	}
+};
+//隐藏消息
+const hideMessage = () => {
+	state.showMessage = false;
+	nextTick(() => {
+		layoutLockScreenInputRef.value.focus();
+	});
 };
 // 页面加载时
 onMounted(() => {
 	initGetElement();
 	initSetTime();
 	initLockScreen();
+	//侦听ENTER按钮事件
+	document.onkeydown = (e) => {
+		if (e.key === 'Enter') {
+			//当显示锁屏页时，按ENTER切到密码输入
+			if (state.isShowLoockLogin == false) {
+				const moveInterval = setInterval(() => {
+					state.isFlags = true;
+					state.moveDifference = state.moveDifference - 10;
+					onMove();
+					//超过600像素则结束
+					if (state.moveDifference < -600) clearInterval(moveInterval);
+				}, 5);
+			}
+			//当显示消息时，按ENTER切到密码输入
+			if (state.showMessage == true) hideMessage();
+		}
+	};
 });
 // 页面卸载时
 onUnmounted(() => {
@@ -322,6 +375,15 @@ onUnmounted(() => {
 				font-size: 26px;
 				margin: 15px 0 30px;
 			}
+			&-message {
+				font-size: 16px;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			&-value {
+				min-height: 73px;
+			}
 		}
 		&-icon {
 			position: absolute;
@@ -342,6 +404,9 @@ onUnmounted(() => {
 :deep(.el-input-group__append) {
 	background: var(--el-color-white);
 	padding: 0px 15px;
+}
+:deep(.el-input__wrapper.is-focus) {
+	box-shadow: unset !important;
 }
 :deep(.el-input__inner) {
 	border-right-color: var(--el-border-color-extra-light);
