@@ -113,60 +113,35 @@ public class SysAuthService : IDynamicApiController, ITransient
         return await CreateToken(user);
     }
 
-	/// <summary>
-	/// 锁屏验证账号密码
-	/// </summary>
-	/// <param name="password"></param>
-	/// <remarks>用户名/密码：superadmin/123456</remarks>
-	/// <returns></returns>
-	[DisplayName("锁屏验证账号密码")]
-	public async Task<bool> Unlock([Required,FromQuery] string password)
-	{
-		// 判断密码错误次数（默认5次，缓存30分钟）
-		var keyErrorPasswordCount = $"{CacheConst.KeyErrorPasswordCount}{_userManager.Account}";
-		var errorPasswordCount = _sysCacheService.Get<int>(keyErrorPasswordCount);
-		if (errorPasswordCount >= 5)
-			throw Oops.Oh(ErrorCodeEnum.D1027);
+    /// <summary>
+    /// 验证锁屏密码
+    /// </summary>
+    /// <param name="password"></param>
+    /// <returns></returns>
+    [DisplayName("验证锁屏密码")]
+    public async Task<bool> UnLockScreen([Required, FromQuery] string password)
+    {
+        // 账号是否存在
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
+        _ = user ?? throw Oops.Oh(ErrorCodeEnum.D0009);
 
-		// 账号是否存在
-		var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
-		_ = user ?? throw Oops.Oh(ErrorCodeEnum.D0009);
+        // 国密SM2解密（前端密码传输SM2加密后的）
+        password = CryptogramUtil.SM2Decrypt(password);
 
-		// 账号是否被冻结
-		if (user.Status == StatusEnum.Disable)
-			throw Oops.Oh(ErrorCodeEnum.D1017);
+        // 密码是否正确
+        if (CryptogramUtil.CryptoType == CryptogramEnum.MD5.ToString())
+        {
+            if (!user.Password.Equals(MD5Encryption.Encrypt(password)))
+                throw Oops.Oh(ErrorCodeEnum.D1000);
+        }
+        else
+        {
+            if (!CryptogramUtil.Decrypt(user.Password).Equals(password))
+                throw Oops.Oh(ErrorCodeEnum.D1000);
+        }
 
-		// 租户是否被禁用
-		var tenant = await _sysUserRep.ChangeRepository<SqlSugarRepository<SysTenant>>().GetFirstAsync(u => u.Id == user.TenantId);
-		if (tenant != null && tenant.Status == StatusEnum.Disable)
-			throw Oops.Oh(ErrorCodeEnum.Z1003);
-
-		// 国密SM2解密（前端密码传输SM2加密后的）
-		password = CryptogramUtil.SM2Decrypt(password);
-
-		// 密码是否正确
-		if (CryptogramUtil.CryptoType == CryptogramEnum.MD5.ToString())
-		{
-			if (!user.Password.Equals(MD5Encryption.Encrypt(password)))
-			{
-				_sysCacheService.Set(keyErrorPasswordCount, ++errorPasswordCount, TimeSpan.FromMinutes(30));
-				throw Oops.Oh(ErrorCodeEnum.D1000);
-			}
-		}
-		else
-		{
-			if (!CryptogramUtil.Decrypt(user.Password).Equals(password))
-			{
-				_sysCacheService.Set(keyErrorPasswordCount, ++errorPasswordCount, TimeSpan.FromMinutes(30));
-				throw Oops.Oh(ErrorCodeEnum.D1000);
-			}
-		}
-
-		// 登录成功则清空密码错误次数
-		_sysCacheService.Remove(keyErrorPasswordCount);
-
-		return true;
-	}
+        return true;
+    }
 
     /// <summary>
     /// 手机号登录

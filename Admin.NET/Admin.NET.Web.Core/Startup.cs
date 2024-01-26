@@ -155,17 +155,18 @@ public class Startup : AppStartup
             app.UseHsts();
         }
 
-        // 添加状态码拦截中间件
-        app.UseUnifyResultStatusCodes();
-
-        // 配置多语言
-        app.UseAppLocalization();
-
-        // 图像处理
-        app.UseImageSharp();
-
         //// 启用HTTPS
         //app.UseHttpsRedirection();
+
+        // 启用跨域
+        app.UseCorsAccessor();
+
+        // 启用鉴权授权
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        // 启用多语言，必须在路由注册之前
+        app.UseAppLocalization();
 
         // 特定文件类型（文件后缀）处理
         var contentTypeProvider = FS.GetFileExtensionContentTypeProvider();
@@ -175,16 +176,18 @@ public class Startup : AppStartup
             ContentTypeProvider = contentTypeProvider
         });
 
+        // 路由注册
         app.UseRouting();
 
-        app.UseCorsAccessor();
+        // 添加状态码拦截中间件
+        app.UseUnifyResultStatusCodes();
+
+        // 图像处理
+        app.UseImageSharp();
 
         // 限流组件（在跨域之后）
         app.UseIpRateLimiting();
         app.UseClientRateLimiting();
-
-        app.UseAuthentication();
-        app.UseAuthorization();
 
         // 任务调度看板
         app.UseScheduleUI();

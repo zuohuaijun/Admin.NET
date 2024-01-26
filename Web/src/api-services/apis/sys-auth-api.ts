@@ -11,6 +11,7 @@
  * https://github.com/swagger-api/swagger-codegen.git
  * Do not edit the class manually.
  */
+
 import globalAxios, { AxiosResponse, AxiosInstance, AxiosRequestConfig } from 'axios';
 import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
@@ -48,6 +49,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -84,6 +92,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -125,6 +140,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -170,6 +192,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
 
@@ -210,6 +239,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -247,6 +283,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             if (accessToken !== undefined) {
                 localVarQueryParameter['accessToken'] = accessToken;
@@ -269,18 +312,18 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             };
         },
         /**
-         * 用户名/密码：superadmin/123456
-         * @summary 锁屏验证账号密码
+         * 
+         * @summary 验证锁屏密码
          * @param {string} password 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiSysAuthUnlockPost: async (password: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+        apiSysAuthUnLockScreenPost: async (password: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
             // verify required parameter 'password' is not null or undefined
             if (password === null || password === undefined) {
-                throw new RequiredError('password','Required parameter password was null or undefined when calling apiSysAuthUnlockPost.');
+                throw new RequiredError('password','Required parameter password was null or undefined when calling apiSysAuthUnLockScreenPost.');
             }
-            const localVarPath = `/api/sysAuth/unlock`;
+            const localVarPath = `/api/sysAuth/unLockScreen`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -292,6 +335,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             if (password !== undefined) {
                 localVarQueryParameter['password'] = password;
@@ -332,6 +382,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -368,6 +425,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -404,6 +468,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarQueryParameter = {} as any;
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
             const query = new URLSearchParams(localVarUrlObj.search);
             for (const key in localVarQueryParameter) {
@@ -443,6 +514,13 @@ export const SysAuthApiAxiosParamCreator = function (configuration?: Configurati
             const localVarFormParams = new FormData();
 
             // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
 
 
             if (userName !== undefined) { 
@@ -562,14 +640,14 @@ export const SysAuthApiFp = function(configuration?: Configuration) {
             };
         },
         /**
-         * 用户名/密码：superadmin/123456
-         * @summary 锁屏验证账号密码
+         * 
+         * @summary 验证锁屏密码
          * @param {string} password 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysAuthUnlockPost(password: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
-            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).apiSysAuthUnlockPost(password, options);
+        async apiSysAuthUnLockScreenPost(password: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultBoolean>>> {
+            const localVarAxiosArgs = await SysAuthApiAxiosParamCreator(configuration).apiSysAuthUnLockScreenPost(password, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -696,14 +774,14 @@ export const SysAuthApiFactory = function (configuration?: Configuration, basePa
             return SysAuthApiFp(configuration).apiSysAuthRefreshTokenGet(accessToken, options).then((request) => request(axios, basePath));
         },
         /**
-         * 用户名/密码：superadmin/123456
-         * @summary 锁屏验证账号密码
+         * 
+         * @summary 验证锁屏密码
          * @param {string} password 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysAuthUnlockPost(password: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
-            return SysAuthApiFp(configuration).apiSysAuthUnlockPost(password, options).then((request) => request(axios, basePath));
+        async apiSysAuthUnLockScreenPost(password: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultBoolean>> {
+            return SysAuthApiFp(configuration).apiSysAuthUnLockScreenPost(password, options).then((request) => request(axios, basePath));
         },
         /**
          * 
@@ -817,15 +895,15 @@ export class SysAuthApi extends BaseAPI {
         return SysAuthApiFp(this.configuration).apiSysAuthRefreshTokenGet(accessToken, options).then((request) => request(this.axios, this.basePath));
     }
     /**
-     * 用户名/密码：superadmin/123456
-     * @summary 锁屏验证账号密码
+     * 
+     * @summary 验证锁屏密码
      * @param {string} password 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysAuthApi
      */
-    public async apiSysAuthUnlockPost(password: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
-        return SysAuthApiFp(this.configuration).apiSysAuthUnlockPost(password, options).then((request) => request(this.axios, this.basePath));
+    public async apiSysAuthUnLockScreenPost(password: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultBoolean>> {
+        return SysAuthApiFp(this.configuration).apiSysAuthUnLockScreenPost(password, options).then((request) => request(this.axios, this.basePath));
     }
     /**
      * 
