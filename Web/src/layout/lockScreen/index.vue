@@ -36,7 +36,7 @@
 							<el-button style="max-width: 80px; margin-top: 20px" size="default" @click="hideMessage"> 确认 </el-button>
 						</div>
 						<div v-else class="layout-lock-screen-login-box-value">
-							<el-input placeholder="请输入密码" ref="layoutLockScreenInputRef" size="default" v-model="state.lockScreenPassword" @keyup.enter.native.stop="onLockScreenSubmit()">
+							<el-input placeholder="请输入密码" type="password" ref="layoutLockScreenInputRef" size="default" v-model="state.lockScreenPassword" @keyup.enter.native.stop="onLockScreenSubmit()">
 								<template #append>
 									<el-button @click="onLockScreenSubmit">
 										<el-icon class="el-input__icon">
