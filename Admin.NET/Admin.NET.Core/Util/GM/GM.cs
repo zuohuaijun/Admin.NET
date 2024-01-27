@@ -256,6 +256,7 @@ public class GM
         return new DerSequence(v).GetEncoded("DER");
     }
 
+    // 生成公私匙对
     public static AsymmetricCipherKeyPair GenerateKeyPair()
     {
         ECKeyPairGenerator kpGen = new();
@@ -335,7 +336,7 @@ public class GM
      *
      * @param Z
      * @param klen
-     *            生成klen字节数长度的密钥
+     * 生成klen字节数长度的密钥
      * @return
      */
 
@@ -441,7 +442,7 @@ public class GM
         Asn1OctetString pubKeyX509 = (Asn1OctetString)pubSeq[1];
         X509Certificate x509 = new X509CertificateParser().ReadCertificate(pubKeyX509.GetOctets());
         sm2Cert.publicKey = x509.GetPublicKey();
-        sm2Cert.certId = x509.SerialNumber.ToString(10); //这里转10进账，有啥其他进制要求的自己改改
+        sm2Cert.certId = x509.SerialNumber.ToString(10); //这里转10进制，有啥其他进制要求的自己改改
         return sm2Cert;
     }
 
@@ -457,7 +458,7 @@ public class GM
 
         X509Certificate x509 = new X509CertificateParser().ReadCertificate(cert);
         sm2Cert.publicKey = x509.GetPublicKey();
-        sm2Cert.certId = x509.SerialNumber.ToString(10); //这里转10进账，有啥其他进制要求的自己改改
+        sm2Cert.certId = x509.SerialNumber.ToString(10); //这里转10进制，有啥其他进制要求的自己改改
         return sm2Cert;
     }
 

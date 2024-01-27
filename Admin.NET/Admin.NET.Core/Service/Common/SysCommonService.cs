@@ -8,6 +8,8 @@
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
+using Org.BouncyCastle.Crypto.Parameters;
+using Org.BouncyCastle.Utilities.Encoders;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Admin.NET.Core.Service;
@@ -24,6 +26,24 @@ public class SysCommonService : IDynamicApiController, ITransient
     public SysCommonService(IApiDescriptionGroupCollectionProvider apiProvider)
     {
         _apiProvider = apiProvider;
+    }
+
+    /// <summary>
+    /// 获取国密公钥私钥对
+    /// </summary>
+    /// <returns></returns>
+    [DisplayName("获取国密公钥私钥对")]
+    public SmKeyPairOutput GetSmKeyPair()
+    {
+        var kp = GM.GenerateKeyPair();
+        var privateKey = Hex.ToHexString(((ECPrivateKeyParameters)kp.Private).D.ToByteArray()).ToUpper();
+        var publicKey = Hex.ToHexString(((ECPublicKeyParameters)kp.Public).Q.GetEncoded()).ToUpper();
+
+        return new SmKeyPairOutput
+        {
+            PrivateKey = privateKey,
+            PublicKey = publicKey,
+        };
     }
 
     /// <summary>
