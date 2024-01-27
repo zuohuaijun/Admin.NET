@@ -61,7 +61,7 @@
 								<el-tag v-else> 其他 </el-tag>
 							</template>
 						</el-table-column>
-						<el-table-column prop="roleName" label="角色集合" min-width="130" align="center" show-overflow-tooltip />
+						<el-table-column prop="roleName" label="角色集合" min-width="150" align="center" show-overflow-tooltip />
 						<el-table-column prop="orgName" label="所属机构" min-width="120" align="center" show-overflow-tooltip />
 						<el-table-column prop="posName" label="职位名称" min-width="120" align="center" show-overflow-tooltip />
 						<el-table-column label="状态" width="70" align="center" show-overflow-tooltip>
@@ -160,7 +160,7 @@
 <script lang="ts" setup name="sysUser">
 import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
-import { formatDate } from '/@/utils/formatTime';
+// import { formatDate } from '/@/utils/formatTime';
 import { auth } from '/@/utils/authFunction';
 import OrgTree from '/@/views/system/org/component/orgTree.vue';
 import EditUser from '/@/views/system/user/component/editUser.vue';

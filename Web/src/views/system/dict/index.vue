@@ -26,8 +26,8 @@
 
 					<el-table :data="state.dictTypeData" style="width: 100%" v-loading="state.loading" @row-click="handleDictType" highlight-current-row border>
 						<el-table-column type="index" label="序号" width="55" align="center" />
-						<el-table-column prop="name" label="字典名称" header-align="center" show-overflow-tooltip />
-						<el-table-column prop="code" label="字典编码" header-align="center" show-overflow-tooltip />
+						<el-table-column prop="name" label="字典名称" min-width="120" header-align="center" show-overflow-tooltip />
+						<el-table-column prop="code" label="字典编码" min-width="140" header-align="center" show-overflow-tooltip />
 						<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag type="success" v-if="scope.row.status === 1">启用</el-tag>
@@ -141,7 +141,7 @@
 
 					<el-table :data="state.dictDataData" style="width: 100%" v-loading="state.loading" border>
 						<el-table-column type="index" label="序号" width="55" align="center" />
-						<el-table-column prop="value" label="字典值" header-align="center" min-width="100" show-overflow-tooltip>
+						<el-table-column prop="value" label="字典值" header-align="center" min-width="140" show-overflow-tooltip>
 							<template #default="scope">
 								<el-tag :type="scope.row.tagType" :style="scope.row.styleSetting" :class="scope.row.classSetting">{{ scope.row.value }}</el-tag>
 							</template>

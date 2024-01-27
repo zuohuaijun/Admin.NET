@@ -24,7 +24,7 @@
 		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
 			<el-table :data="state.logData" @sort-change="sortChange" style="width: 100%" border :row-class-name="tableRowClassName">
 				<el-table-column type="index" label="序号" width="55" align="center" />
-				<el-table-column prop="controllerName" label="模块名称" width="100" header-align="center" show-overflow-tooltip />
+				<el-table-column prop="controllerName" label="模块名称" min-width="120" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="displayTitle" label="显示名称" width="170" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="actionName" label="方法名称" width="150" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="httpMethod" label="请求方式" width="90" align="center" show-overflow-tooltip />
@@ -45,9 +45,9 @@
 				<el-table-column prop="traceId" label="请求跟踪Id" width="150" header-align="center" sortable="custom" show-overflow-tooltip />
 				<el-table-column prop="account" label="账号名称" width="100" align="center" show-overflow-tooltip />
 				<el-table-column prop="realName" label="真实姓名" width="100" align="center" show-overflow-tooltip />
-				<el-table-column prop="remoteIp" label="IP地址" width="120" align="center" show-overflow-tooltip />
-				<el-table-column prop="location" label="登录地点" width="120" align="center" show-overflow-tooltip />
-				<el-table-column prop="browser" label="浏览器" width="160" align="center" show-overflow-tooltip />
+				<el-table-column prop="remoteIp" label="IP地址" min-width="120" align="center" show-overflow-tooltip />
+				<el-table-column prop="location" label="登录地点" min-width="120" align="center" show-overflow-tooltip />
+				<el-table-column prop="browser" label="浏览器" min-width="150" align="center" show-overflow-tooltip />
 				<el-table-column prop="os" label="操作系统" width="120" align="center" show-overflow-tooltip />
 				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">

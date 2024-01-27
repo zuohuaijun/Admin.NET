@@ -68,7 +68,7 @@ export const useUserInfo = defineStore('userInfo', {
 							realName: d.realName,
 							phone: d.phone,
 							idCardNum: d.idCardNum,
-							email: d.Email,
+							email: d.email,
 							accountType: d.accountType,
 							avatar: d.avatar ? '/' + d.avatar : '/favicon.ico',
 							address: d.address,

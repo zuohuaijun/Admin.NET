@@ -27,9 +27,9 @@
 				<el-table-column prop="actionName" label="方法名称" width="150" header-align="center" show-overflow-tooltip />
 				<el-table-column prop="account" label="账号名称" width="100" align="center" show-overflow-tooltip />
 				<el-table-column prop="realName" label="真实姓名" width="100" align="center" show-overflow-tooltip />
-				<el-table-column prop="remoteIp" label="IP地址" align="center" show-overflow-tooltip />
-				<el-table-column prop="location" label="登录地点" align="center" show-overflow-tooltip />
-				<el-table-column prop="browser" label="浏览器" align="center" show-overflow-tooltip />
+				<el-table-column prop="remoteIp" label="IP地址" min-width="120" align="center" show-overflow-tooltip />
+				<el-table-column prop="location" label="登录地点" min-width="120" align="center" show-overflow-tooltip />
+				<el-table-column prop="browser" label="浏览器" min-width="150" align="center" show-overflow-tooltip />
 				<el-table-column prop="os" label="操作系统" width="120" align="center" show-overflow-tooltip />
 				<el-table-column prop="status" label="状态" width="70" align="center" show-overflow-tooltip>
 					<template #default="scope">

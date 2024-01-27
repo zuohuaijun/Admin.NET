@@ -11,11 +11,11 @@
 						<el-form-item label="机构名称">
 							<el-input v-model="state.queryParams.name" placeholder="机构名称" clearable />
 						</el-form-item>
-						<el-form-item label="机构编码">
+						<!-- <el-form-item label="机构编码">
 							<el-input v-model="state.queryParams.code" placeholder="机构编码" clearable />
-						</el-form-item>
+						</el-form-item> -->
 						<el-form-item label="机构类型">
-							<el-select v-model="state.queryParams.type" filterable clearable class="w100">
+							<el-select v-model="state.queryParams.type" filterable clearable>
 								<el-option v-for="item in state.orgTypeList" :key="item.value" :label="item.value" :value="item.code" />
 							</el-select>
 						</el-form-item>

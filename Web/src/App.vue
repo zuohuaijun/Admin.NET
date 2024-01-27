@@ -106,3 +106,12 @@ watch(
 	}
 );
 </script>
+
+<style>
+.el-select {
+	width: 171px !important;
+}
+.el-select__wrapper {
+	line-height: 22px !important;
+}
+</style>
