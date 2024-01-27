@@ -148,6 +148,7 @@ public static class SqlSugarSetup
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine(log);
                     Console.ForegroundColor = originColor;
+                    App.PrintToMiniProfiler("SqlSugar", "Slow", $"{fileName}:{fileLine}\r\n{firstMethodName}\r\n{UtilMethods.GetSqlString(config.DbType, sql, pars)}");
                 }
             };
         }
