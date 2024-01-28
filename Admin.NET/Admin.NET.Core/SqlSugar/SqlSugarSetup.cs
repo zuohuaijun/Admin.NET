@@ -114,6 +114,7 @@ public static class SqlSugarSetup
         {
             db.Aop.OnLogExecuting = (sql, pars) =>
             {
+                var log = $"【{DateTime.Now}——执行SQL】\r\n{UtilMethods.GetSqlString(config.DbType, sql, pars)}\r\n";
                 var originColor = Console.ForegroundColor;
                 if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -121,19 +122,19 @@ public static class SqlSugarSetup
                     Console.ForegroundColor = ConsoleColor.Yellow;
                 if (sql.StartsWith("DELETE", StringComparison.OrdinalIgnoreCase))
                     Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("【" + DateTime.Now + "——执行SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, sql, pars) + "\r\n");
+                Console.WriteLine(log);
                 Console.ForegroundColor = originColor;
-                App.PrintToMiniProfiler("SqlSugar", "Info", sql + "\r\n" + db.Utilities.SerializeObject(pars.ToDictionary(it => it.ParameterName, it => it.Value)));
+                App.PrintToMiniProfiler("SqlSugar", "Info", log);
             };
             db.Aop.OnError = ex =>
             {
                 if (ex.Parametres == null) return;
+                var log = $"【{DateTime.Now}——错误SQL】\r\n{UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres)}\r\n";
                 var originColor = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.DarkRed;
-                var pars = db.Utilities.SerializeObject(((SugarParameter[])ex.Parametres).ToDictionary(it => it.ParameterName, it => it.Value));
-                Console.WriteLine("【" + DateTime.Now + "——错误SQL】\r\n" + UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres) + "\r\n");
+                Console.WriteLine(log);
                 Console.ForegroundColor = originColor;
-                App.PrintToMiniProfiler("SqlSugar", "Error", $"{ex.Message}{Environment.NewLine}{ex.Sql}{pars}{Environment.NewLine}");
+                App.PrintToMiniProfiler("SqlSugar", "Error", log);
             };
             db.Aop.OnLogExecuted = (sql, pars) =>
             {
@@ -143,12 +144,12 @@ public static class SqlSugarSetup
                     var fileName = db.Ado.SqlStackTrace.FirstFileName; // 文件名
                     var fileLine = db.Ado.SqlStackTrace.FirstLine; // 行号
                     var firstMethodName = db.Ado.SqlStackTrace.FirstMethodName; // 方法名
-                    var log = $"【所在文件名】：{fileName}\r\n【代码行数】：{fileLine}\r\n【方法名】：{firstMethodName}\r\n" + $"【sql语句】：{UtilMethods.GetSqlString(config.DbType, sql, pars)}";
+                    var log = $"【{DateTime.Now}——超时SQL】\r\n【所在文件名】：{fileName}\r\n【代码行数】：{fileLine}\r\n【方法名】：{firstMethodName}\r\n" + $"【SQL语句】：{UtilMethods.GetSqlString(config.DbType, sql, pars)}";
                     var originColor = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine(log);
                     Console.ForegroundColor = originColor;
-                    App.PrintToMiniProfiler("SqlSugar", "Slow", $"{fileName}:{fileLine}\r\n{firstMethodName}\r\n{UtilMethods.GetSqlString(config.DbType, sql, pars)}");
+                    App.PrintToMiniProfiler("SqlSugar", "Slow", log);
                 }
             };
         }

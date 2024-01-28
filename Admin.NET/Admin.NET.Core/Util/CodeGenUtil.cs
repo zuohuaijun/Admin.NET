@@ -227,10 +227,6 @@ public static class CodeGenUtil
             case "varbit":
                 return "byte";
 
-            case "public.geometry":
-            case "inet":
-                return "object";
-
             default:
                 return "object";
         }
