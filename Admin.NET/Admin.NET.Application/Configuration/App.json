@@ -29,6 +29,7 @@
     "DateTimeFormatCulture": "zh-CN" // 固定时间区域为特定时区（多语言）
   },
   "CorsAccessorSettings": {
+    // "WithOrigins": ["https://gitee.com"],
     "WithExposedHeaders": [ "Content-Disposition", "X-Pagination", "access-token", "x-access-token" ], // 如果前端不代理且是axios请求
     "SignalRSupport": true // 启用 SignalR 跨域支持
   },

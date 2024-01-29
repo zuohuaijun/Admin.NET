@@ -155,19 +155,6 @@ public class Startup : AppStartup
             app.UseHsts();
         }
 
-        //// 启用HTTPS
-        //app.UseHttpsRedirection();
-
-        // 启用跨域
-        app.UseCorsAccessor();
-
-        // 启用鉴权授权
-        app.UseAuthentication();
-        app.UseAuthorization();
-
-        // 启用多语言，必须在路由注册之前
-        app.UseAppLocalization();
-
         // 特定文件类型（文件后缀）处理
         var contentTypeProvider = FS.GetFileExtensionContentTypeProvider();
         // contentTypeProvider.Mappings[".文件后缀"] = "MIME 类型";
@@ -176,11 +163,24 @@ public class Startup : AppStartup
             ContentTypeProvider = contentTypeProvider
         });
 
-        // 路由注册
-        app.UseRouting();
+        //// 启用HTTPS
+        //app.UseHttpsRedirection();
 
         // 添加状态码拦截中间件
         app.UseUnifyResultStatusCodes();
+
+        // 启用多语言，必须在 UseRouting 之前
+        app.UseAppLocalization();
+
+        // 路由注册
+        app.UseRouting();
+
+        // 启用跨域，必须在 UseRouting 和 UseAuthentication 之间注册
+        app.UseCorsAccessor();
+
+        // 启用鉴权授权
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         // 图像处理
         app.UseImageSharp();
