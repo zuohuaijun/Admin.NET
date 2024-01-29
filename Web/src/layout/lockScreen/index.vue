@@ -167,6 +167,12 @@ const initSetTime = () => {
 const initLockScreen = () => {
 	if (themeConfig.value.isLockScreen) {
 		state.isShowLockScreenIntervalTime = window.setInterval(() => {
+			// 锁屏时间为null重置为300秒，防止白屏
+			if (themeConfig.value.lockScreenTime == null) {
+				themeConfig.value.lockScreenTime = 300;
+				setLocalThemeConfig();
+				return false;
+			}
 			if (themeConfig.value.lockScreenTime <= 1) {
 				state.isShowLockScreen = true;
 				setLocalThemeConfig();
