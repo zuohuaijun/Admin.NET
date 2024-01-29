@@ -155,6 +155,9 @@ public class Startup : AppStartup
             app.UseHsts();
         }
 
+        // 图像处理
+        app.UseImageSharp();
+
         // 特定文件类型（文件后缀）处理
         var contentTypeProvider = FS.GetFileExtensionContentTypeProvider();
         // contentTypeProvider.Mappings[".文件后缀"] = "MIME 类型";
@@ -181,9 +184,6 @@ public class Startup : AppStartup
         // 启用鉴权授权
         app.UseAuthentication();
         app.UseAuthorization();
-
-        // 图像处理
-        app.UseImageSharp();
 
         // 限流组件（在跨域之后）
         app.UseIpRateLimiting();
