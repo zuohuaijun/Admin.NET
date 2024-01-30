@@ -104,6 +104,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [UnitOfWork]
     [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加租户")]
     public async Task AddTenant(AddTenantInput input)
@@ -308,6 +309,7 @@ public class SysTenantService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [UnitOfWork]
     [DisplayName("授权租户管理员角色菜单")]
     public async Task GrantMenu(RoleMenuInput input)
     {

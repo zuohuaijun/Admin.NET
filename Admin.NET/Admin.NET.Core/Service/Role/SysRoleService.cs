@@ -160,6 +160,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [UnitOfWork]
     [DisplayName("授权角色菜单")]
     public async Task GrantMenu(RoleMenuInput input)
     {
@@ -171,6 +172,7 @@ public class SysRoleService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [UnitOfWork]
     [DisplayName("授权角色数据范围")]
     public async Task GrantDataScope(RoleOrgInput input)
     {

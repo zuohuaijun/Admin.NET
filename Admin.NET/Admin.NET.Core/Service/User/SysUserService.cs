@@ -234,6 +234,7 @@ public class SysUserService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
+    [UnitOfWork]
     [DisplayName("授权用户角色")]
     public async Task GrantRole(UserRoleInput input)
     {

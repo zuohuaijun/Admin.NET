@@ -37,7 +37,6 @@ public class SysUserExtOrgService : ITransient
     /// <param name="userId"></param>
     /// <param name="extOrgList"></param>
     /// <returns></returns>
-    [UnitOfWork]
     public async Task UpdateUserExtOrg(long userId, List<SysUserExtOrg> extOrgList)
     {
         await _sysUserExtOrgRep.DeleteAsync(u => u.UserId == userId);
