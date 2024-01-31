@@ -13,9 +13,8 @@
  */
 
 import { PlatformTypeEnum } from './platform-type-enum';
-import { SysUser } from './sys-user';
 import {
-    PlatformTypeEnum,SysUser,
+    PlatformTypeEnum,
 } from ".";
 
 /**
@@ -97,12 +96,6 @@ export interface SysWechatUser {
      * @memberof SysWechatUser
      */
     userId?: number;
-
-    /**
-     * @type {SysUser}
-     * @memberof SysWechatUser
-     */
-    sysUser?: SysUser;
 
     /**
      * @type {PlatformTypeEnum}

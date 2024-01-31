@@ -12,10 +12,8 @@
  * Do not edit the class manually.
  */
 
-import { SysTenant } from './sys-tenant';
-import { SysUser } from './sys-user';
 import {
-    SysTenant,SysUser,
+    
 } from ".";
 
 /**
@@ -97,18 +95,6 @@ export interface UpdateOpenAccessInput {
      * @memberof UpdateOpenAccessInput
      */
     bindTenantId?: number;
-
-    /**
-     * @type {SysTenant}
-     * @memberof UpdateOpenAccessInput
-     */
-    bindTenant?: SysTenant;
-
-    /**
-     * @type {SysUser}
-     * @memberof UpdateOpenAccessInput
-     */
-    bindUser?: SysUser;
 
     /**
      * 身份标识

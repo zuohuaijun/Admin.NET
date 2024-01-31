@@ -17,10 +17,10 @@ import { Configuration } from '../configuration';
 // Some imports not used depending on template conditions
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from '../base';
-import { AdminResultFileOutput } from '../models';
 import { AdminResultIActionResult } from '../models';
-import { AdminResultListFileOutput } from '../models';
+import { AdminResultListSysFile } from '../models';
 import { AdminResultSqlSugarPagedListSysFile } from '../models';
+import { AdminResultSysFile } from '../models';
 import { DeleteFileInput } from '../models';
 import { FileInput } from '../models';
 import { PageFileInput } from '../models';
@@ -557,7 +557,7 @@ export const SysFileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadAvatarPostForm(file?: Blob, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultFileOutput>>> {
+        async apiSysFileUploadAvatarPostForm(file?: Blob, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysFile>>> {
             const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFileUploadAvatarPostForm(file, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -571,7 +571,7 @@ export const SysFileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadFileFromBase64Post(body?: UploadFileFromBase64Input, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultFileOutput>>> {
+        async apiSysFileUploadFileFromBase64Post(body?: UploadFileFromBase64Input, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysFile>>> {
             const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFileUploadFileFromBase64Post(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -586,7 +586,7 @@ export const SysFileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadFilePostForm(file?: Blob, path?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultFileOutput>>> {
+        async apiSysFileUploadFilePostForm(file?: Blob, path?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysFile>>> {
             const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFileUploadFilePostForm(file, path, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -600,7 +600,7 @@ export const SysFileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadFilesPostForm(files?: Array<Blob>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListFileOutput>>> {
+        async apiSysFileUploadFilesPostForm(files?: Array<Blob>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultListSysFile>>> {
             const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFileUploadFilesPostForm(files, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -614,7 +614,7 @@ export const SysFileApiFp = function(configuration?: Configuration) {
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadSignaturePostForm(file?: Blob, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultFileOutput>>> {
+        async apiSysFileUploadSignaturePostForm(file?: Blob, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultSysFile>>> {
             const localVarAxiosArgs = await SysFileApiAxiosParamCreator(configuration).apiSysFileUploadSignaturePostForm(file, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
@@ -677,7 +677,7 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadAvatarPostForm(file?: Blob, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultFileOutput>> {
+        async apiSysFileUploadAvatarPostForm(file?: Blob, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysFile>> {
             return SysFileApiFp(configuration).apiSysFileUploadAvatarPostForm(file, options).then((request) => request(axios, basePath));
         },
         /**
@@ -687,7 +687,7 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadFileFromBase64Post(body?: UploadFileFromBase64Input, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultFileOutput>> {
+        async apiSysFileUploadFileFromBase64Post(body?: UploadFileFromBase64Input, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysFile>> {
             return SysFileApiFp(configuration).apiSysFileUploadFileFromBase64Post(body, options).then((request) => request(axios, basePath));
         },
         /**
@@ -698,7 +698,7 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadFilePostForm(file?: Blob, path?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultFileOutput>> {
+        async apiSysFileUploadFilePostForm(file?: Blob, path?: string, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysFile>> {
             return SysFileApiFp(configuration).apiSysFileUploadFilePostForm(file, path, options).then((request) => request(axios, basePath));
         },
         /**
@@ -708,7 +708,7 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadFilesPostForm(files?: Array<Blob>, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListFileOutput>> {
+        async apiSysFileUploadFilesPostForm(files?: Array<Blob>, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultListSysFile>> {
             return SysFileApiFp(configuration).apiSysFileUploadFilesPostForm(files, options).then((request) => request(axios, basePath));
         },
         /**
@@ -718,7 +718,7 @@ export const SysFileApiFactory = function (configuration?: Configuration, basePa
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiSysFileUploadSignaturePostForm(file?: Blob, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultFileOutput>> {
+        async apiSysFileUploadSignaturePostForm(file?: Blob, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultSysFile>> {
             return SysFileApiFp(configuration).apiSysFileUploadSignaturePostForm(file, options).then((request) => request(axios, basePath));
         },
     };
@@ -783,7 +783,7 @@ export class SysFileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysFileApi
      */
-    public async apiSysFileUploadAvatarPostForm(file?: Blob, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultFileOutput>> {
+    public async apiSysFileUploadAvatarPostForm(file?: Blob, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysFile>> {
         return SysFileApiFp(this.configuration).apiSysFileUploadAvatarPostForm(file, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -794,7 +794,7 @@ export class SysFileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysFileApi
      */
-    public async apiSysFileUploadFileFromBase64Post(body?: UploadFileFromBase64Input, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultFileOutput>> {
+    public async apiSysFileUploadFileFromBase64Post(body?: UploadFileFromBase64Input, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysFile>> {
         return SysFileApiFp(this.configuration).apiSysFileUploadFileFromBase64Post(body, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -806,7 +806,7 @@ export class SysFileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysFileApi
      */
-    public async apiSysFileUploadFilePostForm(file?: Blob, path?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultFileOutput>> {
+    public async apiSysFileUploadFilePostForm(file?: Blob, path?: string, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysFile>> {
         return SysFileApiFp(this.configuration).apiSysFileUploadFilePostForm(file, path, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -817,7 +817,7 @@ export class SysFileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysFileApi
      */
-    public async apiSysFileUploadFilesPostForm(files?: Array<Blob>, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListFileOutput>> {
+    public async apiSysFileUploadFilesPostForm(files?: Array<Blob>, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultListSysFile>> {
         return SysFileApiFp(this.configuration).apiSysFileUploadFilesPostForm(files, options).then((request) => request(this.axios, this.basePath));
     }
     /**
@@ -828,7 +828,7 @@ export class SysFileApi extends BaseAPI {
      * @throws {RequiredError}
      * @memberof SysFileApi
      */
-    public async apiSysFileUploadSignaturePostForm(file?: Blob, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultFileOutput>> {
+    public async apiSysFileUploadSignaturePostForm(file?: Blob, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultSysFile>> {
         return SysFileApiFp(this.configuration).apiSysFileUploadSignaturePostForm(file, options).then((request) => request(this.axios, this.basePath));
     }
 }

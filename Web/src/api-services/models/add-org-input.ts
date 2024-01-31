@@ -14,9 +14,8 @@
 
 import { StatusEnum } from './status-enum';
 import { SysOrg } from './sys-org';
-import { SysUser } from './sys-user';
 import {
-    StatusEnum,SysOrg,SysUser,
+    StatusEnum,SysOrg,
 } from ".";
 
 /**
@@ -138,12 +137,6 @@ export interface AddOrgInput {
      * @memberof AddOrgInput
      */
     directorId?: number | null;
-
-    /**
-     * @type {SysUser}
-     * @memberof AddOrgInput
-     */
-    director?: SysUser;
 
     /**
      * 排序

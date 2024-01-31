@@ -70,7 +70,7 @@ export const useUserInfo = defineStore('userInfo', {
 							idCardNum: d.idCardNum,
 							email: d.email,
 							accountType: d.accountType,
-							avatar: d.avatar ? '/' + d.avatar : '/favicon.ico',
+							avatar: d.avatar ?? '/favicon.ico',
 							address: d.address,
 							signature: d.signature,
 							orgId: d.orgId,

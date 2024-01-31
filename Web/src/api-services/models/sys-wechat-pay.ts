@@ -12,9 +12,8 @@
  * Do not edit the class manually.
  */
 
-import { SysWechatUser } from './sys-wechat-user';
 import {
-    SysWechatUser,
+    
 } from ".";
 
 /**
@@ -248,12 +247,6 @@ export interface SysWechatPay {
      * @memberof SysWechatPay
      */
     openId?: string | null;
-
-    /**
-     * @type {SysWechatUser}
-     * @memberof SysWechatPay
-     */
-    sysWechatUser?: SysWechatUser;
 
     /**
      * 子商户号

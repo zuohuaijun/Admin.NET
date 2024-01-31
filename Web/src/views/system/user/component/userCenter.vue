@@ -172,7 +172,7 @@ import VueGridLayout from 'vue-grid-layout';
 
 import { clearAccessTokens, getAPI } from '/@/utils/axios-utils';
 import { SysFileApi, SysUserApi } from '/@/api-services/api';
-import { ChangePwdInput, SysUser } from '/@/api-services/models';
+import { ChangePwdInput, SysUser, SysFile } from '/@/api-services/models';
 
 const stores = useUserInfo();
 const { userInfos } = storeToRefs(stores);
@@ -215,7 +215,7 @@ watch(state.signOptions, () => {
 // 上传头像图片
 const uploadCropperImg = async (e: any) => {
 	var res = await getAPI(SysFileApi).apiSysFileUploadAvatarPostForm(e.img);
-	userInfos.value.avatar = res.data.result?.filePath + '/' + res.data.result?.name;
+	userInfos.value.avatar = getFileUrl(res.data.result!);
 };
 
 // 打开电子签名页面
@@ -229,7 +229,7 @@ const saveUploadSign = async () => {
 	if (isEmpty) return;
 
 	var res = await getAPI(SysFileApi).apiSysFileUploadSignaturePostForm(base64ToFile(data, userInfos.value.account + '.png'));
-	userInfos.value.signature = res.data.result?.filePath + '/' + res.data.result?.name;
+	userInfos.value.signature = getFileUrl(res.data.result!);
 
 	clearSign();
 	state.signDialogVisible = false;
@@ -248,7 +248,7 @@ const clearSign = () => {
 // 上传手写电子签名
 const uploadSignFile = async (file: any) => {
 	var res = await getAPI(SysFileApi).apiSysFileUploadSignaturePostForm(file.raw);
-	userInfos.value.signature = res.data.result?.url + '';
+	userInfos.value.signature = res.data.result?.url;
 };
 
 // 获得电子签名文件列表
@@ -323,6 +323,15 @@ const uploadSignFileExceed: UploadProps['onExceed'] = (files) => {
 	const file = files[0] as UploadRawFile;
 	file.uid = genFileId();
 	uploadSignRef.value!.handleStart(file);
+};
+
+// 获取文件地址
+const getFileUrl = (row: SysFile): string => {
+	if (row.bucketName == 'Local') {
+		return `/${row.filePath}/${row.id}${row.suffix}`;
+	} else {
+		return row.url!;
+	}
 };
 
 // 导出对象

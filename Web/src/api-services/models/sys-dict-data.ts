@@ -13,9 +13,8 @@
  */
 
 import { StatusEnum } from './status-enum';
-import { SysDictType } from './sys-dict-type';
 import {
-    StatusEnum,SysDictType,
+    StatusEnum,
 } from ".";
 
 /**
@@ -97,12 +96,6 @@ export interface SysDictData {
      * @memberof SysDictData
      */
     dictTypeId?: number;
-
-    /**
-     * @type {SysDictType}
-     * @memberof SysDictData
-     */
-    dictType?: SysDictType;
 
     /**
      * 值

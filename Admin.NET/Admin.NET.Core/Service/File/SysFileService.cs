@@ -62,18 +62,9 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="path"></param>
     /// <returns></returns>
     [DisplayName("上传文件")]
-    public async Task<FileOutput> UploadFile([Required] IFormFile file, [FromQuery] string? path)
+    public async Task<SysFile> UploadFile([Required] IFormFile file, [FromQuery] string? path)
     {
-        var sysFile = await HandleUploadFile(file, path);
-        return new FileOutput
-        {
-            Id = sysFile.Id,
-            Url = sysFile.Url, // string.IsNullOrWhiteSpace(sysFile.Url) ? _commonService.GetFileUrl(sysFile) : sysFile.Url,
-            SizeKb = sysFile.SizeKb,
-            Suffix = sysFile.Suffix,
-            FilePath = sysFile.FilePath,
-            FileName = sysFile.FileName
-        };
+        return await HandleUploadFile(file, path);
     }
 
     /// <summary>
@@ -84,7 +75,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="contentType"></param>
     /// <param name="path"></param>
     /// <returns></returns>
-    private async Task<FileOutput> UploadFileFromBase64(string strBase64, string fileName, string contentType, string? path)
+    private async Task<SysFile> UploadFileFromBase64(string strBase64, string fileName, string contentType, string? path)
     {
         byte[] fileData = Convert.FromBase64String(strBase64);
         var ms = new MemoryStream();
@@ -109,7 +100,7 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <returns></returns>
     [DisplayName("上传文件Base64")]
     [HttpPost]
-    public async Task<FileOutput> UploadFileFromBase64(UploadFileFromBase64Input input)
+    public async Task<SysFile> UploadFileFromBase64(UploadFileFromBase64Input input)
     {
         return await UploadFileFromBase64(input.FileDataBase64, input.FileName, input.ContentType, input.Path);
     }
@@ -120,9 +111,9 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="files"></param>
     /// <returns></returns>
     [DisplayName("上传多文件")]
-    public async Task<List<FileOutput>> UploadFiles([Required] List<IFormFile> files)
+    public async Task<List<SysFile>> UploadFiles([Required] List<IFormFile> files)
     {
-        var filelist = new List<FileOutput>();
+        var filelist = new List<SysFile>();
         foreach (var file in files)
         {
             filelist.Add(await UploadFile(file, ""));
@@ -345,21 +336,20 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file"></param>
     /// <returns></returns>
     [DisplayName("上传头像")]
-    public async Task<FileOutput> UploadAvatar([Required] IFormFile file)
+    public async Task<SysFile> UploadAvatar([Required] IFormFile file)
     {
+        var sysFile = await UploadFile(file, "Upload/Avatar");
+
         var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();
         var user = sysUserRep.GetFirst(u => u.Id == _userManager.UserId);
-        // 删除当前用户已有头像
+        // 删除已有头像文件
         if (!string.IsNullOrWhiteSpace(user.Avatar))
         {
             var fileId = Path.GetFileNameWithoutExtension(user.Avatar);
             await DeleteFile(new DeleteFileInput { Id = long.Parse(fileId) });
         }
-
-        var res = await UploadFile(file, "Upload/Avatar");
-        var url = _OSSProviderOptions.IsEnable ? res.Url : $"{res.FilePath}/{res.Name}";
-        await sysUserRep.UpdateAsync(u => new SysUser() { Avatar = url }, u => u.Id == user.Id);
-        return res;
+        await sysUserRep.UpdateAsync(u => new SysUser() { Avatar = sysFile.Url }, u => u.Id == user.Id);
+        return sysFile;
     }
 
     /// <summary>
@@ -368,20 +358,19 @@ public class SysFileService : IDynamicApiController, ITransient
     /// <param name="file"></param>
     /// <returns></returns>
     [DisplayName("上传电子签名")]
-    public async Task<FileOutput> UploadSignature([Required] IFormFile file)
+    public async Task<SysFile> UploadSignature([Required] IFormFile file)
     {
+        var sysFile = await UploadFile(file, "Upload/Signature");
+
         var sysUserRep = _sysFileRep.ChangeRepository<SqlSugarRepository<SysUser>>();
         var user = sysUserRep.GetFirst(u => u.Id == _userManager.UserId);
-        // 删除当前用户已有电子签名
+        // 删除已有电子签名文件
         if (!string.IsNullOrWhiteSpace(user.Signature) && user.Signature.EndsWith(".png"))
         {
             var fileId = Path.GetFileNameWithoutExtension(user.Signature);
             await DeleteFile(new DeleteFileInput { Id = long.Parse(fileId) });
         }
-
-        var res = await UploadFile(file, "Upload/Signature");
-        var url = _OSSProviderOptions.IsEnable ? res.Url : $"{res.FilePath}/{res.Name}";
-        await sysUserRep.UpdateAsync(u => new SysUser() { Signature = url }, u => u.Id == user.Id);
-        return res;
+        await sysUserRep.UpdateAsync(u => new SysUser() { Signature = sysFile.Url }, u => u.Id == user.Id);
+        return sysFile;
     }
 }

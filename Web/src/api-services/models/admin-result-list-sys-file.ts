@@ -12,24 +12,24 @@
  * Do not edit the class manually.
  */
 
-import { FileOutput } from './file-output';
+import { SysFile } from './sys-file';
 import {
-    FileOutput,
+    SysFile,
 } from ".";
 
 /**
  * 全局返回结果
  *
  * @export
- * @interface AdminResultFileOutput
+ * @interface AdminResultListSysFile
  */
-export interface AdminResultFileOutput {
+export interface AdminResultListSysFile {
 
     /**
      * 状态码
      *
      * @type {number}
-     * @memberof AdminResultFileOutput
+     * @memberof AdminResultListSysFile
      */
     code?: number;
 
@@ -37,7 +37,7 @@ export interface AdminResultFileOutput {
      * 类型success、warning、error
      *
      * @type {string}
-     * @memberof AdminResultFileOutput
+     * @memberof AdminResultListSysFile
      */
     type?: string | null;
 
@@ -45,21 +45,23 @@ export interface AdminResultFileOutput {
      * 错误信息
      *
      * @type {string}
-     * @memberof AdminResultFileOutput
+     * @memberof AdminResultListSysFile
      */
     message?: string | null;
 
     /**
-     * @type {FileOutput}
-     * @memberof AdminResultFileOutput
+     * 数据
+     *
+     * @type {Array<SysFile>}
+     * @memberof AdminResultListSysFile
      */
-    result?: FileOutput;
+    result?: Array<SysFile> | null;
 
     /**
      * 附加数据
      *
      * @type {any}
-     * @memberof AdminResultFileOutput
+     * @memberof AdminResultListSysFile
      */
     extras?: any | null;
 
@@ -67,7 +69,7 @@ export interface AdminResultFileOutput {
      * 时间
      *
      * @type {Date}
-     * @memberof AdminResultFileOutput
+     * @memberof AdminResultListSysFile
      */
     time?: Date;
 }

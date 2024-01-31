@@ -17,12 +17,9 @@ import { CardTypeEnum } from './card-type-enum';
 import { CultureLevelEnum } from './culture-level-enum';
 import { GenderEnum } from './gender-enum';
 import { StatusEnum } from './status-enum';
-import { SysOrg } from './sys-org';
-import { SysPos } from './sys-pos';
-import { SysUser } from './sys-user';
 import { SysUserExtOrg } from './sys-user-ext-org';
 import {
-    AccountTypeEnum,CardTypeEnum,CultureLevelEnum,GenderEnum,StatusEnum,SysOrg,SysPos,SysUser,SysUserExtOrg,
+    AccountTypeEnum,CardTypeEnum,CultureLevelEnum,GenderEnum,StatusEnum,SysUserExtOrg,
 } from ".";
 
 /**
@@ -288,12 +285,6 @@ export interface UpdateUserInput {
     orgId?: number;
 
     /**
-     * @type {SysOrg}
-     * @memberof UpdateUserInput
-     */
-    sysOrg?: SysOrg;
-
-    /**
      * 直属主管Id
      *
      * @type {number}
@@ -302,24 +293,12 @@ export interface UpdateUserInput {
     managerUserId?: number | null;
 
     /**
-     * @type {SysUser}
-     * @memberof UpdateUserInput
-     */
-    managerUser?: SysUser;
-
-    /**
      * 职位Id
      *
      * @type {number}
      * @memberof UpdateUserInput
      */
     posId?: number;
-
-    /**
-     * @type {SysPos}
-     * @memberof UpdateUserInput
-     */
-    sysPos?: SysPos;
 
     /**
      * 工号

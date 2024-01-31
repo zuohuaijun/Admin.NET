@@ -12,79 +12,62 @@
  * Do not edit the class manually.
  */
 
+import { SysFile } from './sys-file';
 import {
-    
+    SysFile,
 } from ".";
 
 /**
- * 
+ * 全局返回结果
  *
  * @export
- * @interface FileOutput
+ * @interface AdminResultSysFile
  */
-export interface FileOutput {
+export interface AdminResultSysFile {
 
     /**
-     * Id
+     * 状态码
      *
      * @type {number}
-     * @memberof FileOutput
+     * @memberof AdminResultSysFile
      */
-    id?: number;
+    code?: number;
 
     /**
-     * 提供者
+     * 类型success、warning、error
      *
      * @type {string}
-     * @memberof FileOutput
+     * @memberof AdminResultSysFile
      */
-    provider?: string | null;
+    type?: string | null;
 
     /**
-     * 名称
+     * 错误信息
      *
      * @type {string}
-     * @memberof FileOutput
+     * @memberof AdminResultSysFile
      */
-    name?: string | null;
+    message?: string | null;
 
     /**
-     * URL
-     *
-     * @type {string}
-     * @memberof FileOutput
+     * @type {SysFile}
+     * @memberof AdminResultSysFile
      */
-    url?: string | null;
+    result?: SysFile;
 
     /**
-     * 大小
+     * 附加数据
      *
-     * @type {string}
-     * @memberof FileOutput
+     * @type {any}
+     * @memberof AdminResultSysFile
      */
-    sizeKb?: string | null;
+    extras?: any | null;
 
     /**
-     * 后缀
+     * 时间
      *
-     * @type {string}
-     * @memberof FileOutput
+     * @type {Date}
+     * @memberof AdminResultSysFile
      */
-    suffix?: string | null;
-
-    /**
-     * 路径
-     *
-     * @type {string}
-     * @memberof FileOutput
-     */
-    filePath?: string | null;
-
-    /**
-     * 文件名称
-     *
-     * @type {string}
-     * @memberof FileOutput
-     */
-    fileName?: string | null;
+    time?: Date;
 }

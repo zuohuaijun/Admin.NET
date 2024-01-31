@@ -12,11 +12,8 @@
  * Do not edit the class manually.
  */
 
-import { SysOrg } from './sys-org';
-import { SysPos } from './sys-pos';
-import { SysUser } from './sys-user';
 import {
-    SysOrg,SysPos,SysUser,
+    
 } from ".";
 
 /**
@@ -44,12 +41,6 @@ export interface SysUserExtOrg {
     userId?: number;
 
     /**
-     * @type {SysUser}
-     * @memberof SysUserExtOrg
-     */
-    sysUser?: SysUser;
-
-    /**
      * 机构Id
      *
      * @type {number}
@@ -58,24 +49,12 @@ export interface SysUserExtOrg {
     orgId?: number;
 
     /**
-     * @type {SysOrg}
-     * @memberof SysUserExtOrg
-     */
-    sysOrg?: SysOrg;
-
-    /**
      * 职位Id
      *
      * @type {number}
      * @memberof SysUserExtOrg
      */
     posId?: number;
-
-    /**
-     * @type {SysPos}
-     * @memberof SysUserExtOrg
-     */
-    sysPos?: SysPos;
 
     /**
      * 工号

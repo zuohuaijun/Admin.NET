@@ -12,24 +12,24 @@
  * Do not edit the class manually.
  */
 
-import { FileOutput } from './file-output';
+import { SmKeyPairOutput } from './sm-key-pair-output';
 import {
-    FileOutput,
+    SmKeyPairOutput,
 } from ".";
 
 /**
  * 全局返回结果
  *
  * @export
- * @interface AdminResultListFileOutput
+ * @interface AdminResultSmKeyPairOutput
  */
-export interface AdminResultListFileOutput {
+export interface AdminResultSmKeyPairOutput {
 
     /**
      * 状态码
      *
      * @type {number}
-     * @memberof AdminResultListFileOutput
+     * @memberof AdminResultSmKeyPairOutput
      */
     code?: number;
 
@@ -37,7 +37,7 @@ export interface AdminResultListFileOutput {
      * 类型success、warning、error
      *
      * @type {string}
-     * @memberof AdminResultListFileOutput
+     * @memberof AdminResultSmKeyPairOutput
      */
     type?: string | null;
 
@@ -45,23 +45,21 @@ export interface AdminResultListFileOutput {
      * 错误信息
      *
      * @type {string}
-     * @memberof AdminResultListFileOutput
+     * @memberof AdminResultSmKeyPairOutput
      */
     message?: string | null;
 
     /**
-     * 数据
-     *
-     * @type {Array<FileOutput>}
-     * @memberof AdminResultListFileOutput
+     * @type {SmKeyPairOutput}
+     * @memberof AdminResultSmKeyPairOutput
      */
-    result?: Array<FileOutput> | null;
+    result?: SmKeyPairOutput;
 
     /**
      * 附加数据
      *
      * @type {any}
-     * @memberof AdminResultListFileOutput
+     * @memberof AdminResultSmKeyPairOutput
      */
     extras?: any | null;
 
@@ -69,7 +67,7 @@ export interface AdminResultListFileOutput {
      * 时间
      *
      * @type {Date}
-     * @memberof AdminResultListFileOutput
+     * @memberof AdminResultSmKeyPairOutput
      */
     time?: Date;
 }
