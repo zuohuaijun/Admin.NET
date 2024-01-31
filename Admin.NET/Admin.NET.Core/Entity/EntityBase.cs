@@ -86,7 +86,7 @@ public abstract class EntityBase : EntityBaseId, IDeletedFilter
 }
 
 /// <summary>
-/// 业务数据实体基类(数据权限)
+/// 业务数据实体基类（数据权限）
 /// </summary>
 public abstract class EntityBaseData : EntityBase, IOrgIdFilter
 {
@@ -112,7 +112,7 @@ public abstract class EntityBaseData : EntityBase, IOrgIdFilter
 }
 
 /// <summary>
-/// 租户基类实体
+/// 租户实体基类
 /// </summary>
 public abstract class EntityTenant : EntityBase, ITenantIdFilter
 {
@@ -124,9 +124,21 @@ public abstract class EntityTenant : EntityBase, ITenantIdFilter
 }
 
 /// <summary>
-/// 租户基类实体Id
+/// 租户实体基类Id
 /// </summary>
 public abstract class EntityTenantId : EntityBaseId, ITenantIdFilter
+{
+    /// <summary>
+    /// 租户Id
+    /// </summary>
+    [SugarColumn(ColumnDescription = "租户Id", IsOnlyIgnoreUpdate = true)]
+    public virtual long? TenantId { get; set; }
+}
+
+/// <summary>
+/// 租户实体基类 + 业务数据（数据权限）
+/// </summary>
+public abstract class EntityTenantBaseData : EntityBaseData, ITenantIdFilter
 {
     /// <summary>
     /// 租户Id
