@@ -124,7 +124,7 @@ public static class CommonUtil
     public static async Task<dynamic> ImportExcelData([Required] IFormFile file, dynamic dataDto)
     {
         var newFile = await App.GetRequiredService<SysFileService>().UploadFile(file, "");
-        var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, newFile.FilePath, newFile.FileName);
+        var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, newFile.FilePath, newFile.Id.ToString(), newFile.Suffix);
 
         IImporter importer = new ExcelImporter();
         MethodInfo importMethod = importer.GetType().GetMethod("Import");
