@@ -276,6 +276,10 @@ public class SysFileService : IDynamicApiController, ITransient
             }
             var strSizeKb = sizeKb.ToString();
             var sysFile = await _sysFileRep.GetFirstAsync(u => u.FileMd5 == fileMd5 && (u.SizeKb == null || u.SizeKb == strSizeKb));
+            /*
+             * Mysql8中如果使用了 utf8mb4_general_ci 之外的编码会出错，尽量避免在条件里使用.ToString()
+             * 因为Squsugar，并不是把变量转换为字符串来构造SQL语句，而是构造了CAST(123 AS CHAR)这样的语句，这样这个返回值是utf8mb4_general_ci,所以容易出错。
+             * */
             //var sysFile = await _sysFileRep.GetFirstAsync(u => u.FileMd5 == fileMd5 && (u.SizeKb == null || u.SizeKb == sizeKb.ToString())); //在条件时使用ToString会导到ubf8mb4字符集的MySQL数据库出错的。
             if (sysFile != null) return sysFile;
         }
