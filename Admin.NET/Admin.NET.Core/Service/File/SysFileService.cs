@@ -1,4 +1,4 @@
-// 麻省理工学院许可证
+﻿// 麻省理工学院许可证
 //
 // 版权所有 (c) 2021-2023 zuohuaijun，大名科技（天津）有限公司  联系电话/微信：18020030720  QQ：515096995
 //
@@ -8,6 +8,8 @@
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
 using Aliyun.OSS.Util;
+using COSXML.Network;
+using Furion.RemoteRequest;
 using Furion.VirtualFileServer;
 using OnceMi.AspNetCore.OSS;
 
@@ -155,6 +157,52 @@ public class SysFileService : IDynamicApiController, ITransient
     }
 
     /// <summary>
+    /// 下载指定url的文件
+    /// </summary>
+    /// <param name="url"></param>
+    /// <returns></returns>
+    /// <exception cref="HttpRequestException"></exception>
+    [Post]
+    [AllowAnonymous]
+    public async Task<string> DownloadSysFile([FromBody] string url)
+    {
+        if (_OSSProviderOptions.IsEnable)
+        {
+            using var httpClient = new System.Net.Http.HttpClient();
+            // 发送 GET 请求以下载文件
+            HttpResponseMessage response = await httpClient.GetAsync(url);
+
+            if (response.IsSuccessStatusCode)
+            {
+                // 读取文件内容并将其转换为 Base64 字符串
+                byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
+                string base64File = Convert.ToBase64String(fileBytes);
+                return base64File;
+            }
+            else
+            {
+                throw new HttpRequestException($"Request failed with status code: {response.StatusCode}");
+            }
+        }
+        else
+        {
+            var fileRecord = _sysFileRep.AsQueryable().Where(u => u.Url == url).First();
+            if (fileRecord == null)
+                throw new HttpRequestException($"文件没有记录");
+            var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, fileRecord.FilePath);
+            if (!Directory.Exists(filePath))
+                Directory.CreateDirectory(filePath);
+
+            var realFile = Path.Combine(filePath, $"{fileRecord.Id}{fileRecord.Suffix}");
+            if (!File.Exists(realFile))
+                throw Oops.Oh($"文件[{realFile}]不在存");
+            byte[] fileBytes = File.ReadAllBytes(realFile);
+            string base64File = Convert.ToBase64String(fileBytes);
+            return base64File;
+        }
+    }
+
+    /// <summary>
     /// 删除文件
     /// </summary>
     /// <param name="input"></param>
@@ -226,7 +274,9 @@ public class SysFileService : IDynamicApiController, ITransient
             {
                 fileMd5 = OssUtils.ComputeContentMd5(fileStream, fileStream.Length);
             }
-            var sysFile = await _sysFileRep.GetFirstAsync(u => u.FileMd5 == fileMd5 && (u.SizeKb == null || u.SizeKb == sizeKb.ToString()));
+            var strSizeKb = sizeKb.ToString();
+            var sysFile = await _sysFileRep.GetFirstAsync(u => u.FileMd5 == fileMd5 && (u.SizeKb == null || u.SizeKb == strSizeKb));
+            //var sysFile = await _sysFileRep.GetFirstAsync(u => u.FileMd5 == fileMd5 && (u.SizeKb == null || u.SizeKb == sizeKb.ToString())); //在条件时使用ToString会导到ubf8mb4字符集的MySQL数据库出错的。
             if (sysFile != null) return sysFile;
         }
 
@@ -322,7 +372,10 @@ public class SysFileService : IDynamicApiController, ITransient
             //}
 
             // 生成外链
-            newFile.Url = $"{CommonUtil.GetLocalhost()}/{newFile.FilePath}/{newFile.Id + newFile.Suffix}";
+            string host = CommonUtil.GetLocalhost();
+            if (!host.EndsWith("/"))
+                host += "/";            
+            newFile.Url = $"{host}{newFile.FilePath}/{newFile.Id + newFile.Suffix}";
         }
         await _sysFileRep.AsInsertable(newFile).ExecuteCommandAsync();
         return newFile;
