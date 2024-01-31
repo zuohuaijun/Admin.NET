@@ -52,6 +52,8 @@ public class SysDictType : EntityBase
     /// <summary>
     /// 字典值集合
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToMany, nameof(SysDictData.DictTypeId))]
     public List<SysDictData> Children { get; set; }
 }

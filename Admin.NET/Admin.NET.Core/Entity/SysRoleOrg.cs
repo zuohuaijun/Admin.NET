@@ -31,6 +31,8 @@ public class SysRoleOrg : EntityBaseId
     /// <summary>
     /// 机构
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(OrgId))]
     public SysOrg SysOrg { get; set; }
 }

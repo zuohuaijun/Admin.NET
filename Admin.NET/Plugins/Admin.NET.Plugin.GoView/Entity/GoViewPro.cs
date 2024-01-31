@@ -45,6 +45,8 @@ public class GoViewPro : EntityTenant
     ///// <summary>
     ///// 项目数据
     ///// </summary>
+    //[Newtonsoft.Json.JsonIgnore]
+    //[System.Text.Json.Serialization.JsonIgnore]
     //[Navigate(NavigateType.OneToOne, nameof(Id))]
     //public GoViewProData GoViewProData { get; set; }
 }

@@ -31,6 +31,8 @@ public class SysRoleMenu : EntityBaseId
     /// <summary>
     /// 菜单
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(MenuId))]
     public SysMenu SysMenu { get; set; }
 }

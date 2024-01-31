@@ -143,6 +143,8 @@ public class SysWechatPay : EntityBase
     /// <summary>
     /// 关联微信用户
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(OpenId))]
     public SysWechatUser SysWechatUser { get; set; }
 

@@ -39,6 +39,8 @@ public class SysOpenAccess : EntityBase
     /// <summary>
     /// 绑定租户
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(BindTenantId))]
     public SysTenant BindTenant { get; set; }
 
@@ -51,6 +53,8 @@ public class SysOpenAccess : EntityBase
     /// <summary>
     /// 绑定用户
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(BindUserId))]
     public SysUser BindUser { get; set; }
 }

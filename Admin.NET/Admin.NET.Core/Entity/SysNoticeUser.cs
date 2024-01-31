@@ -25,6 +25,8 @@ public class SysNoticeUser : EntityBaseId
     /// <summary>
     /// 通知公告
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(NoticeId))]
     public SysNotice SysNotice { get; set; }
 

@@ -58,6 +58,8 @@ public class SysOrg : EntityTenant
     /// <summary>
     /// 负责人
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(DirectorId))]
     public SysUser Director { get; set; }
 

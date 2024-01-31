@@ -25,6 +25,8 @@ public class SysUserExtOrg : EntityBaseId
     /// <summary>
     /// 用户
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(UserId))]
     public SysUser SysUser { get; set; }
 
@@ -37,6 +39,8 @@ public class SysUserExtOrg : EntityBaseId
     /// <summary>
     /// 机构
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(OrgId))]
     public SysOrg SysOrg { get; set; }
 
@@ -49,6 +53,8 @@ public class SysUserExtOrg : EntityBaseId
     /// <summary>
     /// 职位
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(PosId))]
     public SysPos SysPos { get; set; }
 

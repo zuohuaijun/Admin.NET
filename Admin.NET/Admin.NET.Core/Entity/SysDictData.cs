@@ -25,6 +25,8 @@ public class SysDictData : EntityBase
     /// <summary>
     /// 字典类型
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(DictTypeId))]
     public SysDictType DictType { get; set; }
 

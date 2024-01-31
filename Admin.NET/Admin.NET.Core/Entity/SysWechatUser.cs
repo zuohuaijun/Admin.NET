@@ -25,6 +25,8 @@ public class SysWechatUser : EntityBase
     /// <summary>
     /// 系统用户
     /// </summary>
+    [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(UserId))]
     public SysUser SysUser { get; set; }
 
