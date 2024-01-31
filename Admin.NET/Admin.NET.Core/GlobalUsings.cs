@@ -20,6 +20,7 @@ global using Furion.EventBus;
 global using Furion.FriendlyException;
 global using Furion.JsonSerialization;
 global using Furion.Logging;
+global using Furion.RemoteRequest;
 global using Furion.RemoteRequest.Extensions;
 global using Furion.Schedule;
 global using Furion.UnifyResult;

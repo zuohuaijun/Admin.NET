@@ -8,8 +8,6 @@
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
 using Aliyun.OSS.Util;
-using COSXML.Network;
-using Furion.RemoteRequest;
 using Furion.VirtualFileServer;
 using OnceMi.AspNetCore.OSS;
 
@@ -148,27 +146,22 @@ public class SysFileService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 下载指定url的文件
+    /// 下载指定文件Base64格式
     /// </summary>
     /// <param name="url"></param>
     /// <returns></returns>
-    /// <exception cref="HttpRequestException"></exception>
-    [Post]
     [AllowAnonymous]
-    public async Task<string> DownloadSysFile([FromBody] string url)
+    public async Task<string> DownloadFileBase64([FromBody] string url)
     {
         if (_OSSProviderOptions.IsEnable)
         {
-            using var httpClient = new System.Net.Http.HttpClient();
-            // 发送 GET 请求以下载文件
+            using var httpClient = new HttpClient();
             HttpResponseMessage response = await httpClient.GetAsync(url);
-
             if (response.IsSuccessStatusCode)
             {
                 // 读取文件内容并将其转换为 Base64 字符串
                 byte[] fileBytes = await response.Content.ReadAsByteArrayAsync();
-                string base64File = Convert.ToBase64String(fileBytes);
-                return base64File;
+                return Convert.ToBase64String(fileBytes);
             }
             else
             {
@@ -177,19 +170,16 @@ public class SysFileService : IDynamicApiController, ITransient
         }
         else
         {
-            var fileRecord = _sysFileRep.AsQueryable().Where(u => u.Url == url).First();
-            if (fileRecord == null)
-                throw new HttpRequestException($"文件没有记录");
-            var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, fileRecord.FilePath);
+            var sysFile = await _sysFileRep.GetFirstAsync(u => u.Url == url) ?? throw Oops.Oh($"文件不存在");
+            var filePath = Path.Combine(App.WebHostEnvironment.WebRootPath, sysFile.FilePath);
             if (!Directory.Exists(filePath))
                 Directory.CreateDirectory(filePath);
 
-            var realFile = Path.Combine(filePath, $"{fileRecord.Id}{fileRecord.Suffix}");
+            var realFile = Path.Combine(filePath, $"{sysFile.Id}{sysFile.Suffix}");
             if (!File.Exists(realFile))
                 throw Oops.Oh($"文件[{realFile}]不在存");
             byte[] fileBytes = File.ReadAllBytes(realFile);
-            string base64File = Convert.ToBase64String(fileBytes);
-            return base64File;
+            return Convert.ToBase64String(fileBytes);
         }
     }
 
@@ -265,13 +255,12 @@ public class SysFileService : IDynamicApiController, ITransient
             {
                 fileMd5 = OssUtils.ComputeContentMd5(fileStream, fileStream.Length);
             }
+            /*
+             * Mysql8 中如果使用了 utf8mb4_general_ci 之外的编码会出错，尽量避免在条件里使用.ToString()
+             * 因为 Squsugar 并不是把变量转换为字符串来构造SQL语句，而是构造了CAST(123 AS CHAR)这样的语句，这样这个返回值是utf8mb4_general_ci，所以容易出错。
+             */
             var strSizeKb = sizeKb.ToString();
             var sysFile = await _sysFileRep.GetFirstAsync(u => u.FileMd5 == fileMd5 && (u.SizeKb == null || u.SizeKb == strSizeKb));
-            /*
-             * Mysql8中如果使用了 utf8mb4_general_ci 之外的编码会出错，尽量避免在条件里使用.ToString()
-             * 因为Squsugar，并不是把变量转换为字符串来构造SQL语句，而是构造了CAST(123 AS CHAR)这样的语句，这样这个返回值是utf8mb4_general_ci,所以容易出错。
-             * */
-            //var sysFile = await _sysFileRep.GetFirstAsync(u => u.FileMd5 == fileMd5 && (u.SizeKb == null || u.SizeKb == sizeKb.ToString())); //在条件时使用ToString会导到ubf8mb4字符集的MySQL数据库出错的。
             if (sysFile != null) return sysFile;
         }
 
@@ -367,9 +356,9 @@ public class SysFileService : IDynamicApiController, ITransient
             //}
 
             // 生成外链
-            string host = CommonUtil.GetLocalhost();
+            var host = CommonUtil.GetLocalhost();
             if (!host.EndsWith("/"))
-                host += "/";            
+                host += "/";
             newFile.Url = $"{host}{newFile.FilePath}/{newFile.Id + newFile.Suffix}";
         }
         await _sysFileRep.AsInsertable(newFile).ExecuteCommandAsync();
