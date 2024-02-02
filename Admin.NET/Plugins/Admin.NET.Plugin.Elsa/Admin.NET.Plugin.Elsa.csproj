@@ -16,10 +16,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Elsa" Version="2.14.0" />
-    <PackageReference Include="Elsa.Activities.Http" Version="2.14.0" />
-    <PackageReference Include="Elsa.Designer.Components.Web" Version="2.14.0" />
-    <PackageReference Include="Elsa.Server.Api" Version="2.14.0" />
+    <PackageReference Include="Elsa" Version="2.14.1" />
+    <PackageReference Include="Elsa.Activities.Http" Version="2.14.1" />
+    <PackageReference Include="Elsa.Designer.Components.Web" Version="2.14.1" />
+    <PackageReference Include="Elsa.Server.Api" Version="2.14.1" />
   </ItemGroup>
 
   <ItemGroup>

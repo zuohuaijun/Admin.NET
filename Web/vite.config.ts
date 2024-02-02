@@ -36,7 +36,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 				// 对所有大于 5KB 的文件进行 gzip 压缩
 				threshold: 5120, // the unit is Bytes
 				algorithm: 'gzip', // 压缩算法
-  				ext: '.gz' // 文件类型
+				ext: '.gz', // 文件类型
 			}),
 			JSON.parse(env.VITE_OPEN_CDN) ? buildConfig.cdn() : null,
 		],
@@ -81,7 +81,7 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 					assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
 					manualChunks(id) {
 						if (id.includes('node_modules')) {
-							let newId = id.toString().replace("/.", "/");
+							let newId = id.toString().replace('/.', '/');
 							return newId.match(/\/node_modules\/(?!.pnpm)(?<moduleName>[^\/]*)\//)?.groups!.moduleName ?? 'vender';
 						}
 					},
