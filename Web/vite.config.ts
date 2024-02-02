@@ -29,7 +29,15 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 			vue(),
 			vueJsx(),
 			vueSetupExtend(),
-			viteCompression(),
+			viteCompression({
+				verbose: true, // 默认即可
+				disable: false, // 开启压缩(不禁用)，默认即可
+				deleteOriginFile: false, // 删除源文件
+				// 对所有大于 5KB 的文件进行 gzip 压缩
+				threshold: 5120, // the unit is Bytes
+				algorithm: 'gzip', // 压缩算法
+  				ext: '.gz' // 文件类型
+			}),
 			JSON.parse(env.VITE_OPEN_CDN) ? buildConfig.cdn() : null,
 		],
 		root: process.cwd(),
@@ -57,6 +65,15 @@ const viteConfig = defineConfig((mode: ConfigEnv) => {
 		build: {
 			outDir: 'dist',
 			chunkSizeWarningLimit: 1500,
+			assetsInlineLimit: 5000, // 小于此阈值的导入或引用资源将内联为 base64 编码
+			sourcemap: false, // 构建后是否生成 source map 文件
+			terserOptions: {
+				compress: {
+					//生产环境时移除console
+					drop_console: true,
+					drop_debugger: true,
+				},
+			},
 			rollupOptions: {
 				output: {
 					chunkFileNames: 'assets/js/[name]-[hash].js',
