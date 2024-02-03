@@ -113,7 +113,7 @@
 	@extend .el-menu-hover-bg-color;
 	color: var(--el-color-primary-dark-2);
 }
-.el-sub-menu:not(.is-active) .el-sub-menu__title{
+.el-sub-menu:not(.is-active) .el-sub-menu__title {
 	color: var(--next-bg-menuBarColor);
 }
 // 鼠标 hover 时背景色
@@ -289,17 +289,16 @@
 // 	font-weight: 700;
 // }
 .el-dialog__header {
-	margin: 0;
-	// padding-top: 10px;
+	margin: -16px -16px 0px -16px;
 	padding: 8px 0px 8px 20px;
 	background: var(--el-color-primary);
 }
-.el-dialog__footer {
-	// border-top: 1px solid var(--el-color-info-light-7);
-	padding-bottom: 10px;
-}
+// .el-dialog__footer {
+// 	// border-top: 1px solid var(--el-color-info-light-7);
+// 	padding-bottom: 10px;
+// }
 .el-dialog__headerbtn {
-	height: 28px;
+	margin-top: -5px;
 	.el-dialog__close {
 		color: #fff;
 	}
