@@ -39,6 +39,7 @@ public static class ProjectOptions
         services.AddConfigurableOptions<OAuthOptions>();
         services.AddConfigurableOptions<CryptogramOptions>();
         services.AddConfigurableOptions<SMSOptions>();
+        services.AddConfigurableOptions<EventBusOptions>();
         //services.AddConfigurableOptions<IpRateLimitingOptions>();
         //services.AddConfigurableOptions<IpRateLimitPoliciesOptions>();
         //services.AddConfigurableOptions<ClientRateLimitingOptions>();

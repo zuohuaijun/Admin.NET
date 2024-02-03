@@ -1,8 +1,10 @@
 {
+  "$schema": "https://gitee.com/dotnetchina/Furion/raw/v4/schemas/v4/furion-schema.json",
+
   "EventBus": {
     "RabbitMQ": {
-      "UserName": "guest",
-      "Password": "aaa@1234",
+      "UserName": "adminnet",
+      "Password": "adminnet++123456",
       "HostName": "127.0.0.1",
       "Port": 5672
     }
