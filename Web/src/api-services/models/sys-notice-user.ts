@@ -13,8 +13,9 @@
  */
 
 import { NoticeUserStatusEnum } from './notice-user-status-enum';
+import { SysNotice } from './sys-notice';
 import {
-    NoticeUserStatusEnum,
+    NoticeUserStatusEnum,SysNotice,
 } from ".";
 
 /**
@@ -40,6 +41,12 @@ export interface SysNoticeUser {
      * @memberof SysNoticeUser
      */
     noticeId?: number;
+
+    /**
+     * @type {SysNotice}
+     * @memberof SysNoticeUser
+     */
+    sysNotice?: SysNotice;
 
     /**
      * 用户Id

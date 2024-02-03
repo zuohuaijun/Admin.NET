@@ -17,8 +17,9 @@ import { CardTypeEnum } from './card-type-enum';
 import { CultureLevelEnum } from './culture-level-enum';
 import { GenderEnum } from './gender-enum';
 import { StatusEnum } from './status-enum';
+import { SysOrg } from './sys-org';
 import {
-    AccountTypeEnum,CardTypeEnum,CultureLevelEnum,GenderEnum,StatusEnum,
+    AccountTypeEnum,CardTypeEnum,CultureLevelEnum,GenderEnum,StatusEnum,SysOrg,
 } from ".";
 
 /**
@@ -298,6 +299,12 @@ export interface SysUser {
      * @memberof SysUser
      */
     orgId?: number;
+
+    /**
+     * @type {SysOrg}
+     * @memberof SysUser
+     */
+    sysOrg?: SysOrg;
 
     /**
      * 直属主管Id

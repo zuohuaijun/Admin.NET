@@ -17,9 +17,10 @@ import { CardTypeEnum } from './card-type-enum';
 import { CultureLevelEnum } from './culture-level-enum';
 import { GenderEnum } from './gender-enum';
 import { StatusEnum } from './status-enum';
+import { SysOrg } from './sys-org';
 import { SysUserExtOrg } from './sys-user-ext-org';
 import {
-    AccountTypeEnum,CardTypeEnum,CultureLevelEnum,GenderEnum,StatusEnum,SysUserExtOrg,
+    AccountTypeEnum,CardTypeEnum,CultureLevelEnum,GenderEnum,StatusEnum,SysOrg,SysUserExtOrg,
 } from ".";
 
 /**
@@ -283,6 +284,12 @@ export interface AddUserInput {
      * @memberof AddUserInput
      */
     orgId?: number;
+
+    /**
+     * @type {SysOrg}
+     * @memberof AddUserInput
+     */
+    sysOrg?: SysOrg;
 
     /**
      * 直属主管Id
