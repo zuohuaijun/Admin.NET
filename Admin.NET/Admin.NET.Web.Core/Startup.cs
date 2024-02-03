@@ -115,6 +115,29 @@ public class Startup : AppStartup
             //    // 创建默认内存通道事件源对象，可自定义队列路由key，比如这里是 eventbus
             //    return new RedisEventSourceStorer(redisCache, "eventbus", 3000);
             //});
+            #region RabbitMQ示例
+            //var _UserName = App.GetConfig<string>("EventBus:RabbitMQ:UserName");
+            //var _Password = App.GetConfig<string>("EventBus:RabbitMQ:Password");
+            //var _HostName = App.GetConfig<string>("EventBus:RabbitMQ:HostName");
+            //var _Port = App.GetConfig<int>("EventBus:RabbitMQ:Port");
+            //if (!string.IsNullOrEmpty(_HostName) && !string.IsNullOrEmpty(_Password) && !string.IsNullOrEmpty(_UserName))
+            //{
+            //    // 创建默认内存通道事件源对象，可自定义队列路由key，比如这里是 eventbus
+            //    var rbmqEventSourceStorer = new RabbitMQEventSourceStore(new ConnectionFactory
+            //    {
+            //        UserName = _UserName,
+            //        Password = _Password,
+            //        HostName = _HostName,
+            //        Port = _Port
+            //    }, "eventbus", 3000);
+
+            //    // 替换默认事件总线存储器
+            //    options.ReplaceStorer(serviceProvider =>
+            //    {
+            //        return rbmqEventSourceStorer;
+            //    });
+            //}
+            #endregion
         });
 
         // 图像处理

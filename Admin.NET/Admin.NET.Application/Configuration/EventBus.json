@@ -1,0 +1,10 @@
+{
+  "EventBus": {
+    "RabbitMQ": {
+      "UserName": "guest",
+      "Password": "aaa@1234",
+      "HostName": "127.0.0.1",
+      "Port": 5672
+    }
+  }
+}
