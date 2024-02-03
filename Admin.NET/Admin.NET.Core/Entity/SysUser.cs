@@ -201,8 +201,6 @@ public class SysUser : EntityTenant
     /// <summary>
     /// 直属机构
     /// </summary>
-    [Newtonsoft.Json.JsonIgnore]
-    [System.Text.Json.Serialization.JsonIgnore]
     [Navigate(NavigateType.OneToOne, nameof(OrgId))]
     public SysOrg SysOrg { get; set; }
 
