@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\项目列表\积分管理\Code\Admin.NET\Daming.Points.Application\Daming.Points.Application.csproj" />
+    <ProjectReference Include="..\Admin.NET.Application\Admin.NET.Application.csproj" />
     <ProjectReference Include="..\Admin.NET.Core\Admin.NET.Core.csproj" />
   </ItemGroup>
 
