@@ -17,7 +17,7 @@ import {
 } from ".";
 
 /**
- * 
+ * 删除用户输入参数
  *
  * @export
  * @interface DeleteUserInput

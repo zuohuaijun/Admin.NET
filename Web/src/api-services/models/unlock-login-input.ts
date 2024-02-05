@@ -17,26 +17,18 @@ import {
 } from ".";
 
 /**
- * 修改用户密码输入参数
+ * 解除登录锁定输入参数
  *
  * @export
- * @interface ChangePwdInput
+ * @interface UnlockLoginInput
  */
-export interface ChangePwdInput {
+export interface UnlockLoginInput {
 
     /**
-     * 当前密码
+     * 主键Id
      *
-     * @type {string}
-     * @memberof ChangePwdInput
+     * @type {number}
+     * @memberof UnlockLoginInput
      */
-    passwordOld: string;
-
-    /**
-     * 新密码
-     *
-     * @type {string}
-     * @memberof ChangePwdInput
-     */
-    passwordNew: string;
+    id: number;
 }

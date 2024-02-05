@@ -17,7 +17,7 @@ import {
 } from ".";
 
 /**
- * 
+ * 获取用户分页列表输入参数
  *
  * @export
  * @interface PageUserInput

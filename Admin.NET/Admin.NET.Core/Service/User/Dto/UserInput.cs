@@ -9,6 +9,9 @@
 
 namespace Admin.NET.Core.Service;
 
+/// <summary>
+/// 设置用户状态输入参数
+/// </summary>
 public class UserInput : BaseIdInput
 {
     /// <summary>
@@ -17,6 +20,9 @@ public class UserInput : BaseIdInput
     public StatusEnum Status { get; set; }
 }
 
+/// <summary>
+/// 获取用户分页列表输入参数
+/// </summary>
 public class PageUserInput : BasePageInput
 {
     /// <summary>
@@ -40,6 +46,9 @@ public class PageUserInput : BasePageInput
     public long OrgId { get; set; }
 }
 
+/// <summary>
+/// 增加用户输入参数
+/// </summary>
 public class AddUserInput : SysUser
 {
     /// <summary>
@@ -65,10 +74,16 @@ public class AddUserInput : SysUser
     public List<SysUserExtOrg> ExtOrgIdList { get; set; }
 }
 
+/// <summary>
+/// 更新用户输入参数
+/// </summary>
 public class UpdateUserInput : AddUserInput
 {
 }
 
+/// <summary>
+/// 删除用户输入参数
+/// </summary>
 public class DeleteUserInput : BaseIdInput
 {
     /// <summary>
@@ -77,10 +92,16 @@ public class DeleteUserInput : BaseIdInput
     public long OrgId { get; set; }
 }
 
+/// <summary>
+/// 重置用户密码输入参数
+/// </summary>
 public class ResetPwdUserInput : BaseIdInput
 {
 }
 
+/// <summary>
+/// 修改用户密码输入参数
+/// </summary>
 public class ChangePwdInput
 {
     /// <summary>
@@ -95,4 +116,11 @@ public class ChangePwdInput
     [Required(ErrorMessage = "新密码不能为空")]
     [StringLength(20, MinimumLength = 5, ErrorMessage = "密码需要大于5个字符")]
     public string PasswordNew { get; set; }
+}
+
+/// <summary>
+/// 解除登录锁定输入参数
+/// </summary>
+public class UnlockLoginInput : BaseIdInput
+{
 }

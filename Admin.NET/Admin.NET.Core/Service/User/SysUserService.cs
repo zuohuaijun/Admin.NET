@@ -22,6 +22,7 @@ public class SysUserService : IDynamicApiController, ITransient
     private readonly SysUserRoleService _sysUserRoleService;
     private readonly SysConfigService _sysConfigService;
     private readonly SysOnlineUserService _sysOnlineUserService;
+    private readonly SysCacheService _sysCacheService;
 
     public SysUserService(UserManager userManager,
         SqlSugarRepository<SysUser> sysUserRep,
@@ -29,7 +30,8 @@ public class SysUserService : IDynamicApiController, ITransient
         SysUserExtOrgService sysUserExtOrgService,
         SysUserRoleService sysUserRoleService,
         SysConfigService sysConfigService,
-        SysOnlineUserService sysOnlineUserService)
+        SysOnlineUserService sysOnlineUserService,
+        SysCacheService sysCacheService)
     {
         _userManager = userManager;
         _sysUserRep = sysUserRep;
@@ -38,6 +40,7 @@ public class SysUserService : IDynamicApiController, ITransient
         _sysUserRoleService = sysUserRoleService;
         _sysConfigService = sysConfigService;
         _sysOnlineUserService = sysOnlineUserService;
+        _sysCacheService = sysCacheService;
     }
 
     /// <summary>
@@ -51,7 +54,7 @@ public class SysUserService : IDynamicApiController, ITransient
         // 获取用户拥有的机构集合
         var userOrgIdList = await _sysOrgService.GetUserOrgIdList();
         List<long> orgList = null;
-        if (input.OrgId > 0)  // 指定机构查询时
+        if (input.OrgId > 0) // 指定机构查询时
         {
             orgList = await _sysOrgService.GetChildIdListWithSelfById(input.OrgId);
             orgList = _userManager.SuperAdmin ? orgList : orgList.Where(u => userOrgIdList.Contains(u)).ToList();
@@ -276,6 +279,7 @@ public class SysUserService : IDynamicApiController, ITransient
         {
             user.Password = CryptogramUtil.Encrypt(input.PasswordNew);
         }
+
         return await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
     }
 
@@ -292,6 +296,21 @@ public class SysUserService : IDynamicApiController, ITransient
         user.Password = CryptogramUtil.Encrypt(password);
         await _sysUserRep.AsUpdateable(user).UpdateColumns(u => u.Password).ExecuteCommandAsync();
         return password;
+    }
+
+    /// <summary>
+    /// 解除登录锁定
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    [DisplayName("解除登录锁定")]
+    public async Task UnlockLogin(UnlockLoginInput input)
+    {
+        var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
+
+        var keyErrorPasswordCount = $"{CacheConst.KeyErrorPasswordCount}{user.Account}";
+        // 清空密码错误次数
+        _sysCacheService.Remove(keyErrorPasswordCount);
     }
 
     /// <summary>

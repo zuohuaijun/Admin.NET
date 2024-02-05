@@ -17,7 +17,7 @@ import {
 } from ".";
 
 /**
- * 
+ * 重置用户密码输入参数
  *
  * @export
  * @interface ResetPwdUserInput

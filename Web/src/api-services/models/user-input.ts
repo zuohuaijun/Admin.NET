@@ -18,7 +18,7 @@ import {
 } from ".";
 
 /**
- * 
+ * 设置用户状态输入参数
  *
  * @export
  * @interface UserInput

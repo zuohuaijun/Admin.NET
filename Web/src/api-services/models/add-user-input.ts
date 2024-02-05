@@ -24,7 +24,7 @@ import {
 } from ".";
 
 /**
- * 
+ * 增加用户输入参数
  *
  * @export
  * @interface AddUserInput

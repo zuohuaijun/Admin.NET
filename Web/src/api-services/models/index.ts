@@ -248,6 +248,7 @@ export * from './tenant-output';
 export * from './tenant-type-enum';
 export * from './tenant-user-input';
 export * from './trigger-status';
+export * from './unlock-login-input';
 export * from './update-code-gen-input';
 export * from './update-config-input';
 export * from './update-db-column-input';
