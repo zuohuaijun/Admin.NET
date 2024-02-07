@@ -1,11 +1,11 @@
 <template>
 	<div class="sys-user-container">
-		<el-row :gutter="8" style="width: 100%">
+		<el-row :gutter="8" style="width: 100%; flex: 1">
 			<el-col :span="4" :xs="24">
 				<OrgTree ref="orgTreeRef" @node-click="nodeClick" />
 			</el-col>
 
-			<el-col :span="20" :xs="24">
+			<el-col :span="20" :xs="24" style="display: flex; flex-direction: column">
 				<el-card shadow="hover" :body-style="{ paddingBottom: '0' }">
 					<el-form :model="state.queryParams" ref="queryForm" :inline="true">
 						<el-form-item label="账号">
