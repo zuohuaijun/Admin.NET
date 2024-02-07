@@ -17,17 +17,17 @@ public class SysWechatService : IDynamicApiController, ITransient
 {
     private readonly SqlSugarRepository<SysWechatUser> _sysWechatUserRep;
     private readonly SysConfigService _sysConfigService;
-    private readonly WechatApiHttpClientFactory _wechatApiHttpClientFactory;
+    private readonly WechatApiClientFactory _wechatApiClientFactory;
     private readonly WechatApiClient _wechatApiClient;
 
     public SysWechatService(SqlSugarRepository<SysWechatUser> sysWechatUserRep,
         SysConfigService sysConfigService,
-        WechatApiHttpClientFactory wechatApiHttpClientFactory)
+        WechatApiClientFactory wechatApiClientFactory)
     {
         _sysWechatUserRep = sysWechatUserRep;
         _sysConfigService = sysConfigService;
-        _wechatApiHttpClientFactory = wechatApiHttpClientFactory;
-        _wechatApiClient = wechatApiHttpClientFactory.CreateWechatClient();
+        _wechatApiClientFactory = wechatApiClientFactory;
+        _wechatApiClient = wechatApiClientFactory.CreateWechatClient();
     }
 
     /// <summary>
@@ -168,7 +168,7 @@ public class SysWechatService : IDynamicApiController, ITransient
             Url = input.Url,
             MiniProgram = new CgibinMessageTemplateSendRequest.Types.MiniProgram
             {
-                AppId = _wechatApiHttpClientFactory._wechatOptions.WechatAppId,
+                AppId = _wechatApiClientFactory._wechatOptions.WechatAppId,
                 PagePath = input.MiniProgramPagePath,
             },
             Data = messageData

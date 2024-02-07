@@ -10,6 +10,7 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 
 namespace Admin.NET.Core;
 
@@ -29,8 +30,7 @@ public static class OAuthSetup
             })
             .AddCookie(options =>
             {
-                options.Cookie.SameSite = SameSiteMode.None;
-                options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+                options.Cookie.SameSite = SameSiteMode.Lax;
             })
             .AddWeixin(options =>
             {
@@ -44,5 +44,10 @@ public static class OAuthSetup
 
                 options.ClaimActions.MapJsonKey(OAuthClaim.GiteeAvatarUrl, "avatar_url");
             });
+    }
+
+    public static void UseOAuth(this IApplicationBuilder app)
+    {
+        app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
     }
 }

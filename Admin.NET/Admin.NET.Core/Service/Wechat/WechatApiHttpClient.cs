@@ -7,25 +7,22 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
-using Flurl;
-using Flurl.Http;
-using Flurl.Http.Configuration;
+using Newtonsoft.Json;
 
 namespace Admin.NET.Core.Service;
 
 /// <summary>
 /// 微信API客户端
 /// </summary>
-public partial class WechatApiHttpClientFactory : ISingleton
+public partial class WechatApiClientFactory : ISingleton
 {
+    private readonly IHttpClientFactory _httpClientFactory;
     public readonly WechatOptions _wechatOptions;
 
-    public WechatApiHttpClientFactory(IOptions<WechatOptions> wechatOptions,
-        System.Net.Http.IHttpClientFactory httpClientFactory)
+    public WechatApiClientFactory(IHttpClientFactory httpClientFactory, IOptions<WechatOptions> wechatOptions)
     {
-        _wechatOptions = wechatOptions.Value;
-
-        FlurlHttp.GlobalSettings.FlurlClientFactory = new DelegatingFlurlClientFactory(httpClientFactory);
+        _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
+        _wechatOptions = wechatOptions.Value ?? throw new ArgumentNullException(nameof(wechatOptions));
     }
 
     /// <summary>
@@ -37,18 +34,23 @@ public partial class WechatApiHttpClientFactory : ISingleton
         if (string.IsNullOrEmpty(_wechatOptions.WechatAppId) || string.IsNullOrEmpty(_wechatOptions.WechatAppSecret))
             throw Oops.Oh("微信公众号配置错误");
 
-        var wechatApiClient = new WechatApiClient(new WechatApiClientOptions()
+        var client = WechatApiClientBuilder.Create(new WechatApiClientOptions()
         {
             AppId = _wechatOptions.WechatAppId,
             AppSecret = _wechatOptions.WechatAppSecret,
-        });
+        })
+            .UseHttpClient(_httpClientFactory.CreateClient(), disposeClient: false) // 设置 HttpClient 不随客户端一同销毁
+            .Build();
 
-        wechatApiClient.Configure(settings =>
+        client.Configure(config =>
         {
-            settings.JsonSerializer = new FlurlNewtonsoftJsonSerializer();
+            JsonSerializerSettings jsonSerializerSettings = NewtonsoftJsonSerializer.GetDefaultSerializerSettings();
+            jsonSerializerSettings.Formatting = Formatting.Indented;
+            config.JsonSerializer = new NewtonsoftJsonSerializer(jsonSerializerSettings); // 指定 System.Text.Json JSON序列化
+            // config.JsonSerializer = new SystemTextJsonSerializer(jsonSerializerOptions); // 指定 Newtonsoft.Json  JSON序列化
         });
 
-        return wechatApiClient;
+        return client;
     }
 
     /// <summary>
@@ -60,40 +62,22 @@ public partial class WechatApiHttpClientFactory : ISingleton
         if (string.IsNullOrEmpty(_wechatOptions.WxOpenAppId) || string.IsNullOrEmpty(_wechatOptions.WxOpenAppSecret))
             throw Oops.Oh("微信小程序配置错误");
 
-        var WechatApiClient = new WechatApiClient(new WechatApiClientOptions()
+        var client = WechatApiClientBuilder.Create(new WechatApiClientOptions()
         {
             AppId = _wechatOptions.WxOpenAppId,
             AppSecret = _wechatOptions.WxOpenAppSecret
+        })
+        .UseHttpClient(_httpClientFactory.CreateClient(), disposeClient: false) // 设置 HttpClient 不随客户端一同销毁
+        .Build();
+
+        client.Configure(config =>
+        {
+            JsonSerializerSettings jsonSerializerSettings = NewtonsoftJsonSerializer.GetDefaultSerializerSettings();
+            jsonSerializerSettings.Formatting = Formatting.Indented;
+            config.JsonSerializer = new NewtonsoftJsonSerializer(jsonSerializerSettings); // 指定 System.Text.Json JSON序列化
+            // config.JsonSerializer = new SystemTextJsonSerializer(jsonSerializerOptions); // 指定 Newtonsoft.Json  JSON序列化
         });
 
-        WechatApiClient.Configure(settings =>
-        {
-            settings.JsonSerializer = new FlurlNewtonsoftJsonSerializer();
-        });
-
-        return WechatApiClient;
-    }
-}
-
-public partial class WechatApiHttpClientFactory
-{
-    internal class DelegatingFlurlClientFactory : IFlurlClientFactory
-    {
-        private readonly System.Net.Http.IHttpClientFactory _httpClientFactory;
-
-        public DelegatingFlurlClientFactory(System.Net.Http.IHttpClientFactory httpClientFactory)
-        {
-            _httpClientFactory = httpClientFactory ?? throw new ArgumentNullException(nameof(httpClientFactory));
-        }
-
-        public IFlurlClient Get(Url url)
-        {
-            return new FlurlClient(_httpClientFactory.CreateClient(url.ToUri().Host));
-        }
-
-        public void Dispose()
-        {
-            // Do Nothing
-        }
+        return client;
     }
 }

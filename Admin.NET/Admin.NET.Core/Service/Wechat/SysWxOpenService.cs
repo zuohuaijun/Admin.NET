@@ -21,11 +21,11 @@ public class SysWxOpenService : IDynamicApiController, ITransient
 
     public SysWxOpenService(SqlSugarRepository<SysWechatUser> sysWechatUserRep,
         SysConfigService sysConfigService,
-        WechatApiHttpClientFactory wechatApiHttpClientFactory)
+        WechatApiClientFactory wechatApiClientFactory)
     {
         _sysWechatUserRep = sysWechatUserRep;
         _sysConfigService = sysConfigService;
-        _wechatApiClient = wechatApiHttpClientFactory.CreateWxOpenClient();
+        _wechatApiClient = wechatApiClientFactory.CreateWxOpenClient();
     }
 
     /// <summary>

@@ -194,6 +194,9 @@ public class Startup : AppStartup
         //// 启用HTTPS
         //app.UseHttpsRedirection();
 
+        // 启用OAuth
+        app.UseOAuth();
+
         // 添加状态码拦截中间件
         app.UseUnifyResultStatusCodes();
 
