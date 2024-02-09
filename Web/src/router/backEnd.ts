@@ -136,7 +136,7 @@ export async function setBackEndControlRefreshRoutes() {
 export function backEndComponent(routes: any) {
 	if (!routes) return;
 	return routes.map((item: any) => {
-		if (!item.path) item.path = ""; //此处是为了防止后端返回的路由没有path属性，导致路由报错
+		if (!item.path) item.path = ''; // 防止后端返回的路由没有path属性，导致路由报错
 		if (item.component) item.component = dynamicImport(dynamicViewsModules, item.component as string);
 		item.children && backEndComponent(item.children);
 		return item;
