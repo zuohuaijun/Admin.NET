@@ -33,7 +33,8 @@ public class DatabaseLoggingWriter : IDatabaseLoggingWriter, IDisposable
 
     public async void Write(LogMessage logMsg, bool flush)
     {
-        var jsonStr = logMsg.Context.Get("loggingMonitor").ToString();
+        var jsonStr = logMsg.Context?.Get("loggingMonitor")?.ToString();
+        if (jsonStr == null) return;
         var loggingMonitor = JSON.Deserialize<dynamic>(jsonStr);
 
         // 不记录数据校验日志
