@@ -41,7 +41,7 @@
   },
   "Cryptogram": {
     "StrongPassword": false, // 是否开启密码强度验证
-    "PasswordStrengthValidation": "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[~@#$%\\*-\\+=:,\\\\?\\[\\]\\{}]).{6,16}$", // 密码强度验证正则表达式，必须须包含大小写字母、数字和特殊字符的组合，长度在6-16之间
+    "PasswordStrengthValidation": "(?=^.{6,16}$)(?=.*\\d)(?=.*\\W+)(?=.*[A-Z])(?=.*[a-z])(?!.*\\n).*$", // 密码强度验证正则表达式，必须须包含大小写字母、数字和特殊字符的组合，长度在6-16之间
     "PasswordStrengthValidationMsg": "密码必须包含大小写字母、数字和特殊字符的组合，长度在6-16之间", // 密码强度验证消息提示
     "CryptoType": "SM2", // 密码加密算法：MD5、SM2、SM4
     "PublicKey": "0484C7466D950E120E5ECE5DD85D0C90EAA85081A3A2BD7C57AE6DC822EFCCBD66620C67B0103FC8DD280E36C3B282977B722AAEC3C56518EDCEBAFB72C5A05312", // 公钥
