@@ -517,13 +517,13 @@ public class SysCodeGenService : IDynamicApiController, ITransient
         };
         menuOrder += 10;
 
-        // 按钮-edit
+        // 按钮-update
         var menuType2_4 = new SysMenu
         {
             Pid = pid1,
             Title = "编辑",
             Type = MenuTypeEnum.Btn,
-            Permission = className[..1].ToLower() + className[1..] + ":edit",
+            Permission = className[..1].ToLower() + className[1..] + ":update",
             OrderNo = menuOrder
         };
         menuOrder += 10;
