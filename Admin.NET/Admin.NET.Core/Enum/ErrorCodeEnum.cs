@@ -197,6 +197,12 @@ public enum ErrorCodeEnum
     D1027,
 
     /// <summary>
+    /// 新密码不能与旧密码相同
+    /// </summary>
+    [ErrorCodeItemMetadata("新密码不能与旧密码相同")]
+    D1028,
+
+    /// <summary>
     /// 父机构不存在
     /// </summary>
     [ErrorCodeItemMetadata("父机构不存在")]

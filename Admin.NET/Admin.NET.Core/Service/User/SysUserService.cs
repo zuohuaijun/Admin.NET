@@ -268,6 +268,9 @@ public class SysUserService : IDynamicApiController, ITransient
                 throw Oops.Oh(ErrorCodeEnum.D1004);
         }
 
+        if (input.PasswordOld == input.PasswordNew)
+            throw Oops.Oh(ErrorCodeEnum.D1028);
+
         // 验证密码强度
         if (CryptogramUtil.StrongPassword)
         {
