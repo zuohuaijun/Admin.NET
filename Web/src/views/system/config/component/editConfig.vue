@@ -33,7 +33,7 @@
 												}
 											"
 										>
-											<el-button style="margin: 0px -20px 0px -10px; color: inherit"> 选项 </el-button>
+											<el-button style="margin: 0px -20px; color: inherit"> 选项 </el-button>
 											<template #dropdown>
 												<el-dropdown-menu>
 													<el-dropdown-item command="True"> True </el-dropdown-item>
