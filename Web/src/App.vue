@@ -107,11 +107,15 @@ watch(
 );
 </script>
 
-<style>
-.el-select {
-	width: 171px !important;
-}
-.el-select__wrapper {
-	line-height: 22px !important;
+<style lang="scss">
+.el-form--inline {
+	.el-form-item {
+		.el-select {
+			width: 171px !important;
+		}
+		.el-select__wrapper {
+			line-height: 22px !important;
+		}
+	}
 }
 </style>
