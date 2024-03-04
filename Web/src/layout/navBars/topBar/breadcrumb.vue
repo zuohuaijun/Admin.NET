@@ -1,11 +1,6 @@
 <template>
 	<div v-if="isShowBreadcrumb" class="layout-navbars-breadcrumb">
-		<SvgIcon
-			class="layout-navbars-breadcrumb-icon"
-			:name="themeConfig.isCollapse ? 'ele-Expand' : 'ele-Fold'"
-			:size="16"
-			@click="onThemeConfigChange"
-		/>
+		<SvgIcon class="layout-navbars-breadcrumb-icon" :name="themeConfig.isCollapse ? 'ele-Expand' : 'ele-Fold'" :size="16" @click="onThemeConfigChange" />
 		<el-breadcrumb class="layout-navbars-breadcrumb-hide">
 			<transition-group name="breadcrumb">
 				<el-breadcrumb-item v-for="(v, k) in state.breadcrumbList" :key="v.path">
@@ -14,9 +9,7 @@
 						<div v-if="v.meta.title">{{ $t(v.meta.title) }}</div>
 						<div v-else>{{ v.meta.tagsViewName }}</div>
 					</span>
-					<a v-else @click.prevent="onBreadcrumbClick(v)">
-						<SvgIcon :name="v.meta.icon" class="layout-navbars-breadcrumb-iconfont" v-if="themeConfig.isBreadcrumbIcon" />{{ $t(v.meta.title) }}
-					</a>
+					<a v-else @click.prevent="onBreadcrumbClick(v)"> <SvgIcon :name="v.meta.icon" class="layout-navbars-breadcrumb-iconfont" v-if="themeConfig.isBreadcrumbIcon" />{{ $t(v.meta.title) }} </a>
 				</el-breadcrumb-item>
 			</transition-group>
 		</el-breadcrumb>
@@ -77,7 +70,7 @@ const getBreadcrumbList = (arr: RouteItems) => {
 		state.routeSplit.forEach((v: string, k: number, arrs: string[]) => {
 			if (state.routeSplitFirst === item.path) {
 				state.routeSplitFirst += `/${arrs[state.routeSplitIndex]}`;
-				!state.breadcrumbList.find(a => a.path === item.path) && state.breadcrumbList.push(item);
+				!state.breadcrumbList.find((a) => a.path === item.path) && state.breadcrumbList.push(item);
 				state.routeSplitIndex++;
 				if (item.children) getBreadcrumbList(item.children);
 			}
@@ -94,8 +87,7 @@ const initRouteSplit = (toRoute: RouteLocationNormalized) => {
 	state.routeSplitIndex = 1;
 	getBreadcrumbList(routesList.value);
 	if (toRoute.name === 'home' || (toRoute.name === 'notFound' && state.breadcrumbList.length > 1)) state.breadcrumbList.shift();
-	if (state.breadcrumbList.length > 0)
-		state.breadcrumbList[state.breadcrumbList.length - 1].meta.tagsViewName = other.setTagsViewNameI18n(<RouteToFrom>route);
+	if (state.breadcrumbList.length > 0) state.breadcrumbList[state.breadcrumbList.length - 1].meta.tagsViewName = other.setTagsViewNameI18n(<RouteToFrom>route);
 };
 // 页面加载时
 onMounted(() => {
