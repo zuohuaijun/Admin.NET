@@ -21,10 +21,18 @@ const layouts: any = {
 const storesThemeConfig = useThemeConfig();
 const { themeConfig } = storeToRefs(storesThemeConfig);
 
+// 20240117 最大窗体宽度
+let maxClientWidth = document.body.clientWidth;
+
 // 窗口大小改变时(适配移动端)
 const onLayoutResize = () => {
 	if (!Local.get('oldLayout')) Local.set('oldLayout', themeConfig.value.layout);
 	const clientWidth = document.body.clientWidth;
+
+	// 20240117 最大窗体宽度 > 当前宽度，不触发 layoutMobileResize 事件
+	if (maxClientWidth > clientWidth) return;
+	maxClientWidth = clientWidth;
+
 	if (clientWidth < 1000) {
 		themeConfig.value.isCollapse = false;
 		mittBus.emit('layoutMobileResize', {
