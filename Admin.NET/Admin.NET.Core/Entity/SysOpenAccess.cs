@@ -14,6 +14,7 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "开放接口身份表")]
 [SysTable]
+[SugarIndex("index_{table}_A", nameof(AccessKey), OrderByType.Asc)]
 public class SysOpenAccess : EntityBase
 {
     /// <summary>

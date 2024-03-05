@@ -14,6 +14,8 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "代码生成表")]
 [SysTable]
+[SugarIndex("index_{table}_B", nameof(BusName), OrderByType.Asc)]
+[SugarIndex("index_{table}_T", nameof(TableName), OrderByType.Asc)]
 public class SysCodeGen : EntityBase
 {
     /// <summary>

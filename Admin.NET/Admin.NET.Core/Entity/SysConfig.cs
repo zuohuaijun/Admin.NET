@@ -14,6 +14,8 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统参数配置表")]
 [SysTable]
+[SugarIndex("index_{table}_N", nameof(Name), OrderByType.Asc)]
+[SugarIndex("index_{table}_C", nameof(Code), OrderByType.Asc)]
 public class SysConfig : EntityBase
 {
     /// <summary>

@@ -24,6 +24,7 @@ public abstract class EntityBaseId
 /// <summary>
 /// 框架实体基类
 /// </summary>
+[SugarIndex("index_{table}_CT", nameof(CreateTime), OrderByType.Asc)]
 public abstract class EntityBase : EntityBaseId, IDeletedFilter
 {
     /// <summary>

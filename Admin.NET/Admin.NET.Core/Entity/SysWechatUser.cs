@@ -14,6 +14,8 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统微信用户表")]
 [SysTable]
+[SugarIndex("index_{table}_N", nameof(NickName), OrderByType.Asc)]
+[SugarIndex("index_{table}_M", nameof(Mobile), OrderByType.Asc)]
 public class SysWechatUser : EntityBase
 {
     /// <summary>

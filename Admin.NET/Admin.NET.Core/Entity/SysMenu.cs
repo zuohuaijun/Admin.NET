@@ -14,6 +14,8 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统菜单表")]
 [SysTable]
+[SugarIndex("index_{table}_T", nameof(Title), OrderByType.Asc)]
+[SugarIndex("index_{table}_T2", nameof(Type), OrderByType.Asc)]
 public class SysMenu : EntityBase
 {
     /// <summary>

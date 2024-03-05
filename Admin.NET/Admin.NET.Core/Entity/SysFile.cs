@@ -14,6 +14,7 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统文件表")]
 [SysTable]
+[SugarIndex("index_{table}_F", nameof(FileName), OrderByType.Asc)]
 public class SysFile : EntityBase
 {
     /// <summary>

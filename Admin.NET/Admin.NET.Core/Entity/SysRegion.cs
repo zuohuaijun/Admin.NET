@@ -14,6 +14,8 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统行政地区表")]
 [SysTable]
+[SugarIndex("index_{table}_N", nameof(Name), OrderByType.Asc)]
+[SugarIndex("index_{table}_C", nameof(Code), OrderByType.Asc)]
 public class SysRegion : EntityBaseId
 {
     /// <summary>

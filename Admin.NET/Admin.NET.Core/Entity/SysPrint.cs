@@ -14,6 +14,7 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统打印模板表")]
 [SysTable]
+[SugarIndex("index_{table}_N", nameof(Name), OrderByType.Asc)]
 public class SysPrint : EntityTenant
 {
     /// <summary>
