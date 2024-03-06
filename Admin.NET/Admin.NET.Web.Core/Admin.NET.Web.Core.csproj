@@ -17,7 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Admin.NET.Application\Admin.NET.Application.csproj" />
+    <ProjectReference Include="..\..\..\..\公司项目\育苗系统\Code\backend\Dilon.Seedling.Application\Dilon.Seedling.Application.csproj" />
     <ProjectReference Include="..\Admin.NET.Core\Admin.NET.Core.csproj" />
   </ItemGroup>
 
