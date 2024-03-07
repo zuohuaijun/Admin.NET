@@ -22,28 +22,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.NET.Plugin.GoView", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.NET.Plugin.Elsa", "Plugins\Admin.NET.Plugin.Elsa\Admin.NET.Plugin.Elsa.csproj", "{48EFC3A6-BDC0-4D05-819A-B1FB927FA4C8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daming.WanrenDC.Application", "..\..\项目列表\万人调查\backend\Daming.WanrenDC.Application\Daming.WanrenDC.Application.csproj", "{3930D7A6-D091-4D18-B952-1672D80B01E8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dilon.Seedling.Application", "..\..\..\公司项目\育苗系统\Code\backend\Dilon.Seedling.Application\Dilon.Seedling.Application.csproj", "{EC6AEF87-E596-403D-9BA2-373C98F48674}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.NET.Plugin.Bpm", "..\..\项目列表\_工作流\Admin.NET.Plugin.Bpm\Admin.NET.Plugin.Bpm.csproj", "{87F09FD4-0614-4E31-B86E-BFF981A48D0B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daming.Guardian.Application", "..\..\项目列表\严精监护\Code\Admin.NET\Daming.Guardian.Application\Daming.Guardian.Application.csproj", "{6DE6AB8E-F54C-4DC6-A909-94C87D56099F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dilon.SmartElder.Application", "..\..\..\公司项目\智慧养老\SmartElder\Admin.NET\Dilon.SmartElder.Application\Dilon.SmartElder.Application.csproj", "{DB881D49-37BD-45A2-B149-3A970720BBB8}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Admin.NET.WinFormApp", "Admin.NET.WinFormApp\Admin.NET.WinFormApp.csproj", "{50399011-14E2-42E0-B554-2E56CD336312}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dilon.SmartCilvil.Application", "..\..\..\公司项目\智慧民政\Civil_Backend\Dilon.SmartCilvil.Application\Dilon.SmartCilvil.Application.csproj", "{43F89C63-2ACE-4FDE-96B1-0C892653CD34}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daming.Points.Application", "..\..\项目列表\积分管理\Code\Admin.NET\Daming.Points.Application\Daming.Points.Application.csproj", "{840C5F75-90F1-4EAB-81FD-D793F190DA5C}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daming.Assessment.Application", "..\..\项目列表\考核管理\code\backend\Daming.Assessment.Application\Daming.Assessment.Application.csproj", "{5DC624F9-383D-4D3A-802B-65D17509DD96}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daming.Hotel.Application", "..\..\项目列表\酒店管理\Code-Dev\Admin.NET\Daming.Hotel.Application\Daming.Hotel.Application.csproj", "{83A2EC39-25D3-44B9-8898-7D6AC9C76B6F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Daming.Ledger.Application", "..\..\项目列表\门诊台账\Code\Admin.NET\Daming.Ledger.Application\Daming.Ledger.Application.csproj", "{8227B665-9DD4-4F76-8ADD-13683F2F4C7A}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -74,50 +52,6 @@ Global
 		{48EFC3A6-BDC0-4D05-819A-B1FB927FA4C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48EFC3A6-BDC0-4D05-819A-B1FB927FA4C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{48EFC3A6-BDC0-4D05-819A-B1FB927FA4C8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3930D7A6-D091-4D18-B952-1672D80B01E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3930D7A6-D091-4D18-B952-1672D80B01E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3930D7A6-D091-4D18-B952-1672D80B01E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3930D7A6-D091-4D18-B952-1672D80B01E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EC6AEF87-E596-403D-9BA2-373C98F48674}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EC6AEF87-E596-403D-9BA2-373C98F48674}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EC6AEF87-E596-403D-9BA2-373C98F48674}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EC6AEF87-E596-403D-9BA2-373C98F48674}.Release|Any CPU.Build.0 = Release|Any CPU
-		{87F09FD4-0614-4E31-B86E-BFF981A48D0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{87F09FD4-0614-4E31-B86E-BFF981A48D0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{87F09FD4-0614-4E31-B86E-BFF981A48D0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{87F09FD4-0614-4E31-B86E-BFF981A48D0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6DE6AB8E-F54C-4DC6-A909-94C87D56099F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6DE6AB8E-F54C-4DC6-A909-94C87D56099F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6DE6AB8E-F54C-4DC6-A909-94C87D56099F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6DE6AB8E-F54C-4DC6-A909-94C87D56099F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DB881D49-37BD-45A2-B149-3A970720BBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DB881D49-37BD-45A2-B149-3A970720BBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DB881D49-37BD-45A2-B149-3A970720BBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DB881D49-37BD-45A2-B149-3A970720BBB8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{50399011-14E2-42E0-B554-2E56CD336312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{50399011-14E2-42E0-B554-2E56CD336312}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{50399011-14E2-42E0-B554-2E56CD336312}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{50399011-14E2-42E0-B554-2E56CD336312}.Release|Any CPU.Build.0 = Release|Any CPU
-		{43F89C63-2ACE-4FDE-96B1-0C892653CD34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{43F89C63-2ACE-4FDE-96B1-0C892653CD34}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{43F89C63-2ACE-4FDE-96B1-0C892653CD34}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{43F89C63-2ACE-4FDE-96B1-0C892653CD34}.Release|Any CPU.Build.0 = Release|Any CPU
-		{840C5F75-90F1-4EAB-81FD-D793F190DA5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{840C5F75-90F1-4EAB-81FD-D793F190DA5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{840C5F75-90F1-4EAB-81FD-D793F190DA5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{840C5F75-90F1-4EAB-81FD-D793F190DA5C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DC624F9-383D-4D3A-802B-65D17509DD96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DC624F9-383D-4D3A-802B-65D17509DD96}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DC624F9-383D-4D3A-802B-65D17509DD96}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DC624F9-383D-4D3A-802B-65D17509DD96}.Release|Any CPU.Build.0 = Release|Any CPU
-		{83A2EC39-25D3-44B9-8898-7D6AC9C76B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{83A2EC39-25D3-44B9-8898-7D6AC9C76B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{83A2EC39-25D3-44B9-8898-7D6AC9C76B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{83A2EC39-25D3-44B9-8898-7D6AC9C76B6F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8227B665-9DD4-4F76-8ADD-13683F2F4C7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8227B665-9DD4-4F76-8ADD-13683F2F4C7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8227B665-9DD4-4F76-8ADD-13683F2F4C7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8227B665-9DD4-4F76-8ADD-13683F2F4C7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,7 +59,6 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{C4A288D5-0FAA-4F43-9072-B97635D7871D} = {76F70D22-8D53-468E-A3B6-1704666A1D71}
 		{48EFC3A6-BDC0-4D05-819A-B1FB927FA4C8} = {76F70D22-8D53-468E-A3B6-1704666A1D71}
-		{87F09FD4-0614-4E31-B86E-BFF981A48D0B} = {76F70D22-8D53-468E-A3B6-1704666A1D71}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {5CD801D7-984A-4F5C-8FA2-211B7A5EA9F3}
