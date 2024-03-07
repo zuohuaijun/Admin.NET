@@ -1,4 +1,4 @@
-﻿@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
+@{Dictionary<string, int> definedObjects = new Dictionary<string, int>();}
 import request from '/@@/utils/request';
 enum Api {
   Add@(@Model.ClassName) = '/api/@(@Model.LowerClassName)/add',
@@ -11,7 +11,7 @@ if(@column.EffectType == "fk" && (@column.WhetherAddUpdate == "Y" || column.Quer
   @:Get@(@column.FkEntityName)@(@column.PropertyName)Dropdown = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)@(@column.PropertyName)Dropdown',
 }else if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("Get@(@column.FkEntityName)Tree")){
   @{definedObjects.Add("Get@(@column.FkEntityName)Tree", 1);}
-  @:Get@(@column.FkEntityName)Tree = '/@(@Model.LowerClassName)/@(@column.FkEntityName)Tree',
+  @:Get@(@column.FkEntityName)Tree = '/api/@(@Model.LowerClassName)/@(@column.FkEntityName)Tree',
 }else if(@column.EffectType == "Upload"){
   @:Upload@(@column.PropertyName) = '/api/@(@Model.LowerClassName)/Upload@(@column.PropertyName)',
 }
