@@ -1,4 +1,4 @@
-﻿// 大名科技（天津）有限公司版权所有  电话：18020030720  QQ：515096995
+// 大名科技（天津）有限公司版权所有  电话：18020030720  QQ：515096995
 //
 // 此源代码遵循位于源代码树根目录中的 LICENSE 文件的许可证
 
@@ -34,7 +34,7 @@ public class SysWechatService : IDynamicApiController, ITransient
     [DisplayName("生成网页授权Url")]
     public string GenAuthUrl(GenAuthUrlInput input)
     {
-        return _wechatApiClient.GenerateParameterizedUrlForConnectOAuth2Authorize(input.RedirectUrl, input.Scope, null);
+        return _wechatApiClient.GenerateParameterizedUrlForConnectOAuth2Authorize(input.RedirectUrl, input.Scope, input.State);
     }
 
     /// <summary>
