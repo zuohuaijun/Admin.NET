@@ -57,7 +57,7 @@ public class SysJobDetail : EntityBaseId
     /// 是否扫描特性触发器
     /// </summary>
     [SugarColumn(ColumnDescription = "是否扫描特性触发器", ColumnName = "annotation")]
-    public bool IncludeAnnotations { get; set; } = false;
+    public bool IncludeAnnotation { get; set; } = false;
 
     /// <summary>
     /// 额外数据
