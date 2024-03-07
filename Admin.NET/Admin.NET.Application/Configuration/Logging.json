@@ -34,7 +34,7 @@
       "JsonBehavior": "None", // 是否输出Json，默认None(OnlyJson、All)
       "JsonIndented": false, // 是否格式化Json
       "UseUtcTimestamp": false, // 时间格式UTC、LOCAL
-      "ConsoleLog": true // 是否显示控制台日志
+      "ConsoleLog": false // 是否显示控制台日志
     }
   }
 }

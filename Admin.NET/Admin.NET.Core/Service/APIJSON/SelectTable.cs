@@ -11,6 +11,7 @@ namespace Admin.NET.Core.Service;
 
 using AspectCore.Extensions.Reflection;
 using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Schema;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ public class SelectTable : ISingleton
     private readonly ISqlSugarClient db;
 
     /// <summary>
-    ///
+    /// 
     /// </summary>
     /// <param name="identityService"></param>
     /// <param name="tableMapper"></param>
@@ -39,71 +40,38 @@ public class SelectTable : ISingleton
         _tableMapper = tableMapper;
         db = dbClient;
     }
-
     /// <summary>
     /// 判断表名是否正确
     /// </summary>
     /// <param name="table"></param>
     /// <returns></returns>
-    public bool IsTable(string table)
+    public virtual bool IsTable(string table)
     {
         return db.DbMaintenance.GetTableInfoList().Any(it => it.Name.Equals(table, StringComparison.CurrentCultureIgnoreCase));
     }
-
     /// <summary>
     /// 判断表的列名是否正确
     /// </summary>
     /// <param name="table"></param>
     /// <param name="col"></param>
     /// <returns></returns>
-    public bool IsCol(string table, string col)
+    public virtual bool IsCol(string table, string col)
     {
         return db.DbMaintenance.GetColumnInfosByTableName(table).Any(it => it.DbColumnName.Equals(col, StringComparison.CurrentCultureIgnoreCase));
     }
 
     /// <summary>
-    /// 动态调用方法
-    /// </summary>
-    /// <param name="funcname"></param>
-    /// <param name="param"></param>
-    /// <param name="types"></param>
-    /// <returns></returns>
-    public object ExecFunc(string funcname, object[] param, Type[] types)
-    {
-        var method = typeof(FuncList).GetMethod(funcname);
-
-        var reflector = method.GetReflector();
-        var result = reflector.Invoke(new FuncList(), param);
-        return result;
-    }
-
-    private string ToSql(string subtable, int page, int count, int query, string json)
-    {
-        JObject values = JObject.Parse(json);
-        page = values["page"] == null ? page : int.Parse(values["page"].ToString());
-        count = values["count"] == null ? count : int.Parse(values["count"].ToString());
-        query = values["query"] == null ? query : int.Parse(values["query"].ToString());
-        values.Remove("page");
-        values.Remove("count");
-        subtable = _tableMapper.GetTableName(subtable);
-        var tb = sugarQueryable(subtable, "*", values, null);
-        var xx = tb.Skip((page - 1) * count).Take(10).ToSql();
-        return xx.Key;
-    }
-
-    /// <summary>
-    ///
+    /// 
     /// </summary>
     /// <param name="subtable"></param>
     /// <param name="page"></param>
     /// <param name="count"></param>
-    /// <param name="query"></param>
     /// <param name="json"></param>
     /// <param name="dd"></param>
     /// <returns></returns>
-    /// <exception cref="Exception"></exception>
-    public Tuple<dynamic, int> GetTableData(string subtable, int page, int count, int query, string json, JObject dd)
+    public virtual Tuple<dynamic, int> GetTableData(string subtable, int page, int count, int query, string json, JObject dd)
     {
+
         var role = _identitySvc.GetSelectRole(subtable);
         if (!role.Item1)//没有权限返回异常
         {
@@ -131,6 +99,7 @@ public class SelectTable : ISingleton
                 else
                     //2-以上全部
                     return new Tuple<dynamic, int>(tb.ToPageList(page, count, ref total), total);
+
             }
             else
             {
@@ -143,66 +112,16 @@ public class SelectTable : ISingleton
     }
 
     /// <summary>
-    ///
-    /// </summary>
-    /// <param name="subtable"></param>
-    /// <param name="json"></param>
-    /// <param name="dd"></param>
-    /// <returns></returns>
-    public dynamic GetFirstData(string subtable, string json, JObject dd)
-    {
-        var role = _identitySvc.GetSelectRole(subtable);
-        if (!role.Item1)//没有权限返回异常
-        {
-            throw new Exception(role.Item2);
-        }
-        string selectrole = role.Item2;
-        subtable = _tableMapper.GetTableName(subtable);
-        JObject values = JObject.Parse(json);
-        values.Remove("page");
-        values.Remove("count");
-        var tb = sugarQueryable(subtable, selectrole, values, dd).First();
-        var dic = (IDictionary<string, object>)tb;
-        foreach (var item in values.Properties().Where(it => it.Name.EndsWith("()")))
-        {
-            if (!item.Value.IsNullOrEmpty())
-            {
-                string func = item.Value.ToString().Substring(0, item.Value.ToString().IndexOf("("));
-                string param = item.Value.ToString().Substring(item.Value.ToString().IndexOf("(") + 1).TrimEnd(')');
-                var types = new List<Type>();
-                var paramss = new List<object>();
-                foreach (var va in param.Split(','))
-                {
-                    types.Add(typeof(object));
-                    paramss.Add(tb.Where(it => it.Key.Equals(va)).Select(i => i.Value));
-                }
-                dic[item.Name] = ExecFunc(func, paramss.ToArray(), types.ToArray());
-            }
-        }
-
-        return tb;
-    }
-
-    /// <summary>
     /// 解析并查询
     /// </summary>
-    /// <param name="queryJson"></param>
+    /// <param name="query"></param>
     /// <returns></returns>
-    public JObject Query(string queryJson)
+    public virtual JObject Query(string queryJson)
     {
-        JObject resultObj = new();
+        JObject resultObj = new JObject();
 
-        try
-        {
-            JObject queryJobj = JObject.Parse(queryJson);
-            resultObj = Query(queryJobj);
-        }
-        catch (Exception ex)
-        {
-            resultObj.Add("code", "500");
-            resultObj.Add("msg", ex.Message);
-        }
-
+        JObject queryJobj = JObject.Parse(queryJson);
+        resultObj = Query(queryJobj);
         return resultObj;
     }
 
@@ -212,37 +131,29 @@ public class SelectTable : ISingleton
     /// <param name="queryObj"></param>
     /// <param name="nodeName">返回数据的节点名称  默认为 infos</param>
     /// <returns></returns>
-    public JObject QuerySingle(JObject queryObj, string nodeName = "infos")
+    public virtual JObject QuerySingle(JObject queryObj, string nodeName = "infos")
     {
-        JObject resultObj = new();
-        resultObj.Add("code", "200");
-        resultObj.Add("msg", "success");
-        try
-        {
-            int total = 0;
-            foreach (var item in queryObj)
-            {
-                string key = item.Key.Trim();
+        JObject resultObj = new JObject();
 
-                if (key.EndsWith("[]"))
-                {
-                    total = QuerySingleList(resultObj, item, nodeName);
-                }
-                else if (key.Equals("func"))
-                {
-                    ExecFunc(resultObj, item);
-                }
-                else if (key.Equals("total@"))
-                {
-                    resultObj.Add("total", total);
-                }
+        int total = 0;
+        foreach (var item in queryObj)
+        {
+            string key = item.Key.Trim();
+
+            if (key.EndsWith("[]"))
+            {
+                total = QuerySingleList(resultObj, item, nodeName);
+            }
+            else if (key.Equals("func"))
+            {
+                ExecFunc(resultObj, item);
+            }
+            else if (key.Equals("total@")|| key.Equals("total"))
+            {
+                resultObj.Add("total", total);
             }
         }
-        catch (Exception ex)
-        {
-            resultObj["code"] = "500";
-            resultObj["msg"] = ex.Message;
-        }
+
         return resultObj;
     }
 
@@ -251,7 +162,7 @@ public class SelectTable : ISingleton
     /// </summary>
     /// <param name="queryObj"></param>
     /// <returns></returns>
-    public string ToSql(JObject queryObj)
+    public virtual string ToSql(JObject queryObj)
     {
         foreach (var item in queryObj)
         {
@@ -268,52 +179,109 @@ public class SelectTable : ISingleton
     /// <summary>
     /// 解析并查询
     /// </summary>
-    /// <param name="queryObj"></param>
+    /// <param name="query"></param>
     /// <returns></returns>
-    public JObject Query(JObject queryObj)
+    public virtual JObject Query(JObject queryObj)
     {
-        JObject resultObj = new();
-        resultObj.Add("code", "200");
-        resultObj.Add("msg", "success");
-        try
-        {
-            int total = 0;
-            foreach (var item in queryObj)
-            {
-                string key = item.Key.Trim();
+        JObject resultObj = new JObject();
 
-                if (key.Equals("[]"))
+        int total = 0;
+        foreach (var item in queryObj)
+        {
+            string key = item.Key.Trim();
+
+            if (key.Equals("[]"))
+            {
+                total = QueryMoreList(resultObj, item);
+            }
+            else if (key.EndsWith("[]"))
+            {
+                total = QuerySingleList(resultObj, item);
+            }
+            else if (key.Equals("func"))
+            {
+                ExecFunc(resultObj, item);
+            }
+            else if (key.Equals("total@") || key.Equals("total"))
+            {
+                resultObj.Add("total", total);
+            }
+            else
+            {
+                var template = GetFirstData(key, item.Value.ToString(), resultObj);
+                if (template != null)
                 {
-                    total = QueryMoreList(resultObj, item);
-                }
-                else if (key.EndsWith("[]"))
-                {
-                    total = QuerySingleList(resultObj, item);
-                }
-                else if (key.Equals("func"))
-                {
-                    ExecFunc(resultObj, item);
-                }
-                else if (key.Equals("total@"))
-                {
-                    resultObj.Add("total", total);
-                }
-                else
-                {
-                    var template = GetFirstData(key, item.Value.ToString(), resultObj);
-                    if (template != null)
-                    {
-                        resultObj.Add(key, JToken.FromObject(template));
-                    }
+                    resultObj.Add(key, JToken.FromObject(template));
                 }
             }
         }
-        catch (Exception ex)
-        {
-            resultObj["code"] = "500";
-            resultObj["msg"] = ex.Message;
-        }
+
         return resultObj;
+    }
+
+
+
+    //动态调用方法
+    private object ExecFunc(string funcname, object[] param, Type[] types)
+    {
+        var method = typeof(FuncList).GetMethod(funcname);
+
+        var reflector = method.GetReflector();
+        var result = reflector.Invoke(new FuncList(), param);
+        return result;
+    }
+
+    //生成sql
+    private string ToSql(string subtable, int page, int count, int query, string json)
+    {
+        JObject values = JObject.Parse(json);
+        page = values["page"] == null ? page : int.Parse(values["page"].ToString());
+        count = values["count"] == null ? count : int.Parse(values["count"].ToString());
+        query = values["query"] == null ? query : int.Parse(values["query"].ToString());
+        values.Remove("page");
+        values.Remove("count");
+        subtable = _tableMapper.GetTableName(subtable);
+        var tb = sugarQueryable(subtable, "*", values, null);
+        var sqlObj = tb.Skip((page - 1) * count).Take(10).ToSql();
+        return sqlObj.Key;
+    }
+
+    //
+    private dynamic GetFirstData(string subtable, string json, JObject job)
+    {
+
+        var role = _identitySvc.GetSelectRole(subtable);
+        if (!role.Item1)//没有权限返回异常
+        {
+            throw new Exception(role.Item2);
+        }
+        string selectrole = role.Item2;
+        subtable = _tableMapper.GetTableName(subtable);
+        JObject values = JObject.Parse(json);
+        values.Remove("page");
+        values.Remove("count");
+        //todo *
+        var tb = sugarQueryable(subtable, selectrole, values, job).First();
+        var dic = (IDictionary<string, object>)tb;
+        foreach (var item in values.Properties().Where(it => it.Name.EndsWith("()")))
+        {
+            if (item.Value.HasValue())
+            {
+                string func = item.Value.ToString().Substring(0, item.Value.ToString().IndexOf("("));
+                string param = item.Value.ToString().Substring(item.Value.ToString().IndexOf("(") + 1).TrimEnd(')');
+                var types = new List<Type>();
+                var paramss = new List<object>();
+                foreach (var va in param.Split(','))
+                {
+                    types.Add(typeof(object));
+                    paramss.Add(tb.Where(it => it.Key.Equals(va)).Select(i => i.Value));
+                }
+                dic[item.Name] = ExecFunc(func, paramss.ToArray(), types.ToArray());
+            }
+        }
+
+        return tb;
+
     }
 
     //单表查询,返回的数据在指定的NodeName节点
@@ -351,6 +319,7 @@ public class SelectTable : ISingleton
         return total;
     }
 
+    //生成sql
     private string ToSql(KeyValuePair<string, JToken> item)
     {
         string key = item.Key.Trim();
@@ -387,7 +356,7 @@ public class SelectTable : ISingleton
         var query = jb["query"] == null ? 0 : int.Parse(jb["query"].ToString());
         jb.Remove("page"); jb.Remove("count"); jb.Remove("query");
         var htt = new JArray();
-        List<string> tables = new(), where = new();
+        List<string> tables = new List<string>(), where = new List<string>();
         foreach (var t in jb)
         {
             tables.Add(t.Key); where.Add(t.Value.ToString());
@@ -428,11 +397,13 @@ public class SelectTable : ISingleton
                         if (ddf != null)
                         {
                             zht.Add(subtable, JToken.FromObject(ddf));
+
                         }
                     }
                 }
                 htt.Add(zht);
             }
+
         }
         if (query != 1)
         {
@@ -442,6 +413,7 @@ public class SelectTable : ISingleton
         return total;
     }
 
+    //执行方法
     private void ExecFunc(JObject resultObj, KeyValuePair<string, JToken> item)
     {
         JObject jb = JObject.Parse(item.Value.ToString());
@@ -462,6 +434,7 @@ public class SelectTable : ISingleton
         resultObj.Add("func", dataJObj);
     }
 
+    //
     private ISugarQueryable<ExpandoObject> sugarQueryable(string subtable, string selectrole, JObject values, JObject dd)
     {
         if (!IsTable(subtable))
@@ -470,7 +443,8 @@ public class SelectTable : ISingleton
         }
         var tb = db.Queryable(subtable, "tb");
 
-        if (!values["@column"].IsNullOrEmpty())
+
+        if (values["@column"].HasValue())
         {
             ProcessColumn(subtable, selectrole, values, tb);
         }
@@ -479,8 +453,8 @@ public class SelectTable : ISingleton
             tb.Select(selectrole);
         }
 
-        List<IConditionalModel> conModels = new();
-        if (!values["identity"].IsNullOrEmpty())
+        List<IConditionalModel> conModels = new List<IConditionalModel>();
+        if (values["identity"].HasValue())
         {
             conModels.Add(new ConditionalModel() { FieldName = values["identity"].ToString(), ConditionalType = ConditionalType.Equal, FieldValue = _identitySvc.GetUserIdentity() });
         }
@@ -488,7 +462,10 @@ public class SelectTable : ISingleton
         {
             string vakey = va.Key.Trim();
             string fieldValue = va.Value.ToString();
-
+            if (vakey.StartsWith("@"))
+            {
+                continue;
+            }
             if (vakey.EndsWith("$"))//模糊查询
             {
                 FuzzyQuery(subtable, conModels, va);
@@ -497,7 +474,7 @@ public class SelectTable : ISingleton
             {
                 ConditionQuery(subtable, conModels, va);
             }
-            else if (vakey.EndsWith("%"))//between查询
+            else if (vakey.EndsWith("%"))//bwtween查询
             {
                 ConditionBetween(subtable, conModels, va);
             }
@@ -515,6 +492,11 @@ public class SelectTable : ISingleton
                 }
 
                 conModels.Add(new ConditionalModel() { FieldName = vakey.TrimEnd('@'), ConditionalType = ConditionalType.Equal, FieldValue = value });
+
+            }
+            else if (vakey.EndsWith("~"))//不等于
+            {
+                conModels.Add(new ConditionalModel() { FieldName = vakey.TrimEnd('~'), ConditionalType = ConditionalType.NoEqual, FieldValue = fieldValue });
             }
             else if (IsCol(subtable, vakey)) //其他where条件
             {
@@ -527,7 +509,7 @@ public class SelectTable : ISingleton
         ProcessOrder(subtable, values, tb);
 
         //分组
-        ProcessGroup(subtable, values, tb);
+        PrccessGroup(subtable, values, tb);
 
         //Having
         ProcessHaving(values, tb);
@@ -558,10 +540,16 @@ public class SelectTable : ISingleton
                     {
                         throw new Exception("别名不能超过20个字符");
                     }
-                    str.Append(ziduan[0] + " as " + ReplaceSQLChar(ziduan[1]) + ",");
+                    str.Append(ziduan[0] + " as `" + ReplaceSQLChar(ziduan[1]) + "`,");
+                }
+                //不对函数加``,解决sum(*),Count(1)等不能使用的问题
+                else if (ziduan[0].Contains('('))
+                {
+                    str.Append( ziduan[0]+ ",");
                 }
                 else
-                    str.Append(ziduan[0] + ",");
+                    str.Append("`" + ziduan[0] + "`" + ",");
+
             }
         }
         if (string.IsNullOrEmpty(str.ToString()))
@@ -575,10 +563,10 @@ public class SelectTable : ISingleton
     // SQL函数条件，一般和 @group一起用，函数一般在 @column里声明
     private void ProcessHaving(JObject values, ISugarQueryable<ExpandoObject> tb)
     {
-        if (!values["@having"].IsNullOrEmpty())
+        if (values["@having"].HasValue())
         {
-            List<IConditionalModel> hw = new();
-            List<string> havingItems = new();
+            List<IConditionalModel> hw = new List<IConditionalModel>();
+            List<string> havingItems = new List<string>();
             if (values["@having"].HasValues)
             {
                 havingItems = values["@having"].Select(p => p.ToString()).ToList();
@@ -599,17 +587,18 @@ public class SelectTable : ISingleton
                 }
                 else if (and.Contains("<="))
                 {
+
                     model.FieldName = and.Split(new string[] { "<=" }, StringSplitOptions.RemoveEmptyEntries)[0];
                     model.ConditionalType = ConditionalType.LessThanOrEqual;
                     model.FieldValue = and.Split(new string[] { "<=" }, StringSplitOptions.RemoveEmptyEntries)[1];
                 }
-                else if (and.Contains('>'))
+                else if (and.Contains(">"))
                 {
                     model.FieldName = and.Split(new string[] { ">" }, StringSplitOptions.RemoveEmptyEntries)[0];
                     model.ConditionalType = ConditionalType.GreaterThan;
                     model.FieldValue = and.Split(new string[] { ">" }, StringSplitOptions.RemoveEmptyEntries)[1];
                 }
-                else if (and.Contains('<'))
+                else if (and.Contains("<"))
                 {
                     model.FieldName = and.Split(new string[] { "<" }, StringSplitOptions.RemoveEmptyEntries)[0];
                     model.ConditionalType = ConditionalType.LessThan;
@@ -621,7 +610,7 @@ public class SelectTable : ISingleton
                     model.ConditionalType = ConditionalType.NoEqual;
                     model.FieldValue = and.Split(new string[] { "!=" }, StringSplitOptions.RemoveEmptyEntries)[1];
                 }
-                else if (and.Contains('='))
+                else if (and.Contains("="))
                 {
                     model.FieldName = and.Split(new string[] { "=" }, StringSplitOptions.RemoveEmptyEntries)[0];
                     model.ConditionalType = ConditionalType.Equal;
@@ -630,6 +619,8 @@ public class SelectTable : ISingleton
                 hw.Add(model);
             }
 
+            //var d = db.Context.Utilities.ConditionalModelToSql(hw);
+            //tb.Having(d.Key, d.Value);
             tb.Having(string.Join(",", havingItems));
         }
     }
@@ -637,9 +628,9 @@ public class SelectTable : ISingleton
     //"@group":"column0,column1..."，分组方式。如果 @column里声明了Table的id，则id也必须在 @group中声明；其它情况下必须满足至少一个条件:
     //1.分组的key在 @column里声明
     //2.Table主键在 @group中声明
-    private void ProcessGroup(string subtable, JObject values, ISugarQueryable<ExpandoObject> tb)
+    private void PrccessGroup(string subtable, JObject values, ISugarQueryable<ExpandoObject> tb)
     {
-        if (!values["@group"].IsNullOrEmpty())
+        if (values["@group"].HasValue())
         {
             var str = new System.Text.StringBuilder(100);
             foreach (var and in values["@group"].ToString().Split(','))
@@ -656,7 +647,7 @@ public class SelectTable : ISingleton
     //处理排序 "@order":"name-,id"查询按 name降序、id默认顺序 排序的User数组
     private void ProcessOrder(string subtable, JObject values, ISugarQueryable<ExpandoObject> tb)
     {
-        if (!values["@order"].IsNullOrEmpty())
+        if (values["@order"].HasValue())
         {
             foreach (var item in values["@order"].ToString().Split(','))
             {
@@ -681,10 +672,10 @@ public class SelectTable : ISingleton
     }
 
     //条件查询 "key{}":"条件0,条件1..."，条件为任意SQL比较表达式字符串，非Number类型必须用''包含条件的值，如'a'
-    //&, |, ! 逻辑运算符，对应数据库 SQL 中的 AND, OR, NOT。
-    //   横或纵与：同一字段的值内条件默认 | 或连接，不同字段的条件默认 & 与连接。
-    //   ① & 可用于"key&{}":"条件"等
-    //   ② | 可用于"key|{}":"条件", "key|{}":[] 等，一般可省略
+    //&, |, ! 逻辑运算符，对应数据库 SQL 中的 AND, OR, NOT。 
+    //   横或纵与：同一字段的值内条件默认 | 或连接，不同字段的条件默认 & 与连接。 
+    //   ① & 可用于"key&{}":"条件"等 
+    //   ② | 可用于"key|{}":"条件", "key|{}":[] 等，一般可省略 
     //   ③ ! 可单独使用，如"key!":Object，也可像&,|一样配合其他功能符使用
     private void ConditionQuery(string subtable, List<IConditionalModel> conModels, KeyValuePair<string, JToken> va)
     {
@@ -692,13 +683,19 @@ public class SelectTable : ISingleton
         string field = vakey.TrimEnd("{}".ToCharArray());
         if (va.Value.HasValues)
         {
-            List<string> inValues = new();
+            List<string> inValues = new List<string>();
             foreach (var cm in va.Value)
             {
                 inValues.Add(cm.ToString());
             }
 
-            conModels.Add(new ConditionalModel() { FieldName = field, ConditionalType = field.EndsWith("!") ? ConditionalType.NotIn : ConditionalType.In, FieldValue = string.Join(",", inValues) });
+            conModels.Add(new ConditionalModel()
+            {
+                FieldName = field.TrimEnd("!".ToCharArray()),
+                ConditionalType = field.EndsWith("!") ? ConditionalType.NotIn : ConditionalType.In,
+                FieldValue = string.Join(",", inValues)
+            });
+
         }
         else
         {
@@ -714,6 +711,7 @@ public class SelectTable : ISingleton
                 }
                 else if (and.StartsWith("<="))
                 {
+
                     model.ConditionalType = ConditionalType.LessThanOrEqual;
                     model.FieldValue = and.TrimStart("<=".ToCharArray());
                 }
@@ -738,7 +736,7 @@ public class SelectTable : ISingleton
     {
         string vakey = va.Key.Trim();
         string field = vakey.TrimEnd("%".ToCharArray());
-        List<string> inValues = new();
+        List<string> inValues = new List<string>();
 
         if (va.Value.HasValues)
         {
@@ -803,7 +801,8 @@ public class SelectTable : ISingleton
         }
     }
 
-    public static string ReplaceSQLChar(string str)
+    //处理sql注入
+    private string ReplaceSQLChar(string str)
     {
         if (str == String.Empty)
             return String.Empty;

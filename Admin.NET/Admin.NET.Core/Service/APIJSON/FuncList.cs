@@ -7,6 +7,11 @@
 // 软件按“原样”提供，不提供任何形式的明示或暗示的保证，包括但不限于对适销性、适用性和非侵权的保证。
 // 在任何情况下，作者或版权持有人均不对任何索赔、损害或其他责任负责，无论是因合同、侵权或其他方式引起的，与软件或其使用或其他交易有关。
 
+using NewLife.Reflection;
+using Newtonsoft.Json.Linq;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using Org.BouncyCastle.Asn1.X509.Qualified;
+
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -45,5 +50,74 @@ public class FuncList
     public bool IsContain(object a, object b)
     {
         return a.ToString().Split(',').Contains(b);
+    }
+    /// <summary>
+    /// 获取JToken的数据类型，用于SugarParameter里的类型转换
+    /// </summary>
+    /// <param name="jToken"></param>
+    /// <returns></returns>
+    public static Type GetTypeFromJToken(JToken jToken)
+    {
+        JTokenType jTokenType = jToken.Type;
+        return jTokenType switch
+        {
+            JTokenType.Integer => typeof(long),
+            JTokenType.Float => typeof(decimal),
+            JTokenType.Boolean => typeof(bool),
+            JTokenType.Date => typeof(DateTime),
+            JTokenType.Bytes => typeof(byte),
+            JTokenType.Guid => typeof(Guid),
+            JTokenType.TimeSpan => typeof(TimeSpan),
+            _ => jToken.GetType(),
+        };
+    }
+
+    /// <summary>
+    /// 根据jtoken的实际类型来转换SugarParameter，避免全转成字符串
+    /// </summary>
+    /// <param name="jToken"></param>
+    /// <returns></returns>
+    public static dynamic TransJObjectToSugarPara(JToken jToken)
+    {
+        JTokenType jTokenType = jToken.Type;
+        return jTokenType switch
+        {
+            JTokenType.Integer => jToken.ToObject(typeof(long)),
+            JTokenType.Float => jToken.ToObject(typeof(decimal)),
+            JTokenType.Boolean => jToken.ToObject(typeof(bool)),
+            JTokenType.Date => jToken.ToObject(typeof(DateTime)),
+            JTokenType.Bytes => jToken.ToObject(typeof(byte)),
+            JTokenType.Guid => jToken.ToObject(typeof(Guid)),
+            JTokenType.TimeSpan => jToken.ToObject(typeof(TimeSpan)),
+            JTokenType.Array => TransJArrayToSugarPara(jToken),
+            _ => jToken
+        };
+    }
+
+    /// <summary>
+    /// 根据jArray的实际类型来转换SugarParameter，避免全转成字符串
+    /// </summary>
+    /// <param name="jToken"></param>
+    /// <returns></returns>
+    public static dynamic TransJArrayToSugarPara(JToken jToken)
+    {
+        if (jToken is not JArray) return jToken;
+        if (jToken.Any())
+        {
+            JTokenType jTokenType = jToken.First().Type;
+            return jTokenType switch
+            {
+                JTokenType.Integer => jToken.ToObject<long[]>(),
+                JTokenType.Float => jToken.ToObject<decimal[]>(),
+                JTokenType.Boolean => jToken.ToObject<bool[]>(),
+                JTokenType.Date => jToken.ToObject<DateTime[]>(),
+                JTokenType.Bytes => jToken.ToObject<byte[]>(),
+                JTokenType.Guid => jToken.ToObject<Guid[]>(),
+                JTokenType.TimeSpan => jToken.ToObject<TimeSpan[]>(),
+                _ => jToken.ToArray()
+            } ;
+        }
+        else return (JArray)jToken;
+
     }
 }
