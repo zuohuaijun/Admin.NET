@@ -442,4 +442,74 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             Directory.CreateDirectory(backendPath);
         return Path.Combine(backendPath, input.SeedDataName + ".cs");
     }
+
+    /// <summary>
+    /// 备份数据库（PostgreSQL）
+    /// </summary>
+    /// <returns></returns>
+    [HttpPost, NonUnify]
+    public async Task<IActionResult> BackupDatabase()
+    {
+        var dbBackupOpt = App.GetConfig<DbBackupOptions>("DbBackup", true);
+        if (dbBackupOpt == null || string.IsNullOrWhiteSpace(dbBackupOpt.Host) || string.IsNullOrWhiteSpace(dbBackupOpt.User) || string.IsNullOrWhiteSpace(dbBackupOpt.Password) || string.IsNullOrWhiteSpace(dbBackupOpt.Database))
+            throw Oops.Oh("PostgreSQL数据库配置错误");
+
+        var backupDirectory = Path.Combine(Directory.GetCurrentDirectory(), "backups");
+
+        // 确保备份目录存在
+        Directory.CreateDirectory(backupDirectory);
+
+        // 构建备份文件名
+        string backupFileName = $"backup_{DateTime.Now:yyyyMMddHHmmss}.sql";
+        string backupFilePath = Path.Combine(backupDirectory, backupFileName);
+
+        // 启动pg_dump进程进行备份
+        // 设置密码：export PGPASSWORD='xxxxxx'
+        var bash = $"-U {dbBackupOpt.User} -h {dbBackupOpt.Host} -p {dbBackupOpt.Port} -E UTF8 -F c -b -v -f {backupFilePath} {dbBackupOpt.Database}";
+        var startInfo = new ProcessStartInfo
+        {
+            FileName = "pg_dump",
+            Arguments = bash,
+            UseShellExecute = false,
+            RedirectStandardOutput = true,
+            RedirectStandardError = true,
+            CreateNoWindow = true,
+            EnvironmentVariables =
+            {
+                ["PGPASSWORD"] = dbBackupOpt.Password
+            }
+        };
+
+        //_logger.LogInformation("备份数据库：pg_dump " + bash);
+
+        //try
+        //{
+        using (var backupProcess = Process.Start(startInfo))
+        {
+            await backupProcess.WaitForExitAsync();
+
+            //var output = await backupProcess.StandardOutput.ReadToEndAsync();
+            //var error = await backupProcess.StandardError.ReadToEndAsync();
+
+            // 检查备份是否成功
+            if (backupProcess.ExitCode != 0)
+            {
+                throw Oops.Oh($"备份失败：ExitCode({backupProcess.ExitCode})");
+            }
+        }
+
+        //    _logger.LogInformation($"备份成功：{backupFilePath}");
+        //}
+        //catch (Exception ex)
+        //{
+        //    _logger.LogError(ex, $"备份失败：");
+        //    throw;
+        //}
+
+        // 若备份成功则提供下载链接
+        return new FileStreamResult(new FileStream(backupFilePath, FileMode.Open), "application/octet-stream")
+        {
+            FileDownloadName = backupFileName
+        };
+    }
 }

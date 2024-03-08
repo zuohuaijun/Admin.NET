@@ -72,5 +72,13 @@
       //  }
       //}
     ]
+  },
+  // 数据库备份（PostgreSQL）
+  "DbBackup": {
+    "Host": "127.0.0.1",
+    "Port": 5432,
+    "Database": "Admin.NET",
+    "User": "postgres",
+    "Password": "123456"
   }
 }
