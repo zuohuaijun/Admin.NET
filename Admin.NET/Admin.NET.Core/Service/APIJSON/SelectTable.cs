@@ -506,7 +506,14 @@ public class SelectTable : ISingleton
             }
             else if (IsCol(subtable, vakey)) //其他where条件
             {
-                conModels.Add(new ConditionalModel() { FieldName = vakey, ConditionalType = ConditionalType.Equal, FieldValue = fieldValue });
+                if (string.IsNullOrEmpty(fieldValue))
+                {
+                    conModels.Add(new ConditionalModel() { FieldName = vakey, ConditionalType = ConditionalType.IsNullOrEmpty });//增加null、""匹配
+                }
+                else
+                {
+                    conModels.Add(new ConditionalModel() { FieldName = vakey, ConditionalType = ConditionalType.Equal, FieldValue = fieldValue });
+                }
             }
         }
         tb.Where(conModels);
@@ -638,15 +645,19 @@ public class SelectTable : ISingleton
     {
         if (values["@group"].HasValue())
         {
-            var str = new System.Text.StringBuilder(100);
-            foreach (var and in values["@group"].ToString().Split(','))
+            List<GroupByModel> groupList = new();//多库兼容写法
+            foreach (var col in values["@group"].ToString().Split(','))
             {
-                if (IsCol(subtable, and))
+                if (IsCol(subtable, col))
                 {
-                    str.Append(and + ",");
+                    //str.Append(and + ",");
+                    groupList.Add(new GroupByModel() { FieldName = col });
                 }
             }
-            tb.GroupBy(str.ToString().TrimEnd(','));
+            if (groupList.Any())
+            {
+                tb.GroupBy(groupList);
+            }
         }
     }
 
