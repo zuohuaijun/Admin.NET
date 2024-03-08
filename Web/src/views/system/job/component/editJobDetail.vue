@@ -24,17 +24,17 @@
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 								<el-form-item label="创建类型">
 									<el-radio-group v-model="state.ruleForm.createType" :disabled="isEdit">
-										<el-radio :label="JobCreateTypeEnum.NUMBER_0" v-show="isEdit">内置</el-radio>
-										<el-radio :label="JobCreateTypeEnum.NUMBER_1">脚本</el-radio>
-										<el-radio :label="JobCreateTypeEnum.NUMBER_2">Http请求</el-radio>
+										<el-radio :value="JobCreateTypeEnum.NUMBER_0" v-show="isEdit">内置</el-radio>
+										<el-radio :value="JobCreateTypeEnum.NUMBER_1">脚本</el-radio>
+										<el-radio :value="JobCreateTypeEnum.NUMBER_2">Http请求</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-col>
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="执行方式">
 									<el-radio-group v-model="state.ruleForm.concurrent">
-										<el-radio :label="true">并行</el-radio>
-										<el-radio :label="false">串行</el-radio>
+										<el-radio :value="true">并行</el-radio>
+										<el-radio :value="false">串行</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-col>
@@ -49,8 +49,8 @@
 										</div>
 									</template>
 									<el-radio-group v-model="state.ruleForm.includeAnnotations">
-										<el-radio :label="true">是</el-radio>
-										<el-radio :label="false">否</el-radio>
+										<el-radio :value="true">是</el-radio>
+										<el-radio :value="false">否</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-col>
@@ -72,10 +72,10 @@
 							<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20" v-if="isHttpCreateType">
 								<el-form-item label="请求方法">
 									<el-radio-group v-model="state.httpJobMessage.httpMethod">
-										<el-radio :label="httpMethodDef.get">Get</el-radio>
-										<el-radio :label="httpMethodDef.post">Post</el-radio>
-										<el-radio :label="httpMethodDef.put">Put</el-radio>
-										<el-radio :label="httpMethodDef.delete">Delete</el-radio>
+										<el-radio :value="httpMethodDef.get">Get</el-radio>
+										<el-radio :value="httpMethodDef.post">Post</el-radio>
+										<el-radio :value="httpMethodDef.put">Put</el-radio>
+										<el-radio :value="httpMethodDef.delete">Delete</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-col>

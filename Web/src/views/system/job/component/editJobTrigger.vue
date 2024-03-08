@@ -84,16 +84,16 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="立即启动">
 							<el-radio-group v-model="state.ruleForm.startNow">
-								<el-radio :label="true">是</el-radio>
-								<el-radio :label="false">否</el-radio>
+								<el-radio :value="true">是</el-radio>
+								<el-radio :value="false">否</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="启动时执行一次">
 							<el-radio-group v-model="state.ruleForm.runOnStart">
-								<el-radio :label="true">是</el-radio>
-								<el-radio :label="false">否</el-radio>
+								<el-radio :value="true">是</el-radio>
+								<el-radio :value="false">否</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
@@ -108,8 +108,8 @@
 								</div>
 							</template>
 							<el-radio-group v-model="state.ruleForm.resetOnlyOnce">
-								<el-radio :label="true">是</el-radio>
-								<el-radio :label="false">否</el-radio>
+								<el-radio :value="true">是</el-radio>
+								<el-radio :value="false">否</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
