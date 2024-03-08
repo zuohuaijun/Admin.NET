@@ -310,7 +310,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpPost("/swagger/checkUrl"), NonUnify]
+    [HttpPost("/api/swagger/checkUrl"), NonUnify]
     [DisplayName("Swagger登录检查")]
     public int SwaggerCheckUrl()
     {
@@ -323,7 +323,7 @@ public class SysAuthService : IDynamicApiController, ITransient
     /// <param name="auth"></param>
     /// <returns></returns>
     [AllowAnonymous]
-    [HttpPost("/swagger/submitUrl"), NonUnify]
+    [HttpPost("/api/swagger/submitUrl"), NonUnify]
     [DisplayName("Swagger登录提交")]
     public async Task<int> SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
     {

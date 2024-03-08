@@ -53,15 +53,7 @@
 								@change="val.change"
 								class="w100"
 							/>
-							<el-select
-								v-model="model[val.prop]"
-								v-bind="val.comProps"
-								:clearable="!val.required"
-								:placeholder="val.placeholder"
-								v-else-if="val.type === 'select'"
-								@change="val.change"
-								class="w100"
-							>
+							<el-select v-model="model[val.prop]" v-bind="val.comProps" :clearable="!val.required" :placeholder="val.placeholder" v-else-if="val.type === 'select'" @change="val.change" class="w100">
 								<el-option v-for="item in val.options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
 							</el-select>
 							<el-cascader
@@ -105,9 +97,9 @@
 </template>
 
 <script setup lang="ts" name="makeTableDemoSearch">
-import { reactive, ref } from 'vue'
-import type { FormInstance } from 'element-plus'
-import { saulVModel } from '/@/utils/saulVModel'
+import { reactive, ref } from 'vue';
+import type { FormInstance } from 'element-plus';
+import { saulVModel } from '/@/utils/saulVModel';
 
 // 定义父组件传过来的值
 const props = defineProps({
@@ -115,48 +107,48 @@ const props = defineProps({
 	// 可带入comProps属性，和使用的控件属性对应
 	search: {
 		type: Array<TableSearchType>,
-		default: () => []
+		default: () => [],
 	},
 	reset: {
 		type: Object,
-		default: () => {}
+		default: () => {},
 	},
 	modelValue: {
 		type: Object,
-		default: () => {}
-	}
-})
+		default: () => {},
+	},
+});
 
 // 定义子组件向父组件传值/事件
-const emit = defineEmits(['search', 'reset', 'update:modelValue'])
+const emit = defineEmits(['search', 'reset', 'update:modelValue']);
 
 // 定义变量内容
-const tableSearchRef = ref<FormInstance>()
+const tableSearchRef = ref<FormInstance>();
 const state = reactive({
 	isToggle: false,
 	cascaderProps: { checkStrictly: true, emitPath: false, value: 'id', label: 'name', expandTrigger: 'hover' },
-})
+});
 
-const model = saulVModel(props, 'modelValue', emit)
+const model = saulVModel(props, 'modelValue', emit);
 
 // 查询
 const onSearch = (formEl: FormInstance | undefined) => {
-	if (!formEl) return
+	if (!formEl) return;
 	formEl.validate((valid: boolean) => {
 		if (valid) {
-			emit('search')
+			emit('search');
 		} else {
-			return false
+			return false;
 		}
-	})
-}
+	});
+};
 
 // 重置
 const onReset = (formEl: FormInstance | undefined) => {
-	if (!formEl) return
-	formEl.resetFields()
-	emit('reset')
-}
+	if (!formEl) return;
+	formEl.resetFields();
+	emit('reset');
+};
 </script>
 
 <style scoped lang="scss">
