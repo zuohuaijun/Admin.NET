@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-userCenter-container">
-		<el-row :gutter="8" style="width: 100%">
+		<el-row :gutter="5" style="width: 100%">
 			<el-col :span="8" :xs="24">
 				<el-card shadow="hover">
 					<div class="account-center-avatarHolder">

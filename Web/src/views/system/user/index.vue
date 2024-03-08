@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-user-container">
-		<el-row :gutter="8" style="width: 100%; flex: 1">
+		<el-row :gutter="5" style="width: 100%; flex: 1">
 			<el-col :span="4" :xs="24">
 				<OrgTree ref="orgTreeRef" @node-click="nodeClick" />
 			</el-col>
@@ -29,7 +29,7 @@
 					</el-form>
 				</el-card>
 
-				<el-card class="full-table" shadow="hover" style="margin-top: 8px">
+				<el-card class="full-table" shadow="hover" style="margin-top: 5px">
 					<el-table :data="state.userData" style="width: 100%" v-loading="state.loading" border>
 						<el-table-column type="index" label="序号" width="55" align="center" fixed />
 						<el-table-column label="头像" width="80" align="center" show-overflow-tooltip>

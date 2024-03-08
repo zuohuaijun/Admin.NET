@@ -43,9 +43,11 @@
 				<el-card shadow="hover" header="使用信息">
 					<el-row>
 						<el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
-							<el-progress type="dashboard"
+							<el-progress
+								type="dashboard"
 								:percentage="parseInt(state.machineUseInfo.ramRate == undefined ? 0 : state.machineUseInfo.ramRate.substr(0, state.machineUseInfo.ramRate.length - 1))"
-								:color="'var(--el-color-primary)'">
+								:color="'var(--el-color-primary)'"
+							>
 								<template #default>
 									<span>{{ state.machineUseInfo.ramRate }}<br /></span>
 									<span style="font-size: 10px">
@@ -57,9 +59,11 @@
 							</el-progress>
 						</el-col>
 						<el-col :xs="12" :sm="12" :md="12" :lg="12" :xl="12" style="text-align: center">
-							<el-progress type="dashboard"
+							<el-progress
+								type="dashboard"
 								:percentage="parseInt(state.machineUseInfo.cpuRate == undefined ? 0 : state.machineUseInfo.cpuRate.substr(0, state.machineUseInfo.cpuRate.length - 1))"
-								:color="'var(--el-color-primary)'">
+								:color="'var(--el-color-primary)'"
+							>
 								<template #default>
 									<span>{{ state.machineUseInfo.cpuRate }}<br /></span>
 									<span style="font-size: 10px"> CPU使用率 </span>
@@ -98,13 +102,12 @@
 
 		<el-row :gutter="8">
 			<el-col :md="24" :sm="24">
-				<el-card shadow="hover" header="程序集信息" style="margin-top: 8px; --el-card-padding: 10px">
-					<div v-for="d in state.assemblyInfo" :key="d.name"
-						style="display: inline-block; margin: 4px;text-align: left;">
+				<el-card shadow="hover" header="程序集信息" style="margin-top: 5px; --el-card-padding: 10px">
+					<div v-for="d in state.assemblyInfo" :key="d.name" style="display: inline-block; margin: 4px; text-align: left">
 						<el-tag round>
 							<div style="display: inline-flex">
 								<div style="">{{ d.name }}</div>
-								<div style="color: black;  font-size: 9px; margin-left: 3px">v{{ d.version }}</div>
+								<div style="color: black; font-size: 9px; margin-left: 3px">v{{ d.version }}</div>
 							</div>
 						</el-tag>
 					</div>
@@ -114,12 +117,19 @@
 
 		<el-row :gutter="8">
 			<el-col :md="24" :sm="24">
-				<el-card shadow="hover" header="磁盘信息" style="margin-top: 8px">
+				<el-card shadow="hover" header="磁盘信息" style="margin-top: 5px">
 					<el-row>
-						<el-col :span="4" :xs="24 / state.machineDiskInfo.length * 2"
-							:sm="24 / state.machineDiskInfo.length" :md="24 / state.machineDiskInfo.length"
-							:lg="24 / state.machineDiskInfo.length" :xl="24 / state.machineDiskInfo.length"
-							v-for="d in state.machineDiskInfo" :key="d.diskName" style="text-align: center">
+						<el-col
+							:span="4"
+							:xs="(24 / state.machineDiskInfo.length) * 2"
+							:sm="24 / state.machineDiskInfo.length"
+							:md="24 / state.machineDiskInfo.length"
+							:lg="24 / state.machineDiskInfo.length"
+							:xl="24 / state.machineDiskInfo.length"
+							v-for="d in state.machineDiskInfo"
+							:key="d.diskName"
+							style="text-align: center"
+						>
 							<el-progress type="circle" :percentage="d.availablePercent" :color="'var(--el-color-primary)'">
 								<template #default>
 									<span>{{ d.availablePercent }}%<br /></span>
