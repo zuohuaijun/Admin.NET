@@ -175,6 +175,12 @@ public class Startup : AppStartup
             app.UseHsts();
         }
 
+        app.Use(async (context, next) =>
+        {
+            context.Response.Headers.Add("Admin.NET", "Admin.NET");
+            await next();
+        });
+
         // 图像处理
         app.UseImageSharp();
 
