@@ -50,10 +50,10 @@
 				</el-card>
 			</el-col>
 
-			<el-col :span="16" :xs="24" v-loading="state.loading">
+			<el-col :span="16" :xs="24">
 				<el-card shadow="hover">
 					<el-tabs>
-						<el-tab-pane label="基础信息">
+						<el-tab-pane label="基础信息" v-loading="state.loading">
 							<el-form :model="state.ruleFormBase" ref="ruleFormBaseRef" label-width="auto">
 								<el-row :gutter="35">
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
