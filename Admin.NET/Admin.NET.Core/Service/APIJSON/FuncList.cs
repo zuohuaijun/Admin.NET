@@ -51,26 +51,7 @@ public class FuncList
     {
         return a.ToString().Split(',').Contains(b);
     }
-    /// <summary>
-    /// 获取JToken的数据类型，用于SugarParameter里的类型转换
-    /// </summary>
-    /// <param name="jToken"></param>
-    /// <returns></returns>
-    public static Type GetTypeFromJToken(JToken jToken)
-    {
-        JTokenType jTokenType = jToken.Type;
-        return jTokenType switch
-        {
-            JTokenType.Integer => typeof(long),
-            JTokenType.Float => typeof(decimal),
-            JTokenType.Boolean => typeof(bool),
-            JTokenType.Date => typeof(DateTime),
-            JTokenType.Bytes => typeof(byte),
-            JTokenType.Guid => typeof(Guid),
-            JTokenType.TimeSpan => typeof(TimeSpan),
-            _ => jToken.GetType(),
-        };
-    }
+   
 
     /// <summary>
     /// 根据jtoken的实际类型来转换SugarParameter，避免全转成字符串

@@ -10,6 +10,7 @@
 namespace Admin.NET.Core.Service;
 
 using AspectCore.Extensions.Reflection;
+using NewLife.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using SqlSugar;
@@ -41,23 +42,30 @@ public class SelectTable : ISingleton
         db = dbClient;
     }
     /// <summary>
-    /// 判断表名是否正确
+    /// 判断表名是否正确，如果不正确则抛异常
     /// </summary>
     /// <param name="table"></param>
     /// <returns></returns>
     public virtual bool IsTable(string table)
     {
-        return db.DbMaintenance.GetTableInfoList().Any(it => it.Name.Equals(table, StringComparison.CurrentCultureIgnoreCase));
+        if (db.DbMaintenance.GetTableInfoList().Any(it => it.Name.Equals(table, StringComparison.CurrentCultureIgnoreCase)))
+            return true;
+        else
+            throw new Exception($"表名【{table}】不正确！");
+
     }
     /// <summary>
-    /// 判断表的列名是否正确
+    /// 判断表的列名是否正确,如果不正确则抛异常，更早地暴露给调用方
     /// </summary>
     /// <param name="table"></param>
     /// <param name="col"></param>
     /// <returns></returns>
     public virtual bool IsCol(string table, string col)
     {
-        return db.DbMaintenance.GetColumnInfosByTableName(table).Any(it => it.DbColumnName.Equals(col, StringComparison.CurrentCultureIgnoreCase));
+        if (db.DbMaintenance.GetColumnInfosByTableName(table).Any(it => it.DbColumnName.Equals(col, StringComparison.CurrentCultureIgnoreCase)))
+            return true;
+        else
+            throw new Exception($"表【{table}】不存在列【{col}】！请检查输入参数");
     }
 
     /// <summary>
@@ -148,7 +156,7 @@ public class SelectTable : ISingleton
             {
                 ExecFunc(resultObj, item);
             }
-            else if (key.Equals("total@")|| key.Equals("total"))
+            else if (key.Equals("total@") || key.Equals("total"))
             {
                 resultObj.Add("total", total);
             }
@@ -437,10 +445,8 @@ public class SelectTable : ISingleton
     //
     private ISugarQueryable<ExpandoObject> sugarQueryable(string subtable, string selectrole, JObject values, JObject dd)
     {
-        if (!IsTable(subtable))
-        {
-            throw new Exception($"表名{subtable}不正确！");
-        }
+        IsTable(subtable);
+
         var tb = db.Queryable(subtable, "tb");
 
 
@@ -545,7 +551,7 @@ public class SelectTable : ISingleton
                 //不对函数加``,解决sum(*),Count(1)等不能使用的问题
                 else if (ziduan[0].Contains('('))
                 {
-                    str.Append( ziduan[0]+ ",");
+                    str.Append(ziduan[0] + ",");
                 }
                 else
                     str.Append("`" + ziduan[0] + "`" + ",");
@@ -649,24 +655,23 @@ public class SelectTable : ISingleton
     {
         if (values["@order"].HasValue())
         {
+            List<OrderByModel> orderList = new(); //多库兼容写法
             foreach (var item in values["@order"].ToString().Split(','))
             {
-                string col = item.Replace("-", "").Replace("+", "");
+                string col = item.Replace("-", "").Replace("+", "").Replace(" desc", "").Replace(" asc", "");//增加对原生排序的支持
                 if (IsCol(subtable, col))
                 {
-                    if (item.EndsWith("-"))
+                    orderList.Add(new OrderByModel()
                     {
-                        tb.OrderBy($"{col} desc");
-                    }
-                    else if (item.EndsWith("+"))
-                    {
-                        tb.OrderBy($"{col} asc");
-                    }
-                    else
-                    {
-                        tb.OrderBy($"{col}");
-                    }
+                        FieldName = col,
+                        OrderByType = item.EndsWith("-") || item.EndsWith(" desc") ? OrderByType.Desc : OrderByType.Asc
+                    });
                 }
+            }
+
+            if (orderList.Any())
+            {
+                tb.OrderBy(orderList);
             }
         }
     }

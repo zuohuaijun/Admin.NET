@@ -119,7 +119,8 @@ public class APIJSONService : IDynamicApiController, ITransient
             var dt = new Dictionary<string, object>();
             foreach (var f in JObject.Parse(item.Value.ToString()))
             {
-                if (f.Key.ToLower() != "id" && _selectTable.IsCol(key, f.Key) && (role.Insert.Column.Contains("*") || role.Insert.Column.Contains(f.Key, StringComparer.CurrentCultureIgnoreCase)))
+                if (f.Key.ToLower() != "id" &&
+                    _selectTable.IsCol(key, f.Key) && (role.Insert.Column.Contains("*") || role.Insert.Column.Contains(f.Key, StringComparer.CurrentCultureIgnoreCase)))
                     dt.Add(f.Key, f.Value);
             }
             //todo 自定义id
@@ -182,7 +183,7 @@ public class APIJSONService : IDynamicApiController, ITransient
         foreach (var item in jobject)//每个表执行一次
         {
             string talbeName = item.Key.Trim();
-            var value = JObject.Parse(item.Value.ToString());//"id":""            
+            var value = JObject.Parse(item.Value.ToString());           
             
             if (role.Delete == null || role.Delete.Table == null)
             {
@@ -208,7 +209,7 @@ public class APIJSONService : IDynamicApiController, ITransient
                     parameters.Add(new SugarParameter($"@{f.Key}", paraArray));
                     //sb.Append($"{f.Key} in ({f.Value.ToString().TrimStart("[").TrimEnd("]").TrimInvisible()})  and");
                 }
-                else
+                else//单个值
                 {
                     sb.Append($"{f.Key}=@{f.Key} and ");
                     parameters.Add(new SugarParameter($"@{f.Key}", FuncList.TransJObjectToSugarPara(f.Value)));
