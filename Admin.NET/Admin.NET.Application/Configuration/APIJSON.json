@@ -12,7 +12,7 @@
         },
         "Insert": { // 添加
           "Table": [ "table1", "table2", "table3" ],
-          "Column": [ "*", "tb.*", "tb.*" ]
+          "Column": [ "*", "*", "tb.*" ]
         },
         "Update": { // 修改
           "Table": [ "table1", "table2", "table3" ],

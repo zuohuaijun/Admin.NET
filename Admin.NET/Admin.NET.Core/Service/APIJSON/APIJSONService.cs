@@ -107,7 +107,7 @@ public class APIJSONService : IDynamicApiController, ITransient
     {
 
         JObject ht = new JObject();
-
+        //todo 批量增加
         foreach (var item in jobject)
         {
             string key = item.Key.Trim();
@@ -117,15 +117,21 @@ public class APIJSONService : IDynamicApiController, ITransient
                 throw Oops.Bah($"没权限添加{key}");
             }
             var dt = new Dictionary<string, object>();
-            foreach (var f in JObject.Parse(item.Value.ToString()))
+            var cols = item.Value.ToObject<JObject>();
+            foreach (var f in cols)
             {
-                if (f.Key.ToLower() != "id" &&
-                    _selectTable.IsCol(key, f.Key) && (role.Insert.Column.Contains("*") || role.Insert.Column.Contains(f.Key, StringComparer.CurrentCultureIgnoreCase)))
+                if (//f.Key.ToLower() != "id" &&
+                    _selectTable.IsCol(key, f.Key) && 
+                    (role.Insert.Column.Contains("*") || role.Insert.Column.Contains(f.Key, StringComparer.CurrentCultureIgnoreCase)))
                     dt.Add(f.Key, f.Value);
             }
-            //todo 自定义id
-            int id = _db.Insertable(dt).AS(key).ExecuteReturnIdentity();
-            ht.Add(key, JToken.FromObject(new { code = 200, msg = "success", id }));
+            //如果外部没传id，就后端生成或使用数据库默认值，如果都没有会出错
+            if (!dt.ContainsKey("id"))
+            {
+                dt.Add("id", YitIdHelper.NextId());
+            }
+            var id = _db.Insertable(dt).AS(key).ExecuteCommand();//根据主键类型设置返回雪花或自增
+            ht.Add(key,  id  );
         }
 
         return ht;
