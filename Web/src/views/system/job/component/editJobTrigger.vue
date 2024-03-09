@@ -223,9 +223,11 @@ const cronValue: WritableComputedRef<string> = computed({
 		// 第二个参数值参阅 https://furion.baiqian.ltd/docs/cron#2624-cronstringformat-%E6%A0%BC%E5%BC%8F%E5%8C%96
 		let cronStringFormatValue = -1;
 		// 如果是 Macro 标识符，使用默认格式
-		if (newValue.startsWith('@')) cronStringFormatValue = 0; // 默认格式，书写顺序：分 时 天 月 周
+		if (newValue.startsWith('@'))
+			cronStringFormatValue = 0; // 默认格式，书写顺序：分 时 天 月 周
 		else {
-			if (newValue.split(' ').length == 6) cronStringFormatValue = 2; // 带秒格式，书写顺序：秒 分 时 天 月 周
+			if (newValue.split(' ').length == 6)
+				cronStringFormatValue = 2; // 带秒格式，书写顺序：秒 分 时 天 月 周
 			else cronStringFormatValue = 3; // 带秒和年格式，书写顺序：秒 分 时 天 月 周 年
 		}
 		state.ruleForm.args = `"${newValue}",${cronStringFormatValue}`;

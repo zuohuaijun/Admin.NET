@@ -219,5 +219,6 @@ onDeactivated(() => {
 
 .sysInfo_td {
 	border-bottom: 1px solid #e8e8e8;
+	min-width: 100px;
 }
 </style>

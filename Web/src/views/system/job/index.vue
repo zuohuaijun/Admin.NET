@@ -506,7 +506,7 @@ const openJobTriggerRecord = (row: any) => {
 // 作业触发器运行记录查询操作
 const handleQuery2 = async () => {
 	state.loading2 = true;
-	let params = Object.assign({jobId:state.currentJob.jobDetail.jobId}, state.tableParams2); //state.currentJob.jobTriggers[0].triggerId
+	let params = Object.assign({ jobId: state.currentJob.jobDetail.jobId }, state.tableParams2); //state.currentJob.jobTriggers[0].triggerId
 	var res = await getAPI(SysJobApi).apiSysJobPageJobTriggerRecordPost(params);
 	state.triggerRecordData = res.data.result?.items ?? [];
 	state.tableParams2.total = res.data.result?.total;
