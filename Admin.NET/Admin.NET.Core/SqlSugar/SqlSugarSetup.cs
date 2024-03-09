@@ -109,7 +109,7 @@ public static class SqlSugarSetup
         {
             db.Aop.OnLogExecuting = (sql, pars) =>
             {
-                var log = $"【{DateTime.Now}——执行SQL】\r\n{UtilMethods.GetSqlString(config.DbType, sql, pars)}\r\n";
+                var log = $"【{DateTime.Now}——执行SQL】\r\n{UtilMethods.GetNativeSql(sql, pars)}\r\n";
                 var originColor = Console.ForegroundColor;
                 if (sql.StartsWith("SELECT", StringComparison.OrdinalIgnoreCase))
                     Console.ForegroundColor = ConsoleColor.Green;
@@ -124,7 +124,7 @@ public static class SqlSugarSetup
             db.Aop.OnError = ex =>
             {
                 if (ex.Parametres == null) return;
-                var log = $"【{DateTime.Now}——错误SQL】\r\n{UtilMethods.GetSqlString(config.DbType, ex.Sql, (SugarParameter[])ex.Parametres)}\r\n";
+                var log = $"【{DateTime.Now}——错误SQL】\r\n{UtilMethods.GetNativeSql(ex.Sql, (SugarParameter[])ex.Parametres)}\r\n";
                 var originColor = Console.ForegroundColor;
                 Console.ForegroundColor = ConsoleColor.DarkRed;
                 Console.WriteLine(log);
@@ -139,7 +139,7 @@ public static class SqlSugarSetup
                     var fileName = db.Ado.SqlStackTrace.FirstFileName; // 文件名
                     var fileLine = db.Ado.SqlStackTrace.FirstLine; // 行号
                     var firstMethodName = db.Ado.SqlStackTrace.FirstMethodName; // 方法名
-                    var log = $"【{DateTime.Now}——超时SQL】\r\n【所在文件名】：{fileName}\r\n【代码行数】：{fileLine}\r\n【方法名】：{firstMethodName}\r\n" + $"【SQL语句】：{UtilMethods.GetSqlString(config.DbType, sql, pars)}";
+                    var log = $"【{DateTime.Now}——超时SQL】\r\n【所在文件名】：{fileName}\r\n【代码行数】：{fileLine}\r\n【方法名】：{firstMethodName}\r\n" + $"【SQL语句】：{UtilMethods.GetNativeSql(sql, pars)}";
                     var originColor = Console.ForegroundColor;
                     Console.ForegroundColor = ConsoleColor.DarkYellow;
                     Console.WriteLine(log);
@@ -260,7 +260,7 @@ public static class SqlSugarSetup
                 BusinessData = JSON.Serialize(u.BusinessData),
                 // 枚举（insert、update、delete）
                 DiffType = u.DiffType.ToString(),
-                Sql = UtilMethods.GetSqlString(config.DbType, u.Sql, u.Parameters),
+                Sql = UtilMethods.GetNativeSql(u.Sql, u.Parameters),
                 Parameters = JSON.Serialize(u.Parameters),
                 Elapsed = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
             };
