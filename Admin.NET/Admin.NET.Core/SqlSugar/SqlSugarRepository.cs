@@ -11,13 +11,13 @@ namespace Admin.NET.Core;
 public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
 {
     protected static ITenant ITenant { get; set; }
-    protected static SqlSugarScopeProvider MasterDb { get; set; }
+    protected static SqlSugarScopeProvider MainDb { get; set; }
 
     public SqlSugarRepository()
     {
         ITenant ??= App.GetRequiredService<ISqlSugarClient>().AsTenant();
-        MasterDb ??= ITenant.GetConnectionScope(SqlSugarConst.MainConfigId);
-        base.Context = MasterDb;
+        MainDb ??= ITenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+        base.Context = MainDb;
 
         // 若实体贴有多库特性，则返回指定库连接
         if (typeof(T).IsDefined(typeof(TenantAttribute), false))
