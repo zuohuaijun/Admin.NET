@@ -10,33 +10,35 @@ namespace Admin.NET.Core;
 /// <typeparam name="T"></typeparam>
 public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
 {
-    protected ITenant iTenant = null;
+    protected static ITenant ITenant { get; set; }
+    protected static SqlSugarScopeProvider MasterDb { get; set; }
 
     public SqlSugarRepository()
     {
-        iTenant = App.GetRequiredService<ISqlSugarClient>().AsTenant();
-        base.Context = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+        ITenant ??= App.GetRequiredService<ISqlSugarClient>().AsTenant();
+        MasterDb ??= ITenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+        base.Context = MasterDb;
 
         // 若实体贴有多库特性，则返回指定库连接
         if (typeof(T).IsDefined(typeof(TenantAttribute), false))
         {
-            base.Context = iTenant.GetConnectionScopeWithAttr<T>();
+            base.Context = ITenant.GetConnectionScopeWithAttr<T>();
             return;
         }
 
         // 若实体贴有日志表特性，则返回日志库连接
         if (typeof(T).IsDefined(typeof(LogTableAttribute), false))
         {
-            base.Context = iTenant.IsAnyConnection(SqlSugarConst.LogConfigId)
-                ? iTenant.GetConnectionScope(SqlSugarConst.LogConfigId)
-                : iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+            base.Context = ITenant.IsAnyConnection(SqlSugarConst.LogConfigId)
+                ? ITenant.GetConnectionScope(SqlSugarConst.LogConfigId)
+                : ITenant.GetConnectionScope(SqlSugarConst.MainConfigId);
             return;
         }
 
         // 若实体贴有系统表特性，则返回默认库连接
         if (typeof(T).IsDefined(typeof(SysTableAttribute), false))
         {
-            base.Context = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+            base.Context = ITenant.GetConnectionScope(SqlSugarConst.MainConfigId);
             return;
         }
 
