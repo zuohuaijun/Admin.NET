@@ -6,8 +6,8 @@ namespace Admin.NET.Core;
 
 public static class SqlSugarSetup
 {
-    // SqlSugar连接字典
-    private static ConcurrentDictionary<Type, ISqlSugarClient> iClientAttrDict = new ConcurrentDictionary<Type, ISqlSugarClient>();
+    // 缓存所有仓储连接实例
+    private static ConcurrentDictionary<Type, ISqlSugarClient> iClientAttrDict = new();
 
     /// <summary>
     /// SqlSugar 上下文初始化
@@ -44,7 +44,7 @@ public static class SqlSugarSetup
         });
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
-        InitRepositorySqlSugarClient(sqlSugar.AsTenant());//初始化连接字典
+        InitSqlSugarRepository(sqlSugar.AsTenant()); // 初始化仓储实例
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
         services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 事务与工作单元注册
 
@@ -375,48 +375,41 @@ public static class SqlSugarSetup
     }
 
     /// <summary>
-    /// 初始化SqlSugar Repository连接字典
+    /// 初始化仓储连接实例
     /// </summary>
     /// <param name="iTenant"></param>
-    public static void InitRepositorySqlSugarClient(ITenant iTenant)
+    public static void InitSqlSugarRepository(ITenant iTenant)
     {
-
+        // 主库仓储实例
         var iClientMain = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+        iClientAttrDict.TryAdd(typeof(SysTableAttribute), iClientMain);
 
+        // 日志库仓储实例
         var iClientLog = iTenant.IsAnyConnection(SqlSugarConst.LogConfigId)
                 ? iTenant.GetConnectionScope(SqlSugarConst.LogConfigId)
                 : iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+        iClientAttrDict.TryAdd(typeof(LogTableAttribute), iClientLog);
 
+        // 其他库仓储实例
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
-        && u.IsDefined(typeof(SugarTable), false) && u.GetCustomAttribute<TenantAttribute>() != null).ToList();
-
-
+            && u.IsDefined(typeof(SugarTable), false) && u.GetCustomAttribute<TenantAttribute>() != null).ToList();
         foreach (var entityType in entityTypes)
         {
-            // 获取包含泛型方法<T>的类型的MethodInfo  
             MethodInfo genericMethod = typeof(ITenant).GetMethod("GetConnectionScopeWithAttr");
-
-            // MakeGenericMethod创建一个特定于类型的泛型方法  
             MethodInfo constructedMethod = genericMethod.MakeGenericMethod(entityType);
-
-            // 调用泛型方法  
-            ISqlSugarClient iClientAttr = constructedMethod.Invoke(iTenant, null) as ISqlSugarClient; // 对于静态方法，第一个参数是null  
+            ISqlSugarClient iClientAttr = constructedMethod.Invoke(iTenant, null) as ISqlSugarClient;
             iClientAttrDict.TryAdd(entityType, iClientAttr);
         }
-
-        iClientAttrDict.TryAdd(typeof(SysTableAttribute), iClientMain);
-        iClientAttrDict.TryAdd(typeof(LogTableAttribute), iClientLog);
     }
 
     /// <summary>
-    /// 获取SqlSugar Repository连接字典
+    /// 获取指定仓储连接实例
     /// </summary>
     /// <param name="type"></param>
     /// <returns></returns>
     public static ISqlSugarClient GetConnectionScope(Type type)
     {
-        ISqlSugarClient iClient = null;
-        iClientAttrDict.TryGetValue(type, out iClient);
+        iClientAttrDict.TryGetValue(type, out ISqlSugarClient iClient);
         return iClient;
     }
 }

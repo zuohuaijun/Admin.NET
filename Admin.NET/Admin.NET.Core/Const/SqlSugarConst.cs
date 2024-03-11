@@ -25,7 +25,7 @@ public class SqlSugarConst
     public const string PrimaryKey = "Id";
 
     /// <summary>
-    /// 仓储对象
+    /// 仓储实例
     /// </summary>
     public static ITenant ITenant { get; set; }
 
