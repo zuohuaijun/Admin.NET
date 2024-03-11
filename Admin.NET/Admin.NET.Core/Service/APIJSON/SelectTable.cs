@@ -13,9 +13,12 @@ using AspectCore.Extensions.Reflection;
 using NewLife.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
+using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
 using SqlSugar;
 using StackExchange.Redis;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
@@ -862,11 +865,12 @@ public class SelectTable : ISingleton
     /// <param name="tableName"></param>
     /// <param name="cols"></param>
     /// <param name="role"></param>
-    /// <returns></returns>
-    public object InsertSingle(string tableName,JObject cols,APIJSON_Role role)
+    /// <returns>（各种类型的）id</returns>
+    public object InsertSingle(string tableName, JObject cols, APIJSON_Role role = null)
     {
+        role ??= _identitySvc.GetRole();
         var dt = new Dictionary<string, object>();
-        
+
         foreach (var f in cols)//遍历字段
         {
             if (//f.Key.ToLower() != "id" &&   //是否一定要传id
@@ -878,15 +882,83 @@ public class SelectTable : ISingleton
         object id;
         if (!dt.ContainsKey("id"))
         {
-            id = YitIdHelper.NextId();
+            id = YitIdHelper.NextId();//自己生成id的方法，可以由外部传入
             dt.Add("id", id);
         }
         else
         {
             id = dt["id"];
         }
-         _db.Insertable(dt).AS(tableName).ExecuteCommand();//根据主键类型设置返回雪花或自增,目前返回条数
+        _db.Insertable(dt).AS(tableName).ExecuteCommand();//根据主键类型设置返回雪花或自增,目前返回条数
 
         return id;
+    }
+    /// <summary>
+    /// 为每天记录创建udpate sql
+    /// </summary>
+    /// <param name="tableName"></param>
+    /// <param name="record"></param>
+    /// <param name="role"></param>
+    /// <returns></returns>
+    public int UpdateSingleRecord(string tableName, JObject record, APIJSON_Role role = null)
+    {
+        role ??= _identitySvc.GetRole();
+        if (!record.ContainsKey("id"))
+        {
+            throw Oops.Bah("未传主键id");
+        }
+        var dt = new Dictionary<string, object>();
+        var sb = new StringBuilder(100);
+        object id = null;
+        foreach (var f in record)//遍历每个字段
+        {
+            if (f.Key.Equals("id", StringComparison.OrdinalIgnoreCase))
+            {
+                if (f.Value is JArray)//id数组
+                {
+                    sb.Append($"{f.Key} in (@{f.Key})");
+                    id = FuncList.TransJArrayToSugarPara(f.Value);
+                  
+                }
+                else//单个id
+                {
+                    sb.Append($"{f.Key}=@{f.Key}");
+                   id = FuncList.TransJObjectToSugarPara(f.Value);
+                }
+            }
+            else if (IsCol(tableName, f.Key) && (role.Update.Column.Contains("*") || role.Update.Column.Contains(f.Key, StringComparer.CurrentCultureIgnoreCase)))
+            {
+                dt.Add(f.Key, FuncList.TransJObjectToSugarPara(f.Value));
+            }
+        }
+        string whereSql = sb.ToString();
+        int count = _db.Updateable(dt).AS(tableName).Where(whereSql, new { id }).ExecuteCommand();
+        return count;
+    }
+
+    /// <summary>
+    /// 更新单表，支持同表多条记录
+    /// </summary>
+    /// <param name="tableName"></param>
+    /// <param name="records"></param>
+    /// <param name="role"></param>
+    /// <returns></returns>
+    public int UpdateSingleTable(string tableName, JToken records, APIJSON_Role role = null)
+    {
+        role ??= _identitySvc.GetRole();
+        int count =0;
+        if (records is JArray)//遍历每行记录
+        {
+            foreach (var record in records.ToObject<JObject[]>())
+            {
+                count += UpdateSingleRecord(tableName, record, role);
+            }          
+        }
+        else//单条记录
+        {
+            count = UpdateSingleRecord(tableName, records.ToObject<JObject>(), role);
+        }
+
+        return count;
     }
 }

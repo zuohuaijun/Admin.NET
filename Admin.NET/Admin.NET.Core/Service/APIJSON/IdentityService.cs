@@ -46,7 +46,7 @@ public class IdentityService : ITransient
     /// <returns></returns>
     public APIJSON_Role GetRole()
     {
-        var role = new APIJSON_Role();
+        APIJSON_Role role;
         if (string.IsNullOrEmpty(GetUserRoleName())) // 若没登录默认取第一个
         {
             role = _roles.FirstOrDefault();

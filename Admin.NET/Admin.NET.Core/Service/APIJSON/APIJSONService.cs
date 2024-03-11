@@ -128,14 +128,14 @@ public class APIJSONService : IDynamicApiController, ITransient
                     var id = _selectTable.InsertSingle(talbeName, cols, role);
                     ids.Add(id);
                 }
-                result = JToken.FromObject(ids);               
+                result = JToken.FromObject(new { id = ids,count=ids.Count });               
             }
             //单条插入
             else
             {
                 var cols = table.Value.ToObject<JObject>();
                 var id = _selectTable.InsertSingle(talbeName, cols, role);
-                result = JToken.FromObject(id);
+                result = JToken.FromObject(new { id });
             }
 
             ht.Add(talbeName, result);
@@ -144,42 +144,22 @@ public class APIJSONService : IDynamicApiController, ITransient
         return ht;
     }
     /// <summary>
-    /// 修改
+    /// 修改,只支持id作为条件
     /// </summary>
-    /// <param name="json"></param>
+    /// <param name="tables">支持多表、多id批量更新</param>
     /// <returns></returns>
     [HttpPost("put")]
     [UnitOfWork]
-    public JObject Edit([FromBody] JObject jobject)
+    public JObject Edit([FromBody] JObject tables)
     {
         JObject ht = new JObject();
 
-        foreach (var item in jobject)
+        foreach (var table in tables)//每个表
         {
-            string key = item.Key.Trim();
+            string tableName = table.Key.Trim();
             var role = _identityService.GetRole();
-            if (!role.Update.Table.Contains(key, StringComparer.CurrentCultureIgnoreCase))
-            {
-
-                throw Oops.Bah("没权限修改{key}");
-            }
-            var value = JObject.Parse(item.Value.ToString());
-            if (!value.ContainsKey("id"))
-            {
-
-                throw Oops.Bah("未传主键id");
-            }
-
-            var dt = new Dictionary<string, object>();
-            foreach (var f in value)
-            {
-                if (f.Key.ToLower() != "id" && _selectTable.IsCol(key, f.Key) && (role.Update.Column.Contains("*") || role.Update.Column.Contains(f.Key, StringComparer.CurrentCultureIgnoreCase)))
-                {
-                    dt.Add(f.Key, f.Value.ToString());
-                }
-            }
-            _db.Updateable(dt).AS(key).Where("id=@id", new { id = value["id"].ToString() }).ExecuteCommand();
-            ht.Add(key, JToken.FromObject(new { code = 200, msg = "success", id = value["id"].ToString() }));
+            int count = _selectTable.UpdateSingleTable(tableName,table.Value,role);
+            ht.Add(tableName, JToken.FromObject(new { count }));
         }
 
         return ht;
@@ -229,6 +209,10 @@ public class APIJSONService : IDynamicApiController, ITransient
                     parameters.Add(new SugarParameter($"@{f.Key}", FuncList.TransJObjectToSugarPara(f.Value)));
                 }
 
+            }
+            if (!parameters.Any())
+            {
+                throw Oops.Bah("请输入删除条件");
             }
             string whereSql = sb.ToString().TrimEnd(" and ");
             int count = _db.Deleteable<object>().AS(talbeName).Where(whereSql, parameters).ExecuteCommand();//无实体删除
