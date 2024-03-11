@@ -9,6 +9,7 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using OBS.Model;
 
 namespace Admin.NET.Core.Service;
 
@@ -100,38 +101,44 @@ public class APIJSONService : IDynamicApiController, ITransient
     /// <summary>
     /// 新增
     /// </summary>
-    /// <param name="json"></param>
+    /// <param name="tables">表对象或数组，如果没有传id则后端生成id</param>
     /// <returns></returns>
     [HttpPost("post")]
-    public JObject Add([FromBody] JObject jobject)
+    [UnitOfWork]
+    public JObject Add([FromBody] JObject tables)
     {
 
         JObject ht = new JObject();
-        //todo 批量增加
-        foreach (var item in jobject)
+        foreach (var table in tables)//遍历不同的表
         {
-            string key = item.Key.Trim();
+            string talbeName = table.Key.Trim();
             var role = _identityService.GetRole();
-            if (!role.Insert.Table.Contains(key, StringComparer.CurrentCultureIgnoreCase))
+            if (!role.Insert.Table.Contains(talbeName, StringComparer.CurrentCultureIgnoreCase))
             {
-                throw Oops.Bah($"没权限添加{key}");
+                throw Oops.Bah($"没权限添加{talbeName}");
             }
-            var dt = new Dictionary<string, object>();
-            var cols = item.Value.ToObject<JObject>();
-            foreach (var f in cols)
+            JToken result;
+            //批量插入
+            if (table.Value is JArray)
             {
-                if (//f.Key.ToLower() != "id" &&
-                    _selectTable.IsCol(key, f.Key) && 
-                    (role.Insert.Column.Contains("*") || role.Insert.Column.Contains(f.Key, StringComparer.CurrentCultureIgnoreCase)))
-                    dt.Add(f.Key, f.Value);
+                List<object> ids = new();
+                foreach (var record in table.Value)//遍历同一个表下的不同记录
+                {
+                    var cols = record.ToObject<JObject>();
+                    var id = _selectTable.InsertSingle(talbeName, cols, role);
+                    ids.Add(id);
+                }
+                result = JToken.FromObject(ids);               
             }
-            //如果外部没传id，就后端生成或使用数据库默认值，如果都没有会出错
-            if (!dt.ContainsKey("id"))
+            //单条插入
+            else
             {
-                dt.Add("id", YitIdHelper.NextId());
+                var cols = table.Value.ToObject<JObject>();
+                var id = _selectTable.InsertSingle(talbeName, cols, role);
+                result = JToken.FromObject(id);
             }
-            var id = _db.Insertable(dt).AS(key).ExecuteCommand();//根据主键类型设置返回雪花或自增
-            ht.Add(key,  id  );
+
+            ht.Add(talbeName, result);
         }
 
         return ht;
@@ -142,6 +149,7 @@ public class APIJSONService : IDynamicApiController, ITransient
     /// <param name="json"></param>
     /// <returns></returns>
     [HttpPost("put")]
+    [UnitOfWork]
     public JObject Edit([FromBody] JObject jobject)
     {
         JObject ht = new JObject();
@@ -179,18 +187,19 @@ public class APIJSONService : IDynamicApiController, ITransient
     /// <summary>
     /// 删除 支持非id条件,支持批量
     /// </summary>
-    /// <param name="jobject"></param>
+    /// <param name="tables"></param>
     /// <returns></returns>
     [HttpPost("delete")]
-    public JObject Delete([FromBody] JObject jobject)
+    [UnitOfWork]
+    public JObject Delete([FromBody] JObject tables)
     {
         JObject ht = new JObject();
         var role = _identityService.GetRole();
-        foreach (var item in jobject)//每个表执行一次
+        foreach (var table in tables)//遍历表
         {
-            string talbeName = item.Key.Trim();
-            var value = JObject.Parse(item.Value.ToString());           
-            
+            string talbeName = table.Key.Trim();
+            var value = JObject.Parse(table.Value.ToString());
+
             if (role.Delete == null || role.Delete.Table == null)
             {
                 throw Oops.Bah("delete权限未配置");
@@ -205,15 +214,14 @@ public class APIJSONService : IDynamicApiController, ITransient
             //}
 
             var sb = new StringBuilder(100);
-            List< SugarParameter > parameters = new List< SugarParameter >();
+            List<SugarParameter> parameters = new List<SugarParameter>();
             foreach (var f in value)//每个条件
             {
                 if (f.Value is JArray)//数组
                 {
                     sb.Append($"{f.Key} in (@{f.Key}) and ");
-                    var paraArray =FuncList.TransJArrayToSugarPara(f.Value);
-                    parameters.Add(new SugarParameter($"@{f.Key}", paraArray));
-                    //sb.Append($"{f.Key} in ({f.Value.ToString().TrimStart("[").TrimEnd("]").TrimInvisible()})  and");
+                    var paraArray = FuncList.TransJArrayToSugarPara(f.Value);
+                    parameters.Add(new SugarParameter($"@{f.Key}", paraArray));              
                 }
                 else//单个值
                 {
@@ -223,10 +231,10 @@ public class APIJSONService : IDynamicApiController, ITransient
 
             }
             string whereSql = sb.ToString().TrimEnd(" and ");
-            int count = _db.Deleteable<object>().AS(talbeName).Where(whereSql,parameters).ExecuteCommand();//无实体删除
+            int count = _db.Deleteable<object>().AS(talbeName).Where(whereSql, parameters).ExecuteCommand();//无实体删除
             value.Add("count", count);//命中数量
             ht.Add(talbeName, value);
-            
+
         }
         return ht;
     }

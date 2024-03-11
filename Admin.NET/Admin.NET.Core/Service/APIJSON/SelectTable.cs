@@ -14,6 +14,7 @@ using NewLife.Data;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using SqlSugar;
+using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -27,7 +28,7 @@ public class SelectTable : ISingleton
 {
     private readonly IdentityService _identitySvc;
     private readonly TableMapper _tableMapper;
-    private readonly ISqlSugarClient db;
+    private readonly ISqlSugarClient _db;
 
     /// <summary>
     /// 
@@ -39,7 +40,7 @@ public class SelectTable : ISingleton
     {
         _identitySvc = identityService;
         _tableMapper = tableMapper;
-        db = dbClient;
+        _db = dbClient;
     }
     /// <summary>
     /// 判断表名是否正确，如果不正确则抛异常
@@ -48,7 +49,7 @@ public class SelectTable : ISingleton
     /// <returns></returns>
     public virtual bool IsTable(string table)
     {
-        if (db.DbMaintenance.GetTableInfoList().Any(it => it.Name.Equals(table, StringComparison.CurrentCultureIgnoreCase)))
+        if (_db.DbMaintenance.GetTableInfoList().Any(it => it.Name.Equals(table, StringComparison.CurrentCultureIgnoreCase)))
             return true;
         else
             throw new Exception($"表名【{table}】不正确！");
@@ -62,7 +63,7 @@ public class SelectTable : ISingleton
     /// <returns></returns>
     public virtual bool IsCol(string table, string col)
     {
-        if (db.DbMaintenance.GetColumnInfosByTableName(table).Any(it => it.DbColumnName.Equals(col, StringComparison.CurrentCultureIgnoreCase)))
+        if (_db.DbMaintenance.GetColumnInfosByTableName(table).Any(it => it.DbColumnName.Equals(col, StringComparison.CurrentCultureIgnoreCase)))
             return true;
         else
             throw new Exception($"表【{table}】不存在列【{col}】！请检查输入参数");
@@ -447,7 +448,7 @@ public class SelectTable : ISingleton
     {
         IsTable(subtable);
 
-        var tb = db.Queryable(subtable, "tb");
+        var tb = _db.Queryable(subtable, "tb");
 
 
         if (values["@column"].HasValue())
@@ -851,5 +852,41 @@ public class SelectTable : ISingleton
         str = Regex.Replace(str, "-", "", RegexOptions.IgnoreCase);
         str = Regex.Replace(str, "truncate", "", RegexOptions.IgnoreCase);
         return str;
+    }
+
+
+
+    /// <summary>
+    /// 单条插入
+    /// </summary>
+    /// <param name="tableName"></param>
+    /// <param name="cols"></param>
+    /// <param name="role"></param>
+    /// <returns></returns>
+    public object InsertSingle(string tableName,JObject cols,APIJSON_Role role)
+    {
+        var dt = new Dictionary<string, object>();
+        
+        foreach (var f in cols)//遍历字段
+        {
+            if (//f.Key.ToLower() != "id" &&   //是否一定要传id
+                IsCol(tableName, f.Key) &&
+                (role.Insert.Column.Contains("*") || role.Insert.Column.Contains(f.Key, StringComparer.CurrentCultureIgnoreCase)))
+                dt.Add(f.Key, FuncList.TransJObjectToSugarPara(f.Value));
+        }
+        //如果外部没传id，就后端生成或使用数据库默认值，如果都没有会出错
+        object id;
+        if (!dt.ContainsKey("id"))
+        {
+            id = YitIdHelper.NextId();
+            dt.Add("id", id);
+        }
+        else
+        {
+            id = dt["id"];
+        }
+         _db.Insertable(dt).AS(tableName).ExecuteCommand();//根据主键类型设置返回雪花或自增,目前返回条数
+
+        return id;
     }
 }
