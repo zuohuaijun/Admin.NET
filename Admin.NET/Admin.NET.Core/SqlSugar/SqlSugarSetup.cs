@@ -6,6 +6,9 @@ namespace Admin.NET.Core;
 
 public static class SqlSugarSetup
 {
+    // SqlSugar连接字典
+    private static ConcurrentDictionary<Type, ISqlSugarClient> iClientAttrDict = new ConcurrentDictionary<Type, ISqlSugarClient>();
+
     /// <summary>
     /// SqlSugar 上下文初始化
     /// </summary>
@@ -41,6 +44,7 @@ public static class SqlSugarSetup
         });
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
+        InitRepositorySqlSugarClient(sqlSugar.AsTenant());//初始化连接字典
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
         services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 事务与工作单元注册
 
@@ -368,5 +372,51 @@ public static class SqlSugarSetup
             else
                 db.CodeFirst.SplitTables().InitTables(entityType);
         }
+    }
+
+    /// <summary>
+    /// 初始化SqlSugar Repository连接字典
+    /// </summary>
+    /// <param name="iTenant"></param>
+    public static void InitRepositorySqlSugarClient(ITenant iTenant)
+    {
+
+        var iClientMain = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+
+        var iClientLog = iTenant.IsAnyConnection(SqlSugarConst.LogConfigId)
+                ? iTenant.GetConnectionScope(SqlSugarConst.LogConfigId)
+                : iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+
+        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+        && u.IsDefined(typeof(SugarTable), false) && u.GetCustomAttribute<TenantAttribute>() != null).ToList();
+
+
+        foreach (var entityType in entityTypes)
+        {
+            // 获取包含泛型方法<T>的类型的MethodInfo  
+            MethodInfo genericMethod = typeof(ITenant).GetMethod("GetConnectionScopeWithAttr");
+
+            // MakeGenericMethod创建一个特定于类型的泛型方法  
+            MethodInfo constructedMethod = genericMethod.MakeGenericMethod(entityType);
+
+            // 调用泛型方法  
+            ISqlSugarClient iClientAttr = constructedMethod.Invoke(iTenant, null) as ISqlSugarClient; // 对于静态方法，第一个参数是null  
+            iClientAttrDict.TryAdd(entityType, iClientAttr);
+        }
+
+        iClientAttrDict.TryAdd(typeof(SysTableAttribute), iClientMain);
+        iClientAttrDict.TryAdd(typeof(LogTableAttribute), iClientLog);
+    }
+
+    /// <summary>
+    /// 获取SqlSugar Repository连接字典
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public static ISqlSugarClient GetConnectionScope(Type type)
+    {
+        ISqlSugarClient iClient = null;
+        iClientAttrDict.TryGetValue(type, out iClient);
+        return iClient;
     }
 }
