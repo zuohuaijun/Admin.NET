@@ -1,6 +1,6 @@
 <template>
 	<div class="table-search-container" v-if="props.search.length > 0">
-		<el-form ref="tableSearchRef" :model="state.form" label-width="100px" class="table-form">
+		<el-form ref="tableSearchRef" :model="model" label-width="100px" class="table-form">
 			<el-row :gutter="20">
 				<!-- <el-col :xs="12" :sm="8" :md="8" :lg="6" :xl="4" class="mb20"></el-col> -->
 				<el-col :xs="12" :sm="5" :md="5" :lg="6" :xl="4" class="mb20" v-for="(val, key) in search" :key="key" v-show="key < 3 || state.isToggle">
@@ -12,7 +12,7 @@
 							:rules="[{ required: val.required, message: `${val.label}不能为空`, trigger: val.type === 'input' ? 'blur' : 'change' }]"
 						>
 							<el-input
-								v-model="state.form[val.prop]"
+								v-model="model[val.prop]"
 								v-bind="val.comProps"
 								:placeholder="val.placeholder"
 								:clearable="!val.required"
@@ -22,7 +22,7 @@
 								class="w100"
 							/>
 							<el-date-picker
-								v-model="state.form[val.prop]"
+								v-model="model[val.prop]"
 								v-bind="val.comProps"
 								type="date"
 								:placeholder="val.placeholder"
@@ -32,7 +32,18 @@
 								class="w100"
 							/>
 							<el-date-picker
-								v-model="state.form[val.prop]"
+								v-model="model[val.prop]"
+								v-bind="val.comProps"
+								type="monthrange"
+								value-format="YYYY/MM/DD"
+								:placeholder="val.placeholder"
+								:clearable="!val.required"
+								v-else-if="val.type === 'monthrange'"
+								@change="val.change"
+								class="w100"
+							/>
+							<el-date-picker
+								v-model="model[val.prop]"
 								v-bind="val.comProps"
 								type="daterange"
 								value-format="YYYY/MM/DD"
@@ -42,15 +53,7 @@
 								@change="val.change"
 								class="w100"
 							/>
-							<el-select
-								v-model="state.form[val.prop]"
-								v-bind="val.comProps"
-								:clearable="!val.required"
-								:placeholder="val.placeholder"
-								v-else-if="val.type === 'select'"
-								@change="val.change"
-								class="w100"
-							>
+							<el-select v-model="model[val.prop]" v-bind="val.comProps" :clearable="!val.required" :placeholder="val.placeholder" v-else-if="val.type === 'select'" @change="val.change" class="w100">
 								<el-option v-for="item in val.options" :key="item.value" :label="item.label" :value="item.value"> </el-option>
 							</el-select>
 							<el-cascader
@@ -63,7 +66,7 @@
 								@change="val.change"
 								class="w100"
 								v-bind="val.comProps"
-								v-model="state.form[val.prop]"
+								v-model="model[val.prop]"
 							>
 							</el-cascader>
 						</el-form-item>
@@ -81,10 +84,10 @@
 						</template>
 						<div>
 							<!-- 使用el-button-group会导致具有type属性的按钮的右边框无法显示 -->
-							<!-- <el-button-group> -->
-							<el-button plain type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)"> 查询 </el-button>
-							<el-button icon="ele-Refresh" @click="onReset(tableSearchRef)" style="margin-left: 12px"> 重置 </el-button>
-							<!-- </el-button-group> -->
+							<el-button-group>
+								<el-button plain type="primary" icon="ele-Search" @click="onSearch(tableSearchRef)"> 查询 </el-button>
+								<el-button icon="ele-Refresh" @click="onReset(tableSearchRef)" style="margin-left: 12px"> 重置 </el-button>
+							</el-button-group>
 						</div>
 					</el-form-item>
 				</el-col>
@@ -94,8 +97,9 @@
 </template>
 
 <script setup lang="ts" name="makeTableDemoSearch">
-import { reactive, ref, onMounted, watch } from 'vue';
+import { reactive, ref } from 'vue';
 import type { FormInstance } from 'element-plus';
+import { saulVModel } from '/@/utils/saulVModel';
 
 // 定义父组件传过来的值
 const props = defineProps({
@@ -109,61 +113,42 @@ const props = defineProps({
 		type: Object,
 		default: () => {},
 	},
-	param: {
+	modelValue: {
 		type: Object,
 		default: () => {},
 	},
 });
 
 // 定义子组件向父组件传值/事件
-const emit = defineEmits(['search', 'reset']);
+const emit = defineEmits(['search', 'reset', 'update:modelValue']);
 
 // 定义变量内容
 const tableSearchRef = ref<FormInstance>();
 const state = reactive({
-	form: {} as any,
 	isToggle: false,
 	cascaderProps: { checkStrictly: true, emitPath: false, value: 'id', label: 'name', expandTrigger: 'hover' },
 });
-watch(
-	() => props.param,
-	(value) => {
-		if (value) {
-			state.form = Object.assign({}, { ...value });
-		}
-	},
-	{
-		immediate: true,
-		deep: true,
-	}
-);
+
+const model = saulVModel(props, 'modelValue', emit);
+
 // 查询
 const onSearch = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
 	formEl.validate((valid: boolean) => {
 		if (valid) {
-			emit('search', state.form);
+			emit('search');
 		} else {
 			return false;
 		}
 	});
 };
+
 // 重置
 const onReset = (formEl: FormInstance | undefined) => {
 	if (!formEl) return;
 	formEl.resetFields();
-	emit('reset', state.form);
-	emit('search', state.form);
+	emit('reset');
 };
-// // 初始化 form 字段，取自父组件 search.prop
-// const initFormField = () => {
-// 	if (props.search.length <= 0) return false;
-// 	props.search.forEach((v) => (state.form[v.prop] = ''));
-// };
-// 页面加载时
-onMounted(() => {
-	// initFormField();
-});
 </script>
 
 <style scoped lang="scss">

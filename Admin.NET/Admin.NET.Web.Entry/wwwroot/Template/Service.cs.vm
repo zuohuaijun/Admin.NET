@@ -233,7 +233,7 @@ if(@column.EffectType == "Upload"){
 @foreach (var column in Model.TableField){
 if(@column.EffectType == "ApiTreeSelect" && !definedObjects.ContainsKey("@(@column.FkEntityName)Tree")){
     @{definedObjects.Add("@(@column.FkEntityName)Tree", 1);}
-    @:[HttpGet("/@(@Model.LowerClassName)/@(@column.FkEntityName)Tree")]
+    @:[HttpGet("@(@Model.LowerClassName)/@(@column.FkEntityName)Tree")]
     @:public async Task<dynamic> @(@column.FkEntityName)Tree()
     @:{
         @:return await _rep.Context.Queryable<@(@column.FkEntityName)>().ToTreeAsync(u => u.Children, u => u.@(@column.PidColumn), 0);

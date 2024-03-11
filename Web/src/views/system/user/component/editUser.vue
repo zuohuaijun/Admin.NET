@@ -166,9 +166,9 @@
 							<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 								<el-form-item label="性别">
 									<el-radio-group v-model="state.ruleForm.sex">
-										<el-radio :label="1">男</el-radio>
-										<el-radio :label="2">女</el-radio>
-										<el-radio :label="3">其他</el-radio>
+										<el-radio :value="1">男</el-radio>
+										<el-radio :value="2">女</el-radio>
+										<el-radio :value="3">其他</el-radio>
 									</el-radio-group>
 								</el-form-item>
 							</el-col>

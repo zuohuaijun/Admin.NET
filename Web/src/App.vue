@@ -107,11 +107,21 @@ watch(
 );
 </script>
 
-<style>
-.el-select {
-	width: 171px !important;
-}
-.el-select__wrapper {
-	line-height: 22px !important;
+<style lang="scss">
+.el-form--inline {
+	.el-form-item {
+		.el-select {
+			width: 171px !important;
+		}
+		.el-select__wrapper {
+			line-height: 22px !important;
+		}
+		.el-date-editor {
+			--el-date-editor-width: 171px !important;
+		}
+		.el-input {
+			width: 171px !important;
+		}
+	}
 }
 </style>

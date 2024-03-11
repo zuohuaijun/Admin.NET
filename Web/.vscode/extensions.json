@@ -1,0 +1,13 @@
+{
+    "recommendations": [
+      "christian-kohler.path-intellisense",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "lokalise.i18n-ally",
+      "mikestead.dotenv",
+      "Vue.volar",
+      "mkxml.vscode-filesize",
+      "davidanson.vscode-markdownlint"
+    ]
+  }
+  

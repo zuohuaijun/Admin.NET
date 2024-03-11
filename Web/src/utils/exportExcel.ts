@@ -202,7 +202,7 @@ export function exportExcel(jsonarr: Array<EmptyObjectType>, name: string, heade
 	jsonarr.forEach((json) => {
 		var row = new Array();
 		headerArr[headerArr.length - 1].forEach((item) => {
-			if (json.hasOwnProperty(item.prop) || getProperty(json,item.prop)) {
+			if (json.hasOwnProperty(item.prop) || getProperty(json, item.prop)) {
 				let val = '';
 				if (json[item.prop] != null) {
 					if (item.formatter) {
@@ -211,12 +211,12 @@ export function exportExcel(jsonarr: Array<EmptyObjectType>, name: string, heade
 					} else {
 						val = json[item.prop];
 					}
-				}else if(getProperty(json,item.prop)){
+				} else if (getProperty(json, item.prop)) {
 					if (item.formatter) {
 						var itemf = item.formatter(json);
 						val = formatterRec(itemf); //递归获取formatter信息
 					} else {
-						val = getProperty(json,item.prop);
+						val = getProperty(json, item.prop);
 					}
 				}
 				row.push({
@@ -296,6 +296,6 @@ const getProperty = (obj, property) => {
 	for (const key of keys) {
 		value = value[key];
 	}
-	
+
 	return value;
 };

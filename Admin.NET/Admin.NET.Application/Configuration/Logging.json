@@ -21,7 +21,14 @@
     },
     "ElasticSearch": {
       "Enabled": false, // 启用ES日志
-      "ServerUris": [ "http://dilon:123456@192.168.1.100:9200" ], // 地址
+      "AuthType": "Basic", // ES认证类型，可选 Basic、ApiKey、Base64ApiKey
+      "User": "dilon", // Basic认证的用户名，使用Basic认证类型时必填
+      "Password": "123456", // Basic认证的密码，使用Basic认证类型时必填
+      "ApiId": "", // 使用ApiKey认证类型时必填
+      "ApiKey": "", // 使用ApiKey认证类型时必填
+      "Base64ApiKey": "TmtrOEszNEJuQ0NyaWlydGtROFk6SG1RZ0w3YzBTc2lCanJTYlV3aXNzZw==", // 使用Base64ApiKey认证类型时必填
+      "Fingerprint": "37:08:6A:C6:06:CC:9A:43:CF:ED:25:A2:1C:A4:69:57:90:31:2C:06:CA:61:56:39:6A:9C:46:11:BD:22:51:DA", // ES使用Https时的证书指纹
+      "ServerUris": [ "http://192.168.1.100:9200" ], // 地址
       "DefaultIndex": "adminnet" // 索引
     },
     "Monitor": {

@@ -17,7 +17,7 @@
 			</el-form>
 		</el-card>
 
-		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
+		<el-card class="full-table" shadow="hover" style="margin-top: 5px">
 			<el-table :data="state.pluginData" style="width: 100%" v-loading="state.loading" border>
 				<el-table-column type="index" label="序号" width="55" align="center" fixed />
 				<el-table-column prop="name" label="功能名称" header-align="center" show-overflow-tooltip />

@@ -12,8 +12,8 @@
 					<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 						<el-form-item label="租户类型" :rules="[{ required: true, message: '租户类型不能为空', trigger: 'blur' }]">
 							<el-radio-group v-model="state.ruleForm.tenantType" :disabled="state.ruleForm.id != undefined">
-								<el-radio :label="0">ID隔离</el-radio>
-								<el-radio :label="1">库隔离</el-radio>
+								<el-radio :value="0">ID隔离</el-radio>
+								<el-radio :value="1">库隔离</el-radio>
 							</el-radio-group>
 						</el-form-item>
 					</el-col>
@@ -81,7 +81,13 @@
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">
 						<el-form-item label="从库连接串">
-							<el-input v-model="state.ruleForm.slaveConnections" placeholder="格式：[{'HitRate':10, 'ConnectionString':'xxx'},{'HitRate':10, 'ConnectionString':'xxx'}]" clearable type="textarea" :disabled="state.ruleForm.tenantType == 0 && state.ruleForm.tenantType != undefined" />
+							<el-input
+								v-model="state.ruleForm.slaveConnections"
+								placeholder="格式：[{'HitRate':10, 'ConnectionString':'xxx'},{'HitRate':10, 'ConnectionString':'xxx'}]"
+								clearable
+								type="textarea"
+								:disabled="state.ruleForm.tenantType == 0 && state.ruleForm.tenantType != undefined"
+							/>
 						</el-form-item>
 					</el-col>
 					<el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24" class="mb20">

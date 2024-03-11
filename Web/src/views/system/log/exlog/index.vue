@@ -21,7 +21,7 @@
 			</el-form>
 		</el-card>
 
-		<el-card class="full-table" shadow="hover" style="margin-top: 8px">
+		<el-card class="full-table" shadow="hover" style="margin-top: 5px">
 			<el-table :data="state.logData" @sort-change="sortChange" style="width: 100%" border :row-class-name="tableRowClassName">
 				<el-table-column type="index" label="序号" width="55" align="center" />
 				<el-table-column prop="controllerName" label="模块名称" width="100" header-align="center" show-overflow-tooltip />

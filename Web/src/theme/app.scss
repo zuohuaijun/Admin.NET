@@ -22,9 +22,9 @@
 	--next-color-seting-main: #e9eef3;
 	--next-color-seting-aside: #d3dce6;
 	--next-color-seting-header: #b3c0d1;
-    // 重写全局样式
+	// 重写全局样式
 	//--el-text-color-primary: rgba(0, 0, 0, .75) !important;
-    --el-text-color-regular: rgba(0, 0, 0, .99) !important;
+	--el-text-color-regular: rgba(0, 0, 0, 0.99) !important;
 	//--el-text-color-secondary: var(--el-text-color-regular) !important;
 }
 
@@ -35,7 +35,14 @@ body,
 	padding: 0;
 	width: 100%;
 	height: 100%;
-	font-family: Helvetica Neue, Helvetica, PingFang SC, Hiragino Sans GB, Microsoft YaHei, SimSun, sans-serif;
+	font-family:
+		Helvetica Neue,
+		Helvetica,
+		PingFang SC,
+		Hiragino Sans GB,
+		Microsoft YaHei,
+		SimSun,
+		sans-serif;
 	font-weight: 400;
 	-webkit-font-smoothing: antialiased;
 	-webkit-tap-highlight-color: transparent;
@@ -88,7 +95,7 @@ body,
 			.layout-parent {
 				@extend .layout-flex;
 				position: relative;
-				padding: 8px; // 四周间隙
+				padding: 5px; // 四周间隙
 			}
 		}
 	}

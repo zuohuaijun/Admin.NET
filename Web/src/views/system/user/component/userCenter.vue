@@ -1,6 +1,6 @@
 <template>
 	<div class="sys-userCenter-container">
-		<el-row :gutter="8" style="width: 100%">
+		<el-row :gutter="5" style="width: 100%">
 			<el-col :span="8" :xs="24">
 				<el-card shadow="hover">
 					<div class="account-center-avatarHolder">
@@ -50,10 +50,10 @@
 				</el-card>
 			</el-col>
 
-			<el-col :span="16" :xs="24" v-loading="state.loading">
+			<el-col :span="16" :xs="24">
 				<el-card shadow="hover">
 					<el-tabs>
-						<el-tab-pane label="基础信息">
+						<el-tab-pane label="基础信息" v-loading="state.loading">
 							<el-form :model="state.ruleFormBase" ref="ruleFormBaseRef" label-width="auto">
 								<el-row :gutter="35">
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
@@ -84,8 +84,8 @@
 									<el-col :xs="24" :sm="12" :md="12" :lg="12" :xl="12" class="mb20">
 										<el-form-item label="性别">
 											<el-radio-group v-model="state.ruleFormBase.sex">
-												<el-radio :label="1">男</el-radio>
-												<el-radio :label="2">女</el-radio>
+												<el-radio :value="1">男</el-radio>
+												<el-radio :value="2">女</el-radio>
 											</el-radio-group>
 										</el-form-item>
 									</el-col>
