@@ -4,6 +4,7 @@
 
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using Npgsql;
 
 namespace Admin.NET.Core.Service;
 
@@ -444,19 +445,21 @@ public class SysDatabaseService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 备份数据库（PostgreSQL）
+    /// 备份数据库（PostgreSQL）🔖
     /// </summary>
     /// <returns></returns>
     [HttpPost, NonUnify]
     public async Task<IActionResult> BackupDatabase()
     {
-        var dbBackupOpt = App.GetConfig<DbBackupOptions>("DbBackup", true);
-        if (dbBackupOpt == null || string.IsNullOrWhiteSpace(dbBackupOpt.Host) || string.IsNullOrWhiteSpace(dbBackupOpt.User) || string.IsNullOrWhiteSpace(dbBackupOpt.Password) || string.IsNullOrWhiteSpace(dbBackupOpt.Database))
-            throw Oops.Oh("PostgreSQL数据库配置错误");
+        if (_db.CurrentConnectionConfig.DbType != SqlSugar.DbType.PostgreSQL)
+            throw Oops.Oh("只支持 PostgreSQL 数据库 😁");
 
-        var backupDirectory = Path.Combine(Directory.GetCurrentDirectory(), "backups");
+        var npgsqlConn = new NpgsqlConnectionStringBuilder(_db.CurrentConnectionConfig.ConnectionString);
+        if (npgsqlConn == null || string.IsNullOrWhiteSpace(npgsqlConn.Host) || string.IsNullOrWhiteSpace(npgsqlConn.Username) || string.IsNullOrWhiteSpace(npgsqlConn.Password) || string.IsNullOrWhiteSpace(npgsqlConn.Database))
+            throw Oops.Oh("PostgreSQL 数据库配置错误");
 
         // 确保备份目录存在
+        var backupDirectory = Path.Combine(Directory.GetCurrentDirectory(), "backups");
         Directory.CreateDirectory(backupDirectory);
 
         // 构建备份文件名
@@ -465,7 +468,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
 
         // 启动pg_dump进程进行备份
         // 设置密码：export PGPASSWORD='xxxxxx'
-        var bash = $"-U {dbBackupOpt.User} -h {dbBackupOpt.Host} -p {dbBackupOpt.Port} -E UTF8 -F c -b -v -f {backupFilePath} {dbBackupOpt.Database}";
+        var bash = $"-U {npgsqlConn.Username} -h {npgsqlConn.Host} -p {npgsqlConn.Port} -E UTF8 -F c -b -v -f {backupFilePath} {npgsqlConn.Database}";
         var startInfo = new ProcessStartInfo
         {
             FileName = "pg_dump",
@@ -476,7 +479,7 @@ public class SysDatabaseService : IDynamicApiController, ITransient
             CreateNoWindow = true,
             EnvironmentVariables =
             {
-                ["PGPASSWORD"] = dbBackupOpt.Password
+                ["PGPASSWORD"] = npgsqlConn.Password
             }
         };
 

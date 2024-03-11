@@ -99,8 +99,6 @@ public static class SqlSugarSetup
     /// <param name="enableConsoleSql"></param>
     public static void SetDbAop(SqlSugarScopeProvider db, bool enableConsoleSql)
     {
-        var config = db.CurrentConnectionConfig;
-
         // 设置超时时间
         db.Ado.CommandTimeOut = 30;
 
@@ -133,7 +131,7 @@ public static class SqlSugarSetup
             };
             db.Aop.OnLogExecuted = (sql, pars) =>
             {
-                // 执行时间超过5秒
+                // 执行时间超过5秒时
                 if (db.Ado.SqlExecutionTime.TotalSeconds > 5)
                 {
                     var fileName = db.Ado.SqlStackTrace.FirstFileName; // 文件名
@@ -151,19 +149,6 @@ public static class SqlSugarSetup
         // 数据审计
         db.Aop.DataExecuting = (oldValue, entityInfo) =>
         {
-            //// 演示环境判断
-            //if (entityInfo.EntityColumnInfo.IsPrimarykey)
-            //{
-            //    if (entityInfo.EntityName != nameof(SysJobDetail) && entityInfo.EntityName != nameof(SysJobTrigger) &&
-            //        entityInfo.EntityName != nameof(SysLogOp) && entityInfo.EntityName != nameof(SysLogVis) &&
-            //        entityInfo.EntityName != nameof(SysOnlineUser))
-            //    {
-            //        var isDemoEnv = App.GetService<SysConfigService>().GetConfigValue<bool>(CommonConst.SysDemoEnv).GetAwaiter().GetResult();
-            //        if (isDemoEnv)
-            //            throw Oops.Oh(ErrorCodeEnum.D1200);
-            //    }
-            //}
-
             if (entityInfo.OperationType == DataFilterType.InsertByObject)
             {
                 // 主键(long类型)且没有值的---赋值雪花Id
@@ -264,9 +249,9 @@ public static class SqlSugarSetup
                 Parameters = JSON.Serialize(u.Parameters),
                 Elapsed = u.Time == null ? 0 : (long)u.Time.Value.TotalMilliseconds
             };
-            await db.Insertable(logDiff).ExecuteCommandAsync();
+            await db.CopyNew().Insertable(logDiff).ExecuteCommandAsync();
             Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine(DateTime.Now + $"\r\n*****差异日志开始*****\r\n{Environment.NewLine}{JSON.Serialize(logDiff)}{Environment.NewLine}*****差异日志结束*****\r\n");
+            Console.WriteLine(DateTime.Now + $"\r\n*****开始差异日志*****\r\n{Environment.NewLine}{JSON.Serialize(logDiff)}{Environment.NewLine}*****结束差异日志*****\r\n");
         };
     }
 

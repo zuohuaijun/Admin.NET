@@ -10,12 +10,12 @@ namespace Admin.NET.Core;
 public class SqlSugarConst
 {
     /// <summary>
-    /// 默认数据库标识（默认租户）
+    /// 默认主数据库标识（默认租户）
     /// </summary>
     public const string MainConfigId = "1300000000001";
 
     /// <summary>
-    /// 日志数据库标识
+    /// 默认日志数据库标识
     /// </summary>
     public const string LogConfigId = "1300000000002";
 
@@ -23,4 +23,14 @@ public class SqlSugarConst
     /// 默认表主键
     /// </summary>
     public const string PrimaryKey = "Id";
+
+    /// <summary>
+    /// 仓储对象
+    /// </summary>
+    public static ITenant ITenant { get; set; }
+
+    /// <summary>
+    /// 主库提供器
+    /// </summary>
+    public static SqlSugarScopeProvider MainDb { get; set; }
 }
