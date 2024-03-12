@@ -93,12 +93,12 @@ public class SelectTable : ISingleton
         query = values["query"] == null ? query : int.Parse(values["query"].ToString());
         values.Remove("page");
         values.Remove("count");
-        var tb = sugarQueryable(subtable, selectrole, values, dd);
+        var tb = SugarQueryable(subtable, selectrole, values, dd);
         if (query == 1)//1-总数
             return new Tuple<dynamic, int>(new List<object>(), tb.Count());
         else
         {
-            if (count > 0)
+            if (page > 0)//分页
             {
                 int total = 0;
                 if (query == 0)//0-对象
@@ -108,7 +108,7 @@ public class SelectTable : ISingleton
                     return new Tuple<dynamic, int>(tb.ToPageList(page, count, ref total), total);
 
             }
-            else
+            else//列表
             {
                 if (query == 0)
                     return new Tuple<dynamic, int>(tb.ToList(), 0);
@@ -192,7 +192,7 @@ public class SelectTable : ISingleton
     {
         JObject resultObj = new JObject();
 
-        int total = 0;
+        int total;
         foreach (var item in queryObj)
         {
             string key = item.Key.Trim();
@@ -200,6 +200,7 @@ public class SelectTable : ISingleton
             if (key.Equals("[]"))
             {
                 total = QueryMoreList(resultObj, item);
+                resultObj.Add("total", total);//只要是列表查询都自动返回总数
             }
             else if (key.EndsWith("[]"))
             {
@@ -211,7 +212,8 @@ public class SelectTable : ISingleton
             }
             else if (key.Equals("total@") || key.Equals("total"))
             {
-                resultObj.Add("total", total);
+                //resultObj.Add("total", total);
+                continue;
             }
             else
             {
@@ -248,7 +250,7 @@ public class SelectTable : ISingleton
         values.Remove("page");
         values.Remove("count");
         subtable = _tableMapper.GetTableName(subtable);
-        var tb = sugarQueryable(subtable, "*", values, null);
+        var tb = SugarQueryable(subtable, "*", values, null);
         var sqlObj = tb.Skip((page - 1) * count).Take(10).ToSql();
         return sqlObj.Key;
     }
@@ -268,7 +270,7 @@ public class SelectTable : ISingleton
         values.Remove("page");
         values.Remove("count");
         //todo *
-        var tb = sugarQueryable(subtable, selectrole, values, job).First();
+        var tb = SugarQueryable(subtable, selectrole, values, job).First();
         var dic = (IDictionary<string, object>)tb;
         foreach (var item in values.Properties().Where(it => it.Name.EndsWith("()")))
         {
@@ -298,7 +300,7 @@ public class SelectTable : ISingleton
         var jb = JObject.Parse(item.Value.ToString());
         int page = jb["page"] == null ? 0 : int.Parse(jb["page"].ToString());
         int count = jb["count"] == null ? 10 : int.Parse(jb["count"].ToString());
-        int query = jb["query"] == null ? 0 : int.Parse(jb["query"].ToString());
+        int query = jb["query"] == null ? 2 : int.Parse(jb["query"].ToString());//默认输出数据和数量
         int total = 0;
 
         jb.Remove("page"); jb.Remove("count"); jb.Remove("query");
@@ -333,7 +335,7 @@ public class SelectTable : ISingleton
         var jb = JObject.Parse(item.Value.ToString());
         int page = jb["page"] == null ? 0 : int.Parse(jb["page"].ToString());
         int count = jb["count"] == null ? 10 : int.Parse(jb["count"].ToString());
-        int query = jb["query"] == null ? 0 : int.Parse(jb["query"].ToString());
+        int query = jb["query"] == null ? 2 : int.Parse(jb["query"].ToString());//默认输出数据和数量
 
         jb.Remove("page"); jb.Remove("count"); jb.Remove("query");
         var htt = new JArray();
@@ -360,7 +362,7 @@ public class SelectTable : ISingleton
         var jb = JObject.Parse(item.Value.ToString());
         var page = jb["page"] == null ? 0 : int.Parse(jb["page"].ToString());
         var count = jb["count"] == null ? 10 : int.Parse(jb["count"].ToString());
-        var query = jb["query"] == null ? 0 : int.Parse(jb["query"].ToString());
+        var query = jb["query"] == null ? 2 : int.Parse(jb["query"].ToString());//默认输出数据和数量
         jb.Remove("page"); jb.Remove("count"); jb.Remove("query");
         var htt = new JArray();
         List<string> tables = new List<string>(), where = new List<string>();
@@ -416,6 +418,17 @@ public class SelectTable : ISingleton
         {
             resultObj.Add("[]", htt);
         }
+        //分页自动添加当前页数和数量
+        if (page > 0)
+        {
+            resultObj.Add("page", page);
+            
+        }
+        if (count > 0)
+        {
+            resultObj.Add("count", count);
+            resultObj.Add("max", total/count +1);
+        }
 
         return total;
     }
@@ -442,7 +455,7 @@ public class SelectTable : ISingleton
     }
 
     //
-    private ISugarQueryable<ExpandoObject> sugarQueryable(string subtable, string selectrole, JObject values, JObject dd)
+    private ISugarQueryable<ExpandoObject> SugarQueryable(string subtable, string selectrole, JObject values, JObject dd)
     {
         IsTable(subtable);
 
@@ -465,27 +478,27 @@ public class SelectTable : ISingleton
         }
         foreach (var va in values)
         {
-            string vakey = va.Key.Trim();
+            string key = va.Key.Trim();
             string fieldValue = va.Value.ToString();
-            if (vakey.StartsWith("@"))
+            if (key.StartsWith("@"))
             {
                 continue;
             }
-            if (vakey.EndsWith("$"))//模糊查询
+            if (key.EndsWith("$"))//模糊查询
             {
                 FuzzyQuery(subtable, conModels, va);
             }
-            else if (vakey.EndsWith("{}"))//逻辑运算
+            else if (key.EndsWith("{}"))//逻辑运算
             {
                 ConditionQuery(subtable, conModels, va);
             }
-            else if (vakey.EndsWith("%"))//bwtween查询
+            else if (key.EndsWith("%"))//bwtween查询
             {
                 ConditionBetween(subtable, conModels, va);
             }
-            else if (vakey.EndsWith("@") && dd != null) // 关联上一个table
+            else if (key.EndsWith("@") && dd != null) // 关联上一个table
             {
-                string[] str = fieldValue.Split('/');
+                string[] str = fieldValue.Split('/',StringSplitOptions.RemoveEmptyEntries);
                 string value = string.Empty;
                 if (str.Length == 3)
                 {
@@ -496,22 +509,22 @@ public class SelectTable : ISingleton
                     value = dd[str[0]][str[1]].ToString();
                 }
 
-                conModels.Add(new ConditionalModel() { FieldName = vakey.TrimEnd('@'), ConditionalType = ConditionalType.Equal, FieldValue = value });
+                conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('@'), ConditionalType = ConditionalType.Equal, FieldValue = value });
 
             }
-            else if (vakey.EndsWith("~"))//不等于
+            else if (key.EndsWith("~"))//不等于
             {
-                conModels.Add(new ConditionalModel() { FieldName = vakey.TrimEnd('~'), ConditionalType = ConditionalType.NoEqual, FieldValue = fieldValue });
+                conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('~'), ConditionalType = ConditionalType.NoEqual, FieldValue = fieldValue });
             }
-            else if (IsCol(subtable, vakey)) //其他where条件
+            else if (IsCol(subtable, key)) //其他where条件
             {
                 if (string.IsNullOrEmpty(fieldValue))
                 {
-                    conModels.Add(new ConditionalModel() { FieldName = vakey, ConditionalType = ConditionalType.IsNullOrEmpty });//增加null、""匹配
+                    conModels.Add(new ConditionalModel() { FieldName = key, ConditionalType = ConditionalType.IsNullOrEmpty });//增加null、""匹配
                 }
                 else
                 {
-                    conModels.Add(new ConditionalModel() { FieldName = vakey, ConditionalType = ConditionalType.Equal, FieldValue = fieldValue });
+                    conModels.Add(new ConditionalModel() { FieldName = key, ConditionalType = ConditionalType.Equal, FieldValue = fieldValue });
                 }
             }
         }
