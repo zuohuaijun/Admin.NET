@@ -6,6 +6,9 @@ namespace Admin.NET.Core;
 
 public static class SqlSugarSetup
 {
+    // 缓存所有仓储连接实例
+    private static ConcurrentDictionary<Type, ISqlSugarClient> iClientAttrDict = new();
+
     /// <summary>
     /// SqlSugar 上下文初始化
     /// </summary>
@@ -41,6 +44,7 @@ public static class SqlSugarSetup
         });
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
+        InitSqlSugarRepository(sqlSugar.AsTenant()); // 初始化仓储实例
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
         services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 事务与工作单元注册
 
@@ -368,5 +372,44 @@ public static class SqlSugarSetup
             else
                 db.CodeFirst.SplitTables().InitTables(entityType);
         }
+    }
+
+    /// <summary>
+    /// 初始化仓储连接实例
+    /// </summary>
+    /// <param name="iTenant"></param>
+    public static void InitSqlSugarRepository(ITenant iTenant)
+    {
+        // 主库仓储实例
+        var iClientMain = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+        iClientAttrDict.TryAdd(typeof(SysTableAttribute), iClientMain);
+
+        // 日志库仓储实例
+        var iClientLog = iTenant.IsAnyConnection(SqlSugarConst.LogConfigId)
+                ? iTenant.GetConnectionScope(SqlSugarConst.LogConfigId)
+                : iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+        iClientAttrDict.TryAdd(typeof(LogTableAttribute), iClientLog);
+
+        // 其他库仓储实例
+        var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
+            && u.IsDefined(typeof(SugarTable), false) && u.GetCustomAttribute<TenantAttribute>() != null).ToList();
+        foreach (var entityType in entityTypes)
+        {
+            MethodInfo genericMethod = typeof(ITenant).GetMethod("GetConnectionScopeWithAttr");
+            MethodInfo constructedMethod = genericMethod.MakeGenericMethod(entityType);
+            ISqlSugarClient iClientAttr = constructedMethod.Invoke(iTenant, null) as ISqlSugarClient;
+            iClientAttrDict.TryAdd(entityType, iClientAttr);
+        }
+    }
+
+    /// <summary>
+    /// 获取指定仓储连接实例
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public static ISqlSugarClient GetConnectionScope(Type type)
+    {
+        iClientAttrDict.TryGetValue(type, out ISqlSugarClient iClient);
+        return iClient;
     }
 }
