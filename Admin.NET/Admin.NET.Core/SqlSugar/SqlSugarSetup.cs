@@ -42,9 +42,9 @@ public static class SqlSugarSetup
                 SetDbDiffLog(dbProvider, config);
             });
         });
+        InitSqlSugarRepository(sqlSugar.AsTenant()); // 初始化仓储实例
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
-        InitSqlSugarRepository(sqlSugar.AsTenant()); // 初始化仓储实例
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
         services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 事务与工作单元注册
 
