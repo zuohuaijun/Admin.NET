@@ -220,9 +220,12 @@ public class SysCodeGenService : IDynamicApiController, ITransient
             var propertyInfo = entityProperties.FirstOrDefault(p => (p.GetCustomAttribute<SugarColumn>()?.ColumnName ?? "").ToLower() == columnOutput.ColumnName.ToLower());
             // 如果找不到就再找自动生成字段名的(并且过滤掉没有SugarColumn的属性)
             if (propertyInfo == null)
-                propertyInfo = entityProperties.FirstOrDefault(p => p.GetCustomAttribute<SugarColumn>() != null && p.Name.ToLower() == (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(columnOutput.ColumnName, entityBasePropertyNames) : columnOutput.ColumnName));
+                propertyInfo = entityProperties.FirstOrDefault(p => p.GetCustomAttribute<SugarColumn>() != null && p.Name.ToLower() == (config.DbSettings.EnableUnderLine ? CodeGenUtil.CamelColumnName(columnOutput.ColumnName, entityBasePropertyNames) : columnOutput.ColumnName.ToLower()));
             if (propertyInfo != null)
+            {
                 columnOutput.PropertyName = propertyInfo.Name;
+                columnOutput.ColumnComment = propertyInfo.GetCustomAttribute<SugarColumn>().ColumnDescription;
+            }
             else
                 result.RemoveAt(i); //移除没有定义此属性的字段
         }
