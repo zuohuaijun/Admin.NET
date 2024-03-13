@@ -7,7 +7,7 @@ namespace Admin.NET.Core;
 public static class SqlSugarSetup
 {
     // 缓存所有仓储连接实例
-    private static ConcurrentDictionary<Type, ISqlSugarClient> iClientAttrDict = new();
+    private static readonly ConcurrentDictionary<Type, ISqlSugarClient> sqlSugarClientDict = new();
 
     /// <summary>
     /// SqlSugar 上下文初始化
@@ -382,13 +382,13 @@ public static class SqlSugarSetup
     {
         // 主库仓储实例
         var iClientMain = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
-        iClientAttrDict.TryAdd(typeof(SysTableAttribute), iClientMain);
+        sqlSugarClientDict.TryAdd(typeof(SysTableAttribute), iClientMain);
 
         // 日志库仓储实例
         var iClientLog = iTenant.IsAnyConnection(SqlSugarConst.LogConfigId)
                 ? iTenant.GetConnectionScope(SqlSugarConst.LogConfigId)
                 : iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
-        iClientAttrDict.TryAdd(typeof(LogTableAttribute), iClientLog);
+        sqlSugarClientDict.TryAdd(typeof(LogTableAttribute), iClientLog);
 
         // 其他库仓储实例
         var entityTypes = App.EffectiveTypes.Where(u => !u.IsInterface && !u.IsAbstract && u.IsClass
@@ -398,7 +398,7 @@ public static class SqlSugarSetup
             MethodInfo genericMethod = typeof(ITenant).GetMethod("GetConnectionScopeWithAttr");
             MethodInfo constructedMethod = genericMethod.MakeGenericMethod(entityType);
             ISqlSugarClient iClientAttr = constructedMethod.Invoke(iTenant, null) as ISqlSugarClient;
-            iClientAttrDict.TryAdd(entityType, iClientAttr);
+            sqlSugarClientDict.TryAdd(entityType, iClientAttr);
         }
     }
 
@@ -409,7 +409,8 @@ public static class SqlSugarSetup
     /// <returns></returns>
     public static ISqlSugarClient GetConnectionScope(Type type)
     {
-        iClientAttrDict.TryGetValue(type, out ISqlSugarClient iClient);
+        sqlSugarClientDict.TryGetValue(type, out ISqlSugarClient iClient);
+        _ = iClient.Aop;
         return iClient;
     }
 }
