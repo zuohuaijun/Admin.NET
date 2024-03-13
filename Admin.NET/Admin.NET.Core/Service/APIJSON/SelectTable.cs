@@ -18,6 +18,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using static OfficeOpenXml.ExcelErrorValue;
 
 /// <summary>
 ///
@@ -95,7 +96,7 @@ public class SelectTable : ISingleton
         values.Remove("count");
         var tb = SugarQueryable(subtable, selectrole, values, dd);
         if (query == 1)//1-总数
-            return new Tuple<dynamic, int>(new List<object>(), tb.Count());
+            return new Tuple<dynamic, int>(null, tb.Count());
         else
         {
             if (page > 0)//分页
@@ -110,10 +111,11 @@ public class SelectTable : ISingleton
             }
             else//列表
             {
+                IList l = tb.ToList();
                 if (query == 0)
-                    return new Tuple<dynamic, int>(tb.ToList(), 0);
+                    return new Tuple<dynamic, int>(l, 0);
                 else
-                    return new Tuple<dynamic, int>(tb.ToList(), tb.Count());
+                    return new Tuple<dynamic, int>(l, l.Count);
             }
         }
     }
@@ -419,15 +421,11 @@ public class SelectTable : ISingleton
             resultObj.Add("[]", htt);
         }
         //分页自动添加当前页数和数量
-        if (page > 0)
+        if (page > 0 && count > 0)
         {
             resultObj.Add("page", page);
-            
-        }
-        if (count > 0)
-        {
             resultObj.Add("count", count);
-            resultObj.Add("max", total/count +1);
+            resultObj.Add("max", total / count + 1);
         }
 
         return total;
@@ -454,14 +452,21 @@ public class SelectTable : ISingleton
         resultObj.Add("func", dataJObj);
     }
 
-    //
+    /// <summary>
+    /// 构造查询过程
+    /// </summary>
+    /// <param name="subtable"></param>
+    /// <param name="selectrole"></param>
+    /// <param name="values"></param>
+    /// <param name="dd"></param>
+    /// <returns></returns>
     private ISugarQueryable<ExpandoObject> SugarQueryable(string subtable, string selectrole, JObject values, JObject dd)
     {
         IsTable(subtable);
 
         var tb = _db.Queryable(subtable, "tb");
 
-
+        //select 
         if (values["@column"].HasValue())
         {
             ProcessColumn(subtable, selectrole, values, tb);
@@ -471,64 +476,11 @@ public class SelectTable : ISingleton
             tb.Select(selectrole);
         }
 
-        List<IConditionalModel> conModels = new List<IConditionalModel>();
-        if (values["identity"].HasValue())
-        {
-            conModels.Add(new ConditionalModel() { FieldName = values["identity"].ToString(), ConditionalType = ConditionalType.Equal, FieldValue = _identitySvc.GetUserIdentity() });
-        }
-        foreach (var va in values)
-        {
-            string key = va.Key.Trim();
-            string fieldValue = va.Value.ToString();
-            if (key.StartsWith("@"))
-            {
-                continue;
-            }
-            if (key.EndsWith("$"))//模糊查询
-            {
-                FuzzyQuery(subtable, conModels, va);
-            }
-            else if (key.EndsWith("{}"))//逻辑运算
-            {
-                ConditionQuery(subtable, conModels, va);
-            }
-            else if (key.EndsWith("%"))//bwtween查询
-            {
-                ConditionBetween(subtable, conModels, va);
-            }
-            else if (key.EndsWith("@") && dd != null) // 关联上一个table
-            {
-                string[] str = fieldValue.Split('/',StringSplitOptions.RemoveEmptyEntries);
-                string value = string.Empty;
-                if (str.Length == 3)
-                {
-                    value = dd[str[1]][str[2]].ToString();
-                }
-                else if (str.Length == 2)
-                {
-                    value = dd[str[0]][str[1]].ToString();
-                }
+        //前几行
+        ProcessLimit(values, tb);
 
-                conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('@'), ConditionalType = ConditionalType.Equal, FieldValue = value });
-
-            }
-            else if (key.EndsWith("~"))//不等于
-            {
-                conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('~'), ConditionalType = ConditionalType.NoEqual, FieldValue = fieldValue });
-            }
-            else if (IsCol(subtable, key)) //其他where条件
-            {
-                if (string.IsNullOrEmpty(fieldValue))
-                {
-                    conModels.Add(new ConditionalModel() { FieldName = key, ConditionalType = ConditionalType.IsNullOrEmpty });//增加null、""匹配
-                }
-                else
-                {
-                    conModels.Add(new ConditionalModel() { FieldName = key, ConditionalType = ConditionalType.Equal, FieldValue = fieldValue });
-                }
-            }
-        }
-        tb.Where(conModels);
+        //where
+        ProcessWhere(subtable, values, tb, dd);
 
         //排序
         ProcessOrder(subtable, values, tb);
@@ -582,6 +534,75 @@ public class SelectTable : ISingleton
             throw new Exception($"表名{subtable}没有可查询的字段！");
         }
         tb.Select(str.ToString().TrimEnd(','));
+    }
+
+    /// <summary>
+    /// 构造查询条件 where
+    /// </summary>
+    /// <param name="subtable"></param>
+    /// <param name="values"></param>
+    /// <param name="tb"></param>
+    /// <param name="dd"></param>
+    private void ProcessWhere(string subtable, JObject values, ISugarQueryable<ExpandoObject> tb, JObject dd)
+    {
+        List<IConditionalModel> conModels = new List<IConditionalModel>();
+        if (values["identity"].HasValue())
+        {
+            conModels.Add(new ConditionalModel() { FieldName = values["identity"].ToString(), ConditionalType = ConditionalType.Equal, FieldValue = _identitySvc.GetUserIdentity() });
+        }
+        foreach (var va in values)
+        {
+            string key = va.Key.Trim();
+            string fieldValue = va.Value.ToString();
+            if (key.StartsWith("@"))
+            {
+                continue;
+            }
+            if (key.EndsWith("$"))//模糊查询
+            {
+                FuzzyQuery(subtable, conModels, va);
+            }
+            else if (key.EndsWith("{}"))//逻辑运算
+            {
+                ConditionQuery(subtable, conModels, va);
+            }
+            else if (key.EndsWith("%"))//bwtween查询
+            {
+                ConditionBetween(subtable, conModels, va);
+            }
+            else if (key.EndsWith("@") && dd != null) // 关联上一个table
+            {
+                string[] str = fieldValue.Split('/', StringSplitOptions.RemoveEmptyEntries);
+                string value = string.Empty;
+                if (str.Length == 3)
+                {
+                    value = dd[str[1]][str[2]].ToString();
+                }
+                else if (str.Length == 2)
+                {
+                    value = dd[str[0]][str[1]].ToString();
+                }
+
+                conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('@'), ConditionalType = ConditionalType.Equal, FieldValue = value });
+
+            }
+            else if (key.EndsWith("~"))//不等于
+            {
+                conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('~'), ConditionalType = ConditionalType.NoEqual, FieldValue = fieldValue });
+            }
+            else if (IsCol(subtable, key)) //其他where条件
+            {
+                if (string.IsNullOrEmpty(fieldValue))
+                {
+                    conModels.Add(new ConditionalModel() { FieldName = key, ConditionalType = ConditionalType.IsNullOrEmpty });//增加null、""匹配
+                }
+                else
+                {
+                    conModels.Add(new ConditionalModel() { FieldName = key, ConditionalType = ConditionalType.Equal, FieldValue = fieldValue });
+                }
+            }
+        }
+        tb.Where(conModels);
     }
 
     // "@having":"function0(...)?value0;function1(...)?value1;function2(...)?value2..."，
@@ -698,6 +719,21 @@ public class SelectTable : ISingleton
             }
         }
     }
+
+    /// <summary>
+    /// 表内参数"@count"(int)：查询前几行，不能同时使用count和@count函数
+    /// </summary>
+    /// <param name="values"></param>
+    /// <param name="tb"></param>
+    private void ProcessLimit(JObject values, ISugarQueryable<ExpandoObject> tb)
+    {
+        if (values["@count"].HasValue())
+        {
+            int c = values["@count"].ToObject<int>();
+            tb.Take(c);
+        }
+    }
+
 
     //条件查询 "key{}":"条件0,条件1..."，条件为任意SQL比较表达式字符串，非Number类型必须用''包含条件的值，如'a'
     //&, |, ! 逻辑运算符，对应数据库 SQL 中的 AND, OR, NOT。 
@@ -926,12 +962,12 @@ public class SelectTable : ISingleton
                 {
                     sb.Append($"{f.Key} in (@{f.Key})");
                     id = FuncList.TransJArrayToSugarPara(f.Value);
-                  
+
                 }
                 else//单个id
                 {
                     sb.Append($"{f.Key}=@{f.Key}");
-                   id = FuncList.TransJObjectToSugarPara(f.Value);
+                    id = FuncList.TransJObjectToSugarPara(f.Value);
                 }
             }
             else if (IsCol(tableName, f.Key) && (role.Update.Column.Contains("*") || role.Update.Column.Contains(f.Key, StringComparer.CurrentCultureIgnoreCase)))
@@ -954,13 +990,13 @@ public class SelectTable : ISingleton
     public int UpdateSingleTable(string tableName, JToken records, APIJSON_Role role = null)
     {
         role ??= _identitySvc.GetRole();
-        int count =0;
+        int count = 0;
         if (records is JArray)//遍历每行记录
         {
             foreach (var record in records.ToObject<JObject[]>())
             {
                 count += UpdateSingleRecord(tableName, record, role);
-            }          
+            }
         }
         else//单条记录
         {
