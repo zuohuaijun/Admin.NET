@@ -96,7 +96,7 @@ public class SelectTable : ISingleton
         values.Remove("count");
         var tb = SugarQueryable(subtable, selectrole, values, dd);
         if (query == 1)//1-总数
-            return new Tuple<dynamic, int>(null, tb.Count());
+            return new Tuple<dynamic, int>(null, tb.MergeTable().Count());
         else
         {
             if (page > 0)//分页
