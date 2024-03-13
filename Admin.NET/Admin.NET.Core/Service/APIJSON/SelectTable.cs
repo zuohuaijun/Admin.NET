@@ -10,6 +10,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Schema;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Math;
 using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
+using Org.BouncyCastle.Bcpg.OpenPgp;
 using SqlSugar;
 using StackExchange.Redis;
 using System;
@@ -568,7 +569,8 @@ public class SelectTable : ISingleton
             }
             else if (key.EndsWith("%"))//bwtween查询
             {
-                ConditionBetween(subtable, conModels, va);
+                ConditionBetween(subtable, conModels, va,tb);
+                
             }
             else if (key.EndsWith("@") && dd != null) // 关联上一个table
             {
@@ -602,7 +604,10 @@ public class SelectTable : ISingleton
                 }
             }
         }
-        tb.Where(conModels);
+        if (conModels.Any())
+        {
+            tb.Where(conModels);
+        }
     }
 
     // "@having":"function0(...)?value0;function1(...)?value1;function2(...)?value2..."，
@@ -795,13 +800,20 @@ public class SelectTable : ISingleton
         }
     }
 
-    //"key%":"start,end" => "key%":["start,end"]，其中 start 和 end 都只能为 Boolean, Number, String 中的一种，如 "2017-01-01,2019-01-01" ，["1,90000", "82001,100000"] ，可用于连续范围内的筛选
-    private void ConditionBetween(string subtable, List<IConditionalModel> conModels, KeyValuePair<string, JToken> va)
+
+    /// <summary>
+    /// "key%":"start,end" => "key%":["start,end"]，其中 start 和 end 都只能为 Boolean, Number, String 中的一种，如 "2017-01-01,2019-01-01" ，["1,90000", "82001,100000"] ，可用于连续范围内的筛选
+    /// 目前不支持数组形式
+    /// </summary>
+    /// <param name="subtable"></param>
+    /// <param name="conModels"></param>
+    /// <param name="va"></param>
+    /// <param name="tb"></param>
+    private void ConditionBetween(string subtable, List<IConditionalModel> conModels, KeyValuePair<string, JToken> va, ISugarQueryable<ExpandoObject> tb)
     {
         string vakey = va.Key.Trim();
         string field = vakey.TrimEnd("%".ToCharArray());
         List<string> inValues = new List<string>();
-
         if (va.Value.HasValues)
         {
             foreach (var cm in va.Value)
@@ -818,24 +830,16 @@ public class SelectTable : ISingleton
             var fileds = inValues[i].Split(',');
             if (fileds.Length == 2)
             {
-                var ddt = new List<KeyValuePair<WhereType, ConditionalModel>>();
-
-                var leftCondition = new ConditionalModel()
+                ObjectFuncModel f;
+                if (DateTime.TryParse(fileds[0], out _))//要么日期型，要么数值型
                 {
-                    FieldName = field,
-                    ConditionalType = ConditionalType.GreaterThanOrEqual,
-                    FieldValue = fileds[0]
-                };
-                ddt.Add(new KeyValuePair<WhereType, ConditionalModel>(i == 0 ? WhereType.And : WhereType.Or, leftCondition));
-                var rightCondition = new ConditionalModel()
+                    f = ObjectFuncModel.Create("between", field, "{Datetime}:" + fileds[0], "{Datetime}:" + fileds[1]);
+                }
+                else
                 {
-                    FieldName = field,
-                    ConditionalType = ConditionalType.LessThanOrEqual,
-                    FieldValue = fileds[1]
-                };
-                ddt.Add(new KeyValuePair<WhereType, ConditionalModel>(WhereType.And, rightCondition));
-
-                conModels.Add(new ConditionalCollections() { ConditionalList = ddt });
+                    f = ObjectFuncModel.Create("between", field, "{Decimal}:" + fileds[0], "{Decimal}:" + fileds[1],"|","{int}:40","{int}:50");
+                }
+                tb.Where(f);
             }
         }
     }
