@@ -20,6 +20,7 @@ using System.Dynamic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using static OfficeOpenXml.ExcelErrorValue;
+using static SKIT.FlurlHttpClient.Wechat.Api.Models.CgibinExpressIntracityUpdateStoreRequest.Types;
 
 /// <summary>
 ///
@@ -569,8 +570,8 @@ public class SelectTable : ISingleton
             }
             else if (key.EndsWith("%"))//bwtween查询
             {
-                ConditionBetween(subtable, conModels, va,tb);
-                
+                ConditionBetween(subtable, conModels, va, tb);
+
             }
             else if (key.EndsWith("@") && dd != null) // 关联上一个table
             {
@@ -588,20 +589,13 @@ public class SelectTable : ISingleton
                 conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('@'), ConditionalType = ConditionalType.Equal, FieldValue = value });
 
             }
-            else if (key.EndsWith("~"))//不等于
+            else if (key.EndsWith("~"))//不等于 这里应该是正则匹配
             {
-                conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('~'), ConditionalType = ConditionalType.NoEqual, FieldValue = fieldValue });
+                //conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('~'), ConditionalType = ConditionalType.NoEqual, FieldValue = fieldValue });
             }
-            else if (IsCol(subtable, key)) //其他where条件
+            else if (IsCol(subtable, key.TrimEnd('!'))) //其他where条件
             {
-                if (string.IsNullOrEmpty(fieldValue))
-                {
-                    conModels.Add(new ConditionalModel() { FieldName = key, ConditionalType = ConditionalType.IsNullOrEmpty });//增加null、""匹配
-                }
-                else
-                {
-                    conModels.Add(new ConditionalModel() { FieldName = key, ConditionalType = ConditionalType.Equal, FieldValue = fieldValue });
-                }
+                ConditionEqual(subtable, conModels, va);
             }
         }
         if (conModels.Any())
@@ -750,54 +744,39 @@ public class SelectTable : ISingleton
     {
         string vakey = va.Key.Trim();
         string field = vakey.TrimEnd("{}".ToCharArray());
-        if (va.Value.HasValues)
+        string columnName = field.TrimEnd(new char[] { '&', '|' });
+        IsCol(subtable, columnName);
+        var ddt = new List<KeyValuePair<WhereType, ConditionalModel>>();
+        foreach (var and in va.Value.ToString().Split(','))
         {
-            List<string> inValues = new List<string>();
-            foreach (var cm in va.Value)
+            var model = new ConditionalModel();
+            model.FieldName = columnName;
+            if (and.StartsWith(">="))
             {
-                inValues.Add(cm.ToString());
+                model.ConditionalType = ConditionalType.GreaterThanOrEqual;
+                model.FieldValue = and.TrimStart(">=".ToCharArray());
             }
-
-            conModels.Add(new ConditionalModel()
+            else if (and.StartsWith("<="))
             {
-                FieldName = field.TrimEnd("!".ToCharArray()),
-                ConditionalType = field.EndsWith("!") ? ConditionalType.NotIn : ConditionalType.In,
-                FieldValue = string.Join(",", inValues)
-            });
 
-        }
-        else
-        {
-            var ddt = new List<KeyValuePair<WhereType, ConditionalModel>>();
-            foreach (var and in va.Value.ToString().Split(','))
-            {
-                var model = new ConditionalModel();
-                model.FieldName = field.TrimEnd("&".ToCharArray());//处理&()的查询方式
-                if (and.StartsWith(">="))
-                {
-                    model.ConditionalType = ConditionalType.GreaterThanOrEqual;
-                    model.FieldValue = and.TrimStart(">=".ToCharArray());
-                }
-                else if (and.StartsWith("<="))
-                {
-
-                    model.ConditionalType = ConditionalType.LessThanOrEqual;
-                    model.FieldValue = and.TrimStart("<=".ToCharArray());
-                }
-                else if (and.StartsWith(">"))
-                {
-                    model.ConditionalType = ConditionalType.GreaterThan;
-                    model.FieldValue = and.TrimStart('>');
-                }
-                else if (and.StartsWith("<"))
-                {
-                    model.ConditionalType = ConditionalType.LessThan;
-                    model.FieldValue = and.TrimStart('<');
-                }
-                ddt.Add(new KeyValuePair<WhereType, ConditionalModel>((field.EndsWith("&") ? WhereType.And : WhereType.Or), model));
+                model.ConditionalType = ConditionalType.LessThanOrEqual;
+                model.FieldValue = and.TrimStart("<=".ToCharArray());
             }
-            conModels.Add(new ConditionalCollections() { ConditionalList = ddt });
+            else if (and.StartsWith(">"))
+            {
+                model.ConditionalType = ConditionalType.GreaterThan;
+                model.FieldValue = and.TrimStart('>');
+            }
+            else if (and.StartsWith("<"))
+            {
+                model.ConditionalType = ConditionalType.LessThan;
+                model.FieldValue = and.TrimStart('<');
+            }
+            model.CSharpTypeName =  FuncList.GetValueCSharpType( model.FieldValue);
+            ddt.Add(new KeyValuePair<WhereType, ConditionalModel>(field.EndsWith("!") ? WhereType.Or : WhereType.And, model));
         }
+        conModels.Add(new ConditionalCollections() { ConditionalList = ddt });
+
     }
 
 
@@ -830,16 +809,61 @@ public class SelectTable : ISingleton
             var fileds = inValues[i].Split(',');
             if (fileds.Length == 2)
             {
-                ObjectFuncModel f;
-                if (DateTime.TryParse(fileds[0], out _))//要么日期型，要么数值型
+                string type = FuncList.GetValueCSharpType(fileds[0]);
+                ObjectFuncModel f = ObjectFuncModel.Create("between", field, $"{{{type}}}:{fileds[0]}" , $"{{{type}}}:{fileds[1]}");
+                tb.Where(f);
+            }
+        }
+    }
+
+    /// <summary>
+    /// 等于、不等于、in 、not in
+    /// </summary>
+    /// <param name="subtable"></param>
+    /// <param name="conModels"></param>
+    /// <param name="va"></param>
+    /// <param name="key"></param>
+    private void ConditionEqual(string subtable, List<IConditionalModel> conModels, KeyValuePair<string, JToken> va)
+    {
+        string key = va.Key;
+        string fieldValue = va.Value.ToString();
+        // in / not in
+        if (va.Value is JArray)
+        {
+            conModels.Add(new ConditionalModel()
+            {
+                FieldName = key.TrimEnd('!'),
+                ConditionalType = key.EndsWith("!") ? ConditionalType.NotIn : ConditionalType.In,
+                FieldValue = va.Value.ToObject<string[]>().Aggregate((a, b) => a + "," + b)
+            });
+        }
+        else
+        {
+
+            if (string.IsNullOrEmpty(fieldValue))
+            {
+                // is not null or ''
+                if (key.EndsWith("!"))
                 {
-                    f = ObjectFuncModel.Create("between", field, "{Datetime}:" + fileds[0], "{Datetime}:" + fileds[1]);
+                    conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('!'), ConditionalType = ConditionalType.IsNot, FieldValue = null });
+                    conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('!'), ConditionalType = ConditionalType.IsNot, FieldValue = "" });
                 }
+                //is null or ''
                 else
                 {
-                    f = ObjectFuncModel.Create("between", field, "{Decimal}:" + fileds[0], "{Decimal}:" + fileds[1],"|","{int}:40","{int}:50");
+                    conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('!'), FieldValue = null });
                 }
-                tb.Where(f);
+
+            }
+            // = / !=
+            else
+            {
+                conModels.Add(new ConditionalModel()
+                {
+                    FieldName = key.TrimEnd('!'),
+                    ConditionalType = key.EndsWith("!") ? ConditionalType.NoEqual : ConditionalType.Equal,
+                    FieldValue = fieldValue
+                });
             }
         }
     }
@@ -868,6 +892,11 @@ public class SelectTable : ISingleton
             conModels.Add(new ConditionalModel() { FieldName = vakey.TrimEnd('$'), ConditionalType = conditionalType, FieldValue = fieldValue.TrimEnd("%".ToArray()).TrimStart("%".ToArray()) });
         }
     }
+
+
+
+
+
 
     //处理sql注入
     private string ReplaceSQLChar(string str)

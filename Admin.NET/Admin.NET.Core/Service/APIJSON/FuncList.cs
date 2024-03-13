@@ -96,4 +96,37 @@ public class FuncList
         else return (JArray)jToken;
 
     }
+
+    /// <summary>
+    /// 获取字符串里的值的真正类型
+    /// </summary>
+    /// <param name="input"></param>
+    /// <returns></returns>
+    public static string GetValueCSharpType(string input)
+    {
+        if (DateTime.TryParse(input, out _))
+        {
+            return "DateTime";
+        }
+        else if (int.TryParse(input, out _))
+        {
+            return "int";
+        }
+        else if (long.TryParse(input, out _))
+        {
+            return "long";
+        }
+        else if (decimal.TryParse(input, out _))
+        {
+            return "decimal";
+        }
+        else if (bool.TryParse(input, out _))
+        {
+            return "bool";
+        }
+        else
+        {
+            return "string";
+        }
+    }
 }
