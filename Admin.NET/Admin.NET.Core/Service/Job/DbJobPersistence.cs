@@ -128,7 +128,7 @@ public class DbJobPersistence : IJobPersistence
     {
         using (var scope = _serviceScopeFactory.CreateScope())
         {
-            var jobDetailRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>();
+            var jobDetailRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobDetail>>().CopyNew();
 
             var jobDetail = context.JobDetail.Adapt<SysJobDetail>();
             switch (context.Behavior)
@@ -156,7 +156,7 @@ public class DbJobPersistence : IJobPersistence
     {
         using (var scope = _serviceScopeFactory.CreateScope())
         {
-            var jobTriggerRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>();
+            var jobTriggerRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTrigger>>().CopyNew();
 
             var jobTrigger = context.Trigger.Adapt<SysJobTrigger>();
             switch (context.Behavior)
@@ -184,10 +184,10 @@ public class DbJobPersistence : IJobPersistence
     {
         using (var scope = _serviceScopeFactory.CreateScope())
         {
-            var jobTriggerRecordRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTriggerRecord>>();
+            var jobTriggerRecordRep = scope.ServiceProvider.GetRequiredService<SqlSugarRepository<SysJobTriggerRecord>>().CopyNew();
 
             var jobTriggerRecord = timeline.Adapt<SysJobTriggerRecord>();
-            jobTriggerRecordRep.CopyNew().AsInsertable(jobTriggerRecord).ExecuteCommand();
+            jobTriggerRecordRep.AsInsertable(jobTriggerRecord).ExecuteCommand();
         }
     }
 }
