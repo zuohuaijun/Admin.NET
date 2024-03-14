@@ -122,10 +122,10 @@ public class SysUserService : IDynamicApiController, ITransient
         // 删除用户机构缓存
         SqlSugarFilter.DeleteUserOrgCache(input.Id, _sysUserRep.Context.CurrentConnectionConfig.ConfigId.ToString());
 
-        // 若账号的角色和组织架构发生变化，则强制账号下线以刷新权限
+        // 若账号的角色和组织架构发生变化,则强制下线账号进行权限更新
         var user = await _sysUserRep.AsQueryable().ClearFilter().FirstAsync(u => u.Id == input.Id);
-        var roleIds = await GetOwnRoleList(input.Id); // 获取权限集合
-        if (input.OrgId != user.OrgId || input.RoleIdList != roleIds)
+        var roleIds = await GetOwnRoleList(input.Id);
+        if (input.OrgId != user.OrgId || !input.RoleIdList.OrderBy(u => u).SequenceEqual(roleIds.OrderBy(u => u)))
             await _sysOnlineUserService.ForceOffline(input.Id);
     }
 
