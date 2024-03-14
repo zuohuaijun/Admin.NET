@@ -41,7 +41,6 @@ public static class SqlSugarSetup
         });
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
-        services.AddSingleton(sqlSugar.AsTenant()); // 多租户单例注册
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
         services.AddUnitOfWork<SqlSugarUnitOfWork>(); // 事务与工作单元注册
 
