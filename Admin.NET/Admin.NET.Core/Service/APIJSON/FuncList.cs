@@ -2,11 +2,6 @@
 //
 // 此源代码遵循位于源代码树根目录中的 LICENSE 文件的许可证
 
-using NewLife.Reflection;
-using Newtonsoft.Json.Linq;
-using OfficeOpenXml.FormulaParsing.Excel.Functions.Text;
-using Org.BouncyCastle.Asn1.X509.Qualified;
-
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -46,7 +41,6 @@ public class FuncList
     {
         return a.ToString().Split(',').Contains(b);
     }
-   
 
     /// <summary>
     /// 根据jtoken的实际类型来转换SugarParameter，避免全转成字符串
@@ -91,10 +85,10 @@ public class FuncList
                 JTokenType.Guid => jToken.ToObject<Guid[]>(),
                 JTokenType.TimeSpan => jToken.ToObject<TimeSpan[]>(),
                 _ => jToken.ToArray()
-            } ;
+            };
         }
-        else return (JArray)jToken;
 
+        return (JArray)jToken;
     }
 
     /// <summary>
@@ -105,28 +99,16 @@ public class FuncList
     public static string GetValueCSharpType(string input)
     {
         if (DateTime.TryParse(input, out _))
-        {
             return "DateTime";
-        }
         else if (int.TryParse(input, out _))
-        {
             return "int";
-        }
         else if (long.TryParse(input, out _))
-        {
             return "long";
-        }
         else if (decimal.TryParse(input, out _))
-        {
             return "decimal";
-        }
         else if (bool.TryParse(input, out _))
-        {
             return "bool";
-        }
         else
-        {
             return "string";
-        }
     }
 }

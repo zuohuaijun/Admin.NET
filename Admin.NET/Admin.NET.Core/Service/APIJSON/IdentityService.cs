@@ -6,6 +6,9 @@ using System.Security.Claims;
 
 namespace Admin.NET.Core.Service;
 
+/// <summary>
+/// 权限验证
+/// </summary>
 public class IdentityService : ITransient
 {
     private readonly IHttpContextAccessor _context;
@@ -41,15 +44,9 @@ public class IdentityService : ITransient
     /// <returns></returns>
     public APIJSON_Role GetRole()
     {
-        APIJSON_Role role;
-        if (string.IsNullOrEmpty(GetUserRoleName())) // 若没登录默认取第一个
-        {
-            role = _roles.FirstOrDefault();
-        }
-        else
-        {
-            role = _roles.FirstOrDefault(it => it.RoleName.Equals(GetUserRoleName(), StringComparison.CurrentCultureIgnoreCase));
-        }
+        var role = string.IsNullOrEmpty(GetUserRoleName())
+            ? _roles.FirstOrDefault()
+            : _roles.FirstOrDefault(it => it.RoleName.Equals(GetUserRoleName(), StringComparison.CurrentCultureIgnoreCase));
         return role;
     }
 
@@ -62,17 +59,14 @@ public class IdentityService : ITransient
     {
         var role = GetRole();
         if (role == null || role.Select == null || role.Select.Table == null)
-        {
             return (false, $"appsettings.json权限配置不正确！");
-        }
-        string tablerole = role.Select.Table.FirstOrDefault(it => it == "*" || it.Equals(table, StringComparison.CurrentCultureIgnoreCase));
 
+        var tablerole = role.Select.Table.FirstOrDefault(it => it == "*" || it.Equals(table, StringComparison.CurrentCultureIgnoreCase));
         if (string.IsNullOrEmpty(tablerole))
-        {
             return (false, $"表名{table}没权限查询！");
-        }
-        int index = Array.IndexOf(role.Select.Table, tablerole);
-        string selectrole = role.Select.Column[index];
+
+        var index = Array.IndexOf(role.Select.Table, tablerole);
+        var selectrole = role.Select.Column[index];
         return (true, selectrole);
     }
 
@@ -84,22 +78,17 @@ public class IdentityService : ITransient
     /// <returns></returns>
     public bool ColIsRole(string col, string[] selectrole)
     {
-        if (selectrole.Contains("*"))
+        if (selectrole.Contains("*")) return true;
+
+        if (col.Contains('(') && col.Contains(')'))
         {
-            return true;
+            var reg = new Regex(@"\(([^)]*)\)");
+            var match = reg.Match(col);
+            return selectrole.Contains(match.Result("$1"), StringComparer.CurrentCultureIgnoreCase);
         }
         else
         {
-            if (col.Contains("(") && col.Contains(")"))
-            {
-                Regex reg = new Regex(@"\(([^)]*)\)");
-                Match m = reg.Match(col);
-                return selectrole.Contains(m.Result("$1"), StringComparer.CurrentCultureIgnoreCase);
-            }
-            else
-            {
-                return selectrole.Contains(col, StringComparer.CurrentCultureIgnoreCase);
-            }
+            return selectrole.Contains(col, StringComparer.CurrentCultureIgnoreCase);
         }
     }
 }

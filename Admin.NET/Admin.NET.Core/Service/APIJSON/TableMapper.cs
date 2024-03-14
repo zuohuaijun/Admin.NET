@@ -9,7 +9,7 @@ namespace Admin.NET.Core.Service;
 /// </summary>
 public class TableMapper : ITransient
 {
-    private readonly Dictionary<string, string> _options = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+    private readonly Dictionary<string, string> _options = new(StringComparer.OrdinalIgnoreCase);
 
     public TableMapper(IOptions<Dictionary<string, string>> options)
     {
@@ -26,10 +26,6 @@ public class TableMapper : ITransient
     /// <returns></returns>
     public string GetTableName(string oldname)
     {
-        if (_options.ContainsKey(oldname))
-        {
-            return _options[oldname];
-        }
-        return oldname;
+        return _options.ContainsKey(oldname) ? _options[oldname] : oldname;
     }
 }

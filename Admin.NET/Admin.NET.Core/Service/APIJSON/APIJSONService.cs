@@ -2,10 +2,6 @@
 //
 // 此源代码遵循位于源代码树根目录中的 LICENSE 文件的许可证
 
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using OBS.Model;
-
 namespace Admin.NET.Core.Service;
 
 /// <summary>
@@ -41,33 +37,33 @@ public class APIJSONService : IDynamicApiController, ITransient
         return _selectTable.Query(jobject);
     }
 
-
+    /// <summary>
+    /// 查询表
+    /// </summary>
+    /// <param name="table"></param>
+    /// <param name="jobject"></param>
+    /// <returns></returns>
     [HttpPost("get/{table}")]
-    public async Task<JObject> QueryByTable([FromRoute] string table, [FromBody] JObject jobject)
+    public JObject QueryByTable([FromRoute] string table, [FromBody] JObject jobject)
     {
+        var ht = new JObject
+        {
+            { table + "[]", jobject }
+        };
 
-        JObject ht = new JObject();
-
-        ht.Add(table + "[]", jobject);
-
+        // 自动添加总计数量
         if (jobject["query"] != null && jobject["query"].ToString() != "0" && jobject["total@"] == null)
-        {
-            //自动添加总计数量
             ht.Add("total@", "");
-        }
 
-        //每页最大1000条数据
+        // 每页最大1000条数据
         if (jobject["count"] != null && int.Parse(jobject["count"].ToString()) > 1000)
-        {
             throw Oops.Bah("count分页数量最大不能超过1000");
-        }
 
-        bool isDebug = (jobject["@debug"] != null && jobject["@debug"].ToString() != "0");
         jobject.Remove("@debug");
 
-        bool hasTableKey = false;
-        List<string> ignoreConditions = new List<string> { "page", "count", "query" };
-        JObject tableConditions = new JObject();//表的其它查询条件，比如过滤，字段等
+        var hasTableKey = false;
+        var ignoreConditions = new List<string> { "page", "count", "query" };
+        var tableConditions = new JObject(); // 表的其它查询条件，比如过滤、字段等
         foreach (var item in jobject)
         {
             if (item.Key.Equals(table, StringComparison.CurrentCultureIgnoreCase))
@@ -76,9 +72,7 @@ public class APIJSONService : IDynamicApiController, ITransient
                 break;
             }
             if (!ignoreConditions.Contains(item.Key.ToLower()))
-            {
                 tableConditions.Add(item.Key, item.Value);
-            }
         }
 
         foreach (var removeKey in tableConditions)
@@ -87,133 +81,118 @@ public class APIJSONService : IDynamicApiController, ITransient
         }
 
         if (!hasTableKey)
-        {
             jobject.Add(table, tableConditions);
-        }
 
         return Query(ht);
     }
+
     /// <summary>
     /// 新增
     /// </summary>
-    /// <param name="tables">表对象或数组，如果没有传id则后端生成id</param>
+    /// <param name="tables">表对象或数组，若没有传Id则后端生成Id</param>
     /// <returns></returns>
     [HttpPost("post")]
     [UnitOfWork]
     public JObject Add([FromBody] JObject tables)
     {
-
-        JObject ht = new JObject();
-        foreach (var table in tables)//遍历不同的表
+        var ht = new JObject();
+        foreach (var table in tables)
         {
-            string talbeName = table.Key.Trim();
+            var talbeName = table.Key.Trim();
             var role = _identityService.GetRole();
             if (!role.Insert.Table.Contains(talbeName, StringComparer.CurrentCultureIgnoreCase))
-            {
                 throw Oops.Bah($"没权限添加{talbeName}");
-            }
+
             JToken result;
-            //批量插入
+            // 批量插入
             if (table.Value is JArray)
             {
-                List<object> ids = new();
-                foreach (var record in table.Value)//遍历同一个表下的不同记录
+                var ids = new List<object>();
+                foreach (var record in table.Value)
                 {
                     var cols = record.ToObject<JObject>();
                     var id = _selectTable.InsertSingle(talbeName, cols, role);
                     ids.Add(id);
                 }
-                result = JToken.FromObject(new { id = ids,count=ids.Count });               
+                result = JToken.FromObject(new { id = ids, count = ids.Count });
             }
-            //单条插入
+            // 单条插入
             else
             {
                 var cols = table.Value.ToObject<JObject>();
                 var id = _selectTable.InsertSingle(talbeName, cols, role);
                 result = JToken.FromObject(new { id });
             }
-
             ht.Add(talbeName, result);
         }
-
         return ht;
     }
+
     /// <summary>
-    /// 修改,只支持id作为条件
+    /// 修改（只支持Id作为条件）
     /// </summary>
-    /// <param name="tables">支持多表、多id批量更新</param>
+    /// <param name="tables">支持多表、多Id批量更新</param>
     /// <returns></returns>
-    [HttpPost("put")]
+    [HttpPost("post")]
     [UnitOfWork]
     public JObject Edit([FromBody] JObject tables)
     {
-        JObject ht = new JObject();
-
-        foreach (var table in tables)//每个表
+        var ht = new JObject();
+        foreach (var table in tables)
         {
-            string tableName = table.Key.Trim();
+            var tableName = table.Key.Trim();
             var role = _identityService.GetRole();
-            int count = _selectTable.UpdateSingleTable(tableName,table.Value,role);
+            var count = _selectTable.UpdateSingleTable(tableName, table.Value, role);
             ht.Add(tableName, JToken.FromObject(new { count }));
         }
-
         return ht;
     }
+
     /// <summary>
-    /// 删除 支持非id条件,支持批量
+    /// 删除（支持非Id条件、支持批量）
     /// </summary>
     /// <param name="tables"></param>
     /// <returns></returns>
-    [HttpPost("delete")]
+    [HttpPost("post")]
     [UnitOfWork]
     public JObject Delete([FromBody] JObject tables)
     {
-        JObject ht = new JObject();
+        var ht = new JObject();
         var role = _identityService.GetRole();
-        foreach (var table in tables)//遍历表
+        foreach (var table in tables)
         {
-            string talbeName = table.Key.Trim();
-            var value = JObject.Parse(table.Value.ToString());
-
+            var talbeName = table.Key.Trim();
             if (role.Delete == null || role.Delete.Table == null)
-            {
                 throw Oops.Bah("delete权限未配置");
-            }
             if (!role.Delete.Table.Contains(talbeName, StringComparer.CurrentCultureIgnoreCase))
-            {
                 throw Oops.Bah($"没权限删除{talbeName}");
-            }
             //if (!value.ContainsKey("id"))
-            //{
             //    throw Oops.Bah("未传主键id");
-            //}
 
+            var value = JObject.Parse(table.Value.ToString());
             var sb = new StringBuilder(100);
-            List<SugarParameter> parameters = new List<SugarParameter>();
-            foreach (var f in value)//每个条件
+            var parameters = new List<SugarParameter>();
+            foreach (var f in value)
             {
-                if (f.Value is JArray)//数组
+                if (f.Value is JArray)
                 {
                     sb.Append($"{f.Key} in (@{f.Key}) and ");
                     var paraArray = FuncList.TransJArrayToSugarPara(f.Value);
-                    parameters.Add(new SugarParameter($"@{f.Key}", paraArray));              
+                    parameters.Add(new SugarParameter($"@{f.Key}", paraArray));
                 }
-                else//单个值
+                else
                 {
                     sb.Append($"{f.Key}=@{f.Key} and ");
                     parameters.Add(new SugarParameter($"@{f.Key}", FuncList.TransJObjectToSugarPara(f.Value)));
                 }
-
             }
             if (!parameters.Any())
-            {
                 throw Oops.Bah("请输入删除条件");
-            }
-            string whereSql = sb.ToString().TrimEnd(" and ");
-            int count = _db.Deleteable<object>().AS(talbeName).Where(whereSql, parameters).ExecuteCommand();//无实体删除
-            value.Add("count", count);//命中数量
-            ht.Add(talbeName, value);
 
+            var whereSql = sb.ToString().TrimEnd(" and ");
+            var count = _db.Deleteable<object>().AS(talbeName).Where(whereSql, parameters).ExecuteCommand(); // 无实体删除
+            value.Add("count", count); // 命中数量
+            ht.Add(talbeName, value);
         }
         return ht;
     }
