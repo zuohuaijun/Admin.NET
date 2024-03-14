@@ -10,11 +10,11 @@ namespace Admin.NET.Core;
 /// <typeparam name="T"></typeparam>
 public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
 {
-    protected ITenant iTenant = null;
+    protected ITenant iTenant;
 
     public SqlSugarRepository()
     {
-        iTenant = App.GetRequiredService<ISqlSugarClient>().AsTenant();
+        iTenant = SqlSugarConst.ITenant;
         base.Context = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
 
         // 若实体贴有多库特性，则返回指定库连接

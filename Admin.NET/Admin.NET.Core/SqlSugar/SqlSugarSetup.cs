@@ -39,6 +39,7 @@ public static class SqlSugarSetup
                 SetDbDiffLog(dbProvider, config);
             });
         });
+        SqlSugarConst.ITenant = sqlSugar.AsTenant();
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
