@@ -24,26 +24,23 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
         // 若实体贴有日志表特性，则返回日志库连接
         if (typeof(T).IsDefined(typeof(LogTableAttribute), false))
         {
-            base.Context = iTenant.IsAnyConnection(SqlSugarConst.LogConfigId)
-                ? iTenant.GetConnectionScope(SqlSugarConst.LogConfigId)
-                : iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
+            var sqlSugarScopeProviderLog = iTenant.GetConnectionScope(SqlSugarConst.LogConfigId);
+            if (sqlSugarScopeProviderLog != null)
+                base.Context = sqlSugarScopeProviderLog;
             return;
         }
 
         // 若实体贴有系统表特性，则返回默认库连接
         if (typeof(T).IsDefined(typeof(SysTableAttribute), false))
-        {
-            base.Context = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
             return;
-        }
 
         // 若未贴任何表特性或当前未登录或是默认租户Id，则返回默认库连接
         var tenantId = App.User?.FindFirst(ClaimConst.TenantId)?.Value;
         if (string.IsNullOrWhiteSpace(tenantId) || tenantId == SqlSugarConst.MainConfigId) return;
 
         // 根据租户Id切换库连接, 为空则返回默认库连接
-        var sqlSugarScopeProvider = App.GetRequiredService<SysTenantService>().GetTenantDbConnectionScope(long.Parse(tenantId));
-        if (sqlSugarScopeProvider == null) return;
-        base.Context = sqlSugarScopeProvider;
+        var sqlSugarScopeProviderTenant = App.GetRequiredService<SysTenantService>().GetTenantDbConnectionScope(long.Parse(tenantId));
+        if (sqlSugarScopeProviderTenant == null) return;
+        base.Context = sqlSugarScopeProviderTenant;
     }
 }
