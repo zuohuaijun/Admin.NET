@@ -252,14 +252,16 @@ public static partial class ObjectExtension
     }
 
     /// <summary>
-    /// 判断是否有值
+    /// 是否有值
     /// </summary>
-    /// <param name="obj"></param>
+    /// <param name="str"></param>
     /// <returns></returns>
-    public static bool IsNullOrEmpty(this object obj)
+    public static bool HasValue(this object str)
     {
-        return obj == null || string.IsNullOrEmpty(obj.ToString());
+        return str != null && !string.IsNullOrEmpty(str.ToString());
     }
+
+
 
     /// <summary>
     /// 字符串掩码
