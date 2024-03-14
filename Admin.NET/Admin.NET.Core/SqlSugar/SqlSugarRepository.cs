@@ -12,7 +12,7 @@ public class SqlSugarRepository<T> : SimpleClient<T> where T : class, new()
 {
     public SqlSugarRepository()
     {
-        var iTenant = App.GetRequiredService<ISqlSugarClient>().AsTenant();
+        var iTenant = SqlSugarSetup.ITenant;
         base.Context = iTenant.GetConnectionScope(SqlSugarConst.MainConfigId);
 
         // 若实体贴有多库特性，则返回指定库连接
