@@ -23,9 +23,4 @@ public class SqlSugarConst
     /// 默认表主键
     /// </summary>
     public const string PrimaryKey = "Id";
-
-    /// <summary>
-    /// 仓储对象
-    /// </summary>
-    public static ITenant ITenant { get; set; }
 }

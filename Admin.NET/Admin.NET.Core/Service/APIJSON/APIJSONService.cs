@@ -91,7 +91,7 @@ public class APIJSONService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="tables">表对象或数组，若没有传Id则后端生成Id</param>
     /// <returns></returns>
-    [HttpPost("post")]
+    [HttpPost("add")]
     [UnitOfWork]
     public JObject Add([FromBody] JObject tables)
     {
@@ -133,7 +133,7 @@ public class APIJSONService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="tables">支持多表、多Id批量更新</param>
     /// <returns></returns>
-    [HttpPost("post")]
+    [HttpPost("update")]
     [UnitOfWork]
     public JObject Edit([FromBody] JObject tables)
     {
@@ -153,7 +153,7 @@ public class APIJSONService : IDynamicApiController, ITransient
     /// </summary>
     /// <param name="tables"></param>
     /// <returns></returns>
-    [HttpPost("post")]
+    [HttpPost("delete")]
     [UnitOfWork]
     public JObject Delete([FromBody] JObject tables)
     {
