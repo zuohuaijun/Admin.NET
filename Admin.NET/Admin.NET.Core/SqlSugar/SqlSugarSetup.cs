@@ -409,8 +409,9 @@ public static class SqlSugarSetup
     /// <returns></returns>
     public static ISqlSugarClient GetConnectionScope(Type type)
     {
-        sqlSugarClientDict.TryGetValue(type, out ISqlSugarClient iClient);
-        _ = iClient.Aop;
-        return iClient;
+        sqlSugarClientDict.TryGetValue(type, out ISqlSugarClient sqlSugarClient);
+        _ = sqlSugarClient.Aop;
+        _ = sqlSugarClient.QueryFilter;
+        return sqlSugarClient;
     }
 }
