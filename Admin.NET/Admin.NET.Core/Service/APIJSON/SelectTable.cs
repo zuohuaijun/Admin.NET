@@ -71,7 +71,7 @@ public class SelectTable : ISingleton
     }
 
     /// <summary>
-    /// 
+    /// 查询列表数据
     /// </summary>
     /// <param name="subtable"></param>
     /// <param name="page"></param>
@@ -96,7 +96,10 @@ public class SelectTable : ISingleton
         query = values["query"] == null ? query : int.Parse(values["query"].ToString());
         values.Remove("page");
         values.Remove("count");
+        //构造查询过程
         var tb = SugarQueryable(subtable, selectrole, values, dd);
+
+        //实际会在这里执行
         if (query == 1)//1-总数
             return new Tuple<dynamic, int>(null, tb.MergeTable().Count());
         else
@@ -201,7 +204,7 @@ public class SelectTable : ISingleton
         {
             string key = item.Key.Trim();
 
-            if (key.Equals("[]"))
+            if (key.Equals("[]"))//列表
             {
                 total = QueryMoreList(resultObj, item);
                 resultObj.Add("total", total);//只要是列表查询都自动返回总数
@@ -219,7 +222,7 @@ public class SelectTable : ISingleton
                 //resultObj.Add("total", total);
                 continue;
             }
-            else
+            else//单条
             {
                 var template = GetFirstData(key, item.Value.ToString(), resultObj);
                 if (template != null)
@@ -259,7 +262,14 @@ public class SelectTable : ISingleton
         return sqlObj.Key;
     }
 
-    //
+    /// <summary>
+    /// 查询第一条数据
+    /// </summary>
+    /// <param name="subtable"></param>
+    /// <param name="json"></param>
+    /// <param name="job"></param>
+    /// <returns></returns>
+    /// <exception cref="Exception"></exception>
     private dynamic GetFirstData(string subtable, string json, JObject job)
     {
 
@@ -273,7 +283,6 @@ public class SelectTable : ISingleton
         JObject values = JObject.Parse(json);
         values.Remove("page");
         values.Remove("count");
-        //todo *
         var tb = SugarQueryable(subtable, selectrole, values, job).First();
         var dic = (IDictionary<string, object>)tb;
         foreach (var item in values.Properties().Where(it => it.Name.EndsWith("()")))
@@ -354,11 +363,16 @@ public class SelectTable : ISingleton
     //单表查询
     private int QuerySingleList(JObject resultObj, KeyValuePair<string, JToken> item)
     {
-        string key = item.Key.Trim();
+        string key = item.Key.TrimEnd("[]");
         return QuerySingleList(resultObj, item, key);
     }
 
-    //多列表查询
+    /// <summary>
+    /// 多列表查询
+    /// </summary>
+    /// <param name="resultObj"></param>
+    /// <param name="item"></param>
+    /// <returns></returns>
     private int QueryMoreList(JObject resultObj, KeyValuePair<string, JToken> item)
     {
         int total = 0;
@@ -376,43 +390,45 @@ public class SelectTable : ISingleton
         }
         if (tables.Count > 0)
         {
-            string table = tables[0];
+            string table = tables[0].TrimEnd("[]");
             var temp = GetTableData(table, page, count, query, where[0], null);
             if (query > 0)
             {
                 total = temp.Item2;
             }
-
+            //关联查询，先查子表数据，再根据外键循环查询主表
             foreach (var dd in temp.Item1)
             {
                 var zht = new JObject();
                 zht.Add(table, JToken.FromObject(dd));
-                for (int i = 1; i < tables.Count; i++)
+                for (int i = 1; i < tables.Count; i++)//从第二个表开始循环
                 {
                     string subtable = tables[i];
-                    if (subtable.EndsWith("[]"))
-                    {
-                        subtable = subtable.TrimEnd("[]".ToCharArray());
-                        var jbb = JObject.Parse(where[i]);
-                        page = jbb["page"] == null ? 0 : int.Parse(jbb["page"].ToString());
-                        count = jbb["count"] == null ? 0 : int.Parse(jbb["count"].ToString());
+                    //有bug，暂不支持[]分支
+                    //if (subtable.EndsWith("[]"))
+                    //{
+                    //   string tableName = subtable.TrimEnd("[]".ToCharArray());
+                    //    var jbb = JObject.Parse(where[i]);
+                    //    page = jbb["page"] == null ? 0 : int.Parse(jbb["page"].ToString());
+                    //    count = jbb["count"] == null ? 0 : int.Parse(jbb["count"].ToString());
 
-                        var lt = new JArray();
-                        foreach (var d in GetTableData(subtable, page, count, query, jbb[subtable].ToString(), zht).Item1)
-                        {
-                            lt.Add(JToken.FromObject(d));
-                        }
-                        zht.Add(tables[i], lt);
-                    }
-                    else
+                    //    var lt = new JArray();
+                    //    foreach (var d in GetTableData(tableName, page, count, query, item.Value[subtable].ToString(), zht).Item1)
+                    //    {
+                    //        lt.Add(JToken.FromObject(d));
+                    //    }
+                    //    zht.Add(tables[i], lt);
+                    //}
+                    //else
+                    //{
+                    
+                    var ddf = GetFirstData(subtable, where[i].ToString(), zht);
+                    if (ddf != null)
                     {
-                        var ddf = GetFirstData(subtable, where[i].ToString(), zht);
-                        if (ddf != null)
-                        {
-                            zht.Add(subtable, JToken.FromObject(ddf));
+                        zht.Add(subtable, JToken.FromObject(ddf));
 
-                        }
                     }
+                    //}
                 }
                 htt.Add(zht);
             }
@@ -427,7 +443,7 @@ public class SelectTable : ISingleton
         {
             resultObj.Add("page", page);
             resultObj.Add("count", count);
-            resultObj.Add("max", total / count + 1);
+            resultObj.Add("max", (int)Math.Ceiling((decimal)total / count));
         }
 
         return total;
@@ -573,18 +589,19 @@ public class SelectTable : ISingleton
                 ConditionBetween(subtable, conModels, va, tb);
 
             }
-            else if (key.EndsWith("@") && dd != null) // 关联上一个table
+            else if (key.EndsWith("@")) // 关联上一个table
             {
-                string[] str = fieldValue.Split('/', StringSplitOptions.RemoveEmptyEntries);
-                string value = string.Empty;
-                if (str.Length == 3)
+                if (dd == null)
                 {
-                    value = dd[str[1]][str[2]].ToString();
+                    continue;
                 }
-                else if (str.Length == 2)
+                string[] str = fieldValue.Split('/');
+                var lastTableRecord = ((JObject)dd[str[^2]]);
+                if (!lastTableRecord.ContainsKey(str[^1]))
                 {
-                    value = dd[str[0]][str[1]].ToString();
+                    throw new Exception($"找不到关联列:{str}，请在{str[^2]}@column中设置");
                 }
+                string value = lastTableRecord[str[^1]].ToString();
 
                 conModels.Add(new ConditionalModel() { FieldName = key.TrimEnd('@'), ConditionalType = ConditionalType.Equal, FieldValue = value });
 
@@ -772,7 +789,7 @@ public class SelectTable : ISingleton
                 model.ConditionalType = ConditionalType.LessThan;
                 model.FieldValue = and.TrimStart('<');
             }
-            model.CSharpTypeName =  FuncList.GetValueCSharpType( model.FieldValue);
+            model.CSharpTypeName = FuncList.GetValueCSharpType(model.FieldValue);
             ddt.Add(new KeyValuePair<WhereType, ConditionalModel>(field.EndsWith("!") ? WhereType.Or : WhereType.And, model));
         }
         conModels.Add(new ConditionalCollections() { ConditionalList = ddt });
@@ -810,7 +827,7 @@ public class SelectTable : ISingleton
             if (fileds.Length == 2)
             {
                 string type = FuncList.GetValueCSharpType(fileds[0]);
-                ObjectFuncModel f = ObjectFuncModel.Create("between", field, $"{{{type}}}:{fileds[0]}" , $"{{{type}}}:{fileds[1]}");
+                ObjectFuncModel f = ObjectFuncModel.Create("between", field, $"{{{type}}}:{fileds[0]}", $"{{{type}}}:{fileds[1]}");
                 tb.Where(f);
             }
         }
