@@ -6,9 +6,6 @@ namespace Admin.NET.Core;
 
 public static class SqlSugarSetup
 {
-    // 多租户实例
-    public static ITenant ITenant { get; set; }
-
     /// <summary>
     /// SqlSugar 上下文初始化
     /// </summary>
@@ -42,7 +39,6 @@ public static class SqlSugarSetup
                 SetDbDiffLog(dbProvider, config);
             });
         });
-        ITenant = sqlSugar.AsTenant();
 
         services.AddSingleton<ISqlSugarClient>(sqlSugar); // 单例注册
         services.AddScoped(typeof(SqlSugarRepository<>)); // 仓储注册
