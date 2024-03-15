@@ -62,6 +62,19 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 			icon: 'ele-Clock',
 		},
 	},
+	{
+		path: '/develop/database/visual',
+		name: 'databaseVisual',
+		component: () => import('/@/views/system/database/component/visualTable.vue'),
+		meta: {
+			title: '库表可视化',
+			isHide: true,
+			isKeepAlive: true,
+			isAffix: false,
+			// isIframe: true,
+			icon: 'ele-View',
+		},
+	},
 ];
 
 /**

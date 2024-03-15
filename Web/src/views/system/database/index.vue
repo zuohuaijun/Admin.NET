@@ -13,12 +13,17 @@
 					</el-select>
 				</el-form-item>
 				<el-form-item>
-					<el-button icon="ele-Edit" type="primary" @click="openEditTable"> 编辑表 </el-button>
-					<el-button icon="ele-Delete" type="danger" @click="delTable"> 删除表 </el-button>
-					<el-button icon="ele-Plus" @click="openAddTable"> 增加表 </el-button>
-					<el-button icon="ele-Plus" @click="openAddColumn"> 增加列 </el-button>
-					<el-button icon="ele-Plus" @click="openGenDialog"> 生成实体 </el-button>
-					<el-button icon="ele-Plus" @click="openGenSeedDataDialog"> 生成种子数据 </el-button>
+					<el-button-group>
+						<el-button icon="ele-Plus" type="primary" @click="openAddTable"> 增加表 </el-button>
+						<el-button icon="ele-Edit" @click="openEditTable"> 编辑表 </el-button>
+						<el-button icon="ele-Delete" type="danger" @click="delTable"> 删除表 </el-button>
+						<el-button icon="ele-View" @click="visualTable"> 可视化 </el-button>
+					</el-button-group>
+					<el-button-group style="padding-left: 10px">
+						<el-button icon="ele-Plus" @click="openAddColumn"> 增加列 </el-button>
+						<el-button icon="ele-Plus" @click="openGenDialog"> 生成实体 </el-button>
+						<el-button icon="ele-Plus" @click="openGenSeedDataDialog"> 生成种子 </el-button>
+					</el-button-group>
 				</el-form-item>
 			</el-form>
 		</el-card>
@@ -50,7 +55,7 @@
 				<el-table-column prop="decimalDigits" label="精度" width="70" align="center" show-overflow-tooltip />
 				<el-table-column prop="defaultValue" label="默认值" align="center" show-overflow-tooltip />
 				<el-table-column prop="columnDescription" label="描述" header-align="center" show-overflow-tooltip />
-				<el-table-column label="操作" width="140" fixed="right" align="center" show-overflow-tooltip>
+				<el-table-column label="操作" width="145" fixed="right" align="center" show-overflow-tooltip>
 					<template #default="scope">
 						<el-button icon="ele-Edit" size="small" text type="primary" @click="openEditColumn(scope.row)"> 编辑 </el-button>
 						<el-button icon="ele-Delete" size="small" text type="danger" @click="delColumn(scope.row)"> 删除 </el-button>
@@ -71,6 +76,7 @@
 <script lang="ts" setup name="sysDatabase">
 import { onMounted, reactive, ref } from 'vue';
 import { ElMessageBox, ElMessage } from 'element-plus';
+import { useRouter } from 'vue-router';
 import EditTable from '/@/views/system/database/component/editTable.vue';
 import EditColumn from '/@/views/system/database/component/editColumn.vue';
 import AddTable from '/@/views/system/database/component/addTable.vue';
@@ -88,6 +94,7 @@ const addTableRef = ref<InstanceType<typeof AddTable>>();
 const addColumnRef = ref<InstanceType<typeof AddColumn>>();
 const genEntityRef = ref<InstanceType<typeof GenEntity>>();
 const genSeedDataRef = ref<InstanceType<typeof GenSeedData>>();
+const router = useRouter();
 const state = reactive({
 	loading: false,
 	loading1: false,
@@ -145,8 +152,13 @@ const handleQueryColumn = async () => {
 
 // 打开表编辑页面
 const openEditTable = () => {
-	if (state.configId == '' || state.tableName == '') return;
-
+	if (state.configId == '' || state.tableName == '') {
+		ElMessage({
+			type: 'error',
+			message: `请选择库名和表名!`,
+		});
+		return;
+	}
 	var res = state.tableData.filter((u: any) => u.name == state.tableName);
 	var table: any = {
 		configId: state.configId,
@@ -159,8 +171,13 @@ const openEditTable = () => {
 
 // 打开实体生成页面
 const openGenDialog = () => {
-	if (state.configId == '' || state.tableName == '') return;
-
+	if (state.configId == '' || state.tableName == '') {
+		ElMessage({
+			type: 'error',
+			message: `请选择库名和表名!`,
+		});
+		return;
+	}
 	// var res = state.tableData.filter((u: any) => u.name == state.tableName);
 	var table: any = {
 		configId: state.configId,
@@ -172,7 +189,13 @@ const openGenDialog = () => {
 
 // 生成种子数据页面
 const openGenSeedDataDialog = () => {
-	if (state.configId == '' || state.tableName == '') return;
+	if (state.configId == '' || state.tableName == '') {
+		ElMessage({
+			type: 'error',
+			message: `请选择库名和表名!`,
+		});
+		return;
+	}
 	var table: any = {
 		configId: state.configId,
 		tableName: state.tableName,
@@ -190,7 +213,6 @@ const openAddTable = () => {
 		});
 		return;
 	}
-
 	var table: any = {
 		configId: state.configId,
 		tableName: '',
@@ -241,6 +263,13 @@ const openAddColumn = () => {
 
 // 删除表
 const delTable = () => {
+	if (state.tableName == '') {
+		ElMessage({
+			type: 'error',
+			message: `请选择表名!`,
+		});
+		return;
+	}
 	ElMessageBox.confirm(`确定删除表：【${state.tableName}】?`, '提示', {
 		confirmButtonText: '确定',
 		cancelButtonText: '取消',
@@ -276,5 +305,17 @@ const delColumn = (row: any) => {
 			ElMessage.success('列删除成功');
 		})
 		.catch(() => {});
+};
+
+// 可视化表
+const visualTable = () => {
+	if (state.configId == '') {
+		ElMessage({
+			type: 'error',
+			message: `请选择库名!`,
+		});
+		return;
+	}
+	router.push(`/develop/database/visual?configId=${state.configId}`);
 };
 </script>
