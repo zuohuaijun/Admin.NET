@@ -132,7 +132,7 @@ export const SysDatabaseApiAxiosParamCreator = function (configuration?: Configu
         },
         /**
          * 
-         * @summary 备份数据库（PostgreSQL）
+         * @summary 备份数据库（PostgreSQL）🔖
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -696,7 +696,7 @@ export const SysDatabaseApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
-         * @summary 备份数据库（PostgreSQL）
+         * @summary 备份数据库（PostgreSQL）🔖
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -878,7 +878,7 @@ export const SysDatabaseApiFactory = function (configuration?: Configuration, ba
         },
         /**
          * 
-         * @summary 备份数据库（PostgreSQL）
+         * @summary 备份数据库（PostgreSQL）🔖
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
@@ -1019,7 +1019,7 @@ export class SysDatabaseApi extends BaseAPI {
     }
     /**
      * 
-     * @summary 备份数据库（PostgreSQL）
+     * @summary 备份数据库（PostgreSQL）🔖
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof SysDatabaseApi

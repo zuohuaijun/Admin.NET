@@ -26,14 +26,212 @@ import { JToken } from '../models';
 export const APIJSONApiAxiosParamCreator = function (configuration?: Configuration) {
     return {
         /**
-         * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
-         * @summary 统一入口
+         * 
+         * @summary 新增
+         * @param {{ [key: string]: JToken; }} [body] 表对象或数组，若没有传Id则后端生成Id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAPIJSONAddPost: async (body?: { [key: string]: JToken; }, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/aPIJSON/add`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 删除（支持非Id条件、支持批量）
          * @param {{ [key: string]: JToken; }} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        apiAPIJSONPost: async (body?: { [key: string]: JToken; }, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-            const localVarPath = `/api/aPIJSON`;
+        apiAPIJSONDeletePost: async (body?: { [key: string]: JToken; }, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/aPIJSON/delete`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 参数：{\"[]\":{\"SYSLOGOP\":{}}}
+         * @summary 统一查询入口
+         * @param {{ [key: string]: JToken; }} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAPIJSONGetPost: async (body?: { [key: string]: JToken; }, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/aPIJSON/get`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 查询表
+         * @param {string} table 
+         * @param {{ [key: string]: JToken; }} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAPIJSONGetTablePost: async (table: string, body?: { [key: string]: JToken; }, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'table' is not null or undefined
+            if (table === null || table === undefined) {
+                throw new RequiredError('table','Required parameter table was null or undefined when calling apiAPIJSONGetTablePost.');
+            }
+            const localVarPath = `/api/aPIJSON/get/{table}`
+                .replace(`{${"table"}}`, encodeURIComponent(String(table)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, 'https://example.com');
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+            const localVarRequestOptions :AxiosRequestConfig = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication Bearer required
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+
+            localVarHeaderParameter['Content-Type'] = 'application/json-patch+json';
+
+            const query = new URLSearchParams(localVarUrlObj.search);
+            for (const key in localVarQueryParameter) {
+                query.set(key, localVarQueryParameter[key]);
+            }
+            for (const key in options.params) {
+                query.set(key, options.params[key]);
+            }
+            localVarUrlObj.search = (new URLSearchParams(query)).toString();
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            const needsSerialization = (typeof body !== "string") || localVarRequestOptions.headers['Content-Type'] === 'application/json';
+            localVarRequestOptions.data =  needsSerialization ? JSON.stringify(body !== undefined ? body : {}) : (body || "");
+
+            return {
+                url: localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash,
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @summary 修改（只支持Id作为条件）
+         * @param {{ [key: string]: JToken; }} [body] 支持多表、多Id批量更新
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        apiAPIJSONUpdatePost: async (body?: { [key: string]: JToken; }, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            const localVarPath = `/api/aPIJSON/update`;
             // use dummy base URL string because the URL constructor only accepts absolute URLs.
             const localVarUrlObj = new URL(localVarPath, 'https://example.com');
             let baseOptions;
@@ -83,14 +281,71 @@ export const APIJSONApiAxiosParamCreator = function (configuration?: Configurati
 export const APIJSONApiFp = function(configuration?: Configuration) {
     return {
         /**
-         * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
-         * @summary 统一入口
+         * 
+         * @summary 新增
+         * @param {{ [key: string]: JToken; }} [body] 表对象或数组，若没有传Id则后端生成Id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAPIJSONAddPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultJObject>>> {
+            const localVarAxiosArgs = await APIJSONApiAxiosParamCreator(configuration).apiAPIJSONAddPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 删除（支持非Id条件、支持批量）
          * @param {{ [key: string]: JToken; }} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAPIJSONPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultJObject>>> {
-            const localVarAxiosArgs = await APIJSONApiAxiosParamCreator(configuration).apiAPIJSONPost(body, options);
+        async apiAPIJSONDeletePost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultJObject>>> {
+            const localVarAxiosArgs = await APIJSONApiAxiosParamCreator(configuration).apiAPIJSONDeletePost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 参数：{\"[]\":{\"SYSLOGOP\":{}}}
+         * @summary 统一查询入口
+         * @param {{ [key: string]: JToken; }} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAPIJSONGetPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultJObject>>> {
+            const localVarAxiosArgs = await APIJSONApiAxiosParamCreator(configuration).apiAPIJSONGetPost(body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 查询表
+         * @param {string} table 
+         * @param {{ [key: string]: JToken; }} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAPIJSONGetTablePost(table: string, body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultJObject>>> {
+            const localVarAxiosArgs = await APIJSONApiAxiosParamCreator(configuration).apiAPIJSONGetTablePost(table, body, options);
+            return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
+                const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
+                return axios.request(axiosRequestArgs);
+            };
+        },
+        /**
+         * 
+         * @summary 修改（只支持Id作为条件）
+         * @param {{ [key: string]: JToken; }} [body] 支持多表、多Id批量更新
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAPIJSONUpdatePost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => Promise<AxiosResponse<AdminResultJObject>>> {
+            const localVarAxiosArgs = await APIJSONApiAxiosParamCreator(configuration).apiAPIJSONUpdatePost(body, options);
             return (axios: AxiosInstance = globalAxios, basePath: string = BASE_PATH) => {
                 const axiosRequestArgs :AxiosRequestConfig = {...localVarAxiosArgs.options, url: basePath + localVarAxiosArgs.url};
                 return axios.request(axiosRequestArgs);
@@ -106,14 +361,55 @@ export const APIJSONApiFp = function(configuration?: Configuration) {
 export const APIJSONApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
     return {
         /**
-         * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
-         * @summary 统一入口
+         * 
+         * @summary 新增
+         * @param {{ [key: string]: JToken; }} [body] 表对象或数组，若没有传Id则后端生成Id
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAPIJSONAddPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultJObject>> {
+            return APIJSONApiFp(configuration).apiAPIJSONAddPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 删除（支持非Id条件、支持批量）
          * @param {{ [key: string]: JToken; }} [body] 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
          */
-        async apiAPIJSONPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultJObject>> {
-            return APIJSONApiFp(configuration).apiAPIJSONPost(body, options).then((request) => request(axios, basePath));
+        async apiAPIJSONDeletePost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultJObject>> {
+            return APIJSONApiFp(configuration).apiAPIJSONDeletePost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 参数：{\"[]\":{\"SYSLOGOP\":{}}}
+         * @summary 统一查询入口
+         * @param {{ [key: string]: JToken; }} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAPIJSONGetPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultJObject>> {
+            return APIJSONApiFp(configuration).apiAPIJSONGetPost(body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 查询表
+         * @param {string} table 
+         * @param {{ [key: string]: JToken; }} [body] 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAPIJSONGetTablePost(table: string, body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultJObject>> {
+            return APIJSONApiFp(configuration).apiAPIJSONGetTablePost(table, body, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @summary 修改（只支持Id作为条件）
+         * @param {{ [key: string]: JToken; }} [body] 支持多表、多Id批量更新
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async apiAPIJSONUpdatePost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig): Promise<AxiosResponse<AdminResultJObject>> {
+            return APIJSONApiFp(configuration).apiAPIJSONUpdatePost(body, options).then((request) => request(axios, basePath));
         },
     };
 };
@@ -126,14 +422,59 @@ export const APIJSONApiFactory = function (configuration?: Configuration, basePa
  */
 export class APIJSONApi extends BaseAPI {
     /**
-     * 参数：{\"[]\":{\"SYS_LOG_OP\":{}}}
-     * @summary 统一入口
+     * 
+     * @summary 新增
+     * @param {{ [key: string]: JToken; }} [body] 表对象或数组，若没有传Id则后端生成Id
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof APIJSONApi
+     */
+    public async apiAPIJSONAddPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultJObject>> {
+        return APIJSONApiFp(this.configuration).apiAPIJSONAddPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 删除（支持非Id条件、支持批量）
      * @param {{ [key: string]: JToken; }} [body] 
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      * @memberof APIJSONApi
      */
-    public async apiAPIJSONPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultJObject>> {
-        return APIJSONApiFp(this.configuration).apiAPIJSONPost(body, options).then((request) => request(this.axios, this.basePath));
+    public async apiAPIJSONDeletePost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultJObject>> {
+        return APIJSONApiFp(this.configuration).apiAPIJSONDeletePost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 参数：{\"[]\":{\"SYSLOGOP\":{}}}
+     * @summary 统一查询入口
+     * @param {{ [key: string]: JToken; }} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof APIJSONApi
+     */
+    public async apiAPIJSONGetPost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultJObject>> {
+        return APIJSONApiFp(this.configuration).apiAPIJSONGetPost(body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 查询表
+     * @param {string} table 
+     * @param {{ [key: string]: JToken; }} [body] 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof APIJSONApi
+     */
+    public async apiAPIJSONGetTablePost(table: string, body?: { [key: string]: JToken; }, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultJObject>> {
+        return APIJSONApiFp(this.configuration).apiAPIJSONGetTablePost(table, body, options).then((request) => request(this.axios, this.basePath));
+    }
+    /**
+     * 
+     * @summary 修改（只支持Id作为条件）
+     * @param {{ [key: string]: JToken; }} [body] 支持多表、多Id批量更新
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof APIJSONApi
+     */
+    public async apiAPIJSONUpdatePost(body?: { [key: string]: JToken; }, options?: AxiosRequestConfig) : Promise<AxiosResponse<AdminResultJObject>> {
+        return APIJSONApiFp(this.configuration).apiAPIJSONUpdatePost(body, options).then((request) => request(this.axios, this.basePath));
     }
 }
