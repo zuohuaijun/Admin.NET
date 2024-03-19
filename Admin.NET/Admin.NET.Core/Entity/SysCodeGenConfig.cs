@@ -9,7 +9,7 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "代码生成字段配置表")]
 [SysTable]
-public class SysCodeGenConfig : EntityBase
+public partial class SysCodeGenConfig : EntityBase
 {
     /// <summary>
     /// 代码生成主表Id

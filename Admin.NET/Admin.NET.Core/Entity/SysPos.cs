@@ -11,7 +11,7 @@ namespace Admin.NET.Core;
 [SysTable]
 [SugarIndex("index_{table}_N", nameof(Name), OrderByType.Asc)]
 [SugarIndex("index_{table}_C", nameof(Code), OrderByType.Asc)]
-public class SysPos : EntityTenant
+public partial class SysPos : EntityTenant
 {
     /// <summary>
     /// 名称

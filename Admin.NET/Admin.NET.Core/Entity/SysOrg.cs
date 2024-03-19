@@ -12,7 +12,7 @@ namespace Admin.NET.Core;
 [SugarIndex("index_{table}_N", nameof(Name), OrderByType.Asc)]
 [SugarIndex("index_{table}_C", nameof(Code), OrderByType.Asc)]
 [SugarIndex("index_{table}_T", nameof(Type), OrderByType.Asc)]
-public class SysOrg : EntityTenant
+public partial class SysOrg : EntityTenant
 {
     /// <summary>
     /// 父Id

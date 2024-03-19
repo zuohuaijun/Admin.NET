@@ -10,7 +10,7 @@ namespace Admin.NET.Core;
 [SugarTable(null, "系统访问日志表")]
 [SysTable]
 [LogTable]
-public class SysLogVis : EntityTenant
+public partial class SysLogVis : EntityTenant
 {
     /// <summary>
     /// 模块名称

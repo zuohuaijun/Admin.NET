@@ -11,7 +11,7 @@ namespace Admin.NET.Core;
 [SysTable]
 [SugarIndex("index_{table}_T", nameof(Title), OrderByType.Asc)]
 [SugarIndex("index_{table}_T2", nameof(Type), OrderByType.Asc)]
-public class SysMenu : EntityBase
+public partial class SysMenu : EntityBase
 {
     /// <summary>
     /// 父Id

@@ -10,7 +10,7 @@ namespace Admin.NET.Core;
 [SugarTable(null, "系统差异日志表")]
 [SysTable]
 [LogTable]
-public class SysLogDiff : EntityBase
+public partial class SysLogDiff : EntityBase
 {
     /// <summary>
     /// 操作前记录

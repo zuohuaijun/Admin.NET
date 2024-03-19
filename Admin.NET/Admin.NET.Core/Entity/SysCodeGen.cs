@@ -11,7 +11,7 @@ namespace Admin.NET.Core;
 [SysTable]
 [SugarIndex("index_{table}_B", nameof(BusName), OrderByType.Asc)]
 [SugarIndex("index_{table}_T", nameof(TableName), OrderByType.Asc)]
-public class SysCodeGen : EntityBase
+public partial class SysCodeGen : EntityBase
 {
     /// <summary>
     /// 作者姓名

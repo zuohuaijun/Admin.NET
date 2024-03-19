@@ -10,7 +10,7 @@ namespace Admin.NET.Core;
 [SugarTable(null, "系统异常日志表")]
 [SysTable]
 [LogTable]
-public class SysLogEx : SysLogVis
+public partial class SysLogEx : SysLogVis
 {
     /// <summary>
     /// 请求方式

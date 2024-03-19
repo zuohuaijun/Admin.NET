@@ -10,7 +10,7 @@ namespace Admin.NET.Core;
 [SugarTable(null, "系统作业信息表")]
 [SysTable]
 [SugarIndex("index_{table}_J", nameof(JobId), OrderByType.Asc)]
-public class SysJobDetail : EntityBaseId
+public partial class SysJobDetail : EntityBaseId
 {
     /// <summary>
     /// 作业Id

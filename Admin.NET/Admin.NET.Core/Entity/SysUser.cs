@@ -11,7 +11,7 @@ namespace Admin.NET.Core;
 [SysTable]
 [SugarIndex("index_{table}_A", nameof(Account), OrderByType.Asc)]
 [SugarIndex("index_{table}_P", nameof(Phone), OrderByType.Asc)]
-public class SysUser : EntityTenant
+public partial class SysUser : EntityTenant
 {
     /// <summary>
     /// 账号

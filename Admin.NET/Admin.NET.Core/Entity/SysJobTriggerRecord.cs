@@ -9,7 +9,7 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统作业触发器运行记录表")]
 [SysTable]
-public class SysJobTriggerRecord : EntityBaseId
+public partial class SysJobTriggerRecord : EntityBaseId
 {
     /// <summary>
     /// 作业Id

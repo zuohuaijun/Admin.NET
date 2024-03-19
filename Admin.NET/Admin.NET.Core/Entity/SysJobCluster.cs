@@ -9,7 +9,7 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统作业集群表")]
 [SysTable]
-public class SysJobCluster : EntityBaseId
+public partial class SysJobCluster : EntityBaseId
 {
     /// <summary>
     /// 作业集群Id

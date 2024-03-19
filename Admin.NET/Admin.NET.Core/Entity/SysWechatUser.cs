@@ -11,7 +11,7 @@ namespace Admin.NET.Core;
 [SysTable]
 [SugarIndex("index_{table}_N", nameof(NickName), OrderByType.Asc)]
 [SugarIndex("index_{table}_M", nameof(Mobile), OrderByType.Asc)]
-public class SysWechatUser : EntityBase
+public partial class SysWechatUser : EntityBase
 {
     /// <summary>
     /// 系统用户Id

@@ -10,7 +10,7 @@ namespace Admin.NET.Core;
 [SugarTable(null, "系统字典值表")]
 [SysTable]
 [SugarIndex("index_{table}_C", nameof(Code), OrderByType.Asc)]
-public class SysDictData : EntityBase
+public partial class SysDictData : EntityBase
 {
     /// <summary>
     /// 字典类型Id

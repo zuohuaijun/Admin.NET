@@ -10,7 +10,7 @@ namespace Admin.NET.Core;
 [SugarTable(null, "系统动态插件表")]
 [SysTable]
 [SugarIndex("index_{table}_N", nameof(Name), OrderByType.Asc)]
-public class SysPlugin : EntityTenant
+public partial class SysPlugin : EntityTenant
 {
     /// <summary>
     /// 名称

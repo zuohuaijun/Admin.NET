@@ -9,7 +9,7 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统租户表")]
 [SysTable]
-public class SysTenant : EntityBase
+public partial class SysTenant : EntityBase
 {
     /// <summary>
     /// 用户Id

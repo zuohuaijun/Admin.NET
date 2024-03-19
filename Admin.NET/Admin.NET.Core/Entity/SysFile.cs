@@ -10,7 +10,7 @@ namespace Admin.NET.Core;
 [SugarTable(null, "系统文件表")]
 [SysTable]
 [SugarIndex("index_{table}_F", nameof(FileName), OrderByType.Asc)]
-public class SysFile : EntityBase
+public partial class SysFile : EntityBase
 {
     /// <summary>
     /// 提供者

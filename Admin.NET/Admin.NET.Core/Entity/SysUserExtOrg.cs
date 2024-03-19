@@ -9,7 +9,7 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统用户扩展机构表")]
 [SysTable]
-public class SysUserExtOrg : EntityBaseId
+public partial class SysUserExtOrg : EntityBaseId
 {
     /// <summary>
     /// 用户Id

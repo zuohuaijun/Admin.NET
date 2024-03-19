@@ -10,7 +10,7 @@ namespace Admin.NET.Core;
 [SugarTable(null, "系统操作日志表")]
 [SysTable]
 [LogTable]
-public class SysLogOp : SysLogVis
+public partial class SysLogOp : SysLogVis
 {
     /// <summary>
     /// 请求方式

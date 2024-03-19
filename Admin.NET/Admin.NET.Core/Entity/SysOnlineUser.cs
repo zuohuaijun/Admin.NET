@@ -9,7 +9,7 @@ namespace Admin.NET.Core;
 /// </summary>
 [SugarTable(null, "系统在线用户表")]
 [SysTable]
-public class SysOnlineUser : EntityTenantId
+public partial class SysOnlineUser : EntityTenantId
 {
     /// <summary>
     /// 连接Id
