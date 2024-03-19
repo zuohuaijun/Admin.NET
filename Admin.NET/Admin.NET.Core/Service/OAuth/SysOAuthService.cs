@@ -8,7 +8,7 @@ using System.Security.Claims;
 namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 系统OAuth服务
+/// 系统OAuth服务 💥
 /// </summary>
 [AllowAnonymous]
 [ApiDescriptionSettings(Order = 495)]
@@ -25,14 +25,14 @@ public class SysOAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 第三方登录
+    /// 第三方登录 🔖
     /// </summary>
     /// <param name="provider"></param>
     /// <param name="redirectUrl"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "SignIn"), HttpGet]
     [DisplayName("第三方登录")]
-    public async Task<IActionResult> SignIn([FromQuery] string provider, [FromQuery] string redirectUrl)
+    public virtual async Task<IActionResult> SignIn([FromQuery] string provider, [FromQuery] string redirectUrl)
     {
         if (string.IsNullOrWhiteSpace(provider) || !await _httpContextAccessor.HttpContext.IsProviderSupportedAsync(provider))
             throw Oops.Oh("不支持的OAuth类型");
@@ -45,14 +45,14 @@ public class SysOAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 授权回调
+    /// 授权回调 🔖
     /// </summary>
     /// <param name="provider"></param>
     /// <param name="redirectUrl"></param>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "SignInCallback"), HttpGet]
     [DisplayName("授权回调")]
-    public async Task<IActionResult> SignInCallback([FromQuery] string provider = null, [FromQuery] string redirectUrl = "")
+    public virtual async Task<IActionResult> SignInCallback([FromQuery] string provider = null, [FromQuery] string redirectUrl = "")
     {
         if (string.IsNullOrWhiteSpace(provider) || !await _httpContextAccessor.HttpContext.IsProviderSupportedAsync(provider))
             throw Oops.Oh("不支持的OAuth类型");

@@ -7,7 +7,7 @@ using NewLife.Caching.Models;
 namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 系统缓存服务
+/// 系统缓存服务 💥
 /// </summary>
 [ApiDescriptionSettings(Order = 400)]
 public class SysCacheService : IDynamicApiController, ISingleton
@@ -22,7 +22,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     }
 
     /// <summary>
-    /// 获取缓存键名集合
+    /// 获取缓存键名集合 🔖
     /// </summary>
     /// <returns></returns>
     [DisplayName("获取缓存键名集合")]
@@ -40,7 +40,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     /// <param name="value"></param>
     /// <returns></returns>
     [NonAction]
-    public bool Set(string key, object value)
+    public virtual bool Set(string key, object value)
     {
         if (string.IsNullOrWhiteSpace(key)) return false;
         return _cache.Set($"{_cacheOptions.Prefix}{key}", value);
@@ -73,7 +73,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     }
 
     /// <summary>
-    /// 删除缓存
+    /// 删除缓存 🔖
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
@@ -96,7 +96,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     }
 
     /// <summary>
-    /// 根据键名前缀删除缓存
+    /// 根据键名前缀删除缓存 🔖
     /// </summary>
     /// <param name="prefixKey">键名前缀</param>
     /// <returns></returns>
@@ -111,7 +111,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     }
 
     /// <summary>
-    /// 根据键名前缀获取键名集合
+    /// 根据键名前缀获取键名集合 🔖
     /// </summary>
     /// <param name="prefixKey">键名前缀</param>
     /// <returns></returns>
@@ -124,7 +124,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     }
 
     /// <summary>
-    /// 获取缓存值
+    /// 获取缓存值 🔖
     /// </summary>
     /// <param name="key"></param>
     /// <returns></returns>
@@ -137,7 +137,7 @@ public class SysCacheService : IDynamicApiController, ISingleton
     }
 
     /// <summary>
-    /// 获取或添加缓存，在数据不存在时执行委托请求数据
+    /// 获取或添加缓存（在数据不存在时执行委托请求数据）
     /// </summary>
     /// <typeparam name="T"></typeparam>
     /// <param name="key"></param>
@@ -151,6 +151,12 @@ public class SysCacheService : IDynamicApiController, ISingleton
         return _cache.GetOrAdd($"{_cacheOptions.Prefix}{key}", callback, expire);
     }
 
+    /// <summary>
+    /// Hash匹配
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <param name="key"></param>
+    /// <returns></returns>
     [NonAction]
     public RedisHash<string, T> GetHashMap<T>(string key)
     {

@@ -5,7 +5,7 @@
 namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// APIJSON服务
+/// APIJSON服务 💥
 /// </summary>
 [ApiDescriptionSettings(Order = 100)]
 public class APIJSONService : IDynamicApiController, ITransient
@@ -26,24 +26,26 @@ public class APIJSONService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 统一查询入口
+    /// 统一查询入口 🔖
     /// </summary>
     /// <param name="jobject"></param>
     /// <remarks>参数：{"[]":{"SYSLOGOP":{}}}</remarks>
     /// <returns></returns>
     [HttpPost("get")]
+    [DisplayName("APIJSON统一查询")]
     public JObject Query([FromBody] JObject jobject)
     {
         return _selectTable.Query(jobject);
     }
 
     /// <summary>
-    /// 查询表
+    /// 查询 🔖
     /// </summary>
     /// <param name="table"></param>
     /// <param name="jobject"></param>
     /// <returns></returns>
     [HttpPost("get/{table}")]
+    [DisplayName("APIJSON查询")]
     public JObject QueryByTable([FromRoute] string table, [FromBody] JObject jobject)
     {
         var ht = new JObject
@@ -87,11 +89,12 @@ public class APIJSONService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 新增
+    /// 新增 🔖
     /// </summary>
     /// <param name="tables">表对象或数组，若没有传Id则后端生成Id</param>
     /// <returns></returns>
     [HttpPost("add")]
+    [DisplayName("APIJSON新增")]
     [UnitOfWork]
     public JObject Add([FromBody] JObject tables)
     {
@@ -129,11 +132,12 @@ public class APIJSONService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 修改（只支持Id作为条件）
+    /// 更新（只支持Id作为条件） 🔖
     /// </summary>
     /// <param name="tables">支持多表、多Id批量更新</param>
     /// <returns></returns>
     [HttpPost("update")]
+    [DisplayName("APIJSON更新")]
     [UnitOfWork]
     public JObject Edit([FromBody] JObject tables)
     {
@@ -149,11 +153,12 @@ public class APIJSONService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 删除（支持非Id条件、支持批量）
+    /// 删除（支持非Id条件、支持批量） 🔖
     /// </summary>
     /// <param name="tables"></param>
     /// <returns></returns>
     [HttpPost("delete")]
+    [DisplayName("APIJSON删除")]
     [UnitOfWork]
     public JObject Delete([FromBody] JObject tables)
     {

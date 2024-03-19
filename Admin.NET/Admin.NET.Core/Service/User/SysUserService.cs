@@ -5,7 +5,7 @@
 namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 系统用户服务
+/// 系统用户服务 💥
 /// </summary>
 [ApiDescriptionSettings(Order = 490)]
 public class SysUserService : IDynamicApiController, ITransient
@@ -39,12 +39,12 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取用户分页列表
+    /// 获取用户分页列表 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("获取用户分页列表")]
-    public async Task<SqlSugarPagedList<UserOutput>> Page(PageUserInput input)
+    public virtual async Task<SqlSugarPagedList<UserOutput>> Page(PageUserInput input)
     {
         // 获取用户拥有的机构集合
         var userOrgIdList = await _sysOrgService.GetUserOrgIdList();
@@ -78,14 +78,14 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 增加用户
+    /// 增加用户 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
     [ApiDescriptionSettings(Name = "Add"), HttpPost]
     [DisplayName("增加用户")]
-    public async Task<long> AddUser(AddUserInput input)
+    public virtual async Task<long> AddUser(AddUserInput input)
     {
         var isExist = await _sysUserRep.AsQueryable().ClearFilter().AnyAsync(u => u.Account == input.Account);
         if (isExist) throw Oops.Oh(ErrorCodeEnum.D1003);
@@ -102,14 +102,14 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 更新用户
+    /// 更新用户 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
     [ApiDescriptionSettings(Name = "Update"), HttpPost]
     [DisplayName("更新用户")]
-    public async Task UpdateUser(UpdateUserInput input)
+    public virtual async Task UpdateUser(UpdateUserInput input)
     {
         if (await _sysUserRep.AsQueryable().ClearFilter().AnyAsync(u => u.Account == input.Account && u.Id != input.Id))
             throw Oops.Oh(ErrorCodeEnum.D1003);
@@ -142,14 +142,14 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 删除用户
+    /// 删除用户 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [UnitOfWork]
     [ApiDescriptionSettings(Name = "Delete"), HttpPost]
     [DisplayName("删除用户")]
-    public async Task DeleteUser(DeleteUserInput input)
+    public virtual async Task DeleteUser(DeleteUserInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
         if (user.AccountType == AccountTypeEnum.SuperAdmin)
@@ -170,34 +170,34 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 查看用户基本信息
+    /// 查看用户基本信息 🔖
     /// </summary>
     /// <returns></returns>
     [DisplayName("查看用户基本信息")]
-    public async Task<SysUser> GetBaseInfo()
+    public virtual async Task<SysUser> GetBaseInfo()
     {
         return await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
     }
 
     /// <summary>
-    /// 更新用户基本信息
+    /// 更新用户基本信息 🔖
     /// </summary>
     /// <returns></returns>
     [ApiDescriptionSettings(Name = "BaseInfo"), HttpPost]
     [DisplayName("更新用户基本信息")]
-    public async Task<int> UpdateBaseInfo(SysUser user)
+    public virtual async Task<int> UpdateBaseInfo(SysUser user)
     {
         return await _sysUserRep.AsUpdateable(user)
             .IgnoreColumns(u => new { u.CreateTime, u.Account, u.Password, u.AccountType, u.OrgId, u.PosId }).ExecuteCommandAsync();
     }
 
     /// <summary>
-    /// 设置用户状态
+    /// 设置用户状态 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("设置用户状态")]
-    public async Task<int> SetStatus(UserInput input)
+    public virtual async Task<int> SetStatus(UserInput input)
     {
         if (_userManager.UserId == input.Id)
             throw Oops.Oh(ErrorCodeEnum.D1026);
@@ -228,7 +228,7 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 授权用户角色
+    /// 授权用户角色 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
@@ -244,12 +244,12 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 修改用户密码
+    /// 修改用户密码 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("修改用户密码")]
-    public async Task<int> ChangePwd(ChangePwdInput input)
+    public virtual async Task<int> ChangePwd(ChangePwdInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
         if (CryptogramUtil.CryptoType == CryptogramEnum.MD5.ToString())
@@ -282,12 +282,12 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 重置用户密码
+    /// 重置用户密码 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("重置用户密码")]
-    public async Task<string> ResetPwd(ResetPwdUserInput input)
+    public virtual async Task<string> ResetPwd(ResetPwdUserInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
         var password = await _sysConfigService.GetConfigValue<string>(CommonConst.SysPassword);
@@ -297,12 +297,12 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 解除登录锁定
+    /// 解除登录锁定 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [DisplayName("解除登录锁定")]
-    public async Task UnlockLogin(UnlockLoginInput input)
+    public virtual async Task UnlockLogin(UnlockLoginInput input)
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == input.Id) ?? throw Oops.Oh(ErrorCodeEnum.D0009);
 
@@ -312,23 +312,23 @@ public class SysUserService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取用户拥有角色集合
+    /// 获取用户拥有角色集合 🔖
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
     [DisplayName("获取用户拥有角色集合")]
-    public async Task<List<long>> GetOwnRoleList(long userId)
+    public virtual async Task<List<long>> GetOwnRoleList(long userId)
     {
         return await _sysUserRoleService.GetUserRoleIdList(userId);
     }
 
     /// <summary>
-    /// 获取用户扩展机构集合
+    /// 获取用户扩展机构集合 🔖
     /// </summary>
     /// <param name="userId"></param>
     /// <returns></returns>
     [DisplayName("获取用户扩展机构集合")]
-    public async Task<List<SysUserExtOrg>> GetOwnExtOrgList(long userId)
+    public virtual async Task<List<SysUserExtOrg>> GetOwnExtOrgList(long userId)
     {
         return await _sysUserExtOrgService.GetUserExtOrgList(userId);
     }

@@ -8,7 +8,7 @@ using Lazy.Captcha.Core;
 namespace Admin.NET.Core.Service;
 
 /// <summary>
-/// 系统登录授权服务
+/// 系统登录授权服务 💥
 /// </summary>
 [ApiDescriptionSettings(Order = 500)]
 public class SysAuthService : IDynamicApiController, ITransient
@@ -42,14 +42,14 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 账号密码登录
+    /// 账号密码登录 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <remarks>用户名/密码：superadmin/123456</remarks>
     /// <returns></returns>
     [AllowAnonymous]
     [DisplayName("账号密码登录")]
-    public async Task<LoginOutput> Login([Required] LoginInput input)
+    public virtual async Task<LoginOutput> Login([Required] LoginInput input)
     {
         //// 可以根据域名获取具体租户
         //var host = _httpContextAccessor.HttpContext.Request.Host;
@@ -109,12 +109,12 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 验证锁屏密码
+    /// 验证锁屏密码 🔖
     /// </summary>
     /// <param name="password"></param>
     /// <returns></returns>
     [DisplayName("验证锁屏密码")]
-    public async Task<bool> UnLockScreen([Required, FromQuery] string password)
+    public virtual async Task<bool> UnLockScreen([Required, FromQuery] string password)
     {
         // 账号是否存在
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId);
@@ -139,13 +139,13 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 手机号登录
+    /// 手机号登录 🔖
     /// </summary>
     /// <param name="input"></param>
     /// <returns></returns>
     [AllowAnonymous]
     [DisplayName("手机号登录")]
-    public async Task<LoginOutput> LoginPhone([Required] LoginPhoneInput input)
+    public virtual async Task<LoginOutput> LoginPhone([Required] LoginPhoneInput input)
     {
         var verifyCode = _sysCacheService.Get<string>($"{CacheConst.KeyPhoneVerCode}{input.Phone}");
         if (string.IsNullOrWhiteSpace(verifyCode))
@@ -161,12 +161,12 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 生成Token令牌
+    /// 生成Token令牌 🔖
     /// </summary>
     /// <param name="user"></param>
     /// <returns></returns>
     [NonAction]
-    public async Task<LoginOutput> CreateToken(SysUser user)
+    public virtual async Task<LoginOutput> CreateToken(SysUser user)
     {
         // 单用户登录
         await _sysOnlineUserService.SingleLogin(user.Id);
@@ -203,11 +203,11 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取登录账号
+    /// 获取登录账号 🔖
     /// </summary>
     /// <returns></returns>
     [DisplayName("获取登录账号")]
-    public async Task<LoginUserOutput> GetUserInfo()
+    public virtual async Task<LoginUserOutput> GetUserInfo()
     {
         var user = await _sysUserRep.GetFirstAsync(u => u.Id == _userManager.UserId) ?? throw Oops.Oh(ErrorCodeEnum.D1011).StatusCode(401);
         // 获取机构
@@ -242,22 +242,22 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取刷新Token
+    /// 获取刷新Token 🔖
     /// </summary>
     /// <param name="accessToken"></param>
     /// <returns></returns>
     [DisplayName("获取刷新Token")]
-    public string GetRefreshToken([FromQuery] string accessToken)
+    public virtual string GetRefreshToken([FromQuery] string accessToken)
     {
         var refreshTokenExpire = _sysConfigService.GetRefreshTokenExpire().GetAwaiter().GetResult();
         return JWTEncryption.GenerateRefreshToken(accessToken, refreshTokenExpire);
     }
 
     /// <summary>
-    /// 退出系统
+    /// 退出系统 🔖
     /// </summary>
     [DisplayName("退出系统")]
-    public void Logout()
+    public virtual void Logout()
     {
         if (string.IsNullOrWhiteSpace(_userManager.Account))
             throw Oops.Oh(ErrorCodeEnum.D1011);
@@ -266,13 +266,13 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取登录配置
+    /// 获取登录配置 🔖
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
     [SuppressMonitor]
     [DisplayName("获取登录配置")]
-    public async Task<dynamic> GetLoginConfig()
+    public virtual async Task<dynamic> GetLoginConfig()
     {
         var secondVerEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysSecondVer);
         var captchaEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysCaptcha);
@@ -280,25 +280,25 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// 获取水印配置
+    /// 获取水印配置 🔖
     /// </summary>
     /// <returns></returns>
     [SuppressMonitor]
     [DisplayName("获取水印配置")]
-    public async Task<dynamic> GetWatermarkConfig()
+    public virtual async Task<dynamic> GetWatermarkConfig()
     {
         var watermarkEnabled = await _sysConfigService.GetConfigValue<bool>(CommonConst.SysWatermark);
         return new { WatermarkEnabled = watermarkEnabled };
     }
 
     /// <summary>
-    /// 获取验证码
+    /// 获取验证码 🔖
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
     [SuppressMonitor]
     [DisplayName("获取验证码")]
-    public dynamic GetCaptcha()
+    public virtual dynamic GetCaptcha()
     {
         var codeId = YitIdHelper.NextId().ToString();
         var captcha = _captcha.Generate(codeId);
@@ -306,26 +306,26 @@ public class SysAuthService : IDynamicApiController, ITransient
     }
 
     /// <summary>
-    /// Swagger登录检查
+    /// Swagger登录检查 🔖
     /// </summary>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("/api/swagger/checkUrl"), NonUnify]
     [DisplayName("Swagger登录检查")]
-    public int SwaggerCheckUrl()
+    public virtual int SwaggerCheckUrl()
     {
         return _httpContextAccessor.HttpContext.User.Identity.IsAuthenticated ? 200 : 401;
     }
 
     /// <summary>
-    /// Swagger登录提交
+    /// Swagger登录提交 🔖
     /// </summary>
     /// <param name="auth"></param>
     /// <returns></returns>
     [AllowAnonymous]
     [HttpPost("/api/swagger/submitUrl"), NonUnify]
     [DisplayName("Swagger登录提交")]
-    public async Task<int> SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
+    public virtual async Task<int> SwaggerSubmitUrl([FromForm] SpecificationAuth auth)
     {
         try
         {
